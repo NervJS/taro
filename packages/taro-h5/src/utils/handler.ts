@@ -47,9 +47,6 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     } else {
       res.errMsg = `${this.methodName}:fail ${res.errMsg}`
     }
-    if (process.env.NODE_ENV !== 'production') {
-      console.error(res.errMsg)
-    }
     isFunction(this.__fail) && this.__fail(res)
     isFunction(this.__complete) && this.__complete(res)
 
@@ -63,31 +60,24 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
   }
 }
 
-type TCallbackManagerParam = (...arr: unknown[]) => void
-interface ICallbackManagerOption {
-  callback?: TCallbackManagerParam
+type TCallbackManagerFunc<T extends unknown[] = unknown[]> = (...arr: T) => void
+interface ICallbackManagerOption<T extends unknown[] = unknown[]> {
+  callback?: TCallbackManagerFunc<T>
   ctx?: any
   [key: string]: unknown
 }
-type TCallbackManagerListItem = (TCallbackManagerParam | ICallbackManagerOption)
-type TCallbackManagerList = TCallbackManagerListItem[]
+type TCallbackManagerUnit<T extends unknown[] = unknown[]> = (TCallbackManagerFunc<T> | ICallbackManagerOption<T>)
 
-export class CallbackManager {
-  callbacks: TCallbackManagerList = []
+export class CallbackManager<T extends unknown[] = unknown[]> {
+  callbacks: TCallbackManagerUnit<T>[] = []
 
-  /**
-   * 添加回调
-   * @param {{ callback: function, ctx: any } | function} opt
-   */
-  add = (opt?: TCallbackManagerListItem) => {
+  /** 添加回调 */
+  add = (opt?: TCallbackManagerUnit<T>) => {
     if (opt) this.callbacks.push(opt)
   }
 
-  /**
-   * 移除回调
-   * @param {{ callback: function, ctx: any } | function} opt
-   */
-  remove = (opt?: TCallbackManagerListItem) => {
+  /** 移除回调 */
+  remove = (opt?: TCallbackManagerUnit<T>) => {
     if (opt) {
       let pos = -1
       this.callbacks.forEach((callback, k) => {
@@ -101,19 +91,13 @@ export class CallbackManager {
     }
   }
 
-  /**
-   * 获取回调函数数量
-   * @return {number}
-   */
+  /** 获取回调函数数量 */
   count = () => {
     return this.callbacks.length
   }
 
-  /**
-   * 触发回调
-   * @param  {...any} args 回调的调用参数
-   */
-  trigger = (...args: TCallbackManagerList) => {
+  /** 触发回调 */
+  trigger = (...args: T) => {
     this.callbacks.forEach(opt => {
       if (isFunction(opt)) {
         opt(...args)

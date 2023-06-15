@@ -93,7 +93,7 @@ export function getTabVisible (): boolean {
   return getTabConfig('tabBarVisible')
 }
 
-export function getDefalutTabItem (index: number): Record<string, unknown> {
+export function getDefaultTabItem (index: number): Record<string, unknown> {
   const _taroAppConfig = globalAny.__taroAppConfig || {}
   const tabBar = _taroAppConfig?.appConfig?.tabBar || []
   return tabBar?.list[index] || {}
@@ -129,7 +129,14 @@ export function hasJumpAnimate () :boolean{
   return true
 }
 
-
 export function updateJumpAnimate (needAnimate: boolean){
   globalAny.__taroJumpAnimate = needAnimate
+}
+
+export function updateCurrentJumpUrl (path: string){
+  globalAny.__taroJumpUrl = path
+}
+
+export function getCurrentJumpUrl (): string{
+  return globalAny?.__taroJumpUrl  ?? ''
 }

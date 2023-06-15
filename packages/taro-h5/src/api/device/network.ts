@@ -67,7 +67,7 @@ const networkStatusListener = async () => {
  * - 出现三次以上的丢包
  * > 弱网事件通知规则是: 弱网状态变化时立即通知, 状态不变时 30s 内最多通知一次。
  */
-export const onNetworkWeakChange = temporarilyNotSupport('onNetworkWeakChange')
+export const onNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('onNetworkWeakChange')
 
 export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback => {
   networkStatusManager.add(callback)
@@ -77,7 +77,7 @@ export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback
   }
 }
 
-export const offNetworkWeakChange = temporarilyNotSupport('offNetworkStatusChange')
+export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNetworkWeakChange')
 
 export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
   networkStatusManager.remove(callback)
@@ -87,4 +87,4 @@ export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callba
   }
 }
 
-export const getLocalIPAddress = temporarilyNotSupport('getLocalIPAddress')
+export const getLocalIPAddress = /* @__PURE__ */ temporarilyNotSupport('getLocalIPAddress')

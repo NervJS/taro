@@ -16,7 +16,9 @@ const config = {
   treeshake: false,
   plugins: [
     externals({
-      devDeps: true
+      deps: true,
+      devDeps: false,
+      include: 'vue'
     }),
     resolve({
       preferBuiltins: false,

@@ -47,6 +47,7 @@ module.exports = {
     'react/jsx-uses-vars': 1,
     'react/prop-types': 0,
     'react/no-find-dom-node': 0,
+    'react/no-unknown-property': 0,
     quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: [2, 'never'],
     'simple-import-sort/imports': [2, {

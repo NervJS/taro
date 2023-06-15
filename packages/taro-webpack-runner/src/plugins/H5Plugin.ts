@@ -1,22 +1,20 @@
 import {
   FRAMEWORK_MAP,
-  resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
 import { defaults } from 'lodash'
 import * as path from 'path'
 
-import { getAppConfig, getConfigFilePath, getPages } from '../utils'
+import { AppHelper } from '../utils'
 import TaroComponentsExportsPlugin from './TaroComponentsExportsPlugin'
 
-import type { AppConfig } from '@tarojs/taro'
 import type { Func } from '@tarojs/taro/types/compile'
 
-const PLUGIN_NAME = 'MainPlugin'
+const PLUGIN_NAME = 'TaroH5Plugin'
 
-interface IMainPluginOptions {
+interface ITaroH5PluginOptions {
+  // appPath: string
   sourceDir: string
-  outputDir: string
   routerConfig: any
   entryFileName: string
   framework: FRAMEWORK_MAP
@@ -27,26 +25,25 @@ interface IMainPluginOptions {
     deviceRatio: any
     designWidth: number
     minRootSize: number
+    unitPrecision: number
+    targetUnit: string
   }
+  // prebundle?: boolean
+  isBuildNativeComp?: boolean
   loaderMeta?: Record<string, string>
 
   onCompilerMake?: Func
   onParseCreateElement?: Func
 }
 
-export default class MainPlugin {
-  options: IMainPluginOptions
-  appEntry: string
-  appConfig: AppConfig
-  sourceDir: string
-  outputDir: string
-  pagesConfigList = new Map<string, string>()
-  pages = new Set<{name: string, path: string}>()
+export default class TaroH5Plugin {
+  options: ITaroH5PluginOptions
+  appHelper: AppHelper
 
   constructor (options = {}) {
     this.options = defaults(options || {}, {
+      appPath: '',
       sourceDir: '',
-      outputDir: '',
       entryFileName: 'app',
       routerConfig: {},
       framework: FRAMEWORK_MAP.NERV,
@@ -56,11 +53,11 @@ export default class MainPlugin {
         baseFontSize: 20,
         deviceRatio: {},
         designWidth: 750,
-        minRootSize: 20
+        minRootSize: 20,
+        unitPrecision: 5,
+        targetUnit: 'rem'
       }
     })
-    this.sourceDir = this.options.sourceDir
-    this.outputDir = this.options.outputDir
   }
 
   tryAsync = fn => async (arg, callback) => {
@@ -73,7 +70,8 @@ export default class MainPlugin {
   }
 
   apply (compiler) {
-    this.appEntry = this.getAppEntry(compiler)
+    const { entry } = compiler.options
+    this.appHelper = new AppHelper(entry, this.options)
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
       this.tryAsync(() => {
@@ -93,32 +91,40 @@ export default class MainPlugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.normalModuleLoader.tap(PLUGIN_NAME, (_loaderContext, module: any) => {
-        const { framework, entryFileName, sourceDir, pxTransformConfig, loaderMeta, routerConfig } = this.options
+        const { entryFileName, sourceDir, routerConfig, isBuildNativeComp } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
         if (!suffixRgx.test(name)) return
 
-        const filePath = path.join(dir, name).replace(sourceDir + (process.platform === 'win32' ? '\\' : '/'), '')
-        const pageName = filePath.replace(suffixRgx, '')
+        const filePath = path.join(dir, name)
+        const pageName = filePath.replace(sourceDir + (process.platform === 'win32' ? '\\' : '/'), '').replace(suffixRgx, '')
         const routerMode = routerConfig?.mode || 'hash'
         const isMultiRouterMode = routerMode === 'multi'
         const isApp = !isMultiRouterMode && pageName === entryFileName
-        if (isApp || this.pagesConfigList.has(pageName)) {
+        if (
+          isBuildNativeComp
+            ? this.appHelper.compsConfigList.has(pageName)
+            : (isApp || this.appHelper.pagesConfigList.has(pageName.split(path.sep).join('/')))
+        ) {
           module.loaders.push({
-            loader: '@tarojs/taro-loader/lib/h5',
+            loader: require.resolve('@tarojs/taro-loader/lib/h5'),
             options: {
-              config: {
-                router: this.options.routerConfig,
-                ...this.appConfig
-              },
+              /** paths */
               entryFileName,
               filename: name.replace(suffixRgx, ''),
-              framework,
               runtimePath: this.options.runtimePath,
-              loaderMeta,
-              pages: this.pagesConfigList,
-              pxTransformConfig,
-              sourceDir
+              sourceDir,
+              /** config & message */
+              config: {
+                router: routerConfig,
+                ...this.appHelper.appConfig
+              },
+              framework: this.options.framework,
+              loaderMeta: this.options.loaderMeta,
+              pages: this.appHelper.pagesConfigList,
+              pxTransformConfig: this.options.pxTransformConfig,
+              /** building mode */
+              isBuildNativeComp
             }
           })
         }
@@ -128,73 +134,7 @@ export default class MainPlugin {
     new TaroComponentsExportsPlugin(this.options).apply(compiler)
   }
 
-  getAppEntry (compiler) {
-    const { entry } = compiler.options
-    const { entryFileName } = this.options
-    function getEntryPath (entry) {
-      const app = entry[entryFileName]
-      if (Array.isArray(app)) {
-        return app.filter(item => path.basename(item, path.extname(item)) === entryFileName)[0]
-      }
-      return app
-    }
-    return getEntryPath(entry)
-  }
-
   run () {
-    this.getAppConfig()
-    this.getPages()
-    this.getPagesConfigList()
-  }
-
-  getPages () {
-    const { frameworkExts, sourceDir } = this.options
-
-    this.pages = getPages(this.appConfig.pages, sourceDir, frameworkExts)
-    this.getSubPackages()
-  }
-
-  getSubPackages () {
-    const appConfig = this.appConfig
-    const subPackages = appConfig.subPackages || appConfig.subpackages
-    const { frameworkExts } = this.options
-    if (subPackages && subPackages.length) {
-      subPackages.forEach(item => {
-        if (item.pages && item.pages.length) {
-          const root = item.root
-          item.pages.forEach(page => {
-            let pageItem = `${root}/${page}`
-            pageItem = pageItem.replace(/\/{2,}/g, '/')
-            let hasPageIn = false
-            this.pages.forEach(({ name }) => {
-              if (name === pageItem) {
-                hasPageIn = true
-              }
-            })
-            if (!hasPageIn) {
-              const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, pageItem), frameworkExts)
-              this.pages.add({
-                name: pageItem,
-                path: pagePath
-              })
-              // eslint-disable-next-line no-unused-expressions
-              this.appConfig.pages?.push(pageItem)
-            }
-          })
-        }
-      })
-    }
-  }
-
-  getPagesConfigList () {
-    const pages = this.pages
-    pages.forEach(({ name, path }) => {
-      const pageConfigPath = getConfigFilePath(path)
-      this.pagesConfigList.set(name, pageConfigPath)
-    })
-  }
-
-  getAppConfig () {
-    this.appConfig = getAppConfig(this.appEntry)
+    this.appHelper.clear()
   }
 }

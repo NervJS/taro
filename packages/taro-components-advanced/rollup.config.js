@@ -22,7 +22,9 @@ export default {
   treeshake: false,
   plugins: [
     externals({
-      devDeps: true
+      deps: true,
+      devDeps: false,
+      include: ['react', 'react-dom', 'vue']
     }),
     resolve({
       preferBuiltins: false,

@@ -69,6 +69,8 @@ export interface PageInstance extends PageLifeCycle {
   path?: string
   /** 页面的组件选项 */
   options?: Record<string, unknown>
+  /** 页面渲染引擎类型 */
+  renderer?: 'webview' | 'skyline'
 }
 
 interface Show {

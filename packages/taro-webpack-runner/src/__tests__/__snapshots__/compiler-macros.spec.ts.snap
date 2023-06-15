@@ -6,23 +6,20 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
 "
 /** filePath: dist/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "16": function(module, exports, __webpack_require__) {},
-    "17": function(module, __webpack_exports__, __webpack_require__) {
+    "19": function(module, exports, __webpack_require__) {},
+    "20": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, "default", (function() {
             return index_Index;
         }));
-        var classCallCheck = __webpack_require__(5);
-        var createClass = __webpack_require__(6);
-        var inherits = __webpack_require__(8);
-        var createSuper = __webpack_require__(7);
+        var classCallCheck = __webpack_require__(8);
+        var createClass = __webpack_require__(10);
+        var inherits = __webpack_require__(11);
+        var createSuper = __webpack_require__(9);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        function defineCustomElements() {}
-        function applyPolyfills() {}
-        function initVue3Components() {}
-        var index = __webpack_require__(16);
+        var index = __webpack_require__(19);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -244,7 +241,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 12);
+    return __webpack_require__(__webpack_require__.s = 14);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -269,8 +266,34 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _typeof;
+    }));
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
 }, function(module, exports) {
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
+        _typeof(obj);
+    }
+    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(7);
     function _defineProperty(obj, key, value) {
+        key = toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 "value": value,
@@ -291,14 +314,15 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         }
     }
     module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(7);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
+            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -310,6 +334,14 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         return Constructor;
     }
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    var toPrimitive = __webpack_require__(15);
+    function _toPropertyKey(arg) {
+        var key = toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
@@ -319,28 +351,6 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -364,14 +374,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
             return false;
         }
     }
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
-    }
+    var esm_typeof = __webpack_require__(2);
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -379,7 +382,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         return self;
     }
     function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
+        if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
             return call;
         } else if (call !== void 0) {
             throw new TypeError("Derived constructors may only return object or undefined");
@@ -398,6 +401,43 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
             }
             return _possibleConstructorReturn(this, result);
         };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -429,25 +469,14 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(13).default;
+    var taro = __webpack_require__(18).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
-}, function(module, exports) {
-    function _typeof(obj) {
-        "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(obj);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(2);
+    var defineProperty = __webpack_require__(4);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -471,24 +500,133 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(15);
+    module.exports = __webpack_require__(17);
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(12);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var classCallCheck = __webpack_require__(8);
+    var createClass = __webpack_require__(10);
+    var inherits = __webpack_require__(11);
+    var createSuper = __webpack_require__(9);
+    var react = __webpack_require__(0);
+    var app = __webpack_require__(16);
+    var app_App = function(_Component) {
+        Object(inherits["a"])(App, _Component);
+        var _super = Object(createSuper["a"])(App);
+        function App() {
+            Object(classCallCheck["a"])(this, App);
+            return _super.apply(this, arguments);
+        }
+        Object(createClass["a"])(App, [ {
+            "key": "componentDidMount",
+            "value": function componentDidMount() {}
+        }, {
+            "key": "componentDidShow",
+            "value": function componentDidShow() {}
+        }, {
+            "key": "componentDidHide",
+            "value": function componentDidHide() {}
+        }, {
+            "key": "render",
+            "value": function render() {
+                return this.props.children;
+            }
+        } ]);
+        return App;
+    }(react["Component"]);
+    var src_app = app_App;
+    var taro_runtime = __webpack_require__(1);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    Object.assign(react["default"], {
+        "findDOMNode": react["findDOMNode"],
+        "render": react["render"],
+        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
+    });
+    var inst = createReactApp(src_app, react, react["default"], config);
+    createRouter(inst, config, react);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
-    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
-    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11);
-    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
-    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
-    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
-    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4);
-    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
-    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
-    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
+    var helpers_typeof = __webpack_require__(3);
+    var typeof_default = __webpack_require__.n(helpers_typeof);
+    var taro_runtime = __webpack_require__(1);
+    var taro_shared = "taro-shared-mock";
+    var objectSpread2 = __webpack_require__(13);
+    var objectSpread2_default = __webpack_require__.n(objectSpread2);
+    var classCallCheck = __webpack_require__(5);
+    var classCallCheck_default = __webpack_require__.n(classCallCheck);
+    var createClass = __webpack_require__(6);
+    var createClass_default = __webpack_require__.n(createClass);
+    var defineProperty = __webpack_require__(4);
+    var defineProperty_default = __webpack_require__.n(defineProperty);
     function isFunction(x) {
         return typeof x === "function";
     }
@@ -496,7 +634,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
+        return x && typeof_default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -573,27 +711,32 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     }
     var ENV_TYPE = {
         "WEAPP": "WEAPP",
-        "WEB": "WEB",
-        "RN": "RN",
         "SWAN": "SWAN",
         "ALIPAY": "ALIPAY",
         "TT": "TT",
         "QQ": "QQ",
-        "JD": "JD"
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP"
     };
+    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (true) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
-        } else {}
+        } else if (false) {} else if (false) {} else if (false) {} else {
+            return "h5" || false;
+        }
     }
-    var Chain = function() {
+    var index_esm_Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
+            classCallCheck_default()(this, Chain);
             this.index = index || 0;
             this.requestParams = requestParams;
             this.interceptors = interceptors || [];
         }
-        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
+        createClass_default()(Chain, [ {
             "key": "proceed",
             "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
@@ -624,13 +767,13 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         } ]);
         return Chain;
     }();
-    var Link = function() {
+    var index_esm_Link = function() {
         function Link(interceptor) {
-            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
+            classCallCheck_default()(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new Chain;
+            this.chain = new index_esm_Chain;
         }
-        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
+        createClass_default()(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -638,7 +781,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
+                return chain.proceed(objectSpread2_default()({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -648,11 +791,16 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new Chain;
+                this.chain = new index_esm_Chain;
             }
         } ]);
         return Link;
     }();
+    function interceptorify(promiseifyApi) {
+        return new index_esm_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
     function timeoutInterceptor(chain) {
         var requestParams = chain.requestParams;
         var p;
@@ -677,16 +825,16 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
-            if (false) {}
+            console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
         if (isFunction(p.abort)) res.abort = p.abort;
         return res;
     }
-    var interceptors = Object.freeze({
+    var index_esm_interceptors = Object.freeze({
         "__proto__": null,
         "timeoutInterceptor": timeoutInterceptor,
         "logInterceptor": logInterceptor
@@ -696,7 +844,7 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
+            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -706,19 +854,24 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
         "828": 1.81 / 2
     };
     var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
     function getInitPxTransform(taro) {
         return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize;
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
             taro.config = taro.config || {};
             taro.config.designWidth = designWidth;
             taro.config.deviceRatio = deviceRatio;
             taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
         };
     }
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -726,119 +879,42 @@ exports[`compiler-macros - defineAppConfig and definePageConfig should read app 
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            return parseInt(size, 10) * deviceRatio[designWidth] + "rpx";
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
         };
     }
     var Taro = {
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": Link,
-        "interceptors": interceptors,
-        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
-        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
-        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
-        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
-        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
-        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
+        "Link": index_esm_Link,
+        "interceptors": index_esm_interceptors,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
+    Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(9);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var classCallCheck = __webpack_require__(5);
-    var createClass = __webpack_require__(6);
-    var inherits = __webpack_require__(8);
-    var createSuper = __webpack_require__(7);
-    var react = __webpack_require__(0);
-    var app = __webpack_require__(14);
-    var app_App = function(_Component) {
-        Object(inherits["a"])(App, _Component);
-        var _super = Object(createSuper["a"])(App);
-        function App() {
-            Object(classCallCheck["a"])(this, App);
-            return _super.apply(this, arguments);
-        }
-        Object(createClass["a"])(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(react["Component"]);
-    var src_app = app_App;
-    var taro_runtime = __webpack_require__(1);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    Object.assign(react["default"], {
-        "findDOMNode": react["findDOMNode"],
-        "render": react["render"],
-        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
-    });
-    var inst = createReactApp(src_app, react, react["default"], config);
-    createRouter(inst, config, react);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20
-    });
 } ]);
 "
 `;

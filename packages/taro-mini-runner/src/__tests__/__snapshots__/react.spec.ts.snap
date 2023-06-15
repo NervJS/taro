@@ -56,7 +56,7 @@ require("./taro");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -82,6 +82,10 @@ require("./taro");
                 if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === "function") {
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
+            };
+            taro.getRenderer = function() {
+                var _a, _b, _c;
+                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
         var _true = "true";
@@ -468,11 +472,11 @@ require("./taro");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
+        var taro_runtime = __webpack_require__(3);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var app = __webpack_require__(11);
         var app_App = function(_Component) {
@@ -518,7 +522,10 @@ require("./taro");
                 640: 1.17,
                 750: 1,
                 828: .905
-            }
+            },
+            baseFontSize: 20,
+            unitPrecision: undefined,
+            targetUnit: undefined
         });
     }
 }, [ [ 15, 0, 1, 3, 2 ] ] ]);
@@ -592,11 +599,11 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_21_focus">
-  <input value="{{i.p14}}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.value.length)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_21_blur">
-  <input value="{{i.p14}}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.value.length)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
+  <input value="{{i.p14}}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindinput="eh" bindfocus="eh" bindblur="eh" bindconfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
 </template>
 
 <template name="tmpl_0_17">
@@ -612,11 +619,11 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_43_focus">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_43_blur">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
+  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" bindfocus="eh" bindblur="eh" bindlinechange="eh" bindinput="eh" bindconfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
 </template>
 
 <template name="tmpl_0_18">
@@ -1553,7 +1560,7 @@ require("./taro");
     12: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
     }
 }, [ [ 12, 0, 1 ] ] ]);
@@ -1572,14 +1579,16 @@ require("./taro");
     16: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var taro_runtime = __webpack_require__(2);
-        var esm_typeof = __webpack_require__(5);
+        var taro_runtime = __webpack_require__(3);
+        var esm_typeof = __webpack_require__(2);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
                 return exports;
             };
-            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function(obj, key, desc) {
+                obj[key] = desc.value;
+            }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
             function define(obj, key, value) {
                 return Object.defineProperty(obj, key, {
                     value: value,
@@ -1597,40 +1606,9 @@ require("./taro");
             }
             function wrap(innerFn, outerFn, self, tryLocsList) {
                 var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
-                return generator._invoke = function(innerFn, self, context) {
-                    var state = "suspendedStart";
-                    return function(method, arg) {
-                        if ("executing" === state) throw new Error("Generator is already running");
-                        if ("completed" === state) {
-                            if ("throw" === method) throw arg;
-                            return doneResult();
-                        }
-                        for (context.method = method, context.arg = arg; ;) {
-                            var delegate = context.delegate;
-                            if (delegate) {
-                                var delegateResult = maybeInvokeDelegate(delegate, context);
-                                if (delegateResult) {
-                                    if (delegateResult === ContinueSentinel) continue;
-                                    return delegateResult;
-                                }
-                            }
-                            if ("next" === context.method) context.sent = context._sent = context.arg; else if ("throw" === context.method) {
-                                if ("suspendedStart" === state) throw state = "completed", context.arg;
-                                context.dispatchException(context.arg);
-                            } else "return" === context.method && context.abrupt("return", context.arg);
-                            state = "executing";
-                            var record = tryCatch(innerFn, self, context);
-                            if ("normal" === record.type) {
-                                if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
-                                return {
-                                    value: record.arg,
-                                    done: context.done
-                                };
-                            }
-                            "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
-                        }
-                    };
-                }(innerFn, self, context), generator;
+                return defineProperty(generator, "_invoke", {
+                    value: makeInvokeMethod(innerFn, self, context)
+                }), generator;
             }
             function tryCatch(fn, obj, arg) {
                 try {
@@ -1682,25 +1660,57 @@ require("./taro");
                     reject(record.arg);
                 }
                 var previousPromise;
-                this._invoke = function(method, arg) {
-                    function callInvokeWithMethodAndArg() {
-                        return new PromiseImpl((function(resolve, reject) {
-                            invoke(method, arg, resolve, reject);
-                        }));
+                defineProperty(this, "_invoke", {
+                    value: function value(method, arg) {
+                        function callInvokeWithMethodAndArg() {
+                            return new PromiseImpl((function(resolve, reject) {
+                                invoke(method, arg, resolve, reject);
+                            }));
+                        }
+                        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                     }
-                    return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
+                });
+            }
+            function makeInvokeMethod(innerFn, self, context) {
+                var state = "suspendedStart";
+                return function(method, arg) {
+                    if ("executing" === state) throw new Error("Generator is already running");
+                    if ("completed" === state) {
+                        if ("throw" === method) throw arg;
+                        return doneResult();
+                    }
+                    for (context.method = method, context.arg = arg; ;) {
+                        var delegate = context.delegate;
+                        if (delegate) {
+                            var delegateResult = maybeInvokeDelegate(delegate, context);
+                            if (delegateResult) {
+                                if (delegateResult === ContinueSentinel) continue;
+                                return delegateResult;
+                            }
+                        }
+                        if ("next" === context.method) context.sent = context._sent = context.arg; else if ("throw" === context.method) {
+                            if ("suspendedStart" === state) throw state = "completed", context.arg;
+                            context.dispatchException(context.arg);
+                        } else "return" === context.method && context.abrupt("return", context.arg);
+                        state = "executing";
+                        var record = tryCatch(innerFn, self, context);
+                        if ("normal" === record.type) {
+                            if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
+                            return {
+                                value: record.arg,
+                                done: context.done
+                            };
+                        }
+                        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
+                    }
                 };
             }
             function maybeInvokeDelegate(delegate, context) {
-                var method = delegate.iterator[context.method];
-                if (undefined === method) {
-                    if (context.delegate = null, "throw" === context.method) {
-                        if (delegate.iterator["return"] && (context.method = "return", context.arg = undefined, 
-                        maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                        context.method = "throw", context.arg = new TypeError("The iterator does not provide a 'throw' method");
-                    }
-                    return ContinueSentinel;
-                }
+                var methodName = context.method, method = delegate.iterator[methodName];
+                if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", 
+                context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", 
+                context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), 
+                ContinueSentinel;
                 var record = tryCatch(method, delegate.iterator, context.arg);
                 if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, 
                 context.delegate = null, ContinueSentinel;
@@ -1733,9 +1743,8 @@ require("./taro");
                     if ("function" == typeof iterable.next) return iterable;
                     if (!isNaN(iterable.length)) {
                         var i = -1, next = function next() {
-                            for (;++i < iterable.length; ) {
-                                if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next;
-                            }
+                            for (;++i < iterable.length; ) if (hasOwn.call(iterable, i)) return next.value = iterable[i], 
+                            next.done = !1, next;
                             return next.value = undefined, next.done = !0, next;
                         };
                         return next.next = next;
@@ -1751,8 +1760,13 @@ require("./taro");
                     done: !0
                 };
             }
-            return GeneratorFunction.prototype = GeneratorFunctionPrototype, define(Gp, "constructor", GeneratorFunctionPrototype), 
-            define(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), 
+            return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
+                value: GeneratorFunctionPrototype,
+                configurable: !0
+            }), defineProperty(GeneratorFunctionPrototype, "constructor", {
+                value: GeneratorFunction,
+                configurable: !0
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), 
             exports.isGeneratorFunction = function(genFun) {
                 var ctor = "function" == typeof genFun && genFun.constructor;
                 return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
@@ -1776,11 +1790,9 @@ require("./taro");
                 return this;
             })), define(Gp, "toString", (function() {
                 return "[object Generator]";
-            })), exports.keys = function(object) {
-                var keys = [];
-                for (var key in object) {
-                    keys.push(key);
-                }
+            })), exports.keys = function(val) {
+                var object = Object(val), keys = [];
+                for (var key in object) keys.push(key);
                 return keys.reverse(), function next() {
                     for (;keys.length; ) {
                         var key = keys.pop();
@@ -1793,9 +1805,7 @@ require("./taro");
                 reset: function reset(skipTempReset) {
                     if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, 
                     this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), 
-                    !skipTempReset) for (var name in this) {
-                        "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
-                    }
+                    !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
                 },
                 stop: function stop() {
                     this.done = !0;
@@ -1905,10 +1915,10 @@ require("./taro");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(6);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(6);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var index = __webpack_require__(14);
@@ -1924,16 +1934,14 @@ require("./taro");
                 value: function() {
                     var _componentWillMount = _asyncToGenerator(_regeneratorRuntime().mark((function _callee() {
                         return _regeneratorRuntime().wrap((function _callee$(_context) {
-                            while (1) {
-                                switch (_context.prev = _context.next) {
-                                  case 0:
-                                    _context.next = 2;
-                                    return Promise.resolve(1);
+                            while (1) switch (_context.prev = _context.next) {
+                              case 0:
+                                _context.next = 2;
+                                return Promise.resolve(1);
 
-                                  case 2:
-                                  case "end":
-                                    return _context.stop();
-                                }
+                              case 2:
+                              case "end":
+                                return _context.stop();
                             }
                         }), _callee);
                     })));
@@ -1977,6 +1985,7 @@ require("./taro");
                 cn: []
             }
         }, config || {}));
+        var pages_index = __webpack_exports__["default"] = index_Index;
     }
 }, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
@@ -2003,7 +2012,7 @@ require("./taro");
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
     },
-    2: function(module, __webpack_exports__, __webpack_require__) {
+    3: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-runtime-mock";
     },
@@ -2055,39 +2064,7 @@ module.exports = {
 }
 
 /** filePath: dist/vendors.js **/
-(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
-    }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _typeof;
@@ -2099,6 +2076,16 @@ module.exports = {
         } : function(obj) {
             return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
         }, _typeof(obj);
+    }
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -2122,7 +2109,7 @@ module.exports = {
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(5);
+    var esm_typeof = __webpack_require__(2);
     function _assertThisInitialized(self) {
         if (self === void 0) {
             throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -2149,6 +2136,43 @@ module.exports = {
             }
             return _possibleConstructorReturn(this, result);
         };
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";

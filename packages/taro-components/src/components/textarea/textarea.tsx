@@ -14,11 +14,11 @@ export class Textarea implements ComponentInterface {
 
   @Element() el: HTMLElement
 
-  @Prop({ mutable: true }) value: string
+  @Prop({ mutable: true }) value: string = ''
   @Prop() placeholder: string
   @Prop() disabled = false
   @Prop() maxlength = 140
-  @Prop({ attribute: 'focus', reflect: true }) autoFocus = false
+  @Prop({ attribute: 'focus' }) autoFocus = false
   @Prop() autoHeight = false
   @Prop() name: string
   @Prop() nativeProps = {}
@@ -40,6 +40,10 @@ export class Textarea implements ComponentInterface {
   onBlur: EventEmitter
 
   @Event({
+    eventName: 'confirm'
+  }) onConfirm: EventEmitter
+
+  @Event({
     eventName: 'change'
   })
   onChange: EventEmitter
@@ -48,6 +52,10 @@ export class Textarea implements ComponentInterface {
     eventName: 'linechange' // 必须全小写
   })
   onLineChange: EventEmitter
+
+  @Event({
+    eventName: 'keydown'
+  }) onKeyDown: EventEmitter
 
   @Watch('autoFocus')
   watchAutoFocus (newValue: boolean, oldValue: boolean) {
@@ -59,14 +67,6 @@ export class Textarea implements ComponentInterface {
   @Method()
   async focus() {
     this.textareaRef.focus()
-  }
-
-  componentDidLoad() {
-    Object.defineProperty(this.el, 'value', {
-      get: () => this.textareaRef.value,
-      set: value => this.value !== value && (this.value = value),
-      configurable: true
-    })
   }
 
   handleInput = (e: TaroEvent<HTMLInputElement>) => {
@@ -109,6 +109,20 @@ export class Textarea implements ComponentInterface {
         lineCount: this.line
       })
     }
+  }
+
+  handleKeyDown = (e: TaroEvent<HTMLInputElement> & KeyboardEvent) => {
+    e.stopPropagation()
+    const { value } = e.target
+    const keyCode = e.keyCode || e.code
+
+    this.onKeyDown.emit({
+      value,
+      cursor: value.length,
+      keyCode
+    })
+
+    keyCode === 13 && this.onConfirm.emit({ value })
   }
 
   calculateContentHeight = (ta, scanAmount) => {
@@ -206,6 +220,7 @@ export class Textarea implements ComponentInterface {
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={handleChange}
+        onKeyDown={this.handleKeyDown}
         {...nativeProps}
         {...otherProps}
       />

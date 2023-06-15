@@ -1,5 +1,5 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 内存
-export const onMemoryWarning = temporarilyNotSupport('onMemoryWarning')
-export const offMemoryWarning = temporarilyNotSupport('offMemoryWarning')
+export const onMemoryWarning = /* @__PURE__ */ temporarilyNotSupport('onMemoryWarning')
+export const offMemoryWarning = /* @__PURE__ */ temporarilyNotSupport('offMemoryWarning')

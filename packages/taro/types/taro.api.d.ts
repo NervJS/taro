@@ -2,7 +2,7 @@
  *
  * 微信端能力
  * original code from: https://github.com/wx-minapp/minapp-wx/blob/master/typing/wx.d.ts
- * Lincenced under MIT license: https://github.com/qiu8310/minapp/issues/69
+ * Licensed under MIT license: https://github.com/qiu8310/minapp/issues/69
  * thanks for the great work by @qiu8310 👍👍👍
  *
  */
@@ -41,6 +41,7 @@
 /// <reference path="api/payment/index.d.ts" />
 /// <reference path="api/storage/index.d.ts" />
 /// <reference path="api/storage/background-fetch.d.ts" />
+/// <reference path="api/storage/cache-manager.d.ts" />
 /// <reference path="api/data-analysis/index.d.ts" />
 /// <reference path="api/canvas/index.d.ts" />
 /// <reference path="api/media/map.d.ts" />
@@ -73,6 +74,7 @@
 /// <reference path="api/open-api/favorites.d.ts" />
 /// <reference path="api/open-api/license-plate.d.ts" />
 /// <reference path="api/open-api/channels.d.ts" />
+/// <reference path="api/open-api/device-voip.d.ts" />
 /// <reference path="api/open-api/group.d.ts" />
 /// <reference path="api/open-api/customer-service.d.ts" />
 /// <reference path="api/device/bluetooth.d.ts" />
@@ -88,6 +90,7 @@
 /// <reference path="api/device/clipboard.d.ts" />
 /// <reference path="api/device/network.d.ts" />
 /// <reference path="api/device/screen.d.ts" />
+/// <reference path="api/device/sms.d.ts" />
 /// <reference path="api/device/keyboard.d.ts" />
 /// <reference path="api/device/phone.d.ts" />
 /// <reference path="api/device/accelerometer.d.ts" />
@@ -99,6 +102,7 @@
 /// <reference path="api/device/vibrate.d.ts" />
 /// <reference path="api/ai/visionkit.d.ts" />
 /// <reference path="api/ai/face.d.ts" />
+/// <reference path="api/ai/inference.d.ts" />
 /// <reference path="api/worker/index.d.ts" />
 /// <reference path="api/wxml/index.d.ts" />
 /// <reference path="api/ext/index.d.ts" />
@@ -110,3 +114,6 @@
 /// <reference path="api/alipay/index.d.ts" />
 /// <reference path="api/qq/index.d.ts" />
 /// <reference path="api/swan/index.d.ts" />
+
+/// <reference path="api/taro.extend.d.ts" />
+/// <reference path="api/taro.hooks.d.ts" />

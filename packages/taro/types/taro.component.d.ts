@@ -1,7 +1,7 @@
 import React from 'react'
 import Vue from 'vue'
 
-import Taro, { Config } from './index'
+import Taro from './index'
 
 declare module './index' {
   // ref: packages/taro-runtime/src/current.ts

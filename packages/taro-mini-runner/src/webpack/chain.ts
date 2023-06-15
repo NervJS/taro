@@ -1,5 +1,6 @@
 import {
   chalk,
+  fs,
   isNodeModule,
   recursiveMerge,
   REG_CSS,
@@ -17,10 +18,8 @@ import {
   SCRIPT_EXT
 } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
-import * as fs from 'fs-extra'
 import { cloneDeep, partial } from 'lodash'
 import { mapKeys, pipe } from 'lodash/fp'
 import * as MiniCssExtractPlugin from 'mini-css-extract-plugin'
@@ -33,8 +32,10 @@ import defaultTerserOptions from '../config/terserOptions'
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
-import { IBuildConfig, IOption } from '../utils/types'
 import { getPostcssPlugins } from './postcss.conf'
+
+import type { ICopyOptions, IPostcssOption, PostcssOption } from '@tarojs/taro/types/compile'
+import type { IBuildConfig, IOption } from '../utils/types'
 
 interface IRule {
   test?: any
@@ -155,7 +156,7 @@ export const getTerserPlugin = ([enableSourceMap, terserOptions]) => {
     parallel: true,
     sourceMap: enableSourceMap,
     terserOptions: recursiveMerge({}, defaultTerserOptions, terserOptions)
-  })
+  } as TerserPlugin.BasePluginOptions)
 }
 export const getCssoWebpackPlugin = ([cssoOption]) => {
   return pipe(listify, partial(getPlugin, CssoWebpackPlugin))([mergeOption([defaultCSSCompressOption, cssoOption]), REG_STYLE])

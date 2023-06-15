@@ -135,7 +135,7 @@ const printWhenDone = partial(_printWhenDone, [{ verbose: false }])
 
 const printWhenDoneVerbosely = partial(_printWhenDone, [{ verbose: true }])
 
-const bindDevLogger = (devUrl, compiler) => {
+const bindDevLogger = (compiler, devUrl = '') => {
   console.log()
   pipe(
     printWhenBeforeCompile,

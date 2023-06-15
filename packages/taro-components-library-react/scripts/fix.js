@@ -16,6 +16,10 @@ if (fs.existsSync(componentsPath)) {
   //   'createReactComponent<JSX.Taro$1Core, any>'
   // )
 
+  if (code.includes('defineCustomElement as define')) {
+    code = code.replace(/import\s\{\sdefineCustomElement\sas\sdefine([A-Za-z]+)\s.*/g, '// @ts-ignore\nimport { defineCustomElement$1 as define$1 } from \'@tarojs/components/dist/components\';')
+  }
+
   /**
    * 当前不支持配置通用的 manipulatePropsFunction 方法，因此需要手动添加
    * https://github.com/ionic-team/stencil-ds-output-targets/issues/243
@@ -26,7 +30,7 @@ if (fs.existsSync(componentsPath)) {
   }
 
   if (!code.includes('Fragment')) {
-    const comps = ['Block', 'CustomWrapper']
+    const comps = ['Block']
     code = code.replace('/* auto-generated react proxies */', `/* auto-generated react proxies */\nimport { Fragment } from 'react'`)
     code = code.replace(new RegExp(`export const (${comps.join('|')}) = \\/\\*\\@__PURE__\\*\\/createReactComponent.*`, 'ig'), 'export const $1 = Fragment;')
   }

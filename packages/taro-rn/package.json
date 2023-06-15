@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "3.6.2",
+  "version": "3.6.8",
   "description": "Taro RN framework",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
@@ -17,9 +17,9 @@
     "dev": "pnpm run assets && tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
-    "test:dev": "jest --watch",
     "test:ci": "jest --ci -i --silent --coverage false",
     "test:coverage": "jest --coverage",
+    "test:dev": "jest --watch",
     "script": "node ./script"
   },
   "repository": {
@@ -66,7 +66,7 @@
     "@babel/preset-env": "^7.14.5",
     "@jest/globals": "^26.6.2",
     "@testing-library/jest-native": "^4.0.4",
-    "@testing-library/react-native": "^11.0.0",
+    "@testing-library/react-native": "^11.5.0",
     "@types/jest": "^27.4.1",
     "@types/react-native": "^0.69.8",
     "expo": "~47.0.3",

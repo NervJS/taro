@@ -65,7 +65,7 @@ export const setStorage: typeof Taro.setStorage = (options) => {
   return handle.success()
 }
 
-export const revokeBufferURL = temporarilyNotSupport('revokeBufferURL')
+export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
 
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
   if (typeof key !== 'string') {
@@ -167,7 +167,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
   }
 }
 
-export const createBufferURL = temporarilyNotSupport('createBufferURL')
+export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
 
 export const clearStorageSync: typeof Taro.clearStorageSync = () => {
   localStorage.clear()
@@ -179,4 +179,10 @@ export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete
   return handle.success()
 }
 
+export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
+export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
+export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
+export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+
 export * from './background-fetch'
+export * from './cache-manager'

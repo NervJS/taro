@@ -29,6 +29,10 @@ interface ChannelVideoProps extends StandardProps {
    * @default false
    */
   autoplay?: boolean
+  /** 仅内嵌小程序非同主体视频号视频时使用，获取方式参考本指引。
+   * @supported weapp
+   */
+  feedToken?: string
   /** 视频播放出错时触发
    * @supported weapp
    */

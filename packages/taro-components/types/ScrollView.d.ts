@@ -46,7 +46,7 @@ interface ScrollViewProps extends StandardProps {
    */
   enableBackToTop?: boolean
   /** 启用 flexbox 布局。开启后，当前节点声明了 `display: flex` 就会成为 flex container，并作用于其孩子节点。
-   * @supported weapp
+   * @supported weapp, jd
    * @default false
    */
   enableFlex?: boolean
@@ -81,12 +81,12 @@ interface ScrollViewProps extends StandardProps {
    */
   refresherTriggered?: boolean
   /** 启用 scroll-view 增强特性
-   * @supported weapp
+   * @supported weapp, swan
    * @default false
    */
   enhanced?: boolean
   /** iOS 下 scroll-view 边界弹性控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp
+   * @supported weapp, swan
    * @default true
    */
   bounces?: boolean
@@ -137,7 +137,7 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    * @default 'list'
    */
-  type: 'list' | 'custom'
+  type?: 'list' | 'custom'
   /** 是否反向滚动。一般初始滚动位置是在顶部，反向滚动则是在底部。
    * @supported weapp
    * @default false
@@ -176,11 +176,11 @@ interface ScrollViewProps extends StandardProps {
   /** 滚动开始事件
    * @supported weapp
    */
-  onScrollStart?:BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+  onScrollStart?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 滚动结束事件
    * @supported weapp
    */
-  onScrollEnd?:BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+  onScrollEnd?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 自定义下拉刷新控件被下拉
    * @supported weapp
    */

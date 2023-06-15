@@ -14,9 +14,6 @@ export default (ctx: IPluginContext) => {
       await program.start()
     }
   })
-
-  ctx.modifyRunnerOpts(({ opts }) => {
-    opts.defineConstants ||= {}
-    opts.defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!opts?.useDeprecatedAdapterComponent)
-  })
 }
+
+export * from './utils'

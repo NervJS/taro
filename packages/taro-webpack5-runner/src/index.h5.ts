@@ -4,39 +4,41 @@ import Prebundle from '@tarojs/webpack5-prebundle'
 import detectPort from 'detect-port'
 import path from 'path'
 import { format as formatUrl } from 'url'
-import webpack, { EntryNormalized } from 'webpack'
+import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
-import H5AppInstance from './utils/H5AppInstance'
+import AppHelper from './utils/app'
+import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 import { H5Combination } from './webpack/H5Combination'
 
+import type { EntryNormalized, Stats } from 'webpack'
 import type { H5BuildConfig } from './utils/types'
 
-let isFirstBuild = true
-
-export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<void> {
+export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<Stats | void> {
   const combination = new H5Combination(appPath, rawConfig)
   await combination.make()
 
   const { chunkDirectory = 'chunk', devServer, enableSourceMap, entryFileName = 'app', entry = {}, publicPath } = combination.config
-  const prebundle = new Prebundle({
-    appPath,
-    sourceRoot: combination.sourceRoot,
-    chain: combination.chain,
-    chunkDirectory,
-    devServer,
-    enableSourceMap,
-    entryFileName,
-    entry,
-    isWatch: combination.config.isWatch,
-    publicPath
-  })
-  try {
-    await prebundle.run(combination.getPrebundleOptions())
-  } catch (error) {
-    console.error(error)
-    console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+  if (!combination.isBuildNativeComp) {
+    const prebundle = new Prebundle({
+      appPath,
+      sourceRoot: combination.sourceRoot,
+      chain: combination.chain,
+      chunkDirectory,
+      devServer,
+      enableSourceMap,
+      entryFileName,
+      entry,
+      isWatch: combination.config.isWatch,
+      publicPath
+    })
+    try {
+      await prebundle.run(combination.getPrebundleOptions())
+    } catch (error) {
+      console.error(error)
+      console.warn(chalk.yellow('依赖预编译失败，已经为您跳过预编译步骤，但是编译速度可能会受到影响。'))
+    }
   }
 
   const webpackConfig = combination.chain.toConfig()
@@ -52,8 +54,10 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
         }
         callback()
       })
-      return new Promise<void>((resolve, reject) => {
-        compiler.run((error, stats) => {
+      return new Promise<Stats>((resolve, reject) => {
+        bindProdLogger(compiler)
+
+        compiler.run((error, stats: Stats) => {
           compiler.close(error2 => {
             const err = error || error2
 
@@ -65,35 +69,31 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
               })
             }
 
-            err ? reject(err) : resolve()
+            err ? reject(err) : resolve(stats)
           })
         })
       })
     } else {
       config.devServer = recursiveMerge(config.devServer || {}, webpackConfig.devServer)
       config.output = webpackConfig.output
+      const routerConfig = config.router || {}
+      const routerMode = routerConfig.mode || 'hash'
+      const routerBasename = routerConfig.basename || '/'
       webpackConfig.devServer = await getDevServerOptions(appPath, config)
+
+      const devUrl = formatUrl({
+        protocol: webpackConfig.devServer?.https ? 'https' : 'http',
+        hostname: formatOpenHost(webpackConfig.devServer?.host),
+        port: webpackConfig.devServer?.port,
+        pathname: routerMode === 'browser' ? routerBasename : '/'
+      })
+      if (typeof webpackConfig.devServer.open === 'undefined') {
+        webpackConfig.devServer.open = devUrl
+      }
+
       const compiler = webpack(webpackConfig)
       const server = new WebpackDevServer(webpackConfig.devServer, compiler)
-
-      compiler.hooks.done.tap('taroDone', () => {
-        if (isFirstBuild) {
-          isFirstBuild = false
-          const routerConfig = config.router || {}
-          const routerMode = routerConfig.mode || 'hash'
-          const routerBasename = routerConfig.basename || '/'
-
-          const devUrl = formatUrl({
-            protocol: webpackConfig.devServer?.https ? 'https' : 'http',
-            hostname: formatOpenHost(webpackConfig.devServer?.host),
-            port: webpackConfig.devServer?.port,
-            pathname: routerMode === 'browser' ? routerBasename : '/'
-          })
-          if (devUrl) {
-            console.log(chalk.cyan(`ℹ Listening at ${devUrl}\n`))
-          }
-        }
-      })
+      bindDevLogger(compiler, devUrl)
 
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
@@ -123,6 +123,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
       return new Promise<void>((resolve, reject) => {
         server.startCallback(err => {
           if (err) {
+            printBuildError(err)
             reject(err)
             return console.log(err)
           }
@@ -137,6 +138,13 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 }
 
 async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
+  if (config.isBuildNativeComp) {
+    return {
+      devMiddleware: {
+        writeToDisk: true
+      }
+    }
+  }
   const publicPath = parsePublicPath(config.publicPath)
   const outputPath = path.join(appPath, config.outputRoot || 'dist')
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
@@ -145,13 +153,13 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   const isMultiRouterMode = routerMode === 'multi'
   const proxy: WebpackDevServer.Configuration['proxy'] = []
   if (isMultiRouterMode) {
-    const app = new H5AppInstance(config.entry as EntryNormalized, {
+    const app = new AppHelper(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
       frameworkExts: config.frameworkExts,
       entryFileName: config.entryFileName
     })
     const appConfig = app.appConfig
-    const customRoutes = routerConfig?.customRoutes || {}
+    const customRoutes = routerConfig.customRoutes || {}
     const routerBasename = routerConfig.basename || '/'
     const getEntriesRoutes = (customRoutes: Record<string, string | string[]> = {}) => {
       const conf: string[][] = []
@@ -227,7 +235,6 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       hot: 'only',
       https: false,
       // inline: true, // the inline option (iframe live mode) was removed
-      open: [publicPath],
       client: {
         overlay: true
       },
@@ -259,6 +266,5 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     devServerOptions.port = availablePort
   }
 
-  devServerOptions.host = formatOpenHost(devServerOptions.host)
   return devServerOptions
 }

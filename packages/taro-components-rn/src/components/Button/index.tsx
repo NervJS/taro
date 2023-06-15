@@ -203,6 +203,7 @@ class _Button extends React.Component<ButtonProps, ButtonState> {
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
         ref={this.$touchable}
+        accessibilityRole="button"
         disabled={disabled}
       >
         <View
