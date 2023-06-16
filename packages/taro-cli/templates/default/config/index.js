@@ -1,4 +1,5 @@
-import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from "@tarojs/cli"
+import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from '@tarojs/cli'
+<% if (typescript) {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
 
 export default defineConfig(async (merge, { command, mode }) => {
   return {
@@ -48,7 +49,10 @@ export default defineConfig(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }
+      }<% if (typescript) {%>,
+      webpackChain(chain) {
+        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+      }<%}%>
     },
     h5: {
       publicPath: '/',
@@ -74,7 +78,10 @@ export default defineConfig(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }
+      }<% if (typescript) {%>,
+      webpackChain(chain) {
+        chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+      }<%}%>
     },
     rn: {
       appName: 'taroDemo',
