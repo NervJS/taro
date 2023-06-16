@@ -1,3 +1,5 @@
+import { type Input } from 'postcss'
+
 export type Func = (...args: any[]) => any
 
 export type IOption = Record<string, any>
@@ -66,6 +68,10 @@ export interface IPxTransformOption {
    * @supported h5
    */
   minRootSize?: number
+  /** 设计稿尺寸 */
+  designWidth?: number | ((size?: string | number | Input) => number)
+  /** 设计稿尺寸换算规则 */
+  deviceRatio?: TaroGeneral.TDeviceRatio
 }
 
 export interface IPostcssOption {
