@@ -23,6 +23,6 @@
       "node_modules/@types"
     ]
   },
-  "include": ["./src", "./types"],
+  "include": ["./src", "./types", "./config"],
   "compileOnSave": false
 }

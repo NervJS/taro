@@ -11,13 +11,32 @@ import { IRNConfig } from './rn'
 export type PluginItem = string | [string, object] | [string, () => object | Promise<object>]
 
 interface ICache {
+  /**
+   * 是否开启持久化缓存 (默认值 false)
+   * @description ```
+   * 值为 false 时：开发模式下 WebpackConfig.cache.type = 'memory'，而生产模式下 WebpackConfig.cache = false;
+   * 值为 true 时：开发模式和生产模式下均为 WebpackConfig.cache.type = 'filesystem'
+   * ```
+   */
   enable?: boolean
+
+  /**
+   * 当依赖的文件或该文件的依赖改变时，使缓存失效。
+   * @description  详详情请参考 [WebpackConfig.cache.buildDependencies](https://webpack.js.org/configuration/cache/#cachebuilddependencies)。
+   */
   buildDependencies?: Record<string, any>
+
+  /**
+   * 缓存子目录的名称 (默认值 process.env.NODE_ENV-process.env.TARO_ENV)
+   * @description  详情请参考 [WebpackConfig.cache.name](https://webpack.js.org/configuration/cache/#cachename)
+   */
   name?: string
 }
 
 interface ILogger {
+  /** 是否简化输出日志 (默认值 true)*/
   quiet: boolean
+  /** 是否输出 Webpack Stats 信息 (默认值 false) */
   stats: boolean
 }
 

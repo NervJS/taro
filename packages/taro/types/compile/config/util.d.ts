@@ -9,7 +9,9 @@ export type TogglableOptions<T = IOption> = {
 
 export namespace PostcssOption {
   export type cssModules = TogglableOptions<{
+    /** 转换模式，取值为 global/module */
     namingPattern: 'global' | string
+    /** 自定义生成的class名称规则 */
     generateScopedName: string | ((localName: string, absoluteFilePath: string) => string)
   }>
   export type url = TogglableOptions<{
@@ -29,9 +31,46 @@ export interface IHtmlTransformOption {
   }
 }
 
+export interface IPxTransformOption {
+  /** 设置 1px 是否需要被转换 */
+  onePxTransform?: boolean
+  /** REM 单位允许的小数位 */
+  unitPrecision?: number
+  /** 允许转换的属性列表 (默认 [*]) */
+  propList?: string[]
+  /** 黑名单里的选择器将会被忽略 */
+  selectorBlackList?: Array<string | RegExp>
+  /** 直接替换而不是追加一条进行覆盖 */
+  replace?: boolean
+  /** 允许媒体查询里的 px 单位转换 */
+  mediaQuery?: boolean
+  /** 设置一个可被转换的最小 px 值 */
+  minPixelValue?: number
+  /**
+   * 转换后的单位，可选值为 rpx、vw、rem，当前仅支持小程序 (默认 rpx) 和 Web 端 (默认 rem)
+   * @description Web 端使用 rem 单位时会注入脚本用于设置 body 上的 font-size 属性，其他单位无该操作
+   */
+  targetUnit?: 'rpx' | 'vw' | 'rem'
+  /**
+   * H5 字体尺寸大小基准值，开发者可以自行调整单位换算的基准值(默认20)
+   * @supported h5
+   */
+  baseFontSize?: number
+  /**
+   * H5 根节点 font-size 的最大值 (默认 40)
+   * @supported h5
+   */
+  maxRootSize?: number
+  /**
+   * H5 根节点 font-size 的最小值(默认 20)
+   * @supported h5
+   */
+  minRootSize?: number
+}
+
 export interface IPostcssOption {
   autoprefixer?: TogglableOptions
-  pxtransform?: TogglableOptions
+  pxtransform?: TogglableOptions<IPxTransformOption>
   cssModules?: PostcssOption.cssModules
   url?: PostcssOption.url
   /** 插件 postcss-html-transform 相关配置, 一般启用了 @tarojs/plugin-html 插件才配置 */
