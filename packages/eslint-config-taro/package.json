@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-taro",
-  "version": "3.6.9-alpha.3",
+  "version": "3.6.9-alpha.4",
   "description": "Taro specific linting rules for ESLint",
   "main": "index.js",
   "files": [
