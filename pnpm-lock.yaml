@@ -534,7 +534,7 @@ importers:
   packages/taro-cli:
     specifiers:
       '@tarojs/helper': workspace:*
-      '@tarojs/plugin-doctor': 0.0.5
+      '@tarojs/plugin-doctor': latest
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       adm-zip: ^0.4.13
@@ -566,7 +566,7 @@ importers:
       xml2js: ^0.5.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
-      '@tarojs/plugin-doctor': registry.npmjs.org/@tarojs/plugin-doctor/0.0.5
+      '@tarojs/plugin-doctor': registry.npmjs.org/@tarojs/plugin-doctor/0.0.6
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       adm-zip: registry.npmjs.org/adm-zip/0.4.16
@@ -9807,10 +9807,10 @@ packages:
       - supports-color
     dev: false
 
-  registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/0.0.5:
-    resolution: {integrity: sha512-NN9TDMFziQscgu5ASocGhI9A9a00EjICvyzRu2YKhlFMkjs7JLBxsOXYs2WqCeZS8blyciuiW0iraWWTQ/trrw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/-/plugin-doctor-darwin-arm64-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/0.0.6:
+    resolution: {integrity: sha512-d+gLSHs3SnONncpInJD6dgx6lux3gmYxU4KRKK10Ucz6kAnfWfH1UVz3SdLBP9NguemhYEO3RDDTnCuIBa59Rw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/-/plugin-doctor-darwin-arm64-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-darwin-arm64'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -9818,10 +9818,20 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/0.0.5:
-    resolution: {integrity: sha512-5oUezm/kms817P1x8Pp4rlgGANmWqA017JqFgcgrpqb0a6vCmR9p7pVM+dTYmLrDKDSLYHP1nXTybYfTn3aUSg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/-/plugin-doctor-darwin-x64-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/0.0.6:
+    resolution: {integrity: sha512-vJvSA3OqwXC35j93oWzGeawMQiYYNMNhWaGw71KwsNuvhpquDmoOOSHzAaav3BdX3CXe4IuH1A2TQrvgUqlXKg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/-/plugin-doctor-darwin-universal-0.0.6.tgz}
+    name: '@tarojs/plugin-doctor-darwin-universal'
+    version: 0.0.6
+    engines: {node: '>= 10'}
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/0.0.6:
+    resolution: {integrity: sha512-aUKW4kc8z/tnjpsWeAzDcJOKN+jQieP75wtQNSyotUS5aILXWlRs15Y17RLmdwdZX3gbXazipgRYQ2Tt2eFAqQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/-/plugin-doctor-darwin-x64-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-darwin-x64'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -9829,10 +9839,32 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/0.0.5:
-    resolution: {integrity: sha512-zowoWO2B6Y+Ew3i12TUOwiVwPDRmZmi4wOMbEl2HUocxR4HrP8bb7jnqmGKxIBX2xAazCzMrFQImQJryC1sPrA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/-/plugin-doctor-linux-arm64-gnu-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/0.0.6:
+    resolution: {integrity: sha512-JmSK2Dl1WaUMI2qDgH2fb3wk7Hf3zmbNOtZmf0No5gvva+4Dca0ufXEg4urRteWhPbqxSalA8UNojnIfpOwwTA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/-/plugin-doctor-freebsd-x64-0.0.6.tgz}
+    name: '@tarojs/plugin-doctor-freebsd-x64'
+    version: 0.0.6
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/0.0.6:
+    resolution: {integrity: sha512-n9iK+TfZtU5OBnYM4cfJMW4arnZJTWRwI6l1a/pOEjGX5LaaJeGW7/xno/PMZDUSxxk9seMldalqD1iRuqV/rQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/-/plugin-doctor-linux-arm-gnueabihf-0.0.6.tgz}
+    name: '@tarojs/plugin-doctor-linux-arm-gnueabihf'
+    version: 0.0.6
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/0.0.6:
+    resolution: {integrity: sha512-LXij1A5tbDGhtdjGqeJlpzUPQ12WnkMSiPVF6xoOGc71u9KjJe8M+JBToqdUNcdOyyK83NFN6DSQI0wNB3FvKA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/-/plugin-doctor-linux-arm64-gnu-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-linux-arm64-gnu'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -9840,10 +9872,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/0.0.5:
-    resolution: {integrity: sha512-ln/6fDVTwwI/nF70HA45zoVnEzHoeFi9HhI8J0T1iRZxZbl0UaK9HY7sa80VUO8J7PBPJmuzys/yuqTG9mbpIQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/-/plugin-doctor-linux-arm64-musl-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/0.0.6:
+    resolution: {integrity: sha512-iEeh8LoAbeIRxYN7mb3iU9FImgMDNwYy5aZtyN0yPsgCuoKPBA/MLYqjILoSdU8peOZusB1ukI3duuW3+uFRUw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/-/plugin-doctor-linux-arm64-musl-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-linux-arm64-musl'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -9851,10 +9883,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/0.0.5:
-    resolution: {integrity: sha512-hOm7GSyXReUeTHFuru31VpgFgqi4570AoB1L5d9UX9nK9OrhhjAjUKFiIMszWaTK18AXYeTcrYwt9xJwnQVmYA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/-/plugin-doctor-linux-x64-gnu-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/0.0.6:
+    resolution: {integrity: sha512-AaqTH8Q+YACKbJkIuEm2+fFTAmMCsmMzTCsn7Y+RBawNUgfpAqou+7fY7Y0GUVm2SadinUY7KWMQJTELEYL2yw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/-/plugin-doctor-linux-x64-gnu-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-linux-x64-gnu'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -9862,10 +9894,21 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-win32-arm64-msvc/0.0.5:
-    resolution: {integrity: sha512-VE4dV/j1wxg79EJN12aZipZB8fVAzZW2+2xvfZA+RCuNA3KeS7xONdny1tmR2Vp1bmFTQm9mM3TH0NfiDpivPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-arm64-msvc/-/plugin-doctor-win32-arm64-msvc-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/0.0.6:
+    resolution: {integrity: sha512-z63B6jASOxfzKdB8hGMiWkHutuzK15zsyBfqnf9P83DFnFxxAVq5arm4aVOlcuh28Rxe185GRewiaVu4ydtjGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/-/plugin-doctor-linux-x64-musl-0.0.6.tgz}
+    name: '@tarojs/plugin-doctor-linux-x64-musl'
+    version: 0.0.6
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  registry.npmjs.org/@tarojs/plugin-doctor-win32-arm64-msvc/0.0.6:
+    resolution: {integrity: sha512-lHsqFmY2rks1Ejo7z8zuB47XoPVTXByFMJGcvti+JdrF6bcj7aMZ1HZPmXHIK9U5YpYiXHNXmA3woldWz8t8pg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-arm64-msvc/-/plugin-doctor-win32-arm64-msvc-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-win32-arm64-msvc'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -9873,10 +9916,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/0.0.5:
-    resolution: {integrity: sha512-bZefFxtrIyali+HoIiA6pep3uhCb31PjKSyUceGhRkOI3p5aq3GFYuDwBTvorm2/fSJeuSLYpdFtbHMUJWp09A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/-/plugin-doctor-win32-ia32-msvc-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/0.0.6:
+    resolution: {integrity: sha512-dKWHAS10AOKTVord2pYtzyEOlx7eRGt5219N/xNiNTT8q8YgbiV6XjuBFtOOdfPLXjVASt23HvDcfaDETzdHNg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/-/plugin-doctor-win32-ia32-msvc-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-win32-ia32-msvc'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -9884,10 +9927,10 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/0.0.5:
-    resolution: {integrity: sha512-8rXJqG8+c5tXDxfuevpLKVxWspWUzcfu1n+rNjF6UeSixPQg3Wnim6OvQk6Nsf8MvhCZwV5x8zM3jHMBgptrkQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/-/plugin-doctor-win32-x64-msvc-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/0.0.6:
+    resolution: {integrity: sha512-xa2Mo94DaDs/VWnT9r7TFfHvUxC3H/9LxQj/5poRazvbjrNQxR5wAa3MocQNozAkJiJ2pQHBGRrIPrD0UG8UVg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/-/plugin-doctor-win32-x64-msvc-0.0.6.tgz}
     name: '@tarojs/plugin-doctor-win32-x64-msvc'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -9895,24 +9938,28 @@ packages:
     dev: false
     optional: true
 
-  registry.npmjs.org/@tarojs/plugin-doctor/0.0.5:
-    resolution: {integrity: sha512-8rcW55vRdW1qlmU9T863IxEOcFlk6t4ta1WjDQuuE/GxlaXVpAa+kRlYp3NQeabQMxfMlB/NNfwAGLWsK+CiPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor/-/plugin-doctor-0.0.5.tgz}
+  registry.npmjs.org/@tarojs/plugin-doctor/0.0.6:
+    resolution: {integrity: sha512-aifsud0MYN8DlG+7/REqACrv4n1X+pzeCBIfNkOYgmHBoMyBDzpw8M0fODcCF/fChmaTHBxdmnMa1S6f6X8vPQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor/-/plugin-doctor-0.0.6.tgz}
     name: '@tarojs/plugin-doctor'
-    version: 0.0.5
+    version: 0.0.6
     engines: {node: '>= 10'}
     dependencies:
       '@tarojs/service': registry.npmjs.org/@tarojs/service/3.6.7
       eslint: registry.npmjs.org/eslint/8.41.0
       glob: registry.npmjs.org/glob/10.2.6
     optionalDependencies:
-      '@tarojs/plugin-doctor-darwin-arm64': registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/0.0.5
-      '@tarojs/plugin-doctor-darwin-x64': registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/0.0.5
-      '@tarojs/plugin-doctor-linux-arm64-gnu': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/0.0.5
-      '@tarojs/plugin-doctor-linux-arm64-musl': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/0.0.5
-      '@tarojs/plugin-doctor-linux-x64-gnu': registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/0.0.5
-      '@tarojs/plugin-doctor-win32-arm64-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-arm64-msvc/0.0.5
-      '@tarojs/plugin-doctor-win32-ia32-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/0.0.5
-      '@tarojs/plugin-doctor-win32-x64-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/0.0.5
+      '@tarojs/plugin-doctor-darwin-arm64': registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/0.0.6
+      '@tarojs/plugin-doctor-darwin-universal': registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/0.0.6
+      '@tarojs/plugin-doctor-darwin-x64': registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/0.0.6
+      '@tarojs/plugin-doctor-freebsd-x64': registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/0.0.6
+      '@tarojs/plugin-doctor-linux-arm-gnueabihf': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/0.0.6
+      '@tarojs/plugin-doctor-linux-arm64-gnu': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/0.0.6
+      '@tarojs/plugin-doctor-linux-arm64-musl': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/0.0.6
+      '@tarojs/plugin-doctor-linux-x64-gnu': registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/0.0.6
+      '@tarojs/plugin-doctor-linux-x64-musl': registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/0.0.6
+      '@tarojs/plugin-doctor-win32-arm64-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-arm64-msvc/0.0.6
+      '@tarojs/plugin-doctor-win32-ia32-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/0.0.6
+      '@tarojs/plugin-doctor-win32-x64-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/0.0.6
     transitivePeerDependencies:
       - '@types/react'
       - '@types/webpack'
