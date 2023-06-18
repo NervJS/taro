@@ -30,7 +30,7 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "@vue/devtools": "6.0.0-beta.15",
+    "@wangjunjia/vue-devtools-remote-browser": "^0.0.5",
     "cross-spawn": "^7.0.3",
     "detect-port": "^1.3.0"
   },

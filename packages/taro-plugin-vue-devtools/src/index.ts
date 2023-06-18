@@ -3,7 +3,6 @@ import { isArray, isString } from '@tarojs/shared'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 
-const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
 
 export interface IOptions {
@@ -27,7 +26,10 @@ export default function (ctx: IPluginContext, options: IOptions) {
     if (availablePort === port) {
       // eslint-disable-next-line no-console
       console.log(chalk.yellow('\n提示  ') + '正在启动 vue-devtools...\n')
-      spawn(require.resolve('@vue/devtools/bin'), { env: { ...process.env, PORT: port } })
+      const oldEnvPort = process.env.PORT
+      Object.assign(process.env, { PORT: port })
+      require('@wangjunjia/vue-devtools-remote-browser/cli.js')
+      Object.assign(process.env, { PORT: oldEnvPort })
     }
   })
 
