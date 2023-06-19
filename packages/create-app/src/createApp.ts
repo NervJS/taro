@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Project } from '@tarojs/cli'
 import * as minimist from 'minimist'
 

@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "CLI debug",
-      "program": "${workspaceFolder}/packages/create-app/dist/index.js",
+      "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
       // "cwd": "${project absolute path}",
       // "args": [
       //   "build",
