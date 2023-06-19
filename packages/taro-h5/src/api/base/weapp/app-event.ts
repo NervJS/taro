@@ -85,6 +85,8 @@ export const onPageNotFound: typeof Taro.onPageNotFound = callback => {
   }
 }
 
+export const onLazyLoadError = /* @__PURE__ */ temporarilyNotSupport('onLazyLoadError')
+
 export const onError: typeof Taro.onError = callback => {
   errorCallbackManager.add(callback)
   if (errorCallbackManager.count() === 1) {
@@ -133,6 +135,8 @@ export const offPageNotFound: typeof Taro.offPageNotFound = callback => {
     Taro.eventCenter.off('__taroRouterNotFound', pageNotFoundListener)
   }
 }
+
+export const offLazyLoadError = /* @__PURE__ */ temporarilyNotSupport('offLazyLoadError')
 
 export const offError: typeof Taro.offError = callback => {
   errorCallbackManager.remove(callback)

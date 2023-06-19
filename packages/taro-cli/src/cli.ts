@@ -154,6 +154,7 @@ export default class CLI {
             platform,
             plugin,
             isWatch: Boolean(args.watch),
+            isBuildNativeComp: _[1] === 'native-components',
             port: args.port,
             env: args.env,
             deviceType: args.platform,

@@ -4,13 +4,26 @@ import { mergeWith } from 'lodash'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type Chain from 'webpack-chain'
 import type { Frameworks } from './index'
 
-export function modifyH5WebpackChain(ctx: IPluginContext, framework: Frameworks, chain) {
+export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks, chain: Chain) {
   setLoader(framework, chain)
   setPlugin(ctx, framework, chain)
 
+  const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+  const externals: Record<string, string> = {}
+  if (isBuildNativeComp) {
+    // Note: 该模式不支持 prebundle 优化，不必再处理
+    externals.react = 'React'
+    externals['react-dom'] = 'ReactDOM'
+    if (framework === 'preact') {
+      externals.preact = 'preact'
+    }
+  }
+
   chain.merge({
+    externals,
     module: {
       rule: {
         'process-import-taro': {

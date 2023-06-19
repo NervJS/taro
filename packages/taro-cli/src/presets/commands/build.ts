@@ -1,4 +1,7 @@
-import { MessageKind, validateConfig } from '@tarojs/plugin-doctor/js-binding'
+import {
+  MessageKind,
+  validateConfig
+} from '@tarojs/plugin-doctor'
 
 import * as hooks from '../constant'
 
@@ -53,8 +56,9 @@ export default (ctx: IPluginContext) => {
       }
 
       // 校验 Taro 项目配置
-      const checkResult = checkConfig({
+      const checkResult = await checkConfig({
         projectConfig: ctx.initialConfig,
+        helper: ctx.helper
       })
       if (!checkResult.isValid) {
         const ERROR = chalk.red('[✗] ')
@@ -190,16 +194,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-function checkConfig({ projectConfig }) {
-  const configStr = JSON.stringify(projectConfig, (_, v) => {
-    if (typeof v === 'function') {
-      return '__function__'
-    }
-    if (v instanceof RegExp) {
-      return v.toString()
-    }
-    return v
-  })
-  const result = validateConfig(configStr)
+async function checkConfig ({ projectConfig, helper }) {
+  const result = await validateConfig(projectConfig, helper)
   return result
 }
