@@ -53,6 +53,41 @@ declare module '../../index' {
     ) => void
   }
 
+  namespace onScreenRecordingStateChanged {
+    interface ScreenRecordingState {
+      /** 开始录屏 */
+      start
+      /** 结束录屏 */
+      stop
+    }
+    /** 用户录屏事件的监听函数 */
+    type Callback = (
+      /** 录屏状态 */
+      state: keyof ScreenRecordingState,
+    ) => void
+  }
+
+  namespace getScreenRecordingState {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (option: SuccessCallbackResult) => void
+    }
+    interface ScreenRecordingState {
+      /** 开始录屏 */
+      start
+      /** 结束录屏 */
+      stop
+    }
+    interface SuccessCallbackResult {
+      /** 录屏状态 */
+      state: keyof ScreenRecordingState
+    }
+  }
+
   namespace getScreenBrightness {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -116,6 +151,15 @@ declare module '../../index' {
       callback: onUserCaptureScreen.Callback,
     ): void
 
+    /** 监听用户录屏事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.onScreenRecordingStateChanged.html
+     */
+    onScreenRecordingStateChanged(
+      /** 用户录屏事件的监听函数 */
+      callback: onScreenRecordingStateChanged.Callback
+    ): void
+
     /** 用户主动截屏事件。取消事件监听。
      * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.offUserCaptureScreen.html
@@ -124,6 +168,23 @@ declare module '../../index' {
       /** 用户主动截屏事件的回调函数 */
       callback: onUserCaptureScreen.Callback,
     ): void
+
+    /** 取消用户录屏事件的监听函数
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.offScreenRecordingStateChanged.html 
+     */
+    offScreenRecordingStateChanged(
+      /** 用户录屏事件的监听函数 */
+      callback: onScreenRecordingStateChanged.Callback
+    ): void
+
+    /** 查询用户是否在录屏
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.getScreenRecordingState.html
+     */
+    getScreenRecordingState(
+      option?: getScreenRecordingState.Option
+    ): Promise<getScreenRecordingState.SuccessCallbackResult>
 
     /**
      * 获取屏幕亮度。
