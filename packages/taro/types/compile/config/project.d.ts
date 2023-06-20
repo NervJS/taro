@@ -63,13 +63,48 @@ export interface IProjectBaseConfig {
   /** 代码编译后的生产目录 (默认值：'dist') */
   outputRoot?: string
 
-  /** 用于设置环境变量 (除了NODE_ENV以外，其他环境变量建议在根目录下的.env文件中) */
+  /**
+   * 用于配置`process.env.xxxx`相关的环境变量
+   * @deprecated 建议使用根目录下的 .env 文件替代
+   * @description 注意：这里的环境变量只能在业务代码中使用，编译时的 node 环境中无法使用
+   * @example
+   * ```ts
+   * // config/index.ts
+   * export default defineConfig({
+   *    env: {
+   *      xxxx: '"测试"'
+   *    }
+   * })
+   *
+   * // src/app.ts
+   * onShow() {
+   *   console.log(process.env.xxxx) // 打印 "测试"
+   * }
+   * ```
+   */
   env?: IOption
 
   /** 用于配置目录别名，从而方便书写代码引用路径 */
   alias?: IOption
 
-  /** 用于配置一些全局变量供代码中进行使用（建议放在根目录下的.env文件中） */
+  /**
+   * 用于配置一些常量供代码中进行全局替换使用
+   * @description 注意：这里的环境变量只能在业务代码中使用，编译时的 node 环境中无法使用
+   * @example
+   * ```ts
+   * // config/index.ts
+   * export default defineConfig({
+   *    defineConstants: {
+   *        __TEST__: JSON.stringify('test')
+   *    }
+   * })
+   *
+   * // src/app.ts
+   * onShow() {
+   *   console.log(__TEST__) // 打印 "test"
+   * }
+   * ```
+   */
   defineConstants?: IOption
 
   /** 用于把文件从源码目录直接拷贝到编译后的生产目录 */
