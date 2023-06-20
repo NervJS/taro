@@ -45,7 +45,7 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/plugin-doctor": "0.0.5",
+    "@tarojs/plugin-doctor": "0.0.10",
     "adm-zip": "^0.4.13",
     "cli-highlight": "^2.1.11",
     "dotenv": "^16.0.3",
