@@ -233,7 +233,7 @@ export default class Harmony extends TaroPlatformBase {
   modifyWebpackConfig () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const externals = ({ request }, callback) => {
-        // Note: 引用的依赖是否 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
+        // Note: 判断引用的依赖是否是 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
         if (isHarmonyRequest(request)) {
           return callback(null, 'commonjs ' + request)
         }
