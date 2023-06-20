@@ -40,9 +40,17 @@ describe('inspect', () => {
       ],
       options: {
         platform: undefined,
+        publicPath: undefined,
         isWatch: false,
         env: undefined,
-        blended: false
+        blended: false,
+        assetsDest: undefined,
+        bundleOutput: undefined,
+        plugin: undefined,
+        isBuildNativeComp: false,
+        sourceMapUrl: undefined,
+        sourcemapOutput: undefined,
+        sourcemapSourcesRoot: undefined,
       },
       isHelp: false
     }
