@@ -1,6 +1,7 @@
 import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from '@tarojs/cli'
 <% if (typescript) {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
 
+// https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
 export default defineConfig(async (merge, { command, mode }) => {
   return {
     projectName: '<%= projectName %>',
