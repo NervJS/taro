@@ -1,0 +1,51 @@
+{
+  "name": "@tarojs/plugin-platform-harmony",
+  "version": "3.7.0-alpha.2",
+  "description": "OpenHarmony & 鸿蒙系统插件",
+  "author": "O2Team",
+  "homepage": "https://gitee.com/openharmony-sig/taro",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "index.js",
+    "dist",
+    "types"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitee.com/openharmony-sig/taro.git"
+  },
+  "scripts": {
+    "prebuild": "rimraf ./dist",
+    "build": "pnpm run rollup",
+    "dev": "pnpm run rollup -w",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
+  },
+  "bugs": {
+    "url": "https://gitee.com/openharmony-sig/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/components": "workspace:*",
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
+    "webpack-sources": "^3.2.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "rollup": "^3.8.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.2"
+  }
+}

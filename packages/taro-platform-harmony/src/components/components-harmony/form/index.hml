@@ -1,0 +1,10 @@
+<div>
+  <form
+    id="{{id}}"
+    class="{{cls}}"
+    @submit="onSubmit"
+    @reset="onReset"
+  >
+    <slot></slot>
+  </form>
+</div>

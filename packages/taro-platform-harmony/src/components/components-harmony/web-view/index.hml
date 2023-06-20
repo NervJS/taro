@@ -1,0 +1,8 @@
+<div>
+  <web
+    src="{{src}}"
+    id="{{id}}"
+    @error="onError"
+    @pagefinish="onLoad"
+  ></web>
+</div>

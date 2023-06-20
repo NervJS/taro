@@ -1,0 +1,9 @@
+<div class="cover-image">
+  <image
+    id="{{id}}"
+    alt="{{alt}}"
+    src="{{src}}"
+    @complete="onLoad"
+    @error="onError"
+  ></image>
+</div>

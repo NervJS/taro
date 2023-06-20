@@ -1,0 +1,5 @@
+<richtext
+        id="{{ id }}"
+        class="{{ cls }}">
+    {{ nodeData }}
+</richtext>

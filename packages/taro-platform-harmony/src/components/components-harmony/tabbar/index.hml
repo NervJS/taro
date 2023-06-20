@@ -1,0 +1,26 @@
+<toolbar style="border-color: {{borderStyle}};background-color: {{backgroundColor}};">
+  <block
+    for="{{tabbarData.list}}"
+    tid="pagePath"
+  >
+    <!--
+      选用 if else 这种冗余的写法是因为这种写法：
+      color: {{$idx == selected ? selectedColor: color}}; 在 props 更新时不能正确触发 computed
+      待框架修复这个问题或能兼容 Hex3 后，可以进行合并。
+    -->
+    <toolbar-item if="{{$idx != selected}}"
+      icon="{{$item.iconPath}}"
+      value="{{$item.text}}"
+      style="color: {{color}};background-color: transparent;"
+      onclick="jump($item.pagePath)"
+    >
+    </toolbar-item>
+    <toolbar-item else
+      icon="{{$item.selectedIconPath}}"
+      value="{{$item.text}}"
+      style="color: {{selectedColor}};background-color: transparent;"
+      onclick="jump($item.pagePath)"
+    >
+    </toolbar-item>
+  </block>
+</toolbar>

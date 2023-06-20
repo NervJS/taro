@@ -1357,6 +1357,41 @@ importers:
       tsconfig-paths: registry.npmjs.org/tsconfig-paths/3.14.2
       typescript: registry.npmjs.org/typescript/4.9.5
 
+  packages/taro-platform-harmony:
+    specifiers:
+      '@rollup/plugin-commonjs': ^20.0.0
+      '@rollup/plugin-node-resolve': ^8.0.0
+      '@tarojs/components': workspace:*
+      '@tarojs/helper': workspace:*
+      '@tarojs/runtime': workspace:*
+      '@tarojs/service': workspace:*
+      '@tarojs/shared': workspace:*
+      '@tarojs/taro': workspace:*
+      rollup: ^3.8.1
+      rollup-plugin-copy: ^3.4.0
+      rollup-plugin-node-externals: ^5.0.0
+      rollup-plugin-ts: ^3.0.2
+      tslib: ^2.4.0
+      typescript: ^4.8.2
+      webpack-sources: ^3.2.3
+    dependencies:
+      '@tarojs/components': link:../taro-components
+      '@tarojs/helper': link:../taro-helper
+      '@tarojs/runtime': link:../taro-runtime
+      '@tarojs/service': link:../taro-service
+      '@tarojs/shared': link:../shared
+      '@tarojs/taro': link:../taro
+      webpack-sources: registry.npmjs.org/webpack-sources/3.2.3
+    devDependencies:
+      '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
+      '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5
+      rollup: registry.npmjs.org/rollup/3.21.5
+      rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
+      rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5
+      rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_2kkkjclyparzkaevnmwvqixwuq
+      tslib: registry.npmjs.org/tslib/2.5.0
+      typescript: registry.npmjs.org/typescript/4.9.5
+
   packages/taro-plugin-html:
     specifiers:
       '@babel/generator': ^7.20.0
