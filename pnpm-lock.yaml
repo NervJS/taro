@@ -1361,6 +1361,8 @@ importers:
     specifiers:
       '@rollup/plugin-commonjs': ^20.0.0
       '@rollup/plugin-node-resolve': ^8.0.0
+      '@rollup/plugin-typescript': ^11.1.0
+      '@tarojs/cli': workspace:*
       '@tarojs/components': workspace:*
       '@tarojs/helper': workspace:*
       '@tarojs/runtime': workspace:*
@@ -1375,6 +1377,7 @@ importers:
       typescript: ^4.8.2
       webpack-sources: ^3.2.3
     dependencies:
+      '@tarojs/cli': link:../taro-cli
       '@tarojs/components': link:../taro-components
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runtime': link:../taro-runtime
@@ -1385,6 +1388,7 @@ importers:
     devDependencies:
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5
+      '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/11.1.1_zbvynxjsshkmfsrzjt34poassy
       rollup: registry.npmjs.org/rollup/3.21.5
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5

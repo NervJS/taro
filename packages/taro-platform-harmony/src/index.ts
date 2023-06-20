@@ -2,25 +2,30 @@
 import { chalk } from '@tarojs/helper'
 import path from 'path'
 
-import Harmony from './program'
+import HarmonyOS_ArkTS from './program/arkTS'
+import HarmonyOS_JSUI from './program/jsUI'
+import { PLATFORM_NAME } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
 
 // 让其它平台插件可以继承此平台
-export { Harmony }
+export { HarmonyOS_JSUI }
 
-interface HarmonyConfig {
+export interface HarmonyConfig {
   projectPath: string
   hapName?: string
   jsFAName?: string
 }
 
-const HARMONY = 'harmony'
+export interface IOptions {
+  disableArkTS?: boolean
+  useConfigName?: string
+}
 
-export default (ctx: IPluginContext) => {
+export default (ctx: IPluginContext, options: IOptions = {}) => {
   // 合并 harmony 编译配置到 opts
   ctx.modifyRunnerOpts(({ opts }) => {
-    if (opts.platform !== HARMONY) return
+    if (opts.platform !== PLATFORM_NAME) return
 
     const harmonyConfig = ctx.ctx.initialConfig.harmony
     assertHarmonyConfig(ctx, harmonyConfig)
@@ -35,9 +40,10 @@ export default (ctx: IPluginContext) => {
     ctx.paths.outputPath = opts.outputRoot
   })
 
+  const Harmony = options.disableArkTS ? HarmonyOS_JSUI : HarmonyOS_ArkTS
   ctx.registerPlatform({
-    name: HARMONY,
-    useConfigName: 'mini',
+    name: PLATFORM_NAME,
+    useConfigName: options.useConfigName || PLATFORM_NAME,
     async fn ({ config }) {
       const program = new Harmony(ctx, config)
       await program.start()

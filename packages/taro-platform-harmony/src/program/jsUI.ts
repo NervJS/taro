@@ -1,14 +1,13 @@
-import { chalk, fs, META_TYPE } from '@tarojs/helper'
+import { fs, META_TYPE } from '@tarojs/helper'
 import { TaroPlatformBase } from '@tarojs/service'
 import path from 'path'
 import { sources } from 'webpack'
 import { ConcatSource, RawSource } from 'webpack-sources'
 
-import { components } from './components'
-import { Template } from './template'
+import { components } from '../components'
+import { Template } from '../template'
+import { isHarmonyRequest, modifyHarmonyConfig, modifyHostPackageDep, PACKAGE_NAME, PLUGIN_NAME } from '../utils'
 
-const PACKAGE_NAME = '@tarojs/plugin-platform-harmony'
-const PLUGIN_NAME = 'TaroHarmony'
 const EXPORT_PREFIX = 'var __webpack_exports__ = '
 
 export default class Harmony extends TaroPlatformBase {
@@ -227,13 +226,14 @@ export default class Harmony extends TaroPlatformBase {
         fs.copy(src, dest)
       })
 
-      this.modifyHostPackageDep(dest)
+      modifyHostPackageDep(dest)
     })
   }
 
   modifyWebpackConfig () {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const externals = ({ request }, callback) => {
+        // Note: 引用的依赖是否 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
         if (isHarmonyRequest(request)) {
           return callback(null, 'commonjs ' + request)
         }
@@ -255,77 +255,6 @@ export default class Harmony extends TaroPlatformBase {
         })
     })
   }
-
-  async modifyHostPackageDep (dest: string) {
-    const hmsDeps = {
-      '@hmscore/hms-js-base': '^6.1.0-300',
-      '@hmscore/hms-jsb-account': '^1.0.300'
-    }
-    const packageJsonFile = path.resolve(dest, '../../../../../package.json')
-
-    const isExists = await fs.pathExists(packageJsonFile)
-    if (!isExists) return
-
-    const data = await fs.readFile(packageJsonFile)
-    let packageJson: any = data.toString()
-
-    packageJson = JSON.parse(packageJson)
-    if (!packageJson.dependencies) {
-      packageJson.dependencies = hmsDeps
-    } else {
-      for (const hmsDep in hmsDeps) {
-        packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
-      }
-    }
-    packageJson = JSON.stringify(packageJson)
-
-    await fs.writeFile(packageJsonFile, packageJson)
-  }
-}
-
-/**
- * 引用的依赖是否 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
- * @param request 引用的依赖
- */
-function isHarmonyRequest (request: string): boolean {
-  const systemReg = /^@system\./
-  const ohosReg = /^@ohos\./
-  const hmscoreReg = /^@hmscore\//
-  if (systemReg.test(request) || ohosReg.test(request) || hmscoreReg.test(request)) {
-    return true
-  }
-  return false
-}
-
-function modifyHarmonyConfig (route, { projectPath, hapName, jsFAName }) {
-  const hapConfigPath = path.join(projectPath, hapName, 'src/main/config.json')
-  fs.readJson(hapConfigPath)
-    .then(config => {
-      config.module.js ||= []
-      const jsFAs = config.module.js
-      const target = jsFAs.find(item => item.name === jsFAName)
-      if (target) {
-        if (JSON.stringify(target.pages) === JSON.stringify(route)) return
-        target.pages = route
-        target.window = {
-          designWidth: 750,
-          autoDesignWidth: false
-        }
-      } else {
-        jsFAs.push({
-          pages: route,
-          name: jsFAName,
-          window: {
-            designWidth: 750,
-            autoDesignWidth: false
-          }
-        })
-      }
-      return fs.writeJson(hapConfigPath, config, { spaces: 2 })
-    })
-    .catch(err => {
-      console.warn(chalk.red('设置鸿蒙 Hap 配置失败：', err))
-    })
 }
 
 function getChunkEntryModule (compilation, chunk, compiler = 'webpack4') {
