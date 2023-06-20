@@ -32,11 +32,15 @@ export interface IRNConfig {
     pxtransform?: {
       enable?: boolean
       /** 插件 pxtransform 配置项 */
-      config: ?{
+      config?: {
         additionalProperties?: boolean
         [key: string]: any
       }
-    }
+    },
+    cssModules?: {
+      enable: boolean
+    },
+    [key: string]: any
   }
 
   resolve?: any

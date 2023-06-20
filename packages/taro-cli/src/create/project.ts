@@ -194,7 +194,7 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.css) !== 'string') {
+    if (typeof conf.css !== 'string') {
       prompts.push({
         type: 'list',
         name: 'css',
