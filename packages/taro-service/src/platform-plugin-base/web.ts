@@ -21,7 +21,7 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
 
   private setupWebApp () {
     const { needClearOutput } = this.config
-    if (typeof needClearOutput === 'undefined' || !!needClearOutput) {
+    if (typeof needClearOutput === 'boolean' && needClearOutput) {
       this.emptyOutputDir()
     }
     this.printDevelopmentTip()
