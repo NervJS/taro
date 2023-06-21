@@ -379,9 +379,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
-        if (!isReactComponent) {
-          return safeExecute(this.pageId, method, options)
-        }
+        return safeExecute(this.pageId, method, options)
       }
 
       getTabItem (itemPath: string) {
