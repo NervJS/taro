@@ -1,0 +1,8 @@
+.idea
+node_modules
+yarn.lock
+node_modules/*
+.swc
+dist/
+.DS_Store
+./src/components/index.ts

@@ -51,6 +51,7 @@
     "@tarojs/plugin-platform-h5": "3.6.8",
     "@tarojs/plugin-platform-mpharmony": "workspace:*",
     "@tarojs/plugin-platform-mpandroid": "workspace:*",
+    "taro-components-mpharmony": "workspace:*",
     "@tarojs/runtime": "3.6.8",
     "@tarojs/shared": "3.6.8",
     "@tarojs/taro": "3.6.8",
