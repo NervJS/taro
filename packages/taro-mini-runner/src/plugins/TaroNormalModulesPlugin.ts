@@ -10,8 +10,7 @@ const walk = require('acorn-walk')
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
 
-
-function isRenderNode (node, ancestors): boolean {
+export function isRenderNode (node, ancestors): boolean {
   let renderFn
   const hasRenderMethod = ancestors.some((ancestor) => {
     if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {

@@ -2,6 +2,7 @@ import { FRAMEWORK_MAP, taroJsComponents } from '@tarojs/helper'
 import { toDashed } from '@tarojs/shared'
 
 import { componentConfig } from '../utils/component'
+import { isRenderNode } from './TaroNormalModulesPlugin'
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type { Compiler, NormalModule } from 'webpack'
@@ -30,8 +31,8 @@ export default class TaroComponentsExportsPlugin {
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
-          walk.simple(program, {
-            CallExpression: node => {
+          walk.ancestor(program, {
+            CallExpression: (node, ancestors) => {
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
@@ -47,7 +48,8 @@ export default class TaroComponentsExportsPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
-                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) // 收集使用解析函数的组件名称
+                  !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  !isRenderNode(node, ancestors)
                   // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
                   // nameOfCallee !== 'h' && nameOfCallee !== '_c'
                 ) {
