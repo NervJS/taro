@@ -140,7 +140,7 @@ export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_AP
 
   const parsed = {}
   Object.entries(parseTemp).forEach(([key, value]) => {
-    if(prefixsArr.some(prefix => key.startsWith(prefix))) {
+    if(prefixsArr.some(prefix => key.startsWith(prefix)) || ['TARO_APP_ID'].includes(key)) {
       parsed[key] = value
     }
   })
