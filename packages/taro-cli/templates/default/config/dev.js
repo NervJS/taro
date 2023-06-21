@@ -1,4 +1,4 @@
-<% if (typescript) {%>import { UserConfigExport } from "@tarojs/cli";
+<% if (typescript) {%>import type { UserConfigExport } from "@tarojs/cli";
 <%}%>
 export default {
   <% if (compiler === 'webpack5') {%>logger: {

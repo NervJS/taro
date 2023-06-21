@@ -216,7 +216,7 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.compiler) !== 'string') {
+    if (typeof conf.compiler !== 'string') {
       prompts.push({
         type: 'list',
         name: 'compiler',
@@ -250,7 +250,7 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.framework) !== 'string') {
+    if (typeof conf.framework !== 'string') {
       prompts.push({
         type: 'list',
         name: 'framework',
