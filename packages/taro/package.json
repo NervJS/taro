@@ -40,6 +40,9 @@
     "@types/webpack-dev-server": {
       "optional": true
     },
+    "postcss": {
+      "optional": true
+    },
     "vue": {
       "optional": true
     }
