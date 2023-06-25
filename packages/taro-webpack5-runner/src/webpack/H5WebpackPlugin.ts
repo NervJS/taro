@@ -95,7 +95,7 @@ export class H5WebpackPlugin {
     const designWidth = (input => typeof options.designWidth === 'function'
       ? options.designWidth(input)
       : options.designWidth)(baseFontSize)
-    const rootValue = baseFontSize / options.deviceRatio[designWidth] * 2
+    const rootValue = baseFontSize / options.deviceRatio![designWidth!] * 2
     let htmlScript = ''
     if ((options?.targetUnit ?? 'rem') === 'rem') {
       htmlScript = `!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);`
