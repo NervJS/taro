@@ -23,15 +23,6 @@ const base = {
     babel({
       babelHelpers: 'bundled',
       presets: [['@babel/preset-env', { targets: { ie: '11' } }]]
-    }),
-
-    // 复制 assets 目录下的 PNG 图片到 dist 目录
-    copy({
-      targets: [
-        { src: 'src/assets/*.png', dest: 'dist/assets' },
-        { src: 'src/assets/icons/*.png', dest: 'dist/assets/icons' },
-        { src: 'src/assets/video/*.png', dest: 'dist/assets/video' }
-      ]
     })
   ]
 }
@@ -60,20 +51,20 @@ const componentsConfig = {
   ...base
 }
 
-const utilsConfig = {
-  input: path.join(cwd, 'src/utils/index.ts'),
+const commonConfig = {
+  input: path.join(cwd, 'src/common/index.ts'),
   output: {
-    file: path.join(cwd, 'dist/utils/index.js'),
+    file: path.join(cwd, 'dist/common/index.js'),
     format: 'cjs',
     sourcemap: true,
   },
   ...base
 }
 
-const assetsConfig = {
-  input: path.join(cwd, 'src/assets/index.ts'),
+const typesConfig = {
+  input: path.join(cwd, 'src/types/index.ts'),
   output: {
-    file: path.join(cwd, 'dist/assets/index.js'),
+    file: path.join(cwd, 'dist/types/index.js'),
     format: 'cjs',
     sourcemap: true,
   },
@@ -81,4 +72,4 @@ const assetsConfig = {
 }
 
 
-export default [compileConfig, componentsConfig]
+export default [compileConfig, componentsConfig,commonConfig,typesConfig]
