@@ -2,7 +2,7 @@ import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
-import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
+import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = 'h5'
 const defaultAutoprefixerOption = {
@@ -28,9 +28,7 @@ const defaultConstparseOption = {
   ],
   platform
 }
-const defaultHtmltransformOption: {
-  [key: string]: any
-} = {
+const defaultHtmltransformOption: IHtmlTransformOption = {
   enable: true,
   config: {
     platform,
@@ -64,7 +62,7 @@ export const getDefaultPostcssConfig = function ({
   }
   const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, autoprefixer)
   const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, pxtransform)
-  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
+  const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
   const urlOption = recursiveMerge({}, defaultUrlOption, url)
 
   return [
