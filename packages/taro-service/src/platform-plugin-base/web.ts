@@ -1,4 +1,4 @@
-import { PLATFORM_TYPE } from '@tarojs/shared'
+import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 import { get, merge } from 'lodash'
 import * as path from 'path'
 
@@ -20,9 +20,10 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
   }
 
   private setupWebApp () {
-    const { needClearOutput } = this.config
-    if (typeof needClearOutput === 'boolean' && needClearOutput) {
-      this.emptyOutputDir()
+    const { output } = this.config
+    // eslint-disable-next-line eqeqeq
+    if (output == undefined || output.clear == undefined || output.clear === true || isObject(output.clear)) {
+      this.emptyOutputDir(isObject(output.clear) ? output.clear.keep || [] : [])
     }
     this.printDevelopmentTip()
   }

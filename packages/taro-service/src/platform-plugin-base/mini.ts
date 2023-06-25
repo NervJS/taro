@@ -1,5 +1,5 @@
 import { recursiveMerge } from '@tarojs/helper'
-import { PLATFORM_TYPE } from '@tarojs/shared'
+import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
@@ -35,9 +35,11 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
   }
 
   private setupImpl () {
-    const { needClearOutput } = this.config
-    if (typeof needClearOutput === 'undefined' || !!needClearOutput) {
-      this.emptyOutputDir()
+    const { output } = this.config
+    // 仅 output.clear 为 false 时不清空输出目录
+    // eslint-disable-next-line eqeqeq
+    if (output == undefined || output.clear == undefined || output.clear === true || isObject(output.clear)) {
+      this.emptyOutputDir(isObject(output.clear) ? output.clear.keep || [] : [])
     }
     this.printDevelopmentTip(this.platform)
     if (this.projectConfigJson) {

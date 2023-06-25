@@ -35,7 +35,20 @@ export interface IMiniAppConfig {
   webpackChain?: (chain: Chain, webpack: typeof Webpack, PARSE_AST_TYPE: any) => void
 
   /** 可用于修改、拓展 Webpack 的 [output](https://webpack.js.org/configuration/output/) 选项 */
-  output?: Webpack.Configuration['output']
+  output?: Webpack.Configuration['output'] & {
+    /**
+     * 编译前清空输出目录
+     * @since Taro v3.6.9
+     * @description 
+     * - 默认清空输出目录，可设置 clean: false 不清空
+     * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
+     * - 注意 clean.keep 不支持函数
+     */
+    clean?: boolean | {
+      /** 保留指定文件不删除 */
+      keep?: Array<string | RegExp> | string | RegExp
+    }
+  }
 
   /** 配置 postcss 相关插件 */
   postcss?: IPostcssOption
