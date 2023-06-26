@@ -1,5 +1,5 @@
 {
-  "name": "taro-components-mpharmony",
+  "name": "@tarojs/components-mpharmony",
   "version": "1.0.0",
   "description": "",
   "main": "./index.js",
