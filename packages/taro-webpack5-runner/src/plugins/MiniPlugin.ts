@@ -1207,8 +1207,8 @@ export default class TaroMiniPlugin {
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     const { RawSource } = compiler.webpack.sources
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
-    unofficialConfigs.forEach(item => {
+    const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+    unOfficialConfigs.forEach(item => {
       delete config[item]
     })
 

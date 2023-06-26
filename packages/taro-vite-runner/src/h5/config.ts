@@ -1,6 +1,6 @@
-import { defaultMainFields, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isBoolean, isObject, isString } from '@tarojs/shared'
+import { isBoolean, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
@@ -15,8 +15,17 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
   }
 
   function getDefineOption() {
-    const { env = {}, defineConstants = {}, useDeprecatedAdapterComponent = false } = taroConfig
+    const {
+      env = {},
+      defineConstants = {},
+      framework = 'react',
+      buildAdapter = PLATFORMS.H5,
+      useDeprecatedAdapterComponent = false
+    } = taroConfig
 
+    env.FRAMEWORK = JSON.stringify(framework)
+    env.TARO_ENV = JSON.stringify(buildAdapter)
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB)
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
@@ -101,7 +110,7 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
       define: getDefineOption(),
       resolve: {
         mainFields,
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
         alias: getAliasOption(),
         dedupe: ['@tarojs/shared', '@tarojs/runtime'],
       },

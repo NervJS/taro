@@ -50,12 +50,12 @@ export class Template extends RecursiveTemplate {
   constructor () {
     super()
 
-    const componentPath = path.resolve(__dirname, './components-harmony')
+    const compsDir = path.resolve(__dirname, 'components', 'components-harmony')
     this.patchVoidElements.forEach(item => {
       this.voidElements.add(item)
     })
 
-    this.nativeComps = fs.readdirSync(componentPath).filter(name => fs.pathExistsSync(path.resolve(componentPath, name, 'index.hml')))
+    this.nativeComps = fs.readdirSync(compsDir).filter(name => fs.pathExistsSync(path.resolve(compsDir, name, 'index.hml')))
   }
 
   buildHeaderTemplate = (componentConfig) => {

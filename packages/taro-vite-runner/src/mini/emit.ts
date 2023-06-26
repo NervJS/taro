@@ -2,8 +2,8 @@ import { promoteRelativePath } from '@tarojs/helper'
 import { isFunction, isString, toDashed } from '@tarojs/shared'
 import path from 'path'
 
-import { componentConfig } from '../template/component'
 import { getComponentName, getMiniCompiler, prettyPrintJson } from '../utils'
+import { componentConfig } from '../utils/component'
 import { baseCompName, baseTemplateName, customWrapperName } from '../utils/constants'
 
 import type { Config } from '@tarojs/taro'
@@ -211,8 +211,8 @@ export default function (): PluginOption {
 function generateConfigFile (ctx: PluginContext, compiler: TaroCompiler, options: { filePath: string, config: Config & { component?: boolean } }) {
   const { filePath, config } = options
   const fileName = compiler.getConfigPath(getComponentName(compiler, filePath))
-  const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
-  unOfficalConfigs.forEach(item => {
+  const unOfficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+  unOfficialConfigs.forEach(item => {
     delete config[item]
   })
   const source = prettyPrintJson(config)

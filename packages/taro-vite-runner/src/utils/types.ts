@@ -1,6 +1,6 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
-import type { IComponentConfig } from '../template/component'
+import type { IH5Config, IHarmonyConfig, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
 export interface IFileType {
   style: string
@@ -50,4 +50,9 @@ export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface HarmonyBuildConfig extends CommonBuildConfig {}
+export interface HarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
+  fileType: IFileType
+  useJSON5?: boolean
+  runtimePath?: string | string[]
+  taroComponentsPath?: string
+}

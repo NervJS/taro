@@ -276,7 +276,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       define: getDefineOption(),
       resolve: {
         mainFields: [...defaultMainFields],
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
         alias: [
           // 小程序使用 regenerator-runtime@0.11
           { find: 'regenerator-runtime', replacement: require.resolve('regenerator-runtime') },

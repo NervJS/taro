@@ -38,7 +38,6 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
   rollupCtx: PluginContext | null
   cwd: string
   sourceDir: string
-  taroConfig: T
   frameworkExts: string[]
   app: AppMeta
   pages: PageMeta[]
@@ -47,12 +46,11 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
   filesConfig: IMiniFilesConfig = {}
   compilePage: (pageName: string) => PageMeta
 
-  constructor (rollupCtx: PluginContext, appPath: string, taroConfig: T) {
+  constructor (rollupCtx: PluginContext, appPath: string, public taroConfig: T) {
     this.rollupCtx = rollupCtx
     this.cwd = appPath
     this.sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-    this.taroConfig = taroConfig
-    this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
+    this.frameworkExts = taroConfig.frameworkExts || SCRIPT_EXT
   }
 
   getAppScriptPath (): string {

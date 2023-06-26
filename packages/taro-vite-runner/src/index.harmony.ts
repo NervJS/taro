@@ -1,16 +1,15 @@
-import { isFunction, isString } from '@tarojs/shared'
-import { build } from 'vite'
+import { isString } from '@tarojs/shared'
+import { type UserConfig, build } from 'vite'
 
-import miniPreset from './mini'
+import harmonyPreset from './harmony'
 import { convertCopyOptions } from './utils'
 import { componentConfig } from './utils/component'
 
-import type { UserConfig } from 'vite'
-import type { MiniBuildConfig } from './utils/types'
+import type { HarmonyBuildConfig } from './utils/types'
 
-export default async function (appPath: string, taroConfig: MiniBuildConfig) {
+export default async function (appPath: string, taroConfig: HarmonyBuildConfig) {
   const plugins: UserConfig['plugins'] = [
-    miniPreset(appPath, taroConfig)
+    harmonyPreset(appPath, taroConfig)
   ]
 
   // copy-plugin
@@ -26,15 +25,12 @@ export default async function (appPath: string, taroConfig: MiniBuildConfig) {
   }
 
   const commonConfig: UserConfig = {
-    plugins
-  }
-
-  const modifyComponentConfig = taroConfig.modifyComponentConfig
-  if (isFunction(modifyComponentConfig)) {
-    modifyComponentConfig(componentConfig, taroConfig)
+    esbuild: {
+      loader: 'tsx',
+    },
+    plugins,
   }
 
   taroConfig.modifyViteConfig?.(commonConfig, componentConfig)
-
   await build(commonConfig)
 }

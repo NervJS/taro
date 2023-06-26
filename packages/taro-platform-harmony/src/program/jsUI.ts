@@ -1,4 +1,4 @@
-import { fs, META_TYPE } from '@tarojs/helper'
+import { chalk, fs, META_TYPE } from '@tarojs/helper'
 import { TaroPlatformBase } from '@tarojs/service'
 import path from 'path'
 import { sources } from 'webpack'
@@ -6,7 +6,7 @@ import { ConcatSource, RawSource } from 'webpack-sources'
 
 import { components } from '../components'
 import { Template } from '../template'
-import { isHarmonyRequest, modifyHarmonyConfig, modifyHostPackageDep, PACKAGE_NAME, PLUGIN_NAME } from '../utils'
+import { HARMONY_SCOPES, PACKAGE_NAME, PLUGIN_NAME } from '../utils'
 
 const EXPORT_PREFIX = 'var __webpack_exports__ = '
 
@@ -94,11 +94,11 @@ export default class Harmony extends TaroPlatformBase {
         : compilation.chunkTemplate.hooks.renderWithEntry
       render.tap(PLUGIN_NAME, (modules, renderContext) => {
         const chunk = renderContext.chunk ?? renderContext // Webpack4 中 renderContext 实际为 chunk
-        const chunkEntryModule = getChunkEntryModule(compilation, chunk, this.compiler)
+        const chunkEntryModule = this.getChunkEntryModule(compilation, chunk, this.compiler)
         if (chunkEntryModule) {
           const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule
 
-          if (checkMetaType(entryModule)) {
+          if (this.checkMetaType(entryModule)) {
             const origin: string = modules._value ? modules._value.toString() : modules.source()
             const editedOrigin = origin.replace(/\(globalThis/, 'var taroExport = (globalThis')
 
@@ -115,12 +115,12 @@ export default class Harmony extends TaroPlatformBase {
         compilation.hooks.optimizeChunks.tap(PLUGIN_NAME, (chunks) => {
           for (const chunk of chunks) {
             const { chunkGraph, moduleGraph } = compilation
-            const chunkEntryModule = getChunkEntryModule(compilation, chunk, this.compiler)
+            const chunkEntryModule = this.getChunkEntryModule(compilation, chunk, this.compiler)
             if (chunkEntryModule) {
               const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule
               const modulesIterable: Iterable<any> = chunkGraph.getOrderedChunkModulesIterable(chunk, compiler.webpack.util.comparators.compareModulesByIdentifier)
 
-              if (checkMetaType(entryModule)) {
+              if (this.checkMetaType(entryModule)) {
                 for (const module of modulesIterable) {
                   const moduleUsedExports = moduleGraph.getUsedExports(module, chunk.runtime)
                   if (moduleUsedExports instanceof Set) {
@@ -139,11 +139,11 @@ export default class Harmony extends TaroPlatformBase {
         })
         compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).renderChunk.tap(PLUGIN_NAME, (modules, renderContext) => {
           const chunk = renderContext.chunk ?? renderContext
-          const chunkEntryModule = getChunkEntryModule(compilation, chunk, this.compiler)
+          const chunkEntryModule = this.getChunkEntryModule(compilation, chunk, this.compiler)
           if (chunkEntryModule) {
             const entryModule = chunkEntryModule.rootModule ?? chunkEntryModule
 
-            if (checkMetaType(entryModule)) {
+            if (this.checkMetaType(entryModule)) {
               // @ts-ignore
               const origin: string = modules._value ? modules._value.toString() : modules.source()
               const editedOrigin = origin.replace(EXPORT_PREFIX, 'return ')
@@ -200,7 +200,7 @@ export default class Harmony extends TaroPlatformBase {
       const appConfig = `app${configExt}`
       // 修改 harmony Hap 的配置文件 config.json，主要是注入路由配置
       const route = JSON.parse(assets[appConfig].source()).pages
-      modifyHarmonyConfig(route, config.harmony)
+      this.modifyHarmonyConfig(route, config.harmony)
       // 不需要生成 app.json
       delete assets[appConfig]
 
@@ -215,18 +215,18 @@ export default class Harmony extends TaroPlatformBase {
 
     // 把 components-harmony 中被使用到的组件移动到输出目录
     ctx.onBuildFinish(() => {
-      const dest = path.resolve(process.cwd(), config.outputRoot)
-      const compsSrcDir = path.join(__dirname, 'components-harmony')
-      const compsDestDir = path.join(dest, 'container/components-harmony')
+      const outDir = path.resolve(process.cwd(), config.outputRoot)
+      const compsDir = path.resolve(__dirname, '..', 'components', 'components-harmony')
+      const compsOutDir = path.join(outDir, 'container/components-harmony')
 
-      fs.ensureDirSync(compsDestDir)
+      fs.ensureDirSync(compsOutDir)
       ;[...this.template.usedNativeComps, 'navbar', 'tabbar', 'utils'].forEach(name => {
-        const src = path.join(compsSrcDir, name)
-        const dest = path.join(compsDestDir, name)
-        fs.copy(src, dest)
+        const src = path.join(compsDir, name)
+        const outDir = path.join(compsOutDir, name)
+        fs.copy(src, outDir)
       })
 
-      modifyHostPackageDep(dest)
+      this.modifyHostPackageDep(outDir)
     })
   }
 
@@ -234,7 +234,7 @@ export default class Harmony extends TaroPlatformBase {
     this.ctx.modifyWebpackChain(({ chain }) => {
       const externals = ({ request }, callback) => {
         // Note: 判断引用的依赖是否是 Harmony 全局注入的依赖，如果是则 Webpack 不需要处理，直接 external 掉
-        if (isHarmonyRequest(request)) {
+        if (this.isHarmonyRequest(request)) {
           return callback(null, 'commonjs ' + request)
         }
         callback()
@@ -255,24 +255,85 @@ export default class Harmony extends TaroPlatformBase {
         })
     })
   }
-}
 
-function getChunkEntryModule (compilation, chunk, compiler = 'webpack4') {
-  if (compiler === 'webpack5') {
-    const chunkGraph = compilation.chunkGraph
-    const entryModules = Array.from(chunkGraph.getChunkEntryModulesIterable(chunk))
-    if (entryModules.length) {
-      return entryModules[0]
-    }
-  } else {
-    return chunk.entryModule
+  modifyHarmonyConfig (route, { projectPath, hapName, jsFAName }) {
+    const hapConfigPath = path.join(projectPath, hapName, 'src/main/config.json')
+    fs.readJson(hapConfigPath)
+      .then(config => {
+        config.module.js ||= []
+        const jsFAs = config.module.js
+        const target = jsFAs.find(item => item.name === jsFAName)
+        if (target) {
+          if (JSON.stringify(target.pages) === JSON.stringify(route)) return
+          target.pages = route
+          target.window = {
+            designWidth: 750,
+            autoDesignWidth: false
+          }
+        } else {
+          jsFAs.push({
+            pages: route,
+            name: jsFAName,
+            window: {
+              designWidth: 750,
+              autoDesignWidth: false
+            }
+          })
+        }
+        return fs.writeJson(hapConfigPath, config, { spaces: 2 })
+      })
+      .catch(err => {
+        console.warn(chalk.red('设置鸿蒙 Hap 配置失败：', err))
+      })
   }
-}
 
-function checkMetaType (entryModule) {
-  const { miniType } = entryModule
+  async modifyHostPackageDep (dest: string) {
+    const hmsDeps = {
+      '@hmscore/hms-js-base': '^6.1.0-300',
+      '@hmscore/hms-jsb-account': '^1.0.300'
+    }
+    const packageJsonFile = path.resolve(dest, '../../../../../package.json')
 
-  return miniType === META_TYPE.ENTRY ||
-    miniType === META_TYPE.PAGE ||
-    (miniType === META_TYPE.STATIC && entryModule.name === 'container/index')
+    const isExists = await fs.pathExists(packageJsonFile)
+    if (!isExists) return
+
+    const data = await fs.readFile(packageJsonFile)
+    let packageJson: any = data.toString()
+
+    packageJson = JSON.parse(packageJson)
+    if (!packageJson.dependencies) {
+      packageJson.dependencies = hmsDeps
+    } else {
+      for (const hmsDep in hmsDeps) {
+        packageJson.dependencies[hmsDep] = hmsDeps[hmsDep]
+      }
+    }
+    packageJson = JSON.stringify(packageJson)
+
+    await fs.writeFile(packageJsonFile, packageJson)
+  }
+
+  getChunkEntryModule (compilation, chunk, compiler = 'webpack4') {
+    if (compiler === 'webpack5') {
+      const chunkGraph = compilation.chunkGraph
+      const entryModules = Array.from(chunkGraph.getChunkEntryModulesIterable(chunk))
+      if (entryModules.length) {
+        return entryModules[0]
+      }
+    } else {
+      return chunk.entryModule
+    }
+  }
+
+  checkMetaType (entryModule) {
+    const { miniType } = entryModule
+
+    return miniType === META_TYPE.ENTRY ||
+      miniType === META_TYPE.PAGE ||
+      (miniType === META_TYPE.STATIC && entryModule.name === 'container/index')
+  }
+
+  isHarmonyRequest (request: string): boolean {
+    return HARMONY_SCOPES.some(scope => scope.test(request))
+  }
 }

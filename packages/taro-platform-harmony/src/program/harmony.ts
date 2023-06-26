@@ -1,10 +1,14 @@
 /* eslint-disable no-console */
 import { getPkgVersion } from '@tarojs/cli/dist/util'
-import { type TConfig, TaroPlatform } from '@tarojs/service'
+import { type IFileType, type TConfig, TaroPlatform } from '@tarojs/service'
 import { PLATFORM_TYPE } from '@tarojs/shared'
 
 export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.HARMONY
+
+  abstract fileType: IFileType
+  abstract useJSON5: boolean
+  taroComponentsPath?: string
 
   /**
    * 1. 清空 dist 文件夹
@@ -51,7 +55,8 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
    * @param extraOptions 需要额外合入 Options 的配置项
    */
   protected getOptions (extraOptions = {}) {
-    const { recursiveMerge } = this.ctx.helper
+    const { ctx } = this
+    const { recursiveMerge } = ctx.helper
     const config = recursiveMerge(Object.assign({}, this.config), {
       env: {
         FRAMEWORK: JSON.stringify(this.config.framework),
@@ -64,7 +69,9 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
     return {
       ...config,
       buildAdapter: config.platform,
+      fileType: this.fileType,
       platformType: this.platformType,
+      useJSON5: this.useJSON5,
       ...extraOptions
     }
   }
@@ -82,6 +89,7 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
     const runner = await this.getRunner()
     const options = this.getOptions(Object.assign({
       runtimePath: this.runtimePath,
+      taroComponentsPath: this.taroComponentsPath,
     }, extraOptions))
     await runner(options)
   }

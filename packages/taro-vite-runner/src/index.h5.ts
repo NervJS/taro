@@ -2,8 +2,8 @@ import { isString } from '@tarojs/shared'
 import { createServer } from 'vite'
 
 import h5Preset from './h5'
-import { componentConfig } from './template/component'
 import { convertCopyOptions } from './utils'
+import { componentConfig } from './utils/component'
 
 import type { InlineConfig, UserConfig } from 'vite'
 import type { H5BuildConfig } from './utils/types'

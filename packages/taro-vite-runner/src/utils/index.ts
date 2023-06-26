@@ -77,19 +77,19 @@ export function getComponentName (compiler: MiniCompiler | H5Compiler, component
   return componentName.replace(/^(\/|\\)/, '')
 }
 
-const virtaulModulePrefix ='\0'
-const virtaulModulePrefixREG = new RegExp(`^${virtaulModulePrefix}`)
+const virtualModulePrefix ='\0'
+const virtualModulePrefixREG = new RegExp(`^${virtualModulePrefix}`)
 
 export function appendVirtualModulePrefix (id: string): string {
-  return virtaulModulePrefix + id
+  return virtualModulePrefix + id
 }
 
 export function stripVirtualModulePrefix (id: string): string {
-  return id.replace(virtaulModulePrefixREG, '')
+  return id.replace(virtualModulePrefixREG, '')
 }
 
 export function isVirtualModule (id: string): boolean {
-  return virtaulModulePrefixREG.test(id)
+  return virtualModulePrefixREG.test(id)
 }
 
 export function isRelativePath (id: string | undefined): boolean {

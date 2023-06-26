@@ -8,22 +8,14 @@ import {
 import { isArray, isFunction } from '@tarojs/shared'
 import path from 'path'
 
-import { componentConfig } from '../../template/component'
 import { getComponentName } from '../../utils'
+import { componentConfig } from '../../utils/component'
 import { Compiler } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'
-import type { MiniBuildConfig } from '../types'
+import type { IFileType, MiniBuildConfig } from '../types'
 import type { AppMeta, PageMeta } from './base'
-
-interface FileType {
-  config: string
-  script: string
-  templ: string
-  style: string
-  xs?: string
-}
 
 interface NativeCompMeta {
   name: string
@@ -43,14 +35,14 @@ const defaultFileType = {
 }
 
 export class TaroCompiler extends Compiler<MiniBuildConfig> {
-  fileType: FileType
+  fileType: IFileType
   commonChunks: string[]
   nativeComponents = new Map<string, NativeCompMeta>()
 
   constructor (rollupCtx: PluginContext, appPath: string, taroConfig: MiniBuildConfig) {
     super(rollupCtx, appPath, taroConfig)
 
-    this.fileType = this.taroConfig.fileType || defaultFileType
+    this.fileType = taroConfig.fileType || defaultFileType
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.collectNativeComponents(this.app)
