@@ -1116,7 +1116,7 @@ importers:
         specifier: 3.6.8
         version: link:../../packages/taro-helper
       '@tarojs/plugin-framework-react':
-        specifier: 3.6.8
+        specifier: workspace:*
         version: link:../../packages/taro-plugin-react
       '@tarojs/plugin-platform-alipay':
         specifier: 3.6.8
