@@ -1109,6 +1109,9 @@ importers:
       '@tarojs/components':
         specifier: 3.6.8
         version: link:../../packages/taro-components
+      '@tarojs/components-mpharmony':
+        specifier: workspace:*
+        version: link:../../packages/taro-components-mpharmony
       '@tarojs/helper':
         specifier: 3.6.8
         version: link:../../packages/taro-helper
@@ -1160,9 +1163,6 @@ importers:
       react-dom:
         specifier: ^18.0.0
         version: registry.npmjs.org/react-dom@18.2.0(react@18.2.0)
-      taro-components-mpharmony:
-        specifier: workspace:*
-        version: link:../../packages/taro-components-mpharmony
     devDependencies:
       '@babel/core':
         specifier: ^7.8.0
@@ -3082,6 +3082,9 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/components-mpharmony':
+        specifier: workspace:*
+        version: link:../taro-components-mpharmony
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react
@@ -3103,9 +3106,6 @@ importers:
       resolve:
         specifier: ^1.22.0
         version: registry.npmjs.org/resolve@1.22.2
-      taro-components-mpharmony:
-        specifier: workspace:*
-        version: link:../taro-components-mpharmony
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^20.0.0
