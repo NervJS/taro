@@ -61,15 +61,5 @@ const commonConfig = {
   ...base
 }
 
-const typesConfig = {
-  input: path.join(cwd, 'src/types/index.ts'),
-  output: {
-    file: path.join(cwd, 'dist/types/index.js'),
-    format: 'cjs',
-    sourcemap: true,
-  },
-  ...base
-}
 
-
-export default [compileConfig, componentsConfig,commonConfig,typesConfig]
+export default [compileConfig, componentsConfig,commonConfig]

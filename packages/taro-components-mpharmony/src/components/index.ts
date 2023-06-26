@@ -1,2 +1,2 @@
 export * from './block/block'
-export * from './grid'
+export * from './grid/grid'
