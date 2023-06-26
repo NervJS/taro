@@ -29,6 +29,7 @@ describe('inspect', () => {
     delete process.env.TARO_APP_ID
     delete process.env.JD_APP_TEST
     delete process.env.TARO_APP_DEFAULT
+    delete process.env.TARO_APP_FOO
   })
 
   afterEach(() => {
@@ -40,6 +41,7 @@ describe('inspect', () => {
     delete process.env.TARO_APP_ID
     delete process.env.JD_APP_TEST
     delete process.env.TARO_APP_DEFAULT
+    delete process.env.TARO_APP_FOO
   })
 
   describe('cli mode env', () => {
@@ -92,6 +94,12 @@ describe('inspect', () => {
       expect(process.env.JD_APP_TEST).toEqual('env-uat')
       expect(process.env.TARO_APP_TEST).toEqual(undefined)
       expect(process.env.TARO_APP_ID).toEqual('特殊变量appid')
+    })
+
+    it('环境变量可以相互引用', async () => {
+      setProcessArgv('taro build --type weapp --mode pre')
+      await cli.run()
+      expect(process.env.TARO_APP_FOO).toEqual('env-pre-foo')
     })
   })
 })
