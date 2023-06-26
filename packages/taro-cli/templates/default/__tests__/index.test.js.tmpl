@@ -6,7 +6,6 @@ describe('Testing', () => {
     const testUtils = new TestUtils()
     await testUtils.createApp()
     await testUtils.PageLifecycle.onShow('pages/index/index')
-    console.log(testUtils.html())
     expect(testUtils.html()).toMatchSnapshot()
   })
 

@@ -534,7 +534,7 @@ importers:
   packages/taro-cli:
     specifiers:
       '@tarojs/helper': workspace:*
-      '@tarojs/plugin-doctor': 0.0.10
+      '@tarojs/plugin-doctor': registry.npmjs.org/@tarojs/plugin-doctor/0.0.10
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       adm-zip: ^0.4.13
