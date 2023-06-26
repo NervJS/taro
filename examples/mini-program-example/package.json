@@ -51,10 +51,11 @@
     "@tarojs/plugin-platform-h5": "3.6.8",
     "@tarojs/plugin-platform-mpharmony": "workspace:*",
     "@tarojs/plugin-platform-mpandroid": "workspace:*",
+    "@tarojs/components-mpharmony": "workspace:*",
     "@tarojs/runtime": "3.6.8",
     "@tarojs/shared": "3.6.8",
     "@tarojs/taro": "3.6.8",
-    "@tarojs/plugin-framework-react": "3.6.8",
+    "@tarojs/plugin-framework-react": "workspace:*",
     "@tarojs/react": "3.6.8",
     "react-dom": "^18.0.0",
     "react": "^18.0.0"
