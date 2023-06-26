@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-inject",
-  "version": "3.6.2",
+  "version": "3.6.9-alpha.5",
   "description": "Taro 小程序端平台中间层插件",
   "author": "luckyadam",
   "homepage": "https://github.com/nervjs/taro",
@@ -27,6 +27,11 @@
   "dependencies": {
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "rollup": "^2.79.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
   },
   "peerDependencies": {
     "react": ">=17"

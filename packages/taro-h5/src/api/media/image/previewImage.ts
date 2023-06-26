@@ -1,7 +1,9 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
-import { defineCustomElement as defineCustomElementTaroSwiperCore } from '@tarojs/components/dist/components/taro-swiper-core'
-import { defineCustomElement as defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components/taro-swiper-item-core'
+import {
+  defineCustomElementTaroSwiperCore,
+  defineCustomElementTaroSwiperItemCore,
+} from '@tarojs/components/dist/components'
 import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
@@ -15,11 +17,10 @@ import { MethodHandler } from '../../../utils/handler'
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
-  if (USE_HTML_COMPONENTS) {
-    // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
-    defineCustomElementTaroSwiperCore()
-    defineCustomElementTaroSwiperItemCore()
-  }
+  // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点
+  defineCustomElementTaroSwiperCore()
+  defineCustomElementTaroSwiperItemCore()
+
   function loadImage (url: string, loadFail: typeof fail): Promise<Node> {
     return new Promise((resolve) => {
       const item = document.createElement('taro-swiper-item-core')
@@ -54,7 +55,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const handle = new MethodHandler({ name: 'previewImage', success, fail, complete })
   const container = document.createElement('div')
   container.classList.add('preview-image')
-  container.style.cssText = 'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
+  container.style.cssText =
+    'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
   container.addEventListener('click', () => {
     container.remove()
   })
@@ -67,12 +69,10 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
 
   let children: Node[] = []
   try {
-    children = await Promise.all(
-      urls.map(e => loadImage(e, fail))
-    )
+    children = await Promise.all(urls.map((e) => loadImage(e, fail)))
   } catch (error) {
     return handle.fail({
-      errMsg: error
+      errMsg: error,
     })
   }
 
@@ -81,8 +81,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     swiper.appendChild(child)
   }
 
-  const currentIndex = urls.indexOf(current)
-  // @ts-ignore
+  const currentIndex = typeof current === 'number' ? current : urls.indexOf(current)
+
   swiper.current = currentIndex
 
   container.appendChild(swiper)

@@ -1,7 +1,7 @@
-import { chalk, isWindows } from '@tarojs/helper'
+import { chalk, fs, isWindows } from '@tarojs/helper'
+import { exec } from 'child_process'
 import { parse } from 'dotenv'
 import { expand } from 'dotenv-expand'
-import * as fs from 'fs-extra'
 import * as path from 'path'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
@@ -140,7 +140,7 @@ export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_AP
 
   const parsed = {}
   Object.entries(parseTemp).forEach(([key, value]) => {
-    if(prefixsArr.some(prefix => key.startsWith(prefix))) {
+    if(prefixsArr.some(prefix => key.startsWith(prefix)) || ['TARO_APP_ID'].includes(key)) {
       parsed[key] = value
     }
   })
@@ -158,4 +158,24 @@ export const patchEnv = (config: IProjectConfig, expandEnv: Record<string, strin
     ...config.env,
     ...expandEnvStringify
   }
+}
+
+export function execCommand (params: {
+  command: string
+  successCallback?: (data: string) => void
+  failCallback?: (data: string) => void
+}) {
+  const { command, successCallback, failCallback } = params
+  const child = exec(command)
+  child.stdout!.on('data', function (data) {
+    successCallback?.(data)
+  })
+  child.stderr!.on('data', function (data) {
+    failCallback?.(data)
+  })
+}
+
+export function getPkgNameByFilterVersion (pkgString: string) {
+  const versionFlagIndex = pkgString.lastIndexOf('@')
+  return versionFlagIndex === 0 ? pkgString : pkgString.slice(0, versionFlagIndex)
 }

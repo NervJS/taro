@@ -15,7 +15,11 @@ const config = {
   },
   treeshake: false,
   plugins: [
-    externals(),
+    externals({
+      deps: true,
+      devDeps: false,
+      include: ['react', 'react-dom']
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

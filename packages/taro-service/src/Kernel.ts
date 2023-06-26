@@ -1,16 +1,10 @@
-import {
-  createDebug,
-  createSwcRegister,
-  NODE_MODULES,
-  recursiveFindNodeModules
-} from '@tarojs/helper'
 import * as helper from '@tarojs/helper'
+import { getPlatformType } from '@tarojs/shared'
 import { EventEmitter } from 'events'
 import { merge } from 'lodash'
 import * as path from 'path'
 import { AsyncSeriesWaterfallHook } from 'tapable'
 
-import Config from './Config'
 import Plugin from './Plugin'
 import { convertPluginsToObject, mergePlugins, printHelpLog, resolvePresetsOrPlugins } from './utils'
 import {
@@ -21,6 +15,7 @@ import {
 } from './utils/constants'
 
 import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type Config from './Config'
 import type {
   Func,
   ICommand,
@@ -34,6 +29,7 @@ import type {
 
 interface IKernelOptions {
   appPath: string
+  config: Config
   presets?: PluginItem[]
   plugins?: PluginItem[]
 }
@@ -47,10 +43,14 @@ export default class Kernel extends EventEmitter {
   plugins: Map<string, IPlugin>
   paths: IPaths
   extraPlugins: IPluginsObject
+  globalExtraPlugins: IPluginsObject
   config: Config
   initialConfig: IProjectConfig
+  initialGlobalConfig: IProjectConfig
   hooks: Map<string, IHook[]>
   methods: Map<string, Func[]>
+  cliCommands: string []
+  cliCommandsPath: string
   commands: Map<string, ICommand>
   platforms: Map<string, IPlatform>
   helper: any
@@ -59,10 +59,11 @@ export default class Kernel extends EventEmitter {
 
   constructor (options: IKernelOptions) {
     super()
-    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? createDebug('Taro:Kernel') : function () {}
+    this.debugger = process.env.DEBUG === 'Taro:Kernel' ? helper.createDebug('Taro:Kernel') : function () {}
     this.appPath = options.appPath || process.cwd()
     this.optsPresets = options.presets
     this.optsPlugins = options.plugins
+    this.config = options.config
     this.hooks = new Map()
     this.methods = new Map()
     this.commands = new Map()
@@ -73,17 +74,15 @@ export default class Kernel extends EventEmitter {
   }
 
   initConfig () {
-    this.config = new Config({
-      appPath: this.appPath
-    })
     this.initialConfig = this.config.initialConfig
+    this.initialGlobalConfig = this.config.initialGlobalConfig
     this.debugger('initConfig', this.initialConfig)
   }
 
   initPaths () {
     this.paths = {
       appPath: this.appPath,
-      nodeModulesPath: recursiveFindNodeModules(path.join(this.appPath, NODE_MODULES))
+      nodeModulesPath: helper.recursiveFindNodeModules(path.join(this.appPath, helper.NODE_MODULES))
     } as IPaths
     if (this.config.isInitSuccess) {
       Object.assign(this.paths, {
@@ -102,50 +101,76 @@ export default class Kernel extends EventEmitter {
 
   initPresetsAndPlugins () {
     const initialConfig = this.initialConfig
-    const allConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
-    const allConfigPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
-    this.debugger('initPresetsAndPlugins', allConfigPresets, allConfigPlugins)
+    const initialGlobalConfig = this.initialGlobalConfig
+    const cliAndProjectConfigPresets = mergePlugins(this.optsPresets || [], initialConfig.presets || [])()
+    const cliAndProjectPlugins = mergePlugins(this.optsPlugins || [], initialConfig.plugins || [])()
+    const globalPlugins = convertPluginsToObject(initialGlobalConfig.plugins || [])()
+    const globalPresets = convertPluginsToObject(initialGlobalConfig.presets || [])()
+    this.debugger('initPresetsAndPlugins', cliAndProjectConfigPresets, cliAndProjectPlugins)
+    this.debugger('globalPresetsAndPlugins', globalPlugins, globalPresets)
     process.env.NODE_ENV !== 'test' &&
-    createSwcRegister({
-      only: [...Object.keys(allConfigPresets), ...Object.keys(allConfigPlugins)]
+    helper.createSwcRegister({
+      only: [
+        ...Object.keys(cliAndProjectConfigPresets),
+        ...Object.keys(cliAndProjectPlugins),
+        ...Object.keys(globalPresets),
+        ...Object.keys(globalPlugins)
+      ]
     })
     this.plugins = new Map()
     this.extraPlugins = {}
-    this.resolvePresets(allConfigPresets)
-    this.resolvePlugins(allConfigPlugins)
+    this.globalExtraPlugins = {}
+    this.resolvePresets(cliAndProjectConfigPresets, globalPresets)
+    this.resolvePlugins(cliAndProjectPlugins, globalPlugins)
   }
 
-  resolvePresets (presets) {
-    const allPresets = resolvePresetsOrPlugins(this.appPath, presets, PluginType.Preset)
-    while (allPresets.length) {
-      this.initPreset(allPresets.shift()!)
+  resolvePresets (cliAndProjectPresets: IPluginsObject, globalPresets: IPluginsObject) {
+    const resolvedCliAndProjectPresets = resolvePresetsOrPlugins(this.appPath, cliAndProjectPresets, PluginType.Preset)
+    while (resolvedCliAndProjectPresets.length) {
+      this.initPreset(resolvedCliAndProjectPresets.shift()!)
+    }
+
+    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GLOBAL_CONFIG_DIR)
+    const resolvedGlobalPresets = resolvePresetsOrPlugins(globalConfigRootPath , globalPresets, PluginType.Plugin, true)
+    while (resolvedGlobalPresets.length) {
+      this.initPreset(resolvedGlobalPresets.shift()!, true)
     }
   }
 
-  resolvePlugins (plugins) {
-    plugins = merge(this.extraPlugins, plugins)
-    const allPlugins = resolvePresetsOrPlugins(this.appPath, plugins, PluginType.Plugin)
+  resolvePlugins (cliAndProjectPlugins: IPluginsObject, globalPlugins: IPluginsObject) {
+    cliAndProjectPlugins = merge(this.extraPlugins, cliAndProjectPlugins)
+    const resolvedCliAndProjectPlugins = resolvePresetsOrPlugins(this.appPath, cliAndProjectPlugins, PluginType.Plugin)
 
-    while (allPlugins.length) {
-      this.initPlugin(allPlugins.shift()!)
+    globalPlugins = merge(this.globalExtraPlugins, globalPlugins)
+    const globalConfigRootPath = path.join(helper.getUserHomeDir(), helper.TARO_GLOBAL_CONFIG_DIR)
+    const resolvedGlobalPlugins = resolvePresetsOrPlugins(globalConfigRootPath , globalPlugins, PluginType.Plugin, true)
+
+    const resolvedPlugins = resolvedCliAndProjectPlugins.concat(resolvedGlobalPlugins)
+
+    while (resolvedPlugins.length) {
+      this.initPlugin(resolvedPlugins.shift()!)
     }
+
     this.extraPlugins = {}
+    this.globalExtraPlugins = {}
   }
 
-  initPreset (preset: IPreset) {
+  initPreset (preset: IPreset, isGlobalConfigPreset?: boolean) {
     this.debugger('initPreset', preset)
     const { id, path, opts, apply } = preset
     const pluginCtx = this.initPluginCtx({ id, path, ctx: this })
     const { presets, plugins } = apply()(pluginCtx, opts) || {}
     this.registerPlugin(preset)
     if (Array.isArray(presets)) {
-      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(), PluginType.Preset)
+      const _presets = resolvePresetsOrPlugins(this.appPath, convertPluginsToObject(presets)(), PluginType.Preset, isGlobalConfigPreset)
       while (_presets.length) {
-        this.initPreset(_presets.shift()!)
+        this.initPreset(_presets.shift()!, isGlobalConfigPreset)
       }
     }
     if (Array.isArray(plugins)) {
-      this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)())
+      isGlobalConfigPreset
+        ? (this.globalExtraPlugins = merge(this.globalExtraPlugins, convertPluginsToObject(plugins)()))
+        : (this.extraPlugins = merge(this.extraPlugins, convertPluginsToObject(plugins)()))
     }
   }
 
@@ -156,6 +181,21 @@ export default class Kernel extends EventEmitter {
     this.registerPlugin(plugin)
     apply()(pluginCtx, opts)
     this.checkPluginOpts(pluginCtx, opts)
+  }
+
+  applyCliCommandPlugin (commandNames: string[] = []) {
+    const existsCliCommand: string[] = []
+    for( let i = 0; i < commandNames.length; i++ ) {
+      const commandName = commandNames[i]
+      const commandFilePath = path.resolve(this.cliCommandsPath, `${commandName}.js`)
+      if(this.cliCommands.includes(commandName)) existsCliCommand.push(commandFilePath)
+    }
+    const commandPlugins = convertPluginsToObject(existsCliCommand || [])()
+    helper.createSwcRegister({ only: [ ...Object.keys(commandPlugins) ] })
+    const resolvedCommandPlugins = resolvePresetsOrPlugins(this.appPath , commandPlugins, PluginType.Plugin)
+    while (resolvedCommandPlugins.length) {
+      this.initPlugin(resolvedCommandPlugins.shift()!)
+    }
   }
 
   checkPluginOpts (pluginCtx, opts) {
@@ -194,7 +234,8 @@ export default class Kernel extends EventEmitter {
       'helper',
       'runOpts',
       'initialConfig',
-      'applyPlugins'
+      'applyPlugins',
+      'applyCliCommandPlugin'
     ]
     internalMethods.forEach(name => {
       if (!this.methods.has(name)) {
@@ -273,7 +314,9 @@ export default class Kernel extends EventEmitter {
     if (!this.platforms.has(platform)) {
       throw new Error(`不存在编译平台 ${platform}`)
     }
-    const withNameConfig = this.config.getConfigWithNamed(platform, this.platforms.get(platform)!.useConfigName)
+    const config = this.platforms.get(platform)!
+    const withNameConfig = this.config.getConfigWithNamed(config.name, config.useConfigName)
+    process.env.TARO_PLATFORM = getPlatformType(config.name, config.useConfigName)
     return withNameConfig
   }
 

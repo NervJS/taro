@@ -21,7 +21,11 @@ export default {
   },
   treeshake: false,
   plugins: [
-    externals(),
+    externals({
+      deps: true,
+      devDeps: false,
+      include: ['react', 'react-dom', 'vue']
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

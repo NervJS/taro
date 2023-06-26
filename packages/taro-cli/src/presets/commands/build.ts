@@ -1,4 +1,8 @@
-import configValidator from '../../doctor/configValidator'
+import {
+  MessageKind,
+  validateConfig
+} from '@tarojs/plugin-doctor'
+
 import * as hooks from '../constant'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -53,23 +57,36 @@ export default (ctx: IPluginContext) => {
 
       // 校验 Taro 项目配置
       const checkResult = await checkConfig({
-        configPath,
-        projectConfig: ctx.initialConfig
+        projectConfig: ctx.initialConfig,
+        helper: ctx.helper
       })
-      if (checkResult.lines.length) {
-        const NOTE_VALID = chalk.yellow('[!] ')
-        const NOTE_INVALID = chalk.red('[✗] ')
+      if (!checkResult.isValid) {
+        const ERROR = chalk.red('[✗] ')
+        const WARNING = chalk.yellow('[!] ')
+        const SUCCESS = chalk.green('[✓] ')
 
         const lineChalk = chalk.hex('#fff')
         const errorChalk = chalk.hex('#f00')
         console.log(errorChalk(`Taro 配置有误，请检查！ (${configPath})`))
-        checkResult.lines.forEach(line => {
-          console.log(
-            '  ' +
-            (line.valid ? NOTE_VALID : NOTE_INVALID) +
-            lineChalk(line.desc)
-          )
+        checkResult.messages.forEach(message => {
+          switch (message.kind) {
+            case MessageKind.Error:
+              console.log('  ' + ERROR + lineChalk(message.content))
+              break
+            case MessageKind.Success:
+              console.log('  ' + SUCCESS + lineChalk(message.content))
+              break
+            case MessageKind.Warning:
+              console.log('  ' + WARNING + lineChalk(message.content))
+              break
+            case MessageKind.Manual:
+              console.log('  ' + lineChalk(message.content))
+              break
+            default:
+              break
+          }
         })
+        console.log('')
         process.exit(0)
       }
 
@@ -167,10 +184,7 @@ export default (ctx: IPluginContext) => {
   })
 }
 
-async function checkConfig ({ projectConfig, configPath }) {
-  const result = await configValidator({
-    configPath,
-    projectConfig
-  })
+async function checkConfig ({ projectConfig, helper }) {
+  const result = await validateConfig(projectConfig, helper)
   return result
 }

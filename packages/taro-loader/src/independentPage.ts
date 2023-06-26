@@ -63,6 +63,7 @@ ${config.enableShareTimeline ? 'component.enableShareTimeline = true' : ''}
 ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 var inst = Page(createPageConfig(component, '${options.name}', {}, config || {}))
 ${options.prerender ? prerender : ''}
+export default component
 `
 }
 

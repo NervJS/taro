@@ -1,13 +1,13 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.6.2",
+  "version": "3.6.9-alpha.5",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
     "test": "jest",
-    "test:ci": "jest --ci --silent --coverage false",
+    "test:ci": "jest --ci --silent --coverage false --passWithNoTests",
     "lint": "eslint ."
   },
   "author": "yechunxi",

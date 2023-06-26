@@ -1,5 +1,8 @@
 /* eslint-disable dot-notation */
-import { EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,isArray, isFunction, isString, isUndefined, Shortcuts } from '@tarojs/shared'
+import {
+  EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,
+  isArray, isFunction, isString, isUndefined, isWebPlatform, Shortcuts
+} from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
 import { window } from '../bom/window'
@@ -19,6 +22,7 @@ import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()
 const pageId = incrementId()
+const isWeb = isWebPlatform()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
   hooks.call('mergePageInstance', instances.get(id), inst)
@@ -73,7 +77,7 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
-  if (process.env.TARO_ENV === 'h5') {
+  if (isWeb) {
     return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options?.stamp ? { stamp: options.stamp } : {})}`
   } else {
     return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
@@ -102,14 +106,14 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     ONSHOW,
     ONHIDE,
     LIFECYCLES,
-    SIDE_EFFECT_LIFECYCLES
+    SIDE_EFFECT_LIFECYCLES,
   ] = hooks.call('getMiniLifecycleImpl')!.page
   let pageElement: TaroRootElement | null = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
 
   function setCurrentRouter (page: MpInstance) {
-    const router = process.env.TARO_ENV === 'h5' ? page.$taroPath : page.route || page.__route__ || page.$taroPath
+    const router = isWeb ? page.$taroPath : page.route || page.__route__ || page.$taroPath
     Current.router = {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
@@ -136,7 +140,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       // this.$taroPath 是页面唯一标识
       const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
       const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
-      if (process.env.TARO_ENV === 'h5') {
+      if (isWeb) {
         config.path = $taroPath
       }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
@@ -147,7 +151,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       setCurrentRouter(this)
 
       // 初始化当前页面的上下文信息
-      if (process.env.TARO_ENV !== 'h5') {
+      if (!isWeb) {
         window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
       }
 
@@ -158,7 +162,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
-          if (process.env.TARO_ENV !== 'h5') {
+          if (!isWeb) {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
           } else {
@@ -175,7 +179,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      if (process.env.TARO_ENV !== 'h5') {
+      if (!isWeb) {
         window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
       }
       // 触发onUnload生命周期
@@ -209,7 +213,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         Current.page = this as any
         setCurrentRouter(this)
         // 恢复上下文信息
-        if (process.env.TARO_ENV !== 'h5') {
+        if (!isWeb) {
           window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         }
         // 触发生命周期
@@ -220,7 +224,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     [ONHIDE] () {
       // 缓存当前页面上下文信息
-      if (process.env.TARO_ENV !== 'h5') {
+      if (!isWeb) {
         window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
       }
       // 设置 Current 的 page 和 router
@@ -245,7 +249,8 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
     if (component[lifecycle] ||
       component.prototype?.[lifecycle] ||
-      component[lifecycle.replace(/^on/, 'enable')]
+      component[lifecycle.replace(/^on/, 'enable')] ||
+      pageConfig?.[lifecycle.replace(/^on/, 'enable')]
     ) {
       config[lifecycle] = function (...args) {
         const target = args[0]?.target
@@ -286,7 +291,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)
-        if (process.env.TARO_ENV !== 'h5') {
+        if (!isWeb) {
           componentElement.ctx = this
           componentElement.performUpdate(true)
         }

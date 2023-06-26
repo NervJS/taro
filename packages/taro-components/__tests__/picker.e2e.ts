@@ -349,7 +349,7 @@ describe('Picker', () => {
   })
 
   it('date fields month', async () => {
-    let selected = '2016-09-01'
+    let selected = '2016-09'
     page = await newE2EPage({
       html: `<taro-picker-core mode="date" fields="month" value="${selected}">
         <div>Picker</div>
@@ -379,7 +379,7 @@ describe('Picker', () => {
   })
 
   it('date fields year', async () => {
-    let selected = '2016-09-01'
+    let selected = '2016'
     page = await newE2EPage({
       html: `<taro-picker-core mode="date" fields="year" value="${selected}">
         <div>Picker</div>

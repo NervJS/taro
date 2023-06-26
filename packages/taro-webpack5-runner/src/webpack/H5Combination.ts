@@ -1,14 +1,11 @@
-import { resolveMainFilePath } from '@tarojs/helper'
-import path from 'path'
-import { Configuration, EntryNormalized } from 'webpack'
-
 import { parsePublicPath } from '../utils'
-import H5AppInstance from '../utils/H5AppInstance'
+import AppHelper from '../utils/app'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
 
+import type { Configuration, EntryNormalized, LibraryOptions } from 'webpack'
 import type { H5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
@@ -16,11 +13,14 @@ type Optimization = Required<Configuration>['optimization']
 type OptimizationSplitChunksOptions = Required<Optimization>['splitChunks']
 
 export class H5Combination extends Combination<H5BuildConfig> {
-  inst: H5AppInstance
+  appHelper: AppHelper
   webpackPlugin = new H5WebpackPlugin(this)
   webpackModule = new H5WebpackModule(this)
 
+  isMultiRouterMode = false
+
   process (config: Partial<H5BuildConfig>) {
+    super.process(config)
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -35,18 +35,27 @@ export class H5Combination extends Combination<H5BuildConfig> {
       router,
       frameworkExts
     } = config
+    const externals: Configuration['externals'] = []
     const routerMode = router?.mode || 'hash'
-    const isMultiRouterMode = routerMode === 'multi'
-    this.inst = new H5AppInstance(entry as EntryNormalized, {
+    this.isMultiRouterMode = routerMode === 'multi'
+    this.appHelper = new AppHelper(entry as EntryNormalized, {
       sourceDir: this.sourceDir,
       frameworkExts,
       entryFileName
     })
-    if (isMultiRouterMode) {
+
+    if (this.isBuildNativeComp) {
       delete entry[entryFileName]
-      this.inst.pagesConfigList.forEach((page, index) => {
+      this.appHelper.compsConfigList.forEach((comp, index) => {
+        entry[index] = [comp]
+      })
+      this.webpackPlugin.pages = this.appHelper.appConfig?.components
+    } else if (this.isMultiRouterMode) {
+      delete entry[entryFileName]
+      this.appHelper.pagesConfigList.forEach((page, index) => {
         entry[index] = [page]
       })
+      this.webpackPlugin.pages = this.appHelper.appConfig?.pages
     }
 
     const webpackOutput = this.getOutput({
@@ -57,11 +66,18 @@ export class H5Combination extends Combination<H5BuildConfig> {
     })
     const module = this.webpackModule.getModules()
     const [, pxtransformOption] = this.webpackModule.__postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
-    if (isMultiRouterMode) {
-      this.webpackPlugin.pages = this.inst.appConfig?.pages
-    }
     this.webpackPlugin.pxtransformOption = pxtransformOption as any
     const plugin = this.webpackPlugin.getPlugins()
+
+    if (this.isBuildNativeComp) {
+      // Note: 当开发者没有配置时，优先使用 module 导出组件
+      if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
+        webpackOutput.library = {
+          name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
+          type: 'commonjs-module',
+        }
+      }
+    }
 
     chain.merge({
       entry,
@@ -71,7 +87,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       resolve: { alias },
       plugin,
       module,
-      optimization: this.getOptimization(mode)
+      optimization: this.getOptimization(mode),
+      externals,
     })
   }
 
@@ -132,15 +149,5 @@ export class H5Combination extends Combination<H5BuildConfig> {
       optimization.runtimeChunk = 'single'
     }
     return optimization
-  }
-
-  getConfigFilePath (filePath = '') {
-    return resolveMainFilePath(`${filePath.replace(path.extname(filePath), '')}.config`)
-  }
-
-  getPagesConfigList (pages: string[] = []) {
-    const pageMap = new Map()
-    pages.forEach((page) => pageMap.set(page, this.getConfigFilePath(path.join(this.sourceDir, page))))
-    return pageMap
   }
 }

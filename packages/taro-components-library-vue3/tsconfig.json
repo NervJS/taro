@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "declaration": true,
     "module": "ESNext",
+    "noUnusedLocals": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "sourceMap": false,
@@ -11,5 +12,5 @@
     "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src"]
+  "include": ["./src", "./types"]
 }

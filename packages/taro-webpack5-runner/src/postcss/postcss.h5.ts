@@ -2,7 +2,7 @@ import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
-import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
+import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = 'h5'
 const defaultAutoprefixerOption = {
@@ -28,9 +28,7 @@ const defaultConstparseOption = {
   ],
   platform
 }
-const defaultHtmltransformOption: {
-  [key: string]: any
-} = {
+const defaultHtmltransformOption: IHtmlTransformOption = {
   enable: true,
   config: {
     platform,
@@ -51,7 +49,8 @@ const plugins: any[] = []
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  option = {} as IPostcssOption
+  option = {} as IPostcssOption,
+  alias = {}
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
   if (designWidth) {
@@ -63,7 +62,7 @@ export const getDefaultPostcssConfig = function ({
   }
   const autoprefixerOption = recursiveMerge<TogglableOptions>({}, defaultAutoprefixerOption, autoprefixer)
   const pxtransformOption = recursiveMerge<TogglableOptions>({}, defaultPxtransformOption, pxtransform)
-  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
+  const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
   const urlOption = recursiveMerge({}, defaultUrlOption, url)
 
   return [
@@ -72,12 +71,13 @@ export const getDefaultPostcssConfig = function ({
     ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
     ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
     ['postcss-plugin-constparse', defaultConstparseOption, require('postcss-plugin-constparse')],
+    ['postcss-alias', { config: { alias } }, require('./postcss-alias').default],
     ['postcss-url', urlOption, require('postcss-url')],
     ...Object.entries(options)
   ]
 }
 
-export const getPostcssPlugins = function (appPath: string, option = {} as IPostcssOption) {
+export const getPostcssPlugins = function (appPath: string, option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []) {
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
     if (!pluginOption || ['cssModules'].includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return

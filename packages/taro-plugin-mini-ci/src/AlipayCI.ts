@@ -27,7 +27,7 @@ export default class AlipayCI extends BaseCI {
 
     const { appPath } = this.ctx.paths
     const { toolId, privateKey: _privateKey, privateKeyPath: _privateKeyPath } = this.pluginOpts.alipay
-    
+
     let privateKey = _privateKey
     if (!privateKey) {
       const privateKeyPath = path.isAbsolute(_privateKeyPath) ? _privateKeyPath : path.join(appPath, _privateKeyPath)
@@ -51,7 +51,7 @@ export default class AlipayCI extends BaseCI {
   }
 
   async open () {
-    const { devToolsInstallPath} = this.pluginOpts.alipay!
+    const { devToolsInstallPath } = this.pluginOpts.alipay!
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     try {
       printLog(processTypeEnum.START, '小程序开发者工具...', this.projectPath)
@@ -136,7 +136,7 @@ export default class AlipayCI extends BaseCI {
       /** 注意： 这是二维码的线上图片地址， 不是二维码中的内容 */
       const qrcodeUrl = result.experienceQrCodeUrl!
       const qrcodeContent = await readQrcodeImageContent(qrcodeUrl)
-  
+
       const uploadQrcodePath = path.join(this.projectPath, 'upload.png')
       await printQrcode2Terminal(qrcodeContent)
       await generateQrcodeImageFile(uploadQrcodePath, qrcodeContent)

@@ -149,10 +149,10 @@ function getEventCBResult (event: MpEvent) {
 // 小程序的事件代理回调函数
 export function eventHandler (event: MpEvent) {
   // Note: ohos 上事件没有设置 type、detail 类型 setter 方法，且部分事件（例如 load 等）缺失 target 导致事件错误
-  !event.type && Object.defineProperty(event, 'type', {
+  event.type === undefined && Object.defineProperty(event, 'type', {
     value: (event as any)._type // ohos only
   })
-  !event.detail && Object.defineProperty(event, 'detail', {
+  event.detail === undefined && Object.defineProperty(event, 'detail', {
     value: (event as any)._detail || { ...event } // ohos only
   })
   event.currentTarget = event.currentTarget || event.target || { ...event }
@@ -165,8 +165,10 @@ export function eventHandler (event: MpEvent) {
   if (node) {
     const dispatch = () => {
       const e = createEvent(event, node)
+
       hooks.call('modifyTaroEvent', e, node)
-      node.dispatchEvent(e)
+      hooks.call('dispatchTaroEvent', e, node)
+      hooks.call('dispatchTaroEventFinish', e, node)
     }
     if (hooks.isExist('batchedEventUpdates')) {
       const type = event.type

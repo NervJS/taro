@@ -1,5 +1,3 @@
-import { IPluginContext } from '@tarojs/service'
-import { exec } from 'child_process'
 import * as inquirer from 'inquirer'
 import * as getLatestVersion from 'latest-version'
 import * as ora from 'ora'
@@ -7,7 +5,9 @@ import * as path from 'path'
 import * as semver from 'semver'
 
 import packagesManagement from '../../config/packagesManagement'
-import { getPkgItemByKey } from '../../util'
+import { execCommand, getPkgItemByKey } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -60,18 +60,19 @@ export default (ctx: IPluginContext) => {
       }
 
       function execUpdate (command: string, version: string, isSelf = false) {
-        const child = exec(command)
-
         const updateTarget = isSelf ? ' CLI ' : ' Taro 项目依赖'
-        const spinner = ora(`正在更新${updateTarget}到 v${version} ...`).start()
-
-        child.stdout!.on('data', function (data) {
-          spinner.stop()
-          console.log(data.replace(/\n$/, ''))
-        })
-        child.stderr!.on('data', function (data) {
-          spinner.stop()
-          spinner.warn(data.replace(/\n$/, ''))
+        const spinString = `正在更新${updateTarget}到 v${version} ...`
+        const spinner = ora(spinString).start()
+        execCommand({ 
+          command,
+          successCallback (data) {
+            spinner.stop()
+            console.log(data.replace(/\n$/, ''))
+          },
+          failCallback (data) {
+            spinner.stop()
+            spinner.warn(data.replace(/\n$/, ''))
+          }
         })
       }
 

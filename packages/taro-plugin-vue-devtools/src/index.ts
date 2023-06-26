@@ -6,7 +6,7 @@ import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
 
-interface IOptions {
+export interface IOptions {
   enabled?: boolean
   hostname?: string
   port?: string

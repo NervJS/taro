@@ -9,7 +9,11 @@ import ts from 'rollup-plugin-ts'
 export default {
   input: 'src/index.ts',
   plugins: [
-    externals({ include: [/^react$/] }),
+    externals({
+      deps: true,
+      devDeps: false,
+      include: [/^react$/]
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

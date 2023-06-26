@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "3.6.2",
+  "version": "3.6.9-alpha.5",
   "description": "taro-runtime-rn",
   "main": "dist/index.js",
   "types": "./src/index.ts",
@@ -11,10 +11,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "lint": "eslint .",
-    "test": "jest",
-    "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "lint": "eslint ."
   },
   "keywords": [
     "taro"
