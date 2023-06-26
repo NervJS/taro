@@ -1,7 +1,7 @@
 import {View, Text,Image} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
 import './index.scss'
-import {TestBlock, GridView} from "taro-components-mpharmony/src/components";
+import {TestBlock, GridView} from "@tarojs/components-mpharmony";
 
 const grid_data = [
   {
