@@ -13,7 +13,7 @@ import { logger } from '../logger'
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 import type { IMiniFilesConfig } from '@tarojs/taro/types/compile'
 import type { PluginContext } from 'rollup'
-import type { H5BuildConfig, MiniBuildConfig } from '../types'
+import type { H5BuildConfig, HarmonyBuildConfig, MiniBuildConfig } from '../types'
 
 export interface AppMeta {
   name: string
@@ -33,7 +33,7 @@ export interface PageMeta {
   cssPath?: string
 }
 
-export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
+export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildConfig> {
   static label = 'taro:compiler'
   rollupCtx: PluginContext | null
   cwd: string

@@ -7,6 +7,7 @@ import { Compiler } from '../utils/compiler/base'
 import type { PluginContext } from 'rollup'
 import type { Target } from 'vite-plugin-static-copy'
 import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
+import type { TaroCompiler as HarmonyCompiler } from '../utils/compiler/harmony'
 import type { TaroCompiler as MiniCompiler } from '../utils/compiler/mini'
 import type { H5BuildConfig, MiniBuildConfig } from './types'
 
@@ -36,7 +37,7 @@ export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig)
   return copyOptions
 }
 
-export function getCompiler<T extends MiniCompiler | H5Compiler> (rollupPluginContext: PluginContext): T | undefined {
+export function getCompiler<T extends MiniCompiler | H5Compiler | HarmonyCompiler> (rollupPluginContext: PluginContext): T | undefined {
   const info = rollupPluginContext.getModuleInfo(Compiler.label)
   const compiler: T | undefined = info?.meta.compiler
   return compiler
@@ -48,6 +49,10 @@ export function getMiniCompiler (rollupPluginContext: PluginContext): MiniCompil
 
 export function getH5Compiler (rollupPluginContext: PluginContext): H5Compiler | undefined {
   return getCompiler<H5Compiler>(rollupPluginContext)
+}
+
+export function getHarmonyCompiler (rollupPluginContext: PluginContext): HarmonyCompiler | undefined {
+  return getCompiler<HarmonyCompiler>(rollupPluginContext)
 }
 
 export function prettyPrintJson (obj: Record<string, any>) {

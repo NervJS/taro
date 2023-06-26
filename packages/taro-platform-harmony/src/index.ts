@@ -7,15 +7,10 @@ import HarmonyOS_JSUI from './program/jsUI'
 import { PLATFORM_NAME } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IHarmonyConfig } from '@tarojs/taro/types/compile'
 
 // 让其它平台插件可以继承此平台
 export { HarmonyOS_JSUI }
-
-export interface HarmonyConfig {
-  projectPath: string
-  hapName?: string
-  jsFAName?: string
-}
 
 export interface IOptions {
   disableArkTS?: boolean
@@ -51,7 +46,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
   })
 }
 
-function assertHarmonyConfig (ctx: IPluginContext, config): asserts config is HarmonyConfig {
+function assertHarmonyConfig (ctx: IPluginContext, config): asserts config is IHarmonyConfig {
   const NOTE_INVALID = chalk.red('[✗] ')
   const errorChalk = chalk.hex('#f00')
   const lineChalk = chalk.hex('#fff')
