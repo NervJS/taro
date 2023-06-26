@@ -26,7 +26,8 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "test": "jest"
   },
   "browserslist": [
     "last 3 versions",
@@ -63,6 +64,7 @@
     "@babel/core": "^7.8.0",
     "@tarojs/cli": "<%= version %>",
     "@types/webpack-env": "^1.13.6",<% if (['react', 'preact'].includes(framework)) {%>
+    "@tarojs/test-utils-react": "^0.1.1",
     "@types/react": "^18.0.0",<%}%><% if (compiler === 'webpack4') {%>
     "@tarojs/mini-runner": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
@@ -73,9 +75,11 @@
     "babel-preset-taro": "<%= version %>",<% if (['vue', 'vue3'].includes(framework)) {%>
     "css-loader": "3.4.2",
     "style-loader": "1.3.0",<%}%><% if (framework === 'vue') {%>
+    "@tarojs/test-utils-vue": "^0.1.1",
     "@vue/babel-preset-jsx": "^1.2.4",
     "vue-loader": "^15.9.2",
     "eslint-plugin-vue": "^8.x",<%}%><% if (framework === 'vue3') {%>
+    "@tarojs/test-utils-vue3": "^0.1.1",
     "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/compiler-sfc": "^3.0.0",
     "vue-loader": "^17.0.0",
