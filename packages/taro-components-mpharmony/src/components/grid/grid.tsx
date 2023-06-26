@@ -40,7 +40,7 @@ export class GridView extends PureComponent<Props> {
     return (
       <div className={this.props.className}>
         {gridGroup.map((item, i) => (
-          <div className='grid_flex' key={`grid-group-${i}`}>
+          <div style={{ display: 'flex' } } key={`grid-group-${i}`}>
             {item.map((childItem, index) => (
               this.props.columnItem(childItem, index)
             ))}
