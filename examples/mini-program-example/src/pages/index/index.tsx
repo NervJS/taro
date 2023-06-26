@@ -1,7 +1,7 @@
 import {View, Text,Image} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
 import './index.scss'
-import {TestBlock, GridView} from "@tarojs/components-mpharmony";
+import {TestBlock, GridView,ListView} from "@tarojs/components-mpharmony";
 
 const grid_data = [
   {
@@ -41,9 +41,9 @@ export default function Index() {
       <Text>Hello world!</Text>
       <TestBlock><Text>Hello world!</Text></TestBlock>
 
-      <GridView columnNum={3} data={grid_data} columnItem={(childItem, index) => (
+      <GridView columnNum={3} data={grid_data} columnItem={(childItem, i,index) => (
 
-        <View key={`grid-group-item-${index}`} onClick={() => ( console.log("childItem "+childItem.value+" index "+index) )}>
+        <View key={`grid-group-item-${index}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i+" index "+index) )}>
           {childItem.image && (
             <Image
               src={childItem.image}
@@ -56,6 +56,23 @@ export default function Index() {
         </View>
 
       )}/>
+
+      <ListView orientation={'vertical'} data={grid_data} columnItem={(childItem, i) => (
+
+        <View key={`list-group-item-${i}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i+" index "+index) )}>
+          {childItem.image && (
+            <Image
+              src={childItem.image}
+              mode='scaleToFill'
+            />
+          )}
+          <Text>
+            {childItem.value}
+          </Text>
+        </View>
+
+      )}/>
+
     </View>
   )
 }
