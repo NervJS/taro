@@ -1,3 +1,5 @@
+import { isFunction } from '@tarojs/shared'
+
 import { TaroCompiler } from '../utils/compiler/h5'
 
 import type { PluginOption } from 'vite'
@@ -20,6 +22,15 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
     },
     closeBundle () {
       compiler.cleanup()
+
+      const onBuildFinish = taroConfig.onBuildFinish
+      if (isFunction(onBuildFinish)) {
+        onBuildFinish({
+          error: null,
+          stats: {},
+          isWatch: taroConfig.isWatch
+        })
+      }
     }
   }
 }

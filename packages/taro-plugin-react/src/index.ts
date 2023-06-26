@@ -13,7 +13,7 @@ export type Frameworks = 'react' | 'preact' | 'nerv'
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
-  
+
   if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
 
   ctx.modifyWebpackChain(({ chain }) => {
@@ -104,8 +104,8 @@ function setAlias(framework: Frameworks, chain) {
 }
 
 function VitePresetPlugin (framework: Frameworks): PluginOption {
-  return framework === 'preact' 
-    ? require('@preact/preset-vite').preact() 
+  return framework === 'preact'
+    ? require('@preact/preset-vite').preact()
     : require('@vitejs/plugin-react').default()
 }
 
