@@ -1,0 +1,53 @@
+{
+  "name": "@tarojs/plugin-platform-mpharmony",
+  "version": "3.6.8",
+  "description": "Harmony 端平台插件",
+  "author": "ZakaryCode",
+  "license": "MIT",
+  "main": "index.js",
+  "keywords": [
+    "taro"
+  ],
+  "files": [
+    "dist",
+    "index.js",
+    "types"
+  ],
+  "sideEffects": [
+    "./dist/runtime/index.js",
+    "*.scss",
+    "*.css"
+  ],
+  "types": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c -w"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "dependencies": {
+    "@tarojs/service": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/components-react": "workspace:*",
+    "@tarojs/components-mpharmony": "workspace:*",
+    "@tarojs/router": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-mpharmony": "workspace:*",
+    "babel-plugin-transform-taroapi": "workspace:*",
+    "resolve": "^1.22.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "lodash": "^4.17.21",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-ts": "^3.0.2",
+    "typescript": "^4.7.4"
+  }
+}

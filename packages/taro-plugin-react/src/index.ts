@@ -69,6 +69,12 @@ export default (ctx: IPluginContext) => {
               contents: require('./api-loader')(content)
             }
           })
+          build.onLoad({ filter: /taro-mpharmony[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
+            const content = fs.readFileSync(path).toString()
+            return {
+              contents: require('./api-loader')(content)
+            }
+          })
         }
       }
 
