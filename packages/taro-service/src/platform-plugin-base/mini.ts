@@ -15,7 +15,7 @@ interface IFileType {
   xs?: string
 }
 
-export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends TaroPlatform<T> {
+export abstract class TaroPlatformBase<T extends TConfig =TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.MINI
 
   abstract globalObject: string
@@ -38,8 +38,10 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
     const { output } = this.config
     // 仅 output.clear 为 false 时不清空输出目录
     // eslint-disable-next-line eqeqeq
-    if (output == undefined || output.clear == undefined || output.clear === true || isObject(output.clear)) {
-      this.emptyOutputDir(isObject(output.clear) ? output.clear.keep || [] : [])
+    if (output == undefined || output.clear == undefined || output.clear === true) {
+      this.emptyOutputDir()
+    } else if (isObject(output.clear)) {
+      this.emptyOutputDir(output.clear.keep || [])
     }
     this.printDevelopmentTip(this.platform)
     if (this.projectConfigJson) {

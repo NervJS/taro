@@ -21,9 +21,12 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
 
   private setupWebApp () {
     const { output } = this.config
+    // H5 中 webpack5 原生支持 output.clear 选项，但是 webpack4 不支持， 为统一行为，这里做一下兼容
     // eslint-disable-next-line eqeqeq
-    if (output == undefined || output.clear == undefined || output.clear === true || isObject(output.clear)) {
-      this.emptyOutputDir(isObject(output.clear) ? output.clear.keep || [] : [])
+    if (output == undefined || output.clear == undefined || output.clear === true) {
+      this.emptyOutputDir()
+    } else if (isObject(output.clear)) {
+      this.emptyOutputDir(output.clear.keep || [])
     }
     this.printDevelopmentTip()
   }
