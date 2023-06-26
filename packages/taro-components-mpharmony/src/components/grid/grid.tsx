@@ -3,7 +3,7 @@ import './style/index.css'
 import React, { PureComponent } from 'react'
 
 interface Props {
-  columnItem: (childItem: any, index: number) => React.ReactNode
+  columnItem: (childItem: any, i: number, index: number) => React.ReactNode
   className?: string
   data: []
   columnNum: number
@@ -40,9 +40,9 @@ export class GridView extends PureComponent<Props> {
     return (
       <div className={this.props.className}>
         {gridGroup.map((item, i) => (
-          <div className='grid_flex' key={`grid-group-${i}`}>
+          <div style={{ display: 'flex' }} key={`grid-group-${i}`}>
             {item.map((childItem, index) => (
-              this.props.columnItem(childItem, index)
+              this.props.columnItem(childItem, i, index)
             ))}
           </div>
         ))}
