@@ -1,0 +1,25 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "target": "ES2017",
+
+    "baseUrl": ".",
+    "declaration": true,
+    "module": "ESNext",
+    "sourceMap": true,
+    "jsx": "react"
+  },
+  "include": ["./src", "./types"],
+  "types": ["node"]
+}
