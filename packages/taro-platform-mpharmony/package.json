@@ -36,7 +36,7 @@
     "@tarojs/components-react": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/taro-h5": "workspace:*",
+    "@tarojs/taro-mpharmony": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
     "resolve": "^1.22.0"
   },

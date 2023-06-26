@@ -1,2 +1,2 @@
-export * from '@tarojs/taro-h5/dist/api/taro'
-export { default } from '@tarojs/taro-h5/dist/api/taro'
+export * from '@tarojs/taro-mpharmony/dist/api/taro'
+export { default } from '@tarojs/taro-mpharmony/dist/api/taro'

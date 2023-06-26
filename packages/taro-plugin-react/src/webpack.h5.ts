@@ -19,6 +19,17 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
       }
     }
   })
+
+  chain.merge({
+    module: {
+      rule: {
+        'process-import-taro-mpharmony': {
+          test: /taro-mpharmony[\\/]dist[\\/]api[\\/]taro/,
+          loader: require.resolve('./api-loader')
+        }
+      }
+    }
+  })
 }
 
 function setLoader (framework: Frameworks, chain) {

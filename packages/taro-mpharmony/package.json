@@ -1,0 +1,78 @@
+{
+  "name": "@tarojs/taro-mpharmony",
+  "version": "3.6.8",
+  "description": "Taro mpharmony framework include api",
+  "browser": "dist/index.esm.js",
+  "main:h5": "dist/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.cjs.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "types",
+    "index.js"
+  ],
+  "sideEffects": [
+    "*.scss.js",
+    "*.scss",
+    "*.css.js",
+    "*.css"
+  ],
+  "scripts": {
+    "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "test": "node_modules/jest/bin/jest.js",
+    "test:ci": "jest --ci -i --coverage false",
+    "test:dev": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "O2Team",
+  "license": "MIT",
+  "dependencies": {
+    "@tarojs/api": "workspace:*",
+    "@tarojs/components": "workspace:*",
+    "@tarojs/router": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "abortcontroller-polyfill": "^1.7.5",
+    "base64-js": "^1.3.0",
+    "ics": "^3.1.0",
+    "intersection-observer": "^0.7.0",
+    "jsonp-retry": "^1.0.3",
+    "query-string": "^7.1.1",
+    "whatwg-fetch": "^3.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@types/testing-library__jest-dom": "^5.14.3",
+    "babel-jest": "^29.5.0",
+    "jest": "^29.3.1",
+    "jest-cli": "^29.3.1",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-fetch-mock": "^3.0.3",
+    "jest-mock-console": "^1.0.0",
+    "jest-transform-css": "^6.0.1",
+    "jsdom": "^21.1.0",
+    "lodash": "^4.17.21",
+    "mock-socket": "^7.1.0",
+    "postcss": "^8.4.18",
+    "react": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "rollup": "^2.79.0",
+    "rollup-plugin-node-externals": "^5.0.0",
+    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-ts": "^3.0.2",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.7.4"
+  }
+}

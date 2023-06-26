@@ -1,1 +1,1 @@
-export * from '@tarojs/taro-h5/dist/api/index'
+export * from '@tarojs/taro-mpharmony/dist/api/index'
