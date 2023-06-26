@@ -534,7 +534,7 @@ importers:
   packages/taro-cli:
     specifiers:
       '@tarojs/helper': workspace:*
-      '@tarojs/plugin-doctor': registry.npmjs.org/@tarojs/plugin-doctor/0.0.10
+      '@tarojs/plugin-doctor': 0.0.10
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       adm-zip: ^0.4.13
@@ -2516,7 +2516,7 @@ importers:
 packages:
 
   /@tarojs/api/3.6.7:
-    resolution: {integrity: sha512-pSvvYbCWELz0k00OJwNQqMUrjWpzTZF4gPat2N8pNcTR4hLx5RERwLpEzZbjuh4f5F1+1dwQ2kO6XZ81EgA8Ew==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-pSvvYbCWELz0k00OJwNQqMUrjWpzTZF4gPat2N8pNcTR4hLx5RERwLpEzZbjuh4f5F1+1dwQ2kO6XZ81EgA8Ew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/api/-/api-3.6.7.tgz}
     dependencies:
       '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
       '@tarojs/runtime': 3.6.7
@@ -2524,7 +2524,7 @@ packages:
     dev: false
 
   /@tarojs/helper/3.6.7:
-    resolution: {integrity: sha512-6NkeufZQSUWeIflF4e17FSudKkNjTJVcSMVeaDE8dhA7YxnSy8P5Qj/KjkyOGMh0u/Zhl6AMPIpnbamdk8FHEQ==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-6NkeufZQSUWeIflF4e17FSudKkNjTJVcSMVeaDE8dhA7YxnSy8P5Qj/KjkyOGMh0u/Zhl6AMPIpnbamdk8FHEQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/helper/-/helper-3.6.7.tgz}
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
       '@babel/parser': registry.npmjs.org/@babel/parser/7.21.8
@@ -2654,7 +2654,7 @@ packages:
     optional: true
 
   /@tarojs/plugin-doctor/0.0.10:
-    resolution: {integrity: sha512-ov8CRb2w92KDSJRM5IhJILeC5/D/m4QMEt8ZVfm9SrMgoLrvK8klwgGNOiKz0JLPy4vCNtU/oNRxleEYGQrlZg==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-ov8CRb2w92KDSJRM5IhJILeC5/D/m4QMEt8ZVfm9SrMgoLrvK8klwgGNOiKz0JLPy4vCNtU/oNRxleEYGQrlZg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/plugin-doctor/-/plugin-doctor-0.0.10.tgz}
     engines: {node: '>= 10'}
     dependencies:
       '@tarojs/service': 3.6.7
@@ -2681,14 +2681,14 @@ packages:
     dev: false
 
   /@tarojs/runtime/3.6.7:
-    resolution: {integrity: sha512-RBb7jIDVg9yNS8AQlNr9IBNad1L7GgOSrI09h6Dd3n94gGUZjuXx2ILwS9cR8Jb6FNAzf0o9GbdSQD4WXokPbg==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-RBb7jIDVg9yNS8AQlNr9IBNad1L7GgOSrI09h6Dd3n94gGUZjuXx2ILwS9cR8Jb6FNAzf0o9GbdSQD4WXokPbg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/runtime/-/runtime-3.6.7.tgz}
     dependencies:
       '@tarojs/shared': 3.6.7
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
     dev: false
 
   /@tarojs/service/3.6.7:
-    resolution: {integrity: sha512-UMdhW91Hrwj4X+ixLIar1UdncGrsV552ITe3zuDnXlKtqzpVmSjaIiSiRcOcsAzntrbR3XhYElvnKFkC49Pa3A==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-UMdhW91Hrwj4X+ixLIar1UdncGrsV552ITe3zuDnXlKtqzpVmSjaIiSiRcOcsAzntrbR3XhYElvnKFkC49Pa3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/service/-/service-3.6.7.tgz}
     dependencies:
       '@tarojs/helper': 3.6.7
       '@tarojs/shared': 3.6.7
@@ -2708,11 +2708,11 @@ packages:
     dev: false
 
   /@tarojs/shared/3.6.7:
-    resolution: {integrity: sha512-KOgj1TA+FyFy1ap0gZrB6ilC4H764ivSMyfr8mvlYgygevssticmaKTzkhZsNXRQFOQ+jjZ59cLh0F7VBVhlxg==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-KOgj1TA+FyFy1ap0gZrB6ilC4H764ivSMyfr8mvlYgygevssticmaKTzkhZsNXRQFOQ+jjZ59cLh0F7VBVhlxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/shared/-/shared-3.6.7.tgz}
     dev: false
 
   /@tarojs/taro/3.6.7:
-    resolution: {integrity: sha512-j1PPgAKEtdhGXliQGbFaqC7wtyezpqmEEakWEtD83Xdpr4riNePO7xgv9irYNP0cpkjVt3/hLeSddc54X1zh6w==, registry: https://registry.yarnpkg.com/}
+    resolution: {integrity: sha512-j1PPgAKEtdhGXliQGbFaqC7wtyezpqmEEakWEtD83Xdpr4riNePO7xgv9irYNP0cpkjVt3/hLeSddc54X1zh6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/taro/-/taro-3.6.7.tgz}
     peerDependencies:
       '@types/react': '*'
       '@types/webpack': '*'
