@@ -43,7 +43,7 @@ export default function Index() {
 
       <GridView columnNum={3} data={grid_data} columnItem={(childItem, index) => (
 
-        <View>
+        <View key={`grid-group-item-${index}`} onClick={() => ( console.log("childItem "+childItem.value+" index "+index) )}>
           {childItem.image && (
             <Image
               src={childItem.image}
