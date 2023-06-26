@@ -3194,9 +3194,6 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
-      '@tarojs/components-mpharmony':
-        specifier: workspace:*
-        version: link:../taro-components-mpharmony
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react
@@ -3246,6 +3243,9 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/components-mpharmony':
+        specifier: workspace:*
+        version: link:../taro-components-mpharmony
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react
