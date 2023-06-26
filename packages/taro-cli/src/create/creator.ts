@@ -95,7 +95,7 @@ export default class Creator {
     if (!path.isAbsolute(filepath)) {
       filepath = path.join(this.destinationRoot(), filepath)
     }
-    if (filepath.endsWith('package.json.tmpl')) {
+    if (filepath.endsWith('.tmpl')) {
       filepath = filepath.replace('.tmpl', '')
     }
     const basename = path.basename(filepath)
