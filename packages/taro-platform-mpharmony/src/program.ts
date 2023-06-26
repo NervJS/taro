@@ -28,16 +28,12 @@ export default class H5 extends TaroPlatformWeb {
     return this.ctx.initialConfig.framework || 'react'
   }
 
-  get useHtmlComponents () {
-    return !!this.ctx.initialConfig.h5?.useHtmlComponents
-  }
-
   get useDeprecatedAdapterComponent () {
     return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
   }
 
   get componentLibrary () {
-    if (this.useHtmlComponents && this.framework === 'react') {
+    if (this.framework === 'react') {
       return './runtime/components'
     } else if (this.useDeprecatedAdapterComponent) {
       return `@tarojs/components/lib/component-lib/${compLibraryAlias[this.framework] || 'react'}`
@@ -87,11 +83,6 @@ export default class H5 extends TaroPlatformWeb {
             args[0].loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
           }
 
-          if (!this.useHtmlComponents) {
-            args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
-          }
-
           switch (this.framework) {
             case 'vue':
               args[0].loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
@@ -102,10 +93,8 @@ export default class H5 extends TaroPlatformWeb {
               args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
               break
             default:
-              if (this.useHtmlComponents) {
-                args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
-                args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
-              }
+              args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
           }
           return args
         })
