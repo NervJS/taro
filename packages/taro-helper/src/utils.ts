@@ -210,6 +210,9 @@ export function isEmptyObject (obj: any): boolean {
 }
 
 export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
+  if (p.startsWith('pages/')) {
+    return p
+  }
   const realPath = p
   const taroEnv = process.env.TARO_ENV
   for (let i = 0; i < extArrs.length; i++) {
@@ -231,6 +234,11 @@ export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
     if (fs.existsSync(`${p}${path.sep}index${item}`)) {
       return `${p}${path.sep}index${item}`
     }
+  }
+  // 存在多端页面但是对应的多端页面配置不存在时，使用该页面默认配置
+  if (taroEnv && path.parse(p).base.endsWith(`.${taroEnv}.config`)) {
+    const idx = p.lastIndexOf(`.${taroEnv}.config`)
+    return resolveMainFilePath(p.slice(0, idx) + '.config')
   }
   return realPath
 }
