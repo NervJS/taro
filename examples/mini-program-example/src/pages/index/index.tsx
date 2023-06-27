@@ -1,7 +1,6 @@
-import {View, Text,Image} from '@tarojs/components'
+import {View, Text,Image,TestBlock, GridView,ListView} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
 import './index.scss'
-import {TestBlock, GridView,ListView} from "@tarojs/components-mpharmony";
 
 const grid_data = [
   {
@@ -59,7 +58,7 @@ export default function Index() {
 
       <ListView orientation={'vertical'} data={grid_data} columnItem={(childItem, i) => (
 
-        <View key={`list-group-item-${i}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i+" index "+index) )}>
+        <View key={`list-group-item-${i}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i) )}>
           {childItem.image && (
             <Image
               src={childItem.image}
