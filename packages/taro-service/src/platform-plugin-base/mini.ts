@@ -36,12 +36,12 @@ export abstract class TaroPlatformBase<T extends TConfig =TConfig> extends TaroP
 
   private setupImpl () {
     const { output } = this.config
-    // 仅 output.clear 为 false 时不清空输出目录
+    // 仅 output.clean 为 false 时不清空输出目录
     // eslint-disable-next-line eqeqeq
-    if (output == undefined || output.clear == undefined || output.clear === true) {
+    if (output == undefined || output.clean == undefined || output.clean === true) {
       this.emptyOutputDir()
-    } else if (isObject(output.clear)) {
-      this.emptyOutputDir(output.clear.keep || [])
+    } else if (isObject(output.clean)) {
+      this.emptyOutputDir(output.clean.keep || [])
     }
     this.printDevelopmentTip(this.platform)
     if (this.projectConfigJson) {
