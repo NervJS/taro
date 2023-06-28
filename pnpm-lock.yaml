@@ -583,7 +583,7 @@ importers:
       xml2js: ^0.5.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
-      '@tarojs/plugin-doctor': registry.npmjs.org/@tarojs/plugin-doctor/0.0.10
+      '@tarojs/plugin-doctor': 0.0.10
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       adm-zip: registry.npmjs.org/adm-zip/0.4.16
@@ -957,9 +957,6 @@ importers:
       react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler/2.9.0_jj6khiyqjnas4brebrxxaerc34
       react-native-svg: registry.npmjs.org/react-native-svg/13.8.0_jj6khiyqjnas4brebrxxaerc34
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.2.0_react@18.2.0
-
-  packages/taro-components/loader:
-    specifiers: {}
 
   packages/taro-extend:
     specifiers:
@@ -2597,6 +2594,223 @@ importers:
       '@types/babel-traverse': registry.npmjs.org/@types/babel-traverse/6.25.6
 
 packages:
+
+  /@tarojs/api/3.6.7:
+    resolution: {integrity: sha512-pSvvYbCWELz0k00OJwNQqMUrjWpzTZF4gPat2N8pNcTR4hLx5RERwLpEzZbjuh4f5F1+1dwQ2kO6XZ81EgA8Ew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/api/-/api-3.6.7.tgz}
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
+      '@tarojs/runtime': 3.6.7
+      '@tarojs/shared': 3.6.7
+    dev: false
+
+  /@tarojs/helper/3.6.7:
+    resolution: {integrity: sha512-6NkeufZQSUWeIflF4e17FSudKkNjTJVcSMVeaDE8dhA7YxnSy8P5Qj/KjkyOGMh0u/Zhl6AMPIpnbamdk8FHEQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/helper/-/helper-3.6.7.tgz}
+    dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core/7.21.8
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.8
+      '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.8
+      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.8
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.21.4_@babel+core@7.21.8
+      '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.5_@babel+core@7.21.8
+      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.21.5_@babel+core@7.21.8
+      '@babel/register': registry.npmjs.org/@babel/register/7.21.0_@babel+core@7.21.8
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.5
+      '@swc/core': registry.npmjs.org/@swc/core/1.3.23
+      '@swc/register': registry.npmjs.org/@swc/register/0.1.10_@swc+core@1.3.23
+      ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
+      chalk: registry.npmjs.org/chalk/3.0.0
+      chokidar: registry.npmjs.org/chokidar/3.5.3
+      cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
+      debug: registry.npmjs.org/debug/4.3.4
+      esbuild: registry.npmjs.org/esbuild/0.14.54
+      find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root/2.0.0
+      fs-extra: registry.npmjs.org/fs-extra/8.1.0
+      lodash: registry.npmjs.org/lodash/4.17.21
+      require-from-string: registry.npmjs.org/require-from-string/2.0.2
+      resolve: registry.npmjs.org/resolve/1.22.2
+      supports-hyperlinks: registry.npmjs.org/supports-hyperlinks/2.3.0
+      yauzl: registry.npmjs.org/yauzl/2.10.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@tarojs/plugin-doctor-darwin-arm64/0.0.10:
+    resolution: {integrity: sha512-kEInQk4L4R1RqPiGrE4oQInf247pRq/cmi8X3ciKRTSiIQV78s5ACXFhxCdtTKvXcUKnZA3tUQjkyQtbwlo16A==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-darwin-universal/0.0.10:
+    resolution: {integrity: sha512-1SPez0E/3OGnravV9GgZGI4BTSro4sVf7hJvTxjavStpQ0eiNJA3LZcFYtfuwrc3mrNEpDsZycpA8kZmDjatig==}
+    engines: {node: '>= 10'}
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-darwin-x64/0.0.10:
+    resolution: {integrity: sha512-PFXHSCrwcI7c8/kRdSW4o3IK3pw3nrTGs3D69LLdG8a0s7+KbsTAwxnG0KyTXtNzzAZ4g52jNKC81iv9wbTTpA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-freebsd-x64/0.0.10:
+    resolution: {integrity: sha512-Zqo30nxMnhQU7n09hsD/I/3Th4w6NAkqLC+TI1ZDbn7gMDCgGkUyE2/ymYveImKYhNE8wQKCpxN6zV1+3JLBnA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-arm-gnueabihf/0.0.10:
+    resolution: {integrity: sha512-KvZD6TEYxquA9+AyUKWd4O9wS38NzSJgId2hteT7rcdh5XCe2dy66bQgtOq0iCiIOV2LxKHN/JbuhoZf6XThJw==}
+    engines: {node: '>= 10'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-arm64-gnu/0.0.10:
+    resolution: {integrity: sha512-hSb4zxrgPmXW643ZiDiFXRkARvfOKO91+2rCGT1IwTqGfUdgxzo8NTepkj08WSQv0HizyD7XYKsToM1WmqTrdA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-arm64-musl/0.0.10:
+    resolution: {integrity: sha512-pwAvOK6g+3HpXnlI20M3U9466raduAs1gXo107xbRTODPB9xtfit/4oYOE+DScboPAZoI267Idw18u/W75XDdw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-x64-gnu/0.0.10:
+    resolution: {integrity: sha512-ISnIhgdo4ayfCzKpW4skdtyOUQvROvHLSh44I8DYmt2vcfx3w2eoi8PJICgIqeFNnkJZ4QwBPLjNfGSXMUfCOA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-linux-x64-musl/0.0.10:
+    resolution: {integrity: sha512-IDj69YAjKzSap934MBWDcPm8EmC6apVAEVcmSlzHmbXvuJ0irUqsnlT3DFv7cNidluo1TPlL1N8NaStM9moCUA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-win32-ia32-msvc/0.0.10:
+    resolution: {integrity: sha512-wTSsl+wFWnHSiDLW0pNv+TzLZMFKcf6w00gDgsO9Wus4z9Zxmgz9isOYQOT3hSn94XeLUej6QXMllaTM5bpHPw==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor-win32-x64-msvc/0.0.10:
+    resolution: {integrity: sha512-xPHimUsTFNgot4m4zN6iE2UKbn7GlKrJP0XYXrANRnbXlcQQ8a6kcO9oNo341EF4djsEBjQ0CbDEtDbNvfLKVA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@tarojs/plugin-doctor/0.0.10:
+    resolution: {integrity: sha512-ov8CRb2w92KDSJRM5IhJILeC5/D/m4QMEt8ZVfm9SrMgoLrvK8klwgGNOiKz0JLPy4vCNtU/oNRxleEYGQrlZg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/plugin-doctor/-/plugin-doctor-0.0.10.tgz}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@tarojs/service': 3.6.7
+      eslint: registry.npmjs.org/eslint/8.41.0
+      glob: registry.npmjs.org/glob/10.2.6
+    optionalDependencies:
+      '@tarojs/plugin-doctor-darwin-arm64': 0.0.10
+      '@tarojs/plugin-doctor-darwin-universal': 0.0.10
+      '@tarojs/plugin-doctor-darwin-x64': 0.0.10
+      '@tarojs/plugin-doctor-freebsd-x64': 0.0.10
+      '@tarojs/plugin-doctor-linux-arm-gnueabihf': 0.0.10
+      '@tarojs/plugin-doctor-linux-arm64-gnu': 0.0.10
+      '@tarojs/plugin-doctor-linux-arm64-musl': 0.0.10
+      '@tarojs/plugin-doctor-linux-x64-gnu': 0.0.10
+      '@tarojs/plugin-doctor-linux-x64-musl': 0.0.10
+      '@tarojs/plugin-doctor-win32-ia32-msvc': 0.0.10
+      '@tarojs/plugin-doctor-win32-x64-msvc': 0.0.10
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/webpack'
+      - '@types/webpack-dev-server'
+      - supports-color
+      - vue
+    dev: false
+
+  /@tarojs/runtime/3.6.7:
+    resolution: {integrity: sha512-RBb7jIDVg9yNS8AQlNr9IBNad1L7GgOSrI09h6Dd3n94gGUZjuXx2ILwS9cR8Jb6FNAzf0o9GbdSQD4WXokPbg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/runtime/-/runtime-3.6.7.tgz}
+    dependencies:
+      '@tarojs/shared': 3.6.7
+      lodash-es: registry.npmjs.org/lodash-es/4.17.21
+    dev: false
+
+  /@tarojs/service/3.6.7:
+    resolution: {integrity: sha512-UMdhW91Hrwj4X+ixLIar1UdncGrsV552ITe3zuDnXlKtqzpVmSjaIiSiRcOcsAzntrbR3XhYElvnKFkC49Pa3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/service/-/service-3.6.7.tgz}
+    dependencies:
+      '@tarojs/helper': 3.6.7
+      '@tarojs/shared': 3.6.7
+      '@tarojs/taro': 3.6.7
+      joi: registry.npmjs.org/joi/17.9.2
+      lodash: registry.npmjs.org/lodash/4.17.21
+      ora: registry.npmjs.org/ora/5.4.1
+      resolve: registry.npmjs.org/resolve/1.22.2
+      tapable: registry.npmjs.org/tapable/1.1.3
+      webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/webpack'
+      - '@types/webpack-dev-server'
+      - supports-color
+      - vue
+    dev: false
+
+  /@tarojs/shared/3.6.7:
+    resolution: {integrity: sha512-KOgj1TA+FyFy1ap0gZrB6ilC4H764ivSMyfr8mvlYgygevssticmaKTzkhZsNXRQFOQ+jjZ59cLh0F7VBVhlxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/shared/-/shared-3.6.7.tgz}
+    dev: false
+
+  /@tarojs/taro/3.6.7:
+    resolution: {integrity: sha512-j1PPgAKEtdhGXliQGbFaqC7wtyezpqmEEakWEtD83Xdpr4riNePO7xgv9irYNP0cpkjVt3/hLeSddc54X1zh6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.yarnpkg.com/@tarojs/taro/-/taro-3.6.7.tgz}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/webpack': '*'
+      '@types/webpack-dev-server': '*'
+      vue: '*'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/webpack':
+        optional: true
+      '@types/webpack-dev-server':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@tarojs/api': 3.6.7
+      '@tarojs/runtime': 3.6.7
+    dev: false
 
   /@tarojs/transformer-wx/2.2.10:
     resolution: {integrity: sha512-17VF0f/+TILniFQHl+OK7PXt+QgH+evPijJPFkJgpgRUn0S2QKK89g27S6kG8s3GYCgY3XbJRY9w17yAkf9pZA==}
@@ -9862,259 +10076,6 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       defer-to-connect: registry.npmjs.org/defer-to-connect/1.1.3
-    dev: false
-
-  registry.npmjs.org/@tarojs/api/3.6.7:
-    resolution: {integrity: sha512-pSvvYbCWELz0k00OJwNQqMUrjWpzTZF4gPat2N8pNcTR4hLx5RERwLpEzZbjuh4f5F1+1dwQ2kO6XZ81EgA8Ew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/api/-/api-3.6.7.tgz}
-    name: '@tarojs/api'
-    version: 3.6.7
-    dependencies:
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
-      '@tarojs/runtime': registry.npmjs.org/@tarojs/runtime/3.6.7
-      '@tarojs/shared': registry.npmjs.org/@tarojs/shared/3.6.7
-    dev: false
-
-  registry.npmjs.org/@tarojs/helper/3.6.7:
-    resolution: {integrity: sha512-6NkeufZQSUWeIflF4e17FSudKkNjTJVcSMVeaDE8dhA7YxnSy8P5Qj/KjkyOGMh0u/Zhl6AMPIpnbamdk8FHEQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/helper/-/helper-3.6.7.tgz}
-    name: '@tarojs/helper'
-    version: 3.6.7
-    dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core/7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.8
-      '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.8
-      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.8
-      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.21.4_@babel+core@7.21.8
-      '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.5_@babel+core@7.21.8
-      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.21.5_@babel+core@7.21.8
-      '@babel/register': registry.npmjs.org/@babel/register/7.21.0_@babel+core@7.21.8
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
-      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.5
-      '@swc/core': registry.npmjs.org/@swc/core/1.3.23
-      '@swc/register': registry.npmjs.org/@swc/register/0.1.10_@swc+core@1.3.23
-      ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
-      chalk: registry.npmjs.org/chalk/3.0.0
-      chokidar: registry.npmjs.org/chokidar/3.5.3
-      cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
-      debug: registry.npmjs.org/debug/4.3.4
-      esbuild: registry.npmjs.org/esbuild/0.14.54
-      find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root/2.0.0
-      fs-extra: registry.npmjs.org/fs-extra/8.1.0
-      lodash: registry.npmjs.org/lodash/4.17.21
-      require-from-string: registry.npmjs.org/require-from-string/2.0.2
-      resolve: registry.npmjs.org/resolve/1.22.2
-      supports-hyperlinks: registry.npmjs.org/supports-hyperlinks/2.3.0
-      yauzl: registry.npmjs.org/yauzl/2.10.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/0.0.10:
-    resolution: {integrity: sha512-kEInQk4L4R1RqPiGrE4oQInf247pRq/cmi8X3ciKRTSiIQV78s5ACXFhxCdtTKvXcUKnZA3tUQjkyQtbwlo16A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/-/plugin-doctor-darwin-arm64-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-darwin-arm64'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/0.0.10:
-    resolution: {integrity: sha512-1SPez0E/3OGnravV9GgZGI4BTSro4sVf7hJvTxjavStpQ0eiNJA3LZcFYtfuwrc3mrNEpDsZycpA8kZmDjatig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/-/plugin-doctor-darwin-universal-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-darwin-universal'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/0.0.10:
-    resolution: {integrity: sha512-PFXHSCrwcI7c8/kRdSW4o3IK3pw3nrTGs3D69LLdG8a0s7+KbsTAwxnG0KyTXtNzzAZ4g52jNKC81iv9wbTTpA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/-/plugin-doctor-darwin-x64-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-darwin-x64'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/0.0.10:
-    resolution: {integrity: sha512-Zqo30nxMnhQU7n09hsD/I/3Th4w6NAkqLC+TI1ZDbn7gMDCgGkUyE2/ymYveImKYhNE8wQKCpxN6zV1+3JLBnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/-/plugin-doctor-freebsd-x64-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-freebsd-x64'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [freebsd]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/0.0.10:
-    resolution: {integrity: sha512-KvZD6TEYxquA9+AyUKWd4O9wS38NzSJgId2hteT7rcdh5XCe2dy66bQgtOq0iCiIOV2LxKHN/JbuhoZf6XThJw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/-/plugin-doctor-linux-arm-gnueabihf-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-linux-arm-gnueabihf'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [arm]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/0.0.10:
-    resolution: {integrity: sha512-hSb4zxrgPmXW643ZiDiFXRkARvfOKO91+2rCGT1IwTqGfUdgxzo8NTepkj08WSQv0HizyD7XYKsToM1WmqTrdA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/-/plugin-doctor-linux-arm64-gnu-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-linux-arm64-gnu'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/0.0.10:
-    resolution: {integrity: sha512-pwAvOK6g+3HpXnlI20M3U9466raduAs1gXo107xbRTODPB9xtfit/4oYOE+DScboPAZoI267Idw18u/W75XDdw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/-/plugin-doctor-linux-arm64-musl-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-linux-arm64-musl'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/0.0.10:
-    resolution: {integrity: sha512-ISnIhgdo4ayfCzKpW4skdtyOUQvROvHLSh44I8DYmt2vcfx3w2eoi8PJICgIqeFNnkJZ4QwBPLjNfGSXMUfCOA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/-/plugin-doctor-linux-x64-gnu-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-linux-x64-gnu'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/0.0.10:
-    resolution: {integrity: sha512-IDj69YAjKzSap934MBWDcPm8EmC6apVAEVcmSlzHmbXvuJ0irUqsnlT3DFv7cNidluo1TPlL1N8NaStM9moCUA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/-/plugin-doctor-linux-x64-musl-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-linux-x64-musl'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/0.0.10:
-    resolution: {integrity: sha512-wTSsl+wFWnHSiDLW0pNv+TzLZMFKcf6w00gDgsO9Wus4z9Zxmgz9isOYQOT3hSn94XeLUej6QXMllaTM5bpHPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/-/plugin-doctor-win32-ia32-msvc-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-win32-ia32-msvc'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/0.0.10:
-    resolution: {integrity: sha512-xPHimUsTFNgot4m4zN6iE2UKbn7GlKrJP0XYXrANRnbXlcQQ8a6kcO9oNo341EF4djsEBjQ0CbDEtDbNvfLKVA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/-/plugin-doctor-win32-x64-msvc-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor-win32-x64-msvc'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  registry.npmjs.org/@tarojs/plugin-doctor/0.0.10:
-    resolution: {integrity: sha512-ov8CRb2w92KDSJRM5IhJILeC5/D/m4QMEt8ZVfm9SrMgoLrvK8klwgGNOiKz0JLPy4vCNtU/oNRxleEYGQrlZg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/plugin-doctor/-/plugin-doctor-0.0.10.tgz}
-    name: '@tarojs/plugin-doctor'
-    version: 0.0.10
-    engines: {node: '>= 10'}
-    dependencies:
-      '@tarojs/service': registry.npmjs.org/@tarojs/service/3.6.7
-      eslint: registry.npmjs.org/eslint/8.41.0
-      glob: registry.npmjs.org/glob/10.2.6
-    optionalDependencies:
-      '@tarojs/plugin-doctor-darwin-arm64': registry.npmjs.org/@tarojs/plugin-doctor-darwin-arm64/0.0.10
-      '@tarojs/plugin-doctor-darwin-universal': registry.npmjs.org/@tarojs/plugin-doctor-darwin-universal/0.0.10
-      '@tarojs/plugin-doctor-darwin-x64': registry.npmjs.org/@tarojs/plugin-doctor-darwin-x64/0.0.10
-      '@tarojs/plugin-doctor-freebsd-x64': registry.npmjs.org/@tarojs/plugin-doctor-freebsd-x64/0.0.10
-      '@tarojs/plugin-doctor-linux-arm-gnueabihf': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm-gnueabihf/0.0.10
-      '@tarojs/plugin-doctor-linux-arm64-gnu': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-gnu/0.0.10
-      '@tarojs/plugin-doctor-linux-arm64-musl': registry.npmjs.org/@tarojs/plugin-doctor-linux-arm64-musl/0.0.10
-      '@tarojs/plugin-doctor-linux-x64-gnu': registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-gnu/0.0.10
-      '@tarojs/plugin-doctor-linux-x64-musl': registry.npmjs.org/@tarojs/plugin-doctor-linux-x64-musl/0.0.10
-      '@tarojs/plugin-doctor-win32-ia32-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-ia32-msvc/0.0.10
-      '@tarojs/plugin-doctor-win32-x64-msvc': registry.npmjs.org/@tarojs/plugin-doctor-win32-x64-msvc/0.0.10
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/webpack'
-      - '@types/webpack-dev-server'
-      - supports-color
-      - vue
-    dev: false
-
-  registry.npmjs.org/@tarojs/runtime/3.6.7:
-    resolution: {integrity: sha512-RBb7jIDVg9yNS8AQlNr9IBNad1L7GgOSrI09h6Dd3n94gGUZjuXx2ILwS9cR8Jb6FNAzf0o9GbdSQD4WXokPbg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/runtime/-/runtime-3.6.7.tgz}
-    name: '@tarojs/runtime'
-    version: 3.6.7
-    dependencies:
-      '@tarojs/shared': registry.npmjs.org/@tarojs/shared/3.6.7
-      lodash-es: registry.npmjs.org/lodash-es/4.17.21
-    dev: false
-
-  registry.npmjs.org/@tarojs/service/3.6.7:
-    resolution: {integrity: sha512-UMdhW91Hrwj4X+ixLIar1UdncGrsV552ITe3zuDnXlKtqzpVmSjaIiSiRcOcsAzntrbR3XhYElvnKFkC49Pa3A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/service/-/service-3.6.7.tgz}
-    name: '@tarojs/service'
-    version: 3.6.7
-    dependencies:
-      '@tarojs/helper': registry.npmjs.org/@tarojs/helper/3.6.7
-      '@tarojs/shared': registry.npmjs.org/@tarojs/shared/3.6.7
-      '@tarojs/taro': registry.npmjs.org/@tarojs/taro/3.6.7
-      joi: registry.npmjs.org/joi/17.9.2
-      lodash: registry.npmjs.org/lodash/4.17.21
-      ora: registry.npmjs.org/ora/5.4.1
-      resolve: registry.npmjs.org/resolve/1.22.2
-      tapable: registry.npmjs.org/tapable/1.1.3
-      webpack-merge: registry.npmjs.org/webpack-merge/4.2.2
-    transitivePeerDependencies:
-      - '@types/react'
-      - '@types/webpack'
-      - '@types/webpack-dev-server'
-      - supports-color
-      - vue
-    dev: false
-
-  registry.npmjs.org/@tarojs/shared/3.6.7:
-    resolution: {integrity: sha512-KOgj1TA+FyFy1ap0gZrB6ilC4H764ivSMyfr8mvlYgygevssticmaKTzkhZsNXRQFOQ+jjZ59cLh0F7VBVhlxg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/shared/-/shared-3.6.7.tgz}
-    name: '@tarojs/shared'
-    version: 3.6.7
-    dev: false
-
-  registry.npmjs.org/@tarojs/taro/3.6.7:
-    resolution: {integrity: sha512-j1PPgAKEtdhGXliQGbFaqC7wtyezpqmEEakWEtD83Xdpr4riNePO7xgv9irYNP0cpkjVt3/hLeSddc54X1zh6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@tarojs/taro/-/taro-3.6.7.tgz}
-    name: '@tarojs/taro'
-    version: 3.6.7
-    peerDependencies:
-      '@types/react': '*'
-      '@types/webpack': '*'
-      '@types/webpack-dev-server': '*'
-      vue: '*'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/webpack':
-        optional: true
-      '@types/webpack-dev-server':
-        optional: true
-      vue:
-        optional: true
-    dependencies:
-      '@tarojs/api': registry.npmjs.org/@tarojs/api/3.6.7
-      '@tarojs/runtime': registry.npmjs.org/@tarojs/runtime/3.6.7
     dev: false
 
   registry.npmjs.org/@testing-library/jest-dom/5.16.5:

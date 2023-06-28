@@ -26,7 +26,8 @@
     "dev:rn": "npm run build:rn -- --watch",
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
-    "dev:quickapp": "npm run build:quickapp -- --watch"
+    "dev:quickapp": "npm run build:quickapp -- --watch",
+    "test": "jest"
   },
   "browserslist": [
     "last 3 versions",
@@ -69,6 +70,7 @@
     "stylelint": "^14.4.0",
     "terser": "^5.16.8",
     "vite": "^4.2.0",<% if (['react', 'preact'].includes(framework)) {%>
+    "@tarojs/test-utils-react": "^0.1.1",
     "@types/react": "^18.0.0",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint-plugin-react": "^7.8.2",
@@ -95,13 +97,15 @@
     "babel-preset-taro": "<%= version %>",
     "eslint-config-taro": "<%= version %>",
     "eslint": "^8.12.0",
-    "stylelint": "^14.4.0",<% if (compiler === 'webpack4') {%>
+    "stylelint": "^14.4.0",
+    "@types/webpack-env": "^1.13.6",<% if (compiler === 'webpack4') {%>
     "@tarojs/mini-runner": "<%= version %>",
     "@tarojs/webpack-runner": "<%= version %>",
     "webpack": "4.46.0",<%} else if (compiler === 'webpack5') {%>
     "webpack": "5.78.0",
     "@tarojs/taro-loader": "<%= version %>",
     "@tarojs/webpack5-runner": "<%= version %>",<%}%><% if (['react', 'preact'].includes(framework)) {%>
+    "@tarojs/test-utils-react": "^0.1.1",
     "@types/react": "^18.0.0",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-import": "^2.12.0",
@@ -113,9 +117,11 @@
     "@prefresh/babel-plugin": "^0.4.1",<%}%><% if (['vue', 'vue3'].includes(framework)) {%>
     "css-loader": "3.4.2",
     "style-loader": "1.3.0",<%}%><% if (framework === 'vue') {%>
+    "@tarojs/test-utils-vue": "^0.1.1",
     "@vue/babel-preset-jsx": "^1.2.4",
     "vue-loader": "^15.9.2",
     "eslint-plugin-vue": "^8.x",<%}%><% if (framework === 'vue3') {%>
+    "@tarojs/test-utils-vue3": "^0.1.1",
     "@vue/babel-plugin-jsx": "^1.0.6",
     "@vue/compiler-sfc": "^3.0.0",
     "vue-loader": "^17.0.0",
@@ -126,6 +132,9 @@
     "tsconfig-paths-webpack-plugin": "^4.0.1"<%}%>,
     "postcss": "^8.4.18",
     "ts-node": "^10.9.1",
-    "@types/node": "^18.15.11"
+    "@types/node": "^18.15.11",
+    "@types/jest": "^29.3.1",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.5.0"
   }<%}%>
 }
