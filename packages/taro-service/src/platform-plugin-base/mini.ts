@@ -36,6 +36,8 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
 
   private setupImpl () {
     const { output } = this.config
+    // webpack5 原生支持 output.clean 选项，但是 webpack4 不支持， 为统一行为，这里做一下兼容
+    // （在 packages/taro-mini-runner/src/webpack/chain.ts 和 packages/taro-webpack-runner/src/utils/chain.ts 的 makeConfig 中对 clean 选项做了过滤）
     // 仅 output.clean 为 false 时不清空输出目录
     // eslint-disable-next-line eqeqeq
     if (output == undefined || output.clean == undefined || output.clean === true) {
