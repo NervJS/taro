@@ -30,7 +30,7 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
     opts.harmony = {
       projectPath,
       hapName,
-      jsFAName
+      jsFAName,
     }
     ctx.paths.outputPath = opts.outputRoot
   })

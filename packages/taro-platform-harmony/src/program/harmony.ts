@@ -7,6 +7,7 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
   platformType = PLATFORM_TYPE.HARMONY
 
   abstract fileType: IFileType
+  abstract useETS: boolean
   abstract useJSON5: boolean
   taroComponentsPath?: string
 
@@ -71,6 +72,7 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
       buildAdapter: config.platform,
       fileType: this.fileType,
       platformType: this.platformType,
+      useETS: this.useETS,
       useJSON5: this.useJSON5,
       ...extraOptions
     }

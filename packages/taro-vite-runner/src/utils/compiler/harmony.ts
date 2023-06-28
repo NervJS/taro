@@ -27,12 +27,14 @@ export interface IHarmonyHapConfig {
 export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   commonChunks: string[]
   fileType: IFileType
+  useETS: boolean
   useJSON5: boolean
 
   constructor (rollupCtx: PluginContext, appPath: string, taroConfig: HarmonyBuildConfig) {
     super(rollupCtx, appPath, taroConfig)
 
     this.fileType = taroConfig.fileType || defaultFileType
+    this.useETS = taroConfig.useETS !== false
     this.useJSON5 = taroConfig.useJSON5 !== false
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
@@ -84,8 +86,13 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
       config.module.js ||= []
       const jsFAs = config.module.js
       const target = jsFAs.find(item => item.name === jsFAName)
+      const mode = {
+        syntax: this.useETS ? 'ets': 'hml',
+        type: 'pageAbility',
+      }
       if (target) {
         if (JSON.stringify(target.pages) === JSON.stringify(pages)) return
+        target.mode = mode
         target.pages = pages
         target.window = {
           designWidth: 750,
@@ -94,6 +101,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
       } else {
         jsFAs.push({
           name: jsFAName,
+          mode,
           pages,
           window: {
             designWidth: 750,

@@ -52,6 +52,7 @@ export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface HarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
   fileType: IFileType
+  useETS?: boolean
   useJSON5?: boolean
   runtimePath?: string | string[]
   taroComponentsPath?: string
