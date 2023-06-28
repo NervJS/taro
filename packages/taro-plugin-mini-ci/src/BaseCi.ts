@@ -21,6 +21,12 @@ export interface WeappConfig {
   ignores?: Array<string>
   /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
   robot?: number
+  /** 预览页面路径 */
+  pagePath?: string
+  /** 预览页面路径启动参数 */
+  searchQuery?: string
+  /** 默认值 1011，具体含义见场景值列表 */
+  scene?: number
   /** 预览和上传时的编译设置 */
   setting?: {
     /** 对应于微信开发者工具的 "es6 转 es5" */
