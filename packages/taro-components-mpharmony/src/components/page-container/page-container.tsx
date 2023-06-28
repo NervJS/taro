@@ -33,14 +33,64 @@ export default class PageContainer extends PureComponent<Props> {
     const rootClass = classNames(
       'at-float-layout',
       {
-        'at-float-layout--active': this.props.show
+        'at-float-layout--active': this.props.show,
+
       },
       this.props.className
     )
 
+    let position_css = 'no_active_bottom'
+    if (this.props.show) {
+      if (this.props.position === 'bottom') {
+        position_css = 'active_bottom'
+      } else if (this.props.position === 'top') {
+        position_css = 'active_top'
+      } else if (this.props.position === 'right') {
+        position_css = 'active_right'
+      }
+    } else {
+      if (this.props.position === 'bottom') {
+        position_css = 'no_active_bottom'
+      } else if (this.props.position === 'top') {
+        position_css = 'no_active_top'
+      } else if (this.props.position === 'right') {
+        position_css = 'no_active_right'
+      }
+    }
+
+    const container = classNames(
+      'at-float-layout__container',
+      'layout',
+      {
+        'container_has_corner': this.props.round,
+        [position_css]: false,
+      },
+    )
+
+    let overlay_color = 'overlay_none'
+
+    if (this.props.overlay) {
+      overlay_color = 'overlay_none'
+    } else {
+      if (this.props.overlayStyle !== undefined) {
+        overlay_color = this.props.overlayStyle
+      } else {
+        overlay_color = 'overlay_black'
+      }
+    }
+
+    const overlay = classNames(
+      'at-float-layout__overlay',
+      {
+        [overlay_color]: true,
+      },
+    )
+
+
     return (
       <div className={rootClass}>
-        <div className='at-float-layout__container layout'>
+        <div onClick={this.props.bindclickoverlay} className={overlay}/>
+        <div className={container}>
           <div className='layout-body'>
             {this.props.children}
           </div>

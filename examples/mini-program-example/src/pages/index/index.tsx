@@ -1,4 +1,4 @@
-import {View, Text, Image, TestBlock, GridView, ListView, Button, HTPageContainer} from '@tarojs/components-mpharmony'
+import {View, Text, Image, TestBlock, GridView, ListView, Button, PageContainer} from '@tarojs/components-mpharmony'
 
 import {useLoad} from '@tarojs/taro'
 import './index.scss'
@@ -33,6 +33,10 @@ const grid_data = [
 
 export default function Index() {
   const [container_show, setContainerShow] = useState(false);
+  const [position, setTransitionPosition] = useState('bottom');
+  const [round, setRound] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const [overlayStyle, setOverlayStyle] = useState('overlay_black');
 
   useLoad(() => {
     console.log('Page loaded.')
@@ -76,7 +80,7 @@ export default function Index() {
 
       )}/>
 
-      <HTPageContainer show={container_show} title="这是个标题">
+      <PageContainer show={container_show} round={round} position={position} overlay={overlay}   overlayStyle={overlayStyle} bindclickoverlay={()=>( setContainerShow(false))}>
         <Text>Hello world!</Text>
         <Text>Hello world!</Text>
         <Text>Hello world!</Text>
@@ -84,50 +88,61 @@ export default function Index() {
         <Button onClick={() => (
           setContainerShow(false)
         )}>关闭</Button>
-      </HTPageContainer>
+      </PageContainer>
 
       <View style={{display: "flow"}}>
         <Text>弹出位置</Text>
-        <Button onClick={() => (
+        <Button onClick={() => {
+          setTransitionPosition("right")
+          setContainerShow(true)}}>右侧弹出</Button>
+
+        <Button onClick={() => {
+          setTransitionPosition("top")
+          setContainerShow(true)}}>顶部弹出</Button>
+
+
+        <Button onClick={() => {
+          setTransitionPosition("bottom")
           setContainerShow(true)
-        )}>右侧弹出</Button>
+        }}>底部弹出</Button>
 
-        <Button onClick={() => (
-          setContainerShow(false)
-        )}>顶部弹出</Button>
-
-
-        <Button onClick={() => (
-          console.log("")
-        )}>底部弹出</Button>
-
-        <Button onClick={() => (
-          console.log("")
-        )}>中央弹出</Button>
+        <Button onClick={() => {
+          setTransitionPosition("center")
+          setContainerShow(true)
+        }}>中央弹出</Button>
 
         <Text>弹出圆角</Text>
 
-        <Button onClick={() => (
-          console.log("")
-        )}>设置圆角</Button>
+        <Button onClick={() => {
+          if (round) {
+            setRound(false)
+          } else {
+            setRound(true)
+          }
+          setContainerShow(true)
+        }}>设置圆角</Button>
 
         <Text>遮罩层</Text>
 
-        <Button onClick={() => (
-          console.log("")
-        )}>设置有遮罩</Button>
+        <Button onClick={() => {
+          if (overlay) {
+            setOverlay(false)
+          } else {
+            setOverlay(true)
+          }
+          setContainerShow(true)
+        }}>设置有遮罩</Button>
 
-        <Button onClick={() => (
-          console.log("")
-        )}>黑色半透明遮罩</Button>
+        <Button onClick={() => {
+          setOverlayStyle('overlay_black')
+          setContainerShow(true)
+        }}>黑色半透明遮罩</Button>
 
-        <Button onClick={() => (
-          console.log("")
-        )}>白色半透明遮罩</Button>
+        <Button onClick={() => {
+          setOverlayStyle('overlay_white')
+          setContainerShow(true)
+        }}>白色半透明遮罩</Button>
 
-        <Button onClick={() => (
-          console.log("")
-        )}>模糊遮罩</Button>
       </View>
 
 
