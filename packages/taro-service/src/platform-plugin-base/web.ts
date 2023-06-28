@@ -21,7 +21,7 @@ export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroP
 
   private setupWebApp () {
     const { output } = this.config
-    // H5 中 webpack5 原生支持 output.clean 选项，但是 webpack4 不支持， 为统一行为，这里做一下兼容
+    // H5 中 webpack5 原生支持 output.clean 选项，但是 webpack4 不支持， 为统一行为，这里做一下兼容（在packages/taro-mini-runner/src/index.ts 中对 clean 选项做了过滤）
     // eslint-disable-next-line eqeqeq
     if (output == undefined || output.clean == undefined || output.clean === true) {
       this.emptyOutputDir()

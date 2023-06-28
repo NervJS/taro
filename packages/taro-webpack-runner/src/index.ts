@@ -234,6 +234,10 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
 }
 
 export default async (appPath: string, config: BuildConfig): Promise<void> => {
+  // 过滤原因：webpack4 不支持 output.clean 选项， 且 packages/taro-service/src/platform-plugin-base/web.ts 中实现了 output.clean
+  if (config.output && 'clean' in config.output) {
+    delete config.output.clean
+  }
   const newConfig: BuildConfig = await makeConfig(config)
   const app = new AppHelper(newConfig.entry, {
     sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
