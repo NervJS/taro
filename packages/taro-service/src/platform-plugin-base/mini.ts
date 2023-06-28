@@ -15,7 +15,7 @@ interface IFileType {
   xs?: string
 }
 
-export abstract class TaroPlatformBase<T extends TConfig =TConfig> extends TaroPlatform<T> {
+export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.MINI
 
   abstract globalObject: string
@@ -140,10 +140,15 @@ ${exampleCommand}`))
 
   private async buildImpl (extraOptions = {}) {
     const runner = await this.getRunner()
-    const options = this.getOptions(Object.assign({
-      runtimePath: this.runtimePath,
-      taroComponentsPath: this.taroComponentsPath
-    }, extraOptions))
+    const options = this.getOptions(
+      Object.assign(
+        {
+          runtimePath: this.runtimePath,
+          taroComponentsPath: this.taroComponentsPath
+        },
+        extraOptions
+      )
+    )
     await runner(options)
   }
 
@@ -164,7 +169,7 @@ ${exampleCommand}`))
    * 递归替换对象的 key 值
    */
   protected recursiveReplaceObjectKeys (obj, keyMap) {
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
       if (keyMap[key]) {
         obj[keyMap[key]] = obj[key]
         if (typeof obj[key] === 'object') {
