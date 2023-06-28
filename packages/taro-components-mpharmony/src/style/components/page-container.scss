@@ -12,6 +12,10 @@ $zindex-flot-layout: 810 !default;
   z-index: $zindex-flot-layout;
   transition: visibility $float-layout-timer cubic-bezier(0.36, 0.66, 0.04, 1);
 
+  .bottom{
+
+  }
+
   /* elements */
   &__overlay {
     opacity: 0;

@@ -5,7 +5,6 @@ import React, { PureComponent, ReactNode } from 'react'
 
 interface Props {
   className?: string
-  title?: string
   children: ReactNode
   show: boolean
   duration: number
@@ -25,7 +24,7 @@ interface Props {
   bindclickoverlay?: (res) => void
 }
 
-export class HTPageContainer extends PureComponent<Props> {
+export default class PageContainer extends PureComponent<Props> {
   context: unknown
   readonly props: Readonly<Props>
   refs: { [p: string]: React.ReactInstance }
@@ -40,14 +39,8 @@ export class HTPageContainer extends PureComponent<Props> {
     )
 
     return (
-      <div className={rootClass} >
-        <div  className='at-float-layout__overlay'/>
+      <div className={rootClass}>
         <div className='at-float-layout__container layout'>
-          {this.props.title ? (
-            <div className='layout-header'>
-              <div className='layout-header__btn-close' />
-            </div>
-          ) : null}
           <div className='layout-body'>
             {this.props.children}
           </div>
