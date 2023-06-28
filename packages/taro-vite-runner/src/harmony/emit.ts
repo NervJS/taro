@@ -39,7 +39,7 @@ export default function (): PluginOption {
         }
 
         // Note: 修改 harmony Hap 的配置文件，注入路由配置
-        compiler.modifyHarmonyConfig(compiler.app.config, taroConfig)
+        compiler.modifyHarmonyConfig(compiler.app.config)
       }
     }
   }, {

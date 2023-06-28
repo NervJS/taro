@@ -25,12 +25,12 @@ export default (ctx: IPluginContext, options: IOptions = {}) => {
     const harmonyConfig = ctx.ctx.initialConfig.harmony
     assertHarmonyConfig(ctx, harmonyConfig)
 
-    const { projectPath, hapName = 'entry', jsFAName = 'default' } = harmonyConfig
-    opts.outputRoot = path.join(projectPath, hapName, 'src/main/ets', jsFAName)
+    const { projectPath, hapName = 'entry', name = 'default' } = harmonyConfig
+    opts.outputRoot = path.join(projectPath, hapName, 'src/main/ets', name)
     opts.harmony = {
       projectPath,
       hapName,
-      jsFAName,
+      name,
     }
     ctx.paths.outputPath = opts.outputRoot
   })

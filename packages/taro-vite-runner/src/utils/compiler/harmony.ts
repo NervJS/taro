@@ -9,7 +9,7 @@ import path from 'path'
 
 import { type PageMeta, Compiler } from './base'
 
-import type { PageConfig } from '@tarojs/taro'
+import type { AppConfig, PageConfig } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'
 import type { HarmonyBuildConfig, IFileType } from '../types'
 
@@ -18,10 +18,6 @@ const defaultFileType = {
   config: '.json',
   script: '.ets',
   templ: '.hml'
-}
-
-export interface IHarmonyHapConfig {
-  pages?: string[]
 }
 
 export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
@@ -77,37 +73,89 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
     return pageMeta
   }
 
+  modifyHarmonyResources(id = '', data: any = {}) {
+    const { projectPath, hapName = 'entry' } = this.taroConfig
+    const [, key, value] = id.match(/^\$(.+):(.+)$/) || []
+    if (!key || !value) {
+      return console.warn(chalk.red(`无效的资源 ID：${id}`))
+    }
+    const isProfile = key === 'profile'
+    const dirName = isProfile ? 'src/main/resources/base/profile' : 'src/main/resources/base/element'
+    const fileName = `${isProfile ? value : key}.json`
+    const configPath = path.join(projectPath, hapName, dirName, fileName)
+    const config = fs.readJsonSync(configPath)
+    if (isProfile) {
+      Object.assign(config, data)
+    } else {
+      const list = config[key] || []
+      const idx = list.findIndex(item => item.name === value)
+      if (idx >= 0) {
+        list[idx].value = data
+      } else {
+        list.push({
+          name: value,
+          value: data,
+        })
+      }
+    }
+    fs.writeJsonSync(configPath, config, { spaces: 2 })
+  }
+
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
-  modifyHarmonyConfig (config: IHarmonyHapConfig = {}, { projectPath, hapName = 'entry', jsFAName = 'default' }) {
-    const { pages = [] } = config
+  modifyHarmonyConfig (config: AppConfig = {}) {
+    const { pages = [], entryPagePath = pages[0] } = config
+    const { projectPath, hapName = 'entry', name = 'default', designWidth = 750 } = this.taroConfig
     const hapConfigPath = path.join(projectPath, hapName, `src/main/${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)
     try {
       const config = fs.readJsonSync(hapConfigPath)
-      config.module.js ||= []
-      const jsFAs = config.module.js
-      const target = jsFAs.find(item => item.name === jsFAName)
-      const mode = {
-        syntax: this.useETS ? 'ets': 'hml',
-        type: 'pageAbility',
+      const window = {
+        designWidth: (typeof designWidth === 'function' ? designWidth() : designWidth) || 750,
+        autoDesignWidth: false
       }
-      if (target) {
-        if (JSON.stringify(target.pages) === JSON.stringify(pages)) return
-        target.mode = mode
-        target.pages = pages
-        target.window = {
-          designWidth: 750,
-          autoDesignWidth: false
+      config.module ||= {}
+      if (this.useJSON5 !== false) {
+        let pageMetaId = '$profile:main_pages'
+        // Stage 模型
+        const target = config.module
+        target.name = name
+        if (target) {
+          if (typeof target.pages === 'string') {
+            pageMetaId = target.pages
+          } else {
+            target.pages = pageMetaId
+          }
         }
-      } else {
-        jsFAs.push({
-          name: jsFAName,
-          mode,
-          pages,
-          window: {
-            designWidth: 750,
-            autoDesignWidth: false
-          },
+        this.modifyHarmonyResources(pageMetaId, {
+          src: pages,
+          window,
         })
+        /**
+         * TOD0: 生成 app 文件，并将其配置为 mainElement 入口
+         * windowStage.loadContent(entryPagePath)
+         */
+        typeof entryPagePath
+      } else {
+        // FA 模型
+        config.module.js ||= []
+        const jsFAs = config.module.js
+        const target = jsFAs.find(item => item.name === name)
+        const mode = {
+          syntax: this.useETS ? 'ets': 'hml',
+          type: 'pageAbility',
+        }
+        if (target) {
+          if (JSON.stringify(target.pages) === JSON.stringify(pages)) return
+          target.mode = mode
+          target.pages = pages
+          target.window = window
+        } else {
+          jsFAs.push({
+            name,
+            mode,
+            pages,
+            window,
+          })
+        }
       }
       fs.writeJsonSync(hapConfigPath, config, { spaces: 2 })
     } catch (error) {

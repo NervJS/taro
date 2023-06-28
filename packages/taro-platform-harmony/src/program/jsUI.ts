@@ -256,24 +256,24 @@ export default class Harmony extends TaroPlatformBase {
     })
   }
 
-  modifyHarmonyConfig (route, { projectPath, hapName, jsFAName }) {
+  modifyHarmonyConfig (pages, { projectPath, hapName, name }) {
     const hapConfigPath = path.join(projectPath, hapName, 'src/main/config.json')
     fs.readJson(hapConfigPath)
       .then(config => {
         config.module.js ||= []
         const jsFAs = config.module.js
-        const target = jsFAs.find(item => item.name === jsFAName)
+        const target = jsFAs.find(item => item.name === name)
         if (target) {
-          if (JSON.stringify(target.pages) === JSON.stringify(route)) return
-          target.pages = route
+          if (JSON.stringify(target.pages) === JSON.stringify(pages)) return
+          target.pages = pages
           target.window = {
             designWidth: 750,
             autoDesignWidth: false
           }
         } else {
           jsFAs.push({
-            pages: route,
-            name: jsFAName,
+            pages,
+            name,
             window: {
               designWidth: 750,
               autoDesignWidth: false
