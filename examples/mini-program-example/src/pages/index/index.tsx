@@ -1,6 +1,8 @@
-import {View, Text,Image,TestBlock, GridView,ListView} from '@tarojs/components'
+import {View, Text, Image, TestBlock, GridView, ListView, Button, HTPageContainer} from '@tarojs/components-mpharmony'
+
 import {useLoad} from '@tarojs/taro'
 import './index.scss'
+import {useState} from "react";
 
 const grid_data = [
   {
@@ -30,6 +32,7 @@ const grid_data = [
 ]
 
 export default function Index() {
+  const [container_show, setContainerShow] = useState(false);
 
   useLoad(() => {
     console.log('Page loaded.')
@@ -40,9 +43,10 @@ export default function Index() {
       <Text>Hello world!</Text>
       <TestBlock><Text>Hello world!</Text></TestBlock>
 
-      <GridView columnNum={3} data={grid_data} columnItem={(childItem, i,index) => (
+      <GridView columnNum={3} data={grid_data} columnItem={(childItem, i, index) => (
 
-        <View key={`grid-group-item-${index}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i+" index "+index) )}>
+        <View key={`grid-group-item-${index}`}
+              onClick={() => (console.log("childItem " + childItem.value + " i " + i + " index " + index))}>
           {childItem.image && (
             <Image
               src={childItem.image}
@@ -58,7 +62,7 @@ export default function Index() {
 
       <ListView orientation={'vertical'} data={grid_data} columnItem={(childItem, i) => (
 
-        <View key={`list-group-item-${i}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i) )}>
+        <View key={`list-group-item-${i}`} onClick={() => (console.log("childItem " + childItem.value + " i " + i))}>
           {childItem.image && (
             <Image
               src={childItem.image}
@@ -71,6 +75,61 @@ export default function Index() {
         </View>
 
       )}/>
+
+      <HTPageContainer show={container_show} title="这是个标题">
+        <Text>Hello world!</Text>
+        <Text>Hello world!</Text>
+        <Text>Hello world!</Text>
+        <Text>Hello world!</Text>
+        <Button onClick={() => (
+          setContainerShow(false)
+        )}>关闭</Button>
+      </HTPageContainer>
+
+      <View style={{display: "flow"}}>
+        <Text>弹出位置</Text>
+        <Button onClick={() => (
+          setContainerShow(true)
+        )}>右侧弹出</Button>
+
+        <Button onClick={() => (
+          setContainerShow(false)
+        )}>顶部弹出</Button>
+
+
+        <Button onClick={() => (
+          console.log("")
+        )}>底部弹出</Button>
+
+        <Button onClick={() => (
+          console.log("")
+        )}>中央弹出</Button>
+
+        <Text>弹出圆角</Text>
+
+        <Button onClick={() => (
+          console.log("")
+        )}>设置圆角</Button>
+
+        <Text>遮罩层</Text>
+
+        <Button onClick={() => (
+          console.log("")
+        )}>设置有遮罩</Button>
+
+        <Button onClick={() => (
+          console.log("")
+        )}>黑色半透明遮罩</Button>
+
+        <Button onClick={() => (
+          console.log("")
+        )}>白色半透明遮罩</Button>
+
+        <Button onClick={() => (
+          console.log("")
+        )}>模糊遮罩</Button>
+      </View>
+
 
     </View>
   )
