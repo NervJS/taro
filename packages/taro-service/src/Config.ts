@@ -37,10 +37,12 @@ export default class Config {
   constructor (opts: IConfigOptions) {
     this.appPath = opts.appPath
     this.disableGlobalConfig = !!opts?.disableGlobalConfig
-    this.init()
   }
 
-  init () {
+  async init (configEnv: {
+    mode: string
+    command: string
+  }) {
     this.initialConfig = {}
     this.initialGlobalConfig = {}
     this.isInitSuccess = false
@@ -55,7 +57,8 @@ export default class Config {
         ]
       })
       try {
-        this.initialConfig = getModuleDefaultExport(require(this.configPath))(merge)
+        const userExport = getModuleDefaultExport(require(this.configPath))
+        this.initialConfig = typeof userExport === 'function' ? await userExport(merge, configEnv) : userExport
         this.isInitSuccess = true
       } catch (err) {
         console.log(err)
