@@ -8,7 +8,8 @@ interface Props {
 }
 
 export const RootPortal: FC<Props> = ({ enable = true, style, children }: Props) => {
-  return <div style={style ? { position: enable ? 'fixed' : 'static', ...style } : { position: enable ? 'fixed' : 'static' }}>
-    {children}
+  return <div
+    style={enable ? { position: 'fixed', width: '100%', height: '100%' } : { position: 'static' }}>
+    {style ? <div style={style}>{children}</div> : children}
   </div>
 }

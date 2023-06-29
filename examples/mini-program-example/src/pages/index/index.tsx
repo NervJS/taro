@@ -1,5 +1,5 @@
-import {View, Text,Image,GridView,ListView, RootPortal} from '@tarojs/components'
-import {useLoad} from '@tarojs/taro'
+import { View, Text, Image, GridView, ListView, RootPortal } from '@tarojs/components'
+import { useLoad } from '@tarojs/taro'
 import './index.scss'
 
 const grid_data = [
@@ -39,13 +39,24 @@ export default function Index() {
     <View className='index'>
       <Text>Hello world!</Text>
 
-      <RootPortal>
+      <RootPortal enable={false} style={{
+        position: 'absolute',
+        background: '#212121',
+        width: '80%',
+        left: '10%',
+        top: '50%',
+        borderRadius: '20px',
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        <Text>Hello RootPortal!</Text>
         <Text>Hello RootPortal!</Text>
       </RootPortal>
 
-      <GridView columnNum={3} data={grid_data} columnItem={(childItem, i,index) => (
+      <GridView columnNum={3} data={grid_data} columnItem={(childItem, i, index) => (
 
-        <View key={`grid-group-item-${index}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i+" index "+index) )}>
+        <View key={`grid-group-item-${index}`}
+              onClick={() => (console.log('childItem ' + childItem.value + ' i ' + i + ' index ' + index))}>
           {childItem.image && (
             <Image
               src={childItem.image}
@@ -57,11 +68,11 @@ export default function Index() {
           </Text>
         </View>
 
-      )}/>
+      )} />
 
       <ListView orientation={'vertical'} data={grid_data} columnItem={(childItem, i) => (
 
-        <View key={`list-group-item-${i}`} onClick={() => ( console.log("childItem "+childItem.value+" i "+i) )}>
+        <View key={`list-group-item-${i}`} onClick={() => (console.log('childItem ' + childItem.value + ' i ' + i))}>
           {childItem.image && (
             <Image
               src={childItem.image}
@@ -73,7 +84,7 @@ export default function Index() {
           </Text>
         </View>
 
-      )}/>
+      )} />
 
     </View>
   )
