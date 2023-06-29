@@ -40,6 +40,15 @@ describe('构建配置测试', () => {
 
   describe('小程序', () => {
     it(`项目 output.clean = clean: { keep: ['project.config.json'] } ==> 清空dist文件夹但保留指定文件`, async () => {
+      const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
+      const logSpy = jest.spyOn(console, 'log')
+      const errorSpy = jest.spyOn(console, 'error')
+      logSpy.mockImplementation(() => {})
+      errorSpy.mockImplementation(() => {})
+      exitSpy.mockImplementation(() => {
+        throw new Error()
+      })
+
       try {
         await runBuild(APP_PATH, {
           options: {
@@ -51,6 +60,10 @@ describe('构建配置测试', () => {
         // no handler
       }
       expect(emptyDirectoryMocked).toBeCalledWith(OUTPUT_PATH, { excludes: ['project.config.json'] })
+
+      exitSpy.mockRestore()
+      logSpy.mockRestore()
+      errorSpy.mockRestore()
     })
   })
 
@@ -61,10 +74,10 @@ describe('构建配置测试', () => {
       const errorSpy = jest.spyOn(console, 'error')
       logSpy.mockImplementation(() => {})
       errorSpy.mockImplementation(() => {})
-
       exitSpy.mockImplementation(() => {
         throw new Error()
       })
+
       try {
         await runBuild(APP_PATH, {
           options: {
@@ -76,6 +89,10 @@ describe('构建配置测试', () => {
         // no handler
       }
       expect(emptyDirectoryMocked).toBeCalledTimes(0)
+
+      exitSpy.mockRestore()
+      logSpy.mockRestore()
+      errorSpy.mockRestore()
     })
   })
 })
