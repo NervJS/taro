@@ -89,6 +89,7 @@ export default function Index() {
                      bindafterleave={()=>{ console.log("==bindafterleave==")}}
                      duration={2000}
                      zIndex={20}
+                     customStyle={'customStyle'}
       >
         <Text>Hello world!</Text>
         <Text>Hello world!</Text>

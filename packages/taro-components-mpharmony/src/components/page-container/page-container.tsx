@@ -64,6 +64,7 @@ export default class PageContainer extends PureComponent<Props> {
         'container_has_corner': this.props.round,
         [position_css]: false,
       },
+      this.props.customStyle
     )
 
     let overlay_color = 'overlay_none'
