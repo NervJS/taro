@@ -80,7 +80,16 @@ export default function Index() {
 
       )}/>
 
-      <PageContainer show={container_show} round={round} position={position} overlay={overlay}   overlayStyle={overlayStyle} bindclickoverlay={()=>( setContainerShow(false))}>
+      <PageContainer show={container_show} round={round} position={position} overlay={overlay}   overlayStyle={overlayStyle} bindclickoverlay={()=>( setContainerShow(false))}
+                     bindbeforeenter={()=>{ console.log("==bindbeforeenter==")}}
+                     bindenter={()=>{ console.log("==bindenter==")}}
+                     bindafterenter={()=>{ console.log("==bindafterenter==")}}
+                     bindbeforeleave={()=>{ console.log("==bindbeforeleave==")}}
+                     bindleave={()=>{ console.log("==bindleave==")}}
+                     bindafterleave={()=>{ console.log("==bindafterleave==")}}
+                     duration={2000}
+                     zIndex={20}
+      >
         <Text>Hello world!</Text>
         <Text>Hello world!</Text>
         <Text>Hello world!</Text>

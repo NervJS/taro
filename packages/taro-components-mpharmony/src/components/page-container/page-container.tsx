@@ -7,8 +7,8 @@ interface Props {
   className?: string
   children: ReactNode
   show: boolean
-  duration: number
-  zIndex: number
+  duration?: number
+  zIndex?: number
   overlay: boolean
   position: 'top' | 'bottom' | 'right' | 'center'
   round?: boolean
@@ -34,7 +34,6 @@ export default class PageContainer extends PureComponent<Props> {
       'at-float-layout',
       {
         'at-float-layout--active': this.props.show,
-
       },
       this.props.className
     )
@@ -86,11 +85,20 @@ export default class PageContainer extends PureComponent<Props> {
       },
     )
 
+    let zIndex = 810
+    if (this.props.zIndex !== undefined) {
+      zIndex = this.props.zIndex
+    }
+
+    let transitionDuration = '500ms'
+    if (this.props.duration !== undefined) {
+      transitionDuration = this.props.duration + 'ms'
+    }
 
     return (
-      <div className={rootClass}>
+      <div className={rootClass} style={{ zIndex: zIndex, transitionDuration: transitionDuration }}>
         <div onClick={this.props.bindclickoverlay} className={overlay}/>
-        <div className={container}>
+        <div className={container} style={{ transitionDuration: transitionDuration }}>
           <div className='layout-body'>
             {this.props.children}
           </div>
