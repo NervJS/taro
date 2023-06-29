@@ -106,7 +106,9 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
       root: path.join(appPath, taroConfig.sourceRoot || 'src'),
       base: parsePublicPath(taroConfig.publicPath),
       mode,
-      outDir: taroConfig.outputRoot || 'dist',
+      build: {
+        outDir: taroConfig.outputRoot || 'dist',
+      },
       define: getDefineOption(),
       resolve: {
         mainFields,

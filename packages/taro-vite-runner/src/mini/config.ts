@@ -230,8 +230,8 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     name: 'taro:vite-mini-config',
     config: async () => ({
       mode: getMode(taroConfig),
-      outDir: taroConfig.outputRoot || 'dist',
       build: {
+        outDir: taroConfig.outputRoot || 'dist',
         target: 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
