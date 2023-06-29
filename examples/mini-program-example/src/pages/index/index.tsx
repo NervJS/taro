@@ -1,4 +1,4 @@
-import {View, Text,Image,TestBlock, GridView,ListView} from '@tarojs/components'
+import {View, Text,Image,GridView,ListView} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
 import './index.scss'
 
@@ -38,7 +38,6 @@ export default function Index() {
   return (
     <View className='index'>
       <Text>Hello world!</Text>
-      <TestBlock><Text>Hello world!</Text></TestBlock>
 
       <GridView columnNum={3} data={grid_data} columnItem={(childItem, i,index) => (
 
