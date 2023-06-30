@@ -283,7 +283,7 @@ export function cssImports (content: string): string[] {
 
 /*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = { excludes: [] }) {
+export function emptyDirectory (dirPath: string, opts: { excludes: Array<string | RegExp> | string | RegExp } = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -292,7 +292,13 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
         let i = 0 // retry counter
         do {
           try {
-            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+            const excludes = Array.isArray(opts.excludes) ? opts.excludes : [opts.excludes]
+            const canRemove =
+              !excludes.length ||
+              !excludes.some((item) =>
+                typeof item === 'string' ? curPath.indexOf(item) >= 0 : item.test(curPath)
+              )
+            if (canRemove) {
               emptyDirectory(curPath)
               fs.rmdirSync(curPath)
             }
