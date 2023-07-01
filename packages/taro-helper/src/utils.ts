@@ -210,7 +210,7 @@ export function isEmptyObject (obj: any): boolean {
 }
 
 export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
-  if (p.startsWith('pages/')) {
+  if (p.startsWith('pages/') || p === 'app.config') {
     return p
   }
   const realPath = p
@@ -248,7 +248,7 @@ export function resolveScriptPath (p: string): string {
 }
 
 export function generateEnvList (env: Record<string, any>): Record<string, any> {
-  const res = { }
+  const res = {}
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
       try {
@@ -262,7 +262,7 @@ export function generateEnvList (env: Record<string, any>): Record<string, any> 
 }
 
 export function generateConstantsList (constants: Record<string, any>): Record<string, any> {
-  const res = { }
+  const res = {}
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
       if (isPlainObject(constants[key])) {
@@ -340,7 +340,7 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
   return fs.readJSONSync(pkgPath).version
 }
 
-export const recursiveMerge = <T = any>(src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
+export const recursiveMerge = <T = any> (src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
   return mergeWith(src, ...args, (value, srcValue) => {
     const typeValue = typeof value
     const typeSrcValue = typeof srcValue
@@ -432,7 +432,7 @@ export function unzip (zipPath) {
             fileNameArr.shift()
             const fileName = fileNameArr.join('/')
             const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
-            writeStream.on('close', () => {})
+            writeStream.on('close', () => { })
             readStream
               .pipe(filter)
               .pipe(writeStream)
