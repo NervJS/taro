@@ -60,6 +60,10 @@ interface IRule {
 }
 
 export const makeConfig = async (buildConfig: IBuildConfig) => {
+  // 过滤原因：webpack4 不支持 output.clean 选项， 且 packages/taro-service/src/platform-plugin-base/web.ts 中实现了 output.clean
+  if (buildConfig.output && 'clean' in buildConfig.output) {
+    delete buildConfig.output.clean
+  }
   const sassLoaderOption = await getSassLoaderOption(buildConfig)
   return {
     ...buildConfig,
