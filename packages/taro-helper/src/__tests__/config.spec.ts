@@ -15,14 +15,33 @@ describe('readConfig', () => {
     }
   }
 
-  test('read config without tips', async () => {
+  const pageConfig = {
+    navigationBarTitleText: 'index'
+  }
+
+  test('read app config without tips', async () => {
     const result = readConfig(path.join(__dirname, './__mocks__/app.config.ts'))
     expect(result).toEqual(config)
   })
 
-  test('read config with tips', async () => {
+  test('read app config with tips', async () => {
     const result = readConfig(path.join(__dirname, './__mocks__/app.define.config.ts'))
     expect(result).toEqual(config)
+  })
+
+  test('read page config without tips', async () => {
+    const result = readConfig(path.join(__dirname, './__mocks__/page.config.ts'))
+    expect(result).toEqual(pageConfig)
+  })
+
+  test('read page config with tips', async () => {
+    const result = readConfig(path.join(__dirname, './__mocks__/page.define.config.ts'))
+    expect(result).toEqual(pageConfig)
+  })
+
+  test('read page config with module.exports', async () => {
+    const result = readConfig(path.join(__dirname, './__mocks__/page.es5.config.ts'))
+    expect(result).toEqual(pageConfig)
   })
 
   test('read config with import', async () => {
