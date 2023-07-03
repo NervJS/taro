@@ -1,32 +1,17 @@
-import './style/index.css'
+import '../../style/components/grid.scss'
 
-import React, { PureComponent } from 'react'
+import React, { PureComponent, ReactNode } from 'react'
+import GridLayout from 'react-grid-layout'
 
 interface Props {
-  columnItem: (childItem: any, i: number, index: number) => React.ReactNode
+  children: ReactNode
+  width: number
   className?: string
-  data: []
-  columnNum: number
-}
-
-function _chunk (data: [], columnNum: number): any[][] {
-
-  const result: any[][] = []
-  const length = data.length
-  let i = 0
-
-  while (i < length) {
-    let chunk = []
-    if (i + columnNum < length) {
-      chunk = data.slice(i, i + columnNum)
-    } else {
-      chunk = data.slice(i, length)
-    }
-    result.push(chunk)
-    i += columnNum
-  }
-
-  return result
+  type: 'aligned' | 'masonry'
+  crossAxisCount: number
+  maxCrossAxisExtent: number
+  mainAxisGap?: number
+  crossAxisGap?: number
 }
 
 export class GridView extends PureComponent<Props> {
@@ -35,18 +20,51 @@ export class GridView extends PureComponent<Props> {
   refs: { [p: string]: React.ReactInstance }
 
   render (): React.ReactNode {
-    const gridGroup = _chunk(this.props.data, this.props.columnNum)
+    let mainAxisGap = 0
+    if (this.props.mainAxisGap !== undefined) {
+      mainAxisGap = this.props.mainAxisGap
+    }
+
+    let crossAxisGap = 0
+    if (this.props.crossAxisGap !== undefined) {
+      crossAxisGap = this.props.crossAxisGap
+    }
+
+    const layout: { i: string | number | null, x: number, y: number, w: number, h: number, static: boolean }[] = []
+    let column = 3
+    if (this.props.crossAxisCount !== undefined) {
+      column = this.props.crossAxisCount
+    }
+
+    let count = 0
+    React.Children.map(this.props.children, (child) => {
+      // 在这里对每个子元素进行操作
+      // 例如，可以给每个子元素添加一些属性或包装组件等
+      if (React.isValidElement(child)) {
+        const i = child.key
+        const y = Math.floor(count / column)
+        const x = count % column
+        const w = child.props.w
+        const h = child.props.h
+
+        layout.push({ i: i, x: x, y: y, w, h, static: true })
+        count++
+        // console.log('count ' + count + ' column ' + column + ' x: ' + x + ' y: ' + y + ' w: ' +  w + ' h: ' +  h + ' child ' + typeof child + ' i: ' + child.key)
+      }
+    })
+    // console.log(' layout ' + layout)
 
     return (
-      <div className={this.props.className}>
-        {gridGroup.map((item, i) => (
-          <div style={{ display: 'flex' }} key={`grid-group-${i}`}>
-            {item.map((childItem, index) => (
-              this.props.columnItem(childItem, i, index)
-            ))}
-          </div>
-        ))}
-      </div>
+      <GridLayout
+        className={'layout ' + this.props.className}
+        cols={this.props.crossAxisCount}
+        layout={layout}
+        isDroppable={false}
+        margin={[mainAxisGap, crossAxisGap]}
+        width={this.props.width}
+      >
+        {this.props.children}
+      </GridLayout>
     )
   }
 }
