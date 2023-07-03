@@ -1,4 +1,4 @@
-import { View, Text, Image, GridView, ListView, RootPortal } from '@tarojs/components'
+import { View, Text, Image, GridView, ListView, RootPortal, StickyHeader, StickySection } from '@tarojs/components'
 import { useLoad } from '@tarojs/taro'
 import './index.scss'
 
@@ -52,6 +52,11 @@ export default function Index() {
         <Text>Hello RootPortal!</Text>
         <Text>Hello RootPortal!</Text>
       </RootPortal>
+      <StickyHeader>
+        <StickySection style={{background: '#aaaaaa'}}>
+          吸顶布局容器测试
+        </StickySection>
+      </StickyHeader>
 
       <GridView columnNum={3} data={grid_data} columnItem={(childItem, i, index) => (
 
