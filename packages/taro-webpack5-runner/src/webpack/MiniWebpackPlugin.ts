@@ -118,13 +118,15 @@ export class MiniWebpackPlugin {
 
   getMiniSplitChunksPlugin () {
     const { fileType } = this.combination
-    const { optimizeMainPackage } = this.combination
+    const { optimizeMainPackage, config } = this.combination
     let miniSplitChunksPlugin
 
     if (optimizeMainPackage?.enable) {
       miniSplitChunksPlugin = WebpackPlugin.getPlugin(MiniSplitChunksPlugin, [{
         exclude: optimizeMainPackage.exclude,
-        fileType
+        fileType,
+        alias: config.alias || {},
+        defineConstants: config.defineConstants || {},
       }])
     }
 
@@ -158,6 +160,7 @@ export class MiniWebpackPlugin {
       baseLevel: config.baseLevel || 16,
       minifyXML: config.minifyXML || {},
       alias: config.alias || {},
+      defineConstants: config.defineConstants || {},
       constantsReplaceList: definePluginOptions,
       pxTransformConfig,
       /** building mode */

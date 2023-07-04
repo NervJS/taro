@@ -16,13 +16,10 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   const { enableSourceMap, entry = {}, runtimePath } = combination.config
   const prebundle = new Prebundle({
     appPath,
-    sourceRoot: combination.sourceRoot,
-    chain: combination.chain,
     enableSourceMap,
     entry,
-    isWatch: combination.config.isWatch,
     runtimePath,
-    isBuildPlugin: combination.isBuildPlugin
+    combination,
   })
   try {
     await prebundle.run(combination.getPrebundleOptions())

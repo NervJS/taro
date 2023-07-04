@@ -60,6 +60,7 @@ interface ITaroMiniPluginOptions {
   onParseCreateElement?: Func
   blended: boolean
   alias: Record<string, string>
+  defineConstants: Record<string, string>
   loaderMeta?: Record<string, string>
   hot: boolean
   logger?: {
@@ -633,7 +634,10 @@ export default class TaroMiniPlugin {
   compileFile (file: IComponent) {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
-    const fileConfig = readConfig(fileConfigPath)
+    const fileConfig = readConfig(fileConfigPath, {
+      define: this.options.defineConstants,
+      alias: this.options.alias,
+    })
     const usingComponents = fileConfig.usingComponents
 
     // 递归收集依赖的第三方组件

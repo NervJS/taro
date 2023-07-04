@@ -601,13 +601,22 @@ export function readPageConfig (configPath: string) {
   return result
 }
 
-export function readConfig (configPath: string) {
+interface IOptions {
+  define?: Record<string, string>
+  alias?: Record<string, string>
+}
+
+export function readConfig (configPath: string, options: IOptions = {}) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
     if (REG_JSON.test(configPath)) {
       result = fs.readJSONSync(configPath)
     } else {
       result = requireWithEsbuild(configPath, {
+        customConfig: {
+          define: options.define || {},
+          alias: options.alias || {},
+        },
         customSwcConfig: {
           jsc: {
             parser: {

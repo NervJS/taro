@@ -31,7 +31,8 @@ interface ITaroH5PluginOptions {
   // prebundle?: boolean
   isBuildNativeComp?: boolean
   loaderMeta?: Record<string, string>
-
+  alias: Record<string, string>
+  defineConstants: Record<string, string>
   onCompilerMake?: Func
   onParseCreateElement?: Func
 }
@@ -56,7 +57,9 @@ export default class TaroH5Plugin {
         minRootSize: 20,
         unitPrecision: 5,
         targetUnit: 'rem'
-      }
+      },
+      alias: {},
+      defineConstants: {},
     })
   }
 
@@ -123,6 +126,8 @@ export default class TaroH5Plugin {
               loaderMeta: this.options.loaderMeta,
               pages: this.appHelper.pagesConfigList,
               pxTransformConfig: this.options.pxTransformConfig,
+              alias: this.options.alias,
+              defineConstants: this.options.defineConstants,
               /** building mode */
               isBuildNativeComp
             }

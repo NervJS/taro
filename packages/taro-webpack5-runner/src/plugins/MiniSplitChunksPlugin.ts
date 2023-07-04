@@ -22,6 +22,8 @@ const FileExtsMap = {
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
   fileType: IFileType
+  alias: Record<string, string>
+  defineConstants: Record<string, string>
 }
 
 // 排除函数
@@ -303,6 +305,8 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   subRootRegExps: RegExp[]
   fileType: IFileType
   assets: { [pathname: string]: sources.Source }
+  alias: Record<string, string>
+  defineConstants: Record<string, string>
 
   constructor (options: MiniSplitChunksPluginOption) {
     super()
@@ -318,6 +322,8 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       templ: '.wxml',
       xs: '.wxs'
     }
+    this.alias = options.alias || {}
+    this.defineConstants = options.defineConstants || {}
     FileExtsMap.STYLE = this.fileType.style
   }
 
@@ -604,7 +610,10 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   getSubpackageConfig (compiler: Compiler): SubPackage[] {
     const appEntry = this.getAppEntry(compiler)
     const appConfigPath = this.getConfigFilePath(appEntry)
-    const appConfig: AppConfig = readConfig(appConfigPath)
+    const appConfig: AppConfig = readConfig(appConfigPath, {
+      alias: this.alias,
+      define: this.defineConstants,
+    })
 
     return appConfig.subPackages || appConfig.subpackages || []
   }

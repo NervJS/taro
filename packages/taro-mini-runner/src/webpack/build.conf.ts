@@ -171,6 +171,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     blended,
     isBuildNativeComp,
     alias,
+    defineConstants,
     hot
   }
   plugin.miniPlugin = !isBuildNativeComp ? getMiniPlugin(miniPluginOptions) : getBuildNativePlugin(miniPluginOptions)

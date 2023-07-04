@@ -72,6 +72,7 @@ interface ITaroMiniPluginOptions {
   onParseCreateElement?: Func
   blended: boolean
   alias: Record<string, string>
+  defineConstants: Record<string, string>
   deviceRatio: any
   designWidth: number
   loaderMeta?: Record<string, string>
@@ -667,7 +668,10 @@ export default class TaroMiniPlugin {
   compileFile (file: IComponent) {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
-    const fileConfig = readConfig(fileConfigPath)
+    const fileConfig = readConfig(fileConfigPath, {
+      alias: this.options.alias,
+      define: this.options.defineConstants
+    })
     // 修复百度小程序内容服务组件使用新的引入方式"usingSwanComponents"导致的无法编译到页面配置json的问题
     // 获取 fileConfig 里面的匹配 "/^using[A-Za-z]*Components$/"的字段，之后合并到 usingComponents 中
     const usingArray = Object.keys(fileConfig).filter(item => /^using[A-Za-z]*Components$/.test(item)).map(item => fileConfig[item])

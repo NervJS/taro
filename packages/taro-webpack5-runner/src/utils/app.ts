@@ -14,6 +14,8 @@ interface IOptions {
   sourceDir: string
   entryFileName: string
   frameworkExts: string[]
+  alias: Record<string, string>
+  defineConstants: Record<string, string>
 }
 
 export default class AppHelper {
@@ -30,7 +32,9 @@ export default class AppHelper {
     this.options = defaults(options || {}, {
       sourceDir: '',
       entryFileName: 'app',
-      frameworkExts: SCRIPT_EXT
+      frameworkExts: SCRIPT_EXT,
+      alias: {},
+      defineConstants: {}
     })
     this.entry = entry
   }
@@ -51,7 +55,10 @@ export default class AppHelper {
   get appConfig (): AppConfig {
     if (!this.#appConfig) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
-      const appConfig = readConfig(appConfigPath)
+      const appConfig = readConfig(appConfigPath, {
+        alias: this.options.alias,
+        define: this.options.defineConstants,
+      })
       if (isEmptyObject(appConfig)) {
         throw new Error('缺少 app 全局配置，请检查！')
       }

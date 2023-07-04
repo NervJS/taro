@@ -13,20 +13,15 @@ export * from './prebundle'
 export interface IPrebundleParam {
   env?: string
   platformType?: PLATFORM_TYPE
-
   appPath?: string
-  sourceRoot?: string
-  chain: Chain
   entry?: EntryObject
   chunkDirectory?: string
   enableSourceMap?: boolean
   entryFileName?: string
-
-  isWatch?: boolean
   devServer?: webpackDevServer.Configuration
   publicPath?: string
   runtimePath?: string | string[]
-  isBuildPlugin?: boolean
+  combination: any
 }
 
 export default class TaroPrebundle {
@@ -36,10 +31,10 @@ export default class TaroPrebundle {
   public isBuildPlugin: boolean
 
   constructor (protected params: IPrebundleParam) {
-    const { env = process.env.TARO_ENV || 'h5', isBuildPlugin = false } = params
+    const { env = process.env.TARO_ENV || 'h5', combination } = params
 
     const platform = params.platformType || process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB
-    this.isBuildPlugin = isBuildPlugin
+    this.isBuildPlugin = combination.isBuildPlugin || false
     this.platformType = getPlatformType(env, platform)
     this.env = env || platform
   }
@@ -47,19 +42,17 @@ export default class TaroPrebundle {
   get config (): IWebPrebundleConfig | IMiniPrebundleConfig {
     const platformType = this.platformType
     const env = this.env
+    const chain = this.params.combination.chain as Chain
     const {
       appPath = process.cwd(),
-      chain,
       chunkDirectory = 'chunk',
       devServer = chain.devServer?.entries(),
       enableSourceMap = false,
       entryFileName = 'app',
       entry = this.entry,
-      isWatch = false,
       publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
-      sourceRoot = 'src',
-      isBuildPlugin
+      combination,
     } = this.params
     let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
     chunkFilename = chunkFilename.replace(/\[([a-z]*hash)[^[\]\s]*\]/ig, '_$1_')
@@ -74,18 +67,20 @@ export default class TaroPrebundle {
       entryFileName,
       entry,
       env,
-      isWatch,
+      isWatch: combination.config.isWatch || false,
       platformType,
       publicPath,
       runtimePath,
-      sourceRoot,
-      isBuildPlugin
+      sourceRoot: combination.sourceRoot || 'src',
+      isBuildPlugin: this.isBuildPlugin,
+      alias: combination.config.alias,
+      defineConstants: combination.config.defineConstants,
     }
   }
 
   get entry () {
     // NOTE: 如果传入 entry 为字符串， webpack-chain 会识别为 EntryObject，导致报错
-    return Object.entries(this.params.chain.entryPoints.entries()).reduce((entry, [key, value]) => {
+    return Object.entries(this.config.chain.entryPoints.entries()).reduce((entry, [key, value]) => {
       entry[key] = value.values()
       return entry
     }, {} as EntryObject)

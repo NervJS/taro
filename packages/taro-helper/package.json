@@ -50,7 +50,7 @@
     "chokidar": "^3.3.1",
     "cross-spawn": "^7.0.3",
     "debug": "4.3.4",
-    "esbuild": "^0.14.27",
+    "esbuild": "0.18.11",
     "find-yarn-workspace-root": "2.0.0",
     "fs-extra": "^8.0.1",
     "lodash": "^4.17.21",

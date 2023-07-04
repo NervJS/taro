@@ -8,8 +8,9 @@ import { REG_POST } from './constants'
 
 import type * as webpack from 'webpack'
 
-function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
+function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, options: Record<string, any> = {}) {
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
+  const syncFileName: string | false = options.filename || false
   const importDependent = syncFileName ? 'require' : 'import'
   return `Object.assign({
   path: '${path}',
@@ -17,7 +18,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
     const page = ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
     return [page, context, params]
   }
-}, ${JSON.stringify(readConfig(pages.get(path.split(sep).join('/'))!))})`
+}, ${JSON.stringify(readConfig(pages.get(path.split(sep).join('/'))!, { alias: options.alias, define: options.defineConstants }))})`
 }
 
 export default function (this: webpack.LoaderContext<any>) {
@@ -50,7 +51,7 @@ import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
 component.config = {}
 component.pxTransformConfig = {}
-Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath))})
+Object.assign(component.config, ${JSON.stringify(readConfig(this.resourcePath, { alias: options.alias, define: options.defineConstants }))})
 initPxTransform.call(component, {
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
@@ -81,7 +82,7 @@ var tabbarSelectedIconPath = []
   }
 
   const routesConfig = isMultiRouterMode ? `config.routes = []
-config.route = ${genResource(pageName, pages, this, options.filename)}
+config.route = ${genResource(pageName, pages, this, options)}
 config.pageName = "${pageName}"` : `config.routes = [
   ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
 ]`

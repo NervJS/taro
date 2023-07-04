@@ -72,7 +72,7 @@
     "@types/node": "^14.14.31",
     "change-case": "^4.1.2",
     "csstype": "^3.1.1",
-    "esbuild": "^0.14.27",
+    "esbuild": "0.18.11",
     "jquery": "^3.4.1",
     "lodash": "^4.17.21",
     "miniapp-types": "1.6.0",

@@ -55,7 +55,7 @@
     "css-minimizer-webpack-plugin": "3.4.1",
     "csso": "^5.0.2",
     "detect-port": "^1.3.0",
-    "esbuild": "^0.14.27",
+    "esbuild": "0.18.11",
     "esbuild-loader": "2.18.0",
     "file-loader": "6.0.0",
     "html-minifier": "^4.0.0",

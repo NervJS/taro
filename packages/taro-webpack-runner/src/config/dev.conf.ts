@@ -96,6 +96,8 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     routerConfig: router,
     runtimePath: config.runtimePath,
     pxTransformConfig: pxtransformOption?.config || {},
+    alias: config.alias,
+    defineConstants: config.defineConstants,
     /** building mode */
     isBuildNativeComp: config.isBuildNativeComp,
     /** hooks & methods */

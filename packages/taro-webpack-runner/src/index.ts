@@ -238,7 +238,9 @@ export default async (appPath: string, config: BuildConfig): Promise<void> => {
   const app = new AppHelper(newConfig.entry, {
     sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
     frameworkExts: newConfig.frameworkExts,
-    entryFileName: newConfig.entryFileName
+    entryFileName: newConfig.entryFileName,
+    alias: config.alias,
+    defineConstants: config.defineConstants,
   })
   if (newConfig.isWatch) {
     try {

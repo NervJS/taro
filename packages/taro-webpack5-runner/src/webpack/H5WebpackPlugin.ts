@@ -140,6 +140,8 @@ export class H5WebpackPlugin {
       routerConfig: router,
       runtimePath: config.runtimePath,
       pxTransformConfig,
+      alias: config.alias || {},
+      defineConstants: config.defineConstants || {},
       /** building mode */
       prebundle: prebundleOptions.enable,
       isBuildNativeComp: this.combination.isBuildNativeComp,

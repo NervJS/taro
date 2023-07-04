@@ -32,6 +32,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       publicPath = '/',
       chunkDirectory = 'chunk',
       alias = {},
+      defineConstants = {},
       router,
       frameworkExts
     } = config
@@ -41,7 +42,9 @@ export class H5Combination extends Combination<H5BuildConfig> {
     this.appHelper = new AppHelper(entry as EntryNormalized, {
       sourceDir: this.sourceDir,
       frameworkExts,
-      entryFileName
+      entryFileName,
+      alias,
+      defineConstants,
     })
 
     if (this.isBuildNativeComp) {
