@@ -1,4 +1,4 @@
-import * as t from 'babel-types'
+import * as t from '@babel/types'
 
 import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { parseScript } from './script'

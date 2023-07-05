@@ -1,5 +1,5 @@
-import traverse, { NodePath, Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { NodePath, Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
 
 import { usedComponents } from './global'
 import { buildBlockElement, buildImportStatement, buildRender, codeFrameError, parseCode } from './utils'
@@ -26,10 +26,11 @@ export function replaceIdentifier (callee: NodePath<t.Node>) {
   }
 }
 
+// babel 6升级babel 7适配
 export function replaceMemberExpression (callee: NodePath<t.Node>) {
   if (callee.isMemberExpression()) {
-    const object = callee.get('object')
-    if (object.isIdentifier({ name: 'wx' })) {
+    const object = callee.get('object') as NodePath<t.Identifier>
+    if (t.isIdentifier(object.node, { name: 'wx' })) {
       object.replaceWith(t.identifier('Taro'))
     }
   }
@@ -62,8 +63,8 @@ export function parseScript (
     },
     CallExpression (path) {
       const callee = path.get('callee')
-      replaceIdentifier(callee)
-      replaceMemberExpression(callee)
+      replaceIdentifier(callee as NodePath<t.Node>)
+      replaceMemberExpression(callee as NodePath<t.Node>)
       if (
         callee.isIdentifier({ name: 'Page' }) ||
         callee.isIdentifier({ name: 'Component' }) ||
@@ -129,8 +130,8 @@ function parsePage (
   pagePath.traverse({
     CallExpression (path) {
       const callee = path.get('callee')
-      replaceIdentifier(callee)
-      replaceMemberExpression(callee)
+      replaceIdentifier(callee as NodePath<t.Node>)
+      replaceMemberExpression(callee as NodePath<t.Node>)
     }
   })
   if (refId) {

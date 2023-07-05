@@ -48,6 +48,7 @@ module.exports = {
     'react/prop-types': 0,
     'react/no-find-dom-node': 0,
     'react/no-unknown-property': 0,
+    'import/no-named-default': 'off',
     quotes: [2, 'single', { avoidEscape: true, allowTemplateLiterals: true }],
     semi: [2, 'never'],
     'simple-import-sort/imports': [2, {
