@@ -1,6 +1,5 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import { exec } from 'child_process'
-import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 
@@ -12,7 +11,6 @@ import { changeDefaultNameInTemplate } from './editTemplate'
 import type { IPageConf } from './page'
 import type { IProjectConf } from './project'
 
-const CONFIG_DIR_NAME = 'config'
 export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
@@ -117,7 +115,6 @@ function createFiles (
     if (
       typescript &&
       changeExt &&
-      !destRePath.startsWith(`${CONFIG_DIR_NAME}`) &&
       (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx') &&
       !(destRePath.endsWith('babel.config.js') || destRePath.endsWith('.eslintrc.js'))
     ) {
@@ -145,7 +142,7 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   // path
   let templatePath
 
-  if(isCustomTemplate) {
+  if (isCustomTemplate) {
     templatePath = customTemplatePath
   } else {
     templatePath = creator.templatePath(template)

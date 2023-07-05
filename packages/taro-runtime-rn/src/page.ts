@@ -1,6 +1,6 @@
 import { getCurrentRoute, isTabPage, PageProvider } from '@tarojs/router-rn'
 import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
-import { AppState, Dimensions, EmitterSubscription, NativeEventSubscription, RefreshControl, ScrollView } from 'react-native'
+import { AppState, Dimensions, EmitterSubscription, RefreshControl, ScrollView } from 'react-native'
 
 import { isClassComponent } from './app'
 import { Current } from './current'
@@ -64,9 +64,13 @@ export let PageContext: Context<string> = EMPTY_OBJ
 let appState = AppState.currentState
 
 AppState.addEventListener('change', (nextAppState) => {
-  const { page } = Current
+  const { page, app, router } = Current
   if (!page) return
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
+    app?.onShow && app.onShow({
+      path: router?.path,
+      query: router?.params
+    })
     if (!page.__isReactComponent && page.__safeExecute) {
       page.__safeExecute('componentDidShow')
     } else if (page.onShow) {
@@ -79,6 +83,7 @@ AppState.addEventListener('change', (nextAppState) => {
     } else if (page.onHide) {
       page.onHide()
     }
+    app?.onHide && app.onHide()
   }
   appState = nextAppState
 })
@@ -121,7 +126,6 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       unSubscribleFocus: any
       unSubscribleTabPress: any
       pageId: string
-      appStateSubscription: NativeEventSubscription | undefined
       dimensionsSubscription: EmitterSubscription | undefined
       isPageReady: boolean
 
@@ -131,10 +135,10 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         const backgroundTextStyle = pageConfig.backgroundTextStyle || globalAny.__taroAppConfig?.appConfig?.window?.backgroundTextStyle || 'dark'
         this.state = {
           refreshing: false, // 刷新指示器
-          appState: AppState.currentState,
           textColor: refreshStyle.textColor || (backgroundTextStyle === 'dark' ? '#000000' : '#ffffff'),
           backgroundColor: refreshStyle.backgroundColor || '#ffffff'
         }
+        appState = AppState.currentState
         this.screenRef = createRef<Instance>()
         this.pageScrollView = createRef()
         this.setPageInstance()
@@ -157,7 +161,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         
         // 如果是tabbar页面，因为tabbar是懒加载的，第一次点击事件还未监听，不会触发，初始化触发一下
         const lazy = globalAny.__taroAppConfig?.appConfig?.rn?.tabOptions?.lazy ?? true
-        if(isTabPage() && lazy){
+        if (isTabPage() && lazy){
           this.onTabItemTap()
         }
       }
@@ -304,7 +308,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
         try {
           this.handleHooksEvent('componentDidShow')
           // 实现 useReady hook，遵循小程序事件机制，在useDidShow之后触发
-          if(!this.isPageReady){
+          if (!this.isPageReady){
             this.handleHooksEvent('onReady')
             this.isPageReady = true
           }
@@ -324,7 +328,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       onPageScroll (e) {
-        if(!e?.nativeEvent) return
+        if (!e?.nativeEvent) return
         const { contentOffset } = e.nativeEvent
         const scrollTop = contentOffset.y
         if (scrollTop < 0) return
@@ -338,7 +342,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
 
       // 监听的onMomentumScrollEnd
       onReachBottom (e) {
-        if(!e?.nativeEvent) return
+        if (!e?.nativeEvent) return
         const { onReachBottomDistance = 50 } = pageConfig
         const { layoutMeasurement, contentSize, contentOffset } = e.nativeEvent
         if (contentOffset?.y + layoutMeasurement?.height + onReachBottomDistance >= contentSize.height) {
@@ -375,9 +379,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       handleHooksEvent (method: HooksMethods, options: Record<string, unknown> = {}) {
-        if (!isReactComponent) {
-          return safeExecute(this.pageId, method, options)
-        }
+        return safeExecute(this.pageId, method, options)
       }
 
       getTabItem (itemPath: string) {
@@ -427,7 +429,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       createScrollPage () {
         let bgColor = pageConfig.backgroundColor ? pageConfig.backgroundColor : ''
         const windowOptions = globalAny.__taroAppConfig?.appConfig?.window || {}
-        const useNativeStack =  globalAny.__taroAppConfig?.appConfig?.rn?.useNativeStack
+        const useNativeStack = globalAny.__taroAppConfig?.appConfig?.rn?.useNativeStack
         if (!bgColor && windowOptions?.backgroundColor) {
           bgColor = windowOptions?.backgroundColor
         }

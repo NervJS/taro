@@ -21,7 +21,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
   const fs = ctx.helper.fs
 
   ctx.modifyWebpackChain(({ chain }) => {
-    if(options.componentsMap){
+    if (options.componentsMap){
       chain.optimization.providedExports(false)
     }
   })

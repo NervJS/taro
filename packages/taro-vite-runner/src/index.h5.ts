@@ -5,7 +5,7 @@ import h5Preset from './h5'
 import { componentConfig } from './template/component'
 import { convertCopyOptions } from './utils'
 
-import type { InlineConfig,UserConfig } from 'vite'
+import type { InlineConfig, UserConfig } from 'vite'
 import type { H5BuildConfig } from './utils/types'
 
 export default async function (appPath: string, taroConfig: H5BuildConfig) {

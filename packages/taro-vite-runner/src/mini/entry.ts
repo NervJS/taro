@@ -4,7 +4,7 @@ import path from 'path'
 
 import { appendVirtualModulePrefix, getMiniCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
-import { miniTemplateLoader, QUERY_IS_NATIVE_COMP,QUERY_IS_NATIVE_PAGE } from './native-support'
+import { miniTemplateLoader, QUERY_IS_NATIVE_COMP, QUERY_IS_NATIVE_PAGE } from './native-support'
 
 import type { PluginOption } from 'vite'
 

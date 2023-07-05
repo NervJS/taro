@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import { ProvidePlugin } from 'webpack'

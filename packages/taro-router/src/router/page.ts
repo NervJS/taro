@@ -1,11 +1,11 @@
 /* eslint-disable dot-notation */
-import { Current, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import { Current, eventCenter, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
-import { loadAnimateStyle } from '../animation'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
-import { setHistoryMode } from '../history'
+import { history, setHistoryMode } from '../history'
+import { loadAnimateStyle, loadRouterStyle } from '../style'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, getCurrentPage, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
@@ -112,6 +112,17 @@ export default class PageHandler {
     return search.substring(1)
   }
 
+  get usingWindowScroll () {
+    let usingWindowScroll = false
+    if (typeof this.pageConfig?.usingWindowScroll === 'boolean') {
+      usingWindowScroll = this.pageConfig.usingWindowScroll
+    }
+    const win = window as any
+    win.__taroAppConfig ||= {}
+    win.__taroAppConfig.usingWindowScroll = usingWindowScroll
+    return usingWindowScroll
+  }
+
   getQuery (stamp = '', search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
@@ -124,8 +135,10 @@ export default class PageHandler {
 
   mount () {
     setHistoryMode(this.routerMode, this.router.basename)
+    this.pathname = history.location.pathname
 
     this.animation && loadAnimateStyle(this.animationDuration)
+    loadRouterStyle(this.usingWindowScroll)
 
     const appId = this.appId
     let app = document.getElementById(appId)
@@ -193,7 +206,8 @@ export default class PageHandler {
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageConfig)
+      this.triggerRouterChange()
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
@@ -201,7 +215,8 @@ export default class PageHandler {
         this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, true)
         page.onShow?.()
-        this.bindPageEvents(page, pageEl, pageConfig)
+        this.bindPageEvents(page, pageConfig)
+        this.triggerRouterChange()
       })
     }
   }
@@ -221,6 +236,9 @@ export default class PageHandler {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
+      if (pageEl) {
+        pageEl.style.zIndex = '1'
+      }
 
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
@@ -244,14 +262,16 @@ export default class PageHandler {
       setDisplay(pageEl)
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageConfig)
+      this.triggerRouterChange()
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, false)
         page.onShow?.()
-        this.bindPageEvents(page, pageEl, pageConfig)
+        this.bindPageEvents(page, pageConfig)
+        this.triggerRouterChange()
       })
     }
   }
@@ -304,15 +324,32 @@ export default class PageHandler {
       ? document.querySelector(`.taro_page#${id}`)
       : document.querySelector('.taro_page') ||
     document.querySelector('.taro_router')) as HTMLDivElement
-    return el || window
+    return el
   }
 
-  bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
-    if (!pageEl) {
-      pageEl = this.getPageContainer() as HTMLElement
-    }
+  getScrollingElement (page?: PageInstance | null) {
+    if (this.usingWindowScroll) return window
+    return this.getPageContainer(page) || window
+  }
+
+  bindPageEvents (page: PageInstance, config: Partial<PageConfig> = {}) {
+    const scrollEl = this.getScrollingElement(page)
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
-    bindPageScroll(page, pageEl, distance)
+    bindPageScroll(page, scrollEl, distance)
     bindPageResize(page)
+  }
+
+  triggerRouterChange () {
+    /**
+     * @tarojs/runtime 中生命周期跑在 promise 中，所以这里需要 setTimeout 延迟事件调用
+     * TODO 考虑将生命周期返回 Promise，用于处理相关事件调用顺序
+     */
+    setTimeout(() => {
+      eventCenter.trigger('__afterTaroRouterChange', {
+        toLocation: {
+          path: this.pathname
+        }
+      })
+    }, 0)
   }
 }

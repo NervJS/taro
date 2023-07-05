@@ -3,7 +3,7 @@ import * as os from 'os'
 import { chalk } from './terminal'
 
 // eslint-disable-next-line dot-notation
-export const PLATFORMS = global['PLATFORMS'] = global['PLATFORMS'] || {}
+export const PLATFORMS = (global['PLATFORMS'] = global['PLATFORMS'] || {})
 
 export const enum processTypeEnum {
   START = 'start',
@@ -17,7 +17,7 @@ export const enum processTypeEnum {
   WARNING = 'warning',
   UNLINK = 'unlink',
   REFERENCE = 'reference',
-  REMIND = 'remind'
+  REMIND = 'remind',
 }
 
 export interface IProcessTypeMap {
@@ -30,52 +30,52 @@ export interface IProcessTypeMap {
 export const processTypeMap: IProcessTypeMap = {
   [processTypeEnum.CREATE]: {
     name: '创建',
-    color: 'cyan'
+    color: 'cyan',
   },
   [processTypeEnum.COMPILE]: {
     name: '编译',
-    color: 'green'
+    color: 'green',
   },
   [processTypeEnum.CONVERT]: {
     name: '转换',
-    color: chalk.rgb(255, 136, 0)
+    color: chalk.rgb(255, 136, 0),
   },
   [processTypeEnum.COPY]: {
     name: '拷贝',
-    color: 'magenta'
+    color: 'magenta',
   },
   [processTypeEnum.GENERATE]: {
     name: '生成',
-    color: 'blue'
+    color: 'blue',
   },
   [processTypeEnum.MODIFY]: {
     name: '修改',
-    color: 'yellow'
+    color: 'yellow',
   },
   [processTypeEnum.ERROR]: {
     name: '错误',
-    color: 'red'
+    color: 'red',
   },
   [processTypeEnum.WARNING]: {
     name: '警告',
-    color: 'yellowBright'
+    color: 'yellowBright',
   },
   [processTypeEnum.UNLINK]: {
     name: '删除',
-    color: 'magenta'
+    color: 'magenta',
   },
   [processTypeEnum.START]: {
     name: '启动',
-    color: 'green'
+    color: 'green',
   },
   [processTypeEnum.REFERENCE]: {
     name: '引用',
-    color: 'blue'
+    color: 'blue',
   },
   [processTypeEnum.REMIND]: {
     name: '提示',
-    color: 'green'
-  }
+    color: 'green',
+  },
 }
 
 export const CSS_EXT: string[] = ['.css', '.scss', '.sass', '.less', '.styl', '.stylus', '.wxss', '.acss']
@@ -105,7 +105,9 @@ export const REG_JSON = /\.json(\?.*)?$/
 export const REG_UX = /\.ux(\?.*)?$/
 export const REG_TEMPLATE = /\.(wxml|axml|ttml|qml|swan|jxml)(\?.*)?$/
 export const REG_WXML_IMPORT = /<import(.*)?src=(?:(?:'([^']*)')|(?:"([^"]*)"))/gi
-export const REG_URL = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
+export const REG_URL =
+  /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i
+export const REG_TARO_H5 = /taro-h5[\\/]dist[\\/](api[\\/]taro|index\.esm)/
 export const CSS_IMPORT_REG = /@import (["'])(.+?)\1;/g
 
 export const NODE_MODULES = 'node_modules'
@@ -116,7 +118,7 @@ export const PROJECT_CONFIG = 'config/index'
 export const DEVICE_RATIO = {
   640: 2.34 / 2,
   750: 1,
-  828: 1.81 / 2
+  828: 1.81 / 2,
 }
 
 export const FILE_PROCESSOR_MAP = {
@@ -124,7 +126,7 @@ export const FILE_PROCESSOR_MAP = {
   '.scss': 'sass',
   '.sass': 'sass',
   '.less': 'less',
-  '.styl': 'stylus'
+  '.styl': 'stylus',
 }
 
 export const UPDATE_PACKAGE_LIST = [
@@ -190,7 +192,7 @@ export enum META_TYPE {
   NORMAL = 'NORMAL',
   STATIC = 'STATIC',
   CONFIG = 'CONFIG',
-  EXPORTS = 'EXPORTS'
+  EXPORTS = 'EXPORTS',
 }
 
 export const taroJsComponents = '@tarojs/components'
@@ -203,10 +205,12 @@ export const taroJsMobxCommon = '@tarojs/mobx-common'
 export const DEVICE_RATIO_NAME = 'deviceRatio'
 export const isWindows = os.platform() === 'win32'
 
-export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.6'
-export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.6'
-export const TARO_CONFIG_FOLDER = '.taro3.6'
+export const DEFAULT_TEMPLATE_SRC = 'github:NervJS/taro-project-templates#v3.7'
+export const DEFAULT_TEMPLATE_SRC_GITEE = 'direct:https://gitee.com/o2team/taro-project-templates.git#v3.7'
+export const TARO_CONFIG_FOLDER = '.taro3.7'
 export const TARO_BASE_CONFIG = 'index.json'
+export const TARO_GLOBAL_CONFIG_DIR = '.taro-global-config'
+export const TARO_GLOBAL_CONFIG_FILE = 'index.json'
 
 export const OUTPUT_DIR = 'dist'
 export const SOURCE_DIR = 'src'
@@ -218,5 +222,7 @@ export enum FRAMEWORK_MAP {
   VUE = 'vue',
   VUE3 = 'vue3',
   REACT = 'react',
-  NERV = 'nerv'
+  NERV = 'nerv',
 }
+
+export const defaultMainFields = ['browser', 'module', 'jsnext:main', 'main']

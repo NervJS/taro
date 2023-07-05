@@ -1,10 +1,10 @@
 import { promoteRelativePath } from '@tarojs/helper'
-import { isFunction, isString,toDashed } from '@tarojs/shared'
+import { isFunction, isString, toDashed } from '@tarojs/shared'
 import path from 'path'
 
 import { componentConfig } from '../template/component'
-import { getComponentName,getMiniCompiler, prettyPrintJson } from '../utils'
-import { baseCompName, baseTemplateName,customWrapperName } from '../utils/constants'
+import { getComponentName, getMiniCompiler, prettyPrintJson } from '../utils'
+import { baseCompName, baseTemplateName, customWrapperName } from '../utils/constants'
 
 import type { Config } from '@tarojs/taro'
 import type { PluginContext } from 'rollup'

@@ -42,27 +42,19 @@ interface IParameterErrorParam {
   para?: string
   correct?: string
   wrong?: unknown
+  level?: 'warn' | 'error' | 'log' | 'info' | 'debug'
 }
-export function getParameterError ({ name = '', para, correct, wrong }: IParameterErrorParam) {
+export function getParameterError ({ name = '', para, correct, wrong, level = 'error' }: IParameterErrorParam) {
   const parameter = para ? `parameter.${para}` : 'parameter'
   const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
-  if (name) {
-    return `${name}:fail parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-  } else {
-    return `parameter error: ${parameter} should be ${correct} instead of ${errorType}`
-  }
+  return `${name ? `${name}:fail ` : ''}parameter ${level}: ${parameter} should be ${correct} instead of ${errorType}`
 }
 
-function upperCaseFirstLetter (string) {
+export function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
   string = string.replace(/^./, match => match.toUpperCase())
   return string
 }
-
-export const toKebabCase = function (string) {
-  return string.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-}
-
 
 export function inlineStyle (style) {
   let res = ''
@@ -210,5 +202,5 @@ export function getCurrentPath (): string {
 }
 
 export * from './animation'
-export * from './lodash'
+export * from './helper'
 export * from './valid'

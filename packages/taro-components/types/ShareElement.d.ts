@@ -3,8 +3,13 @@ import { StandardProps, CommonEventFunction } from './common'
 interface ShareElementProps extends StandardProps {
   /** 映射标记
    * @supported weapp
+   * @deprecated 使用mapkey替换key
    */
   key?: string
+  /** 映射标记
+   * @supported weapp
+   */
+  mapkey?: string
   /** 映射标记
    * @supported alipay
    */
@@ -24,6 +29,40 @@ interface ShareElementProps extends StandardProps {
    * @supported weapp, alipay
    */
   easingFunction?: string
+  /** 手势返回时是否进行动画
+   * @supported weapp
+   * @default false
+   */
+  transitionOnGesture?: boolean
+  /** 指定 push 阶段的飞跃物
+   * @supported weapp
+   * @default "to"
+   */
+  shuttleOnPush?: 'from' | 'to' | 'from' | 'to'
+  /** 指定 pop 阶段的飞跃物
+   * @supported weapp
+   * @default "to"
+   */
+  shuttleOnPop?: string
+  /** 动画插值曲线
+   * @supported weapp
+   * @default "materialRectArc"
+   */
+  rectTweenType?:
+    | 'materialRectArc'
+    | 'materialRectCenterArc'
+    | 'linear'
+    | 'elasticIn'
+    | 'elasticOut'
+    | 'elasticInOut'
+    | 'bounceIn'
+    | 'bounceOut'
+    | 'bounceInOut'
+    | 'cubic-bezier(x1,'
+  /** 动画帧回调
+   * @supported weapp
+   */
+  onFrame?: string
 }
 /** 共享元素
  *

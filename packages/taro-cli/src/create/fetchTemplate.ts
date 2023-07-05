@@ -1,7 +1,6 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, fs } from '@tarojs/helper'
 import * as AdmZip from 'adm-zip'
 import * as download from 'download-git-repo'
-import * as fs from 'fs-extra'
 import * as ora from 'ora'
 import * as path from 'path'
 import * as request from 'request'
@@ -48,6 +47,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       const zipPath = path.join(tempPath, 'temp.zip')
       request
         .get(templateSource)
+        .pipe(fs.createWriteStream(zipPath))
         .on('close', () => {
           // unzip
           const zip = new AdmZip(zipPath)
@@ -72,7 +72,6 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
           await fs.remove(tempPath)
           return resolve()
         })
-        .pipe(fs.createWriteStream(zipPath))
     }
   }).then(async () => {
     const templateFolder = name ? path.join(tempPath, name) : ''

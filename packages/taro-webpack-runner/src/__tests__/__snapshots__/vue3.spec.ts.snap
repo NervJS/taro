@@ -6,18 +6,20 @@ exports[`vue3 should build vue3 app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "30": function(module, __webpack_exports__, __webpack_require__) {
+    "17": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var render = function render() {
-            var _vm = this, _c = _vm._self._c;
+        var render = function() {
+            var _vm = this;
+            var _h = _vm.$createElement;
+            var _c = _vm._self._c || _h;
             return _c("view", {
                 "staticClass": "index"
             }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
         };
         var staticRenderFns = [];
         render._withStripped = true;
-        var vue = __webpack_require__(2);
+        var vue = __webpack_require__(1);
         var indexvue_type_script_lang_js_ = {
             "setup": function setup() {
                 var msg = Object(vue["ref"])("Hello world");
@@ -236,7 +238,7 @@ exports[`vue3 should build vue3 app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 13);
+    return __webpack_require__(__webpack_require__.s = 10);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -252,11 +254,22 @@ exports[`vue3 should build vue3 app 2`] = `
     __webpack_require__.d(__webpack_exports__, "createVue3App", (function() {
         return createVue3App;
     }));
+    __webpack_require__.d(__webpack_exports__, "createRecursiveComponentConfig", (function() {
+        return createRecursiveComponentConfig;
+    }));
+    __webpack_require__.d(__webpack_exports__, "createPageConfig", (function() {
+        return createPageConfig;
+    }));
     __webpack_exports__["default"] = "taro-runtime-mock";
     var window = {};
     function createReactApp() {}
     function createVueApp() {}
     function createVue3App() {}
+    function createRecursiveComponentConfig() {}
+    function createPageConfig() {}
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    var _unused_webpack_default_export = "vue-mock";
 }, function(module, exports) {
     function _typeof(obj) {
         "@babel/helpers - typeof";
@@ -268,9 +281,23 @@ exports[`vue3 should build vue3 app 2`] = `
         _typeof(obj);
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    var _unused_webpack_default_export = "vue-mock";
+}, function(module, exports, __webpack_require__) {
+    var toPropertyKey = __webpack_require__(6);
+    function _defineProperty(obj, key, value) {
+        key = toPropertyKey(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports) {
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -279,7 +306,7 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
+    var toPropertyKey = __webpack_require__(6);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
@@ -299,32 +326,8 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
-    function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _arrayLikeToArray(arr, len) {
-        if (len == null || len > arr.length) len = arr.length;
-        for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-        return arr2;
-    }
-    module.exports = _arrayLikeToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(1)["default"];
-    var toPrimitive = __webpack_require__(25);
+    var _typeof = __webpack_require__(2)["default"];
+    var toPrimitive = __webpack_require__(11);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -332,51 +335,14 @@ exports[`vue3 should build vue3 app 2`] = `
     module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(14).default;
+    var taro = __webpack_require__(16).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var setPrototypeOf = __webpack_require__(20);
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) setPrototypeOf(subClass, superClass);
-    }
-    module.exports = _inherits, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var getPrototypeOf = __webpack_require__(21);
-    var isNativeReflectConstruct = __webpack_require__(22);
-    var possibleConstructorReturn = __webpack_require__(23);
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return possibleConstructorReturn(this, result);
-        };
-    }
-    module.exports = _createSuper, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(5);
+    var defineProperty = __webpack_require__(3);
     function ownKeys(object, enumerableOnly) {
         var keys = Object.keys(object);
         if (Object.getOwnPropertySymbols) {
@@ -443,833 +409,9 @@ exports[`vue3 should build vue3 app 2`] = `
         return list;
     };
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(29);
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
-    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
-    var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-    var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_2__);
-    var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(9);
-    var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3__);
-    var _babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10);
-    var _babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4__);
-    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(3);
-    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5__);
-    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(4);
-    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6__);
-    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(11);
-    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7__);
-    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(5);
-    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8__);
-    function isFunction$1(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction$1(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction$1(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction$1(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction$1(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
-    var DEFAULT_EMPTY_ARRAY = "[]";
-    var NO_DEFAULT_VALUE = "";
-    var DEFAULT_TRUE = "!0";
-    var DEFAULT_FALSE = "!1";
-    var touchEvents = {
-        "bindTouchStart": NO_DEFAULT_VALUE,
-        "bindTouchMove": NO_DEFAULT_VALUE,
-        "bindTouchEnd": NO_DEFAULT_VALUE,
-        "bindTouchCancel": NO_DEFAULT_VALUE,
-        "bindLongTap": NO_DEFAULT_VALUE
-    };
-    var animation = {
-        "animation": NO_DEFAULT_VALUE,
-        "bindAnimationStart": NO_DEFAULT_VALUE,
-        "bindAnimationIteration": NO_DEFAULT_VALUE,
-        "bindAnimationEnd": NO_DEFAULT_VALUE,
-        "bindTransitionEnd": NO_DEFAULT_VALUE
-    };
-    function singleQuote(s) {
-        return "'".concat(s, "'");
-    }
-    Object.assign(Object.assign({
-        "hover-class": singleQuote("none"),
-        "hover-stop-propagation": DEFAULT_FALSE,
-        "hover-start-time": "50",
-        "hover-stay-time": "400"
-    }, touchEvents), animation);
-    Object.assign({
-        "longitude": NO_DEFAULT_VALUE,
-        "latitude": NO_DEFAULT_VALUE,
-        "scale": "16",
-        "markers": DEFAULT_EMPTY_ARRAY,
-        "covers": NO_DEFAULT_VALUE,
-        "polyline": DEFAULT_EMPTY_ARRAY,
-        "circles": DEFAULT_EMPTY_ARRAY,
-        "controls": DEFAULT_EMPTY_ARRAY,
-        "include-points": DEFAULT_EMPTY_ARRAY,
-        "show-location": NO_DEFAULT_VALUE,
-        "layer-style": "1",
-        "bindMarkerTap": NO_DEFAULT_VALUE,
-        "bindControlTap": NO_DEFAULT_VALUE,
-        "bindCalloutTap": NO_DEFAULT_VALUE,
-        "bindUpdated": NO_DEFAULT_VALUE
-    }, touchEvents);
-    Object.assign({
-        "size": singleQuote("default"),
-        "type": NO_DEFAULT_VALUE,
-        "plain": DEFAULT_FALSE,
-        "disabled": NO_DEFAULT_VALUE,
-        "loading": DEFAULT_FALSE,
-        "form-type": NO_DEFAULT_VALUE,
-        "open-type": NO_DEFAULT_VALUE,
-        "hover-class": singleQuote("button-hover"),
-        "hover-stop-propagation": DEFAULT_FALSE,
-        "hover-start-time": "20",
-        "hover-stay-time": "70",
-        "name": NO_DEFAULT_VALUE
-    }, touchEvents);
-    Object.assign({
-        "scroll-top": DEFAULT_FALSE
-    }, touchEvents);
-    Object.assign(Object.assign({
-        "direction": "none",
-        "inertia": DEFAULT_FALSE,
-        "out-of-bounds": DEFAULT_FALSE,
-        "x": NO_DEFAULT_VALUE,
-        "y": NO_DEFAULT_VALUE,
-        "damping": "20",
-        "friction": "2",
-        "disabled": NO_DEFAULT_VALUE,
-        "scale": DEFAULT_FALSE,
-        "scale-min": "0.5",
-        "scale-max": "10",
-        "scale-value": "1",
-        "bindChange": NO_DEFAULT_VALUE,
-        "bindScale": NO_DEFAULT_VALUE,
-        "bindHTouchMove": NO_DEFAULT_VALUE,
-        "bindVTouchMove": NO_DEFAULT_VALUE,
-        "width": singleQuote("10px"),
-        "height": singleQuote("10px")
-    }, touchEvents), animation);
-    Object.assign(Object.assign({
-        "scroll-x": DEFAULT_FALSE,
-        "scroll-y": DEFAULT_FALSE,
-        "upper-threshold": "50",
-        "lower-threshold": "50",
-        "scroll-top": NO_DEFAULT_VALUE,
-        "scroll-left": NO_DEFAULT_VALUE,
-        "scroll-into-view": NO_DEFAULT_VALUE,
-        "scroll-with-animation": DEFAULT_FALSE,
-        "enable-back-to-top": DEFAULT_FALSE,
-        "bindScrollToUpper": NO_DEFAULT_VALUE,
-        "bindScrollToLower": NO_DEFAULT_VALUE,
-        "bindScroll": NO_DEFAULT_VALUE
-    }, touchEvents), animation);
-    Object.assign({
-        "indicator-dots": DEFAULT_FALSE,
-        "indicator-color": singleQuote("rgba(0, 0, 0, .3)"),
-        "indicator-active-color": singleQuote("#000000"),
-        "autoplay": DEFAULT_FALSE,
-        "current": "0",
-        "interval": "5000",
-        "duration": "500",
-        "circular": DEFAULT_FALSE,
-        "vertical": DEFAULT_FALSE,
-        "previous-margin": singleQuote("0px"),
-        "next-margin": singleQuote("0px"),
-        "display-multiple-items": "1",
-        "bindChange": NO_DEFAULT_VALUE,
-        "bindTransition": NO_DEFAULT_VALUE,
-        "bindAnimationFinish": NO_DEFAULT_VALUE
-    }, touchEvents);
-    Object.assign({
-        "src": NO_DEFAULT_VALUE,
-        "mode": singleQuote("scaleToFill"),
-        "lazy-load": DEFAULT_FALSE,
-        "bindError": NO_DEFAULT_VALUE,
-        "bindLoad": NO_DEFAULT_VALUE
-    }, touchEvents);
-    Object.assign({
-        "src": NO_DEFAULT_VALUE,
-        "autoplay": DEFAULT_FALSE,
-        "muted": DEFAULT_FALSE,
-        "orientation": singleQuote("vertical"),
-        "object-fit": singleQuote("contain"),
-        "background-mute": DEFAULT_FALSE,
-        "min-cache": "1",
-        "max-cache": "3",
-        "bindStateChange": NO_DEFAULT_VALUE,
-        "bindFullScreenChange": NO_DEFAULT_VALUE,
-        "bindNetStatus": NO_DEFAULT_VALUE
-    }, animation);
-    Object.assign({
-        "src": NO_DEFAULT_VALUE,
-        "duration": NO_DEFAULT_VALUE,
-        "controls": DEFAULT_TRUE,
-        "danmu-list": NO_DEFAULT_VALUE,
-        "danmu-btn": NO_DEFAULT_VALUE,
-        "enable-danmu": NO_DEFAULT_VALUE,
-        "autoplay": DEFAULT_FALSE,
-        "loop": DEFAULT_FALSE,
-        "muted": DEFAULT_FALSE,
-        "initial-time": "0",
-        "page-gesture": DEFAULT_FALSE,
-        "direction": NO_DEFAULT_VALUE,
-        "show-progress": DEFAULT_TRUE,
-        "show-fullscreen-btn": DEFAULT_TRUE,
-        "show-play-btn": DEFAULT_TRUE,
-        "show-center-play-btn": DEFAULT_TRUE,
-        "enable-progress-gesture": DEFAULT_TRUE,
-        "object-fit": singleQuote("contain"),
-        "poster": NO_DEFAULT_VALUE,
-        "show-mute-btn": DEFAULT_FALSE,
-        "bindPlay": NO_DEFAULT_VALUE,
-        "bindPause": NO_DEFAULT_VALUE,
-        "bindEnded": NO_DEFAULT_VALUE,
-        "bindTimeUpdate": NO_DEFAULT_VALUE,
-        "bindFullScreenChange": NO_DEFAULT_VALUE,
-        "bindWaiting": NO_DEFAULT_VALUE,
-        "bindError": NO_DEFAULT_VALUE
-    }, animation);
-    Object.assign({
-        "canvas-id": NO_DEFAULT_VALUE,
-        "disable-scroll": DEFAULT_FALSE,
-        "bindError": NO_DEFAULT_VALUE
-    }, touchEvents);
-    var PLATFORM_TYPE;
-    (function(PLATFORM_TYPE) {
-        PLATFORM_TYPE["MINI"] = "mini";
-        PLATFORM_TYPE["WEB"] = "web";
-        PLATFORM_TYPE["RN"] = "rn";
-        PLATFORM_TYPE["HARMONY"] = "harmony";
-        PLATFORM_TYPE["QUICK"] = "quickapp";
-    })(PLATFORM_TYPE || (PLATFORM_TYPE = {}));
-    ({
-        "h5": {
-            "type": PLATFORM_TYPE.WEB
-        },
-        "harmony": {
-            "type": PLATFORM_TYPE.HARMONY
-        },
-        "mini": {
-            "type": PLATFORM_TYPE.MINI
-        },
-        "rn": {
-            "type": PLATFORM_TYPE.RN
-        },
-        "quickapp": {
-            "type": PLATFORM_TYPE.QUICK
-        }
-    });
-    var Events = function() {
-        function Events(opts) {
-            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5___default()(this, Events);
-            var _a;
-            this.callbacks = (_a = opts === null || opts === void 0 ? void 0 : opts.callbacks) !== null && _a !== void 0 ? _a : {};
-        }
-        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default()(Events, [ {
-            "key": "on",
-            "value": function on(eventName, callback, context) {
-                var event, node, tail, list;
-                if (!callback) {
-                    return this;
-                }
-                eventName = eventName.split(Events.eventSplitter);
-                this.callbacks || (this.callbacks = {});
-                var calls = this.callbacks;
-                while (event = eventName.shift()) {
-                    list = calls[event];
-                    node = list ? list.tail : {};
-                    node.next = tail = {};
-                    node.context = context;
-                    node.callback = callback;
-                    calls[event] = {
-                        "tail": tail,
-                        "next": list ? list.next : node
-                    };
-                }
-                return this;
-            }
-        }, {
-            "key": "once",
-            "value": function once(events, callback, context) {
-                var _this = this;
-                var wrapper = function wrapper() {
-                    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-                        args[_key] = arguments[_key];
-                    }
-                    callback.apply(_this, args);
-                    _this.off(events, wrapper, context);
-                };
-                this.on(events, wrapper, context);
-                return this;
-            }
-        }, {
-            "key": "off",
-            "value": function off(events, callback, context) {
-                var event, calls, node, tail, cb, ctx;
-                if (!(calls = this.callbacks)) {
-                    return this;
-                }
-                if (!(events || callback || context)) {
-                    delete this.callbacks;
-                    return this;
-                }
-                events = events ? events.split(Events.eventSplitter) : Object.keys(calls);
-                while (event = events.shift()) {
-                    node = calls[event];
-                    delete calls[event];
-                    if (!node || !(callback || context)) {
-                        continue;
-                    }
-                    tail = node.tail;
-                    while ((node = node.next) !== tail) {
-                        cb = node.callback;
-                        ctx = node.context;
-                        if (callback && cb !== callback || context && ctx !== context) {
-                            this.on(event, cb, ctx);
-                        }
-                    }
-                }
-                return this;
-            }
-        }, {
-            "key": "trigger",
-            "value": function trigger(events) {
-                var event, node, calls, tail;
-                if (!(calls = this.callbacks)) {
-                    return this;
-                }
-                events = events.split(Events.eventSplitter);
-                var rest = [].slice.call(arguments, 1);
-                while (event = events.shift()) {
-                    if (node = calls[event]) {
-                        tail = node.tail;
-                        while ((node = node.next) !== tail) {
-                            node.callback.apply(node.context || this, rest);
-                        }
-                    }
-                }
-                return this;
-            }
-        } ]);
-        return Events;
-    }();
-    Events.eventSplitter = ",";
-    function isFunction(o) {
-        return typeof o === "function";
-    }
-    var isWebPlatform = function isWebPlatform() {
-        return true || false;
-    };
-    var HOOK_TYPE;
-    (function(HOOK_TYPE) {
-        HOOK_TYPE[HOOK_TYPE["SINGLE"] = 0] = "SINGLE";
-        HOOK_TYPE[HOOK_TYPE["MULTI"] = 1] = "MULTI";
-        HOOK_TYPE[HOOK_TYPE["WATERFALL"] = 2] = "WATERFALL";
-    })(HOOK_TYPE || (HOOK_TYPE = {}));
-    var defaultMiniLifecycle = {
-        "app": [ "onLaunch", "onShow", "onHide" ],
-        "page": [ "onLoad", "onUnload", "onReady", "onShow", "onHide", [ "onPullDownRefresh", "onReachBottom", "onPageScroll", "onResize", "onTabItemTap", "onTitleClick", "onOptionMenuClick", "onPopMenuClick", "onPullIntercept", "onAddToFavorites" ], [ "onShareAppMessage", "onShareTimeline" ] ],
-        "component": [ "attached", "detached" ]
-    };
-    function TaroHook(type, initial) {
-        return {
-            "type": type,
-            "initial": initial || null
-        };
-    }
-    var TaroHooks = function(_Events) {
-        _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_3___default()(TaroHooks, _Events);
-        var _super = _babel_runtime_helpers_createSuper__WEBPACK_IMPORTED_MODULE_4___default()(TaroHooks);
-        function TaroHooks(hooks, opts) {
-            var _this2;
-            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5___default()(this, TaroHooks);
-            _this2 = _super.call(this, opts);
-            _this2.hooks = hooks;
-            for (var hookName in hooks) {
-                var initial = hooks[hookName].initial;
-                if (isFunction(initial)) {
-                    _this2.on(hookName, initial);
-                }
-            }
-            return _this2;
-        }
-        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default()(TaroHooks, [ {
-            "key": "tapOneOrMany",
-            "value": function tapOneOrMany(hookName, callback) {
-                var _this3 = this;
-                var list = isFunction(callback) ? [ callback ] : callback;
-                list.forEach((function(cb) {
-                    return _this3.on(hookName, cb);
-                }));
-            }
-        }, {
-            "key": "tap",
-            "value": function tap(hookName, callback) {
-                var hooks = this.hooks;
-                var _hooks$hookName = hooks[hookName], type = _hooks$hookName.type, initial = _hooks$hookName.initial;
-                if (type === HOOK_TYPE.SINGLE) {
-                    this.off(hookName);
-                    this.on(hookName, isFunction(callback) ? callback : callback[callback.length - 1]);
-                } else {
-                    initial && this.off(hookName, initial);
-                    this.tapOneOrMany(hookName, callback);
-                }
-            }
-        }, {
-            "key": "call",
-            "value": function call(hookName) {
-                var _a;
-                var hook = this.hooks[hookName];
-                if (!hook) return;
-                var type = hook.type;
-                var calls = this.callbacks;
-                if (!calls) return;
-                var list = calls[hookName];
-                if (list) {
-                    var tail = list.tail;
-                    var node = list.next;
-                    for (var _len2 = arguments.length, rest = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                        rest[_key2 - 1] = arguments[_key2];
-                    }
-                    var args = rest;
-                    var res;
-                    while (node !== tail) {
-                        res = (_a = node.callback) === null || _a === void 0 ? void 0 : _a.apply(node.context || this, args);
-                        if (type === HOOK_TYPE.WATERFALL) {
-                            var params = [ res ];
-                            args = params;
-                        }
-                        node = node.next;
-                    }
-                    return res;
-                }
-            }
-        }, {
-            "key": "isExist",
-            "value": function isExist(hookName) {
-                var _a;
-                return Boolean((_a = this.callbacks) === null || _a === void 0 ? void 0 : _a[hookName]);
-            }
-        } ]);
-        return TaroHooks;
-    }(Events);
-    new TaroHooks({
-        "getMiniLifecycle": TaroHook(HOOK_TYPE.SINGLE, (function(defaultConfig) {
-            return defaultConfig;
-        })),
-        "getMiniLifecycleImpl": TaroHook(HOOK_TYPE.SINGLE, (function() {
-            return this.call("getMiniLifecycle", defaultMiniLifecycle);
-        })),
-        "getLifecycle": TaroHook(HOOK_TYPE.SINGLE, (function(instance, lifecycle) {
-            return instance[lifecycle];
-        })),
-        "getPathIndex": TaroHook(HOOK_TYPE.SINGLE, (function(indexOfNode) {
-            return "[".concat(indexOfNode, "]");
-        })),
-        "getEventCenter": TaroHook(HOOK_TYPE.SINGLE, (function(Events) {
-            return new Events;
-        })),
-        "isBubbleEvents": TaroHook(HOOK_TYPE.SINGLE, (function(eventName) {
-            var BUBBLE_EVENTS = new Set([ "touchstart", "touchmove", "touchcancel", "touchend", "touchforcechange", "tap", "longpress", "longtap", "transitionend", "animationstart", "animationiteration", "animationend" ]);
-            return BUBBLE_EVENTS.has(eventName);
-        })),
-        "getSpecialNodes": TaroHook(HOOK_TYPE.SINGLE, (function() {
-            return [ "view", "text", "image" ];
-        })),
-        "onRemoveAttribute": TaroHook(HOOK_TYPE.SINGLE),
-        "batchedEventUpdates": TaroHook(HOOK_TYPE.SINGLE),
-        "mergePageInstance": TaroHook(HOOK_TYPE.SINGLE),
-        "modifyPageObject": TaroHook(HOOK_TYPE.SINGLE),
-        "createPullDownComponent": TaroHook(HOOK_TYPE.SINGLE),
-        "getDOMNode": TaroHook(HOOK_TYPE.SINGLE),
-        "modifyHydrateData": TaroHook(HOOK_TYPE.SINGLE),
-        "modifySetAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
-        "modifyRmAttrPayload": TaroHook(HOOK_TYPE.SINGLE),
-        "onAddEvent": TaroHook(HOOK_TYPE.SINGLE),
-        "modifyMpEvent": TaroHook(HOOK_TYPE.MULTI),
-        "modifyMpEventImpl": TaroHook(HOOK_TYPE.SINGLE, (function(e) {
-            try {
-                this.call("modifyMpEvent", e);
-            } catch (error) {
-                console.warn("[Taro modifyMpEvent hook Error]: " + (error === null || error === void 0 ? void 0 : error.message));
-            }
-        })),
-        "modifyTaroEvent": TaroHook(HOOK_TYPE.MULTI),
-        "modifyDispatchEvent": TaroHook(HOOK_TYPE.MULTI),
-        "initNativeApi": TaroHook(HOOK_TYPE.MULTI),
-        "patchElement": TaroHook(HOOK_TYPE.MULTI)
-    });
-    (new Date).getTime().toString();
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
-    };
-    var isWeb = isWebPlatform();
-    function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
-            return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
-        }
-    }
-    var Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5___default()(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams;
-            this.interceptors = interceptors || [];
-        }
-        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default()(Chain, [ {
-            "key": "proceed",
-            "value": function proceed(requestParams) {
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return isFunction$1(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var Link = function() {
-        function Link(interceptor) {
-            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_5___default()(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new Chain;
-        }
-        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_6___default()(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_7___default()({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                timeout = null;
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!isUndefined(p) && isFunction$1(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        if (false) {}
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            if (false) {}
-            return res;
-        }));
-        if (isFunction$1(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var interceptors = Object.freeze({
-        "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_8___default()({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var baseFontSize = config.baseFontSize;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction$1(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var formatSize = ~~size;
-            var rootValue = 1 / config.deviceRatio[designWidth];
-            switch (config.targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-                val = Number(val.toFixed(config.unitPrecision));
-            }
-            return val + config.targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": Link,
-        "interceptors": interceptors,
-        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
-        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
-        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
-        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
-        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
-        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
-        "getInitPxTransform": getInitPxTransform
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
+    module.exports = __webpack_require__(15);
 }, function(module, exports, __webpack_require__) {
-    var arrayWithoutHoles = __webpack_require__(16);
-    var iterableToArray = __webpack_require__(17);
-    var unsupportedIterableToArray = __webpack_require__(18);
-    var nonIterableSpread = __webpack_require__(19);
-    function _toConsumableArray(arr) {
-        return arrayWithoutHoles(arr) || iterableToArray(arr) || unsupportedIterableToArray(arr) || nonIterableSpread();
-    }
-    module.exports = _toConsumableArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(6);
-    function _arrayWithoutHoles(arr) {
-        if (Array.isArray(arr)) return arrayLikeToArray(arr);
-    }
-    module.exports = _arrayWithoutHoles, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _iterableToArray(iter) {
-        if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-    }
-    module.exports = _iterableToArray, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var arrayLikeToArray = __webpack_require__(6);
-    function _unsupportedIterableToArray(o, minLen) {
-        if (!o) return;
-        if (typeof o === "string") return arrayLikeToArray(o, minLen);
-        var n = Object.prototype.toString.call(o).slice(8, -1);
-        if (n === "Object" && o.constructor) n = o.constructor.name;
-        if (n === "Map" || n === "Set") return Array.from(o);
-        if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return arrayLikeToArray(o, minLen);
-    }
-    module.exports = _unsupportedIterableToArray, module.exports.__esModule = true, 
-    module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _nonIterableSpread() {
-        throw new TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-    module.exports = _nonIterableSpread, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _setPrototypeOf(o, p) {
-        module.exports = _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-        return _setPrototypeOf(o, p);
-    }
-    module.exports = _setPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _getPrototypeOf(o) {
-        module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports;
-        return _getPrototypeOf(o);
-    }
-    module.exports = _getPrototypeOf, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    module.exports = _isNativeReflectConstruct, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(1)["default"];
-    var assertThisInitialized = __webpack_require__(24);
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return assertThisInitialized(self);
-    }
-    module.exports = _possibleConstructorReturn, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    module.exports = _assertThisInitialized, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(1)["default"];
+    var _typeof = __webpack_require__(2)["default"];
     function _toPrimitive(input, hint) {
         if (_typeof(input) !== "object" || input === null) return input;
         var prim = input[Symbol.toPrimitive];
@@ -1282,8 +424,8 @@ exports[`vue3 should build vue3 app 2`] = `
     }
     module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(27);
-    var content = __webpack_require__(28);
+    var api = __webpack_require__(13);
+    var content = __webpack_require__(14);
     content = content.__esModule ? content.default : content;
     if (typeof content === "string") {
         content = [ [ module.i, content, "" ] ];
@@ -1497,7 +639,7 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
     var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
     var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
@@ -1507,11 +649,11 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(8);
+    var taro = __webpack_require__(7);
     function createMultiRouter() {}
     function createRouter() {}
-    var vue = __webpack_require__(2);
-    var app = __webpack_require__(26);
+    var vue = __webpack_require__(1);
+    var app = __webpack_require__(12);
     var App = Object(vue["createApp"])({
         "onShow": function onShow(options) {}
     });
@@ -1550,7 +692,7 @@ exports[`vue3 should build vue3 app 2`] = `
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 30));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
             return [ page, context, params ];
         }
     }, {
@@ -1569,6 +711,312 @@ exports[`vue3 should build vue3 app 2`] = `
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var helpers_typeof = __webpack_require__(2);
+    var typeof_default = __webpack_require__.n(helpers_typeof);
+    var taro_runtime = __webpack_require__(0);
+    var taro_shared = "taro-shared-mock";
+    var objectSpread2 = __webpack_require__(8);
+    var objectSpread2_default = __webpack_require__.n(objectSpread2);
+    var classCallCheck = __webpack_require__(4);
+    var classCallCheck_default = __webpack_require__.n(classCallCheck);
+    var createClass = __webpack_require__(5);
+    var createClass_default = __webpack_require__.n(createClass);
+    var defineProperty = __webpack_require__(3);
+    var defineProperty_default = __webpack_require__.n(defineProperty);
+    function isFunction(x) {
+        return typeof x === "function";
+    }
+    function isUndefined(x) {
+        return typeof x === "undefined";
+    }
+    function isObject(x) {
+        return x && typeof_default()(x) === "object";
+    }
+    var isBadObj = function isBadObj(x) {
+        return !isObject(x);
+    };
+    function throwTypeError(s) {
+        throw new TypeError(s);
+    }
+    if (!isFunction(Object.assign)) {
+        Object.assign = function(target) {
+            if (target == null) {
+                throwTypeError("Cannot convert undefined or null to object");
+            }
+            var to = Object(target);
+            for (var index = 1; index < arguments.length; index++) {
+                var nextSource = arguments[index];
+                if (nextSource != null) {
+                    for (var nextKey in nextSource) {
+                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                            to[nextKey] = nextSource[nextKey];
+                        }
+                    }
+                }
+            }
+            return to;
+        };
+    }
+    if (!isFunction(Object.defineProperties)) {
+        Object.defineProperties = function(obj, properties) {
+            function convertToDescriptor(desc) {
+                function hasProperty(obj, prop) {
+                    return Object.prototype.hasOwnProperty.call(obj, prop);
+                }
+                if (isBadObj(desc)) {
+                    throwTypeError("bad desc");
+                }
+                var d = {};
+                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
+                if (hasProperty(desc, "configurable")) {
+                    d.configurable = !!desc.configurable;
+                }
+                if (hasProperty(desc, "value")) d.value = desc.value;
+                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
+                if (hasProperty(desc, "get")) {
+                    var g = desc.get;
+                    if (!isFunction(g) && !isUndefined(g)) {
+                        throwTypeError("bad get");
+                    }
+                    d.get = g;
+                }
+                if (hasProperty(desc, "set")) {
+                    var s = desc.set;
+                    if (!isFunction(s) && !isUndefined(s)) {
+                        throwTypeError("bad set");
+                    }
+                    d.set = s;
+                }
+                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
+                    throwTypeError("identity-confused descriptor");
+                }
+                return d;
+            }
+            if (isBadObj(obj)) throwTypeError("bad obj");
+            properties = Object(properties);
+            var keys = Object.keys(properties);
+            var descs = [];
+            for (var i = 0; i < keys.length; i++) {
+                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
+            }
+            for (var _i = 0; _i < descs.length; _i++) {
+                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
+            }
+            return obj;
+        };
+    }
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP"
+    };
+    var isWeb = undefined();
+    function getEnv() {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+            return ENV_TYPE.WEB;
+        } else if (false) {} else if (false) {} else if (false) {} else {
+            return "h5" || false;
+        }
+    }
+    var index_esm_Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            classCallCheck_default()(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams;
+            this.interceptors = interceptors || [];
+        }
+        createClass_default()(Chain, [ {
+            "key": "proceed",
+            "value": function proceed(requestParams) {
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return isFunction(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var index_esm_Link = function() {
+        function Link(interceptor) {
+            classCallCheck_default()(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new index_esm_Chain;
+        }
+        createClass_default()(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(objectSpread2_default()({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new index_esm_Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new index_esm_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                timeout = null;
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (isFunction(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var index_esm_interceptors = Object.freeze({
+        "__proto__": null,
+        "timeoutInterceptor": timeoutInterceptor,
+        "logInterceptor": logInterceptor
+    });
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var formatSize = ~~size;
+            var rootValue = 1 / config.deviceRatio[designWidth];
+            switch (config.targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
+            }
+            return val + config.targetUnit;
+        };
+    }
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": index_esm_Link,
+        "interceptors": index_esm_interceptors,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 "
 `;

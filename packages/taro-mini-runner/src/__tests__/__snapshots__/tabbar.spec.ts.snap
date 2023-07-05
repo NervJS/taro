@@ -6,7 +6,6 @@ exports[`tabbar should alipay tabbar work 2`] = `
 "
 /** filePath: dist/app.acss **/
 
-
 /** filePath: dist/app.js **/
 require("./runtime");
 
@@ -856,6 +855,14 @@ require("./taro");
 /** filePath: dist/app.json **/
 {"pages":["pages/index/index","pages/about/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"},"tabBar":{"backgroundColor":"#fff","selectedColor":"#dc0032","list":[{"pagePath":"pages/index/index","text":"首页","iconPath":"assets/view.png","selectedIconPath":"assets/view_red.png"},{"pagePath":"pages/about/index","text":"关于","iconPath":"assets/nav.png","selectedIconPath":"assets/nav_red.png"}]}}
 
+/** filePath: dist/assets/nav_red.png **/
+�PNG
+
+   
+IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEF3659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF4659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEF1659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEF2659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>��F�  �IDATx��KHTQ��Q�J��J�^Pd��6�PA�I	��˰EL�2-Z�B�A%\\I�FCI-L����� z�V������.�9��{�����g����7s7S�T��Od$DB$DB$DB$DB$DB$DB$DB$DB$DBdAB$DB$DB$DB$��:�+����@3�f� x�r�e�8��s���R��z@���p	|�6�Z�N-��	�8�N�o	��n����N��	�\\
+n�nG�p܏��������d�NP�Lࡕ3�&0E�����f~�e�����3�n�Td�Y�<�g�3�Z2Y&��Wk4���Fp�K�v�%p�կ wm:b�i�� x���5ڜW�'Ђ_�פB�;�r�p��{�of��vx�l��r��r/��s9��A���upB��.�v��=ߎ��j��=�r8B�a�p��+Z9��GF�Y�]
+��l	lp��	�q��c�C}�gٗg�Q�2�2c�|��+�$3�S�<s�<����,z&i���n�����Xvq�4�jW��+&9�v��|��4B�yDxdǱ[=j{='��iQ��55��!�)yN�9{�y�9Ǳ[�3����W/f���n���t \\�?��?΋Q�7�,/����1[����C̋�8��E���}�#u��Q{[��=��=���0�^��}�n�^�����˝^�"!"!"!"!"!"!"!"!��	�	�	�	�w�[� �]���(0    IEND�B\`�
+
 /** filePath: dist/assets/nav.png **/
 �PNG
 
@@ -866,13 +873,12 @@ m0PтR�U	�B�BA\\��B
 9ہ����t+�,�r�Km{ܘk����lq�P l�$���wb_���hu��'��1����}�>5�q��r�\`��4򻜠ƽ���������֭ŭͧ	���S~�����%��ES8ji?^�霏?z��ey���zNG����x잓FZ帘�՘[1��ɧ+���,hm>�|��)^���\\nh�r$^_]]��Wx?�50�5n��-i�]�t�A��Y�c�Ǆr���p
 ��k^�������E=�c�Ts���kQ͟jkk�^�������y��9��	D��>6W�*-:ꙛ�����t�#+���V��O��$�����[%X��K===_-..�?���[�~�Τ����lv1���9\`C�T�j4�}�6���.�M����OGհ�0F�#\`��0F�#\`��0F�#\`��0F�%� A�LEEK\`    IEND�B\`�
 
-/** filePath: dist/assets/nav_red.png **/
+/** filePath: dist/assets/view_red.png **/
 �PNG
 
    
-IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEF3659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF4659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEF1659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEF2659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>��F�  �IDATx��KHTQ��Q�J��J�^Pd��6�PA�I	��˰EL�2-Z�B�A%\\I�FCI-L����� z�V������.�9��{�����g����7s7S�T��Od$DB$DB$DB$DB$DB$DB$DB$DB$DBdAB$DB$DB$DB$��:�+����@3�f� x�r�e�8��s���R��z@���p	|�6�Z�N-��	�8�N�o	��n����N��	�\\
-n�nG�p܏��������d�NP�Lࡕ3�&0E�����f~�e�����3�n�Td�Y�<�g�3�Z2Y&��Wk4���Fp�K�v�%p�կ wm:b�i�� x���5ڜW�'Ђ_�פB�;�r�p��{�of��vx�l��r��r/��s9��A���upB��.�v��=ߎ��j��=�r8B�a�p��+Z9��GF�Y�]
-��l	lp��	�q��c�C}�gٗg�Q�2�2c�|��+�$3�S�<s�<����,z&i���n�����Xvq�4�jW��+&9�v��|��4B�yDxdǱ[=j{='��iQ��55��!�)yN�9{�y�9Ǳ[�3����W/f���n���t \\�?��?΋Q�7�,/����1[����C̋�8��E���}�#u��Q{[��=��=���0�^��}�n�^�����˝^�"!"!"!"!"!"!"!"!��	�	�	�	�w�[� �]���(0    IEND�B\`�
+IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEEF659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF0659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEED659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEEE659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>�f�  mIDATx����MA��cz�Ϟ�J � �Y�
+h�hځ� �r������Nb2��х��K~��>;;ːL�1�w�A  �  �tT���0��T�U�ʑ��?��r����Du��(�N'�]�K�BJ�-s�0&J�g�����t��!�i������t���r�ƕ�s���S��. �  [���Am����q:C�Gf �  ����j�{��7�3d�W���d���S@(@ @ م�L��]�o@��2�w�,��  �t���q�e�k#�,��E}L�[YO��4�0���ad_x-����S��|�6C촀�#y*��6��zzT�ʺu���R�  � H7�%� ��1� }��    IEND�B\`�
 
 /** filePath: dist/assets/view.png **/
 �PNG
@@ -882,13 +888,6 @@ IHDR   D   D   8��   sRGB ���  GIDATx�?NA�YW(l�R�*
 $��P��-��d�M&̷�fw��>\`&�I$x� 	� 	� 	� 	Ă�7�)��|&���#iߞ����<ϫH�l6�/�#�P(��������.i�!%�P�Ѥ��R|'�;\`��i���\`P����%)���5Sh]�3�J��C}��t:}���W���i���j��<
 r���6�j���l�wu�WN @2C�d� ��Hڧ�\\.Lm\\���j��t��Pf �ΐ��Y�e-�!��@�d� �!  �z"#�G�V����l���l��q���[2��z����"end �Z�iY�l�+_e�n�>������ �� �!@2C�d� ��C���z��L����Y�5���rg��9���m�;�ߙa�QDB @ $3�@� Hf�@^5�X,�A�3��6�je�,��׀N�s���\`����Ջx��������2�=d�]�����l�^o��|Sh��nf2���u�̆�w��
 D�RN��/y�   X}_�A��T�    IEND�B\`�
-
-/** filePath: dist/assets/view_red.png **/
-�PNG
-
-   
-IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEEF659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF0659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEED659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEEE659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>�f�  mIDATx����MA��cz�Ϟ�J � �Y�
-h�hځ� �r������Nb2��х��K~��>;;ːL�1�w�A  �  �tT���0��T�U�ʑ��?��r����Du��(�N'�]�K�BJ�-s�0&J�g�����t��!�i������t���r�ƕ�s���S��. �  [���Am����q:C�Gf �  ����j�{��7�3d�W���d���S@(@ @ م�L��]�o@��2�w�,��  �t���q�e�k#�,��E}L�[YO��4�0���ad_x-����S��|�6C촀�#y*��6��zzT�ʺu���R�  � H7�%� ��1� }��    IEND�B\`�
 
 /** filePath: dist/base.axml **/
 <import-sjs name="xs" from="./utils.sjs" />
@@ -1083,7 +1082,6 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 {"navigationBarTitleText":"首页","usingComponents":{}}
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 1 ], {
@@ -1324,7 +1322,7 @@ require("./taro");
         function useRouter() {}
         function useTabItemTap() {}
         function useScope() {}
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
@@ -1350,6 +1348,10 @@ require("./taro");
                 if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === "function") {
                     return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
                 }
+            };
+            taro.getRenderer = function() {
+                var _a, _b, _c;
+                return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
         var _true = "true";
@@ -1816,6 +1818,13 @@ require("./taro");
 
 /** filePath: dist/app.wxss **/
 
+/** filePath: dist/assets/nav_red.png **/
+�PNG
+
+   
+IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEF3659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF4659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEF1659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEF2659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>��F�  �IDATx��KHTQ��Q�J��J�^Pd��6�PA�I	��˰EL�2-Z�B�A%\\I�FCI-L����� z�V������.�9��{�����g����7s7S�T��Od$DB$DB$DB$DB$DB$DB$DB$DB$DBdAB$DB$DB$DB$��:�+����@3�f� x�r�e�8��s���R��z@���p	|�6�Z�N-��	�8�N�o	��n����N��	�\\
+n�nG�p܏��������d�NP�Lࡕ3�&0E�����f~�e�����3�n�Td�Y�<�g�3�Z2Y&��Wk4���Fp�K�v�%p�կ wm:b�i�� x���5ڜW�'Ђ_�פB�;�r�p��{�of��vx�l��r��r/��s9��A���upB��.�v��=ߎ��j��=�r8B�a�p��+Z9��GF�Y�]
+��l	lp��	�q��c�C}�gٗg�Q�2�2c�|��+�$3�S�<s�<����,z&i���n�����Xvq�4�jW��+&9�v��|��4B�yDxdǱ[=j{='��iQ��55��!�)yN�9{�y�9Ǳ[�3����W/f���n���t \\�?��?΋Q�7�,/����1[����C̋�8��E���}�#u��Q{[��=��=���0�^��}�n�^�����˝^�"!"!"!"!"!"!"!"!��	�	�	�	�w�[� �]���(0    IEND�B\`�
 
 /** filePath: dist/assets/nav.png **/
 �PNG
@@ -1827,13 +1836,12 @@ m0PтR�U	�B�BA\\��B
 9ہ����t+�,�r�Km{ܘk����lq�P l�$���wb_���hu��'��1����}�>5�q��r�\`��4򻜠ƽ���������֭ŭͧ	���S~�����%��ES8ji?^�霏?z��ey���zNG����x잓FZ帘�՘[1��ɧ+���,hm>�|��)^���\\nh�r$^_]]��Wx?�50�5n��-i�]�t�A��Y�c�Ǆr���p
 ��k^�������E=�c�Ts���kQ͟jkk�^�������y��9��	D��>6W�*-:ꙛ�����t�#+���V��O��$�����[%X��K===_-..�?���[�~�Τ����lv1���9\`C�T�j4�}�6���.�M����OGհ�0F�#\`��0F�#\`��0F�#\`��0F�%� A�LEEK\`    IEND�B\`�
 
-/** filePath: dist/assets/nav_red.png **/
+/** filePath: dist/assets/view_red.png **/
 �PNG
 
    
-IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEF3659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF4659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEF1659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEF2659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>��F�  �IDATx��KHTQ��Q�J��J�^Pd��6�PA�I	��˰EL�2-Z�B�A%\\I�FCI-L����� z�V������.�9��{�����g����7s7S�T��Od$DB$DB$DB$DB$DB$DB$DB$DB$DBdAB$DB$DB$DB$��:�+����@3�f� x�r�e�8��s���R��z@���p	|�6�Z�N-��	�8�N�o	��n����N��	�\\
-n�nG�p܏��������d�NP�Lࡕ3�&0E�����f~�e�����3�n�Td�Y�<�g�3�Z2Y&��Wk4���Fp�K�v�%p�կ wm:b�i�� x���5ڜW�'Ђ_�פB�;�r�p��{�of��vx�l��r��r/��s9��A���upB��.�v��=ߎ��j��=�r8B�a�p��+Z9��GF�Y�]
-��l	lp��	�q��c�C}�gٗg�Q�2�2c�|��+�$3�S�<s�<����,z&i���n�����Xvq�4�jW��+&9�v��|��4B�yDxdǱ[=j{='��iQ��55��!�)yN�9{�y�9Ǳ[�3����W/f���n���t \\�?��?΋Q�7�,/����1[����C̋�8��E���}�#u��Q{[��=��=���0�^��}�n�^�����˝^�"!"!"!"!"!"!"!"!��	�	�	�	�w�[� �]���(0    IEND�B\`�
+IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEEF659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF0659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEED659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEEE659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>�f�  mIDATx����MA��cz�Ϟ�J � �Y�
+h�hځ� �r������Nb2��х��K~��>;;ːL�1�w�A  �  �tT���0��T�U�ʑ��?��r����Du��(�N'�]�K�BJ�-s�0&J�g�����t��!�i������t���r�ƕ�s���S��. �  [���Am����q:C�Gf �  ����j�{��7�3d�W���d���S@(@ @ م�L��]�o@��2�w�,��  �t���q�e�k#�,��E}L�[YO��4�0���ad_x-����S��|�6C촀�#y*��6��zzT�ʺu���R�  � H7�%� ��1� }��    IEND�B\`�
 
 /** filePath: dist/assets/view.png **/
 �PNG
@@ -1843,13 +1851,6 @@ IHDR   D   D   8��   sRGB ���  GIDATx�?NA�YW(l�R�*
 $��P��-��d�M&̷�fw��>\`&�I$x� 	� 	� 	� 	Ă�7�)��|&���#iߞ����<ϫH�l6�/�#�P(��������.i�!%�P�Ѥ��R|'�;\`��i���\`P����%)���5Sh]�3�J��C}��t:}���W���i���j��<
 r���6�j���l�wu�WN @2C�d� ��Hڧ�\\.Lm\\���j��t��Pf �ΐ��Y�e-�!��@�d� �!  �z"#�G�V����l���l��q���[2��z����"end �Z�iY�l�+_e�n�>������ �� �!@2C�d� ��C���z��L����Y�5���rg��9���m�;�ߙa�QDB @ $3�@� Hf�@^5�X,�A�3��6�je�,��׀N�s���\`����Ջx��������2�=d�]�����l�^o��|Sh��nf2���u�̆�w��
 D�RN��/y�   X}_�A��T�    IEND�B\`�
-
-/** filePath: dist/assets/view_red.png **/
-�PNG
-
-   
-IHDR   D   D   8��   tEXtSoftware Adobe ImageReadyq�e<  (iTXtXML:com.adobe.xmp     <?xpacket begin="﻿" id="W5M0MpCehiHzreSzNTczkc9d"?> <x:xmpmeta xmlns:x="adobe:ns:meta/" x:xmptk="Adobe XMP Core 5.6-c067 79.157747, 2015/03/30-23:40:42        "> <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"> <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmp:CreatorTool="Adobe Photoshop CC 2015 (Macintosh)" xmpMM:InstanceID="xmp.iid:5164EEEF659211E8BC71FE35AE00F48C" xmpMM:DocumentID="xmp.did:5164EEF0659211E8BC71FE35AE00F48C"> <xmpMM:DerivedFrom stRef:instanceID="xmp.iid:5164EEED659211E8BC71FE35AE00F48C" stRef:documentID="xmp.did:5164EEEE659211E8BC71FE35AE00F48C"/> </rdf:Description> </rdf:RDF> </x:xmpmeta> <?xpacket end="r"?>�f�  mIDATx����MA��cz�Ϟ�J � �Y�
-h�hځ� �r������Nb2��х��K~��>;;ːL�1�w�A  �  �tT���0��T�U�ʑ��?��r����Du��(�N'�]�K�BJ�-s�0&J�g�����t��!�i������t���r�ƕ�s���S��. �  [���Am����q:C�Gf �  ����j�{��7�3d�W���d���S@(@ @ م�L��]�o@��2�w�,��  �t���q�e�k#�,��E}L�[YO��4�0���ad_x-����S��|�6C촀�#y*��6��zzT�ʺu���R�  � H7�%� ��1� }��    IEND�B\`�
 
 /** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
@@ -2750,7 +2751,6 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template is="taro_tmpl" data="{{root:root}}" />
 
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {

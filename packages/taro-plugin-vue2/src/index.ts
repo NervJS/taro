@@ -7,9 +7,16 @@ import { mergeWith } from 'lodash'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type { PluginOption } from 'vite'
 
 export const CUSTOM_WRAPPER = 'custom-wrapper'
+
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
@@ -24,6 +31,15 @@ export default (ctx: IPluginContext) => {
 
     if (isWebPlatform()) {
       setStyleLoader(ctx, chain)
+
+      const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+      const externals: Record<string, string> = {}
+      if (isBuildNativeComp) {
+        // Note: 该模式不支持 prebundle 优化，不必再处理
+        externals.vue = 'vue'
+      }
+
+      chain.merge({ externals })
     }
   })
 
@@ -59,6 +75,12 @@ export default (ctx: IPluginContext) => {
     } else if (compiler.type === 'vite') {
       compiler.vitePlugins ||= []
       compiler.vitePlugins.push(viteCommonPlugin())
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }

@@ -63,7 +63,7 @@ export default abstract class TaroPlatform<T extends TConfig = TConfig> {
    */
   private updateOutputPath (config: TConfig) {
     const platformPath = config.output?.path
-    if(platformPath) {
+    if (platformPath) {
       this.ctx.paths.outputPath = platformPath
     }
   }

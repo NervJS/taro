@@ -10,32 +10,32 @@ export default {
     'src/components/index.ts',
     'src/components/virtual-list/index.ts',
     'src/components/virtual-list/react/index.ts',
-    'src/components/virtual-list/vue/index.ts'
+    'src/components/virtual-list/vue/index.ts',
   ],
   output: {
     dir: 'dist',
     exports: 'named',
     preserveModules: true,
     preserveModulesRoot: 'src',
-    sourcemap: true
+    sourcemap: true,
   },
   treeshake: false,
   plugins: [
     externals({
       deps: true,
       devDeps: false,
-      include: ['react', 'react-dom', 'vue']
+      include: ['react', 'react-dom', 'vue'],
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
     ts({
       sourceMap: true,
     }),
     commonjs(),
     postcss({
-      inject: { insertAt: 'top' }
-    })
-  ]
+      inject: { insertAt: 'top' },
+    }),
+  ],
 }

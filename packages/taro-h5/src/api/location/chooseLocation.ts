@@ -5,6 +5,7 @@ import { stringify } from 'query-string'
 
 import { MethodHandler } from '../../utils/handler'
 
+let container: HTMLDivElement | null = null
 function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
   const { latitude, longitude, ...opts } = mapOpt
   const query = {
@@ -14,7 +15,8 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.cho
     referer: 'myapp',
     ...opts
   }
-  const html = `
+  if (!container) {
+    const html = `
 <div class='taro_choose_location'>
   <div class='taro_choose_location_bar'>
     <div class='taro_choose_location_back'></div>
@@ -24,8 +26,9 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.cho
   <iframe class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(query, { arrayFormat: 'comma', skipNull: true })}" />
 </div>
 `
-  const container = document.createElement('div')
-  container.innerHTML = html
+    container = document.createElement('div')
+    container.innerHTML = html
+  }
   const main: HTMLDivElement = container.querySelector('.taro_choose_location') as HTMLDivElement
 
   function show () {
@@ -49,7 +52,8 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.cho
   }
 
   function remove () {
-    container.remove()
+    container?.remove()
+    container = null
     window.removeEventListener('popstate', back)
   }
 
@@ -61,7 +65,7 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.cho
   return {
     show,
     remove,
-    container
+    container,
   }
 }
 

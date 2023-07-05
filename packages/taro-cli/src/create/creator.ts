@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import * as _ from 'lodash'
 import * as memFs from 'mem-fs'
 import * as editor from 'mem-fs-editor'
@@ -95,7 +95,7 @@ export default class Creator {
     if (!path.isAbsolute(filepath)) {
       filepath = path.join(this.destinationRoot(), filepath)
     }
-    if (filepath.endsWith('package.json.tmpl')) {
+    if (filepath.endsWith('.tmpl')) {
       filepath = filepath.replace('.tmpl', '')
     }
     const basename = path.basename(filepath)

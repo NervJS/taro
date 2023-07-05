@@ -41,6 +41,8 @@ export function isFunction (o: unknown): o is (...args: any[]) => any {
 
 export const EMPTY_OBJ: any = {}
 
+export const HOOKS_APP_ID = 'taro-app'
+
 export const isArray = Array.isArray
 
 export function successHandler (success: OptionsFunc | undefined, complete: OptionsFunc | undefined): any {
@@ -60,5 +62,5 @@ export function errorHandler (fail: OptionsFunc | undefined, complete: OptionsFu
 }
 
 export function getPageStr (path: string):string{
-  return path.replace(/\//g,'')
+  return path.replace(/\//g, '')
 }

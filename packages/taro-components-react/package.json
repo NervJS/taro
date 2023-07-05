@@ -2,9 +2,9 @@
   "name": "@tarojs/components-react",
   "version": "3.7.0-alpha.2",
   "description": "",
-  "main:h5": "src/index.js",
+  "main:h5": "dist/index.js",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "types/index.d.ts",
   "sideEffects": [
     "./dist/components/**/loader.js"

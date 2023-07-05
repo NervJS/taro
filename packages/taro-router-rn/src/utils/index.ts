@@ -123,13 +123,20 @@ export function handleUrl (url: string): Record<string, any> {
 }
 
 export function hasJumpAnimate () :boolean{
-  if(globalAny.__taroJumpAnimate === false){
+  if (globalAny.__taroJumpAnimate === false){
     return false
   }
   return true
 }
 
-
 export function updateJumpAnimate (needAnimate: boolean){
   globalAny.__taroJumpAnimate = needAnimate
+}
+
+export function updateCurrentJumpUrl (path: string){
+  globalAny.__taroJumpUrl = path
+}
+
+export function getCurrentJumpUrl (): string{
+  return globalAny?.__taroJumpUrl ?? ''
 }

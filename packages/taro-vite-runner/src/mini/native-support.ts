@@ -3,7 +3,7 @@ import path from 'path'
 import { normalizePath } from 'vite'
 
 import { componentConfig } from '../template/component'
-import { getMiniCompiler,isRelativePath, isVirtualModule } from '../utils'
+import { getMiniCompiler, isRelativePath, isVirtualModule } from '../utils'
 
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'

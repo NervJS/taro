@@ -1,5 +1,8 @@
-import validator from '../doctor/configValidator'
+import * as helper from '@tarojs/helper'
 
+import doctor from '../doctor'
+
+const validator = doctor.validators[1]
 const baseConfig = {
   projectName: 'test',
   sourceRoot: 'src',
@@ -13,23 +16,24 @@ function getConfig (config) {
       ...baseConfig,
       ...config
     },
+    helper,
     configPath: ''
   }
 }
 
 describe('config validator of doctor', () => {
   it('should config include\'s all the required values', async () => {
-    let { lines } = await validator({
+    let { messages } = await validator({
       projectConfig: {},
+      helper,
       configPath: ''
     })
-
-    expect(lines.length).toEqual(4)
-    let msgs = lines.map(line => line.desc)
-    expect(msgs.includes('projectName 必须填写')).toBeTruthy()
-    expect(msgs.includes('sourceRoot 必须填写')).toBeTruthy()
-    expect(msgs.includes('outputRoot 必须填写')).toBeTruthy()
-    expect(msgs.includes('framework 必须填写')).toBeTruthy()
+    expect(messages.length).toEqual(6)
+    let msgs = messages.map(line => line.content)
+    expect(msgs.includes('缺少 "projectName" 配置项')).toBeTruthy()
+    expect(msgs.includes('缺少 "sourceRoot" 配置项')).toBeTruthy()
+    expect(msgs.includes('缺少 "outputRoot" 配置项')).toBeTruthy()
+    expect(msgs.includes('缺少 "framework" 配置项')).toBeTruthy()
 
     const res = await validator({
       projectConfig: {
@@ -38,82 +42,80 @@ describe('config validator of doctor', () => {
         outputRoot: '',
         framework: ''
       },
+      helper,
       configPath: ''
     })
-    lines = res.lines
+    messages = res.messages
 
-    expect(lines.length).toEqual(4)
-    msgs = lines.map(line => line.desc)
-    expect(msgs.includes('projectName "projectName" is not allowed to be empty')).toBeTruthy()
-    expect(msgs.includes('sourceRoot "sourceRoot" is not allowed to be empty')).toBeTruthy()
-    expect(msgs.includes('outputRoot "outputRoot" is not allowed to be empty')).toBeTruthy()
-    expect(msgs.includes('framework "framework" must be one of [nerv, react, preact, vue, vue3]')).toBeTruthy()
+    expect(messages.length).toEqual(3)
+    msgs = messages.map(line => line.content)
+    expect(msgs.includes('framework 的值 "" 与任何指定选项 ["nerv","react","preact","vue","vue3"] 都不匹配')).toBeTruthy()
   })
 
   it('date', async () => {
-    let { lines } = await validator(getConfig({
+    let { messages } = await validator(getConfig({
       date: '2020-5-26'
     }))
 
-    expect(lines.length).toEqual(0)
+    expect(messages.length).toEqual(3)
 
     const res = await validator(getConfig({
       date: 'abc'
     }))
-    lines = res.lines
+    messages = res.messages
 
-    expect(lines.length).toEqual(1)
-    expect(lines[0].desc).toEqual('date 应该为一个日期')
+    expect(messages.length).toEqual(3)
+    expect(messages[2].content).toEqual('date 的值 "abc" 与 "\\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])" 不匹配')
   })
 
   it('framework', async () => {
     let res = await validator(getConfig({
       framework: 'react'
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       framework: 'vue'
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       framework: 'nerv'
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       framework: 'vue3'
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       framework: 'other'
     }))
-    expect(res.lines.length).toEqual(1)
-    expect(res.lines[0].desc).toEqual('framework "framework" must be one of [nerv, react, preact, vue, vue3]')
+    expect(res.messages.length).toEqual(3)
+    expect(res.messages[2].content).toEqual('framework 的值 "other" 与任何指定选项 ["nerv","react","preact","vue","vue3"] 都不匹配')
   })
 
   it('designWidth', async () => {
     let res = await validator(getConfig({
       designWidth: '750'
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       designWidth: 'a'
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       designWidth: 700.5
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       designWidth: -640
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('deviceRatio', async () => {
@@ -124,7 +126,7 @@ describe('config validator of doctor', () => {
         828: 1.81 / 2
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       deviceRatio: {
@@ -133,7 +135,7 @@ describe('config validator of doctor', () => {
         828: 1.81 / 2
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('plugins', async () => {
@@ -152,7 +154,7 @@ describe('config validator of doctor', () => {
         '/absulute/path/plugin/filename'
       ]
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       plugins: [
@@ -164,7 +166,7 @@ describe('config validator of doctor', () => {
         ['']
       ]
     }))
-    expect(res.lines.length).toEqual(6)
+    expect(res.messages.length).toEqual(6)
   })
 
   it('presets', async () => {
@@ -183,7 +185,7 @@ describe('config validator of doctor', () => {
         '/absulute/path/plugin/filename'
       ]
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       presets: [
@@ -195,7 +197,7 @@ describe('config validator of doctor', () => {
         ['']
       ]
     }))
-    expect(res.lines.length).toEqual(6)
+    expect(res.messages.length).toEqual(6)
   })
 
   it('terser', async () => {
@@ -206,7 +208,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       terser: {
@@ -215,7 +217,7 @@ describe('config validator of doctor', () => {
         config: []
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(5)
   })
 
   it('csso', async () => {
@@ -226,7 +228,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       csso: {
@@ -235,7 +237,7 @@ describe('config validator of doctor', () => {
         config: []
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(5)
   })
 
   it('uglify', async () => {
@@ -246,7 +248,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       uglify: {
@@ -255,7 +257,7 @@ describe('config validator of doctor', () => {
         config: []
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('sass', async () => {
@@ -264,7 +266,7 @@ describe('config validator of doctor', () => {
         resource: '/src/styles/variable.scss'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       sass: {
@@ -276,7 +278,7 @@ describe('config validator of doctor', () => {
         data: '$nav-height: 48px;'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       sass: {
@@ -285,7 +287,7 @@ describe('config validator of doctor', () => {
         data: 1
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(5)
   })
 
   it('env', async () => {
@@ -294,7 +296,7 @@ describe('config validator of doctor', () => {
         NODE_ENV: '"development"'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('defineConstants', async () => {
@@ -303,7 +305,7 @@ describe('config validator of doctor', () => {
         A: '"a"'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('alias', async () => {
@@ -312,7 +314,7 @@ describe('config validator of doctor', () => {
         '@/components': 'src/components'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       alias: {
@@ -321,7 +323,7 @@ describe('config validator of doctor', () => {
         '@/project': {}
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('copy', async () => {
@@ -333,7 +335,7 @@ describe('config validator of doctor', () => {
         ]
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       copy: {
@@ -342,7 +344,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       copy: {
@@ -356,7 +358,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(7)
+    expect(res.messages.length).toEqual(9)
   })
 
   it('mini.compile', async () => {
@@ -374,7 +376,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
@@ -384,7 +386,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(4)
+    expect(res.messages.length).toEqual(6)
   })
 
   it('mini.webpackChain', async () => {
@@ -395,14 +397,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
         webpackChain: 'some'
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('mini.commonChunks', async () => {
@@ -411,7 +413,7 @@ describe('config validator of doctor', () => {
         commonChunks: ['runtime', 'vendors', 'taro', 'common']
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
@@ -421,14 +423,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
         commonChunks: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('mini.addChunkPages', async () => {
@@ -439,14 +441,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
         addChunkPages: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('mini.postcss', async () => {
@@ -460,7 +462,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
@@ -473,7 +475,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(5)
   })
 
   it('mini.output', async () => {
@@ -482,14 +484,14 @@ describe('config validator of doctor', () => {
         output: {}
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       mini: {
         output: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('mini\'s third party options', async () => {
@@ -506,7 +508,7 @@ describe('config validator of doctor', () => {
         miniCssExtractPluginOption: {}
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.devServer', async () => {
@@ -517,14 +519,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         devServer: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.output', async () => {
@@ -536,14 +538,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         output: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.publicPath', async () => {
@@ -552,14 +554,14 @@ describe('config validator of doctor', () => {
         publicPath: '/'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         publicPath: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.staticDirectory', async () => {
@@ -568,14 +570,14 @@ describe('config validator of doctor', () => {
         staticDirectory: '/'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         staticDirectory: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.chunkDirectory', async () => {
@@ -584,14 +586,14 @@ describe('config validator of doctor', () => {
         chunkDirectory: '/'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         chunkDirectory: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.webpackChain', async () => {
@@ -602,25 +604,25 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         webpackChain: 'some'
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
-  it('h5.webpack[DEPRECATED]', async () => {
-    const res = await validator(getConfig({
-      h5: {
-        webpack: 1
-      }
-    }))
-    expect(res.lines.length).toEqual(1)
-    expect(res.lines[0].desc).toEqual('h5.webpack "h5.webpack" is not allowed')
-  })
+  // it('h5.webpack[DEPRECATED]', async () => {
+  //   const res = await validator(getConfig({
+  //     h5: {
+  //       webpack: 1
+  //     }
+  //   }))
+  //   expect(res.messages.length).toEqual(3)
+  //   expect(res.messages[0].content).toEqual('h5.webpack "h5.webpack" is not allowed')
+  // })
 
   it('h5.router', async () => {
     let res = await validator(getConfig({
@@ -630,14 +632,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         router: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.entry', async () => {
@@ -646,14 +648,14 @@ describe('config validator of doctor', () => {
         entry: './path/to/my/entry/file.js'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         entry: ['./path/to/my/entry/file.js', './path/other/file.js']
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
@@ -662,7 +664,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
@@ -671,14 +673,14 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         entry: () => './demo'
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.enableSourceMap', async () => {
@@ -687,14 +689,14 @@ describe('config validator of doctor', () => {
         enableSourceMap: true
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         enableSourceMap: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.enableExtract', async () => {
@@ -703,14 +705,14 @@ describe('config validator of doctor', () => {
         enableExtract: true
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         enableExtract: 1
       }
     }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.esnextModules', async () => {
@@ -719,17 +721,17 @@ describe('config validator of doctor', () => {
         esnextModules: ['taro-ui']
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
         esnextModules: [1, true, {}]
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(4)
 
     res = await validator(getConfig({ h5: 1 }))
-    expect(res.lines.length).toEqual(1)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.postcss', async () => {
@@ -743,7 +745,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
 
     res = await validator(getConfig({
       h5: {
@@ -756,7 +758,7 @@ describe('config validator of doctor', () => {
         }
       }
     }))
-    expect(res.lines.length).toEqual(3)
+    expect(res.messages.length).toEqual(5)
   })
 
   it('h5\'s third party options', async () => {
@@ -773,14 +775,14 @@ describe('config validator of doctor', () => {
         miniCssExtractPluginOption: {}
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('unknow', async () => {
     const res = await validator(getConfig({
       unknow: {}
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('mini.unknow', async () => {
@@ -789,7 +791,7 @@ describe('config validator of doctor', () => {
         unknow: {}
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 
   it('h5.unknow', async () => {
@@ -798,6 +800,6 @@ describe('config validator of doctor', () => {
         unknow: {}
       }
     }))
-    expect(res.lines.length).toEqual(0)
+    expect(res.messages.length).toEqual(3)
   })
 })

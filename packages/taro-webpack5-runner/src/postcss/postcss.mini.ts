@@ -2,7 +2,7 @@ import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
 import path from 'path'
 import { sync as resolveSync } from 'resolve'
 
-import type { Func, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
+import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
 const platform = process.env.TARO_ENV
 const defaultAutoprefixerOption = {
@@ -29,9 +29,7 @@ const defaultUrlOption: {
   }
 }
 
-const defaultHtmltransformOption: {
-  [key: string]: any
-} = {
+const defaultHtmltransformOption: IHtmlTransformOption = {
   enable: false,
   config: {
     platform,
@@ -44,7 +42,8 @@ const plugins = [] as any[]
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  postcssOption = {} as IPostcssOption
+  postcssOption = {} as IPostcssOption,
+  alias = {}
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = postcssOption
 
@@ -58,13 +57,14 @@ export const getDefaultPostcssConfig = function ({
 
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, autoprefixer)
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, pxtransform)
-  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
+  const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, htmltransform)
   const urlOption = recursiveMerge({}, defaultUrlOption, url)
 
   return [
     ['postcss-import', {}, require('postcss-import')],
     ['autoprefixer', autoprefixerOption, require('autoprefixer')],
     ['postcss-pxtransform', pxtransformOption, require('postcss-pxtransform')],
+    ['postcss-alias', { config: { alias } }, require('./postcss-alias').default],
     ['postcss-url', urlOption, require('postcss-url')],
     ['postcss-html-transform', htmltransformOption, require('postcss-html-transform')],
     ...Object.entries(options)

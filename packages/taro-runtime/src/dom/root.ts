@@ -1,4 +1,4 @@
-import { isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+import { hooks, isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import {
   CUSTOM_WRAPPER,
@@ -86,7 +86,7 @@ export class TaroRootElement extends TaroElement {
   public performUpdate (initRender = false, prerender?: Func) {
     this.pendingUpdate = true
 
-    const ctx = this.ctx!
+    const ctx = hooks.call('proxyToRaw', this.ctx)!
 
     setTimeout(() => {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`

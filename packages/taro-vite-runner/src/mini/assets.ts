@@ -1,8 +1,8 @@
 import { fs, recursiveMerge, REG_FONT, REG_IMAGE, REG_MEDIA, } from '@tarojs/helper'
-import { isBoolean,isFunction, isString } from '@tarojs/shared'
+import { isBoolean, isFunction, isString } from '@tarojs/shared'
 import mrmime from 'mrmime'
 
-import { getMiniCompiler,isVirtualModule } from '../utils'
+import { getMiniCompiler, isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
 import type { PluginOption, ResolvedConfig } from 'vite'

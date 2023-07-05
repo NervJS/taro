@@ -1,21 +1,10 @@
-import esbuild, { Loader } from 'esbuild'
-import fs from 'fs'
+import { defaultEsbuildLoader, defaultMainFields, esbuild, externalEsbuildModule, fs } from '@tarojs/helper'
 import path from 'path'
-import Chain from 'webpack-chain'
 
-import {
-  externalModule,
-  getDefines,
-  getResolve,
-  isExclude,
-  isOptimizeIncluded,
-  isScanIncluded
-} from '../utils'
+import { getDefines, getResolve, isExclude, isOptimizeIncluded, isScanIncluded } from '../utils'
 import {
   assetsRE,
-  CollectedDeps,
   commentRE,
-  defaultEsbuildLoader,
   importsRE,
   langRE,
   moduleRE,
@@ -23,8 +12,11 @@ import {
   scriptRE,
   singlelineCommentsRE,
   virtualModulePrefix,
-  virtualModuleRE
+  virtualModuleRE,
 } from '../utils/constant'
+
+import type Chain from 'webpack-chain'
+import type { CollectedDeps } from '../utils/constant'
 
 interface ScanImportsConfig {
   appPath: string
@@ -35,50 +27,45 @@ interface ScanImportsConfig {
   customEsbuildConfig?: Record<string, any>
 }
 
-export async function scanImports ({
-  appPath,
-  chain,
-  entries,
-  include = [],
-  exclude = [],
-  customEsbuildConfig = {}
-}: ScanImportsConfig,
-deps: CollectedDeps = new Map()
+export async function scanImports(
+  { appPath, chain, entries, include = [], exclude = [], customEsbuildConfig = {} }: ScanImportsConfig,
+  deps: CollectedDeps = new Map()
 ): Promise<CollectedDeps> {
   const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
   const customPlugins = customEsbuildConfig.plugins || []
 
-  await Promise.all(entries.map(async entry => {
-    try {
-      await esbuild.build({
-        ...customEsbuildConfig,
-        absWorkingDir: appPath,
-        bundle: true,
-        entryPoints: [entry],
-        mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main'],
-        format: 'esm',
-        loader: defaultEsbuildLoader,
-        write: false,
-        define: {
-          ...getDefines(chain),
-          define: 'false'
-        },
-        plugins: [
-          scanImportsPlugin,
-          ...customPlugins
-        ]
-      })
-    } catch (e) {} // eslint-disable-line no-empty
-  }))
+  await Promise.all(
+    entries.map(async (entry) => {
+      try {
+        await esbuild.build({
+          ...customEsbuildConfig,
+          absWorkingDir: appPath,
+          bundle: true,
+          entryPoints: [entry],
+          mainFields: [...defaultMainFields],
+          format: 'esm',
+          loader: defaultEsbuildLoader,
+          write: false,
+          define: {
+            ...getDefines(chain),
+            define: 'false',
+          },
+          plugins: [scanImportsPlugin, ...customPlugins],
+        })
+      } catch (e) {} // eslint-disable-line no-empty
+    })
+  )
 
   // 有一些 Webpack loaders 添加的依赖没有办法提前分析出来
   // 可以把它们写进 includes，然后在这里 resolve 后加入到 deps
   const resolve = getResolve()
-  await Promise.all(include.map(async item => {
-    if (isExclude(item, exclude)) return
-    const resolvePath = await resolve(appPath, item)
-    deps.set(item, resolvePath)
-  }))
+  await Promise.all(
+    include.map(async (item) => {
+      if (isExclude(item, exclude)) return
+      const resolvePath = await resolve(appPath, item)
+      deps.set(item, resolvePath)
+    })
+  )
 
   return deps
 }
@@ -102,16 +89,16 @@ deps: CollectedDeps = new Map()
  *       => .vue => (2)
  *       => src => return
  */
-function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes: string[]) {
+function getScanImportsPlugin(deps: CollectedDeps, includes: string[], excludes: string[]) {
   const resolve = getResolve()
   // for storing vue <script> contents
-  const scripts = new Map<string, { loader: Loader, contents: string }>()
+  const scripts = new Map<string, { loader: esbuild.Loader, contents: string }>()
 
   return {
     name: 'scanImports',
-    setup (build) {
+    setup(build) {
       // assets
-      build.onResolve(({ filter: assetsRE }), externalModule)
+      build.onResolve({ filter: assetsRE }, externalEsbuildModule)
 
       // .vue
       build.onLoad({ filter: /\.vue$/, namespace: 'vue' }, ({ path }) => {
@@ -128,7 +115,7 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
           const langMatch = openTag.match(langRE)
           const lang = langMatch && (langMatch[1] || langMatch[2] || langMatch[3])
 
-          let loader: Loader = 'js'
+          let loader: esbuild.Loader = 'js'
           if (lang === 'ts' || lang === 'tsx' || lang === 'jsx') {
             loader = lang
           }
@@ -136,14 +123,12 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
           if (content.trim()) {
             // append imports in TS to prevent esbuild from removing them
             // since they may be used in the template
-            const contents =
-              content +
-              (loader.startsWith('ts') ? extractImportPaths(content) : '')
+            const contents = content + (loader.startsWith('ts') ? extractImportPaths(content) : '')
 
             const key = `${path}?id=${scriptId++}`
             scripts.set(key, {
               loader,
-              contents
+              contents,
             })
 
             const virtualModulePath = JSON.stringify(virtualModulePrefix + key)
@@ -159,26 +144,26 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
 
         return {
           loader: 'js',
-          contents: js
+          contents: js,
         }
       })
 
-      build.onResolve(({ filter: virtualModuleRE }), ({ path }) => {
+      build.onResolve({ filter: virtualModuleRE }, ({ path }) => {
         return {
           path: path.replace(virtualModulePrefix, ''),
-          namespace: 'script'
+          namespace: 'script',
         }
       })
 
-      build.onLoad(({ filter: /.*/, namespace: 'script' }), ({ path }) => {
+      build.onLoad({ filter: /.*/, namespace: 'script' }, ({ path }) => {
         return scripts.get(path)
       })
 
       // bare imports
       build.onResolve({ filter: moduleRE }, async ({ path: id, importer }) => {
-        if (isExclude(id, excludes)) return externalModule({ path: id })
+        if (isExclude(id, excludes)) return externalEsbuildModule({ path: id })
 
-        if (deps.has(id)) return externalModule({ path: id })
+        if (deps.has(id)) return externalEsbuildModule({ path: id })
 
         try {
           const resolvedPath = await resolve(path.dirname(importer), id)
@@ -187,21 +172,21 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
             if (isOptimizeIncluded(resolvedPath)) {
               deps.set(id, resolvedPath)
             }
-            return externalModule({ path: id })
+            return externalEsbuildModule({ path: id })
           } else if (isScanIncluded(resolvedPath)) {
             return {
               path: resolvedPath,
-              namespace: 'vue'
+              namespace: 'vue',
             }
           } else if (assetsRE.test(resolvedPath)) {
-            externalModule({ path: id })
+            externalEsbuildModule({ path: id })
           } else {
             return {
-              path: resolvedPath
+              path: resolvedPath,
             }
           }
         } catch (e) {
-          return externalModule({ path: id })
+          return externalEsbuildModule({ path: id })
         }
       })
 
@@ -213,10 +198,10 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
 
         return {
           path: resolvedPath,
-          namespace
+          namespace,
         }
       })
-    }
+    },
   }
 }
 
@@ -227,11 +212,9 @@ function getScanImportsPlugin (deps: CollectedDeps, includes: string[], excludes
  * the solution is to add `import 'x'` for every source to force
  * esbuild to keep crawling due to potential side effects.
  */
-function extractImportPaths (code: string) {
+function extractImportPaths(code: string) {
   // empty singleline & multiline comments to avoid matching comments
-  code = code
-    .replace(multilineCommentsRE, '/* */')
-    .replace(singlelineCommentsRE, '')
+  code = code.replace(multilineCommentsRE, '/* */').replace(singlelineCommentsRE, '')
 
   let js = ''
   let m

@@ -2,10 +2,10 @@
   "name": "@tarojs/router",
   "version": "3.7.0-alpha.2",
   "description": "Taro-router",
-  "browser": "dist/index.esm.js",
-  "main:h5": "dist/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
   "main": "dist/index.js",
-  "module": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -15,8 +15,9 @@
   "scripts": {
     "build": "rimraf ./dist && tsc && rollup -c",
     "dev": "tsc -w",
-    "test": "jest",
-    "test:dev": "jest --watch"
+    "test": "cross-env NODE_ENV=jest jest",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci",
+    "test:dev": "cross-env NODE_ENV=jest jest --watch"
   },
   "repository": {
     "type": "git",

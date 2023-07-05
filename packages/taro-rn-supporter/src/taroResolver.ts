@@ -79,7 +79,7 @@ function handleFile (context: ResolutionContext, moduleName, platform) {
 // rn runner调用
 function handleTaroFile (context: ResolutionContext, moduleName, platform) {
   const newContext = { ...context }
-  if(context.originModulePath === require.resolve(entryFilePath)) {
+  if (context.originModulePath === require.resolve(entryFilePath)) {
     newContext.originModulePath = path.join(context.projectRoot, './index.js')
   }
   return handleFile(newContext, moduleName, platform)

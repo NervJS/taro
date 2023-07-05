@@ -1,7 +1,7 @@
 import React from 'react'
 import Vue from 'vue'
 
-import Taro, { Config } from './index'
+import Taro from './index'
 
 declare module './index' {
   // ref: packages/taro-runtime/src/current.ts
@@ -51,6 +51,7 @@ declare module './index' {
     onReachBottom?(): void
     onResize?(opt: PageResizeObject): void
     onShareAppMessage?(opt: ShareAppMessageObject): ShareAppMessageReturn
+    onShareTimeline?(): ShareTimelineReturnObject
     onTabItemTap?(opt: TabItemTapObject): void
     onTitleClick?(): void
     onUnload(): void

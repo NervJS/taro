@@ -2,7 +2,7 @@
  * Modify from https://github.com/ionic-team/stencil-ds-output-targets/blob/main/packages/vue-output-target/vue-component-lib/utils.ts
  * MIT License https://github.com/ionic-team/stencil-ds-output-targets/blob/main/LICENSE
  */
-import { defineComponent, getCurrentInstance, h, inject, Ref,ref, VNode } from 'vue'
+import { defineComponent, getCurrentInstance, h, inject, Ref, ref, VNode } from 'vue'
 
 export interface InputProps<T> {
   modelValue?: T

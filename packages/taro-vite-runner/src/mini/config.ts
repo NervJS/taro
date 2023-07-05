@@ -1,20 +1,20 @@
 import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
-import { fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
-import { getMode,stripMultiPlatformExt } from '../utils'
+import { getMode, stripMultiPlatformExt } from '../utils'
 import { logger } from '../utils/logger'
 
-import type { CSSModulesOptions,PluginOption } from 'vite'
+import type { CSSModulesOptions, PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
 
 const DEFAULT_TERSER_OPTIONS = {
   parse: {
-    ecma: 8
+    ecma: 8,
   },
   compress: {
     ecma: 5,
@@ -41,23 +41,23 @@ const DEFAULT_TERSER_OPTIONS = {
     unused: true,
     conditionals: true,
     dead_code: true,
-    evaluate: true
+    evaluate: true,
   },
   output: {
     ecma: 5,
     comments: false,
-    ascii_only: true
-  }
+    ascii_only: true,
+  },
 }
 
 export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
-  function getDefineOption () {
+  function getDefineOption() {
     const {
       env = {},
       runtime = {} as Record<string, boolean>,
       defineConstants = {},
       framework = 'react',
-      buildAdapter = PLATFORMS.WEAPP
+      buildAdapter = PLATFORMS.WEAPP,
     } = taroConfig
 
     env.FRAMEWORK = JSON.stringify(framework)
@@ -75,53 +75,47 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       ENABLE_TEMPLATE_CONTENT: runtime.enableTemplateContent ?? false,
       ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
       ENABLE_CONTAINS: runtime.enableContains ?? false,
-      ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false
+      ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
     }
 
     return {
       ...envConstants,
       ...defineConstants,
-      ...runtimeConstants
+      ...runtimeConstants,
     }
   }
 
-  function getAliasOption () {
+  function getAliasOption() {
     const alias = taroConfig.alias || {}
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
   }
 
-  function getBabelOption (): RollupBabelInputPluginOptions {
+  function getBabelOption(): RollupBabelInputPluginOptions {
     const { compile = {} } = taroConfig
     const babelOptions: RollupBabelInputPluginOptions = {
       extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
       babelHelpers: 'runtime',
-      skipPreflightCheck: true
+      skipPreflightCheck: true,
     }
 
     if (compile.exclude?.length) {
       const list = compile.exclude
-      const isNodeModuleReseted = list.find(reg => reg.toString().includes('node_modules'))
+      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
       if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
       babelOptions.exclude = list
     } else if (compile.include?.length) {
       const sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-      babelOptions.include = [
-        ...compile.include,
-        sourceDir,
-        /taro/
-      ]
+      babelOptions.include = [...compile.include, sourceDir, /taro/]
     } else {
-      babelOptions.exclude = [
-        /node_modules[/\\](?!@tarojs)/
-      ]
+      babelOptions.exclude = [/node_modules[/\\](?!@tarojs)/]
     }
 
     return babelOptions
   }
 
-  function getInjectOption (): RollupInjectOptions {
+  function getInjectOption(): RollupInjectOptions {
     const options: RollupInjectOptions = {
       window: ['@tarojs/runtime', 'window'],
       document: ['@tarojs/runtime', 'document'],
@@ -146,7 +140,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     }
 
     if (injectOptions?.exclude?.length) {
-      injectOptions.exclude.forEach(item => {
+      injectOptions.exclude.forEach((item) => {
         delete options[item]
       })
     }
@@ -154,9 +148,9 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     return options
   }
 
-  async function getSassOption () {
+  async function getSassOption() {
     const sassLoaderOption = taroConfig.sassLoaderOption
-    const nativeStyleImporter = function importer (url, prev, done) {
+    const nativeStyleImporter = function importer(url, prev, done) {
       // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
       const extname = path.extname(url)
       // fix: @import 文件可以不带scss/sass缀，如: @import "define";
@@ -170,10 +164,10 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
             return null
           } else {
             fs.readFile(filePath)
-              .then(res => {
+              .then((res) => {
                 done({ contents: res.toString() })
               })
-              .catch(err => {
+              .catch((err) => {
                 logger.error(err)
                 return null
               })
@@ -194,22 +188,26 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     }
     return {
       scss: option,
-      sass: option
+      sass: option,
     }
   }
 
-  function getCSSModulesOptions (): false | CSSModulesOptions {
+  function getCSSModulesOptions(): false | CSSModulesOptions {
     if (taroConfig.postcss?.cssModules?.enable !== true) return false
-    const config = recursiveMerge({}, {
-      namingPattern: 'module',
-      generateScopedName: '[name]__[local]___[hash:base64:5]'
-    }, taroConfig.postcss.cssModules.config)
+    const config = recursiveMerge(
+      {},
+      {
+        namingPattern: 'module',
+        generateScopedName: '[name]__[local]___[hash:base64:5]',
+      },
+      taroConfig.postcss.cssModules.config
+    )
     return {
-      generateScopedName: config.generateScopedName
+      generateScopedName: config.generateScopedName,
     }
   }
 
-  function getMinify (): 'terser' | 'esbuild' | boolean {
+  function getMinify(): 'terser' | 'esbuild' | boolean {
     return taroConfig.mode !== 'production'
       ? false
       : taroConfig.jsMinimizer === 'esbuild'
@@ -224,7 +222,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
   const __postcssOption = getDefaultPostcssConfig({
     designWidth: taroConfig.designWidth || 750,
     deviceRatio: taroConfig.deviceRatio,
-    postcssOption: taroConfig.postcss
+    postcssOption: taroConfig.postcss,
   })
 
   return {
@@ -238,18 +236,18 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
         emptyOutDir: false,
         lib: {
           entry: taroConfig.entry.app,
-          formats: ['cjs']
+          formats: ['cjs'],
         },
         watch: taroConfig.isWatch ? {} : null,
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
         rollupOptions: {
           output: {
-            entryFileNames (chunkInfo) {
+            entryFileNames(chunkInfo) {
               return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
             },
             chunkFileNames: '[name].js',
-            manualChunks (id, { getModuleInfo }) {
+            manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
 
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
@@ -257,54 +255,49 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
                 return 'common'
               }
-            }
+            },
           },
-          plugins: [
-            inject(getInjectOption()),
-            babel(getBabelOption()),
-          ]
+          plugins: [inject(getInjectOption()), babel(getBabelOption())],
         },
         commonjsOptions: {
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
-          transformMixedEsModules: true
+          transformMixedEsModules: true,
         },
         minify: getMinify(),
-        terserOptions: getMinify() === 'terser'
-          ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
-          : undefined
+        terserOptions:
+          getMinify() === 'terser'
+            ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
+            : undefined,
       },
       define: getDefineOption(),
       resolve: {
-        mainFields: ['browser', 'module', 'jsnext:main', 'main'],
+        mainFields: [...defaultMainFields],
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
         alias: [
           // 小程序使用 regenerator-runtime@0.11
           { find: 'regenerator-runtime', replacement: require.resolve('regenerator-runtime') },
           { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath || '@tarojs/components/mini' },
-          ...getAliasOption()
+          ...getAliasOption(),
         ],
-        dedupe: [
-          '@tarojs/shared',
-          '@tarojs/runtime'
-        ]
+        dedupe: ['@tarojs/shared', '@tarojs/runtime'],
       },
       esbuild: {
-        jsxDev: false
+        jsxDev: false,
       },
       css: {
         postcss: {
-          plugins: getPostcssPlugins(appPath, __postcssOption)
+          plugins: getPostcssPlugins(appPath, __postcssOption),
         },
         preprocessorOptions: {
           ...(await getSassOption()),
           less: taroConfig.lessLoaderOption || {},
-          stylus: taroConfig.stylusLoaderOption || {}
+          stylus: taroConfig.stylusLoaderOption || {},
         },
-        modules: getCSSModulesOptions()
-      }
+        modules: getCSSModulesOptions(),
+      },
       // @TODO xsscript loader
     }),
-    configResolved (_resolvedConfig) {
+    configResolved(_resolvedConfig) {
       // console.log('resolvedConfig.plugins: ', resolvedConfig.plugins)
       // console.log('resolvedConfig.esbuild: ', resolvedConfig.esbuild)
     },

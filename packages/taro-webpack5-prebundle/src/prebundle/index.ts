@@ -1,6 +1,5 @@
 import { chalk, fs, readConfig, recursiveMerge, REG_SCRIPTS, resolveMainFilePath, terminalLink } from '@tarojs/helper'
 import { PLATFORM_TYPE } from '@tarojs/shared'
-import { Message } from 'esbuild'
 import path from 'path'
 import { performance } from 'perf_hooks'
 import webpack from 'webpack'
@@ -11,7 +10,7 @@ import TaroModuleFederationPlugin from '../webpack/TaroModuleFederationPlugin'
 import { bundle } from './bundle'
 import { scanImports } from './scanImports'
 
-import type { Config } from '@swc/core'
+import type { esbuild, swc } from '@tarojs/helper'
 import type { IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type { Configuration, EntryObject, RuleSetRule } from 'webpack'
 import type Chain from 'webpack-chain'
@@ -40,7 +39,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
   cacheDir: string
   chain: Chain
   customEsbuildConfig: IPrebundle['esbuild']
-  customSwcConfig?: Config
+  customSwcConfig?: swc.Config
   env: string
   mode: TMode
   platformType: PLATFORM_TYPE
@@ -192,7 +191,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
     this.measure('Prebundle duration', PREBUNDLE_START)
   }
 
-  handleBundleError (errors: Message[] = []) {
+  handleBundleError (errors: esbuild.Message[] = []) {
     const keys = Array.from(this.deps.keys())
     if (errors.length > 0) {
       const deps = errors.reduce((p, e) => {
@@ -205,7 +204,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
       if (deps.length > 0) {
         console.log(
           chalk.yellowBright(
-            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'),`依赖预编译。`,
+            `检测到依赖编译错误，已跳过`, deps.sort(sortDeps).map(e => chalk.bold(e)).join('、'), `依赖预编译。`,
             `\n    > 可以通过手动配置 ${
               terminalLink('compiler.prebundle.exclude', 'https://nervjs.github.io/taro-docs/docs/next/config-detail#compilerprebundleexclude')
             } 忽略该提示`

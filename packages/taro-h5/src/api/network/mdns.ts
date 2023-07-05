@@ -1,13 +1,13 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // mDNS
-export const stopLocalServiceDiscovery = temporarilyNotSupport('stopLocalServiceDiscovery')
-export const startLocalServiceDiscovery = temporarilyNotSupport('startLocalServiceDiscovery')
-export const onLocalServiceResolveFail = temporarilyNotSupport('onLocalServiceResolveFail')
-export const onLocalServiceLost = temporarilyNotSupport('onLocalServiceLost')
-export const onLocalServiceFound = temporarilyNotSupport('onLocalServiceFound')
-export const onLocalServiceDiscoveryStop = temporarilyNotSupport('onLocalServiceDiscoveryStop')
-export const offLocalServiceResolveFail = temporarilyNotSupport('offLocalServiceResolveFail')
-export const offLocalServiceLost = temporarilyNotSupport('offLocalServiceLost')
-export const offLocalServiceFound = temporarilyNotSupport('offLocalServiceFound')
-export const offLocalServiceDiscoveryStop = temporarilyNotSupport('offLocalServiceDiscoveryStop')
+export const stopLocalServiceDiscovery = /* @__PURE__ */ temporarilyNotSupport('stopLocalServiceDiscovery')
+export const startLocalServiceDiscovery = /* @__PURE__ */ temporarilyNotSupport('startLocalServiceDiscovery')
+export const onLocalServiceResolveFail = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceResolveFail')
+export const onLocalServiceLost = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceLost')
+export const onLocalServiceFound = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceFound')
+export const onLocalServiceDiscoveryStop = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceDiscoveryStop')
+export const offLocalServiceResolveFail = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceResolveFail')
+export const offLocalServiceLost = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceLost')
+export const offLocalServiceFound = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceFound')
+export const offLocalServiceDiscoveryStop = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceDiscoveryStop')

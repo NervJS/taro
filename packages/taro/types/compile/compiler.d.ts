@@ -1,4 +1,4 @@
-import type swc from '@swc/core'
+import type { swc } from '@tarojs/helper'
 import type Webpack from 'webpack'
 
 type CompilerTypes = 'webpack4' | 'webpack5' | 'vite'
