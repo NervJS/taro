@@ -110,17 +110,37 @@ export const formatPrefix = (prefixs: string | string[] = ['TARO_APP_']): string
   const prefixsArr: string[] = (Array.isArray(prefixs) ? prefixs : prefixs.split(',')).map(prefix => prefix.trim()).filter(prefix => !!prefix)
   return prefixsArr
 }
-export const dotenvParse = (root: string, prefixs: string | string[] = ['TARO_APP_'], mode?: string): Record<string, string> => {
-  const prefixsArr: string[] = formatPrefix(prefixs)
+export const dotenvParse = (root: string, options: {
+  prefixs: string | string[]
+  mode?: string
+  type?: string
+}): Record<string, string> => {
+  const { prefixs = ['TARO_APP_'], mode, type } = options
 
+  const prefixsArr: string[] = formatPrefix(prefixs)
+  // 默认 文件存在即读取 优先级最低
+  // 不区分打包平台 不区分打包 mode
   const envFiles = new Set([
     /** default file */ `.env`,
     /** local file */ `.env.local`,
   ])
+  // 根据打包 平台 读取配置 文件
+  // 可配置 特定平台 但是 不区分 mode 的配置信息
+  if(type) {
+    envFiles.add(/** type file */ `.env.${type}`)
+    envFiles.add(/** type local file */ `.env.${type}.local`)
+  }
 
   if(mode) {
+    // 根据 打包 mode 读取配置文件
+    // 可配置 特定 mode 但是不区分 平台 的配置信息
     envFiles.add(/** mode file */ `.env.${mode}`)
     envFiles.add(/** mode local file */ `.env.${mode}.local`)
+    if(type) {
+      // 最高优先级 特定平台 特定 mode 的配置信息
+      envFiles.add(/** mode type file */ `.env.${mode}.${type}`)
+      envFiles.add(/** mode type local file */ `.env.${mode}.${type}.local`)
+    }
   }
 
   let parseTemp = {}
