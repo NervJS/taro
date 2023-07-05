@@ -1,5 +1,5 @@
-import { NodePath } from 'babel-traverse'
-import * as t from 'babel-types'
+import { NodePath } from '@babel/traverse'
+import * as t from '@babel/types'
 import * as fs from 'fs'
 import { dirname, extname, relative, resolve } from 'path'
 
@@ -37,14 +37,14 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
-  const is = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'is' }))
-  const data = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'data' }))
-  // const spread = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'spread' }))
-  const name = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'name' }))
+  const is = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'is')
+  const data = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'data')
+  const name = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'name')
+
   const refIds = new Set<string>()
-  const loopIds = new Set<string>()
+  const loopIds = new Set<string>() 
   const imports: any[] = []
-  if (name) {
+  if (name && t.isJSXAttribute(name.node)) {
     const value = name.node.value
     if (value === null || !t.isStringLiteral(value)) {
       throw new Error('template 的 `name` 属性只能是字符串')
@@ -83,7 +83,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       name: className,
       ast: classDecl
     }
-  } else if (is) {
+  } else if (is && t.isJSXAttribute(is.node)) {
     const value = is.node.value
     if (!value) {
       throw new Error('template 的 `is` 属性不能为空')
@@ -91,7 +91,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     if (t.isStringLiteral(value)) {
       const className = buildTemplateName(value.value)
       const attributes: t.JSXAttribute[] = []
-      if (data) {
+      if (data && t.isJSXAttribute(data.node)) {
         attributes.push(data.node)
       }
       path.replaceWith(t.jSXElement(
@@ -104,7 +104,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       if (t.isStringLiteral(value.expression)) {
         const className = buildTemplateName(value.expression.value)
         const attributes: t.JSXAttribute[] = []
-        if (data) {
+        if (data && t.isJSXAttribute(data.node)) {
           attributes.push(data.node)
         }
         path.replaceWith(t.jSXElement(
@@ -119,7 +119,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
           throw new Error('当 template is 标签是三元表达式时，他的两个值都必须为字符串')
         }
         const attributes: t.JSXAttribute[] = []
-        if (data) {
+        if (data && t.isJSXAttribute(data.node)) {
           attributes.push(data.node)
         }
         const block = buildBlockElement()
@@ -168,7 +168,7 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
 export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type: 'include' | 'import') {
   const openingElement = jsx.get('openingElement')
   const attrs = openingElement.get('attributes')
-  const src = attrs.find(attr => attr.get('name').isJSXIdentifier({ name: 'src' }))
+  const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
   if (!src) {
     throw new Error(`${type} 标签必须包含 \`src\` 属性`)
   }
@@ -176,10 +176,10 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     dirPath = dirname(dirPath)
   }
   const value = src.get('value')
-  if (!value.isStringLiteral()) {
+  if (!t.isStringLiteral(value)) {
     throw new Error(`${type} 标签的 src 属性值必须是一个字符串`)
   }
-  let srcValue = value.node.value
+  let srcValue = value.value
   if (srcValue.startsWith('/')) {
     const vpath = resolve(setting.rootPath, srcValue.substr(1))
     if (!fs.existsSync(vpath)) {

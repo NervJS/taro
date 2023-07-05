@@ -348,7 +348,7 @@ export default class Convertor {
                   template(
                     `import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
                     babylonConfig
-                  )()
+                  )() as t.Statement
                 )
               })
             }
@@ -360,7 +360,7 @@ export default class Convertor {
                   template(
                     `import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`,
                     babylonConfig
-                  )()
+                  )() as t.Statement
                 )
               })
             }
@@ -896,13 +896,17 @@ ${code}
       date,
       projectName,
       framework: this.framework,
-      compiler: 'webpack5'
+      compiler: 'webpack5',
+      typescript: false
     })
     creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
-      framework: this.framework
+      framework: this.framework,
+      compiler: 'webpack5',
+      typescript: false
     })
     creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'), {
-      framework: this.framework
+      framework: this.framework,
+      typescript: false
     })
     creator.template(templateName, 'project.config.json', path.join(this.convertRoot, 'project.config.json'), {
       description,

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import traverse, { Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { NodePath,Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
 import * as fs from 'fs'
 import { parse, stringify } from 'himalaya-wxml'
 import { kebabCase } from 'lodash'
@@ -33,8 +33,8 @@ export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
     },
     CallExpression (path) {
       const callee = path.get('callee')
-      replaceIdentifier(callee)
-      replaceMemberExpression(callee)
+      replaceIdentifier(callee as NodePath<t.Node>)
+      replaceMemberExpression(callee as NodePath<t.Node>)
       if (
         callee.isIdentifier({ name: 'Page' }) ||
         callee.isIdentifier({ name: 'Component' }) ||
