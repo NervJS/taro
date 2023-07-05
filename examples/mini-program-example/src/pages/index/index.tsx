@@ -1,6 +1,7 @@
-import { View, Text, Image, GridView, ListView, RootPortal, StickyHeader, StickySection } from '@tarojs/components'
+import { View, Text, Image, GridView, ListView, RootPortal, StickyHeader, StickySection, CheckboxGroup, Checkbox, Label, RadioGroup, Radio } from '@tarojs/components'
 import { useLoad } from '@tarojs/taro'
 import './index.scss'
+import { useState } from 'react'
 
 const grid_data = [
   {
@@ -29,15 +30,68 @@ const grid_data = [
   }
 ]
 
+const furits = [
+  {
+    key: "apple",
+    name: "苹果"
+  },{
+    key: "banana",
+    name: "香蕉"
+  }, {
+    key: "peach",
+    name: "桃子"
+  }
+]
+
 export default function Index() {
 
   useLoad(() => {
     console.log('Page loaded.')
   })
 
+  let [multipleSelectedFurits, setMultipleSelectedFurits] = useState([] as string[])
+
+  let [singleSelectedFurits, setSingleSelectedFurits] = useState(null)
+
   return (
     <View className='index'>
       <Text>Hello world!</Text>
+
+      <div>
+        <CheckboxGroup name="选择水果" onChange={(event) => {
+          setMultipleSelectedFurits(event.detail.value)
+        }}>
+          <h3>多选：</h3>
+          {
+            furits.map(item => {
+              let checked = multipleSelectedFurits.indexOf(item.name) != -1;
+              return <Label key={item.key} className='furit-item'>
+                <Checkbox value={item.name} checked={checked} hidden></Checkbox>
+                <div className={checked ? 'furit-multiple-selected' : 'furit-multiple-normal'}></div>
+                {item.name}
+              </Label>
+            })
+          }
+        </CheckboxGroup>
+      </div>
+
+      <div>
+        <RadioGroup name="选择水果" onChange={(event) => {
+          setSingleSelectedFurits(event.detail.value)
+        }}>
+          <h3>单选：</h3>
+          {
+            furits.map(item => {
+              let checked = (singleSelectedFurits == item.key);
+              return <div key={item.key} className='furit-item'>
+                <Radio id={item.key} value={item.key} checked={checked} hidden></Radio>
+                <div className={checked ? 'furit-selected' : 'furit-normal'}></div>
+                <Label for={item.key}>{item.name}</Label>
+              </div>
+            })
+          }
+        </RadioGroup>
+      </div>
 
       <RootPortal enable={false} style={{
         position: 'absolute',
