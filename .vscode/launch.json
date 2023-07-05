@@ -7,46 +7,50 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "CLI debug",
+      "name": "vue",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-      // "cwd": "${project absolute path}",
-      // "args": [
-      //   "build",
-      //   "--type",
-      //   "weapp",
-      //   "--watch"
-      // ],
+      "cwd": "/Users/liuzejia/test/taro-vue-vite",
+      "args": ["build", "--type", "h5", "--watch"],
       "skipFiles": ["<node_internals>/**"]
     },
     {
       "type": "node",
-      "name": "vscode-jest-tests",
       "request": "launch",
-      "args": ["--runInBand"],
-      "cwd": "${workspaceFolder}",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true,
-      "program": "${workspaceFolder}/node_modules/jest/bin/jest"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Program",
-      "program": "${workspaceFolder}/index.js",
-      "preLaunchTask": "tsc: build - tsconfig.json",
-      "outFiles": ["${workspaceFolder}/lib/**/*.js"]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "E2E Test Current File",
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/node_modules/.bin/stencil",
-      "args": ["test", "--e2e", "${relativeFile}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "disableOptimisticBPs": true
+      "name": "react",
+      "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
+      "cwd": "/Users/liuzejia/test/taro-vite-preact",
+      "args": ["build", "--type", "h5", "--watch"],
+      "skipFiles": ["<node_internals>/**"]
     }
+    // {
+    //   "type": "node",
+    //   "name": "vscode-jest-tests",
+    //   "request": "launch",
+    //   "args": ["--runInBand"],
+    //   "cwd": "${workspaceFolder}",
+    //   "console": "integratedTerminal",
+    //   "internalConsoleOptions": "neverOpen",
+    //   "disableOptimisticBPs": true,
+    //   "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+    // },
+    // {
+    //   "type": "node",
+    //   "request": "launch",
+    //   "name": "Launch Program",
+    //   "program": "${workspaceFolder}/index.js",
+    //   "preLaunchTask": "tsc: build - tsconfig.json",
+    //   "outFiles": ["${workspaceFolder}/lib/**/*.js"]
+    // },
+    // {
+    //   "type": "node",
+    //   "request": "launch",
+    //   "name": "E2E Test Current File",
+    //   "cwd": "${workspaceFolder}",
+    //   "program": "${workspaceFolder}/node_modules/.bin/stencil",
+    //   "args": ["test", "--e2e", "${relativeFile}"],
+    //   "console": "integratedTerminal",
+    //   "internalConsoleOptions": "neverOpen",
+    //   "disableOptimisticBPs": true
+    // }
   ]
 }
