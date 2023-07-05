@@ -1,6 +1,6 @@
 import '../../style/components/grid.scss'
 
-import React, { PureComponent, ReactNode } from 'react'
+import React, { PureComponent, ReactElement, ReactNode } from 'react'
 import GridLayout from 'react-grid-layout'
 
 interface Props {
@@ -29,6 +29,7 @@ export class GridView extends PureComponent<Props> {
     if (this.props.crossAxisGap !== undefined) {
       crossAxisGap = this.props.crossAxisGap
     }
+    const childs: ReactElement[] = []
 
     const layout: { i: string | number | null, x: number, y: number, w: number, h: number, static: boolean }[] = []
     let column = 3
@@ -48,6 +49,12 @@ export class GridView extends PureComponent<Props> {
         const h = child.props.h
 
         layout.push({ i: i, x: x, y: y, w, h, static: true })
+        childs.push(
+          <div key={i}>
+            {child}
+          </div>
+        )
+
         count++
         // console.log('count ' + count + ' column ' + column + ' x: ' + x + ' y: ' + y + ' w: ' +  w + ' h: ' +  h + ' child ' + typeof child + ' i: ' + child.key)
       }
@@ -63,7 +70,8 @@ export class GridView extends PureComponent<Props> {
         margin={[mainAxisGap, crossAxisGap]}
         width={this.props.width}
       >
-        {this.props.children}
+        {childs}
+
       </GridLayout>
     )
   }
