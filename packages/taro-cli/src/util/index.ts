@@ -118,29 +118,17 @@ export const dotenvParse = (root: string, options: {
   const { prefixs = ['TARO_APP_'], mode, type } = options
 
   const prefixsArr: string[] = formatPrefix(prefixs)
-  // 默认 文件存在即读取 优先级最低
+  // 默认 文件存在即读取 优先级最低， 可用于配置公共 参数
   // 不区分打包平台 不区分打包 mode
   const envFiles = new Set([
     /** default file */ `.env`,
     /** local file */ `.env.local`,
   ])
-  // 根据打包 平台 读取配置 文件
-  // 可配置 特定平台 但是 不区分 mode 的配置信息
-  if(type) {
-    envFiles.add(/** type file */ `.env.${type}`)
-    envFiles.add(/** type local file */ `.env.${type}.local`)
-  }
 
   if(mode) {
     // 根据 打包 mode 读取配置文件
-    // 可配置 特定 mode 但是不区分 平台 的配置信息
     envFiles.add(/** mode file */ `.env.${mode}`)
     envFiles.add(/** mode local file */ `.env.${mode}.local`)
-    if(type) {
-      // 最高优先级 特定平台 特定 mode 的配置信息
-      envFiles.add(/** mode type file */ `.env.${mode}.${type}`)
-      envFiles.add(/** mode type local file */ `.env.${mode}.${type}.local`)
-    }
   }
 
   let parseTemp = {}
@@ -154,9 +142,21 @@ export const dotenvParse = (root: string, options: {
     }
   }
 
+  // 不区分平台的配置文件读取
+  // 优先级由低到高依次是
+  // env/.env; env/.env.local; env/.env.prepare; env/.env.prepare.local;
   envFiles.forEach(envPath => {
-    load(path.resolve(root, envPath))
+    load(path.resolve(root, `env/${envPath}`))
   })
+  // 读取特定平台的配置文件
+  // 优先级由低到高依次是
+  // env/weapp/.env; env/weapp/.env.local; env/weapp/.env.prepare; env/weapp/.env.prepare.local;
+  if(type) {
+    envFiles.forEach(envPath => {
+      // 根据打包平台读取配置文件 路径为 root/env/${type}/${envPath}
+      load(path.resolve(root, `env/${type}/${envPath}`))
+    })
+  }
 
   const parsed = {}
   Object.entries(parseTemp).forEach(([key, value]) => {
