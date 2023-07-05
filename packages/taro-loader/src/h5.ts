@@ -84,7 +84,7 @@ var tabbarSelectedIconPath = []
   const routesConfig = isMultiRouterMode ? `config.routes = []
 config.route = ${genResource(pageName, pages, this, options)}
 config.pageName = "${pageName}"` : `config.routes = [
-  ${config.pages?.map(path => genResource(path, pages, this)).join(',')}
+  ${config.pages?.map(path => genResource(path, pages, this, options)).join(',')}
 ]`
   const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
 
