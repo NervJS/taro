@@ -1,0 +1,10 @@
+/**
+ * 点击态
+ */
+@mixin active {
+  transition: background-color 0.3s;
+
+  &:active {
+    background-color: $color-grey-5;
+  }
+}

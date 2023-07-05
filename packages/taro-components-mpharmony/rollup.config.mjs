@@ -6,9 +6,11 @@ import ts from 'rollup-plugin-ts'
 import babel from '@rollup/plugin-babel'
 import scss from 'rollup-plugin-scss';
 import copy from 'rollup-plugin-copy';
+import RollupCopy from 'rollup-plugin-copy'
 
 const cwd = path.dirname(new URL(import.meta.url).pathname);
 import { mkdirSync } from 'fs';
+import NodePath from "path";
 
 const base = {
   external: ['@types/node'],
@@ -23,6 +25,14 @@ const base = {
     babel({
       babelHelpers: 'bundled',
       presets: [['@babel/preset-env', { targets: { ie: '11' } }]]
+    }),
+    RollupCopy({
+      targets: [
+        {
+          src: 'src/style',
+          dest: 'dist'
+        }
+      ]
     })
   ]
 }
@@ -60,6 +70,5 @@ const commonConfig = {
   },
   ...base
 }
-
 
 export default [compileConfig, componentsConfig,commonConfig]

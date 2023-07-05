@@ -1,0 +1,46 @@
+
+.furit-multiple-selected {
+  left: 3px;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  background: #1aad19;
+}
+
+.furit-multiple-normal {
+  left: 3px;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  stroke-width: 2;
+  border-color:#1aad19;
+  fill: #fcfff4;
+  border-style: solid;
+}
+
+.furit-selected {
+  left: 3px;
+  top: 3px;
+  width: 14px;
+  height: 14px;
+  background: #1aad19;
+  border-radius: 50%;
+}
+
+.furit-normal {
+  left: 3px;
+  top: 3px;
+  width: 12px;
+  height: 12px;
+  stroke-width: 2;
+  border-color:#1aad19;
+  fill: #fcfff4;
+  border-radius: 50%;
+  border-style:solid;
+}
+
+.furit-item {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
