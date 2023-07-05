@@ -1,0 +1,11 @@
+/**
+ * 通用的遮罩
+ */
+@mixin overlay {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba($color: #000, $alpha: 0.3);
+}

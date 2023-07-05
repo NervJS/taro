@@ -1,0 +1,9 @@
+/**
+ * 元素居中定位
+ */
+@mixin absolute-center($pos: absolute) {
+  position: $pos;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
