@@ -130,6 +130,8 @@
 /// <reference types="@tarojs/plugin-platform-swan/types/shims-swan" />
 /// <reference types="@tarojs/plugin-platform-tt/types/shims-tt" />
 /// <reference types="@tarojs/plugin-platform-weapp/types/shims-weapp" />
+/// <reference types="@tarojs/taro-h5/types/overlay" />
+/// <reference types="@tarojs/taro-rn/types/overlay" />
 
 export = Taro
 export as namespace Taro
