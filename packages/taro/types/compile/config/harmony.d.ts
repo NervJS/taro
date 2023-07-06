@@ -14,4 +14,10 @@ export interface IHarmonyConfig {
 
   /** 用于告诉 Taro 编译器需要抽取的公共文件 */
   commonChunks?: string[] | ((commonChunks: string[]) => string[])
+
+  /** Harmony 编译过程的相关配置 */
+  compile?: {
+    exclude?: any[]
+    include?: any[]
+  }
 }

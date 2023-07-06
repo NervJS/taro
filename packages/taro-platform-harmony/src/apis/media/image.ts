@@ -137,7 +137,7 @@ const previewImage: PreviewImage = function (options) {
     const { urls, current } = options
     const previewImageOptions: IPreviewImagesOptionsOHOS = {
       images: urls,
-      index: current ? parseInt(current) : 0
+      index: current ? parseInt(current as string) : 0
     }
     mediaLibrary.getMediaLibrary().startImagePreview(previewImageOptions.images, previewImageOptions.index).then(() => {
       const previewImageRes = { errMsg: 'previewImage success.' }

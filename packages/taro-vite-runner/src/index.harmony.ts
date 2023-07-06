@@ -25,9 +25,6 @@ export default async function (appPath: string, taroConfig: HarmonyBuildConfig) 
   }
 
   const commonConfig: UserConfig = {
-    esbuild: {
-      loader: 'tsx',
-    },
     plugins,
   }
 

@@ -2,6 +2,7 @@ import multiPlatformPlugin from '../common/multi-platform-plugin'
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'
+import etsPlugin from './ets'
 import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
 
@@ -14,6 +15,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
     configPlugin(appPath, taroConfig),
     entryPlugin(),
     pagePlugin(),
+    etsPlugin(),
     multiPlatformPlugin(taroConfig),
     emitPlugin(),
   ]

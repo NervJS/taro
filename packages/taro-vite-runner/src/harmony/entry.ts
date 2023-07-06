@@ -8,7 +8,7 @@ import type { PluginOption } from 'vite'
 
 const ENTRY_SUFFIX = '?entry-loader=true'
 
-export default function (/* taroConfig: HarmonyBuildConfig */): PluginOption {
+export default function (): PluginOption {
   return {
     name: 'taro:vite-harmony-entry',
     enforce: 'pre',
@@ -41,7 +41,42 @@ export default function (/* taroConfig: HarmonyBuildConfig */): PluginOption {
 
         const appConfigStr = prettyPrintJson(appConfig)
 
-        let instantiateApp = `var inst = App(${createApp})`
+        const { pages = [], entryPagePath = pages[0] } = appConfig
+        let instantiateApp = `export default class EntryAbility extends UIAbility {
+          app
+
+          onCreate(want, launchParam) {
+            this.app = ${createApp}
+            this.app.onLaunch({
+              ...want,
+              ...launchParam
+            })
+          }
+
+          onDestroy() {}
+
+          onWindowStageCreate(stage) {
+            stage.loadContent("${entryPagePath}", (err, data) => {
+              if (err.code) {
+                return this.app?.onError(err)
+              } else if (this.app) {
+                this.app.onLoad(data)
+              }
+            })
+          }
+
+          onWindowStageDestroy() {
+            this.app?.onUnload()
+          }
+
+          onForeground() {
+            this.app?.onShow()
+          }
+
+          onBackground() {
+            this.app?.onHide()
+          }
+        }`
 
         if (typeof modifyInstantiate === 'function') {
           instantiateApp = modifyInstantiate(instantiateApp, 'app')
@@ -100,6 +135,7 @@ export default function (/* taroConfig: HarmonyBuildConfig */): PluginOption {
 
         return [
           setReconciler,
+          'import UIAbility from "@ohos.app.ability.UIAbility"',
           'import { window } from "@tarojs/runtime"',
           `import { ${creator} } from "${creatorLocation}"`,
           'import { initPxTransform } from "@tarojs/taro"',
@@ -112,7 +148,7 @@ export default function (/* taroConfig: HarmonyBuildConfig */): PluginOption {
           'initPxTransform({',
           `designWidth: ${taroConfig.designWidth || 750},`,
           `deviceRatio: ${JSON.stringify(taroConfig.deviceRatio || { 750: 1 })}`,
-          '})'
+          '})',
         ].join('\n')
       }
     }

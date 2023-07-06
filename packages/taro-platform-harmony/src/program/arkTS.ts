@@ -8,7 +8,7 @@ export default class Harmony extends TaroPlatformHarmony {
     templ: '.hml',
     style: '.css',
     config: '.json',
-    script: '.js'
+    script: '.ets'
   }
 
   useETS = true

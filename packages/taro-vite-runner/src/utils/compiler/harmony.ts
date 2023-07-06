@@ -103,7 +103,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
 
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
   modifyHarmonyConfig (config: AppConfig = {}) {
-    const { pages = [], entryPagePath = pages[0] } = config
+    const { pages = [] } = config
     const { projectPath, hapName = 'entry', name = 'default', designWidth = 750 } = this.taroConfig
     const hapConfigPath = path.join(projectPath, hapName, `src/main/${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)
     try {
@@ -130,10 +130,8 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
           window,
         })
         /**
-         * TOD0: 生成 app 文件，并将其配置为 mainElement 入口
-         * windowStage.loadContent(entryPagePath)
+         * TOD0: 将 app 其配置为 mainElement 入口
          */
-        typeof entryPagePath
       } else {
         // FA 模型
         config.module.js ||= []

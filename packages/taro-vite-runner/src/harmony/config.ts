@@ -33,17 +33,16 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
   }
 
   function getAliasOption() {
-    const alias = taroConfig.alias || {}
+    const { alias = {} } = taroConfig
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
   }
 
   function getBabelOption(): RollupBabelInputPluginOptions {
-    const compile: Record<string, any> = {}
-    // const { compile = {} } = taroConfig
+    const { compile = {} } = taroConfig
     const babelOptions: RollupBabelInputPluginOptions = {
-      extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es'],
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
     }
@@ -103,7 +102,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
       mode: getMode(taroConfig),
       build: {
         outDir: taroConfig.outputRoot || 'dist',
-        target: 'es6',
+        target: 'esnext',
         cssCodeSplit: true,
         emptyOutDir: false,
         lib: {
@@ -114,9 +113,12 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
         rollupOptions: {
+          // FIXME 考虑是否可以移除，需在 ets acornInjectPlugins 插件完成后
+          treeshake: false,
+          external: [/^@system\./, /^@ohos\./, /^@hmscore\//],
           output: {
             entryFileNames(chunkInfo) {
-              return stripMultiPlatformExt(chunkInfo.name) + '.ets'
+              return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
             },
             chunkFileNames: '[name].js',
             manualChunks(id, { getModuleInfo }) {
@@ -129,7 +131,10 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
               }
             },
           },
-          plugins: [inject(getInjectOption()), babel(getBabelOption())],
+          plugins: [
+            inject(getInjectOption()),
+            babel(getBabelOption()),
+          ],
         },
       },
       define: getDefineOption(),

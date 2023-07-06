@@ -2,7 +2,7 @@ import { appendVirtualModulePrefix, getHarmonyCompiler, prettyPrintJson, stripVi
 
 import type { PluginOption } from 'vite'
 
-const PAGE_SUFFIX = '?page-loader=true'
+const PAGE_SUFFIX = '.ets?page-loader=true'
 
 export default function (): PluginOption {
   return {
@@ -29,21 +29,48 @@ export default function (): PluginOption {
 
         const pageConfig = prettyPrintJson(page.config)
 
-        let instantiatePage = `var inst = Page(createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {}))`
+        let instantiatePage = [
+          '@Component',
+          `@Entry
+struct Index {
+  page\n
+  scroller: Scroller = new Scroller()\n
+  @State node: TaroElement = new TaroElement("Block")\n
+  aboutToAppear() {
+    this.page = createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {})
+  }
+
+  build() {
+    Scroll(this.scroller) {
+      Column() {
+        if (this.node.tagName === 'VIEW') {
+          View({ node: this.node })
+        } else if (this.node.tagName === 'TEXT') {
+          Text({ node: this.node })
+        } else if (this.node.tagName === 'IMAGE') {
+          Image({ node: this.node })
+        }
+      }
+    }
+  }
+}`,
+        ].filter(e => typeof e === 'string').join('\n')
 
         if (typeof compiler.loaderMeta.modifyInstantiate === 'function') {
           instantiatePage = compiler.loaderMeta.modifyInstantiate(instantiatePage, 'page')
         }
 
         return [
-          'import { createPageConfig } from "@tarojs/runtime"',
+          'import { Image, Text, View } from "@tarojs/components"',
+          'import { createPageConfig, TaroElement } from "@tarojs/runtime"',
           `import component from "${rawId}"`,
           `var config = ${pageConfig}`,
-          page.config.enableShareTimeline ? 'component.enableShareTimeline = true' : '',
-          page.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : '',
+          page.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
+          page.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
+          '',
           instantiatePage,
-        ].join('\n')
+        ].filter(e => typeof e === 'string').join('\n')
       }
-    }
+    },
   }
 }
