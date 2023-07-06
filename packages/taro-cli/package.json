@@ -1,8 +1,9 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.6.8",
+  "version": "3.6.9-alpha.7",
   "description": "cli tool for taro",
   "main": "index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i",
@@ -44,7 +45,7 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/plugin-doctor": "0.0.5",
+    "@tarojs/plugin-doctor": "0.0.10",
     "adm-zip": "^0.4.13",
     "cli-highlight": "^2.1.11",
     "dotenv": "^16.0.3",

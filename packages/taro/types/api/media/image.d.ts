@@ -18,11 +18,23 @@ declare module '../../index' {
     interface Option {
       /** 需要预览的图片链接列表。 */
       urls: string[]
-      /** 当前显示图片的链接 */
-      current?: string
-      /** @support weapp 最低版本：2.13.0。是否显示长按菜单，默认值：true */
+      /**
+       * 微信端为当前显示图片的链接，支付宝端为当前显示图片的索引值
+       */
+      current?: string | number
+      /**
+       * 是否支持长按下载图片
+       * @supported alipay 基础库: 1.13.0
+       */
+      enablesavephoto?: boolean
+      /**
+       * 是否在右下角显示下载入口
+       * @supported alipay 基础库: 1.13.0
+       */
+      enableShowPhotoDownload?: boolean
+      /** @supported weapp 最低版本：2.13.0。是否显示长按菜单，默认值：true */
       showmenu?: boolean
-      /** @support weapp 最低版本：2.13.0。origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
+      /** @supported weapp 最低版本：2.13.0。origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */
       referrerPolicy?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
@@ -46,7 +58,7 @@ declare module '../../index' {
       /** 需要预览的资源列表 */
       sources: Sources[]
       /** 当前显示的资源序号，默认值：0 */
-      current?:	number
+      current?: number
       /** 是否显示长按菜单	2.13.0，默认值：true */
       showmenu?: boolean
       /** origin: 发送完整的referrer; no-referrer: 不发送。格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；默认值：no-referrer */

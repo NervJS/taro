@@ -11,7 +11,6 @@ import { changeDefaultNameInTemplate } from './editTemplate'
 import type { IPageConf } from './page'
 import type { IProjectConf } from './project'
 
-const CONFIG_DIR_NAME = 'config'
 export const TEMPLATE_CREATOR = 'template_creator.js'
 
 const styleExtMap = {
@@ -116,7 +115,6 @@ function createFiles (
     if (
       typescript &&
       changeExt &&
-      !destRePath.startsWith(`${CONFIG_DIR_NAME}`) &&
       (path.extname(destRePath) === '.js' || path.extname(destRePath) === '.jsx') &&
       !(destRePath.endsWith('babel.config.js') || destRePath.endsWith('.eslintrc.js'))
     ) {

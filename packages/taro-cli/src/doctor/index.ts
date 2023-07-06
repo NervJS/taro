@@ -1,13 +1,9 @@
-// @ts-nocheck
-import {
-  validateEslint
-} from '@tarojs/plugin-doctor'
 import {
   validateConfig,
   validateEnv,
+  validateEslint,
   validatePackage,
-  validateRecommend
-} from '@tarojs/plugin-doctor/js-binding'
+  validateRecommend } from '@tarojs/plugin-doctor'
 
 export default {
   validators: [
@@ -15,13 +11,7 @@ export default {
       return validateEnv.call(this)
     },
     (args) => {
-      const configStr = JSON.stringify(args.projectConfig, (_, v) => {
-        if (typeof v === 'function') {
-          return '__function__'
-        }
-        return v
-      })
-      return validateConfig.call(this, configStr)
+      return validateConfig.call(this, args.projectConfig, args.helper)
     },
     (args) => {
       return validatePackage.call(this, args.appPath, args.nodeModulesPath)
