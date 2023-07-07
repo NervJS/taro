@@ -143,6 +143,8 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
         extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue', '.ets'],
         alias: [
           { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath },
+          { find: /@tarojs\/runtime$/, replacement: '@tarojs/plugin-platform-harmony/dist/runtime-ets' },
+          { find: /@tarojs\/taro$/, replacement: '@tarojs/plugin-platform-harmony/dist/apis' },
           ...getAliasOption(),
         ],
         dedupe: ['@tarojs/shared', '@tarojs/runtime'],
