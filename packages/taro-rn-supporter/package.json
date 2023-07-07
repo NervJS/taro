@@ -54,7 +54,7 @@
     "@babel/preset-env": "^7.14.5",
     "react": "18.2.0",
     "react-native": "^0.71.3",
-    "react-native-svg": "~13.8.0",
+    "react-native-svg": "~13.9.0",
     "react-test-renderer": "18.2.0"
   }
 }
