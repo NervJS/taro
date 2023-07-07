@@ -50,62 +50,11 @@ $zindex-flot-layout: 810 !default;
   }
 
   .layout {
-    &-header {
-      position: relative;
-      padding: $spacing-v-md;
-      line-height: $line-height-zh;
-      background-color: $float-layout-header-bg-color;
-
-      &__title {
-        color: $float-layout-title-color;
-        font-size: $float-layout-title-font-size;
-        display: block;
-        padding-right: 80px;
-      }
-
-      &__btn-close {
-        position: absolute;
-        padding: $spacing-h-sm;
-        top: 50%;
-        right: $spacing-v-md;
-        width: 40px;
-        height: 100%;
-        line-height: 1;
-        transform: translate(0, -50%);
-
-        &::before,
-        &::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          display: inline-block;
-          width: 36px;
-          height: 2PX;
-          border-radius: 1PX;
-          background: $float-layout-btn-color;
-        }
-
-        &::before {
-          transform: translate3d(-50%, -50%, 0) rotate(45deg);
-        }
-
-        &::after {
-          transform: translate3d(-50%, -50%, 0) rotate(-45deg);
-        }
-      }
-    }
-
     &-body {
       font-size: $font-size-base;
       padding: $spacing-v-md;
       max-height: 828px;
       min-height: 514px;
-
-      &__content {
-        max-height: 798px;
-        min-height: 484px;
-      }
     }
   }
 
