@@ -226,8 +226,7 @@ export class BaseTemplate {
     const xs = this.supportXS
       ? `xs.a(0, item.${Shortcuts.NodeName})`
       : "'tmpl_0_' + item.nn"
-    const xsHeader = this.supportXS ? this.buildXsTemplate() : ''
-    return `${xsHeader}
+    return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
   <block ${Adapter.for}="{{root.cn}}" ${Adapter.key}="sid">
     <template is="{{${xs}}}" data="{{${data}}}" />
@@ -297,7 +296,7 @@ export class BaseTemplate {
         : `${this.dataKeymap('i:item')}`
 
       const xs = !this.isSupportRecursive
-        ? `xs.a(${level}, item.${Shortcuts.NodeName}, xs.f(l,item.${Shortcuts.NodeName}))`
+        ? `xs.a(${level}, item.${Shortcuts.NodeName}, l)`
         : `xs.a(${level}, item.${Shortcuts.NodeName})`
 
       return supportXS
@@ -447,14 +446,10 @@ export class BaseTemplate {
     return template
   }
 
-  protected buildContainerTemplate (level: number, restart = false) {
-    let tmpl = ''
-
-    // 最后一层的 comp 需要引用 container 进行重新的模版循环，其他情况不需要 container
-    if (!restart) return tmpl
-
-    tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  // 最后一层的 comp 需要引用 container 进行重新的模版循环，其他情况不需要 container
+  protected buildContainerTemplate (level: number) {
+    const tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
+    <template is="tmpl_0_#text" data="{{${this.dataKeymap('i:i')}}}" />
   </block>
   <block ${this.Adapter.else}>
     ${!this.isSupportRecursive && this.supportXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
@@ -572,7 +567,6 @@ export class RecursiveTemplate extends BaseTemplate {
 
     template += this.buildPlainTextTemplate(ZERO_FLOOR)
     template += this.buildThirdPartyTemplate(ZERO_FLOOR, componentConfig)
-    template += this.buildContainerTemplate(ZERO_FLOOR)
 
     return template
   }
@@ -603,7 +597,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
   }
 
   protected buildFloor (level: number, components: string[], restart = false) {
-    if (restart) return this.buildContainerTemplate(level, restart)
+    if (restart) return this.buildContainerTemplate(level)
 
     let template = components.reduce((current, nodeName) => {
       const attributes: Attributes = this.miniComponents[nodeName]
@@ -613,13 +607,12 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
     template += this.buildPlainTextTemplate(level)
     template += this.buildThirdPartyTemplate(level, this.componentConfig)
-    template += this.buildContainerTemplate(level, restart)
 
     return template
   }
 
   protected buildOptimizeFloor (level: number, components: string[], restart = false) {
-    if (restart) return this.buildContainerTemplate(level, restart)
+    if (restart) return this.buildContainerTemplate(level)
 
     let template = components.reduce((current, nodeName) => {
       if (level !== 0) {
@@ -641,7 +634,6 @@ export class UnRecursiveTemplate extends BaseTemplate {
 
     if (level === 0) template += this.buildPlainTextTemplate(level)
     template += this.buildThirdPartyTemplate(level, this.componentConfig)
-    template += this.buildContainerTemplate(level)
 
     return template
   }
