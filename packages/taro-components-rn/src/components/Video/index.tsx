@@ -19,6 +19,7 @@ import View from '../View'
 import Text from '../Text'
 import Image from '../Image'
 import { onFullscreenChangeEventDetail } from './PropsType'
+import { DimensionValue, ImageStyle } from 'react-native'
 /**
  * @typedef {Object} Danmu
  * @property {string} text 弹幕文字
@@ -347,7 +348,7 @@ class _Video extends Component<Props, any> {
       isLooping: loop,
       isMuted: muted,
       positionMillis: initialTime,
-      style: Object.assign({ width: '100%', height: '100%' }, style as Record<string, unknown>),
+      style: Object.assign({ width: '100%', height: '100%' }, style) as Record<string, DimensionValue>,
       ref: this.getVideoRef,
       resizeMode: ObjectFit[objectFit],
       useNativeControls: controls,
@@ -373,7 +374,7 @@ class _Video extends Component<Props, any> {
           <View style={Styles['taro-video-cover']}>
             <Image
               src={require('../../assets/video/play.png')}
-              style={Styles['taro-video-cover-play-button']}
+              style={Styles['taro-video-cover-play-button'] as ImageStyle}
               onClick={this.clickPlayBtn}
             />
             <Text style={Styles['taro-video-cover-duration']}>{duration}</Text>
