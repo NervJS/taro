@@ -173,14 +173,13 @@ export class TaroNode extends TaroEventTarget {
     //   - update: true (Need to update parent.childNodes, because parent.childNodes is reordered)
     newChild.remove({ cleanRef: false })
 
-    let childIndex = 0
+    let index = 0
     // Data structure
     newChild.parentNode = this
     if (refChild) {
       // insertBefore & replaceChild
-      const index = this.findIndex(refChild)
+      index = this.findIndex(refChild)
       this.childNodes.splice(index, 0, newChild)
-      childIndex = index
     } else {
       // appendChild
       this.childNodes.push(newChild)
@@ -219,12 +218,12 @@ export class TaroNode extends TaroEventTarget {
         // 由于微信解析 ’cn.[2]‘ 这些路径的时候也需要消耗时间，
         // 所以根据 insertBefore 插入的位置来做不同的处理
         const mark = childNodesLength * 2 / 3
-        if (mark > childIndex) {
+        if (mark > index) {
           // 如果 insertBefore 的位置在 childNodes 的 2/3 前，则为了避免解析路径消耗过多的时间，采用第一种方式
           this.updateChildNodes()
         } else {
           // 如果 insertBefore 的位置在 childNodes 的 2/3 之后，则采用第二种方式，避免 childNodes 的全量更新
-          this.updateSingleChild(childIndex)
+          this.updateSingleChild(index)
         }
       }
     }
