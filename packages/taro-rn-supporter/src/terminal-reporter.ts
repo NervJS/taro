@@ -1,4 +1,4 @@
-import * as MetroTerminalReporter from 'metro/src/lib/TerminalReporter'
+import { TerminalReporter as MetroTerminalReporter } from 'metro/src/lib/TerminalReporter'
 import { Terminal } from 'metro-core'
 import yargs from 'yargs'
 
