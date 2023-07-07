@@ -45,7 +45,8 @@ const compileConfig: RollupOptions = {
       targets: [
         { src: 'src/template/container.js', dest: 'dist/template' },
         { src: 'src/template/global.scss', dest: 'dist/template' },
-        { src: 'src/components/components-harmony', dest: 'dist' }
+        { src: 'src/components/components-harmony-ets', dest: 'dist' },
+        { src: 'src/components/components-harmony', dest: 'dist' },
       ]
     }) as InputPluginOption
   ]

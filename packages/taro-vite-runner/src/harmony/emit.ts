@@ -15,7 +15,7 @@ export default function (): PluginOption {
       if (compiler) {
         const { taroConfig } = compiler
 
-        const compPathId = await this.resolve(taroConfig.taroComponentsPath || '@tarojs/components/mini')
+        const compPathId = await this.resolve(taroConfig.taroComponentsPath)
         if (compPathId) {
           const id = compPathId.id
           const depsChunks = ['vendors.js', 'common.js']

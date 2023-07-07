@@ -42,7 +42,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
   function getBabelOption(): RollupBabelInputPluginOptions {
     const { compile = {} } = taroConfig
     const babelOptions: RollupBabelInputPluginOptions = {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
       babelHelpers: 'runtime',
       skipPreflightCheck: true,
     }
@@ -140,9 +140,9 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
       define: getDefineOption(),
       resolve: {
         mainFields: [...defaultMainFields],
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue', '.ets'],
         alias: [
-          { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath || '@tarojs/components/mini' },
+          { find: /@tarojs\/components$/, replacement: taroConfig.taroComponentsPath },
           ...getAliasOption(),
         ],
         dedupe: ['@tarojs/shared', '@tarojs/runtime'],

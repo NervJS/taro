@@ -14,5 +14,5 @@ export default class Harmony extends TaroPlatformHarmony {
   useETS = true
   useJSON5 = true
   runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime`
-  taroComponentsPath = `${PACKAGE_NAME}/dist/components/components-react`
+  taroComponentsPath = `${PACKAGE_NAME}/dist/components-harmony-ets`
 }

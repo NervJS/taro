@@ -55,5 +55,5 @@ export interface HarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
   useETS?: boolean
   useJSON5?: boolean
   runtimePath?: string | string[]
-  taroComponentsPath?: string
+  taroComponentsPath: string
 }

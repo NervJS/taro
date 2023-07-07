@@ -9,7 +9,7 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
   abstract fileType: IFileType
   abstract useETS: boolean
   abstract useJSON5: boolean
-  taroComponentsPath?: string
+  taroComponentsPath: string
 
   /**
    * 1. 清空 dist 文件夹

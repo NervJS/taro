@@ -50,7 +50,7 @@ export class Template extends RecursiveTemplate {
   constructor () {
     super()
 
-    const compsDir = path.resolve(__dirname, 'components', 'components-harmony')
+    const compsDir = path.resolve(__dirname, 'components-harmony')
     this.patchVoidElements.forEach(item => {
       this.voidElements.add(item)
     })
