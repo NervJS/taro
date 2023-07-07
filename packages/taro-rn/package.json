@@ -74,10 +74,10 @@
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
     "jest-expo": "^48.0.2",
-    "metro-react-native-babel-preset": "^0.73.7",
+    "metro-react-native-babel-preset": "^0.76.5",
     "mock-socket": "^7.1.0",
     "react": "18.2.0",
-    "react-native": "^0.71.3",
+    "react-native": "^0.72.1",
     "react-test-renderer": "18.2.0"
   },
   "peerDependencies": {
