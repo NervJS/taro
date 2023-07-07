@@ -179,4 +179,10 @@ export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete
   return handle.success()
 }
 
+export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
+export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
+export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
+export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+
 export * from './background-fetch'
+export * from './cache-manager'

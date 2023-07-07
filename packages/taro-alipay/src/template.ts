@@ -1,4 +1,4 @@
-import { capitalize, toCamelCase } from '@tarojs/shared'
+import { capitalize, Shortcuts, toCamelCase } from '@tarojs/shared'
 import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends RecursiveTemplate {
@@ -90,7 +90,7 @@ export class Template extends RecursiveTemplate {
     <block a:for="{{xs.f(i.cn)}}" a:key="sid">
       <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
         <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+          <template is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />
         </block>
       </swiper-item>
     </block>
@@ -112,10 +112,10 @@ export class Template extends RecursiveTemplate {
 
     return `<view a:if="{{item.nn==='${slotAlias}'}}" slot="{{item.${slotNamePropAlias}}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
         <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.e(0)}}" data="{{i:item}}" />
+          <template is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />
         </block>
       </view>
-      <template a:else is="{{xs.e(0)}}" data="{{i:item}}" />`
+      <template a:else is="{{xs.a(0, item.${Shortcuts.NodeName})}}" data="{{i:item}}" />`
   }
 
   buildXSTmpExtra () {

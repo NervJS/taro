@@ -12,7 +12,7 @@ jest.mock('../doctor', () => {
           kind: 2,
           content: 'Env Success'
         }]
-      }), () => ({
+      }), () => Promise.resolve({
         isValid: false,
         messgaes: [{
           kind: 1,
