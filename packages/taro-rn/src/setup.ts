@@ -4,7 +4,7 @@ import mockRNCNetInfo from '@react-native-community/netinfo/jest/netinfo-mock.js
 import { NetInfoStateType } from '@react-native-community/netinfo'
 import mockRNCAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock.js'
 import mockRNCDeviceInfo from 'react-native-device-info/jest/react-native-device-info-mock'
-
+jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter')
 jest.doMock('@react-native-community/netinfo', () => ({ ...mockRNCNetInfo, NetInfoStateType }))
 jest.doMock('@react-native-async-storage/async-storage', () => mockRNCAsyncStorage)
 jest.doMock('react-native-device-info', () => mockRNCDeviceInfo)

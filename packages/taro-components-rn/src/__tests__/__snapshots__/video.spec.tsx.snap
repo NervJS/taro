@@ -40,11 +40,15 @@ exports[`Video render Video 1`] = `
     <View
       pointerEvents="box-none"
       style={
-        {
-          "height": "100%",
-          "overflow": "hidden",
-          "width": "100%",
-        }
+        [
+          {
+            "overflow": "hidden",
+          },
+          {
+            "height": "100%",
+            "width": "100%",
+          },
+        ]
       }
     >
       <ViewManagerAdapter_ExpoVideoView
@@ -54,40 +58,46 @@ exports[`Video render Video 1`] = `
         onLoadStart={[Function]}
         onReadyForDisplay={[Function]}
         onStatusUpdate={[Function]}
-        proxiedProperties={
+        resizeMode="mock"
+        source={
           {
-            "resizeMode": "mock",
-            "source": {
-              "headers": undefined,
-              "overridingExtension": null,
-              "uri": "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400",
-            },
-            "status": {
-              "isLooping": false,
-              "isMuted": false,
-              "positionMillis": 30,
-              "shouldPlay": false,
-            },
-            "useNativeControls": true,
+            "headers": undefined,
+            "overridingExtension": null,
+            "uri": "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400",
+          }
+        }
+        status={
+          {
+            "isLooping": false,
+            "isMuted": false,
+            "positionMillis": 30,
+            "shouldPlay": false,
           }
         }
         style={
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
+          [
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
         }
+        useNativeControls={true}
         videoStyle={
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          }
+          [
+            {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            undefined,
+          ]
         }
       />
       <Image
