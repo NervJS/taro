@@ -41,7 +41,7 @@
     "babel-plugin-transform-imports-api": "1.0.0",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "core-js": "^3.6.5",
-    "metro-react-native-babel-preset": "^0.73.7",
+    "metro-react-native-babel-preset": "^0.76.5",
     "react-refresh": "^0.11.0"
   },
   "devDependencies": {

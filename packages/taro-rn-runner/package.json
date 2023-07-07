@@ -56,7 +56,7 @@
     "jest-environment-node": "^29.5.0",
     "react": "18.2.0",
     "react-is": "^16.13.0",
-    "react-native": "^0.71.3",
+    "react-native": "^0.72.1",
     "react-native-root-siblings": "^4.1.1",
     "react-test-renderer": "18.2.0",
     "rollup": "^2.79.0",
