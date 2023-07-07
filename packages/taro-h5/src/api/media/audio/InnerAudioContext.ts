@@ -74,7 +74,6 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   destroy = () => {
     this.stop()
     if (this.Instance) {
-      document.body.removeChild(this.Instance)
       this.Instance = undefined
     }
   }
