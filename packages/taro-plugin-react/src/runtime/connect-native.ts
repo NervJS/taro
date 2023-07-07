@@ -9,7 +9,7 @@ import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
 
-import type { PageInstance } from '@tarojs/taro'
+import type { AppInstance, PageInstance } from '@tarojs/taro'
 import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
@@ -17,8 +17,9 @@ declare const getCurrentPages: () => PageInstance[]
 const getNativeCompId = incrementId()
 let h: typeof React.createElement
 let ReactDOM
+let nativeComponentApp: AppInstance
 
-function initNativeComponentEntry (R: typeof React, ReactDOM) {
+function initNativeComponentEntry (R: typeof React, ReactDOM, isComponent?: boolean) {
   interface IEntryState {
     components: {
       compId: string
@@ -61,7 +62,11 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
     }
 
     componentDidMount () {
-      Current.app = this
+      if (isComponent) {
+        nativeComponentApp = this
+      } else {
+        Current.app = this
+      }
     }
 
     mount (Component, compId, getCtx) {
@@ -121,15 +126,19 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 
   setReconciler(ReactDOM)
 
-  const app = document.getElementById('app')
-
+  let app = document.getElementById('app')
+  if (isComponent && !nativeComponentApp) {
+    const nativeComponent = document.createElement('nativeComponent')
+    app.appendChild(nativeComponent)
+    app = nativeComponent
+  }
   ReactDOM.render(
     h(Entry, {}),
     app
   )
 }
 
-export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
+export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig, isComponent?: boolean) {
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
@@ -148,22 +157,25 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     created () {
-      if (!Current.app) {
-        initNativeComponentEntry(react, ReactDOM)
+      const app = (isComponent ? nativeComponentApp : Current.app)
+      if (!app) {
+        initNativeComponentEntry(react, ReactDOM, isComponent)
       }
     },
     attached () {
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      Current.app!.mount!(Component, compId, () => this)
+      const app = (isComponent ? nativeComponentApp : Current.app)
+      app!.mount!(Component, compId, () => this)
     },
     ready () {
       safeExecute(this.compId, 'onReady')
     },
     detached () {
       resetCurrent()
-      Current.app!.unmount!(this.compId)
+      const app = (isComponent ? nativeComponentApp : Current.app)
+      app!.unmount!(this.compId)
     },
     pageLifetimes: {
       show (options) {

@@ -20,6 +20,7 @@ import EntryDependency from 'webpack/lib/dependencies/EntryDependency'
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
 import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
+import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
@@ -255,13 +256,18 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
+          const isNativeComponent = this.appConfig.components?.includes(module.name)
+          const loaderName = isNativeComponent || isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
           if (!isLoaderExist(module.loaders, loaderName)) {
+            const loaderMetaEx = { ...loaderMeta }
+            if (isNativeComponent) {
+              loaderMetaEx.frameworkArgs += ', true'
+            }
             module.loaders.unshift({
               loader: loaderName,
               options: {
                 framework,
-                loaderMeta,
+                loaderMeta: loaderMetaEx,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
@@ -272,13 +278,18 @@ export default class TaroMiniPlugin {
             })
           }
         } else if (module.miniType === META_TYPE.COMPONENT) {
-          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : '@tarojs/taro-loader/lib/component'
+          const isNativeComponent = this.appConfig.components?.includes(module.name)
+          const loaderName = isNativeComponent || isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : '@tarojs/taro-loader/lib/component'
           if (!isLoaderExist(module.loaders, loaderName)) {
+            const loaderMetaEx = { ...loaderMeta }
+            if (isNativeComponent) {
+              loaderMetaEx.frameworkArgs += ', true'
+            }
             module.loaders.unshift({
               loader: loaderName,
               options: {
                 framework,
-                loaderMeta,
+                loaderMeta: loaderMetaEx,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 runtimePath: this.options.runtimePath
@@ -308,6 +319,52 @@ export default class TaroMiniPlugin {
     )
 
     new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
+    this.addLoadChunksPlugin(compiler)
+  }
+
+  addLoadChunksPlugin (compiler: Compiler) {
+    const fileChunks = new Map<string, { name: string }[]>()
+
+    compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
+      compilation.hooks.afterOptimizeChunks.tap(PLUGIN_NAME, chunks => {
+        for (const chunk of chunks) {
+          const id = getChunkIdOrName(chunk)
+          if (this.options.commonChunks.includes(id)) return
+
+          const deps: { name: string }[] = []
+
+          for (const group of chunk.groupsIterable) {
+            group.chunks.forEach(chunk => {
+              const currentChunkId = getChunkIdOrName(chunk)
+              if (id === currentChunkId) return
+              deps.push({
+                name: currentChunkId
+              })
+            })
+          }
+
+          fileChunks.set(id, deps)
+        }
+      })
+      compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
+        if (!getChunkEntryModule(compilation, chunk)) return modules
+        // addChunkPages
+        if (fileChunks.size) {
+          let source
+          const id = getChunkIdOrName(chunk)
+          const isNativeComponent = this.appConfig.components?.includes(id)
+          if (!isNativeComponent) {
+            return modules
+          }
+          fileChunks.forEach((v, k) => {
+            if (k === id) {
+              source = addRequireToSource(id, modules, v)
+            }
+          })
+          return source
+        }
+      })
+    })
   }
 
   /**
@@ -528,6 +585,27 @@ export default class TaroMiniPlugin {
       })
     ])
     this.getSubPackages(this.appConfig)
+    this.getNativeComponent()
+  }
+
+  /**
+   * 收集需要转换为本地化组件的内容
+   */
+  getNativeComponent () {
+    const { frameworkExts } = this.options
+    const components = this.appConfig.components || []
+    components.forEach(item => {
+      const pagePath = resolveMainFilePath(path.join(this.options.sourceDir, item), frameworkExts)
+      const componentObj = {
+        name: item,
+        path: pagePath,
+        isNative: false,
+      }
+      if (!this.isWatch && this.options.logger?.quiet === false) {
+        printLog(processTypeEnum.COMPILE, `发现[${item}]Native组件`)
+      }
+      this.pages.add(componentObj)
+    })
   }
 
   /**
