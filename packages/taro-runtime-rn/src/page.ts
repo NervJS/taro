@@ -434,7 +434,8 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           scrollEventThrottle: 8,
           ...refresh,
           onScroll: (e) => this.onPageScroll(e),
-          onMomentumScrollEnd: (e) => this.onReachBottom(e)
+          onMomentumScrollEnd: (e) => this.onReachBottom(e),
+          nestedScrollEnabled: true
         }, this.createPage())
       }
 
