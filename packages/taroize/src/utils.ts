@@ -11,6 +11,7 @@ import asyncFunctions from '@babel/plugin-transform-async-to-generator'
 import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
 import flowStrip from '@babel/plugin-transform-flow-strip-types'
 import jsxPlugin from '@babel/plugin-transform-react-jsx'
+import presetTypescript from '@babel/preset-typescript'
 import { default as template } from '@babel/template'
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
@@ -43,7 +44,29 @@ export function isValidVarName (str?: string) {
   return true
 }
 
-export function parseCode (code: string) {
+export function parseCode (code: string, scriptPath?: string) {
+  // 支持TS的解析
+  if (typeof scriptPath !== 'undefined') {
+    return (babel.transformSync(code, {
+      ast: true,
+      sourceType: 'module',
+      filename: scriptPath,
+      presets: [presetTypescript],
+      plugins: [
+        classProperties,
+        jsxPlugin,
+        flowStrip,
+        asyncFunctions,
+        exponentiationOperator,
+        asyncGenerators,
+        objectRestSpread,
+        [decorators, { legacy: true }],
+        dynamicImport,
+        optionalChaining
+      ]
+    }) as { ast: t.File }).ast
+  }
+
   return (babel.transformSync(code, {
     ast: true,
     sourceType: 'module',
