@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-import { createDownload, getParameterError, shouldBeObject } from '../../../utils'
+import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (options) => {
@@ -29,7 +29,16 @@ export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (optio
       })
     })
   }
-
-  createDownload(filePath)
-  return handle.success()
+  console.log('save video to photos album')
+  // @ts-ignore
+  const ret = native.saveVideoToPhotosAlbum({
+    filePath: filePath,
+    success: (res: any) => {
+      return handle.success(res)
+    },
+    fail: (err: any) => {
+      return handle.fail(err)
+    }
+  })
+  return ret
 }

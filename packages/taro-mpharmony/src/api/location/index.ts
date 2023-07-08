@@ -1,21 +1,20 @@
 import { processOpenApi, temporarilyNotSupport } from '../../utils/index'
 
 // 位置
-export const stopLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('stopLocationUpdate')
-export const startLocationUpdateBackground = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdateBackground')
-export const startLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdate')
+export * from './startLocationUpdate'
+export * from './startLocationUpdateBackground'
+export * from './stopLocationUpdate'
 
 export const openLocation = /* @__PURE__ */ processOpenApi({
   name: 'openLocation',
   defaultOptions: { scale: 18 }
 })
 
-export const onLocationChangeError = /* @__PURE__ */ temporarilyNotSupport('onLocationChangeError')
-export const onLocationChange = /* @__PURE__ */ temporarilyNotSupport('onLocationChange')
-export const offLocationChangeError = /* @__PURE__ */ temporarilyNotSupport('offLocationChangeError')
-export const offLocationChange = /* @__PURE__ */ temporarilyNotSupport('offLocationChange')
-
 export { getLocation } from './getLocation'
+export * from './offLocationChange'
+export * from './offLocationChangeError'
+export * from './onLocationChange'
+export * from './onLocationChangeError'
 
 export const choosePoi = /* @__PURE__ */ temporarilyNotSupport('choosePoi')
 export const getFuzzyLocation = /* @__PURE__ */ temporarilyNotSupport('getFuzzyLocation')

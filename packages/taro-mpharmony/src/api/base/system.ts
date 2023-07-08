@@ -1,14 +1,41 @@
 import Taro from '@tarojs/api'
 import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
 
-import { temporarilyNotSupport } from '../../utils'
+import { shouldBeObject, temporarilyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /** 跳转系统蓝牙设置页 */
 export const openSystemBluetoothSetting = /* @__PURE__ */ temporarilyNotSupport('openSystemBluetoothSetting')
 
 /** 跳转系统微信授权管理页 */
-export const openAppAuthorizeSetting = /* @__PURE__ */ temporarilyNotSupport('openAppAuthorizeSetting')
+export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (options) => {
+  const name = 'openAppAuthorizeSetting'
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const {
+    success,
+    fail,
+    complete
+  } = options as Exclude<typeof options, undefined>
+
+  const handle = new MethodHandler({ name, success, fail, complete })
+
+  console.log('get file info')
+  // @ts-ignore
+  const ret = native.openAppAuthorizeSetting({
+    success: (res: any) => {
+      return handle.success(res)
+    },
+    fail: (err: any) => {
+      return handle.fail(err)
+    }
+  })
+  return ret
+}
 
 /** 获取窗口信息 */
 export const getWindowInfo: typeof Taro.getWindowInfo = () => {
