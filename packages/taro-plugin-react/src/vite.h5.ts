@@ -10,11 +10,12 @@ import type { Frameworks } from './index'
 export function h5iVitePlugin (framework: Frameworks): PluginOption {
   return [
     injectLoaderMeta(framework),
-    setTaroApi()
+    setTaroApi(),
+    esbuildExclude(framework)
   ]
 }
 
-function injectLoaderMeta (framework): PluginOption {
+function injectLoaderMeta (framework: Frameworks): PluginOption {
   function customizer (object = '', sources = '') {
     if ([object, sources].every(e => typeof e === 'string')) return object + sources
   }
@@ -56,6 +57,20 @@ function setTaroApi (): PluginOption {
           ]
         }
       },
+    })
+  }
+}
+
+// todo 后面看看能否把 preact 改为虚拟模块
+function esbuildExclude (framework: Frameworks): PluginOption {
+  if (framework !== 'preact') return null
+  return {
+    name: 'taro-react:esvuild-exclude',
+    enforce: 'pre',
+    config: ()=>({
+      optimizeDeps: {
+        exclude: ['react', 'preact']
+      }
     })
   }
 }
