@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { getPkgVersion } from '@tarojs/cli/dist/util'
 import { type IFileType, type TConfig, TaroPlatform } from '@tarojs/service'
-import { PLATFORM_TYPE } from '@tarojs/shared'
+import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
 export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.HARMONY
@@ -21,9 +21,12 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
   }
 
   private setupHarmonyApp () {
-    const { needClearOutput } = this.config
-    if (typeof needClearOutput === 'boolean' && needClearOutput) {
+    const { output } = this.config
+    // eslint-disable-next-line eqeqeq
+    if (output == undefined || output.clean == undefined || output.clean === true) {
       this.emptyOutputDir()
+    } else if (isObject(output.clean)) {
+      this.emptyOutputDir(output.clean.keep || [])
     }
     this.printDevelopmentTip()
   }
