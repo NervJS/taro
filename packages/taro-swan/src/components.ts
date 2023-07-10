@@ -28,6 +28,9 @@ export const components = {
     bindPoiTap: ''
   },
   Button: {
+    'template-id': '',
+    'subscribe-id': '',
+    bindSubscribe: '',
     bindGetPhoneNumber: '',
     bindGetUserInfo: '',
     bindOpenSetting: '',

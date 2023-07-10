@@ -71,7 +71,7 @@ export const chooseMedia = async function (
         const { tapIndex } = await showActionSheet({
           itemList: ['拍摄', '从相册选择'],
         }, methodName)
-        sourceType.splice(0, 1, tapIndex === 0 ? 'camera' : 'album')
+        sourceType.splice(0, sourceType.length, tapIndex === 0 ? 'camera' : 'album')
       } catch (e) {
         return handle.fail({
           errMsg: e.errMsg?.replace('^.*:fail ', '')
