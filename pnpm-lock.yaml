@@ -60,7 +60,7 @@ importers:
       '@types/lodash': ^4.14.142
       '@types/lodash-es': ^4.17.6
       '@types/node': ^14.14.31
-      '@types/postcss-import': ^12.0.0
+      '@types/postcss-import': ^14.0.0
       '@types/react': ^18.0.0
       '@types/react-reconciler': 0.28.1
       '@types/request': ^2.48.1
@@ -110,7 +110,7 @@ importers:
       stylelint: ^14.6.1
       stylelint-config-standard-scss: ^3.0.0
       stylelint-config-taro-rn: workspace:*
-      stylelint-order: ^5.0.0
+      stylelint-order: ^6.0.3
       stylelint-taro-rn: workspace:*
       tslib: ^2.5.0
       typescript: ^4.7.4
@@ -176,7 +176,7 @@ importers:
       '@types/lodash': registry.npmjs.org/@types/lodash/4.14.194
       '@types/lodash-es': registry.npmjs.org/@types/lodash-es/4.17.7
       '@types/node': registry.npmjs.org/@types/node/14.18.45
-      '@types/postcss-import': registry.npmjs.org/@types/postcss-import/12.0.1
+      '@types/postcss-import': registry.npmjs.org/@types/postcss-import/14.0.0
       '@types/react': registry.npmjs.org/@types/react/18.2.6
       '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.28.1
       '@types/request': registry.npmjs.org/@types/request/2.48.8
@@ -226,7 +226,7 @@ importers:
       stylelint: registry.npmjs.org/stylelint/14.16.1
       stylelint-config-standard-scss: registry.npmjs.org/stylelint-config-standard-scss/3.0.0_353klrorzps25svs4urvkzvqjq
       stylelint-config-taro-rn: link:packages/stylelint-config-taro-rn
-      stylelint-order: registry.npmjs.org/stylelint-order/5.0.0_stylelint@14.16.1
+      stylelint-order: registry.npmjs.org/stylelint-order/6.0.3_stylelint@14.16.1
       stylelint-taro-rn: link:packages/stylelint-taro-rn
       tslib: registry.npmjs.org/tslib/2.5.0
       typescript: registry.npmjs.org/typescript/4.9.5
@@ -10401,12 +10401,12 @@ packages:
     name: '@types/parse-json'
     version: 4.0.0
 
-  registry.npmjs.org/@types/postcss-import/12.0.1:
-    resolution: {integrity: sha512-q6Lpyog1dEYjkElyEaXusDinGZzqc/y1BjSIN9DO0kvhWxwChB+CB6uJIZ7UFxQdBcwMkBT+euqu3XmoZPca1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/postcss-import/-/postcss-import-12.0.1.tgz}
+  registry.npmjs.org/@types/postcss-import/14.0.0:
+    resolution: {integrity: sha512-rYonq8jtSbdbBKNpi2xzi9CGFF7IcS/tzX6vMKFH1TMberRgTgTzYqCzRHPavBej/KId/AJd255iDSOsLv8esQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/postcss-import/-/postcss-import-14.0.0.tgz}
     name: '@types/postcss-import'
-    version: 12.0.1
+    version: 14.0.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/7.0.39
+      postcss: registry.npmjs.org/postcss/8.4.23
     dev: true
 
   registry.npmjs.org/@types/prettier/2.7.2:
@@ -30425,13 +30425,13 @@ packages:
       cssesc: registry.npmjs.org/cssesc/3.0.0
       util-deprecate: registry.npmjs.org/util-deprecate/1.0.2
 
-  registry.npmjs.org/postcss-sorting/7.0.1_postcss@8.4.23:
-    resolution: {integrity: sha512-iLBFYz6VRYyLJEJsBJ8M3TCqNcckVzz4wFounSc5Oez35ogE/X+aoC5fFu103Ot7NyvjU3/xqIXn93Gp3kJk4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-sorting/-/postcss-sorting-7.0.1.tgz}
-    id: registry.npmjs.org/postcss-sorting/7.0.1
+  registry.npmjs.org/postcss-sorting/8.0.2_postcss@8.4.23:
+    resolution: {integrity: sha512-M9dkSrmU00t/jK7rF6BZSZauA5MAaBW4i5EnJXspMwt4iqTh/L9j6fgMnbElEOfyRyfLfVbIHj/R52zHzAPe1Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/postcss-sorting/-/postcss-sorting-8.0.2.tgz}
+    id: registry.npmjs.org/postcss-sorting/8.0.2
     name: postcss-sorting
-    version: 7.0.1
+    version: 8.0.2
     peerDependencies:
-      postcss: ^8.3.9
+      postcss: ^8.4.20
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.23
     dev: true
@@ -34837,16 +34837,16 @@ packages:
       stylelint-config-recommended: registry.npmjs.org/stylelint-config-recommended/6.0.0_stylelint@14.16.1
     dev: true
 
-  registry.npmjs.org/stylelint-order/5.0.0_stylelint@14.16.1:
-    resolution: {integrity: sha512-OWQ7pmicXufDw5BlRqzdz3fkGKJPgLyDwD1rFY3AIEfIH/LQY38Vu/85v8/up0I+VPiuGRwbc2Hg3zLAsJaiyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stylelint-order/-/stylelint-order-5.0.0.tgz}
-    id: registry.npmjs.org/stylelint-order/5.0.0
+  registry.npmjs.org/stylelint-order/6.0.3_stylelint@14.16.1:
+    resolution: {integrity: sha512-1j1lOb4EU/6w49qZeT2SQVJXm0Ht+Qnq9GMfUa3pMwoyojIWfuA+JUDmoR97Bht1RLn4ei0xtLGy87M7d29B1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stylelint-order/-/stylelint-order-6.0.3.tgz}
+    id: registry.npmjs.org/stylelint-order/6.0.3
     name: stylelint-order
-    version: 5.0.0
+    version: 6.0.3
     peerDependencies:
-      stylelint: ^14.0.0
+      stylelint: ^14.0.0 || ^15.0.0
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.23
-      postcss-sorting: registry.npmjs.org/postcss-sorting/7.0.1_postcss@8.4.23
+      postcss-sorting: registry.npmjs.org/postcss-sorting/8.0.2_postcss@8.4.23
       stylelint: registry.npmjs.org/stylelint/14.16.1
     dev: true
 
