@@ -13,6 +13,13 @@ export default function Index() {
   return (
     <View className='index'>
       <Text>Hello world!</Text>
+
+      <Button className={'buttonStyle'} onClick={() => {
+        Taro.navigateTo({
+          url: 'pages/component/index/index'
+        })
+      }}>组件库示例</Button>
+
       <Button className={'buttonStyle'} onClick={() => {
         Taro.navigateTo({
           url: 'pages/grid-view/index'

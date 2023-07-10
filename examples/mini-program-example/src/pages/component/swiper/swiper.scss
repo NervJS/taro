@@ -1,0 +1,55 @@
+.components-page__body {
+  &.swiper {
+    padding: 0;
+  }
+  .switch-list {
+    position: relative;
+    padding: 0 15px;
+    font-size: 30px;
+    background-color: #FFFFFF;
+    &__item {
+      position: relative;
+      display: flex;
+      padding: 10px 0;
+      &:not(:first-child) {
+        &::before {
+          content: "";
+          position: absolute;
+          left: 15px;
+          right: -15px;
+          top: 0;
+          height: 1px;
+          border-top: 1px solid #e5e5e5;
+          color: #e5e5e5;
+        }
+      }
+    }
+    &__text {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      padding-left: 15px;
+    }
+  }
+  .slider-list {
+    margin-top: 80px;
+    padding: 0 40px;
+    &__item {
+      margin-bottom: 40px;
+      &-header {
+        font-size: 28px;
+        color: #999999;
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      &-body {}
+    }
+  }
+}
+.demo-text {
+  &-1,
+  &-2,
+  &-3 {
+    height: 150PX;
+  }
+}
