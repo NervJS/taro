@@ -175,15 +175,21 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     ]))
   }
 
+  const webpackOutput = getOutput(appPath, [{
+    outputRoot,
+    publicPath: ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath),
+    chunkDirectory
+  }, output])
+  if (config.isBuildNativeComp) {
+    // Note: 当开发者没有配置时，优先使用 module 导出组件
+    webpackOutput.libraryTarget ||= 'commonjs'
+  }
+
   chain.merge({
     mode,
     devtool: getDevtool({ enableSourceMap, sourceMapType }),
     entry,
-    output: getOutput(appPath, [{
-      outputRoot,
-      publicPath: ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath),
-      chunkDirectory
-    }, output]),
+    output: webpackOutput,
     resolve: { alias },
     module: { rule },
     plugin,
