@@ -45,7 +45,6 @@ export const connectWifi: typeof Taro.connectWifi = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('connect wifi')
     // @ts-ignore
     const ret = native.connectWifi({
       SSID: SSID,

@@ -33,7 +33,6 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
     errMsg?: string
   }>({ name, success, fail })
 
-  console.log('choose media')
   // @ts-ignore
   const ret = native.chooseMedia({
     count: count,

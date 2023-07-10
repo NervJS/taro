@@ -33,7 +33,6 @@ export const setScreenBrightness: typeof Taro.setScreenBrightness = (options) =>
       }, { resolve, reject })
     }
 
-    console.log('set screen brightness')
     // @ts-ignore
     const ret = native.setScreenBrightness({
       value: value,

@@ -35,7 +35,6 @@ export const removeSavedFile: typeof Taro.removeSavedFile = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('remove saved file')
     // @ts-ignore
     const ret = native.removeSavedFile({
       filePath: filePath,

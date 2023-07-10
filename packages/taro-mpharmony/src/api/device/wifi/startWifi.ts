@@ -20,8 +20,6 @@ export const startWifi: typeof Taro.startWifi = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('start wifi')
   // @ts-ignore
   const ret = native.startWifi({
     success: (res: any) => {

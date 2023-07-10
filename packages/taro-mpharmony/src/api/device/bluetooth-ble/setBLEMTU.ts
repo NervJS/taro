@@ -51,8 +51,6 @@ export const setBLEMTU: typeof Taro.setBLEMTU = (options) => {
       return handle.fail()
     }
 
-
-    console.log('set BLE mtu')
     // @ts-ignore
     const ret = native.setBLEMTU({
       deviceId: deviceId,

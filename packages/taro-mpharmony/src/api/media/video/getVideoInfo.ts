@@ -35,7 +35,6 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
         })
       }, { resolve, reject })
     }
-    console.log('get video info')
     // @ts-ignore
     const ret = native.getVideoInfo({
       src: src,

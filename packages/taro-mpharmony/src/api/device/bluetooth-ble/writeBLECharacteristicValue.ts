@@ -67,7 +67,6 @@ export const writeBLECharacteristicValue: typeof Taro.writeBLECharacteristicValu
       }, { resolve, reject })
     }
 
-    console.log('write BLE characteristic Value')
     // @ts-ignore
     const ret = native.writeBLECharacteristicValue({
       characteristicId: characteristicId,

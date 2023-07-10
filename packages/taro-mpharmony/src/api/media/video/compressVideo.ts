@@ -76,7 +76,6 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('compress video')
     // @ts-ignore
     const ret = native.compressVideo({
       src: src,

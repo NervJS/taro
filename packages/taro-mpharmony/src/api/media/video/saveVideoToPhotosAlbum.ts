@@ -29,7 +29,6 @@ export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (optio
       })
     })
   }
-  console.log('save video to photos album')
   // @ts-ignore
   const ret = native.saveVideoToPhotosAlbum({
     filePath: filePath,

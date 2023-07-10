@@ -31,7 +31,6 @@ export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDev
       }, { resolve, reject })
     }
 
-    console.log('check is soter enrolled in device')
     // @ts-ignore
     const ret = native.checkIsSoterEnrolledInDevice({
       success: (res: any) => {

@@ -33,7 +33,6 @@ export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('set keep screen on')
     // @ts-ignore
     const ret = native.setKeepScreenOn({
       keepScreenOn: keepScreenOn,

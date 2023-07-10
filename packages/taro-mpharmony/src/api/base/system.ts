@@ -24,7 +24,6 @@ export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (opt
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('get file info')
   // @ts-ignore
   const ret = native.openAppAuthorizeSetting({
     success: (res: any) => {

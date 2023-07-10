@@ -20,7 +20,6 @@ export const checkSession: typeof Taro.checkSession = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('check session')
   // @ts-ignore
   const ret = native.checkSession({
     success: (res: any) => {
