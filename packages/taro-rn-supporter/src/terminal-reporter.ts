@@ -1,4 +1,4 @@
-import { TerminalReporter as MetroTerminalReporter } from 'metro/src/lib/TerminalReporter'
+import * as MetroTerminalReporter from 'metro/src/lib/TerminalReporter'
 import { Terminal } from 'metro-core'
 import yargs from 'yargs'
 
@@ -15,6 +15,7 @@ export class TerminalReporter {
   entry: string
 
   constructor (sourceRoot: string, conditionalFileStore: any, qr?: boolean, entry?: string) {
+    // @ts-ignore
     this._reporter = new MetroTerminalReporter(new Terminal(process.stdout))
     this._conditionalFileStore = conditionalFileStore
     this._initialized = false
