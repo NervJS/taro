@@ -1,9 +1,9 @@
 import {View, Image, MatchMedia} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './match-media.scss'
 import React from "react";
 
-export default function Index() {
+export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
   })

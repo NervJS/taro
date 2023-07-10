@@ -1,6 +1,6 @@
 import {View, Image, Text, ListView, Label, Checkbox, CheckboxGroup} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './checkbox-group.scss'
 import React, {useState} from "react";
 
 const furits = [
@@ -16,7 +16,7 @@ const furits = [
   }
 ]
 
-export default function Index() {
+export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
   })

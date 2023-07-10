@@ -1,6 +1,6 @@
 import {View, Image,  Text, RadioGroup, Radio,Label} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './radio-group.scss'
 import React, {useState} from "react";
 
 const furits = [
@@ -15,7 +15,7 @@ const furits = [
     name: "桃子"
   }
 ]
-export default function Index() {
+export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
   })

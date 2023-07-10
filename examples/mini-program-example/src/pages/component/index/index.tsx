@@ -32,7 +32,7 @@ export default class Index extends React.Component {
           id: 'view',
           name: '视图容器',
           open: false,
-          pages: ['view', 'scroll-view', 'swiper']
+          pages: ['view', 'scroll-view', 'swiper', 'grid-view', 'list-view', 'page-container']
         },
         {
           id: 'content',
@@ -47,15 +47,19 @@ export default class Index extends React.Component {
           pages: [
             'button',
             'checkbox',
+            'checkbox-group',
             'form',
             'input',
             'label',
             'picker',
             'picker-view',
             'radio',
+            'radio-group',
             'slider',
             'switch',
-            'textarea'
+            'textarea',
+            'root-portal',
+            'sticky-header'
           ]
         },
         {
@@ -68,7 +72,7 @@ export default class Index extends React.Component {
           id: 'media',
           name: '媒体组件',
           open: false,
-          pages: ['image', 'audio', 'video', 'camera']
+          pages: ['image', 'audio', 'video', 'camera','match-media']
         },
         {
           id: 'map',

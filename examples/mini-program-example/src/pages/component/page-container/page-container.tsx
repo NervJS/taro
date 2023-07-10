@@ -1,10 +1,10 @@
 import {View, Text, Button, PageContainer} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './page-container.scss'
 import React, {useState} from "react";
 
 
-export default function Index() {
+export default function PageView() {
 
   const [container_show, setContainerShow] = useState(false);
   const [position, setTransitionPosition] = useState('bottom');

@@ -1,9 +1,9 @@
-import {View, Image,  Text, ListView} from '@tarojs/components'
+import {View, Image, MatchMedia, GridView, Text} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './grid-view.scss'
 import React from "react";
 
-const list_data = [
+const grid_data = [
   {
     image: 'https://img12.360buyimg.com/jdphoto/s72x72_jfs/t6160/14/2008729947/2754/7d512a86/595c3aeeNa89ddf71.png',
     value: '领取中心',
@@ -42,27 +42,32 @@ const list_data = [
   }
 ]
 
-export default function Index() {
+export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
   })
 
+  const gridView = grid_data.map((childItem, index) => (
+    <View key={index} w={childItem.w} h={childItem.h} onClick={() => {
+      console.log('w ' + index + ' w ' + childItem.w + ' h ' + childItem.h)
+    }}>
+      {childItem.image && (
+        <Image
+          src={childItem.image}
+          mode='scaleToFill'
+        />
+      )}
+      <Text>
+        {childItem.value}
+      </Text>
+    </View>
+  ));
+
   return (
     <View className='index'>
-      <ListView orientation={'vertical'} data={list_data} columnItem={(childItem, i) => (
-
-        <View key={`list-group-item-${i}`} onClick={() => (console.log("childItem " + childItem.value + " i " + i))}>
-          {childItem.image && (
-            <Image
-              src={childItem.image}
-              mode='scaleToFill'
-            />
-          )}
-          <Text>
-            {childItem.value}
-          </Text>
-        </View>
-      )}/>
+      <GridView className='gridStyle' crossAxisCount={3} mainAxisGap={10} crossAxisGap={10} width={1000}>
+        {gridView}
+      </GridView>
     </View>
   )
 }

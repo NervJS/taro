@@ -1,9 +1,9 @@
 import {View, Text, RootPortal} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './root-portal.scss'
 import React from "react";
 
-export default function Index() {
+export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
   })
