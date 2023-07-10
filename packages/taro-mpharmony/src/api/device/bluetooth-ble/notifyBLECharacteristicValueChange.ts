@@ -66,7 +66,6 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
       }, { resolve, reject })
     }
 
-    console.log('notify BLE characteristic value change')
     // @ts-ignore
     const ret = native.notifyBLECharacteristicValueChange({
       characteristicId: characteristicId,

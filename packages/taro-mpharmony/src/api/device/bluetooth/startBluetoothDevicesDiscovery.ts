@@ -24,8 +24,6 @@ export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDi
     errMsg?: string
   }>({ name, success, fail, complete })
 
-
-  console.log('start bluetooth devices discovery')
   // @ts-ignore
   const ret = native.startBluetoothDevicesDiscovery({
     allowDuplicatesKey: allowDuplicatesKey,

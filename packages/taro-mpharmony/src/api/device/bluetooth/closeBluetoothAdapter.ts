@@ -20,7 +20,6 @@ export const closeBluetoothAdapter: typeof Taro.closeBluetoothAdapter = (options
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('close bluetooth adapter')
   // @ts-ignore
   const ret = native.closeBluetoothAdapter({
     success: (res: any) => {

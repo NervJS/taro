@@ -34,7 +34,6 @@ export const getUserProfile: typeof Taro.getUserProfile = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('get user profile')
     // @ts-ignore
     const ret = native.getUserProfile({
       lang: lang,

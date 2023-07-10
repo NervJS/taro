@@ -22,7 +22,6 @@ export const stopBluetoothDevicesDiscovery: typeof Taro.stopBluetoothDevicesDisc
   }>({ name, success, fail, complete })
 
 
-  console.log('stop bluetooth devices discovery')
   // @ts-ignore
   const ret = native.stopBluetoothDevicesDiscovery({
     success: (res: any) => {

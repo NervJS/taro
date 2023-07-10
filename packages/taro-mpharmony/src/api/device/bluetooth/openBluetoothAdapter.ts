@@ -22,7 +22,6 @@ export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) 
   }>({ name, success, fail, complete })
 
 
-  console.log('open bluetooth adapter')
   // @ts-ignore
   const ret = native.openBluetoothAdapter({
     success: (res: any) => {

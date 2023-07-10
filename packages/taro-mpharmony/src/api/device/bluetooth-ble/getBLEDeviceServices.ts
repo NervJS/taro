@@ -36,7 +36,6 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
       }, { resolve, reject })
     }
 
-    console.log('get BLE device services')
     // @ts-ignore
     const ret = native.getBLEDeviceServices({
       deviceId: deviceId,

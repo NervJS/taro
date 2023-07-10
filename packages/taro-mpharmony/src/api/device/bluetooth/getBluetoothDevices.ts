@@ -23,7 +23,6 @@ export const getBluetoothDevices: typeof Taro.getBluetoothDevices = (options) =>
     errMsg?: string
   }>({ name, success, fail, complete })
 
-  console.log('get bluetooth devices')
   // @ts-ignore
   const ret = native.getBluetoothDevices({
     success: (res: any) => {

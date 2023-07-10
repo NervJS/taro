@@ -47,7 +47,6 @@ export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristic
       }, { resolve, reject })
     }
 
-    console.log('get BLE device characteristics')
     // @ts-ignore
     const ret = native.getBLEDeviceCharacteristics({
       deviceId: deviceId,
