@@ -33,7 +33,6 @@ export const startBeaconDiscovery: typeof Taro.startBeaconDiscovery = (options) 
       }, { resolve, reject })
     }
 
-    console.log('start Beacon Discovery')
     // @ts-ignore
     const ret = native.startBeaconDiscovery({
       uuids: uuids,

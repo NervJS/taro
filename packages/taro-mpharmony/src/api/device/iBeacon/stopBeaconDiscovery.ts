@@ -20,8 +20,6 @@ export const stopBeaconDiscovery: typeof Taro.stopBeaconDiscovery = (options) =>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('stop Beacon Discovery')
   // @ts-ignore
   const ret = native.stopBeaconDiscovery({
     success: (res: any) => {

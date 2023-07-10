@@ -37,7 +37,6 @@ export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('get saved file info')
     // @ts-ignore
     const ret = native.getSavedFileInfo({
       filePath: filePath,

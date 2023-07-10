@@ -21,8 +21,6 @@ export const startGyroscope: typeof Taro.startGyroscope = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('start gyroscope')
   // @ts-ignore
   const ret = native.startGyroscope({
     interval: interval,

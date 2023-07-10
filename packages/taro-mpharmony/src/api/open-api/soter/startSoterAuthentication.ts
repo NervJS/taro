@@ -43,7 +43,6 @@ export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (o
     })
   }
 
-  console.log('start soter authentication')
   // @ts-ignore
   const ret = native.startSoterAuthentication({
     phoneNumber: challenge,

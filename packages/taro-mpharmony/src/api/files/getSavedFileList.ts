@@ -23,8 +23,6 @@ export const getSavedFileList: typeof Taro.getSavedFileList = (options) => {
     errMsg?: string
   }>({ name, success, fail, complete })
 
-
-  console.log('get saved file list')
   // @ts-ignore
   const ret = native.getSavedFileList({
     success: (res: any) => {

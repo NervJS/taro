@@ -20,8 +20,6 @@ export const stopGyroscope: typeof Taro.stopGyroscope = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('stop gyroscope')
   // @ts-ignore
   const ret = native.stopGyroscope({
     success: (res: any) => {

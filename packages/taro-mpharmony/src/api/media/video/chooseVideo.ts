@@ -31,7 +31,6 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
     errMsg?: string
   }>({ name, success, fail })
 
-  console.log('choose video')
   // @ts-ignore
   const ret = native.chooseVideo({
     sourceType: sourceType,

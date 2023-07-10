@@ -20,8 +20,6 @@ export const getSelectedTextRange: typeof Taro.getSelectedTextRange = (options) 
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('get selected text range')
   // @ts-ignore
   const ret = native.getSelectedTextRange({
     success: (res: any) => {

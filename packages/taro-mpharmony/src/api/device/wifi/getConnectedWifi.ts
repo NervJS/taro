@@ -20,8 +20,6 @@ export const getConnectedWifi: typeof Taro.getConnectedWifi = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('get connected wifi')
   // @ts-ignore
   const ret = native.getConnectedWifi({
     success: (res: any) => {

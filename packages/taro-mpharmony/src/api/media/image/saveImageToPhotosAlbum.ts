@@ -30,7 +30,6 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
     })
   }
 
-  console.log('save image to photos album')
   // @ts-ignore
   const ret = native.saveImageToPhotosAlbum({
     filePath: filePath,

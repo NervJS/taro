@@ -20,7 +20,6 @@ export const getScreenBrightness: typeof Taro.getScreenBrightness = (options) =>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('get screen brightness')
   // @ts-ignore
   const ret = native.getScreenBrightness({
     success: (res: any) => {

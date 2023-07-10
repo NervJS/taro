@@ -20,7 +20,6 @@ export const hideKeyboard: typeof Taro.hideKeyboard = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('hide keyboard')
   // @ts-ignore
   const ret = native.hideKeyboard({
     success: (res: any) => {

@@ -24,7 +24,6 @@ export const getBeacons: typeof Taro.getBeacons = (options) => {
   }>({ name, success, fail, complete })
 
 
-  console.log('get Beacon')
   // @ts-ignore
   const ret = native.getBeacons({
     success: (res: any) => {

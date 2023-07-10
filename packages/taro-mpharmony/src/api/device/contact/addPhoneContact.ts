@@ -51,8 +51,6 @@ export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-
-  console.log('add phone contact')
   // @ts-ignore
   const ret = native.addPhoneContact({
     firstName: firstName,

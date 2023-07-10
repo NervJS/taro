@@ -23,7 +23,6 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('get userInfo')
   // @ts-ignore
   const ret = native.getUserInfo({
     lang: lang,

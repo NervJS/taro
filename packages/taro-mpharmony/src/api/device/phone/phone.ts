@@ -25,7 +25,6 @@ export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
     })
   }
 
-  console.log('make phone call')
   // @ts-ignore
   const ret = native.makePhoneCall({
     phoneNumber: phoneNumber,

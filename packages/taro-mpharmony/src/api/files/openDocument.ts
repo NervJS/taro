@@ -35,7 +35,6 @@ export const openDocument: typeof Taro.openDocument = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('open document')
     // @ts-ignore
     const ret = native.openDocument({
       filePath: filePath,

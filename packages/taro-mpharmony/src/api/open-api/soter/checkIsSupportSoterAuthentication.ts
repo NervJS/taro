@@ -20,7 +20,6 @@ export const checkIsSupportSoterAuthentication: typeof Taro.checkIsSupportSoterA
     errMsg?: string
   }>({ name, success, fail, complete })
 
-  console.log('check is support soter authentication')
   // @ts-ignore
   const ret = native.checkIsSupportSoterAuthentication({
     success: (res: any) => {

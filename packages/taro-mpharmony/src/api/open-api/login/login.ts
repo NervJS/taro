@@ -22,7 +22,6 @@ export const login: typeof Taro.login = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('login')
   // @ts-ignore
   const ret = native.login({
     timeout: timeout,

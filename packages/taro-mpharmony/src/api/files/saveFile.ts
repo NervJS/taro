@@ -37,7 +37,6 @@ export const saveFile: typeof Taro.saveFile = (options) => {
       }, { resolve, reject })
     }
         
-    console.log('save file')
     // @ts-ignore
     const ret = native.saveFile({
       tempFilePath: tempFilePath,
