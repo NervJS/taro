@@ -32,7 +32,7 @@ export default class Index extends React.Component {
           id: 'view',
           name: '视图容器',
           open: false,
-          pages: ['view','scroll-view','swiper','grid-view','list-view','page-container','match-media'],
+          pages: ['view','scroll-view','swiper','grid-view','list-view','page-container','match-media','root-portal'],
           target: [
             'cover-image','cover-view','grid-view','list-view',
             'match-media','movable-area','movable-view','page-container',
@@ -65,7 +65,6 @@ export default class Index extends React.Component {
             'slider',
             'switch',
             'textarea',
-            'root-portal',
             'sticky-header'
           ],
           target: ['button','checkbox','checkbox-group','editor','form',
