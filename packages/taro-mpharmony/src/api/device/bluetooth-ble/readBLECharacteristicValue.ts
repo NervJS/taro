@@ -55,8 +55,6 @@ export const readBLECharacteristicValue: typeof Taro.readBLECharacteristicValue 
       }, { resolve, reject })
     }
 
-
-    console.log('read BLE characteristic Value')
     // @ts-ignore
     const ret = native.readBLECharacteristicValue({
       characteristicId: characteristicId,

@@ -36,7 +36,6 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
       }, { resolve, reject })
     }
 
-    console.log('get connected bluetooth devices')
     // @ts-ignore
     const ret = native.getConnectedBluetoothDevices({
       services: services,

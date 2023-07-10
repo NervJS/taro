@@ -24,7 +24,6 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
     errMsg?: string
   }>({ name, success, fail, complete })
 
-  console.log('get bluetooth adapter state')
   // @ts-ignore
   const ret = native.getBluetoothAdapterState({
     success: (res: any) => {

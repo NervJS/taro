@@ -35,7 +35,6 @@ export const getBLEDeviceRSSI: typeof Taro.getBLEDeviceRSSI = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('get BLE device RSSI')
     // @ts-ignore
     const ret = native.getBLEDeviceRSSI({
       deviceId: deviceId,

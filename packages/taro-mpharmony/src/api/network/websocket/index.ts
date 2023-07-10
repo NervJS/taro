@@ -5,24 +5,58 @@ import { SocketTask } from './socketTask'
 let socketTasks: SocketTask[] = []
 let socketsCounter = 1
 
-export function sendSocketMessage () {
-  console.warn('Deprecated.Please use socketTask.send instead.')
+export function sendSocketMessage (options?: Taro.sendSocketMessage.Option) {
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `sendSocketMessage:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const { data, complete, success, fail} = options as Exclude<typeof options, undefined>
+  const handle = new MethodHandler({ name:'sendSocketMessage', success, fail, complete })
+
+  console.log('send socket message')
+  // @ts-ignore
+  const ret = native.sendSocketMessage({
+    data:data,
+    success:()=>{
+      return handle.success
+    },
+    fail:()=>{
+      return handle.fail({
+        errMsg: getParameterError({
+          para: 'data',
+          correct: 'String',
+          wrong: data
+        })
+      })
+    }
+  })
+  return ret;
 }
 
-export function onSocketOpen () {
-  console.warn('Deprecated.Please use socketTask.onOpen instead.')
+export function onSocketOpen (callback?: Taro.onSocketOpen.Callback) {
+  // @ts-expect-error
+  native.onSocketOpen(callback)
+  console.log('open socket')
 }
 
-export function onSocketMessage () {
-  console.warn('Deprecated.Please use socketTask.onMessage instead.')
+export function onSocketMessage (callback?: Taro.onSocketMessage.Callback) {
+  // @ts-ignore
+  native.onSocketMessage(callback)
+  console.log('on socket message')
 }
 
-export function onSocketError () {
-  console.warn('Deprecated.Please use socketTask.onError instead.')
+export function onSocketError (callback?: Taro.onSocketError.Callback) {
+  // @ts-ignore
+  native.onSocketError(callback)
+  console.log('on socket error')
 }
 
-export function onSocketClose () {
-  console.warn('Deprecated.Please use socketTask.onClose instead.')
+export function onSocketClose (callback?: Taro.onSocketClose.Callback) {
+  // @ts-ignore
+  native.onSocketClose(callback)
+  console.log('on socket close')
 }
 
 export function connectSocket (options?: Taro.connectSocket.Option) {
@@ -83,6 +117,32 @@ export function connectSocket (options?: Taro.connectSocket.Option) {
   })
 }
 
-export function closeSocket () {
-  console.warn('Deprecated.Please use socketTask.close instead.')
+export function closeSocket (options?: Taro.closeSocket.Option) {
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `closeSocket:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const { code, reason, complete, success, fail} = options as Exclude<typeof options, undefined>
+  const handle = new MethodHandler({ name:'closeSocket', success, fail, complete })
+
+  console.log('close socket')
+  // @ts-ignore
+  const ret = native.closeSocket({
+    code:code,
+    reason:reason,
+    success:()=>{
+      return handle.success
+    },
+    fail:()=>{
+      return handle.fail({
+        errMsg: getParameterError({
+          para: 'reason',
+          correct: 'String',
+          wrong: reason
+        })
+      })
+    }
+  })
 }

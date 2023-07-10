@@ -36,7 +36,6 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
       }, { resolve, reject })
     }
 
-    console.log('create BLE connection')
     // @ts-ignore
     const ret = native.createBLEConnection({
       deviceId: deviceId,

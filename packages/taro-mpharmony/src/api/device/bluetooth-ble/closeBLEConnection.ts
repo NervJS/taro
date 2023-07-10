@@ -35,7 +35,6 @@ export const closeBLEConnection: typeof Taro.closeBLEConnection = (options) => {
       }, { resolve, reject })
     }
 
-    console.log('close BLE connection')
     // @ts-ignore
     const ret = native.closeBLEConnection({
       deviceId: deviceId,
