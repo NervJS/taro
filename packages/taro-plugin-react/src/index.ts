@@ -74,7 +74,7 @@ export default (ctx: IPluginContext) => {
     } else if (compiler.type === 'vite') {
       compiler.vitePlugins ||= []
       compiler.vitePlugins.push(viteCommonPlugin(framework))
-      compiler.vitePlugins.push(require('@vitejs/plugin-react').default())
+      compiler.vitePlugins.push(VitePresetPlugin(framework))
       if (isWebPlatform()) {
         // H5
         compiler.vitePlugins.push(h5iVitePlugin(framework))
@@ -101,6 +101,12 @@ function setAlias(framework: Frameworks, chain) {
       alias.set('react-dom$', 'nervjs')
       break
   }
+}
+
+function VitePresetPlugin (framework: Frameworks): PluginOption {
+  return framework === 'preact' 
+    ? require('@preact/preset-vite').preact() 
+    : require('@vitejs/plugin-react').default()
 }
 
 function viteCommonPlugin(framework: Frameworks): PluginOption {
