@@ -1,6 +1,6 @@
 {
   "name": "jest-taro-helper",
-  "version": "3.7.0-alpha.5",
+  "version": "3.7.0-alpha.6",
   "description": "jest helper for taro",
   "private": true,
   "main": "index.js",

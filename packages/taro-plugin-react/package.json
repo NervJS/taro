@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.7.0-alpha.5",
+  "version": "3.7.0-alpha.6",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",
@@ -60,7 +60,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": {
       "optional": true
     },
-    "@preact/preset-vite":{
+    "@preact/preset-vite": {
       "optional": true
     },
     "@prefresh/webpack": {
