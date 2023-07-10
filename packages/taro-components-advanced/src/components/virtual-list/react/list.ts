@@ -1,14 +1,11 @@
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
-import { convertNumber2PX } from '../../../utils/convert'
-import { omit } from '../../../utils/lodash'
-import { cancelTimeout, requestTimeout } from '../../../utils/timer'
+import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSize, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import ListSet from '../list-set'
 import Preset from '../preset'
-import { defaultItemKey, getRectSize, getScrollViewContextNode } from '../utils'
 import { validateListProps } from './validate'
 
 import type { IProps } from '../preset'
@@ -45,7 +42,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     this.preset = new Preset(
       props,
-      this.refresh
+      this.refresh,
     )
     this.itemList = this.preset.itemList
 
@@ -59,7 +56,7 @@ export default class List extends React.PureComponent<IProps, IState> {
           ? this.props.initialScrollOffset
           : 0,
       scrollUpdateWasRequested: false,
-      refreshCount: 0
+      refreshCount: 0,
     }
   }
 
@@ -77,11 +74,11 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   _resetIsScrollingTimeoutId = null
 
-  _callOnItemsRendered = memoizeOne((overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex) => this.props.onItemsRendered({
+  _callOnItemsRendered = memoizeOne((overscanStartIndex, overscanStopIndex, startIndex, stopIndex) => this.props.onItemsRendered({
     overscanStartIndex,
     overscanStopIndex,
-    visibleStartIndex,
-    visibleStopIndex
+    startIndex,
+    stopIndex
   }))
 
   _callOnScroll = memoizeOne((scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) => this.props.onScroll({
@@ -95,9 +92,9 @@ export default class List extends React.PureComponent<IProps, IState> {
     if (typeof this.props.onItemsRendered === 'function') {
       if (this.props.itemCount > 0) {
         if (prevProps && prevProps.itemCount !== this.props.itemCount) {
-          const [overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex] = this._getRangeToRender()
+          const [overscanStartIndex, overscanStopIndex, startIndex, stopIndex] = this._getRangeToRender()
 
-          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex)
+          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, startIndex, stopIndex)
         }
       }
     }
@@ -423,14 +420,14 @@ export default class List extends React.PureComponent<IProps, IState> {
     if (itemCount > 0) {
       const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
       items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
-        this.preset.itemTagName, {
+        this.preset.itemElement, {
           key: itemKey(index + startIndex - prevPlaceholder, itemData),
           style: { display: 'none' }
         }
       )))
       for (let index = startIndex; index <= stopIndex; index++) {
         const style = this.preset.getItemStyle(index)
-        items.push(React.createElement<any>(this.preset.itemTagName, {
+        items.push(React.createElement<any>(this.preset.itemElement, {
           key: itemKey(index, itemData),
           style
         }, React.createElement(item, {
@@ -444,7 +441,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       restCount =  restCount > 0 ? restCount : 0
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
       items.push(new Array(postPlaceholder).fill(-1).map((_, index) => React.createElement<any>(
-        this.preset.itemTagName, {
+        this.preset.itemElement, {
           key: itemKey(1 + index + stopIndex, itemData),
           style: { display: 'none' }
         }
@@ -454,7 +451,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.
     const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
-    const outerElementProps: any = {
+    const outerProps: any = {
       ...rest,
       id,
       className,
@@ -476,17 +473,17 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     if (!enhanced) {
       if (isHorizontal) {
-        outerElementProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollLeft
+        outerProps.scrollLeft = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollLeft
       } else {
-        outerElementProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
+        outerProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
       }
     }
 
     if (this.preset.isRelative) {
       const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
-      return React.createElement(this.preset.outerTagName, outerElementProps,
+      return React.createElement(this.preset.outerElement, outerProps,
         renderTop,
-        React.createElement<any>(this.preset.itemTagName, {
+        React.createElement<any>(this.preset.itemElement, {
           key: `${id}-pre`,
           id: `${id}-pre`,
           style: {
@@ -494,7 +491,7 @@ export default class List extends React.PureComponent<IProps, IState> {
             width: !isHorizontal ? '100%' : pre
           }
         }),
-        React.createElement<any>(this.preset.innerTagName, {
+        React.createElement<any>(this.preset.innerElement, {
           ref: innerRef,
           key: `${id}-inner`,
           id: `${id}-inner`,
@@ -506,9 +503,9 @@ export default class List extends React.PureComponent<IProps, IState> {
         renderBottom
       )
     } else {
-      return React.createElement(this.preset.outerTagName, outerElementProps,
+      return React.createElement(this.preset.outerElement, outerProps,
         renderTop,
-        React.createElement<any>(this.preset.innerTagName, {
+        React.createElement<any>(this.preset.innerElement, {
           ref: innerRef,
           key: `${id}-inner`,
           id: `${id}-inner`,

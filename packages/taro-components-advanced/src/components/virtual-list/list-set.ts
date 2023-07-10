@@ -1,5 +1,6 @@
 import { isFunction } from '@tarojs/shared'
 
+import { getOffsetForIndexAndAlignment } from '../../utils'
 import { isHorizontalFunc } from './utils'
 
 import type { IProps } from './preset'
@@ -147,52 +148,14 @@ export default class ListSet {
   }
 
   getOffsetForIndexAndAlignment (index: number, align: string, scrollOffset: number) {
-    const wrapperSize = this.wrapperSize
-    const itemSize = this.getSize(index)
-    const lastItemOffset = Math.max(0, this.getOffsetSize(this.props.itemCount) - wrapperSize)
-    const maxOffset = Math.min(lastItemOffset, this.getOffsetSize(index))
-    const minOffset = Math.max(0, this.getOffsetSize(index) - wrapperSize + itemSize)
-
-    if (align === 'smart') {
-      if (scrollOffset >= minOffset - wrapperSize && scrollOffset <= maxOffset + wrapperSize) {
-        align = 'auto'
-      } else {
-        align = 'center'
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset
-
-      case 'end':
-        return minOffset
-
-      case 'center':
-      {
-        // "Centered" offset is usually the average of the min and max.
-        // But near the edges of the list, this doesn't hold true.
-        const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
-
-        if (middleOffset < Math.ceil(wrapperSize / 2)) {
-          return 0 // near the beginning
-        } else if (middleOffset > lastItemOffset + Math.floor(wrapperSize / 2)) {
-          return lastItemOffset // near the end
-        } else {
-          return middleOffset
-        }
-      }
-
-      case 'auto':
-      default:
-        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return scrollOffset
-        } else if (scrollOffset < minOffset) {
-          return minOffset
-        } else {
-          return maxOffset
-        }
-    }
+    return getOffsetForIndexAndAlignment({
+      align,
+      containerSize: this.wrapperSize,
+      currentOffset: scrollOffset,
+      scrollSize: this.getOffsetSize(this.length),
+      slideSize: this.getSize(index),
+      targetOffset: this.getOffsetSize(index),
+    })
   }
 
   compareSize (i = 0, size = 0) {

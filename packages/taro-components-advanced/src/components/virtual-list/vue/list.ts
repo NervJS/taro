@@ -1,14 +1,11 @@
 import { isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 
-import { convertNumber2PX } from '../../../utils/convert'
-import { omit } from '../../../utils/lodash'
-import { cancelTimeout, requestTimeout } from '../../../utils/timer'
+import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSize, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
+import render from '../../../utils/vue-render'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import Preset from '../preset'
-import { defaultItemKey, getRectSize, getScrollViewContextNode } from '../utils'
-import render from './render'
 
 const isWeb = isWebPlatform()
 
@@ -22,6 +19,9 @@ export default {
       type: [String, Number],
       required: true
     },
+    item: {
+      required: true
+    },
     itemCount: {
       type: Number,
       required: true
@@ -30,6 +30,7 @@ export default {
       type: Array,
       required: true
     },
+    itemKey: String,
     itemSize: {
       type: [Number, Function],
       required: true
@@ -42,14 +43,6 @@ export default {
       type: String,
       default: 'absolute'
     },
-    initialScrollOffset: {
-      type: Number,
-      default: 0
-    },
-    innerElementType: {
-      type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
-    },
     direction: {
       type: String,
       default: 'ltr'
@@ -57,6 +50,10 @@ export default {
     layout: {
       type: String,
       default: 'vertical'
+    },
+    initialScrollOffset: {
+      type: Number,
+      default: 0
     },
     overscanCount: {
       type: Number,
@@ -69,32 +66,33 @@ export default {
       type: Boolean,
       default: false
     },
-    item: {
-      required: true
+    enhanced: {
+      type: Boolean,
+      default: false
     },
-    itemKey: String,
-    itemTagName: {
-      type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
-    },
-    innerTagName: {
-      type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
-    },
-    outerTagName: {
-      type: String,
-      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
-    },
-    itemElementType: String,
-    outerElementType: String,
-    innerRef: String,
-    outerRef: String,
-    onItemsRendered: Function,
-    onScrollNative: Function,
     shouldResetStyleCacheOnItemSizeChange: {
       type: Boolean,
       default: true
     },
+    outerElementType: {
+      type: String,
+      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
+    },
+    innerElementType: {
+      type: String,
+      default: isWeb ? 'taro-view-core' : 'view'
+    },
+    itemElementType: {
+      type: String,
+      default: isWeb ? 'taro-view-core' : 'view'
+    },
+    outerTagName: String,
+    innerTagName: String,
+    itemTagName: String,
+    outerRef: String,
+    innerRef: String,
+    onScrollNative: Function,
+    onItemsRendered: Function,
   },
   data () {
     const preset = new Preset(this.$props, this.refresh)
@@ -164,14 +162,14 @@ export default {
       function (
         overscanStartIndex,
         overscanStopIndex,
-        visibleStartIndex,
-        visibleStopIndex
+        startIndex,
+        stopIndex
       ) {
         return this.$props.onItemsRendered({
           overscanStartIndex,
           overscanStopIndex,
-          visibleStartIndex,
-          visibleStopIndex
+          startIndex,
+          stopIndex
         })
       }
     ),
@@ -199,14 +197,14 @@ export default {
           const [
             overscanStartIndex,
             overscanStopIndex,
-            visibleStartIndex,
-            visibleStopIndex
+            startIndex,
+            stopIndex
           ] = this._getRangeToRender()
           this._callOnItemsRendered(
             overscanStartIndex,
             overscanStopIndex,
-            visibleStartIndex,
-            visibleStopIndex
+            startIndex,
+            stopIndex
           )
         }
       }
@@ -473,7 +471,7 @@ export default {
     if (itemCount > 0) {
       const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
       items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => render(
-        this.preset.itemTagName, {
+        this.preset.itemElement, {
           key: itemKey(index + startIndex - prevPlaceholder, itemData),
           style: { display: 'none' }
         }
@@ -481,7 +479,7 @@ export default {
       for (let index = startIndex; index <= stopIndex; index++) {
         const style = this.preset.getItemStyle(index)
         items.push(
-          render(this.preset.itemTagName, {
+          render(this.preset.itemElement, {
             key: itemKey(index, itemData),
             style
           }, [
@@ -501,7 +499,7 @@ export default {
       restCount =  restCount > 0 ? restCount : 0
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
       items.push(new Array(postPlaceholder).fill(-1).map((_, index) => render(
-        this.preset.itemTagName, {
+        this.preset.itemElement, {
           key: itemKey(1 + index + stopIndex, itemData),
           style: { display: 'none' }
         }
@@ -544,9 +542,9 @@ export default {
 
     if (this.preset.isRelative) {
       const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
-      return render(this.preset.outerTagName, outerElementProps, [
+      return render(this.preset.outerElement, outerElementProps, [
         process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
-        render(this.preset.itemTagName, {
+        render(this.preset.itemElement, {
           key: `${id}-pre`,
           id: `${id}-pre`,
           style: {
@@ -554,7 +552,7 @@ export default {
             width: !isHorizontal ? '100%' : pre
           }
         }),
-        render(this.preset.innerTagName, {
+        render(this.preset.innerElement, {
           ref: innerRef,
           key: `${id}-inner`,
           id: `${id}-inner`,
@@ -566,9 +564,9 @@ export default {
         process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
       ])
     } else {
-      return render(this.preset.outerTagName, outerElementProps, [
+      return render(this.preset.outerElement, outerElementProps, [
         process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
-        render(this.preset.innerTagName, {
+        render(this.preset.innerElement, {
           ref: innerRef,
           key: `${id}-inner`,
           id: `${id}-inner`,

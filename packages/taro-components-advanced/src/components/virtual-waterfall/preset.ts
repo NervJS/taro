@@ -1,35 +1,35 @@
+import { isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 
-import { convertNumber2PX, defaultItemKey, isCosDistributing } from '../../utils'
-import ListSet from './list-set'
-import { isHorizontalFunc, isRtlFunc } from './utils'
+import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing } from '../../utils'
+import ListMap from './list-map'
 
-import type { VirtualListProps } from './'
+import type { VirtualWaterfallProps } from './'
+
+const isWeb = isWebPlatform()
 
 let INSTANCE_ID = 0
 
-export interface IProps extends Partial<VirtualListProps> {
-  children?: VirtualListProps['item']
-  direction?: 'ltr' | 'rtl' | 'horizontal' | 'vertical'
+export interface IProps extends Partial<VirtualWaterfallProps> {
+  children?: VirtualWaterfallProps['item']
   itemKey?: typeof defaultItemKey
   itemTagName?: string
   innerTagName?: string
   outerTagName?: string
-  innerRef?: React.Ref<HTMLElement> | string
   outerRef?: React.Ref<HTMLElement> | string
   onItemsRendered?: TFunc
   shouldResetStyleCacheOnItemSizeChange?: boolean
 }
 
 export default class Preset {
-  itemList: ListSet
+  itemMap: ListMap
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
-    this.itemList = new ListSet(props, refresh)
+    this.itemMap = new ListMap(this.columns, props, refresh)
   }
 
-  wrapperField = {
+  #wrapperField = {
     scrollLeft: 0,
     scrollTop: 0,
     scrollHeight: 0,
@@ -39,6 +39,11 @@ export default class Preset {
     diffOffset: 0
   }
 
+  wrapperHeight = 0
+  wrapperWidth = 0
+  columns = 2
+  columnWidth = 0
+
   diffList: number[] = [0, 0, 0]
 
   init (props: IProps) {
@@ -47,19 +52,44 @@ export default class Preset {
 
   update (props: IProps) {
     this.props = props
-    this.itemList.update(props)
+    this.itemMap.update(props)
+  }
+
+  async updateWrapper (id: string) {
+    const { width = 0, height = 0, column, columnWidth } = this.props
+    const validWidth = typeof width === 'number' && width > 0
+    const validHeight = typeof height === 'number' && height > 0
+    if (validWidth) {
+      this.wrapperWidth = width
+    }
+    if (validHeight) {
+      this.wrapperHeight = height
+      this.itemMap.clientSize = height
+    }
+
+    if (!validHeight || !validWidth) {
+      const res = await getRectSizeSync(`#${id}`, 100)
+      this.wrapperWidth ||= res.width
+      this.wrapperHeight ||= res.height
+      this.itemMap.clientSize ||= res.height
+      this.refresh?.()
+    }
+
+    if (typeof column === 'number' && column > 0) {
+      this.columns = column
+      this.columnWidth = this.wrapperWidth / column
+    } else if (typeof columnWidth === 'number' && columnWidth > 0) {
+      this.columns = Math.floor(this.wrapperWidth / columnWidth)
+      this.columnWidth = columnWidth
+    } else {
+      this.columns = 2
+      this.columnWidth = this.wrapperWidth / this.columns
+    }
+    this.itemMap.updateColumns(this.columns, this.props)
   }
 
   get id () {
-    return `virtual-list-${INSTANCE_ID++}`
-  }
-
-  get isHorizontal () {
-    return isHorizontalFunc(this.props)
-  }
-
-  get isRtl () {
-    return isRtlFunc(this.props)
+    return `virtual-waterfall-${INSTANCE_ID++}`
   }
 
   get isRelative () {
@@ -67,7 +97,7 @@ export default class Preset {
   }
 
   get placeholderCount () {
-    return this.props.placeholderCount >= 0 ? this.props.placeholderCount : this.props.overscanCount
+    return this.props.placeholderCount || 0
   }
 
   get outerElement () {
@@ -83,19 +113,15 @@ export default class Preset {
   }
 
   get field () {
-    return this.wrapperField
+    return this.#wrapperField
   }
 
   set field (o: Record<string, number>) {
-    Object.assign(this.wrapperField, o)
-    // Object.keys(o).forEach(key => {
-    //   if (typeof o[key] === 'number' && typeof this.wrapperField[key] === 'number') {
-    //     this.wrapperField[key] = o[key]
-    //   }
-    // })
+    Object.assign(this.#wrapperField, o)
   }
 
   isShaking (diff?: number) {
+    if (isWeb) return false
     const list = this.diffList.slice(-3)
     this.diffList.push(diff)
     return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))
@@ -103,8 +129,6 @@ export default class Preset {
 
   getItemStyleCache = memoizeOne((
     _itemSize?: IProps['itemSize'] | false,
-    _layout?: IProps['layout'] | false,
-    _direction?: IProps['direction'] | false
   ) => {
     // TODO: Cache of item styles, keyed by item index.
     return {}
@@ -112,57 +136,39 @@ export default class Preset {
 
   getItemStyle (index: number) {
     const {
-      direction,
       itemSize,
-      layout,
       shouldResetStyleCacheOnItemSizeChange
     } = this.props
 
     const itemStyleCache = this.getItemStyleCache(
       shouldResetStyleCacheOnItemSizeChange ? itemSize : false,
-      shouldResetStyleCacheOnItemSizeChange ? layout : false,
-      shouldResetStyleCacheOnItemSizeChange ? direction : false
     )
 
     let style
 
-    const offset = convertNumber2PX(this.itemList.getOffsetSize(index))
-    const size = convertNumber2PX(this.itemList.getSize(index))
-    const isHorizontal = this.isHorizontal
-    const isRtl = this.isRtl
+    const [, nodeOffset, nodeSize] = this.itemMap.getItemInfo(index)
+    const offset = convertNumber2PX(nodeOffset)
+    const size = convertNumber2PX(nodeSize)
     if (itemStyleCache.hasOwnProperty(index)) {
       // Note: style is frozen.
       style = { ...itemStyleCache[index] }
-      if (isHorizontal) {
-        style.width = size
-        if (!this.isRelative) {
-          if (isRtl) {
-            style.right = offset
-          } else {
-            style.left = offset
-          }
-        }
-      } else {
-        style.height = size
-        if (!this.isRelative) {
-          style.top = offset
-        }
+      style.height = size
+      if (!this.isRelative) {
+        style.top = offset
       }
     } else {
       if (this.isRelative) {
         itemStyleCache[index] = style = {
-          height: !isHorizontal ? size : '100%',
-          width: isHorizontal ? size : '100%'
+          height: size,
+          width: '100%'
         }
       } else {
-        const offsetHorizontal = isHorizontal ? offset : 0
         itemStyleCache[index] = style = {
           position: 'absolute',
-          left: !isRtl ? offsetHorizontal : undefined,
-          right: isRtl ? offsetHorizontal : undefined,
-          top: !isHorizontal ? offset : 0,
-          height: !isHorizontal ? size : '100%',
-          width: isHorizontal ? size : '100%'
+          left: 0,
+          top: offset,
+          height: size,
+          width: '100%'
         }
       }
     }
