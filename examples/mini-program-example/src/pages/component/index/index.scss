@@ -136,3 +136,13 @@
 .kind-list-item-bd-show {
   height: auto;
 }
+
+.tag {
+  display: inline-block;
+  padding: 5px 5px;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  font-size: 12px;
+  margin: 5px;
+}

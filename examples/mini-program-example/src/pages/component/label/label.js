@@ -14,6 +14,7 @@ import {
 import Header from '../../../components/head/head'
 
 import './label.scss'
+import ComponentState from "../../../components/component_state/component_state";
 
 export default class PageLabel extends React.Component {
   state = {
@@ -32,6 +33,7 @@ export default class PageLabel extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Label'></Header>
+           <ComponentState platform='H5' rate='100'> </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>

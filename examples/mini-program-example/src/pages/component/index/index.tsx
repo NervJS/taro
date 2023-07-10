@@ -32,13 +32,20 @@ export default class Index extends React.Component {
           id: 'view',
           name: '视图容器',
           open: false,
-          pages: ['view', 'scroll-view', 'swiper', 'grid-view', 'list-view', 'page-container']
+          pages: ['view','scroll-view','swiper','grid-view','list-view','page-container','match-media'],
+          target: [
+            'cover-image','cover-view','grid-view','list-view',
+            'match-media','movable-area','movable-view','page-container',
+            'root-portal','scroll-view','share-element','sticky-header',
+            'sticky-section','swiper','swiper-item','view'
+          ]
         },
         {
           id: 'content',
           name: '基础内容',
           open: false,
-          pages: ['text', 'icon', 'progress']
+          pages: ['text', 'icon', 'progress'],
+          target: ['icon','progress','rich-text','text']
         },
         {
           id: 'form',
@@ -60,29 +67,37 @@ export default class Index extends React.Component {
             'textarea',
             'root-portal',
             'sticky-header'
+          ],
+          target: ['button','checkbox','checkbox-group','editor','form',
+            'input','keyboard-accessory','label','picker','picker-view',
+            'picker-view-column','radio','radio-group','slider','switch','textarea'
           ]
         },
         {
           id: 'nav',
           name: '导航',
           open: false,
-          pages: ['navigator']
+          pages: ['navigator'],
+          target: ['functional-page-navigator', 'navigator', 'navigation-bar']
         },
         {
           id: 'media',
           name: '媒体组件',
           open: false,
-          pages: ['image', 'audio', 'video', 'camera','match-media']
+          pages: ['image','audio','video','camera'],
+          target: ['audio','camera','channel-live', 'channel-video','image', 'live-player', 'live-pusher', 'video','voip-room']
         },
         {
           id: 'map',
           name: '地图',
-          pages: ['map']
+          pages: ['map'],
+          target: ['map']
         },
         {
           id: 'canvas',
           name: '画布',
-          pages: ['canvas']
+          pages: ['canvas'],
+          target: ['canvas']
         }
       ]
     }
@@ -131,10 +146,11 @@ export default class Index extends React.Component {
                 item.boxClass =
                   'navigator-box ' + (item.open ? 'navigator-box-show' : '')
                 item.imgSrc = PNGS[`${item.id}Png`]
-                item._pages = item.pages.map(page => {
+                item._pages = item.target.map(targetPage => {
                   return {
-                    page: page,
-                    url: `/pages/component/${page}/${page}`
+                    page: targetPage,
+                    url: `/pages/component/${targetPage}/${targetPage}`,
+                    state: item.pages.includes(targetPage) ? 'done':'undo'
                   }
                 })
                 return item
@@ -160,7 +176,12 @@ export default class Index extends React.Component {
                               key={index}
                               className='navigator'
                             >
-                              <Text className='navigator-text'>{page.page}</Text>
+                              <Text className='navigator-text'>
+                                {page.page}
+                                {
+                                  page.state == 'undo' && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                                }
+                              </Text>
                               <View className='navigator-arrow' />
                             </View>
                           )

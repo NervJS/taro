@@ -6,6 +6,7 @@ import { View, Text, Image } from '@tarojs/components'
 import nervLogo from './nerv_logo.png'
 
 import Header from '../../../components/head/head'
+import ComponentState from "../../../components/component_state/component_state";
 
 export default class PageView extends React.Component {
   render() {
@@ -13,6 +14,7 @@ export default class PageView extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Image'></Header>
+           <ComponentState platform='H5' rate='40'> </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>
