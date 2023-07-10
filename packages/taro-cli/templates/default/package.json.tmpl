@@ -87,7 +87,11 @@
     "eslint-plugin-vue": "^8.0.0",<%}%><% if (css === 'sass' || css === 'scss') {%>
     "sass": "^1.60.0",<%}%><% if (css === 'less') {%>
     "less": "^4.1.3",<%}%><% if (css === 'stylus') {%>
-    "stylus": "^0.59.0",<%}%>
+    "stylus": "^0.59.0",<%}%><% if (typescript) {%>
+    "@typescript-eslint/parser": "^5.20.0",
+    "@typescript-eslint/eslint-plugin": "^5.20.0",
+    "typescript": "^4.1.0",
+    "tsconfig-paths-webpack-plugin": "^4.0.1"<%}%>,
     "postcss": "^8.4.18"
   }<%} else {%>
   "devDependencies": {
