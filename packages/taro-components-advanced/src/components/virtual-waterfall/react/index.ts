@@ -1,17 +1,16 @@
-import { ScrollView, View } from '@tarojs/components'
+import { type BaseEventOrig, ScrollView, View } from '@tarojs/components'
 import React from 'react'
 
 import { convertPX2Int } from '../../../utils/convert'
-import List from './list'
+import Waterfall from './waterfall'
 
-import type { BaseEventOrig } from '@tarojs/components'
-import type { VirtualListProps } from '../'
+import type { VirtualWaterfallProps } from '../'
 import type { IProps } from '../preset'
 
 const OuterScrollView = React.forwardRef(
   function OuterScrollView (props, ref) {
-    const { style, onScroll, onScrollNative, layout, ...rest } = props as IProps
-    const handleScroll = (event: BaseEventOrig<VirtualListProps.IVirtualListEventDetail>) => {
+    const { id, className, style, onScroll, onScrollNative, ...rest } = props as IProps
+    const handleScroll = (event: BaseEventOrig<VirtualWaterfallProps.IVirtualWaterfallEventDetail>) => {
       onScroll({
         ...event as any,
         currentTarget: {
@@ -28,43 +27,43 @@ const OuterScrollView = React.forwardRef(
 
     return React.createElement<any>(ScrollView, {
       ref,
+      id,
+      className,
       style,
-      scrollY: layout === 'vertical',
-      scrollX: layout === 'horizontal',
+      scrollY: true,
       onScroll: handleScroll,
       ...rest
     })
   }
 )
 
-const VirtualList = React.forwardRef(function VirtualList (props: VirtualListProps, ref) {
+const VirtualWaterfall = React.forwardRef(function VirtualWaterfall (props: VirtualWaterfallProps, ref) {
   const {
-    direction = 'ltr',
+    outerElementType = OuterScrollView,
     innerElementType = View,
     itemElementType = View,
     initialScrollOffset = 0,
-    overscanCount = 1,
+    overscanDistance = 50,
     ...rest
   } = props as IProps
 
   if ('children' in rest) {
-    console.warn('Taro(VirtualList): children props have been deprecated. ' + 'Please use the item props instead.')
+    console.warn('Taro(VirtualWaterfall): children props have been deprecated. ' + 'Please use the item props instead.')
     rest.item = rest.children as IProps['item']
   }
   if (rest.item instanceof Array) {
-    console.warn('Taro(VirtualList): item should not be an array')
+    console.warn('Taro(VirtualWaterfall): item should not be an array')
     rest.item = rest.item[0]
   }
-  return React.createElement(List, {
+  return React.createElement(Waterfall, {
     ref,
     ...rest,
-    outerElementType: OuterScrollView,
+    outerElementType,
     itemElementType,
     innerElementType,
-    direction,
     initialScrollOffset,
-    overscanCount,
+    overscanDistance,
   })
 })
 
-export default VirtualList
+export default VirtualWaterfall

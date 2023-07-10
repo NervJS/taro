@@ -26,6 +26,7 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "classnames": "^2.2.5",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.18"
   },

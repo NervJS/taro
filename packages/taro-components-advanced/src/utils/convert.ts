@@ -11,7 +11,7 @@ export function convertPX2Int (distance: string | number) {
   return distance
 }
 
-export function convertNumber2PX (styleValue: unknown) {
+export function convertNumber2PX (styleValue: unknown): string {
   if (!styleValue && styleValue !== 0) return ''
-  return typeof styleValue === 'number' ? styleValue + 'px' : styleValue
+  return typeof styleValue === 'number' ? styleValue + 'px' : styleValue as string
 }
