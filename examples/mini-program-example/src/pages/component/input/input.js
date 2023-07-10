@@ -4,6 +4,7 @@ import React from 'react'
 import Header from '../../../components/head/head'
 
 import './input.scss'
+import ComponentState from "../../../components/component_state/component_state";
 
 export default class PageInput extends React.Component {
   state = {
@@ -21,6 +22,7 @@ export default class PageInput extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Input'></Header>
+           <ComponentState platform='H5' rate='100'> </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>

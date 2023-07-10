@@ -17,6 +17,7 @@ import {
 } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
+import ComponentState from '../../../components/component_state/component_state'
 
 export default class PageForm extends React.Component {
   state = {
@@ -80,6 +81,7 @@ export default class PageForm extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Form'></Header>
+           <ComponentState platform='H5' rate='100'> </ComponentState>
         </View>
         <Form onSubmit={this.formSubmit} onReset={this.formReset}>
           <View className='components-page__body'>

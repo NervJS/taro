@@ -1,7 +1,9 @@
 import {View, Image,  Text, ListView} from '@tarojs/components'
 import {useLoad} from '@tarojs/taro'
-import './index.scss'
+import './list-view.scss'
 import React from "react";
+import Header from "../../../components/head/head";
+import ComponentState from "../../../components/component_state/component_state";
 
 const list_data = [
   {
@@ -42,27 +44,33 @@ const list_data = [
   }
 ]
 
-export default function Index() {
+export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
   })
 
   return (
-    <View className='index'>
-      <ListView orientation={'vertical'} data={list_data} columnItem={(childItem, i) => (
+    <View className='components-page'>
+      <View className='components-page__header'>
+        <Header title='ListView'></Header>
+         <ComponentState platform='H5' rate='100'> </ComponentState>
+      </View>
+      <View className='index'>
+        <ListView orientation={'vertical'} data={list_data} columnItem={(childItem, i) => (
 
-        <View key={`list-group-item-${i}`} onClick={() => (console.log("childItem " + childItem.value + " i " + i))}>
-          {childItem.image && (
-            <Image
-              src={childItem.image}
-              mode='scaleToFill'
-            />
-          )}
-          <Text>
-            {childItem.value}
-          </Text>
-        </View>
-      )}/>
+          <View key={`list-group-item-${i}`} onClick={() => (console.log("childItem " + childItem.value + " i " + i))}>
+            {childItem.image && (
+              <Image
+                src={childItem.image}
+                mode='scaleToFill'
+              />
+            )}
+            <Text>
+              {childItem.value}
+            </Text>
+          </View>
+        )}/>
+      </View>
     </View>
   )
 }

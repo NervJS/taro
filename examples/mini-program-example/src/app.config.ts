@@ -1,14 +1,6 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/grid-view/index',
-    'pages/list-view/index',
-    'pages/page-container/index',
-    'pages/match-media/index',
-    'pages/sticky-header/index',
-    'pages/root-portal/index',
-    'pages/radio-group/index',
-    'pages/check-box-group/index',
     'pages/component/index/index',
     'pages/component/view/view',
     'pages/component/scroll-view/scroll-view',
@@ -32,7 +24,15 @@ export default defineAppConfig({
     'pages/component/image/image',
     'pages/component/map/map',
     'pages/component/canvas/canvas',
-    'pages/component/slider/slider'
+    'pages/component/slider/slider',
+    'pages/component/grid-view/grid-view',
+    'pages/component/list-view/list-view',
+    'pages/component/page-container/page-container',
+    'pages/component/radio-group/radio-group',
+    'pages/component/checkbox-group/checkbox-group',
+    'pages/component/match-media/match-media',
+    'pages/component/sticky-header/sticky-header',
+    'pages/component/root-portal/root-portal'
   ],
   window: {
     backgroundTextStyle: 'light',

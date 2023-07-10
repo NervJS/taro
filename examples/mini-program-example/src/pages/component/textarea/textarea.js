@@ -4,6 +4,7 @@ import React from 'react'
 import { View, Text, Textarea, Button } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
+import ComponentState from "../../../components/component_state/component_state";
 
 export default class PageTextarea extends React.Component {
   state = {
@@ -37,6 +38,7 @@ export default class PageTextarea extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Textarea'></Header>
+           <ComponentState platform='H5' rate='100'> </ComponentState>
         </View>
         <View className='components-page__body'>
 
@@ -62,7 +64,7 @@ export default class PageTextarea extends React.Component {
           </View>
 
         </View>
-      </View >
+      </View>
     )
   }
 }

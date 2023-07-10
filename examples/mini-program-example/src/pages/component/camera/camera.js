@@ -5,7 +5,7 @@ import React from 'react'
 import { Camera, Button, View } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
-
+import ComponentState from '../../../components/component_state/component_state'
 export default class PageView extends React.Component {
   constructor() {
     super(...arguments)
@@ -33,6 +33,7 @@ export default class PageView extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Camera'></Header>
+           <ComponentState platform='原生' rate='0'> </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>

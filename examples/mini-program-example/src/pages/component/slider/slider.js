@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Button, Text, Slider } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
+import ComponentState from "../../../components/component_state/component_state";
 
 export default class PageSlider extends React.Component {
   state = {
@@ -29,6 +30,7 @@ export default class PageSlider extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Slider'></Header>
+           <ComponentState platform='H5' rate='100'> </ComponentState>
         </View>
         <View className='components-page__body'>
 
