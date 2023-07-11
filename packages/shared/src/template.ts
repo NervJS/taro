@@ -221,8 +221,8 @@ export class BaseTemplate {
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,l:\'\'')}`
-      : this.dataKeymap('i:item')
+      ? `${this.dataKeymap('i:item,c:1,l:\'\'')}`
+      : this.dataKeymap('i:item,c:1')
     const xs = this.supportXS
       ? `xs.a(0, item.${Shortcuts.NodeName})`
       : "'tmpl_0_' + item.nn"
@@ -284,24 +284,24 @@ export class BaseTemplate {
   
     if (isLastRecursiveComp) {
       const data = isUseXs
-        ? `${this.dataKeymap('i:item,l:l')}`
-        : this.dataKeymap('i:item')
+        ? `${this.dataKeymap('i:item,c:c,l:l')}`
+        : this.dataKeymap('i:item,c:c')
 
       return supportXS
         ? `<template is="{{xs.e(${level})}}" data="{{${data}}}" />`
         : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" />`
     } else {
       const data = isUseXs
-        ? `${this.dataKeymap(`i:item,l:xs.f(l,item.${Shortcuts.NodeName})`)}`
-        : `${this.dataKeymap('i:item')}`
+        ? `${this.dataKeymap(`i:item,c:c+1,l:xs.f(l,item.${Shortcuts.NodeName})`)}`
+        : `${this.dataKeymap('i:item,c:c+1')}`
 
       const xs = !this.isSupportRecursive
-        ? `xs.a(${level}, item.${Shortcuts.NodeName}, l)`
-        : `xs.a(${level}, item.${Shortcuts.NodeName})`
+        ? `xs.a(c, item.${Shortcuts.NodeName}, l)`
+        : `xs.a(c, item.${Shortcuts.NodeName})`
 
       return supportXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" />`
-        : `<template is="{{'tmpl_' + ${level} + '_' + item.nn}}" data="{{${data}}}" />`
+        : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
   
   }
@@ -343,7 +343,7 @@ export class BaseTemplate {
 
     let res = `
 <template name="tmpl_${level}_${nodeAlias}">
-  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i')}}}" />
+  <template is="{{${templateName}}}" data="{{${this.dataKeymap('i:i,c:c')}}}" />
 </template>
 
 <template name="tmpl_${level}_${nodeAlias}_focus">
@@ -487,8 +487,8 @@ export class BaseTemplate {
 
   public buildBaseComponentTemplate = (ext: string) => {
     const data = this.supportXS
-      ? this.dataKeymap('i:i,l:l')
-      : this.dataKeymap('i:i')
+      ? this.dataKeymap('i:i,c:1,l:l')
+      : this.dataKeymap('i:i,c:1')
 
     return `<import src="./base${ext}" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{${data}}}" />`
@@ -497,8 +497,8 @@ export class BaseTemplate {
   public buildCustomComponentTemplate = (ext: string) => {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,l:\'\'')}`
-      : this.dataKeymap('i:item')
+      ? `${this.dataKeymap('i:item,c:1,l:\'\'')}`
+      : this.dataKeymap('i:item,c:1')
 
     return `<import src="./base${ext}" />
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
