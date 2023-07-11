@@ -1,0 +1,40 @@
+import { mergeWith } from 'lodash'
+
+import { getLoaderMeta } from './loader-meta'
+import { getH5VueLoaderOptions } from './utils'
+
+import type { IPluginContext } from '@tarojs/service'
+import type { PluginOption } from 'vite'
+import type { IConfig } from './index'
+
+export function h5VitePlugin (_ctx: IPluginContext, config: IConfig): PluginOption {
+  // eslint-disable-next-line no-console
+  console.log(config)
+  return [
+    // @TODO: 确认 webpack.h5 的 customStyle 逻辑是否需要迁移
+    injectLoaderMeta(),
+    require('@vitejs/plugin-vue').default({
+      template: getH5VueLoaderOptions()
+    })
+  ]
+}
+
+function injectLoaderMeta (): PluginOption {
+  function customizer (object = '', sources = '') {
+    if ([object, sources].every(e => typeof e === 'string')) return object + sources
+  }
+  return {
+    name: 'taro-vue3:loader-meta',
+    async buildStart () {
+      await this.load({ id: 'taro:compiler' })
+      const info = this.getModuleInfo('taro:compiler')
+      const compiler = info?.meta.compiler
+      if (compiler) {
+        compiler.loaderMeta = mergeWith(
+          getLoaderMeta(), compiler.loaderMeta, customizer
+        )
+      }
+    }
+  }
+}
+
