@@ -8,7 +8,7 @@ import type { PluginOption } from 'vite'
 export function miniVitePlugin (componentConfig: IComponentConfig | undefined): PluginOption {
   return [
     injectLoaderMeta(),
-    require('@vitejs/plugin-vue').default({
+    require('@vitejs/plugin-vue2').default({
       template: getMiniVueLoaderOptions(componentConfig)
     })
   ]

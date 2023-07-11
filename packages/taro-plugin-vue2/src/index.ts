@@ -11,31 +11,12 @@ import type { IPluginContext } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type { PluginOption } from 'vite'
 
-
-type CompilerOptions = {
-  isCustomElement: (tag: string) => boolean
-  whitespace: 'condense' | 'preserve'
-  delimiters: string[]
-  comments: boolean
-  nodeTransforms: ((...args: any) => void)[]
-}
-
 interface OnParseCreateElementArgs {
   nodeName: string
   componentConfig: IComponentConfig
 }
 
-export interface IConfig {
-  mini?: {
-    compilerOptions: CompilerOptions
-  }
-  vueLoaderOption?: {
-    compilerOptions: CompilerOptions
-    [key: string]: any
-  }
-}
-
-export default (ctx: IPluginContext, config: IConfig = {}) => {
+export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
   if (framework !== 'vue') return
 
@@ -57,7 +38,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     viteConfig.plugins.push(viteCommonPlugin())
     if (isWebPlatform()) {
       // H5
-      viteConfig.plugins.push(h5VitePlugin(ctx, config))
+      viteConfig.plugins.push(h5VitePlugin(ctx))
     } else {
       // 小程序
       viteConfig.plugins.push(miniVitePlugin(componentConfig))

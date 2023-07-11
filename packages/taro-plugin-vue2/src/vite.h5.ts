@@ -5,15 +5,13 @@ import { getH5VueLoaderOptions } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { PluginOption } from 'vite'
-import type { IConfig } from './index'
 
-export function h5VitePlugin (_ctx: IPluginContext, config: IConfig): PluginOption {
+export function h5VitePlugin (_ctx: IPluginContext): PluginOption {
   // eslint-disable-next-line no-console
-  console.log(config)
   return [
     // @TODO: 确认 webpack.h5 的 customStyle 逻辑是否需要迁移
     injectLoaderMeta(),
-    require('@vitejs/plugin-vue').default({
+    require('@vitejs/plugin-vue2').default({
       template: getH5VueLoaderOptions()
     })
   ]
