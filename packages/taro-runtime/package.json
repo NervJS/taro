@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.7.0-alpha.6",
+  "version": "3.7.0-alpha.7",
   "description": "taro runtime for mini apps.",
   "main:h5": "dist/runtime.h5.js",
   "main": "dist/runtime.esm.js",
