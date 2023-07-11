@@ -3,7 +3,7 @@ import { mergeWith } from 'lodash'
 
 import apiLoader from './api-loader'
 import { getLoaderMeta } from './loader-meta'
-import { getH5VueLoaderOptions } from './webpack.h5'
+import { getH5VueLoaderOptions } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { PluginOption } from 'vite'

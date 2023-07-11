@@ -1,12 +1,10 @@
 import { REG_TARO_H5, REG_VUE } from '@tarojs/helper'
-import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { mergeWith } from 'lodash'
 
 import { getLoaderMeta } from './loader-meta'
-import { getVueLoaderPath } from './utils'
+import { getH5VueLoaderOptions, getVueLoaderPath } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
-import type { ElementNode, RootNode, TemplateChildNode } from '@vue/compiler-core'
 import type { IConfig } from './index'
 
 export function modifyH5WebpackChain(ctx: IPluginContext, chain, config: IConfig) {
@@ -24,44 +22,6 @@ export function modifyH5WebpackChain(ctx: IPluginContext, chain, config: IConfig
   }
 
   chain.merge({ externals })
-}
-
-export function getH5VueLoaderOptions(config: IConfig) {
-  const compilerOptions = config.vueLoaderOption?.compilerOptions || {}
-  // loader
-  return {
-    transformAssetUrls: {
-      video: ['src', 'poster'],
-      'live-player': 'src',
-      audio: 'src',
-      source: 'src',
-      image: 'src',
-      'cover-image': 'src',
-      'taro-video': ['src', 'poster'],
-      'taro-live-player': 'src',
-      'taro-audio': 'src',
-      'taro-source': 'src',
-      'taro-image': 'src',
-      'taro-cover-image': 'src',
-    },
-    ...(config.vueLoaderOption ?? {}),
-    compilerOptions: {
-      ...compilerOptions,
-      // https://github.com/vuejs/vue-next/blob/master/packages/compiler-core/src/options.ts
-      nodeTransforms: [
-        (node: RootNode | TemplateChildNode) => {
-          if (node.type === 1 /* ELEMENT */) {
-            node = node as ElementNode
-            const nodeName = node.tag
-            if (DEFAULT_Components.has(nodeName)) {
-              node.tag = `taro-${nodeName}`
-              node.tagType = 1 /* 0: ELEMENT, 1: COMPONENT */
-            }
-          }
-        },
-      ],
-    },
-  }
 }
 
 function setStyleLoader(ctx: IPluginContext, chain) {

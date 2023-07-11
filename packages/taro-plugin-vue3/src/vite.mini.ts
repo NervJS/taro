@@ -1,5 +1,5 @@
 import { getLoaderMeta } from './loader-meta'
-import { getMiniVueLoaderOptions } from './webpack.mini'
+import { getMiniVueLoaderOptions } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
