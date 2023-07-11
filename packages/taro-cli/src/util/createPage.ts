@@ -1,9 +1,9 @@
 import { babelKit } from '@tarojs/helper'
 
-import { ConfigModificationState } from '../create/page'
+import { ConfigModificationState, ModifyCallback } from '../create/page'
 
 import type { NodePath } from '@babel/traverse'
-import type { ArrayExpression, ExportDefaultDeclaration,ObjectExpression, ObjectProperty } from '@babel/types'
+import type { ArrayExpression, ExportDefaultDeclaration, ObjectExpression, ObjectProperty } from '@babel/types'
 
 const t = babelKit.types
 
@@ -17,7 +17,7 @@ const generateNewSubPackageItem = (subPackage: string) => {
 const isValidSubPkgObject = (subPkgObject: ObjectExpression) => {
   const properties = subPkgObject?.properties || {}
   const rootProperty = properties.find((property: ObjectProperty) => (property.key as any)?.name === 'root') as ObjectProperty
-  const pagesProperty =  properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
+  const pagesProperty = properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
   const rootPropertyValueType = rootProperty?.value?.type
   const pagesPropertyValueType = pagesProperty?.value?.type
   return rootPropertyValueType === 'StringLiteral' && pagesPropertyValueType === 'ArrayExpression'
@@ -34,17 +34,17 @@ const addNewSubPackage = (node: ObjectExpression, page: string, subPackage: stri
   const value = subPackages?.value
 
   // 文件格式不对的情况
-  if(!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
+  if (!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
   let targetSubPkgObject: ObjectExpression = value.elements.find(node => (node as any)?.properties?.find(property => (property as any)?.value?.value === subPackage)) as ObjectExpression
 
-  if(!targetSubPkgObject) {
+  if (!targetSubPkgObject) {
     // 不存在 当前分包配置对象的情况
     const subPkgItemObject = generateNewSubPackageItem(subPackage)
     targetSubPkgObject = subPkgItemObject
     value.elements.push(subPkgItemObject)
   }
 
-  if(targetSubPkgObject.type !== 'ObjectExpression' || !isValidSubPkgObject(targetSubPkgObject)) return ConfigModificationState.Fail
+  if (targetSubPkgObject.type !== 'ObjectExpression' || !isValidSubPkgObject(targetSubPkgObject)) return ConfigModificationState.Fail
   const pagesProperty: ObjectProperty = targetSubPkgObject.properties.find((property: ObjectProperty) => (property.key as any)?.name === 'pages') as ObjectProperty
   const currentPages = (pagesProperty.value as ArrayExpression).elements
   const isPageExists = Boolean(currentPages.find(node => (node as any).value === page))
@@ -61,7 +61,7 @@ const addNewPage = (node: ObjectExpression, page: string): ConfigModificationSta
 
   const value = pages?.value
   // 仅处理 pages 为数组字面量的情形
-  if(!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
+  if (!value || value?.type !== 'ArrayExpression') return ConfigModificationState.Fail
 
   const isPageExists = Boolean(value.elements.find(node => (node as any).value === page))
   if (isPageExists) return ConfigModificationState.NeedLess
@@ -73,7 +73,7 @@ const addNewPage = (node: ObjectExpression, page: string): ConfigModificationSta
 }
 
 
-const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
+const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: ModifyCallback) => {
   let state = ConfigModificationState.Fail
   const node = path.node.declaration as any
   // Case 1. `export default defineAppConfig({})` 这种情况
@@ -88,7 +88,7 @@ const modifyPages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, ca
   callback(state)
 }
 
-const modifySubPackages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: (state: ConfigModificationState) => void) => {
+const modifySubPackages = (path: NodePath<ExportDefaultDeclaration>, newPageConfig, callback: ModifyCallback) => {
   let state = ConfigModificationState.Fail
   const node = path.node.declaration as any
   // `export default defineAppConfig({})` 这种情况
@@ -124,7 +124,7 @@ export const modifyPagesOrSubPackages = (params: {
   path: NodePath<ExportDefaultDeclaration>
   fullPagePath: string
   subPkgRootPath?: string
-  callback
+  callback: ModifyCallback
 }) => {
   const { fullPagePath, subPkgRootPath, callback, path } = params
   const newPageConfig = generateNewPageConfig(fullPagePath, subPkgRootPath)

@@ -64,6 +64,8 @@ export enum ConfigModificationState {
   NeedLess
 }
 
+export type ModifyCallback = (state: ConfigModificationState) => void
+
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
@@ -187,7 +189,9 @@ export default class Page extends Creator {
     const { subPkg, projectDir, typescript } = this.conf
     const [sourceString, pageString] = this.pageEntryPath.split('/src/')
     const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
-    if(!fs.existsSync(appConfigPath)) return
+    if (!fs.existsSync(appConfigPath)) return console.log(
+      `${chalk.red('x ')}${chalk.grey(`无法获取 ${appConfigPath} 配置文件，请手动到配置文件中补全新页面信息`)}`
+    )
     const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
     const ast = parse(configFileContent, {
       sourceType: 'module',
@@ -211,16 +215,17 @@ export default class Page extends Creator {
 
     switch (modifyState as ConfigModificationState) {
       case ConfigModificationState.Fail:
-        // todo log提醒
+        console.log(`${chalk.red('x ')}${chalk.grey(`自动补全新页面信息失败， 请手动到 ${appConfigPath} 文件中补全新页面信息`)}`)
         break
       case ConfigModificationState.Success:
       {
         const newCode = generate(ast, { retainLines: true })
         fs.writeFileSync(appConfigPath, newCode.code)
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已在 ${appConfigPath} 文件中自动补全`)}`)
         break
       }
       case ConfigModificationState.NeedLess:
-        // todo log提醒
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已存在在 ${appConfigPath} 文件中，不需要补全`)}`)
         break
     }
   }
