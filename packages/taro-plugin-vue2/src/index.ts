@@ -54,7 +54,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   })
 
   ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {
-    viteConfig.plugins.push.push(viteCommonPlugin())
+    viteConfig.plugins.push(viteCommonPlugin())
     if (isWebPlatform()) {
       // H5
       viteConfig.plugins.push(h5VitePlugin(ctx, config))
