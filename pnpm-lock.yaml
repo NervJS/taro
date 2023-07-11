@@ -22,6 +22,7 @@ importers:
       '@babel/preset-typescript': ^7.14.5
       '@babel/runtime': ^7.14.5
       '@babel/traverse': ^7.14.5
+      '@babel/types': ^7.14.5
       '@commitlint/cli': ^16.2.1
       '@commitlint/config-conventional': ^16.2.1
       '@tarojs/components': workspace:*
@@ -124,22 +125,23 @@ importers:
       webpack-dev-server: 4.7.4
       webpack-sources: ^3.2.3
     devDependencies:
-      '@babel/cli': registry.npmjs.org/@babel/cli/7.21.5_@babel+core@7.21.8
-      '@babel/core': registry.npmjs.org/@babel/core/7.21.8
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.21.5
-      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.8
-      '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.18.6_@babel+core@7.21.8
-      '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.8
-      '@babel/plugin-proposal-do-expressions': registry.npmjs.org/@babel/plugin-proposal-do-expressions/7.18.6_@babel+core@7.21.8
-      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.8
-      '@babel/plugin-syntax-dynamic-import': registry.npmjs.org/@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.21.8
-      '@babel/plugin-transform-react-jsx': registry.npmjs.org/@babel/plugin-transform-react-jsx/7.21.5_@babel+core@7.21.8
-      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.21.4_@babel+core@7.21.8
-      '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.5_@babel+core@7.21.8
-      '@babel/preset-react': registry.npmjs.org/@babel/preset-react/7.18.6_@babel+core@7.21.8
-      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.21.5_@babel+core@7.21.8
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
-      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.5
+      '@babel/cli': registry.npmjs.org/@babel/cli/7.21.0_@babel+core@7.21.4
+      '@babel/core': registry.npmjs.org/@babel/core/7.21.4
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.20.2
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.4
+      '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties/7.18.6_@babel+core@7.21.4
+      '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.4
+      '@babel/plugin-proposal-do-expressions': registry.npmjs.org/@babel/plugin-proposal-do-expressions/7.18.6_@babel+core@7.21.4
+      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.4
+      '@babel/plugin-syntax-dynamic-import': registry.npmjs.org/@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.21.4
+      '@babel/plugin-transform-react-jsx': registry.npmjs.org/@babel/plugin-transform-react-jsx/7.21.0_@babel+core@7.21.4
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.21.4_@babel+core@7.21.4
+      '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.4_@babel+core@7.21.4
+      '@babel/preset-react': registry.npmjs.org/@babel/preset-react/7.18.6_@babel+core@7.21.4
+      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.21.4_@babel+core@7.21.4
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.0
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.4
+      '@babel/types': registry.npmjs.org/@babel/types/7.21.4
       '@commitlint/cli': registry.npmjs.org/@commitlint/cli/16.3.0
       '@commitlint/config-conventional': registry.npmjs.org/@commitlint/config-conventional/16.2.4
       '@tarojs/components': link:packages/taro-components
@@ -1057,6 +1059,7 @@ importers:
   packages/taro-helper:
     specifiers:
       '@babel/core': ^7.14.5
+      '@babel/generator': ^7.14.5
       '@babel/parser': ^7.14.5
       '@babel/plugin-proposal-decorators': ^7.14.5
       '@babel/plugin-proposal-object-rest-spread': ^7.14.5
@@ -1066,6 +1069,7 @@ importers:
       '@babel/register': ^7.14.5
       '@babel/runtime': ^7.14.5
       '@babel/traverse': ^7.14.5
+      '@babel/types': ^7.14.5
       '@swc/core': 1.3.23
       '@swc/register': ^0.1.10
       ansi-escapes: ^4.3.2
@@ -1088,16 +1092,18 @@ importers:
       typescript: ^4.7.4
       yauzl: 2.10.0
     dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core/7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.8
-      '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.8
-      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.8
-      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.21.4_@babel+core@7.21.8
-      '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.5_@babel+core@7.21.8
-      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.21.5_@babel+core@7.21.8
-      '@babel/register': registry.npmjs.org/@babel/register/7.21.0_@babel+core@7.21.8
-      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.5
-      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.5
+      '@babel/core': registry.npmjs.org/@babel/core/7.21.4
+      '@babel/generator': registry.npmjs.org/@babel/generator/7.21.4
+      '@babel/parser': registry.npmjs.org/@babel/parser/7.21.4
+      '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators/7.21.0_@babel+core@7.21.4
+      '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread/7.20.7_@babel+core@7.21.4
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime/7.21.4_@babel+core@7.21.4
+      '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.4_@babel+core@7.21.4
+      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript/7.21.4_@babel+core@7.21.4
+      '@babel/register': registry.npmjs.org/@babel/register/7.21.0_@babel+core@7.21.4
+      '@babel/runtime': registry.npmjs.org/@babel/runtime/7.21.0
+      '@babel/traverse': registry.npmjs.org/@babel/traverse/7.21.4
+      '@babel/types': registry.npmjs.org/@babel/types/7.21.4
       '@swc/core': registry.npmjs.org/@swc/core/1.3.23
       '@swc/register': registry.npmjs.org/@swc/register/0.1.10_@swc+core@1.3.23
       ansi-escapes: registry.npmjs.org/ansi-escapes/4.3.2
@@ -1105,18 +1111,6 @@ importers:
       chokidar: registry.npmjs.org/chokidar/3.5.3
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
       debug: registry.npmjs.org/debug/4.3.4
-      esbuild: registry.npmjs.org/esbuild/0.14.54
-      find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root/2.0.0
-      fs-extra: registry.npmjs.org/fs-extra/8.1.0
-      lodash: registry.npmjs.org/lodash/4.17.21
-      require-from-string: registry.npmjs.org/require-from-string/2.0.2
-      resolve: registry.npmjs.org/resolve/1.22.2
-      supports-hyperlinks: registry.npmjs.org/supports-hyperlinks/2.3.0
-      yauzl: registry.npmjs.org/yauzl/2.10.0
-    devDependencies:
-      babel-jest: registry.npmjs.org/babel-jest/29.5.0_@babel+core@7.21.8
-      jest: registry.npmjs.org/jest/29.5.0
-      jest-cli: registry.npmjs.org/jest-cli/29.5.0
       jest-environment-node: registry.npmjs.org/jest-environment-node/29.5.0
       ts-jest: registry.npmjs.org/ts-jest/29.1.0_qrewnlbsrbldssmsm43w5v5peq
       typescript: registry.npmjs.org/typescript/4.9.5
@@ -15397,7 +15391,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -31629,19 +31623,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}

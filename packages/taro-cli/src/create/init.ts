@@ -8,7 +8,7 @@ import { getAllFilesInFolder, getPkgVersion } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
 
-import type { IPageConf } from './page'
+import type { IPageConf, PageCreator } from './page'
 import type { IProjectConf } from './project'
 
 export const TEMPLATE_CREATOR = 'template_creator.js'
@@ -25,16 +25,17 @@ enum TemplateType {
 const doNotCopyFiles = ['.DS_Store', '.npmrc', TEMPLATE_CREATOR]
 
 function createFiles (
-  creator: Creator,
+  creator: Creator | PageCreator,
   files: string[],
   handler,
   options: (IProjectConf | IPageConf) & {
     templatePath: string
     projectPath: string
     pageName: string
-    period: string
+    period: 'createPage' | 'createApp'
     version?: string
     isCustomTemplate?: boolean
+    subPkg?: string
   }
 ): string[] {
   const {
@@ -50,7 +51,9 @@ function createFiles (
     pageName,
     framework,
     compiler,
-    isCustomTemplate
+    isCustomTemplate,
+    subPkg,
+    period
   } = options
   const logs: string[] = []
   // 模板库模板，直接创建，不需要改后缀
@@ -107,8 +110,10 @@ function createFiles (
     let destRePath = fileRePath
 
     // createPage 创建页面模式
-    if (config.setPageName) {
-      destRePath = config.setPageName
+    if (period === 'createPage') {
+      destRePath = subPkg ? config.setSubPkgName : config.setPageName || config.setPageName
+      // 设置入口文件，因为上面步骤已经根据 framework 过滤了不匹配文件，所以这里只需要找 jsx 或者 vue 结尾的文件就是入口文件
+      if (/\.(jsx|vue)$/.test(file)) (creator as PageCreator).setPageEntryPath(destRePath)
     }
     destRePath = destRePath.replace(/^\//, '')
     // 处理 .js 和 .css 的后缀
@@ -137,7 +142,7 @@ function createFiles (
 }
 
 export async function createPage (creator: Creator, params: IPageConf, cb) {
-  const { projectDir, template, pageName, isCustomTemplate, customTemplatePath } = params
+  const { projectDir, template, isCustomTemplate, customTemplatePath } = params
 
   // path
   let templatePath
@@ -155,12 +160,10 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
   const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []
   const files = Array.isArray(basePageFiles) ? basePageFiles : []
   const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
-
   const logs = createFiles(creator, files, handler, {
     ...params,
     templatePath,
     projectPath: projectDir,
-    pageName,
     isCustomTemplate,
     period: 'createPage'
   })
