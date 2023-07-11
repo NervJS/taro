@@ -894,14 +894,14 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <import-sjs name="xs" from="./utils.sjs" />
 <template name="taro_tmpl">
   <block a:for="{{root.cn}}" a:key="sid">
-    <template is="{{xs.a(0, item.nn)}}" data="{{i:item,c:1}}" />
+    <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
   </block>
 </template>
 
 <template name="tmpl_0_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" onTouchStart="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh" catchTouchMove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </view>
 </template>
@@ -909,7 +909,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_5">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" animation="{{i.p0}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </view>
 </template>
@@ -917,7 +917,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_2">
   <view style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </view>
 </template>
@@ -925,7 +925,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_7">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </view>
 </template>
@@ -933,7 +933,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_4">
   <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </text>
 </template>
@@ -941,7 +941,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_6">
   <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </text>
 </template>
@@ -949,7 +949,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_36">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </scroll-view>
 </template>
@@ -957,7 +957,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_3">
   <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </image>
 </template>
@@ -965,7 +965,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <template name="tmpl_0_1">
   <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" onError="eh" onLoad="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(c, item.nn)}}" data="{{i:item,c:c+1}}" />
+      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
     </block>
   </image>
 </template>
