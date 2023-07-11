@@ -55,7 +55,8 @@ export function analyzeImportUrl (
   sourceFilePath: string,
   scriptFiles: Set<string>,
   source: t.StringLiteral,
-  value: string
+  value: string,
+  isTsProject?: boolean
 ) {
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
@@ -97,7 +98,7 @@ export function analyzeImportUrl (
           relativePath = promoteRelativePath(relativePath)
           if (/\.wxs/.test(relativePathExtname)) {
             relativePath += '.js'
-          } else {
+          } else if (!isTsProject) {
             relativePath = relativePath.replace(relativePathExtname, '.js')
           }
           source.value = relativePath
