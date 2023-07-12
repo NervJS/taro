@@ -124,12 +124,20 @@ export default class Index extends React.Component {
   }
 
   render () {
+
+    var targetComponents = 0
+    var pageComponents = 0
+    this.state.list.map((item)=>{
+      targetComponents += item.target.length
+      pageComponents += item.pages.length
+    })
+
     return (
       <View className='index'>
         <View className='index-hd'>
           <Image className='index-logo' src={logo} />
           <View className='index-desc'>
-            <Text className='index-desc_text'>以下将展示Taro官方组件能力，组件样式仅供参考，开发者可根据自身需求自定义组件样式。</Text>
+            <Text className='index-desc_text'>组件总数为：{targetComponents}，未创建Demo的组件数：{targetComponents - pageComponents}</Text>
           </View>
         </View>
         <View className='index-bd'>
