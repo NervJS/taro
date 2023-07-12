@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Taro基础组件'
+  navigationBarTitleText: 'TaroApi'
 }
