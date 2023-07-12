@@ -36,7 +36,7 @@ export default class Index extends React.Component {
           name: '框架',
           open: false,
           pages: [],
-          target:['App', 'getApp', 'getCurrentPages', 'Page'], 
+          target:[], 
         },
         {
           id: 'basics',
@@ -44,17 +44,13 @@ export default class Index extends React.Component {
           open: false,
           pages: [],
           target:[
-            'env',
-            'canIUse',
-            'canIuseWebp',
-            'base64ToArrayBuffer',
-            'System',
-            'Update',
-            'MiniProgram',
-            'Debug',
-            'Performance',
-            'Encryption',
-            'perload',
+            'basics',
+            'system',
+            'update',
+            'miniProgram',
+            'debug',
+            'performance',
+            'encryption',
           ], 
         },
         {
@@ -62,45 +58,21 @@ export default class Index extends React.Component {
           name: '路由',
           open: false,
           pages: [],
-          target:[
-            'switchTab',
-            'reLaunch',
-            'redirectTo',
-            'navigateTo',
-            'navigateBack',
-            'EventChannel',
-          ], 
+          target:[], 
         },
         {
           id: 'redirection',
           name: '跳转',
           open: false,
           pages: [],
-          target:[
-            'openBusinessView',
-            'openEmbeddedMiniProgram',
-            'navigatedToMiniProgram',
-            'navigatedBackMiniProgram',
-            'exitMiniProgram'
-          ], 
+          target:[], 
         },
         {
           id: 'forward',
           name: '转发',
           open: false,
           pages: [],
-          target:[
-            'updateShareMenu',
-            'showShareMenu',
-            'showShareImageMenu',
-            'shareVideoMessage',
-            'shareFileMessage',
-            'onCopyUrl',
-            'offCopyUrl',
-            'hideShareMenu',
-            'getShareInfo',
-            'authPrivateMessage',
-          ], 
+          target:[], 
         },
         {
           id: 'interface',
@@ -108,18 +80,18 @@ export default class Index extends React.Component {
           open: false,
           pages: [],
           target:[
-            'Interaction',
-            'NavigationBar',
-            'Background',
-            'TabBar',
-            'Font',
-            'PullDownRefresh',
-            'Scroll',
-            'Animation',
-            'Set-Top',
-            'CustomizedComponents',
-            'Menu',
-            'Window',
+            'interaction',
+            'navigationBar',
+            'background',
+            'tabBar',
+            'font',
+            'pullDownRefresh',
+            'scroll',
+            'animation',
+            'set-Top',
+            'customizedComponents',
+            'menu',
+            'window',
           ], 
         },
         {
@@ -128,13 +100,13 @@ export default class Index extends React.Component {
           open: false,
           pages: [],
           target:[
-            'Request',
-            'Download',
-            'Upload',
-            'WebSocket',
+            'request',
+            'download',
+            'upload',
+            'webSocket',
             'mDNS',
             'TCPCommunications',
-            'UDPCommunications'
+            'UDPCommunications',
           ],
         },
         {
@@ -142,34 +114,14 @@ export default class Index extends React.Component {
           name: '支付',
           open: false,
           pages: [],
-          target: [
-            'requestPayment',
-            'requestOrderPayment',
-            'faceVerifyForPay',
-          ],
+          target: [],
         },
         {
           id: 'cache',
           name: '数据缓存',
           open: false,
           pages: [],
-          target:[
-            'setStorageSync',
-            'setStorage',
-            'revokeBufferURL',
-            'removeStorageSync',
-            'removeStorage',
-            'getStorageSync',
-            'getStorageInfoSync',
-            'getStorageInfo',
-            'getStorage',
-            'createBufferURL',
-            'createStorageSync',
-            'clearStorageSync',
-            'clearStorage',
-            'PeriodicUpdate',
-            'CacheManager',
-          ], 
+          target:[], 
         },
         {
           id: 'analysis',
@@ -190,7 +142,21 @@ export default class Index extends React.Component {
           name: '媒体',
           open: false,
           pages: [],
-          target:[], 
+          target:[
+            'map',
+            'image',
+            'video',
+            'audio',
+            'backgroundAudio',
+            'realtimeAudioAndVideo',
+            'recording',
+            'camera',
+            'richText',
+            'audioOrVideoCompose',
+            'realtimeVoice',
+            'screenRecorder',
+            'videoDecoder',
+          ], 
         },
         {
           id: 'location',
@@ -211,7 +177,27 @@ export default class Index extends React.Component {
           name: '开放接口',
           open: false,
           pages: [],
-          target:[], 
+          target:[
+            'login',
+            'accountInfomation',
+            'userInfomation',
+            'authorization',
+            'setting',
+            'recipientAddress',
+            'cardsAndOffers',
+            'invoice',
+            'biometricAuthorization',
+            'weRun',
+            'subscribeNews',
+            'wechatRedRacket',
+            'collection',
+            'mineMiniProgram',
+            'licensePlate',
+            'wechatVideoChannel',
+            'deviceVoip',
+            'wechatGroup',
+            'wechatCustomerService',
+          ], 
         },
         {
           id: 'device',
@@ -338,13 +324,18 @@ export default class Index extends React.Component {
               item.boxClass =
                 'navigator-box ' + (item.open ? 'navigator-box-show' : '');
               item.imgSrc = !!PNGS[`${item.id}Png`] ? PNGS[`${item.id}Png`] : '';
-              item._pages = item.target.map(targetPage => {
-                return {
-                  page: targetPage,
-                  url: `/pages/api/${item.id}/index`,
-                  state: item.pages.includes(targetPage) ? 'done':'undo'
-                };
-              });
+              if (item.target.length != 0) {
+                item._pages = item.target.map(targetPage => {
+                  return {
+                    page: targetPage,
+                    url: `/pages/api/${item.id}/${targetPage}/index`,
+                    state: item.pages.includes(targetPage) ? 'done':'undo'
+                  };
+                });
+              } else {
+                item.url =  `/pages/api/${item.id}/index`;
+                item._pages = [];
+              }
               return item;
             }).map((item, index) => {
               return (
@@ -352,7 +343,7 @@ export default class Index extends React.Component {
                   <View
                     id={item.id}
                     className={item.hdClass}
-                    onClick={this.kindToggle}
+                    onClick={item.target.length == 0 ? this.goToComponent.bind(this, item) : this.kindToggle}
                   >
                     <View className='kind-list-text'>
                       <Text>{item.name}</Text>

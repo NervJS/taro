@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 转发
  * @returns 
  */
 
@@ -12,51 +12,43 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
+                id: 'updateShareMenu',
                 func: null,
             }, 
             {
-                id: 'canIUse',
+                id: 'showShareMenu',
                 func: null,
             }, 
             {
-                id: 'canIuseWebp',
+                id: 'showShareImageMenu',
                 func: null,
             }, 
             {
-                id: 'base64ToArrayBuffer',
+                id: 'shareVideoMessage',
                 func: null,
             }, 
             {
-                id: 'System',
-                func: () => {
-                    Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
-                    });
-                },
-            }, 
-            {
-                id: 'Update',
+                id: 'shareFileMessage',
                 func: null,
             }, 
             {
-                id: 'MiniProgram',
+                id: 'onCopyUrl',
                 func: null,
             }, 
             {
-                id: 'Debug',
+                id: 'offCopyUrl',
                 func: null,
             }, 
             {
-                id: 'Performance',
+                id: 'hideShareMenu',
                 func: null,
             }, 
             {
-                id: 'Encryption',
+                id: 'getShareInfo',
                 func: null,
             }, 
             {
-                id: 'perload',
+                id: 'authPrivateMessage',
                 func: null,
             }, 
         ], 

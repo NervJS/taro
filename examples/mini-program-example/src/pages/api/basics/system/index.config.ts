@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '系统',
+    navigationBarTitleText: '基础-系统',
 }
