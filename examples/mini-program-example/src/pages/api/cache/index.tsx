@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 数据缓存
  * @returns 
  */
 
@@ -12,51 +12,63 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
+                id: 'setStorageSync',
                 func: null,
             }, 
             {
-                id: 'canIUse',
+                id: 'setStorage',
                 func: null,
             }, 
             {
-                id: 'canIuseWebp',
+                id: 'revokeBufferURL',
                 func: null,
             }, 
             {
-                id: 'base64ToArrayBuffer',
+                id: 'removeStorageSync',
                 func: null,
             }, 
             {
-                id: 'System',
-                func: () => {
-                    Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
-                    });
-                },
-            }, 
-            {
-                id: 'Update',
+                id: 'removeStorage',
                 func: null,
             }, 
             {
-                id: 'MiniProgram',
+                id: 'getStorageSync',
                 func: null,
             }, 
             {
-                id: 'Debug',
+                id: 'getStorageInfoSync',
                 func: null,
             }, 
             {
-                id: 'Performance',
+                id: 'getStorageInfo',
                 func: null,
             }, 
             {
-                id: 'Encryption',
+                id: 'getStorage',
                 func: null,
             }, 
             {
-                id: 'perload',
+                id: 'createBufferURL',
+                func: null,
+            }, 
+            {
+                id: 'createStorageSync',
+                func: null,
+            }, 
+            {
+                id: 'clearStorageSync',
+                func: null,
+            }, 
+            {
+                id: 'clearStorage',
+                func: null,
+            }, 
+            {
+                id: 'PeriodicUpdate',
+                func: null,
+            }, 
+            {
+                id: 'CacheManager',
                 func: null,
             }, 
         ], 
