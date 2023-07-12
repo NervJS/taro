@@ -12,52 +12,60 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
-                func: null,
-            }, 
-            {
-                id: 'canIUse',
-                func: null,
-            }, 
-            {
-                id: 'canIuseWebp',
-                func: null,
-            }, 
-            {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'System',
+                id: 'Request',
                 func: () => {
                     Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
+                        url: '/pages/api/network/request/index'
                     });
-                },
+                }
             }, 
             {
-                id: 'Update',
-                func: null,
+                id: 'Download',
+                func: () => {
+                    Taro.navigateTo({
+                        url: '/pages/api/network/download/index'
+                    });
+                }
             }, 
             {
-                id: 'MiniProgram',
-                func: null,
+                id: 'Upload',
+                func: () => {
+                    Taro.navigateTo({
+                        url: '/pages/api/network/upload/index'
+                    });
+                }
             }, 
             {
-                id: 'Debug',
-                func: null,
+                id: 'WebSocket',
+                func: () => {
+                    Taro.navigateTo({
+                        url: '/pages/api/network/webSocket/index'
+                    });
+                }
             }, 
             {
-                id: 'Performance',
-                func: null,
+                id: 'mDNS',
+                func: () => {
+                    Taro.navigateTo({
+                        url: '/pages/api/network/mDNS/index'
+                    });
+                }
             }, 
             {
-                id: 'Encryption',
-                func: null,
+                id: 'TCPCommunications',
+                func: () => {
+                    Taro.navigateTo({
+                        url: '/pages/api/network/TCPCommunications/index'
+                    });
+                }
             }, 
             {
-                id: 'perload',
-                func: null,
+                id: 'UDPCommunications',
+                func: () => {
+                    Taro.navigateTo({
+                        url: '/pages/api/network/UDPCommunications/index'
+                    });
+                }
             }, 
         ], 
     }
