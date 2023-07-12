@@ -1,0 +1,97 @@
+$hd: 2 !default; // 基本单位
+
+/* The Color of O2Team Brand */
+$color-brand: #6190e8 !default;
+$color-brand-light: #78a4f4 !default;
+$color-brand-dark: #346fc2 !default;
+
+/* Color */
+$color-success: #13ce66 !default;
+$color-error: #ff4949 !default;
+$color-warning: #ffc82c !default;
+$color-info: #78a4fa !default;
+
+/* Color Palette */
+$color-black-0: #000 !default;
+$color-black-1: #333 !default;
+$color-black-2: #7f7f7f !default;
+$color-black-3: #b2b2b2 !default;
+
+$color-grey-0: #333 !default;
+$color-grey-1: #666 !default;
+$color-grey-2: #999 !default;
+$color-grey-3: #ccc !default;
+$color-grey-4: #e5e5e5 !default;
+$color-grey-5: #f0f0f0 !default;
+$color-grey-6: #f7f7f7 !default;
+
+$color-white: #fff !default;
+
+/* Text Color */
+$color-text-base: #333 !default; // 文字的基本色
+$color-text-base-inverse: #fff !default; // 反色
+$color-text-secondary: #36d57d !default; // 辅助色
+$color-text-placeholder: #c9c9c9 !default;
+$color-text-disabled: #ccc !default;
+$color-text-title: #2c405a !default; // 文章标题
+$color-text-paragraph: #3f536e !default; // 文章段落
+
+/* Link */
+$color-link: #6190e8 !default;
+$color-link-hover: #79a1eb !default;
+$color-link-active: #4f7de2 !default;
+$color-link-disabled: #bfbfbf !default;
+
+/* 背景色 */
+$color-bg: #fff !default;
+$color-bg-base: #fafbfc !default;
+$color-bg-light: #ecf5fd !default;
+$color-bg-lighter: tint($color-bg-light, 50%) !default;
+$color-bg-grey: #f7f7f7 !default;
+
+/* 边框颜色 */
+$color-border-base: #c5d9e8 !default;
+$color-border-split: tint($color-border-base, 20%) !default; // 分割线
+$color-border-light: tint($color-border-base, 30%) !default;
+$color-border-lighter: tint($color-border-base, 50%) !default;
+$color-border-lightest: tint($color-border-base, 80%) !default;
+$color-border-grey: #ccc !default;
+
+/* 图标颜色 */
+$color-icon-base: #ccc !default;
+
+/* Border Radius */
+$border-radius-sm: 2px * $hd !default;
+$border-radius-md: 4px * $hd !default;
+$border-radius-lg: 6px * $hd !default;
+$border-radius-circle: 50% !default;
+
+/* 透明度 */
+$opacity-active: 0.6 !default; // Button 等组件点击态额透明度
+$opacity-disabled: 0.3 !default; // Button 等组件禁用态的透明度
+
+/* Font */
+$font-size-xs: 10px * $hd !default; // 非常用字号，用于标签
+$font-size-sm: 12px * $hd !default; // 用于辅助信息
+$font-size-base: 14px * $hd !default; // 常用字号
+$font-size-lg: 16px * $hd !default; // 常规标题
+$font-size-xl: 18px * $hd !default; // 大标题
+$font-size-xxl: 20px * $hd !default; // 用于大号的数字
+
+/* 水平间距 */
+$spacing-h-sm: 5px * $hd !default;
+$spacing-h-md: 8px * $hd !default;
+$spacing-h-lg: 12px * $hd !default;
+$spacing-h-xl: 16px * $hd !default;
+
+/* 垂直间距 */
+$spacing-v-xs: 3px * $hd !default;
+$spacing-v-sm: 6px * $hd !default;
+$spacing-v-md: 9px * $hd !default;
+$spacing-v-lg: 12px * $hd !default;
+$spacing-v-xl: 15px * $hd !default;
+
+/* 图标尺寸 */
+$icon-size-sm: 18px * $hd !default;
+$icon-size-md: 22px * $hd !default;
+$icon-size-lg: 36px * $hd !default;
