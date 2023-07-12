@@ -32,71 +32,99 @@ export default class Index extends React.Component {
           id: 'view',
           name: '视图容器',
           open: false,
-          pages: ['view','scroll-view','swiper','grid-view','list-view','page-container','match-media','root-portal'],
-          target: [
-            'cover-image','cover-view','grid-view','list-view',
-            'match-media','movable-area','movable-view','page-container',
-            'root-portal','scroll-view','share-element','sticky-header',
-            'sticky-section','swiper','swiper-item','view'
+          pages: [
+            {name:'cover-image', pageName:''},
+            {name:'cover-view', pageName:''},
+            {name:'grid-view', pageName:'grid-view'},
+            {name:'list-view', pageName:'list-view'},
+            {name:'match-media', pageName:'match-media'},
+            {name:'movable-area', pageName:''},
+            {name:'movable-view', pageName:''},
+            {name:'page-container', pageName:'page-container'},
+            {name:'root-portal', pageName:'root-portal'},
+            {name:'scroll-view', pageName:'scroll-view'},
+            {name:'share-element', pageName:''},
+            {name:'sticky-header', pageName:''},
+            {name:'sticky-section', pageName:''},
+            {name:'swiper', pageName:'swiper'},
+            {name:'swiper-item', pageName:''},
+            {name:'view', pageName:'view'}
           ]
         },
         {
           id: 'content',
           name: '基础内容',
           open: false,
-          pages: ['text', 'icon', 'progress'],
-          target: ['icon','progress','rich-text','text']
+          pages: [
+            {name:'icon', pageName:'icon'},
+            {name:'progress', pageName:'progress'},
+            {name:'rich-text', pageName:''},
+            {name:'text', pageName:'text'},
+          ]
         },
         {
           id: 'form',
           name: '表单组件',
           open: false,
           pages: [
-            'button',
-            'checkbox',
-            'checkbox-group',
-            'form',
-            'input',
-            'label',
-            'picker',
-            'picker-view',
-            'radio',
-            'radio-group',
-            'slider',
-            'switch',
-            'textarea',
-            'sticky-header'
-          ],
-          target: ['button','checkbox','checkbox-group','editor','form',
-            'input','keyboard-accessory','label','picker','picker-view',
-            'picker-view-column','radio','radio-group','slider','switch','textarea'
+            {name:'button', pageName:'button'},
+            {name:'checkbox', pageName:'checkbox'},
+            {name:'checkbox-group', pageName:'checkbox-group'},
+            {name:'editor', pageName:''},
+            {name:'form', pageName:'form'},
+            {name:'input', pageName:'input'},
+            {name:'label', pageName:'label'},
+            {name:'keyboard-accessory', pageName:''},
+            {name:'picker', pageName:'picker'},
+            {name:'picker-view', pageName:'picker-view'},
+            {name:'picker-view-column', pageName:''},
+            {name:'radio', pageName:'radio'},
+            {name:'radio-group', pageName:'radio-group'},
+            {name:'slider', pageName:'slider'},
+            {name:'switch', pageName:'switch'},
+            {name:'textarea', pageName:'textarea'},
+            {name:'sticky-header', pageName: 'sticky-header'}
           ]
         },
         {
           id: 'nav',
           name: '导航',
           open: false,
-          pages: ['navigator'],
-          target: ['functional-page-navigator', 'navigator', 'navigation-bar']
+          pages: [
+            {name:'functional-page-navigator', pageName:''},
+            {name:'navigator', pageName:'navigator'},
+            {name:'navigation-bar', pageName:''}
+          ]
         },
         {
           id: 'media',
           name: '媒体组件',
           open: false,
-          pages: ['image','audio','video','camera'],
-          target: ['audio','camera','channel-live', 'channel-video','image', 'live-player', 'live-pusher', 'video','voip-room']
+          pages: [
+            {name:'audio', pageName:'audio'},
+            {name:'camera', pageName:'camera'},
+            {name:'channel-live', pageName:''},
+            {name:'channel-video', pageName:''},
+            {name:'image', pageName:'image'},
+            {name:'live-player', pageName:''},
+            {name:'live-pusher', pageName:''},
+            {name:'video', pageName:'video'},
+            {name:'voip-room', pageName:''}
+          ]
         },
         {
           id: 'map',
           name: '地图',
-          pages: ['map'],
-          target: ['map']
+          pages: [
+            {name:'map', pageName:'map'}
+          ]
         },
         {
           id: 'canvas',
           name: '画布',
-          pages: ['canvas'],
-          target: ['canvas']
+          pages: [
+            {name:'canvas', pageName:'canvas'}
+          ]
         }
       ]
     }
@@ -118,18 +146,29 @@ export default class Index extends React.Component {
   }
 
   goToComponent = (page, e) => {
+    if (page.pageName == '') {
+      // 弹出Toast提示
+      Taro.showToast({
+        title: `${page.name} 没有适配或没有创建Demo`,
+        icon: 'error',
+        success: ()=>{},
+        fail: ()=>{},
+        complete: ()=>{}
+      })
+      return ;
+    }
     Taro.navigateTo({
-      url: page.url
+      url: `/pages/component/${page.pageName}/${page.pageName}`
     })
+
   }
 
   render () {
-
-    var targetComponents = 0
-    var pageComponents = 0
+    var componentPages = 0
+    var noDemoComponents = 0
     this.state.list.map((item)=>{
-      targetComponents += item.target.length
-      pageComponents += item.pages.length
+      componentPages += item.pages.length
+      noDemoComponents += item.pages.filter((page)=>page.pageName == '').length
     })
 
     return (
@@ -137,7 +176,7 @@ export default class Index extends React.Component {
         <View className='index-hd'>
           <Image className='index-logo' src={logo} />
           <View className='index-desc'>
-            <Text className='index-desc_text'>组件总数为：{targetComponents}，未创建Demo的组件数：{targetComponents - pageComponents}</Text>
+            <Text className='index-desc_text'>组件总数为：{componentPages}，未创建Demo的组件数：{noDemoComponents}</Text>
           </View>
         </View>
         <View className='index-bd'>
@@ -153,13 +192,13 @@ export default class Index extends React.Component {
                 item.boxClass =
                   'navigator-box ' + (item.open ? 'navigator-box-show' : '')
                 item.imgSrc = PNGS[`${item.id}Png`]
-                item._pages = item.target.map(targetPage => {
-                  return {
-                    page: targetPage,
-                    url: `/pages/component/${targetPage}/${targetPage}`,
-                    state: item.pages.includes(targetPage) ? 'done':'undo'
-                  }
-                })
+                // item._pages = item.target.map(targetPage => {
+                //   return {
+                //     page: targetPage,
+                //     url: `/pages/component/${targetPage}/${targetPage}`,
+                //     state: item.pages.includes(targetPage) ? 'done':'undo'
+                //   }
+                // })
                 return item
               })
               .map((item, index) => {
@@ -176,7 +215,7 @@ export default class Index extends React.Component {
                     </View>
                     <View className={item.bdClass}>
                       <View className={item.boxClass}>
-                        {item._pages.map((page, index) => {
+                        {item.pages.map((page, index) => {
                           return (
                             <View
                               onClick={this.goToComponent.bind(this, page)}
@@ -184,9 +223,9 @@ export default class Index extends React.Component {
                               className='navigator'
                             >
                               <Text className='navigator-text'>
-                                {page.page}
+                                {page.name}
                                 {
-                                  page.state == 'undo' && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                                  page.pageName == '' && (<Text className='navigator-state tag'>未创建Demo</Text>)
                                 }
                               </Text>
                               <View className='navigator-arrow' />

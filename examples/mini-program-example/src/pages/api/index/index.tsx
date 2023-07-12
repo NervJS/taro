@@ -248,7 +248,7 @@ export default class Index extends React.Component {
       return ;
     }
     Taro.navigateTo({
-      url: `/pages/component/${page.pageName}/${page.pageName}`
+      url: `/pages/api/${page.pageName}/${page.pageName}`
     })
   }
 
