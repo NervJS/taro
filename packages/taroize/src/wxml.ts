@@ -1,6 +1,10 @@
 /* eslint-disable camelcase */
-import traverse, { NodePath, Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { NodePath, Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
+import {
+  printLog,
+  processTypeEnum
+} from '@tarojs/helper'
 import { parse as parseFile } from 'babylon'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
@@ -128,14 +132,19 @@ export const createWxmlVistor = (
     // 把 hidden 转换为 wxif
     if (name.name === 'hidden') {
       const value = path.get('value') as NodePath<t.JSXExpressionContainer>
-      if (t.isJSXExpressionContainer(value)) {
+      if (t.isJSXExpressionContainer(value) && !t.isJSXEmptyExpression(value.node.expression)) {
         const exclamation = t.unaryExpression('!', value.node.expression)
         path.set('value', t.jSXExpressionContainer(exclamation))
         path.set('name', t.jSXIdentifier(WX_IF))
       }
     }
 
-    const valueCopy = cloneDeep(path.get('value').node)
+    const valueCopy = cloneDeep(path.get('value').node) 
+    
+    if (typeof valueCopy === 'undefined' || t.isJSXFragment(valueCopy)) {
+      return
+    }
+
     transformIf(name.name, path, jsx, valueCopy)
     const loopItem = transformLoop(name.name, path, jsx, valueCopy)
     if (loopItem) {
@@ -189,8 +198,8 @@ export const createWxmlVistor = (
           JSXAttribute: jsxAttrVisitor,
           JSXIdentifier: renameJSXKey
         })
-        const slotAttr = attrs.find(a => a.node?.name.name === 'slot')
-        if (slotAttr) {
+        const slotAttr = attrs.find(a => t.isJSXAttribute(a.node) && a.node?.name.name === 'slot')
+        if (slotAttr && t.isJSXAttribute(slotAttr.node)) {
           const slotValue = slotAttr.node.value
           if (slotValue && t.isStringLiteral(slotValue)) {
             const slotName = slotValue.value
@@ -216,9 +225,9 @@ export const createWxmlVistor = (
         }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
-          const nameAttr = attrs.find(a => a.node.name.name === 'name')
+          const nameAttr = attrs.find(a =>  t.isJSXAttribute(a.node) && a.node.name.name === 'name')
           let slotName = ''
-          if (nameAttr) {
+          if (nameAttr && t.isJSXAttribute(nameAttr.node)) {
             if (nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
               slotName = nameAttr.node.value.value
             } else {
@@ -236,7 +245,7 @@ export const createWxmlVistor = (
           }
         }
         if (tagName === 'Wxs') {
-          wxses.push(getWXS(attrs.map(a => a.node), path, imports))
+          wxses.push(getWXS(attrs.map(a => a.node as t.JSXAttribute), path, imports))
         }
         if (tagName === 'Template') {
           // path.traverse({
@@ -466,8 +475,8 @@ function transformLoop (
     return
   }
   const attrs = jsxElement.get('attributes').map(a => a.node)
-  const wxForItem = attrs.find(a => a.name.name === WX_FOR_ITEM)
-  const hasSinglewxForItem = wxForItem && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
+  const wxForItem = attrs.find(a => t.isJSXAttribute(a) && a.name.name === WX_FOR_ITEM)
+  const hasSinglewxForItem = wxForItem && t.isJSXAttribute(wxForItem) && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
   if (hasSinglewxForItem || name === WX_FOR || name === 'wx:for-items') {
     if (!value || !t.isJSXExpressionContainer(value)) {
       throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
@@ -479,7 +488,7 @@ function transformLoop (
       .get('openingElement')
       .get('attributes')
       .forEach(p => {
-        const node = p.node
+        const node = p.node as t.JSXAttribute
         if (node.name.name === WX_FOR_ITEM) {
           if (!node.value || !t.isStringLiteral(node.value)) {
             throw new Error(WX_FOR_ITEM + ' 的值必须是一个字符串')
@@ -500,7 +509,7 @@ function transformLoop (
       .get('openingElement')
       .get('attributes')
       .forEach(p => {
-        const node = p.node
+        const node = p.node as t.JSXAttribute
         if (node.name.name === WX_KEY && t.isStringLiteral(node.value)) {
           if (node.value.value === '*this') {
             node.value = t.jSXExpressionContainer(t.identifier(item.value))
@@ -510,6 +519,10 @@ function transformLoop (
         }
       })
 
+    if (t.isJSXEmptyExpression(value.expression)) {
+      printLog(processTypeEnum.WARNING, 'value.expression', 'wxml.ts -> t.isJSXEmptyExpression(value.expression)')
+      return
+    }
     const replacement = t.jSXExpressionContainer(
       t.callExpression(
         t.memberExpression(value.expression, t.identifier('map')),
@@ -546,13 +559,13 @@ function transformIf (
   if (name !== WX_IF) {
     return
   }
-  if (jsx.node.openingElement.attributes.some(a => a.name.name === 'slot')) {
+  if (jsx.node.openingElement.attributes.some(a => t.isJSXAttribute(a) && a.name.name === 'slot')) {
     return
   }
   const conditions: Condition[] = []
   let siblings: NodePath<t.Node>[] = []
   try {
-    siblings = jsx.getAllNextSiblings().filter(s => !(s.isJSXExpressionContainer() && s.get('expression').isJSXEmptyExpression()))
+    siblings = jsx.getAllNextSiblings().filter(s => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
   } catch (error) {
     return
   }
@@ -569,9 +582,9 @@ function transformIf (
   })
   attr.remove()
   for (let index = 0; index < siblings.length; index++) {
-    const sibling = siblings[index]
-    const next = cloneDeep(siblings[index + 1])
-    const currMatches = findWXIfProps(sibling)
+    const sibling = siblings[index] as NodePath<t.JSXElement>
+    const next = cloneDeep(siblings[index + 1]) as NodePath<t.JSXElement>
+    const currMatches = findWXIfProps(sibling) 
     const nextMatches = findWXIfProps(next)
     if (currMatches === null) {
       break
@@ -591,14 +604,16 @@ function transformIf (
 function handleConditions (conditions: Condition[]) {
   if (conditions.length === 1) {
     const ct = conditions[0]
-    try {
-      ct.path.replaceWith(
-        t.jSXExpressionContainer(
-          t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+    if (!t.isJSXEmptyExpression(ct.tester.expression)) {
+      try {
+        ct.path.replaceWith(
+          t.jSXExpressionContainer(
+            t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
+          )
         )
-      )
-    } catch (error) {
-      //
+      } catch (error) {
+        //
+      }
     }
   }
   if (conditions.length > 1) {
@@ -606,7 +621,7 @@ function handleConditions (conditions: Condition[]) {
     const lastCon = conditions[lastLength]
     let lastAlternate: t.Expression = cloneDeep(lastCon.path.node)
     try {
-      if (lastCon.condition === WX_ELSE_IF) {
+      if (lastCon.condition === WX_ELSE_IF && !t.isJSXEmptyExpression(lastCon.tester.expression)) {
         lastAlternate = t.logicalExpression(
           '&&',
           lastCon.tester.expression,
@@ -616,14 +631,20 @@ function handleConditions (conditions: Condition[]) {
       const node = conditions
         .slice(0, lastLength)
         .reduceRight((acc: t.Expression, condition) => {
+          if (t.isJSXEmptyExpression(condition.tester.expression)) {
+            printLog(processTypeEnum.WARNING, 'condition.tester.expression', 't.isJSXEmptyExpression(condition.tester.expression)')
+            return null
+          }
           return t.conditionalExpression(
             condition.tester.expression,
             cloneDeep(condition.path.node),
             acc
           )
         }, lastAlternate)
-      conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
-      conditions.slice(1).forEach(c => c.path.remove())
+      if (node != null) {
+        conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
+        conditions.slice(1).forEach(c => c.path.remove())
+      }
     } catch (error) {
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
     }
@@ -631,7 +652,7 @@ function handleConditions (conditions: Condition[]) {
 }
 
 function findWXIfProps (
-  jsx: NodePath<t.Node>
+  jsx: NodePath<t.JSXElement>
 ): { reg: RegExpMatchArray, tester: AttrValue } | null {
   let matches: { reg: RegExpMatchArray, tester: AttrValue } | null = null
   jsx &&
@@ -640,8 +661,8 @@ function findWXIfProps (
       .get('openingElement')
       .get('attributes')
       .some(path => {
-        const attr = path.node
-        if (t.isJSXIdentifier(attr.name)) {
+        const attr = path.node as any
+        if (t.isJSXIdentifier(attr.name) && attr != null) {
           const name = attr.name.name
           if (name === WX_IF) {
             return true
@@ -816,7 +837,7 @@ function parseAttribute (attr: Attribute) {
           }
         } else if (content.includes(':') || (content.includes('...') && content.includes(','))) {
           const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, { plugins: ['objectRestSpread'] })
-          expr = file.program.body[0].declarations[0].init
+          expr = (file.program.body[0] as any).declarations[0].init
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
           throw new Error(err)

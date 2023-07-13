@@ -1,3 +1,4 @@
+// import { ProjectType } from './../../taro-plugin-mini-ci/src/BaseCi';
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
@@ -79,6 +80,7 @@ interface ITaroizeOptions {
   wxml?: string
   path?: string
   rootPath?: string
+  scriptPath?: string
 }
 
 function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
@@ -124,17 +126,23 @@ export default class Convertor {
   entryStyle: string
   entryUsingComponents: Record<string, string>
   framework: 'react' | 'vue'
+  isTsProject: boolean
+  miniprogramRoot: string
 
-  constructor (root) {
+  constructor (root, isTsProject) {
     this.root = root
     this.convertRoot = path.join(this.root, 'taroConvert')
     this.convertDir = path.join(this.convertRoot, 'src')
     this.importsDir = path.join(this.convertDir, 'imports')
+    this.isTsProject = isTsProject
+    if (isTsProject) {
+      this.miniprogramRoot = path.join(this.root, 'miniprogram')
+    }
     this.fileTypes = {
       TEMPL: '.wxml',
       STYLE: '.wxss',
       CONFIG: '.json',
-      SCRIPT: '.js'
+      SCRIPT: (isTsProject ? '.ts' : '.js')
     }
     this.pages = new Set<string>()
     this.components = new Set<IComponent>()
@@ -256,7 +264,7 @@ export default class Convertor {
               const node = astPath.node
               const source = node.source
               const value = source.value
-              analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value)
+              analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
             CallExpression (astPath) {
               const node = astPath.node
@@ -339,7 +347,7 @@ export default class Convertor {
                 if (componentClassName === importName) {
                   return
                 }
-                const importPath = path.join(self.importsDir, importName + (wxs ? self.wxsIncrementId() : '') + '.js')
+                const importPath = path.join(self.importsDir, importName + (wxs ? self.wxsIncrementId() : '') + self.isTsProject ? '.ts' : '.js')
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
@@ -348,7 +356,7 @@ export default class Convertor {
                   template(
                     `import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
                     babylonConfig
-                  )()
+                  )() as t.Statement
                 )
               })
             }
@@ -360,7 +368,7 @@ export default class Convertor {
                   template(
                     `import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`,
                     babylonConfig
-                  )()
+                  )() as t.Statement
                 )
               })
             }
@@ -376,9 +384,16 @@ export default class Convertor {
   }
 
   getApp () {
-    this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
-    this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
-    this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
+    if (this.isTsProject) {
+      this.entryJSPath = path.join(this.miniprogramRoot, `app${this.fileTypes.SCRIPT}`)
+      this.entryJSONPath = path.join(this.miniprogramRoot, `app${this.fileTypes.CONFIG}`)
+      this.entryStylePath = path.join(this.miniprogramRoot, `app${this.fileTypes.STYLE}`)
+    } else {
+      this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
+      this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
+      this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
+    }
+
     try {
       this.entryJSON = JSON.parse(String(fs.readFileSync(this.entryJSONPath)))
 
@@ -454,7 +469,7 @@ export default class Convertor {
           return
         }
         const code = fs.readFileSync(file).toString()
-        let outputFilePath = file.replace(this.root, this.convertDir)
+        let outputFilePath = file.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
         const extname = path.extname(outputFilePath)
         if (/\.wxs/.test(extname)) {
           outputFilePath += '.js'
@@ -502,8 +517,8 @@ export default class Convertor {
   }
 
   getDistFilePath (src: string, extname?: string): string {
-    if (!extname) return src.replace(this.root, this.convertDir)
-    return src.replace(this.root, this.convertDir).replace(path.extname(src), extname)
+    if (!extname) return src.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
+    return src.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir).replace(path.extname(src), extname)
   }
 
   getConfigFilePath (src: string) {
@@ -549,6 +564,7 @@ ${code}
       const taroizeResult = taroize({
         json: entryJSON,
         script: entryJS,
+        scriptPath: this.entryJSPath,
         path: this.root,
         rootPath: this.root,
         framework: this.framework,
@@ -621,7 +637,7 @@ ${code}
 
   traversePages () {
     this.pages.forEach(page => {
-      const pagePath = path.join(this.root, page)
+      const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
       const pageJSPath = pagePath + this.fileTypes.SCRIPT
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
@@ -686,6 +702,7 @@ ${code}
         }
 
         param.script = String(fs.readFileSync(pageJSPath))
+        param.scriptPath = pageJSPath
         if (fs.existsSync(pageTemplPath)) {
           printLog(processTypeEnum.CONVERT, '页面模板', this.generateShowPath(pageTemplPath))
           param.wxml = String(fs.readFileSync(pageTemplPath))
@@ -907,13 +924,17 @@ ${code}
       date,
       projectName,
       framework: this.framework,
-      compiler: 'webpack5'
+      compiler: 'webpack5',
+      typescript: false
     })
     creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
-      framework: this.framework
+      framework: this.framework,
+      compiler: 'webpack5',
+      typescript: false
     })
     creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'), {
-      framework: this.framework
+      framework: this.framework,
+      typescript: false
     })
     creator.template(templateName, 'project.config.json', path.join(this.convertRoot, 'project.config.json'), {
       description,

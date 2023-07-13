@@ -1,5 +1,5 @@
 #! /usr/bin/env node
 
 const Convertor = require('../dist/index').default
-const convertor = new Convertor(process.cwd())
+const convertor = new Convertor(process.cwd(), false)
 convertor.run()

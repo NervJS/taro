@@ -1,0 +1,148 @@
+@import '../../../../styles/mixins.scss';
+
+.index-hd {
+  padding: 80px;
+  text-align: center;
+  align-items: center;
+}
+
+.index-bd {
+  padding: 0 30px 40px;
+}
+
+.index-ft {
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+.index-logo {
+  //width: 86px;
+  width: 100%;
+  height: 86px;
+}
+
+.index-desc {
+  margin-top: 20px;
+  font-size: 28px;
+}
+
+.index-desc_text {
+  color: #888888;
+}
+
+.navigator-box {
+  opacity: 0;
+  position: relative;
+  background-color: #ffffff;
+  line-height: 1.41176471;
+  font-size: 28px;
+  @include eject(transform, translateY(-50%));
+  @include eject(transition, 0.3s);
+}
+
+.navigator-box-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navigator {
+  padding: 20px 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navigator:before {
+  content: ' ';
+  position: absolute;
+  left: 30px;
+  top: 0;
+  right: 30px;
+  height: 1px;
+  border-top: 1px solid #d8d8d8;
+  color: #d8d8d8;
+}
+
+.navigator:first-child:before {
+  display: none;
+}
+
+.navigator-text {
+  flex: 1;
+}
+
+.navigator-arrow {
+  padding-right: 26px;
+  position: relative;
+}
+
+.navigator-arrow:after {
+  content: ' ';
+  display: inline-block;
+  height: 18px;
+  width: 18px;
+  border-width: 2px 2px 0 0;
+  border-color: #888888;
+  border-style: solid;
+  transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  right: 28px;
+}
+
+.kind-list {
+  font-size: 32px;
+}
+
+.kind-list-item {
+  margin: 20px 0;
+  background-color: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.kind-list-item:first-child {
+  margin-top: 0;
+}
+
+.kind-list-text {
+  flex: 1;
+}
+
+.kind-list-img {
+  width: 60px;
+  height: 60px;
+}
+
+.kind-list-item-hd {
+  padding: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  @include eject(transition, opacity 0.3s);
+}
+
+.kind-list-item-hd-show {
+  opacity: 0.2;
+}
+
+.kind-list-item-bd {
+  height: 0;
+  overflow: hidden;
+}
+
+.kind-list-item-bd-show {
+  height: auto;
+}
+
+.tag {
+  display: inline-block;
+  padding: 5px 5px;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: red;
+  font-size: 12px;
+  margin: 5px;
+}
