@@ -2,6 +2,7 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/component/index/index',
+    'pages/component/cover-image/cover-image',
     'pages/component/view/view',
     'pages/component/scroll-view/scroll-view',
     'pages/component/swiper/swiper',
