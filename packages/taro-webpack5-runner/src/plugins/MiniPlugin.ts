@@ -73,6 +73,7 @@ interface ITaroMiniPluginOptions {
     unitPrecision: number
     targetUnit: string
   }
+  isBuildCompIndependent?: boolean
 }
 
 export interface IComponentObj {
@@ -163,8 +164,11 @@ export default class TaroMiniPlugin {
       commonChunks,
       addChunkPages,
       framework,
-      isBuildPlugin
+      isBuildPlugin,
+      isBuildCompIndependent
     } = this.options
+    // todo 请根据这个参数来做改动
+    console.log('isBuildCompIndependent', isBuildCompIndependent)
     /** build mode */
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
@@ -257,7 +261,12 @@ export default class TaroMiniPlugin {
             }
           })
           const isNativeComponent = this.appConfig.components?.includes(module.name)
-          const loaderName = isNativeComponent || isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
+          const loaderName = (isNativeComponent || isBuildPlugin)
+            ? '@tarojs/taro-loader/lib/native-component' 
+            : (isIndependent 
+              ? '@tarojs/taro-loader/lib/independentPage' 
+              : this.pageLoaderName)
+
           if (!isLoaderExist(module.loaders, loaderName)) {
             const loaderMetaEx = { ...loaderMeta }
             if (isNativeComponent) {

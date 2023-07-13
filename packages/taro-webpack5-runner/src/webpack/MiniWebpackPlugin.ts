@@ -136,6 +136,7 @@ export class MiniWebpackPlugin {
       sourceDir,
       outputDir,
       isBuildNativeComp,
+      isBuildCompIndependent,
       isBuildPlugin,
       buildNativePlugin,
       config,
@@ -168,6 +169,7 @@ export class MiniWebpackPlugin {
       isBuildPlugin: isBuildPlugin,
       pluginConfig: buildNativePlugin?.pluginConfig,
       pluginMainEntry: buildNativePlugin?.pluginMainEntry,
+      isBuildCompIndependent,
       /** hooks & methods */
       addChunkPages: config.addChunkPages,
       modifyMiniConfigs: config.modifyMiniConfigs,
