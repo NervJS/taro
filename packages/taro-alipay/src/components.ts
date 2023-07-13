@@ -185,4 +185,7 @@ export const components = {
     duration: '300',
     'easing-function': singleQuote('ease-out'),
   },
+  RootPortal: {
+    enable: 'true'
+  }
 }
