@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace request {
-    interface Option <T = any, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
+    interface Option<T = any, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any> {
       /** 开发者服务器接口地址 */
       url: string
       /** 请求的参数 */
@@ -54,6 +54,12 @@ declare module '../../index' {
        * @supported weapp
        */
       enableChunked?: boolean
+      /**
+       * wifi下使用移动网络发送请求
+       * @default false
+       * @supported weapp
+       */
+      forceCellularNetwork?: boolean
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult<T>) => void
       /** 接口调用失败的回调函数 */
@@ -120,7 +126,7 @@ declare module '../../index' {
       storeCheck?(): boolean
     }
 
-    interface SuccessCallbackResult < T extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult<T extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any> extends TaroGeneral.CallbackResult {
       /** 开发者服务器返回的数据 */
       data: T
       /** 开发者服务器返回的 HTTP Response Header */
@@ -262,12 +268,12 @@ declare module '../../index' {
      * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.abort.html
      */
-    abort(): void
+    abort (): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onHeadersReceived.html
      */
-    onHeadersReceived(
+    onHeadersReceived (
       /** HTTP Response Header 事件的回调函数 */
       callback: RequestTask.onHeadersReceived.Callback,
     ): void
@@ -275,7 +281,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offHeadersReceived.html
      */
-    offHeadersReceived(
+    offHeadersReceived (
       /** HTTP Response Header 事件的回调函数 */
       callback: RequestTask.onHeadersReceived.Callback,
     ): void
@@ -283,7 +289,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.onChunkReceived.html
      */
-    onChunkReceived(
+    onChunkReceived (
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
       callback: RequestTask.onChunkReceived.Callback,
     ): void
@@ -291,7 +297,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/RequestTask.offChunkReceived.html
      */
-    offChunkReceived(
+    offChunkReceived (
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
       callback: RequestTask.onChunkReceived.Callback,
     ): void
@@ -325,14 +331,14 @@ declare module '../../index' {
     index: number
     requestParams: RequestParams
     interceptors: interceptor[]
-    proceed(requestParams: RequestParams): any
+    proceed (requestParams: RequestParams): any
   }
 
   /** @ignore */
   interface interceptors {
-    logInterceptor(chain: Chain): Promise<any>
+    logInterceptor (chain: Chain): Promise<any>
 
-    timeoutInterceptor(chain: Chain): Promise<any>
+    timeoutInterceptor (chain: Chain): Promise<any>
   }
 
   interface TaroStatic {
@@ -368,7 +374,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/request/wx.request.html
      */
-    request<T = any, U = any>(option: request.Option<T, U>): RequestTask<T>
+    request<T = any, U = any> (option: request.Option<T, U>): RequestTask<T>
 
     /** 可以使用拦截器在请求发出前或发出后做一些额外操作。
      *
@@ -402,7 +408,7 @@ declare module '../../index' {
      * ```
      * @since 1.2.16
      */
-    addInterceptor(interceptor: interceptor): any
+    addInterceptor (interceptor: interceptor): any
 
     /** 清除所有拦截器
      * @example
@@ -411,7 +417,7 @@ declare module '../../index' {
      * ```
      * @supported weapp, h5, alipay, swan, tt, qq
      */
-    cleanInterceptors(): void
+    cleanInterceptors (): void
 
     interceptors: interceptors
   }
