@@ -308,7 +308,7 @@ export default class TaroMiniPlugin {
         }
       })
 
-      const { PROCESS_ASSETS_STAGE_ADDITIONAL } = compiler.webpack.Compilation
+      const { PROCESS_ASSETS_STAGE_ADDITIONAL, PROCESS_ASSETS_STAGE_OPTIMIZE } = compiler.webpack.Compilation
       compilation.hooks.processAssets.tapAsync(
         {
           name: PLUGIN_NAME,
@@ -316,6 +316,17 @@ export default class TaroMiniPlugin {
         },
         this.tryAsync<any>(async () => {
           await this.generateMiniFiles(compilation, compiler)
+        })
+      )
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: PLUGIN_NAME,
+          // 删除 assets 的相关操作放在触发时机较后的 Stage，避免过早删除出现的一些问题，#13988
+          // Stage 触发顺序：https://webpack.js.org/api/compilation-hooks/#list-of-asset-processing-stages
+          stage: PROCESS_ASSETS_STAGE_OPTIMIZE
+        },
+        this.tryAsync<any>(async () => {
+          await this.optimizeMiniFiles(compilation, compiler)
         })
       )
     })
@@ -976,17 +987,10 @@ export default class TaroMiniPlugin {
      */
     compilation.getAssets().forEach(({ name: assetPath }) => {
       const styleExt = this.options.fileType.style
-      const templExt = this.options.fileType.templ
-      if (new RegExp(`(\\${styleExt}|\\${templExt})\\.js(\\.map){0,1}$`).test(assetPath)) {
-        delete compilation.assets[assetPath]
-      } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
+      if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
         const assetObj = compilation.assets[assetPath]
         const newAssetPath = assetPath.replace(styleExt, '')
         compilation.assets[newAssetPath] = assetObj
-        delete compilation.assets[assetPath]
-      }
-      if (!isUsingCustomWrapper && assetPath === 'custom-wrapper.js') {
-        delete compilation.assets[assetPath]
       }
     })
 
@@ -1115,6 +1119,26 @@ export default class TaroMiniPlugin {
     if (typeof modifyBuildAssets === 'function') {
       await modifyBuildAssets(compilation.assets, this)
     }
+  }
+
+  async optimizeMiniFiles (compilation: Compilation, _compiler: Compiler) {
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
+
+    /**
+     * 与原生小程序混写时解析模板与样式
+     */
+    compilation.getAssets().forEach(({ name: assetPath }) => {
+      const styleExt = this.options.fileType.style
+      const templExt = this.options.fileType.templ
+      if (new RegExp(`(\\${styleExt}|\\${templExt})\\.js(\\.map){0,1}$`).test(assetPath)) {
+        delete compilation.assets[assetPath]
+      } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
+        delete compilation.assets[assetPath]
+      }
+      if (!isUsingCustomWrapper && assetPath === 'custom-wrapper.js') {
+        delete compilation.assets[assetPath]
+      }
+    })
   }
 
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {

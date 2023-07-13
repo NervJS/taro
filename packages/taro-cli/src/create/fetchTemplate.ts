@@ -20,6 +20,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
   const type = getTemplateSourceType(templateSource)
   const tempPath = path.join(templateRootPath, TEMP_DOWNLOAD_FOLDER)
   let name: string
+  let isFromUrl = false
 
   // eslint-disable-next-line no-async-promise-executor
   return new Promise<void>(async (resolve) => {
@@ -44,24 +45,18 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         resolve()
       })
     } else if (type === 'url') {
-      const zipPath = path.join(tempPath, 'temp.zip')
+      // url 模板源，因为不知道来源名称，临时取名方便后续开发者从列表中选择
+      name = 'from-remote-url'
+      isFromUrl = true
+      const zipPath = path.join(tempPath, name + '.zip')
       request
         .get(templateSource)
         .pipe(fs.createWriteStream(zipPath))
         .on('close', () => {
           // unzip
           const zip = new AdmZip(zipPath)
-          zip.extractAllTo(tempPath, true)
-          const files = readDirWithFileTypes(tempPath).filter(
-            file => !file.name.startsWith('.') && file.isDirectory && file.name !== '__MACOSX'
-          )
-          if (files.length !== 1) {
-            spinner.color = 'red'
-            spinner.fail(chalk.red(`拉取远程模板仓库失败！\n${new Error('远程模板源组织格式错误')}`))
-            return resolve()
-          }
+          zip.extractAllTo(path.join(tempPath, name), true)
 
-          name = files[0].name
           spinner.color = 'green'
           spinner.succeed(`${chalk.grey('拉取远程模板仓库成功！')}`)
           resolve()
@@ -79,7 +74,10 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
     // 下载失败，只显示默认模板
     if (!fs.existsSync(templateFolder)) return Promise.resolve([])
 
-    const isTemplateGroup = !fs.existsSync(path.join(templateFolder, 'package.json'))
+    const isTemplateGroup = !(
+      fs.existsSync(path.join(templateFolder, 'package.json')) ||
+      fs.existsSync(path.join(templateFolder, 'package.json.tmpl'))
+    )
 
     if (isTemplateGroup) {
       // 模板组
@@ -114,7 +112,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       await fs.move(templateFolder, path.join(templateRootPath, name), { overwrite: true })
       await fs.remove(tempPath)
 
-      let res: ITemplates = { name }
+      let res: ITemplates = { name, desc: isFromUrl ? templateSource : '' }
       const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
       if (fs.existsSync(creatorFile)) {
@@ -123,7 +121,7 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         res = {
           name,
           platforms,
-          desc
+          desc: desc || templateSource
         }
       }
 
