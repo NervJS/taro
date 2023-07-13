@@ -33,6 +33,7 @@ export default defineAppConfig({
     'pages/component/radio-group/radio-group',
     'pages/component/checkbox-group/checkbox-group',
     'pages/component/match-media/match-media',
+    'pages/component/movable-view/movable-view',
     'pages/component/sticky-header/sticky-header',
     'pages/component/root-portal/root-portal',
     'pages/api/index/index',
