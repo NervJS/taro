@@ -2642,6 +2642,9 @@ require("./runtime");
                 transform: "false",
                 duration: "300",
                 "easing-function": singleQuote("ease-out")
+            },
+            RootPortal: {
+                enable: "true"
             }
         };
         var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
