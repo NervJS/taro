@@ -13,7 +13,7 @@ export default class PageView extends React.Component {
     return (
       <View className='components-page'>
         <View className='components-page__header'>
-          <Header title='Image'></Header>
+          <Header title='CoverImage'></Header>
            <ComponentState platform='H5' rate='100'> </ComponentState>
         </View>
         <View className='components-page__body'>
