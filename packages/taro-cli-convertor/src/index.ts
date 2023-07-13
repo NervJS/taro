@@ -509,6 +509,13 @@ export default class Convertor {
     return fs.copySync(from, to, options)
   }
 
+  getComponentPath (component: string, extname: string) {
+    if (fs.existsSync(component + extname))
+      return component + extname
+    else
+      return component + '/index' + extname
+  }
+
   getDistFilePath (src: string, extname?: string): string {
     if (!extname) return src.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
     return src.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir).replace(path.extname(src), extname)
@@ -719,14 +726,18 @@ ${code}
           depComponents,
           imports: taroizeResult.imports
         })
+        printLog(processTypeEnum.GENERATE, '抽象语法树', this.generateShowPath(pageDistJSPath))
         const jsCode = generateMinimalEscapeCode(ast)
+        printLog(processTypeEnum.GENERATE, 'JSCode', this.generateShowPath(pageDistJSPath))
         this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
+        printLog(processTypeEnum.GENERATE, 'writeFileToTaro', this.generateShowPath(pageDistJSPath))
         this.writeFileToConfig(pageDistJSPath, param.json)
         printLog(processTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
         if (pageStyle) {
           this.traverseStyle(pageStylePath, pageStyle)
         }
         this.generateScriptFiles(scriptFiles)
+        printLog(processTypeEnum.GENERATE, 'generateScriptFiles')
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
@@ -744,11 +755,11 @@ ${code}
       if (this.hadBeenBuiltComponents.has(component)) return
       this.hadBeenBuiltComponents.add(component)
 
-      const componentJSPath = component + this.fileTypes.SCRIPT
+      const componentJSPath = this.getComponentPath(component, this.fileTypes.SCRIPT)
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
-      const componentConfigPath = component + this.fileTypes.CONFIG
-      const componentStylePath = component + this.fileTypes.STYLE
-      const componentTemplPath = component + this.fileTypes.TEMPL
+      const componentConfigPath = this.getComponentPath(component, this.fileTypes.CONFIG)
+      const componentStylePath = this.getComponentPath(component, this.fileTypes.STYLE)
+      const componentTemplPath = this.getComponentPath(component, this.fileTypes.TEMPL)
 
       try {
         const param: ITaroizeOptions = {}

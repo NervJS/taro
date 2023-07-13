@@ -2,6 +2,8 @@ export default defineAppConfig({
   pages: [
     'pages/index/index',
     'pages/component/index/index',
+    'pages/component/cover-image/cover-image',
+    'pages/component/cover-view/cover-view',
     'pages/component/view/view',
     'pages/component/scroll-view/scroll-view',
     'pages/component/swiper/swiper',
@@ -31,6 +33,7 @@ export default defineAppConfig({
     'pages/component/radio-group/radio-group',
     'pages/component/checkbox-group/checkbox-group',
     'pages/component/match-media/match-media',
+    'pages/component/movable-view/movable-view',
     'pages/component/sticky-header/sticky-header',
     'pages/component/root-portal/root-portal',
     'pages/api/index/index',
