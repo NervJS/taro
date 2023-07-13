@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '界面-滚动',
+    navigationBarTitleText: '设备-电池',
 }

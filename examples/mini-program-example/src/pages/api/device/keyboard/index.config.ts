@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '界面-动画',
+    navigationBarTitleText: '设备-键盘',
 }

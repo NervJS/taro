@@ -4,3 +4,73 @@
   margin-bottom: 40px;
   background-color: $color-success;
 }
+
+.wifi-icon{
+  width: 20px;
+  height:20px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  margin: 0 10px;
+  float: right;
+}
+.wifi-icon div{
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+}
+.wifi-icon .wifi-1{
+  width: 4px;
+  height: 4px;
+  left: 8px;
+  bottom: 3px;
+  background: currentcolor;
+}
+.wifi-icon .wifi-2,.wifi-icon .wifi-3,.wifi-icon .wifi-4{
+  border: 2px solid;
+  border-color: currentcolor transparent transparent;
+ }
+.wifi-icon .wifi-2{
+  width: 12px;
+  height: 12px;
+  left: 2px;
+  bottom: -4px;
+}
+.wifi-icon .wifi-3{
+  width: 20px;
+  height: 20px;
+  left: -2px;
+  bottom: -8px;
+  }
+.wifi-icon .wifi-4{
+  width: 28px;
+  height: 28px;
+  left: -6px;
+  bottom: -12px;
+}
+.wifi-icon div:after{
+  content: "";
+  display: block;
+  position: absolute;
+}
+.wifi-icon .lock{
+  width: 6px;
+  height: 5px;
+  background: currentcolor;
+  display: block;
+  right: 1px;
+  bottom: 2px;
+  border-radius: 0;
+}
+.wifi-icon .lock:after{
+  width: 4px;
+  height: 3px;
+  border: 1px solid;
+  border-radius: 100px 100px 0 0;
+  border-bottom: none;
+  left: 0px;
+  bottom: 100%;
+}
+.off {
+  border-color: #b0bec5 transparent transparent !important;
+}

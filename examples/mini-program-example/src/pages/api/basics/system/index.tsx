@@ -17,7 +17,13 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'openAppAuthorizeSetting',
-                func: null,
+                func: () => {
+                    Taro.openAppAuthorizeSetting({
+                        success (res) {
+                            console.log('success-----', res);
+                        }
+                    })
+                },
             }, 
             {
                 id: 'getWindowInfo',
@@ -27,6 +33,9 @@ export default class Index extends React.Component {
                 id: 'getSystemSetting',
                 func: () => {
                     const systemSetting = Taro.getSystemSetting()
+                    Taro.showToast({
+                        title: 'success'
+                    })
                     console.log('success', systemSetting);
                 },
             }, 
