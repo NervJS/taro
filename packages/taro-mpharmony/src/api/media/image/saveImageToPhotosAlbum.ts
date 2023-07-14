@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-import { createDownload, getParameterError, shouldBeObject } from '../../../utils'
+import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
 export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (options) => {
@@ -30,6 +30,15 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
     })
   }
 
-  createDownload(filePath)
-  return handle.success()
+  // @ts-ignore
+  const ret = native.saveImageToPhotosAlbum({
+    filePath: filePath,
+    success: (res: any) => {
+      return handle.success(res)
+    },
+    fail: (err: any) => {
+      return handle.fail(err)
+    }
+  })
+  return ret
 }

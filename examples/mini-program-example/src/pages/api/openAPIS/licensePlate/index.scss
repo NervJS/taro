@@ -1,0 +1,24 @@
+@import "../../../../../styles/variables.scss";
+
+.api-page-btn {
+  margin-bottom: 40px;
+  background-color: $color-success;
+}
+
+.devices_summary {
+  padding: 5px;
+  font-size: 15px;
+}
+.device_list {
+  height: 150px;
+  border-radius: 3px;
+  flex: 1;
+}
+.device_item {
+  border-bottom: 1px solid var(--weui-FG-3);
+  padding: 5px;
+  color: var(--weui-FG-HALF);
+}
+.device_item_hover {
+  background-color: rgba(0, 0, 0, .1);
+}

@@ -28,8 +28,6 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     tempFilePaths: [],
     tempFiles: []
   }
-  const sourceTypeString = sourceType && sourceType.toString()
-  const acceptableSourceType = ['user', 'environment', 'camera']
 
   if (count && typeof count !== 'number') {
     res.errMsg = getParameterError({
@@ -39,57 +37,17 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     })
     return handle.fail(res)
   }
-
-  let el = document.getElementById(imageId)
-  if (!el) {
-    const obj = document.createElement('input')
-    obj.setAttribute('type', 'file')
-    obj.setAttribute('id', imageId)
-    if (count > 1) {
-      obj.setAttribute('multiple', 'multiple')
-    }
-    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
-      obj.setAttribute('capture', sourceTypeString)
-    }
-    obj.setAttribute('accept', 'image/*')
-    obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
-    document.body.appendChild(obj)
-    el = document.getElementById(imageId)
-  } else {
-    if (count > 1) {
-      el.setAttribute('multiple', 'multiple')
-    } else {
-      el.removeAttribute('multiple')
-    }
-    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
-      el.setAttribute('capture', sourceTypeString)
-    } else {
-      el.removeAttribute('capture')
-    }
-  }
-
-  return new Promise((resolve, reject) => {
-    const TaroMouseEvents = document.createEvent('MouseEvents')
-    TaroMouseEvents.initEvent('click', true, true)
-    if (el) {
-      el.dispatchEvent(TaroMouseEvents)
-      el.onchange = function (e) {
-        const target = e.target as HTMLInputElement
-        if (target) {
-          const files = target.files || []
-          const arr = [...files]
-          arr && arr.forEach(item => {
-            const blob = new Blob([item], {
-              type: item.type
-            })
-            const url = URL.createObjectURL(blob)
-            res.tempFilePaths?.push(url)
-            res.tempFiles?.push({ path: url, size: item.size, type: item.type, originalFileObj: item })
-          })
-          handle.success(res, { resolve, reject })
-          target.value = ''
-        }
-      }
+  // @ts-ignore
+  const ret = native.chooseImage({
+    count: count,
+    imageId: imageId,
+    sourceType: sourceType,
+    success: (res: any) => {
+      return handle.success(res)
+    },
+    fail: (err: any) => {
+      return handle.fail(err)
     }
   })
+  return ret
 }

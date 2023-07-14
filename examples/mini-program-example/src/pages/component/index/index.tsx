@@ -4,14 +4,14 @@ import './index.scss'
 import Taro, { Component } from '@tarojs/taro'
 import React from 'react'
 import { View, Image, Text } from '@tarojs/components'
-import logo from '../../../../assets/component/logo.png'
-import viewPng from '../../../../assets/component/view.png'
-import contentPng from '../../../../assets/component/content.png'
-import formPng from '../../../../assets/component/form.png'
-import navPng from '../../../../assets/component/nav.png'
-import mediaPng from '../../../../assets/component/media.png'
-import mapPng from '../../../../assets/component/map.png'
-import canvasPng from '../../../../assets/component/canvas.png'
+import logo from '../../../assets/component/logo.png'
+import viewPng from '../../../assets/component/view.png'
+import contentPng from '../../../assets/component/content.png'
+import formPng from '../../../assets/component/form.png'
+import navPng from '../../../assets/component/nav.png'
+import mediaPng from '../../../assets/component/media.png'
+import mapPng from '../../../assets/component/map.png'
+import canvasPng from '../../../assets/component/canvas.png'
 
 const PNGS = {
   viewPng,
@@ -32,10 +32,10 @@ export default class Index extends React.Component {
           id: 'view',
           name: '视图容器',
           open: false,
-          pages: ['view','scroll-view','swiper','grid-view','list-view','page-container','match-media','root-portal'],
+          pages: ['view','scroll-view', 'cover-image','cover-view', 'movable-view', 'swiper','grid-view','list-view','page-container','match-media','root-portal'],
           target: [
             'cover-image','cover-view','grid-view','list-view',
-            'match-media','movable-area','movable-view','page-container',
+            'match-media','movable-view','page-container',
             'root-portal','scroll-view','share-element','sticky-header',
             'sticky-section','swiper','swiper-item','view'
           ]
@@ -125,12 +125,20 @@ export default class Index extends React.Component {
   }
 
   render () {
+
+    var targetComponents = 0
+    var pageComponents = 0
+    this.state.list.map((item)=>{
+      targetComponents += item.target.length
+      pageComponents += item.pages.length
+    })
+
     return (
       <View className='index'>
         <View className='index-hd'>
           <Image className='index-logo' src={logo} />
           <View className='index-desc'>
-            <Text className='index-desc_text'>以下将展示Taro官方组件能力，组件样式仅供参考，开发者可根据自身需求自定义组件样式。</Text>
+            <Text className='index-desc_text'>组件总数为：{targetComponents}，未创建Demo的组件数：{targetComponents - pageComponents}</Text>
           </View>
         </View>
         <View className='index-bd'>
