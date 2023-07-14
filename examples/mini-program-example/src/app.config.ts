@@ -24,6 +24,7 @@ export default defineAppConfig({
     'pages/component/audio/audio',
     'pages/component/camera/camera',
     'pages/component/image/image',
+    'pages/component/video/video',
     'pages/component/map/map',
     'pages/component/canvas/canvas',
     'pages/component/slider/slider',
