@@ -1,4 +1,5 @@
 export * from './block/block'
+export * from './editor/editor'
 export * from './grid/grid'
 export * from './label/label'
 export * from './list/list'

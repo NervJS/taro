@@ -55,6 +55,7 @@ export default class Index extends React.Component {
             'button',
             'checkbox',
             'checkbox-group',
+            'editor',
             'form',
             'input',
             'label',

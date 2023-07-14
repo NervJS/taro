@@ -31,7 +31,9 @@
     "react-resizable": "^3.0.4",
     "react-responsive": "^9.0.2",
     "swiper": "6.8.0",
-    "universal-router": "^9.1.0"
+    "universal-router": "^9.1.0",
+    "@tinymce/tinymce-react": "^4.3.0",
+    "tinymce": "^6.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.0",

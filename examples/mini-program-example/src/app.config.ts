@@ -32,7 +32,8 @@ export default defineAppConfig({
     'pages/component/checkbox-group/checkbox-group',
     'pages/component/match-media/match-media',
     'pages/component/sticky-header/sticky-header',
-    'pages/component/root-portal/root-portal'
+    'pages/component/root-portal/root-portal',
+    'pages/component/editor/editor'
   ],
   window: {
     backgroundTextStyle: 'light',
