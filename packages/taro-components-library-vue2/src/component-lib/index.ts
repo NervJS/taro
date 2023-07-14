@@ -21,8 +21,3 @@ components.forEach(params => {
     }
   }
 })
-
-const ignoredElements = [/^taro-/, 'root', 'block']
-if (!Vue.config.ignoredElements?.includes(ignoredElements[0])) {
-  Vue.config.ignoredElements = [...Vue.config.ignoredElements, ...ignoredElements]
-}
