@@ -15,7 +15,7 @@ export default class Index extends React.Component {
                 id: 'onLocationChange',
                 func: () => {
                     Taro.onLocationChange((res) => {
-                        console.log('location change', res.accuracy, res.altitude, res.horizontalAccuracy, res.latitude, res.longitude, res.speed, res.verticalAccuracy)
+                        console.log('location change', res)
                     })
                     Taro.offLocationChange((res) => {
                         console.log('offLocationChange')
@@ -27,22 +27,25 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.startLocationUpdate({
                         success: function(res) {
-                            console.log('startLocationUpdate success ')
+                            console.log('startLocationUpdate success ', res)
                         },
                         fail: function(res) {
-                            console.log('startLocationUpdate fail ')
+                            console.log('startLocationUpdate fail ', res)
                         },
                     })
-                    setTimeout(() => {
-                        Taro.stopLocationUpdate({
-                            success: function(res) {
-                                console.log('stopLocationUpdate success ', res)
-                            },
-                            fail: function(res) {
-                                console.log('stopLocationUpdate fail ', res)
-                            },
-                        })
-                    }, 10000)
+                },
+            },
+            {
+                id: 'stopLocationUpdate',
+                func: () => {
+                    Taro.stopLocationUpdate({
+                        success: function (res) {
+                            console.log('stopLocationUpdate success ', res)
+                        },
+                        fail: function (res) {
+                            console.log('stopLocationUpdate fail ', res)
+                        },
+                    })
                 },
             },
             {

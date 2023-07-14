@@ -18,10 +18,13 @@ export default class Index extends React.Component {
                     console.log('createCameraContext success')
                     cameraContext.takePhoto({
                         success: (res) => {
-                            console.log('cameraContext.takePhoto success ', res.tempImagePath, res.errMsg)
+                            console.log('cameraContext.takePhoto success ', res)
                         },
                         fail: (res) => {
-                            console.log('cameraContext.takePhoto fail ', res.errMsg)
+                            console.log('cameraContext.takePhoto fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('cameraContext.takePhoto complete ', res)
                         }
                     });
                 },

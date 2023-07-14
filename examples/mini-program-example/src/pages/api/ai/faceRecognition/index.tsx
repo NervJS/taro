@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 设备-电池
  * @returns 
  */
 
@@ -12,36 +12,31 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
-                func: null,
-            }, 
-            {
-                id: 'canIUse',
+                id: 'getBatteryInfo',
                 func: () => {
-                    console.log('Taro.canIUse openBluetoothAdapter', Taro.canIUse('openBluetoothAdapter'));
+                    Taro.getBatteryInfo({
+                        success: (res) => {
+                            console.log('success-----', res);
+                            this.setState({
+                                batteryInfo: res,
+                            })
+                        }
+                    })
                 },
-            },
-            {
-                id: 'canIuseWebp',
-                func: null,
             }, 
             {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'arrayBufferToBase64',
-                func: null,
-            }, 
-            {
-                id: 'perload',
+                id: 'getBatteryInfoSync',
                 func: null,
             }, 
         ], 
+        batteryInfo: {},
     }
     render () {
+        const { list, batteryInfo } = this.state;
         return (
             <View className='api-page'>
+                <View>是否正在充电：{batteryInfo.isCharging ? '是' : '否'}</View>
+                <View>设备电量：{batteryInfo.level}%</View>
                 {
                     this.state.list.map((item) => {
                         return (
