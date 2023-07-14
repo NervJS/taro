@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础-系统
+ * 设备-电池
  * @returns 
  */
 
@@ -12,62 +12,31 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'openSystemBluetoothSetting',
-                func: null,
-            }, 
-            {
-                id: 'openAppAuthorizeSetting',
+                id: 'getBatteryInfo',
                 func: () => {
-                    Taro.openAppAuthorizeSetting({
-                        success (res) {
+                    Taro.getBatteryInfo({
+                        success: (res) => {
                             console.log('success-----', res);
+                            this.setState({
+                                batteryInfo: res,
+                            })
                         }
                     })
                 },
             }, 
             {
-                id: 'getWindowInfo',
-                func: null,
-            }, 
-            {
-                id: 'getSystemSetting',
-                func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
-                    })
-                    console.log('success', systemSetting);
-                },
-            }, 
-            {
-                id: 'getSystemInfoSync',
-                func: null,
-            }, 
-            {
-                id: 'getSystemInfoAsync',
-                func: null,
-            }, 
-            {
-                id: 'getSystemInfo',
-                func: null,
-            }, 
-            {
-                id: 'getDeviceInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppBaseInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppAuthorizeSetting',
+                id: 'getBatteryInfoSync',
                 func: null,
             }, 
         ], 
+        batteryInfo: {},
     }
     render () {
+        const { list, batteryInfo } = this.state;
         return (
             <View className='api-page'>
+                <View>是否正在充电：{batteryInfo.isCharging ? '是' : '否'}</View>
+                <View>设备电量：{batteryInfo.level}%</View>
                 {
                     this.state.list.map((item) => {
                         return (
@@ -88,4 +57,3 @@ export default class Index extends React.Component {
         )
     }
 }
-

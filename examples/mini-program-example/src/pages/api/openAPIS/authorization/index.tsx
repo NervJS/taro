@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础-系统
+ * 界面-导航栏
  * @returns 
  */
 
@@ -12,55 +12,23 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'openSystemBluetoothSetting',
+                id: 'showNavigationBarLoading',
                 func: null,
             }, 
             {
-                id: 'openAppAuthorizeSetting',
-                func: () => {
-                    Taro.openAppAuthorizeSetting({
-                        success (res) {
-                            console.log('success-----', res);
-                        }
-                    })
-                },
-            }, 
-            {
-                id: 'getWindowInfo',
+                id: 'setNavigationBarTitle',
                 func: null,
             }, 
             {
-                id: 'getSystemSetting',
-                func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
-                    })
-                    console.log('success', systemSetting);
-                },
-            }, 
-            {
-                id: 'getSystemInfoSync',
+                id: 'setNavigationBarColor',
                 func: null,
             }, 
             {
-                id: 'getSystemInfoAsync',
+                id: 'hideNavigationBarLoading',
                 func: null,
             }, 
             {
-                id: 'getSystemInfo',
-                func: null,
-            }, 
-            {
-                id: 'getDeviceInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppBaseInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppAuthorizeSetting',
+                id: 'hideHomeButton',
                 func: null,
             }, 
         ], 
@@ -88,4 +56,3 @@ export default class Index extends React.Component {
         )
     }
 }
-

@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础-系统
+ * 界面-窗口
  * @returns 
  */
 
@@ -12,57 +12,21 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'openSystemBluetoothSetting',
+                id: 'setWindowSize',
                 func: null,
             }, 
             {
-                id: 'openAppAuthorizeSetting',
-                func: () => {
-                    Taro.openAppAuthorizeSetting({
-                        success (res) {
-                            console.log('success-----', res);
-                        }
-                    })
-                },
-            }, 
-            {
-                id: 'getWindowInfo',
+                id: 'onWindowResize',
                 func: null,
             }, 
             {
-                id: 'getSystemSetting',
-                func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
-                    })
-                    console.log('success', systemSetting);
-                },
-            }, 
-            {
-                id: 'getSystemInfoSync',
+                id: 'offWindowResize',
                 func: null,
             }, 
             {
-                id: 'getSystemInfoAsync',
+                id: 'checkIsPictureInPictureActive',
                 func: null,
-            }, 
-            {
-                id: 'getSystemInfo',
-                func: null,
-            }, 
-            {
-                id: 'getDeviceInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppBaseInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppAuthorizeSetting',
-                func: null,
-            }, 
+            },
         ], 
     }
     render () {
@@ -88,4 +52,3 @@ export default class Index extends React.Component {
         )
     }
 }
-
