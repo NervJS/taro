@@ -32,12 +32,12 @@ export default class Index extends React.Component {
           id: 'view',
           name: '视图容器',
           open: false,
-          pages: ['view','scroll-view', 'cover-image','cover-view', 'movable-view', 'swiper','grid-view','list-view','page-container','match-media','root-portal'],
+          pages: ['view','scroll-view', 'cover-image','cover-view','sticky-header', 'movable-view', 'swiper','grid-view','list-view','page-container','match-media','root-portal'],
           target: [
             'cover-image','cover-view','grid-view','list-view',
             'match-media','movable-view','page-container',
             'root-portal','scroll-view','share-element','sticky-header',
-            'sticky-section','swiper','swiper-item','view'
+            'swiper','swiper-item','view'
           ]
         },
         {
