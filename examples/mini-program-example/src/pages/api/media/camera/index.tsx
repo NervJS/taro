@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 媒体-相机组件管理
  * @returns 
  */
 
@@ -12,11 +12,20 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'canIUse',
+                id: 'createCameraContext',
                 func: () => {
-                    console.log('Taro.canIUse openBluetoothAdapter', Taro.canIUse('openBluetoothAdapter'));
+                    const cameraContext = Taro.createCameraContext()
+                    console.log('createCameraContext success')
+                    cameraContext.takePhoto({
+                        success: (res) => {
+                            console.log('cameraContext.takePhoto success ', res.tempImagePath, res.errMsg)
+                        },
+                        fail: (res) => {
+                            console.log('cameraContext.takePhoto fail ', res.errMsg)
+                        }
+                    });
                 },
-            },
+            }, 
         ], 
     }
     render () {

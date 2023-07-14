@@ -66,6 +66,8 @@ export default defineAppConfig({
     // 'pages/api/interface/window/index',
     'pages/api/location/index',
     'pages/api/media/index',
+    'pages/api/media/image/index',
+    'pages/api/media/recording/index',
     // 'pages/api/network/index',
     // 'pages/api/network/request/index',
     // 'pages/api/network/download/index',
