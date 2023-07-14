@@ -12,7 +12,9 @@ export default function Index() {
 
   return (
     <View className='index'>
-
+      <View className='tip'>
+        <Text>Tab Bar 暂时不可用，请点击button进行跳转</Text>
+      </View>
       <Button className={'buttonStyle'} onClick={() => {
         Taro.navigateTo({
           url: 'pages/component/index/index'

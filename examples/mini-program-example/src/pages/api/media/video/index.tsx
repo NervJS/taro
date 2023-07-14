@@ -12,6 +12,77 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
+                id: 'saveVideoToPhotosAlbum',
+                func: () => {
+                    Taro.chooseVideo({
+                        sourceType: ['album','camera'],
+                        maxDuration: 60,
+                        camera: 'back',
+                        success: function (res) {
+                          Taro.saveVideoToPhotosAlbum({
+                            filePath: res.tempFilePath,
+                            success: function (res) {
+                              console.log('saveVideoToPhotosAlbum success ', res.errMsg)
+                            },
+                            fail: function (res) {
+                                console.log('saveVideoToPhotosAlbum fail ', res.errMsg)
+                            },
+                          })
+                        },
+                    })
+                },
+            }, 
+            {
+                id: 'openVideoEditor',
+                func: () => {
+                    Taro.chooseVideo({
+                        sourceType: ['album','camera'],
+                        maxDuration: 60,
+                        camera: 'back',
+                        success: function (res) {
+                            Taro.openVideoEditor({
+                                filePath: res.tempFilePath,
+                                success (res) {
+                                    console.log('openVideoEditor success ', res)
+                                },
+                                fail (res) {
+                                    console.log('openVideoEditor fail ', res)
+                                },
+                            })
+                        },
+                    })
+                },
+            },
+            {
+                id: 'getVideoInfo',
+                func: () => {
+                    Taro.chooseVideo({
+                        sourceType: ['album','camera'],
+                        maxDuration: 60,
+                        camera: 'back',
+                        success: function (res) {
+                            Taro.getVideoInfo({
+                                src: res.tempFilePath,
+                                success (res) {
+                                    console.log('getVideoInfo success ', res)
+                                },
+                                fail (res) {
+                                    console.log('getVideoInfo fail ', res)
+                                },
+                            })
+                        },
+                    })
+                },
+            }, 
+            {
+                id: 'createVideoContext',
+                func: null,
+            },
+            {
+                id: 'compressVideo',
+                func: null,
+            },
+            {
                 id: 'chooseVideo',
                 func: () => {
                     Taro.chooseVideo({
@@ -46,67 +117,8 @@ export default class Index extends React.Component {
                 },
             }, 
             {
-                id: 'saveVideoToPhotosAlbum',
-                func: () => {
-                    Taro.chooseVideo({
-                        sourceType: ['album','camera'],
-                        maxDuration: 60,
-                        camera: 'back',
-                        success: function (res) {
-                          Taro.saveVideoToPhotosAlbum({
-                            filePath: res.tempFilePath,
-                            success: function (res) {
-                              console.log('saveVideoToPhotosAlbum success ', res.errMsg)
-                            },
-                            fail: function (res) {
-                                console.log('saveVideoToPhotosAlbum fail ', res.errMsg)
-                            },
-                          })
-                        },
-                    })
-                },
-            }, 
-            {
-                id: 'getVideoInfo',
-                func: () => {
-                    Taro.chooseVideo({
-                        sourceType: ['album','camera'],
-                        maxDuration: 60,
-                        camera: 'back',
-                        success: function (res) {
-                            Taro.getVideoInfo({
-                                src: res.tempFilePath,
-                                success (res) {
-                                    console.log('getVideoInfo success ', res.bitrate, res.duration, res.fps, res.height, res.orientation, res.size, res.type, res.width, res.errMsg)
-                                },
-                                fail (res) {
-                                    console.log('getVideoInfo fail ', res.errMsg)
-                                },
-                            })
-                        },
-                    })
-                },
-            }, 
-            {
-                id: 'openVideoEditor',
-                func: () => {
-                    Taro.chooseVideo({
-                        sourceType: ['album','camera'],
-                        maxDuration: 60,
-                        camera: 'back',
-                        success: function (res) {
-                            Taro.openVideoEditor({
-                                filePath: res.tempFilePath,
-                                success (res) {
-                                    console.log('openVideoEditor success ', res.duration, res.size, res.tempFilePath, res.tempThumbPath, res.errMsg)
-                                },
-                                fail (res) {
-                                    console.log('openVideoEditor fail ', res.errMsg)
-                                },
-                            })
-                        },
-                    })
-                },
+                id: 'VideoContext',
+                func: null,
             },
         ], 
     }
