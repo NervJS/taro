@@ -37,6 +37,7 @@ export default defineAppConfig({
     'pages/component/movable-view/movable-view',
     'pages/component/sticky-header/sticky-header',
     'pages/component/root-portal/root-portal',
+    'pages/component/editor/editor',
     'pages/api/index/index',
     'pages/api/advertising/index',
     'pages/api/ai/inference/index',

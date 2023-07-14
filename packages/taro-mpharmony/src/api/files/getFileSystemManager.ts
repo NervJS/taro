@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 /**
  * 获取全局唯一的文件管理器

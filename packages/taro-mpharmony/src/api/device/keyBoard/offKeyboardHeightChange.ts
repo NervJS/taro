@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 export const offKeyboardHeightChange: typeof Taro.offKeyboardHeightChange = (callback) => {
   // @ts-ignore

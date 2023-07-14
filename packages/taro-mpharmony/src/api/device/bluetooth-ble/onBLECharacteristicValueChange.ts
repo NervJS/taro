@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 export const onBLECharacteristicValueChange: typeof Taro.onBLECharacteristicValueChange = (callback) => {
   // @ts-ignore

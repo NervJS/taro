@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 export const onUserCaptureScreen: typeof Taro.onUserCaptureScreen = (callback) => {
   // @ts-ignore
