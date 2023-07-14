@@ -107,6 +107,7 @@ export default class TaroMiniPlugin {
   /** 页面列表 */
   pages = new Set<IComponent>()
   components = new Set<IComponent>()
+  nativeComponents = new Map<string, IComponent>()
   /** tabbar icon 图片路径列表 */
   tabBarIcons = new Set<string>()
   prerenderPages: Set<string>
@@ -165,10 +166,7 @@ export default class TaroMiniPlugin {
       addChunkPages,
       framework,
       isBuildPlugin,
-      isBuildCompIndependent
     } = this.options
-    // todo 请根据这个参数来做改动
-    console.log('isBuildCompIndependent', isBuildCompIndependent)
     /** build mode */
     compiler.hooks.run.tapAsync(
       PLUGIN_NAME,
@@ -260,7 +258,7 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const isNativeComponent = this.appConfig.components?.includes(module.name)
+          const isNativeComponent = this.nativeComponents.has(module.name)
           const loaderName = (isNativeComponent || isBuildPlugin)
             ? '@tarojs/taro-loader/lib/native-component' 
             : (isIndependent 
@@ -287,7 +285,7 @@ export default class TaroMiniPlugin {
             })
           }
         } else if (module.miniType === META_TYPE.COMPONENT) {
-          const isNativeComponent = this.appConfig.components?.includes(module.name)
+          const isNativeComponent = this.nativeComponents.has(module.name)
           const loaderName = isNativeComponent || isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : '@tarojs/taro-loader/lib/component'
           if (!isLoaderExist(module.loaders, loaderName)) {
             const loaderMetaEx = { ...loaderMeta }
@@ -372,13 +370,13 @@ export default class TaroMiniPlugin {
         if (fileChunks.size) {
           let source
           const id = getChunkIdOrName(chunk)
-          const isNativeComponent = this.appConfig.components?.includes(id)
+          const isNativeComponent = this.nativeComponents.has(id)
           if (!isNativeComponent) {
             return modules
           }
           fileChunks.forEach((v, k) => {
             if (k === id) {
-              source = addRequireToSource(id, modules, v)
+              source = addRequireToSource(id, modules, v) 
             }
           })
           return source
@@ -576,6 +574,7 @@ export default class TaroMiniPlugin {
    * 包括处理分包和 tabbar
    */
   getPages () {
+    const { isBuildCompIndependent } = this.options
     if (isEmptyObject(this.appConfig)) {
       throw new Error('缺少 app 全局配置文件，请检查！')
     }
@@ -605,7 +604,10 @@ export default class TaroMiniPlugin {
       })
     ])
     this.getSubPackages(this.appConfig)
-    this.getNativeComponent()
+    if (isBuildCompIndependent) {
+      // 编译 Taro 项目的时候，同时把组件独立编译为原生自定义组件
+      this.getNativeComponent()
+    }
   }
 
   /**
@@ -625,6 +627,8 @@ export default class TaroMiniPlugin {
         printLog(processTypeEnum.COMPILE, `发现[${item}]Native组件`)
       }
       this.pages.add(componentObj)
+      // 登记需要编译成原生版本的组件
+      this.nativeComponents.set(item, componentObj) 
     })
   }
 
@@ -755,7 +759,7 @@ export default class TaroMiniPlugin {
         if (!componentConfig.thirdPartyComponents.has(compName) && !file.isNative) {
           componentConfig.thirdPartyComponents.set(compName, new Set())
         }
-      }
+      } 
       depComponents.forEach(item => {
         const componentPath = resolveMainFilePath(path.resolve(path.dirname(file.path), item.path))
         if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
