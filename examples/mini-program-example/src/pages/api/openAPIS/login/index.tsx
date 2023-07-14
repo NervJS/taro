@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础-系统
+ * 界面-交互
  * @returns 
  */
 
@@ -12,55 +12,35 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'openSystemBluetoothSetting',
+                id: 'showToast',
                 func: null,
             }, 
             {
-                id: 'openAppAuthorizeSetting',
-                func: () => {
-                    Taro.openAppAuthorizeSetting({
-                        success (res) {
-                            console.log('success-----', res);
-                        }
-                    })
-                },
-            }, 
-            {
-                id: 'getWindowInfo',
+                id: 'showModal',
                 func: null,
             }, 
             {
-                id: 'getSystemSetting',
-                func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
-                    })
-                    console.log('success', systemSetting);
-                },
-            }, 
-            {
-                id: 'getSystemInfoSync',
+                id: 'showLoading',
                 func: null,
             }, 
             {
-                id: 'getSystemInfoAsync',
+                id: 'showActionSheet',
                 func: null,
             }, 
             {
-                id: 'getSystemInfo',
+                id: 'hideToast',
                 func: null,
             }, 
             {
-                id: 'getDeviceInfo',
+                id: 'hideLoading',
                 func: null,
             }, 
             {
-                id: 'getAppBaseInfo',
+                id: 'enableAlertBeforeUnload',
                 func: null,
             }, 
             {
-                id: 'getAppAuthorizeSetting',
+                id: 'disableAlertBeforeUnload',
                 func: null,
             }, 
         ], 
@@ -88,4 +68,3 @@ export default class Index extends React.Component {
         )
     }
 }
-

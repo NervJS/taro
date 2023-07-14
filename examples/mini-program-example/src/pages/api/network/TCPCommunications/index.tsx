@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础-系统
+ * 界面-Tab Bar
  * @returns 
  */
 
@@ -12,55 +12,35 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'openSystemBluetoothSetting',
+                id: 'showTabBarRedDot',
                 func: null,
             }, 
             {
-                id: 'openAppAuthorizeSetting',
-                func: () => {
-                    Taro.openAppAuthorizeSetting({
-                        success (res) {
-                            console.log('success-----', res);
-                        }
-                    })
-                },
-            }, 
-            {
-                id: 'getWindowInfo',
+                id: 'showTabBar',
                 func: null,
             }, 
             {
-                id: 'getSystemSetting',
-                func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
-                    })
-                    console.log('success', systemSetting);
-                },
-            }, 
-            {
-                id: 'getSystemInfoSync',
+                id: 'setTabBarStyle',
                 func: null,
             }, 
             {
-                id: 'getSystemInfoAsync',
+                id: 'setTabBarItem',
                 func: null,
             }, 
             {
-                id: 'getSystemInfo',
+                id: 'setTabBarBadge',
                 func: null,
             }, 
             {
-                id: 'getDeviceInfo',
+                id: 'removeTabBarBadge',
                 func: null,
             }, 
             {
-                id: 'getAppBaseInfo',
+                id: 'hideTabBarRedDot',
                 func: null,
             }, 
             {
-                id: 'getAppAuthorizeSetting',
+                id: 'hideTabBar',
                 func: null,
             }, 
         ], 
@@ -88,4 +68,3 @@ export default class Index extends React.Component {
         )
     }
 }
-

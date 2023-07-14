@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础-系统
+ * 设备-陀螺仪
  * @returns 
  */
 
@@ -12,57 +12,41 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'openSystemBluetoothSetting',
-                func: null,
-            }, 
-            {
-                id: 'openAppAuthorizeSetting',
+                id: 'stopGyroscope',
                 func: () => {
-                    Taro.openAppAuthorizeSetting({
-                        success (res) {
-                            console.log('success-----', res);
+                    Taro.stopGyroscope({
+                        success: (res) => {
+                            console.log('success-----', res)
                         }
                     })
                 },
             }, 
             {
-                id: 'getWindowInfo',
-                func: null,
-            }, 
-            {
-                id: 'getSystemSetting',
+                id: 'startGyroscope',
                 func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
+                    Taro.startGyroscope({
+                        success: (res) => {
+                            console.log('success-----', res)
+                        }
                     })
-                    console.log('success', systemSetting);
                 },
             }, 
             {
-                id: 'getSystemInfoSync',
-                func: null,
+                id: 'onGyroscopeChange',
+                func: () => {
+                    Taro.onGyroscopeChange((res) => {
+                        console.log('on gyroscope change: ', res);
+                    })
+                },
             }, 
             {
-                id: 'getSystemInfoAsync',
-                func: null,
-            }, 
-            {
-                id: 'getSystemInfo',
-                func: null,
-            }, 
-            {
-                id: 'getDeviceInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppBaseInfo',
-                func: null,
-            }, 
-            {
-                id: 'getAppAuthorizeSetting',
-                func: null,
-            }, 
+                id: 'offGyroscopeChange',
+                func: () => {
+                    Taro.offGyroscopeChange((res) => {
+                        console.log('off gyroscope change: ', res);
+                    })
+                },
+            },
         ], 
     }
     render () {
@@ -88,4 +72,3 @@ export default class Index extends React.Component {
         )
     }
 }
-
