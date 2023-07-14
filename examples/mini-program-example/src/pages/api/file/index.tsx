@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 文件
  * @returns 
  */
 
@@ -12,53 +12,114 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
-                func: null,
-            }, 
-            {
-                id: 'canIUse',
-                func: null,
-            }, 
-            {
-                id: 'canIuseWebp',
-                func: null,
-            }, 
-            {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'System',
+                id: 'saveFile',
                 func: () => {
-                    Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
-                    });
+                    Taro.chooseImage({
+                        success: function (res) {
+                          var tempFilePaths = res.tempFilePaths
+                          Taro.saveFile({
+                            tempFilePath: tempFilePaths[0],
+                            success: function (res) {
+                              console.log('saveFile success ', res.savedFilePath, res.errMsg)
+                            },
+                            fail: function (res) {
+                                console.log('saveFile fail ', res.errMsg)
+                            },
+                          })
+                        }
+                    })
                 },
             }, 
             {
-                id: 'Update',
-                func: null,
+                id: 'getSavedFileList',
+                func: () => {
+                    Taro.getSavedFileList({
+                        success: function (res) {
+                          console.log('getSavedFileList success ', res.fileList, res.errMsg)
+                        },
+                        fail: function (res) {
+                            console.log('getSavedFileList fail', res.errMsg)
+                        },
+                    })
+                },
             }, 
             {
-                id: 'MiniProgram',
-                func: null,
-            }, 
+                id: 'getSavedFileInfo',
+                func: () => {
+                    Taro.chooseImage({
+                        success: function (res) {
+                          var tempFilePaths = res.tempFilePaths
+                          Taro.saveFile({
+                            tempFilePath: tempFilePaths[0],
+                            success: function (res) {
+                              console.log('saveFile success ', res.savedFilePath, res.errMsg)
+                              Taro.getSavedFileInfo({
+                                filePath: res.savedFilePath,
+                                success: function (res) {
+                                  console.log('getSavedFileInfo success', res.size, res.createTime)
+                                },
+                                fail: function (res) {
+                                  console.log('getSavedFileInfo fail', res.errMsg)
+                                },
+                              })
+                            },
+                            fail: function (res) {
+                                console.log('saveFile fail ', res.errMsg)
+                            },
+                          })
+                        }
+                    })
+                },
+            },
             {
-                id: 'Debug',
-                func: null,
-            }, 
+                id: 'getFileInfo',
+                func: () => {
+                    Taro.chooseImage({
+                        success: function (res) {
+                          var tempFilePaths = res.tempFilePaths
+                          Taro.saveFile({
+                            tempFilePath: tempFilePaths[0],
+                            success: function (res) {
+                              console.log('saveFile success ', res.savedFilePath, res.errMsg)
+                              Taro.getFileInfo({
+                                filePath: res.savedFilePath,
+                                success: function (res) {
+                                  console.log('getFileInfo success', res.size, res.digest)
+                                },
+                                fail: function (res) {
+                                  console.log('getFileInfo fail', res.errMsg)
+                                },
+                              })
+                            },
+                            fail: function (res) {
+                                console.log('saveFile fail ', res.errMsg)
+                            },
+                          })
+                        }
+                    })
+                },
+            },
             {
-                id: 'Performance',
-                func: null,
-            }, 
-            {
-                id: 'Encryption',
-                func: null,
-            }, 
-            {
-                id: 'perload',
-                func: null,
-            }, 
+                id: 'removeSavedFile',
+                func: () => {
+                    Taro.getSavedFileList({
+                        success: function (res) {
+                            console.log('getSavedFileList success ', res.fileList, res.errMsg)
+                            if (res.fileList.length > 0){
+                                Taro.removeSavedFile({
+                                    filePath: res.fileList[0].filePath,
+                                    success: function(res) {
+                                        console.log('removeSavedFile success ', res.errMsg)
+                                    },
+                                    fail: function(res) {
+                                        console.log('removeSavedFile fail ', res.errMsg)
+                                    },
+                                })
+                            }
+                        }
+                    })
+                },
+            },
         ], 
     }
     render () {

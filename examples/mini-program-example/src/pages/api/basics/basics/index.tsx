@@ -17,8 +17,10 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'canIUse',
-                func: null,
-            }, 
+                func: () => {
+                    console.log('Taro.canIUse openBluetoothAdapter', Taro.canIUse('openBluetoothAdapter'));
+                },
+            },
             {
                 id: 'canIuseWebp',
                 func: null,

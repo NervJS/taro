@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 媒体-图片
  * @returns 
  */
 
@@ -12,53 +12,101 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
-                func: null,
-            }, 
-            {
-                id: 'canIUse',
-                func: null,
-            }, 
-            {
-                id: 'canIuseWebp',
-                func: null,
-            }, 
-            {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'System',
+                id: 'chooseImage ',
                 func: () => {
-                    Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
-                    });
+                    Taro.chooseImage({
+                        count: 1,
+                        sizeType: ['original', 'compressed'],
+                        sourceType: ['album', 'camera'],
+                        success: function (res) {
+                          console.log('chooseImage success ', res.tempFilePaths, res.tempFiles, res.errMsg);
+                        },
+                        fail: function (res) {
+                            console.log('chooseImage fail ', res.errMsg);
+                        }
+                    })
                 },
             }, 
             {
-                id: 'Update',
-                func: null,
+                id: 'previewImage',
+                func: () => {
+                    Taro.chooseImage({
+                        count: 3,
+                        sizeType: ['original', 'compressed'], 
+                        sourceType: ['album', 'camera'], 
+                        success: function (res) {
+                          console.log('chooseImage success');
+                          Taro.previewImage({
+                            urls: res.tempFilePaths,
+                            success: function(){
+                                console.log('previewImage success ', res.errMsg);
+                            },
+                            fail: function(){
+                                console.log('previewImage fail ',res.errMsg);
+                            },
+                          })
+                        },
+                        fail: function (res) {
+                            console.log('chooseImage fail ', res.errMsg);
+                        }
+                    })
+                },
             }, 
             {
-                id: 'MiniProgram',
-                func: null,
+                id: 'getImageInfo',
+                func: () => {
+                    Taro.chooseImage({
+                        success: function (res) {
+                          Taro.getImageInfo({
+                            src: res.tempFilePaths[0],
+                            success: function (res) {
+                                console.log('getImageInfo success ', res.width, res.height, res.orientation, res.path, res.type, res.errMsg);
+                            },
+                            fail: function (res) {
+                                console.log('getImageInfo fail ', res.errMsg);
+                            },
+                          })
+                        }
+                    })
+                },
             }, 
             {
-                id: 'Debug',
-                func: null,
+                id: 'saveImageToPhotosAlbum',
+                func: () => {
+                    Taro.chooseImage({
+                        success: function (res) {
+                          Taro.saveImageToPhotosAlbum({
+                            filePath: res.tempFilePaths[0],
+                            success: function (res) {
+                                console.log('saveImageToPhotosAlbum success ', res.errMsg);
+                            },
+                            fail: function (res) {
+                                console.log('saveImageToPhotosAlbum fail ', res.errMsg);
+                            },
+                          })
+                        }
+                    })
+                },
             }, 
             {
-                id: 'Performance',
-                func: null,
-            }, 
-            {
-                id: 'Encryption',
-                func: null,
-            }, 
-            {
-                id: 'perload',
-                func: null,
-            }, 
+                id: 'compressImage',
+                func: () => {
+                    Taro.chooseImage({
+                        success: function (res) {
+                          Taro.compressImage({
+                            quality: 80,
+                            src: res.tempFilePaths[0],
+                            success: function (res) {
+                                console.log('compressImage success ', res.errMsg);
+                            },
+                            fail: function (res) {
+                                console.log('compressImage fail ', res.errMsg);
+                            },
+                          })
+                        }
+                    })
+                },
+            },
         ], 
     }
     render () {

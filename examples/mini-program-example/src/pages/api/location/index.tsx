@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 位置-位置更新
  * @returns 
  */
 
@@ -12,53 +12,55 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
-                func: null,
-            }, 
-            {
-                id: 'canIUse',
-                func: null,
-            }, 
-            {
-                id: 'canIuseWebp',
-                func: null,
-            }, 
-            {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'System',
+                id: 'onLocationChange',
                 func: () => {
-                    Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
-                    });
+                    Taro.onLocationChange((res) => {
+                        console.log('location change', res)
+                    })
+                    Taro.offLocationChange((res) => {
+                        console.log('offLocationChange')
+                    })
                 },
             }, 
             {
-                id: 'Update',
-                func: null,
-            }, 
+                id: 'startLocationUpdate',
+                func: () => {
+                    Taro.startLocationUpdate({
+                        success: function(res) {
+                            console.log('startLocationUpdate success ', res)
+                        },
+                        fail: function(res) {
+                            console.log('startLocationUpdate fail ', res)
+                        },
+                    })
+                },
+            },
             {
-                id: 'MiniProgram',
-                func: null,
-            }, 
+                id: 'stopLocationUpdate',
+                func: () => {
+                    Taro.stopLocationUpdate({
+                        success: function (res) {
+                            console.log('stopLocationUpdate success ', res)
+                        },
+                        fail: function (res) {
+                            console.log('stopLocationUpdate fail ', res)
+                        },
+                    })
+                },
+            },
             {
-                id: 'Debug',
-                func: null,
-            }, 
-            {
-                id: 'Performance',
-                func: null,
-            }, 
-            {
-                id: 'Encryption',
-                func: null,
-            }, 
-            {
-                id: 'perload',
-                func: null,
-            }, 
+                id: 'startLocationUpdateBackground',
+                func: () => {
+                    Taro.startLocationUpdateBackground({
+                        success: function(res) {
+                            console.log('startLocationUpdateBackground success ', res)
+                        },
+                        fail: function(res) {
+                            console.log('startLocationUpdateBackground fail ', res)
+                        },
+                    })
+                },
+            },
         ], 
     }
     render () {
