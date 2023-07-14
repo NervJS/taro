@@ -37,7 +37,7 @@ export default class Index extends React.Component {
             'cover-image','cover-view','grid-view','list-view',
             'match-media','movable-view','page-container',
             'root-portal','scroll-view','share-element','sticky-header',
-            'swiper','swiper-item','view'
+            'swiper','view'
           ]
         },
         {
@@ -69,7 +69,7 @@ export default class Index extends React.Component {
           ],
           target: ['button','checkbox','checkbox-group','editor','form',
             'input','keyboard-accessory','label','picker','picker-view',
-            'picker-view-column','radio','radio-group','slider','switch','textarea'
+            'radio','radio-group','slider','switch','textarea'
           ]
         },
         {
