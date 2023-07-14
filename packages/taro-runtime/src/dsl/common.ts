@@ -279,13 +279,17 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
 
 export function createComponentConfig (component: React.ComponentClass, componentName?: string, data?: Record<string, unknown>) {
   const id = componentName ?? `taro_component_${pageId()}`
+  let pageIdCache: string | null = null
   let componentElement: TaroRootElement | null = null
   const [ ATTACHED, DETACHED ] = hooks.call('getMiniLifecycleImpl')!.component
 
   const config: any = {
     [ATTACHED] () {
       perf.start(PAGE_INIT)
-      const path = getPath(id, { id: this.getPageId?.() || pageId() })
+      pageIdCache = this.getPageId?.() || pageId()
+      
+      const path = getPath(id, { id: pageIdCache })
+
       Current.app!.mount!(component, path, () => {
         componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
@@ -298,7 +302,9 @@ export function createComponentConfig (component: React.ComponentClass, componen
       })
     },
     [DETACHED] () {
-      const path = getPath(id, { id: this.getPageId() })
+      const path = getPath(id, { id: pageIdCache })
+
+      pageIdCache = null
       Current.app!.unmount!(path, () => {
         instances.delete(path)
         if (componentElement) {
