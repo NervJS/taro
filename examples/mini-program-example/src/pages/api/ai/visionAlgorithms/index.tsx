@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 界面-置顶
  * @returns 
  */
 
@@ -12,29 +12,7 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'env',
-                func: null,
-            }, 
-            {
-                id: 'canIUse',
-                func: () => {
-                    console.log('Taro.canIUse openBluetoothAdapter', Taro.canIUse('openBluetoothAdapter'));
-                },
-            },
-            {
-                id: 'canIuseWebp',
-                func: null,
-            }, 
-            {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'arrayBufferToBase64',
-                func: null,
-            }, 
-            {
-                id: 'perload',
+                id: 'setTopBarText',
                 func: null,
             }, 
         ], 
