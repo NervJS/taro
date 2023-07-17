@@ -3,6 +3,7 @@ import { isFunction } from '@tarojs/shared'
 
 import { findDOM } from '../../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
+import { EditorContext } from '../media/EditorContext'
 import { NodesRef } from './nodesRef'
 
 type TElement = Document | HTMLElement | Element
@@ -52,6 +53,8 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   }
   if (context) {
     const tagName = dom.tagName
+    // @ts-ignore
+    const domName : string = dom.name || ''
     if (/^taro-video-core/i.test(tagName)) {
       // TODO HTMLVideoElement to VideoContext
       return { context: dom as unknown as Taro.VideoContext }
@@ -62,8 +65,8 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
       return { context: new CanvasContext(canvas, ctx) }
     } else if (/^taro-live-player-core/i.test(tagName)) {
       console.error('暂时不支持通过 NodesRef.context 获取 LivePlayerContext')
-    } else if (/^taro-editor-core/i.test(tagName)) {
-      console.error('暂时不支持通过 NodesRef.context 获取 EditorContext')
+    } else if (/^taro-editor-core/i.test(tagName) || /^taro-editor-core/i.test(domName)) {
+      return { context: new EditorContext() }
     } else if (/^taro-map-core/i.test(tagName)) {
       console.error('暂时不支持通过 NodesRef.context 获取 MapContext')
     }

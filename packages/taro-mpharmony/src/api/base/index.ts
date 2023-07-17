@@ -9,7 +9,7 @@ export const env = {
 
 export function canIUse (apiName: string) {
   // @ts-ignore
-  return native.canIUse(apiName);
+  return native.canIUse(apiName)
 }
 
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {

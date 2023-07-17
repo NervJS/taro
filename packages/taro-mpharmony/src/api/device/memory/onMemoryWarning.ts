@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 export const onMemoryWarning: typeof Taro.onMemoryWarning = (callback) => {
   // @ts-ignore

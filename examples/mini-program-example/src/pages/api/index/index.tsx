@@ -235,7 +235,11 @@ export default class Index extends React.Component {
           name: 'AI',
           open: false,
           pages: [],
-          target:[], 
+          target:[
+            'inference',
+            'visionAlgorithms',
+            'faceRecognition',
+          ], 
         },
         {
           id: 'worker',
@@ -298,7 +302,10 @@ export default class Index extends React.Component {
           name: 'Taro',
           open: false,
           pages: [],
-          target:[], 
+          target:[
+            'expand',
+            'hooks',
+          ], 
         },
       ]
     }
