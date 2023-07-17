@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-react-devtools",
-  "version": "3.7.0-alpha.7",
+  "version": "3.7.0-canary.1",
   "description": "Taro 小程序端支持使用 React DevTools 的插件",
   "main": "index.js",
   "scripts": {
