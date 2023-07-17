@@ -1,6 +1,6 @@
-import Taro from "@tarojs/taro"
-import { shouldBeObject } from "src/utils"
-import { MethodHandler } from "src/utils/handler"
+import Taro from '@tarojs/taro'
+import { shouldBeObject } from 'src/utils'
+import { MethodHandler } from 'src/utils/handler'
 
 export const closeBluetoothAdapter: typeof Taro.closeBluetoothAdapter = (options) => {
   const name = 'closeBluetoothAdapter'

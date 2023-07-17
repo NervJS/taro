@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 export const onGetWifiList: typeof Taro.onGetWifiList = (callback) => {
   // @ts-ignore

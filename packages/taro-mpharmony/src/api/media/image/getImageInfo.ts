@@ -25,7 +25,7 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
 
   const handle = new MethodHandler<{
     height: 0
-    orientation: "up"
+    orientation: 'up'
     path: ''
     type: ''
     width: 0

@@ -1,4 +1,4 @@
-import Taro from "@tarojs/taro"
+import Taro from '@tarojs/taro'
 
 export const onGyroscopeChange: typeof Taro.onGyroscopeChange = (callback) => {
   // @ts-ignore

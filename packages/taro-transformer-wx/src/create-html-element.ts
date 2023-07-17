@@ -22,6 +22,8 @@ interface Options {
   name: string
   attributes: object
   value: string
+
+  
 }
 
 function stringifyAttributes (input: object, componentName: string) {
