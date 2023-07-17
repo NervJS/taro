@@ -1,76 +1,74 @@
 const PLATFORM_TYPE = require('@tarojs/shared').PLATFORM_TYPE
 const reactNativeBabelPreset = require('metro-react-native-babel-preset')
 const { merge } = require('lodash')
-const fs = require('fs')
+const path = require('path')
+const helper = require('@tarojs/helper')
 /**
  *
  * 获取项目级配置
  *
  */
-let config
-let rnConfig
-function getProjectConfig () {
-  if (config) return config
-  const fileName = `${process.cwd()}/config/index.js`
-  if (fs.existsSync(fileName)) {
-    config = require(`${process.cwd()}/config/index`)(merge)
-    return config
-  } else {
-    console.warn('缺少项目基本配置')
-    config = {}
-    return config
-  }
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development'
 }
-
-function getRNConfig () {
-  const config = getProjectConfig()
-  if (rnConfig) return rnConfig
-  if (config.rn) {
-    rnConfig = config.rn
-  } else {
-    rnConfig = {}
-  }
-  return rnConfig
+const {
+  getModuleDefaultExport,
+  createSwcRegister,
+  resolveScriptPath,
+} = helper
+let config = {}
+const appPath = process.cwd()
+const CONFIG_DIR_NAME = 'config'
+const DEFAULT_CONFIG_FILE = 'index'
+const configPath = resolveScriptPath(path.join(appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
+createSwcRegister({
+  only: [
+    filePath => filePath.indexOf(path.join(process.cwd(), CONFIG_DIR_NAME)) >= 0
+  ]
+})
+try {
+  const userExport = getModuleDefaultExport(require(configPath))
+  config = typeof userExport === 'function' ? userExport(merge) : userExport
+} catch (err) {
+  console.warn(err)
 }
+const rnconfig = config.rn || {}
 
 /**
  * 配置环境变量
  */
 function getEnv () {
-  const config = getProjectConfig()
   const envConst = {
     'process.env.TARO_ENV': 'rn',
     'process.env.TARO_PLATFORM': PLATFORM_TYPE.RN,
   }
+
   if (config.env) {
-    Object.keys(config.env).forEach((key) => {
+    for (const [key, value] of Object.entries(config.env)) {
       try {
-        envConst[`process.env.${key}`] = JSON.parse(config.env[key])
-      } catch (e) {
-        console.error('env环境配置有误' + config.env[key])
+        envConst[`process.env.${key}`] = JSON.parse(value)
+      } catch {
+        console.error('env环境配置有误' + value)
       }
-    })
-  }
-  if (!config.env || !config.env.NODE_ENV) {
-    if (process.env.NODE_ENV === 'development') {
-      envConst['process.env.NODE_ENV'] = 'development'
-    } else {
-      envConst['process.env.NODE_ENV'] = 'production'
     }
   }
+
+  const nodeEnv = process.env.NODE_ENV || 'production'
+  envConst['process.env.NODE_ENV'] = config.env?.NODE_ENV || nodeEnv === 'development' ? 'development' : 'production'
+
   return envConst
 }
 
-function parseDefineConst (config) {
+function parseDefineConst (defineConstants) {
   const result = {}
-  Object.keys(config.defineConstants).forEach((key) => {
+  for (const [key, value] of Object.entries(defineConstants)) {
     try {
-      result[key] = JSON.parse(config.defineConstants[key])
+      result[key] = JSON.parse(value)
     } catch (e) {
       console.error('defineConstants error: ', e)
       result[key] = ''
     }
-  })
+  }
   return result
 }
 
@@ -79,26 +77,16 @@ function parseDefineConst (config) {
  * @returns {*}
  */
 function getDefineConstants () {
-  const config = getProjectConfig()
-  const rnconfig = getRNConfig()
   const env = getEnv()
-  if (rnconfig.defineConstants) {
-    return {
-      ...parseDefineConst(rnconfig),
-      ...env
-    }
+  const constantsToParse = rnconfig?.defineConstants || config?.defineConstants
+  
+  return {
+    ...(constantsToParse ? parseDefineConst(constantsToParse) : {}),
+    ...env
   }
-  if (config.defineConstants) {
-    return {
-      ...parseDefineConst(config),
-      ...env
-    }
-  }
-  return env
 }
 
 function getCSSModule () {
-  const rnconfig = getRNConfig()
   if (rnconfig.postcss && rnconfig.postcss.cssModules) {
     return rnconfig.postcss.cssModules.enable
   }
@@ -106,9 +94,6 @@ function getCSSModule () {
 }
 
 module.exports = (_, options = {}) => {
-  if (!process.env.NODE_ENV) {
-    process.env.NODE_ENV = 'development'
-  }
   const {
     decoratorsBeforeExport,
     decoratorsLegacy
@@ -125,7 +110,7 @@ module.exports = (_, options = {}) => {
   const defineConstants = getDefineConstants()
   const presets = []
   const plugins = []
-  const { enableMultipleClassName = false, enableMergeStyle = false } = getRNConfig()
+  const { enableMultipleClassName = false, enableMergeStyle = false } = rnconfig
 
   presets.push(reactNativeBabelPreset(_, options))
   plugins.push(

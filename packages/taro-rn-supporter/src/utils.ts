@@ -1,38 +1,43 @@
 import * as helper from '@tarojs/helper'
 import * as fs from 'fs'
-import { isEmpty, merge } from 'lodash'
+import { merge } from 'lodash'
 import { networkInterfaces } from 'os'
 import * as path from 'path'
 
 import { Config, RNConfig } from './types/index'
 
+const {
+  getModuleDefaultExport,
+  createSwcRegister,
+  resolveScriptPath,
+} = helper
+let config = {}
+const appPath = process.cwd()
+const CONFIG_DIR_NAME = 'config'
+const DEFAULT_CONFIG_FILE = 'index'
+const configPath = resolveScriptPath(path.join(appPath, CONFIG_DIR_NAME, DEFAULT_CONFIG_FILE))
+createSwcRegister({
+  only: [
+    filePath => filePath.indexOf(path.join(process.cwd(), CONFIG_DIR_NAME)) >= 0
+  ]
+})
+try {
+  const userExport = getModuleDefaultExport(require(configPath))
+  config = typeof userExport === 'function' ? userExport(merge) : userExport
+} catch (err) {
+  console.warn(err)
+}
+
 // 编译config
-let GLOBAL_CONFIG: Config = {}
+const GLOBAL_CONFIG: Config = config || {}
 let FROM_TARO = false
-let RN_CONFIG: RNConfig = {}
+const RN_CONFIG: RNConfig = GLOBAL_CONFIG.rn || {}
 
 function getProjectConfig () {
-  if (!isEmpty(GLOBAL_CONFIG)) return GLOBAL_CONFIG
-  const fileName = `${process.cwd()}/config/index.js`
-  if (fs.existsSync(fileName)) {
-    GLOBAL_CONFIG = require(`${process.cwd()}/config/index`)(merge)
-    return GLOBAL_CONFIG
-  } else {
-    console.warn('缺少项目基本配置')
-    GLOBAL_CONFIG = {}
-    return GLOBAL_CONFIG
-  }
+  return GLOBAL_CONFIG
 }
 
 function getRNConfig () {
-  if (!isEmpty(RN_CONFIG)) return RN_CONFIG
-
-  const config = getProjectConfig()
-  if (config.rn) {
-    RN_CONFIG = config.rn
-  } else {
-    RN_CONFIG = {}
-  }
   return RN_CONFIG
 }
 
