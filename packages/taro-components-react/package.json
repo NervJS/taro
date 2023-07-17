@@ -39,7 +39,7 @@
     "@rollup/plugin-babel": "^5.2.1",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "rollup": "^2.79.0",
+    "rollup": "^3.26.2",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-ts": "^3.0.2",

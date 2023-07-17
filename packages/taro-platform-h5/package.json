@@ -55,7 +55,7 @@
     "@rollup/plugin-typescript": "^11.1.0",
     "@tarojs/taro": "workspace:*",
     "@types/node": "^14.14.31",
-    "rollup": "^3.8.1",
+    "rollup": "^3.26.2",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "ts-node": "^10.9.1",
