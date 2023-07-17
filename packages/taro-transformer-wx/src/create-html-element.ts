@@ -86,9 +86,9 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     const nameCapitalized = capitalized(name)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
-      if (options.attributes.className) {
-        options.attributes.class = options.attributes.className
-        delete options.attributes.className
+      if (options.attributes['className']) {
+        options.attributes['class'] = options.attributes['className']
+        delete options.attributes['className']
       }
     }
     if (isFirstEmit && name === 'div' && transformOptions.isRoot) {
