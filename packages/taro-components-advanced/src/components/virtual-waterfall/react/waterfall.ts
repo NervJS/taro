@@ -200,11 +200,10 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   }
 
   public scrollTo (scrollOffset = 0) {
-    const { enhanced } = this.props
     scrollOffset = Math.max(0, scrollOffset)
     if (this.state.scrollOffset === scrollOffset) return
 
-    if (enhanced) {
+    if (this.preset.enhanced) {
       const option: any = {
         animated: true,
         duration: 500
@@ -338,7 +337,6 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       style,
       height,
       width,
-      enhanced = false,
       renderTop,
       renderBottom,
       ...rest
@@ -357,7 +355,6 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       className: classNames(className, 'virtual-waterfall'),
       onScroll: this.#onScroll,
       ref: this.#outerRefSetter,
-      enhanced,
       style: {
         height: convertNumber2PX(height),
         width: convertNumber2PX(width),
@@ -368,7 +365,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       },
     }
 
-    if (!enhanced) {
+    if (!this.preset.enhanced) {
       outerProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
     }
 

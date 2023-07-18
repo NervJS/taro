@@ -120,6 +120,10 @@ export default class Preset {
     Object.assign(this.#wrapperField, o)
   }
 
+  get enhanced () {
+    return this.props.enhanced || true
+  }
+
   isShaking (diff?: number) {
     if (isWeb) return false
     const list = this.diffList.slice(-3)

@@ -47,7 +47,7 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
   /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
-   * @default false
+   * @default true
    * @note 部分平台不支持，使用时请注意甄别
    */
   enhanced?: boolean

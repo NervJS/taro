@@ -53,7 +53,7 @@ export default defineComponent({
     },
     enhanced: {
       type: Boolean,
-      default: false
+      default: true
     },
     shouldResetStyleCacheOnItemSizeChange: {
       type: Boolean,
