@@ -23,7 +23,7 @@ interface Options {
   attributes: object
   value: string
 
-  
+
 }
 
 function stringifyAttributes (input: object, componentName: string) {
@@ -86,8 +86,11 @@ export const createHTMLElement = (options: Options, isFirstEmit = false) => {
     const nameCapitalized = capitalized(name)
     if (quickappComponentName.has(nameCapitalized)) {
       options.name = `taro-${name}`
+      // @ts-ignore
       if (options.attributes.className) {
+        // @ts-ignore
         options.attributes.class = options.attributes.className
+        // @ts-ignore
         delete options.attributes.className
       }
     }

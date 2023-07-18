@@ -290,6 +290,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           })
         }
         if ((componentName === 'Input' || componentName === 'input') && name === 'maxLength') {
+          // @ts-ignore
           obj.maxlength = value
         } else if (
           (componentSpecialProps && componentSpecialProps.has(name)) ||
