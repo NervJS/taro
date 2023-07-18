@@ -19,7 +19,6 @@ export const startLocationUpdateBackground: typeof Taro.startLocationUpdateBackg
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('start location update background')
   // @ts-ignore
   const ret = native.startLocationUpdateBackground({
     success: (res: any) => {

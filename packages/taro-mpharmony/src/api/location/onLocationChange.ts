@@ -10,7 +10,6 @@ export const onLocationChange: typeof Taro.onLocationChange = (callback) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  console.log('on location change')
   // @ts-ignore
   const ret = native.onLocationChange(callback)
   return ret

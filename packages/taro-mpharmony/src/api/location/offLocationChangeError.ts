@@ -10,7 +10,6 @@ export const offLocationChangeError: typeof Taro.offLocationChangeError = (callb
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  console.log('off location change error')
   // @ts-ignore
   const ret = native.offLocationChangeError(callback)
   return ret

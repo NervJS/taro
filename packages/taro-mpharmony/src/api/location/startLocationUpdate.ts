@@ -19,7 +19,6 @@ export const startLocationUpdate: typeof Taro.startLocationUpdate = (options) =>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  console.log('start location update')
   // @ts-ignore
   const ret = native.startLocationUpdate({
     success: (res: any) => {
