@@ -1,6 +1,28 @@
 $float-layout-timer: 300ms;
 $zindex-flot-layout: 810 !default;
-@import "../variables/default";
+$float-layout-height-min: 600px !default;
+$float-layout-height-max: 950px !default;
+$color-bg: #FFF !default;
+
+$hd: 2 !default; // 基本单位
+$color-bg-grey: #F7F7F7 !default;
+$spacing-h-sm: 5px * $hd !default;
+$spacing-v-md: 9px * $hd !default;
+$color-grey-3: #CCC !default;
+$font-size-lg: 16px * $hd !default; // 常规标题
+$spacing-v-xs: 3px * $hd !default;
+$spacing-v-sm: 6px * $hd !default;
+$spacing-v-md: 9px * $hd !default;
+$spacing-v-lg: 12px * $hd !default;
+$spacing-v-xl: 15px * $hd !default;
+$font-size-base: 14px * $hd !default; // 常用字号
+$color-text-base: #333 !default; // 文字的基本色
+$line-height-zh: 1.5 !default; // 中文多行
+$float-layout-header-bg-color: $color-bg-grey !default;
+$float-layout-title-color: $color-text-base !default;
+$float-layout-title-font-size: $font-size-lg !default;
+$float-layout-btn-color: $color-grey-3 !default;
+//@import "../variables/default";
 
 .at-float-layout {
   position: fixed;
