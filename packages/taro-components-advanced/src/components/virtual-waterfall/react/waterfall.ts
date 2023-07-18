@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
-import { cancelTimeout, convertNumber2PX, defaultItemKey, getScrollViewContextNode, requestTimeout } from '../../../utils'
+import { cancelTimeout, convertNumber2PX, defaultItemKey, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import ListMap from '../list-map'
 import Preset, { type IProps } from '../preset'
@@ -276,6 +276,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     const style = this.preset.getItemStyle(index)
     return React.createElement<any>(this.preset.itemElement, {
       key,
+      id: `${id}-${index}-wrapper`,
       style
     }, React.createElement(item, {
       id: `${id}-${index}`,
@@ -338,8 +339,10 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       height,
       width,
       enhanced = false,
+      renderTop,
+      renderBottom,
       ...rest
-    } = this.props
+    } = omit(this.props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
     const {
       id,
       isScrolling,
@@ -378,7 +381,10 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     return React.createElement(
       this.preset.outerElement,
       outerProps,
+      renderTop,
       React.createElement(this.preset.innerElement, {
+        key: `${id}-wrapper`,
+        id: `${id}-wrapper`,
         className: classNames(className, 'virtual-waterfall-wrapper'),
         style: {
           display: 'flex',
@@ -389,7 +395,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
           width: '100%',
           ...style
         },
-      } as any, columnNodes)
+      } as any, columnNodes),
+      renderBottom,
     )
   }
 }

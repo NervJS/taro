@@ -1,5 +1,5 @@
 import type { BaseEventOrig, BaseEventOrigFunction, ScrollViewProps, StandardProps } from '@tarojs/components'
-import type { Component, ComponentType, CSSProperties } from 'react'
+import type { Component, ComponentType, CSSProperties, ReactNode } from 'react'
 
 interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'> {
   /** 高度 */
@@ -63,6 +63,10 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
    * @default View
    */
   itemElementType?: ComponentType | string
+  /** 顶部区域 */
+  renderTop?: ReactNode
+  /** 底部区域 */
+  renderBottom?: ReactNode
   /** 滚动时调用函数 */
   onScroll?: (event: VirtualWaterfallProps.IVirtualWaterfallEvent<VirtualWaterfallProps.IVirtualWaterfallEventDetail>) => void
   /** 调用平台原生的滚动监听函数。 */

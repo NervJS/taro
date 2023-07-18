@@ -4,7 +4,7 @@ import type { ElementAttrs, TransformReact2VueType, VueComponentType } from '@ta
 import type { App } from 'vue'
 import type { VirtualWaterfallProps } from '../'
 
-export type VueVirtualWaterfallProps = VirtualWaterfallProps
+export type VueVirtualWaterfallProps = Omit<VirtualWaterfallProps, 'renderTop' | 'renderBottom'>
 
 declare global {
   namespace JSX {
