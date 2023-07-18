@@ -231,7 +231,7 @@ export default class ListMap {
       if (!columns[x]) this.updateItem(x * this.#columns + column)
       if (!columns[y]) this.updateItem(y * this.#columns + column)
     }
-    return Math.max(0, Math.min(getOffset(columns[x]) > offset ? x - 1 : y + 1, columns.length - 1))
+    return Math.max(0, Math.min(getOffset(columns[x]) > offset ? x : y, columns.length - 1) - 1)
   }
 
   getStopIndex (column: number, offset: number, start = 0) {
@@ -254,7 +254,7 @@ export default class ListMap {
       if (!columns[x]) this.updateItem(x * this.#columns + column)
       if (!columns[y]) this.updateItem(y * this.#columns + column)
     }
-    return Math.max(0, Math.min(getOffset(columns[x]) > offset ? x : y, columns.length - 1))
+    return Math.max(1, Math.min(getOffset(columns[x]) > offset ? x : y, columns.length - 1) + 1)
   }
 
   getRangeToRender (direction: 'forward' | 'backward', column: number, offset: number, block = false) {
