@@ -1,4 +1,4 @@
-import '../../style/components/grid.scss'
+import './style/index.scss'
 
 import React, { PureComponent, ReactElement, ReactNode } from 'react'
 import GridLayout from 'react-grid-layout'

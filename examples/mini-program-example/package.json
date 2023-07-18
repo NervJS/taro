@@ -30,7 +30,8 @@
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
     "dev:mpharmony": "npm run build:mpharmony -- --watch",
-    "dev:mpandroid": "npm run build:mpandroid -- --watch"
+    "dev:mpandroid": "npm run build:mpandroid -- --watch",
+    "clear:mpharmony": "rm -rf node_modules/.taro/mpharmony && npm run dev:mpharmony"
   },
   "browserslist": [
     "last 3 versions",
