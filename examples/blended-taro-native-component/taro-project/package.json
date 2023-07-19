@@ -1,5 +1,5 @@
 {
-  "name": "blend-taro-component",
+  "name": "blend-taro-native-component",
   "version": "1.0.0",
   "private": true,
   "description": "",
@@ -9,8 +9,7 @@
     "css": "sass"
   },
   "scripts": {
-    "build": "taro build native-components --type weapp --watch",
-    "dev": "taro build --type weapp --watch"
+    "dev": "taro build --type weapp --build-components-independent --watch"
   },
   "browserslist": [
     "last 3 versions",

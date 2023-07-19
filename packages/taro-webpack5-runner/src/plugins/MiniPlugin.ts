@@ -166,6 +166,7 @@ export default class TaroMiniPlugin {
       addChunkPages,
       framework,
       isBuildPlugin,
+      isBuildCompIndependent,
     } = this.options
     /** build mode */
     compiler.hooks.run.tapAsync(
@@ -337,7 +338,9 @@ export default class TaroMiniPlugin {
     )
 
     new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
-    this.addLoadChunksPlugin(compiler)
+    if (isBuildCompIndependent) {
+      this.addLoadChunksPlugin(compiler)
+    }
   }
 
   addLoadChunksPlugin (compiler: Compiler) {
