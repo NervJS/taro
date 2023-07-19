@@ -84,7 +84,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     if (typeof this.props.onItemsRendered === 'function') {
       if (this.props.itemCount > 0) {
         if (prevProps && prevProps.itemCount !== this.props.itemCount) {
-          for (let columnIndex = 0; columnIndex < this.preset.columns; columnIndex++) {
+          for (let columnIndex = 0; columnIndex < this.itemMap.columns; columnIndex++) {
             const [overscanStartIndex, overscanStopIndex] = this.#getRangeToRender(columnIndex)
             this.#callOnItemsRendered(columnIndex, overscanStartIndex, overscanStopIndex)
           }
@@ -168,8 +168,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       scrollTop,
       scrollLeft
     } = event.currentTarget
-    const clientHeight = this.preset.wrapperHeight
-    const clientWidth = this.preset.wrapperWidth
+    const clientHeight = this.itemMap.wrapperHeight
+    const clientWidth = this.itemMap.wrapperWidth
     this.setState((prevState: IState) => {
       const diffOffset = this.preset.field.scrollTop - scrollTop
       if (prevState.scrollOffset === scrollTop || this.preset.isShaking(diffOffset)) {
@@ -260,19 +260,20 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }
   }
 
-  getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {
+  getRenderItemNode (index: number, type: 'node' | 'brick' | 'placeholder' = 'node') {
     const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.props
     const { id, isScrolling } = this.state
     const key = itemKey(index, itemData)
 
+    const style = this.preset.getItemStyle(index)
     if (type === 'placeholder') {
       return React.createElement<any>(this.preset.itemElement, {
         key,
-        style: { display: 'none' }
+        id: `${id}-${index}-wrapper`,
+        style: this.preset.isBrick ? style : { display: 'none' }
       })
     }
 
-    const style = this.preset.getItemStyle(index)
     return React.createElement<any>(this.preset.itemElement, {
       key,
       id: `${id}-${index}-wrapper`,
@@ -294,38 +295,51 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       style: {
         height: '100%',
         position: 'relative',
-        width: convertNumber2PX(this.preset.columnWidth)
+        width: convertNumber2PX(this.itemMap.columnWidth)
       }
     }
 
     const [startIndex, stopIndex] = this.#getRangeToRender(index)
     const items = []
-    if (this.preset.isRelative) {
+    if (this.preset.isRelative && !this.preset.isBrick) {
       const [itemIndex] = this.itemMap.getItemsInfoFromPosition(index, startIndex)
-      const pre = convertNumber2PX(this.itemMap.getOffsetSize(itemIndex))
-      items.push(
-        React.createElement<any>(this.preset.itemElement, {
-          key: `${id}-${index}-pre`,
-          id: `${id}-${index}-pre`,
-          style: {
-            height: pre,
-            width: '100%'
-          }
-        })
-      )
+      if (itemIndex >= 0) {
+        const pre = convertNumber2PX(this.itemMap.getOffsetSize(itemIndex))
+        items.push(
+          React.createElement<any>(this.preset.itemElement, {
+            key: `${id}-${index}-pre`,
+            id: `${id}-${index}-pre`,
+            style: {
+              height: pre,
+              width: '100%'
+            }
+          })
+        )
+      }
     }
     const placeholderCount = this.preset.placeholderCount
     let restCount = itemCount - stopIndex
     restCount =  restCount > 0 ? restCount : 0
     const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
     const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
-    this.itemMap.updateItem((stopIndex + postPlaceholder) * this.preset.columns + index)
-    for (let i = startIndex - prevPlaceholder; i <= stopIndex + postPlaceholder; i++) {
+    const visibleItem = (stopIndex + postPlaceholder) * this.itemMap.columns + index
+    this.itemMap.updateItem(visibleItem)
+    for (let i = 0; i <= stopIndex + postPlaceholder; i++) {
+      if (!this.preset.isBrick) {
+        if (i < startIndex - prevPlaceholder) {
+          i = startIndex - prevPlaceholder
+          continue
+        } else if (i > stopIndex + postPlaceholder) {
+          break
+        }
+      }
       const [itemIndex] = this.itemMap.getItemsInfoFromPosition(index, i)
-      if (i < startIndex || i > stopIndex) {
-        items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
-      } else {
-        items.push(this.getRenderItemNode(itemIndex))
+      if (itemIndex >= 0) {
+        if (i < startIndex || i > stopIndex) {
+          items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
+        } else {
+          items.push(this.getRenderItemNode(itemIndex))
+        }
       }
     }
     return React.createElement(this.preset.innerElement, columnProps, items)
@@ -369,9 +383,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       outerProps.scrollTop = scrollUpdateWasRequested ? scrollOffset : this.preset.field.scrollTop
     }
 
-    const columns = this.preset.columns
     const columnNodes: React.ReactNode[] = []
-    for (let i = 0; i < columns; i++) {
+    for (let i = 0; i < this.itemMap.columns; i++) {
       columnNodes.push(this.getRenderColumnNode(i))
     }
 

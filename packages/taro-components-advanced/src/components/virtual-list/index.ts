@@ -30,9 +30,9 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
    * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
    */
   itemSize: number | ((index?: number, itemData?: T[]) => number)
-  /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。
+  /** 解开高度列表单项大小限制，默认值使用: itemSize。
    *
-   * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患
+   * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患，建议将单页大小设置接近于现实高度，在该模式下可以提升用户体验。
    * @default false
    */
   unlimitedSize?: boolean

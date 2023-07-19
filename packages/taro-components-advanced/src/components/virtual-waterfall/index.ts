@@ -29,14 +29,22 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
   itemData: T[]
   /** 单项的大小 */
   itemSize: number | ((index?: number, itemData?: T[]) => number)
+  /** 解开高度列表单项大小限制，默认值使用: itemSize。
+   *
+   * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患，建议将单页大小设置接近于现实高度，在该模式下可以提升用户体验。
+   * >  - unlimitedSize 模式下如果传入函数，只会调用一次用于设置初始值
+   * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
+   * @default false
+   */
+  unlimitedSize?: boolean
   /** 布局方式
    * @default "absolute"
    */
-  position?: 'absolute' | 'relative'
+  position?: 'absolute' | 'relative' | 'brick'
   /** 初始滚动偏移值 */
   initialScrollOffset?: number
   /** 在可视区域之外预渲染的距离，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。
-   * > 建议至少大于等于 itemSize 的最大值
+   * > 建议至少大于等于 itemSize 的最大值，但不要设置超过虚拟列表高度。
    * @default 50
    */
   overscanDistance?: number

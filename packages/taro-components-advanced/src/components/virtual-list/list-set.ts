@@ -96,9 +96,7 @@ export default class ListSet {
   }
 
   getSizeCount (offset = 0) {
-    if (offset === 0) {
-      return 0
-    }
+    if (offset === 0) return 0
     // if (this.isNormalMode) {
     //   return Math.min(this.length - 1, Math.floor(offset / this.length))
     // }

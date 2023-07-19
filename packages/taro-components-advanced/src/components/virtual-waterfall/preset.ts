@@ -26,7 +26,7 @@ export default class Preset {
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
-    this.itemMap = new ListMap(this.columns, props, refresh)
+    this.itemMap = new ListMap(props, refresh)
   }
 
   #wrapperField = {
@@ -38,11 +38,6 @@ export default class Preset {
     clientWidth: 0,
     diffOffset: 0
   }
-
-  wrapperHeight = 0
-  wrapperWidth = 0
-  columns = 2
-  columnWidth = 0
 
   diffList: number[] = [0, 0, 0]
 
@@ -56,36 +51,24 @@ export default class Preset {
   }
 
   async updateWrapper (id: string) {
-    const { width = 0, height = 0, column, columnWidth } = this.props
+    const { width = 0, height = 0 } = this.props
     const validWidth = typeof width === 'number' && width > 0
     const validHeight = typeof height === 'number' && height > 0
     if (validWidth) {
-      this.wrapperWidth = width
+      this.itemMap.wrapperWidth = width
     }
     if (validHeight) {
-      this.wrapperHeight = height
-      this.itemMap.clientSize = height
+      this.itemMap.wrapperHeight = height
     }
 
     if (!validHeight || !validWidth) {
       const res = await getRectSizeSync(`#${id}`, 100)
-      this.wrapperWidth ||= res.width
-      this.wrapperHeight ||= res.height
-      this.itemMap.clientSize ||= res.height
+      this.itemMap.wrapperWidth ||= res.width
+      this.itemMap.wrapperHeight ||= res.height
       this.refresh?.()
     }
 
-    if (typeof column === 'number' && column > 0) {
-      this.columns = column
-      this.columnWidth = this.wrapperWidth / column
-    } else if (typeof columnWidth === 'number' && columnWidth > 0) {
-      this.columns = Math.floor(this.wrapperWidth / columnWidth)
-      this.columnWidth = columnWidth
-    } else {
-      this.columns = 2
-      this.columnWidth = this.wrapperWidth / this.columns
-    }
-    this.itemMap.updateColumns(this.columns, this.props)
+    this.itemMap.update(this.props)
   }
 
   get id () {
@@ -93,7 +76,11 @@ export default class Preset {
   }
 
   get isRelative () {
-    return this.props.position === 'relative'
+    return this.props.position && this.props.position !== 'absolute'
+  }
+
+  get isBrick () {
+    return this.props.position === 'brick'
   }
 
   get placeholderCount () {
@@ -125,7 +112,7 @@ export default class Preset {
   }
 
   isShaking (diff?: number) {
-    if (isWeb) return false
+    if (isWeb || this.props.enhanced) return false
     const list = this.diffList.slice(-3)
     this.diffList.push(diff)
     return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))
@@ -150,7 +137,8 @@ export default class Preset {
 
     let style
 
-    const [, nodeOffset, nodeSize] = this.itemMap.getItemInfo(index)
+    const [, nodeSize] = this.itemMap.getItemInfo(index)
+    const nodeOffset = this.itemMap.getOffsetSize(index)
     const offset = convertNumber2PX(nodeOffset)
     const size = convertNumber2PX(nodeSize)
     if (itemStyleCache.hasOwnProperty(index)) {

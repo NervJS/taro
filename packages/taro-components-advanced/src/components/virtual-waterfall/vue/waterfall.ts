@@ -31,6 +31,10 @@ export default defineComponent({
       type: [Number, Function],
       required: true
     },
+    unlimitedSize: {
+      type: Boolean,
+      default: false
+    },
     position: {
       type: String,
       default: 'absolute'
