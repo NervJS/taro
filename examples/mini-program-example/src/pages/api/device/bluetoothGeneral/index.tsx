@@ -14,22 +14,50 @@ export default class Index extends React.Component {
             {
                 id: 'stopBluetoothDevicesDiscovery',
                 func: () => {
-                    Taro.stopBluetoothDevicesDiscovery({
+                    Taro.openBluetoothAdapter({
                         success: (res) => {
-                            console.log('success-----', res);
+                          console.log('openBluetoothAdapter success', res);
+                          Taro.stopBluetoothDevicesDiscovery({
+                            success: (res) => {
+                                console.log('stopBluetoothDevicesDiscovery success-----', res);
+                            },
+                            fail: (res) => {
+                                console.log('stopBluetoothDevicesDiscovery fail-----', res);
+                            },
+                            complete: (res) => {
+                                console.log('stopBluetoothDevicesDiscovery complete-----', res);
+                            },
+                        })
+                        },
+                        fail: (res) => {
+                            console.log('openBluetoothAdapter fail', res);
                         }
-                      })
+                    })
+                    
                 },
             }, 
             {
                 id: 'startBluetoothDevicesDiscovery',
                 func: () => {
-                    Taro.startBluetoothDevicesDiscovery({
-                        allowDuplicatesKey: true,
+                    Taro.openBluetoothAdapter({
                         success: (res) => {
-                          console.log('startBluetoothDevicesDiscovery success', res);
+                          console.log('openBluetoothAdapter success', res);
+                          Taro.startBluetoothDevicesDiscovery({
+                            success: (res) => {
+                                console.log('startBluetoothDevicesDiscovery success-----', res);
+                            },
+                            fail: (res) => {
+                                console.log('startBluetoothDevicesDiscovery fail', res);
+                            },
+                            complete: (res) => {
+                                console.log('startBluetoothDevicesDiscovery complete-----', res);
+                            },
+                        })
                         },
-                      })
+                        fail: (res) => {
+                            console.log('openBluetoothAdapter fail', res);
+                        }
+                    })
                 },
             },
             {
@@ -41,8 +69,11 @@ export default class Index extends React.Component {
                         },
                         fail: (res) => {
                             console.log('openBluetoothAdapter fail', res);
-                        }
-                      })
+                        },
+                        complete: (res) => {
+                            console.log('openBluetoothAdapter complete', res);
+                        },
+                    })
                 },
             }, 
             {
@@ -99,8 +130,14 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.getBluetoothDevices({
                         success: (res) => {
-                            console.log('success-----', res);
-                        }
+                            console.log('getBluetoothDevices success ', res);
+                        },
+                        fail: (res) => {
+                            console.log('getBluetoothDevices fail', res);
+                        },
+                        complete: (res) => {
+                            console.log('getBluetoothDevices complete', res);
+                        },
                     })
                 },
             }, 
@@ -109,8 +146,14 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.getBluetoothAdapterState({
                         success: (res) => {
-                            console.log('success-----', res);
-                        }
+                            console.log('getBluetoothAdapterState success', res);
+                        },
+                        fail: (res) => {
+                            console.log('getBluetoothAdapterState fail', res);
+                        },
+                        complete: (res) => {
+                            console.log('getBluetoothAdapterState complete', res);
+                        },
                     })
                 },
             }, 
@@ -119,8 +162,14 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.closeBluetoothAdapter({
                         success: (res) => {
-                            console.log('success-----', res);
-                        }
+                            console.log('closeBluetoothAdapter success', res);
+                        },
+                        fail: (res) => {
+                            console.log('closeBluetoothAdapter fail', res);
+                        },
+                        complete: (res) => {
+                            console.log('closeBluetoothAdapter complete', res);
+                        },
                     })
                 },
             },  

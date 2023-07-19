@@ -27,6 +27,46 @@ export default class Index extends React.Component {
                             console.log('cameraContext.takePhoto complete ', res)
                         }
                     });
+                    cameraContext.onCameraFrame((frame) => {
+                        console.log(frame.data instanceof ArrayBuffer, frame.width, frame.height)
+                    });
+                    cameraContext.setZoom({
+                        zoom: 70,
+                        success: (res) => {
+                            console.log('cameraContext.setZoom success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('cameraContext.setZoom fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('cameraContext.setZoom complete ', res)
+                        }
+                    });
+                    cameraContext.startRecord({
+                        success: (res) => {
+                            console.log('cameraContext.startRecord success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('cameraContext.startRecord fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('cameraContext.startRecord complete ', res)
+                        },
+                        timeoutCallback: (res) => {
+                            console.log('cameraContext.startRecord timeoutCallback ', res)
+                        },
+                    });
+                    cameraContext.stopRecord({
+                        success: (res) => {
+                            console.log('cameraContext.stopRecord success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('cameraContext.stopRecord fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('cameraContext.stopRecord complete ', res)
+                        }
+                    });
                 },
             }, 
         ], 

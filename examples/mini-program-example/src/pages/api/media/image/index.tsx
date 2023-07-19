@@ -23,7 +23,10 @@ export default class Index extends React.Component {
                         },
                         fail: function (res) {
                             console.log('chooseImage fail ', res.errMsg);
-                        }
+                        },
+                        complete: function(res){
+                            console.log('chooseImage complete ', res.errMsg);
+                        },
                     })
                 },
             }, 
@@ -38,17 +41,26 @@ export default class Index extends React.Component {
                           console.log('chooseImage success');
                           Taro.previewImage({
                             urls: res.tempFilePaths,
-                            success: function(){
+                            current: 'test/currentField',
+                            showmenu: false,
+                            referrerPolicy: 'origin',
+                            success: function(res){
                                 console.log('previewImage success ', res.errMsg);
                             },
-                            fail: function(){
+                            fail: function(res){
                                 console.log('previewImage fail ',res.errMsg);
+                            },
+                            complete: function(res){
+                                console.log('previewImage complete ', res.errMsg);
                             },
                           })
                         },
                         fail: function (res) {
                             console.log('chooseImage fail ', res.errMsg);
-                        }
+                        },
+                        complete: function(res){
+                            console.log('chooseImage complete ', res.errMsg);
+                        },
                     })
                 },
             }, 
@@ -64,6 +76,9 @@ export default class Index extends React.Component {
                             },
                             fail: function (res) {
                                 console.log('getImageInfo fail ', res.errMsg);
+                            },
+                            complete: function(res){
+                                console.log('getImageInfo complete ', res.errMsg);
                             },
                           })
                         }
@@ -83,6 +98,9 @@ export default class Index extends React.Component {
                             fail: function (res) {
                                 console.log('saveImageToPhotosAlbum fail ', res.errMsg);
                             },
+                            complete: function(res){
+                                console.log('saveImageToPhotosAlbum complete ', res.errMsg);
+                            }
                           })
                         }
                     })
@@ -96,12 +114,17 @@ export default class Index extends React.Component {
                           Taro.compressImage({
                             quality: 80,
                             src: res.tempFilePaths[0],
+                            compressedWidth: 300,
+                            compressHeight: 200,
                             success: function (res) {
                                 console.log('compressImage success ', res.errMsg);
                             },
                             fail: function (res) {
                                 console.log('compressImage fail ', res.errMsg);
                             },
+                            complete: function(res){
+                                console.log('compressImage complete ', res.errMsg);
+                            }
                           })
                         }
                     })
