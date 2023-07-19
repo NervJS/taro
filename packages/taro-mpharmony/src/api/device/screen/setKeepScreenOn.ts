@@ -1,6 +1,6 @@
-import Taro from "@tarojs/taro"
-import { getParameterError, shouldBeObject } from "src/utils"
-import { MethodHandler } from "src/utils/handler"
+import Taro from '@tarojs/taro'
+import { getParameterError, shouldBeObject } from 'src/utils'
+import { MethodHandler } from 'src/utils/handler'
 
 export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
   const name = 'setKeepScreenOn'

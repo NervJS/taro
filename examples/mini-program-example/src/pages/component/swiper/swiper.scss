@@ -47,9 +47,16 @@
   }
 }
 .demo-text {
-  &-1,
-  &-2,
+  &-1 {
+    height: 150PX;
+    background-color: #0bb20c;
+  }
+  &-2 {
+    height: 150PX;
+    background-color: #4F7DE2;
+  }
   &-3 {
     height: 150PX;
+    background-color: #ce3c39;
   }
 }

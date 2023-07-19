@@ -59,7 +59,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getContents.html
      */
-    getContents(option?: EditorContext.GetContentsOption): void
+    getContents(option?: EditorContext.GetContents.Option): void
     /** 获取编辑器已选区域内的纯文本内容。当编辑器失焦或未选中一段区间时，返回内容为空。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.getSelectionText.html
@@ -137,13 +137,22 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
-    interface GetContentsOption {
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用成功的回调函数 */
-      success?: (res: TaroGeneral.CallbackResult) => void
+    namespace GetContents {
+      interface Option {
+        /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+        complete?: (res: TaroGeneral.CallbackResult) => void
+        /** 接口调用失败的回调函数 */
+        fail?: (res: TaroGeneral.CallbackResult) => void
+        /** 接口调用成功的回调函数 */
+        success?: (res: SuccessCallbackResult) => void
+      }
+      interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+        text: string;
+
+        html: string;
+
+        delta: any;
+      }
     }
     namespace getSelectionText {
       interface Option {

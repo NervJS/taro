@@ -17,7 +17,7 @@ img[src=""] {
 
 .taro-img__mode-scaletofill {
   object-fit: contain;
-  width: 100%;
+  width: 50%;
   height: 100%;
 }
 

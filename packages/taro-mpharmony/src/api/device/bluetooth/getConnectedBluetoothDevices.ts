@@ -1,6 +1,6 @@
-import Taro from "@tarojs/taro"
-import { getParameterError, shouldBeObject } from "src/utils"
-import { MethodHandler } from "src/utils/handler"
+import Taro from '@tarojs/taro'
+import { getParameterError, shouldBeObject } from 'src/utils'
+import { MethodHandler } from 'src/utils/handler'
 
 export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevices = (options) => {
   const name = 'getConnectedBluetoothDevices'

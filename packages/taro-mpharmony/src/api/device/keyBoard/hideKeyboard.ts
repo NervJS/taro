@@ -1,6 +1,6 @@
-import Taro from "@tarojs/taro"
-import { shouldBeObject } from "src/utils"
-import { MethodHandler } from "src/utils/handler"
+import Taro from '@tarojs/taro'
+import { shouldBeObject } from 'src/utils'
+import { MethodHandler } from 'src/utils/handler'
 
 export const hideKeyboard: typeof Taro.hideKeyboard = (options) => {
   const name = 'hideKeyboard'

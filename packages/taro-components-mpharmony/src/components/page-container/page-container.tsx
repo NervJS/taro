@@ -1,4 +1,4 @@
-import '../../style/components/page-container.scss'
+import './style/index.scss'
 
 import classNames from 'classnames'
 import React, { PureComponent, ReactNode } from 'react'

@@ -1,6 +1,6 @@
-import Taro from "@tarojs/taro"
-import { shouldBeObject } from "src/utils"
-import { MethodHandler } from "src/utils/handler"
+import Taro from '@tarojs/taro'
+import { shouldBeObject } from 'src/utils'
+import { MethodHandler } from 'src/utils/handler'
 
 export const getSavedFileList: typeof Taro.getSavedFileList = (options) => {
   const name = 'getSavedFileList'

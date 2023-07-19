@@ -17,6 +17,17 @@ export function shouldBeObject (target: unknown) {
   }
 }
 
+export function shouldBeFunction (target: unknown) {
+  if (target && typeof target === 'function') return { flag: true }
+  return {
+    flag: false,
+    msg: getParameterError({
+      correct: 'Function',
+      wrong: target
+    })
+  }
+}
+
 export function findDOM (inst?): TaroElement | HTMLElement | undefined {
   if (inst && hooks.isExist('getDOMNode')) {
     return hooks.call('getDOMNode', inst)
