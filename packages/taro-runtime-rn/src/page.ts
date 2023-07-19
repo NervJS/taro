@@ -1,4 +1,3 @@
-import { getCurrentRoute, isTabPage, PageProvider } from '@tarojs/router-rn'
 import { Component, Context, createContext, createElement, createRef, forwardRef, RefObject } from 'react'
 import { AppState, Dimensions, EmitterSubscription, RefreshControl, ScrollView } from 'react-native'
 
@@ -7,6 +6,7 @@ import { Current } from './current'
 import { eventCenter } from './emmiter'
 import EventChannel from './EventChannel'
 import { Instance, PageInstance } from './instance'
+import { getCurrentRoute, isTabPage, PageProvider } from './router'
 import { BackgroundOption, BaseOption, CallbackResult, HooksMethods, PageConfig, ScrollOption, TextStyleOption } from './types/index'
 import { EMPTY_OBJ, errorHandler, getPageStr, incrementId, isArray, isFunction, successHandler } from './utils'
 
@@ -154,16 +154,15 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
           this.unSubscribleTabPress = navigation.addListener('tabPress', () => this.onTabItemTap())
           this.unSubscribleFocus = navigation.addListener('focus', () => this.onFocusChange())
           this.unSubscribleBlur = navigation.addListener('blur', () => this.onBlurChange())
+          // 如果是tabbar页面，因为tabbar是懒加载的，第一次点击事件还未监听，不会触发，初始化触发一下
+          const lazy = globalAny.__taroAppConfig?.appConfig?.rn?.tabOptions?.lazy ?? true
+          if(isTabPage() && lazy){
+            this.onTabItemTap()
+          }
         }
         eventCenter.on('__taroPullDownRefresh', this.pullDownRefresh, this)
         eventCenter.on('__taroPageScrollTo', this.pageToScroll, this)
         eventCenter.on('__taroSetRefreshStyle', this.setRefreshStyle, this)
-        
-        // 如果是tabbar页面，因为tabbar是懒加载的，第一次点击事件还未监听，不会触发，初始化触发一下
-        const lazy = globalAny.__taroAppConfig?.appConfig?.rn?.tabOptions?.lazy ?? true
-        if(isTabPage() && lazy){
-          this.onTabItemTap()
-        }
       }
 
       componentWillUnmount () {
@@ -186,7 +185,7 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       setPageInstance () {
         const pageRef = this.screenRef
         const pageId = this.pageId
-        const { params = {}, key = '' } = this.props.route
+        const { params = {}, key = '' } = this.props.route ?? {}
         // 和小程序的page实例保持一致
         const inst: PageInstance = {
           config: pageConfig,
@@ -419,11 +418,14 @@ export function createPageConfig (Page: any, pageConfig: PageConfig): any {
       }
 
       createPage () {
-        return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
-          h(PageContext.Provider, { value: this.pageId }, h(Screen,
-            { ...this.props, ref: this.screenRef })
+        if (PageProvider) {
+          return h(PageProvider, { currentPath: pagePath, pageConfig, ...this.props },
+            h(PageContext.Provider, { value: this.pageId }, h(Screen,
+              { ...this.props, ref: this.screenRef })
+            )
           )
-        )
+        }
+        return h(PageContext.Provider, { value: this.pageId }, h(Screen, { ...this.props, ref: this.screenRef }))
       }
 
       createScrollPage () {

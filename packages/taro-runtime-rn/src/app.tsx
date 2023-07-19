@@ -1,11 +1,12 @@
 import { Provider as TCNProvider } from '@tarojs/components-rn'
-import { createRouter, getInitOptions, RouterConfig, RouterOption } from '@tarojs/router-rn'
-import React, { Component, ComponentProps, createRef, forwardRef } from 'react'
+import React, { Component, ComponentProps, createElement,createRef, forwardRef } from 'react'
 import { RootSiblingParent } from 'react-native-root-siblings'
 
 import { Current } from './current'
+import EventChannel from './EventChannel'
 import { AppInstance, PageLifeCycle } from './instance'
 import { getPageInstance } from './page'
+import { createRouter, getInitOptions, getRouteEventChannel } from './router'
 import { RNAppConfig } from './types/index'
 import { HOOKS_APP_ID, isFunction } from './utils'
 
@@ -17,8 +18,13 @@ export function isClassComponent (component): boolean {
 }
 
 
-export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
-  const routerConfig: RouterConfig = {
+export function createReactNativeApp (AppEntry: any, config: RNAppConfig, FirstPage: any) {
+  const singleMode = config?.appConfig?.rn?.singleMode ?? false
+  const needNavigate = config.pageList.length !== 1 || !singleMode
+  if (needNavigate) {
+    getRouteEventChannel(EventChannel.routeChannel)
+  }
+  const routerConfig: any = {
     tabBar: config.appConfig.tabBar,
     pages: config.pageList,
     entryPagePath: config.appConfig.entryPagePath,
@@ -50,10 +56,12 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
       }
 
       componentDidMount () {
-        const options = getInitOptions(routerConfig)
-        triggerAppLifecycle('onLaunch',options)
-        triggerAppLifecycle('componentDidShow',options)
-
+        let options: any = {}
+        if (needNavigate) {
+          options = getInitOptions(routerConfig)
+        }
+        triggerAppLifecycle('onLaunch', options)
+        triggerAppLifecycle('componentDidShow', options)
       }
 
       // 导航onUnhandledAction
@@ -69,21 +77,28 @@ export function createReactNativeApp (AppEntry: any, config: RNAppConfig) {
           ...this.props
         }
 
-        const routerOptions: RouterOption = {
-          onUnhandledAction: this.onUnhandledAction
+        let routerOptions: any = {}
+        if (needNavigate) {
+          routerOptions = {
+            onUnhandledAction: this.onUnhandledAction,
+          }
         }
-        
-        return <RootSiblingParent>
-          <TCNProvider {...this.props}>
-            <AppComponent {...appProps} ref={appRef}>
-              {createRouter(routerConfig, routerOptions)}
-            </AppComponent>
-          </TCNProvider>
-        </RootSiblingParent>
+
+        const child = needNavigate ? createRouter(routerConfig, routerOptions) : createElement(FirstPage, { ...this.props }, [])
+
+        return createElement(
+          RootSiblingParent,
+          null,
+          createElement(
+            TCNProvider,
+            { ...this.props },
+            createElement(AppComponent, { ...appProps, ref: appRef }, child)
+          )
+        )
       }
     }
   }
-
+  
   const App = NewAppComponent(entryComponent)
 
   // 与小程序端实例保持一致
