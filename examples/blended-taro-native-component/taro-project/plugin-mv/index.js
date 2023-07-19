@@ -3,10 +3,6 @@ const path = require('path')
 
 export default (ctx, options) => {
   ctx.onBuildFinish(() => {
-    const isBuildComponent = ctx.runOpts._[1]
-
-    if (!isBuildComponent) return
-
     console.log('编译结束！')
 
     const rootPath = path.resolve(__dirname, '../..')
