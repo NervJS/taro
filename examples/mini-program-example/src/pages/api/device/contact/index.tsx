@@ -61,7 +61,13 @@ export default class Index extends React.Component {
                             title: '联系人创建失败'
                           })
                           console.log('fail-----');
-                        }
+                        },
+                        complete: (res) => {
+                            Taro.showToast({
+                                title: '联系人创建完成'
+                              })
+                            console.log('complete-----', res);
+                        },
                       })
                 },
             }, 

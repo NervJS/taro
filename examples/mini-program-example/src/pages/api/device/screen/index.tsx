@@ -28,6 +28,24 @@ export default class Index extends React.Component {
                         },
                         fail: (res) => {
                             console.log('fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        }
+                    }),
+                    Taro.setScreenBrightness({
+                        value: 0,
+                        success: (res) => {
+                            this.setState({
+                                brightValue: 1,
+                            })
+                            console.log('success-----', res);
+                        },
+                        fail: (res) => {
+                            console.log('fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
                         }
                     })
                 },
@@ -38,7 +56,25 @@ export default class Index extends React.Component {
                     Taro.setKeepScreenOn({
                         keepScreenOn: true,
                         success: (res) => {
-                            console.log('success-----', res);
+                            console.log('setKeepScreenOn(true) success-----', res);
+                        },
+                        fail: (res) => {
+                            console.log('setKeepScreenOn(true) fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('setKeepScreenOn(true) complete-----', res);
+                        }
+                    }),
+                    Taro.setKeepScreenOn({
+                        keepScreenOn: false,
+                        success: (res) => {
+                            console.log('setKeepScreenOn(false) success-----', res);
+                        },
+                        fail: (res) => {
+                            console.log('setKeepScreenOn(false) fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('setKeepScreenOn(false) complete-----', res);
                         }
                     })
                 },
@@ -62,9 +98,39 @@ export default class Index extends React.Component {
             {
                 id: 'getScreenBrightness',
                 func: () => {
-                    Taro.getScreenBrightness({
+
+                    Taro.setScreenBrightness({
+                        value: 0,
                         success: (res) => {
-                            console.log('success-----', res);
+                            console.log('setKeepScreenOn(true) success-----', res);
+                            Taro.getScreenBrightness({
+                                success: (res) => {
+                                    console.log('success-----', res);
+                                },
+                                fail: (res) => {
+                                    console.log('fail-----', res);
+                                },
+                                complete: (res) => {
+                                    console.log('complete-----', res);
+                                }
+                            })
+                        }
+                    }),
+                    Taro.setScreenBrightness({
+                        value: 1,
+                        success: (res) => {
+                            console.log('setKeepScreenOn(false) success-----', res);
+                            Taro.getScreenBrightness({
+                                success: (res) => {
+                                    console.log('success-----', res);
+                                },
+                                fail: (res) => {
+                                    console.log('fail-----', res);
+                                },
+                                complete: (res) => {
+                                    console.log('complete-----', res);
+                                }
+                            })
                         }
                     })
                 },

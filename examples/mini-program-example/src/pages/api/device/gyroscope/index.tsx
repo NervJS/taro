@@ -17,6 +17,12 @@ export default class Index extends React.Component {
                     Taro.stopGyroscope({
                         success: (res) => {
                             console.log('success-----', res)
+                        },
+                        fail: (res) => {
+                            console.log('fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
                         }
                     })
                 },
@@ -27,7 +33,14 @@ export default class Index extends React.Component {
                     Taro.startGyroscope({
                         success: (res) => {
                             console.log('success-----', res)
-                        }
+                        },
+                        fail: (res) => {
+                            console.log('fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        },
+                        interval: 'normal'
                     })
                 },
             }, 

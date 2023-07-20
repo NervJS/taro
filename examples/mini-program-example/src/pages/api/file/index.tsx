@@ -19,11 +19,15 @@ export default class Index extends React.Component {
                           var tempFilePaths = res.tempFilePaths
                           Taro.saveFile({
                             tempFilePath: tempFilePaths[0],
+                            filePath: 'D:/common',
                             success: function (res) {
                               console.log('saveFile success ', res.savedFilePath, res.errMsg)
                             },
                             fail: function (res) {
                                 console.log('saveFile fail ', res.errMsg)
+                            },
+                            complete: function(res) {
+                                console.log('saveFile complete ', res)
                             },
                           })
                         }
@@ -39,6 +43,9 @@ export default class Index extends React.Component {
                         },
                         fail: function (res) {
                             console.log('getSavedFileList fail', res.errMsg)
+                        },
+                        complete: function(res) {
+                            console.log('getSavedFileList complete ', res)
                         },
                     })
                 },
@@ -60,6 +67,9 @@ export default class Index extends React.Component {
                                 },
                                 fail: function (res) {
                                   console.log('getSavedFileInfo fail', res.errMsg)
+                                },
+                                complete: function(res) {
+                                    console.log('getSavedFileInfo complete ', res)
                                 },
                               })
                             },
@@ -89,6 +99,9 @@ export default class Index extends React.Component {
                                 fail: function (res) {
                                   console.log('getFileInfo fail', res.errMsg)
                                 },
+                                complete: function(res) {
+                                    console.log('getFileInfo complete ', res)
+                                },
                               })
                             },
                             fail: function (res) {
@@ -113,6 +126,9 @@ export default class Index extends React.Component {
                                     },
                                     fail: function(res) {
                                         console.log('removeSavedFile fail ', res.errMsg)
+                                    },
+                                    complete: function(res) {
+                                        console.log('removeSavedFile complete ', res)
                                     },
                                 })
                             }
