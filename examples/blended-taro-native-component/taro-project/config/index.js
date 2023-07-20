@@ -11,7 +11,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: ['@tarojs/plugin-indie', path.join(process.cwd(), '/plugin-mv/index.js')],
+  plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
   framework: 'react',
   compiler: {
     type: 'webpack5',

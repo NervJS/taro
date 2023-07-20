@@ -339,7 +339,6 @@ export default class TaroMiniPlugin {
   }
 
   addLoadChunksPlugin (compiler: Compiler) {
-    const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
     const fileChunks = new Map<string, { name: string }[]>()
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
@@ -364,21 +363,25 @@ export default class TaroMiniPlugin {
         }
       })
       compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
-        if (!getChunkEntryModule(compilation, chunk)) return modules
+        const entryModule = getChunkEntryModule(compilation, chunk)
+        if (!entryModule) return modules
         // addChunkPages
         if (fileChunks.size) {
           let source
           const id = getChunkIdOrName(chunk)
-          if (appName === id) {
-            // app.js已经统一处理过不用再处理，其他组件和页面都引入公共文件
-            return modules
+          const { miniType } = entryModule as any 
+          const entryChunk = [{ name: 'app' }]
+          // 所有模块都依赖app.js，确保@tarojs\plugin-platform-xxx\dist\runtime.js先于@tarojs/runtime执行，避免Taro API未被初始化
+          if (this.nativeComponents.has(id) || miniType === META_TYPE.STATIC) {
+            fileChunks.forEach((v, k) => {
+              if (k === id) {
+                source = addRequireToSource(id, modules, v) 
+              }
+            })
+            return source
+          } else if (miniType === META_TYPE.PAGE) {
+            return addRequireToSource(id, modules, entryChunk)
           }
-          fileChunks.forEach((v, k) => {
-            if (k === id) {
-              source = addRequireToSource(id, modules, v) 
-            }
-          })
-          return source
         }
       })
     })
@@ -1269,6 +1272,7 @@ export default class TaroMiniPlugin {
    * 小程序全局样式文件中引入 common chunks 中的公共样式文件
    */
   injectCommonStyles ({ assets }: Compilation, { webpack }: Compiler) {
+    const { isBuildCompIndependent } = this.options
     const { ConcatSource, RawSource } = webpack.sources
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
@@ -1295,23 +1299,36 @@ export default class TaroMiniPlugin {
       source.add(commons)
       source.add('\n')
       assets[appStyle] = source
-      // 本地化组件引入common公共样式文件
-      this.pages.forEach(page => {
-        if (page.isNative || !this.nativeComponents.has(page.name)) return
-        const pageStyle = `${page.name}${styleExt}`
-        // 本地化组件如果没有wxss则直接写入一个空的
-        if (!(pageStyle in assets)) {
-          assets[pageStyle] = new ConcatSource('')
-        }
-        printLog(processTypeEnum.COMPILE, `[${pageStyle}] 引入公共样式`)
-        const source = new ConcatSource('')
-        const originSource = assets[pageStyle]
-        componentCommons.forEach(item => {
-          source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), item)))};\n`)
+      if (isBuildCompIndependent) {
+        // 本地化组件引入common公共样式文件
+        this.pages.forEach(page => {
+          if (page.isNative) return
+          const pageStyle = `${page.name}${styleExt}`
+          if (this.nativeComponents.has(page.name)) {
+            // 本地化组件如果没有wxss则直接写入一个空的
+            if (!(pageStyle in assets)) {
+              assets[pageStyle] = new ConcatSource('')
+            }
+            printLog(processTypeEnum.COMPILE, `[${pageStyle}] 本地化组件引入公共样式`)
+            const source = new ConcatSource('')
+            const originSource = assets[pageStyle]
+            componentCommons.forEach(item => {
+              source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), item)))};\n`)
+            })
+            source.add(originSource)
+            assets[pageStyle] = source
+          } else {
+            if (pageStyle in assets) {
+              printLog(processTypeEnum.COMPILE, `[${pageStyle}] 页面引入公共样式`)
+              const source = new ConcatSource('')
+              const originSource = assets[pageStyle]
+              source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), 'app.wxss')))};\n`)
+              source.add(originSource)
+              assets[pageStyle] = source
+            }
+          }
         })
-        source.add(originSource)
-        assets[pageStyle] = source
-      })
+      }
     }
   }
 

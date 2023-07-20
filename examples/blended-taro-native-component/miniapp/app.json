@@ -1,5 +1,11 @@
 {
-  "pages": ["pages/index/index", "taro/pages/index/index", "taro/pages/detail/index"],
+  "pages": ["pages/index/index", "taro/pages/index/index"],
+  "subpackages": [
+    {
+      "root": "taro/pages/detail/",
+      "pages": ["index"]
+    }
+  ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
