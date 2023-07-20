@@ -286,18 +286,13 @@ export default class TaroMiniPlugin {
             })
           }
         } else if (module.miniType === META_TYPE.COMPONENT) {
-          const isNativeComponent = this.nativeComponents.has(module.name)
-          const loaderName = isNativeComponent || isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : '@tarojs/taro-loader/lib/component'
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : '@tarojs/taro-loader/lib/component'
           if (!isLoaderExist(module.loaders, loaderName)) {
-            const loaderMetaEx = { ...loaderMeta }
-            if (isNativeComponent) {
-              loaderMetaEx.frameworkArgs += ', true'
-            }
             module.loaders.unshift({
               loader: loaderName,
               options: {
                 framework,
-                loaderMeta: loaderMetaEx,
+                loaderMeta,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 runtimePath: this.options.runtimePath
@@ -344,6 +339,7 @@ export default class TaroMiniPlugin {
   }
 
   addLoadChunksPlugin (compiler: Compiler) {
+    const appName = path.basename(this.appEntry).replace(path.extname(this.appEntry), '')
     const fileChunks = new Map<string, { name: string }[]>()
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
@@ -373,8 +369,8 @@ export default class TaroMiniPlugin {
         if (fileChunks.size) {
           let source
           const id = getChunkIdOrName(chunk)
-          const isNativeComponent = this.nativeComponents.has(id)
-          if (!isNativeComponent) {
+          if (appName === id) {
+            // app.js已经统一处理过不用再处理，其他组件和页面都引入公共文件
             return modules
           }
           fileChunks.forEach((v, k) => {
@@ -767,6 +763,10 @@ export default class TaroMiniPlugin {
         const componentPath = resolveMainFilePath(path.resolve(path.dirname(file.path), item.path))
         if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
           const componentName = this.getComponentName(componentPath)
+          if (this.nativeComponents.has(componentName)) {
+            // 本地化组件使用Page进行处理，此处直接跳过
+            return
+          }
           const componentTempPath = this.getTemplatePath(componentPath)
           const isNative = this.isNativePageORComponent(componentTempPath)
           const componentObj = {
@@ -1276,12 +1276,14 @@ export default class TaroMiniPlugin {
 
     const originSource = assets[appStyle] || new RawSource('')
     const commons = new ConcatSource('')
+    const componentCommons: string[] = []
 
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if ((REG_STYLE.test(assetName) || REG_STYLE_EXT.test(assetName)) && this.options.commonChunks.includes(fileName)) {
         commons.add('\n')
         commons.add(`@import ${JSON.stringify(urlToRequest(assetName))};`)
+        componentCommons.push(assetName)
       }
     })
 
@@ -1293,6 +1295,23 @@ export default class TaroMiniPlugin {
       source.add(commons)
       source.add('\n')
       assets[appStyle] = source
+      // 本地化组件引入common公共样式文件
+      this.pages.forEach(page => {
+        if (page.isNative || !this.nativeComponents.has(page.name)) return
+        const pageStyle = `${page.name}${styleExt}`
+        // 本地化组件如果没有wxss则直接写入一个空的
+        if (!(pageStyle in assets)) {
+          assets[pageStyle] = new ConcatSource('')
+        }
+        printLog(processTypeEnum.COMPILE, `[${pageStyle}] 引入公共样式`)
+        const source = new ConcatSource('')
+        const originSource = assets[pageStyle]
+        componentCommons.forEach(item => {
+          source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), item)))};\n`)
+        })
+        source.add(originSource)
+        assets[pageStyle] = source
+      })
     }
   }
 

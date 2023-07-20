@@ -9,7 +9,8 @@
     "css": "sass"
   },
   "scripts": {
-    "dev": "taro build --type weapp --build-components-independent --watch"
+    "build": "taro build native-components --type weapp --watch",
+    "dev": "taro build --type weapp --build-components-independent --blended --watch"
   },
   "browserslist": [
     "last 3 versions",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
+    "@tarojs/plugin-indie": "0.0.8",
     "@types/react": "^16.0.0",
     "@types/webpack-env": "^1.13.6",
     "babel-preset-taro": "3.6.7",

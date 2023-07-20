@@ -3,5 +3,6 @@
   "projectname": "miniapp",
   "setting": {
     "compileHotReLoad": true
-  }
+  },
+  "condition": {}
 }

@@ -11,7 +11,7 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
+  plugins: ['@tarojs/plugin-indie', path.join(process.cwd(), '/plugin-mv/index.js')],
   framework: 'react',
   compiler: {
     type: 'webpack5',
@@ -60,7 +60,7 @@ const config = {
         }
       }
     }
-  }
+  },
 }
 
 module.exports = function (merge) {
