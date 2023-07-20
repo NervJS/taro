@@ -20,7 +20,10 @@ export default class Index extends React.Component {
                         },
                         fail: (res) => {
                             console.log('fail-----', res);
-                        }
+                        },
+                        complete: (res) => {
+                            console.log('complete------', res);
+                        },
                     })
                 },
             }, 
@@ -33,7 +36,10 @@ export default class Index extends React.Component {
                         },
                         fail: (res) => {
                             console.log('fail-----', res);
-                        }
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        },
                     })
                 },
             },
@@ -104,9 +110,12 @@ export default class Index extends React.Component {
                         success: (res) => {
                             console.log('success-----', res);
                         },
-                        fail (err) {
-                            console.error(err)
-                        }
+                        fail: (res) => {
+                            console.log('file------', res)
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        },
                     })
                 },
             },
@@ -119,7 +128,10 @@ export default class Index extends React.Component {
                         },
                         fail (err) {
                             console.error(err)
-                        }
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        },
                     })
                 },
             },
@@ -132,7 +144,13 @@ export default class Index extends React.Component {
                         password:'L02281531',
                         success: (res) => {
                           console.log('success-----', res.errMsg)
-                        }
+                        },
+                        fail (err) {
+                            console.error(err)
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        },
                       })
                 },
             },

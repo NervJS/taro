@@ -17,6 +17,12 @@ export default class Index extends React.Component {
                     phoneNumber: inputValue,
                     success: (res) => {
                         console.log('success-----', res);
+                    },
+                    fail: (res) => {
+                        console.log('fail-----', res);
+                    },
+                    complete: (res) => {
+                        console.log('complete-----', res);
                     }
                 })
             },
