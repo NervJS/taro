@@ -56,7 +56,7 @@ const apiDiff: IApiDiff = {
     },
     set: [{
       key: 'content',
-      value: function value(options) {
+      value: function value (options) {
         if (options.content === undefined) {
           options.content = ''
         }
