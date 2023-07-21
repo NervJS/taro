@@ -100,6 +100,11 @@ export const Editor: React.FC<EditorProps> = (props) => {
       tagName='taro-editor-core'
       textareaName='taro-editor-core'
       init={{
+        // setup: (editor) => {
+        //   editor.on('ExecCommand', function (e) {
+        //     console.error('ExecCommand', e);
+        //   });
+        // },
         readonly: props.readOnly,
         placeholder: props.placeholder,
         width: '100%',
@@ -117,25 +122,43 @@ export const Editor: React.FC<EditorProps> = (props) => {
         skin: false,
         content_css: false,
         content_style: contentUiSkinCss.toString() + '\n' + contentCss.toString(),
-        // formats: {
-        //   alignleft: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'left' },
-        //   aligncenter: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'center' },
-        //   alignright: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'right' },
-        //   alignjustify: { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', classes: 'full' },
-        //   bold: { inline: 'span', 'classes': 'bold', styles: { 'font-weight': 'bold' } },
-        //   italic: { inline: 'span', 'classes': 'italic', styles: { 'font-weight': 'italic' } },
-        //   underline: { inline: 'span', styles: { 'text-decoration': 'underline' }, exact: true },
-        //   strikethrough: { inline: 'span', styles: { 'text-decoration': 'line-through' }, exact: true },
-        //   forecolor: { inline: 'span', classes: 'forecolor', styles: { color: '%value' } },
-        //   hilitecolor: { inline: 'span', classes: 'hilitecolor', styles: { backgroundColor: '%value' } },
-        // },
+        formats: {
+          // https://www.tiny.cloud/docs/tinymce/6/content-formatting/#format-type
+
+          'margin': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'margin': '%value' } },
+          'marginTop': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'margin-top': '%value' } },
+          'marginBottom': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'margin-bottom': '%value' } },
+          'marginLeft': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'margin-left': '%value' } },
+          'marginRight': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'margin-right': '%value' } },
+
+          'padding': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'padding': '%value' } },
+          'paddingTop': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'padding-top': '%value' } },
+          'paddingBottom': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'padding-bottom': '%value' } },
+          'paddingLeft': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'padding-left': '%value' } },
+          'paddingRight': { selector: 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video', styles: { 'padding-right': '%value' } },
+
+          'font': { inline: 'font', styles: { 'font': '%value' } },
+          'fontSize': { inline: 'font', styles: { 'font-size': '%value' } },
+          'fontStyle': { inline: 'font', styles: { 'font-style': '%value' } },
+          'fontVariant': { inline: 'font', styles: { 'font-variant': '%value' } },
+          'fontWeight': { inline: 'font', styles: { 'font-weight': '%value' } },
+          'fontFamily': { inline: 'font', styles: { 'font-family': '%value' } },
+
+          'lineHeight': { inline: 'span', styles: { 'line-height': '%value' } },
+          'letterSpacing': { inline: 'span', styles: { 'letter-spacing': '%value' } },
+          'textDecoration': { inline: 'span', styles: { 'text-decoration': '%value' } },
+          'textIndent': { inline: 'span', styles: { 'text-indent': '%value' } },
+          'wordWrap': { inline: 'span', styles: { 'word-wrap': '%value' } },
+          'wordBreak': { inline: 'span', styles: { 'word-break': '%value' } },
+          'whiteSpace': { inline: 'span', styles: { 'white-space': '%value' } },
+        },
         plugins: [
           'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
           'insertdatetime', 'media', 'table', 'autoresize', 'autosave', 'wordcount',
         ],
         toolbar: 'undo redo | blocks | ' +
-          'bold italic underline forecolor | alignleft aligncenter ' +
+          'bold italic underline forecolor backcolor | alignleft aligncenter ' +
           'alignright alignjustify | bullist numlist outdent indent | ' +
           'removeformat | image | table',
       }}
