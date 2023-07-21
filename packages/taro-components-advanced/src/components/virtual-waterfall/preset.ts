@@ -1,4 +1,5 @@
 import { isWebPlatform } from '@tarojs/shared'
+import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
 
 import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing } from '../../utils'
@@ -23,6 +24,7 @@ export interface IProps extends Partial<VirtualWaterfallProps> {
 
 export default class Preset {
   itemMap: ListMap
+  #id: string
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
@@ -51,6 +53,7 @@ export default class Preset {
   }
 
   async updateWrapper (id: string) {
+    this.id = id
     const { width = 0, height = 0 } = this.props
     const validWidth = typeof width === 'number' && width > 0
     const validHeight = typeof height === 'number' && height > 0
@@ -71,8 +74,13 @@ export default class Preset {
     this.itemMap.update(this.props)
   }
 
+  set id (id: string) {
+    this.#id = id
+  }
+
   get id () {
-    return `virtual-waterfall-${INSTANCE_ID++}`
+    this.#id ||= `virtual-waterfall-${INSTANCE_ID++}`
+    return this.#id
   }
 
   get isRelative () {
@@ -119,58 +127,32 @@ export default class Preset {
   }
 
   getItemStyleCache = memoizeOne((
-    _itemSize?: IProps['itemSize'] | false,
+    itemIndex?: number,
+    itemSize?: IProps['itemSize'] | false,
+    _flag = this.itemMap.refreshCounter
   ) => {
-    // TODO: Cache of item styles, keyed by item index.
-    return {}
+    itemSize = itemSize || this.itemMap.getSize(itemIndex)
+    const style: CSS.Properties<string | number> = this.isRelative ? {} : {
+      position: 'absolute',
+      left: 0,
+    }
+    style.width = '100%'
+    style.height = convertNumber2PX(itemSize)
+    if (!this.isRelative) {
+      const nodeOffset = this.itemMap.getOffsetSize(itemIndex)
+      style.top = convertNumber2PX(nodeOffset)
+    }
+    return style
   })
 
-  getItemStyle (index: number) {
+  getItemStyle (itemIndex: number) {
     const {
-      itemSize,
       shouldResetStyleCacheOnItemSizeChange
     } = this.props
 
-    const itemStyleCache = this.getItemStyleCache(
-      shouldResetStyleCacheOnItemSizeChange ? itemSize : false,
+    return this.getItemStyleCache(
+      itemIndex,
+      shouldResetStyleCacheOnItemSizeChange ? this.itemMap.getSize(itemIndex) : false,
     )
-
-    let style
-
-    const [, nodeSize] = this.itemMap.getItemInfo(index)
-    const nodeOffset = this.itemMap.getOffsetSize(index)
-    const offset = convertNumber2PX(nodeOffset)
-    const size = convertNumber2PX(nodeSize)
-    if (itemStyleCache.hasOwnProperty(index)) {
-      // Note: style is frozen.
-      style = { ...itemStyleCache[index] }
-      style.height = size
-      if (!this.isRelative) {
-        style.top = offset
-      }
-    } else {
-      if (this.isRelative) {
-        itemStyleCache[index] = style = {
-          height: size,
-          width: '100%'
-        }
-      } else {
-        itemStyleCache[index] = style = {
-          position: 'absolute',
-          left: 0,
-          top: offset,
-          height: size,
-          width: '100%'
-        }
-      }
-    }
-
-    for (const k in style) {
-      if (style.hasOwnProperty(k)) {
-        style[k] = convertNumber2PX(style[k])
-      }
-    }
-
-    return style
   }
 }

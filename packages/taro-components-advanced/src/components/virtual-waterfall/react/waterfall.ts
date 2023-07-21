@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
-import { cancelTimeout, convertNumber2PX, defaultItemKey, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
+import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSizeSync, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import ListMap from '../list-map'
 import Preset, { type IProps } from '../preset'
@@ -107,12 +107,21 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       }
     }
 
-    // setTimeout(() => {
-    //   const [startIndex, stopIndex] = this.#getRangeToRender()
-    //   for (let index = startIndex; index <= stopIndex; index++) {
-    //     this.#getSizeUploadSync(index)
-    //   }
-    // }, 0)
+    if (this.itemMap.isUnlimitedMode) {
+      setTimeout(() => {
+        for (let column = 0; column < this.itemMap.columns; column++) {
+          const [startIndex, stopIndex] = this.#getRangeToRender(column)
+          for (let row = startIndex; row <= stopIndex; row++) {
+            const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
+            getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100).then(({ height }) => {
+              if (!this.itemMap.compareSizeByPosition(column, row, height)) {
+                this.itemMap.setSizeByPosition(column, row, height)
+              }
+            })
+          }
+        }
+      }, 0)
+    }
   }
 
   // Lazily create and cache item styles while scrolling,
@@ -260,38 +269,37 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }
   }
 
-  getRenderItemNode (index: number, type: 'node' | 'brick' | 'placeholder' = 'node') {
+  getRenderItemNode (itemIndex: number, type: 'node' | 'brick' | 'placeholder' = 'node') {
     const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.props
     const { id, isScrolling } = this.state
-    const key = itemKey(index, itemData)
+    const key = itemKey(itemIndex, itemData)
 
-    const style = this.preset.getItemStyle(index)
+    const style = this.preset.getItemStyle(itemIndex)
     if (type === 'placeholder') {
       return React.createElement<any>(this.preset.itemElement, {
         key,
-        id: `${id}-${index}-wrapper`,
+        id: `${id}-${itemIndex}-wrapper`,
         style: this.preset.isBrick ? style : { display: 'none' }
       })
     }
 
     return React.createElement<any>(this.preset.itemElement, {
       key,
-      id: `${id}-${index}-wrapper`,
+      id: `${id}-${itemIndex}-wrapper`,
       style
     }, React.createElement(item, {
-      id: `${id}-${index}`,
+      id: `${id}-${itemIndex}`,
       data: itemData,
-      index,
+      index: itemIndex,
       isScrolling: useIsScrolling ? isScrolling : undefined
     }))
   }
 
-  getRenderColumnNode (index: number) {
-    const { itemCount } = this.props
+  getRenderColumnNode (columnIndex: number) {
     const { id } = this.state
     const columnProps: any = {
-      key: `${id}-column-${index}`,
-      id: `${id}-column-${index}`,
+      key: `${id}-column-${columnIndex}`,
+      id: `${id}-column-${columnIndex}`,
       style: {
         height: '100%',
         position: 'relative',
@@ -299,43 +307,40 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       }
     }
 
-    const [startIndex, stopIndex] = this.#getRangeToRender(index)
+    const [startIndex, stopIndex] = this.#getRangeToRender(columnIndex)
     const items = []
     if (this.preset.isRelative && !this.preset.isBrick) {
-      const [itemIndex] = this.itemMap.getItemsInfoFromPosition(index, startIndex)
-      if (itemIndex >= 0) {
-        const pre = convertNumber2PX(this.itemMap.getOffsetSize(itemIndex))
-        items.push(
-          React.createElement<any>(this.preset.itemElement, {
-            key: `${id}-${index}-pre`,
-            id: `${id}-${index}-pre`,
-            style: {
-              height: pre,
-              width: '100%'
-            }
-          })
-        )
-      }
+      const pre = convertNumber2PX(this.itemMap.getOffsetSizeCache(columnIndex, startIndex))
+      items.push(
+        React.createElement<any>(this.preset.itemElement, {
+          key: `${id}-${columnIndex}-pre`,
+          id: `${id}-${columnIndex}-pre`,
+          style: {
+            height: pre,
+            width: '100%'
+          }
+        })
+      )
     }
     const placeholderCount = this.preset.placeholderCount
-    let restCount = itemCount - stopIndex
-    restCount =  restCount > 0 ? restCount : 0
+    const restCount = this.itemMap.getColumnLength(columnIndex) - stopIndex
     const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
     const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
-    const visibleItem = (stopIndex + postPlaceholder) * this.itemMap.columns + index
+    const visibleItem = (stopIndex + postPlaceholder) * this.itemMap.columns + columnIndex
     this.itemMap.updateItem(visibleItem)
-    for (let i = 0; i <= stopIndex + postPlaceholder; i++) {
-      if (!this.preset.isBrick) {
-        if (i < startIndex - prevPlaceholder) {
-          i = startIndex - prevPlaceholder
-          continue
-        } else if (i > stopIndex + postPlaceholder) {
-          break
+    for (let row = 0; row <= stopIndex + postPlaceholder; row++) {
+      const itemIndex = this.itemMap.getItemIndexByPosition(columnIndex, row)
+      if (itemIndex >= 0 && itemIndex < this.props.itemCount) {
+        if (!this.preset.isBrick) {
+          if (row < startIndex - prevPlaceholder) {
+            row = startIndex - prevPlaceholder
+            continue
+          } else if (row > stopIndex + postPlaceholder) {
+            break
+          }
         }
-      }
-      const [itemIndex] = this.itemMap.getItemsInfoFromPosition(index, i)
-      if (itemIndex >= 0) {
-        if (i < startIndex || i > stopIndex) {
+
+        if (row < startIndex || row > stopIndex) {
           items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
         } else {
           items.push(this.getRenderItemNode(itemIndex))

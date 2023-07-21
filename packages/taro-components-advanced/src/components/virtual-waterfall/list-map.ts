@@ -1,4 +1,5 @@
 import { isFunction, isNumber } from '@tarojs/shared'
+import memoizeOne from 'memoize-one'
 
 import { getOffsetForIndexAndAlignment } from '../../utils'
 
@@ -9,7 +10,7 @@ type TProps = Pick<IProps, 'column' | 'columnWidth' | 'width' | 'height' | 'item
 export default class ListMap {
   #columns: number
   #columnMap: [number, number][][] = [] // [itemIndex, itemSize]
-  #items: [number, number][] = [] // [columnIndex, rowIndex]
+  #items: string[] = [] // columnIndex-rowIndex
   mode?: 'normal' | 'function' | 'unlimited'
   minItemSize = 0
   maxItemSize = 0
@@ -20,6 +21,8 @@ export default class ListMap {
   columns = 2
   columnWidth = 0
 
+  refreshCounter = 0
+
   constructor (protected props: TProps, protected refresh?: TFunc) {
     // Note: 不考虑列表模式切换情况，可能会导致列表抖动体验过差
     if (this.props.unlimitedSize) {
@@ -28,11 +31,11 @@ export default class ListMap {
       this.mode = 'function'
     } else if (isNumber(this.props.itemSize)) {
       this.mode = 'normal'
-      this.minItemSize = this.props.itemSize
-      this.maxItemSize = this.props.itemSize
     }
 
     this.defaultSize = (isFunction(this.props.itemSize) ? this.props.itemSize() : this.props.itemSize) || 1
+    this.minItemSize = this.defaultSize
+    this.maxItemSize = this.defaultSize
     this.update(props)
   }
 
@@ -104,92 +107,91 @@ export default class ListMap {
       this.columns = 2
       this.columnWidth = this.wrapperWidth / this.columns
     }
-    this.updateColumns(this.columns)
 
-    if (!this.isNormalMode) {
-      this.updateItem(this.length - 1)
-    }
+    this.updateColumns(this.columns)
+    // this.updateItem(this.length - 1)
   }
 
   updateColumns (columns = 2) {
     this.#columns = columns
-    if (!this.isNormalMode) {
+    if (!this.isNormalMode && this.#columns !== columns) {
       this.#columnMap = new Array(this.#columns).fill(0).map(() => [])
       this.#items = []
     }
   }
 
-  // 不支持 normal 模式
   updateItem (itemIndex: number) {
-    if (itemIndex >= this.length) {
-      return this.updateItem(this.length - 1)
-    }
+    if (this.isNormalMode) return
+    if (itemIndex >= this.length) return this.updateItem(this.length - 1)
 
-    if (!this.#items[itemIndex]) {
-      const itemSizeFunc = this.props.itemSize as Exclude<TProps['itemSize'], number>
-      const itemSize = itemSizeFunc(itemIndex, this.props.itemData)
+    for (let i = 0; i <= itemIndex; i++) {
+      const position = this.getItemPosition(i)
+      if (position) continue
+
+      const column = this.minColumnIndex
+      const row = this.getColumnLength(column)
+      this.#items[i] = `${column}-${row}`
+      const itemSize = this.getSizeByPosition(column, row, i)
+      if (!this.compareSizeByPosition(column, row, itemSize)) {
+        this.setSizeByPosition(column, row, itemSize, i)
+      }
+    }
+  }
+
+  setSizeByPosition (column = 0, row = 0, itemSize = this.defaultSize, itemIndex = this.getItemIndexByPosition(column, row)) {
+    if (itemIndex >= 0) {
       if (this.maxItemSize < itemSize || this.maxItemSize === 0) {
         this.maxItemSize = itemSize
       }
       if (this.minItemSize > itemSize || this.minItemSize === 0) {
         this.minItemSize = itemSize
       }
-
-      if (itemIndex > 0) {
-        // Note: 判断上一个 item 是否在同步
-        const lastIndex = itemIndex - 1
-        const position = this.getItemPosition(lastIndex)
-        if (!position) this.updateItem(lastIndex)
-      }
-
-      const column = this.minColumnIndex
-      const row = this.getColumnList(column).length
-
-      this.#items[itemIndex] = [column, row]
-      const columnList = this.getColumnList(column)
-      columnList[row] = [itemIndex, itemSize]
-    }
-  }
-
-  setSize (itemIndex = 0, size = this.defaultSize) {
-    const position = this.getItemPosition(itemIndex)
-    if (position) {
-      const [column, row] = position
-      this.#columnMap[column][row] = [itemIndex, size]
-      if (this.isUnlimitedMode) {
+      this.#columnMap[column][row] = [itemIndex, itemSize]
+      if (!this.isNormalMode) {
         this.refresh?.()
+        this.refreshCounter++
       }
     }
   }
 
   getSize (itemIndex = 0) {
-    const size = this.props.itemSize
     const position = this.getItemPosition(itemIndex)
-    if (!position) return this.defaultSize
-
-    if (this.isFunctionMode && isFunction(size)) {
-      const itemSize = size(itemIndex, this.props.itemData)
-      this.setSize(itemIndex, itemSize)
-      return itemSize
+    if (position) {
+      return this.getSizeByPosition(...position, itemIndex)
+    } else {
+      return this.defaultSize
     }
-    return this.defaultSize
+  }
+
+  getSizeByPosition (column = 0, row = 0, itemIndex = this.getItemIndexByPosition(column, row)) {
+    if (this.isNormalMode) return this.defaultSize
+    let itemSize = this.getColumnList(column)[row]?.[1]
+    if (typeof itemSize === 'number') return itemSize
+
+    itemSize = (isFunction(this.props.itemSize) ? this.props.itemSize(itemIndex, this.props.itemData) : this.props.itemSize) || this.defaultSize
+    this.setSizeByPosition(column, row, itemSize)
+    return itemSize
   }
 
   // 不支持 normal 模式
-  getColumnList (columnIndex: number) {
-    this.#columnMap[columnIndex] ||= []
-    return this.#columnMap[columnIndex]
+  getColumnList (column: number) {
+    this.#columnMap[column] ||= []
+    return this.#columnMap[column]
+  }
+
+  getColumnLength (columnIndex: number) {
+    if (this.isNormalMode) return Math.ceil(this.length / this.#columns)
+
+    return this.getColumnList(columnIndex).length
   }
 
   getColumnSize (columnIndex = 0) {
     if (this.isNormalMode) {
-      const columnLength = Math.ceil(this.length / this.#columns)
-      return this.defaultSize * columnLength
+      return this.defaultSize * this.getColumnLength(columnIndex)
     }
 
     // Note: 不考虑未同步节点情况
-    const columnList = this.getColumnList(columnIndex)
-    return this.getOffsetFormPosition(columnIndex, columnList.length)
+    return this.getOffsetSizeCache(columnIndex, this.getColumnLength(columnIndex))
   }
 
   getItemPosition (itemIndex: number) {
@@ -199,10 +201,10 @@ export default class ListMap {
       return [column, row]
     }
 
-    return this.#items[itemIndex] || false
+    return this.#items[itemIndex]?.split('-').map(Number) || false
   }
 
-  getItemIndexFromPosition (column = 0, row = 0) {
+  getItemIndexByPosition (column = 0, row = 0) {
     if (this.isNormalMode) {
       return row * this.#columns + column
     }
@@ -212,50 +214,24 @@ export default class ListMap {
     return itemIndex
   }
 
-  getItemInfo (itemIndex: number) {
-    const [column, row] = this.getItemPosition(itemIndex) || []
-    if (this.isNormalMode) {
-      return [itemIndex, this.defaultSize]
-    }
-
-    if (typeof column !== 'number') {
-      this.updateItem(itemIndex)
-    }
-    const columnList = this.getColumnList(column)
-    if (!(columnList[row] instanceof Array)) {
-      this.updateItem(itemIndex)
-    }
-    return columnList[row] || []
-  }
-
-  getItemsInfoFromPosition (column = 0, row = 0) {
-    const columnList = this.getColumnList(column)
-    const itemIndex = this.getItemIndexFromPosition(column, row)
-    if (this.isNormalMode) {
-      return [itemIndex, this.defaultSize]
-    }
-
-    if (!(columnList[row] instanceof Array)) {
-      this.updateItem(Math.min(itemIndex, this.length - 1))
-    }
-    return columnList[row] || []
-  }
-
-  getItemDetail (itemIndex: number) {
-    return this.props.itemData[itemIndex]
-  }
-
   getOffsetSize (itemIndex: number) {
     const [column, row] = this.getItemPosition(itemIndex) || []
-    return this.getOffsetFormPosition(column, row)
+    return this.getOffsetSizeCache(column, row)
   }
 
-  getOffsetFormPosition (column = 0, row = 0) {
+  getOffsetSizeByPosition (column = 0, row = 0) {
     column = Math.max(0, column)
     row = Math.max(0, row)
-    const columnList = this.getColumnList(column)
-    return columnList.slice(0, row).reduce((sum, [, size]) => sum + size, 0)
+    let sum = 0
+    for (let i = 0; i < row; i++) {
+      sum += this.getSizeByPosition(column, i)
+    }
+    return sum
   }
+
+  getOffsetSizeCache = memoizeOne((column, row, _flag = this.refreshCounter) => {
+    return this.getOffsetSizeByPosition(column, row)
+  })
 
   getStartIndex (column: number, offset: number) {
     if (offset <= 0) return 0
@@ -268,16 +244,14 @@ export default class ListMap {
     const columnLength = columnList.length - 1
     let x = Math.floor(offset / (this.maxItemSize || 1))
     let y = Math.ceil(offset / (this.minItemSize || 1))
-    this.updateItem(this.getItemIndexFromPosition(column, y))
+    this.updateItem(this.getItemIndexByPosition(column, y))
     x = Math.min(x, columnLength)
     y = Math.min(y, columnLength)
-    while (this.getOffsetFormPosition(column, x - 1) < offset && this.getOffsetFormPosition(column, y - 1) > offset && x < y) {
+    while (this.getOffsetSizeCache(column, x - 1) < offset && this.getOffsetSizeCache(column, y - 1) > offset && x < y) {
       x < columnLength && x++
       y > 0 && y--
-      if (!columnList[x]) this.updateItem(this.getItemIndexFromPosition(column, x))
-      if (!columnList[y]) this.updateItem(this.getItemIndexFromPosition(column, y))
     }
-    return Math.max(0, Math.min(this.getOffsetFormPosition(column, x - 1) > offset ? x : y, columnLength) - 1)
+    return Math.max(0, Math.min(this.getOffsetSizeCache(column, x - 1) > offset ? x : y, columnLength) - 1)
   }
 
   getStopIndex (column: number, offset: number, start = 0) {
@@ -291,16 +265,14 @@ export default class ListMap {
     const columnLength = columnList.length - 1
     let x = Math.max(start, Math.floor(offset / (this.maxItemSize || 1)))
     let y = Math.max(start, Math.ceil(offset / (this.minItemSize || 1)))
-    this.updateItem(this.getItemIndexFromPosition(column, y))
+    this.updateItem(this.getItemIndexByPosition(column, y))
     x = Math.min(x, columnLength)
     y = Math.min(y, columnLength)
-    while (this.getOffsetFormPosition(column, x) < offset && this.getOffsetFormPosition(column, y) > offset && x < y) {
+    while (this.getOffsetSizeCache(column, x) < offset && this.getOffsetSizeCache(column, y) > offset && x < y) {
       x < columnLength && x++
       y > 0 && y--
-      if (!columnList[x]) this.updateItem(this.getItemIndexFromPosition(column, x))
-      if (!columnList[y]) this.updateItem(this.getItemIndexFromPosition(column, y))
     }
-    return Math.max(1, Math.min(this.getOffsetFormPosition(column, x) > offset ? x : y, columnLength) + 1)
+    return Math.max(1, Math.min(this.getOffsetSizeCache(column, x) > offset ? x : y, columnLength) + 1)
   }
 
   getRangeToRender (direction: 'forward' | 'backward', column: number, offset: number, block = false) {
@@ -326,8 +298,10 @@ export default class ListMap {
     })
   }
 
-  compareSize (itemIndex = 0, size = 0) {
+  compareSizeByPosition (column = 0, row = 0, size = 0) {
     if (this.isNormalMode) return true
-    return this.getSize(itemIndex) === size
+
+    const origenSize = this.#columnMap[column]?.[row]?.[1]
+    return typeof origenSize === 'number' && origenSize === size
   }
 }
