@@ -33,40 +33,7 @@ export default class Index extends React.Component {
             {
                 id: 'Page',
                 func: () => {
-                    @withWeapp({
-                        data: {
-                            theme: 'light',
-                            status: 'lock',
-                        },
-                        onShareAppMessage() {
-                          return {
-                            title: 'onShareAppMessage',
-                            path: 'src/pages/api/framework/index',
-                          }
-                        },
-                        onPullDownRefresh() {
-                            console.log('onPullDownRefresh success')
-                        },
-                        onReachBottom() {
-                            console.log('onReachBottom success')
-                        },
-                        onHide() {
-                            console.log('onHide success')
-                        },
-                        onUnload() {
-                            console.log('onUnload success')
-                        },
-                        onError() {
-                            console.log('onError success')
-                        }
-                    })
-                    class _C extends React.Component {
-                        render() {
-                          return (
-                            <Button>testPage</Button>
-                          )
-                        }
-                    }
+                    console.log('...')
                 }
             }, 
         ], 
