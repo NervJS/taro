@@ -32,6 +32,9 @@ export default class Index extends React.Component {
                         fail: function(res) {
                             console.log('startLocationUpdate fail ', res)
                         },
+                        complete: function(res) {
+                            console.log('startLocationUpdate complete ', res)
+                        },
                     })
                 },
             },

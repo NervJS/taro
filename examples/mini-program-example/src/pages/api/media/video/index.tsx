@@ -27,6 +27,9 @@ export default class Index extends React.Component {
                             fail: function (res) {
                                 console.log('saveVideoToPhotosAlbum fail ', res.errMsg)
                             },
+                            complete: function (res){
+                                console.log('saveVideoToPhotosAlbum complete ', res.errMsg)
+                            }
                           })
                         },
                     })
@@ -69,6 +72,9 @@ export default class Index extends React.Component {
                                 fail (res) {
                                     console.log('getVideoInfo fail ', res)
                                 },
+                                complete: function (res){
+                                    console.log('getVideoInfo complete ', res.errMsg)
+                                }
                             })
                         },
                     })
@@ -94,7 +100,10 @@ export default class Index extends React.Component {
                         },
                         fail: function (res) {
                             console.log('chooseVideo fail ', res.errMsg)
-                          }
+                        },
+                        complete: function (res){
+                            console.log('chooseVideo complete ', res.errMsg)
+                        }
                     })
                 },
             }, 
@@ -107,12 +116,15 @@ export default class Index extends React.Component {
                         sourceType: ['album', 'camera'],
                         maxDuration: 30,
                         camera: 'back',
+                        sizeType: ['original', 'compressed'],
+                        // mediaId: 'test mediaId field',//'mediaId' does not exist in type 'Option'
                         success: (res) => {
                           console.log('chooseMedia success ', res.tempFiles, res.type, res.errMsg)
                         },
                         fail: (res) => {
                             console.log('chooseMedia fail ', res.errMsg)
-                          },
+                        },
+                        // complete不存在该方法
                     })
                 },
             }, 

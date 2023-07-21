@@ -20,6 +20,18 @@ export default class Index extends React.Component {
                             this.setState({
                                 batteryInfo: res,
                             })
+                        },
+                        fail: (res) => {
+                            console.log('fail-----', res);
+                            this.setState({
+                                batteryInfo: res,
+                            })
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                            this.setState({
+                                batteryInfo: res,
+                            })
                         }
                     })
                 },

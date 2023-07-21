@@ -29,7 +29,13 @@ export default class Index extends React.Component {
                     Taro.checkIsSupportSoterAuthentication({
                         success: (res) => {
                             console.log('success-----', res);
-                        }
+                        },
+                        fail: function(res) {
+                            console.log('fail-----', res)
+                        },
+                        complete: function(res) {
+                            console.log('complete-----', res)
+                        },
                     })
                 },
             }, 

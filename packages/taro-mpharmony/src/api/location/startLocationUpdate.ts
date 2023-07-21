@@ -20,13 +20,20 @@ export const startLocationUpdate: typeof Taro.startLocationUpdate = (options) =>
   const handle = new MethodHandler({ name, success, fail, complete })
 
   // @ts-ignore
-  const ret = native.startLocationUpdate({
+  native.startLocationUpdate({
     success: (res: any) => {
-      return handle.success(res)
+      const result: TaroGeneral.CallbackResult = {
+        /** 错误信息 */
+        errMsg: JSON.stringify(res)
+      }
+      handle.success(result)
     },
     fail: (err: any) => {
-      return handle.fail(err)
+      const error: TaroGeneral.CallbackResult = {
+        /** 错误信息 */
+        errMsg: JSON.stringify(err)
+      }
+      handle.fail(error)
     }
   })
-  return ret
 }
