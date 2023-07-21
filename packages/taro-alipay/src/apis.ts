@@ -52,17 +52,17 @@ const apiDiff: IApiDiff = {
       change: [{
         old: 'title',
         new: 'content'
-      }]
-    },
-    set: [{
-      key: 'content',
-      value: function value (options) {
-        if (options.content === undefined) {
-          options.content = ''
+      }],
+      set: [{
+        key: 'content',
+        value: function value (options) {
+          if (options.content === undefined) {
+            options.content = ''
+          }
+          return options.content
         }
-        return options.content
-      }
-    }]
+      }]
+    }
   },
   setNavigationBarTitle: {
     alias: 'setNavigationBar'
