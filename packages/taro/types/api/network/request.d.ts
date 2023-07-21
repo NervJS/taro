@@ -2,7 +2,7 @@ import Taro from '../../index'
 
 declare module '../../index' {
   namespace request {
-    interface Option <T = any, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > {
+    interface Option<T = any, U extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any> {
       /** 开发者服务器接口地址 */
       url: string
       /** 请求的参数 */
@@ -14,11 +14,11 @@ declare module '../../index' {
       header?: TaroGeneral.IAnyObject
       /** 超时时间，单位为毫秒
        * @default 2000
-       * @supported weapp, h5, tt
+       * @supported weapp, h5, tt, alipay
        */
       timeout?: number
       /** HTTP 请求方法
-       * @default GET
+       * @default "GET"
        */
       method?: keyof Method
       /** 返回的数据格式 */
@@ -54,6 +54,25 @@ declare module '../../index' {
        * @supported weapp
        */
       enableChunked?: boolean
+      /**
+       * wifi下使用移动网络发送请求
+       * @default false
+       * @supported weapp
+       */
+      forceCellularNetwork?: boolean
+      /**
+       * headers 中设置 cookie 字段是否生效。如果为 false，则 headers 中的 cookie 字段将被忽略，请求头中将包含服务端上一次返回的 cookie（如果有）。
+       * @default false
+       * @supported alipay 支付宝: 10.2.33+
+       */
+      enableCookie?: boolean
+      /**
+       * referer 策略，用于控制当前请求 header 对象中 referer 字段格式。该参数默认值可通过 app.json 中的配置进行修改。
+       * @default "querystring"
+       * @supported alipay 支付宝: 10.3.50+ APPX: 2.8.7 开发者工具: 3.5.1
+       * @see https://opendocs.alipay.com/mini/api/owycmh#referrerStrategy%20%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E
+       */
+      referrerStrategy?: keyof ReferrerStrategy
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult<T>) => void
       /** 接口调用失败的回调函数 */
@@ -120,7 +139,8 @@ declare module '../../index' {
       storeCheck?(): boolean
     }
 
-    interface SuccessCallbackResult < T extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any > extends TaroGeneral.CallbackResult {
+    interface SuccessCallbackResult<T extends string | TaroGeneral.IAnyObject | ArrayBuffer = any | any>
+      extends TaroGeneral.CallbackResult {
       /** 开发者服务器返回的数据 */
       data: T
       /** 开发者服务器返回的 HTTP Response Header */
@@ -135,10 +155,26 @@ declare module '../../index' {
 
     /** 返回的数据格式 */
     interface DataType {
-      /** 返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse
+      /**
+       * 返回的数据为 JSON，返回后会对返回的数据进行一次 JSON.parse
        * 其他: 不对返回的内容进行 JSON.parse
        */
       json
+      /**
+       * 返回的数据为文本字符串
+       * @supported alipay
+       */
+      text
+      /**
+       * 返回的数据将转换为 base64 格式字符串
+       * @supported alipay
+       */
+      base64
+      /**
+       * 返回的数据将保持 ArrayBuffer 数据
+       * @supported alipay 支付宝: 10.1.70+
+       */
+      arraybuffer
     }
 
     /** HTTP 请求方法 */
@@ -201,6 +237,21 @@ declare module '../../index' {
       'force-cache'
       /** 浏览器在其HTTP缓存中寻找匹配的请求 */
       'only-if-cached'
+    }
+    /** referer 策略 */
+    interface ReferrerStrategy {
+      /**
+       * referer 值为 https://{appid}.hybrid.alipay-eco.com/{appid}/{version}/index.html
+       */
+      index
+      /**
+       * 保留 page（pages/xxx/yyy），referer 值为 https://{appid}.hybrid.alipay-eco.com/{appid}/{version}/index.html#{page}
+       */
+      page
+      /**
+       * 默认值。会将发起请求时所在页面的 URL 作为 referer 值，会保留 page（pages/xxx/yyy）和 querystring（x=1&y=2）并可能有框架添加的其他参数，referer 值为 https://{appid}.hybrid.alipay-eco.com/{appid}/{version}/index.html#{page}?{querysrtring}{框架其他参数}
+       */
+      querystring
     }
   }
 
@@ -269,7 +320,7 @@ declare module '../../index' {
      */
     onHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
-      callback: RequestTask.onHeadersReceived.Callback,
+      callback: RequestTask.onHeadersReceived.Callback
     ): void
     /** 取消监听 HTTP Response Header 事件
      * @supported weapp
@@ -277,7 +328,7 @@ declare module '../../index' {
      */
     offHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
-      callback: RequestTask.onHeadersReceived.Callback,
+      callback: RequestTask.onHeadersReceived.Callback
     ): void
     /** 监听 Transfer-Encoding Chunk Received 事件。当接收到新的chunk时触发。
      * @supported weapp
@@ -285,7 +336,7 @@ declare module '../../index' {
      */
     onChunkReceived(
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
-      callback: RequestTask.onChunkReceived.Callback,
+      callback: RequestTask.onChunkReceived.Callback
     ): void
     /** 移除 Transfer-Encoding Chunk Received 事件的监听函数
      * @supported weapp
@@ -293,7 +344,7 @@ declare module '../../index' {
      */
     offChunkReceived(
       /** Transfer-Encoding Chunk Received 事件的回调函数 */
-      callback: RequestTask.onChunkReceived.Callback,
+      callback: RequestTask.onChunkReceived.Callback
     ): void
   }
 
