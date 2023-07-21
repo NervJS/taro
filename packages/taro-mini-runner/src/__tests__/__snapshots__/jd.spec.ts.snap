@@ -58,6 +58,12 @@ require("./taro");
         function useScope() {}
         function initNativeApi(taro) {
             processApis(taro, jd);
+            taro.getTabBar = function(pageCtx) {
+                var _a;
+                if (typeof (pageCtx === null || pageCtx === void 0 ? void 0 : pageCtx.getTabBar) === "function") {
+                    return (_a = pageCtx.getTabBar()) === null || _a === void 0 ? void 0 : _a.$taroInstances;
+                }
+            };
         }
         var components = {
             Swiper: {
