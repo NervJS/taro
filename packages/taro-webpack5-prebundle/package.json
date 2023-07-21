@@ -44,7 +44,7 @@
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4",
     "webpack": "5.78.0",
-    "webpack-dev-server": "4.7.4"
+    "webpack-dev-server": "4.11.1"
   },
   "peerDependencies": {
     "webpack": "^5.78.0"

@@ -320,6 +320,7 @@ require("./taro");
 <template name="taro_tmpl">
   <block tt:for="{{root.cn}}" tt:key="sid">
     <template is="{{'tmpl_0_' + item.nn}}" data="{{i:item}}" />
+    <template is="{{'tmpl_0_' + item.nn}}" data="{{i:item}}" />
   </block>
 </template>
 
