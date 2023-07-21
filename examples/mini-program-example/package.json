@@ -59,7 +59,8 @@
     "@tarojs/plugin-framework-react": "workspace:*",
     "@tarojs/react": "3.6.8",
     "react-dom": "^18.0.0",
-    "react": "^18.0.0"
+    "react": "^18.0.0",
+    "@tarojs/with-weapp": "^3.6.8"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

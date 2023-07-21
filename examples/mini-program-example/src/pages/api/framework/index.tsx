@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
+import withWeapp from '@tarojs/with-weapp'
 import './index.scss'
 
 /**
@@ -17,18 +18,56 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getApp',
-                func: null,
+                func: () => {
+                    const app = Taro.getApp();
+                    console.log('getApp success ', app)
+                },
             }, 
             {
                 id: 'getCurrentPages',
                 func: () => {
                     const pages = Taro.getCurrentPages();
-                    console.log('success', pages);
+                    console.log('getCurrentPages success ', pages);
                 },
             }, 
             {
                 id: 'Page',
-                func: null,
+                func: () => {
+                    @withWeapp({
+                        data: {
+                            theme: 'light',
+                            status: 'lock',
+                        },
+                        onShareAppMessage() {
+                          return {
+                            title: 'onShareAppMessage',
+                            path: 'src/pages/api/framework/index',
+                          }
+                        },
+                        onPullDownRefresh() {
+                            console.log('onPullDownRefresh success')
+                        },
+                        onReachBottom() {
+                            console.log('onReachBottom success')
+                        },
+                        onHide() {
+                            console.log('onHide success')
+                        },
+                        onUnload() {
+                            console.log('onUnload success')
+                        },
+                        onError() {
+                            console.log('onError success')
+                        }
+                    })
+                    class _C extends React.Component {
+                        render() {
+                          return (
+                            <Button>testPage</Button>
+                          )
+                        }
+                    }
+                }
             }, 
         ], 
     }
