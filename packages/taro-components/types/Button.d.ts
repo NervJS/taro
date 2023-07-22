@@ -189,11 +189,6 @@ interface ButtonProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
-  /**
-   * 手机号实时验证回调，`open-type="getRealtimePhoneNumber"` 时有效
-   * @supported weapp
-   */
-  onGetRealTimePhoneNumber?: CommonEventFunction<ButtonProps.onGetRealTimePhoneNumberEventDetail>
   /** 当使用开放能力时，发生错误的回调
    *
    * 生效时机：`open-type="launchApp"`
@@ -218,11 +213,6 @@ interface ButtonProps extends StandardProps {
    * @supported weapp
    */
   onChooseAvatar?: CommonEventFunction
-  /**
-   * 用户同意隐私协议事件回调，`open-type="agreePrivacyAuthorization"`时有效
-   * @supported weapp
-   */
-  onAgreePrivacyAuthorization?: CommonEventFunction
   /** 点击。
    * 说明： 每点击一次会触发一次事件，建议自行使用代码防止重复点击,可以使用 js 防抖和节流实现。
    * @supported alipay
@@ -303,11 +293,6 @@ declare namespace ButtonProps {
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
        */
       getPhoneNumber
-      /**
-       * 手机号实时验证，向用户申请，并在用户同意后，快速填写和实时验证手机号。（*小程序插件中不能使用*）
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getRealtimePhoneNumber.html
-       */
-      getRealtimePhoneNumber
       /** 获取用户信息，可以从回调中获取到用户信息 */
       getUserInfo
       /** 打开APP，可以通过 app-parameter 属性设定向APP传的参数
@@ -320,10 +305,6 @@ declare namespace ButtonProps {
       feedback
       /** 获取用户头像，可以从回调中获得具体信息 */
       chooseAvatar
-      /**
-       * 用户同意隐私协议按钮。可通过 bindagreeprivacyauthorization 监听用户同意隐私协议事件
-       */
-      agreePrivacyAuthorization
     }
     /** 支付宝小程序专属的 open-type 合法值
      * @see https://opendocs.alipay.com/mini/component/button
@@ -444,9 +425,6 @@ declare namespace ButtonProps {
      * @supported alipay
      */
     sign: string
-  }
-  interface onGetRealTimePhoneNumberEventDetail {
-    code: string
   }
   interface onOpenSettingEventDetail {
     /* 打开授权设置页的调用状态 */

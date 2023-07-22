@@ -18,9 +18,9 @@ import { AdCustomProps } from './AdCustom'
 import { AudioProps } from './Audio'
 import { ButtonProps } from './Button'
 import { CameraProps } from './Camera'
-import { CanvasProps } from './Canvas'
 import { ChannelLiveProps } from './ChannelLive'
 import { ChannelVideoProps } from './ChannelVideo'
+import { CanvasProps } from './Canvas'
 import { CheckboxProps } from './Checkbox'
 import { CheckboxGroupProps } from './CheckboxGroup'
 import { StandardProps } from './common'
@@ -30,20 +30,17 @@ import { CustomWrapperProps } from './CustomWrapper'
 import { EditorProps } from './Editor'
 import { FormProps } from './Form'
 import { FunctionalPageNavigatorProps } from './FunctionalPageNavigator'
-import { GridViewProps } from './GridView'
 import { IconProps } from './Icon'
 import { ImageProps } from './Image'
 import { InputProps } from './Input'
 import { KeyboardAccessoryProps } from './KeyboardAccessory'
 import { LabelProps } from './Label'
-import { ListViewProps } from './ListView'
 import { LivePlayerProps } from './LivePlayer'
 import { LivePusherProps } from './LivePusher'
 import { MapProps } from './Map'
 import { MatchMediaProps } from './MatchMedia'
 import { MovableAreaProps } from './MovableArea'
 import { MovableViewProps } from './MovableView'
-import { NativeSlotProps } from './NativeSlot'
 import { NavigationBarProps } from './NavigationBar'
 import { NavigatorProps } from './Navigator'
 import { OfficialAccountProps } from './OfficialAccount'
@@ -55,18 +52,14 @@ import {
   PickerRegionProps, PickerSelectorProps, PickerTimeProps
 } from './Picker'
 import { PickerViewProps } from './PickerView'
-import { PickerViewColumnProps } from './PickerViewColumn'
 import { ProgressProps } from './Progress'
 import { RadioProps } from './Radio'
 import { RadioGroupProps } from './RadioGroup'
 import { RichTextProps } from './RichText'
-import { RootPortalProps } from './RootPortal'
 import { ScrollViewProps } from './ScrollView'
 import { ShareElementProps } from './ShareElement'
 import { SliderProps } from './Slider'
 import { SlotProps } from './Slot'
-import { StickyHeaderProps } from './StickyHeader'
-import { StickySectionProps } from './StickySection'
 import { SwiperProps } from './Swiper'
 import { SwiperItemProps } from './SwiperItem'
 import { SwitchProps } from './Switch'
@@ -76,18 +69,16 @@ import { VideoProps } from './Video'
 import { ViewProps } from './View'
 import { VoipRoomProps } from './VoipRoom'
 import { WebViewProps } from './WebView'
-
-/** 因为react的事件是CamelCase而vue得是Camelcase, 所以需要转换 */
-type OnCamelCaseToOnCamelcase<T extends string> = T extends `on${infer Rest}`
-  ? `on${Capitalize<Lowercase<Rest>>}`
-  : T;
-
-type TransformCamelCase<T extends Record<string, any>> = {
-  [key in keyof T as OnCamelCaseToOnCamelcase<key>]: T[key]
-}
+import { RootPortalProps } from './RootPortal'
+import { PickerViewColumnProps } from './PickerViewColumn'
+import { NativeSlotProps } from './NativeSlot'
+import { GridViewProps } from './GridView'
+import { ListViewProps } from './ListView'
+import { StickyHeaderProps } from './StickyHeader'
+import { StickySectionProps } from './StickySection'
 
 /** 联合类型不能用omit（比如picker） */
-type DistributiveOmit<T, K extends keyof T> = T extends unknown ? TransformCamelCase<Omit<T, K>> : never
+type DistributiveOmit<T, K extends keyof T> = T extends unknown ? Omit<T, K> : never
 
 interface SlimProps {
   class?: any
