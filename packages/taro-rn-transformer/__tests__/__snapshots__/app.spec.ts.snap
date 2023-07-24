@@ -15,6 +15,6 @@ exports[`app-loader app 1`] = `
   const config = { appConfig: { ...buildConfig, ...AppComponentConfig } }
   global.__taroAppConfig = config
   config['pageList'] = [{name:'pagesIndexIndex',pagePath:'/pages/index/index',component:createPageConfig(pagesIndexIndex,{...pagesIndexIndexConfig,pagePath:'/pages/index/index'})},{name:'pagesExpoIndex',pagePath:'/pages/expo/index',component:createPageConfig(pagesExpoIndex,{...pagesExpoIndexConfig,pagePath:'/pages/expo/index'})},{name:'pagesAppIndex',pagePath:'/pages/app/index',component:createPageConfig(pagesAppIndex,{...pagesAppIndexConfig,pagePath:'/pages/app/index'})},{name:'pagesAppText',pagePath:'/pages/app/text',component:createPageConfig(pagesAppText,{...pagesAppTextConfig,pagePath:'/pages/app/text'})},{name:'package1PagesSubTest1',pagePath:'/package1/pages/sub/test1',component:createPageConfig(package1PagesSubTest1,{...package1PagesSubTest1Config,pagePath:'/package1/pages/sub/test1'})},{name:'package1PagesSubApp',pagePath:'/package1/pages/sub/app',component:createPageConfig(package1PagesSubApp,{...package1PagesSubAppConfig,pagePath:'/package1/pages/sub/app'})}]
-  AppRegistry.registerComponent('taroDemo',() => createReactNativeApp(Component,config))
+  AppRegistry.registerComponent('taroDemo',() => createReactNativeApp(Component,config,createPageConfig(pagesIndexIndex,{...pagesIndexIndexConfig,pagePath:'/pages/index/index'})))
   "
 `;
