@@ -1,9 +1,9 @@
 import {
-  addLeadingSlash, Current, document, eventHandler,
-  incrementId, injectPageInstance, Instance, removePageInstance, safeExecute,
-  TaroRootElement
+  addLeadingSlash, CONTEXT_ACTIONS, Current, document, eventCenter,
+  eventHandler, Func, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath, incrementId, injectPageInstance, Instance, MpInstance, ON_HIDE, ON_READY, ON_SHOW,
+  removePageInstance, requestAnimationFrame, safeExecute, TaroRootElement, window
 } from '@tarojs/runtime'
-import { EMPTY_OBJ } from '@tarojs/shared'
+import { EMPTY_OBJ, ensure, hooks, isUndefined } from '@tarojs/shared'
 
 import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
@@ -18,7 +18,7 @@ const getNativeCompId = incrementId()
 let h: typeof React.createElement
 let ReactDOM
 
-function initNativeComponentEntry (R: typeof React, ReactDOM) {
+function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
   interface IEntryState {
     components: {
       compId: string
@@ -27,6 +27,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
   }
 
   interface IWrapperProps {
+    compId: string
     getCtx: () => any
     renderComponent: (ctx: any) => React.ReactElement
   }
@@ -47,7 +48,8 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
         h(
           'root',
           {
-            ref: this.root
+            ref: this.root,
+            id: this.props.compId
           },
           this.props.renderComponent(this.ctx)
         )
@@ -62,9 +64,10 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
 
     componentDidMount () {
       Current.app = this
+      cb && cb()
     }
 
-    mount (Component, compId, getCtx) {
+    mount (Component, compId, getCtx, cb?) {
       const isReactComponent = isClassComponent(R, Component)
       const inject = (node?: Instance) => node && injectPageInstance(node, compId)
       const refs = isReactComponent ? { ref: inject } : {
@@ -78,6 +81,7 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
         compId,
         element: h(NativeComponentWrapper, {
           key: compId,
+          compId,
           getCtx,
           renderComponent (ctx) {
             return h(
@@ -97,10 +101,10 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
       }
       this.setState({
         components: [...this.state.components, item]
-      })
+      }, () => cb && cb())
     }
 
-    unmount (compId) {
+    unmount (compId, cb?) {
       const components = this.state.components
       const index = components.findIndex(item => item.compId === compId)
       const next = [...components.slice(0, index), ...components.slice(index + 1)]
@@ -108,11 +112,13 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
         components: next
       }, () => {
         removePageInstance(compId)
+        cb && cb()
       })
     }
 
     render () {
       const components = this.state.components
+
       return (
         components.map(({ element }) => element)
       )
@@ -127,6 +133,186 @@ function initNativeComponentEntry (R: typeof React, ReactDOM) {
     h(Entry, {}),
     app
   )
+}
+
+export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom, pageConfig) {
+  reactMeta.R = react
+  h = react.createElement
+  ReactDOM = reactdom
+  setReconciler(ReactDOM)
+  const [
+    ONLOAD,
+    ONUNLOAD,
+    ONREADY,
+    ONSHOW,
+    ONHIDE,
+    LIFECYCLES,
+    SIDE_EFFECT_LIFECYCLES
+  ] = hooks.call('getMiniLifecycleImpl')!.page
+  let unmounting = false
+  let prepareMountList: (() => void)[] = []
+  let pageElement: TaroRootElement | null = null
+  let loadResolver: (...args: unknown[]) => void
+  let hasLoaded: Promise<void>
+  const id = pageName ?? `taro_page_${getNativeCompId()}`
+  function setCurrentRouter (page: MpInstance) {
+    const router = page.route || page.__route__ || page.$taroPath
+    Current.router = {
+      params: page.$taroParams!,
+      path: addLeadingSlash(router),
+      $taroPath: page.$taroPath,
+      onReady: getOnReadyEventKey(id),
+      onShow: getOnShowEventKey(id),
+      onHide: getOnHideEventKey(id)
+    }
+    if (!isUndefined(page.exitState)) {
+      Current.router.exitState = page.exitState
+    }
+  }
+
+  const pageObj: Record<string, any> = {
+    options: pageConfig,
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
+      hasLoaded = new Promise(resolve => { loadResolver = resolve })
+      Current.page = this as any
+      this.config = pageConfig || {}
+      // this.$taroPath 是页面唯一标识
+      const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
+      const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
+  
+      // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
+      if (this.$taroParams == null) {
+        this.$taroParams = uniqueOptions
+      }
+  
+      setCurrentRouter(this)
+      window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
+
+      const mountCallback = () => {
+        pageElement = document.getElementById($taroPath)
+        ensure(pageElement !== null, '没有找到页面实例。')
+        safeExecute($taroPath, ONLOAD, this.$taroParams)
+        loadResolver()
+        pageElement.ctx = this
+        pageElement.performUpdate(true, cb)
+      }
+
+      const mount = () => {
+        if (!Current.app) {
+          initNativeComponentEntry(react, ReactDOM, () => {
+            Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
+          })
+        } else {
+          Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
+        }
+      }
+
+      if (unmounting) {
+        prepareMountList.push(mount)
+      } else {
+        mount()
+      }
+    },
+    [ONUNLOAD] () {
+      const $taroPath = this.$taroPath
+      // 销毁当前页面的上下文信息
+      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      // 触发onUnload生命周期
+      safeExecute($taroPath, ONUNLOAD)
+      resetCurrent()
+      unmounting = true
+      Current.app!.unmount!($taroPath, () => {
+        unmounting = false
+        removePageInstance($taroPath)
+        if (pageElement) {
+          pageElement.ctx = null
+          pageElement = null
+        }
+        if (prepareMountList.length) {
+          prepareMountList.forEach(fn => fn())
+          prepareMountList = []
+        }
+      })
+    },
+    [ONREADY] () {
+      hasLoaded.then(() => {
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_READY)
+        // 通过事件触发子组件的生命周期
+        requestAnimationFrame(() => eventCenter.trigger(getOnReadyEventKey(id)))
+        this.onReady.called = true
+      })
+    },
+    [ONSHOW] (options = {}) {
+      hasLoaded.then(() => {
+        // 设置 Current 的 page 和 router
+        Current.page = this as any
+        setCurrentRouter(this)
+        // 恢复上下文信息
+        window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
+        // 触发生命周期
+        safeExecute(this.$taroPath, ON_SHOW, options)
+        // 通过事件触发子组件的生命周期
+        requestAnimationFrame(() => eventCenter.trigger(getOnShowEventKey(id)))
+      })
+    },
+    [ONHIDE] () {
+      // 缓存当前页面上下文信息
+      window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
+      // 设置 Current 的 page 和 router
+      if (Current.page === this) {
+        Current.page = null
+        Current.router = null
+      }
+      // 触发生命周期
+      safeExecute(this.$taroPath, ON_HIDE)
+      // 通过事件触发子组件的生命周期
+      eventCenter.trigger(getOnHideEventKey(id))
+    },
+  }
+
+  function resetCurrent () {
+    // 小程序插件页面卸载之后返回到宿主页面时，需重置Current页面和路由。否则引发插件组件二次加载异常 fix:#11991
+    Current.page = null
+    Current.router = null
+  }
+
+
+  LIFECYCLES.forEach((lifecycle) => {
+    pageObj[lifecycle] = function () {
+      return safeExecute(this.$taroPath, lifecycle, ...arguments)
+    }
+  })
+
+  // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
+  SIDE_EFFECT_LIFECYCLES.forEach(lifecycle => {
+    if (Component[lifecycle] ||
+      Component.prototype?.[lifecycle] ||
+      Component[lifecycle.replace(/^on/, 'enable')]
+    ) {
+      pageObj[lifecycle] = function (...args) {
+        const target = args[0]?.target
+        if (target?.id) {
+          const id = target.id
+          const element = document.getElementById(id)
+          if (element) {
+            target.dataset = element.dataset
+          }
+        }
+        return safeExecute(this.$taroPath, lifecycle, ...args)
+      }
+    }
+  })
+
+  pageObj.eh = eventHandler
+
+  if (!isUndefined(data)) {
+    pageObj.data = data
+  }
+
+  hooks.call('modifyPageObject', pageObj)
+
+  return pageObj
 }
 
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
@@ -156,7 +342,17 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      Current.app!.mount!(Component, compId, () => this)
+      Current.app!.mount!(Component, compId, () => this, () => {
+        const instance = getPageInstance(compId)
+
+        if (instance && instance.node) {
+          const el = document.getElementById(instance.node.uid)
+
+          if (el) {
+            el.ctx = this
+          }
+        }
+      })
     },
     ready () {
       safeExecute(this.compId, 'onReady')
@@ -190,40 +386,6 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     Current.router = null
   }
 
-  function setCurrent (compId: string) {
-    const pages = getCurrentPages()
-    const currentPage = pages[pages.length - 1]
-    if (Current.page === currentPage) return
-
-    Current.page = currentPage
-
-    const route = (currentPage as any).route || (currentPage as any).__route__
-    const router = {
-      params: currentPage.options || {},
-      path: addLeadingSlash(route),
-      $taroPath: compId,
-      onReady: '',
-      onHide: '',
-      onShow: ''
-    }
-    Current.router = router
-
-    if (!currentPage.options) {
-      // 例如在微信小程序中，页面 options 的设置时机比组件 attached 慢
-      Object.defineProperty(currentPage, 'options', {
-        enumerable: true,
-        configurable: true,
-        get () {
-          return this._optionsValue
-        },
-        set (value) {
-          router.params = value
-          this._optionsValue = value
-        }
-      })
-    }
-  }
-
   // onShareAppMessage 和 onShareTimeline 一样，会影响小程序右上方按钮的选项，因此不能默认注册。
   if (
     Component.onShareAppMessage ||
@@ -253,4 +415,40 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   }
 
   return componentObj
+}
+
+function setCurrent (compId: string) {
+  if (!getCurrentPages || typeof getCurrentPages !== 'function') return
+
+  const pages = getCurrentPages()
+  const currentPage = pages[pages.length - 1]
+  if (Current.page === currentPage) return
+
+  Current.page = currentPage
+
+  const route = (currentPage as any).route || (currentPage as any).__route__
+  const router = {
+    params: currentPage.options || {},
+    path: addLeadingSlash(route),
+    $taroPath: compId,
+    onReady: '',
+    onHide: '',
+    onShow: ''
+  }
+  Current.router = router
+
+  if (!currentPage.options) {
+    // 例如在微信小程序中，页面 options 的设置时机比组件 attached 慢
+    Object.defineProperty(currentPage, 'options', {
+      enumerable: true,
+      configurable: true,
+      get () {
+        return this._optionsValue
+      },
+      set (value) {
+        router.params = value
+        this._optionsValue = value
+      }
+    })
+  }
 }
