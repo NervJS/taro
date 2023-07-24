@@ -248,6 +248,7 @@ export default class TaroMiniPlugin {
                 config: this.appConfig,
                 runtimePath: this.options.runtimePath,
                 blended: this.options.blended,
+                newBlended: this.options.newBlended,
                 pxTransformConfig
               }
             })
@@ -1007,7 +1008,7 @@ export default class TaroMiniPlugin {
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
     }
-    if (!this.options.blended && !isBuildPlugin) {
+    if ((!this.options.blended || !this.options.newBlended) && !isBuildPlugin) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
       const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
       this.generateConfigFile(compilation, compiler, this.appEntry, this.filesConfig[appConfigName].content)
