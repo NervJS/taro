@@ -36,8 +36,7 @@ export default (ctx: IPluginContext) => {
               isBuildPlugin: true,
               isWatch,
               outputRoot: `${config.outputRoot}`,
-              platform,
-              needClearOutput: false
+              platform
             },
             options: Object.assign({}, options, {
               platform
@@ -53,8 +52,7 @@ export default (ctx: IPluginContext) => {
               isBuildPlugin: false,
               isWatch,
               outputRoot: `${config.outputRoot}/miniprogram`,
-              platform,
-              needClearOutput: false
+              platform
             },
             options: Object.assign({}, options, {
               platform

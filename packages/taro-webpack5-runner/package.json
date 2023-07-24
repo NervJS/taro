@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.8",
+  "version": "3.6.9-alpha.12",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -91,7 +91,7 @@
     "vm2": "^3.8.4",
     "vue-loader": "^15.10.1",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.7.4",
+    "webpack-dev-server": "4.11.1",
     "webpack-format-messages": "^2.0.6",
     "webpackbar": "^5.0.2"
   },

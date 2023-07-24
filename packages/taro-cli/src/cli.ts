@@ -1,5 +1,5 @@
 import { fs } from '@tarojs/helper'
-import { Kernel } from '@tarojs/service'
+import { Config, Kernel } from '@tarojs/service'
 import * as minimist from 'minimist'
 import * as path from 'path'
 
@@ -15,10 +15,10 @@ export default class CLI {
   }
 
   run () {
-    this.parseArgs()
+    return this.parseArgs()
   }
 
-  parseArgs () {
+  async parseArgs () {
     const args = minimist(process.argv.slice(2), {
       alias: {
         version: ['v'],
@@ -57,17 +57,28 @@ export default class CLI {
       if (typeof args.plugin === 'string') {
         process.env.TARO_ENV = 'plugin'
       }
+      const mode = args.mode || process.env.NODE_ENV
       // 这里解析 dotenv 以便于 config 解析时能获取 dotenv 配置信息
-      const expandEnv = dotenvParse(appPath, args.envPrefix, args.mode || process.env.NODE_ENV)
+      const expandEnv = dotenvParse(appPath, args.envPrefix, mode)
 
       const disableGlobalConfig = !!(args['disable-global-config'] || DISABLE_GLOBAL_CONFIG_COMMANDS.includes(command))
+
+      const configEnv = {
+        mode,
+        command,
+      }
+      const config = new Config({
+        appPath: this.appPath,
+        disableGlobalConfig: disableGlobalConfig
+      })
+      await config.init(configEnv)
 
       const kernel = new Kernel({
         appPath,
         presets: [
           path.resolve(__dirname, '.', 'presets', 'index.js')
         ],
-        disableGlobalConfig,
+        config,
         plugins: []
       })
       kernel.optsPlugins ||= []
@@ -154,6 +165,7 @@ export default class CLI {
             platform,
             plugin,
             isWatch: Boolean(args.watch),
+            isBuildNativeComp: _[1] === 'native-components',
             port: args.port,
             env: args.env,
             deviceType: args.platform,
