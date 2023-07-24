@@ -31,6 +31,8 @@ import type { Compilation, Compiler } from 'webpack'
 import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
+const baseCompName = 'comp'
+const customWrapperName = 'custom-wrapper'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
@@ -255,7 +257,7 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-page' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -288,7 +290,7 @@ export default class TaroMiniPlugin {
         }
       })
 
-      const { PROCESS_ASSETS_STAGE_ADDITIONAL } = compiler.webpack.Compilation
+      const { PROCESS_ASSETS_STAGE_ADDITIONAL, PROCESS_ASSETS_STAGE_OPTIMIZE } = compiler.webpack.Compilation
       compilation.hooks.processAssets.tapAsync(
         {
           name: PLUGIN_NAME,
@@ -296,6 +298,17 @@ export default class TaroMiniPlugin {
         },
         this.tryAsync<any>(async () => {
           await this.generateMiniFiles(compilation, compiler)
+        })
+      )
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: PLUGIN_NAME,
+          // 删除 assets 的相关操作放在触发时机较后的 Stage，避免过早删除出现的一些问题，#13988
+          // Stage 触发顺序：https://webpack.js.org/api/compilation-hooks/#list-of-asset-processing-stages
+          stage: PROCESS_ASSETS_STAGE_OPTIMIZE
+        },
+        this.tryAsync<any>(async () => {
+          await this.optimizeMiniFiles(compilation, compiler)
         })
       )
     })
@@ -468,9 +481,16 @@ export default class TaroMiniPlugin {
     if (main) {
       pluginJSON.main = this.getTargetFilePath(main, '.js')
     }
-    if (publicComponents && isUsingCustomWrapper) {
+
+    if (!this.options.template.isSupportRecursive) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
-        'custom-wrapper': 'custom-wrapper'
+        [baseCompName]: baseCompName
+      })
+    }
+
+    if (isUsingCustomWrapper) {
+      pluginJSON.publicComponents = Object.assign({}, publicComponents, {
+        [customWrapperName]: customWrapperName
       })
     }
   }
@@ -634,8 +654,19 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
+    const { componentGenerics } = fileConfig
     const usingComponents = fileConfig.usingComponents
 
+    if (this.options.isBuildPlugin && componentGenerics) {
+      Object.keys(componentGenerics).forEach(component => {
+        if (componentGenerics[component]) {
+          if (!componentConfig.thirdPartyComponents.has(component)) {
+            componentConfig.thirdPartyComponents.set(component, new Set())
+          }
+        }
+      })
+    }
+  
     // 递归收集依赖的第三方组件
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
@@ -880,8 +911,6 @@ export default class TaroMiniPlugin {
     const { RawSource } = compiler.webpack.sources
     const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
-    const baseCompName = 'comp'
-    const customWrapperName = 'custom-wrapper'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
     /**
@@ -889,17 +918,10 @@ export default class TaroMiniPlugin {
      */
     compilation.getAssets().forEach(({ name: assetPath }) => {
       const styleExt = this.options.fileType.style
-      const templExt = this.options.fileType.templ
-      if (new RegExp(`(\\${styleExt}|\\${templExt})\\.js(\\.map){0,1}$`).test(assetPath)) {
-        delete compilation.assets[assetPath]
-      } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
+      if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
         const assetObj = compilation.assets[assetPath]
         const newAssetPath = assetPath.replace(styleExt, '')
         compilation.assets[newAssetPath] = assetObj
-        delete compilation.assets[assetPath]
-      }
-      if (!isUsingCustomWrapper && assetPath === 'custom-wrapper.js') {
-        delete compilation.assets[assetPath]
       }
     })
 
@@ -1028,6 +1050,26 @@ export default class TaroMiniPlugin {
     if (typeof modifyBuildAssets === 'function') {
       await modifyBuildAssets(compilation.assets, this)
     }
+  }
+
+  async optimizeMiniFiles (compilation: Compilation, _compiler: Compiler) {
+    const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
+
+    /**
+     * 与原生小程序混写时解析模板与样式
+     */
+    compilation.getAssets().forEach(({ name: assetPath }) => {
+      const styleExt = this.options.fileType.style
+      const templExt = this.options.fileType.templ
+      if (new RegExp(`(\\${styleExt}|\\${templExt})\\.js(\\.map){0,1}$`).test(assetPath)) {
+        delete compilation.assets[assetPath]
+      } else if (new RegExp(`${styleExt}${styleExt}$`).test(assetPath)) {
+        delete compilation.assets[assetPath]
+      }
+      if (!isUsingCustomWrapper && assetPath === 'custom-wrapper.js') {
+        delete compilation.assets[assetPath]
+      }
+    })
   }
 
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
