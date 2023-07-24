@@ -63,13 +63,13 @@ export class EditorContext implements Taro.EditorContext {
 
     if (name ===  'bold' || name ===  'italic' || name ===  'underline') {
       editor.formatter.toggle(name)
-
+      return
     } else if (name ===  'strike') {
       editor.formatter.toggle('strikethrough')
-
+      return
     } else if (name ===  'ins') {
       console.error(`Editor not support format ins`)
-
+      return
     }
 
     value = value || ''
@@ -107,18 +107,7 @@ export class EditorContext implements Taro.EditorContext {
 
     } else if (name ===  'align') {
       // value = left / center / right / justify
-      const formatNameMap: Map<string, string> = new Map<string, string>(Object.entries({
-        // left / center / right / justify
-        left: 'alignleft',
-        center: 'aligncenter',
-        right: 'alignright',
-        justify: 'alignjustify',
-      }))
-
-      const formatName = formatNameMap.get(name + value.toLocaleLowerCase())
-      if (formatName) {
-        editor.formatter.toggle(formatName)
-      }
+      editor.formatter.toggle(name + value.toLocaleLowerCase())
 
     } else if (name ===  'direction') {
       // value = rtl / ltf

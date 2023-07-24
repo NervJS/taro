@@ -93,12 +93,15 @@ export const Editor: React.FC<EditorProps> = (props) => {
     props.onInput?.(generateEditorEventOrig('oninput', editor))
   }
 
+  const editorId: string = props.id || 'editor'
+
   return <>
     {/* @ts-ignore */}
     <TinyMceReactEditor
-      id={props.id}
+      id={editorId}
       tagName='taro-editor-core'
       textareaName='taro-editor-core'
+      // inline={true}
       init={{
         // setup: (editor) => {
         //   editor.on('ExecCommand', function (e) {
@@ -157,10 +160,11 @@ export const Editor: React.FC<EditorProps> = (props) => {
           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
           'insertdatetime', 'media', 'table', 'autoresize', 'autosave', 'wordcount',
         ],
-        toolbar: 'undo redo | blocks | ' +
-          'bold italic underline forecolor backcolor | alignleft aligncenter ' +
-          'alignright alignjustify | bullist numlist outdent indent | ' +
-          'removeformat | image | table',
+        // toolbar: 'undo redo | blocks | ' +
+        //   'bold italic underline forecolor backcolor | alignleft aligncenter ' +
+        //   'alignright alignjustify | bullist numlist outdent indent | ' +
+        //   'removeformat | image | table',
+        toolbar: false,
       }}
       onEditorChange={handleEditorChange}
       onInit={(_evt, editor) => {
