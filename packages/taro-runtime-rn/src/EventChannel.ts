@@ -1,5 +1,3 @@
-import { getRouteEventChannel } from '@tarojs/router-rn'
-
 import { Events } from './emmiter'
 
 interface ExeListItem {
@@ -60,8 +58,6 @@ class RouteEvts extends Events {
 }
 
 const routeChannel: RouteEvt = new RouteEvts()
-
-getRouteEventChannel(routeChannel)
 
 export default {
   routeChannel,
