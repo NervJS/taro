@@ -71,6 +71,7 @@ interface ITaroMiniPluginOptions {
   onCompilerMake?: Func
   onParseCreateElement?: Func
   blended: boolean
+  newBlended: boolean
   alias: Record<string, string>
   deviceRatio: any
   designWidth: number
@@ -908,7 +909,7 @@ export default class TaroMiniPlugin {
 
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
+    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir, blended, newBlended } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const baseCompName = 'comp'
     const customWrapperName = 'custom-wrapper'
@@ -916,7 +917,7 @@ export default class TaroMiniPlugin {
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
     }
-    if (!this.options.blended && !isBuildPlugin) {
+    if ((!blended || !newBlended) && !isBuildPlugin) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
       const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
       this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)

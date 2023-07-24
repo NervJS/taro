@@ -73,7 +73,7 @@ interface ITaroMiniPluginOptions {
     unitPrecision: number
     targetUnit: string
   }
-  isBuildCompIndependent?: boolean
+  newBlended?: boolean
 }
 
 export interface IComponentObj {
@@ -166,7 +166,7 @@ export default class TaroMiniPlugin {
       addChunkPages,
       framework,
       isBuildPlugin,
-      isBuildCompIndependent,
+      newBlended,
     } = this.options
     /** build mode */
     compiler.hooks.run.tapAsync(
@@ -333,7 +333,7 @@ export default class TaroMiniPlugin {
     )
 
     new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
-    if (isBuildCompIndependent) {
+    if (newBlended) {
       this.addLoadChunksPlugin(compiler)
     }
   }
@@ -576,7 +576,7 @@ export default class TaroMiniPlugin {
    * 包括处理分包和 tabbar
    */
   getPages () {
-    const { isBuildCompIndependent } = this.options
+    const { newBlended } = this.options
     if (isEmptyObject(this.appConfig)) {
       throw new Error('缺少 app 全局配置文件，请检查！')
     }
@@ -606,7 +606,7 @@ export default class TaroMiniPlugin {
       })
     ])
     this.getSubPackages(this.appConfig)
-    if (isBuildCompIndependent) {
+    if (newBlended) {
       // 编译 Taro 项目的时候，同时把组件独立编译为原生自定义组件
       this.getNativeComponent()
     }
@@ -1272,7 +1272,7 @@ export default class TaroMiniPlugin {
    * 小程序全局样式文件中引入 common chunks 中的公共样式文件
    */
   injectCommonStyles ({ assets }: Compilation, { webpack }: Compiler) {
-    const { isBuildCompIndependent } = this.options
+    const { newBlended } = this.options
     const { ConcatSource, RawSource } = webpack.sources
     const styleExt = this.options.fileType.style
     const appStyle = `app${styleExt}`
@@ -1299,7 +1299,7 @@ export default class TaroMiniPlugin {
       source.add(commons)
       source.add('\n')
       assets[appStyle] = source
-      if (isBuildCompIndependent) {
+      if (newBlended) {
         // 本地化组件引入common公共样式文件
         this.pages.forEach(page => {
           if (page.isNative) return

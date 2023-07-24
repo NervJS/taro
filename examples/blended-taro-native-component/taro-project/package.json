@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "taro build native-components --type weapp --watch",
-    "dev": "taro build --type weapp --build-components-independent --watch"
+    "dev": "taro build --type weapp --new-blended --watch"
   },
   "browserslist": [
     "last 3 versions",
