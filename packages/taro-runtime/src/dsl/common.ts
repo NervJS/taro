@@ -303,7 +303,6 @@ export function createComponentConfig (component: React.ComponentClass, componen
     [DETACHED] () {
       const path = getPath(id, { id: this.pageIdCache })
 
-      this.pageIdCache = null
       Current.app!.unmount!(path, () => {
         instances.delete(path)
         if (componentElement) {
