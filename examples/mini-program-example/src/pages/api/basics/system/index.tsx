@@ -41,7 +41,14 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getSystemInfoSync',
-                func: null,
+                func: () => {
+                    try {
+                        const res = Taro.getSystemInfoSync()
+                        console.log('getSystemInfoSync success ', res)
+                      } catch (e) {
+                        console.log('getSystemInfoSync exception')
+                      }
+                },
             }, 
             {
                 id: 'getSystemInfoAsync',
@@ -49,7 +56,19 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getSystemInfo',
-                func: null,
+                func: () => {
+                    Taro.getSystemInfo({
+                        success: function (res) {
+                          console.log('getSystemInfo success ', res)
+                        },
+                        fail: function (res) {
+                            console.log('getSystemInfo fail ', res)
+                        },
+                        complete: function (res) {
+                            console.log('getSystemInfo complete ', res)
+                        },
+                    })
+                },
             }, 
             {
                 id: 'getDeviceInfo',

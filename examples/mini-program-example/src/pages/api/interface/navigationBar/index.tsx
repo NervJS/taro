@@ -17,7 +17,20 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'setNavigationBarTitle',
-                func: null,
+                func: () => {
+                    Taro.setNavigationBarTitle({
+                        title: '当前页面',
+                        success: function (res) {
+                            console.log('setNavigationBarTitle success ', res)
+                        },
+                        fail: function(res) {
+                            console.log('setNavigationBarTitle fail ', res)
+                        },
+                        complete: function(res) {
+                            console.log('setNavigationBarTitle   complete ', res)
+                        },
+                    })
+                },
             }, 
             {
                 id: 'setNavigationBarColor',

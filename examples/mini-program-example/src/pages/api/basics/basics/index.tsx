@@ -13,7 +13,9 @@ export default class Index extends React.Component {
         list: [
             {
                 id: 'env',
-                func: null,
+                func: () => {
+                    console.log('Taro.env ', Taro.env);
+                },
             }, 
             {
                 id: 'canIUse',

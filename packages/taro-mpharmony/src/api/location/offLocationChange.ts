@@ -11,6 +11,11 @@ export const offLocationChange: typeof Taro.offLocationChange = (callback) => {
     return Promise.reject(res)
   }
   // @ts-ignore
-  const ret = native.offLocationChange(callback)
-  return ret
+  native.offLocationChange((res: any) => {
+    const result: TaroGeneral.CallbackResult = {
+      /** 错误信息 */
+      errMsg: JSON.stringify(res)
+    }
+    callback(result)
+  })
 }

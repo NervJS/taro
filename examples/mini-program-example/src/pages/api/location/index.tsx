@@ -15,10 +15,10 @@ export default class Index extends React.Component {
                 id: 'onLocationChange',
                 func: () => {
                     Taro.onLocationChange((res) => {
-                        console.log('location change', res)
+                        console.log('onLocationChange ', res)
                     })
                     Taro.offLocationChange((res) => {
-                        console.log('offLocationChange')
+                        console.log('offLocationChange ', res)
                     })
                 },
             }, 
@@ -48,6 +48,9 @@ export default class Index extends React.Component {
                         fail: function (res) {
                             console.log('stopLocationUpdate fail ', res)
                         },
+                        complete: function(res) {
+                            console.log('stopLocationUpdate complete ', res)
+                        },
                     })
                 },
             },
@@ -61,8 +64,73 @@ export default class Index extends React.Component {
                         fail: function(res) {
                             console.log('startLocationUpdateBackground fail ', res)
                         },
+                        complete: function(res) {
+                            console.log('startLocationUpdateBackground complete ', res)
+                        },
                     })
                 },
+            },
+            {
+                id: 'offLocationChange',
+                func: () => {
+                    Taro.onLocationChange((res) => {
+                        console.log('onLocationChange ', res)
+                    })
+                    Taro.offLocationChange((res) => {
+                        console.log('offLocationChange ', res)
+                    })
+                },
+            },
+            {
+                id: 'onLocationChangeError',
+                func: () => {
+                    Taro.onLocationChange((res) => {
+                        console.log('onLocationChange ', res)
+                    })
+                    Taro.onLocationChangeError((res) => {
+                        console.log('onLocationChangeError ', res)
+                    })
+                    Taro.offLocationChange((res) => {
+                        console.log('offLocationChange ', res)
+                    })
+                },
+                
+            },
+            {
+                id: 'offLocationChangeError',
+                func: () => {
+                    Taro.onLocationChange((res) => {
+                        console.log('onLocationChange ', res)
+                    })
+                    Taro.offLocationChange((res) => {
+                        console.log('offLocationChange ', res)
+                    })
+                    Taro.offLocationChangeError((res) => {
+                        console.log('offLocationChangeError ', res)
+                    })
+                },
+                
+            },
+            {
+                id: 'getLocation',
+                func: () => {
+                    Taro.getLocation({
+                        altitude: 'true',
+                        type: 'wgs84',
+                        highAccuracyExpireTime: 40000,
+                        isHighAccuracy: true,                        
+                        success: (res) => {
+                            console.log('getLocation success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('getLocation fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('getLocation complete ', res)
+                        },
+                    })
+                },
+                
             },
         ], 
     }
