@@ -130,7 +130,7 @@ declare module '../index' {
     setGlobalDataPlugin: setGlobalDataPlugin.Plugin
 
     /** 获取自定义 TabBar 对应的 React 或 Vue 组件实例
-     * @supported weapp
+     * @supported weapp, jd
      * @param page 小程序页面对象，可以通过 Taro.getCurrentInstance().page 获取
      */
     getTabBar<T>(page: getCurrentInstance.Current['page']): T | undefined
