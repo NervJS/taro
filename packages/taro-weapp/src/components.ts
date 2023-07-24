@@ -54,10 +54,12 @@ export const components = {
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
+    bindGetRealTimePhoneNumber: _empty,
     bindChooseAvatar: _empty,
     bindError: _empty,
     bindOpenSetting: _empty,
-    bindLaunchApp: _empty
+    bindLaunchApp: _empty,
+    bindAgreePrivacyAuthorization: _empty
   },
   Form: {
     'report-submit-timeout': _zero
