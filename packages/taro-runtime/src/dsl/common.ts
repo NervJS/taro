@@ -285,7 +285,10 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const config: any = {
     [ATTACHED] () {
       perf.start(PAGE_INIT)
-      const path = getPath(id, { id: this.getPageId?.() || pageId() })
+      this.pageIdCache = this.getPageId?.() || pageId()
+      
+      const path = getPath(id, { id: this.pageIdCache })
+
       Current.app!.mount!(component, path, () => {
         componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
@@ -298,7 +301,8 @@ export function createComponentConfig (component: React.ComponentClass, componen
       })
     },
     [DETACHED] () {
-      const path = getPath(id, { id: this.getPageId() })
+      const path = getPath(id, { id: this.pageIdCache })
+
       Current.app!.unmount!(path, () => {
         instances.delete(path)
         if (componentElement) {
