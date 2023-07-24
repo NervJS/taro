@@ -2,6 +2,8 @@
 // dom-external
 import './dom-external'
 
+import env from './env'
+
 export { hooks } from '@tarojs/shared'
 // bom
 export { document } from './bom/document'
@@ -24,6 +26,8 @@ export { SVGElement } from './dom/svg'
 export { TaroText } from './dom/text'
 export { MutationObserver } from './dom-external/mutation-observer'
 // others
+export { env }
+export * from './constants'
 export { Current, getCurrentInstance } from './current'
 export { eventSource } from './dom/event-source'
 export {
@@ -31,6 +35,9 @@ export {
   createComponentConfig,
   createPageConfig,
   createRecursiveComponentConfig,
+  getOnHideEventKey,
+  getOnReadyEventKey,
+  getOnShowEventKey,
   getPageInstance,
   getPath,
   injectPageInstance,
