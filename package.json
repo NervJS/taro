@@ -57,7 +57,7 @@
     "@babel/preset-typescript": "^7.14.5",
     "@babel/runtime": "^7.14.5",
     "@babel/traverse": "^7.14.5",
-    "@commitlint/cli": "^16.2.1",
+    "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^16.2.1",
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
