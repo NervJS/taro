@@ -7,7 +7,7 @@ import './index.scss'
 export default class Index extends Component {
   render () {
     return (
-      <View>
+      <View  className='red'>
         <View className='blue'>Detail</View>
         <Common />
       </View>

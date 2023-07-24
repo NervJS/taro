@@ -1,7 +1,7 @@
 export default {
   pages: [
-    'pages/index/index',
     'pages/detail/index',
+    'pages/index/index',
   ],
   components: [
     'components/picker/index',
