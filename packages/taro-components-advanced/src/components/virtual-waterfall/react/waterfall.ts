@@ -249,6 +249,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }
 
     this.#callPropsCallbacks()
+    this.preset.boundaryDetection()
   }
 
   componentDidUpdate (prevProps: IProps, prevState: IState) {
@@ -267,6 +268,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     if (this.#resetIsScrollingTimeoutId !== null) {
       cancelTimeout(this.#resetIsScrollingTimeoutId)
     }
+    this.preset.dispose()
   }
 
   getRenderItemNode (itemIndex: number, type: 'node' | 'brick' | 'placeholder' = 'node') {
@@ -356,10 +358,16 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       style,
       height,
       width,
+      outerWrapper,
       renderTop,
       renderBottom,
       ...rest
-    } = omit(this.props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
+    } = omit(this.props, [
+      'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
+      'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
+      'upperThreshold', 'lowerThreshold',
+      'position',
+    ])
     const {
       id,
       isScrolling,
@@ -382,6 +390,10 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
         willChange: 'transform',
         ...style
       },
+      outerElementType: this.preset.outerElement,
+      innerElementType: this.preset.innerElement,
+      renderTop,
+      renderBottom,
     }
 
     if (!this.preset.enhanced) {
@@ -394,9 +406,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }
 
     return React.createElement(
-      this.preset.outerElement,
+      outerWrapper || this.preset.outerElement,
       outerProps,
-      renderTop,
       React.createElement(this.preset.innerElement, {
         key: `${id}-wrapper`,
         id: `${id}-wrapper`,
@@ -411,7 +422,6 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
           ...style
         },
       } as any, columnNodes),
-      renderBottom,
     )
   }
 }

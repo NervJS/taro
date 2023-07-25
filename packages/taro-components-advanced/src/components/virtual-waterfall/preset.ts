@@ -1,8 +1,9 @@
 import { isWebPlatform } from '@tarojs/shared'
+import { type IntersectionObserver, createIntersectionObserver, createSelectorQuery, getCurrentInstance } from '@tarojs/taro'
 import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
 
-import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing } from '../../utils'
+import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing, throttle } from '../../utils'
 import ListMap from './list-map'
 
 import type { VirtualWaterfallProps } from './'
@@ -20,11 +21,13 @@ export interface IProps extends Partial<VirtualWaterfallProps> {
   outerRef?: React.Ref<HTMLElement> | string
   onItemsRendered?: TFunc
   shouldResetStyleCacheOnItemSizeChange?: boolean
+  outerWrapper?: React.FC
 }
 
 export default class Preset {
   itemMap: ListMap
   #id: string
+  #observer: Record<string, IntersectionObserver> = {}
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
@@ -154,5 +157,63 @@ export default class Preset {
       itemIndex,
       shouldResetStyleCacheOnItemSizeChange ? this.itemMap.getSize(itemIndex) : false,
     )
+  }
+
+  boundaryDetection () {
+    if ([typeof this.props.onScrollToUpper, typeof this.props.onScrollToLower].every(e => e !== 'function')) return
+
+    createSelectorQuery().select(`#${this.id}`).node().exec(() => {
+      const topObserver = this.boundaryDetectionHelper({
+        event: typeof this.props.onScrollToUpper === 'function' ? () => {
+          if (this.field.diffOffset >= 0) this.props.onScrollToUpper()
+        } : undefined,
+        id: `${this.id}-top`,
+      })
+      if (topObserver) {
+        this.#observer.top = topObserver
+      }
+
+      const bottomObserver = this.boundaryDetectionHelper({
+        event: typeof this.props.onScrollToLower === 'function' ? () => {
+          if (this.field.diffOffset <= 0) this.props.onScrollToLower()
+        } : undefined,
+        id: `${this.id}-bottom`,
+      })
+      if (bottomObserver) {
+        this.#observer.bottom = bottomObserver
+      }
+    })
+  }
+
+  boundaryDetectionHelper ({
+    component,
+    event,
+    id,
+  }: {
+    component?: TaroGeneral.IAnyObject
+    event?: () => void
+    id: string
+  }) {
+    if (typeof event !== 'function') return
+    const eventFunc = throttle(event)
+
+    component ||= getCurrentInstance().page
+    const observer = createIntersectionObserver(component, {
+      thresholds: [0.4],
+    })
+
+    observer
+      .relativeTo(`#${this.id}`, {
+        top: typeof this.props.lowerThreshold === 'number' ? this.props.lowerThreshold : 50,
+        bottom: typeof this.props.upperThreshold === 'number' ? this.props.upperThreshold : 50,
+      })
+      .observe(`#${id}`, eventFunc)
+
+    return observer
+  }
+
+  dispose () {
+    Object.values(this.#observer).forEach(e => e.disconnect?.())
+    this.#observer = {}
   }
 }
