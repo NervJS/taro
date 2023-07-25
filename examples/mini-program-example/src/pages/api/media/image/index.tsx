@@ -17,7 +17,7 @@ export default class Index extends React.Component {
                     Taro.chooseImage({
                         count: 1,
                         sizeType: ['original', 'compressed'],
-                        sourceType: ['album', 'camera'],
+                        sourceType: ['album', 'camera', 'user', 'environment'],
                         success: function (res) {
                           console.log('chooseImage success ', res.tempFilePaths, res.tempFiles, res.errMsg);
                         },

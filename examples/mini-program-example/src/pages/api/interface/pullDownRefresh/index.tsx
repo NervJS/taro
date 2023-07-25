@@ -13,11 +13,42 @@ export default class Index extends React.Component {
         list: [
             {
                 id: 'stopPullDownRefresh',
-                func: null,
+                func: () => {
+                    Taro.startPullDownRefresh({
+                        success: (res) => {
+                            console.log('startPullDownRefresh success ', res)
+                            setTimeout(() => {
+                                Taro.stopPullDownRefresh({
+                                    success: (res) => {
+                                        console.log('stopPullDownRefresh success ', res)
+                                    },
+                                    fail: (res) => {
+                                        console.log('stopPullDownRefresh fail ', res)
+                                    },
+                                    complete: (res) => {
+                                        console.log('stopPullDownRefresh complete ', res)
+                                    },
+                                })
+                            }, 5000)
+                        }
+                    }) 
+                },
             }, 
             {
                 id: 'startPullDownRefresh',
-                func: null,
+                func: () => {
+                    Taro.startPullDownRefresh({
+                        success: (res) => {
+                            console.log('startPullDownRefresh success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('startPullDownRefresh fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('startPullDownRefresh complete ', res)
+                        },
+                    })
+                },
             }, 
         ], 
     }

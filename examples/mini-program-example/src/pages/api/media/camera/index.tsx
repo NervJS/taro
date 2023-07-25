@@ -28,7 +28,7 @@ export default class Index extends React.Component {
                         }
                     });
                     cameraContext.onCameraFrame((frame) => {
-                        console.log(frame.data instanceof ArrayBuffer, frame.width, frame.height)
+                        console.log('onCameraFrame ', frame.data instanceof ArrayBuffer, frame.width, frame.height)
                     });
                     cameraContext.setZoom({
                         zoom: 70,

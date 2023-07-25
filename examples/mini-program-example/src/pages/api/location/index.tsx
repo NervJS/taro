@@ -41,16 +41,20 @@ export default class Index extends React.Component {
             {
                 id: 'stopLocationUpdate',
                 func: () => {
-                    Taro.stopLocationUpdate({
-                        success: function (res) {
-                            console.log('stopLocationUpdate success ', res)
-                        },
-                        fail: function (res) {
-                            console.log('stopLocationUpdate fail ', res)
-                        },
-                        complete: function(res) {
-                            console.log('stopLocationUpdate complete ', res)
-                        },
+                    Taro.startLocationUpdate({
+                        success: () => {
+                            Taro.stopLocationUpdate({
+                                success: function (res) {
+                                    console.log('stopLocationUpdate success ', res)
+                                },
+                                fail: function (res) {
+                                    console.log('stopLocationUpdate fail ', res)
+                                },
+                                complete: function(res) {
+                                    console.log('stopLocationUpdate complete ', res)
+                                },
+                            })
+                        }
                     })
                 },
             },

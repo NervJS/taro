@@ -21,6 +21,12 @@ export default class Index extends React.Component {
                     Taro.openAppAuthorizeSetting({
                         success (res) {
                             console.log('success-----', res);
+                        },
+                        fail (res) {
+                            console.log('fail-----', res);
+                        },
+                        complete (res) {
+                            console.log('complete-----', res);
                         }
                     })
                 },
