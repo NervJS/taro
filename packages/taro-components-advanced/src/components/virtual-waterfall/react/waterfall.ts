@@ -358,6 +358,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       style,
       height,
       width,
+      enhanced,
       outerWrapper,
       renderTop,
       renderBottom,
@@ -390,6 +391,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
         willChange: 'transform',
         ...style
       },
+      enhanced,
       outerElementType: this.preset.outerElement,
       innerElementType: this.preset.innerElement,
       renderTop,

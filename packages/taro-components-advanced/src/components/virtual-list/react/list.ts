@@ -396,10 +396,15 @@ export default class List extends React.PureComponent<IProps, IState> {
       useIsScrolling,
       width,
       enhanced = false,
+      outerWrapper,
       renderTop,
       renderBottom,
       ...rest
-    } = omit(this.props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
+    } = omit(this.props, [
+      'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
+      'outerElementType', 'outerTagName',
+      'position'
+    ])
     const {
       id,
       isScrolling,
@@ -468,7 +473,11 @@ export default class List extends React.PureComponent<IProps, IState> {
         willChange: 'transform',
         direction,
         ...style
-      }
+      },
+      outerElementType: this.preset.outerElement,
+      innerElementType: this.preset.innerElement,
+      renderTop,
+      renderBottom,
     }
 
     if (!enhanced) {
@@ -481,8 +490,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     if (this.preset.isRelative) {
       const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
-      return React.createElement(this.preset.outerElement, outerProps,
-        renderTop,
+      return React.createElement(outerWrapper || this.preset.outerElement, outerProps,
         React.createElement<any>(this.preset.itemElement, {
           key: `${id}-pre`,
           id: `${id}-pre`,
@@ -500,11 +508,9 @@ export default class List extends React.PureComponent<IProps, IState> {
             position: 'relative',
           }
         }, items),
-        renderBottom
       )
     } else {
-      return React.createElement(this.preset.outerElement, outerProps,
-        renderTop,
+      return React.createElement(outerWrapper || this.preset.outerElement, outerProps,
         React.createElement<any>(this.preset.innerElement, {
           ref: innerRef,
           key: `${id}-inner`,
@@ -516,7 +522,6 @@ export default class List extends React.PureComponent<IProps, IState> {
             width: !isHorizontal ? '100%' : estimatedTotalSize
           }
         }, items),
-        renderBottom
       )
     }
   }

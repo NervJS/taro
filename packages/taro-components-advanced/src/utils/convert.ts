@@ -1,7 +1,7 @@
 /** 将距离值根据单位转换为 Number 类型
  * TODO: 未来可以考虑支持更多单位
  */
-export function convertPX2Int (distance: string | number) {
+export function convertPX2Int (distance?: string | number) {
   if (typeof distance === 'string') {
     const str = distance.toLowerCase()
     if (/px$/.test(str)) {

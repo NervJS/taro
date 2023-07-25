@@ -19,6 +19,7 @@ export interface IProps extends Partial<VirtualListProps> {
   outerRef?: React.Ref<HTMLElement> | string
   onItemsRendered?: TFunc
   shouldResetStyleCacheOnItemSizeChange?: boolean
+  outerWrapper?: React.FC
 }
 
 export default class Preset {
