@@ -65,7 +65,11 @@ export default class Preset {
   }
 
   get isRelative () {
-    return this.props.position === 'relative'
+    return this.props.position && this.props.position !== 'absolute'
+  }
+
+  get isBrick () {
+    return this.props.position === 'brick'
   }
 
   get placeholderCount () {

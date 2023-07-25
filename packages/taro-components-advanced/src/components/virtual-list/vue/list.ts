@@ -379,7 +379,93 @@ export default {
       this.$nextTick(() => {
         this.preset.resetCache()
       })
-    }
+    },
+
+    getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {
+      const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.$props
+      const { id, isScrolling } = this.$data
+      const key = itemKey(index, itemData)
+  
+      const style = this.preset.getItemStyle(index)
+      if (type === 'placeholder') {
+        return render(this.preset.itemElement, {
+          key,
+          id: `${id}-${index}-wrapper`,
+          style: this.preset.isBrick ? style : { display: 'none' }
+        })
+      }
+  
+      return render(this.preset.itemElement, {
+        key: itemKey(index, itemData),
+        id: `${id}-${index}-wrapper`,
+        style
+      }, render(item, {
+        id: `${id}-${index}`,
+        data: itemData,
+        index,
+        isScrolling: useIsScrolling ? isScrolling : undefined
+      }))
+    },
+  
+    getRenderColumnNode () {
+      const { id, isScrolling } = this.$data
+      const { innerRef, itemCount } = this.$props
+      const isHorizontal = this.preset.isHorizontal
+      // Read this value AFTER items have been created,
+      // So their actual sizes (if variable) are taken into consideration.
+      const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
+      const columnProps: any = {
+        ref: innerRef,
+        key: `${id}-inner`,
+        id: `${id}-inner`,
+        style: {
+          height: isHorizontal ? '100%' : estimatedTotalSize,
+          width: !isHorizontal ? '100%' : estimatedTotalSize,
+          position: 'relative',
+          pointerEvents: isScrolling ? 'none' : 'auto',
+        }
+      }
+  
+      const [startIndex, stopIndex] = this._getRangeToRender()
+      const items = []
+  
+      if (this.preset.isRelative && !this.preset.isBrick) {
+        const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
+        items.push(
+          render(this.preset.itemElement, {
+            key: `${id}-pre`,
+            id: `${id}-pre`,
+            style: {
+              height: isHorizontal ? '100%' : pre,
+              width: !isHorizontal ? '100%' : pre
+            }
+          })
+        )
+      }
+  
+      const placeholderCount = this.preset.placeholderCount
+      const restCount = itemCount - stopIndex
+      const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
+      const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
+  
+      for (let itemIndex = 0; itemIndex <= stopIndex + postPlaceholder; itemIndex++) {
+        if (!this.preset.isBrick) {
+          if (itemIndex < startIndex - prevPlaceholder) {
+            itemIndex = startIndex - prevPlaceholder
+            continue
+          } else if (itemIndex > stopIndex + postPlaceholder) {
+            break
+          }
+        }
+  
+        if (itemIndex < startIndex || itemIndex > stopIndex) {
+          items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
+        } else {
+          items.push(this.getRenderItemNode(itemIndex))
+        }
+      }
+      return render(this.preset.innerElement, columnProps, items)
+    },
   },
   mounted () {
     const { initialScrollOffset } = this.$props
@@ -440,75 +526,24 @@ export default {
 
   render () {
     const {
-      item,
       direction,
       height,
-      innerRef,
-      itemCount,
-      itemData,
-      itemKey = defaultItemKey,
       layout,
-      useIsScrolling,
       width,
       enhanced = false
-    } = omit(this.$props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
+    } = omit(this.$props, [
+      'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
+      'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
+      'outerElementType', 'outerTagName',
+      'position'
+    ])
     const {
       id,
-      isScrolling,
       scrollOffset,
       scrollUpdateWasRequested
     } = this.$data
 
     const isHorizontal = this.preset.isHorizontal
-    const placeholderCount = this.preset.placeholderCount
-    const onScroll = isHorizontal
-      ? this._onScrollHorizontal
-      : this._onScrollVertical
-
-    const [startIndex, stopIndex] = this._getRangeToRender()
-
-    const items = []
-    if (itemCount > 0) {
-      const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
-      items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => render(
-        this.preset.itemElement, {
-          key: itemKey(index + startIndex - prevPlaceholder, itemData),
-          style: { display: 'none' }
-        }
-      )))
-      for (let index = startIndex; index <= stopIndex; index++) {
-        const style = this.preset.getItemStyle(index)
-        items.push(
-          render(this.preset.itemElement, {
-            key: itemKey(index, itemData),
-            style
-          }, [
-            render(item, {
-              id: `${id}-${index}`,
-              props: {
-                id: `${id}-${index}`,
-                data: itemData,
-                index,
-                isScrolling: useIsScrolling ? isScrolling : undefined
-              }
-            })
-          ])
-        )
-      }
-      let restCount = itemCount - stopIndex
-      restCount =  restCount > 0 ? restCount : 0
-      const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
-      items.push(new Array(postPlaceholder).fill(-1).map((_, index) => render(
-        this.preset.itemElement, {
-          key: itemKey(1 + index + stopIndex, itemData),
-          style: { display: 'none' }
-        }
-      )))
-    }
-
-    // Read this value AFTER items have been created,
-    // So their actual sizes (if variable) are taken into consideration.
-    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSizeCache())
     const outerElementProps: any = {
       id,
       ref: this._outerRefSetter,
@@ -524,11 +559,13 @@ export default {
         direction
       },
       attrs: {
-        scrollY: layout === 'vertical',
-        scrollX: layout === 'horizontal'
+        scrollY: this.preset.isVertical,
+        scrollX: !this.preset.isVertical
       },
       on: {
-        scroll: onScroll
+        scroll: isHorizontal
+          ? this._onScrollHorizontal
+          : this._onScrollVertical
       }
     }
 
@@ -540,45 +577,10 @@ export default {
       }
     }
 
-    if (this.preset.isRelative) {
-      const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
-      return render(this.preset.outerElement, outerElementProps, [
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
-        render(this.preset.itemElement, {
-          key: `${id}-pre`,
-          id: `${id}-pre`,
-          style: {
-            height: isHorizontal ? '100%' : pre,
-            width: !isHorizontal ? '100%' : pre
-          }
-        }),
-        render(this.preset.innerElement, {
-          ref: innerRef,
-          key: `${id}-inner`,
-          id: `${id}-inner`,
-          style: {
-            pointerEvents: isScrolling ? 'none' : 'auto',
-            position: 'relative',
-          }
-        }, items),
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
-      ])
-    } else {
-      return render(this.preset.outerElement, outerElementProps, [
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
-        render(this.preset.innerElement, {
-          ref: innerRef,
-          key: `${id}-inner`,
-          id: `${id}-inner`,
-          style: {
-            height: isHorizontal ? '100%' : estimatedTotalSize,
-            pointerEvents: isScrolling ? 'none' : 'auto',
-            position: 'relative',
-            width: !isHorizontal ? '100%' : estimatedTotalSize
-          }
-        }, items),
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
-      ])
-    }
+    return render(this.preset.outerElement, outerElementProps, [
+      process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
+      this.getRenderColumnNode(),
+      process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
+    ])
   }
 }

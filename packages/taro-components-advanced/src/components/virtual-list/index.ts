@@ -39,7 +39,7 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
   /** 布局方式
    * @default "absolute"
    */
-  position?: 'absolute' | 'relative'
+  position?: 'absolute' | 'relative' | 'brick'
   /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。
    * @default "vertical"
    */

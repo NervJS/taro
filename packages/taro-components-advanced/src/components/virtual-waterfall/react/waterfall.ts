@@ -63,30 +63,30 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }
   }
 
-  #outerRef = undefined
+  _outerRef = undefined
 
   #resetIsScrollingTimeoutId = null
 
-  #callOnItemsRendered = memoizeOne((columnIndex, overscanStartIndex, overscanStopIndex) => this.props.onItemsRendered({
+  _callOnItemsRendered = memoizeOne((columnIndex, overscanStartIndex, overscanStopIndex) => this.props.onItemsRendered({
     columnIndex,
     overscanStartIndex,
     overscanStopIndex,
   }))
 
-  #callOnScroll = memoizeOne((scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) => this.props.onScroll({
+  _callOnScroll = memoizeOne((scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) => this.props.onScroll({
     scrollDirection,
     scrollOffset,
     scrollUpdateWasRequested,
     detail
   } as any))
 
-  #callPropsCallbacks (prevProps: any = {}, prevState: any = {}) {
+  _callPropsCallbacks (prevProps: any = {}, prevState: any = {}) {
     if (typeof this.props.onItemsRendered === 'function') {
       if (this.props.itemCount > 0) {
         if (prevProps && prevProps.itemCount !== this.props.itemCount) {
           for (let columnIndex = 0; columnIndex < this.itemMap.columns; columnIndex++) {
-            const [overscanStartIndex, overscanStopIndex] = this.#getRangeToRender(columnIndex)
-            this.#callOnItemsRendered(columnIndex, overscanStartIndex, overscanStopIndex)
+            const [overscanStartIndex, overscanStopIndex] = this._getRangeToRender(columnIndex)
+            this._callOnItemsRendered(columnIndex, overscanStartIndex, overscanStopIndex)
           }
         }
       }
@@ -98,7 +98,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
         prevState.scrollOffset !== this.state.scrollOffset ||
         prevState.scrollUpdateWasRequested !== this.state.scrollUpdateWasRequested
       ) {
-        this.#callOnScroll(
+        this._callOnScroll(
           this.state.scrollDirection,
           this.state.scrollOffset,
           this.state.scrollUpdateWasRequested,
@@ -110,7 +110,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     if (this.itemMap.isUnlimitedMode) {
       setTimeout(() => {
         for (let column = 0; column < this.itemMap.columns; column++) {
-          const [startIndex, stopIndex] = this.#getRangeToRender(column)
+          const [startIndex, stopIndex] = this._getRangeToRender(column)
           for (let row = startIndex; row <= stopIndex; row++) {
             const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
             getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100).then(({ height }) => {
@@ -128,7 +128,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   // So that pure component sCU will prevent re-renders.
   // We maintain this cache, and pass a style prop rather than index,
   // So that List can clear cached styles and force item re-render if necessary.
-  #getRangeToRender (columnIndex = 0) {
+  _getRangeToRender (columnIndex = 0) {
     return this.itemMap.getRangeToRender(
       this.state.scrollDirection,
       columnIndex,
@@ -137,11 +137,11 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     )
   }
 
-  #outerRefSetter = ref => {
+  _outerRefSetter = ref => {
     const {
       outerRef
     } = this.props
-    this.#outerRef = ref
+    this._outerRef = ref
 
     if (typeof outerRef === 'function') {
       outerRef(ref)
@@ -151,15 +151,15 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }
   }
 
-  #resetIsScrollingDebounced = () => {
+  _resetIsScrollingDebounced = () => {
     if (this.#resetIsScrollingTimeoutId !== null) {
       cancelTimeout(this.#resetIsScrollingTimeoutId)
     }
 
-    this.#resetIsScrollingTimeoutId = requestTimeout(this.#resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
+    this.#resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
   }
 
-  #resetIsScrolling = () => {
+  _resetIsScrolling = () => {
     this.#resetIsScrollingTimeoutId = null
     this.setState({
       isScrolling: false
@@ -170,7 +170,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     })
   }
 
-  #onScroll = event => {
+  _onScroll = event => {
     const {
       scrollHeight = this.itemMap.maxColumnSize,
       scrollWidth,
@@ -205,7 +205,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
         scrollOffset,
         scrollUpdateWasRequested: false
       }
-    }, this.#resetIsScrollingDebounced)
+    }, this._resetIsScrollingDebounced)
   }
 
   public scrollTo (scrollOffset = 0) {
@@ -231,7 +231,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
         scrollOffset,
         scrollUpdateWasRequested: true
       }
-    }, this.#resetIsScrollingDebounced)
+    }, this._resetIsScrollingDebounced)
   }
 
   public scrollToItem (index: number, align = 'auto') {
@@ -244,11 +244,11 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   componentDidMount () {
     const { initialScrollOffset } = this.props
 
-    if (typeof initialScrollOffset === 'number' && this.#outerRef != null) {
-      this.#outerRef.scrollTop = initialScrollOffset
+    if (typeof initialScrollOffset === 'number' && this._outerRef != null) {
+      this._outerRef.scrollTop = initialScrollOffset
     }
 
-    this.#callPropsCallbacks()
+    this._callPropsCallbacks()
     this.preset.boundaryDetection()
   }
 
@@ -257,11 +257,11 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
 
     this.preset.update(this.props)
 
-    if (scrollUpdateWasRequested && this.#outerRef != null) {
-      this.#outerRef.scrollTop = scrollOffset
+    if (scrollUpdateWasRequested && this._outerRef != null) {
+      this._outerRef.scrollTop = scrollOffset
     }
 
-    this.#callPropsCallbacks(prevProps, prevState)
+    this._callPropsCallbacks(prevProps, prevState)
   }
 
   componentWillUnmount () {
@@ -271,7 +271,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     this.preset.dispose()
   }
 
-  getRenderItemNode (itemIndex: number, type: 'node' | 'brick' | 'placeholder' = 'node') {
+  getRenderItemNode (itemIndex: number, type: 'node' | 'placeholder' = 'node') {
     const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.props
     const { id, isScrolling } = this.state
     const key = itemKey(itemIndex, itemData)
@@ -309,7 +309,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       }
     }
 
-    const [startIndex, stopIndex] = this.#getRangeToRender(columnIndex)
+    const [startIndex, stopIndex] = this._getRangeToRender(columnIndex)
     const items = []
     if (this.preset.isRelative && !this.preset.isBrick) {
       const pre = convertNumber2PX(this.itemMap.getOffsetSizeCache(columnIndex, startIndex))
@@ -364,6 +364,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       renderBottom,
       ...rest
     } = omit(this.props, [
+      'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
       'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
       'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
       'upperThreshold', 'lowerThreshold',
@@ -381,8 +382,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       ...rest,
       id,
       className: classNames(className, 'virtual-waterfall'),
-      onScroll: this.#onScroll,
-      ref: this.#outerRefSetter,
+      onScroll: this._onScroll,
+      ref: this._outerRefSetter,
       style: {
         height: convertNumber2PX(height),
         width: convertNumber2PX(width),
