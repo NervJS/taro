@@ -13,7 +13,14 @@ export default class Index extends React.Component {
         list: [
             {
                 id: 'nextTick',
-                func: null,
+                func: () => {
+                    let data = 0// 直接在当前同步流程中执行
+                    Taro.nextTick(() => {
+                        data = 1 // 在当前同步流程结束后，下一个时间片执行
+                    })
+                    data = 2 // 直接在当前同步流程中执行
+                    console.log('nextTick success ', data)
+                },
             }, 
         ], 
     }

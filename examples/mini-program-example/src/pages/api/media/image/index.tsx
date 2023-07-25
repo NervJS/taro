@@ -1,5 +1,5 @@
 import React from 'react'
-import Taro from '@tarojs/taro'
+import Taro, { Current } from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
@@ -17,15 +17,15 @@ export default class Index extends React.Component {
                     Taro.chooseImage({
                         count: 1,
                         sizeType: ['original', 'compressed'],
-                        sourceType: ['album', 'camera'],
+                        sourceType: ['album', 'camera', 'user', 'environment'],
                         success: function (res) {
                           console.log('chooseImage success ', res.tempFilePaths, res.tempFiles, res.errMsg);
                         },
                         fail: function (res) {
-                            console.log('chooseImage fail ', res.errMsg);
+                            console.log('chooseImage fail ', res);
                         },
                         complete: function(res){
-                            console.log('chooseImage complete ', res.errMsg);
+                            console.log('chooseImage complete ', res);
                         },
                     })
                 },
@@ -45,21 +45,21 @@ export default class Index extends React.Component {
                             showmenu: false,
                             referrerPolicy: 'origin',
                             success: function(res){
-                                console.log('previewImage success ', res.errMsg);
+                                console.log('previewImage success ', res);
                             },
                             fail: function(res){
-                                console.log('previewImage fail ',res.errMsg);
+                                console.log('previewImage fail ',res);
                             },
                             complete: function(res){
-                                console.log('previewImage complete ', res.errMsg);
+                                console.log('previewImage complete ', res);
                             },
                           })
                         },
                         fail: function (res) {
-                            console.log('chooseImage fail ', res.errMsg);
+                            console.log('chooseImage fail ', res);
                         },
                         complete: function(res){
-                            console.log('chooseImage complete ', res.errMsg);
+                            console.log('chooseImage complete ', res);
                         },
                     })
                 },
@@ -75,10 +75,10 @@ export default class Index extends React.Component {
                                 console.log('getImageInfo success ', res.width, res.height, res.orientation, res.path, res.type, res.errMsg);
                             },
                             fail: function (res) {
-                                console.log('getImageInfo fail ', res.errMsg);
+                                console.log('getImageInfo fail ', res);
                             },
                             complete: function(res){
-                                console.log('getImageInfo complete ', res.errMsg);
+                                console.log('getImageInfo complete ', res);
                             },
                           })
                         }
@@ -93,13 +93,13 @@ export default class Index extends React.Component {
                           Taro.saveImageToPhotosAlbum({
                             filePath: res.tempFilePaths[0],
                             success: function (res) {
-                                console.log('saveImageToPhotosAlbum success ', res.errMsg);
+                                console.log('saveImageToPhotosAlbum success ', res);
                             },
                             fail: function (res) {
-                                console.log('saveImageToPhotosAlbum fail ', res.errMsg);
+                                console.log('saveImageToPhotosAlbum fail ', res);
                             },
                             complete: function(res){
-                                console.log('saveImageToPhotosAlbum complete ', res.errMsg);
+                                console.log('saveImageToPhotosAlbum complete ', res);
                             }
                           })
                         }
@@ -117,13 +117,38 @@ export default class Index extends React.Component {
                             compressedWidth: 300,
                             compressHeight: 200,
                             success: function (res) {
-                                console.log('compressImage success ', res.errMsg);
+                                console.log('compressImage success ', res);
                             },
                             fail: function (res) {
-                                console.log('compressImage fail ', res.errMsg);
+                                console.log('compressImage fail ', res);
                             },
                             complete: function(res){
-                                console.log('compressImage complete ', res.errMsg);
+                                console.log('compressImage complete ', res);
+                            }
+                          })
+                        }
+                    })
+                },
+            },
+            {
+                id: 'previewMedia',
+                func: () => {
+                    Taro.chooseImage({
+                        success: function (res) {
+                          Taro.previewMedia({
+                            sources:[{
+                                url:res.tempFilePaths[0],
+                                type:'image',
+                                poster:'test'
+                            }],
+                            success: function (res) {
+                                console.log('previewMedia success ', res);
+                            },
+                            fail: function (res) {
+                                console.log('previewMedia fail ', res);
+                            },
+                            complete: function(res){
+                                console.log('previewMedia complete ', res);
                             }
                           })
                         }

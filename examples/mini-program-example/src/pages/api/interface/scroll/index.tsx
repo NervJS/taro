@@ -13,7 +13,23 @@ export default class Index extends React.Component {
         list: [
             {
                 id: 'pageScrollTo',
-                func: null,
+                func: () => {
+                    Taro.pageScrollTo({
+                        scrollTop: 4,
+                        duration: 300,
+                        selector: '',//css selector
+                        offsetTop: 0,
+                        success: (res) => {
+                            console.log('pageScrollTo success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('pageScrollTo fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('pageScrollTo complete ', res)
+                        },
+                    })
+                },
             }, 
             {
                 id: 'ScrollViewContext',

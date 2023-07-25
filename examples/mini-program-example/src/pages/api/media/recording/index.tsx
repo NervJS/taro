@@ -74,8 +74,7 @@ export default class Index extends React.Component {
             {
                 id: 'getRecoederManager',
                 func: () => {
-                    recorderManager = Taro.getRecorderManager();
-                    console.log('success-----on creating recorderManager');
+                    console.log('success-----on creating recorderManager ', Taro.getRecorderManager());
                 },
             },
             {
@@ -84,68 +83,41 @@ export default class Index extends React.Component {
                     const that = this
                     recorderManager.onStart(() => {
                         console.log('success-----recorderManage: onStart')
-                        that.setState({
-                            recordTime: 0
-                        })
                         // 录音时长记录 每秒刷新
                         recordTimeInterval = setInterval(() => {
                             const recordTime = that.state.recordTime + 1;
-                            that.setState({
-                                formatedRecordTime: that.formatTime(recordTime),
-                                recordTime,
-                            })
+                            console.log(recordTime)
                         }, 1000)
                     })
                     recorderManager.onStop((res) => {
                         console.log('success-----recorderManage: onStop')
-                        that.setState({
-                            recording: false,
-                        })
                         // 清除录音计时器
                         clearInterval(recordTimeInterval)
                     })
                     recorderManager.onResume(() => {
                         console.log('success-----recorderManage: onResume')
                         // 录音时长记录 每秒刷新
-                        that.setState({
-                            recording: true,
-                        })
                         recordTimeInterval = setInterval(() => {
                             const recordTime = that.state.recordTime + 1;
-                            that.setState({
-                                formatedRecordTime: that.formatTime(recordTime),
-                                recordTime,
-                            })
+                            console.log(recordTime)
                         }, 1000)
                     })
                     recorderManager.onPause((res) => {
                         console.log('success-----recorderManage: onPause', res)
-                        that.setState({
-                            recording: false,
-                        })
                         // 清除录音计时器
                         clearInterval(recordTimeInterval)
                     })
                     recorderManager.onInterruptionBegin((res) => {
                         console.log('success-----recorderManage: onInterruptionBegin', res)
-                        that.setState({
-                            recording: false,
-                        })
                         // 清除录音计时器
                         clearInterval(recordTimeInterval)
                     })
                     recorderManager.onInterruptionEnd((res) => {
                         console.log('success-----recorderManage: onInterruptionEnd', res)
-                        that.setState({
-                            recording: true,
-                        })
                         // 清除录音计时器
                         recordTimeInterval = setInterval(() => {
                             const recordTime = that.state.recordTime + 1;
-                            that.setState({
-                                formatedRecordTime: that.formatTime(recordTime),
-                                recordTime,
-                            })
+                            console.log(recordTime)
                         }, 1000)
                     })
                     recorderManager.onFrameRecorded((res) => {

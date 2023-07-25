@@ -17,17 +17,22 @@ export default class Index extends React.Component {
                     Taro.openBluetoothAdapter({
                         success: (res) => {
                           console.log('openBluetoothAdapter success', res);
-                          Taro.stopBluetoothDevicesDiscovery({
-                            success: (res) => {
-                                console.log('stopBluetoothDevicesDiscovery success-----', res);
-                            },
-                            fail: (res) => {
-                                console.log('stopBluetoothDevicesDiscovery fail-----', res);
-                            },
-                            complete: (res) => {
-                                console.log('stopBluetoothDevicesDiscovery complete-----', res);
-                            },
-                        })
+                            Taro.startBluetoothDevicesDiscovery({
+                                success: (res) => {
+                                    console.log('startBluetoothDevicesDiscovery success', res);
+                                    Taro.stopBluetoothDevicesDiscovery({
+                                        success: (res) => {
+                                            console.log('stopBluetoothDevicesDiscovery success-----', res);
+                                        },
+                                        fail: (res) => {
+                                            console.log('stopBluetoothDevicesDiscovery fail-----', res);
+                                        },
+                                        complete: (res) => {
+                                            console.log('stopBluetoothDevicesDiscovery complete-----', res);
+                                        },
+                                    })
+                                }
+                            })
                         },
                         fail: (res) => {
                             console.log('openBluetoothAdapter fail', res);
@@ -43,16 +48,19 @@ export default class Index extends React.Component {
                         success: (res) => {
                           console.log('openBluetoothAdapter success', res);
                           Taro.startBluetoothDevicesDiscovery({
-                            success: (res) => {
-                                console.log('startBluetoothDevicesDiscovery success-----', res);
-                            },
-                            fail: (res) => {
-                                console.log('startBluetoothDevicesDiscovery fail', res);
-                            },
-                            complete: (res) => {
-                                console.log('startBluetoothDevicesDiscovery complete-----', res);
-                            },
-                        })
+                                allowDuplicatesKey: true,
+                                interval: 500,
+                                services: ['5A87DA25D04C4A0DD6571C6049FFA0AD587388163BB6E8422FBFB4B4D42B55F3'],//UUID
+                                success: (res) => {
+                                    console.log('startBluetoothDevicesDiscovery success-----', res);
+                                },
+                                fail: (res) => {
+                                    console.log('startBluetoothDevicesDiscovery fail-----', res);
+                                },
+                                complete: (res) => {
+                                    console.log('startBluetoothDevicesDiscovery complete-----', res);
+                                },
+                            })
                         },
                         fail: (res) => {
                             console.log('openBluetoothAdapter fail', res);

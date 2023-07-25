@@ -16,26 +16,31 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.setClipboardData({
                         data: this.state.value,
-                        success() {
-                          Taro.showToast({
-                            title: '复制成功',
-                            icon: 'success',
-                            duration: 1000
-                          })
-                        }
+                        success(res) {
+                          console.log('setClipboardData success ', res)
+                        },
+                        fail(res) {
+                            console.log('setClipboardData fail ', res)
+                        },
+                        complete(res) {
+                            console.log('setClipboardData complete ', res)
+                        },
                       })
                 },
             }, 
             {
                 id: 'getClipboardData',
                 func: () => {
-                    const self = this;
                     Taro.getClipboardData({
                         success(res) {
-                          self.setState({
-                            pasted: res.data
-                          })
-                        }
+                            console.log('getClipboardData success ', res)
+                        },
+                        fail(res) {
+                            console.log('getClipboardData fail ', res)
+                        },
+                        complete(res) {
+                            console.log('getClipboardData complete ', res)
+                        },
                       })
                 },
             }, 

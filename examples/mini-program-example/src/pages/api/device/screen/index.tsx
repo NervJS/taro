@@ -16,29 +16,11 @@ export default class Index extends React.Component {
                 func: null,
             },
             {
-                id: 'setScreenBrightness',
+                id: 'setScreenBrightness1',
                 func: () => {
                     Taro.setScreenBrightness({
                         value: 1,
                         success: (res) => {
-                            this.setState({
-                                brightValue: 1,
-                            })
-                            console.log('success-----', res);
-                        },
-                        fail: (res) => {
-                            console.log('fail-----', res);
-                        },
-                        complete: (res) => {
-                            console.log('complete-----', res);
-                        }
-                    }),
-                    Taro.setScreenBrightness({
-                        value: 0,
-                        success: (res) => {
-                            this.setState({
-                                brightValue: 1,
-                            })
                             console.log('success-----', res);
                         },
                         fail: (res) => {
@@ -51,7 +33,24 @@ export default class Index extends React.Component {
                 },
             },
             {
-                id: 'setKeepScreenOn',
+                id: 'setScreenBrightness0',
+                func: () => {
+                    Taro.setScreenBrightness({
+                        value: 0,
+                        success: (res) => {
+                            console.log('success-----', res);
+                        },
+                        fail: (res) => {
+                            console.log('fail-----', res);
+                        },
+                        complete: (res) => {
+                            console.log('complete-----', res);
+                        }
+                    })
+                },
+            },
+            {
+                id: 'setKeepScreenOnTrue',
                 func: () => {
                     Taro.setKeepScreenOn({
                         keepScreenOn: true,
@@ -64,7 +63,12 @@ export default class Index extends React.Component {
                         complete: (res) => {
                             console.log('setKeepScreenOn(true) complete-----', res);
                         }
-                    }),
+                    })
+                },
+            },
+            {
+                id: 'setKeepScreenOnFalse',
+                func: () => {
                     Taro.setKeepScreenOn({
                         keepScreenOn: false,
                         success: (res) => {
@@ -96,9 +100,8 @@ export default class Index extends React.Component {
                 },
             },
             {
-                id: 'getScreenBrightness',
+                id: 'getScreenBrightness0',
                 func: () => {
-
                     Taro.setScreenBrightness({
                         value: 0,
                         success: (res) => {
@@ -115,7 +118,12 @@ export default class Index extends React.Component {
                                 }
                             })
                         }
-                    }),
+                    })
+                },
+            },
+            {
+                id: 'getScreenBrightness1',
+                func: () => {
                     Taro.setScreenBrightness({
                         value: 1,
                         success: (res) => {
@@ -134,7 +142,7 @@ export default class Index extends React.Component {
                         }
                     })
                 },
-            },
+            }
         ], 
         brightValue: 0.5,
     }

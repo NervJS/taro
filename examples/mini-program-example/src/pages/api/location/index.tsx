@@ -41,16 +41,20 @@ export default class Index extends React.Component {
             {
                 id: 'stopLocationUpdate',
                 func: () => {
-                    Taro.stopLocationUpdate({
-                        success: function (res) {
-                            console.log('stopLocationUpdate success ', res)
-                        },
-                        fail: function (res) {
-                            console.log('stopLocationUpdate fail ', res)
-                        },
-                        complete: function(res) {
-                            console.log('stopLocationUpdate complete ', res)
-                        },
+                    Taro.startLocationUpdate({
+                        success: () => {
+                            Taro.stopLocationUpdate({
+                                success: function (res) {
+                                    console.log('stopLocationUpdate success ', res)
+                                },
+                                fail: function (res) {
+                                    console.log('stopLocationUpdate fail ', res)
+                                },
+                                complete: function(res) {
+                                    console.log('stopLocationUpdate complete ', res)
+                                },
+                            })
+                        }
                     })
                 },
             },
@@ -127,6 +131,25 @@ export default class Index extends React.Component {
                         },
                         complete: (res) => {
                             console.log('getLocation complete ', res)
+                        },
+                    })
+                },
+                
+            },
+            {
+                id: 'chooseLocation',
+                func: () => {
+                    Taro.chooseLocation({
+                        latitude: 45,
+                        longitude: 89,                      
+                        success: (res) => {
+                            console.log('chooseLocation success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('chooseLocation fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('chooseLocation complete ', res)
                         },
                     })
                 },

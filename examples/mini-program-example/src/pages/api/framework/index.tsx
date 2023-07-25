@@ -33,7 +33,8 @@ export default class Index extends React.Component {
             {
                 id: 'Page',
                 func: () => {
-                    console.log('...')
+                    const pages = Taro.getCurrentPages();
+                    console.log('pages...')
                 }
             }, 
         ], 
