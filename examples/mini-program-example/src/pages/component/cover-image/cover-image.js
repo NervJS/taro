@@ -24,7 +24,24 @@ export default class PageView extends React.Component {
             <View className='example-body'>
               <CoverImage
                 style={{display: 'flex'}}
-                src={nervLogo} ></CoverImage>
+                src={nervLogo}
+                referrerPolicy='origin'
+                fixedTop='1px'
+                fixedBottom='1px'
+                fixedRight='1px'
+                fixedLeft='1px'
+                ariaRole='角色'
+                ariaLabel='属性'
+                onLoad={() => {
+                  console.log('CoverImage onLoad success')
+                }}
+                onError={() => {
+                  console.log('CoverImage onError success')
+                }}
+                onTap={() => {
+                  console.log('CoverImage onTap success')
+                }}
+                ></CoverImage>
             </View>
           </View>
           <View className='components-page__body-example example'>
