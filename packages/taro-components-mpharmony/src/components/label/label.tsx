@@ -1,24 +1,29 @@
 import { LabelProps } from '@tarojs/components/dist/types/Label'
-import React, { Component, useCallback,useState } from 'react'
+import React, { useRef } from 'react'
 
-export class Label extends Component<LabelProps> {
+export const Label: React.FC<LabelProps> = (props: LabelProps) => {
 
-  override render () {
-    const [checked, setChecked] = useState(false)
-    const clickHandler = useCallback(() => {
-      setChecked(!checked)
+  const labelRef = useRef<HTMLDivElement>(null)
+  const clickHandler = () => {
 
-      let forElement
-      if (this.props.for) {
-        forElement = document.getElementById(`${this.props.for}`)
-      } else {
-        const childrenArray = React.Children.toArray(this.props.children)
-        forElement = childrenArray && childrenArray.length > 0 && childrenArray[0]
+    let forElement: Element | null | undefined
+    if (props.for) {
+      forElement = document.getElementById(`${props.for}`)
+    } else {
+      forElement = labelRef.current?.firstElementChild
+    }
+
+    if (forElement) {
+      try {
+        // @ts-ignore
+        forElement.checked = !forElement.checked
+      } catch (e) {
+        // @ts-ignore
+        forElement?.click()
       }
-      forElement?.click()
-    }, [checked])
-
-    return (<div onClick={clickHandler}>{this.props.children}</div>)
+    }
   }
+
+  return (<div ref={labelRef} onClick={clickHandler}>{props.children}</div>)
 
 }
