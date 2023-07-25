@@ -587,7 +587,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
-    <template is="{{xs.a(0, item.nn)}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
   </block>
 </template>
 
@@ -3890,7 +3890,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
-    <template is="{{xs.a(0, item.nn)}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
   </block>
 </template>
 
