@@ -82,7 +82,10 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'createVideoContext',
-                func: null,
+                func: () => {
+                    const videoContext = Taro.createVideoContext('myVideo')
+                    console.log('createVideoContext ', videoContext)
+                },
             },
             {
                 id: 'compressVideo',
@@ -130,7 +133,63 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'VideoContext',
-                func: null,
+                func: () => {
+                    const videoContext = Taro.createVideoContext('myVideo')
+                    console.log('createVideoContext ', videoContext)
+
+                    videoContext.exitBackgroundPlayback()
+                    console.log('exitBackgroundPlayback')
+
+                    videoContext.exitFullScreen()
+                    console.log('exitFullScreen')
+
+                    videoContext.exitPictureInPicture({
+                        success:(res) => {
+                            console.log('videoContext.exitPictureInPicture success ', res)
+                        },
+                        fail:(res) => {
+                            console.log('videoContext.exitPictureInPicture fail ', res)
+                        },
+                        complete:(res) => {
+                            console.log('videoContext.exitPictureInPicture complete ', res)
+                        },
+                    })
+
+                    videoContext.hideStatusBar()
+                    console.log('')
+
+                    videoContext.pause()
+                    console.log('videoContext.pause')
+
+                    videoContext.play()
+                    console.log('videoContext.play')
+
+                    videoContext.playbackRate(1.0)
+                    console.log('videoContext.playbackRate')
+
+                    videoContext.requestBackgroundPlayback()
+                    console.log(' videoContext.requestBackgroundPlayback')
+
+                    videoContext.requestFullScreen({
+                        direction: 90
+                    })
+                    console.log('videoContext.requestFullScreen')
+
+                    videoContext.seek(3)
+                    console.log('videoContext.seek(3)')
+
+                    videoContext.sendDanmu({
+                        text:'测试弹幕',
+                        color:'#FFF'
+                    })
+                    console.log('videoContext.sendDanmu')
+
+                    videoContext.showStatusBar()
+                    console.log('videoContext.showStatusBar')
+
+                    videoContext.stop()
+                    console.log('videoContext.stop')
+                },
             },
         ], 
     }

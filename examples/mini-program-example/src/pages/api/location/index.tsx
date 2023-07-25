@@ -132,6 +132,25 @@ export default class Index extends React.Component {
                 },
                 
             },
+            {
+                id: 'chooseLocation',
+                func: () => {
+                    Taro.chooseLocation({
+                        latitude: 45,
+                        longitude: 89,                      
+                        success: (res) => {
+                            console.log('chooseLocation success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('chooseLocation fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('chooseLocation complete ', res)
+                        },
+                    })
+                },
+                
+            },
         ], 
     }
     render () {
