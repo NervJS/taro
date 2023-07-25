@@ -1,7 +1,7 @@
 import { isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 
-import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSize, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
+import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSizeSync, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
 import render from '../../../utils/vue-render'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
@@ -96,10 +96,13 @@ export default {
   },
   data () {
     const preset = new Preset(this.$props, this.refresh)
+    const id = this.$props.id || preset.id
+    preset.updateWrapper(id)
+
     return {
       itemList: preset.itemList,
       preset,
-      id: this.$props.id || preset.id,
+      id,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -226,25 +229,17 @@ export default {
     },
 
     _getSizeUploadSync (index: number, isHorizontal: boolean) {
-      const ID = `#${this.$data.id}-${index}`
-
       return new Promise((resolve) => {
-        const success = ({ width, height }) => {
-          const size = isHorizontal ? width : height
-          if (!this.itemList.compareSize(index, size)) {
-            this.itemList.setSize(index, size)
-            resolve(this.itemList.getSize(index))
-          }
+        if (index >= 0 && index < this.props.itemCount) {
+          const times = this.itemList.compareSize(index) ? 0 : 2
+          getRectSizeSync(`#${this.state.id}-${index}`, 100, times).then(({ width, height }) => {
+            const size = isHorizontal ? width : height
+            if (!this.itemList.compareSize(index, size)) {
+              this.itemList.setSize(index, size)
+              resolve(this.itemList.getSize(index))
+            }
+          })
         }
-        const fail = () => {
-          const [startIndex, stopIndex] = this._getRangeToRender()
-          if (index >= startIndex && index <= stopIndex) {
-            setTimeout(() => {
-              getRectSize(ID, success, fail)
-            }, 100)
-          }
-        }
-        getRectSize(ID, success, fail)
       })
     },
 
@@ -258,12 +253,12 @@ export default {
 
     _onScrollHorizontal (event) {
       const {
-        clientWidth = this.itemList.wrapperSize,
         scrollHeight,
         scrollWidth = this.itemList.getOffsetSizeCache(),
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      const clientWidth = this.itemList.wrapperSize
       this.preset.field = {
         scrollHeight,
         scrollWidth,
@@ -313,12 +308,12 @@ export default {
 
     _onScrollVertical (event) {
       const {
-        clientHeight = this.itemList.wrapperSize,
         scrollHeight = this.itemList.getOffsetSizeCache(),
         scrollWidth,
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      const clientHeight = this.itemList.wrapperSize
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)
       }
@@ -448,13 +443,11 @@ export default {
       const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
   
-      for (let itemIndex = 0; itemIndex <= stopIndex + postPlaceholder; itemIndex++) {
+      for (let itemIndex = 0; itemIndex < stopIndex + postPlaceholder; itemIndex++) {
         if (!this.preset.isBrick) {
           if (itemIndex < startIndex - prevPlaceholder) {
             itemIndex = startIndex - prevPlaceholder
             continue
-          } else if (itemIndex > stopIndex + postPlaceholder) {
-            break
           }
         }
   

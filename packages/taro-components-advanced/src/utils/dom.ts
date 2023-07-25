@@ -17,12 +17,13 @@ export function getRectSize (id: string, success?: TFunc, fail?: TFunc, retryMs 
   }
 }
 
-export function getRectSizeSync (id: string, retryMs = 500) {
+export function getRectSizeSync (id: string, retryMs = 500, retryTimes = 5) {
   return new Promise<{ width?: number, height?: number }>((resolve) => {
     function retry () {
+      if (retryTimes <= 0) return
       setTimeout(async () => {
         try {
-          const res = await getRectSizeSync(id, retryMs)
+          const res = await getRectSizeSync(id, retryMs, --retryTimes)
           resolve(res)
         } catch (err) {
           retry()

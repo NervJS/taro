@@ -113,11 +113,14 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
           const [startIndex, stopIndex] = this._getRangeToRender(column)
           for (let row = startIndex; row <= stopIndex; row++) {
             const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
-            getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100).then(({ height }) => {
-              if (!this.itemMap.compareSizeByPosition(column, row, height)) {
-                this.itemMap.setSizeByPosition(column, row, height)
-              }
-            })
+            if (itemIndex >= 0 && itemIndex < this.props.itemCount) {
+              const times = this.itemMap.compareSizeByPosition(column, row) ? 3 : 0
+              getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
+                if (!this.itemMap.compareSizeByPosition(column, row, height)) {
+                  this.itemMap.setSizeByPosition(column, row, height)
+                }
+              })
+            }
           }
         }
       }, 0)
@@ -330,15 +333,13 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
     const visibleItem = (stopIndex + postPlaceholder) * this.itemMap.columns + columnIndex
     this.itemMap.updateItem(visibleItem)
-    for (let row = 0; row <= stopIndex + postPlaceholder; row++) {
+    for (let row = 0; row < stopIndex + postPlaceholder; row++) {
       const itemIndex = this.itemMap.getItemIndexByPosition(columnIndex, row)
       if (itemIndex >= 0 && itemIndex < this.props.itemCount) {
         if (!this.preset.isBrick) {
           if (row < startIndex - prevPlaceholder) {
             row = startIndex - prevPlaceholder
             continue
-          } else if (row > stopIndex + postPlaceholder) {
-            break
           }
         }
 

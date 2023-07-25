@@ -13,6 +13,9 @@ export default class ListSet {
   mode?: 'normal' | 'function' | 'unlimited'
   defaultSize = 1
 
+  wrapperHeight = 0
+  wrapperWidth = 0
+
   refreshCounter = 0
 
   constructor (protected props: TProps, protected refresh?: TFunc) {
@@ -55,13 +58,7 @@ export default class ListSet {
   }
 
   get wrapperSize () {
-    const { height, width } = this.props
-    const isHorizontal = isHorizontalFunc(this.props)
-    const size = (isHorizontal ? width : height) as number
-    if (process.env.NODE_ENV !== 'production' && typeof size !== 'number') {
-      console.warn(`In mode ${isHorizontal ? 'horizontal, width' : 'vertical, height'} parameter should be a number, but got ${typeof size}.`)
-    }
-    return size
+    return isHorizontalFunc(this.props) ? this.wrapperWidth : this.wrapperHeight
   }
 
   update (props: TProps) {
@@ -138,9 +135,8 @@ export default class ListSet {
       return [0, 0, 0, 0]
     }
 
-    const wrapperSize = this.wrapperSize
     const startIndex = this.getStartIndex(scrollOffset)
-    const stopIndex = this.getStopIndex(wrapperSize, scrollOffset, startIndex)
+    const stopIndex = this.getStopIndex(this.wrapperSize, scrollOffset, startIndex)
 
     // Overscan by one item in each direction so that tab/focus works. If there isn't at least one extra item, tab loops back around.
     const overscanBackward = !block || direction === 'backward' ? Math.max(1, this.overscan) : 1
@@ -164,7 +160,7 @@ export default class ListSet {
     })
   }
 
-  compareSize (i = 0, size = 0) {
+  compareSize (i = 0, size = this.defaultSize) {
     if (this.isNormalMode) return true
     return this.getSize(i) === size
   }

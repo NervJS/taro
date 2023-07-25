@@ -1,7 +1,7 @@
 import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
 
-import { convertNumber2PX, defaultItemKey, isCosDistributing } from '../../utils'
+import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing } from '../../utils'
 import ListSet from './list-set'
 import { isHorizontalFunc, isRtlFunc } from './utils'
 
@@ -25,6 +25,7 @@ export interface IProps extends Partial<VirtualListProps> {
 
 export default class Preset {
   itemList: ListSet
+  #id: string
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
@@ -52,8 +53,35 @@ export default class Preset {
     this.itemList.update(props)
   }
 
+  async updateWrapper (id: string) {
+    this.id = id
+    const { width = 0, height = 0 } = this.props
+    const validWidth = typeof width === 'number' && width > 0
+    const validHeight = typeof height === 'number' && height > 0
+    if (validWidth) {
+      this.itemList.wrapperWidth = width
+    }
+    if (validHeight) {
+      this.itemList.wrapperHeight = height
+    }
+
+    if (!validHeight || !validWidth) {
+      const res = await getRectSizeSync(`#${id}`, 100)
+      this.itemList.wrapperWidth ||= res.width
+      this.itemList.wrapperHeight ||= res.height
+      this.refresh?.()
+    }
+
+    this.itemList.update(this.props)
+  }
+
+  set id (id: string) {
+    this.#id = id
+  }
+
   get id () {
-    return `virtual-list-${INSTANCE_ID++}`
+    this.#id ||= `virtual-waterfall-${INSTANCE_ID++}`
+    return this.#id
   }
 
   get isHorizontal () {

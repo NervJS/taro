@@ -298,7 +298,7 @@ export default class ListMap {
     })
   }
 
-  compareSizeByPosition (column = 0, row = 0, size = 0) {
+  compareSizeByPosition (column = 0, row = 0, size = this.getSizeByPosition(column, row)) {
     if (this.isNormalMode) return true
 
     const origenSize = this.#columnMap[column]?.[row]?.[1]
