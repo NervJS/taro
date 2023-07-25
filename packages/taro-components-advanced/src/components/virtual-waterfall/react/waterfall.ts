@@ -166,7 +166,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }, () => {
       // Clear style cache after state update has been committed.
       // This way we don't break pure sCU for items that don't use isScrolling param.
-      this.preset.getItemStyleCache(-1)
+      this.preset.resetCache()
     })
   }
 

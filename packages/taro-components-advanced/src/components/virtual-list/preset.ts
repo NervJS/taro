@@ -1,3 +1,4 @@
+import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
 
 import { convertNumber2PX, defaultItemKey, isCosDistributing } from '../../utils'
@@ -102,78 +103,46 @@ export default class Preset {
     return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))
   }
 
+  resetCache () {
+    this.itemList.refreshCounter++
+  }
+
   getItemStyleCache = memoizeOne((
-    _itemSize?: IProps['itemSize'] | false,
-    _layout?: IProps['layout'] | false,
-    _direction?: IProps['direction'] | false
+    itemIndex?: number,
+    itemSize?: IProps['itemSize'] | false,
+    _flag = this.itemList.refreshCounter
   ) => {
-    // TODO: Cache of item styles, keyed by item index.
-    return {}
-  })
-
-  getItemStyle (index: number) {
-    const {
-      direction,
-      itemSize,
-      layout,
-      shouldResetStyleCacheOnItemSizeChange
-    } = this.props
-
-    const itemStyleCache = this.getItemStyleCache(
-      shouldResetStyleCacheOnItemSizeChange ? itemSize : false,
-      shouldResetStyleCacheOnItemSizeChange ? layout : false,
-      shouldResetStyleCacheOnItemSizeChange ? direction : false
-    )
-
-    let style
-
-    const offset = convertNumber2PX(this.itemList.getOffsetSize(index))
-    const size = convertNumber2PX(this.itemList.getSize(index))
+    itemSize = itemSize || this.itemList.getSize(itemIndex)
+    const style: CSS.Properties<string | number> = this.isRelative ? {} : {
+      position: 'absolute',
+    }
+    const offset = convertNumber2PX(this.itemList.getOffsetSizeCache(itemIndex))
+    const size = convertNumber2PX(this.itemList.getSize(itemIndex))
     const isHorizontal = this.isHorizontal
     const isRtl = this.isRtl
-    if (itemStyleCache.hasOwnProperty(index)) {
-      // Note: style is frozen.
-      style = { ...itemStyleCache[index] }
-      if (isHorizontal) {
-        style.width = size
-        if (!this.isRelative) {
-          if (isRtl) {
-            style.right = offset
-          } else {
-            style.left = offset
-          }
-        }
+    style.height = !isHorizontal ? size : '100%'
+    style.width = isHorizontal ? size : '100%'
+    if (!this.isRelative) {
+      const offsetHorizontal = isHorizontal ? offset : 0
+      style.top = !isHorizontal ? offset : 0
+      if (isRtl) {
+        style.right = offsetHorizontal
       } else {
-        style.height = size
-        if (!this.isRelative) {
-          style.top = offset
-        }
-      }
-    } else {
-      if (this.isRelative) {
-        itemStyleCache[index] = style = {
-          height: !isHorizontal ? size : '100%',
-          width: isHorizontal ? size : '100%'
-        }
-      } else {
-        const offsetHorizontal = isHorizontal ? offset : 0
-        itemStyleCache[index] = style = {
-          position: 'absolute',
-          left: !isRtl ? offsetHorizontal : undefined,
-          right: isRtl ? offsetHorizontal : undefined,
-          top: !isHorizontal ? offset : 0,
-          height: !isHorizontal ? size : '100%',
-          width: isHorizontal ? size : '100%'
-        }
-      }
-    }
-
-    for (const k in style) {
-      if (style.hasOwnProperty(k)) {
-        style[k] = convertNumber2PX(style[k])
+        style.left = offsetHorizontal
       }
     }
 
     return style
+  })
+
+  getItemStyle (index: number) {
+    const {
+      shouldResetStyleCacheOnItemSizeChange
+    } = this.props
+
+    return this.getItemStyleCache(
+      index,
+      shouldResetStyleCacheOnItemSizeChange ? this.itemList.getSize(index) : false,
+    )
   }
 }

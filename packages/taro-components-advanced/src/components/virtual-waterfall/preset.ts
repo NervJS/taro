@@ -129,6 +129,10 @@ export default class Preset {
     return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))
   }
 
+  resetCache () {
+    this.itemMap.refreshCounter++
+  }
+
   getItemStyleCache = memoizeOne((
     itemIndex?: number,
     itemSize?: IProps['itemSize'] | false,

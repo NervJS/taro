@@ -260,15 +260,15 @@ export default {
       const {
         clientWidth = this.itemList.wrapperSize,
         scrollHeight,
-        scrollWidth = this.itemList.getOffsetSize(),
+        scrollWidth = this.itemList.getOffsetSizeCache(),
         scrollTop,
         scrollLeft,
       } = event.currentTarget
       this.preset.field = {
-        scrollHeight: scrollHeight,
-        scrollWidth: this.itemList.getOffsetSize(),
-        scrollTop: scrollTop,
-        scrollLeft: scrollLeft,
+        scrollHeight,
+        scrollWidth,
+        scrollTop,
+        scrollLeft,
         clientHeight: scrollHeight,
         clientWidth: scrollWidth
       }
@@ -314,7 +314,7 @@ export default {
     _onScrollVertical (event) {
       const {
         clientHeight = this.itemList.wrapperSize,
-        scrollHeight = this.itemList.getOffsetSize(),
+        scrollHeight = this.itemList.getOffsetSizeCache(),
         scrollWidth,
         scrollTop,
         scrollLeft,
@@ -333,11 +333,11 @@ export default {
         Math.min(scrollTop, scrollHeight - clientHeight)
       )
       this.preset.field = {
-        scrollHeight: this.itemList.getOffsetSize(),
-        scrollWidth: scrollWidth,
+        scrollHeight,
+        scrollWidth,
         scrollTop: scrollOffset,
-        scrollLeft: scrollLeft,
-        clientHeight: clientHeight,
+        scrollLeft,
+        clientHeight,
         clientWidth: scrollWidth,
         diffOffset: this.preset.field.scrollTop - scrollOffset,
       }
@@ -377,7 +377,7 @@ export default {
       this.resetIsScrollingTimeoutId = null
       this.isScrolling = false
       this.$nextTick(() => {
-        this.preset.getItemStyleCache(-1, null)
+        this.preset.resetCache()
       })
     }
   },
@@ -508,7 +508,7 @@ export default {
 
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.
-    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
+    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSizeCache())
     const outerElementProps: any = {
       id,
       ref: this._outerRefSetter,
@@ -541,7 +541,7 @@ export default {
     }
 
     if (this.preset.isRelative) {
-      const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
+      const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
       return render(this.preset.outerElement, outerElementProps, [
         process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
         render(this.preset.itemElement, {

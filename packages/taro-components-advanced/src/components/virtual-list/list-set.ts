@@ -1,4 +1,5 @@
 import { isFunction } from '@tarojs/shared'
+import memoizeOne from 'memoize-one'
 
 import { getOffsetForIndexAndAlignment } from '../../utils'
 import { isHorizontalFunc } from './utils'
@@ -11,6 +12,8 @@ export default class ListSet {
   list: number[] = []
   mode?: 'normal' | 'function' | 'unlimited'
   defaultSize = 1
+
+  refreshCounter = 0
 
   constructor (protected props: TProps, protected refresh?: TFunc) {
     this.update(props)
@@ -75,6 +78,7 @@ export default class ListSet {
   setSize (i = 0, size = this.defaultSize) {
     this.list[i] = size
     this.refresh?.()
+    this.refreshCounter++
   }
 
   getSize (i = 0) {
@@ -94,6 +98,10 @@ export default class ListSet {
     if (this.isNormalMode) return i * this.defaultSize
     return this.list.slice(0, i).reduce((sum, _, idx) => sum + this.getSize(idx), 0)
   }
+
+  getOffsetSizeCache = memoizeOne((i = this.list.length, _flag = this.refreshCounter) => {
+    return this.getOffsetSize(i)
+  })
 
   getSizeCount (offset = 0) {
     if (offset === 0) return 0
@@ -116,7 +124,7 @@ export default class ListSet {
   }
 
   getStopIndex (wrapperSize = 0, scrollOffset = 0, startIndex = 0) {
-    // const visibleOffset = this.getOffsetSize(startIndex)
+    // const visibleOffset = this.getOffsetSizeCache(startIndex)
     // if (this.isNormalMode) {
     //   const numVisibleItems = Math.ceil((wrapperSize + scrollOffset - visibleOffset) / this.length)
     //   /** -1 is because stop index is inclusive */
@@ -150,9 +158,9 @@ export default class ListSet {
       align,
       containerSize: this.wrapperSize,
       currentOffset: scrollOffset,
-      scrollSize: this.getOffsetSize(this.length),
+      scrollSize: this.getOffsetSizeCache(this.length),
       slideSize: this.getSize(index),
-      targetOffset: this.getOffsetSize(index),
+      targetOffset: this.getOffsetSizeCache(index),
     })
   }
 

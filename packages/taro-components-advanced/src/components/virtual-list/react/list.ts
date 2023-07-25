@@ -162,15 +162,15 @@ export default class List extends React.PureComponent<IProps, IState> {
     const {
       clientWidth = this.itemList.wrapperSize,
       scrollHeight,
-      scrollWidth = this.itemList.getOffsetSize(),
+      scrollWidth = this.itemList.getOffsetSizeCache(),
       scrollTop,
       scrollLeft,
     } = event.currentTarget
     this.preset.field = {
-      scrollHeight: scrollHeight,
-      scrollWidth: this.itemList.getOffsetSize(),
-      scrollTop: scrollTop,
-      scrollLeft: scrollLeft,
+      scrollHeight,
+      scrollWidth,
+      scrollTop,
+      scrollLeft,
       clientHeight: scrollHeight,
       clientWidth: scrollWidth
     }
@@ -216,7 +216,7 @@ export default class List extends React.PureComponent<IProps, IState> {
   _onScrollVertical = event => {
     const {
       clientHeight = this.itemList.wrapperSize,
-      scrollHeight = this.itemList.getOffsetSize(),
+      scrollHeight = this.itemList.getOffsetSizeCache(),
       scrollWidth,
       scrollTop,
       scrollLeft
@@ -233,11 +233,11 @@ export default class List extends React.PureComponent<IProps, IState> {
       // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
       const scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight))
       this.preset.field = {
-        scrollHeight: this.itemList.getOffsetSize(),
-        scrollWidth: scrollWidth,
+        scrollHeight,
+        scrollWidth,
         scrollTop: scrollOffset,
-        scrollLeft: scrollLeft,
-        clientHeight: clientHeight,
+        scrollLeft,
+        clientHeight,
         clientWidth: scrollWidth,
         diffOffset: this.preset.field.scrollTop - scrollOffset,
       }
@@ -279,7 +279,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     }, () => {
       // Clear style cache after state update has been committed.
       // This way we don't break pure sCU for items that don't use isScrolling param.
-      this.preset.getItemStyleCache(-1, null)
+      this.preset.resetCache()
     })
   }
 
@@ -455,7 +455,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     // Read this value AFTER items have been created,
     // So their actual sizes (if variable) are taken into consideration.
-    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
+    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSizeCache())
     const outerProps: any = {
       ...rest,
       id,
@@ -489,7 +489,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
 
     if (this.preset.isRelative) {
-      const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
+      const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
       return React.createElement(outerWrapper || this.preset.outerElement, outerProps,
         React.createElement<any>(this.preset.itemElement, {
           key: `${id}-pre`,
