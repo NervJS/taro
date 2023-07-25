@@ -8,7 +8,6 @@ export const needPromiseApis = new Set([
   'exitMiniProgram',
   'followAwemeUser',
   'followOfficialAccount',
-  'getEnvInfoSync',
   'getMenuButtonLayout',
   'getUserProfile',
   'hideInteractionBar',
