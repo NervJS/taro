@@ -25,18 +25,20 @@ export class PageProvider extends React.Component<any> {
 
   componentDidMount (): void {
     const { navigation } = this.props
-    this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
-      if (navigationRef && navigationRef?.current) {
-        navigationRef.current.setOptions = navigation.setOptions
-      }
-      // 若是tabBar页面，确保tabbar内容最新
-      if (this.isTabBarPage()) {
-        const tabBarVisible = getTabVisible()
-        navigation.setOptions({
-          tabBarVisible: tabBarVisible
-        })
-      }
-    })
+    if(navigation){
+      this.unSubscribleFocus = this.props.navigation.addListener('focus', () => {
+        if (navigationRef && navigationRef?.current) {
+          navigationRef.current.setOptions = navigation.setOptions
+        }
+        // 若是tabBar页面，确保tabbar内容最新
+        if (this.isTabBarPage()) {
+          const tabBarVisible = getTabVisible()
+          navigation.setOptions({
+            tabBarVisible: tabBarVisible
+          })
+        }
+      })
+    }
   }
 
   componentWillUnmount (): void {

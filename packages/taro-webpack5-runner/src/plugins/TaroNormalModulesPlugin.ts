@@ -1,6 +1,6 @@
 import TaroSingleEntryDependency from '../dependencies/TaroSingleEntryDependency'
-import { componentConfig } from '../utils/component'
-import TaroNormalModule from './TaroNormalModule'
+import { componentConfig, componentNameSet, elementNameSet } from '../utils/component'
+import TaroNormalModule, { TaroBaseNormalModule } from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type { Compiler } from 'webpack'
@@ -23,6 +23,8 @@ function isRenderNode (node, ancestors): boolean {
 }
 
 export default class TaroNormalModulesPlugin {
+  isCache = true
+
   onParseCreateElement: Func | undefined
 
   constructor (onParseCreateElement: Func | undefined) {
@@ -30,7 +32,24 @@ export default class TaroNormalModulesPlugin {
   }
 
   apply (compiler: Compiler) {
-    compiler.hooks.compilation.tap(PLUGIN_NAME, (_, { normalModuleFactory }) => {
+    compiler.hooks.compilation.tap(PLUGIN_NAME, (compilation, { normalModuleFactory }) => {
+      // cache 开启后，会跳过 JavaScript parser 环节，因此需要收集组件信息，在 finishModules 阶段处理
+      compilation.hooks.finishModules.tap(PLUGIN_NAME, (_) => {
+        if (!this.isCache) return
+
+        for (const name of elementNameSet) {
+          this.onParseCreateElement?.(name, componentConfig)
+        }
+
+        for (const name of componentNameSet) {
+          if (name === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
+            componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
+
+            return
+          }
+        }
+      })
+
       normalModuleFactory.hooks.createModule.tapPromise(PLUGIN_NAME, (data, { dependencies }) => {
         const dependency = dependencies[0]
         if (dependency instanceof TaroSingleEntryDependency) {
@@ -38,15 +57,21 @@ export default class TaroNormalModulesPlugin {
             { miniType: dependency.miniType, name: dependency.name }
           )))
         }
-        return Promise.resolve()
+        return Promise.resolve(new TaroBaseNormalModule(data))
       })
 
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (ast) => {
+          this.isCache = false
+
+          const currentModule = parser.state.current as TaroBaseNormalModule
+          currentModule.clear()
+
           walk.ancestor(ast, {
             CallExpression: (node, ancestors) => {
               const callee = node.callee
+
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
                   return
@@ -62,9 +87,8 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  // 兼容 Vue 2.0 渲染函数及 JSX
                   !isRenderNode(node, ancestors)
-                  // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
-                  // nameOfCallee !== 'h' && nameOfCallee !== '_c'
                 ) {
                   return
                 }
@@ -73,11 +97,18 @@ export default class TaroNormalModulesPlugin {
               const [type, prop] = node.arguments
               const componentName = type.name
 
-              type.value && this.onParseCreateElement?.(type.value, componentConfig)
-
-              if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
-                componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
+              if (type.value) {
+                this.onParseCreateElement?.(type.value, componentConfig)
+                currentModule.elementNameSet.add(type.value)
               }
+
+              if (componentName) {
+                currentModule.componentNameSet.add(componentName)
+                if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
+                  componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
+                }
+              }
+
               if (componentConfig.thirdPartyComponents.size === 0) {
                 return
               }
@@ -87,9 +118,13 @@ export default class TaroNormalModulesPlugin {
                 return
               }
 
-              prop.properties
+              const props = prop.properties
                 .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
-                .forEach(p => attrs.add(p.key.name))
+              const res = props.map(p => p.key.name).join('|')
+        
+              props.forEach(p => attrs.add(p.key.name))
+          
+              currentModule.collectProps[type.value] = res
             },
           })
         })
