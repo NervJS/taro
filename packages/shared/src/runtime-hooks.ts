@@ -91,7 +91,7 @@ const defaultMiniLifecycle: MiniLifecycle = {
       'onReachBottom',
       'onPageScroll',
       'onResize',
-      'onTabItemTap',
+      'defer:onTabItemTap', // defer: 需要等页面组件挂载后再调用
       'onTitleClick',
       'onOptionMenuClick',
       'onPopMenuClick',
