@@ -146,7 +146,7 @@ export default class Index extends React.Component {
                           console.log('success-----', res.errMsg)
                         },
                         fail (err) {
-                            console.error(err)
+                            console.log('fail-----', err)
                         },
                         complete: (res) => {
                             console.log('complete-----', res);

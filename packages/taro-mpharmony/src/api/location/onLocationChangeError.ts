@@ -11,6 +11,11 @@ export const onLocationChangeError: typeof Taro.onLocationChangeError = (callbac
     return Promise.reject(res)
   }
   // @ts-ignore
-  const ret = native.onLocationChangeError(callback)
-  return ret
+  native.onLocationChangeError((res: any) => {
+    const result: Taro.onLocationChangeError.CallbackResult = {
+      /** 错误码 */
+      errCode: res.errCode
+    }
+    callback(result)
+  })
 }

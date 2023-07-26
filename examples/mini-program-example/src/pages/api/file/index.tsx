@@ -93,6 +93,7 @@ export default class Index extends React.Component {
                               console.log('saveFile success ', res.savedFilePath, res.errMsg)
                               Taro.getFileInfo({
                                 filePath: res.savedFilePath,
+                                digestAlgorithm: 'md5',
                                 success: function (res) {
                                   console.log('getFileInfo success', res.size, res.digest)
                                 },

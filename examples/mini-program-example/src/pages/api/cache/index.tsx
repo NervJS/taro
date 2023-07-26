@@ -13,11 +13,24 @@ export default class Index extends React.Component {
         list: [
             {
                 id: 'setStorageSync',
-                func: null,
+                func: () => {
+                    try {
+                        Taro.setStorageSync('testKey','testValue')
+                        console.log('setStorageSync')
+                    } catch (error) {
+                        console.log('setStorageSync error ', error)
+                    }
+                },
             }, 
             {
                 id: 'setStorage',
-                func: null,
+                func: () => {
+                    Taro.setStorage({
+                        key: "testKey",
+                        data: "testValue"
+                    })
+                    console.log('setStorage')
+                },
             }, 
             {
                 id: 'revokeBufferURL',
@@ -25,7 +38,14 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'removeStorageSync',
-                func: null,
+                func: () => {
+                    try {
+                        Taro.removeStorageSync('testKey')
+                        console.log('removeStorageSync')
+                    } catch (error) {
+                        console.log('removeStorageSync error ', error)
+                    }
+                },
             }, 
             {
                 id: 'removeStorage',
@@ -33,11 +53,31 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getStorageSync',
-                func: null,
+                func: () => {
+                    try {
+                        Taro.setStorageSync('testKey','testValue')
+                        console.log('setStorageSync')
+                        var value = Taro.getStorageSync('testKey')
+                        if (value) {
+                            console.log('getStorageSync ', value)
+                        }    
+                    } catch (error) {
+                        console.log('getStorageSync error ', error)
+                    }
+                },
             }, 
             {
                 id: 'getStorageInfoSync',
-                func: null,
+                func: () => {
+                    try {
+                        Taro.setStorageSync('testKey','testValue')
+                        console.log('setStorageSync')
+                        const res = Taro.getStorageInfoSync()
+                        console.log('getStorageInfoSync ', res)
+                      } catch (e) {
+                        console.log('getStorageInfoSync error', e)
+                      }
+                },
             }, 
             {
                 id: 'getStorageInfo',
@@ -57,7 +97,14 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'clearStorageSync',
-                func: null,
+                func: () => {
+                    try {
+                        Taro.clearStorageSync()
+                        console.log('clearStorageSync ')
+                      } catch(e) {
+                        console.log('clearStorageSync error', e)
+                      }
+                },
             }, 
             {
                 id: 'clearStorage',
