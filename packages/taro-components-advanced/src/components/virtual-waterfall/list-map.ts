@@ -8,9 +8,9 @@ import type { IProps } from './preset'
 type TProps = Pick<IProps, 'column' | 'columnWidth' | 'width' | 'height' | 'itemCount' | 'itemData' | 'itemSize' | 'overscanDistance' | 'unlimitedSize'>
 
 export default class ListMap {
-  #columns: number
-  #columnMap: [number, number][][] = [] // [itemIndex, itemSize]
-  #items: string[] = [] // columnIndex-rowIndex
+  _columns: number
+  _columnMap: [number, number][][] = [] // [itemIndex, itemSize]
+  _items: string[] = [] // columnIndex-rowIndex
   mode?: 'normal' | 'function' | 'unlimited'
   minItemSize = 0
   maxItemSize = 0
@@ -61,10 +61,10 @@ export default class ListMap {
 
   get columnsSize () {
     if (this.isNormalMode) {
-      return new Array(this.#columns).fill(this.getColumnSize())
+      return new Array(this._columns).fill(this.getColumnSize())
     }
 
-    return new Array(this.#columns).fill(0).map((_, i) => this.getColumnSize(i))
+    return new Array(this._columns).fill(0).map((_, i) => this.getColumnSize(i))
   }
 
   get maxColumnSize () {
@@ -113,10 +113,10 @@ export default class ListMap {
   }
 
   updateColumns (columns = 2) {
-    this.#columns = columns
-    if (!this.isNormalMode && this.#columns !== columns) {
-      this.#columnMap = new Array(this.#columns).fill(0).map(() => [])
-      this.#items = []
+    this._columns = columns
+    if (!this.isNormalMode && this._columns !== columns) {
+      this._columnMap = new Array(this._columns).fill(0).map(() => [])
+      this._items = []
     }
   }
 
@@ -130,7 +130,7 @@ export default class ListMap {
 
       const column = this.minColumnIndex
       const row = this.getColumnLength(column)
-      this.#items[i] = `${column}-${row}`
+      this._items[i] = `${column}-${row}`
       const itemSize = this.getSizeByPosition(column, row, i)
       if (!this.compareSizeByPosition(column, row, itemSize)) {
         this.setSizeByPosition(column, row, itemSize, i)
@@ -146,7 +146,7 @@ export default class ListMap {
       if (this.minItemSize > itemSize || this.minItemSize === 0) {
         this.minItemSize = itemSize
       }
-      this.#columnMap[column][row] = [itemIndex, itemSize]
+      this._columnMap[column][row] = [itemIndex, itemSize]
       if (!this.isNormalMode) {
         this.refresh?.()
         this.refreshCounter++
@@ -175,12 +175,12 @@ export default class ListMap {
 
   // 不支持 normal 模式
   getColumnList (column: number) {
-    this.#columnMap[column] ||= []
-    return this.#columnMap[column]
+    this._columnMap[column] ||= []
+    return this._columnMap[column]
   }
 
   getColumnLength (columnIndex: number) {
-    if (this.isNormalMode) return Math.ceil(this.length / this.#columns)
+    if (this.isNormalMode) return Math.ceil(this.length / this._columns)
 
     return this.getColumnList(columnIndex).length
   }
@@ -196,17 +196,17 @@ export default class ListMap {
 
   getItemPosition (itemIndex: number) {
     if (this.isNormalMode) {
-      const column = itemIndex % this.#columns
-      const row = Math.floor(itemIndex / this.#columns)
+      const column = itemIndex % this._columns
+      const row = Math.floor(itemIndex / this._columns)
       return [column, row]
     }
 
-    return this.#items[itemIndex]?.split('-').map(Number) || false
+    return this._items[itemIndex]?.split('-').map(Number) || false
   }
 
   getItemIndexByPosition (column = 0, row = 0) {
     if (this.isNormalMode) {
-      return row * this.#columns + column
+      return row * this._columns + column
     }
 
     const columnList = this.getColumnList(column)
@@ -301,7 +301,7 @@ export default class ListMap {
   compareSizeByPosition (column = 0, row = 0, size = this.getSizeByPosition(column, row)) {
     if (this.isNormalMode) return true
 
-    const origenSize = this.#columnMap[column]?.[row]?.[1]
+    const origenSize = this._columnMap[column]?.[row]?.[1]
     return typeof origenSize === 'number' && origenSize === size
   }
 }

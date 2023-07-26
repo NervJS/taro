@@ -329,6 +329,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     }
 
     this._callPropsCallbacks()
+    this.preset.boundaryDetection()
   }
 
   componentDidUpdate (prevProps: IProps, prevState: IState) {
@@ -372,6 +373,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     if (this._resetIsScrollingTimeoutId !== null) {
       cancelTimeout(this._resetIsScrollingTimeoutId)
     }
+    this.preset.dispose()
   }
 
   getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {

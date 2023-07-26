@@ -1,11 +1,15 @@
+import { isWebPlatform } from '@tarojs/shared'
+import { type IntersectionObserver, createIntersectionObserver, createSelectorQuery, getCurrentInstance } from '@tarojs/taro'
 import * as CSS from 'csstype'
 import memoizeOne from 'memoize-one'
 
-import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing } from '../../utils'
+import { convertNumber2PX, defaultItemKey, getRectSizeSync, isCosDistributing, throttle } from '../../utils'
 import ListSet from './list-set'
 import { isHorizontalFunc, isRtlFunc } from './utils'
 
 import type { VirtualListProps } from './'
+
+const isWeb = isWebPlatform()
 
 let INSTANCE_ID = 0
 
@@ -25,7 +29,8 @@ export interface IProps extends Partial<VirtualListProps> {
 
 export default class Preset {
   itemList: ListSet
-  #id: string
+  _id: string
+  _observer: Record<string, IntersectionObserver> = {}
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
@@ -76,12 +81,12 @@ export default class Preset {
   }
 
   set id (id: string) {
-    this.#id = id
+    this._id = id
   }
 
   get id () {
-    this.#id ||= `virtual-waterfall-${INSTANCE_ID++}`
-    return this.#id
+    this._id ||= `virtual-waterfall-${INSTANCE_ID++}`
+    return this._id
   }
 
   get isHorizontal () {
@@ -134,6 +139,7 @@ export default class Preset {
   }
 
   isShaking (diff?: number) {
+    if (isWeb || this.props.enhanced) return false
     const list = this.diffList.slice(-3)
     this.diffList.push(diff)
     return list.findIndex(e => Math.abs(e) === Math.abs(diff)) !== -1 || isCosDistributing(this.diffList.slice(-4))
@@ -180,5 +186,63 @@ export default class Preset {
       index,
       shouldResetStyleCacheOnItemSizeChange ? this.itemList.getSize(index) : false,
     )
+  }
+
+  boundaryDetection () {
+    if ([typeof this.props.onScrollToUpper, typeof this.props.onScrollToLower].every(e => e !== 'function')) return
+
+    createSelectorQuery().select(`#${this.id}`).node().exec(() => {
+      const upperObserver = this.boundaryDetectionHelper({
+        event: typeof this.props.onScrollToUpper === 'function' ? () => {
+          if (this.field.diffOffset >= 0) this.props.onScrollToUpper()
+        } : undefined,
+        id: `${this.id}-${this.isHorizontal ? this.isRtl ? 'right' : 'left' : 'top'}`,
+      })
+      if (upperObserver) {
+        this._observer.top = upperObserver
+      }
+
+      const lowerObserver = this.boundaryDetectionHelper({
+        event: typeof this.props.onScrollToLower === 'function' ? () => {
+          if (this.field.diffOffset <= 0) this.props.onScrollToLower()
+        } : undefined,
+        id: `${this.id}-${this.isHorizontal ? this.isRtl ? 'left' : 'right' : 'bottom'}`,
+      })
+      if (lowerObserver) {
+        this._observer.bottom = lowerObserver
+      }
+    })
+  }
+
+  boundaryDetectionHelper ({
+    component,
+    event,
+    id,
+  }: {
+    component?: TaroGeneral.IAnyObject
+    event?: () => void
+    id: string
+  }) {
+    if (typeof event !== 'function') return
+    const eventFunc = throttle(event)
+
+    component ||= getCurrentInstance().page
+    const observer = createIntersectionObserver(component, {
+      thresholds: [0.4],
+    })
+
+    observer
+      .relativeTo(`#${this.id}`, {
+        top: typeof this.props.lowerThreshold === 'number' ? this.props.lowerThreshold : 50,
+        bottom: typeof this.props.upperThreshold === 'number' ? this.props.upperThreshold : 50,
+      })
+      .observe(`#${id}`, eventFunc)
+
+    return observer
+  }
+
+  dispose () {
+    Object.values(this._observer).forEach(e => e.disconnect?.())
+    this._observer = {}
   }
 }

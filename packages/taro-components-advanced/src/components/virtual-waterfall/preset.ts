@@ -26,15 +26,15 @@ export interface IProps extends Partial<VirtualWaterfallProps> {
 
 export default class Preset {
   itemMap: ListMap
-  #id: string
-  #observer: Record<string, IntersectionObserver> = {}
+  _id: string
+  _observer: Record<string, IntersectionObserver> = {}
 
   constructor (protected props: IProps, protected refresh?: TFunc) {
     this.init(this.props)
     this.itemMap = new ListMap(props, refresh)
   }
 
-  #wrapperField = {
+  _wrapperField = {
     scrollLeft: 0,
     scrollTop: 0,
     scrollHeight: 0,
@@ -78,12 +78,12 @@ export default class Preset {
   }
 
   set id (id: string) {
-    this.#id = id
+    this._id = id
   }
 
   get id () {
-    this.#id ||= `virtual-waterfall-${INSTANCE_ID++}`
-    return this.#id
+    this._id ||= `virtual-waterfall-${INSTANCE_ID++}`
+    return this._id
   }
 
   get isRelative () {
@@ -111,11 +111,11 @@ export default class Preset {
   }
 
   get field () {
-    return this.#wrapperField
+    return this._wrapperField
   }
 
   set field (o: Record<string, number>) {
-    Object.assign(this.#wrapperField, o)
+    Object.assign(this._wrapperField, o)
   }
 
   get enhanced () {
@@ -167,24 +167,24 @@ export default class Preset {
     if ([typeof this.props.onScrollToUpper, typeof this.props.onScrollToLower].every(e => e !== 'function')) return
 
     createSelectorQuery().select(`#${this.id}`).node().exec(() => {
-      const topObserver = this.boundaryDetectionHelper({
+      const upperObserver = this.boundaryDetectionHelper({
         event: typeof this.props.onScrollToUpper === 'function' ? () => {
           if (this.field.diffOffset >= 0) this.props.onScrollToUpper()
         } : undefined,
         id: `${this.id}-top`,
       })
-      if (topObserver) {
-        this.#observer.top = topObserver
+      if (upperObserver) {
+        this._observer.top = upperObserver
       }
 
-      const bottomObserver = this.boundaryDetectionHelper({
+      const lowerObserver = this.boundaryDetectionHelper({
         event: typeof this.props.onScrollToLower === 'function' ? () => {
           if (this.field.diffOffset <= 0) this.props.onScrollToLower()
         } : undefined,
         id: `${this.id}-bottom`,
       })
-      if (bottomObserver) {
-        this.#observer.bottom = bottomObserver
+      if (lowerObserver) {
+        this._observer.bottom = lowerObserver
       }
     })
   }
@@ -217,7 +217,7 @@ export default class Preset {
   }
 
   dispose () {
-    Object.values(this.#observer).forEach(e => e.disconnect?.())
-    this.#observer = {}
+    Object.values(this._observer).forEach(e => e.disconnect?.())
+    this._observer = {}
   }
 }

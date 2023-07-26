@@ -230,9 +230,9 @@ export default {
 
     _getSizeUploadSync (index: number, isHorizontal: boolean) {
       return new Promise((resolve) => {
-        if (index >= 0 && index < this.props.itemCount) {
+        if (index >= 0 && index < this.$props.itemCount) {
           const times = this.itemList.compareSize(index) ? 0 : 2
-          getRectSizeSync(`#${this.state.id}-${index}`, 100, times).then(({ width, height }) => {
+          getRectSizeSync(`#${this.id}-${index}`, 100, times).then(({ width, height }) => {
             const size = isHorizontal ? width : height
             if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
               this.itemList.setSize(index, size)
@@ -459,6 +459,21 @@ export default {
       }
       return render(this.preset.innerElement, columnProps, items)
     },
+    getRenderExpandNodes (direction: 'top' | 'bottom' | 'left' | 'right') {
+      const isHorizontal = this.preset.isHorizontal
+      const isRtl = this.preset.isRtl
+      const props: any = {
+        id: `${this.id}-${direction}`,
+        style: {
+          visibility: 'hidden',
+          height: isHorizontal ? '100%' : 100,
+          width: isHorizontal ? 100 : '100%',
+          [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft': 'marginTop']: -100,
+          zIndex: -1,
+        }
+      }
+      return render(this.preset.innerElement, props)
+    }
   },
   mounted () {
     const { initialScrollOffset } = this.$props
@@ -473,6 +488,7 @@ export default {
     }
 
     this._callPropsCallbacks()
+    this.preset.boundaryDetection()
   },
   updated () {
     this.preset.update(this.$props)
@@ -515,6 +531,7 @@ export default {
     if (this.resetIsScrollingTimeoutId !== null) {
       cancelTimeout(this.resetIsScrollingTimeoutId)
     }
+    this.preset.dispose()
   },
 
   render () {
@@ -537,6 +554,7 @@ export default {
     } = this.$data
 
     const isHorizontal = this.preset.isHorizontal
+    const isRtl = this.preset.isRtl
     const outerElementProps: any = {
       id,
       ref: this._outerRefSetter,
@@ -552,8 +570,8 @@ export default {
         direction
       },
       attrs: {
-        scrollY: this.preset.isVertical,
-        scrollX: !this.preset.isVertical
+        scrollY: !this.preset.isHorizontal,
+        scrollX: this.preset.isHorizontal
       },
       on: {
         scroll: isHorizontal
@@ -571,9 +589,11 @@ export default {
     }
 
     return render(this.preset.outerElement, outerElementProps, [
+      this.getRenderExpandNodes(isHorizontal ? isRtl ? 'right' : 'left' : 'top'),
       process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
       this.getRenderColumnNode(),
       process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
+      this.getRenderExpandNodes(isHorizontal ? isRtl ? 'left' : 'right' : 'bottom'),
     ])
   }
 }

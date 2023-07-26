@@ -77,6 +77,18 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
   onScroll?: (event: VirtualListProps.IVirtualListEvent<VirtualListProps.IVirtualListEventDetail>) => void
   /** 调用平台原生的滚动监听函数。 */
   onScrollNative?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
+  /** 触顶事件 */
+  onScrollToUpper?: () => void
+  /** 触底事件 */
+  onScrollToLower?: () => void
+  /** 触顶事件触发时距页面顶部距离
+   * @default 50
+   */
+  upperThreshold?: number
+  /** 触底事件触发时距页面底部距离
+   * @default 50
+   */
+  lowerThreshold?: number
   style?: CSSProperties
 }
 

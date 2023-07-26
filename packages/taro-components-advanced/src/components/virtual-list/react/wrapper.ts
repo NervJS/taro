@@ -8,36 +8,37 @@ import type { IProps } from '../preset'
 
 function getRenderExpandNodes ({
   direction,
-  isVertical,
+  isHorizontal,
   isRtl,
   id: sid,
   innerElement,
   renderExpand,
 }: {
   direction: 'top' | 'bottom' | 'left' | 'right'
-  isVertical: boolean
+  isHorizontal: boolean
   isRtl: boolean
   id: string
   innerElement: VirtualListProps['innerElementType']
   renderExpand?: VirtualListProps['renderTop'] | VirtualListProps['renderBottom']
 }) {
-  const id = `${sid}-${direction}`
   const props: any = {
-    id
-  }
-  if (!renderExpand) {
-    props.style = {
+    id: `${sid}-${direction}`,
+    style: {
       visibility: 'hidden',
-      height: isVertical ? 100 : '100%',
-      width: isVertical ? '100%' : 100,
-      [isVertical ? 'marginTop' : isRtl ? 'marginRight' : 'marginLeft']: -100,
+      height: isHorizontal ? '100%' : 100,
+      width: isHorizontal ? 100 : '100%',
+      [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft': 'marginTop']: -100,
       zIndex: -1,
     }
   }
-  return renderExpand || React.createElement(
+  const expands = [renderExpand, React.createElement(
     innerElement!,
     props,
-  )
+  )]
+  if (isHorizontal ? isRtl ? direction === 'right' : direction === 'left' : direction === 'top') {
+    expands.reverse()
+  }
+  return expands
 }
 
 const outerWrapper = React.forwardRef(
@@ -64,7 +65,7 @@ const outerWrapper = React.forwardRef(
         onScrollNative(event)
       }
     }
-    const isVertical = layout === 'vertical'
+    const isHorizontal = layout === 'horizontal'
     const isRtl = direction === 'rtl'
 
     return React.createElement<any>(outerElementType!, {
@@ -72,14 +73,14 @@ const outerWrapper = React.forwardRef(
       id,
       className,
       style,
-      scrollY: isVertical,
-      scrollX: !isVertical,
+      scrollY: !isHorizontal,
+      scrollX: isHorizontal,
       onScroll: handleScroll,
       ...rest
     }, [
       getRenderExpandNodes({
-        direction: isVertical ? 'top' : isRtl ? 'right' : 'left',
-        isVertical,
+        direction: isHorizontal ? isRtl ? 'right' : 'left': 'top',
+        isHorizontal,
         isRtl,
         id,
         innerElement: innerElementType,
@@ -87,8 +88,8 @@ const outerWrapper = React.forwardRef(
       }),
       children,
       getRenderExpandNodes({
-        direction: isVertical ? 'bottom' : isRtl ? 'left' : 'right',
-        isVertical,
+        direction: isHorizontal ? isRtl ? 'left' : 'right' : 'bottom',
+        isHorizontal,
         isRtl,
         id,
         innerElement: innerElementType,

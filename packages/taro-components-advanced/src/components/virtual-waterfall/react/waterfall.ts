@@ -65,7 +65,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
 
   _outerRef = undefined
 
-  #resetIsScrollingTimeoutId = null
+  _resetIsScrollingTimeoutId = null
 
   _callOnItemsRendered = memoizeOne((columnIndex, overscanStartIndex, overscanStopIndex) => this.props.onItemsRendered({
     columnIndex,
@@ -155,15 +155,15 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   }
 
   _resetIsScrollingDebounced = () => {
-    if (this.#resetIsScrollingTimeoutId !== null) {
-      cancelTimeout(this.#resetIsScrollingTimeoutId)
+    if (this._resetIsScrollingTimeoutId !== null) {
+      cancelTimeout(this._resetIsScrollingTimeoutId)
     }
 
-    this.#resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
+    this._resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
   }
 
   _resetIsScrolling = () => {
-    this.#resetIsScrollingTimeoutId = null
+    this._resetIsScrollingTimeoutId = null
     this.setState({
       isScrolling: false
     }, () => {
@@ -268,8 +268,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   }
 
   componentWillUnmount () {
-    if (this.#resetIsScrollingTimeoutId !== null) {
-      cancelTimeout(this.#resetIsScrollingTimeoutId)
+    if (this._resetIsScrollingTimeoutId !== null) {
+      cancelTimeout(this._resetIsScrollingTimeoutId)
     }
     this.preset.dispose()
   }

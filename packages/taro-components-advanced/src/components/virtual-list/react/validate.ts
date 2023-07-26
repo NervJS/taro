@@ -6,12 +6,8 @@ let devWarningsTagName = null
 
 if (process.env.NODE_ENV !== 'production') {
   if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
-    devWarningsDirection =
-      /* #__PURE__ */
-      new WeakSet()
-    devWarningsTagName =
-      /* #__PURE__ */
-      new WeakSet()
+    devWarningsDirection = /* #__PURE__ */ new WeakSet()
+    devWarningsTagName = /* #__PURE__ */ new WeakSet()
   }
 }
 
