@@ -119,8 +119,7 @@ export default {
     refresh () {
       this.refreshCount = this.refreshCount + 1
     },
-    scrollTo (scrollOffset) {
-      const { enhanced } = this.$props
+    scrollTo (scrollOffset, enhanced = this.preset.enhanced) {
       scrollOffset = Math.max(0, scrollOffset)
       if (this.scrollOffset === scrollOffset) return
 
@@ -128,7 +127,7 @@ export default {
         const isHorizontal = this.preset.isHorizontal
         const option: any = {
           animated: true,
-          duration: 500
+          duration: 300,
         }
         if (isHorizontal) {
           option.left	= scrollOffset
@@ -145,7 +144,7 @@ export default {
       this.$nextTick(this._resetIsScrollingDebounced)
     },
 
-    scrollToItem (index, align = 'auto') {
+    scrollToItem (index, align = 'auto', enhanced = this.preset.enhanced) {
       const { itemCount } = this.$props
       const { scrollOffset } = this.$data
 
@@ -157,7 +156,8 @@ export default {
           index,
           align,
           scrollOffset
-        )
+        ),
+        enhanced,
       )
     },
 
@@ -234,7 +234,7 @@ export default {
           const times = this.itemList.compareSize(index) ? 0 : 2
           getRectSizeSync(`#${this.state.id}-${index}`, 100, times).then(({ width, height }) => {
             const size = isHorizontal ? width : height
-            if (!this.itemList.compareSize(index, size)) {
+            if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
               this.itemList.setSize(index, size)
               resolve(this.itemList.getSize(index))
             }

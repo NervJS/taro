@@ -131,7 +131,7 @@ export default class List extends React.PureComponent<IProps, IState> {
         const times = this.itemList.compareSize(index) ? 3 : 0
         getRectSizeSync(`#${this.state.id}-${index}`, 100, times).then(({ width, height }) => {
           const size = isHorizontal ? width : height
-          if (!this.itemList.compareSize(index, size)) {
+          if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
             this.itemList.setSize(index, size)
             resolve(this.itemList.getSize(index))
           }
@@ -277,8 +277,7 @@ export default class List extends React.PureComponent<IProps, IState> {
     })
   }
 
-  public scrollTo (scrollOffset = 0) {
-    const { enhanced } = this.props
+  public scrollTo (scrollOffset = 0, enhanced = this.preset.enhanced) {
     scrollOffset = Math.max(0, scrollOffset)
     if (this.state.scrollOffset === scrollOffset) return
 
@@ -286,7 +285,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       const isHorizontal = this.preset.isHorizontal
       const option: any = {
         animated: true,
-        duration: 500
+        duration: 300,
       }
       if (isHorizontal) {
         option.left	= scrollOffset
@@ -309,11 +308,11 @@ export default class List extends React.PureComponent<IProps, IState> {
     }, this._resetIsScrollingDebounced)
   }
 
-  public scrollToItem (index: number, align = 'auto') {
+  public scrollToItem (index: number, align = 'auto', enhanced = this.preset.enhanced) {
     const { itemCount } = this.props
     const { scrollOffset } = this.state
     index = Math.max(0, Math.min(index, itemCount - 1))
-    this.scrollTo(this.itemList.getOffsetForIndexAndAlignment(index, align, scrollOffset))
+    this.scrollTo(this.itemList.getOffsetForIndexAndAlignment(index, align, scrollOffset), enhanced)
   }
 
   componentDidMount () {

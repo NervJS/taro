@@ -116,7 +116,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
             if (itemIndex >= 0 && itemIndex < this.props.itemCount) {
               const times = this.itemMap.compareSizeByPosition(column, row) ? 3 : 0
               getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
-                if (!this.itemMap.compareSizeByPosition(column, row, height)) {
+                if (typeof height === 'number' && height > 0 && !this.itemMap.compareSizeByPosition(column, row, height)) {
                   this.itemMap.setSizeByPosition(column, row, height)
                 }
               })
@@ -211,14 +211,14 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }, this._resetIsScrollingDebounced)
   }
 
-  public scrollTo (scrollOffset = 0) {
+  public scrollTo (scrollOffset = 0, enhanced = this.preset.enhanced) {
     scrollOffset = Math.max(0, scrollOffset)
     if (this.state.scrollOffset === scrollOffset) return
 
-    if (this.preset.enhanced) {
+    if (enhanced) {
       const option: any = {
         animated: true,
-        duration: 500
+        duration: 300,
       }
       option.top = scrollOffset
       return getScrollViewContextNode(`#${this.state.id}`).then((node: any) => node.scrollTo(option))

@@ -129,6 +129,10 @@ export default class Preset {
     // })
   }
 
+  get enhanced () {
+    return this.props.enhanced || true
+  }
+
   isShaking (diff?: number) {
     const list = this.diffList.slice(-3)
     this.diffList.push(diff)
