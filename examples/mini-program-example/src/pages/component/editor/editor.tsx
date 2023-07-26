@@ -6,6 +6,7 @@ import { View, Editor, Button } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
 import ComponentState from '../../../components/component_state/component_state'
+import { wrap } from 'module'
 
 interface FormatApi {
   name: string;
@@ -41,7 +42,7 @@ const formatApiSections: FormatApiSection[] = [
       }, {
         name: 'ins',
         value: undefined,
-        title: 'ins(NOT SUPPORT)',
+        title: 'ins(不支持)',
       }
     ]
   },
@@ -166,7 +167,7 @@ const formatApiSections: FormatApiSection[] = [
       {
         name: "list",
         value: "check",
-        title: 'list check(NOT SUPPORT)'
+        title: 'list check(不支持)'
       },
     ]
   },
@@ -286,7 +287,7 @@ const formatApiSections: FormatApiSection[] = [
       {
         name: "lineHeight",
         value: "3.5em",
-        title: 'fontSize',
+        title: 'lineHeight',
       },
       {
         name: "letterSpacing",
@@ -319,6 +320,7 @@ const formatApiSections: FormatApiSection[] = [
 
 export default function PageView () {
   let [editorContext, setEditorContext] = useState<EditorContext>()
+  let [editorContent, setEditorContent] = useState<string>()
 
   return (
     <View className='components-page'>
@@ -338,66 +340,67 @@ export default function PageView () {
             alignContent: 'center',
             gap: 5,
             margin: 5,
+            flexWrap: 'wrap',
           }}>
-            <Button style={{ marginTop: '15px' }} onClick={() => {
+            <button onClick={() => {
               editorContext?.getContents({
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`getContents fail: ${error}`)
                 },
                 success: (value) => {
                   let result = {
                     text: value.text,
                     html: value.html
                   }
-                  alert(`success:\n ${JSON.stringify(result, null, 2)}`)
+                  setEditorContent(`getContents success:\n ${JSON.stringify(result, null, 2)}`)
                 },
               })
-            }}> 获取内容 </Button>
-            <Button onClick={() => {
+            }}> 获取内容 </button>
+            <button onClick={() => {
               editorContext?.getSelectionText({
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`getSelectionText fail: ${error}`)
                 },
                 success: (value) => {
                   let result = {
                     text: value.text
                   }
-                  alert(`success:\n ${JSON.stringify(result, null, 2)}`)
+                  setEditorContent(`getSelectionText success:\n ${JSON.stringify(result, null, 2)}`)
                 },
               })
-            }}> 获取选中内容 </Button>
-            <Button onClick={() => {
+            }}> 获取选中内容 </button>
+            <button onClick={() => {
               editorContext?.redo({
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`redo fail: ${error}`)
                 },
                 success: (value) => {
-                  alert(`success:\n ${JSON.stringify(value, null, 2)}`)
+                  setEditorContent(`redo success:\n ${JSON.stringify(value, null, 2)}`)
                 },
               })
-            }}> 重做(Redo) </Button>
-            <Button onClick={() => {
+            }}> 重做 </button>
+            <button onClick={() => {
               editorContext?.undo({
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`undo fail: ${error}`)
                 },
                 success: (value) => {
-                  alert(`success:\n ${JSON.stringify(value, null, 2)}`)
+                  setEditorContent(`undo success:\n ${JSON.stringify(value, null, 2)}`)
                 },
               })
-            }}> 撤销(Undo) </Button>
-            <Button onClick={() => {
+            }}> 撤销 </button>
+            <button onClick={() => {
               editorContext?.insertText({
                 text: '(这是被插入的文本)',
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`insertText fail: ${error}`)
                 },
                 success: (value) => {
-                  alert(`success:\n ${JSON.stringify(value, null, 2)}`)
+                  setEditorContent(`insertText success:\n ${JSON.stringify(value, null, 2)}`)
                 },
               })
-            }}> 插入文本 </Button>
-            <Button onClick={() => {
+            }}> 插入文本 </button>
+            <button onClick={() => {
               editorContext?.insertImage({
                 src: 'https://img.58cdn.com.cn/logo/58/252_84/logo-o.png',
                 alt: '58同城logo',
@@ -409,47 +412,44 @@ export default function PageView () {
                   time: new Date().getTime()
                 },
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`insertImage fail: ${error}`)
                 },
                 success: (value) => {
-                  alert(`success:\n ${JSON.stringify(value, null, 2)}`)
+                  setEditorContent(`insertImage success:\n ${JSON.stringify(value, null, 2)}`)
                 },
               })
-            }}> 插入图片 </Button>
-            <Button onClick={() => {
+            }}> 插入图片 </button>
+            <button onClick={() => {
               editorContext?.setContents({
                 html: '(这是设置的文案)',
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`setContents fail: ${error}`)
                 },
                 success: (value) => {
-                  alert(`success:\n ${JSON.stringify(value, null, 2)}`)
+                  setEditorContent(`setContents success:\n ${JSON.stringify(value, null, 2)}`)
                 },
               })
-            }}> 设置文本 </Button>
-            <Button onClick={() => {
+            }}> 设置文本 </button>
+            <button onClick={() => {
               editorContext?.removeFormat({
                 fail: (error) => {
-                  alert(`fail: ${error}`)
+                  setEditorContent(`removeFormat fail: ${error}`)
                 },
                 success: (value) => {
-                  alert(`success:\n ${JSON.stringify(value, null, 2)}`)
+                  setEditorContent(`removeFormat success:\n ${JSON.stringify(value, null, 2)}`)
                 },
               })
-            }}> 移除格式 </Button>
-            <Button onClick={() => {
+            }}> 移除格式 </button>
+            <button onClick={() => {
               editorContext?.scrollIntoView()
-            }}> 光标滚动内容 </Button>
+            }}> 光标滚动内容 </button>
           </View>
-
+          <textarea style={{ width: '100%', height: 100}} disabled value={editorContent}/>
         </View>
 
         <View>
           <h5>EditorContext format API</h5>
-          {
-            formatApiSections.map(item => {
-              return <View
-                key={item.sectionName}
+          <View
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
@@ -460,41 +460,33 @@ export default function PageView () {
                   marginRight: 5,
                   marginTop: 5,
                   flex: 1,
+                  flexWrap: 'wrap',
                 }}>
-                <label style={{
-                  fontSize: '.5rem',
-                  width: 120
-                }}
-                >
-                  {`${item.sectionName}: `}
-                </label>
 
-                <View
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignContent: 'flex-start',
-                    alignItems: 'flex-start',
-                    gap: 5,
-                  }}>
-                  {
-                    item.formats.map((format, idx) => {
-                      return <Button
-                        key={idx}
-                        style={{
-                          marginTop: '0px',
-                          width: 165
-                        }}
-                        onClick={() => editorContext?.format(format.name, format.value)}
-                      >
-                        {format.title}
-                      </Button>
-                    })
-                  }
-                </View>
-              </View>
-            })
-          }
+              {
+                formatApiSections.map(item => {
+                  return <select
+                      key={item.sectionName}
+                      onChange={(e) => {
+                        let idx = Number(e.target.value)
+                        if (idx >= 0) {
+                          let format = item.formats[idx];
+                          editorContext?.format(format.name, format.value)
+                        }
+                      }}
+                  >
+                      <option value={-1}>{item.sectionName}</option>
+                      {
+                        item.formats.map((format, idx) => {
+                          return <option key={idx} value={idx}>{format.title}</option>
+                        })
+                      }
+
+                  </select>
+                })
+              }
+
+          </View>
         </View>
 
         <h5 style={{ marginTop: 20 }}>Editor</h5>
@@ -505,25 +497,24 @@ export default function PageView () {
             height: 300
           }}
           onReady={() => {
-            console.log(`Editor.onReady...`)
+            setEditorContent(`Editor.onReady...`)
 
             Taro.createSelectorQuery().select('#editor').context((res) => {
-              console.log(`Editor.onReady, context=${res.context}`)
+              setEditorContent(`Editor.onReady, context=${res.context}`)
               setEditorContext(res.context as EditorContext)
-
             }).exec()
           }}
           onInput={(event) => {
-            console.log(`Editor.onInput, ${event.detail.text}`)
+            setEditorContent(`Editor.onInput, ${event.timeStamp}  ${event.detail.text}`)
           }}
           onFocus={(event) => {
-            console.log(`Editor.onFocus, ${event.detail.text}`)
+            setEditorContent(`Editor.onFocus, ${event.timeStamp} ${event.detail.text}`)
           }}
           onBlur={(event) => {
-            console.log(`Editor.onBlur, ${event.detail.text}`)
+            setEditorContent(`Editor.onBlur,  ${event.timeStamp} ${event.detail.text}`)
           }}
           onStatusChange={(event) => {
-            console.log(`Editor.onStatusChange, ${event.detail.text}`)
+            setEditorContent(`Editor.onStatusChange,  ${event.timeStamp} ${event.detail.text}`)
           }}
         />
       </View>

@@ -165,6 +165,7 @@ export const Editor: React.FC<EditorProps> = (props) => {
         //   'alignright alignjustify | bullist numlist outdent indent | ' +
         //   'removeformat | image | table',
         toolbar: false,
+        contextmenu: false, // see: https://github.com/tinymce/tinymce/issues/7229
       }}
       onEditorChange={handleEditorChange}
       onInit={(_evt, editor) => {
