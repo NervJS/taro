@@ -220,7 +220,7 @@ declare module './index' {
      * @default "exparser"
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/glass-easel/migration.html
      */
-    componentFramework: 'exparser' | 'glass-easel'
+    componentFramework?: 'exparser' | 'glass-easel'
     /**
      * 指定特殊的样式隔离选项
      *
@@ -639,7 +639,7 @@ declare module './index' {
     behavior?: Behavior
   }
 
-  interface Config extends Omit<PageConfig, 'componentFramework'>, AppConfig {
+  interface Config extends PageConfig, AppConfig {
     cloud?: boolean
   }
 
