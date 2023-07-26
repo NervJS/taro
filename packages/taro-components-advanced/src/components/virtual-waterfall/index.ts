@@ -126,6 +126,99 @@ declare namespace VirtualWaterfallProps {
 /** 虚拟瀑布流
  * @classification viewContainer
  * @supported weapp, swan, alipay, tt, qq, jd, h5
+ * @example_react
+ * ```tsx
+ * import { VirtualWaterfall } from `@tarojs/components-advanced`
+ *
+ * function buildData (offset = 0) {
+ *   return Array(100).fill(0).map((_, i) => i + offset);
+ * }
+ *
+ * const Row = React.memo(({ id, index, data }) => {
+ *   return (
+ *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'}>
+ *       Row {index}
+ *     </View>
+ *   );
+ * })
+ *
+ * export default class Index extends Component {
+ *   state = {
+ *     data: buildData(0),
+ *   }
+ *
+ *   render() {
+ *     const { data } = this.state
+ *     const dataLen = data.length
+ *     return (
+ *       <VirtualWaterfall
+ *         height={500} // 列表的高度
+ *         width='100%' // 列表的宽度
+ *         item={Row} // 列表单项组件，这里只能传入一个组件
+ *         itemData={data} // 渲染列表的数据
+ *         itemCount={dataLen} // 渲染列表的长度
+ *         itemSize={100} // 列表单项的高度
+ *       />
+ *     );
+ *   }
+ * }
+ * ```
+ * @example_vue
+ * ```js
+ * // app.js 入口文件
+ * import Vue from 'vue'
+ * import { VirtualWaterfall } from `@tarojs/components-advanced`
+ *
+ * Vue.use(VirtualWaterfall)
+ * ```
+ * ```js
+ * <! –– row.vue 单项组件 ––>
+ * <template>
+ *   <view
+ *     :class="index % 2 ? 'ListItemOdd' : 'ListItemEven'"
+ *   >
+ *     Row {{ index }} : {{ data[index] }}
+ *   </view>
+ * </template>
+ *
+ * <script>
+ * export default {
+ *   props: ['index', 'data']
+ * }
+ * </script>
+ * ```
+ * ```js
+ * <! –– page.vue 页面组件 ––>
+ * <template>
+ *   <virtual-waterfall
+ *     :height="500"
+ *     :item-data="list"
+ *     :item-count="list.length"
+ *     :item-size="100"
+ *     :item="Row"
+ *     width="100%"
+ *   />
+ * </template>
+ *
+ * <script>
+ * import Row from './row.vue'
+ * import { markRaw } from 'vue'
+ *
+ * function buildData (offset = 0) {
+ *   return Array(100).fill(0).map((_, i) => i + offset)
+ * }
+ *
+ * export default {
+ *   data() {
+ *     return {
+ *       Row: markRaw(Row),
+ *       list: buildData(0)
+ *     }
+ *   },
+ * }
+ * </script>
+ * ```
+ * @see https://taro-docs.jd.com/docs/virtual-waterfall
  */
 declare class VirtualWaterfallComponent extends Component<VirtualWaterfallProps> {
   /**

@@ -8,7 +8,6 @@ import ListMap from '../list-map'
 import Preset, { type IProps } from '../preset'
 
 interface IState {
-  id: string
   instance: Waterfall
   isScrolling: boolean
   scrollDirection: 'forward' | 'backward'
@@ -40,7 +39,6 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     this.itemMap = this.preset.itemMap
 
     this.state = {
-      id,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -141,9 +139,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   }
 
   _outerRefSetter = ref => {
-    const {
-      outerRef
-    } = this.props
+    const { outerRef } = this.props
     this._outerRef = ref
 
     if (typeof outerRef === 'function') {
@@ -221,7 +217,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
         duration: 300,
       }
       option.top = scrollOffset
-      return getScrollViewContextNode(`#${this.state.id}`).then((node: any) => node.scrollTo(option))
+      return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
     }
 
     this.setState((prevState: IState) => {
@@ -237,11 +233,11 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     }, this._resetIsScrollingDebounced)
   }
 
-  public scrollToItem (index: number, align = 'auto') {
+  public scrollToItem (index: number, align = 'auto', enhanced = this.preset.enhanced) {
     const { itemCount } = this.props
     const { scrollOffset } = this.state
     index = Math.max(0, Math.min(index, itemCount - 1))
-    this.scrollTo(this.itemMap.getOffsetForIndexAndAlignment(index, align, scrollOffset))
+    this.scrollTo(this.itemMap.getOffsetForIndexAndAlignment(index, align, scrollOffset), enhanced)
   }
 
   componentDidMount () {
@@ -276,24 +272,24 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
 
   getRenderItemNode (itemIndex: number, type: 'node' | 'placeholder' = 'node') {
     const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.props
-    const { id, isScrolling } = this.state
+    const { isScrolling } = this.state
     const key = itemKey(itemIndex, itemData)
 
     const style = this.preset.getItemStyle(itemIndex)
     if (type === 'placeholder') {
       return React.createElement<any>(this.preset.itemElement, {
         key,
-        id: `${id}-${itemIndex}-wrapper`,
+        id: `${this.preset.id}-${itemIndex}-wrapper`,
         style: this.preset.isBrick ? style : { display: 'none' }
       })
     }
 
     return React.createElement<any>(this.preset.itemElement, {
       key,
-      id: `${id}-${itemIndex}-wrapper`,
+      id: `${this.preset.id}-${itemIndex}-wrapper`,
       style
     }, React.createElement(item, {
-      id: `${id}-${itemIndex}`,
+      id: `${this.preset.id}-${itemIndex}`,
       data: itemData,
       index: itemIndex,
       isScrolling: useIsScrolling ? isScrolling : undefined
@@ -301,10 +297,9 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
   }
 
   getRenderColumnNode (columnIndex: number) {
-    const { id } = this.state
     const columnProps: any = {
-      key: `${id}-column-${columnIndex}`,
-      id: `${id}-column-${columnIndex}`,
+      key: `${this.preset.id}-column-${columnIndex}`,
+      id: `${this.preset.id}-column-${columnIndex}`,
       style: {
         height: '100%',
         position: 'relative',
@@ -318,8 +313,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       const pre = convertNumber2PX(this.itemMap.getOffsetSizeCache(columnIndex, startIndex))
       items.push(
         React.createElement<any>(this.preset.itemElement, {
-          key: `${id}-${columnIndex}-pre`,
-          id: `${id}-${columnIndex}-pre`,
+          key: `${this.preset.id}-${columnIndex}-pre`,
+          id: `${this.preset.id}-${columnIndex}-pre`,
           style: {
             height: pre,
             width: '100%'
@@ -372,7 +367,6 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       'position',
     ])
     const {
-      id,
       isScrolling,
       scrollOffset,
       scrollUpdateWasRequested
@@ -381,7 +375,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
     const estimatedHeight = convertNumber2PX(this.itemMap.maxColumnSize)
     const outerProps: any = {
       ...rest,
-      id,
+      id: this.preset.id,
       className: classNames(className, 'virtual-waterfall'),
       onScroll: this._onScroll,
       ref: this._outerRefSetter,
@@ -413,8 +407,8 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       outerWrapper || this.preset.outerElement,
       outerProps,
       React.createElement(this.preset.innerElement, {
-        key: `${id}-wrapper`,
-        id: `${id}-wrapper`,
+        key: `${this.preset.id}-wrapper`,
+        id: `${this.preset.id}-wrapper`,
         className: classNames(className, 'virtual-waterfall-wrapper'),
         style: {
           display: 'flex',

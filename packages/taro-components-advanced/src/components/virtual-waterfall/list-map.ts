@@ -19,7 +19,7 @@ export default class ListMap {
   wrapperHeight = 0
   wrapperWidth = 0
   columns = 2
-  columnWidth = 0
+  columnWidth: string | number = 0
 
   refreshCounter = 0
 
@@ -107,14 +107,14 @@ export default class ListMap {
       this.columns = 2
       this.columnWidth = this.wrapperWidth / this.columns
     }
-
+    this.columnWidth ||= `calc(100% / ${this.columns})`
     this.updateColumns(this.columns)
     // this.updateItem(this.length - 1)
   }
 
   updateColumns (columns = 2) {
-    this._columns = columns
     if (!this.isNormalMode && this._columns !== columns) {
+      this._columns = columns
       this._columnMap = new Array(this._columns).fill(0).map(() => [])
       this._items = []
     }

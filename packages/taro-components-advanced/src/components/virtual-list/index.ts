@@ -126,9 +126,9 @@ declare namespace VirtualListProps {
  *   return Array(100).fill(0).map((_, i) => i + offset);
  * }
  *
- * const Row = React.memo(({ id, index, style, data }) => {
+ * const Row = React.memo(({ id, index, data }) => {
  *   return (
- *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+ *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'}>
  *       Row {index}
  *     </View>
  *   );
@@ -168,7 +168,6 @@ declare namespace VirtualListProps {
  * <template>
  *   <view
  *     :class="index % 2 ? 'ListItemOdd' : 'ListItemEven'"
- *     :style="css"
  *   >
  *     Row {{ index }} : {{ data[index] }}
  *   </view>
@@ -176,7 +175,7 @@ declare namespace VirtualListProps {
  *
  * <script>
  * export default {
- *   props: ['index', 'data', 'css']
+ *   props: ['index', 'data']
  * }
  * </script>
  * ```
@@ -184,7 +183,6 @@ declare namespace VirtualListProps {
  * <! –– page.vue 页面组件 ––>
  * <template>
  *   <virtual-list
- *     wclass="List"
  *     :height="500"
  *     :item-data="list"
  *     :item-count="list.length"

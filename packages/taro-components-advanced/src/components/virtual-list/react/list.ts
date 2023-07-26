@@ -11,7 +11,6 @@ import { validateListProps } from './validate'
 import type { IProps } from '../preset'
 
 export interface IState {
-  id: string
   instance: List
   isScrolling: boolean
   scrollDirection: 'forward' | 'backward'
@@ -49,7 +48,6 @@ export default class List extends React.PureComponent<IProps, IState> {
     this.preset.updateWrapper(id)
 
     this.state = {
-      id,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -116,20 +114,22 @@ export default class List extends React.PureComponent<IProps, IState> {
       }
     }
 
-    setTimeout(() => {
-      const [startIndex, stopIndex] = this._getRangeToRender()
-      const isHorizontal = this.preset.isHorizontal
-      for (let index = startIndex; index <= stopIndex; index++) {
-        this._getSizeUploadSync(index, isHorizontal)
-      }
-    }, 0)
+    if (this.itemList.isUnlimitedMode) {
+      setTimeout(() => {
+        const [startIndex, stopIndex] = this._getRangeToRender()
+        const isHorizontal = this.preset.isHorizontal
+        for (let index = startIndex; index <= stopIndex; index++) {
+          this._getSizeUploadSync(index, isHorizontal)
+        }
+      }, 0)
+    }
   }
 
   _getSizeUploadSync = (index: number, isHorizontal: boolean) => {
     return new Promise((resolve) => {
       if (index >= 0 && index < this.props.itemCount) {
         const times = this.itemList.compareSize(index) ? 3 : 0
-        getRectSizeSync(`#${this.state.id}-${index}`, 100, times).then(({ width, height }) => {
+        getRectSizeSync(`#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
           const size = isHorizontal ? width : height
           if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
             this.itemList.setSize(index, size)
@@ -292,7 +292,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       } else {
         option.top = scrollOffset
       }
-      return getScrollViewContextNode(`#${this.state.id}`).then((node: any) => node.scrollTo(option))
+      return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
     }
 
     this.setState((prevState: IState) => {
@@ -378,24 +378,24 @@ export default class List extends React.PureComponent<IProps, IState> {
 
   getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {
     const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.props
-    const { id, isScrolling } = this.state
+    const { isScrolling } = this.state
     const key = itemKey(index, itemData)
 
     const style = this.preset.getItemStyle(index)
     if (type === 'placeholder') {
       return React.createElement<any>(this.preset.itemElement, {
         key,
-        id: `${id}-${index}-wrapper`,
+        id: `${this.preset.id}-${index}-wrapper`,
         style: this.preset.isBrick ? style : { display: 'none' }
       })
     }
 
     return React.createElement<any>(this.preset.itemElement, {
       key: itemKey(index, itemData),
-      id: `${id}-${index}-wrapper`,
+      id: `${this.preset.id}-${index}-wrapper`,
       style
     }, React.createElement(item, {
-      id: `${id}-${index}`,
+      id: `${this.preset.id}-${index}`,
       data: itemData,
       index,
       isScrolling: useIsScrolling ? isScrolling : undefined
@@ -403,7 +403,7 @@ export default class List extends React.PureComponent<IProps, IState> {
   }
 
   getRenderColumnNode () {
-    const { id, isScrolling } = this.state
+    const { isScrolling } = this.state
     const { innerRef, itemCount } = this.props
     const isHorizontal = this.preset.isHorizontal
     // Read this value AFTER items have been created,
@@ -411,8 +411,8 @@ export default class List extends React.PureComponent<IProps, IState> {
     const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
     const columnProps: any = {
       ref: innerRef,
-      key: `${id}-inner`,
-      id: `${id}-inner`,
+      key: `${this.preset.id}-inner`,
+      id: `${this.preset.id}-inner`,
       style: {
         height: isHorizontal ? '100%' : estimatedTotalSize,
         width: !isHorizontal ? '100%' : estimatedTotalSize,
@@ -428,8 +428,8 @@ export default class List extends React.PureComponent<IProps, IState> {
       const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
       items.push(
         React.createElement<any>(this.preset.itemElement, {
-          key: `${id}-pre`,
-          id: `${id}-pre`,
+          key: `${this.preset.id}-pre`,
+          id: `${this.preset.id}-pre`,
           style: {
             height: isHorizontal ? '100%' : pre,
             width: !isHorizontal ? '100%' : pre
@@ -476,11 +476,11 @@ export default class List extends React.PureComponent<IProps, IState> {
     } = omit(this.props, [
       'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
       'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
-      'outerElementType', 'outerTagName',
+      'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
+      'upperThreshold', 'lowerThreshold',
       'position', 'innerRef',
     ])
     const {
-      id,
       scrollOffset,
       scrollUpdateWasRequested
     } = this.state
@@ -489,7 +489,7 @@ export default class List extends React.PureComponent<IProps, IState> {
 
     const outerProps: any = {
       ...rest,
-      id,
+      id: this.preset.id,
       className,
       onScroll: isHorizontal ? this._onScrollHorizontal : this._onScrollVertical,
       ref: this._outerRefSetter,

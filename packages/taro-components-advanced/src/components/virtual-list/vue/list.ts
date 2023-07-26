@@ -1,16 +1,18 @@
 import { isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
+import { defineComponent } from 'vue'
 
 import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSizeSync, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
 import render from '../../../utils/vue-render'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
-import Preset from '../preset'
+import Preset, { type IProps } from '../preset'
 
 const isWeb = isWebPlatform()
 
-export default {
+export default defineComponent({
   props: {
+    id: String,
     height: {
       type: [String, Number],
       required: true
@@ -30,7 +32,7 @@ export default {
       type: Array,
       required: true
     },
-    itemKey: String,
+    itemKey: Function,
     itemSize: {
       type: [Number, Function],
       required: true
@@ -95,14 +97,13 @@ export default {
     onItemsRendered: Function,
   },
   data () {
-    const preset = new Preset(this.$props, this.refresh)
+    const preset = new Preset(this.$props as IProps, this.refresh as TFunc)
     const id = this.$props.id || preset.id
     preset.updateWrapper(id)
 
     return {
       itemList: preset.itemList,
       preset,
-      id,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -119,7 +120,7 @@ export default {
     refresh () {
       this.refreshCount = this.refreshCount + 1
     },
-    scrollTo (scrollOffset, enhanced = this.preset.enhanced) {
+    scrollTo (scrollOffset = 0, enhanced = this.preset.enhanced) {
       scrollOffset = Math.max(0, scrollOffset)
       if (this.scrollOffset === scrollOffset) return
 
@@ -134,7 +135,7 @@ export default {
         } else {
           option.top = scrollOffset
         }
-        return getScrollViewContextNode(`#${this.$data.id}`).then((node: any) => node.scrollTo(option))
+        return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
       }
 
       this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
@@ -144,7 +145,7 @@ export default {
       this.$nextTick(this._resetIsScrollingDebounced)
     },
 
-    scrollToItem (index, align = 'auto', enhanced = this.preset.enhanced) {
+    scrollToItem (index: number, align = 'auto', enhanced = this.preset.enhanced) {
       const { itemCount } = this.$props
       const { scrollOffset } = this.$data
 
@@ -152,7 +153,6 @@ export default {
 
       this.scrollTo(
         this.itemList.getOffsetForIndexAndAlignment(
-          this.$props,
           index,
           align,
           scrollOffset
@@ -161,78 +161,57 @@ export default {
       )
     },
 
-    _callOnItemsRendered: memoizeOne(
-      function (
+    _callOnItemsRendered: memoizeOne(function (overscanStartIndex, overscanStopIndex, startIndex, stopIndex) {
+      return this.$props.onItemsRendered({
         overscanStartIndex,
         overscanStopIndex,
         startIndex,
         stopIndex
-      ) {
-        return this.$props.onItemsRendered({
-          overscanStartIndex,
-          overscanStopIndex,
-          startIndex,
-          stopIndex
-        })
-      }
-    ),
+      })
+    }),
 
-    _callOnScroll: memoizeOne(
-      function (
+    _callOnScroll: memoizeOne(function (scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) {
+      this.$emit('scroll', {
         scrollDirection,
         scrollOffset,
         scrollUpdateWasRequested,
         detail
-      ) {
-        this.$emit('scroll', {
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested,
-          detail
-        })
-      }
-    ),
+      })
+    }),
 
     _callPropsCallbacks () {
       if (typeof this.$props.onItemsRendered === 'function') {
-        const { itemCount } = this.$props
-        if (itemCount > 0) {
-          const [
-            overscanStartIndex,
-            overscanStopIndex,
-            startIndex,
-            stopIndex
-          ] = this._getRangeToRender()
-          this._callOnItemsRendered(
-            overscanStartIndex,
-            overscanStopIndex,
-            startIndex,
-            stopIndex
-          )
+        if (this.$props.itemCount > 0) {
+          const [overscanStartIndex, overscanStopIndex, startIndex, stopIndex] = this._getRangeToRender()
+          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, startIndex, stopIndex)
         }
       }
 
-      this._callOnScroll(
-        this.scrollDirection,
-        this.scrollOffset,
-        this.scrollUpdateWasRequested,
-        this.preset.field
-      )
+      if (typeof this.$props.onScroll === 'function') {
+        this._callOnScroll(
+          this.scrollDirection,
+          this.scrollOffset,
+          this.scrollUpdateWasRequested,
+          this.preset.field
+        )
+      }
 
-      setTimeout(() => {
-        const [startIndex, stopIndex] = this._getRangeToRender()
-        const isHorizontal = this.preset.isHorizontal
-        for (let index = startIndex; index <= stopIndex; index++) {
-          this._getSizeUploadSync(index, isHorizontal)
-        }
-      }, 0)
+      if (this.itemList.isUnlimitedMode) {
+        setTimeout(() => {
+          const [startIndex, stopIndex] = this._getRangeToRender()
+          const isHorizontal = this.preset.isHorizontal
+          for (let index = startIndex; index <= stopIndex; index++) {
+            this._getSizeUploadSync(index, isHorizontal)
+          }
+        }, 0)
+      }
     },
 
     _getSizeUploadSync (index: number, isHorizontal: boolean) {
       return new Promise((resolve) => {
         if (index >= 0 && index < this.$props.itemCount) {
           const times = this.itemList.compareSize(index) ? 0 : 2
-          getRectSizeSync(`#${this.id}-${index}`, 100, times).then(({ width, height }) => {
+          getRectSizeSync(`#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
             const size = isHorizontal ? width : height
             if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
               this.itemList.setSize(index, size)
@@ -323,10 +302,7 @@ export default {
       }
 
       // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-      const scrollOffset = Math.max(
-        0,
-        Math.min(scrollTop, scrollHeight - clientHeight)
-      )
+      const scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight))
       this.preset.field = {
         scrollHeight,
         scrollWidth,
@@ -345,9 +321,7 @@ export default {
     },
 
     _outerRefSetter (ref) {
-      const {
-        outerRef
-      } = this.$props
+      const { outerRef } = this.$props
       this._outerRef = ref
 
       if (typeof outerRef === 'function') {
@@ -362,10 +336,7 @@ export default {
         cancelTimeout(this.resetIsScrollingTimeoutId)
       }
 
-      this.resetIsScrollingTimeoutId = requestTimeout(
-        this._resetIsScrolling,
-        IS_SCROLLING_DEBOUNCE_INTERVAL
-      )
+      this.resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
     },
 
     _resetIsScrolling () {
@@ -378,24 +349,24 @@ export default {
 
     getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {
       const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.$props
-      const { id, isScrolling } = this.$data
+      const { isScrolling } = this.$data
       const key = itemKey(index, itemData)
   
       const style = this.preset.getItemStyle(index)
       if (type === 'placeholder') {
         return render(this.preset.itemElement, {
           key,
-          id: `${id}-${index}-wrapper`,
+          id: `${this.preset.id}-${index}-wrapper`,
           style: this.preset.isBrick ? style : { display: 'none' }
         })
       }
   
       return render(this.preset.itemElement, {
         key: itemKey(index, itemData),
-        id: `${id}-${index}-wrapper`,
+        id: `${this.preset.id}-${index}-wrapper`,
         style
       }, render(item, {
-        id: `${id}-${index}`,
+        id: `${this.preset.id}-${index}`,
         data: itemData,
         index,
         isScrolling: useIsScrolling ? isScrolling : undefined
@@ -403,7 +374,7 @@ export default {
     },
   
     getRenderColumnNode () {
-      const { id, isScrolling } = this.$data
+      const { isScrolling } = this.$data
       const { innerRef, itemCount } = this.$props
       const isHorizontal = this.preset.isHorizontal
       // Read this value AFTER items have been created,
@@ -411,8 +382,8 @@ export default {
       const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
       const columnProps: any = {
         ref: innerRef,
-        key: `${id}-inner`,
-        id: `${id}-inner`,
+        key: `${this.preset.id}-inner`,
+        id: `${this.preset.id}-inner`,
         style: {
           height: isHorizontal ? '100%' : estimatedTotalSize,
           width: !isHorizontal ? '100%' : estimatedTotalSize,
@@ -428,8 +399,8 @@ export default {
         const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
         items.push(
           render(this.preset.itemElement, {
-            key: `${id}-pre`,
-            id: `${id}-pre`,
+            key: `${this.preset.id}-pre`,
+            id: `${this.preset.id}-pre`,
             style: {
               height: isHorizontal ? '100%' : pre,
               width: !isHorizontal ? '100%' : pre
@@ -463,7 +434,7 @@ export default {
       const isHorizontal = this.preset.isHorizontal
       const isRtl = this.preset.isRtl
       const props: any = {
-        id: `${this.id}-${direction}`,
+        id: `${this.preset.id}-${direction}`,
         style: {
           visibility: 'hidden',
           height: isHorizontal ? '100%' : 100,
@@ -544,11 +515,11 @@ export default {
     } = omit(this.$props, [
       'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
       'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
-      'outerElementType', 'outerTagName',
-      'position'
+      'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
+      'upperThreshold', 'lowerThreshold',
+      'position', 'innerRef',
     ])
     const {
-      id,
       scrollOffset,
       scrollUpdateWasRequested
     } = this.$data
@@ -556,7 +527,7 @@ export default {
     const isHorizontal = this.preset.isHorizontal
     const isRtl = this.preset.isRtl
     const outerElementProps: any = {
-      id,
+      id: this.preset.id,
       ref: this._outerRefSetter,
       layout,
       enhanced,
@@ -596,4 +567,4 @@ export default {
       this.getRenderExpandNodes(isHorizontal ? isRtl ? 'left' : 'right' : 'bottom'),
     ])
   }
-}
+})
