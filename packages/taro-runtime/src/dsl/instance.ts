@@ -8,6 +8,7 @@ import type { Func, MpEvent } from '../interface'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
+  node?: TaroElement
   $forceUpdate?(): void
   $nextTick?(cb: () => void): void
   $options: Instance
@@ -82,6 +83,7 @@ interface Show {
 export interface AppInstance extends Show {
   componentDidShow?(options?: Record<string, unknown>): void
   mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, cb: (...args: any[]) => void): void
+  mount? (component: React.ComponentClass | ComponentOptions<VueCtor> | Vue3Component, id: string, getCtx:(...args: any[]) => void, cb: (...args: any[]) => void): void
   onError? (error: string): void
   onLaunch? (options?: Record<string, unknown>): void
   onPageNotFound? (res: any): void

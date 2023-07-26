@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-style-transformer",
-  "version": "3.6.9-alpha.9",
+  "version": "3.6.10",
   "description": "提供Taro RN 统一处理样式文件能力",
   "main": "dist/index.js",
   "scripts": {
