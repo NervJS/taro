@@ -12,6 +12,7 @@ export interface TransformType {
     designWidth?: number | ((size?: string | number) => number)
     deviceRatio?: Record<string, number>
     rn?: Record<string, any>
+    plugins?: any[]
   }
 }
 

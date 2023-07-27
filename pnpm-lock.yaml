@@ -298,11 +298,8 @@ importers:
       '@vue/babel-plugin-jsx': ^1.0.6
       '@vue/babel-preset-jsx': ^1.2.4
       babel-plugin-dynamic-import-node: 2.3.3
-      babel-plugin-global-define: 1.0.3
-      babel-plugin-jsx-attributes-array-to-object: 0.3.0
       babel-plugin-minify-dead-code-elimination: ^0.5.2
       babel-plugin-transform-imports-api: 1.0.0
-      babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       core-js: ^3.6.5
       jest: ^29.3.1
       jest-cli: ^29.3.1
@@ -325,11 +322,8 @@ importers:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/shared': link:../shared
       babel-plugin-dynamic-import-node: registry.npmjs.org/babel-plugin-dynamic-import-node/2.3.3
-      babel-plugin-global-define: registry.npmjs.org/babel-plugin-global-define/1.0.3
-      babel-plugin-jsx-attributes-array-to-object: registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0
       babel-plugin-minify-dead-code-elimination: registry.npmjs.org/babel-plugin-minify-dead-code-elimination/0.5.2
       babel-plugin-transform-imports-api: registry.npmjs.org/babel-plugin-transform-imports-api/1.0.0
-      babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       core-js: registry.npmjs.org/core-js/3.30.2
       lodash: registry.npmjs.org/lodash/4.17.21
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.72.3_@babel+core@7.21.8
@@ -1871,6 +1865,11 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/rn-style-transformer': workspace:*
       '@tarojs/rn-transformer': workspace:*
+      '@tarojs/service': workspace:*
+      '@tarojs/taro': workspace:*
+      babel-plugin-global-define: 1.0.3
+      babel-plugin-jsx-attributes-array-to-object: 0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       lodash: ^4.17.21
       metro: ^0.72.1
       metro-cache: ^0.72.1
@@ -1892,6 +1891,11 @@ importers:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/rn-style-transformer': link:../taro-rn-style-transformer
       '@tarojs/rn-transformer': link:../taro-rn-transformer
+      '@tarojs/service': link:../taro-service
+      '@tarojs/taro': link:../taro
+      babel-plugin-global-define: registry.npmjs.org/babel-plugin-global-define/1.0.3
+      babel-plugin-jsx-attributes-array-to-object: registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       lodash: registry.npmjs.org/lodash/4.17.21
       metro: registry.npmjs.org/metro/0.72.3
       metro-cache: registry.npmjs.org/metro-cache/0.72.3
@@ -14640,7 +14644,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -30940,19 +30944,6 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
-
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
 
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
