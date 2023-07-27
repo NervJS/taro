@@ -9,7 +9,7 @@ import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
 
-import type { PageInstance } from '@tarojs/taro'
+import type { AppInstance, PageInstance } from '@tarojs/taro'
 import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
@@ -17,8 +17,15 @@ declare const getCurrentPages: () => PageInstance[]
 const getNativeCompId = incrementId()
 let h: typeof React.createElement
 let ReactDOM
+let nativeComponentApp: AppInstance
 
-function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
+function initNativeComponentEntry (params: {
+  R: typeof React
+  ReactDOM
+  cb?
+  isComponent?: boolean
+}) {
+  const { R, ReactDOM, cb, isComponent } = params
   interface IEntryState {
     components: {
       compId: string
@@ -63,7 +70,11 @@ function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
     }
 
     componentDidMount () {
-      Current.app = this
+      if (isComponent) {
+        nativeComponentApp = this
+      } else {
+        Current.app = this
+      }
       cb && cb()
     }
 
@@ -129,10 +140,19 @@ function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
 
   const app = document.getElementById('app')
 
-  ReactDOM.render(
-    h(Entry, {}),
-    app
-  )
+  if (isComponent && !nativeComponentApp) {
+    const nativeComponent = document.createElement('nativeComponent')
+    app.appendChild(nativeComponent)
+    ReactDOM.render(
+      h(Entry, {}),
+      nativeComponent
+    )
+  } else {
+    ReactDOM.render(
+      h(Entry, {}),
+      app
+    )
+  }
 }
 
 export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom, pageConfig) {
@@ -199,8 +219,12 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 
       const mount = () => {
         if (!Current.app) {
-          initNativeComponentEntry(react, ReactDOM, () => {
-            Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
+          initNativeComponentEntry({
+            R: react,
+            ReactDOM,
+            cb: () => {
+              Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
+            }
           })
         } else {
           Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
@@ -315,7 +339,9 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
   return pageObj
 }
 
-export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
+
+
+export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig, isComponent?: boolean) {
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
@@ -334,15 +360,21 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     created () {
-      if (!Current.app) {
-        initNativeComponentEntry(react, ReactDOM)
+      const app = (isComponent ? nativeComponentApp : Current.app)
+      if (!app) {
+        initNativeComponentEntry({
+          R: react,
+          ReactDOM,
+          isComponent: true
+        })
       }
     },
     attached () {
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      Current.app!.mount!(Component, compId, () => this, () => {
+      const app = (isComponent ? nativeComponentApp : Current.app)
+      app!.mount!(Component, compId, () => this, () => {
         const instance = getPageInstance(compId)
 
         if (instance && instance.node) {
@@ -359,7 +391,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     detached () {
       resetCurrent()
-      Current.app!.unmount!(this.compId)
+      const app = (isComponent ? nativeComponentApp : Current.app)
+      app!.unmount!(this.compId)
     },
     pageLifetimes: {
       show (options) {
