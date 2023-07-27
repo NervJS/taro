@@ -10,8 +10,6 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
   item: ComponentType<{
     /** 组件 ID */
     id: string
-    /** 单项的样式，样式必须传入组件的 style 中 */
-    style?: CSSProperties
     /** 组件渲染的数据 */
     data: T[]
     /** 组件渲染数据的索引 */
@@ -50,6 +48,14 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
   overscanCount?: number
   /** 上下滚动预占位节点 */
   placeholderCount?: number
+  /** 触顶事件触发时距页面顶部距离
+   * @default 50
+   */
+  upperThreshold?: number
+  /** 触底事件触发时距页面底部距离
+   * @default 50
+   */
+  lowerThreshold?: number
   /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
@@ -81,14 +87,6 @@ interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
   onScrollToUpper?: () => void
   /** 触底事件 */
   onScrollToLower?: () => void
-  /** 触顶事件触发时距页面顶部距离
-   * @default 50
-   */
-  upperThreshold?: number
-  /** 触底事件触发时距页面底部距离
-   * @default 50
-   */
-  lowerThreshold?: number
   style?: CSSProperties
 }
 
@@ -216,7 +214,7 @@ declare class VirtualListComponent extends Component<VirtualListProps> {
   /**
    * 滚动到指定的地点。
    */
-  public scrollTo(scrollOffset: number): void
+  public scrollTo(scrollOffset: number, enhanced?: boolean): void
 
   /** 滚动到指定的条目。
    * @param index 指定条目的索引。
@@ -228,7 +226,7 @@ declare class VirtualListComponent extends Component<VirtualListProps> {
    * - auto：尽可能滚动距离最小保证条目在可视区域中，如果已经在可视区域，就不滚动。
    * - smart：条目如果已经在可视区域，就不滚动；如果有部分在可视区域，尽可能滚动距离最小保证条目在可视区域中；如果条目完全不在可视区域，那就滚动到条目在可视区域居中显示。
    */
-  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart'): void
+  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart', enhanced?: boolean): void
 }
 
 declare type VirtualList = VirtualListComponent

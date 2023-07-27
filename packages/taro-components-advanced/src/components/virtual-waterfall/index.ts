@@ -2,20 +2,18 @@ import type { BaseEventOrig, BaseEventOrigFunction, ScrollViewProps, StandardPro
 import type { Component, ComponentType, CSSProperties } from 'react'
 
 interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'> {
-  /** 高度 */
-  height: string | number
-  /** 宽度 */
-  width: string | number
   /** 瀑布流占用列数量，默认值依照 width / columnWidth ||= 2 计算 */
   column?: number
   /** 瀑布流单列宽度，默认值依照 width / column 计算 */
   columnWidth?: number
+  /** 高度 */
+  height: string | number
+  /** 宽度 */
+  width: string | number
   /** 子组件 */
   item: ComponentType<{
     /** 组件 ID */
     id: string
-    /** 单项的样式，样式必须传入组件的 style 中 */
-    style?: CSSProperties
     /** 组件渲染的数据 */
     data: T[]
     /** 组件渲染数据的索引 */
@@ -44,7 +42,7 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
   /** 初始滚动偏移值 */
   initialScrollOffset?: number
   /** 在可视区域之外预渲染的距离，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。
-   * > 建议至少大于等于 itemSize 的最大值，但不要设置超过虚拟列表高度。
+   * > 建议至少大于等于 itemSize 的最大值，但不要设置超过虚拟瀑布流高度。
    * @default 50
    */
   overscanDistance?: number
@@ -52,6 +50,14 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
    * @default 0
    */
   placeholderCount?: number
+  /** 触顶事件触发时距页面顶部距离
+   * @default 50
+   */
+  upperThreshold?: number
+  /** 触底事件触发时距页面底部距离
+   * @default 50
+   */
+  lowerThreshold?: number
   /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
   useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
@@ -89,14 +95,6 @@ interface VirtualWaterfallProps<T = any> extends Omit<StandardProps, 'children'>
   onScrollToUpper?: () => void
   /** 触底事件 */
   onScrollToLower?: () => void
-  /** 触顶事件触发时距页面顶部距离
-   * @default 50
-   */
-  upperThreshold?: number
-  /** 触底事件触发时距页面底部距离
-   * @default 50
-   */
-  lowerThreshold?: number
   style?: CSSProperties
 }
 
@@ -224,7 +222,7 @@ declare class VirtualWaterfallComponent extends Component<VirtualWaterfallProps>
   /**
    * 滚动到指定的地点。
    */
-  public scrollTo(scrollOffset: number): void
+  public scrollTo(scrollOffset: number, enhanced?: boolean): void
 
   /** 滚动到指定的条目。
    * @param index 指定条目的索引。
@@ -236,7 +234,7 @@ declare class VirtualWaterfallComponent extends Component<VirtualWaterfallProps>
    * - auto：尽可能滚动距离最小保证条目在可视区域中，如果已经在可视区域，就不滚动。
    * - smart：条目如果已经在可视区域，就不滚动；如果有部分在可视区域，尽可能滚动距离最小保证条目在可视区域中；如果条目完全不在可视区域，那就滚动到条目在可视区域居中显示。
    */
-  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart'): void
+  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart', enhanced?: boolean): void
 }
 
 declare type VirtualWaterfall = VirtualWaterfallComponent

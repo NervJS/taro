@@ -283,7 +283,7 @@ export default defineComponent({
       const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.$props
       const { isScrolling } = this.$data
       const key = itemKey(itemIndex, itemData)
-  
+
       const style = this.preset.getItemStyle(itemIndex)
       if (type === 'placeholder') {
         return render(this.preset.itemElement, {
@@ -292,7 +292,7 @@ export default defineComponent({
           style: this.preset.isBrick ? style : { display: 'none' }
         })
       }
-  
+
       return render(this.preset.itemElement, {
         key,
         id: `${this.preset.id}-${itemIndex}-wrapper`,
@@ -304,7 +304,7 @@ export default defineComponent({
         isScrolling: useIsScrolling ? isScrolling : undefined
       }))
     },
-  
+
     getRenderColumnNode (columnIndex: number) {
       const columnProps: any = {
         key: `${this.preset.id}-column-${columnIndex}`,
@@ -315,7 +315,7 @@ export default defineComponent({
           width: convertNumber2PX(this.itemMap.columnWidth)
         }
       }
-  
+
       const [startIndex, stopIndex] = this._getRangeToRender(columnIndex)
       const items = []
       if (this.preset.isRelative && !this.preset.isBrick) {
@@ -346,7 +346,7 @@ export default defineComponent({
               continue
             }
           }
-  
+
           if (row < startIndex || row > stopIndex) {
             items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
           } else {

@@ -351,7 +351,7 @@ export default defineComponent({
       const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.$props
       const { isScrolling } = this.$data
       const key = itemKey(index, itemData)
-  
+
       const style = this.preset.getItemStyle(index)
       if (type === 'placeholder') {
         return render(this.preset.itemElement, {
@@ -360,7 +360,7 @@ export default defineComponent({
           style: this.preset.isBrick ? style : { display: 'none' }
         })
       }
-  
+
       return render(this.preset.itemElement, {
         key: itemKey(index, itemData),
         id: `${this.preset.id}-${index}-wrapper`,
@@ -372,7 +372,7 @@ export default defineComponent({
         isScrolling: useIsScrolling ? isScrolling : undefined
       }))
     },
-  
+
     getRenderColumnNode () {
       const { isScrolling } = this.$data
       const { innerRef, itemCount } = this.$props
@@ -391,10 +391,10 @@ export default defineComponent({
           pointerEvents: isScrolling ? 'none' : 'auto',
         }
       }
-  
+
       const [startIndex, stopIndex] = this._getRangeToRender()
       const items = []
-  
+
       if (this.preset.isRelative && !this.preset.isBrick) {
         const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
         items.push(
@@ -408,12 +408,12 @@ export default defineComponent({
           })
         )
       }
-  
+
       const placeholderCount = this.preset.placeholderCount
       const restCount = itemCount - stopIndex
       const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
       const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
-  
+
       for (let itemIndex = 0; itemIndex < stopIndex + postPlaceholder; itemIndex++) {
         if (!this.preset.isBrick) {
           if (itemIndex < startIndex - prevPlaceholder) {
@@ -421,7 +421,7 @@ export default defineComponent({
             continue
           }
         }
-  
+
         if (itemIndex < startIndex || itemIndex > stopIndex) {
           items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
         } else {
