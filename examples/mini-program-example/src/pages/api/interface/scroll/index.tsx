@@ -14,10 +14,10 @@ export default class Index extends React.Component {
             {
                 id: 'pageScrollTo',
                 func: () => {
+                    console.log('pageScrollTo')
                     Taro.pageScrollTo({
-                        scrollTop: 4,
                         duration: 300,
-                        selector: '',//css selector
+                        selector: '#content',
                         offsetTop: 0,
                         success: (res) => {
                             console.log('pageScrollTo success ', res)
@@ -30,12 +30,32 @@ export default class Index extends React.Component {
                         },
                     })
                 },
-            }, 
+            },
             {
                 id: 'ScrollViewContext',
                 func: null,
-            }, 
-        ], 
+            },
+        ],
+        listTail: [
+            {
+                id: 'pageScrollTo: 滚到顶部',
+                func: () => {
+                    console.log('pageScrollTo')
+                    Taro.pageScrollTo({
+                        scrollTop: 0,
+                        success: (res) => {
+                            console.log('pageScrollTo success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('pageScrollTo fail ', res)
+                        },
+                        complete: (res) => {
+                            console.log('pageScrollTo complete ', res)
+                        },
+                    })
+                },
+            },
+        ]
     }
     render () {
         return (
@@ -44,6 +64,30 @@ export default class Index extends React.Component {
                     this.state.list.map((item) => {
                         return (
                             <Button
+                                key={item.id}
+                                className='api-page-btn'
+                                type='primary'
+                                onClick={item.func == null ? () => {} : item.func}
+                            >
+                                {item.id}
+                                {
+                                    item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                                }
+                            </Button>
+                        )
+                    })
+                }
+                {
+                    <Button
+                        id='content'
+                        style={{height: 1200, backgroundColor: '#FFFFFE'}}
+                    >空白视图，用于滚动测试</Button>
+                }
+                {
+                    this.state.listTail.map((item) => {
+                        return (
+                            <Button
+                                key={item.id}
                                 className='api-page-btn'
                                 type='primary'
                                 onClick={item.func == null ? () => {} : item.func}
