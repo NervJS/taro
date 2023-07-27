@@ -226,7 +226,9 @@ export class BaseTemplate {
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
     const xs = this.supportXS
-      ? `xs.a(0, item.${Shortcuts.NodeName})`
+      ? (this.isSupportRecursive
+        ? `xs.a(0, item.${Shortcuts.NodeName})` 
+        : `xs.a(0, item.${Shortcuts.NodeName}, '')`)
       : "'tmpl_0_' + item.nn"
     return `${this.buildXsTemplate()}
 <template name="taro_tmpl">
@@ -307,7 +309,9 @@ export class BaseTemplate {
 
       return supportXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" />`
-        : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
+        : isSupportRecursive 
+          ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
+          : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
   
   }

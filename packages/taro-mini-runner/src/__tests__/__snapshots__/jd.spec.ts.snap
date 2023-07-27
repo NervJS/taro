@@ -157,7 +157,7 @@ require("./taro");
 <jds src="./utils.jds" module="xs" />
 <template name="taro_tmpl">
   <block jd:for="{{root.cn}}" jd:key="sid">
-    <template is="{{xs.a(0, item.nn)}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
   </block>
 </template>
 
