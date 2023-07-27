@@ -23,7 +23,13 @@ export const login: typeof Taro.login = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   // @ts-ignore
-  const ret = native.login({
+  const ret = native.authorize({
+    // @ts-ignore
+    appid:options.appid,
+    // @ts-ignore
+    type:options.type || 'code',
+    // @ts-ignore
+    scope:options.scope || 'scope.baseProfile',
     timeout: timeout,
     success: (res: any) => {
       return handle.success(res)

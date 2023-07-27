@@ -2,7 +2,6 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
-
 /**
  * 基础-系统
  * @returns 
@@ -20,12 +19,15 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.openAppAuthorizeSetting({
                         success (res) {
+                            Taro.showModal({content:'Taro.openAppAuthorizeSetting success ' +  JSON.stringify(res)})
                             console.log('success-----', res);
                         },
                         fail (res) {
+                            Taro.showModal({content:'Taro.openAppAuthorizeSetting fail ' +  JSON.stringify(res)})
                             console.log('fail-----', res);
                         },
                         complete (res) {
+                            Taro.showModal({content:'Taro.openAppAuthorizeSetting complete ' +  JSON.stringify(res)})
                             console.log('complete-----', res);
                         }
                     })
@@ -33,16 +35,18 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getWindowInfo',
-                func: null,
+                func: async()=>{
+                    const res = await Taro.getWindowInfo()
+                    Taro.showModal({content:'Taro.getWindowInfo success ' +  JSON.stringify(res)})
+                    console.log('Taro.getWindowInfo success',res)
+                },
             }, 
             {
                 id: 'getSystemSetting',
                 func: () => {
-                    const systemSetting = Taro.getSystemSetting()
-                    Taro.showToast({
-                        title: 'success'
-                    })
-                    console.log('success', systemSetting);
+                    const res = Taro.getSystemSetting()
+                    Taro.showModal({content:'Taro.getSystemInfoSync success ' +  JSON.stringify(res)})
+                    console.log('Taro.getSystemSetting success',res)
                 },
             }, 
             {
@@ -50,9 +54,11 @@ export default class Index extends React.Component {
                 func: () => {
                     try {
                         const res = Taro.getSystemInfoSync()
-                        console.log('getSystemInfoSync success ', res)
+                        Taro.showModal({content:'Taro.getSystemInfoSync success ' +  JSON.stringify(res)})
+                        console.log('Taro.getSystemInfoSync success',res)
                       } catch (e) {
-                        console.log('getSystemInfoSync exception')
+                        Taro.showModal({content:'Taro.getSystemInfoSync exception ' +  JSON.stringify(e)})
+                        console.error('Taro.getSystemInfoSync success',e)
                       }
                 },
             }, 
@@ -78,15 +84,27 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getDeviceInfo',
-                func: null,
+                func: () =>{
+                    let res = Taro.getDeviceInfo()
+                    Taro.showModal({content:'Taro.getDeviceInfo success ' +  JSON.stringify(res)})
+                    console.log('Taro.getSystemInfoSync getDeviceInfo',res)
+                },
             }, 
             {
                 id: 'getAppBaseInfo',
-                func: null,
+                func: async()=>{
+                    let res = await Taro.getAppBaseInfo();
+                    console.log("Taro.getAppBaseInfo",res);
+                    Taro.showModal({content:'Taro.getAppBaseInfo success ' +  JSON.stringify(res)})
+                },
             }, 
             {
                 id: 'getAppAuthorizeSetting',
-                func: null,
+                func: async()=>{
+                    let res = await Taro.getAppAuthorizeSetting()
+                    console.log("Taro.getAppAuthorizeSetting",res);
+                    Taro.showModal({content:'Taro.getAppAuthorizeSetting success ' +  JSON.stringify(res)})
+                },
             }, 
         ], 
     }
