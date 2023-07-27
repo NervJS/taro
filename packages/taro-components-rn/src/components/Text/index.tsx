@@ -19,8 +19,10 @@ const _Text: React.FC<TextProps> = ({
 }: TextProps) => {
   return (
     <Text
+      textBreakStrategy='simple'
+      numberOfLines={0}
+      style={[{ fontFamily: '' }, style]}
       selectable={!!selectable}
-      style={style}
       onPress={onClick}
       {...otherProps}
     >
