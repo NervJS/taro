@@ -339,7 +339,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 
 
 
-export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig, isComponent?: boolean) {
+export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
@@ -358,7 +358,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     created () {
-      const app = (isComponent ? nativeComponentApp : Current.app)
+      const app = (componentConfig.isBlended ? nativeComponentApp : Current.app)
       if (!app) {
         initNativeComponentEntry({
           R: react,
@@ -371,7 +371,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      const app = (isComponent ? nativeComponentApp : Current.app)
+      const app = (componentConfig.isBlended ? nativeComponentApp : Current.app)
       app!.mount!(Component, compId, () => this, () => {
         const instance = getPageInstance(compId)
 
@@ -389,7 +389,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     detached () {
       resetCurrent()
-      const app = (isComponent ? nativeComponentApp : Current.app)
+      const app = (componentConfig.isBlended ? nativeComponentApp : Current.app)
       app!.unmount!(this.compId)
     },
     pageLifetimes: {

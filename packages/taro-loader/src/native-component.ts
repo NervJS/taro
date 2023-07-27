@@ -11,6 +11,7 @@ export default function (this: webpack.LoaderContext<any>) {
   const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = options.loaderMeta
   const { config: loaderConfig } = options
   const config = getPageConfig(loaderConfig, this.resourcePath)
+  config.isBlended = !!options.isBlended
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
   // raw is a placeholder loader to locate changed .vue resource
