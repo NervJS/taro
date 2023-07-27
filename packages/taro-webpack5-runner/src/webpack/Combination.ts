@@ -28,7 +28,10 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   isWeb = isWebPlatform()
 
   /** special mode */
+  // 将组件打包为原生模块
   isBuildNativeComp = false
+  // 正常打包页面的同时，把组件也打包成独立的原生模块
+  newBlended = false
 
   constructor (appPath: string, config: T) {
     this.appPath = appPath
@@ -48,10 +51,14 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
 
   process (config: Partial<T>) {
     const {
-      isBuildNativeComp = false
+      isBuildNativeComp = false,
+      newBlended = false
     } = config
     if (isBuildNativeComp) {
       this.isBuildNativeComp = true
+    }
+    if(newBlended) {
+      this.newBlended = true
     }
   }
 

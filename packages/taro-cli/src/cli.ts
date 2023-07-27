@@ -165,7 +165,10 @@ export default class CLI {
             platform,
             plugin,
             isWatch: Boolean(args.watch),
+            // 是否把 Taro 组件编译为原生自定义组件
             isBuildNativeComp: _[1] === 'native-components',
+            // 新的混合编译模式，支持把组件单独编译为原生组件
+            newBlended: Boolean(args['new-blended']),
             port: args.port,
             env: args.env,
             deviceType: args.platform,
