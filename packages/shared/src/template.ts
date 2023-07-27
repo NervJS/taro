@@ -309,7 +309,9 @@ export class BaseTemplate {
 
       return supportXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" />`
-        : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
+        : isSupportRecursive 
+          ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
+          : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
   
   }
