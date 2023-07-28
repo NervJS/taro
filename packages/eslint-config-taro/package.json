@@ -32,7 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^5.17.0",
     "eslint": "^8.12.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react": "^7.33.0",
     "eslint-plugin-react-hooks": "^4.4.0",
     "eslint-plugin-vue": "^8.6.0",
     "typescript": "^4.7.4"
