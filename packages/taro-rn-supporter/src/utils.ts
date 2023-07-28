@@ -1,4 +1,5 @@
 import * as helper from '@tarojs/helper'
+import { dotenvParse, patchEnv } from '@tarojs/helper'
 import { Config } from '@tarojs/service'
 import * as fs from 'fs'
 import { networkInterfaces } from 'os'
@@ -11,13 +12,18 @@ let FROM_TARO = false
 
 async function getProjectConfig () {
   if (GLOBAL_CONFIG) return GLOBAL_CONFIG
+  const appPath = process.cwd()
+  const mode = process.env.NODE_ENV || 'development'
   const config = new Config({
-    appPath: process.cwd()
+    appPath,
   })
   await config.init({
-    mode: process.env.NODE_ENV || 'development',
+    mode,
     command: 'build'
   })
+  // 这里解析 dotenv 以便于 config 解析时能获取 dotenv 配置信息
+  const expandEnv = dotenvParse(appPath, undefined, mode)
+  config.initialConfig.env = patchEnv(config.initialConfig, expandEnv)
   GLOBAL_CONFIG = config.initialConfig
   return GLOBAL_CONFIG
 }
