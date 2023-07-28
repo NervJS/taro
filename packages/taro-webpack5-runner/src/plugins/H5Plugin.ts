@@ -1,5 +1,4 @@
 import { FRAMEWORK_MAP, SCRIPT_EXT } from '@tarojs/helper'
-import { VirtualModule } from '@tarojs/webpack5-prebundle/dist/web'
 import { defaults } from 'lodash'
 import path from 'path'
 
@@ -94,7 +93,7 @@ export default class TaroH5Plugin {
 
     compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
       compiler.webpack.NormalModule.getCompilationHooks(compilation).loader.tap(PLUGIN_NAME, (_loaderContext: LoaderContext<any>, module: NormalModule) => {
-        const { entryFileName, appPath, sourceDir, prebundle, routerConfig, isBuildNativeComp } = this.options
+        const { entryFileName, sourceDir, prebundle, routerConfig, isBuildNativeComp } = this.options
         const { dir, name } = path.parse(module.resource)
         const suffixRgx = /\.(boot|config)/
         if (!suffixRgx.test(name)) return
@@ -110,11 +109,6 @@ export default class TaroH5Plugin {
             ? this.appHelper.compsConfigList.has(pageName)
             : (isApp || this.appHelper.pagesConfigList.has(pageName.split(path.sep).join('/')))
         ) {
-          if (bootstrap) {
-            const bootPath = path.relative(appPath, path.join(sourceDir, `${isMultiRouterMode ? pageName : entryFileName}.boot.js`))
-            VirtualModule.writeModule(bootPath, '/** bootstrap application code */')
-          }
-
           // 把 Map 转换为数组后传递，避免 thread-loader 传递 Map 时变为空对象的问题，fix #13430
           const pagesConfigList: [string, string][] = []
           for (const item of this.appHelper.pagesConfigList.entries()) {
