@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { getParameterError, shouldBeObject } from 'src/utils'
+import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
 export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevices = (options) => {
@@ -11,7 +11,7 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
     if (!isObject.flag) {
       const res = { errMsg: `${name}:fail ${isObject.msg}` }
       console.error(res.errMsg)
-      return reject(res)
+      reject(res)
     }
     const {
       services,
@@ -25,27 +25,15 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
       errMsg?: string
     }>({ name, success, fail, complete })
 
-    // options.url must be String
-    if (typeof services !== 'object') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'services',
-          correct: 'object',
-          wrong: services
-        })
-      }, { resolve, reject })
-    }
-
     // @ts-ignore
-    const ret = native.getConnectedBluetoothDevices({
+    native.getConnectedBluetoothDevices({
       services: services,
       success: (res: any) => {
-        return handle.success(res)
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }
