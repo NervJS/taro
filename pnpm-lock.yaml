@@ -1758,6 +1758,9 @@ importers:
       '@tarojs/rn-transformer': workspace:*
       acorn: ^8.0.4
       acorn-jsx: ^5.3.2
+      babel-plugin-global-define: 1.0.3
+      babel-plugin-jsx-attributes-array-to-object: 0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       expo: ~47.0.3
       expo-file-system: ~15.1.1
       fs-extra: ^8.0.1
@@ -1792,6 +1795,9 @@ importers:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.5_@babel+core@7.21.8
       acorn: registry.npmjs.org/acorn/8.8.2
+      babel-plugin-global-define: registry.npmjs.org/babel-plugin-global-define/1.0.3
+      babel-plugin-jsx-attributes-array-to-object: registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       expo: registry.npmjs.org/expo/47.0.14_@babel+core@7.21.8
       expo-file-system: registry.npmjs.org/expo-file-system/15.1.1_expo@47.0.14
       jest: registry.npmjs.org/jest/29.5.0
@@ -13072,7 +13078,6 @@ packages:
     name: babel-plugin-global-define
     version: 1.0.3
     engines: {node: '>= 6.x.x'}
-    dev: false
 
   registry.npmjs.org/babel-plugin-istanbul/6.1.1:
     resolution: {integrity: sha512-Y1IQok9821cC9onCx5otgFfRm7Lm+I+wwxOx738M/WLPZ9Q42m4IG5W0FNX8WLL2gYMZo3JkuXIH2DOpWM+qwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-6.1.1.tgz}
@@ -13129,7 +13134,6 @@ packages:
     resolution: {integrity: sha512-XvbCsBFo/y4n2DzRtICQ60Kb3FWPIK359YsUkDPjC4UBCF/FMENKYzxarEhAD1GnrAuui5wOUvli89yqF1IzdA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/-/babel-plugin-jsx-attributes-array-to-object-0.3.0.tgz}
     name: babel-plugin-jsx-attributes-array-to-object
     version: 0.3.0
-    dev: false
 
   registry.npmjs.org/babel-plugin-minify-dead-code-elimination/0.5.2:
     resolution: {integrity: sha512-krq9Lwi0QIzyAlcNBXTL4usqUvevB4BzktdEsb8srcXC1AaYqRJiAQw6vdKdJSaXbz6snBvziGr6ch/aoRCfpA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.2.tgz}
@@ -35468,6 +35472,7 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.1
       terser: registry.npmjs.org/terser/5.17.1
       webpack: registry.npmjs.org/webpack/5.78.0
+    dev: true
 
   registry.npmjs.org/terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-4.8.0.tgz}
@@ -37409,7 +37414,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0
+      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -37505,7 +37510,7 @@ packages:
       serve-index: registry.npmjs.org/serve-index/1.9.1
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
-      webpack: registry.npmjs.org/webpack/5.78.0
+      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
     transitivePeerDependencies:
@@ -37651,6 +37656,7 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
 
   registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54:
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
