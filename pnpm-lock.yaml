@@ -535,8 +535,6 @@ importers:
       adm-zip: ^0.4.13
       babel-jest: ^29.5.0
       cli-highlight: ^2.1.11
-      dotenv: ^16.0.3
-      dotenv-expand: ^9.0.0
       download-git-repo: ^2.0.0
       envinfo: ^7.8.1
       eslint: ^8.12.0
@@ -566,8 +564,6 @@ importers:
       '@tarojs/shared': link:../shared
       adm-zip: registry.npmjs.org/adm-zip/0.4.16
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
-      dotenv: registry.npmjs.org/dotenv/16.0.3
-      dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
       download-git-repo: registry.npmjs.org/download-git-repo/2.0.0
       envinfo: registry.npmjs.org/envinfo/7.8.1
       eslint: registry.npmjs.org/eslint/8.40.0
@@ -1052,6 +1048,8 @@ importers:
       chokidar: ^3.3.1
       cross-spawn: ^7.0.3
       debug: 4.3.4
+      dotenv: ^16.0.3
+      dotenv-expand: ^9.0.0
       esbuild: ^0.14.27
       find-yarn-workspace-root: 2.0.0
       fs-extra: ^8.0.1
@@ -1083,6 +1081,8 @@ importers:
       chokidar: registry.npmjs.org/chokidar/3.5.3
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
       debug: registry.npmjs.org/debug/4.3.4
+      dotenv: registry.npmjs.org/dotenv/16.0.3
+      dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
       esbuild: registry.npmjs.org/esbuild/0.14.54
       find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root/2.0.0
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
