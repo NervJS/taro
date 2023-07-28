@@ -7,6 +7,7 @@ import { MethodHandler } from '../../../utils/handler'
  * 从本地相册选择图片或使用相机拍照。
  */
 export const chooseImage: typeof Taro.chooseImage = function (options) {
+  const name = 'chooseImage'
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -15,39 +16,50 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     return Promise.reject(res)
   }
 
-  const {
-    count = 1,
+  let {
+    count = 9,
     success,
     fail,
     complete,
     imageId = 'taroChooseImage',
+    sizeType = ['original', 'compressed'],
     sourceType = ['album', 'camera']
   } = options
-  const handle = new MethodHandler({ name: 'chooseImage', success, fail, complete })
-  const res: Partial<Taro.chooseImage.SuccessCallbackResult> = {
-    tempFilePaths: [],
-    tempFiles: []
-  }
+
+  const handle = new MethodHandler<{
+    tempFilePaths?: string[],
+    tempFiles?: Taro.chooseImage.ImageFile[],
+    errMsg?: string
+  }>({ name, success, fail, complete })
 
   if (count && typeof count !== 'number') {
-    res.errMsg = getParameterError({
-      para: 'count',
-      correct: 'Number',
-      wrong: count
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'count',
+        correct: 'Number',
+        wrong: count
+      })
     })
-    return handle.fail(res)
   }
-  // @ts-ignore
-  const ret = native.chooseImage({
-    count: count,
-    imageId: imageId,
-    sourceType: sourceType,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+
+  return new Promise<Taro.chooseImage.SuccessCallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    native.chooseImage({
+      count: count,
+      imageId: imageId,
+      sourceType: sourceType,
+      sizeType: sizeType,
+      success: (res: any) => {
+        const result: Taro.chooseImage.SuccessCallbackResult = {
+          tempFilePaths: res.tempFilePaths,
+          tempFiles: res.tempFiles,
+          errMsg: res.errMsg
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }
