@@ -12,22 +12,32 @@ export default class Index extends React.Component {
     state = {
         list: [
             {
-                id: 'login',
+                id: 'login-code',
                 func: () => {
                     Taro.login({
-                        timeout: 5000,
+                        // @ts-ignore
+                        appid:'1208731172335528704',
                         success: function (res) {
-                          if (res.code) {
-                            //发起网络请求
-                            Taro.request({
-                              url: 'https://test.com/onLogin',
-                              data: {
-                                code: res.code
-                              }
-                            })
-                          } else {
-                            console.log('登录失败！' + res.errMsg)
-                          }
+                            Taro.showModal({content:'Taro.login code success ' +  JSON.stringify(res)})
+                        },
+                        fail: (res) => {
+                            console.log('login fail ',res)
+                        },
+                        complete: (res) => {
+                            console.log('login complete ',res)
+                        }
+                    })
+                },
+            }, 
+            {
+                id: 'login-token',
+                func: () => {
+                    Taro.login({
+                        // @ts-ignore
+                        appid:'1208731172335528704',
+                        type:'token',
+                        success: function (res) {
+                            Taro.showModal({content:'Taro.login token success ' + JSON.stringify(res)})
                         },
                         fail: (res) => {
                             console.log('login fail ',res)

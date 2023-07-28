@@ -36,30 +36,11 @@ export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (opt
 }
 
 /** 获取窗口信息 */
-export const getWindowInfo: typeof Taro.getWindowInfo = () => {
-  const info: ReturnType<typeof Taro.getWindowInfo> = {
-    /** 设备像素比 */
-    pixelRatio: window.devicePixelRatio,
-    /** 屏幕宽度，单位px */
-    screenWidth: window.screen.width,
-    /** 屏幕高度，单位px */
-    screenHeight: window.screen.height,
-    /** 可使用窗口宽度，单位px */
-    windowWidth: document.documentElement.clientWidth,
-    /** 可使用窗口高度，单位px */
-    windowHeight: document.documentElement.clientHeight,
-    /** 状态栏的高度，单位px */
-    statusBarHeight: NaN,
-    /** 在竖屏正方向下的安全区域 */
-    safeArea: {
-      bottom: 0,
-      height: 0,
-      left: 0,
-      right: 0,
-      top: 0,
-      width: 0
-    }
-  }
+// @ts-ignore
+export const getWindowInfo: typeof Taro.getWindowInfo = async () => {
+
+  // @ts-ignore
+  const info = await native.getWindowInfo()
 
   return info
 }
@@ -90,56 +71,19 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
 }
 
 /** 获取微信APP基础信息 */
-export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
-  let isDarkMode = false
-  if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
-    isDarkMode = true
-  }
-
-  const info: ReturnType<typeof Taro.getAppBaseInfo> = {
-    /** 客户端基础库版本 */
-    SDKVersion: '',
-    /** 是否已打开调试。可通过右上角菜单或 [Taro.setEnableDebug](/docs/apis/base/debug/setEnableDebug) 打开调试。 */
-    enableDebug: process.env.NODE_ENV !== 'production',
-    /** 当前小程序运行的宿主环境 */
-    // host: { appId: '' },
-    /** 微信设置的语言 */
-    language: navigator.language,
-    /** 微信版本号 */
-    version: '',
-    /** 系统当前主题，取值为light或dark，全局配置"darkmode":true时才能获取，否则为 undefined （不支持小游戏） */
-    theme: isDarkMode ? 'dark' : 'light'
-  }
+// @ts-ignore
+export const getAppBaseInfo: typeof Taro.getAppBaseInfo = async () => {
+  // @ts-ignore
+  const info = await native.getAppBaseInfo()
 
   return info
 }
 
 /** 获取微信APP授权设置 */
-export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
-  const info: ReturnType<typeof Taro.getAppAuthorizeSetting> = {
-    /** 允许微信使用相册的开关（仅 iOS 有效） */
-    albumAuthorized: 'not determined',
-    /** 允许微信使用蓝牙的开关（仅 iOS 有效） */
-    bluetoothAuthorized: 'not determined',
-    /** 允许微信使用摄像头的开关 */
-    cameraAuthorized: 'not determined',
-    /** 允许微信使用定位的开关 */
-    locationAuthorized: 'not determined',
-    /** 定位准确度。true 表示模糊定位，false 表示精确定位（仅 iOS 有效） */
-    locationReducedAccuracy: false,
-    /** 允许微信使用麦克风的开关 */
-    microphoneAuthorized: 'not determined',
-    /** 允许微信通知的开关 */
-    notificationAuthorized: 'not determined',
-    /** 允许微信通知带有提醒的开关（仅 iOS 有效） */
-    notificationAlertAuthorized: 'not determined',
-    /** 允许微信通知带有标记的开关（仅 iOS 有效） */
-    notificationBadgeAuthorized: 'not determined',
-    /** 允许微信通知带有声音的开关（仅 iOS 有效） */
-    notificationSoundAuthorized: 'not determined',
-    /** 允许微信使用日历的开关 */
-    phoneCalendarAuthorized: 'not determined'
-  }
+// @ts-ignore
+export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = async () => {
+  // @ts-ignore
+  const info = await native.getAppAuthorizeSetting()
 
   return info
 }

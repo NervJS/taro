@@ -133,14 +133,18 @@ export default class Index extends React.Component {
             {
                 id: 'previewMedia',
                 func: () => {
-                    Taro.chooseImage({
+                    Taro.chooseVideo({
                         success: function (res) {
+                          console.log('chooseMedia success ', res);
                           Taro.previewMedia({
                             sources:[{
-                                url:res.tempFilePaths[0],
-                                type:'image',
+                                url:res.tempFilePath,
+                                type:'video',
                                 poster:'test'
                             }],
+                            current: 1,
+                            showmenu: true,
+                            referrerPolicy: 'origin',
                             success: function (res) {
                                 console.log('previewMedia success ', res);
                             },
