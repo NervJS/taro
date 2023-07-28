@@ -27,9 +27,18 @@ export default class Index extends React.Component {
                 func: () => {
                     Taro.setStorage({
                         key: "testKey",
-                        data: "testValue"
+                        data: "testValue",
+                        complete: (res) => {
+                            console.log('setStorage complete ', res)
+                        },
+                        success: (res) => {
+                            console.log('setStorage success ', res)
+                        },
+                        fail: (res) => {
+                            console.log('setStorage fail ', res)
+                        },
                     })
-                    console.log('setStorage')
+                    
                 },
             }, 
             {
@@ -40,6 +49,9 @@ export default class Index extends React.Component {
                 id: 'removeStorageSync',
                 func: () => {
                     try {
+                        Taro.setStorageSync('testKey','testValue')
+                        console.log('setStorageSync')
+
                         Taro.removeStorageSync('testKey')
                         console.log('removeStorageSync')
                     } catch (error) {
@@ -99,6 +111,9 @@ export default class Index extends React.Component {
                 id: 'clearStorageSync',
                 func: () => {
                     try {
+                        Taro.setStorageSync('testKey','testValue')
+                        console.log('setStorageSync')
+
                         Taro.clearStorageSync()
                         console.log('clearStorageSync ')
                       } catch(e) {
@@ -127,6 +142,7 @@ export default class Index extends React.Component {
                     this.state.list.map((item) => {
                         return (
                             <Button
+                                key={item.id}
                                 className='api-page-btn'
                                 type='primary'
                                 onClick={item.func == null ? () => {} : item.func}
