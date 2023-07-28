@@ -18,14 +18,16 @@ const getNativeCompId = incrementId()
 let h: typeof React.createElement
 let ReactDOM
 let nativeComponentApp: AppInstance
-
-function initNativeComponentEntry (params: {
+interface InitNativeComponentEntryParams {
   R: typeof React
-  ReactDOM
-  cb?
-  isComponent?: boolean
-}) {
-  const { R, ReactDOM, cb, isComponent } = params
+  ReactDOM: typeof ReactDOM
+  cb?: Func
+  // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
+  isDefaultEntryDom?: boolean
+}
+
+function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
+  const { R, ReactDOM, cb, isDefaultEntryDom } = params
   interface IEntryState {
     components: {
       compId: string
@@ -70,10 +72,10 @@ function initNativeComponentEntry (params: {
     }
 
     componentDidMount () {
-      if (isComponent) {
-        nativeComponentApp = this
-      } else {
+      if (isDefaultEntryDom) {
         Current.app = this
+      } else {
+        nativeComponentApp = this
       }
       cb && cb()
     }
@@ -140,7 +142,7 @@ function initNativeComponentEntry (params: {
 
   const appDom = document.getElementById('app')
   let nativeComponentAppDom = null
-  if (isComponent && !nativeComponentApp) {
+  if (!isDefaultEntryDom && !nativeComponentApp) {
     // create
     nativeComponentAppDom = document.createElement('nativeComponent')
     // insert
@@ -153,7 +155,7 @@ function initNativeComponentEntry (params: {
   )
 }
 
-export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom, pageConfig) {
+export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom: typeof ReactDOM, pageConfig) {
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
@@ -343,8 +345,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
-
   setReconciler(ReactDOM)
+  const { isNewBlended } = componentConfig
 
   const componentObj: Record<string, any> = {
     options: componentConfig,
@@ -358,12 +360,12 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     created () {
-      const app = (componentConfig.isBlended ? nativeComponentApp : Current.app)
+      const app = (isNewBlended ? nativeComponentApp : Current.app)
       if (!app) {
         initNativeComponentEntry({
           R: react,
           ReactDOM,
-          isComponent: true
+          isDefaultEntryDom: !isNewBlended
         })
       }
     },
@@ -371,7 +373,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      const app = (componentConfig.isBlended ? nativeComponentApp : Current.app)
+      const app = (isNewBlended ? nativeComponentApp : Current.app)
       app!.mount!(Component, compId, () => this, () => {
         const instance = getPageInstance(compId)
 
@@ -389,7 +391,7 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     detached () {
       resetCurrent()
-      const app = (componentConfig.isBlended ? nativeComponentApp : Current.app)
+      const app = (isNewBlended ? nativeComponentApp : Current.app)
       app!.unmount!(this.compId)
     },
     pageLifetimes: {

@@ -263,8 +263,8 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const isBlended = this.nativeComponents.has(module.name)
-          const loaderName = (isBlended || isBuildPlugin)
+          const isNewBlended = this.nativeComponents.has(module.name)
+          const loaderName = (isNewBlended || isBuildPlugin)
             ? '@tarojs/taro-loader/lib/native-component' 
             : (isIndependent 
               ? '@tarojs/taro-loader/lib/independentPage' 
@@ -276,7 +276,7 @@ export default class TaroMiniPlugin {
               options: {
                 framework,
                 loaderMeta,
-                isBlended,
+                isNewBlended,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
