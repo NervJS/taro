@@ -1,5 +1,6 @@
 {
   "usingComponents": {
+    "detail": "../../taro/pages/detail/index",
     "picker": "../../taro/components/picker/index",
     "article": "../../taro/components/article/index"
   }

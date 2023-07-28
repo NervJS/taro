@@ -9,8 +9,13 @@
       "request": "launch",
       "name": "CLI debug",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-      "cwd": "/Users/liuzejia/Desktop/new/taro-project",
-      "args": ["build", "--type", "weapp", "--new-blended"],
+      // "cwd": "${project absolute path}",
+      // "args": [
+      //   "build",
+      //   "--type",
+      //   "weapp",
+      //   "--watch"
+      // ],
       "skipFiles": ["<node_internals>/**"]
     },
     {
