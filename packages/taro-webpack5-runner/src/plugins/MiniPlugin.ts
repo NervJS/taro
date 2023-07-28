@@ -263,23 +263,20 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const isNativeComponent = this.nativeComponents.has(module.name)
-          const loaderName = (isNativeComponent || isBuildPlugin)
+          const isBlended = this.nativeComponents.has(module.name)
+          const loaderName = (isBlended || isBuildPlugin)
             ? '@tarojs/taro-loader/lib/native-component' 
             : (isIndependent 
               ? '@tarojs/taro-loader/lib/independentPage' 
               : this.pageLoaderName)
 
           if (!isLoaderExist(module.loaders, loaderName)) {
-            const loaderMetaEx = { ...loaderMeta }
-            if (isNativeComponent) {
-              loaderMetaEx.frameworkArgs += ', true'
-            }
             module.loaders.unshift({
               loader: loaderName,
               options: {
                 framework,
-                loaderMeta: loaderMetaEx,
+                loaderMeta,
+                isBlended,
                 name: module.name,
                 prerender: this.prerenderPages.has(module.name),
                 config: this.filesConfig,
