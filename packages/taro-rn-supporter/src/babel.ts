@@ -53,14 +53,14 @@ export function getBabelConfig (config: IProjectConfig, isConfigFile = false) {
   const plugins: any[] = []
   const { enableMultipleClassName = false, enableMergeStyle = false } = rnConfig
   plugins.push([
-    require('babel-plugin-transform-react-jsx-to-rn-stylesheet'),
+    'babel-plugin-transform-react-jsx-to-rn-stylesheet',
     { enableCSSModule: rnConfig.postcss?.cssModules?.enable, enableMultipleClassName },
   ])
   if (enableMergeStyle) {
-    plugins.push([require('babel-plugin-jsx-attributes-array-to-object'), { attributes: ['style'] }])
+    plugins.push(['babel-plugin-jsx-attributes-array-to-object', { attributes: ['style'] }])
   }
   const defineConstants = getDefineConstants(config)
-  plugins.push([require('babel-plugin-global-define'), defineConstants])
+  plugins.push(['babel-plugin-global-define', defineConstants])
   if (isConfigFile) {
     plugins.push(injectDefineConfigHeader)
   }

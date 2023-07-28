@@ -49,7 +49,7 @@ export function getResolver (opt: Options = {}, config: IProjectConfig) {
   const resolver: any = {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
     resolveRequest: (context, moduleName, platform) => {
-      handleEntryFile(context, moduleName, platform, config)
+      return handleEntryFile(context, moduleName, platform, config)
     },
     resolverMainFields: ['react-native', 'browser', 'main'],
   }
