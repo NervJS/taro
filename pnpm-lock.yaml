@@ -707,6 +707,8 @@ importers:
       '@tarojs/taro': workspace:*
       '@types/node': ^14.14.31
       babel-preset-taro: workspace:*
+      classnames: ^2.2.5
+      csstype: ^3.1.1
       memoize-one: ^6.0.0
       postcss: ^8.4.18
       react: ^18.2.0
@@ -722,6 +724,8 @@ importers:
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/shared': link:../shared
       '@tarojs/taro': link:../taro
+      classnames: registry.npmjs.org/classnames/2.3.2
+      csstype: registry.npmjs.org/csstype/3.1.2
       memoize-one: registry.npmjs.org/memoize-one/6.0.0
       postcss: registry.npmjs.org/postcss/8.4.23
     devDependencies:
