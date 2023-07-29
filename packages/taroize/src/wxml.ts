@@ -201,27 +201,31 @@ export const createWxmlVistor = (
         const slotAttr = attrs.find(a => t.isJSXAttribute(a.node) && a.node?.name.name === 'slot')
         if (slotAttr && t.isJSXAttribute(slotAttr.node)) {
           const slotValue = slotAttr.node.value
+          let slotName = ''
           if (slotValue && t.isStringLiteral(slotValue)) {
-            const slotName = slotValue.value
-            const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
-            if (parentComponent && parentComponent.isJSXElement()) {
-              slotAttr.remove()
-              path.traverse({
-                JSXAttribute: jsxAttrVisitor
-              })
-              const block = buildBlockElement()
-              block.children = [cloneDeep(path.node)]
-              parentComponent.node.openingElement.attributes.push(
-                t.jSXAttribute(
-                  t.jSXIdentifier(buildSlotName(slotName)),
-                  t.jSXExpressionContainer(block)
-                )
-              )
-              path.remove()
-            }
+            slotName = slotValue.value
           } else {
-            throw codeFrameError(slotValue, 'slot 的值必须是一个字符串')
+            slotName = 'taroslot'
           }
+          const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
+          if (parentComponent && parentComponent.isJSXElement()) {
+            slotAttr.remove()
+            path.traverse({
+              JSXAttribute: jsxAttrVisitor
+            })
+            const block = buildBlockElement()
+            block.children = [cloneDeep(path.node)]
+            parentComponent.node.openingElement.attributes.push(
+              t.jSXAttribute(
+                t.jSXIdentifier(buildSlotName(slotName)),
+                t.jSXExpressionContainer(block)
+              )
+            )
+            path.remove()
+          }
+          /*} else {
+            throw codeFrameError(slotValue, 'slot 的值必须是一个字符串')
+          }*/
         }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
