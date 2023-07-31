@@ -4,6 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) => {
   const name = 'openBluetoothAdapter'
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -21,15 +22,21 @@ export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) 
     errMsg?: string
   }>({ name, success, fail, complete })
 
-
-  // @ts-ignore
-  const ret = native.openBluetoothAdapter({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    native.openBluetoothAdapter({
+      success: (res: any) => {
+        const result: TaroGeneral.BluetoothError = {
+          /** 错误信息 */
+          errMsg: `${name}:${res[0]}`,
+          /** 错误码 */
+          errCode: 0 
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }

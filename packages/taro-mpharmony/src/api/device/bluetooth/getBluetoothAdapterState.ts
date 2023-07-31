@@ -24,14 +24,20 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
     errMsg?: string
   }>({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.getBluetoothAdapterState({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    native.getBluetoothAdapterState({
+      success: (res: any) => {
+        const result: Taro.getBluetoothAdapterState.SuccessCallbackResult = {
+          available: res[0].available,
+          discovering: res[0].discovering,
+          errMsg: ''
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject})
+      }
+    })
   })
-  return ret
 }

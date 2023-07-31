@@ -1,8 +1,8 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
-export const onBluetoothAdapterStateChange: typeof Taro.onBluetoothAdapterStateChange = (callback) => {
-  const name = 'onBluetoothAdapterStateChange'
+export const offBluetoothAdapterStateChange: typeof Taro.offBluetoothAdapterStateChange = (callback) => {
+  const name = 'offBluetoothAdapterStateChange'
 
   // callback must be an Function
   const isFunction = shouldBeFunction(callback)
@@ -13,5 +13,5 @@ export const onBluetoothAdapterStateChange: typeof Taro.onBluetoothAdapterStateC
   }
 
   // @ts-ignore
-  native.onBluetoothAdapterStateChange(callback)
+  native.offBluetoothAdapterStateChange(callback)
 }
