@@ -21,7 +21,7 @@ jobs:
           script: console.log(context)
       - name: Create Comment
         id: create-comment
-      - uses: actions/github-script@v6
+        uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
