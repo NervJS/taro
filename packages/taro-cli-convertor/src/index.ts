@@ -384,18 +384,18 @@ export default class Convertor {
   }
 
   //Fix: 在小程序三方件中找到入口 index
-  getModulePath(modulepath) {
-    let parts = modulepath.split('/');
-    let moduleindex = path.join(this.root, 'node_modules') // node_modules文件夹
+  getModulePath(modulePath) {
+    let parts = modulePath.split('/');
+    let moduleIndex = path.join(this.root, 'node_modules') // node_modules文件夹
     if (parts.at(-1) === 'index') {
         parts.pop();
     } 
     parts.push('index.js');
     parts.forEach(part => {
-        const modulefile = moduleindex;
-        moduleindex = searchFile(modulefile, part);
+        const moduleFile = moduleIndex;
+        moduleIndex = searchFile(moduleFile, part);
     })
-    return moduleindex;
+    return moduleIndex;
   }
 
   getApp () {
@@ -420,8 +420,8 @@ export default class Convertor {
           using[key] = path.join(this.root, componentPath)
           // Fix: 插件依赖目录为 miniprogram_npm，现将其目录改为npm_module
           if (!fs.existsSync(using[key] + this.fileTypes.SCRIPT)) {
-            const realpath = this.getModulePath(componentPath);
-            using[key] = realpath.slice(0,-3);
+            const realPath = this.getModulePath(componentPath);
+            using[key] = realPath.slice(0,-3);
           }
         }
         this.entryUsingComponents = using
@@ -705,8 +705,8 @@ ${code}
                     componentPath = path.join(this.root, pageUsingComponents[component])
                     // Fix: 某些组件不是app.json导入，同样需要适配路径
                     if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
-                      const realpath = this.getModulePath(pageUsingComponents[component]);
-                      componentPath = realpath.slice(0,-3);
+                      const realPath = this.getModulePath(pageUsingComponents[component]);
+                      componentPath = realPath.slice(0,-3);
                     }
                   }
                 }
@@ -806,8 +806,8 @@ ${code}
                 componentPath = path.join(this.root, componentUsingComponnets[component])
                 //Fix
                 if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
-                  const realpath = this.getModulePath(componentUsingComponnets[component]);
-                  componentPath = realpath.slice(0, -3);
+                  const realPath = this.getModulePath(componentUsingComponnets[component]);
+                  componentPath = realPath.slice(0, -3);
                 }
               }
               if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {

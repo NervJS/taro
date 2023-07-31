@@ -20,25 +20,25 @@ export function getPkgVersion (): string {
 }
 
 //Fix: 在小程序三方件中找到入口 index
-function getModulePath(rootPath, modulepath) {
-  let parts = modulepath.split('/');
-  let moduleindex = path.join(rootPath, 'node_modules') // node_modules文件夹
+function getModulePath(rootPath, modulePath) {
+  let parts = modulePath.split('/');
+  let moduleIndex = path.join(rootPath, 'node_modules') // node_modules文件夹
   if (parts.at(-1) === 'index') {
       parts.pop();
   } 
   parts.push('index.js');
-  let npmindex = path.join(rootPath, `miniprogram_npm/${modulepath}.js`); // 判断本身是否是一个完整的入口
-  if (fs.existsSync(npmindex)) {
+  let npmIndex = path.join(rootPath, `miniprogram_npm/${modulePath}.js`); // 判断本身是否是一个完整的入口
+  if (fs.existsSync(npmIndex)) {
       parts.pop();
-      let temppart = parts.at(-1) + '.js';
+      let tempPart = parts.at(-1) + '.js';
       parts.pop();
-      parts.push(temppart);
+      parts.push(tempPart);
   }
   parts.forEach(part => {
-      const modulefile = moduleindex;
-      moduleindex = searchFile(modulefile, part);
+      const moduleFile = moduleIndex;
+      moduleIndex = searchFile(moduleFile, part);
   })
-  return moduleindex;
+  return moduleIndex;
 }
 
 function getRelativePath (
@@ -68,14 +68,14 @@ function getRelativePath (
     if (fs.existsSync(vpath)) {
       return './' + oriPath
     }
-    const testparts = oriPath.split('/');
-    let testindex = path.join(rootPath, `node_modules/${testparts[0]}`); // 判断三方件是否在node_modules中
+    const testParts = oriPath.split('/');
+    let testindex = path.join(rootPath, `node_modules/${testParts[0]}`); // 判断三方件是否在node_modules中
     if (!fs.existsSync(testindex)) {
         return oriPath;
     }
-    const realpath = getModulePath(rootPath, oriPath);
+    const realPath = getModulePath(rootPath, oriPath);
     // 转成相对路径
-    let relativePath = path.relative(path.dirname(sourceFilePath), realpath);
+    let relativePath = path.relative(path.dirname(sourceFilePath), realPath);
     if (relativePath.indexOf('.') !== 0) {
         return './' + relativePath;
     }
@@ -147,13 +147,13 @@ export const incrementId = () => {
   return () => (n++).toString()
 }
 
-export function searchFile(modulefile, indexpart) { //Fix: 递归遍历查找
-  const filepath = path.join(modulefile, indexpart);
-  if(fs.existsSync(filepath)) {
-      return filepath;
+export function searchFile(moduleFile, indexPart) { //Fix: 递归遍历查找
+  const filePath = path.join(moduleFile, indexPart);
+  if(fs.existsSync(filePath)) {
+      return filePath;
   }
-  const folders = fs.readdirSync(modulefile); //获取子目录
-  let resultfile;
+  const folders = fs.readdirSync(moduleFile); //获取子目录
+  let resultFile;
   for (let i = 0; i < folders.length; i++) {
       if (folders[i].indexOf('ali') !== -1) {
         continue;
@@ -167,12 +167,12 @@ export function searchFile(modulefile, indexpart) { //Fix: 递归遍历查找
       if (folders[i].indexOf('toutiao') !== -1) {
         continue;
       }
-      const nextmodule = path.join(modulefile, folders[i]);
-      if (fs.lstatSync(nextmodule).isDirectory()) {
-          resultfile = searchFile(nextmodule, indexpart);
+      const nextModule = path.join(moduleFile, folders[i]);
+      if (fs.lstatSync(nextModule).isDirectory()) {
+          resultFile = searchFile(nextModule, indexPart);
       }
-      if (resultfile && fs.existsSync(resultfile)) {
-          return resultfile;
+      if (resultFile && fs.existsSync(resultFile)) {
+          return resultFile;
       }
   }
 }
