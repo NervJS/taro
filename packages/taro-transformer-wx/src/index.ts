@@ -57,6 +57,7 @@ import {
   isContainJSXElement,
   replaceJSXTextWithTextComponent,
   setting} from './utils'
+import { traverseWxsFile } from './wxs'
 
 const template = require('@babel/template')
 
@@ -314,6 +315,12 @@ export default function transform (options: TransformOptions): TransformResult {
         resetTSClassProperty(mainClassNode.body.body as any)
       }
     }
+
+    // 对wxs文件进行转换
+    if (options.sourcePath.endsWith('.wxs')) {
+      return traverseWxsFile(ast, defaultResult)
+    }
+
     const code = generate(ast.program as any).code
     return {
       ...defaultResult,
