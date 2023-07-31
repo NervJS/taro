@@ -19,6 +19,28 @@ export function getPkgVersion (): string {
   return require(path.join(getRootPath(), 'package.json')).version
 }
 
+//Fix: 在小程序三方件中找到入口 index
+function getModulePath(rootPath, modulepath) {
+  let parts = modulepath.split('/');
+  let moduleindex = path.join(rootPath, 'node_modules') // node_modules文件夹
+  if (parts.at(-1) === 'index') {
+      parts.pop();
+  } 
+  parts.push('index.js');
+  let npmindex = path.join(rootPath, `miniprogram_npm/${modulepath}.js`); // 判断本身是否是一个完整的入口
+  if (fs.existsSync(npmindex)) {
+      parts.pop();
+      let temppart = parts.at(-1) + '.js';
+      parts.pop();
+      parts.push(temppart);
+  }
+  parts.forEach(part => {
+      const modulefile = moduleindex;
+      moduleindex = searchFile(modulefile, part);
+  })
+  return moduleindex;
+}
+
 function getRelativePath (
   rootPath: string,
   sourceFilePath: string,
@@ -42,10 +64,22 @@ function getRelativePath (
   }
   // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
-    const vpath = path.resolve(sourceFilePath, '..', oriPath)
+    let vpath = path.resolve(sourceFilePath, '..', oriPath)
     if (fs.existsSync(vpath)) {
       return './' + oriPath
     }
+    const testparts = oriPath.split('/');
+    let testindex = path.join(rootPath, `node_modules/${testparts[0]}`); // 判断三方件是否在node_modules中
+    if (!fs.existsSync(testindex)) {
+        return oriPath;
+    }
+    const realpath = getModulePath(rootPath, oriPath);
+    // 转成相对路径
+    let relativePath = path.relative(path.dirname(sourceFilePath), realpath);
+    if (relativePath.indexOf('.') !== 0) {
+        return './' + relativePath;
+    }
+    return relativePath;
   }
   return oriPath
 }
@@ -111,4 +145,34 @@ export function analyzeImportUrl (
 export const incrementId = () => {
   let n = 0
   return () => (n++).toString()
+}
+
+export function searchFile(modulefile, indexpart) { //Fix: 递归遍历查找
+  const filepath = path.join(modulefile, indexpart);
+  if(fs.existsSync(filepath)) {
+      return filepath;
+  }
+  const folders = fs.readdirSync(modulefile); //获取子目录
+  let resultfile;
+  for (let i = 0; i < folders.length; i++) {
+      if (folders[i].indexOf('ali') !== -1) {
+        continue;
+      }
+      if (folders[i].indexOf('baidu') !== -1) {
+        continue;
+      }
+      if (folders[i].indexOf('qq') !== -1) {
+        continue;
+      }
+      if (folders[i].indexOf('toutiao') !== -1) {
+        continue;
+      }
+      const nextmodule = path.join(modulefile, folders[i]);
+      if (fs.lstatSync(nextmodule).isDirectory()) {
+          resultfile = searchFile(nextmodule, indexpart);
+      }
+      if (resultfile && fs.existsSync(resultfile)) {
+          return resultfile;
+      }
+  }
 }
