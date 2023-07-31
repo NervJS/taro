@@ -175,6 +175,6 @@ export default defineAppConfig({
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#F7F7F7',
     navigationBarTitleText: 'Harmony',
-    navigationBarTextStyle: 'black'
-  }
+    navigationBarTextStyle: 'black',
+  },
 })

@@ -11,7 +11,9 @@ export default class PageView extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Audio'></Header>
-           <ComponentState platform='H5' rate='100'> </ComponentState>
+          <ComponentState platform='H5' rate='100'>
+            {' '}
+          </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>
@@ -24,7 +26,8 @@ export default class PageView extends React.Component {
                 muted
                 initialTime='30'
                 className='example-body__audio'
-                id='audio' ></Audio>
+                id='audio'
+              ></Audio>
             </View>
           </View>
         </View>

@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'ScrollView组件'
+  navigationBarTitleText: 'ScrollView组件',
 }

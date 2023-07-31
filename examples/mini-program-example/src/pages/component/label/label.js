@@ -1,30 +1,22 @@
 import React from 'react'
 
 // RadioGroup
-import {
-  View,
-  Text,
-  CheckboxGroup,
-  Checkbox,
-  Label,
-  Radio,
-  RadioGroup
-} from '@tarojs/components'
+import { View, Text, CheckboxGroup, Checkbox, Label, Radio, RadioGroup } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
 
 import './label.scss'
-import ComponentState from "../../../components/component_state/component_state";
+import ComponentState from '../../../components/component_state/component_state'
 
 export default class PageLabel extends React.Component {
   state = {
-    checked: false
+    checked: false,
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { checked } = this.state
     this.setState({
-      checked: !checked
+      checked: !checked,
     })
   }
 
@@ -33,7 +25,9 @@ export default class PageLabel extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Label'></Header>
-           <ComponentState platform='H5' rate='100'> </ComponentState>
+          <ComponentState platform='H5' rate='100'>
+            {' '}
+          </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>
@@ -48,7 +42,7 @@ export default class PageLabel extends React.Component {
                 <Label className='example-body__label'>
                   <Checkbox value='中国' checked>
                     中国
-                </Checkbox>
+                  </Checkbox>
                 </Label>
               </CheckboxGroup>
             </View>
@@ -59,8 +53,12 @@ export default class PageLabel extends React.Component {
             </View>
             <View className='example-body'>
               <RadioGroup>
-                <Radio value='GuangZhou' id='gz'>GuangZhou</Radio>
-                <Radio value='ShenZhen' id='sz'>ShenZhen</Radio>
+                <Radio value='GuangZhou' id='gz'>
+                  GuangZhou
+                </Radio>
+                <Radio value='ShenZhen' id='sz'>
+                  ShenZhen
+                </Radio>
               </RadioGroup>
             </View>
 

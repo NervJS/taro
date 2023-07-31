@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: 'ShareElement'
+  navigationBarTitleText: 'ShareElement',
 })

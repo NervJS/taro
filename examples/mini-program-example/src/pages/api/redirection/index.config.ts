@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '跳转',
+  navigationBarTitleText: '跳转',
 }

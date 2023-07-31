@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '数据缓存',
+  navigationBarTitleText: '数据缓存',
 }

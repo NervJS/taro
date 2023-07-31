@@ -6,11 +6,12 @@ import { Camera, Button, View } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
 import ComponentState from '../../../components/component_state/component_state'
+
 export default class PageView extends React.Component {
   constructor() {
     super(...arguments)
     this.state = {
-      devicePosition: 'back'
+      devicePosition: 'back',
     }
   }
 
@@ -24,7 +25,7 @@ export default class PageView extends React.Component {
 
   toggleDevice = () => {
     this.setState({
-      devicePosition: this.state.devicePosition == 'back' ? 'front' : 'back'
+      devicePosition: this.state.devicePosition == 'back' ? 'front' : 'back',
     })
   }
 
@@ -33,16 +34,25 @@ export default class PageView extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Camera'></Header>
-           <ComponentState platform='原生' rate='0'> </ComponentState>
+          <ComponentState platform='原生' rate='0'>
+            {' '}
+          </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>
             <View className='example-body'>
-              <Button type='primary' onClick={this.toggleDevice}>开启{this.state.devicePosition == 'back' ? '前置' : '后置'}镜头</Button>
-              <Camera className='cammer-content' onStop={this.handleStop} onError={this.handleError} devicePosition={this.state.devicePosition}></Camera></View>
+              <Button type='primary' onClick={this.toggleDevice}>
+                开启{this.state.devicePosition == 'back' ? '前置' : '后置'}镜头
+              </Button>
+              <Camera
+                className='cammer-content'
+                onStop={this.handleStop}
+                onError={this.handleError}
+                devicePosition={this.state.devicePosition}
+              ></Camera>
+            </View>
           </View>
         </View>
-
       </View>
     )
   }

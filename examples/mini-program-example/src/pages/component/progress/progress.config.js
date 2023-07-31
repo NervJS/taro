@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Progress组件'
+  navigationBarTitleText: 'Progress组件',
 }

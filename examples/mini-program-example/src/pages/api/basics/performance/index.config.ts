@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '基础-性能',
+  navigationBarTitleText: '基础-性能',
 }

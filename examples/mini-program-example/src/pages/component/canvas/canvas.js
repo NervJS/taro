@@ -1,15 +1,13 @@
 import './canvas.scss'
 
-import Taro from '@tarojs/taro'
+import Taro, { useReady } from '@tarojs/taro'
 import React from 'react'
 import { View, Text, Canvas } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
 import ComponentState from '../../../components/component_state/component_state'
-import { useReady } from '@tarojs/taro'
 
 const PageView = () => {
-
   useReady(() => {
     setTimeout(() => {
       const context = Taro.createCanvasContext('canvas2D')
@@ -18,13 +16,13 @@ const PageView = () => {
   })
 
   const draw = (context) => {
-    context.fillStyle="#FF0000";
-    context.fillRect(0,0,150,75);
-    context.setStrokeStyle("#00ff00")
+    context.fillStyle = '#FF0000'
+    context.fillRect(0, 0, 150, 75)
+    context.setStrokeStyle('#00ff00')
     context.setLineWidth(5)
     context.rect(0, 0, 200, 200)
     context.stroke()
-    context.setStrokeStyle("#ff0000")
+    context.setStrokeStyle('#ff0000')
     context.setLineWidth(2)
     context.moveTo(160, 100)
     context.arc(100, 100, 60, 0, 2 * Math.PI, true)
@@ -41,12 +39,21 @@ const PageView = () => {
   return (
     <View className='container'>
       <Header title='Canvas'></Header>
-      <ComponentState platform='h5' rate='60'> </ComponentState>
+      <ComponentState platform='h5' rate='60'>
+        {' '}
+      </ComponentState>
       <View className='page-body'>
         <View className='page-section'>
-          <View className="page-section-spacing">
-            <View className="page-body-wrapper">
-              <Canvas type="2d" canvasId="canvas2D" className="canvas" width={"305px"} height={"305px"} style='width: 305px; height: 305px;'></Canvas>
+          <View className='page-section-spacing'>
+            <View className='page-body-wrapper'>
+              <Canvas
+                type='2d'
+                canvasId='canvas2D'
+                className='canvas'
+                width='305px'
+                height='305px'
+                style='width: 305px; height: 305px;'
+              ></Canvas>
             </View>
           </View>
         </View>

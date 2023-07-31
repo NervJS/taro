@@ -5,181 +5,174 @@ import './index.scss'
 
 /**
  * 画布
- * @returns 
+ * @returns
  */
 
 export default class Index extends React.Component {
-    state = {
-        list: [
-            {
-                id: 'createCanvasContext',
-                func: () => {
-                    useReady(() => {
-                        const context = Taro.createCanvasContext('canvas')
-                        context.setStrokeStyle("#00ff00")
-                        context.setLineWidth(5)
-                        context.rect(0, 0, 200, 200)
-                        context.stroke()
-                        context.setStrokeStyle("#ff0000")
-                        context.setLineWidth(2)
-                        context.moveTo(160, 100)
-                        context.arc(100, 100, 60, 0, 2 * Math.PI, true)
-                        context.moveTo(140, 100)
-                        context.arc(100, 100, 40, 0, Math.PI, false)
-                        context.moveTo(85, 80)
-                        context.arc(80, 80, 5, 0, 2 * Math.PI, true)
-                        context.moveTo(125, 80)
-                        context.arc(120, 80, 5, 0, 2 * Math.PI, true)
-                        context.stroke()
-                        context.draw()
-                        console.log('createCanvasContext ', context)
-                      })
+  state = {
+    list: [
+      {
+        id: 'createCanvasContext',
+        func: () => {
+          useReady(() => {
+            const context = Taro.createCanvasContext('canvas')
+            context.setStrokeStyle('#00ff00')
+            context.setLineWidth(5)
+            context.rect(0, 0, 200, 200)
+            context.stroke()
+            context.setStrokeStyle('#ff0000')
+            context.setLineWidth(2)
+            context.moveTo(160, 100)
+            context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+            context.moveTo(140, 100)
+            context.arc(100, 100, 40, 0, Math.PI, false)
+            context.moveTo(85, 80)
+            context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+            context.moveTo(125, 80)
+            context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+            context.stroke()
+            context.draw()
+            console.log('createCanvasContext ', context)
+          })
+        },
+      },
+      {
+        id: 'canvasToTempFilePath',
+        func: () => {
+          useReady(() => {
+            const context = Taro.createCanvasContext('canvas')
+            context.setStrokeStyle('#00ff00')
+            context.setLineWidth(5)
+            context.rect(0, 0, 200, 200)
+            context.stroke()
+            context.setStrokeStyle('#ff0000')
+            context.setLineWidth(2)
+            context.moveTo(160, 100)
+            context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+            context.moveTo(140, 100)
+            context.arc(100, 100, 40, 0, Math.PI, false)
+            context.moveTo(85, 80)
+            context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+            context.moveTo(125, 80)
+            context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+            context.stroke()
+            context.draw(true, () => {
+              Taro.canvasToTempFilePath({
+                x: 100,
+                y: 200,
+                width: 50,
+                height: 50,
+                destWidth: 100,
+                destHeight: 100,
+                quality: 1,
+                fileType: 'png',
+                canvasId: 'myCanvas',
+                success: function (res) {
+                  console.log('canvasToTempFilePath success', res)
                 },
-            }, 
-            {
-                id: 'canvasToTempFilePath',
-                func: () => {
-                    useReady(() => {
-                        const context = Taro.createCanvasContext('canvas')
-                        context.setStrokeStyle("#00ff00")
-                        context.setLineWidth(5)
-                        context.rect(0, 0, 200, 200)
-                        context.stroke()
-                        context.setStrokeStyle("#ff0000")
-                        context.setLineWidth(2)
-                        context.moveTo(160, 100)
-                        context.arc(100, 100, 60, 0, 2 * Math.PI, true)
-                        context.moveTo(140, 100)
-                        context.arc(100, 100, 40, 0, Math.PI, false)
-                        context.moveTo(85, 80)
-                        context.arc(80, 80, 5, 0, 2 * Math.PI, true)
-                        context.moveTo(125, 80)
-                        context.arc(120, 80, 5, 0, 2 * Math.PI, true)
-                        context.stroke()
-                        context.draw(true, () => {
-                            Taro.canvasToTempFilePath({
-                                x: 100,
-                                y: 200,
-                                width: 50,
-                                height: 50,
-                                destWidth: 100,
-                                destHeight: 100,
-                                quality: 1,
-                                fileType: 'png',
-                                canvasId: 'myCanvas',
-                                success: function (res) {
-                                  console.log('canvasToTempFilePath success', res)
-                                },
-                                fail: function (res) {
-                                    console.log('canvasToTempFilePath fail', res)
-                                },
-                                complete: function (res) {
-                                    console.log('canvasToTempFilePath complete', res)
-                                },
-                              })
-                        })
-                      })
+                fail: function (res) {
+                  console.log('canvasToTempFilePath fail', res)
                 },
-            }, 
-            {
-                id: 'CanvasContext',
-                func: () => {
-                    const ctx = Taro.createCanvasContext('myCanvas')
-                    // Draw coordinates
-                    ctx.arc(100, 75, 50, 0, 2 * Math.PI)
-                    ctx.setFillStyle('#EEEEEE')
-                    ctx.fill()
-                    ctx.beginPath()
-                    ctx.moveTo(40, 75)
-                    ctx.lineTo(160, 75)
-                    ctx.moveTo(100, 15)
-                    ctx.lineTo(100, 135)
-                    ctx.setStrokeStyle('#AAAAAA')
-                    ctx.stroke()
-                    ctx.setFontSize(12)
-                    ctx.setFillStyle('black')
-                    ctx.fillText('0', 165, 78)
-                    ctx.fillText('0.5*PI', 83, 145)
-                    ctx.fillText('1*PI', 15, 78)
-                    ctx.fillText('1.5*PI', 83, 10)
-                    // Draw points
-                    ctx.beginPath()
-                    ctx.arc(100, 75, 2, 0, 2 * Math.PI)
-                    ctx.setFillStyle('lightgreen')
-                    ctx.fill()
-                    ctx.beginPath()
-                    ctx.arc(100, 25, 2, 0, 2 * Math.PI)
-                    ctx.setFillStyle('blue')
-                    ctx.fill()
-                    ctx.beginPath()
-                    ctx.arc(150, 75, 2, 0, 2 * Math.PI)
-                    ctx.setFillStyle('red')
-                    ctx.fill()
-                    // Draw arc
-                    ctx.beginPath()
-                    ctx.arc(100, 75, 50, 0, 1.5 * Math.PI)
-                    ctx.setStrokeStyle('#333333')
-                    ctx.stroke()
-                    ctx.draw()
+                complete: function (res) {
+                  console.log('canvasToTempFilePath complete', res)
                 },
-            }, 
-            {
-                id: 'base64ToArrayBuffer',
-                func: null,
-            }, 
-            {
-                id: 'System',
-                func: () => {
-                    Taro.navigateTo({
-                        url: '/pages/api/basics/system/index'
-                    });
-                },
-            }, 
-            {
-                id: 'Update',
-                func: null,
-            }, 
-            {
-                id: 'MiniProgram',
-                func: null,
-            }, 
-            {
-                id: 'Debug',
-                func: null,
-            }, 
-            {
-                id: 'Performance',
-                func: null,
-            }, 
-            {
-                id: 'Encryption',
-                func: null,
-            }, 
-            {
-                id: 'perload',
-                func: null,
-            }, 
-        ], 
-    }
-    render () {
-        return (
-            <View className='api-page'>
-                {
-                    this.state.list.map((item) => {
-                        return (
-                            <View
-                                className='api-page-btn'
-                                onClick={item.func == null ? () => {} : item.func}
-                            >
-                                {item.id}
-                                {
-                                    item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
-                                }
-                            </View>
-                        )
-                    })
-                }
+              })
+            })
+          })
+        },
+      },
+      {
+        id: 'CanvasContext',
+        func: () => {
+          const ctx = Taro.createCanvasContext('myCanvas')
+          // Draw coordinates
+          ctx.arc(100, 75, 50, 0, 2 * Math.PI)
+          ctx.setFillStyle('#EEEEEE')
+          ctx.fill()
+          ctx.beginPath()
+          ctx.moveTo(40, 75)
+          ctx.lineTo(160, 75)
+          ctx.moveTo(100, 15)
+          ctx.lineTo(100, 135)
+          ctx.setStrokeStyle('#AAAAAA')
+          ctx.stroke()
+          ctx.setFontSize(12)
+          ctx.setFillStyle('black')
+          ctx.fillText('0', 165, 78)
+          ctx.fillText('0.5*PI', 83, 145)
+          ctx.fillText('1*PI', 15, 78)
+          ctx.fillText('1.5*PI', 83, 10)
+          // Draw points
+          ctx.beginPath()
+          ctx.arc(100, 75, 2, 0, 2 * Math.PI)
+          ctx.setFillStyle('lightgreen')
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(100, 25, 2, 0, 2 * Math.PI)
+          ctx.setFillStyle('blue')
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(150, 75, 2, 0, 2 * Math.PI)
+          ctx.setFillStyle('red')
+          ctx.fill()
+          // Draw arc
+          ctx.beginPath()
+          ctx.arc(100, 75, 50, 0, 1.5 * Math.PI)
+          ctx.setStrokeStyle('#333333')
+          ctx.stroke()
+          ctx.draw()
+        },
+      },
+      {
+        id: 'base64ToArrayBuffer',
+        func: null,
+      },
+      {
+        id: 'System',
+        func: () => {
+          Taro.navigateTo({
+            url: '/pages/api/basics/system/index',
+          })
+        },
+      },
+      {
+        id: 'Update',
+        func: null,
+      },
+      {
+        id: 'MiniProgram',
+        func: null,
+      },
+      {
+        id: 'Debug',
+        func: null,
+      },
+      {
+        id: 'Performance',
+        func: null,
+      },
+      {
+        id: 'Encryption',
+        func: null,
+      },
+      {
+        id: 'perload',
+        func: null,
+      },
+    ],
+  }
+  render() {
+    return (
+      <View className='api-page'>
+        {this.state.list.map((item) => {
+          return (
+            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
+              {item.id}
+              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
             </View>
-        )
-    }
+          )
+        })}
+      </View>
+    )
+  }
 }

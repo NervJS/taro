@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-联系人',
+  navigationBarTitleText: '设备-联系人',
 }

@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-屏幕',
+  navigationBarTitleText: '设备-屏幕',
 }

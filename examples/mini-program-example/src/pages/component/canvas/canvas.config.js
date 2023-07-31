@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Canvas组件'
+  navigationBarTitleText: 'Canvas组件',
 }

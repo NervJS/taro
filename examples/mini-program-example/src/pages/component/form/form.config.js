@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Form组件'
+  navigationBarTitleText: 'Form组件',
 }

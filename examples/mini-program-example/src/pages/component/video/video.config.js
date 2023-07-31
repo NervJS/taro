@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Video组件'
+  navigationBarTitleText: 'Video组件',
 }

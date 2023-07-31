@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-剪切板',
+  navigationBarTitleText: '设备-剪切板',
 }

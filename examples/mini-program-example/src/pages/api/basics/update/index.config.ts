@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '基础-更新',
+  navigationBarTitleText: '基础-更新',
 }

@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '转发',
+  navigationBarTitleText: '转发',
 }

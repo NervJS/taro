@@ -3,14 +3,14 @@ import React from 'react'
 import { View, Text } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
-import ComponentState from "../../../components/component_state/component_state";
+import ComponentState from '../../../components/component_state/component_state'
 
 export default class PageView extends React.Component {
   constructor() {
     super(...arguments)
 
     this.state = {
-      contents: []
+      contents: [],
     }
   }
 
@@ -19,7 +19,9 @@ export default class PageView extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Text'></Header>
-           <ComponentState platform='H5' rate='100'> </ComponentState>
+          <ComponentState platform='H5' rate='100'>
+            {' '}
+          </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>
@@ -41,13 +43,13 @@ export default class PageView extends React.Component {
             </View>
             <View className='example-body'>
               <View className='example-body__text'>
-                <Text>不支持多          空格文字</Text>
+                <Text>不支持多 空格文字</Text>
               </View>
               <View className='example-body__text'>
-                <Text space='ensp'>多          空格文字(ensp)</Text>
+                <Text space='ensp'>多 空格文字(ensp)</Text>
               </View>
               <View className='example-body__text'>
-                <Text space='nbsp'>多          空格文字(nbsp)</Text>
+                <Text space='nbsp'>多 空格文字(nbsp)</Text>
               </View>
               <View className='example-body__text'>
                 <Text>不解码文字&gt;</Text>

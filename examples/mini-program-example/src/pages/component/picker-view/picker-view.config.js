@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'PickerView组件'
+  navigationBarTitleText: 'PickerView组件',
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import { View, Progress, Button } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
-import ComponentState from "../../../components/component_state/component_state";
+import ComponentState from '../../../components/component_state/component_state'
 
 export default class PageView extends React.Component {
   constructor() {
@@ -12,7 +12,7 @@ export default class PageView extends React.Component {
   }
 
   state = {
-    progress: 0
+    progress: 0,
   }
 
   handleStart = () => {
@@ -23,7 +23,7 @@ export default class PageView extends React.Component {
         return this.handleStop()
       }
       this.setState({
-        progress: value
+        progress: value,
       })
     }, 100)
   }
@@ -38,7 +38,7 @@ export default class PageView extends React.Component {
   handleReset = () => {
     this.handleStop()
     this.setState({
-      progress: 0
+      progress: 0,
     })
   }
 
@@ -48,34 +48,28 @@ export default class PageView extends React.Component {
       <View className='components-page'>
         <View className='components-page__header'>
           <Header title='Progress'></Header>
-           <ComponentState platform='H5' rate='100'> </ComponentState>
+          <ComponentState platform='H5' rate='100'>
+            {' '}
+          </ComponentState>
         </View>
         <View className='components-page__body'>
           <View className='components-page__body-example example'>
             <View className='example-progress'>
-              <Progress percent={20} showInfo strokeWidth={2} ></Progress>
+              <Progress percent={20} showInfo strokeWidth={2}></Progress>
             </View>
             <View className='example-progress'>
-              <Progress percent={40} strokeWidth={2} active ></Progress>
+              <Progress percent={40} strokeWidth={2} active></Progress>
             </View>
             <View className='example-progress'>
-              <Progress percent={60} strokeWidth={2} active ></Progress>
+              <Progress percent={60} strokeWidth={2} active></Progress>
             </View>
             <View className='example-progress'>
-              <Progress
-                percent={80}
-                strokeWidth={2}
-                active
-                activeColor='blue' ></Progress>
+              <Progress percent={80} strokeWidth={2} active activeColor='blue'></Progress>
             </View>
           </View>
           <View className='components-page__body-example example'>
             <View className='example-progress'>
-              <Progress
-                showInfo
-                strokeWidth={2}
-                percent={progress}
-                activeColor='#3C7FE8' ></Progress>
+              <Progress showInfo strokeWidth={2} percent={progress} activeColor='#3C7FE8'></Progress>
             </View>
             <View>
               <Button onClick={this.handleStart}>加载</Button>
@@ -84,7 +78,6 @@ export default class PageView extends React.Component {
             </View>
           </View>
         </View>
-
       </View>
     )
   }

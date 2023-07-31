@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'CoverImage组件'
+  navigationBarTitleText: 'CoverImage组件',
 }
