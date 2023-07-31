@@ -24,23 +24,32 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
   } = options
 
   const handle = new MethodHandler<{
-    height: 0
-    orientation: 'up'
-    path: ''
-    type: ''
-    width: 0
-    errMsg: ''
+    height?: number,
+    orientation?: string,
+    path?: string,
+    type?: string,
+    width?: number,
+    errMsg?: string
   }>({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.getImageInfo({
-    src: src,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise<Taro.getImageInfo.SuccessCallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    const ret = native.getImageInfo({
+      src: src,
+      success: (res: any) => {
+        const result: Taro.getImageInfo.SuccessCallbackResult = {
+          height: res.height,
+          orientation: res.orientation,
+          path: res.path,
+          type: res.type,
+          width: res.width,
+          errMsg: res.errMsg
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }
