@@ -42,6 +42,9 @@ function getRelativePath (
   }
   // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
+    if (oriPath.indexOf('/') !== -1 && oriPath.indexOf('@') === -1 && oriPath.lastIndexOf('.js') !== oriPath.length-3){
+      oriPath = oriPath + '.js'  // 不在这里返回    utils/auth -> utils/auth.js
+    }
     const vpath = path.resolve(sourceFilePath, '..', oriPath)
     if (fs.existsSync(vpath)) {
       return './' + oriPath
