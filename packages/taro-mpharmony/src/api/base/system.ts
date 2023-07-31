@@ -41,23 +41,26 @@ export const getWindowInfo: typeof Taro.getWindowInfo = async () => {
 
   // @ts-ignore
   const info = await native.getWindowInfo()
-
+  info.safeArea = info.safeArea || {
+    bottom: 0,
+    /** 安全区域的高度，单位逻辑像素 */
+    height: 0,
+    /** 安全区域左上角横坐标 */
+    left: 0,
+    /** 安全区域右下角横坐标 */
+    right: 0,
+    /** 安全区域左上角纵坐标 */
+    top: 0,
+    /** 安全区域的宽度，单位逻辑像素 */
+    width: 0
+  }
   return info
 }
 
 /** 获取设备设置 */
 export const getSystemSetting: typeof Taro.getSystemSetting = () => {
-  const isLandscape = window.screen.width >= window.screen.height
-  const info: ReturnType<typeof Taro.getSystemSetting> = {
-    /** 蓝牙的系统开关 */
-    bluetoothEnabled: false,
-    /** 地理位置的系统开关 */
-    locationEnabled: false,
-    /** Wi-Fi 的系统开关 */
-    wifiEnabled: false,
-    /** 设备方向 */
-    deviceOrientation: isLandscape ? 'landscape' : 'portrait'
-  }
+  // @ts-ignore
+  const info = JSON.parse(JSON.stringify(native.getSystemSetting()))
 
   return info
 }
@@ -67,7 +70,10 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
   // @ts-ignore
   const info = JSON.parse(JSON.stringify(native.getDeviceInfo()))
 
-  return info
+  return {
+    ...info,
+    platform:'harmony'
+  }
 }
 
 /** 获取微信APP基础信息 */
@@ -75,7 +81,10 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
 export const getAppBaseInfo: typeof Taro.getAppBaseInfo = async () => {
   // @ts-ignore
   const info = await native.getAppBaseInfo()
-
+  info.version = info.appVersion
+  info.language = info.appLanguage
+  delete info.appVersion
+  delete info.appLanguage
   return info
 }
 
@@ -84,50 +93,17 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = async () => {
 export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = async () => {
   // @ts-ignore
   const info = await native.getAppAuthorizeSetting()
-
-  return info
+  return {
+    ...info,
+    locationReducedAccuracy:info.locationAccuracy
+  }
 }
 
 /** 获取设备设置 */
 export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
-  const windowInfo = getWindowInfo()
-  const systemSetting = getSystemSetting()
-  const deviceInfo: Taro.getDeviceInfo.Result = getDeviceInfo()
-  const appBaseInfo = getAppBaseInfo()
-  const appAuthorizeSetting = getAppAuthorizeSetting()
-  delete deviceInfo.abi
-
-  const info: ReturnType<typeof Taro.getSystemInfoSync> = {
-    ...windowInfo,
-    ...systemSetting,
-    ...deviceInfo,
-    ...appBaseInfo,
-    /** 用户字体大小（单位px）。以微信客户端「我-设置-通用-字体大小」中的设置为准 */
-    fontSizeSetting: NaN,
-    /** 允许微信使用相册的开关（仅 iOS 有效） */
-    albumAuthorized: appAuthorizeSetting.albumAuthorized === 'authorized',
-    /** 允许微信使用摄像头的开关 */
-    cameraAuthorized: appAuthorizeSetting.cameraAuthorized === 'authorized',
-    /** 允许微信使用定位的开关 */
-    locationAuthorized: appAuthorizeSetting.locationAuthorized === 'authorized',
-    /** 允许微信使用麦克风的开关 */
-    microphoneAuthorized: appAuthorizeSetting.microphoneAuthorized === 'authorized',
-    /** 允许微信通知的开关 */
-    notificationAuthorized: appAuthorizeSetting.notificationAuthorized === 'authorized',
-    /** 允许微信通知带有提醒的开关（仅 iOS 有效） */
-    notificationAlertAuthorized: appAuthorizeSetting.notificationAlertAuthorized === 'authorized',
-    /** 允许微信通知带有标记的开关（仅 iOS 有效） */
-    notificationBadgeAuthorized: appAuthorizeSetting.notificationBadgeAuthorized === 'authorized',
-    /** 允许微信通知带有声音的开关（仅 iOS 有效） */
-    notificationSoundAuthorized: appAuthorizeSetting.notificationSoundAuthorized === 'authorized',
-    /** 允许微信使用日历的开关 */
-    phoneCalendarAuthorized: appAuthorizeSetting.phoneCalendarAuthorized === 'authorized',
-    /** `true` 表示模糊定位，`false` 表示精确定位，仅 iOS 支持 */
-    locationReducedAccuracy: appAuthorizeSetting.locationReducedAccuracy,
-    /** 小程序当前运行环境 */
-    environment: ''
-  }
-
+  // @ts-ignore
+  const info = JSON.parse(JSON.stringify(native.getSystemInfoSync()))
+  
   return info
 }
 

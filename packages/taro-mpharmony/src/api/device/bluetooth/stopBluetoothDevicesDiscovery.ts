@@ -4,6 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const stopBluetoothDevicesDiscovery: typeof Taro.stopBluetoothDevicesDiscovery = (options) => {
   const name = 'stopBluetoothDevicesDiscovery'
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -21,15 +22,21 @@ export const stopBluetoothDevicesDiscovery: typeof Taro.stopBluetoothDevicesDisc
     errMsg?: string
   }>({ name, success, fail, complete })
 
-
-  // @ts-ignore
-  const ret = native.stopBluetoothDevicesDiscovery({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise<Taro.stopBluetoothDevicesDiscovery.Promised>((resolve, reject) => {
+    // @ts-ignore
+    native.stopBluetoothDevicesDiscovery({
+      success: (res: any) => {
+        const result: TaroGeneral.BluetoothError = {
+          /** 错误信息 */
+          errMsg: res[0] === 0 ? `${name}:ok` : `${res[0]}`,
+          /** 错误码 */
+          errCode: 0
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }

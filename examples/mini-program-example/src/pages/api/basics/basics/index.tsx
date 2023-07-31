@@ -33,15 +33,29 @@ export default class Index extends React.Component {
             },
             {
                 id: 'canIuseWebp',
-                func: null,
+                func: ()=>{
+                    const res = Taro.canIUseWebp()
+                    console.log("Taro.canIUseWebp success",res)
+                    Taro.showModal({content:"Taro.canIUseWebp success " +  JSON.stringify(res)})
+                },
             }, 
             {
                 id: 'base64ToArrayBuffer',
-                func: null,
+                func: ()=>{
+                    const base64 = 'CxYh'
+                    const res = Taro.base64ToArrayBuffer(base64)
+                    console.log("Taro.base64ToArrayBuffer success",res)
+                    Taro.showModal({content:"Taro.base64ToArrayBuffer success " +  JSON.stringify(res)})
+                },
             }, 
             {
                 id: 'arrayBufferToBase64',
-                func: null,
+                func: ()=>{
+                    const arrayBuffer = new Uint8Array([11, 22, 33])
+                    const res = Taro.arrayBufferToBase64(arrayBuffer)
+                    console.log("Taro.arrayBufferToBase64 success",res)
+                    Taro.showModal({content:"Taro.arrayBufferToBase64 success " +  JSON.stringify(res)})
+                },
             }, 
             {
                 id: 'perload',

@@ -12,7 +12,22 @@ export default class Index extends React.Component {
         list: [
             {
                 id: 'onUnhandledRejection',
-                func: null,
+                func: () =>{
+                    new Promise((resolve,reject)=>{
+                        const aa = 'name';
+                        // @ts-ignore
+                        if (aa === 'name1') {
+                         resolve(aa);
+                        } else {
+                         reject({message: 'error'});
+                        }
+                    })
+
+                    Taro.onUnhandledRejection((res)=>{
+                        console.log('Taro.onUnhandledRejection ',res)
+                        Taro.showModal({content:'Taro.onUnhandledRejection '+JSON.stringify(res)})
+                    })
+                },
             }, 
             {
                 id: 'onThemeChange',
@@ -20,11 +35,26 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'onPageNotFound',
-                func: null,
+                func: ()=>{
+                    Taro.navigateTo({
+                        url:'pages/api/index/11'
+                    })
+                    Taro.onPageNotFound((res)=>{
+                        console.log('Taro.onPageNotFound success',res)
+                        Taro.navigateTo({
+                            url:'pages/api/index/index'
+                        })
+                    })
+                },
             }, 
             {
                 id: 'onError',
-                func: null,
+                func: () =>{
+                    Taro.onError((err)=>{
+                        console.log('Taro.onError ',err)
+                        Taro.showModal({content:'Taro.onError '+JSON.stringify(err)})
+                    })
+                },
             }, 
             {
                 id: 'onAudioInterruptionEnd',

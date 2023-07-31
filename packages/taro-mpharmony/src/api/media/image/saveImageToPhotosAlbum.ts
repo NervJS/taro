@@ -30,15 +30,16 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
     })
   }
 
-  // @ts-ignore
-  const ret = native.saveImageToPhotosAlbum({
-    filePath: filePath,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    native.saveImageToPhotosAlbum({
+      filePath: filePath,
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }

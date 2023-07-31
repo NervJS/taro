@@ -92,6 +92,7 @@ export const WX_FOR_ITEM = 'wx:for-item'
 export const WX_FOR_INDEX = 'wx:for-index'
 export const WX_KEY = 'wx:key'
 export const WX_ELSE = 'wx:else'
+export const WX_SHOW = 'wx:show'
 
 export const wxTemplateCommand = [
   WX_IF,
@@ -163,7 +164,12 @@ export const createWxmlVistor = (
       if (nodeName === WX_KEY) {
         path.replaceWith(t.jSXIdentifier('key'))
       }
-      if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+      if (nodeName === WX_SHOW){
+        path.replaceWith(t.jSXIdentifier(WX_IF)) // wx:show转换后不支持，不频繁切换的话wx:if可替代
+        // eslint-disable-next-line no-console
+        console.log(`属性  ${nodeName}不能编译,会被替换为wx:if`)
+      }
+      else if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
         // eslint-disable-next-line no-console
         console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
         path.parentPath.remove()

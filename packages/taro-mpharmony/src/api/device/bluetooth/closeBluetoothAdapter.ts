@@ -18,16 +18,25 @@ export const closeBluetoothAdapter: typeof Taro.closeBluetoothAdapter = (options
     complete
   } = options as Exclude<typeof options, undefined>
 
-  const handle = new MethodHandler({ name, success, fail, complete })
+  const handle = new MethodHandler<{
+    errMsg?: string
+  }>({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.closeBluetoothAdapter({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    native.closeBluetoothAdapter({
+      success: (res: any) => {
+        const result: TaroGeneral.BluetoothError = {
+          /** 错误信息 */
+          errMsg: res[0] === 'ok' ? `${name}:${res[0]}` : res[0],
+          /** 错误码 */
+          errCode: 0 
+        }
+        handle.success(result, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }

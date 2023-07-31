@@ -20,15 +20,15 @@ export default class Index extends React.Component {
                     Taro.openAppAuthorizeSetting({
                         success (res) {
                             Taro.showModal({content:'Taro.openAppAuthorizeSetting success ' +  JSON.stringify(res)})
-                            console.log('success-----', res);
+                            console.log('Taro.openAppAuthorizeSetting success', res);
                         },
                         fail (res) {
                             Taro.showModal({content:'Taro.openAppAuthorizeSetting fail ' +  JSON.stringify(res)})
-                            console.log('fail-----', res);
+                            console.log('Taro.openAppAuthorizeSetting fail', res);
                         },
                         complete (res) {
                             Taro.showModal({content:'Taro.openAppAuthorizeSetting complete ' +  JSON.stringify(res)})
-                            console.log('complete-----', res);
+                            console.log('Taro.openAppAuthorizeSetting complete ', res);
                         }
                     })
                 },
@@ -64,20 +64,38 @@ export default class Index extends React.Component {
             }, 
             {
                 id: 'getSystemInfoAsync',
-                func: null,
+                func: ()=>{
+                    Taro.getSystemInfoAsync({
+                        success: function (res) {
+                          Taro.showModal({content:'Taro.getSystemInfoAsync success ' +  JSON.stringify(res)})
+                          console.log('Taro.getSystemInfoAsync success ', res)
+                        },
+                        fail: function (res) {
+                            Taro.showModal({content:'Taro.getSystemInfoAsync fail ' +  JSON.stringify(res)})
+                            console.log('Taro.getSystemInfoAsync fail ', res)
+                        },
+                        complete: function (res) {
+                            Taro.showModal({content:'Taro.getSystemInfoAsync complete ' +  JSON.stringify(res)})
+                            console.log('Taro.getSystemInfoAsync complete ', res)
+                        },
+                    })
+                },
             }, 
             {
                 id: 'getSystemInfo',
                 func: () => {
                     Taro.getSystemInfo({
                         success: function (res) {
-                          console.log('getSystemInfo success ', res)
+                          Taro.showModal({content:'Taro.getSystemInfo success ' +  JSON.stringify(res)})
+                          console.log('Taro.getSystemInfo success ', res)
                         },
                         fail: function (res) {
-                            console.log('getSystemInfo fail ', res)
+                            Taro.showModal({content:'Taro.getSystemInfo fail ' +  JSON.stringify(res)})
+                            console.log('Taro.getSystemInfo fail ', res)
                         },
                         complete: function (res) {
-                            console.log('getSystemInfo complete ', res)
+                            Taro.showModal({content:'Taro.getSystemInfo complete ' +  JSON.stringify(res)})
+                            console.log('Taro.getSystemInfo complete ', res)
                         },
                     })
                 },
