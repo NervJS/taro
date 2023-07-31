@@ -13,6 +13,7 @@ jobs:
       contents: write # to create tags and refs
       actions: write # to cancel running workflow (andymckay/cancel-action)
       issues: write # to create comment
+      pull-requests: write # to create comment
     steps:
       - name: View context attributes
         uses: actions/github-script@v6
