@@ -3,7 +3,7 @@ name: debug
 on:
   pull_request:
     branches:
-      - 'debug/**'
+      - next
 
 permissions: {}
 jobs:
