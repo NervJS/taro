@@ -46,7 +46,7 @@ export const setBLEMTU: typeof Taro.setBLEMTU = (options) => {
       }, { resolve, reject })
     }
 
-    if(mtu > 512 || mtu < 22){
+    if (mtu > 512 || mtu < 22) {
       console.error('invalid input')
       return handle.fail()
     }

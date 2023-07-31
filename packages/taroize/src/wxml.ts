@@ -164,7 +164,7 @@ export const createWxmlVistor = (
       if (nodeName === WX_KEY) {
         path.replaceWith(t.jSXIdentifier('key'))
       }
-      if (nodeName === WX_SHOW){
+      if (nodeName === WX_SHOW) {
         path.replaceWith(t.jSXIdentifier(WX_IF)) // wx:show转换后不支持，不频繁切换的话wx:if可替代
         // eslint-disable-next-line no-console
         console.log(`属性  ${nodeName}不能编译,会被替换为wx:if`)
@@ -229,9 +229,9 @@ export const createWxmlVistor = (
             )
             path.remove()
           }
-          /*} else {
+          /* } else {
             throw codeFrameError(slotValue, 'slot 的值必须是一个字符串')
-          }*/
+          } */
         }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {

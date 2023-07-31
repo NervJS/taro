@@ -1,5 +1,5 @@
-import Taro from "@tarojs/taro"
-import { shouldBeFunction } from "src/utils"
+import Taro from '@tarojs/taro'
+import { shouldBeFunction } from 'src/utils'
 
 export const offLocationChangeError: typeof Taro.offLocationChangeError = (callback) => {
   const name = 'offLocationChangeError'

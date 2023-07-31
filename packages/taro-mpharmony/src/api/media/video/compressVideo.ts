@@ -15,7 +15,7 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
     }
     const {
       src,
-      quality=['low','medium','high'],
+      quality = ['low','medium','high'],
       bitrate,
       fps,
       resolution,

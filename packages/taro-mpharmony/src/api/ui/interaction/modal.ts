@@ -48,7 +48,7 @@ export default class Modal {
       'line-height': '1.3',
       color: '#808080',
       'word-wrap': 'break-word',
-      'word-break':'break-all'
+      'word-break': 'break-all'
     },
     footStyle: {
       position: 'relative',

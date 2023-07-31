@@ -1,5 +1,5 @@
-import Taro from "@tarojs/taro"
-import { shouldBeObject } from "src/utils"
+import Taro from '@tarojs/taro'
+import { shouldBeObject } from 'src/utils'
 
 import { MethodHandler } from '../../utils/handler'
 
