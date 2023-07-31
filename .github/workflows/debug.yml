@@ -1,0 +1,37 @@
+name: debug
+
+on:
+  pull_request:
+    branches:
+      - 'debug/**'
+    types: [synchronize]
+
+permissions: {}
+jobs:
+  debug-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create tags and refs
+      actions: write # to cancel running workflow (andymckay/cancel-action)
+      issues: write # to create comment
+    steps:
+      - name: View context attributes
+        uses: actions/github-script@v6
+        with:
+          script: console.log(context)
+      - name: Create Comment
+        id: create-comment
+      - uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Thanks for reporting!'
+            })
+      - name: Get result
+        run: echo "${{steps.create-comment.outputs.result}}"
+
+
