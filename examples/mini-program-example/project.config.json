@@ -1,15 +1,32 @@
 {
-  "miniprogramRoot": "./dist",
+  "miniprogramRoot": "dist/",
   "projectname": "mini-program-example",
   "description": "小程序demo",
-  "appid": "touristappid",
+  "appid": "wx16ae4838cf116f8f",
   "setting": {
     "urlCheck": true,
     "es6": false,
     "enhance": false,
     "compileHotReLoad": false,
     "postcss": false,
-    "minified": false
+    "minified": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "condition": false
   },
-  "compileType": "miniprogram"
+  "compileType": "miniprogram",
+  "libVersion": "3.0.0",
+  "srcMiniprogramRoot": "dist/",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
 }

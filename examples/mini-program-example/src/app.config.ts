@@ -136,7 +136,7 @@ export default defineAppConfig({
     'pages/api/openAPIS/wechatCustomerService/index',
     'pages/api/payment/index',
     'pages/api/qq/index',
-    'pages/api/redriection/index',
+    'pages/api/redirection/index',
     'pages/api/routing/index',
     'pages/api/swan/index',
     'pages/api/taro/expand/index',

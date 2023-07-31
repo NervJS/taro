@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
+import { TestConsole } from '../../../../util/util'
 import './index.scss'
 
 /**
@@ -21,13 +22,13 @@ export default class Index extends React.Component {
                         mask: false,
                         image:'',
                         success: function(res) {
-                            console.log('showToast success ', res)
+                            TestConsole.consoleSuccess(res);
                         },
                         fail: function(res) {
-                            console.log('showToast fail ', res)
+                           TestConsole.consoleFail(res);
                         },
                         complete: function(res) {
-                            console.log('showToast complete ', res)
+                            TestConsole.consoleComplete(res);
                         },
                     })
                 },
@@ -164,16 +165,15 @@ export default class Index extends React.Component {
                 {
                     this.state.list.map((item) => {
                         return (
-                            <Button
+                            <View
                                 className='api-page-btn'
-                                type='primary'
                                 onClick={item.func == null ? () => {} : item.func}
                             >
-                                {item.id}
+                                <Text>{item.id}</Text>
                                 {
                                     item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
                                 }
-                            </Button>
+                            </View>
                         )
                     })
                 }

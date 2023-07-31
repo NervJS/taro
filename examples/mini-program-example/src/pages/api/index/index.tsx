@@ -1,30 +1,67 @@
 import Taro from '@tarojs/taro';
 import React from 'react';
 import { View, Text, Image } from '@tarojs/components';
-import interfacePng from '../../../assets/api/press.png';
+import logo from '../../../assets/api/logo.png';
+import frameworkPng from '../../../assets/api/frame.png';
 import basicsPng from '../../../assets/api/iphone.png';
-import cachePng from '../../../assets/api/cloud-storage.png';
-import networkPng from '../../../assets/api/loading.png';
-import mediaPng from '../../../assets/api/play-two.png';
+import routingPng from '../../../assets/api/routing.png';
+import redirectionPng from '../../../assets/api/redirection.png';
+import forwardPng from '../../../assets/api/forward.png';
+import interfacePng from '../../../assets/api/interface.png';
+import networkPng from '../../../assets/api/network.png';
+import paymentPng from '../../../assets/api/payment.png';
+import cachePng from '../../../assets/api/cache.png';
+import analysisPng from '../../../assets/api/analysis.png';
+import canvasPng from '../../../assets/api/canvas.png';
+import mediaPng from '../../../assets/api/media.png';
 import locationPng from '../../../assets/api/local.png';
-import canvasPng from '../../../assets/api/painted-screen.png';
-import openAPISPng from '../../../assets/api/api.png';
+import filePng from '../../../assets/api/file.png';
+import openAPISPng from '../../../assets/api/openapi.png';
 import devicePng from '../../../assets/api/devices.png';
+import aiPng from '../../../assets/api/AI.png';
+import workerPng from '../../../assets/api/worker.png';
+import wxmlPng from '../../../assets/api/wxml.png';
+import thirdPartyPng from '../../../assets/api/thirdparty.png';
+import advertisingPng from '../../../assets/api/advertising.png';
+import cloudServicesPng from '../../../assets/api/cloud.png';
+import alipayPng from '../../../assets/api/alipay.png';
+import qqPng from '../../../assets/api/qq.png';
+import swanPng from '../../../assets/api/swan.png';
+import taroPng from '../../../assets/api/taro.png';
+
 import TabBarApis from '../tabBarApis/tabBarApis';
 import NavigationBarApis from '../navigationBarApis/navigationBarApis';
 
 import './index.scss';
+import { apiName } from './module';
 
 const PNGS = {
-  interfacePng,
+  frameworkPng,
   basicsPng,
-  cachePng,
+  routingPng,
+  redirectionPng,
+  forwardPng,
+  interfacePng,
   networkPng,
+  paymentPng,
+  cachePng,
+  analysisPng,
+  canvasPng,
   mediaPng,
   locationPng,
-  canvasPng,
-  devicePng,
+  filePng,
   openAPISPng,
+  devicePng,
+  aiPng,
+  workerPng,
+  wxmlPng,
+  thirdPartyPng,
+  advertisingPng,
+  cloudServicesPng,
+  alipayPng,
+  qqPng,
+  swanPng,
+  taroPng,
 };
 export default class Index extends React.Component {
   constructor(props: never) {
@@ -418,6 +455,7 @@ export default class Index extends React.Component {
   }
 
   goToComponent = (page: { url: string }) => {
+    console.log(page);
     Taro.navigateTo({
       url: page.url
     });
@@ -428,6 +466,7 @@ export default class Index extends React.Component {
     return (
       <View className='index'>
         <View className='index-hd'>
+          <Image className='index-logo' src={logo} />
           <View className='index-desc'>
             <Text className='index-desc_text'>
               以下将展示 Taro 官方接口能力。
@@ -450,6 +489,7 @@ export default class Index extends React.Component {
                 item._pages = item.target.map(targetPage => {
                   return {
                     page: targetPage,
+                    pageName: apiName[targetPage],
                     url: `/pages/api/${item.id}/${targetPage}/index`,
                     state: item.pages.includes(targetPage) ? 'done':'undo'
                   };
@@ -482,7 +522,7 @@ export default class Index extends React.Component {
                             className='navigator'
                           >
                             <Text className='navigator-text'>
-                              {page.page}
+                              {page.pageName}
                               {
                                 page.state == 'undo' && (<Text className='navigator-state tag'>未创建Demo</Text>)
                               }
