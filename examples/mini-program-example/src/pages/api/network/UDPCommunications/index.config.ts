@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '网络-UDP 通信',
+  navigationBarTitleText: '网络-UDP 通信',
 }

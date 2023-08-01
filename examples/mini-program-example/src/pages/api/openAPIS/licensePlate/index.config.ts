@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '开放接口-车牌',
+  navigationBarTitleText: '开放接口-车牌',
 }

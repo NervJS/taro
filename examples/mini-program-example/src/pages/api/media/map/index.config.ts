@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '媒体-地图',
+  navigationBarTitleText: '媒体-地图',
 }

@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '网络-发起请求',
+  navigationBarTitleText: '网络-发起请求',
 }

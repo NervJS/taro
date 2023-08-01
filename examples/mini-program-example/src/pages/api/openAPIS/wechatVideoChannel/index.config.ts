@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '开放接口-视频号',
+  navigationBarTitleText: '开放接口-视频号',
 }

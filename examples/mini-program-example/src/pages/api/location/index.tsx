@@ -5,7 +5,7 @@ import './index.scss'
 
 /**
  * 位置
- * @returns 
+ * @returns
  */
 
 export default class Index extends React.Component {

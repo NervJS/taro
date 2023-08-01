@@ -412,7 +412,6 @@ export default class Index extends React.Component {
   }
 
   goToComponent = (page: { url: string }) => {
-    console.log(page)
     Taro.navigateTo({
       url: page.url,
     })

@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '网络-上传',
+  navigationBarTitleText: '网络-上传',
 }

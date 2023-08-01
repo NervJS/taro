@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: 'AI-推理',
+  navigationBarTitleText: 'AI-推理',
 }

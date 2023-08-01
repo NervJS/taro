@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: 'AI-人脸识别',
+  navigationBarTitleText: 'AI-人脸识别',
 }

@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '广告',
+  navigationBarTitleText: '广告',
 }

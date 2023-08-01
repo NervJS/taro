@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '位置',
+  navigationBarTitleText: '位置',
 }

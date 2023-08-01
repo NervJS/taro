@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '文件',
+  navigationBarTitleText: '文件',
 }

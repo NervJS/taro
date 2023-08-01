@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '开放接口-微信客服',
+  navigationBarTitleText: '开放接口-微信客服',
 }

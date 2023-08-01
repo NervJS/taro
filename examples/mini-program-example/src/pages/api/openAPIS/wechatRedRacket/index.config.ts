@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '开放接口-微信红包',
+  navigationBarTitleText: '开放接口-微信红包',
 }

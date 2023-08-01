@@ -1,47 +1,51 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
  * 媒体-相机
- * @returns 
+ * @returns
  */
-
+let cameraContext
 export default class Index extends React.Component {
   state = {
     list: [
       {
         id: 'createCameraContext',
         func: () => {
-          const cameraContext = Taro.createCameraContext()
+          cameraContext = Taro.createCameraContext()
           console.log('createCameraContext success')
-          cameraContext.takePhoto({
-            success: (res) => {
-              console.log('cameraContext.takePhoto success ', res)
-            },
-            fail: (res) => {
-              console.log('cameraContext.takePhoto fail ', res)
-            },
-            complete: (res) => {
-              console.log('cameraContext.takePhoto complete ', res)
-            },
-          })
+        },
+      },
+      {
+        id: 'createCameraContext_onCameraFrame',
+        func: () => {
           cameraContext.onCameraFrame((frame) => {
-            console.log('onCameraFrame ', frame.data instanceof ArrayBuffer, frame.width, frame.height)
+            console.log('onCameraFrame callback :', frame.data instanceof ArrayBuffer, frame.width, frame.height)
           })
+        },
+      },
+      {
+        id: 'createCameraContext_setZoom',
+        func: () => {
           cameraContext.setZoom({
             zoom: 70,
-            success: (res) => {
-              console.log('cameraContext.setZoom success ', res)
+            success: (res: any) => {
+              console.log('cameraContext.setZoom success ', res.zoom, res.setZoom)
             },
-            fail: (res) => {
+            fail: (res: any) => {
               console.log('cameraContext.setZoom fail ', res)
             },
-            complete: (res) => {
+            complete: (res: any) => {
               console.log('cameraContext.setZoom complete ', res)
             },
           })
+        },
+      },
+      {
+        id: 'createCameraContext_startRecord',
+        func: () => {
           cameraContext.startRecord({
             success: (res) => {
               console.log('cameraContext.startRecord success ', res)
@@ -53,18 +57,48 @@ export default class Index extends React.Component {
               console.log('cameraContext.startRecord complete ', res)
             },
             timeoutCallback: (res) => {
-              console.log('cameraContext.startRecord timeoutCallback ', res)
+              console.log(
+                'cameraContext.startRecord timeoutCallback ',
+                res.result.tempThumbPath,
+                res.result.tempVideoPath,
+                res.result.height,
+                res.result.width,
+                res.result.size,
+                res.result.duration
+              )
             },
           })
+        },
+      },
+      {
+        id: 'createCameraContext_stopRecord',
+        func: () => {
           cameraContext.stopRecord({
             success: (res) => {
-              console.log('cameraContext.stopRecord success ', res)
+              console.log('cameraContext.stopRecord success ', res.tempThumbPath, res.tempVideoPathes)
             },
             fail: (res) => {
               console.log('cameraContext.stopRecord fail ', res)
             },
             complete: (res) => {
               console.log('cameraContext.stopRecord complete ', res)
+            },
+          })
+        },
+      },
+      {
+        id: 'createCameraContext_takePhoto',
+        func: () => {
+          cameraContext.takePhoto({
+            quality: 'normal',
+            success: (res) => {
+              console.log('cameraContext.takePhoto success ', res)
+            },
+            fail: (res) => {
+              console.log('cameraContext.takePhoto fail ', res)
+            },
+            complete: (res) => {
+              console.log('cameraContext.takePhoto complete ', res)
             },
           })
         },

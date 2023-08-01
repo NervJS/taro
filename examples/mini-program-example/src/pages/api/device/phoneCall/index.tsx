@@ -51,9 +51,8 @@ export default class Index extends React.Component {
       <View className='api-page'>
         <View>请在下方输入电话号码</View>
         <Input type='number' name='input' onInput={this.changeNumber} />
-        <Button
+        <View
           className='api-page-btn'
-          type='primary'
           onClick={
             disabled
               ? () => {
@@ -69,7 +68,7 @@ export default class Index extends React.Component {
         >
           {api.id}
           {api.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-        </Button>
+        </View>
       </View>
     )
   }

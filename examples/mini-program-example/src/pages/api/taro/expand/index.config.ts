@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: 'Taro-拓展',
+  navigationBarTitleText: 'Taro-拓展',
 }

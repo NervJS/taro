@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: 'Alipay',
+  navigationBarTitleText: 'Alipay',
 }

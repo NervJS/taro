@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '第三方平台',
+  navigationBarTitleText: '第三方平台',
 }

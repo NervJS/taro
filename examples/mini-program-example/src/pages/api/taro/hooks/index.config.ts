@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: 'Taro-Hooks',
+  navigationBarTitleText: 'Taro-Hooks',
 }

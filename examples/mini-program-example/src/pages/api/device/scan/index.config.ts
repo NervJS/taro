@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-扫码',
+  navigationBarTitleText: '设备-扫码',
 }

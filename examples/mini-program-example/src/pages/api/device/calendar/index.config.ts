@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-日历',
+  navigationBarTitleText: '设备-日历',
 }

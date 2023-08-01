@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-罗盘',
+  navigationBarTitleText: '设备-罗盘',
 }

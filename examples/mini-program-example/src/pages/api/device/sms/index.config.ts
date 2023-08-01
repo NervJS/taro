@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '设备-短信',
+  navigationBarTitleText: '设备-短信',
 }
