@@ -1,3 +1,4 @@
+import * as path from 'path'
 import ts from 'typescript'
 
 export interface DocEntry {
@@ -16,6 +17,15 @@ export interface DocEntry {
   symbol?: DocEntry
 }
 
+export function pathsAreEqual (path1: string, path2: string) {
+  path1 = path.resolve(path1)
+  path2 = path.resolve(path2)
+  if (process.platform === 'win32') {
+    return path1.toLowerCase() === path2.toLowerCase()
+  }
+  return path1 === path2
+}
+
 export function generateDocumentation (
   filepaths: string[],
   options: ts.CompilerOptions,
@@ -32,7 +42,7 @@ export function generateDocumentation (
     if (param.withDeclaration !== false || !sourceFile.isDeclarationFile) {
       if (
         (param.mapAll === true && filepaths.includes(sourceFile.fileName))
-        || sourceFile.fileName === filepaths[0]
+        || pathsAreEqual(sourceFile.fileName, filepaths[0])
       ) {
         ts.forEachChild(sourceFile, (n) => visitAST(n, output))
       }
