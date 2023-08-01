@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-字体',
+    navigationBarTitleText: '设备-蓝牙-信标(Beacon)',
 }

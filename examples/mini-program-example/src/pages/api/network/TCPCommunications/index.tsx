@@ -4,59 +4,42 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-Tab Bar
- * @returns
+ * 网络-TCP 通信
+ * @returns 
  */
 
 export default class Index extends React.Component {
-  state = {
-    list: [
-      {
-        id: 'showTabBarRedDot',
-        func: null,
-      },
-      {
-        id: 'showTabBar',
-        func: null,
-      },
-      {
-        id: 'setTabBarStyle',
-        func: null,
-      },
-      {
-        id: 'setTabBarItem',
-        func: null,
-      },
-      {
-        id: 'setTabBarBadge',
-        func: null,
-      },
-      {
-        id: 'removeTabBarBadge',
-        func: null,
-      },
-      {
-        id: 'hideTabBarRedDot',
-        func: null,
-      },
-      {
-        id: 'hideTabBar',
-        func: null,
-      },
-    ],
-  }
-  render() {
-    return (
-      <View className='api-page'>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
+    state = {
+        list: [
+            {
+                id: 'createTCPSocket',
+                func: null,
+            }, 
+            {
+                id: 'TCPSocket',
+                func: null,
+            }, 
+        ], 
+    }
+    render () {
+        return (
+            <View className='api-page'>
+                {
+                    this.state.list.map((item) => {
+                        return (
+                            <View
+                                className='api-page-btn'
+                                onClick={item.func == null ? () => {} : item.func}
+                            >
+                                {item.id}
+                                {
+                                    item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                                }
+                            </View>
+                        )
+                    })
+                }
             </View>
-          )
-        })}
-      </View>
-    )
-  }
+        )
+    }
 }

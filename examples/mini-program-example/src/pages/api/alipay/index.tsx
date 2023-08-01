@@ -4,75 +4,38 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
- * @returns
+ * Alipay
+ * @returns 
  */
 
 export default class Index extends React.Component {
-  state = {
-    list: [
-      {
-        id: 'env',
-        func: null,
-      },
-      {
-        id: 'canIUse',
-        func: null,
-      },
-      {
-        id: 'canIuseWebp',
-        func: null,
-      },
-      {
-        id: 'base64ToArrayBuffer',
-        func: null,
-      },
-      {
-        id: 'System',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/basics/system/index',
-          })
-        },
-      },
-      {
-        id: 'Update',
-        func: null,
-      },
-      {
-        id: 'MiniProgram',
-        func: null,
-      },
-      {
-        id: 'Debug',
-        func: null,
-      },
-      {
-        id: 'Performance',
-        func: null,
-      },
-      {
-        id: 'Encryption',
-        func: null,
-      },
-      {
-        id: 'perload',
-        func: null,
-      },
-    ],
-  }
-  render() {
-    return (
-      <View className='api-page'>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
+    state = {
+        list: [
+            {
+                id: 'getOpenUserInfo',
+                func: null,
+            }, 
+        ], 
+    }
+    render () {
+        return (
+            <View className='api-page'>
+                {
+                    this.state.list.map((item) => {
+                        return (
+                            <View
+                                className='api-page-btn'
+                                onClick={item.func == null ? () => {} : item.func}
+                            >
+                                {item.id}
+                                {
+                                    item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                                }
+                            </View>
+                        )
+                    })
+                }
             </View>
-          )
-        })}
-      </View>
-    )
-  }
+        )
+    }
 }

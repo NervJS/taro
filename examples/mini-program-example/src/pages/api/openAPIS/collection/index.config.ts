@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-自定义组件',
+    navigationBarTitleText: '开放接口-收藏',
 }

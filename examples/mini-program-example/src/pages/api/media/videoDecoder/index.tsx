@@ -4,31 +4,42 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
- * @returns
+ * 媒体-视频解码器
+ * @returns 
  */
 
 export default class Index extends React.Component {
-  state = {
-    list: [
-      {
-        id: 'nextTick',
-        func: null,
-      },
-    ],
-  }
-  render() {
-    return (
-      <View className='api-page'>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
+    state = {
+        list: [
+            {
+                id: 'createVideoDecoder',
+                func: null,
+            }, 
+            {
+                id: 'VideoDecoder',
+                func: null,
+            }, 
+        ], 
+    }
+    render () {
+        return (
+            <View className='api-page'>
+                {
+                    this.state.list.map((item) => {
+                        return (
+                            <View
+                                className='api-page-btn'
+                                onClick={item.func == null ? () => {} : item.func}
+                            >
+                                {item.id}
+                                {
+                                    item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                                }
+                            </View>
+                        )
+                    })
+                }
             </View>
-          )
-        })}
-      </View>
-    )
-  }
+        )
+    }
 }

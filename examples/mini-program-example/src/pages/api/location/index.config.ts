@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '基础',
+    navigationBarTitleText: '位置',
 }

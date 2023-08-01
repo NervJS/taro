@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '设备-蓝牙-通用',
+    navigationBarTitleText: '开放接口-车牌',
 }

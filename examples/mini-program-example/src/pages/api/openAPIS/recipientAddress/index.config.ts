@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-动画',
+    navigationBarTitleText: '开放接口-收货地址',
 }

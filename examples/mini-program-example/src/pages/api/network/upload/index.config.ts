@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-下拉更新',
+    navigationBarTitleText: '网络-上传',
 }

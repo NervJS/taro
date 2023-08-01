@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '设备-内存',
+    navigationBarTitleText: '开放接口-设置',
 }

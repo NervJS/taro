@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-导航栏',
+    navigationBarTitleText: '设备-网络',
 }

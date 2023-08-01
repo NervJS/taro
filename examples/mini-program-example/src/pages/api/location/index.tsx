@@ -4,8 +4,8 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 位置-位置更新
- * @returns
+ * 位置
+ * @returns 
  */
 
 export default class Index extends React.Component {

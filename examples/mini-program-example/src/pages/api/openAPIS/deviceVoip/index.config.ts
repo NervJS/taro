@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-滚动',
+    navigationBarTitleText: '开放接口-音视频通话设备',
 }

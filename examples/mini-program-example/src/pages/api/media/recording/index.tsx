@@ -4,8 +4,8 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 媒体-录音管理
- * @returns
+ * 媒体-录音
+ * @returns 
  */
 let recordTimeInterval
 let recorderManager

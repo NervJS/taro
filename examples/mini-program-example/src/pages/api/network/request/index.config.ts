@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '基础',
+    navigationBarTitleText: '网络-发起请求',
 }

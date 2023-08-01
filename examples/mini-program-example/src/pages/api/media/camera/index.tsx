@@ -4,8 +4,8 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 媒体-相机组件管理
- * @returns
+ * 媒体-相机
+ * @returns 
  */
 
 export default class Index extends React.Component {
