@@ -435,8 +435,15 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
     const ast = parseCode(script.value)
     traverse(ast, {
       CallExpression (path) {
+        // wxs标签中getRegExp转换为new RegExp
         if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
-          console.warn(codeFrameError(path.node, '请使用 JavaScript 标准正则表达式把这个 getRegExp 函数重构。'))
+          const arg = path.node.arguments[0]
+          if (t.isStringLiteral(arg)) {
+            const regex = arg.extra?.raw as string
+            const regexWithoutQuotes = regex.replace(/^'(.*)'$/, '$1')
+            const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes), t.stringLiteral('g')])
+            path.replaceWith(newExpr)
+          }
         }
       }
     })
