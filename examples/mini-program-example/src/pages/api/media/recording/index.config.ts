@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '媒体',
+  navigationBarTitleText: '媒体-录音',
 }
