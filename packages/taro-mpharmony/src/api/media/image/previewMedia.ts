@@ -24,10 +24,10 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
       item.style.cssText = 'display:flex;align-items:start;justify-content:center;overflow-y:scroll;'
       const image = new Image()
       const video = document.createElement('video')
-      if(sources?.type === 'image'){
+      if (sources?.type === 'image') {
         image.style.maxWidth = '100%'
         image.src = sources?.url
-      }else{
+      } else {
         video.style.maxWidth = '100%'
         video.setAttribute('controls','controls')
         const source = document.createElement('source')
@@ -38,9 +38,9 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
       const div = document.createElement('div')
       div.classList.add('swiper-zoom-container')
       div.style.cssText = 'display:flex;align-items:center;justify-content:center;max-width:100%;min-height:100%;'
-      if(sources?.type === 'image'){
+      if (sources?.type === 'image') {
         div.appendChild(image)
-      }else{
+      } else {
         div.appendChild(video)
       }
       item.appendChild(div)

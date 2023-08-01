@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Map组件'
+  navigationBarTitleText: 'Map组件',
 }

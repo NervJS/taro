@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Switch组件'
+  navigationBarTitleText: 'Switch组件',
 }

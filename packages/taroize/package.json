@@ -8,6 +8,7 @@
     "lib"
   ],
   "scripts": {
+    "format": "eslint src/ --ext .js --ext .ts --ext .tsx --fix",
     "build": "tsc",
     "dev": "tsc -w --pretty"
   },

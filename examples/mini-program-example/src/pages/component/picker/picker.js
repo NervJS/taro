@@ -5,7 +5,7 @@ import React from 'react'
 import { View, Text, Picker } from '@tarojs/components'
 
 import Header from '../../../components/head/head'
-import ComponentState from "../../../components/component_state/component_state";
+import ComponentState from '../../../components/component_state/component_state'
 
 export default class PagePicker extends React.Component {
   state = {
@@ -14,65 +14,64 @@ export default class PagePicker extends React.Component {
     selectorValue: 1,
     mulitSelectorValues: [0, 0],
     selector: ['美国', '中国', '巴西', '日本'],
-    multiSelector: [['饭', '粥', '粉'], ['猪肉', '牛肉']],
+    multiSelector: [
+      ['饭', '粥', '粉'],
+      ['猪肉', '牛肉'],
+    ],
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({
-      selectorValue: e.detail.value
+      selectorValue: e.detail.value,
     })
   }
 
-  handleMulitChange = e => {
-    const values = e.detail.value.map((item,index) => {
+  handleMulitChange = (e) => {
+    const values = e.detail.value.map((item, index) => {
       return this.state.multiSelector[index][item]
     })
     this.setState({
-      mulitSelectorValues: e.detail.value
+      mulitSelectorValues: e.detail.value,
     })
   }
 
-  handleColumnchange = e => {
+  handleColumnchange = (e) => {
     console.log(e.detail)
   }
 
-  handleTimeChange = e => {
+  handleTimeChange = (e) => {
     this.setState({
-      timeSel: e.detail.value
+      timeSel: e.detail.value,
     })
   }
 
-  handleDateChange = e => {
+  handleDateChange = (e) => {
     const val = e.detail.value
     const dateSel = Array.isArray(val) ? val.join('-') : val
     this.setState({ dateSel })
   }
 
-  render () {
+  render() {
     const { selector, multiSelector, selectorValue, mulitSelectorValues, timeSel, dateSel } = this.state
     return (
       <View className='container'>
         <Header title='Picker'></Header>
-         <ComponentState platform='H5' rate='100'> </ComponentState>
+        <ComponentState platform='H5' rate='100'>
+          {' '}
+        </ComponentState>
         <View className='page-body'>
           <View className='page-section'>
             <View className='page-section-title'>
               <Text>普通选择器</Text>
             </View>
             <View>
-              <Picker
-                mode='selector'
-                range={selector}
-                value={selectorValue}
-                onChange={this.handleChange}>
-                <View className='picker'>
-                  当前选择：{selector[selectorValue]}
-                </View>
+              <Picker mode='selector' range={selector} value={selectorValue} onChange={this.handleChange}>
+                <View className='picker'>当前选择：{selector[selectorValue]}</View>
               </Picker>
             </View>
           </View>
-          {Taro.getEnv() !== Taro.ENV_TYPE.ALIPAY
-          ? <View className='page-section'>
+          {Taro.getEnv() !== Taro.ENV_TYPE.ALIPAY ? (
+            <View className='page-section'>
               <View className='page-section-title'>
                 <Text>多行选择器</Text>
               </View>
@@ -81,21 +80,24 @@ export default class PagePicker extends React.Component {
                   mode='multiSelector'
                   range={multiSelector}
                   onChange={this.handleMulitChange}
-                  onColumnchange={this.handleColumnchange}>
+                  onColumnchange={this.handleColumnchange}
+                >
                   <View className='picker'>
-                    当前选择： {
-                      `${this.state.multiSelector[0][mulitSelectorValues[0]]}, ${this.state.multiSelector[1][mulitSelectorValues[1]]}`
-                    }
+                    当前选择：{' '}
+                    {`${this.state.multiSelector[0][mulitSelectorValues[0]]}, ${
+                      this.state.multiSelector[1][mulitSelectorValues[1]]
+                    }`}
                   </View>
                 </Picker>
               </View>
             </View>
-          : <View className='page-section'>
+          ) : (
+            <View className='page-section'>
               <View className='page-section-title'>
                 <Text>支付宝小程序暂不支持多列选择器</Text>
               </View>
             </View>
-          }
+          )}
           <View className='page-section'>
             <View className='page-section-title'>
               <Text>时间选择器</Text>

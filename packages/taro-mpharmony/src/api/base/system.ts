@@ -72,7 +72,7 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
 
   return {
     ...info,
-    platform:'harmony'
+    platform: 'harmony'
   }
 }
 
@@ -95,7 +95,7 @@ export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = async 
   const info = await native.getAppAuthorizeSetting()
   return {
     ...info,
-    locationReducedAccuracy:info.locationAccuracy
+    locationReducedAccuracy: info.locationAccuracy
   }
 }
 

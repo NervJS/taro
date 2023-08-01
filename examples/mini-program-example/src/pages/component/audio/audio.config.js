@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Audio组件'
+  navigationBarTitleText: 'Audio组件',
 }

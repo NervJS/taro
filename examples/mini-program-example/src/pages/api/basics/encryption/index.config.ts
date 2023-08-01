@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '基础-加密',
+  navigationBarTitleText: '基础-加密',
 }

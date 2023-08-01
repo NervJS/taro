@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '框架',
+  navigationBarTitleText: '框架',
 }

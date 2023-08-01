@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Input组件'
+  navigationBarTitleText: 'Input组件',
 }

@@ -24,17 +24,17 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
   } = options
 
   const handle = new MethodHandler<{
-    height?: number,
-    orientation?: string,
-    path?: string,
-    type?: string,
-    width?: number,
+    height?: number
+    orientation?: string
+    path?: string
+    type?: string
+    width?: number
     errMsg?: string
   }>({ name, success, fail, complete })
 
   return new Promise<Taro.getImageInfo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    const ret = native.getImageInfo({
+    native.getImageInfo({
       src: src,
       success: (res: any) => {
         const result: Taro.getImageInfo.SuccessCallbackResult = {

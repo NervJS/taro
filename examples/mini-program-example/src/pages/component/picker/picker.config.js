@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Picker组件'
+  navigationBarTitleText: 'Picker组件',
 }

@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'MovableView和MovableArea组件'
+  navigationBarTitleText: 'MovableView和MovableArea组件',
 }

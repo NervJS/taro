@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Text组件'
+  navigationBarTitleText: 'Text组件',
 }

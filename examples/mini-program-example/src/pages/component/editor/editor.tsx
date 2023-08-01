@@ -9,316 +9,325 @@ import ComponentState from '../../../components/component_state/component_state'
 import { wrap } from 'module'
 
 interface FormatApi {
-  name: string;
-  value: string | undefined;
-  title: string | undefined;
+  name: string
+  value: string | undefined
+  title: string | undefined
 }
 
 interface FormatApiSection {
-  sectionName: string;
-  formats: FormatApi[];
+  sectionName: string
+  formats: FormatApi[]
 }
 
 const formatApiSections: FormatApiSection[] = [
   {
-    sectionName: "FontStyle",
+    sectionName: 'FontStyle',
     formats: [
       {
-        name: "bold",
+        name: 'bold',
         value: undefined,
         title: 'bold',
-      }, {
-        name: "italic",
+      },
+      {
+        name: 'italic',
         value: undefined,
         title: 'italic',
-      }, {
+      },
+      {
         name: 'underline',
         value: undefined,
         title: 'underline',
-      }, {
+      },
+      {
         name: 'strike',
         value: undefined,
         title: 'strike',
-      }, {
+      },
+      {
         name: 'ins',
         value: undefined,
         title: 'ins(不支持)',
-      }
-    ]
+      },
+    ],
   },
   {
-    sectionName: "Script",
+    sectionName: 'Script',
     formats: [
       {
-        name: "script",
-        value: "sub",
+        name: 'script',
+        value: 'sub',
         title: 'script sub',
       },
       {
-        name: "script",
-        value: "super",
+        name: 'script',
+        value: 'super',
         title: 'script super',
-      }
-    ]
+      },
+    ],
   },
   {
-    sectionName: "Header",
+    sectionName: 'Header',
     formats: [
       {
-        name: "header",
-        value: "1",
+        name: 'header',
+        value: '1',
         title: 'H1',
       },
       {
-        name: "header",
-        value: "2",
+        name: 'header',
+        value: '2',
         title: 'H2',
       },
       {
-        name: "header",
-        value: "3",
+        name: 'header',
+        value: '3',
         title: 'H3',
       },
       {
-        name: "header",
-        value: "4",
+        name: 'header',
+        value: '4',
         title: 'H4',
       },
       {
-        name: "header",
-        value: "5",
+        name: 'header',
+        value: '5',
         title: 'H5',
       },
       {
-        name: "header",
-        value: "6",
+        name: 'header',
+        value: '6',
         title: 'H6',
       },
-    ]
+    ],
   },
   {
-    sectionName: "Align",
+    sectionName: 'Align',
     formats: [
       {
-        name: "align",
-        value: "left",
-        title: 'alignLeft'
+        name: 'align',
+        value: 'left',
+        title: 'alignLeft',
       },
       {
-        name: "align",
-        value: "center",
-        title: 'alignCenter'
+        name: 'align',
+        value: 'center',
+        title: 'alignCenter',
       },
       {
-        name: "align",
-        value: "right",
-        title: 'alignRight'
+        name: 'align',
+        value: 'right',
+        title: 'alignRight',
       },
       {
-        name: "align",
-        value: "justify",
-        title: 'alignJustify'
+        name: 'align',
+        value: 'justify',
+        title: 'alignJustify',
       },
-    ]
+    ],
   },
   {
-    sectionName: "Direction",
+    sectionName: 'Direction',
     formats: [
       {
-        name: "direction",
+        name: 'direction',
         value: 'rtl',
-        title: 'rtl'
+        title: 'rtl',
       },
       {
-        name: "direction",
+        name: 'direction',
         value: 'ltr',
-        title: 'ltr'
+        title: 'ltr',
       },
-    ]
+    ],
   },
   {
-    sectionName: "Indent",
+    sectionName: 'Indent',
     formats: [
       {
-        name: "indent",
-        value: "1",
-        title: '>>'
+        name: 'indent',
+        value: '1',
+        title: '>>',
       },
       {
-        name: "indent",
-        value: "-1",
-        title: '<<'
+        name: 'indent',
+        value: '-1',
+        title: '<<',
       },
-    ]
+    ],
   },
   {
-    sectionName: "List",
+    sectionName: 'List',
     formats: [
       {
-        name: "list",
-        value: "ordered",
-        title: 'list ordered'
+        name: 'list',
+        value: 'ordered',
+        title: 'list ordered',
       },
       {
-        name: "list",
-        value: "bullet",
-        title: 'list bullet'
+        name: 'list',
+        value: 'bullet',
+        title: 'list bullet',
       },
       {
-        name: "list",
-        value: "check",
-        title: 'list check(不支持)'
+        name: 'list',
+        value: 'check',
+        title: 'list check(不支持)',
       },
-    ]
+    ],
   },
   {
-    sectionName: "Color",
+    sectionName: 'Color',
     formats: [
       {
-        name: "color",
-        value: "#ff0000",
-        title: 'color'
+        name: 'color',
+        value: '#ff0000',
+        title: 'color',
       },
       {
-        name: "backgroundColor",
-        value: "#00ff00",
-        title: 'backgroundColor'
-      }
-    ]
+        name: 'backgroundColor',
+        value: '#00ff00',
+        title: 'backgroundColor',
+      },
+    ],
   },
   {
-    sectionName: "Margin",
+    sectionName: 'Margin',
     formats: [
       {
-        name: "margin",
-        value: "20px 20px 20px 20px",
-        title: 'margin'
+        name: 'margin',
+        value: '20px 20px 20px 20px',
+        title: 'margin',
       },
       {
-        name: "marginLeft",
-        value: "10px",
-        title: 'marginLeft'
+        name: 'marginLeft',
+        value: '10px',
+        title: 'marginLeft',
       },
       {
-        name: "marginTop",
-        value: "10px",
-        title: 'marginTop'
+        name: 'marginTop',
+        value: '10px',
+        title: 'marginTop',
       },
       {
-        name: "marginRight",
-        value: "10px",
-        title: 'marginRight'
+        name: 'marginRight',
+        value: '10px',
+        title: 'marginRight',
       },
       {
-        name: "marginBottom",
-        value: "10px",
-        title: 'marginBottom'
+        name: 'marginBottom',
+        value: '10px',
+        title: 'marginBottom',
       },
-    ]
+    ],
   },
   {
-    sectionName: "Padding",
+    sectionName: 'Padding',
     formats: [
       {
         name: 'padding',
         value: '20px 20px 20px 20px',
-        title: 'padding'
+        title: 'padding',
       },
       {
         name: 'paddingLeft',
         value: '10px',
-        title: 'paddingLeft'
+        title: 'paddingLeft',
       },
       {
         name: 'paddingTop',
         value: '10px',
-        title: 'paddingTop'
+        title: 'paddingTop',
       },
       {
         name: 'paddingRight',
         value: '10px',
-        title: 'paddingRight'
+        title: 'paddingRight',
       },
       {
         name: 'paddingBottom',
         value: '10px',
-        title: 'paddingBottom'
+        title: 'paddingBottom',
       },
-    ]
+    ],
   },
   {
-    sectionName: "Font",
+    sectionName: 'Font',
     formats: [
       {
-        name: "font",
+        name: 'font',
         value: '1.2em "Fira Sans", sans-serif',
         title: 'font',
       },
       {
-        name: "fontSize",
-        value: "1.5em",
+        name: 'fontSize',
+        value: '1.5em',
         title: 'fontSize',
       },
       {
-        name: "fontStyle",
+        name: 'fontStyle',
         value: 'oblique 40deg',
         title: 'fontStyle',
       },
       {
-        name: "fontVariant",
+        name: 'fontVariant',
         value: 'common-ligatures small-caps',
         title: 'fontVariant',
       },
       {
-        name: "fontWeight",
-        value: "bolder",
+        name: 'fontWeight',
+        value: 'bolder',
         title: 'fontWeight',
       },
       {
         name: 'fontFamily',
         value: 'Georgia, serif',
         title: 'fontFamily',
-      }
-    ]
+      },
+    ],
   },
   {
-    sectionName: "TextLayout",
+    sectionName: 'TextLayout',
     formats: [
       {
-        name: "lineHeight",
-        value: "3.5em",
+        name: 'lineHeight',
+        value: '3.5em',
         title: 'lineHeight',
       },
       {
-        name: "letterSpacing",
+        name: 'letterSpacing',
         value: '2em',
         title: 'letterSpacing',
-      }, {
+      },
+      {
         name: 'textDecoration',
         value: 'underline dotted red',
         title: 'textDecoration',
-      }, {
+      },
+      {
         name: 'textIndent',
         value: '2em',
         title: 'textIndent',
-      }, {
+      },
+      {
         name: 'wordWrap',
         value: 'break-word',
         title: 'wordWrap',
-      }, {
+      },
+      {
         name: 'wordBreak',
         value: 'keep-all',
         title: 'wordBreak',
-      }, {
+      },
+      {
         name: 'whiteSpace',
         value: 'pre-line',
         title: 'whiteSpace',
-      }
-    ]
+      },
+    ],
   },
 ]
 
-export default function PageView () {
+export default function PageView() {
   let [editorContext, setEditorContext] = useState<EditorContext>()
   let [editorContent, setEditorContent] = useState<string>()
 
@@ -326,166 +335,214 @@ export default function PageView () {
     <View className='components-page'>
       <View className='components-page__header'>
         <Header title='Editor'></Header>
-        <ComponentState platform='H5' rate='100'> </ComponentState>
+        <ComponentState platform='H5' rate='100'>
+          {' '}
+        </ComponentState>
       </View>
       <View className='index'>
-
         <View>
           <h5>EditorContext API</h5>
-          <View style={{
-            display: 'flex',
-            flexDirection: 'row',
-            flex: 1,
-            alignItems: 'center',
-            alignContent: 'center',
-            gap: 5,
-            margin: 5,
-            flexWrap: 'wrap',
-          }}>
-            <button onClick={() => {
-              editorContext?.getContents({
-                fail: (error) => {
-                  setEditorContent(`getContents fail: ${error}`)
-                },
-                success: (value) => {
-                  let result = {
-                    text: value.text,
-                    html: value.html
-                  }
-                  setEditorContent(`getContents success:\n ${JSON.stringify(result, null, 2)}`)
-                },
-              })
-            }}> 获取内容 </button>
-            <button onClick={() => {
-              editorContext?.getSelectionText({
-                fail: (error) => {
-                  setEditorContent(`getSelectionText fail: ${error}`)
-                },
-                success: (value) => {
-                  let result = {
-                    text: value.text
-                  }
-                  setEditorContent(`getSelectionText success:\n ${JSON.stringify(result, null, 2)}`)
-                },
-              })
-            }}> 获取选中内容 </button>
-            <button onClick={() => {
-              editorContext?.redo({
-                fail: (error) => {
-                  setEditorContent(`redo fail: ${error}`)
-                },
-                success: (value) => {
-                  setEditorContent(`redo success:\n ${JSON.stringify(value, null, 2)}`)
-                },
-              })
-            }}> 重做 </button>
-            <button onClick={() => {
-              editorContext?.undo({
-                fail: (error) => {
-                  setEditorContent(`undo fail: ${error}`)
-                },
-                success: (value) => {
-                  setEditorContent(`undo success:\n ${JSON.stringify(value, null, 2)}`)
-                },
-              })
-            }}> 撤销 </button>
-            <button onClick={() => {
-              editorContext?.insertText({
-                text: '(这是被插入的文本)',
-                fail: (error) => {
-                  setEditorContent(`insertText fail: ${error}`)
-                },
-                success: (value) => {
-                  setEditorContent(`insertText success:\n ${JSON.stringify(value, null, 2)}`)
-                },
-              })
-            }}> 插入文本 </button>
-            <button onClick={() => {
-              editorContext?.insertImage({
-                src: 'https://img.58cdn.com.cn/logo/58/252_84/logo-o.png',
-                alt: '58同城logo',
-                width: '252',
-                height: '84',
-                nowrap: false,
-                data: {
-                  version: '2',
-                  time: new Date().getTime()
-                },
-                fail: (error) => {
-                  setEditorContent(`insertImage fail: ${error}`)
-                },
-                success: (value) => {
-                  setEditorContent(`insertImage success:\n ${JSON.stringify(value, null, 2)}`)
-                },
-              })
-            }}> 插入图片 </button>
-            <button onClick={() => {
-              editorContext?.setContents({
-                html: '(这是设置的文案)',
-                fail: (error) => {
-                  setEditorContent(`setContents fail: ${error}`)
-                },
-                success: (value) => {
-                  setEditorContent(`setContents success:\n ${JSON.stringify(value, null, 2)}`)
-                },
-              })
-            }}> 设置文本 </button>
-            <button onClick={() => {
-              editorContext?.removeFormat({
-                fail: (error) => {
-                  setEditorContent(`removeFormat fail: ${error}`)
-                },
-                success: (value) => {
-                  setEditorContent(`removeFormat success:\n ${JSON.stringify(value, null, 2)}`)
-                },
-              })
-            }}> 移除格式 </button>
-            <button onClick={() => {
-              editorContext?.scrollIntoView()
-            }}> 光标滚动内容 </button>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              flex: 1,
+              alignItems: 'center',
+              alignContent: 'center',
+              gap: 5,
+              margin: 5,
+              flexWrap: 'wrap',
+            }}
+          >
+            <button
+              onClick={() => {
+                editorContext?.getContents({
+                  fail: (error) => {
+                    setEditorContent(`getContents fail: ${error}`)
+                  },
+                  success: (value) => {
+                    let result = {
+                      text: value.text,
+                      html: value.html,
+                    }
+                    setEditorContent(`getContents success:\n ${JSON.stringify(result, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              获取内容{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.getSelectionText({
+                  fail: (error) => {
+                    setEditorContent(`getSelectionText fail: ${error}`)
+                  },
+                  success: (value) => {
+                    let result = {
+                      text: value.text,
+                    }
+                    setEditorContent(`getSelectionText success:\n ${JSON.stringify(result, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              获取选中内容{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.redo({
+                  fail: (error) => {
+                    setEditorContent(`redo fail: ${error}`)
+                  },
+                  success: (value) => {
+                    setEditorContent(`redo success:\n ${JSON.stringify(value, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              重做{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.undo({
+                  fail: (error) => {
+                    setEditorContent(`undo fail: ${error}`)
+                  },
+                  success: (value) => {
+                    setEditorContent(`undo success:\n ${JSON.stringify(value, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              撤销{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.insertText({
+                  text: '(这是被插入的文本)',
+                  fail: (error) => {
+                    setEditorContent(`insertText fail: ${error}`)
+                  },
+                  success: (value) => {
+                    setEditorContent(`insertText success:\n ${JSON.stringify(value, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              插入文本{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.insertImage({
+                  src: 'https://img.58cdn.com.cn/logo/58/252_84/logo-o.png',
+                  alt: '58同城logo',
+                  width: '252',
+                  height: '84',
+                  nowrap: false,
+                  data: {
+                    version: '2',
+                    time: new Date().getTime(),
+                  },
+                  fail: (error) => {
+                    setEditorContent(`insertImage fail: ${error}`)
+                  },
+                  success: (value) => {
+                    setEditorContent(`insertImage success:\n ${JSON.stringify(value, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              插入图片{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.setContents({
+                  html: '(这是设置的文案)',
+                  fail: (error) => {
+                    setEditorContent(`setContents fail: ${error}`)
+                  },
+                  success: (value) => {
+                    setEditorContent(`setContents success:\n ${JSON.stringify(value, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              设置文本{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.removeFormat({
+                  fail: (error) => {
+                    setEditorContent(`removeFormat fail: ${error}`)
+                  },
+                  success: (value) => {
+                    setEditorContent(`removeFormat success:\n ${JSON.stringify(value, null, 2)}`)
+                  },
+                })
+              }}
+            >
+              {' '}
+              移除格式{' '}
+            </button>
+            <button
+              onClick={() => {
+                editorContext?.scrollIntoView()
+              }}
+            >
+              {' '}
+              光标滚动内容{' '}
+            </button>
           </View>
-          <textarea style={{ width: '100%', height: 100}} disabled value={editorContent}/>
+          <textarea style={{ width: '100%', height: 100 }} disabled value={editorContent} />
         </View>
 
         <View>
           <h5>EditorContext format API</h5>
           <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignContent: 'flex-start',
-                  alignItems: 'flex-start',
-                  gap: 5,
-                  marginLeft: 5,
-                  marginRight: 5,
-                  marginTop: 5,
-                  flex: 1,
-                  flexWrap: 'wrap',
-                }}>
-
-              {
-                formatApiSections.map(item => {
-                  return <select
-                      key={item.sectionName}
-                      onChange={(e) => {
-                        let idx = Number(e.target.value)
-                        if (idx >= 0) {
-                          let format = item.formats[idx];
-                          editorContext?.format(format.name, format.value)
-                        }
-                      }}
-                  >
-                      <option value={-1}>{item.sectionName}</option>
-                      {
-                        item.formats.map((format, idx) => {
-                          return <option key={idx} value={idx}>{format.title}</option>
-                        })
-                      }
-
-                  </select>
-                })
-              }
-
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: 5,
+              marginLeft: 5,
+              marginRight: 5,
+              marginTop: 5,
+              flex: 1,
+              flexWrap: 'wrap',
+            }}
+          >
+            {formatApiSections.map((item) => {
+              return (
+                <select
+                  key={item.sectionName}
+                  onChange={(e) => {
+                    let idx = Number(e.target.value)
+                    if (idx >= 0) {
+                      let format = item.formats[idx]
+                      editorContext?.format(format.name, format.value)
+                    }
+                  }}
+                >
+                  <option value={-1}>{item.sectionName}</option>
+                  {item.formats.map((format, idx) => {
+                    return (
+                      <option key={idx} value={idx}>
+                        {format.title}
+                      </option>
+                    )
+                  })}
+                </select>
+              )
+            })}
           </View>
         </View>
 
@@ -494,15 +551,18 @@ export default function PageView () {
           id='editor'
           placeholder='请输入文本'
           style={{
-            height: 300
+            height: 300,
           }}
           onReady={() => {
             setEditorContent(`Editor.onReady...`)
 
-            Taro.createSelectorQuery().select('#editor').context((res) => {
-              setEditorContent(`Editor.onReady, context=${res.context}`)
-              setEditorContext(res.context as EditorContext)
-            }).exec()
+            Taro.createSelectorQuery()
+              .select('#editor')
+              .context((res) => {
+                setEditorContent(`Editor.onReady, context=${res.context}`)
+                setEditorContext(res.context as EditorContext)
+              })
+              .exec()
           }}
           onInput={(event) => {
             setEditorContent(`Editor.onInput, ${event.timeStamp}  ${event.detail.text}`)

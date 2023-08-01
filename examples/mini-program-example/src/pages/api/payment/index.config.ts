@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '支付',
+  navigationBarTitleText: '支付',
 }

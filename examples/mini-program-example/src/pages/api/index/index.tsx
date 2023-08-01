@@ -1,39 +1,39 @@
-import Taro from '@tarojs/taro';
-import React from 'react';
-import { View, Text, Image } from '@tarojs/components';
-import logo from '../../../assets/api/logo.png';
-import frameworkPng from '../../../assets/api/frame.png';
-import basicsPng from '../../../assets/api/iphone.png';
-import routingPng from '../../../assets/api/routing.png';
-import redirectionPng from '../../../assets/api/redirection.png';
-import forwardPng from '../../../assets/api/forward.png';
-import interfacePng from '../../../assets/api/interface.png';
-import networkPng from '../../../assets/api/network.png';
-import paymentPng from '../../../assets/api/payment.png';
-import cachePng from '../../../assets/api/cache.png';
-import analysisPng from '../../../assets/api/analysis.png';
-import canvasPng from '../../../assets/api/canvas.png';
-import mediaPng from '../../../assets/api/media.png';
-import locationPng from '../../../assets/api/local.png';
-import filePng from '../../../assets/api/file.png';
-import openAPISPng from '../../../assets/api/openapi.png';
-import devicePng from '../../../assets/api/devices.png';
-import aiPng from '../../../assets/api/AI.png';
-import workerPng from '../../../assets/api/worker.png';
-import wxmlPng from '../../../assets/api/wxml.png';
-import thirdPartyPng from '../../../assets/api/thirdparty.png';
-import advertisingPng from '../../../assets/api/advertising.png';
-import cloudServicesPng from '../../../assets/api/cloud.png';
-import alipayPng from '../../../assets/api/alipay.png';
-import qqPng from '../../../assets/api/qq.png';
-import swanPng from '../../../assets/api/swan.png';
-import taroPng from '../../../assets/api/taro.png';
+import Taro from '@tarojs/taro'
+import React from 'react'
+import { View, Text, Image } from '@tarojs/components'
+import logo from '../../../assets/api/logo.png'
+import frameworkPng from '../../../assets/api/frame.png'
+import basicsPng from '../../../assets/api/iphone.png'
+import routingPng from '../../../assets/api/routing.png'
+import redirectionPng from '../../../assets/api/redirection.png'
+import forwardPng from '../../../assets/api/forward.png'
+import interfacePng from '../../../assets/api/interface.png'
+import networkPng from '../../../assets/api/network.png'
+import paymentPng from '../../../assets/api/payment.png'
+import cachePng from '../../../assets/api/cache.png'
+import analysisPng from '../../../assets/api/analysis.png'
+import canvasPng from '../../../assets/api/canvas.png'
+import mediaPng from '../../../assets/api/media.png'
+import locationPng from '../../../assets/api/local.png'
+import filePng from '../../../assets/api/file.png'
+import openAPISPng from '../../../assets/api/openapi.png'
+import devicePng from '../../../assets/api/devices.png'
+import aiPng from '../../../assets/api/AI.png'
+import workerPng from '../../../assets/api/worker.png'
+import wxmlPng from '../../../assets/api/wxml.png'
+import thirdPartyPng from '../../../assets/api/thirdparty.png'
+import advertisingPng from '../../../assets/api/advertising.png'
+import cloudServicesPng from '../../../assets/api/cloud.png'
+import alipayPng from '../../../assets/api/alipay.png'
+import qqPng from '../../../assets/api/qq.png'
+import swanPng from '../../../assets/api/swan.png'
+import taroPng from '../../../assets/api/taro.png'
 
-import TabBarApis from '../tabBarApis/tabBarApis';
-import NavigationBarApis from '../navigationBarApis/navigationBarApis';
+import TabBarApis from '../tabBarApis/tabBarApis'
+import NavigationBarApis from '../navigationBarApis/navigationBarApis'
 
-import './index.scss';
-import { apiName } from './module';
+import './index.scss'
+import { apiName } from './module'
 
 const PNGS = {
   frameworkPng,
@@ -62,7 +62,7 @@ const PNGS = {
   qqPng,
   swanPng,
   taroPng,
-};
+}
 export default class Index extends React.Component {
   constructor(props: never) {
     super(props)
@@ -73,51 +73,35 @@ export default class Index extends React.Component {
           name: '框架',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'basics',
           name: '基础',
           open: false,
-          pages: [
-            'basics',
-            'system',
-            'update',
-            'miniProgram',
-            'debug',
-            'performance',
-            'encryption',
-          ],
-          target:[
-            'basics',
-            'system',
-            'update',
-            'miniProgram',
-            'debug',
-            'performance',
-            'encryption',
-          ], 
+          pages: ['basics', 'system', 'update', 'miniProgram', 'debug', 'performance', 'encryption'],
+          target: ['basics', 'system', 'update', 'miniProgram', 'debug', 'performance', 'encryption'],
         },
         {
           id: 'routing',
           name: '路由',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'redirection',
           name: '跳转',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'forward',
           name: '转发',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'interface',
@@ -137,7 +121,7 @@ export default class Index extends React.Component {
             'menu',
             'windows',
           ],
-          target:[
+          target: [
             'interaction',
             'navigationBar',
             'background',
@@ -150,30 +134,14 @@ export default class Index extends React.Component {
             'customizedComponents',
             'menu',
             'windows',
-          ], 
+          ],
         },
         {
           id: 'network',
           name: '网络',
           open: false,
-          pages: [
-            'request',
-            'download',
-            'upload',
-            'webSocket',
-            'mDNS',
-            'TCPCommunications',
-            'UDPCommunications',
-          ],
-          target:[
-            'request',
-            'download',
-            'upload',
-            'webSocket',
-            'mDNS',
-            'TCPCommunications',
-            'UDPCommunications',
-          ],
+          pages: ['request', 'download', 'upload', 'webSocket', 'mDNS', 'TCPCommunications', 'UDPCommunications'],
+          target: ['request', 'download', 'upload', 'webSocket', 'mDNS', 'TCPCommunications', 'UDPCommunications'],
         },
         {
           id: 'payment',
@@ -187,21 +155,21 @@ export default class Index extends React.Component {
           name: '数据缓存',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'analysis',
           name: '数据分析',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'canvas',
           name: '画布',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'media',
@@ -222,7 +190,7 @@ export default class Index extends React.Component {
             'screenRecorder',
             'videoDecoder',
           ],
-          target:[
+          target: [
             'map',
             'image',
             'video',
@@ -236,21 +204,21 @@ export default class Index extends React.Component {
             'realtimeVoice',
             'screenRecorder',
             'videoDecoder',
-          ], 
+          ],
         },
         {
           id: 'location',
           name: '位置',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'file',
           name: '文件',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'openAPIS',
@@ -277,7 +245,7 @@ export default class Index extends React.Component {
             'wechatGroup',
             'wechatCustomerService',
           ],
-          target:[
+          target: [
             'login',
             'accountInfomation',
             'userInfomation',
@@ -297,7 +265,7 @@ export default class Index extends React.Component {
             'deviceVoip',
             'wechatGroup',
             'wechatCustomerService',
-          ], 
+          ],
         },
         {
           id: 'device',
@@ -328,7 +296,7 @@ export default class Index extends React.Component {
             'sms',
             'vibration',
           ],
-          target:[
+          target: [
             'bluetoothGeneral',
             'bluetoothLowCenter',
             'bluetoothLowPerpherals',
@@ -352,94 +320,83 @@ export default class Index extends React.Component {
             'scan',
             'sms',
             'vibration',
-          ], 
+          ],
         },
         {
           id: 'ai',
           name: 'AI',
           open: false,
-          pages: [
-            'inference',
-            'visionAlgorithms',
-            'faceRecognition',
-          ],
-          target:[
-            'inference',
-            'visionAlgorithms',
-            'faceRecognition',
-          ], 
+          pages: ['inference', 'visionAlgorithms', 'faceRecognition'],
+          target: ['inference', 'visionAlgorithms', 'faceRecognition'],
         },
         {
           id: 'worker',
           name: 'Worker',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'wxml',
           name: 'WXML',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'thirdParty',
           name: '第三方平台',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'advertising',
           name: '广告',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'cloudServices',
           name: '云开发',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'alipay',
           name: 'Alipay',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'qq',
           name: 'QQ',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'swan',
           name: 'Swan',
           open: false,
           pages: [],
-          target:[], 
+          target: [],
         },
         {
           id: 'taro',
           name: 'Taro',
           open: false,
           pages: [],
-          target:[
-            'expand',
-            'hooks',
-          ], 
+          target: ['expand', 'hooks'],
         },
-      ]
+      ],
     }
   }
 
-  kindToggle = e => {
+  kindToggle = (e) => {
     const id = e.currentTarget.id
     const list = this.state.list
     for (var i = 0, len = list.length; i < len; ++i) {
@@ -450,92 +407,81 @@ export default class Index extends React.Component {
       }
     }
     this.setState({
-      list: list
+      list: list,
     })
   }
 
   goToComponent = (page: { url: string }) => {
-    console.log(page);
+    console.log(page)
     Taro.navigateTo({
-      url: page.url
-    });
-  };
+      url: page.url,
+    })
+  }
 
   render() {
-    const { list = [] } = this.state;
+    const { list = [] } = this.state
     return (
       <View className='index'>
         <View className='index-hd'>
           <Image className='index-logo' src={logo} />
           <View className='index-desc'>
-            <Text className='index-desc_text'>
-              以下将展示 Taro 官方接口能力。
-            </Text>
+            <Text className='index-desc_text'>以下将展示 Taro 官方接口能力。</Text>
           </View>
         </View>
         <View className='index-bd'>
           <View className='kind-list'>
-            {list.map(item => {
-              item.hdClass =
-                'kind-list-item-hd ' +
-                (item.open ? 'kind-list-item-hd-show' : '');
-              item.bdClass =
-                'kind-list-item-bd ' +
-                (item.open ? 'kind-list-item-bd-show' : '');
-              item.boxClass =
-                'navigator-box ' + (item.open ? 'navigator-box-show' : '');
-              item.imgSrc = !!PNGS[`${item.id}Png`] ? PNGS[`${item.id}Png`] : '';
-              if (item.target.length != 0) {
-                item._pages = item.target.map(targetPage => {
-                  return {
-                    page: targetPage,
-                    pageName: apiName[targetPage],
-                    url: `/pages/api/${item.id}/${targetPage}/index`,
-                    state: item.pages.includes(targetPage) ? 'done':'undo'
-                  };
-                });
-              } else {
-                item.url =  `/pages/api/${item.id}/index`;
-                item._pages = [];
-              }
-              return item;
-            }).map((item, index) => {
-              return (
-                <View className='kind-list-item' key={index}>
-                  <View
-                    id={item.id}
-                    className={item.hdClass}
-                    onClick={item.target.length == 0 ? this.goToComponent.bind(this, item) : this.kindToggle}
-                  >
-                    <View className='kind-list-text'>
-                      <Text>{item.name}</Text>
+            {list
+              .map((item) => {
+                item.hdClass = 'kind-list-item-hd ' + (item.open ? 'kind-list-item-hd-show' : '')
+                item.bdClass = 'kind-list-item-bd ' + (item.open ? 'kind-list-item-bd-show' : '')
+                item.boxClass = 'navigator-box ' + (item.open ? 'navigator-box-show' : '')
+                item.imgSrc = !!PNGS[`${item.id}Png`] ? PNGS[`${item.id}Png`] : ''
+                if (item.target.length != 0) {
+                  item._pages = item.target.map((targetPage) => {
+                    return {
+                      page: targetPage,
+                      pageName: apiName[targetPage],
+                      url: `/pages/api/${item.id}/${targetPage}/index`,
+                      state: item.pages.includes(targetPage) ? 'done' : 'undo',
+                    }
+                  })
+                } else {
+                  item.url = `/pages/api/${item.id}/index`
+                  item._pages = []
+                }
+                return item
+              })
+              .map((item, index) => {
+                return (
+                  <View className='kind-list-item' key={index}>
+                    <View
+                      id={item.id}
+                      className={item.hdClass}
+                      onClick={item.target.length == 0 ? this.goToComponent.bind(this, item) : this.kindToggle}
+                    >
+                      <View className='kind-list-text'>
+                        <Text>{item.name}</Text>
+                      </View>
+                      <Image className='kind-list-img' src={item.imgSrc} />
                     </View>
-                    <Image className='kind-list-img' src={item.imgSrc} />
-                  </View>
-                  <View className={item.bdClass}>
-                    <View className={item.boxClass}>
-                      {item._pages.map((page, index) => {
-                        return (
-                          <View
-                            onClick={this.goToComponent.bind(this, page)}
-                            key={index}
-                            className='navigator'
-                          >
-                            <Text className='navigator-text'>
-                              {page.pageName}
-                              {
-                                page.state == 'undo' && (<Text className='navigator-state tag'>未创建Demo</Text>)
-                              }
-                            </Text>
-                            <View className='navigator-arrow' />
-                          </View>
-                        );
-                      })}
+                    <View className={item.bdClass}>
+                      <View className={item.boxClass}>
+                        {item._pages.map((page, index) => {
+                          return (
+                            <View onClick={this.goToComponent.bind(this, page)} key={index} className='navigator'>
+                              <Text className='navigator-text'>
+                                {page.pageName}
+                                {page.state == 'undo' && <Text className='navigator-state tag'>未创建Demo</Text>}
+                              </Text>
+                              <View className='navigator-arrow' />
+                            </View>
+                          )
+                        })}
+                      </View>
                     </View>
                   </View>
-                </View>
-              );
-            })}
+                )
+              })}
           </View>
         </View>
         {/* <TabBarApis />

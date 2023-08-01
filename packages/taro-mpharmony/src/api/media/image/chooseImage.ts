@@ -16,7 +16,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     return Promise.reject(res)
   }
 
-  let {
+  const {
     count = 9,
     success,
     fail,
@@ -27,8 +27,8 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
   } = options
 
   const handle = new MethodHandler<{
-    tempFilePaths?: string[],
-    tempFiles?: Taro.chooseImage.ImageFile[],
+    tempFilePaths?: string[]
+    tempFiles?: Taro.chooseImage.ImageFile[]
     errMsg?: string
   }>({ name, success, fail, complete })
 

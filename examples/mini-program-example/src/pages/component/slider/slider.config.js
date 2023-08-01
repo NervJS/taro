@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Slider组件'
+  navigationBarTitleText: 'Slider组件',
 }

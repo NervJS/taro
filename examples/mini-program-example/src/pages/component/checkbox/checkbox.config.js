@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: 'Checkbox组件'
+  navigationBarTitleText: 'Checkbox组件',
 }

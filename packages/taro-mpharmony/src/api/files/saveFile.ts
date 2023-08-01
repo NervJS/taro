@@ -13,7 +13,7 @@ export const saveFile: typeof Taro.saveFile = (options) => {
       console.error(res.errMsg)
       return reject(res)
     }
-    const{
+    const {
       tempFilePath,
       filePath,
       success,
@@ -40,7 +40,7 @@ export const saveFile: typeof Taro.saveFile = (options) => {
     // @ts-ignore
     const ret = native.saveFile({
       tempFilePath: tempFilePath,
-      filePath:filePath,
+      filePath: filePath,
       success: (res: any) => {
         return handle.success(res)
       },

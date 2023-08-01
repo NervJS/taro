@@ -37,9 +37,9 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
-  const is = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'is');
-  const data = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'data');
-  const name = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'name');
+  const is = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'is')
+  const data = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'data')
+  const name = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'name')
 
   const refIds = new Set<string>()
   const loopIds = new Set<string>() 
@@ -168,8 +168,8 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
 export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type: 'include' | 'import') {
   const openingElement = jsx.get('openingElement')
   const attrs = openingElement.get('attributes')
-  //const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
-  //Fix
+  // const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
+  // Fix
   const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'src')
   if (!src) {
     throw new Error(`${type} 标签必须包含 \`src\` 属性`)

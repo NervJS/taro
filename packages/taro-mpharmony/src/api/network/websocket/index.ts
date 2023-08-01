@@ -12,17 +12,16 @@ export function sendSocketMessage (options?: Taro.sendSocketMessage.Option) {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const { data, complete, success, fail} = options as Exclude<typeof options, undefined>
-  const handle = new MethodHandler({ name:'sendSocketMessage', success, fail, complete })
+  const { data, complete, success, fail } = options as Exclude<typeof options, undefined>
+  const handle = new MethodHandler({ name: 'sendSocketMessage', success, fail, complete })
 
-  console.log('send socket message')
   // @ts-ignore
   const ret = native.sendSocketMessage({
-    data:data,
-    success:()=>{
+    data: data,
+    success: () => {
       return handle.success
     },
-    fail:()=>{
+    fail: () => {
       return handle.fail({
         errMsg: getParameterError({
           para: 'data',
@@ -32,31 +31,27 @@ export function sendSocketMessage (options?: Taro.sendSocketMessage.Option) {
       })
     }
   })
-  return ret;
+  return ret
 }
 
 export function onSocketOpen (callback?: Taro.onSocketOpen.Callback) {
   // @ts-expect-error
   native.onSocketOpen(callback)
-  console.log('open socket')
 }
 
 export function onSocketMessage (callback?: Taro.onSocketMessage.Callback) {
   // @ts-ignore
   native.onSocketMessage(callback)
-  console.log('on socket message')
 }
 
 export function onSocketError (callback?: Taro.onSocketError.Callback) {
   // @ts-ignore
   native.onSocketError(callback)
-  console.log('on socket error')
 }
 
 export function onSocketClose (callback?: Taro.onSocketClose.Callback) {
   // @ts-ignore
   native.onSocketClose(callback)
-  console.log('on socket close')
 }
 
 export function connectSocket (options?: Taro.connectSocket.Option) {
@@ -124,18 +119,17 @@ export function closeSocket (options?: Taro.closeSocket.Option) {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const { code, reason, complete, success, fail} = options as Exclude<typeof options, undefined>
-  const handle = new MethodHandler({ name:'closeSocket', success, fail, complete })
+  const { code, reason, complete, success, fail } = options as Exclude<typeof options, undefined>
+  const handle = new MethodHandler({ name: 'closeSocket', success, fail, complete })
 
-  console.log('close socket')
   // @ts-ignore
-  const ret = native.closeSocket({
-    code:code,
-    reason:reason,
-    success:()=>{
+  native.closeSocket({
+    code: code,
+    reason: reason,
+    success: () => {
       return handle.success
     },
-    fail:()=>{
+    fail: () => {
       return handle.fail({
         errMsg: getParameterError({
           para: 'reason',

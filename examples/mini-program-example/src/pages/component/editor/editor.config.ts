@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: 'Editor组件'
+  navigationBarTitleText: 'Editor组件',
 })

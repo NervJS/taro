@@ -36,7 +36,7 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        handle.fail(err, { resolve, reject})
+        handle.fail(err, { resolve, reject })
       }
     })
   })

@@ -25,11 +25,11 @@ export const login: typeof Taro.login = (options) => {
   // @ts-ignore
   const ret = native.authorize({
     // @ts-ignore
-    appid:options.appid,
+    appid: options.appid,
     // @ts-ignore
-    type:options.type || 'code',
+    type: options.type || 'code',
     // @ts-ignore
-    scope:options.scope || 'scope.baseProfile',
+    scope: options.scope || 'scope.baseProfile',
     timeout: timeout,
     success: (res: any) => {
       return handle.success(res)

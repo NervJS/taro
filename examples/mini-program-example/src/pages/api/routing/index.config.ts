@@ -1,3 +1,3 @@
 export default {
-    navigationBarTitleText: '路由',
+  navigationBarTitleText: '路由',
 }
