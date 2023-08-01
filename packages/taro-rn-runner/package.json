@@ -58,7 +58,7 @@
     "react-native": "^0.70.5",
     "react-native-root-siblings": "^4.1.1",
     "react-test-renderer": "18.1.0",
-    "rollup": "^2.79.0",
+    "rollup": "^3.27.0",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"
   }
