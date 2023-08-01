@@ -34,6 +34,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@preact/preset-vite": "^2.5.0",
     "@prefresh/babel-plugin": "^0.4.1",

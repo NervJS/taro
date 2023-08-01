@@ -235,7 +235,10 @@ export function resolveSync(id: string, opts: TResolve.SyncOpts & { mainFields?:
   }
 }
 
-export function resolveMainFilePath(p: string, extArrs = SCRIPT_EXT): string {
+export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
+  if (p.startsWith('pages/') || p === 'app.config') {
+    return p
+  }
   const realPath = p
   const taroEnv = process.env.TARO_ENV
   for (let i = 0; i < extArrs.length; i++) {
@@ -258,6 +261,11 @@ export function resolveMainFilePath(p: string, extArrs = SCRIPT_EXT): string {
       return `${p}${path.sep}index${item}`
     }
   }
+  // 存在多端页面但是对应的多端页面配置不存在时，使用该页面默认配置
+  if (taroEnv && path.parse(p).base.endsWith(`.${taroEnv}.config`)) {
+    const idx = p.lastIndexOf(`.${taroEnv}.config`)
+    return resolveMainFilePath(p.slice(0, idx) + '.config')
+  }
   return realPath
 }
 
@@ -265,7 +273,7 @@ export function resolveScriptPath(p: string): string {
   return resolveMainFilePath(p)
 }
 
-export function generateEnvList(env: Record<string, any>): Record<string, any> {
+export function generateEnvList (env: Record<string, any>): Record<string, any> {
   const res = {}
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
@@ -279,7 +287,7 @@ export function generateEnvList(env: Record<string, any>): Record<string, any> {
   return res
 }
 
-export function generateConstantsList(constants: Record<string, any>): Record<string, any> {
+export function generateConstantsList (constants: Record<string, any>): Record<string, any> {
   const res = {}
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
@@ -364,7 +372,7 @@ export function getInstalledNpmPkgVersion(pkgName: string, basedir: string): str
   return fs.readJSONSync(pkgPath).version
 }
 
-export const recursiveMerge = <T = any>(src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
+export const recursiveMerge = <T = any> (src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
   return mergeWith(src, ...args, (value, srcValue) => {
     const typeValue = typeof value
     const typeSrcValue = typeof srcValue

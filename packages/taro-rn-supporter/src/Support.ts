@@ -7,7 +7,7 @@ import { ConditionalFileStore } from './conditional-file-store'
 import { assetExts } from './defaults'
 import { getReactNativeVersion, handleFile, handleTaroFile, searchReactNativeModule } from './taroResolver'
 import { TerminalReporter } from './terminal-reporter'
-import { getProjectConfig, getRNConfig } from './utils'
+import { getBlockList, getProjectConfig, getRNConfig } from './utils'
 
 const reactNativePath: string = resolveReactNativePath(findProjectRoot())
 
@@ -43,6 +43,7 @@ export function getTransformer (opt: Options = {}) {
 
 export function getResolver (opt: Options = {}) {
   const rnConfig = getRNConfig()
+  const blockList = getBlockList()
   const handleEntryFile = (opt.fromRunner ?? true) ? handleTaroFile : handleFile
   const resolver: any = {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
@@ -52,6 +53,9 @@ export function getResolver (opt: Options = {}) {
   if (rnConfig.enableSvgTransform) {
     resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
     resolver.sourceExts.push('svg')
+  }
+  if (blockList.length > 0){
+    resolver.blockList = blockList
   }
   // 兼容0.60
   const rnVersion = getReactNativeVersion()

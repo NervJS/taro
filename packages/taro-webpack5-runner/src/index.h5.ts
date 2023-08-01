@@ -20,8 +20,9 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   await combination.make()
 
   const { chunkDirectory = 'chunk', devServer, enableSourceMap, entryFileName = 'app', entry = {}, publicPath } = combination.config
+  let prebundle: Prebundle | null = null
   if (!combination.isBuildNativeComp) {
-    const prebundle = new Prebundle({
+    prebundle = new Prebundle({
       appPath,
       sourceRoot: combination.sourceRoot,
       chain: combination.chain,
@@ -48,6 +49,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   try {
     if (!isWatch) {
       const compiler = webpack(webpackConfig)
+      prebundle?.postCompilerStart(compiler)
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
         if (isFunction(config.modifyBuildAssets)) {
           await config.modifyBuildAssets(compilation.assets)
@@ -93,6 +95,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 
       const compiler = webpack(webpackConfig)
       const server = new WebpackDevServer(webpackConfig.devServer, compiler)
+      prebundle?.postCompilerStart(compiler)
       bindDevLogger(compiler, devUrl)
 
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {

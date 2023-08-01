@@ -188,7 +188,22 @@ function includes (filePath: string): boolean {
   return Boolean(res)
 }
 
+// 获取resolver 需要过滤的文件
+function getBlockList (){
+  const regExp: Array<RegExp> = []
+  const config = getProjectConfig()
+  const srcDir = config?.sourceRoot ?? 'src'
+  const path = `${process.cwd()}/${srcDir}/app.config`
+  const configPath = helper.resolveMainFilePath(path)
+  const appConfig = helper.readConfig(configPath)
+  if ( appConfig?.pages?.length === 1 && !!appConfig?.rn?.singleMode){
+    regExp.push(/@tarojs\/router-rn/)
+  }
+  return regExp
+}
+
 export {
+  getBlockList,
   getProjectConfig,
   getRNConfig,
   includes,
@@ -196,8 +211,7 @@ export {
   isTaroRunner,
   resolveExtFile,
   resolvePathFromAlias,
-  setFromRunner
-}
+  setFromRunner }
 
 export function getOpenHost () {
   let result

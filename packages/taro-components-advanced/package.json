@@ -23,9 +23,11 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/components": "workspace:*",
-    "@tarojs/shared": "workspace:*",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "classnames": "^2.2.5",
+    "csstype": "^3.1.1",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.18"
   },

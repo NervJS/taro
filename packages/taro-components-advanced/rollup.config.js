@@ -11,6 +11,9 @@ export default {
     'src/components/virtual-list/index.ts',
     'src/components/virtual-list/react/index.ts',
     'src/components/virtual-list/vue/index.ts',
+    'src/components/virtual-waterfall/index.ts',
+    'src/components/virtual-waterfall/react/index.ts',
+    'src/components/virtual-waterfall/vue/index.ts',
   ],
   output: {
     dir: 'dist',

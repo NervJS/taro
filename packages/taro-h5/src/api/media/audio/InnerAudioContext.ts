@@ -14,6 +14,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     this.Instance = new Audio()
     this.errorStack = new CallbackManager()
     this.stopStack = new CallbackManager()
+    this.Instance.onerror = this.errorStack.trigger
 
     Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
     this.onPlay(() => {
@@ -74,7 +75,6 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   destroy = () => {
     this.stop()
     if (this.Instance) {
-      document.body.removeChild(this.Instance)
       this.Instance = undefined
     }
   }

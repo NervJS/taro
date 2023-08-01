@@ -13,6 +13,7 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
     this.Instance = new Audio()
     this.errorStack = new CallbackManager()
     this.stopStack = new CallbackManager()
+    this.Instance.onerror = this.errorStack.trigger
     this.Instance.autoplay = true
     this.onPlay(() => {
       if (this.currentTime !== this.startTime) {

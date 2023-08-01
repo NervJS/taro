@@ -31,6 +31,8 @@ import type { Compilation, Compiler } from 'webpack'
 import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
+const baseCompName = 'comp'
+const customWrapperName = 'custom-wrapper'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
@@ -255,7 +257,7 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-page' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -479,9 +481,16 @@ export default class TaroMiniPlugin {
     if (main) {
       pluginJSON.main = this.getTargetFilePath(main, '.js')
     }
-    if (publicComponents && isUsingCustomWrapper) {
+
+    if (!this.options.template.isSupportRecursive) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
-        'custom-wrapper': 'custom-wrapper'
+        [baseCompName]: baseCompName
+      })
+    }
+
+    if (isUsingCustomWrapper) {
+      pluginJSON.publicComponents = Object.assign({}, publicComponents, {
+        [customWrapperName]: customWrapperName
       })
     }
   }
@@ -645,8 +654,19 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
+    const { componentGenerics } = fileConfig
     const usingComponents = fileConfig.usingComponents
 
+    if (this.options.isBuildPlugin && componentGenerics) {
+      Object.keys(componentGenerics).forEach(component => {
+        if (componentGenerics[component]) {
+          if (!componentConfig.thirdPartyComponents.has(component)) {
+            componentConfig.thirdPartyComponents.set(component, new Set())
+          }
+        }
+      })
+    }
+  
     // 递归收集依赖的第三方组件
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
@@ -891,8 +911,6 @@ export default class TaroMiniPlugin {
     const { RawSource } = compiler.webpack.sources
     const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
-    const baseCompName = 'comp'
-    const customWrapperName = 'custom-wrapper'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
     /**

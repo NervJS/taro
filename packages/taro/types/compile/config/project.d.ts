@@ -8,7 +8,7 @@ import type { IH5Config } from './h5'
 import type { IMiniAppConfig } from './mini'
 import { IRNConfig } from './rn'
 
-export type PluginItem = string | [string, object] | [string, () => object | Promise<object>]
+export type PluginItem<T = object> = string | [string, T] | [string, () => T | Promise<T>]
 
 interface ICache {
   /**
