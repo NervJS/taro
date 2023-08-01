@@ -24,7 +24,7 @@ import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
-import { analyzeImportUrl, getPkgVersion, incrementId } from './util'
+import { analyzeImportUrl, getPkgVersion, incrementId, searchFile } from './util'
 import { generateMinimalEscapeCode } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
@@ -383,6 +383,21 @@ export default class Convertor {
     }
   }
 
+  //Fix: 在小程序三方件中找到入口 index
+  getModulePath(modulePath) {
+    let parts = modulePath.split('/');
+    let moduleIndex = path.join(this.root, 'node_modules') // node_modules文件夹
+    if (parts.at(-1) === 'index') {
+        parts.pop();
+    } 
+    parts.push('index.js');
+    parts.forEach(part => {
+        const moduleFile = moduleIndex;
+        moduleIndex = searchFile(moduleFile, part);
+    })
+    return moduleIndex;
+  }
+
   getApp () {
     if (this.isTsProject) {
       this.entryJSPath = path.join(this.miniprogramRoot, `app${this.fileTypes.SCRIPT}`)
@@ -403,6 +418,11 @@ export default class Convertor {
           if (using[key].startsWith('plugin://')) continue
           const componentPath = using[key]
           using[key] = path.join(this.root, componentPath)
+          // Fix: 插件依赖目录为 miniprogram_npm，现将其目录改为npm_module
+          if (!fs.existsSync(using[key] + this.fileTypes.SCRIPT)) {
+            const realPath = this.getModulePath(componentPath);
+            using[key] = realPath.slice(0,-3);
+          }
         }
         this.entryUsingComponents = using
         delete this.entryJSON.usingComponents
@@ -683,6 +703,11 @@ ${code}
                   componentPath = path.resolve(pageConfigPath, '..', pageUsingComponents[component])
                   if (!fs.existsSync(resolveScriptPath(componentPath))) {
                     componentPath = path.join(this.root, pageUsingComponents[component])
+                    // Fix: 某些组件不是app.json导入，同样需要适配路径
+                    if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
+                      const realPath = this.getModulePath(pageUsingComponents[component]);
+                      componentPath = realPath.slice(0,-3);
+                    }
                   }
                 }
 
@@ -755,11 +780,11 @@ ${code}
       if (this.hadBeenBuiltComponents.has(component)) return
       this.hadBeenBuiltComponents.add(component)
 
-      const componentJSPath = this.getComponentPath(component, this.fileTypes.SCRIPT)
+      const componentJSPath = component + this.fileTypes.SCRIPT
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
-      const componentConfigPath = this.getComponentPath(component, this.fileTypes.CONFIG)
-      const componentStylePath = this.getComponentPath(component, this.fileTypes.STYLE)
-      const componentTemplPath = this.getComponentPath(component, this.fileTypes.TEMPL)
+      const componentConfigPath = component + this.fileTypes.CONFIG
+      const componentStylePath = component + this.fileTypes.STYLE
+      const componentTemplPath = component + this.fileTypes.TEMPL
 
       try {
         const param: ITaroizeOptions = {}
@@ -779,6 +804,14 @@ ${code}
               let componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
               if (!fs.existsSync(resolveScriptPath(componentPath))) {
                 componentPath = path.join(this.root, componentUsingComponnets[component])
+                //Fix
+                if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
+                  const realPath = this.getModulePath(componentUsingComponnets[component]);
+                  componentPath = realPath.slice(0, -3);
+                }
+              }
+              if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
+                componentPath = path.join(componentPath, `/index`);
               }
               depComponents.add({
                 name: component,
