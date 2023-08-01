@@ -17,11 +17,29 @@ export default class Index extends React.Component {
       },
       {
         id: 'onWindowResize',
-        func: null,
+        func: () => {
+          console.log('onWindowResize')
+          if (!this.listenResize['registered']) {
+            this.listenResize['registered'] = true
+            Taro.onWindowResize(this.listenResize)
+            Taro.showToast({
+              title: '注册监听',
+              icon: 'success',
+            })
+          }
+        },
       },
       {
         id: 'offWindowResize',
-        func: null,
+        func: () => {
+          console.log('offWindowResize')
+          Taro.offWindowResize(this.listenResize)
+          this.listenResize['registered'] = false
+          Taro.showToast({
+            title: '取消注册',
+            icon: 'success',
+          })
+        },
       },
       {
         id: 'checkIsPictureInPictureActive',
@@ -29,6 +47,13 @@ export default class Index extends React.Component {
       },
     ],
   }
+
+  listenResize(res) {
+    Taro.showToast({
+      title: `高:${res.windowHeight},宽${res.windowWidth}`,
+    })
+  }
+
   render() {
     return (
       <View className='api-page'>

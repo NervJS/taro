@@ -80,7 +80,30 @@ export default class Index extends React.Component {
       },
       {
         id: 'showActionSheet',
-        func: null,
+        func: () => {
+          Taro.showActionSheet({
+            alertText: '警示文案',
+            itemList: ['A', 'B', 'C'],
+            itemColor: '#00FF00',
+            success: (res) => {
+              Taro.showToast({
+                title: `选择项目：${res.tapIndex}`,
+                icon: 'success',
+              })
+              TestConsole.consoleSuccess(res)
+            },
+            fail: (res) => {
+              Taro.showToast({
+                title: `失败：${res.errMsg}`,
+                icon: 'error',
+              })
+              TestConsole.consoleFail(res)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+          })
+        },
       },
       {
         id: 'hideToast',
