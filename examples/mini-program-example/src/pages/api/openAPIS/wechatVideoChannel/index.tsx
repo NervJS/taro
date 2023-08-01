@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-字体
+ * 开放接口-视频号
  * @returns
  */
 
@@ -12,7 +12,31 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'loadFontFace',
+        id: 'reserveChannelsLive',
+        func: null,
+      },
+      {
+        id: 'openChannelsUserProfile',
+        func: null,
+      },
+      {
+        id: 'openChannelsLive',
+        func: null,
+      },
+      {
+        id: 'openChannelsEvent',
+        func: null,
+      },
+      {
+        id: 'openChannelsActivity',
+        func: null,
+      },
+      {
+        id: 'getChannelsLiveNoticeInfo',
+        func: null,
+      },
+      {
+        id: 'getChannelsLiveInfo',
         func: null,
       },
     ],

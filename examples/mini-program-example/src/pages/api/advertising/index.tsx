@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 广告
  * @returns
  */
 
@@ -12,51 +12,19 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'env',
+        id: 'createRewardedVideoAd',
         func: null,
       },
       {
-        id: 'canIUse',
+        id: 'createInterstitialAd',
         func: null,
       },
       {
-        id: 'canIuseWebp',
+        id: 'InterstitialAd',
         func: null,
       },
       {
-        id: 'base64ToArrayBuffer',
-        func: null,
-      },
-      {
-        id: 'System',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/basics/system/index',
-          })
-        },
-      },
-      {
-        id: 'Update',
-        func: null,
-      },
-      {
-        id: 'MiniProgram',
-        func: null,
-      },
-      {
-        id: 'Debug',
-        func: null,
-      },
-      {
-        id: 'Performance',
-        func: null,
-      },
-      {
-        id: 'Encryption',
-        func: null,
-      },
-      {
-        id: 'perload',
+        id: 'RewardedVideoAd',
         func: null,
       },
     ],
@@ -66,12 +34,7 @@ export default class Index extends React.Component {
       <View className='api-page'>
         {this.state.list.map((item) => {
           return (
-            <View
-              key={item.id}
-              className='api-page-btn'
-              type='primary'
-              onClick={item.func == null ? () => {} : item.func}
-            >
+            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
               {item.id}
               {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
             </View>

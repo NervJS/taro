@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
+ * 媒体-实时语音
  * @returns
  */
 
@@ -12,7 +12,59 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'nextTick',
+        id: 'updateVoIPChatMuteConfig',
+        func: null,
+      },
+      {
+        id: 'subscribeVoIPVideoMembers',
+        func: null,
+      },
+      {
+        id: 'setEnable1v1Chat',
+        func: null,
+      },
+      {
+        id: 'onVoIPVideoMembersChanged',
+        func: null,
+      },
+      {
+        id: 'onVoIPChatStateChanged',
+        func: null,
+      },
+      {
+        id: 'onVoIPChatSpeakersChanged',
+        func: null,
+      },
+      {
+        id: 'onVoIPChatMembersChanged',
+        func: null,
+      },
+      {
+        id: 'onVoIPChatInterrupted',
+        func: null,
+      },
+      {
+        id: 'offVoIPVideoMembersChanged',
+        func: null,
+      },
+      {
+        id: 'offVoIPChatStateChanged',
+        func: null,
+      },
+      {
+        id: 'offVoIPChatMembersChanged',
+        func: null,
+      },
+      {
+        id: 'offVoIPChatInterrupted',
+        func: null,
+      },
+      {
+        id: 'joinVoIPChat',
+        func: null,
+      },
+      {
+        id: 'exitVoIPChat',
         func: null,
       },
     ],

@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 设备-内存
+ * 开放接口-设置
  * @returns
  */
 
@@ -12,22 +12,20 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'onMemoryWarning',
-        func: () => {
-          Taro.onMemoryWarning(function () {
-            console.log('success on memory warning.')
-            console.log('memory is run out.')
-          })
-        },
+        id: 'openSetting',
+        func: null,
       },
       {
-        id: 'offMemoryWarning',
-        func: () => {
-          Taro.offMemoryWarning(function () {
-            console.log('success off memory warning.')
-            console.log('memory is enough.')
-          })
-        },
+        id: 'getSetting',
+        func: null,
+      },
+      {
+        id: 'AuthSetting',
+        func: null,
+      },
+      {
+        id: 'SubscriptionsSetting',
+        func: null,
       },
     ],
   }

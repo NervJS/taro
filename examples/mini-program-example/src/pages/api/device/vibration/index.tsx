@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-菜单
+ * 设备-震动
  * @returns
  */
 
@@ -12,7 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'getMenuButtonBoundingClientRect',
+        id: 'vibrateShort',
+        func: null,
+      },
+      {
+        id: 'vibrateLong',
         func: null,
       },
     ],

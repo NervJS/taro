@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-交互
+ * 设备-NFC
  * @returns
  */
 
@@ -12,35 +12,67 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'showToast',
+        id: 'stopHCE',
         func: null,
       },
       {
-        id: 'showModal',
+        id: 'startHCE',
         func: null,
       },
       {
-        id: 'showLoading',
+        id: 'sendHCEMessage',
         func: null,
       },
       {
-        id: 'showActionSheet',
+        id: 'onHCEMessage',
         func: null,
       },
       {
-        id: 'hideToast',
+        id: 'offHCEMessage',
         func: null,
       },
       {
-        id: 'hideLoading',
+        id: 'getNFCAdapter',
         func: null,
       },
       {
-        id: 'enableAlertBeforeUnload',
+        id: 'getHCEState',
         func: null,
       },
       {
-        id: 'disableAlertBeforeUnload',
+        id: 'IsoDep',
+        func: null,
+      },
+      {
+        id: 'MifareClassic',
+        func: null,
+      },
+      {
+        id: 'MifareUltralight',
+        func: null,
+      },
+      {
+        id: 'Ndef',
+        func: null,
+      },
+      {
+        id: 'NfcA',
+        func: null,
+      },
+      {
+        id: 'NFCAdapter',
+        func: null,
+      },
+      {
+        id: 'NfcB',
+        func: null,
+      },
+      {
+        id: 'NfcF',
+        func: null,
+      },
+      {
+        id: 'NfcV',
         func: null,
       },
     ],

@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-自定义组件',
+  navigationBarTitleText: '设备-加速器',
 }

@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-置顶
+ * 设备-无障碍
  * @returns
  */
 
@@ -12,7 +12,7 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setTopBarText',
+        id: 'checkIsOpenAccessibility',
         func: null,
       },
     ],

@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-字体
+ * 设备-蓝牙-信标(Beacon)
  * @returns
  */
 
@@ -12,7 +12,35 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'loadFontFace',
+        id: 'stopBeaconDiscovery',
+        func: null,
+      },
+      {
+        id: 'startBeaconDiscovery',
+        func: null,
+      },
+      {
+        id: 'onBeaconUpdate',
+        func: null,
+      },
+      {
+        id: 'onBeaconServiceChange',
+        func: null,
+      },
+      {
+        id: 'offBeaconUpdate',
+        func: null,
+      },
+      {
+        id: 'offBeaconServiceChange',
+        func: null,
+      },
+      {
+        id: 'getBeacons',
+        func: null,
+      },
+      {
+        id: 'IBeaconInfo',
         func: null,
       },
     ],

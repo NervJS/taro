@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 基础
+ * 网络-发起请求
  * @returns
  */
 
@@ -12,7 +12,7 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'Request',
+        id: 'request',
         func: () => {
           Taro.request({
             url: 'www.baidu.com', //仅为示例，并非真实的接口地址
@@ -56,52 +56,16 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'Download',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/network/download/index',
-          })
-        },
+        id: 'RequestTask',
+        func: null,
       },
       {
-        id: 'Upload',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/network/upload/index',
-          })
-        },
+        id: 'addInterceptor',
+        func: null,
       },
       {
-        id: 'WebSocket',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/network/webSocket/index',
-          })
-        },
-      },
-      {
-        id: 'mDNS',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/network/mDNS/index',
-          })
-        },
-      },
-      {
-        id: 'TCPCommunications',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/network/TCPCommunications/index',
-          })
-        },
-      },
-      {
-        id: 'UDPCommunications',
-        func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/network/UDPCommunications/index',
-          })
-        },
+        id: 'cleanInterceptors',
+        func: null,
       },
     ],
   }

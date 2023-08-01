@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 位置-位置更新
+ * 位置
  * @returns
  */
 

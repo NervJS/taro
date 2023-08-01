@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-窗口',
+  navigationBarTitleText: '开放接口-微信运动',
 }

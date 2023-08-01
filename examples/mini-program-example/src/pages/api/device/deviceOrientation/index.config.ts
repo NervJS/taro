@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-下拉更新',
+  navigationBarTitleText: '设备-设备方向',
 }

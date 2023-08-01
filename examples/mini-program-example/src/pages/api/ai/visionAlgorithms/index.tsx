@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-置顶
+ * AI-视觉算法
  * @returns
  */
 
@@ -12,7 +12,27 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setTopBarText',
+        id: 'isVKSupport',
+        func: null,
+      },
+      {
+        id: 'createVKSession',
+        func: null,
+      },
+      {
+        id: 'VKAnchor',
+        func: null,
+      },
+      {
+        id: 'VKCamera',
+        func: null,
+      },
+      {
+        id: 'VKFrame',
+        func: null,
+      },
+      {
+        id: 'VKSession',
         func: null,
       },
     ],

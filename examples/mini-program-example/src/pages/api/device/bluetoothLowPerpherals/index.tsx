@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
+ * 设备-蓝牙-低功耗外围设备
  * @returns
  */
 
@@ -12,7 +12,19 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'nextTick',
+        id: 'onBLEPeripheralConnectionStateChanged',
+        func: null,
+      },
+      {
+        id: 'offBLEPeripheralConnectionStateChanged',
+        func: null,
+      },
+      {
+        id: 'createBLEPeripheralServer',
+        func: null,
+      },
+      {
+        id: 'BLEPeripheralServer',
         func: null,
       },
     ],

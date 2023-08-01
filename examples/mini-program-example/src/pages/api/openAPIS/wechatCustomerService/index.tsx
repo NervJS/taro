@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
+ * 开放接口-微信客服
  * @returns
  */
 
@@ -12,7 +12,7 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'nextTick',
+        id: 'openCustomerServiceChat',
         func: null,
       },
     ],

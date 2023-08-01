@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-下拉更新
+ * 设备-设备方向
  * @returns
  */
 
@@ -12,42 +12,20 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'stopPullDownRefresh',
-        func: () => {
-          Taro.stopPullDownRefresh({
-            success(res) {
-              Taro.hideToast()
-              console.log(res, new Date())
-            },
-            fail(res) {
-              Taro.hideToast()
-              console.log(res, new Date())
-            },
-            complete(res) {
-              Taro.hideToast()
-              console.log(res, new Date())
-            },
-          })
-        },
+        id: 'stopDeviceMotionListening',
+        func: null,
       },
       {
-        id: 'startPullDownRefresh',
-        func: () => {
-          Taro.startPullDownRefresh({
-            success(res) {
-              Taro.hideToast()
-              console.log(res, new Date())
-            },
-            fail(res) {
-              Taro.hideToast()
-              console.log(res, new Date())
-            },
-            complete(res) {
-              Taro.hideToast()
-              console.log(res, new Date())
-            },
-          })
-        },
+        id: 'startDeviceMotionListening',
+        func: null,
+      },
+      {
+        id: 'onDeviceMotionChange',
+        func: null,
+      },
+      {
+        id: 'offDeviceMotionChange',
+        func: null,
       },
     ],
   }

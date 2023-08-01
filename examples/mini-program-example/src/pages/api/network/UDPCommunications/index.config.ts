@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-窗口',
+  navigationBarTitleText: '网络-UDP 通信',
 }

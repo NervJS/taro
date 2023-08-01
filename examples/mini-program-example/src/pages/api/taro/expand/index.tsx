@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 设备-电池
+ * Taro-拓展
  * @returns
  */
 
@@ -12,31 +12,54 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'getBatteryInfo',
-        func: () => {
-          Taro.getBatteryInfo({
-            success: (res) => {
-              console.log('success-----', res)
-              this.setState({
-                batteryInfo: res,
-              })
-            },
-          })
-        },
+        id: 'eventCenter',
+        func: null,
       },
       {
-        id: 'getBatteryInfoSync',
+        id: 'getEnv',
+        func: null,
+      },
+      {
+        id: 'pxTransform',
+        func: null,
+      },
+      {
+        id: 'initPxTransform',
+        func: null,
+      },
+      {
+        id: 'getAppInfo',
+        func: null,
+      },
+      {
+        id: 'getRenderer',
+        func: null,
+      },
+      {
+        id: 'requirePlugin',
+        func: null,
+      },
+      {
+        id: 'getCurrentInstance',
+        func: null,
+      },
+      {
+        id: 'setGlobalDataPlugin',
+        func: null,
+      },
+      {
+        id: 'getTabBar',
+        func: null,
+      },
+      {
+        id: 'interceptorify',
         func: null,
       },
     ],
-    batteryInfo: {},
   }
   render() {
-    const { list, batteryInfo } = this.state
     return (
       <View className='api-page'>
-        <View>是否正在充电：{batteryInfo.isCharging ? '是' : '否'}</View>
-        <View>设备电量：{batteryInfo.level}%</View>
         {this.state.list.map((item) => {
           return (
             <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>

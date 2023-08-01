@@ -8,7 +8,6 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
   errorStack: CallbackManager
   stopStack: CallbackManager
   __startTime = 0
-  __isFirstPlay = true
 
   constructor () {
     this.Instance = new Audio()
@@ -16,8 +15,7 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
     this.stopStack = new CallbackManager()
     this.Instance.autoplay = true
     this.onPlay(() => {
-      if (this.__isFirstPlay) {
-        this.__isFirstPlay = false
+      if (this.currentTime !== this.startTime) {
         this.seek(this.startTime)
       }
     })

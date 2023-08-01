@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
+ * 设备-加速器
  * @returns
  */
 
@@ -12,7 +12,19 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'nextTick',
+        id: 'stopAccelerometer',
+        func: null,
+      },
+      {
+        id: 'startAccelerometer',
+        func: null,
+      },
+      {
+        id: 'onAccelerometerChange',
+        func: null,
+      },
+      {
+        id: 'offAccelerometerChange',
         func: null,
       },
     ],

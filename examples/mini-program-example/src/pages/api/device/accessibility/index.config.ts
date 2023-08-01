@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-置顶',
+  navigationBarTitleText: '设备-无障碍',
 }

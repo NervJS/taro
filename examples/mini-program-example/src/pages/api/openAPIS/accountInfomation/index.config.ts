@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '设备-电话',
+  navigationBarTitleText: '开放接口-账户信息',
 }

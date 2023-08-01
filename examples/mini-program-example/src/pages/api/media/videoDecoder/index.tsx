@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
+ * 媒体-视频解码器
  * @returns
  */
 
@@ -12,7 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'nextTick',
+        id: 'createVideoDecoder',
+        func: null,
+      },
+      {
+        id: 'VideoDecoder',
         func: null,
       },
     ],

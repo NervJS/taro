@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-背景
+ * 开放接口-我的小程序
  * @returns
  */
 
@@ -12,11 +12,7 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setBackgroundTextStyle',
-        func: null,
-      },
-      {
-        id: 'setBackgroundColor',
+        id: 'checkIsAddedToMyMiniProgram',
         func: null,
       },
     ],

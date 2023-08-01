@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-窗口
+ * 设备-罗盘
  * @returns
  */
 
@@ -12,19 +12,19 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setWindowSize',
+        id: 'stopCompass',
         func: null,
       },
       {
-        id: 'onWindowResize',
+        id: 'startCompass',
         func: null,
       },
       {
-        id: 'offWindowResize',
+        id: 'onCompassChange',
         func: null,
       },
       {
-        id: 'checkIsPictureInPictureActive',
+        id: 'offCompassChange',
         func: null,
       },
     ],

@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-字体',
+  navigationBarTitleText: '开放接口-视频号',
 }

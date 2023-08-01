@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-背景',
+  navigationBarTitleText: '开放接口-我的小程序',
 }

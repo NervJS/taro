@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-窗口
+ * 开放接口-微信运动
  * @returns
  */
 
@@ -12,19 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setWindowSize',
+        id: 'shareToWeRun',
         func: null,
       },
       {
-        id: 'onWindowResize',
-        func: null,
-      },
-      {
-        id: 'offWindowResize',
-        func: null,
-      },
-      {
-        id: 'checkIsPictureInPictureActive',
+        id: 'getWeRunData',
         func: null,
       },
     ],

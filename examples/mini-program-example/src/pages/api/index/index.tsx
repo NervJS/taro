@@ -111,7 +111,7 @@ export default class Index extends React.Component {
             'interaction',
             'navigationBar',
             'background',
-            'tabBar',
+            // 'tabBar',
             'font',
             'pullDownRefresh',
             'scroll',
@@ -125,7 +125,7 @@ export default class Index extends React.Component {
             'interaction',
             'navigationBar',
             'background',
-            'tabBar',
+            // 'tabBar',
             'font',
             'pullDownRefresh',
             'scroll',
@@ -412,7 +412,6 @@ export default class Index extends React.Component {
   }
 
   goToComponent = (page: { url: string }) => {
-    console.log(page)
     Taro.navigateTo({
       url: page.url,
     })

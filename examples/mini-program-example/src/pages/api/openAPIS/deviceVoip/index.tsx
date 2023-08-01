@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-滚动
+ * 开放接口-音视频通话设备
  * @returns
  */
 
@@ -12,11 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'pageScrollTo',
+        id: 'requestDeviceVolP',
         func: null,
       },
       {
-        id: 'ScrollViewContext',
+        id: 'getDeviceVolPList',
         func: null,
       },
     ],

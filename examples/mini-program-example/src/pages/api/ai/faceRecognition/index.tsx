@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 设备-电池
+ * AI-人脸识别
  * @returns
  */
 
@@ -12,32 +12,36 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'getBatteryInfo',
-        func: () => {
-          Taro.getBatteryInfo({
-            success: (res) => {
-              console.log('success-----', res)
-              this.setState({
-                batteryInfo: res,
-              })
-            },
-          })
-        },
+        id: 'stopFaceDetect',
+        func: null,
       },
       {
-        id: 'getBatteryInfoSync',
+        id: 'initFaceDetect',
+        func: null,
+      },
+      {
+        id: 'faceDetect',
+        func: null,
+      },
+      {
+        id: 'checkIsSupportFacialRecognition',
+        func: null,
+      },
+      {
+        id: 'startFacialRecognitionVerify',
+        func: null,
+      },
+      {
+        id: 'startFacialRecognitionVerifyAndUploadVideo',
         func: null,
       },
     ],
-    batteryInfo: {},
   }
   render() {
-    const { list, batteryInfo } = this.state
+    const { list } = this.state
     return (
       <View className='api-page'>
-        <View>是否正在充电：{batteryInfo.isCharging ? '是' : '否'}</View>
-        <View>设备电量：{batteryInfo.level}%</View>
-        {this.state.list.map((item) => {
+        {list.map((item) => {
           return (
             <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
               {item.id}

@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-字体
+ * 媒体-音视频合成
  * @returns
  */
 
@@ -12,7 +12,15 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'loadFontFace',
+        id: 'createMediaContainer',
+        func: null,
+      },
+      {
+        id: 'MediaContainer',
+        func: null,
+      },
+      {
+        id: 'MediaTrack',
         func: null,
       },
     ],

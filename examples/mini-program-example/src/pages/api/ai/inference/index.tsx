@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-自定义组件
+ * AI-推理
  * @returns
  */
 
@@ -12,7 +12,15 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'nextTick',
+        id: 'getInferenceEnvInfo',
+        func: null,
+      },
+      {
+        id: 'createInferenceSession',
+        func: null,
+      },
+      {
+        id: 'InferenceSession',
         func: null,
       },
     ],

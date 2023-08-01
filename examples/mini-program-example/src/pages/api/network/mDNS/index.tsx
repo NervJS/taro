@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-置顶
+ * 网络-mDNS
  * @returns
  */
 
@@ -12,7 +12,43 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setTopBarText',
+        id: 'stopLocalServiceDiscovery',
+        func: null,
+      },
+      {
+        id: 'startLocalServiceDiscovery',
+        func: null,
+      },
+      {
+        id: 'onLocalServiceResolveFail',
+        func: null,
+      },
+      {
+        id: 'onLocalServiceLost',
+        func: null,
+      },
+      {
+        id: 'onLocalServiceFound',
+        func: null,
+      },
+      {
+        id: 'onLocalServiceDiscoveryStop',
+        func: null,
+      },
+      {
+        id: 'offLocalServiceResolveFail',
+        func: null,
+      },
+      {
+        id: 'offLocalServiceLost',
+        func: null,
+      },
+      {
+        id: 'offLocalServiceFound',
+        func: null,
+      },
+      {
+        id: 'offLocalServiceDiscoveryStop',
         func: null,
       },
     ],

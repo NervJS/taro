@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-Tab Bar
+ * 网络-TCP 通信
  * @returns
  */
 
@@ -12,35 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'showTabBarRedDot',
+        id: 'createTCPSocket',
         func: null,
       },
       {
-        id: 'showTabBar',
-        func: null,
-      },
-      {
-        id: 'setTabBarStyle',
-        func: null,
-      },
-      {
-        id: 'setTabBarItem',
-        func: null,
-      },
-      {
-        id: 'setTabBarBadge',
-        func: null,
-      },
-      {
-        id: 'removeTabBarBadge',
-        func: null,
-      },
-      {
-        id: 'hideTabBarRedDot',
-        func: null,
-      },
-      {
-        id: 'hideTabBar',
+        id: 'TCPSocket',
         func: null,
       },
     ],

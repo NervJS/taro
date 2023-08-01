@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-置顶
+ * 开放接口-微信群
  * @returns
  */
 
@@ -12,7 +12,7 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setTopBarText',
+        id: 'getGroupEnterInfo',
         func: null,
       },
     ],

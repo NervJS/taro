@@ -22,7 +22,6 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
         this.seek(this.startTime)
       }
     })
-    document.body.appendChild(this.Instance)
   }
 
   set autoplay (e) { this.setProperty('autoplay', e) }

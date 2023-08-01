@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-置顶',
+  navigationBarTitleText: 'AI-视觉算法',
 }

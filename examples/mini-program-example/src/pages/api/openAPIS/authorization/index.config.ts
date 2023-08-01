@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-导航栏',
+  navigationBarTitleText: '开放接口-授权',
 }

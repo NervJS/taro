@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-导航栏
+ * 设备-网络
  * @returns
  */
 
@@ -12,23 +12,27 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'showNavigationBarLoading',
+        id: 'onNetworkWeakChange',
         func: null,
       },
       {
-        id: 'setNavigationBarTitle',
+        id: 'onNetworkStatusChange',
         func: null,
       },
       {
-        id: 'setNavigationBarColor',
+        id: 'offNetworkWeakChange',
         func: null,
       },
       {
-        id: 'hideNavigationBarLoading',
+        id: 'offNetworkStatusChange',
         func: null,
       },
       {
-        id: 'hideHomeButton',
+        id: 'getNetworkType',
+        func: null,
+      },
+      {
+        id: 'getLocalIPAddress',
         func: null,
       },
     ],

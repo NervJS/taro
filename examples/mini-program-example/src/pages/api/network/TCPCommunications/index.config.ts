@@ -1,3 +1,3 @@
 export default {
-  navigationBarTitleText: '界面-Tab Bar',
+  navigationBarTitleText: '网络-TCP 通信',
 }

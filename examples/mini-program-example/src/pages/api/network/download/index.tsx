@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-导航栏
+ * 网络-下载
  * @returns
  */
 
@@ -12,23 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'showNavigationBarLoading',
+        id: 'downloadFile',
         func: null,
       },
       {
-        id: 'setNavigationBarTitle',
-        func: null,
-      },
-      {
-        id: 'setNavigationBarColor',
-        func: null,
-      },
-      {
-        id: 'hideNavigationBarLoading',
-        func: null,
-      },
-      {
-        id: 'hideHomeButton',
+        id: 'DownloadTask',
         func: null,
       },
     ],

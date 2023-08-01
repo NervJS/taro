@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-下拉更新
+ * 网络-上传
  * @returns
  */
 
@@ -12,11 +12,11 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'stopPullDownRefresh',
+        id: 'uploadFile',
         func: null,
       },
       {
-        id: 'startPullDownRefresh',
+        id: 'UploadTask',
         func: null,
       },
     ],

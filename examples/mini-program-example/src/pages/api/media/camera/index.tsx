@@ -4,7 +4,7 @@ import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 媒体-相机组件管理
+ * 媒体-相机
  * @returns
  */
 let cameraContext

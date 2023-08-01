@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 设备-陀螺仪
+ * 开放接口-卡券
  * @returns
  */
 
@@ -12,40 +12,12 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'stopGyroscope',
-        func: () => {
-          Taro.stopGyroscope({
-            success: (res) => {
-              console.log('success-----', res)
-            },
-          })
-        },
+        id: 'openCard',
+        func: null,
       },
       {
-        id: 'startGyroscope',
-        func: () => {
-          Taro.startGyroscope({
-            success: (res) => {
-              console.log('success-----', res)
-            },
-          })
-        },
-      },
-      {
-        id: 'onGyroscopeChange',
-        func: () => {
-          Taro.onGyroscopeChange((res) => {
-            console.log('on gyroscope change: ', res)
-          })
-        },
-      },
-      {
-        id: 'offGyroscopeChange',
-        func: () => {
-          Taro.offGyroscopeChange((res) => {
-            console.log('off gyroscope change: ', res)
-          })
-        },
+        id: 'addCard',
+        func: null,
       },
     ],
   }

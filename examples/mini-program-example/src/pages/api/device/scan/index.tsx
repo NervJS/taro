@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 
 /**
- * 界面-交互
+ * 设备-扫码
  * @returns
  */
 
@@ -12,35 +12,7 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'showToast',
-        func: null,
-      },
-      {
-        id: 'showModal',
-        func: null,
-      },
-      {
-        id: 'showLoading',
-        func: null,
-      },
-      {
-        id: 'showActionSheet',
-        func: null,
-      },
-      {
-        id: 'hideToast',
-        func: null,
-      },
-      {
-        id: 'hideLoading',
-        func: null,
-      },
-      {
-        id: 'enableAlertBeforeUnload',
-        func: null,
-      },
-      {
-        id: 'disableAlertBeforeUnload',
+        id: 'scanCode',
         func: null,
       },
     ],
