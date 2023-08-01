@@ -54,9 +54,10 @@ describe('info', () => {
     expect('Binaries' in info).toBeTruthy()
     // envinfo 还不支持 yarn workspace
     // expect('npmPackages' in info).toBeTruthy()
-    // windows 操作系统可能不存在 System.Shell
-    expect(Object.keys(info.System)).toContain('OS')
-    expect(Object.keys(info.Binaries)).toEqual(['Node', 'Yarn', 'npm'])
+    // Note: windows 操作系统可能不存在 System.Shell
+    expect(Object.keys(info.System)).toEqual(expect.arrayContaining(['OS']))
+    // Note: 环境内可能不包括 Yarn
+    expect(Object.keys(info.Binaries)).toEqual(expect.arrayContaining(['Node', 'npm']))
     // expect(info.npmPackages.hasOwnProperty('@tarojs/helper')).toBeTruthy()
     // expect(info.npmPackages.hasOwnProperty('@tarojs/mini-runner')).toBeTruthy()
     // expect(info.npmPackages.hasOwnProperty('@tarojs/service')).toBeTruthy()
