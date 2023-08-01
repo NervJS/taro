@@ -114,10 +114,10 @@ export default class ListMap {
 
   updateColumns (columns = 2) {
     if (!this.isNormalMode && this._columns !== columns) {
-      this._columns = columns
-      this._columnMap = new Array(this._columns).fill(0).map(() => [])
+      this._columnMap = new Array(columns).fill(0).map(() => [])
       this._items = []
     }
+    this._columns = columns
   }
 
   updateItem (itemIndex: number) {
