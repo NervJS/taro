@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
+import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 import {
   printLog,
   processTypeEnum
 } from '@tarojs/helper'
-import { parse as parseFile } from 'babylon'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
 
@@ -785,6 +785,7 @@ function parseText (node: Text, tagName?: string) {
   return t.jSXExpressionContainer(buildTemplate(content))
 }
 
+// 匹配{{content}}
 const handlebarsRE = /\{\{((?:.|\n)+?)\}\}/g
 
 function singleQuote (s: string) {
