@@ -1,13 +1,13 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Video } from '@tarojs/components'
 import './index.scss'
 
 /**
  * 媒体-视频
  * @returns
  */
-
+let videoContext
 export default class Index extends React.Component {
   state = {
     list: [
@@ -30,6 +30,8 @@ export default class Index extends React.Component {
                 complete: function (res) {
                   console.log('saveVideoToPhotosAlbum complete ', res.errMsg)
                 },
+              }).then((ret) => {
+                console.log('saveVideoToPhotosAlbum ret ', ret)
               })
             },
           })
@@ -51,6 +53,8 @@ export default class Index extends React.Component {
                 fail(res) {
                   console.log('openVideoEditor fail ', res)
                 },
+              }).then((ret) => {
+                console.log('openVideoEditor ret ', ret.duration, ret.size, ret.tempFilePath, ret.tempThumbPath)
               })
             },
           })
@@ -75,6 +79,8 @@ export default class Index extends React.Component {
                 complete: function (res) {
                   console.log('getVideoInfo complete ', res.errMsg)
                 },
+              }).then((ret) => {
+                console.log('getVideoInfo ret ', ret)
               })
             },
           })
@@ -83,19 +89,19 @@ export default class Index extends React.Component {
       {
         id: 'createVideoContext',
         func: () => {
-          const videoContext = Taro.createVideoContext('myVideo')
+          videoContext = Taro.createVideoContext('myVideo')
           console.log('createVideoContext ', videoContext)
         },
       },
       {
-        id: 'compressVideo',
+        id: 'compressVideo_暂不支持',
         func: null,
       },
       {
-        id: 'chooseVideo',
+        id: 'chooseVideo_album',
         func: () => {
           Taro.chooseVideo({
-            sourceType: ['album', 'camera'],
+            sourceType: ['album'],
             maxDuration: 60,
             camera: 'back',
             success: function (res) {
@@ -115,15 +121,46 @@ export default class Index extends React.Component {
             complete: function (res) {
               console.log('chooseVideo complete ', res.errMsg)
             },
+          }).then((ret) => {
+            console.log('chooseVideo_album ret ', ret)
           })
         },
       },
       {
-        id: 'chooseMedia',
+        id: 'chooseVideo_camera',
+        func: () => {
+          Taro.chooseVideo({
+            sourceType: ['camera'],
+            maxDuration: 60,
+            camera: 'back',
+            success: function (res) {
+              console.log(
+                'chooseVideo success ',
+                res.tempFilePath,
+                res.duration,
+                res.height,
+                res.size,
+                res.width,
+                res.errMsg
+              )
+            },
+            fail: function (res) {
+              console.log('chooseVideo fail ', res.errMsg)
+            },
+            complete: function (res) {
+              console.log('chooseVideo complete ', res.errMsg)
+            },
+          }).then((ret) => {
+            console.log('chooseVideo_camera ret ', ret)
+          })
+        },
+      },
+      {
+        id: 'chooseMedia_image',
         func: () => {
           Taro.chooseMedia({
             count: 9,
-            mediaType: ['image', 'video'],
+            mediaType: ['image'],
             sourceType: ['album', 'camera'],
             maxDuration: 30,
             camera: 'back',
@@ -135,22 +172,28 @@ export default class Index extends React.Component {
             fail: (res) => {
               console.log('chooseMedia fail ', res.errMsg)
             },
-            // complete不存在该方法
+          }).then((ret) => {
+            console.log('chooseVideo ret ', ret)
           })
         },
       },
       {
-        id: 'VideoContext',
+        id: 'videoContext_exitBackgroundPlayback_暂不支持',
         func: () => {
-          const videoContext = Taro.createVideoContext('myVideo')
-          console.log('createVideoContext ', videoContext)
-
           videoContext.exitBackgroundPlayback()
           console.log('exitBackgroundPlayback')
-
+        },
+      },
+      {
+        id: 'videoContext_exitFullScreen',
+        func: () => {
           videoContext.exitFullScreen()
           console.log('exitFullScreen')
-
+        },
+      },
+      {
+        id: 'videoContext_exitPictureInPicture_暂不支持',
+        func: () => {
           videoContext.exitPictureInPicture({
             success: (res) => {
               console.log('videoContext.exitPictureInPicture success ', res)
@@ -162,41 +205,81 @@ export default class Index extends React.Component {
               console.log('videoContext.exitPictureInPicture complete ', res)
             },
           })
-
+        },
+      },
+      {
+        id: 'videoContext_hideStatusBar_暂不支持',
+        func: () => {
           videoContext.hideStatusBar()
-          console.log('')
-
+          console.log('hideStatusBar')
+        },
+      },
+      {
+        id: 'videoContext_pause',
+        func: () => {
           videoContext.pause()
-          console.log('videoContext.pause')
-
+          console.log('pause')
+        },
+      },
+      {
+        id: 'videoContext_play',
+        func: () => {
           videoContext.play()
-          console.log('videoContext.play')
-
-          videoContext.playbackRate(1.0)
-          console.log('videoContext.playbackRate')
-
+          console.log('play')
+        },
+      },
+      {
+        id: 'videoContext_playbackRate_暂不支持',
+        func: () => {
+          videoContext.playbackRate(1.5)
+          console.log('playbackRate')
+        },
+      },
+      {
+        id: 'videoContext_requestBackgroundPlayback_暂不支持',
+        func: () => {
           videoContext.requestBackgroundPlayback()
-          console.log(' videoContext.requestBackgroundPlayback')
-
+          console.log('requestBackgroundPlayback')
+        },
+      },
+      {
+        id: 'videoContext_requestFullScreen',
+        func: () => {
           videoContext.requestFullScreen({
-            direction: 90,
+            direction: 0,
           })
-          console.log('videoContext.requestFullScreen')
-
-          videoContext.seek(3)
-          console.log('videoContext.seek(3)')
-
+          console.log('requestFullScreen')
+        },
+      },
+      {
+        id: 'videoContext_seek',
+        func: () => {
+          videoContext.seek(5)
+          console.log('seek')
+        },
+      },
+      {
+        id: 'videoContext_sendDanmu_暂不支持',
+        func: () => {
           videoContext.sendDanmu({
             text: '测试弹幕',
             color: '#FFF',
           })
-          console.log('videoContext.sendDanmu')
-
+          console.log('sendDanmu')
+        },
+      },
+      {
+        id: 'videoContext_showStatusBar_暂不支持',
+        func: () => {
           videoContext.showStatusBar()
-          console.log('videoContext.showStatusBar')
-
+          console.log('showStatusBar')
+        },
+      },
+      {
+        id: 'videoContext_stop',
+        func: () => {
           videoContext.stop()
-          console.log('videoContext.stop')
+          console.log('stop')
         },
       },
     ],
@@ -212,6 +295,7 @@ export default class Index extends React.Component {
             </View>
           )
         })}
+        <Video id='myVideo' src='https://storage.360buyimg.com/jdrd-blog/27.mp3' />
       </View>
     )
   }
