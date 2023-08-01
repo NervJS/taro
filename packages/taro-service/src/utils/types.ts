@@ -1,5 +1,5 @@
 import type helper from '@tarojs/helper'
-import type { IProjectConfig } from '@tarojs/taro/types/compile'
+import type { IMiniFilesConfig, IProjectConfig } from '@tarojs/taro/types/compile'
 import type { IModifyWebpackChain } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
 import type Webpack from 'webpack'
@@ -150,7 +150,11 @@ export declare interface IPluginContext {
   /**
    * 修改编译过程中的页面组件配置
    */
-  modifyMiniConfigs: (fn: (args: { configMap: any }) => void) => void
+  modifyMiniConfigs: (fn: (args: { configMap: IMiniFilesConfig }) => void) => void
+  /**
+   * 修改 Taro 编译配置
+   */
+  modifyRunnerOpts: (fn: (args: { opts: any }) => void) => void
 
   [key: string]: any
 }

@@ -39,7 +39,7 @@ export interface IMiniAppConfig {
     /**
      * 编译前清空输出目录
      * @since Taro v3.6.9
-     * @description 
+     * @description
      * - 默认清空输出目录，可设置 clean: false 不清空
      * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
      * - 注意 clean.keep 不支持函数
@@ -97,4 +97,11 @@ export interface IMiniAppConfig {
 
   /** 插件内部使用 */
   runtime?: Runtime
+}
+
+export interface IMiniFilesConfig {
+  [configName: string]: {
+    content: Config
+    path: string
+  }
 }

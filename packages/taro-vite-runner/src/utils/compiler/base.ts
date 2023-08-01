@@ -10,7 +10,8 @@ import path from 'path'
 import { stripMultiPlatformExt } from '../../utils'
 import { logger } from '../logger'
 
-import type { AppConfig, Config, PageConfig } from '@tarojs/taro'
+import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type { IMiniFilesConfig } from '@tarojs/taro/types/compile'
 import type { PluginContext } from 'rollup'
 import type { H5BuildConfig, MiniBuildConfig } from '../types'
 
@@ -32,13 +33,6 @@ export interface PageMeta {
   cssPath?: string
 }
 
-interface FilesConfig {
-  [configName: string]: {
-    content: Config
-    path: string
-  }
-}
-
 export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
   static label = 'taro:compiler'
   rollupCtx: PluginContext | null
@@ -50,7 +44,7 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
   pages: PageMeta[]
   loaderMeta: any
   logger = logger
-  filesConfig: FilesConfig = {}
+  filesConfig: IMiniFilesConfig = {}
   compilePage: (pageName: string) => PageMeta
 
   constructor (rollupCtx: PluginContext, appPath: string, taroConfig: T) {

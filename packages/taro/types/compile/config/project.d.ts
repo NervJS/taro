@@ -5,8 +5,8 @@ import type { Compiler } from '../compiler'
 import type { IModifyWebpackChain } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
 import type { IH5Config } from './h5'
-import type { IMiniAppConfig } from './mini'
-import { IRNConfig } from './rn'
+import type { IMiniAppConfig, IMiniFilesConfig } from './mini'
+import type { IRNConfig } from './rn'
 
 export type PluginItem<T = object> = string | [string, T] | [string, () => T | Promise<T>]
 
@@ -185,15 +185,21 @@ export interface IProjectBaseConfig {
    * 编译中修改 vite 配置
    */
   modifyViteConfig?: (viteConfig: any, componentConfig: IModifyWebpackChain['componentConfig']) => void
-  /**
-   * 修改编译过程中的页面组件配置
-   */
-  modifyMiniConfigs?: (configMap: any) => Promise<any>
 
   /**
    * 修改编译后的结果
    */
   modifyBuildAssets?: (assets: any, miniPlugin?: any) => Promise<any>
+
+  /**
+   * 修改编译过程中的页面组件配置
+   */
+  modifyMiniConfigs?: (configMap: IMiniFilesConfig) => Promise<any>
+
+  /**
+   * 修改 Taro 编译配置
+   */
+  modifyRunnerOpts?: (opts: any) => Promise<any>
 }
 
 /** 暴露出来给 config/index 使用的配置类型，参考 https://github.com/NervJS/taro-doctor/blob/main/assets/config_schema.json */

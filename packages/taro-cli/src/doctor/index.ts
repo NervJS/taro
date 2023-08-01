@@ -3,7 +3,8 @@ import {
   validateEnv,
   validateEslint,
   validatePackage,
-  validateRecommend } from '@tarojs/plugin-doctor'
+  validateRecommend
+} from '@tarojs/plugin-doctor'
 
 export default {
   validators: [
