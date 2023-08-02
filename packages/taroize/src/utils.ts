@@ -7,7 +7,6 @@ import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
 import optionalChaining from '@babel/plugin-proposal-optional-chaining'
 import asyncGenerators from '@babel/plugin-syntax-async-generators'
 import dynamicImport from '@babel/plugin-syntax-dynamic-import'
-import asyncFunctions from '@babel/plugin-transform-async-to-generator'
 import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
 import flowStrip from '@babel/plugin-transform-flow-strip-types'
 import jsxPlugin from '@babel/plugin-transform-react-jsx'
@@ -56,7 +55,6 @@ export function parseCode (code: string, scriptPath?: string) {
         classProperties,
         jsxPlugin,
         flowStrip,
-        asyncFunctions,
         exponentiationOperator,
         asyncGenerators,
         objectRestSpread,
@@ -74,7 +72,6 @@ export function parseCode (code: string, scriptPath?: string) {
       classProperties,
       jsxPlugin,
       flowStrip,
-      asyncFunctions,
       exponentiationOperator,
       asyncGenerators,
       objectRestSpread,
