@@ -1,4 +1,4 @@
-import { NodeType, TaroNode } from './Node'
+import { NodeType, TaroNode } from './node'
 
 class TextNode extends TaroNode {
   constructor(value = '', nodeName = '#text', nodeType: NodeType = NodeType.TEXT_NODE) {
@@ -16,4 +16,4 @@ class TextNode extends TaroNode {
 }
 
 @Observed
-export class TaroTextNode extends TextNode {}
+export class TaroTextElement extends TextNode {}

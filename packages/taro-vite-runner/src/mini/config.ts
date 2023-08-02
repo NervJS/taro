@@ -9,7 +9,6 @@ import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.m
 import { getMode, stripMultiPlatformExt } from '../utils'
 import { logger } from '../utils/logger'
 
-import type { InputPluginOption } from 'rollup'
 import type { CSSModulesOptions, PluginOption } from 'vite'
 import type { MiniBuildConfig } from '../utils/types'
 
@@ -259,8 +258,8 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
             },
           },
           plugins: [
-            inject(getInjectOption()) as InputPluginOption,
-            babel(getBabelOption()) as InputPluginOption,
+            inject(getInjectOption()) as PluginOption,
+            babel(getBabelOption()) as PluginOption,
           ],
         },
         commonjsOptions: {

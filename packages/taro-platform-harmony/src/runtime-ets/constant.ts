@@ -1,5 +1,7 @@
 export const TYPE = 'type'
+export const VALUE = 'value'
 export const INPUT = 'input'
+export const CHANGE = 'change'
 export const TARGET = 'target'
 export const CONFIRM = 'confirm'
 export const KEY_CODE = 'keyCode'

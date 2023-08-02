@@ -1,34 +1,10 @@
-import { NodeType } from '../dom/Node'
+import { NodeType } from '../dom/node'
 
-import type { TaroElement } from '../dom/Element'
-import type { TaroNode } from '../dom/Node'
+import type { TaroElement } from '../dom/element'
+import type { TaroNode } from '../dom/node'
 
 export function isElement (node: TaroNode): node is TaroElement {
   return node.nodeType === NodeType.ELEMENT_NODE
-}
-
-export function toCamelCase (s: string): string {
-  let camel = ''
-  let nextCap = false
-  for (let i = 0; i < s.length; i++) {
-    if (s[i] !== '-') {
-      camel += nextCap ? s[i].toUpperCase() : s[i]
-      nextCap = false
-    } else {
-      nextCap = true
-    }
-  }
-  return camel
-}
-
-export function UpperFirstLetter (s: string): string {
-  return s.replace(/^[a-z]/, match => {
-    return match.toUpperCase()
-  })
-}
-
-export function toDashed (s: string): string {
-  return s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
 }
 
 /**
@@ -38,7 +14,7 @@ export function toDashed (s: string): string {
  */
 export function isParentBinded (node: TaroElement | null, type: string): boolean {
   let res = false
-  
+
   // TODO: 当前 node 结构没有 root，因此不作判断，后续可根据情况添加 root 条件
   while (node?.parentElement) {
     if (node.parentElement.__listeners[type]?.length) {
@@ -51,6 +27,6 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
   return res
 }
 
-export function transformPxSize (value: number) {
+export function convertNumber2PX (value: number) {
   return Math.ceil(value / 750 * 384) + 'vp'
 }

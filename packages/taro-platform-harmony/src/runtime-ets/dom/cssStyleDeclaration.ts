@@ -1,7 +1,10 @@
-import { toCamelCase, toDashed } from '../utils/index'
-import { TaroElement } from './Element'
+import { toCamelCase, toDashed } from '@tarojs/shared'
+
+import { TaroElement } from './element'
 
 class CSSStyleDeclaration {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(public el: TaroElement) {}
 
   public get _st () {
     return this.el._st
@@ -44,9 +47,9 @@ class CSSStyleDeclaration {
 
   public setProperty (prop: string, value: any): void {
     const node = this.el
-    prop = toCamelCase(prop)
+    prop = prop.includes('-') ? toCamelCase(prop) : prop
     if ((typeof value === 'string' && value.length) || typeof value === 'number') {
-      node._st = { ...node._st, [prop]: value }
+      node._st[prop] = value
     } else if (!value) {
       // '' | undefined | null
       this.removeProperty(prop)
@@ -55,20 +58,20 @@ class CSSStyleDeclaration {
 
   public getPropertyValue (prop: string): string | number {
     const node = this.el
-    prop = toCamelCase(prop)
+    prop = prop.includes('-') ? toCamelCase(prop) : prop
     const value = node._st[prop]
     return value === undefined ? '' : value
   }
 
   public removeProperty (prop: string): string | number {
     const node = this.el
-    prop = toCamelCase(prop)
+    prop = prop.includes('-') ? toCamelCase(prop) : prop
     const value = node._st[prop]
     if (value === undefined) {
       return ''
     } else {
       delete node._st[prop]
-      node._st = { ...node._st }
+      // node._st = { ...node._st }
       return value
     }
   }

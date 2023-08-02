@@ -1,4 +1,4 @@
-import { FormElement, TaroElement } from '@tarojs/runtime'
+import { type FormElement, TaroElement } from '@tarojs/runtime'
 
 import { supportedInputTypes } from './constant'
 import { Props } from './props'

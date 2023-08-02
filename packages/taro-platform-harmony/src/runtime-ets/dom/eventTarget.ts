@@ -1,4 +1,4 @@
-import { TaroEvent } from './Event'
+import { TaroEvent } from './event'
 
 import type { EventHandler } from '../interface'
 

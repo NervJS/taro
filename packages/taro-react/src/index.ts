@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { TaroElement } from '@tarojs/runtime'
 import { ensure, isFunction } from '@tarojs/shared'
-import { ReactNode } from 'react'
 
 import { finishEventHandler } from './event'
 import { TaroReconciler } from './reconciler'
 import { ContainerMap, createRoot, render } from './render'
+
+import type { TaroElement } from '@tarojs/runtime'
+import type { ReactNode } from 'react'
 
 let isInsideEventHandler = false
 
@@ -16,7 +17,7 @@ const unstable_batchedUpdates = (fn, a) => {
   }
 
   isInsideEventHandler = true
-  
+
   try {
     return TaroReconciler.batchedUpdates(fn, a)
   } finally {

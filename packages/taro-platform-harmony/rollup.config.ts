@@ -49,6 +49,8 @@ const compileConfig: RollupOptions = {
         { src: 'src/components/components-harmony', dest: 'dist' },
         { src: 'src/apis', dest: 'dist' },
         { src: 'src/runtime-ets', dest: 'dist' },
+        { src: 'src/runtime-framework', dest: 'dist' },
+        { src: 'src/react', dest: 'dist' },
       ]
     }) as InputPluginOption
   ]

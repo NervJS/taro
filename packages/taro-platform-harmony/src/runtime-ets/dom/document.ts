@@ -1,8 +1,8 @@
-import { TaroComment } from './Comment'
-import { createCSSStyleDeclaration } from './CSSStyleDeclaration'
-import { TaroElement, TaroImageElement, TaroTextElement, TaroViewElement } from './Element'
-import { NodeType, TaroNode } from './Node'
-import { TaroTextNode } from './Text'
+import { TaroComment } from './comment'
+import { createCSSStyleDeclaration } from './cssStyleDeclaration'
+import { TaroElement, TaroImage, TaroText, TaroView } from './element'
+import { NodeType, TaroNode } from './node'
+import { TaroTextElement } from './text'
 
 import type { Window } from '../bom/window'
 
@@ -27,13 +27,13 @@ class TaroDocument extends TaroNode {
 
     switch (tagName) {
       case 'view':
-        node = new TaroViewElement()
+        node = new TaroView()
         break
       case 'text':
-        node = new TaroTextElement()
+        node = new TaroText()
         break
       case 'image':
-        node = new TaroImageElement()
+        node = new TaroImage()
         break
       default:
         node = new TaroElement(tagName)
@@ -44,8 +44,8 @@ class TaroDocument extends TaroNode {
     return node
   }
 
-  public createTextNode (value: string): TaroTextNode {
-    const node = new TaroTextNode(value)
+  public createTextNode (value: string): TaroTextElement {
+    const node = new TaroTextElement(value)
     node._doc = this
     return node
   }

@@ -2,14 +2,12 @@
  * 给 TaroElement 绑定 react fiber、react props 等属性
  * 提供 fiber -> element、element -> fiber、element -> props 的方法
 */
-
-import { TaroElement } from '@tarojs/runtime'
-import { Fiber } from 'react-reconciler'
-
 import { internalContainerInstanceKey, internalInstanceKey, internalPropsKey } from './constant'
 import { Props } from './props'
 import { HostComponent, HostRoot, HostText, SuspenseComponent } from './workTags'
 
+import type { TaroElement } from '@tarojs/runtime'
+import type { Fiber } from 'react-reconciler'
 
 export function precacheFiberNode (hostInst: Fiber, node: TaroElement): void {
   node[internalInstanceKey] = hostInst

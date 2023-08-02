@@ -1,8 +1,10 @@
+import { Current } from '@tarojs/runtime'
+
 import * as apis from './apis'
-import { current, noop } from './utils'
+import { noop } from './utils'
 
 export function initNativeApi (taro) {
-  current.taro = taro
+  (Current as any).taro = taro
   taro.initPxTransform = noop
   Object.defineProperty(taro, 'getApp', {
     configurable: true,
@@ -13,3 +15,9 @@ export function initNativeApi (taro) {
   })
   Object.assign(taro, apis)
 }
+
+export function initPxTransform () {
+  // noop
+}
+
+export default apis

@@ -2,14 +2,6 @@ import { FunctionType, IAsyncParams } from './types'
 
 export * from './validate'
 
-interface Current {
-  taro: Record<string, any>
-}
-
-export const current: Current = {
-  taro: {}
-}
-
 export function noop () {}
 
 export function unsupport (str: string) {

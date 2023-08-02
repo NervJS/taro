@@ -1,7 +1,8 @@
-import { type TaroElement, toCamelCase, UpperFirstLetter } from '@tarojs/runtime'
+import { type TaroElement } from '@tarojs/runtime'
+import { capitalize, toCamelCase } from '@tarojs/shared'
 
 function convertFlexValue (value: any, defaultValue: string): string {
-  return typeof value === 'string' ? UpperFirstLetter(toCamelCase(value.replace(/^flex-/, ''))) : defaultValue
+  return typeof value === 'string' ? capitalize(toCamelCase(value.replace(/^flex-/, ''))) : defaultValue
 }
 
 class FlexManager {
@@ -13,7 +14,7 @@ class FlexManager {
 
   static justifyContent (node: TaroElement): FlexAlign {
     const value = node._st.justifyContent
-    const align = convertFlexValue(value, 'Start').split('-').map(item => UpperFirstLetter(item)).join('')
+    const align = convertFlexValue(value, 'Start').split('-').map(item => capitalize(item)).join('')
     return FlexAlign[align]
   }
 

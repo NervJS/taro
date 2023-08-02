@@ -1,12 +1,13 @@
-import { isElement } from '../utils/index'
-import { NodeType, TaroNode } from './Node'
+import { isElement } from '../utils'
+import { NodeType, TaroNode } from './node'
 
-import type { ICSSStyleDeclaration } from './CSSStyleDeclaration'
+import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 
 class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
+  public props: Record<string, any> = {}
   public readonly tagName: string
   public innerHTML: string
 
@@ -45,7 +46,7 @@ class TaroElement extends TaroNode {
   }
 
   public setAttribute (name: string, value: any): void {
-    this._attrs = { ...this._attrs, [name]: String(value) }
+    this._attrs[name] = String(value)
   }
 
   public getAttribute (name: string): string | null {
@@ -78,50 +79,29 @@ class TaroElement extends TaroNode {
 }
 
 @Observed
-class TaroViewElement extends TaroElement {
+class TaroView extends TaroElement {
   constructor() {
     super('View')
   }
 }
 
 @Observed
-class TaroTextElement extends TaroElement {
+class TaroText extends TaroElement {
   constructor() {
     super('Text')
   }
 }
 
 @Observed
-class TaroImageElement extends TaroElement {
+class TaroImage extends TaroElement {
   constructor() {
     super('Image')
   }
 }
 
-@Observed
-export class TaroFormElement extends TaroElement {
-  public get type () {
-    return this._attrs.type ?? ''
-  }
-
-  public set type (val: string) {
-    this.setAttribute('type', val)
-  }
-
-  public get value () {
-    // eslint-disable-next-line dot-notation
-    const val = this._attrs.value
-    return val == null ? '' : val
-  }
-
-  public set value (val: string | boolean | number | any[]) {
-    this.setAttribute('value', val)
-  }
-}
-
-
 export {
   TaroElement,
-  TaroImageElement,
-  TaroTextElement,
-  TaroViewElement }
+  TaroImage,
+  TaroText,
+  TaroView,
+}

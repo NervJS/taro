@@ -1,10 +1,10 @@
-import { type TaroImageElement, eventHandler } from '@tarojs/runtime'
+import { type TaroImage, eventHandler } from '@tarojs/runtime'
 
 import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 
 @Extend(Image)
-function flex (node: TaroImageElement) {
+function flex (node: TaroImage) {
   .flexGrow(FlexManager.flexSize(node)[0])
   .flexShrink(FlexManager.flexSize(node)[1])
   .flexBasis(FlexManager.flexSize(node)[2])
@@ -12,8 +12,8 @@ function flex (node: TaroImageElement) {
 }
 
 @Component
-struct TaroImage {
-  @ObjectLink node: TaroImageElement
+struct Image {
+  @ObjectLink node: TaroImage
 
   @Styles defaultStyle () {
     .size({
@@ -66,4 +66,4 @@ struct TaroImage {
   }
 }
 
-export default TaroImage
+export default Image

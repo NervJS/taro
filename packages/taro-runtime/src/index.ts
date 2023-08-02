@@ -49,7 +49,7 @@ export * from './emitter/emitter'
 export { hydrate } from './hydrate'
 export { nextTick } from './next-tick'
 export { options } from './options'
-export { incrementId } from './utils'
+export * from './utils'
 // typings
 export * from './dsl/instance'
 export * from './interface'

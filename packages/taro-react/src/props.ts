@@ -1,4 +1,4 @@
-import { FormElement, Style, TaroElement } from '@tarojs/runtime'
+import { type Style, type TaroElement, convertNumber2PX, FormElement } from '@tarojs/runtime'
 import { capitalize, internalComponents, isFunction, isNumber, isObject, isString, toCamelCase } from '@tarojs/shared'
 
 export type Props = Record<string, unknown>
@@ -7,7 +7,7 @@ function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)
@@ -62,11 +62,12 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
   }
 
   if (isFunction(value)) {
+    const isHarmony = process.env.TARO_PLATFORM === 'harmony'
     if (oldValue) {
-      dom.removeEventListener(eventName, oldValue as any, false)
-      dom.addEventListener(eventName, value, { isCapture, sideEffect: false })
+      dom.removeEventListener(eventName, oldValue as any, !isHarmony ? false : undefined)
+      dom.addEventListener(eventName, value, !isHarmony ? { isCapture, sideEffect: false } : undefined)
     } else {
-      dom.addEventListener(eventName, value, isCapture)
+      dom.addEventListener(eventName, value, !isHarmony ? isCapture : undefined)
     }
   } else {
     dom.removeEventListener(eventName, oldValue as any)
@@ -82,7 +83,7 @@ function setStyle (style: Style, key: string, value: string | number) {
 
   style[key] =
     isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
-      ? value + 'px'
+      ? convertNumber2PX(value)
       : value == null
         ? ''
         : value

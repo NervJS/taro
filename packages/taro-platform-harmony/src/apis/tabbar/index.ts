@@ -1,4 +1,6 @@
-import { callAsyncFail, callAsyncSuccess, current, unsupport } from '../utils'
+import { Current } from '@tarojs/runtime'
+
+import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
 
 import type Taro from '@tarojs/taro'
 
@@ -20,7 +22,7 @@ type ToggleAPIs = ShowTabBar | HideTabBar
 const toggleTabBar = function<T extends ToggleAPIs['type']> (type: T): Extract<ToggleAPIs, {type: T}>['fn'] {
   return function (options) {
     return new Promise((resolve, reject) => {
-      const taro = current.taro
+      const taro = (Current as any).taro
       const page = taro.getCurrentInstance().page
       const currentData = page._data.taroTabBar
       const res = { errMsg: `${type}TabBar:ok` }
@@ -42,7 +44,7 @@ export const hideTabBar = toggleTabBar('hide')
 
 export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
   return new Promise((resolve, reject) => {
-    const taro = current.taro
+    const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const currentData = page._data.taroTabBar
     const res = { errMsg: 'setTabBarStyle:ok' }
@@ -66,7 +68,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
 
 export const setTabBarItem: SetTabBarItem = function (options) {
   return new Promise((resolve, reject) => {
-    const taro = current.taro
+    const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const currentData = page._data.taroTabBar
     const res = { errMsg: 'setTabBarItem:ok' }

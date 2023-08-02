@@ -86,8 +86,9 @@ export default function (): PluginOption {
         const outDir = path.resolve(process.cwd(), taroConfig.outputRoot || 'dist')
         // TODO 收集运行时使用 Harmony 依赖
         const deps = {
-          '@hmscore/hms-js-base': '^6.1.0-300',
-          '@hmscore/hms-jsb-account': '^1.0.300'
+          // Note: 目前开发者工具版本支持以下依赖
+          // '@hmscore/hms-js-base': '^6.1.0-300',
+          // '@hmscore/hms-jsb-account': '^1.0.300'
         }
         compiler.modifyHostPackageDep(outDir, deps)
         // TODO 判断 ohpm 是否存在，如果存在则在 projectPath 目录下执行 ohpm install

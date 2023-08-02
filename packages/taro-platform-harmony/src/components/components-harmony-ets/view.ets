@@ -1,11 +1,11 @@
-import { type TaroViewElement, eventHandler } from '@tarojs/runtime'
+import { type TaroView, eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 
 @Extend(Flex)
-function flex (node: TaroViewElement) {
+function flex (node: TaroView) {
   .flexGrow(FlexManager.flexSize(node)[0])
   .flexShrink(FlexManager.flexSize(node)[1])
   .flexBasis(FlexManager.flexSize(node)[2])
@@ -13,8 +13,8 @@ function flex (node: TaroViewElement) {
 }
 
 @Component
-struct TaroView {
-  @ObjectLink node: TaroViewElement
+struct View {
+  @ObjectLink node: TaroView
 
   scroller: Scroller = new Scroller()
 
@@ -89,4 +89,4 @@ struct TaroView {
   }
 }
 
-export default TaroView
+export default View

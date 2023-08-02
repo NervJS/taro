@@ -5,7 +5,9 @@
  * - 滚动距离
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-framework-syntax-js-0000000000611432
  */
-import { callAsyncFail, callAsyncSuccess, current } from '../utils'
+import { Current } from '@tarojs/runtime'
+
+import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/taro'
 
@@ -13,7 +15,7 @@ type pageScrollTo = typeof Taro.pageScrollTo
 
 export const pageScrollTo: pageScrollTo = (options) => {
   return new Promise((resolve, reject) => {
-    const taro = current.taro
+    const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const res = { errMsg: 'pageScrollTo:ok' }
     const error = { errMsg: 'pageScrollTo:fail' }

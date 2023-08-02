@@ -129,3 +129,7 @@ export function getComponentsAlias () {
   }
   return componentsAlias
 }
+
+export function convertNumber2PX (value: number) {
+  return value + 'px'
+}

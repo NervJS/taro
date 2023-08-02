@@ -1,5 +1,5 @@
-import { transformPxSize, UpperFirstLetter } from '@tarojs/runtime'
-import { isString } from '@tarojs/shared'
+import { convertNumber2PX } from '@tarojs/runtime'
+import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
   static getNodeStyle (node, name: string, defaultValue?) {
@@ -16,7 +16,7 @@ class AttributeManager {
 
   static getNodeTextDecoration (node): { type: TextDecorationType, color?: ResourceColor } {
     const value = AttributeManager.getNodeStyle(node, 'textDecoration', 'none')
-    const type = value.split('-').map(item => UpperFirstLetter(item)).join('')
+    const type = value.split('-').map(item => capitalize(item)).join('')
 
     return {
       type: TextDecorationType[type] as any,
@@ -117,11 +117,11 @@ class AttributeManager {
       }
 
       if (isBackGroundImageSize) {
-        addBackgroundData(ImageSize[UpperFirstLetter(part)])
+        addBackgroundData(ImageSize[capitalize(part)])
         return
       }
       if (isBackGroundPosition) {
-        addBackgroundData(Alignment[UpperFirstLetter(part)])
+        addBackgroundData(Alignment[capitalize(part)])
         return
       }
 
@@ -129,9 +129,9 @@ class AttributeManager {
       if (partHasSlash) {
         const [backgroundPositionPart, backgroundSizePart] = part.split['/']
 
-        addBackgroundData(Alignment[UpperFirstLetter(backgroundPositionPart)])
+        addBackgroundData(Alignment[capitalize(backgroundPositionPart)])
         hasSlash = true
-        addBackgroundData(ImageSize[UpperFirstLetter(backgroundSizePart)])
+        addBackgroundData(ImageSize[capitalize(backgroundSizePart)])
 
 
       }
@@ -166,7 +166,7 @@ class AttributeManager {
 
       Object.keys(res).forEach(key => {
         if (!isNaN(res[key]) && values.length > 1) {
-          res[key] = transformPxSize(res[key])
+          res[key] = convertNumber2PX(res[key])
         }
       })
     }

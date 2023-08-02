@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
+import { Current } from '@tarojs/runtime'
 
-import { current } from '../utils'
 import { NodesRef } from './nodesRef.js'
 
 interface ISelectorQueryQueue {
@@ -186,7 +186,7 @@ function querySelector (selector, element, selectAll) {
 
 function queryBat (queue, cb) {
   const result: any = []
-  const taro = current.taro
+  const taro = (Current as any).taro
   const page = taro.getCurrentInstance().page
   queue.forEach(item => {
     const { selector, single, fields, component } = item

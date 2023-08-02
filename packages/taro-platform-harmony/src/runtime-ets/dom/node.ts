@@ -1,7 +1,7 @@
-import { TaroEventTarget } from './EventTarget'
+import { TaroEventTarget } from './eventTarget'
 
-import type { TaroDocument } from './Document'
-import type { TaroElement } from './Element'
+import type { TaroDocument } from './document'
+import type { TaroElement } from './element'
 
 export enum NodeType {
   ELEMENT_NODE = 1,
@@ -107,7 +107,7 @@ export class TaroNode extends TaroEventTarget {
     }
   }
 
-  public set nodeValue (value) {
+  public set nodeValue (value: string) {
     if (this.nodeType === NodeType.TEXT_NODE) {
       this.textContent = value
     }

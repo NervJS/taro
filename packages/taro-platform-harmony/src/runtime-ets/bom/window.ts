@@ -1,6 +1,6 @@
-import { TaroEventTarget } from '../dom/EventTarget'
+import { TaroEventTarget } from '../dom/eventTarget'
 
-import type { TaroDocument } from '../dom/Document'
+import type { TaroDocument } from '../dom/document'
 
 class Window extends TaroEventTarget {
   public _doc: TaroDocument
@@ -19,3 +19,5 @@ class Window extends TaroEventTarget {
 }
 
 export { Window }
+
+export const window = new Window()

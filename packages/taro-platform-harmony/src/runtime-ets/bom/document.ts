@@ -1,5 +1,5 @@
-import { TaroDocument } from '../dom/Document'
-import { Window } from './window'
+import { TaroDocument } from '../dom/document'
+import { window } from './window'
 
 function createDocument (): TaroDocument {
   /**
@@ -13,7 +13,6 @@ function createDocument (): TaroDocument {
    * </html>
    */
 
-  const window = new Window()
   const doc = new TaroDocument(window)
   const documentCreateElement = doc.createElement.bind(doc)
   const html = documentCreateElement('html')

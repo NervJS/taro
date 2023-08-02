@@ -1,4 +1,6 @@
-import { callAsyncSuccess, current, unsupport } from '../utils'
+import { Current } from '@tarojs/runtime'
+
+import { callAsyncSuccess, unsupport } from '../utils'
 
 import type Taro from '@tarojs/taro'
 
@@ -7,7 +9,7 @@ type SetNavigationBarColor = typeof Taro.setNavigationBarColor
 
 export const setNavigationBarTitle: SetNavigationBarTitle = function (options) {
   return new Promise(resolve => {
-    const taro = current.taro
+    const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const res = { errMsg: 'setNavigationBarTitle:ok' }
 
@@ -18,7 +20,7 @@ export const setNavigationBarTitle: SetNavigationBarTitle = function (options) {
 
 export const setNavigationBarColor: SetNavigationBarColor = function (options) {
   return new Promise(resolve => {
-    const taro = current.taro
+    const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const { frontColor, backgroundColor } = options
     const res = { errMsg: 'setNavigationBarColor:ok' }
