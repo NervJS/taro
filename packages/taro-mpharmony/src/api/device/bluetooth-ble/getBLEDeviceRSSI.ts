@@ -24,7 +24,7 @@ export const getBLEDeviceRSSI: typeof Taro.getBLEDeviceRSSI = (options) => {
       RSSI?: number
     }>({ name, success, fail, complete })
 
-    // options.object must be object
+    // options.deviceId must be string
     if (typeof deviceId !== 'string') {
       return handle.fail({
         errMsg: getParameterError({
@@ -36,15 +36,14 @@ export const getBLEDeviceRSSI: typeof Taro.getBLEDeviceRSSI = (options) => {
     }
 
     // @ts-ignore
-    const ret = native.getBLEDeviceRSSI({
+    native.getBLEDeviceRSSI({
       deviceId: deviceId,
       success: (res: any) => {
-        return handle.success(res)
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }
