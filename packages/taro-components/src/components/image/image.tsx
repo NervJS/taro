@@ -30,6 +30,7 @@ export class Image implements ComponentInterface {
   @Prop() nativeProps = {}
 
   @State() aspectFillMode = 'width'
+  @State() didLoad = false
 
   @Event({
     eventName: 'load'
@@ -48,7 +49,7 @@ export class Image implements ComponentInterface {
       // 异步 api 关系
       if (entries[entries.length - 1].isIntersecting) {
         lazyImg.unobserve(this.imgRef)
-        this.imgRef.src = this.src
+        this.didLoad = true
       }
     }, {
       rootMargin: '300px 0px'
@@ -85,7 +86,8 @@ export class Image implements ComponentInterface {
       aspectFillMode = 'width',
       imageOnLoad,
       imageOnError,
-      nativeProps
+      nativeProps,
+      didLoad
     } = this
 
     const cls = classNames({
@@ -100,7 +102,7 @@ export class Image implements ComponentInterface {
 
     return (
       <Host class={cls}>
-        {lazyLoad ? (
+        {lazyLoad && !didLoad ? (
           <img
             ref={img => (this.imgRef = img!)}
             class={imgCls}
