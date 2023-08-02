@@ -21,4 +21,16 @@ export const TestConsole = {
   consoleReturn: (res: any) => {
     console.log('%creturn:\n', 'color:blue;font-weight:bold', res)
   },
+
+  consoleNormal: (name: string, data?: any) => {
+    if (data) {
+      console.log(`%c${name}:\n`, 'color:gray;font-weight:bold', data)
+    } else {
+      console.log(`%c${name}`, 'color:gray;font-weight:bold')
+    }
+  },
+
+  consoleDebug: (name: string, errMsg?: any) => {
+    console.warn('debug:\n', name, ':', errMsg)
+  }
 }
