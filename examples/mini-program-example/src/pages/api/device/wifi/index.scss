@@ -1,6 +1,20 @@
 @import "../../../../../styles/variables.scss";
+.page-body-info {
+  padding: 30px 60px;
+  border: #b0bec5 2px solid;
+  border-radius: 10px;
+  width: 100%;
+}
 
+.info-title {
+  width: 100%;
+  text-align: center;
+}
 
+.device-list {
+  height: 300px;
+  text-align: center;
+}
 
 .wifi-icon{
   width: 20px;

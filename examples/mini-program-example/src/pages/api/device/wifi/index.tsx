@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
+import { View, Text, Button, ScrollView } from '@tarojs/components'
+import { TestConsole } from '../../../../util/util'
 import './index.scss'
 
 /**
@@ -16,13 +17,13 @@ export default class Index extends React.Component {
         func: () => {
           Taro.stopWifi({
             success: (res) => {
-              console.log('success-----', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: (res) => {
-              console.log('fail-----', res)
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('complete------', res)
+              TestConsole.consoleComplete(res)
             },
           })
         },
@@ -32,13 +33,13 @@ export default class Index extends React.Component {
         func: () => {
           Taro.startWifi({
             success: (res) => {
-              console.log('success-----', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: (res) => {
-              console.log('fail-----', res)
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('complete-----', res)
+              TestConsole.consoleComplete(res)
             },
           })
         },
@@ -51,7 +52,7 @@ export default class Index extends React.Component {
         id: 'onWifiConnectedWithPartialInfo',
         func: () => {
           Taro.onWifiConnectedWithPartialInfo((res) => {
-            console.log('success-----', res)
+            TestConsole.consoleSuccess(res)
           })
         },
       },
@@ -59,13 +60,14 @@ export default class Index extends React.Component {
         id: 'onWifiConnected',
         func: () => {
           Taro.onWifiConnected((res) => {
-            console.log('success-----', res)
+            TestConsole.consoleSuccess(res)
           })
         },
       },
       {
         id: 'onGetWifiList',
         func: () => {
+          TestConsole.consoleTest('onGetWifiList')
           Taro.onGetWifiList((res) => {
             const wifiList = res.wifiList
               .sort((a, b) => b.signalStrength - a.signalStrength)
@@ -83,7 +85,7 @@ export default class Index extends React.Component {
         id: 'offWifiConnectedWithPartialInfo',
         func: () => {
           Taro.offWifiConnectedWithPartialInfo((res) => {
-            console.log('success-----', res)
+            TestConsole.consoleSuccess(res)
           })
         },
       },
@@ -91,7 +93,7 @@ export default class Index extends React.Component {
         id: 'offWifiConnected',
         func: () => {
           Taro.offWifiConnected((res) => {
-            console.log('success-----', res)
+            TestConsole.consoleSuccess(res)
           })
         },
       },
@@ -99,7 +101,7 @@ export default class Index extends React.Component {
         id: 'offGetWifiList',
         func: () => {
           Taro.offGetWifiList((res) => {
-            console.log('success-----', res)
+            TestConsole.consoleSuccess(res)
           })
         },
       },
@@ -108,13 +110,13 @@ export default class Index extends React.Component {
         func: () => {
           Taro.getWifiList({
             success: (res) => {
-              console.log('success-----', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: (res) => {
-              console.log('file------', res)
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('complete-----', res)
+              TestConsole.consoleComplete(res)
             },
           })
         },
@@ -124,13 +126,13 @@ export default class Index extends React.Component {
         func: () => {
           Taro.getConnectedWifi({
             success: (res) => {
-              console.log('success-----', res)
+              TestConsole.consoleSuccess(res)
             },
-            fail(err) {
-              console.error(err)
+            fail(res) {
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('complete-----', res)
+              TestConsole.consoleComplete(res)
             },
           })
         },
@@ -143,13 +145,13 @@ export default class Index extends React.Component {
             BSSID: '0e:88:25:e6:77:91',
             password: 'L02281531',
             success: (res) => {
-              console.log('success-----', res.errMsg)
+              TestConsole.consoleSuccess(res)
             },
-            fail(err) {
-              console.log('fail-----', err)
+            fail(res) {
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('complete-----', res)
+              TestConsole.consoleComplete(res)
             },
           })
         },
@@ -165,20 +167,39 @@ export default class Index extends React.Component {
     const { list, wifiList } = this.state
     return (
       <View className='api-page'>
-        {wifiList.map((item, index) => {
-          return (
-            <View className='list' key={index}>
-              <text>{item.SSID}</text>
-              <View className='wifi-icon'>
-                <View className='wifi-1'></View>
-                <View className={'wifi-2 ' + (item.strength < 2 ? 'off' : '')}></View>
-                <View className={'wifi-3 ' + (item.strength < 3 ? 'off' : '')}></View>
-                <View className={'wifi-4 ' + (item.strength < 4 ? 'off' : '')}></View>
-                {item.secure && <View className='lock'></View>}
-              </View>
-            </View>
-          )
-        })}
+        <View className="page-body-info">
+          <Text className='info-title'>WiFi列表</Text>
+            <ScrollView className="device-list" scrollY>
+              {wifiList.map((item, index) => {
+                return (
+                  <View className="item" key={index}>
+                    <View className="list">
+                      <Text>{item.SSID}</Text>
+                      <View className="wifi-icon">
+                        <View className="wifi-1"></View>
+                        <View
+                          className={
+                            'wifi-2 ' + (item.strength < 2 ? 'off' : '')
+                          }
+                        ></View>
+                        <View
+                          className={
+                            'wifi-3 ' + (item.strength < 3 ? 'off' : '')
+                          }
+                        ></View>
+                        <View
+                          className={
+                            'wifi-4 ' + (item.strength < 4 ? 'off' : '')
+                          }
+                        ></View>
+                        {item.secure && <View className="lock"></View>}
+                      </View>
+                    </View>
+                  </View>
+                )
+              })}
+            </ScrollView>
+          </View>
         {list.map((item) => {
           return (
             <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
