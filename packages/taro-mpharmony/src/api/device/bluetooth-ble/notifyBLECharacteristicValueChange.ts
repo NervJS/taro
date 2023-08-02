@@ -25,7 +25,7 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
 
     const handle = new MethodHandler({ name, success, fail, complete })
 
-    // options.object must be object
+    // options.characteristicId must be string
     if (typeof characteristicId !== 'string') {
       return handle.fail({
         errMsg: getParameterError({
@@ -56,7 +56,7 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
       }, { resolve, reject })
     }
 
-    if (typeof state !== 'string') {
+    if (typeof state !== 'boolean') {
       return handle.fail({
         errMsg: getParameterError({
           para: 'state',
@@ -67,18 +67,17 @@ export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteri
     }
 
     // @ts-ignore
-    const ret = native.notifyBLECharacteristicValueChange({
+    native.notifyBLECharacteristicValueChange({
       characteristicId: characteristicId,
       deviceId: deviceId,
       serviceId: serviceId,
       state: state,
       success: (res: any) => {
-        return handle.success(res)
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }

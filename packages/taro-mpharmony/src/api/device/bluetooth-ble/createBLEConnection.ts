@@ -25,7 +25,7 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
       errMsg?: string
     }>({ name, success, fail, complete })
 
-    // options.object must be object
+    // options.deviceId must be string
     if (typeof deviceId !== 'string') {
       return handle.fail({
         errMsg: getParameterError({
@@ -37,16 +37,21 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
     }
 
     // @ts-ignore
-    const ret = native.createBLEConnection({
+    native.createBLEConnection({
       deviceId: deviceId,
       timeout: timeout,
       success: (res: any) => {
-        return handle.success(res)
+        const result: TaroGeneral.BluetoothError = {
+          /** 错误信息 */
+          errMsg: '',
+          /** 错误码 */
+          errCode: res[0]
+        }
+        handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }

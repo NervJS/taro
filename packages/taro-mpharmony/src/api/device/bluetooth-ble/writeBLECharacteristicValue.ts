@@ -23,7 +23,9 @@ export const writeBLECharacteristicValue: typeof Taro.writeBLECharacteristicValu
       complete
     } = options as Exclude<typeof options, undefined>
 
-    const handle = new MethodHandler({ name, success, fail, complete })
+    const handle = new MethodHandler<{
+      errMsg?: string
+    }>({ name, success, fail, complete })
 
     // options.object must be object
     if (typeof characteristicId !== 'string') {
@@ -68,18 +70,23 @@ export const writeBLECharacteristicValue: typeof Taro.writeBLECharacteristicValu
     }
 
     // @ts-ignore
-    const ret = native.writeBLECharacteristicValue({
+    native.writeBLECharacteristicValue({
       characteristicId: characteristicId,
       deviceId: deviceId,
       serviceId: serviceId,
       value: value,
       success: (res: any) => {
-        return handle.success(res)
+        const result: TaroGeneral.BluetoothError = {
+          /** 错误信息 */
+          errMsg: '',
+          /** 错误码 */
+          errCode: res[0]
+        }
+        handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }
