@@ -46,6 +46,7 @@
     "@babel/code-frame": "^7.21.4",
     "@babel/core": "^7.21.8",
     "@babel/generator": "^7.21.4",
+    "@babel/helper-plugin-utils": "^7.22.5",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/plugin-proposal-decorators": "^7.14.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.14.5",
@@ -74,6 +75,7 @@
     "babel-plugin-transform-es2015-template-literals": "^6.22.0",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-commonjs": "^1.1.6",
     "eslint-plugin-react": "7.10.0",
     "eslint-plugin-taro": "2.2.19",
     "html": "^1.0.0",
@@ -83,8 +85,10 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.9",
     "@tarojs/taro": "2.2.19",
     "@types/babel-core": "6.25.6",
+    "@types/babel__core": "^7.20.1",
     "@types/babel-generator": "6.25.3",
     "@types/babel-template": "6.25.2",
     "@types/babel-traverse": "6.25.3",
@@ -97,10 +101,13 @@
     "eslint": "5.16.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
+    "mocha": "^10.2.0",
     "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "tslint": "^5.10.0",
     "tslint-config-prettier": "^1.10.0",
-    "tslint-config-standard": "^7.0.0"
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^5.1.6"
   },
   "publishConfig": {
     "access": "public"
