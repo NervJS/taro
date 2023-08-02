@@ -32,5 +32,5 @@ export const TestConsole = {
 
   consoleDebug: (name: string, errMsg?: any) => {
     console.warn('debug:\n', name, ':', errMsg)
-  }
+  },
 }

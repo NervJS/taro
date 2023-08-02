@@ -167,39 +167,27 @@ export default class Index extends React.Component {
     const { list, wifiList } = this.state
     return (
       <View className='api-page'>
-        <View className="page-body-info">
+        <View className='page-body-info'>
           <Text className='info-title'>WiFi列表</Text>
-            <ScrollView className="device-list" scrollY>
-              {wifiList.map((item, index) => {
-                return (
-                  <View className="item" key={index}>
-                    <View className="list">
-                      <Text>{item.SSID}</Text>
-                      <View className="wifi-icon">
-                        <View className="wifi-1"></View>
-                        <View
-                          className={
-                            'wifi-2 ' + (item.strength < 2 ? 'off' : '')
-                          }
-                        ></View>
-                        <View
-                          className={
-                            'wifi-3 ' + (item.strength < 3 ? 'off' : '')
-                          }
-                        ></View>
-                        <View
-                          className={
-                            'wifi-4 ' + (item.strength < 4 ? 'off' : '')
-                          }
-                        ></View>
-                        {item.secure && <View className="lock"></View>}
-                      </View>
+          <ScrollView className='device-list' scrollY>
+            {wifiList.map((item, index) => {
+              return (
+                <View className='item' key={index}>
+                  <View className='list'>
+                    <Text>{item.SSID}</Text>
+                    <View className='wifi-icon'>
+                      <View className='wifi-1'></View>
+                      <View className={'wifi-2 ' + (item.strength < 2 ? 'off' : '')}></View>
+                      <View className={'wifi-3 ' + (item.strength < 3 ? 'off' : '')}></View>
+                      <View className={'wifi-4 ' + (item.strength < 4 ? 'off' : '')}></View>
+                      {item.secure && <View className='lock'></View>}
                     </View>
                   </View>
-                )
-              })}
-            </ScrollView>
-          </View>
+                </View>
+              )
+            })}
+          </ScrollView>
+        </View>
         {list.map((item) => {
           return (
             <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>

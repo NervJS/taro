@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 媒体-录音
@@ -39,13 +40,14 @@ export default class Index extends React.Component {
       {
         id: 'getRecoederManager',
         func: () => {
+          TestConsole.consoleTest('getRecoederManager')
           recorderManager = Taro.getRecorderManager()
-          console.log('success-----on creating recorderManager')
         },
       },
       {
         id: 'recorderManager_start',
         func: () => {
+          TestConsole.consoleTest('recorderManager_start')
           this.setState({
             recording: true,
           })
@@ -63,6 +65,7 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_stop',
         func: () => {
+          TestConsole.consoleTest('recorderManager_stop')
           recorderManager.stop()
         },
       },
@@ -70,37 +73,42 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_pause',
         func: () => {
+          TestConsole.consoleTest('recorderManager_pause')
           recorderManager.pause()
         },
       },
       {
         id: 'recorderManager_resume',
         func: () => {
+          TestConsole.consoleTest('recorderManager_resume')
           recorderManager.resume()
         },
       },
       {
         id: 'recorderManager_onError',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onError')
           recorderManager.onError(() => {
-            console.log('success-----recorderManage: onError')
+            TestConsole.consoleNormal('onError callback')
           })
         },
       },
       {
         id: 'recorderManager_onFrameRecorded',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onFrameRecorded')
           recorderManager.onFrameRecorded(() => {
-            console.log('success-----recorderManage: onFrameRecorded')
+            TestConsole.consoleNormal('onFrameRecorded callback')
           })
         },
       },
       {
         id: 'recorderManager_onInterruptionBegin',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onInterruptionBegin')
           const that = this
           recorderManager.onInterruptionBegin(() => {
-            console.log('success-----recorderManage: onInterruptionBegin')
+            TestConsole.consoleNormal('onInterruptionBegin callback')
             that.setState({
               recording: false,
             })
@@ -112,9 +120,10 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_onInterruptionEnd',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onInterruptionEnd')
           const that = this
           recorderManager.onInterruptionEnd(() => {
-            console.log('success-----recorderManage: onInterruptionEnd')
+            TestConsole.consoleNormal('onInterruptionEnd callback')
             that.setState({
               recording: true,
             })
@@ -132,9 +141,10 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_onPause',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onPause')
           const that = this
           recorderManager.onPause(() => {
-            console.log('success-----recorderManage: onPause')
+            TestConsole.consoleNormal('onPause callback')
             that.setState({
               recording: false,
             })
@@ -146,9 +156,10 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_onResume',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onResume')
           const that = this
           recorderManager.onResume(() => {
-            console.log('success-----recorderManage: onResume')
+            TestConsole.consoleNormal('onResume callback')
             // 录音时长记录 每秒刷新
             that.setState({
               recording: true,
@@ -166,9 +177,10 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_onStart',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onStart')
           const that = this
           recorderManager.onStart(() => {
-            console.log('success-----recorderManage: onStart')
+            TestConsole.consoleNormal('onStart callback')
             that.setState({
               recordTime: 0,
             })
@@ -186,9 +198,10 @@ export default class Index extends React.Component {
       {
         id: 'recorderManager_onStop',
         func: () => {
+          TestConsole.consoleTest('recorderManager_onStop')
           const that = this
           recorderManager.onStop(() => {
-            console.log('success-----recorderManage: onStop')
+            TestConsole.consoleNormal('onStop callback')
             that.setState({
               recording: false,
             })

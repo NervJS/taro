@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 媒体-背景音频
@@ -14,6 +15,7 @@ export default class Index extends React.Component {
       {
         id: 'getBackgroundAudioManager',
         func: () => {
+          TestConsole.consoleTest('getBackgroundAudioManager')
           backgroundAudioManager = Taro.getBackgroundAudioManager()
           backgroundAudioManager.src = 'https://storage.360buyimg.com/jdrd-blog/27.mp3'
           backgroundAudioManager.title = '此时此刻'
@@ -25,143 +27,143 @@ export default class Index extends React.Component {
             'https://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000'
           backgroundAudioManager.protocol = 'http'
           backgroundAudioManager.referrerPolicy = 'origin'
-          console.log('get backgroundAudioManager :', backgroundAudioManager)
+          TestConsole.consoleNormal('get backgroundAudioManager :', backgroundAudioManager)
         },
       },
       {
         id: 'BackgroundAudioManager_play',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_play')
           backgroundAudioManager.play()
-          console.log('backgroundAudioManager play')
         },
       },
       {
         id: 'BackgroundAudioManager_pause',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_pause')
           backgroundAudioManager.pause()
-          console.log('backgroundAudioManager pause')
         },
       },
       {
         id: 'BackgroundAudioManager_stop',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_stop')
           backgroundAudioManager.stop()
-          console.log('backgroundAudioManager stop')
         },
       },
       {
         id: 'BackgroundAudioManager_seek',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_seek')
           backgroundAudioManager.seek(150)
-          console.log('backgroundAudioManager seek')
         },
       },
       {
         id: 'BackgroundAudioManager_onCanplay',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onCanplay')
           backgroundAudioManager.onCanplay(() => {
-            console.log('onCanplay callback')
+            TestConsole.consoleNormal('onCanplay callback')
           })
-          console.log('backgroundAudioManager onCanplay')
         },
       },
       {
         id: 'BackgroundAudioManager_onWaiting',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onWaiting')
           backgroundAudioManager.onPlay(() => {
-            console.log('onWaiting callback')
+            TestConsole.consoleNormal('onWaiting callback')
           })
-          console.log('backgroundAudioManager onWaiting')
         },
       },
       {
         id: 'backgroundAudioManagert_onError',
         func: () => {
+          TestConsole.consoleTest('backgroundAudioManagert_onError')
           backgroundAudioManager.onError(() => {
-            console.log('onError callback')
+            TestConsole.consoleNormal('onError callback')
           })
-          console.log('backgroundAudioManager onError')
         },
       },
       {
         id: 'BackgroundAudioManager_onPlay',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onPlay')
           backgroundAudioManager.onPlay(() => {
-            console.log('onPlay callback')
+            TestConsole.consoleNormal('onPlay callback')
           })
-          console.log('innerAudioContext onPlay')
         },
       },
       {
         id: 'BackgroundAudioManager_onPause',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onPause')
           backgroundAudioManager.onPause(() => {
-            console.log('onPause callback')
+            TestConsole.consoleNormal('onPause callback')
           })
-          console.log('backgroundAudioManager onPause')
         },
       },
       {
         id: 'BackgroundAudioManager_onSeeking',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onSeeking')
           backgroundAudioManager.onSeeking(() => {
-            console.log('onSeeking callback')
+            TestConsole.consoleNormal('onSeeking callback')
           })
-          console.log('backgroundAudioManager onSeeking')
         },
       },
       {
         id: 'BackgroundAudioManager_onSeeked',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onSeeked')
           backgroundAudioManager.onSeeked(() => {
-            console.log('onSeeked callback')
+            TestConsole.consoleNormal('onSeeked callback')
           })
-          console.log('backgroundAudioManager onSeeked')
         },
       },
       {
         id: 'BackgroundAudioManager_onEnded',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onEnded')
           backgroundAudioManager.onEnded(() => {
-            console.log('onEnded callback')
+            TestConsole.consoleNormal('onEnded callback')
           })
-          console.log('backgroundAudioManager onEnded')
         },
       },
       {
         id: 'BackgroundAudioManager_onStop',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onStop')
           backgroundAudioManager.onStop(() => {
-            console.log('onStop callback')
+            TestConsole.consoleNormal('onStop callback')
           })
-          console.log('backgroundAudioManager onStop')
         },
       },
       {
         id: 'BackgroundAudioManager_onTimeUpdate',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onTimeUpdate')
           backgroundAudioManager.onTimeUpdate(() => {
-            console.log('onTimeUpdate callback')
+            TestConsole.consoleNormal('onTimeUpdate callback')
           })
-          console.log('backgroundAudioManager onTimeUpdate')
         },
       },
       {
-        id: 'BackgroundAudioManager_onPrev',
+        id: 'BackgroundAudioManager_onPrev_暂不支持',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onPrev')
           backgroundAudioManager.onPrev(() => {
-            console.log('onPrev callback')
+            TestConsole.consoleNormal('onPrev callback')
           })
-          console.log('backgroundAudioManager onPrev')
         },
       },
       {
-        id: 'BackgroundAudioManager_onNext',
+        id: 'BackgroundAudioManager_onNext_暂不支持',
         func: () => {
+          TestConsole.consoleTest('BackgroundAudioManager_onNext')
           backgroundAudioManager.onNext(() => {
-            console.log('onNext callback')
+            TestConsole.consoleNormal('onNext callback')
           })
-          console.log('backgroundAudioManager onNext')
         },
       },
     ],

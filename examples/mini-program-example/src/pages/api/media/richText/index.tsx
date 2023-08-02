@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Editor } from '@tarojs/components'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 设备-电池
@@ -17,11 +18,12 @@ export default class Index extends React.Component {
       {
         id: 'EditorContext',
         func: () => {
+          TestConsole.consoleTest('EditorContext')
           Taro.createSelectorQuery()
             .select('#editor')
             .context((res) => {
               editorContext = res.context
-              console.log('success-----', editorContext)
+              TestConsole.consoleNormal('success-----', editorContext)
             })
             .exec()
         },
@@ -29,208 +31,266 @@ export default class Index extends React.Component {
       {
         id: 'EditorContext_blur_暂不支持',
         func: () => {
-          editorContext.blur({
-            success: (res) => {
-              console.log('editorContext.blur success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.blur fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.blur complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_blur')
+          editorContext
+            .blur({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_clear',
         func: () => {
-          editorContext.clear({
-            success: (res) => {
-              console.log('editorContext.clear success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.clear fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.clear complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_clear')
+          editorContext
+            .clear({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_format_left',
         func: () => {
+          TestConsole.consoleTest('EditorContext_format_left')
           editorContext.format('align', 'left')
-          console.log('editorContext.format success ')
+          TestConsole.consoleNormal('editorContext.format success ')
         },
       },
       {
         id: 'EditorContext_format_right',
         func: () => {
+          TestConsole.consoleTest('EditorContext_format_right')
           editorContext.format('align', 'right')
-          console.log('editorContext.format success ')
+          TestConsole.consoleNormal('editorContext.format success ')
         },
       },
       {
         id: 'EditorContext_getContents',
         func: () => {
-          editorContext.getContents({
-            success: (res) => {
-              console.log('editorContext.getContents success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.getContents fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.getContents complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_getContents')
+          editorContext
+            .getContents({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_insertDivider_暂不支持',
         func: () => {
-          editorContext.insertDivider({
-            success: (res) => {
-              console.log('editorContext.insertDivider success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.insertDivider fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.insertDivider complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_insertDivider')
+          editorContext
+            .insertDivider({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_insertImage',
         func: () => {
-          editorContext.insertImage({
-            src: '',
-            nowrap: true,
-            alt: 'hello,beautiful world',
-            data: '',
-            extClass: 'test_image',
-            height: '100',
-            width: '100',
-            success: (res) => {
-              console.log('editorContext.insertImage success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.insertImage fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.insertImage complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_insertImage')
+          editorContext
+            .insertImage({
+              src: '',
+              nowrap: true,
+              alt: 'hello,beautiful world',
+              data: '',
+              extClass: 'test_image',
+              height: '100',
+              width: '100',
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_insertText',
         func: () => {
-          editorContext.insertText({
-            text: 'developer conference',
-            success: (res) => {
-              console.log('editorContext.insertText success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.insertText fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.insertText complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_insertText')
+          editorContext
+            .insertText({
+              text: 'developer conference',
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_redo',
         func: () => {
-          editorContext.redo({
-            success: (res) => {
-              console.log('editorContext.redo success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.redo fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.redo complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_redo')
+          editorContext
+            .redo({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_removeFormat',
         func: () => {
-          editorContext.removeFormat({
-            success: (res) => {
-              console.log('editorContext.removeFormat success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.removeFormat fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.removeFormat complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_removeFormat')
+          editorContext
+            .removeFormat({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_scrollIntoView',
         func: () => {
+          TestConsole.consoleTest('EditorContext_scrollIntoView')
           editorContext.scrollIntoView()
-          console.log('editorContext.scrollIntoView success ')
+          TestConsole.consoleNormal('editorContext.scrollIntoView success ')
         },
       },
       {
         id: 'EditorContext_setContents',
         func: () => {
-          editorContext.setContents({
-            delta: 'test_contents',
-            html: 'test_html',
-            success: (res) => {
-              console.log('editorContext.setContents success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.setContents fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.setContents complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_setContents')
+          editorContext
+            .setContents({
+              delta: 'test_contents',
+              html: 'test_html',
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_undo',
         func: () => {
-          editorContext.undo({
-            success: (res) => {
-              console.log('editorContext.undo success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.undo fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.undo complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_undo')
+          editorContext
+            .undo({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
         id: 'EditorContext_getSelectionText',
         func: () => {
-          editorContext.getSelectionText({
-            success: (res) => {
-              console.log('editorContext.getSelectionText success ', res)
-            },
-            fail: (res) => {
-              console.log('editorContext.getSelectionText fail ', res)
-            },
-            complete: (res) => {
-              console.log('editorContext.getSelectionText complete ', res)
-            },
-          })
+          TestConsole.consoleTest('EditorContext_getSelectionText')
+          editorContext
+            .getSelectionText({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
     ],

@@ -1,139 +1,183 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
-import { TestConsole } from '../../../util/util'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 数据缓存
  * @returns
  */
-
 export default class Index extends React.Component {
   state = {
     list: [
       {
         id: 'setStorageSync',
         func: () => {
-          try {
-            Taro.setStorageSync('testKey', 'testValue')
-            console.log('setStorageSync')
-          } catch (error) {
-            console.log('setStorageSync error ', error)
-          }
+          TestConsole.consoleTest('setStorageSync')
+          Taro.setStorageSync('setStorageSyncKey', 'setStorageSyncValue')
         },
       },
       {
         id: 'setStorage',
         func: () => {
-          TestConsole.consoleTest('setStorage');
+          TestConsole.consoleTest('setStorage')
           Taro.setStorage({
-            key: 'testKey',
-            data: 'testValue',
+            data: 'setStorageValue',
+            key: 'setStorageKey',
             complete: (res) => {
-              TestConsole.consoleComplete(res);
-            },
-            success: (res) => {
-              TestConsole.consoleSuccess(res);
+              TestConsole.consoleComplete(res)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res);
+              TestConsole.consoleFail(res)
+            },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res);
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
-        id: 'revokeBufferURL',
+        id: 'revokeBufferURL_暂不支持',
         func: null,
       },
       {
         id: 'removeStorageSync',
         func: () => {
-          try {
-            Taro.setStorageSync('testKey', 'testValue')
-            console.log('setStorageSync')
-
-            Taro.removeStorageSync('testKey')
-            console.log('removeStorageSync')
-          } catch (error) {
-            console.log('removeStorageSync error ', error)
-          }
+          TestConsole.consoleTest('removeStorageSync')
+          Taro.removeStorageSync('setStorageSyncKey')
+          TestConsole.consoleNormal('removeStorageSync success')
         },
       },
       {
         id: 'removeStorage',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('removeStorage')
+          Taro.removeStorage({
+            key: 'setStorageKey',
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res)
+            },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
         id: 'getStorageSync',
         func: () => {
+          TestConsole.consoleTest('getStorageSync')
           try {
-            Taro.setStorageSync('testKey', 'testValue')
-            console.log('setStorageSync')
-            var value = Taro.getStorageSync('testKey')
+            var value = Taro.getStorageSync('setStorageSyncKey')
             if (value) {
-              console.log('getStorageSync ', value)
+              TestConsole.consoleNormal('getStorageSync value ', value)
             }
-          } catch (error) {
-            console.log('getStorageSync error ', error)
+          } catch (e) {
+            TestConsole.consoleNormal('getStorageSync error ', e)
           }
         },
       },
       {
         id: 'getStorageInfoSync',
         func: () => {
+          TestConsole.consoleTest('getStorageInfoSync')
           try {
-            Taro.setStorageSync('testKey', 'testValue')
-            console.log('setStorageSync')
             const res = Taro.getStorageInfoSync()
-            console.log('getStorageInfoSync ', res)
+            TestConsole.consoleNormal('getStorageInfoSync result:', res)
           } catch (e) {
-            console.log('getStorageInfoSync error', e)
+            TestConsole.consoleNormal('getStorageInfoSync error ', e)
           }
         },
       },
       {
         id: 'getStorageInfo',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('getStorageInfo')
+          Taro.getStorageInfo({
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res)
+            },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
         id: 'getStorage',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('getStorage')
+          Taro.getStorage({
+            key: 'setStorageKey',
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res)
+            },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
-        id: 'createBufferURL',
-        func: null,
-      },
-      {
-        id: 'createStorageSync',
+        id: 'createBufferURL_暂不支持',
         func: null,
       },
       {
         id: 'clearStorageSync',
         func: () => {
+          TestConsole.consoleTest('clearStorageSync')
           try {
-            Taro.setStorageSync('testKey', 'testValue')
-            console.log('setStorageSync')
-
             Taro.clearStorageSync()
-            console.log('clearStorageSync ')
+            TestConsole.consoleNormal('clearStorageSync success')
           } catch (e) {
-            console.log('clearStorageSync error', e)
+            // Do something when catch error
+            TestConsole.consoleNormal('clearStorageSync error ', e)
           }
         },
       },
       {
         id: 'clearStorage',
+        func: () => {
+          TestConsole.consoleTest('clearStorage')
+          Taro.clearStorage({
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res)
+            },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
+      },
+      {
+        id: 'PeriodicUpdate_暂不支持',
         func: null,
       },
       {
-        id: 'PeriodicUpdate',
-        func: null,
-      },
-      {
-        id: 'CacheManager',
+        id: 'CacheManager_暂不支持',
         func: null,
       },
     ],
