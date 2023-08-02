@@ -64,10 +64,6 @@ function getRelativePath (
   }
   // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
-    let vpath = path.resolve(sourceFilePath, '..', oriPath)
-    if (oriPath.indexOf('/') !== -1 && oriPath.indexOf('@') === -1 && oriPath.lastIndexOf('.js') !== oriPath.length-3){
-      oriPath = oriPath + '.js'  // 不在这里返回    utils/auth -> utils/auth.js
-    }
     const vpath = path.resolve(sourceFilePath, '..', oriPath)
     if (fs.existsSync(vpath)) {
       return './' + oriPath
@@ -75,7 +71,13 @@ function getRelativePath (
     const testParts = oriPath.split('/');
     let testindex = path.join(rootPath, `node_modules/${testParts[0]}`); // 判断三方件是否在node_modules中
     if (!fs.existsSync(testindex)) {
-        return oriPath;
+      if (oriPath.indexOf('/') !== -1 && oriPath.indexOf('@') === -1 && oriPath.lastIndexOf('.js') !== oriPath.length-3){
+        oriPath = oriPath + '.js'  // 不在这里返回    utils/auth -> utils/auth.js
+      }
+      if (fs.existsSync(oriPath)) {
+        oriPath =  './' + oriPath
+      }
+      return oriPath;
     }
     const realPath = getModulePath(rootPath, oriPath);
     // 转成相对路径

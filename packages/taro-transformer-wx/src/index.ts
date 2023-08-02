@@ -14,6 +14,9 @@ import flowStrip from '@babel/plugin-transform-flow-strip-types'
 import jsxPlugin from '@babel/plugin-transform-react-jsx'
 import traverse, { Binding, NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
+// import * as template from '@babel/template'
+// const template = require('babel-template')
+import babel_plugin_transform_commonjs from "babel-plugin-transform-commonjs"
 import { prettyPrint } from 'html'
 import { cloneDeep, get as safeGet, isArray,snakeCase } from 'lodash'
 // import { transform as parse } from '@babel/core'
@@ -237,7 +240,8 @@ function parseCode (code: string) {
       objectRestSpread,
       [decorators, {legacy: true}],
       dynamicImport,
-      optionalChaining
+      optionalChaining,
+      babel_plugin_transform_commonjs
     ]
   }) as { ast: t.File }).ast
 }
