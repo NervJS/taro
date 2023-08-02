@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 媒体-图片
@@ -14,141 +15,149 @@ export default class Index extends React.Component {
       {
         id: 'chooseImage_album',
         func: () => {
+          TestConsole.consoleTest('chooseImage_album')
           Taro.chooseImage({
             count: 7,
             sizeType: ['original', 'compressed'],
             sourceType: ['album'],
             success: function (res) {
-              console.log('chooseImage success ', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: function (res) {
-              console.log('chooseImage fail ', res)
+              TestConsole.consoleFail(res)
             },
             complete: function (res) {
-              console.log('chooseImage complete ', res)
+              TestConsole.consoleComplete(res)
             },
           }).then((ret) => {
-            console.log('chooseImage ret ', ret.tempFilePaths, ret.tempFiles, ret.errMsg)
+            TestConsole.consoleReturn(ret)
           })
         },
       },
       {
         id: 'chooseImage_camera',
         func: () => {
+          TestConsole.consoleTest('chooseImage_camera')
           Taro.chooseImage({
             count: 5,
             sizeType: ['original', 'compressed'],
             sourceType: ['camera'],
             success: function (res) {
-              console.log('chooseImage success ', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: function (res) {
-              console.log('chooseImage fail ', res)
+              TestConsole.consoleFail(res)
             },
             complete: function (res) {
-              console.log('chooseImage complete ', res)
+              TestConsole.consoleComplete(res)
             },
           }).then((ret) => {
-            console.log('chooseImage ret ', ret.tempFilePaths, ret.tempFiles, ret.errMsg)
+            TestConsole.consoleReturn(ret)
           })
         },
       },
       {
         id: 'chooseImage_user',
         func: () => {
+          TestConsole.consoleTest('chooseImage_user')
           Taro.chooseImage({
             count: 7,
             sizeType: ['original', 'compressed'],
             sourceType: ['user'],
             success: function (res) {
-              console.log('chooseImage success ', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: function (res) {
-              console.log('chooseImage fail ', res)
+              TestConsole.consoleFail(res)
             },
             complete: function (res) {
-              console.log('chooseImage complete ', res)
+              TestConsole.consoleComplete(res)
             },
           }).then((ret) => {
-            console.log('chooseImage ret ', ret.tempFilePaths, ret.tempFiles, ret.errMsg)
+            TestConsole.consoleReturn(ret)
           })
         },
       },
       {
         id: 'chooseImage_environment',
         func: () => {
+          TestConsole.consoleTest('chooseImage_environment')
           Taro.chooseImage({
             count: 5,
             sizeType: ['original', 'compressed'],
             sourceType: ['environment'],
             success: function (res) {
-              console.log('chooseImage success ', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: function (res) {
-              console.log('chooseImage fail ', res)
+              TestConsole.consoleFail(res)
             },
             complete: function (res) {
-              console.log('chooseImage complete ', res)
+              TestConsole.consoleComplete(res)
             },
           }).then((ret) => {
-            console.log('chooseImage ret ', ret.tempFilePaths, ret.tempFiles, ret.errMsg)
+            TestConsole.consoleReturn(ret)
           })
         },
       },
       {
         id: 'previewImage',
         func: () => {
+          TestConsole.consoleTest('previewImage')
           Taro.chooseImage({
             count: 3,
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: function (res) {
-              console.log('chooseImage success')
+              TestConsole.consoleNormal('chooseImage success')
               Taro.previewImage({
                 urls: res.tempFilePaths,
                 current: 'test/currentField',
                 showmenu: false,
                 referrerPolicy: 'origin',
                 success: function (res) {
-                  console.log('previewImage success ', res)
+                  TestConsole.consoleSuccess(res)
                 },
                 fail: function (res) {
-                  console.log('previewImage fail ', res)
+                  TestConsole.consoleFail(res)
                 },
                 complete: function (res) {
-                  console.log('previewImage complete ', res)
+                  TestConsole.consoleComplete(res)
                 },
               }).then((ret) => {
-                console.log('previewImage ret ', ret)
+                TestConsole.consoleReturn(ret)
               })
             },
             fail: function (res) {
-              console.log('chooseImage fail ', res.errMsg)
+              TestConsole.consoleFail(res)
             },
             complete: function (res) {
-              console.log('chooseImage complete ', res.errMsg)
+              TestConsole.consoleComplete(res)
             },
+          }).then((ret) => {
+            TestConsole.consoleReturn(ret)
           })
         },
       },
       {
         id: 'getImageInfo',
         func: () => {
+          TestConsole.consoleTest('getImageInfo')
           Taro.chooseImage({
             success: function (res) {
               Taro.getImageInfo({
                 src: res.tempFilePaths[0],
                 success: function (res) {
-                  console.log('getImageInfo success ', res)
+                  TestConsole.consoleSuccess(res)
                 },
                 fail: function (res) {
-                  console.log('getImageInfo fail ', res)
+                  TestConsole.consoleFail(res)
                 },
                 complete: function (res) {
-                  console.log('getImageInfo complete ', res)
+                  TestConsole.consoleComplete(res)
                 },
               }).then((res) => {
-                console.log('getImageInfo ret ', res.width, res.height, res.orientation, res.path, res.type, res.errMsg)
+                TestConsole.consoleReturn(res)
               })
             },
           })
@@ -157,21 +166,22 @@ export default class Index extends React.Component {
       {
         id: 'saveImageToPhotosAlbum',
         func: () => {
+          TestConsole.consoleTest('saveImageToPhotosAlbum')
           Taro.chooseImage({
             success: function (res) {
               Taro.saveImageToPhotosAlbum({
                 filePath: res.tempFilePaths[0],
                 success: function (res) {
-                  console.log('saveImageToPhotosAlbum success ', res)
+                  TestConsole.consoleSuccess(res)
                 },
                 fail: function (res) {
-                  console.log('saveImageToPhotosAlbum fail ', res)
+                  TestConsole.consoleFail(res)
                 },
                 complete: function (res) {
-                  console.log('saveImageToPhotosAlbum complete ', res)
+                  TestConsole.consoleComplete(res)
                 },
               }).then((ret) => {
-                console.log('saveImageToPhotosAlbum ret ', ret)
+                TestConsole.consoleReturn(ret)
               })
             },
           })
@@ -180,6 +190,7 @@ export default class Index extends React.Component {
       {
         id: 'compressImage',
         func: () => {
+          TestConsole.consoleTest('compressImage')
           Taro.chooseImage({
             success: function (res) {
               Taro.compressImage({
@@ -188,50 +199,51 @@ export default class Index extends React.Component {
                 compressedWidth: 300,
                 compressHeight: 200,
                 success: function (res1) {
-                  console.log('compressImage success ', res1.errMsg)
+                  TestConsole.consoleNormal('compressImage success ', res1)
                   Taro.saveImageToPhotosAlbum({
                     filePath: res1.tempFilePath,
                     success: function (res2) {
-                      console.log('saveImageToPhotosAlbum success ', res2)
+                      TestConsole.consoleNormal('saveImageToPhotosAlbum success ', res2)
                       Taro.getImageInfo({
                         src: res1.tempFilePath,
                         success: function (res) {
-                          console.log('compress later:getImageInfo success ', res)
+                          TestConsole.consoleNormal('compress later:getImageInfo success ', res)
                         },
                         fail: function (res) {
-                          console.log('compress later:getImageInfo fail ', res)
+                          TestConsole.consoleNormal('compress later:getImageInfo fail ', res)
                         },
                         complete: function (res) {
-                          console.log('compress later:getImageInfo complete ', res)
+                          TestConsole.consoleNormal('compress later:getImageInfo complete ', res)
                         },
                       })
                     },
                     fail: function (res2) {
-                      console.log('saveImageToPhotosAlbum fail ', res2)
+                      TestConsole.consoleNormal('saveImageToPhotosAlbum fail ', res2)
                     },
                     complete: function (res2) {
-                      console.log('saveImageToPhotosAlbum complete ', res2)
+                      TestConsole.consoleNormal('saveImageToPhotosAlbum complete ', res2)
                     },
                   })
                 },
                 fail: function (res1) {
-                  console.log('compressImage fail ', res1.errMsg)
+                  TestConsole.consoleFail(res1)
                 },
                 complete: function (res1) {
-                  console.log('compressImage complete ', res1.errMsg)
+                  TestConsole.consoleComplete(res1)
                 },
               }).then((ret1) => {
-                console.log('compressImage ret ', ret1)
+                TestConsole.consoleReturn(ret1)
               })
             },
           }).then((res) => {
-            console.log('compress before :chooseImage ret ', res.tempFiles[0].size)
+            TestConsole.consoleNormal('compress before :chooseImage ret ', res.tempFiles[0].size)
           })
         },
       },
       {
         id: 'previewMedia_image',
         func: () => {
+          TestConsole.consoleTest('previewMedia_image')
           Taro.chooseImage({
             success: function (res) {
               Taro.previewMedia({
@@ -246,16 +258,16 @@ export default class Index extends React.Component {
                 showmenu: false,
                 referrerPolicy: 'origin',
                 success: function (res) {
-                  console.log('previewMedia success ', res)
+                  TestConsole.consoleSuccess(res)
                 },
                 fail: function (res) {
-                  console.log('previewMedia fail ', res)
+                  TestConsole.consoleFail(res)
                 },
                 complete: function (res) {
-                  console.log('previewMedia complete ', res)
+                  TestConsole.consoleComplete(res)
                 },
               }).then((ret) => {
-                console.log('previewMedia_image ret ', ret)
+                TestConsole.consoleReturn(ret)
               })
             },
           })
@@ -264,12 +276,13 @@ export default class Index extends React.Component {
       {
         id: 'previewMedia_video_album',
         func: () => {
+          TestConsole.consoleTest('previewMedia_video_album')
           Taro.chooseVideo({
             sourceType: ['album'],
             maxDuration: 60,
             camera: 'back',
             success: function (res) {
-              console.log('chooseMedia success ', res)
+              TestConsole.consoleNormal('chooseMedia success ', res)
               Taro.previewMedia({
                 sources: [
                   {
@@ -279,16 +292,16 @@ export default class Index extends React.Component {
                   },
                 ],
                 success: function (res) {
-                  console.log('previewMedia success ', res)
+                  TestConsole.consoleSuccess(res)
                 },
                 fail: function (res) {
-                  console.log('previewMedia fail ', res)
+                  TestConsole.consoleFail(res)
                 },
                 complete: function (res) {
-                  console.log('previewMedia complete ', res)
+                  TestConsole.consoleComplete(res)
                 },
               }).then((ret) => {
-                console.log('previewMedia_video_album ret ', ret)
+                TestConsole.consoleReturn(ret)
               })
             },
           })
@@ -297,12 +310,13 @@ export default class Index extends React.Component {
       {
         id: 'previewMedia_video_camera',
         func: () => {
+          TestConsole.consoleTest('previewMedia_video_camera')
           Taro.chooseVideo({
             sourceType: ['camera'],
             maxDuration: 60,
             camera: 'back',
             success: function (res) {
-              console.log('chooseMedia success ', res)
+              TestConsole.consoleNormal('chooseMedia success ', res)
               Taro.previewMedia({
                 sources: [
                   {
@@ -312,16 +326,16 @@ export default class Index extends React.Component {
                   },
                 ],
                 success: function (res) {
-                  console.log('previewMedia success ', res)
+                  TestConsole.consoleSuccess(res)
                 },
                 fail: function (res) {
-                  console.log('previewMedia fail ', res)
+                  TestConsole.consoleFail(res)
                 },
                 complete: function (res) {
-                  console.log('previewMedia complete ', res)
+                  TestConsole.consoleComplete(res)
                 },
               }).then((ret) => {
-                console.log('previewMedia_video_camera ret ', ret)
+                TestConsole.consoleReturn(ret)
               })
             },
           })

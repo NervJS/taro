@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 媒体-音频
@@ -14,6 +15,7 @@ export default class Index extends React.Component {
       {
         id: 'createInnerAudioContext',
         func: () => {
+          TestConsole.consoleTest('createInnerAudioContext')
           innercontext = Taro.createInnerAudioContext()
           innercontext.src = 'https://storage.360buyimg.com/jdrd-blog/27.mp3'
           innercontext.startTime = 0
@@ -23,222 +25,222 @@ export default class Index extends React.Component {
           innercontext.playbackRate = 1
           innercontext.currentTime = 0
           innercontext.referrerPolicy = 'origin'
-          console.log('create innerAudioContext :', innercontext)
+          TestConsole.consoleNormal('create innerAudioContext :', innercontext)
         },
       },
       {
         id: 'InnerAudioContext_play',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_play')
           innercontext.play()
-          console.log('innerAudioContext play')
         },
       },
       {
         id: 'InnerAudioContext_pause',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_pause')
           innercontext.pause()
-          console.log('innerAudioContext pause')
         },
       },
       {
         id: 'InnerAudioContext_stop',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_stop')
           innercontext.stop()
-          console.log('innerAudioContext stop')
         },
       },
       {
         id: 'InnerAudioContext_seek',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_seek')
           innercontext.seek(150)
-          console.log('innerAudioContext seek')
         },
       },
       {
         id: 'InnerAudioContext_destroy',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_destroy')
           innercontext.destroy()
-          console.log('innerAudioContext destroy')
         },
       },
       {
         id: 'InnerAudioContext_onCanplay',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onCanplay')
           innercontext.onCanplay(() => {
-            console.log('onCanplay callback')
+            TestConsole.consoleNormal('onCanplay callback')
           })
-          console.log('innerAudioContext onCanplay')
         },
       },
       {
         id: 'InnerAudioContext_onPlay',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onPlay')
           innercontext.onPlay(() => {
-            console.log('onPlay callback')
+            TestConsole.consoleNormal('onPlay callback')
           })
-          console.log('innerAudioContext onPlay')
         },
       },
       {
         id: 'InnerAudioContext_onPause',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onPause')
           innercontext.onPause(() => {
-            console.log('onPause callback')
+            TestConsole.consoleNormal('onPause callback')
           })
-          console.log('innerAudioContext onPause')
         },
       },
       {
         id: 'InnerAudioContext_onStop',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onStop')
           innercontext.onStop(() => {
-            console.log('onStop callback')
+            TestConsole.consoleNormal('onStop callback')
           })
-          console.log('innerAudioContext onStop')
         },
       },
       {
         id: 'InnerAudioContext_onEnded',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onEnded')
           innercontext.onEnded(() => {
-            console.log('onEnded callback')
+            TestConsole.consoleNormal('onEnded callback')
           })
-          console.log('innerAudioContext onEnded')
         },
       },
       {
         id: 'InnerAudioContext_onTimeUpdate',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onTimeUpdate')
           innercontext.onTimeUpdate(() => {
-            console.log('onTimeUpdate callback')
+            TestConsole.consoleNormal('onTimeUpdate callback')
           })
-          console.log('innerAudioContext onTimeUpdate')
         },
       },
       {
         id: 'InnerAudioContext_onError-音频出错才能触发',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onError')
           innercontext.onError(() => {
-            console.log('onError callback')
+            TestConsole.consoleNormal('onError callback')
           })
-          console.log('innerAudioContext onError')
         },
       },
       {
         id: 'InnerAudioContext_onWaiting-音频缓冲不足暂停才能触发',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onWaiting')
           innercontext.onWaiting(() => {
-            console.log('onWaiting callback')
+            TestConsole.consoleNormal('onWaiting callback')
           })
-          console.log('innerAudioContext onWaiting')
         },
       },
       {
         id: 'InnerAudioContext_onSeeking',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onSeeking')
           innercontext.onSeeking(() => {
-            console.log('onSeeking callback')
+            TestConsole.consoleNormal('onSeeking callback')
           })
-          console.log('innerAudioContext onSeeking')
         },
       },
       {
         id: 'InnerAudioContext_onSeeked',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_onSeeked')
           innercontext.onSeeked(() => {
-            console.log('onSeeked callback')
+            TestConsole.consoleNormal('onSeeked callback')
           })
-          console.log('innerAudioContext onSeeked')
         },
       },
       {
         id: 'InnerAudioContext_offCanplay',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offCanplay')
           innercontext.offCanplay(() => {
-            console.log('offCanplay callback')
+            TestConsole.consoleNormal('offCanplay callback')
           })
-          console.log('innerAudioContext offCanplay')
         },
       },
       {
         id: 'InnerAudioContext_offPlay',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offPlay')
           innercontext.offPlay(() => {
-            console.log('offPlay callback')
+            TestConsole.consoleNormal('offPlay callback')
           })
-          console.log('innerAudioContext offPlay')
         },
       },
       {
         id: 'InnerAudioContext_offPause',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offPause')
           innercontext.offPause(() => {
-            console.log('offPause callback')
+            TestConsole.consoleNormal('offPause callback')
           })
-          console.log('innerAudioContext offPause')
         },
       },
       {
         id: 'InnerAudioContext_offStop',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offStop')
           innercontext.offStop(() => {
-            console.log('offStop callback')
+            TestConsole.consoleNormal('offStop callback')
           })
-          console.log('innerAudioContext offStop')
         },
       },
       {
         id: 'InnerAudioContext_offEnded',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offEnded')
           innercontext.offEnded(() => {
-            console.log('offEnded callback')
+            TestConsole.consoleNormal('offEnded callback')
           })
-          console.log('innerAudioContext offEnded')
         },
       },
       {
         id: 'InnerAudioContext_offTimeUpdate',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offTimeUpdate')
           innercontext.offTimeUpdate(() => {
-            console.log('offTimeUpdate callback')
+            TestConsole.consoleNormal('offTimeUpdate callback')
           })
-          console.log('innerAudioContext offTimeUpdate')
         },
       },
       {
         id: 'InnerAudioContext_offError',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offError')
           innercontext.offError(() => {
-            console.log('offError callback')
+            TestConsole.consoleNormal('offError callback')
           })
-          console.log('innerAudioContext offError')
         },
       },
       {
         id: 'InnerAudioContext_offWaiting',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offWaiting')
           innercontext.offWaiting(() => {
-            console.log('offWaiting callback')
+            TestConsole.consoleNormal('offWaiting callback')
           })
-          console.log('innerAudioContext offWaiting')
         },
       },
       {
         id: 'InnerAudioContext_offSeeking',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offSeeking')
           innercontext.offSeeking(() => {
-            console.log('offSeeking callback')
+            TestConsole.consoleNormal('offSeeking callback')
           })
-          console.log('innerAudioContext offSeeking')
         },
       },
       {
         id: 'InnerAudioContext_offSeeked',
         func: () => {
+          TestConsole.consoleTest('InnerAudioContext_offSeeked')
           innercontext.offSeeked(() => {
-            console.log('offSeeked callback')
+            TestConsole.consoleNormal('offSeeked callback')
           })
-          console.log('innerAudioContext offSeeked')
         },
       },
     ],

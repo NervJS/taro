@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
+import { TestConsole } from 'src/util/util'
 
 /**
  * 路由
@@ -14,105 +15,103 @@ export default class Index extends React.Component {
       {
         id: 'switchTab',
         func: () => {
+          TestConsole.consoleTest('switchTab')
           Taro.switchTab({
             url: '/pages/api/index/index',
             complete: (res) => {
-              console.log('switchTab complete ', res)
+              TestConsole.consoleComplete(res)
             },
             fail: (res) => {
-              console.log('switchTab fail ', res)
+              TestConsole.consoleFail(res)
             },
             success: (res) => {
-              console.log('switchTab success ', res)
+              TestConsole.consoleSuccess(res)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'reLaunch',
         func: () => {
+          TestConsole.consoleTest('reLaunch')
           Taro.reLaunch({
             url: '/pages/api/index/index?testParam=1',
             complete: (res) => {
-              console.log('reLaunch complete ', res)
+              TestConsole.consoleComplete(res)
             },
             fail: (res) => {
-              console.log('reLaunch fail ', res)
+              TestConsole.consoleFail(res)
             },
             success: (res) => {
-              console.log('reLaunch success ', res)
+              TestConsole.consoleSuccess(res)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'redirectTo',
         func: () => {
+          TestConsole.consoleTest('redirectTo')
           Taro.redirectTo({
             url: '/pages/api/index/index?testParam01=1&testParam02=2',
             complete: (res) => {
-              console.log('redirectTo complete ', res)
+              TestConsole.consoleComplete(res)
             },
             fail: (res) => {
-              console.log('redirectTo fail ', res)
+              TestConsole.consoleFail(res)
             },
             success: (res) => {
-              console.log('redirectTo success ', res)
+              TestConsole.consoleSuccess(res)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'navigateTo',
         func: () => {
+          TestConsole.consoleTest('navigateTo')
           Taro.navigateTo({
             url: '/pages/api/index/index?testParam01=1&testParam02=2&testParam03=3',
             events: {
-              // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-              acceptDataFromOpenedPage: function (data) {
-                console.log(data)
-              },
-              someEvent: function (data) {
-                console.log(data)
-              },
-            },
-            success: (res) => {
-              // 通过eventChannel向被打开页面传送数据
-              res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-              console.log('navigateTo success ', res)
+              data: 'test',
             },
             complete: (res) => {
-              console.log('navigateTo complete ', res)
+              TestConsole.consoleComplete(res)
             },
             fail: (res) => {
-              console.log('navigateTo fail ', res)
+              TestConsole.consoleFail(res)
             },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'navigateBack',
         func: () => {
-          //A页面
-          Taro.navigateTo({
-            url: '/pages/api/basics/basics/index',
-          })
-          //B页面
-          Taro.navigateTo({
-            url: '/pages/api/basics/system/index',
-          })
-          // 在C页面内 navigateBack，将返回A页面
+          TestConsole.consoleTest('navigateBack')
           Taro.navigateBack({
             delta: 2,
-            success: (res) => {
-              console.log('navigateBack success ', res)
-            },
             complete: (res) => {
-              console.log('navigateBack complete ', res)
+              TestConsole.consoleComplete(res)
             },
             fail: (res) => {
-              console.log('navigateBack fail ', res)
+              TestConsole.consoleFail(res)
             },
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },

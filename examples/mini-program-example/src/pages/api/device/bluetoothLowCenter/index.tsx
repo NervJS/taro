@@ -6,7 +6,7 @@ import './index.scss'
 
 /**
  * 设备-蓝牙-低功耗中心设备
- * @returns 
+ * @returns
  */
 
 export default class Index extends React.Component {
@@ -255,25 +255,17 @@ export default class Index extends React.Component {
     ],
   }
 
-  render () {
+  render() {
     return (
       <View className='api-page'>
-        {
-          this.state.list.map((item) => {
-            return (
-              <View
-                key={item.id}
-                className='api-page-btn'
-                onClick={item.func == null ? () => { } : item.func}
-              >
-                {item.id}
-                {
-                  item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
-                }
-              </View>
-            )
-          })
-        }
+        {this.state.list.map((item) => {
+          return (
+            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
+              {item.id}
+              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
+            </View>
+          )
+        })}
       </View>
     )
   }
