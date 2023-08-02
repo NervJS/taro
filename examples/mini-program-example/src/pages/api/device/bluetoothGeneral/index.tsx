@@ -1,11 +1,12 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text, ScrollView } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
+import { TestConsole } from '../../../../util/util'
 import './index.scss'
 
 /**
  * 设备-蓝牙-通用
- * @returns
+ * @returns 
  */
 
 export default class Index extends React.Component {
@@ -14,101 +15,78 @@ export default class Index extends React.Component {
       {
         id: 'stopBluetoothDevicesDiscovery',
         func: () => {
-          Taro.openBluetoothAdapter({
+          TestConsole.consoleTest('stopBluetoothDevicesDiscovery')
+          Taro.stopBluetoothDevicesDiscovery({
             success: (res) => {
-              console.log('openBluetoothAdapter success', res)
-              Taro.startBluetoothDevicesDiscovery({
-                success: (res) => {
-                  console.log('startBluetoothDevicesDiscovery success', res)
-                  Taro.stopBluetoothDevicesDiscovery({
-                    success: (res) => {
-                      console.log('stopBluetoothDevicesDiscovery success-----', res)
-                    },
-                    fail: (res) => {
-                      console.log('stopBluetoothDevicesDiscovery fail-----', res)
-                    },
-                    complete: (res) => {
-                      console.log('stopBluetoothDevicesDiscovery complete-----', res)
-                    },
-                  })
-                },
-              })
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('openBluetoothAdapter fail', res)
+              TestConsole.consoleFail(res);
             },
+            complete: (res) => {
+              TestConsole.consoleComplete(res);
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn({ errMsg: res.errMsg })
           })
         },
       },
       {
         id: 'startBluetoothDevicesDiscovery',
         func: () => {
-          Taro.openBluetoothAdapter({
+          TestConsole.consoleTest('startBluetoothDevicesDiscovery')
+          Taro.startBluetoothDevicesDiscovery({
+            allowDuplicatesKey: false,
+            interval: 0,
+            services: [],
             success: (res) => {
-              console.log('openBluetoothAdapter success', res)
-              Taro.startBluetoothDevicesDiscovery({
-                allowDuplicatesKey: true,
-                interval: 500,
-                services: ['5A87DA25D04C4A0DD6571C6049FFA0AD587388163BB6E8422FBFB4B4D42B55F3'], //UUID
-                success: (res) => {
-                  console.log('startBluetoothDevicesDiscovery success-----', res)
-                },
-                fail: (res) => {
-                  console.log('startBluetoothDevicesDiscovery fail-----', res)
-                },
-                complete: (res) => {
-                  console.log('startBluetoothDevicesDiscovery complete-----', res)
-                },
-              })
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('openBluetoothAdapter fail', res)
+              TestConsole.consoleFail(res);
             },
+            complete: (res) => {
+              TestConsole.consoleComplete(res);
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn({ errMsg: res.errMsg })
           })
         },
       },
       {
         id: 'openBluetoothAdapter',
         func: () => {
+          TestConsole.consoleTest('openBluetoothAdapter')
           Taro.openBluetoothAdapter({
             success: (res) => {
-              console.log('openBluetoothAdapter success', res)
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('openBluetoothAdapter fail', res)
+              TestConsole.consoleFail(res);
             },
             complete: (res) => {
-              console.log('openBluetoothAdapter complete', res)
+              TestConsole.consoleComplete(res);
             },
+          }).then((res) => {
+            TestConsole.consoleReturn({ errMsg: res.errMsg })
           })
         },
       },
       {
         id: 'onBluetoothDeviceFound',
         func: () => {
+          TestConsole.consoleTest('onBluetoothDeviceFound')
           Taro.onBluetoothDeviceFound((res) => {
-            res.devices.forEach((device) => {
-              if (!device.name && !device.localName) {
-                return
-              }
-              const foundDevices = this.state.devices
-              const idx = this.inArray(foundDevices, 'deviceId', device.deviceId)
-              const data = {}
-              if (idx === -1) {
-                data[`devices[${foundDevices.length}]`] = device
-              } else {
-                data[`devices[${idx}]`] = device
-              }
-              this.setState(data)
-            })
+            TestConsole.consoleSuccess(res);
           })
         },
       },
       {
         id: 'onBluetoothAdapterStateChange',
         func: () => {
+          TestConsole.consoleTest('onBluetoothAdapterStateChange')
           Taro.onBluetoothAdapterStateChange((res) => {
-            console.log('success-----', res)
+            TestConsole.consoleSuccess(res);
           })
         },
       },
@@ -130,105 +108,105 @@ export default class Index extends React.Component {
       },
       {
         id: 'getConnectedBluetoothDevices',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('getConnectedBluetoothDevices')
+          Taro.getConnectedBluetoothDevices({
+            services: [],
+            success: (res) => {
+              TestConsole.consoleSuccess(res);
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res);
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete(res);
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
         id: 'getBluetoothDevices',
         func: () => {
+          TestConsole.consoleTest('getBluetoothDevices')
           Taro.getBluetoothDevices({
             success: (res) => {
-              console.log('getBluetoothDevices success ', res)
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('getBluetoothDevices fail', res)
+              TestConsole.consoleFail(res);
             },
             complete: (res) => {
-              console.log('getBluetoothDevices complete', res)
+              TestConsole.consoleComplete(res);
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'getBluetoothAdapterState',
         func: () => {
+          TestConsole.consoleTest('getBluetoothAdapterState')
           Taro.getBluetoothAdapterState({
             success: (res) => {
-              console.log('getBluetoothAdapterState success', res)
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('getBluetoothAdapterState fail', res)
+              TestConsole.consoleFail(res);
             },
             complete: (res) => {
-              console.log('getBluetoothAdapterState complete', res)
+              TestConsole.consoleComplete(res);
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'closeBluetoothAdapter',
         func: () => {
+          TestConsole.consoleTest('closeBluetoothAdapter')
           Taro.closeBluetoothAdapter({
             success: (res) => {
-              console.log('closeBluetoothAdapter success', res)
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('closeBluetoothAdapter fail', res)
+              TestConsole.consoleFail(res);
             },
             complete: (res) => {
-              console.log('closeBluetoothAdapter complete', res)
+              TestConsole.consoleComplete(res);
             },
+          }).then((res) => {
+            TestConsole.consoleReturn({ errMsg: res.errMsg })
           })
         },
       },
-    ],
-    devices: [],
+    ]
   }
-  inArray = (arr, key, val) => {
-    for (let i = 0; i < arr.length; i++) {
-      if (arr[i][key] === val) {
-        return i
-      }
-    }
-    return -1
-  }
-  render() {
-    const { list, devices } = this.state
+
+  render () {
+    const { list } = this.state;
     return (
       <View className='api-page'>
-        <View className='page-body-info'>
-          <View className='devices_summary'>已发现 {devices.length} 个外围设备：</View>
-          <ScrollView className='device_list' scroll-y scroll-with-animation>
-            {devices.map((item, index) => {
-              return (
-                <View
-                  key={index}
-                  data-device-id='{{item.deviceId}}'
-                  data-name='{{item.name || item.localName}}'
-                  className='device_item'
-                >
-                  <View style='font-size: 16px;'>{item.name}</View>
-                  <View style='font-size: 10px'>
-                    信号强度: {item.RSSI}dBm ({utils.max(0, item.RSSI + 100)}%)
-                  </View>
-                  <View style='font-size: 10px'>UUID: {item.deviceId}</View>
-                  <View style='font-size: 10px'>Service数量: {utils.len(item.advertisServiceUUIDs)}</View>
-                </View>
-              )
-            })}
-          </ScrollView>
-        </View>
-        <View>
-          顺序: openBluetoothAdapter --- startBluetoothDevicesDiscovery --- onBluetoothDeviceFound ---
-          stopBluetoothDevicesDiscovery
-        </View>
-        {list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <View>顺序: openBluetoothAdapter-startBluetoothDevicesDiscovery-onBluetoothDeviceFound-stopBluetoothDevicesDiscovery</View>
+        {
+          list.map((item) => {
+            return (
+              <View
+                key={item.id}
+                className='api-page-btn'
+                onClick={item.func == null ? () => { } : item.func}
+              >
+                {item.id}
+                {
+                  item.func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)
+                }
+              </View>
+            )
+          })
+        }
       </View>
     )
   }

@@ -25,7 +25,7 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
       erMsg?: string
     }>({ name, success, fail, complete })
 
-    // options.object must be object
+    // options.deviceId must be string
     if (typeof deviceId !== 'string') {
       return handle.fail({
         errMsg: getParameterError({
@@ -37,15 +37,14 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
     }
 
     // @ts-ignore
-    const ret = native.getBLEDeviceServices({
+    native.getBLEDeviceServices({
       deviceId: deviceId,
       success: (res: any) => {
-        return handle.success(res)
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }

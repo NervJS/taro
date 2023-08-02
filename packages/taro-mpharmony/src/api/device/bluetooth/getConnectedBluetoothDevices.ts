@@ -11,7 +11,7 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
     if (!isObject.flag) {
       const res = { errMsg: `${name}:fail ${isObject.msg}` }
       console.error(res.errMsg)
-      reject(res)
+      return reject(res)
     }
     const {
       services,

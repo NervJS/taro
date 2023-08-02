@@ -24,7 +24,7 @@ export const readBLECharacteristicValue: typeof Taro.readBLECharacteristicValue 
 
     const handle = new MethodHandler({ name, success, fail, complete })
 
-    // options.object must be object
+    // options.characteristicId must be string
     if (typeof characteristicId !== 'string') {
       return handle.fail({
         errMsg: getParameterError({
@@ -56,17 +56,22 @@ export const readBLECharacteristicValue: typeof Taro.readBLECharacteristicValue 
     }
 
     // @ts-ignore
-    const ret = native.readBLECharacteristicValue({
+    native.readBLECharacteristicValue({
       characteristicId: characteristicId,
       deviceId: deviceId,
       serviceId: serviceId,
       success: (res: any) => {
-        return handle.success(res)
+        const result: TaroGeneral.BluetoothError = {
+          /** 错误信息 */
+          errMsg: '',
+          /** 错误码 */
+          errCode: res[0]
+        }
+        handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }
