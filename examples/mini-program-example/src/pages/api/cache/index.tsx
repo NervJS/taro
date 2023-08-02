@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '../../../util/util'
 import './index.scss'
 
 /**
@@ -25,18 +26,21 @@ export default class Index extends React.Component {
       {
         id: 'setStorage',
         func: () => {
+          TestConsole.consoleTest('setStorage');
           Taro.setStorage({
             key: 'testKey',
             data: 'testValue',
             complete: (res) => {
-              console.log('setStorage complete ', res)
+              TestConsole.consoleComplete(res);
             },
             success: (res) => {
-              console.log('setStorage success ', res)
+              TestConsole.consoleSuccess(res);
             },
             fail: (res) => {
-              console.log('setStorage fail ', res)
+              TestConsole.consoleFail(res);
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res);
           })
         },
       },
