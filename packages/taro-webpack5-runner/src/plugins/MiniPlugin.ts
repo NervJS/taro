@@ -1327,7 +1327,6 @@ export default class TaroMiniPlugin {
             if (!(pageStyle in assets)) {
               assets[pageStyle] = new ConcatSource('')
             }
-            printLog(processTypeEnum.COMPILE, `[${pageStyle}] 本地化组件引入公共样式`)
             const source = new ConcatSource('')
             const originSource = assets[pageStyle]
             componentCommons.forEach(item => {
@@ -1337,7 +1336,6 @@ export default class TaroMiniPlugin {
             assets[pageStyle] = source
           } else {
             if (pageStyle in assets) {
-              printLog(processTypeEnum.COMPILE, `[${pageStyle}] 页面引入公共样式`)
               const source = new ConcatSource('')
               const originSource = assets[pageStyle]
               source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), 'app.wxss')))};\n`)

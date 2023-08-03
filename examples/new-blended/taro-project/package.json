@@ -9,7 +9,7 @@
     "css": "sass"
   },
   "scripts": {
-    "build": "taro build native-components --type weapp --watch",
+    "build": "taro build --type weapp --new-blended",
     "dev": "taro build --type weapp --new-blended --watch"
   },
   "browserslist": [
@@ -20,16 +20,16 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@tarojs/cli": "3.6.7",
-    "@tarojs/components": "3.6.7",
-    "@tarojs/helper": "3.6.7",
-    "@tarojs/plugin-framework-react": "3.6.7",
-    "@tarojs/plugin-platform-weapp": "3.6.7",
-    "@tarojs/react": "3.6.7",
-    "@tarojs/runtime": "3.6.7",
-    "@tarojs/shared": "3.6.7",
-    "@tarojs/taro": "3.6.7",
-    "@tarojs/webpack5-runner": "^3.6.7",
+    "@tarojs/cli": "3.6.10-alpha.4",
+    "@tarojs/components": "3.6.10-alpha.4",
+    "@tarojs/helper": "3.6.10-alpha.4",
+    "@tarojs/plugin-framework-react": "3.6.10-alpha.4",
+    "@tarojs/plugin-platform-weapp": "3.6.10-alpha.4",
+    "@tarojs/react": "3.6.10-alpha.4",
+    "@tarojs/runtime": "3.6.10-alpha.4",
+    "@tarojs/shared": "3.6.10-alpha.4",
+    "@tarojs/taro": "3.6.10-alpha.4",
+    "@tarojs/webpack5-runner": "3.6.10-alpha.4",
     "react": "^16.10.0",
     "react-dom": "^16.10.0"
   },
@@ -38,9 +38,9 @@
     "@tarojs/plugin-indie": "0.0.8",
     "@types/react": "^16.0.0",
     "@types/webpack-env": "^1.13.6",
-    "babel-preset-taro": "3.6.7",
+    "babel-preset-taro": "3.6.10-alpha.4",
     "eslint": "^8.12.0",
-    "eslint-config-taro": "3.6.7",
+    "eslint-config-taro": "3.6.10-alpha.4",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-react-hooks": "^4.2.0",
