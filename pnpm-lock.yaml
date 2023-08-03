@@ -936,9 +936,6 @@ importers:
       react-native-svg: registry.npmjs.org/react-native-svg/13.7.0_hitw53fjdtts735uumzgadsnzq
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
 
-  packages/taro-components/loader:
-    specifiers: {}
-
   packages/taro-extend:
     specifiers:
       jest: ^29.3.1
@@ -35472,7 +35469,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.1
       terser: registry.npmjs.org/terser/5.17.1
       webpack: registry.npmjs.org/webpack/5.78.0
-    dev: true
 
   registry.npmjs.org/terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-4.8.0.tgz}
@@ -37414,7 +37410,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -37510,7 +37506,7 @@ packages:
       serve-index: registry.npmjs.org/serve-index/1.9.1
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
     transitivePeerDependencies:
@@ -37656,7 +37652,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54:
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}

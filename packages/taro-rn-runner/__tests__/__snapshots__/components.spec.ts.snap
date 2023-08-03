@@ -62,7 +62,6 @@ import Text from '@tarojs/components-rn/dist/components/Text';
 import Image from '@tarojs/components-rn/dist/components/Image';
 import { StyleSheet } from 'react-native';
 import { scalePx2dp } from '@tarojs/runtime-rn';
-import 'src/components/navbar/resolver';
 import { jsxs, jsx } from 'react/jsx-runtime';
 
 var iconBack = require('../assets/icon_back-541a82be.webp');
@@ -100,6 +99,8 @@ var _indexScssStyleSheet = StyleSheet.create({
     "alignItems": "center"
   }
 });
+
+console.log('rn resolve');
 
 var _styleSheet=_indexScssStyleSheet;console.log('isRn',true);function Navbar(props){var title=props.title,rightElement=props.rightElement;return jsxs(View,{style:_styleSheet["navbar"],children:[jsx(View,{style:_styleSheet["navbar-leftElement"],children:jsx(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet["icon-back"]})}),jsx(View,{style:_styleSheet["navbar-title"],children:typeof title==='string'?jsx(Text,{style:_styleSheet["navbar-title-text"],children:title}):title}),jsx(View,{style:_styleSheet["navbar-rightElement"],children:rightElement})]});}
 
@@ -156,7 +157,6 @@ import Text from '@tarojs/components-rn/dist/components/Text';
 import Image from '@tarojs/components-rn/dist/components/Image';
 import { StyleSheet } from 'react-native';
 import { scalePx2dp } from '@tarojs/runtime-rn';
-import 'src/components/navbar/resolver';
 import { jsxs, jsx } from 'react/jsx-runtime';
 
 var iconBack = require('../../assets/icon_back-541a82be.webp');
@@ -194,6 +194,8 @@ var _indexScssStyleSheet = StyleSheet.create({
     "alignItems": "center"
   }
 });
+
+console.log('rn resolve');
 
 var _styleSheet=_indexScssStyleSheet;console.log('isRn',true);function Navbar(props){var title=props.title,rightElement=props.rightElement;return jsxs(View,{style:_styleSheet["navbar"],children:[jsx(View,{style:_styleSheet["navbar-leftElement"],children:jsx(Image,{src:iconBack,onClick:function back(){return navigateBack();},style:_styleSheet["icon-back"]})}),jsx(View,{style:_styleSheet["navbar-title"],children:typeof title==='string'?jsx(Text,{style:_styleSheet["navbar-title-text"],children:title}):title}),jsx(View,{style:_styleSheet["navbar-rightElement"],children:rightElement})]});}
 
