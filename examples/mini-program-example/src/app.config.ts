@@ -85,7 +85,6 @@ export default defineAppConfig({
     'pages/api/interface/interaction/index',
     'pages/api/interface/navigationBar/index',
     'pages/api/interface/background/index',
-    'pages/api/interface/tabBar/index',
     'pages/api/interface/font/index',
     'pages/api/interface/pullDownRefresh/index',
     'pages/api/interface/scroll/index',
