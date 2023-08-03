@@ -239,8 +239,18 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   }
 
   LIFECYCLES.forEach((lifecycle) => {
+    let isDefer = false
+    lifecycle = lifecycle.replace(/^defer:/, () => {
+      isDefer = true
+      return ''
+    })
     config[lifecycle] = function () {
-      return safeExecute(this.$taroPath, lifecycle, ...arguments)
+      const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+      if (isDefer) {
+        hasLoaded.then(exec)
+      } else {
+        return exec()
+      }
     }
   })
 
@@ -285,7 +295,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
     [ATTACHED] () {
       perf.start(PAGE_INIT)
       this.pageIdCache = this.getPageId?.() || pageId()
-      
+
       const path = getPath(id, { id: this.pageIdCache })
 
       Current.app!.mount!(component, path, () => {

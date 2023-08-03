@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.10-alpha.4",
+  "version": "3.6.11",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,9 +23,11 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/components": "workspace:*",
-    "@tarojs/shared": "workspace:*",
     "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "classnames": "^2.2.5",
+    "csstype": "^3.1.1",
     "memoize-one": "^6.0.0",
     "postcss": "^8.4.18"
   },

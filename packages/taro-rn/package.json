@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-rn",
-  "version": "3.6.10-alpha.4",
+  "version": "3.6.11",
   "description": "Taro RN framework",
   "main": "dist/index.js",
   "typings": "types/index.d.ts",
