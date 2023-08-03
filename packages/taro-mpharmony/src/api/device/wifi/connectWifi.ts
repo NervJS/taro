@@ -24,7 +24,7 @@ export const connectWifi: typeof Taro.connectWifi = (options) => {
 
     const handle = new MethodHandler({ name, success, fail, complete })
 
-    // options.object must be object
+    // options.SSID must be string
     if (typeof SSID !== 'string') {
       return handle.fail({
         errMsg: getParameterError({
@@ -45,18 +45,27 @@ export const connectWifi: typeof Taro.connectWifi = (options) => {
       }, { resolve, reject })
     }
 
+    if (typeof BSSID !== 'string') {
+      return handle.fail({
+        errMsg: getParameterError({
+          para: 'BSSID',
+          correct: 'string',
+          wrong: BSSID
+        })
+      }, { resolve, reject })
+    }
+
     // @ts-ignore
-    const ret = native.connectWifi({
+    native.connectWifi({
       SSID: SSID,
       password: password,
       BSSID: BSSID,
       success: (res: any) => {
-        return handle.success(res)
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }

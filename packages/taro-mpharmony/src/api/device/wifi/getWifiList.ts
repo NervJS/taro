@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const getWifiList: typeof Taro.getWifiList = (options) => {
   const name = 'getWifiList'
-  
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -20,14 +20,15 @@ export const getWifiList: typeof Taro.getWifiList = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.getWifiList({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    native.getWifiList({
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }

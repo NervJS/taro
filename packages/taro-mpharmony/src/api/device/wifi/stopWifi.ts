@@ -20,14 +20,15 @@ export const stopWifi: typeof Taro.stopWifi = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.stopWifi({
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    native.stopWifi({
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }
