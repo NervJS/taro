@@ -2,7 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
 import './index.scss'
-import { TestConsole } from '../../../../util/util'
+import { TestConsole } from '@/util/util'
 
 /**
  * 媒体-图片

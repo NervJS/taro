@@ -2,7 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Editor } from '@tarojs/components'
 import './index.scss'
-import { TestConsole } from '../../../../util/util'
+import { TestConsole } from '@/util/util'
 
 /**
  * 设备-电池
