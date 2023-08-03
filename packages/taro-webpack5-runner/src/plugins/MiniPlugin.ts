@@ -110,6 +110,7 @@ export default class TaroMiniPlugin {
   /** 页面列表 */
   pages = new Set<IComponent>()
   components = new Set<IComponent>()
+  /** 新的混合原生编译模式 newBlended 模式下，需要单独编译成原生代码的 component 的Map */
   nativeComponents = new Map<string, IComponent>()
   /** tabbar icon 图片路径列表 */
   tabBarIcons = new Set<string>()
@@ -334,9 +335,8 @@ export default class TaroMiniPlugin {
     )
 
     new TaroNormalModulesPlugin(this.options.onParseCreateElement).apply(compiler)
-    if (newBlended) {
-      this.addLoadChunksPlugin(compiler)
-    }
+    
+    newBlended && this.addLoadChunksPlugin(compiler)
   }
 
   addLoadChunksPlugin (compiler: Compiler) {
@@ -615,10 +615,8 @@ export default class TaroMiniPlugin {
       })
     ])
     this.getSubPackages(this.appConfig)
-    if (newBlended) {
-      // 编译 Taro 项目的时候，同时把组件独立编译为原生自定义组件
-      this.getNativeComponent()
-    }
+    // 新的混合原生编译模式 newBlended 下，需要收集独立编译为原生自定义组件
+    newBlended && this.getNativeComponent()
   }
 
   /**
@@ -786,10 +784,8 @@ export default class TaroMiniPlugin {
         const componentPath = resolveMainFilePath(path.resolve(path.dirname(file.path), item.path))
         if (fs.existsSync(componentPath) && !Array.from(this.components).some(item => item.path === componentPath)) {
           const componentName = this.getComponentName(componentPath)
-          if (this.nativeComponents.has(componentName)) {
-            // 本地化组件使用Page进行处理，此处直接跳过
-            return
-          }
+          // newBlended 模式下，本地化组件使用Page进行处理，此处直接跳过
+          if (this.nativeComponents.has(componentName)) return 
           const componentTempPath = this.getTemplatePath(componentPath)
           const isNative = this.isNativePageORComponent(componentTempPath)
           const componentObj = {
