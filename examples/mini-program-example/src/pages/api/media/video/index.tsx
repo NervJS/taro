@@ -2,7 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Video } from '@tarojs/components'
 import './index.scss'
-import { TestConsole } from '../../../../util/util'
+import { TestConsole } from '@/util/util'
 
 /**
  * 媒体-视频
@@ -192,19 +192,21 @@ export default class Index extends React.Component {
         id: 'videoContext_exitPictureInPicture_暂不支持',
         func: () => {
           TestConsole.consoleTest('videoContext_exitPictureInPicture')
-          videoContext.exitPictureInPicture({
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail(res)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
-            },
-          }).then((ret) => {
-            TestConsole.consoleReturn(ret)
-          })
+          videoContext
+            .exitPictureInPicture({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((ret) => {
+              TestConsole.consoleReturn(ret)
+            })
         },
       },
       {
@@ -294,12 +296,12 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     return (
       <View className='api-page'>
         {this.state.list.map((item) => {
           return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => { } : item.func}>
+            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
               {item.id}
               {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
             </View>

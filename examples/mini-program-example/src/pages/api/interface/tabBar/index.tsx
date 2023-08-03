@@ -2,8 +2,8 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
-import apiImage from '../../../../assets/tab/api.png'
-import apiSelectImage from '../../../../assets/tab/api_select.png'
+import apiImage from '@/assets/tab/api.png'
+import apiSelectImage from '@/assets/tab/api_select.png'
 
 /**
  * 界面-Tab Bar

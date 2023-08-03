@@ -2,7 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
-import { TestConsole } from '../../../../util/util'
+import { TestConsole } from '@/util/util'
 
 /**
  * 媒体-相机
@@ -33,91 +33,99 @@ export default class Index extends React.Component {
         id: 'createCameraContext_setZoom_暂不支持',
         func: () => {
           TestConsole.consoleTest('setZoom')
-          cameraContext.setZoom({
-            zoom: 70,
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail(res)
-            },
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
-            },
-          }).then((res) => {
-            TestConsole.consoleReturn(res)
-          })
+          cameraContext
+            .setZoom({
+              zoom: 70,
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+            })
+            .then((res) => {
+              TestConsole.consoleReturn(res)
+            })
         },
       },
       {
         id: 'createCameraContext_startRecord',
         func: () => {
           TestConsole.consoleTest('startRecord')
-          cameraContext.startRecord({
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail(res)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
-            },
-            timeoutCallback: (res) => {
-              TestConsole.consoleNormal('startRecord callback :', res)
-            },
-          }).then((res) => {
-            TestConsole.consoleReturn(res)
-          })
+          cameraContext
+            .startRecord({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+              timeoutCallback: (res) => {
+                TestConsole.consoleNormal('startRecord callback :', res)
+              },
+            })
+            .then((res) => {
+              TestConsole.consoleReturn(res)
+            })
         },
       },
       {
         id: 'createCameraContext_stopRecord',
         func: () => {
           TestConsole.consoleTest('stopRecord')
-          cameraContext.stopRecord({
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail(res)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
-            },
-          }).then((res) => {
-            TestConsole.consoleReturn(res)
-          })
+          cameraContext
+            .stopRecord({
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((res) => {
+              TestConsole.consoleReturn(res)
+            })
         },
       },
       {
         id: 'createCameraContext_takePhoto',
         func: () => {
           TestConsole.consoleTest('takePhoto')
-          cameraContext.takePhoto({
-            quality: 'normal',
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail(res)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
-            },
-          }).then((res) => {
-            TestConsole.consoleReturn(res)
-          })
+          cameraContext
+            .takePhoto({
+              quality: 'normal',
+              success: (res) => {
+                TestConsole.consoleSuccess(res)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail(res)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete(res)
+              },
+            })
+            .then((res) => {
+              TestConsole.consoleReturn(res)
+            })
         },
       },
     ],
   }
-  render () {
+  render() {
     return (
       <View className='api-page'>
         {this.state.list.map((item) => {
           return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => { } : item.func}>
+            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
               {item.id}
               {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
             </View>
