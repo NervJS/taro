@@ -1,6 +1,6 @@
 import * as path from 'path'
 
-import { getProjectConfig, includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from './utils'
+import { includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from './utils'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
@@ -20,7 +20,7 @@ const isInclude = (_moduleName, originModulePath, config: IProjectConfig ) => {
   return originModulePath.indexOf('node_modules') < 0 || includes(originModulePath, config)
 }
 
-export default function resolver (options: ResolverOption) {
+export default function resolver (options: ResolverOption, config: IProjectConfig) {
   const { externalResolve, platform } = options
 
   return {
@@ -29,8 +29,6 @@ export default function resolver (options: ResolverOption) {
       if (moduleName.startsWith('\0')) {
         return null
       }
-
-      const config = await getProjectConfig()
 
       if (!isInclude(moduleName, originModulePath, config)) {
         return null
