@@ -27,7 +27,7 @@ interface InitNativeComponentEntryParams {
 }
 
 function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
-  const { R, ReactDOM, cb, isDefaultEntryDom } = params
+  const { R, ReactDOM, cb, isDefaultEntryDom = true } = params
   interface IEntryState {
     components: {
       compId: string
