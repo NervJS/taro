@@ -161,6 +161,14 @@ export function searchFile(moduleFile, indexPart) { //Fix: 递归遍历查找
   const folders = fs.readdirSync(moduleFile); //获取子目录
   let resultFile;
   for (let i = 0; i < folders.length; i++) {
+      if (folders[i].indexOf('_dist') !== -1) { // 在先找到miniprogram_dist目录的情况下，查找同级子目录是否有源码（src/index.js)
+        for (let j = i+1; j < folders.length; j++) {
+            if (folders[j].indexOf('src') !== -1 || folders[j].indexOf('index.js') !== -1) {
+                i = j;
+                break;
+            }
+        }
+      }
       if (folders[i].indexOf('ali') !== -1) {
         continue;
       }
