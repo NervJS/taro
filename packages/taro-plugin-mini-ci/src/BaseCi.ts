@@ -167,7 +167,7 @@ export default abstract class BaseCI {
         encoding: 'utf8'
       })
     )
-    this.version = pluginOpts.version || packageInfo.taroConfig?.version || '1.0.0'
+    this.version = pluginOpts.version || packageInfo.taroConfig?.version
     this.desc = pluginOpts.desc || packageInfo.taroConfig?.desc || `CI构建自动构建于${new Date().toLocaleTimeString()}`
 
   }
