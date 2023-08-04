@@ -59,7 +59,7 @@ export default class CLI {
       }
       const mode = args.mode || process.env.NODE_ENV
       // 这里解析 dotenv 以便于 config 解析时能获取 dotenv 配置信息
-      const expandEnv = dotenvParse(appPath, args.envPrefix, mode)
+      const expandEnv = dotenvParse(appPath, args as unknown as Parameters<typeof dotenvParse>[1])
 
       const disableGlobalConfig = !!(args['disable-global-config'] || DISABLE_GLOBAL_CONFIG_COMMANDS.includes(command))
 
