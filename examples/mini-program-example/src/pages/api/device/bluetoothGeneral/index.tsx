@@ -118,7 +118,7 @@ export default class Index extends React.Component {
           const { deviceUuid } = this.state
           if (deviceUuid == '') {
             Taro.showToast({
-              title: '请输入设备uuid'
+              title: '请输入设备uuid',
             })
             return
           }
