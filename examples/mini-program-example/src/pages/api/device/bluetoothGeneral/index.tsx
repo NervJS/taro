@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Input } from '@tarojs/components'
 import { TestConsole } from '@/util/util'
 import './index.scss'
 
@@ -35,10 +35,15 @@ export default class Index extends React.Component {
         id: 'startBluetoothDevicesDiscovery',
         func: () => {
           TestConsole.consoleTest('startBluetoothDevicesDiscovery')
+          const { deviceUuid } = this.state
+          let services: Array<string> = []
+          if (deviceUuid != '') {
+            services.push(deviceUuid)
+          }
           Taro.startBluetoothDevicesDiscovery({
             allowDuplicatesKey: false,
             interval: 0,
-            services: [],
+            services,
             success: (res) => {
               TestConsole.consoleSuccess(res)
             },
@@ -110,8 +115,16 @@ export default class Index extends React.Component {
         id: 'getConnectedBluetoothDevices',
         func: () => {
           TestConsole.consoleTest('getConnectedBluetoothDevices')
+          const { deviceUuid } = this.state
+          if (deviceUuid == '') {
+            Taro.showToast({
+              title: '请输入设备uuid'
+            })
+            return
+          }
+          let services: Array<string> = [deviceUuid]
           Taro.getConnectedBluetoothDevices({
-            services: [],
+            services,
             success: (res) => {
               TestConsole.consoleSuccess(res)
             },
@@ -184,6 +197,14 @@ export default class Index extends React.Component {
         },
       },
     ],
+    deviceUuid: '',
+  }
+
+  getUuid = (e) => {
+    let deviceUuid = e.detail.value + ''
+    this.setState({
+      deviceUuid,
+    })
   }
 
   render() {
@@ -192,6 +213,9 @@ export default class Index extends React.Component {
       <View className='api-page'>
         <View>
           顺序: openBluetoothAdapter-startBluetoothDevicesDiscovery-onBluetoothDeviceFound-stopBluetoothDevicesDiscovery
+        </View>
+        <View className='api-form-info'>
+          请输入uuid: <Input onInput={this.getUuid}></Input>
         </View>
         {list.map((item) => {
           return (

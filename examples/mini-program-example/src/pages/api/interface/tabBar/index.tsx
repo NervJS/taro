@@ -259,7 +259,7 @@ export default class Index extends React.Component<Props> {
           TestConsole.consoleTest('setTabBarBadge')
           Taro.setTabBarBadge({
             index: 1,
-            text: '2',
+            text: 'askudfglsajkf',
             success: (res) => {
               TestConsole.consoleSuccess(res)
               Taro.showToast({
