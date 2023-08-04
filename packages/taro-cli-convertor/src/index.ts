@@ -266,16 +266,33 @@ export default class Convertor {
               const value = source.value
               analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
-            CallExpression (astPath) {
+
+            //Fix const xxx = require('filepath') --> import xxx from 'filepath'
+            VariableDeclarator(astPath) {
               const node = astPath.node
+              const id = node.id as t.Identifier; // Identifier: xxx
+              const init = node.init; // CallExpression: callee & arguments
+              if (t.isCallExpression(init)) { //判断node类型
+                const callee = init.callee;
+                const args = init.arguments as Array<t.StringLiteral>
+                if (callee && callee.type === 'Identifier') {
+                  if (callee.name === 'require') {
+                    const value = args[0].value
+                    /* if (value) {
+                        analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value);
+                    } */
+                    astPath.parentPath.insertBefore(t.importDeclaration( [ t.importDefaultSpecifier(t.identifier(id.name)) ], t.stringLiteral(value)))
+                    astPath.remove()
+                  }
+                }
+              }
+            },
+
+            CallExpression (astPath) {
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
               if (callee.type === 'Identifier') {
-                if (callee.name === 'require') {
-                  const args = node.arguments as Array<t.StringLiteral>
-                  const value = args[0].value
-                  analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value)
-                } else if (WX_GLOBAL_FN.has(callee.name)) {
+                if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
                   needInsertImportTaro = true
                 }
