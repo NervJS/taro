@@ -25,7 +25,7 @@
   "dependencies": {
     "@babel/core": "^7.14.5",
     "@tarojs/helper": "workspace:*",
-    "fbjs": "^2.0.0",
+    "fbjs": "^3.0.5",
     "less": "^3.12.2",
     "metro-react-native-babel-transformer": "^0.72.1",
     "postcss-import": "^14.0.0",
