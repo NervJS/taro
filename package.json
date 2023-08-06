@@ -101,7 +101,7 @@
     "@types/request": "^2.48.1",
     "@types/resolve": "1.19.0",
     "@types/sass": "1.43.1",
-    "@types/tapable": "^1",
+    "@types/tapable": "^2",
     "@types/webpack": "^4.41.26",
     "@types/webpack-dev-server": "^3.11.3",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
