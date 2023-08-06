@@ -37,7 +37,7 @@
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "vue": "^2.7.0"

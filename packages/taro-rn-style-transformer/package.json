@@ -46,7 +46,7 @@
     "jest-cli": "^29.3.1",
     "postcss": "^8.4.18",
     "ts-jest": "^29.0.5",
-    "typescript": "^4.7.4"
+    "typescript": "^5.1.6"
   },
   "peerDependencies": {
     "postcss": "^8.4.18"

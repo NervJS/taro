@@ -148,7 +148,7 @@
     "stylelint-order": "^6.0.3",
     "stylelint-taro-rn": "workspace:*",
     "tslib": "^2.5.0",
-    "typescript": "^4.7.4",
+    "typescript": "^5.1.6",
     "vue": "^2.6.11",
     "vue-loader": "^17.0.0",
     "vue-template-compiler": "^2.6.11",
