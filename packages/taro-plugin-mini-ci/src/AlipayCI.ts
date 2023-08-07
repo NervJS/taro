@@ -114,7 +114,7 @@ export default class AlipayCI extends BaseCI {
 
   async upload () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { clientType = 'alipay', appid: appId } = this.pluginOpts.alipay!
+    const { clientType = 'alipay', appid: appId, deleteVersion } = this.pluginOpts.alipay!
     printLog(processTypeEnum.START, '上传代码到阿里小程序后台', clientType)
 
     //  SDK上传不支持设置描述信息; 版本号必须大于现有版本号
@@ -131,7 +131,8 @@ export default class AlipayCI extends BaseCI {
         appId,
         version: this.version,
         clientType,
-        experience: true
+        experience: true,
+        deleteVersion
       })
       /** 注意： 这是二维码的线上图片地址， 不是二维码中的内容 */
       const qrcodeUrl = result.experienceQrCodeUrl!
