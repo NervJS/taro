@@ -8,13 +8,12 @@
 // ✅ wx.chooseImage(Object object)
 // ❌ wx.chooseMessageFile(Object object) HarmonyOS不支持
 
+import image from '@ohos.multimedia.image'
+import mediaLibrary from '@ohos.multimedia.mediaLibrary'
 import { isNull } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
-
-const image = require('@ohos.multimedia.image')
-const mediaLibrary = require('@ohos.multimedia.mediaLibrary')
 
 type GetImageInfo = typeof Taro.getImageInfo
 type CompressImage = typeof Taro.compressImage

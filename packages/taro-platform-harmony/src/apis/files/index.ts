@@ -17,20 +17,19 @@
  * getSavedFileInfo：返回值不包含 createTime 属性
  */
 
+import document from '@ohos.document'
+import fileio from '@ohos.fileio'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 import { getFileSystemManager, validateSavedFilePath } from './manager'
 import { notSupportAsync } from './utils'
 
-const fileio = require('@ohos.fileio')
-const document = require('@ohos.document')
-
 const filePathSchema = {
   filePath: 'String'
 }
 
-function saveFileToDisk (option: Taro.saveFileToDisk.Option): Promise<TaroGeneral.CallbackResult> {
+function saveFileToDisk (option: Taro.saveFileToDisk.Option): Promise<any> {
   return notSupportAsync('saveFileToDisk', option)
 }
 
@@ -38,7 +37,7 @@ function saveFileToDisk (option: Taro.saveFileToDisk.Option): Promise<TaroGenera
  * HarmonyOS 不支持 showMenu 选项，并且 type 目前仅支持 *，详情参见：
  * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-document-0000001168936589#section9616125953711
  */
-function openDocument (option: Taro.openDocument.Option): Promise<TaroGeneral.CallbackResult> {
+function openDocument (option: Taro.openDocument.Option): Promise<any> {
   return new Promise((resolve, reject) => {
     try {
       validateParams('access', option, filePathSchema)
@@ -57,7 +56,7 @@ function openDocument (option: Taro.openDocument.Option): Promise<TaroGeneral.Ca
   })
 }
 
-function saveFile (option: Taro.saveFile.Option): Promise<TaroGeneral.CallbackResult> {
+function saveFile (option: Taro.saveFile.Option): Promise<any> {
   return new Promise((resolve, reject) => {
     const fileSystemManager = getFileSystemManager()
     fileSystemManager.saveFile({
@@ -73,7 +72,7 @@ function saveFile (option: Taro.saveFile.Option): Promise<TaroGeneral.CallbackRe
   })
 }
 
-function removeSavedFile (option: Taro.removeSavedFile.Option): Promise<TaroGeneral.CallbackResult> {
+function removeSavedFile (option: Taro.removeSavedFile.Option): Promise<any> {
   return new Promise((resolve, reject) => {
     const fileSystemManager = getFileSystemManager()
     fileSystemManager.removeSavedFile({

@@ -43,40 +43,38 @@ export default function (): PluginOption {
 
         const { pages = [], entryPagePath = pages[0] } = appConfig
         let instantiateApp = `export default class EntryAbility extends UIAbility {
-          app
+  app
 
-          onCreate(want, launchParam) {
-            this.app = ${createApp}
-            this.app.onLaunch({
-              ...want,
-              ...launchParam
-            })
-          }
+  onCreate(want, launchParam) {
+    this.app = ${createApp}
+    this.app.onLaunch({
+      ...want,
+      ...launchParam
+    })
+  }
 
-          onDestroy() {}
+  onDestroy() {}
 
-          onWindowStageCreate(stage) {
-            stage.loadContent("${entryPagePath}", (err, data) => {
-              if (err.code) {
-                return this.app?.onError(err)
-              } else if (this.app) {
-                this.app.onLoad(data)
-              }
-            })
-          }
+  onWindowStageCreate(stage) {
+    stage.loadContent("${entryPagePath}", (err, data) => {
+      if (err.code) {
+        return this.app?.onError(err)
+      }
+    })
+  }
 
-          onWindowStageDestroy() {
-            this.app?.onUnload()
-          }
+  onWindowStageDestroy() {
+    this.app?.onUnload()
+  }
 
-          onForeground() {
-            this.app?.onShow()
-          }
+  onForeground() {
+    this.app?.onShow()
+  }
 
-          onBackground() {
-            this.app?.onHide()
-          }
-        }`
+  onBackground() {
+    this.app?.onHide()
+  }
+}`
 
         if (typeof modifyInstantiate === 'function') {
           instantiateApp = modifyInstantiate(instantiateApp, 'app')

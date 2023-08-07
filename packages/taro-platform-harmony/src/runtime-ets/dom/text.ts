@@ -16,4 +16,4 @@ class TextNode extends TaroNode {
 }
 
 @Observed
-export class TaroTextElement extends TextNode {}
+export class TaroTextNode extends TextNode {}

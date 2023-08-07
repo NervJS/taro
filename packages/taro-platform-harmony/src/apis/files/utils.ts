@@ -22,7 +22,7 @@ export function notSupport<T extends FunctionType> (apiName, options?: IAsyncPar
   }
 }
 
-export function notSupportAsync <T extends FunctionType> (apiName, options?: IAsyncParams<T>): Promise<TaroGeneral.CallbackResult> {
+export function notSupportAsync <T extends FunctionType> (apiName, options?: IAsyncParams<T>): Promise<any> {
   return new Promise((resolve, reject) => {
     const errMsg = `不支持 API ${apiName}`
     if (process.env.NODE_ENV !== 'production') {

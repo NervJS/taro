@@ -24185,7 +24185,7 @@ packages:
       he: registry.npmjs.org/he/1.2.0
       param-case: registry.npmjs.org/param-case/3.0.4
       relateurl: registry.npmjs.org/relateurl/0.2.7
-      terser: registry.npmjs.org/terser/5.17.7
+      terser: registry.npmjs.org/terser/5.17.1
     dev: false
 
   registry.npmjs.org/html-minifier/4.0.0:

@@ -74,15 +74,15 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   }
 
   modifyHarmonyResources(id = '', data: any = {}) {
-    const { projectPath, hapName = 'entry' } = this.taroConfig
+    const { outputRoot = 'dist' } = this.taroConfig
     const [, key, value] = id.match(/^\$(.+):(.+)$/) || []
     if (!key || !value) {
       return console.warn(chalk.red(`无效的资源 ID：${id}`))
     }
     const isProfile = key === 'profile'
-    const dirName = isProfile ? 'src/main/resources/base/profile' : 'src/main/resources/base/element'
+    const targetPath = path.join(path.resolve(outputRoot, '..'), 'resources/base', isProfile ? 'profile' : 'element')
     const fileName = `${isProfile ? value : key}.json`
-    const configPath = path.join(projectPath, hapName, dirName, fileName)
+    const configPath = path.join(targetPath, fileName)
     const config = fs.readJsonSync(configPath)
     if (isProfile) {
       Object.assign(config, data)
@@ -104,21 +104,66 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
   modifyHarmonyConfig (config: AppConfig = {}) {
     const { pages = [] } = config
-    const { projectPath, hapName = 'entry', name = 'default', designWidth = 750 } = this.taroConfig
-    const hapConfigPath = path.join(projectPath, hapName, `src/main/${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)
+    const { projectPath, hapName = 'entry', outputRoot = 'dist', name = 'default', designWidth = 750 } = this.taroConfig
+    const buildProfilePath = path.join(projectPath, `build-profile.${this.useJSON5 !== false ? 'json5' : 'json'}`)
+    const srcPath = `./${hapName}`
+    const hapConfigPath = path.join(path.resolve(outputRoot, '..'), `${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)
     try {
-      const config = fs.readJsonSync(hapConfigPath)
+      const profile = fs.readJsonSync(buildProfilePath)
+      profile.modules ||= []
+      const target = profile.modules[0]
+      if (target) {
+        target.name = name
+        target.srcPath = srcPath
+      } else {
+        profile.modules.push({
+          name,
+          srcPath,
+          targets: [
+            {
+              name: 'default',
+              applyToProducts: [
+                'default'
+              ]
+            }
+          ]
+        })
+      }
+      fs.writeJsonSync(buildProfilePath, profile, { spaces: 2 })
+
+      const hapConfig = fs.readJsonSync(hapConfigPath)
       const window = {
         designWidth: (typeof designWidth === 'function' ? designWidth() : designWidth) || 750,
         autoDesignWidth: false
       }
-      config.module ||= {}
+      hapConfig.module ||= {}
       if (this.useJSON5 !== false) {
         let pageMetaId = '$profile:main_pages'
         // Stage 模型
-        const target = config.module
-        target.name = name
+        const target = hapConfig.module
         if (target) {
+          const appId = config.appId || 'app'
+          const entryPath = path.join(this.taroConfig.outputRoot || 'dist', `${appId}.ets`)
+          const srcEntry = `./${path.relative(path.dirname(hapConfigPath), entryPath)}`
+          target.name = name
+          target.mainElement = appId
+          const ability = target.abilities?.[0]
+          if (ability) {
+            ability.name = appId
+            ability.srcEntry = srcEntry
+          } else {
+            target.abilities ||= []
+            target.abilities.push({
+              name: appId,
+              srcEntry,
+              description: '$string:ability_desc',
+              icon: '$media:icon',
+              label: '$string:ability_label',
+              startWindowIcon: '$media:icon',
+              startWindowBackground: '$color:start_window_background',
+              exported: true,
+            })
+          }
           if (typeof target.pages === 'string') {
             pageMetaId = target.pages
           } else {
@@ -126,7 +171,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
           }
         }
         this.modifyHarmonyResources(pageMetaId, {
-          src: pages,
+          src: [...pages],
           window,
         })
         /**
@@ -134,8 +179,8 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
          */
       } else {
         // FA 模型
-        config.module.js ||= []
-        const jsFAs = config.module.js
+        hapConfig.module.js ||= []
+        const jsFAs = hapConfig.module.js
         const target = jsFAs.find(item => item.name === name)
         const mode = {
           syntax: this.useETS ? 'ets': 'hml',
@@ -155,7 +200,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
           })
         }
       }
-      fs.writeJsonSync(hapConfigPath, config, { spaces: 2 })
+      fs.writeJsonSync(hapConfigPath, hapConfig, { spaces: 2 })
     } catch (error) {
       console.warn(chalk.red('设置鸿蒙 Hap 配置失败：', error))
     }
@@ -165,19 +210,21 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   modifyHostPackageDep (
     outDir: string,
     hmsDeps: Record<string, string> = {},
+    hmsDevDeps: Record<string, string> = {},
   ) {
-    const packageJsonFile = path.resolve(outDir, `../../../../../${this.useJSON5 !== false ? 'oh-package.json5' : 'package.json'}`)
+    const packageJsonFile = path.resolve(outDir, `../../../${this.useJSON5 !== false ? 'oh-package.json5' : 'package.json'}`)
 
     const isExists = fs.pathExistsSync(packageJsonFile)
     if (!isExists) return
 
     const pkg = fs.readJSONSync(packageJsonFile)
-    if (!pkg.dependencies) {
-      pkg.dependencies = hmsDeps
-    } else {
-      for (const hmsDep in hmsDeps) {
-        pkg.dependencies[hmsDep] = hmsDeps[hmsDep]
-      }
+    pkg.dependencies ||= {}
+    for (const dep in hmsDeps) {
+      pkg.dependencies[dep] = hmsDeps[dep]
+    }
+    pkg.devDependencies ||= {}
+    for (const dep in hmsDevDeps) {
+      pkg.devDependencies[dep] = hmsDevDeps[dep]
     }
     fs.writeJsonSync(packageJsonFile, pkg, { spaces: 2 })
   }

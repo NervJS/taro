@@ -19,6 +19,11 @@ export default function (): PluginOption {
     load (id) {
       const compiler = getHarmonyCompiler(this)
       if (compiler && id.endsWith(PAGE_SUFFIX)) {
+        const {
+          creatorLocation,
+          importFrameworkStatement,
+          // frameworkArgs,
+        } = compiler.loaderMeta
         const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
         const page = compiler.getPageById(rawId)
 
@@ -37,18 +42,21 @@ struct Index {
   scroller: Scroller = new Scroller()\n
   @State node: TaroElement = new TaroElement("Block")\n
   aboutToAppear() {
-    this.page = createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {})
+    this.page = createPageConfig(component, '${page.name}')
+    this.page.onLoad({}, () => {
+      this.node = ReactMeta.Container
+    })
   }
 
   build() {
     Scroll(this.scroller) {
       Column() {
         if (this.node.tagName === 'VIEW') {
-          View({ node: this.node })
+          TaroView({ node: this.node })
         } else if (this.node.tagName === 'TEXT') {
-          Text({ node: this.node })
+          TaroText({ node: this.node })
         } else if (this.node.tagName === 'IMAGE') {
-          Image({ node: this.node })
+          TaroImage({ node: this.node })
         }
       }
     }
@@ -61,9 +69,13 @@ struct Index {
         }
 
         return [
-          'import { Image, Text, View } from "@tarojs/components"',
-          'import { createPageConfig, TaroElement } from "@tarojs/runtime"',
+          'import TaroView from "@tarojs/components/view"',
+          'import TaroText from "@tarojs/components/text"',
+          'import TaroImage from "@tarojs/components/image"',
+          'import { TaroElement } from "@tarojs/runtime"',
           `import component from "${rawId}"`,
+          `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
+          importFrameworkStatement,
           `var config = ${pageConfig}`,
           page.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
           page.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,

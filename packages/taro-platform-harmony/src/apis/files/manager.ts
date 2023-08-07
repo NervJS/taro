@@ -24,18 +24,17 @@
  * getSavedFileList：返回值 fileList 中的每一项不包含 createTime 属性
  */
 
+import fileio from '@ohos.fileio'
+import zlib from '@ohos.zlib'
+import app from '@system.app'
+import file from '@system.file'
 import { isNumber, isString } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
 import { validateParams } from '../utils'
 import { callCallbackFail, callCallbackSuccess, notSupport, notSupportAsync } from './utils'
 
-const app = require('@system.app')
-const zlib = require('@ohos.zlib')
-const file = require('@system.file')
-const fileio = require('@ohos.fileio')
-
-const rootDataPath = `/data/data/${app.getInfo().appID}`
+const rootDataPath = `/data/data/${app.getInfo()?.appID || 'app'}`
 const rootSavedFilePath = `${rootDataPath}/files`
 
 const pathSchema = {
@@ -727,7 +726,7 @@ function stat (option: Taro.FileSystemManager.StatOption) {
   })
 }
 
-function statSync (path: string, recursive?: boolean): Taro.Stats | TaroGeneral.IAnyObject {
+function statSync (path: string, recursive?: boolean): Taro.Stats | any {
   if (recursive === true) {
     notSupport('statSync recursive')
   }

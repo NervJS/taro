@@ -1,3 +1,7 @@
+import dataStorage from '@ohos.data.storage'
+import hilog from '@ohos.hilog'
+import app from '@system.app'
+
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
 import type { IAsyncParams } from '../utils/types'
@@ -14,14 +18,16 @@ interface IRemoveStorageParams extends IAsyncParams {
   key: string
 }
 
-const dataStorage = require('@ohos.data.storage')
-const app = require('@system.app')
-
 const appInfo = app.getInfo()
-const appID = appInfo.appID
+const appID = appInfo?.appID
 
 const storagePath = `/data/data/${appID}/api_storage`
-const storage = dataStorage.getStorageSync(storagePath)
+let storage
+try {
+  storage = dataStorage.getStorageSync(storagePath)
+} catch (error) {
+  hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
+}
 
 function getItem (key: string): { result: boolean, data?: number | string | boolean } {
   try {

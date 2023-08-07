@@ -21,11 +21,10 @@
 //   ❌ VideoContext.showStatusBar
 //   ❌ VideoContext.stop
 
+import mediaLibrary from '@ohos.multimedia.mediaLibrary'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
-
-const mediaLibrary = require('@ohos.multimedia.mediaLibrary')
 
 type ChooseVideo = typeof Taro.chooseVideo
 type SaveVideoToPhotosAlbum = typeof Taro.saveVideoToPhotosAlbum

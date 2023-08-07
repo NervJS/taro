@@ -10,7 +10,7 @@ const cwd = __dirname
 
 const base: RollupOptions & { plugins: InputPluginOption[] } = {
   external: d => {
-    return /^@(system|ohos)\./.test(d)
+    return /^@(system\.|ohos\.|hmscore\/)/.test(d)
   },
   plugins: [
     externals({

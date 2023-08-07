@@ -1,7 +1,7 @@
 import { NodeType } from './node'
-import { TaroTextElement } from './text'
+import { TaroTextNode } from './text'
 
-class TaroComment extends TaroTextElement {
+class TaroComment extends TaroTextNode {
   constructor(data: string) {
     super(data || '', '#comment', NodeType.COMMENT_NODE)
   }

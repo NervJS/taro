@@ -7,12 +7,11 @@
 // ✅ UploadTask.onHeadersReceived(BETA)7+
 // ✅ UploadTask.onProgressUpdate
 
+import request from '@ohos.request'
 import { isUndefined } from '@tarojs/shared'
 import Taro, { UploadTask } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
-
-const request = require('@ohos.request')
 
 type UploadFile = typeof Taro.uploadFile
 
@@ -30,7 +29,7 @@ interface IRequestDataOHOS {
 
 interface IUploadFileParamsOHOS {
   url: string // 资源地址
-  header?: TaroGeneral.IAnyObject
+  header?: any
   method?: string // POST、PUT。缺省为POST
   files?: Array<IOHOSFileType> // 请使用 multipart/form-data提交。官方文档提供的demo未传此参数，应该是文档错了。
   data?: Array<IRequestDataOHOS>
@@ -45,7 +44,7 @@ const uploadSchema = {
 // wx 只支持 HTTP POST 请求，OHOS 支持 POST 和 PUT 请求
 // OHOS 不支持 wx 的 timeout，但是支持 file 文件列表上传，wx 是单文件上传
 const uploadFile: UploadFile = function (options) {
-  let uploadTask: TaroGeneral.IAnyObject = {}
+  let uploadTask: any = {}
 
   const UploadTaskWX: any = new Promise((resolve, reject) => {
     let timer
@@ -114,13 +113,13 @@ const uploadFile: UploadFile = function (options) {
   }
   UploadTaskWX.onHeadersReceived = function (callback: (params) => void) {
     validateParams('onHeadersReceived', [callback], ['Function'])
-    uploadTask.on('headerReceive', (headers: TaroGeneral.IAnyObject) => {
+    uploadTask.on('headerReceive', (headers: any) => {
       callback(headers)
     })
   }
   UploadTaskWX.offHeadersReceived = function (callback: (params) => void) {
     validateParams('offHeadersReceived', [callback], ['Function'])
-    uploadTask.off('headerReceive', (headers: TaroGeneral.IAnyObject) => {
+    uploadTask.off('headerReceive', (headers: any) => {
       callback(headers)
     })
   }

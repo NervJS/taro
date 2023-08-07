@@ -75,6 +75,7 @@ export function createReactApp (
   App,
   react,
   dom,
+  _config?: any
 ) {
   ReactMeta.R = react
   h = react.createElement
@@ -173,7 +174,7 @@ export function createReactApp (
     unmount (id: string, cb: () => void) {
       appWrapper.unmount(id, cb)
     },
-    onCreate () {
+    onLaunch (_?: any) {
       waitAppWrapper(() => {
         // 用户编写的入口组件实例
         const app = getAppInstance()

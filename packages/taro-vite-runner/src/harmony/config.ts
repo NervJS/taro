@@ -1,10 +1,11 @@
 import { type RollupBabelInputPluginOptions, babel } from '@rollup/plugin-babel'
 import inject, { type RollupInjectOptions } from '@rollup/plugin-inject'
-import { defaultMainFields, PLATFORMS } from '@tarojs/helper'
+import { defaultMainFields, NODE_MODULES, PLATFORMS } from '@tarojs/helper'
 import { PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getMode, stripMultiPlatformExt } from '../utils'
+import { HARMONY_SCOPES } from '../utils/constants'
 
 import type { PluginOption } from 'vite'
 import type { HarmonyBuildConfig } from '../utils/types'
@@ -49,7 +50,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
 
     if (compile.exclude?.length) {
       const list = compile.exclude
-      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
+      const isNodeModuleReseted = list.find((reg) => reg.toString().includes(NODE_MODULES))
       if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
       babelOptions.exclude = list
     } else if (compile.include?.length) {
@@ -98,7 +99,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
 
   return {
     name: 'taro:vite-harmony-config',
-    config: async () => ({
+    config: () => ({
       mode: getMode(taroConfig),
       build: {
         outDir: taroConfig.outputRoot || 'dist',
@@ -115,12 +116,18 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
         rollupOptions: {
           // FIXME 考虑是否可以移除，需在 ets acornInjectPlugins 插件完成后
           treeshake: false,
-          external: [/^@system\./, /^@ohos\./, /^@hmscore\//],
+          // TODO 考虑默认排除 taro components、runtime 等相关的依赖，并通过 copy 插件进行拷贝
+          external: HARMONY_SCOPES,
           output: {
             entryFileNames(chunkInfo) {
               return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
             },
-            chunkFileNames: '[name].js',
+            chunkFileNames(chunkInfo) {
+              if (chunkInfo.moduleIds?.some(id => id.includes(taroConfig.fileType.script))) {
+                return `[name]${taroConfig.fileType.script}`
+              }
+              return '[name].js'
+            },
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
 

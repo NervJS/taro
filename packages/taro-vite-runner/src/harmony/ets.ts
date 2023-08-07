@@ -1,6 +1,8 @@
+import path from 'path'
 import ts from 'typescript'
 
 import type { PluginOption } from 'vite'
+import type { HarmonyBuildConfig } from '../utils/types'
 
 export class EtsHelper {
   code: string
@@ -10,8 +12,14 @@ export class EtsHelper {
   REGEX_MODIFIER = /\s((@\S+)\s*\n)+/
   REGEX_STRUCT = /(?<=\s)struct\s*[^{}]+\{/
 
+  structVarList = ['createReactApp', 'createPageConfig', 'component', 'ReactMeta', 'TaroElement', 'TaroView', 'TaroText', 'TaroImage']
+
+  // eslint-disable-next-line no-useless-constructor
+  constructor(protected appPath: string, protected taroConfig: HarmonyBuildConfig) {}
+
   transEtsCode (id: string, code: string) {
-    code = this.transModifier(id, this.transStruct(id, code))
+    code = this.transStruct(id, code)
+    code = this.transModifier(id, code)
 
     const { outputText } = ts.transpileModule(code, {
       compilerOptions: {
@@ -43,7 +51,14 @@ export class EtsHelper {
     } else {
       bufferMap.set(codeId, codeBufferStr)
     }
-    code = code.replace(codeBufferStr, codeId)
+    let replaceCode = `/** id="${id}" */ `
+    let name = code.match(this.REGEX_STRUCT)?.[0] || ''
+    name = name.split(' ')[1] || ''
+    if (name) {
+      replaceCode += `export const ${name} = `
+    }
+    replaceCode += `${codeId}(${this.structVarList.join(', ')})`
+    code = code.replace(codeBufferStr, replaceCode)
     return this.transStruct(id, code, count + 1)
   }
 
@@ -57,7 +72,7 @@ export class EtsHelper {
       code = code.replace(this.REGEX_MODIFIER, (str) => {
         isClear = false
         bufferMap.set(codeId, str)
-        return codeId + '\n'
+        return `/** id="${id}" */ ${codeId}\n`
       })
     }
     if (isClear) {
@@ -68,13 +83,75 @@ export class EtsHelper {
   }
 
   recoverEtsCode (id: string, code: string) {
+    const fileId = '/\\*\\*\\sid="(.*)"\\s\\*/'
+    const exportStruct = '((?:export\\s)?(?:const|var|let)\\s\\S*\\s=\\s)'
+    const params = '(\\([^\\)]*\\))'
     const bufferMap = this.codeBuffer[id]
-    if (!bufferMap) return code
-
-    for (const [codeId, codeBufferStr] of bufferMap) {
-      code = code.replace(new RegExp(`${codeId};?`), codeBufferStr)
+    let insertVarMap = ''
+    if (bufferMap) {
+      for (const [codeId, codeBufferStr] of bufferMap) {
+        code = code?.replace(new RegExp(`${fileId}\\s${exportStruct}?${codeId}${params}?(;\n)?`), (_, _id, _export, vars) => {
+          if (vars) {
+            insertVarMap = parseVars(vars, this.structVarList)
+          }
+          return codeBufferStr
+        })
+      }
+    } else {
+      code = code?.replace(new RegExp(`${fileId}\\s${exportStruct}?(__TARO_ETS_[^\\(\\s;]+)${params}?(;\n)?`, 'g'), (_, id, _export, codeId, vars) => {
+        const bufferMap = this.codeBuffer[id]
+        if (bufferMap && bufferMap.has(codeId)) {
+          const codeBufferStr = bufferMap.get(codeId) || ''
+          if (vars) {
+            insertVarMap = parseVars(vars, this.structVarList)
+          }
+          return codeBufferStr
+        }
+        return ''
+      }) || ''
     }
+
+    // FIXME 临时方案，仅支持 function、class 类型
+    function parseVars (vars = '', list: string[] = []) {
+      return vars
+        .slice(1, -1).split(',')
+        .map(v => v.trim())
+        .reduce((p, v, i) => {
+          if (list[i] !== v) {
+            p += `var ${list[i]} = ${v};\n`
+          }
+          return p
+        }, '')
+    }
+    code = code.replace(/(import\s[^'"]*['"][^'"]*['"];?\n)*/, s => `${s}\n${insertVarMap}`)
+
     return code
+  }
+
+  resolveAbsoluteRequire (id: string, code: string) {
+    const isInvalidFirst = /^[^a-z@/\\]/i.test(id)
+    const realImporter = id.slice(isInvalidFirst ? 1 : 0)
+    const { sourceRoot = 'src' } = this.taroConfig
+    const targetRoot = path.resolve(this.appPath, sourceRoot)
+    const outputFile = path.resolve(
+      this.taroConfig.outputRoot || 'dist',
+      realImporter.startsWith('/') ? path.relative(targetRoot, realImporter) : realImporter
+    )
+    const outputDir = path.dirname(outputFile)
+    return code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
+      if (p1.startsWith(this.taroConfig.outputRoot || 'dist')) {
+        let relativePath = path.relative(outputDir, p1)
+        relativePath = /^\.{1,2}[\\/]/.test(relativePath)
+          ? relativePath
+          : /^\.{1,2}$/.test(relativePath)
+            ? `${relativePath}/`
+            : `./${relativePath}`
+
+        return src.replace(p1, relativePath)
+      }
+
+      return src
+    })
   }
 
   findScope (str: string, position = 0, flags = ['{', '}']) {
@@ -101,8 +178,8 @@ export class EtsHelper {
   }
 }
 
-export default function (): PluginOption {
-  const helper = new EtsHelper()
+export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption {
+  const helper = new EtsHelper(appPath, taroConfig)
 
   return {
     name: 'taro:vite-ets',
@@ -110,15 +187,21 @@ export default function (): PluginOption {
     transform (code, id) {
       if (/\.ets(\?\S*)?$/.test(id)) {
         // FIXME 通过 acornInjectPlugins 注入 struct 语法编译插件
-        return helper.transEtsCode(id, code)
+        return {
+          code: helper.transEtsCode(id, code),
+          map: null,
+        }
       }
     },
     renderChunk (code, chunk, opts: any) {
       opts.__vite_skip_esbuild__ = true
       const id = chunk.facadeModuleId || chunk.fileName
-      if (/\.ets(\?\S*)?$/.test(id)) {
-        return helper.recoverEtsCode(id, code)
+      const etsSuffix = /\.ets(\?\S*)?$/
+      if (etsSuffix.test(id) || chunk.moduleIds?.some(id => etsSuffix.test(id))) {
+        code = helper.recoverEtsCode(id, code)
       }
+
+      return helper.resolveAbsoluteRequire(id, code)
     },
   }
 }

@@ -4,7 +4,7 @@ import { Current } from '@tarojs/runtime'
 import { NodesRef } from './nodesRef.js'
 
 interface ISelectorQueryQueue {
-  component: TaroGeneral.IAnyObject
+  component: any
   selector: string
   single: boolean
   fields
@@ -224,7 +224,7 @@ function queryBat (queue, cb) {
 export class SelectorQuery implements Taro.SelectorQuery {
   _queue: ISelectorQueryQueue[]
   _queueCb: (TSelectorQueryQueueCallback | null)[]
-  _component?: TaroGeneral.IAnyObject
+  _component?: any
 
   constructor () {
     this._queue = []
@@ -237,7 +237,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
    * @param component 指定组件
    * @return selectQuery 返回查询对象
    */
-  in (component: TaroGeneral.IAnyObject) {
+  in = (component: any) => {
     this._component = component
     return this
   }

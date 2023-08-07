@@ -4,35 +4,36 @@
  * 1. 华为账号场景介绍文档 @see https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/harmonyos-js-login-0000001151310900
  * 2. 华为账号API参考 @see https://developer.huawei.com/consumer/cn/doc/development/HMSCore-References/harmonyos-js-overview-0000001063532145
  */
+
+// import hmsJSAccount from '@hmscore/hms-jsb-account'
 import { isFunction } from '@tarojs/shared'
 
-import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
-
-const hmsJSAccount = require('@hmscore/hms-jsb-account')
+import { unsupport } from '../utils'
 
 /**
  * 帐号授权登录
  * @param options
  */
-const login = (options) => {
-  return new Promise((resolve, reject) => {
-    const res: Record<string, any> = {}
-    const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
-    hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption)
-      .then(result => {
-        if (result) {
-          res.data = { code: result.serverAuthCode }
-          callAsyncSuccess(resolve, res, options)
-        } else {
-          res.errorMsg = 'signIn result data is null'
-          callAsyncFail(reject, res, options)
-        }
-      })
-      .catch(error => {
-        res.data = { errMsg: error.errMsg }
-        callAsyncFail(reject, res, options)
-      })
-  })
+const login = (_options) => {
+  process.env.NODE_ENV !== 'production' && unsupport('login')
+  // return new Promise((resolve, reject) => {
+  //   const res: Record<string, any> = {}
+  //   const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
+  //   hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption)
+  //     .then(result => {
+  //       if (result) {
+  //         res.data = { code: result.serverAuthCode }
+  //         callAsyncSuccess(resolve, res, options)
+  //       } else {
+  //         res.errorMsg = 'signIn result data is null'
+  //         callAsyncFail(reject, res, options)
+  //       }
+  //     })
+  //     .catch(error => {
+  //       res.data = { errMsg: error.errMsg }
+  //       callAsyncFail(reject, res, options)
+  //     })
+  // })
 }
 
 /**
@@ -40,10 +41,12 @@ const login = (options) => {
  * @param options
  */
 function getUserInfo (options) {
+  process.env.NODE_ENV !== 'production' && unsupport('getUserInfo')
   const { success, fail, complete } = options
   const res: Record<string, any> = {}
 
-  const result = hmsJSAccount.HuaweiIdAuthManager.getAuthResultWithScopes([hmsJSAccount.PROFILE])
+  // const result = hmsJSAccount.HuaweiIdAuthManager.getAuthResultWithScopes([hmsJSAccount.PROFILE])
+  const result = null
 
   if (result) {
     res.data = { userInfo: generateUserInfo(result) }
@@ -58,23 +61,24 @@ function getUserInfo (options) {
 /**
  * 获取用户信息
  */
-const getUserProfile = (options) => {
-  return new Promise((resolve, reject) => {
-    const res: Record<string, any> = {}
-    hmsJSAccount.HuaweiIdAuthManager.addAuthScopes([hmsJSAccount.PROFILE])
-      .then(result => {
-        if (result) {
-          res.data = { userInfo: generateUserInfo(result) }
-          callAsyncSuccess(resolve, res, options)
-        } else {
-          res.errorMsg = 'getUserProfile result data is null'
-          callAsyncFail(reject, res, options)
-        }
-      })
-      .catch(error => {
-        callAsyncFail(reject, error, options)
-      })
-  })
+const getUserProfile = (_options) => {
+  process.env.NODE_ENV !== 'production' && unsupport('getUserProfile')
+  // return new Promise((resolve, reject) => {
+  //   const res: Record<string, any> = {}
+  //   hmsJSAccount.HuaweiIdAuthManager.addAuthScopes([hmsJSAccount.PROFILE])
+  //     .then(result => {
+  //       if (result) {
+  //         res.data = { userInfo: generateUserInfo(result) }
+  //         callAsyncSuccess(resolve, res, options)
+  //       } else {
+  //         res.errorMsg = 'getUserProfile result data is null'
+  //         callAsyncFail(reject, res, options)
+  //       }
+  //     })
+  //     .catch(error => {
+  //       callAsyncFail(reject, error, options)
+  //     })
+  // })
 }
 
 /**

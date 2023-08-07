@@ -1,7 +1,7 @@
 import { Current } from '@tarojs/runtime'
 import { isArray, isFunction, isUndefined } from '@tarojs/shared'
 
-import { ON_HIDE, ON_LOAD, ON_SHOW, ON_UNLOAD } from './contant'
+import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
 import { incrementId } from './utils'
 
 // TODO TYPE
@@ -66,6 +66,10 @@ export function getPath (id: string, options?: Record<string, unknown>): string 
   return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
 }
 
+export function getOnReadyEventKey (path: string) {
+  return path + '.' + ON_READY
+}
+
 export function getOnShowEventKey (path: string) {
   return path + '.' + ON_SHOW
 }
@@ -90,6 +94,7 @@ export function createPageConfig (component: any, pageName?: string) {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
       $taroPath: page.$taroPath,
+      onReady: getOnReadyEventKey(id),
       onShow: getOnShowEventKey(id),
       onHide: getOnHideEventKey(id)
     }

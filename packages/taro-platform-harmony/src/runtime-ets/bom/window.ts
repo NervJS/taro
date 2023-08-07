@@ -4,6 +4,7 @@ import type { TaroDocument } from '../dom/document'
 
 class Window extends TaroEventTarget {
   public _doc: TaroDocument
+  public __taroAppConfig: any
 
   get document (): TaroDocument {
     return this._doc

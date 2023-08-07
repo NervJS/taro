@@ -6,9 +6,8 @@ export { window } from './bom/window'
 
 export * from './current'
 
-export * from './dom/Element'
-export * from './dom/Event'
-export * from './dom/Text'
-export * from './dom/Form'
+export * from './dom/element'
+export * from './dom/event'
+export * from './dom/text'
 
 export * from './utils'

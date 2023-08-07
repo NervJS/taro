@@ -1,6 +1,6 @@
-import { callAsyncFail, callAsyncSuccess, unsupport, validateParams } from '../utils'
+import prompt from '@system.prompt'
 
-const prompt = require('@system.prompt')
+import { callAsyncFail, callAsyncSuccess, unsupport, validateParams } from '../utils'
 
 const resCallback = (res) => {
   return { errMsg: `${res}:ok` }

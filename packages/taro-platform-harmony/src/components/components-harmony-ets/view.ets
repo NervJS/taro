@@ -1,83 +1,102 @@
-import { type TaroView, eventHandler } from '@tarojs/runtime'
+import { eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 
+import type { TaroViewElement } from '@tarojs/runtime'
+
 @Extend(Flex)
-function flex (node: TaroView) {
-  .flexGrow(FlexManager.flexSize(node)[0])
-  .flexShrink(FlexManager.flexSize(node)[1])
-  .flexBasis(FlexManager.flexSize(node)[2])
-  .alignSelf(FlexManager.getAlignSelf(node))
+function attrs ({
+  flexSize,
+  alignSelf,
+  size,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundImageSize,
+}) {
+  .flexGrow(flexSize[0])
+  .flexShrink(flexSize[1])
+  .flexBasis(flexSize[2])
+  .alignSelf(alignSelf)
+  .size(size)
+  .margin(margin)
+  .padding(padding)
+  .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage)
+  .backgroundImageSize(backgroundImageSize)
+}
+
+function getAttributes (node: TaroViewElement) {
+  const { _st } = node
+  return {
+    flexSize: FlexManager.flexSize(_st),
+    alignSelf: ItemAlign.Auto,
+    size: {
+      width: AttributeManager.getNodeStyle(_st, 'width'),
+      height: AttributeManager.getNodeHeight(_st)
+    },
+    margin: AttributeManager.getNodeMarginOrPaddingData(_st, 'margin'),
+    padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
+    linearGradient: AttributeManager.getNodeLinearGradient(_st),
+    zIndex: AttributeManager.getNodeStyle(_st, 'zIndex'),
+    borderRadius: AttributeManager.getNodeStyle(_st, 'borderRadius'),
+    opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
+    backgroundColor: AttributeManager.getNodeBackGroundData(_st, 'backgroundColor'),
+    backgroundImage: AttributeManager.getNodeBackGroundData(_st, 'backgroundImage'),
+    backgroundImageSize: { width: '100%', height: '100%' }
+    // Todo: 尚未完成
+    // backgroundImageSize: {
+    //   width: AttributeManager.getNodeStyle(_st, 'backgroundSize'),
+    //   height: AttributeManager.getNodeStyle(_st, 'backgroundSize'),
+    // },
+  }
 }
 
 @Component
-struct View {
-  @ObjectLink node: TaroView
-
-  scroller: Scroller = new Scroller()
-
-  @Styles defaultStyle () {
-    .size({
-      width: AttributeManager.getNodeStyle(this.node, 'width'),
-      height: AttributeManager.getNodeHeight(this.node)
-    })
-    .margin(AttributeManager.getNodeMarginOrPaddingData(this.node, 'margin'))
-    .padding(AttributeManager.getNodeMarginOrPaddingData(this.node, 'padding'))
-    .backgroundImage(AttributeManager.getNodeStyle(this.node, 'backgroundImage'))
-    .backgroundImageSize({
-      width: AttributeManager.getNodeStyle(this.node, 'backgroundSize'),
-      height: AttributeManager.getNodeStyle(this.node, 'backgroundSize')
-    })
-    .linearGradient(AttributeManager.getNodeLinearGradient(this.node))
-    .zIndex(AttributeManager.getNodeStyle(this.node, 'zIndex'))
-    .borderRadius(AttributeManager.getNodeStyle(this.node, 'borderRadius'))
-    .opacity(AttributeManager.getNodeStyle(this.node, 'opacity'))
-    .backgroundColor(AttributeManager.getNodeBackGroundData(this.node, 'backgroundColor'))
-    .backgroundImage(AttributeManager.getNodeBackGroundData(this.node, 'backgroundImage'))
-    // TODO
-    .backgroundImageSize({ width: '100%', height: '100%' })
-    .backgroundImagePosition(AttributeManager.getNodeBackGroundData(this.node, 'backgroundPosition'))
-  }
+struct TaroView {
+  @ObjectLink node: TaroViewElement
 
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
   }
 
   @Builder createFlexElement($$: { instance }) {
-    Flex({
-      direction: FlexManager.flexDirection($$.instance),
-      justifyContent: FlexManager.justifyContent($$.instance),
-      alignItems: FlexManager.alignItems($$.instance),
-      wrap: FlexManager.flexWrap($$.instance),
-      alignContent: FlexManager.alignContent($$.instance),
-    }) {
-      ForEach(this.node.childNodes, (item, index) => {
+    Flex(FlexManager.flexOptions($$.instance)) {
+      ForEach($$.instance.childNodes, item => {
         createNode(item)
       }, item => item._nid)
     }
-    .flex($$.instance)
-    .defaultStyle()
+    .attrs(getAttributes($$.instance))
     .defaultEvent()
   }
 
-  @Builder createFlexElementWithPosition ($$: { instance }) {
-    if (AttributeManager.getNodeStyle($$.instance, 'position') === 'absolute') {
+  @Builder createFlexElementWithPosition ($$: { instance, top, left }) {
+    if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createFlexElement({ instance: $$.instance })
       }
       .position({
-        x: AttributeManager.getNodeStyle($$.instance, 'left', 0),
-        y: AttributeManager.getNodeStyle($$.instance, 'top', 0)
+        x: $$.left,
+        y: $$.top
       })
-    } else if ((AttributeManager.getNodeStyle(this.node, 'position') === 'relative')) {
+    } else if ((AttributeManager.getNodeStyle($$.instance._st, 'position') === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createFlexElement({ instance: $$.instance })
       }
       .offset({
-        x: AttributeManager.getNodeStyle($$.instance, 'left', 0),
-        y: AttributeManager.getNodeStyle($$.instance, 'top', 0)
+        x: $$.left,
+        y: $$.top
       })
     } else {
       this.createFlexElement({ instance: $$.instance })
@@ -85,8 +104,12 @@ struct View {
   }
 
   build() {
-    this.createFlexElementWithPosition({ instance: this.node })
+    this.createFlexElementWithPosition({
+      instance: this.node,
+      top: AttributeManager.getNodeStyle(this.node._st, 'top', 0),
+      left: AttributeManager.getNodeStyle(this.node._st, 'left', 0),
+    })
   }
 }
 
-export default View
+export default TaroView

@@ -17,14 +17,13 @@
 // ❌ wx.onSocketClose
 // ❌ wx.closeSocket
 
+import webSocket from '@ohos.net.webSocket'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 import { IAsyncParams } from '../utils/types'
 
 type ConnectSocket = typeof Taro.connectSocket
-
-const webSocket = require('@ohos.net.webSocket')
 
 interface ISendSocketOptions extends IAsyncParams {
   data: string

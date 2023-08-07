@@ -1,4 +1,4 @@
-type GeneralCallback = (res: TaroGeneral.CallbackResult) => void
+type GeneralCallback = (res: any) => void
 
 export type FunctionType = (...args: any) => any
 

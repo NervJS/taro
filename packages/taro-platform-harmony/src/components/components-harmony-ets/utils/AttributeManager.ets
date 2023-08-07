@@ -2,10 +2,10 @@ import { convertNumber2PX } from '@tarojs/runtime'
 import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
-  static getNodeStyle (node, name: string, defaultValue?) {
-    if (!node || (!node._st[name] && node._st[name] !== 0)) return defaultValue
+  static getNodeStyle (style, name: string, defaultValue?) {
+    if (!style[name] && style[name] !== 0) return defaultValue // false?
 
-    let value = node._st[name]
+    let value = style[name]
 
     if (!!value && isString(value) && value.indexOf('url') === -1) {
       value = value.replace('px', '')
@@ -14,27 +14,27 @@ class AttributeManager {
     return value
   }
 
-  static getNodeTextDecoration (node): { type: TextDecorationType, color?: ResourceColor } {
-    const value = AttributeManager.getNodeStyle(node, 'textDecoration', 'none')
+  static  getNodeTextDecoration (style): { type: TextDecorationType; color?: ResourceColor } {
+    const value = AttributeManager.getNodeStyle(style, 'textDecoration', 'none')
     const type = value.split('-').map(item => capitalize(item)).join('')
 
     return {
       type: TextDecorationType[type] as any,
-      color: AttributeManager.getNodeStyle(node, 'color', 'black')
+      color: AttributeManager.getNodeStyle(style, 'color', 'black')
     }
   }
 
-  static getNodeHeight (node) {
+  static getNodeHeight (style) {
     // TODO: 没有办法判断实际高度是否大于 minHeight
-    return AttributeManager.getNodeStyle(node, 'minHeight') || AttributeManager.getNodeStyle(node, 'height')
+    return AttributeManager.getNodeStyle(style, 'minHeight') || AttributeManager.getNodeStyle(style, 'height')
   }
 
-  static getNodeLinearGradient (node) {
-    const str: string = node._st.backgroundImage || node._st.background
+  static getNodeLinearGradient (style) {
+    const str = style.backgroundImage || style.background
 
-    if (!str || !str.includes('linear-gradient')) return
+    if (!str || !str.includes("linear-gradient")) return
 
-    let gradient: Record<string, unknown> | null = null
+    let gradient = null
     const match = str.match(/linear-gradient\((\d+)deg\s*,\s*(.+)\)/i)
 
     if (match) {
@@ -43,11 +43,11 @@ class AttributeManager {
         colors: []
       }
 
-      const colors: string[] = []
-      const percentages: string[] = []
-      const stops = match[2].match(/rgba?\(.+?\)\s*\d*%|#\w+\s*\d*%/gi)!
+      const colors = [];
+      const percentages = [];
+      const stops = match[2].match(/rgba?\(.+?\)\s*\d*%|#\w+\s*\d*%/gi)
 
-      for (const stop of stops) {
+      for (let stop of stops) {
         const match = stop.match(/(rgba?\(.+?\)|#\w+)\s*(\d*%?)?/i)
         if (match) {
           const color = match[1].trim()
@@ -59,10 +59,10 @@ class AttributeManager {
 
       const colorStops = colors.map((color, index) => `${color} ${percentages[index]}`)
 
-      for (const stop of colorStops) {
+      for (let stop of colorStops) {
         const colorMatch = stop.split(' ')
         if (colorMatch) {
-          const color = colorMatch[0].trim()
+          const color = colorMatch[0].trim();
           const progress = parseFloat(colorMatch[1]) / 100
 
           gradient.colors.push([color, progress])
@@ -73,16 +73,16 @@ class AttributeManager {
     return gradient
   }
 
-  static getNodeBackGroundData (node, name: string) {
-    const background = node._st.background
-    const singleItem = AttributeManager.getNodeStyle(node, name)
+  static getNodeBackGroundData (style, name: string) {
+    const background = style.background
+    const singleItem = AttributeManager.getNodeStyle(style, name)
 
     if (singleItem) return singleItem
     if (!background) return
 
-    const result: Record<string, unknown> = {}
+    var result = {}
     // TODO: 这里也有问题，background: 'rgb(255, 255, 255)'，这种样式会被分割
-    const parts = background.split(' ')
+    var parts = background.split(' ')
     let hasSlash = false
 
     const addBackgroundData = (part: string) => {
@@ -102,16 +102,16 @@ class AttributeManager {
         part === 'top' || part === 'bottom'
       const partHasSlash = part.indexOf('/') !== -1 && part.indexOf('url') === -1
 
-      if (part.charAt(0) === '#' || part.indexOf('rgb(') !== -1 || part.indexOf('hsl(') !== -1) {
+      if (part.charAt(0) === '#' ||  part.indexOf('rgb(') !== -1 || part.indexOf('hsl(') !== -1) {
         // 如果以 # 开头或包含 rgb/hsl，则说明是 background-color 属性
-        result.backgroundColor = part
+        result['backgroundColor'] = part
         return
       } else if (part.indexOf('url(') !== -1 && part.indexOf(')') !== -1) {
         // 如果包含 url()，则说明是 background-image 属性
-        const match = part.match(/url\(['"]?(.*?)['"]?\)/)
+        var match = part.match(/url\(['"]?(.*?)['"]?\)/)
 
         if (match) {
-          result.backgroundImage = match[1]
+          result['backgroundImage'] = match[1]
         }
         return
       }
@@ -133,7 +133,7 @@ class AttributeManager {
         hasSlash = true
         addBackgroundData(ImageSize[capitalize(backgroundSizePart)])
 
-
+        return
       }
       // TODO: background-size 和 background-position 的解析还未完善，因为 ArkTS 不支持诸如 auto 30% 这样的格式
     })
@@ -141,9 +141,9 @@ class AttributeManager {
     return result[name]
   }
 
-  static getNodeMarginOrPaddingData (node, name: 'margin' | 'padding') {
+  static getNodeMarginOrPaddingData (style, name: 'margin' | 'padding') {
     let res: any = {}
-    const dataValue = AttributeManager.getNodeStyle(node, name)
+    const dataValue = AttributeManager.getNodeStyle(style, name)
 
     if (dataValue) {
       const values = dataValue.split(/\s+/)
@@ -172,10 +172,10 @@ class AttributeManager {
     }
 
     return {
-      top: AttributeManager.getNodeStyle(node, `${name}Top`) || res.top || 0,
-      bottom: AttributeManager.getNodeStyle(node, `${name}Bottom`) || res.bottom || 0,
-      left: AttributeManager.getNodeStyle(node, `${name}Left`) || res.left || 0,
-      right: AttributeManager.getNodeStyle(node, `${name}Right`) || res.right || 0,
+      top: AttributeManager.getNodeStyle(style, `${name}Top`) || res.top || 0,
+      bottom: AttributeManager.getNodeStyle(style, `${name}Bottom`) || res.bottom || 0,
+      left: AttributeManager.getNodeStyle(style, `${name}Left`) || res.left || 0,
+      right: AttributeManager.getNodeStyle(style, `${name}Right`) || res.right || 0,
     }
   }
 }

@@ -1,11 +1,10 @@
+import router from '@system.router'
 import { queryToJson } from '@tarojs/shared'
 
 import { callAsyncSuccess } from '../utils'
 import { IAsyncParams } from '../utils/types'
 
 import type Taro from '@tarojs/taro'
-
-const router = require('@system.router')
 
 declare const getApp: any
 
@@ -37,7 +36,7 @@ const redirectTo = getRouterFunc('redirectTo')
 interface INavigateBackParams extends IAsyncParams {
   url?: string
 }
-function navigateBack (options: INavigateBackParams): Promise<TaroGeneral.CallbackResult> {
+function navigateBack (options: INavigateBackParams): Promise<any> {
   return new Promise(resolve => {
     if (!options?.url) {
       router.back()

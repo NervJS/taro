@@ -7,7 +7,6 @@ type NamedNodeMap = ({ name: string, value: string })[]
 
 class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
-  public props: Record<string, any> = {}
   public readonly tagName: string
   public innerHTML: string
 
@@ -79,29 +78,51 @@ class TaroElement extends TaroNode {
 }
 
 @Observed
-class TaroView extends TaroElement {
+class TaroViewElement extends TaroElement {
   constructor() {
     super('View')
   }
 }
 
 @Observed
-class TaroText extends TaroElement {
+class TaroTextElement extends TaroElement {
   constructor() {
     super('Text')
   }
 }
 
 @Observed
-class TaroImage extends TaroElement {
+class TaroImageElement extends TaroElement {
   constructor() {
     super('Image')
   }
 }
 
+@Observed
+export class FormElement extends TaroElement {
+  public get type () {
+    return this._attrs.type ?? ''
+  }
+
+  public set type (val: string) {
+    this.setAttribute('type', val)
+  }
+
+  public get value () {
+    // eslint-disable-next-line dot-notation
+    const val = this._attrs.value
+    return val == null ? '' : val
+  }
+
+  public set value (val: string | boolean | number | any[]) {
+    this.setAttribute('value', val)
+  }
+}
+
+
 export {
   TaroElement,
-  TaroImage,
-  TaroText,
-  TaroView,
+  TaroImageElement,
+  TaroTextElement,
+  TaroViewElement
 }

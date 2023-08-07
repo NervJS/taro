@@ -11,6 +11,7 @@
   "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": true,
   "files.associations": {
-    "*.json": "jsonc"
+    "*.json": "jsonc",
+    "*.ets": "typescript"
   }
 }

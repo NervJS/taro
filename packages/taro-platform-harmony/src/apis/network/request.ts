@@ -5,26 +5,24 @@
 // ✅ RequestTask.offHeadersReceived
 // ✅ RequestTask.onHeadersReceived
 
+import http from '@ohos.net.http'
 import { isString, isUndefined } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
-const http = require('@ohos.net.http')
-
-type Request<T = any, U = any> = typeof Taro.request<T, U>
 const METHOD: string [] = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
 
 interface IRequestResultOHOS {
-  result: string | TaroGeneral.IAnyObject
+  result: string | any
   responseCode: number
   header
 }
 
 interface IRequestParamsOHOS {
   method?: string
-  header?: TaroGeneral.IAnyObject
-  extraData?: TaroGeneral.IAnyObject | string
+  header?: any
+  extraData?: any | string
   readTimeout?: number
   connectTimeout?: number
 }
@@ -33,7 +31,7 @@ const requestSchema = {
   url: 'String'
 }
 
-const request: Request = function (options) {
+const request: typeof Taro.request = function (options) {
   let httpRequestOhos
 
   const requestTask: any = new Promise((resolve, reject) => {
@@ -76,7 +74,7 @@ const request: Request = function (options) {
     const requestParamsOHOS: IRequestParamsOHOS = {
       method,
       header,
-      extraData: data,
+      extraData: data as IRequestParamsOHOS['extraData'],
       readTimeout: timeout,
       connectTimeout: timeout
     }

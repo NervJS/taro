@@ -16,7 +16,7 @@ export function initNativeApi (taro) {
   Object.assign(taro, apis)
 }
 
-export function initPxTransform () {
+export function initPxTransform (_opts?: any) {
   // noop
 }
 

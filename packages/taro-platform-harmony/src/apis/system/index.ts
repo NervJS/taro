@@ -1,3 +1,21 @@
+// 设备信息,从 API Version 6 开始支持
+import deviceInfo from '@ohos.deviceInfo'
+// 显示设备属性,从 API Version 7 开始支持
+import display from '@ohos.display'
+// 从 API Version 7 开始支持
+import i18n from '@ohos.i18n'
+// 从 API Version 6 开始支持
+import pasteboard from '@ohos.pasteboard'
+// 从 API Version 7 开始支持。
+import call from '@ohos.telephony.call'
+// 从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.brightness'
+// 但是 新接口 @ohos.brightness 没有getValue
+import brightness from '@system.brightness'
+// 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
+import device from '@system.device'
+// 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
+// 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
+import network from '@system.network'
 import { isNull, isNumber, isString, isUndefined } from '@tarojs/shared'
 
 import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
@@ -5,24 +23,6 @@ import { GetAPIsOptionsSuccessType } from '../utils/types'
 
 import type Taro from '@tarojs/taro'
 
-// 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
-// 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
-const network = require('@system.network')
-// 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
-const device = require('@system.device')
-// 设备信息,从 API Version 6 开始支持
-const deviceInfo = require('@ohos.deviceInfo')
-// 显示设备属性,从 API Version 7 开始支持
-const display = require('@ohos.display')
-// 从 API Version 7 开始支持
-const i18n = require('@ohos.i18n')
-// 从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.brightness'
-// 但是 新接口 @ohos.brightness 没有getValue
-const brightness = require('@system.brightness')
-// 从 API Version 7 开始支持。
-const call = require('@ohos.telephony.call')
-// 从 API Version 6 开始支持
-const pasteboard = require('@ohos.pasteboard')
 
 type GetNetworkType = typeof Taro.getNetworkType;
 type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange;

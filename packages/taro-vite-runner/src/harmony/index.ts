@@ -15,7 +15,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
     configPlugin(appPath, taroConfig),
     entryPlugin(),
     pagePlugin(),
-    etsPlugin(),
+    etsPlugin(appPath, taroConfig),
     multiPlatformPlugin(taroConfig),
     emitPlugin(),
   ]

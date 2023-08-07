@@ -1,30 +1,54 @@
-import { type TaroImage, eventHandler } from '@tarojs/runtime'
+import { eventHandler } from '@tarojs/runtime'
 
 import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 
+import type { TaroImageElement } from '@tarojs/runtime'
+
 @Extend(Image)
-function flex (node: TaroImage) {
-  .flexGrow(FlexManager.flexSize(node)[0])
-  .flexShrink(FlexManager.flexSize(node)[1])
-  .flexBasis(FlexManager.flexSize(node)[2])
-  .alignSelf(FlexManager.getAlignSelf(node))
+function attrs ({
+   flexSize,
+   alignSelf,
+   size,
+   margin,
+   padding,
+   zIndex,
+   objectFit,
+   backgroundColor,
+}) {
+  .size(size)
+  .zIndex(zIndex)
+  .margin(margin)
+  .padding(padding)
+  .objectFit(objectFit)
+  .alignSelf(alignSelf)
+  .flexGrow(flexSize[0])
+  .flexShrink(flexSize[1])
+  .flexBasis(flexSize[2])
+  .backgroundColor(backgroundColor)
+}
+
+function getAttributes (node: TaroImageElement) {
+  const { _st } = node
+
+  return {
+    size: {
+      width: AttributeManager.getNodeStyle(_st, 'width', 0),
+      height: AttributeManager.getNodeStyle(_st, 'height', 0)
+    },
+    alignSelf: ItemAlign.Auto,
+    objectFit: ImageFit.Contain,
+    flexSize: FlexManager.flexSize(_st),
+    backgroundColor: _st.backgroundColor,
+    zIndex: AttributeManager.getNodeStyle(_st, 'zIndex'),
+    margin: AttributeManager.getNodeMarginOrPaddingData(_st, 'margin'),
+    padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
+  }
 }
 
 @Component
-struct Image {
-  @ObjectLink node: TaroImage
-
-  @Styles defaultStyle () {
-    .size({
-      width: AttributeManager.getNodeStyle(this.node, 'width', 0),
-      height: AttributeManager.getNodeStyle(this.node, 'height', 0)
-    })
-    .margin(AttributeManager.getNodeMarginOrPaddingData(this.node, 'margin'))
-    .padding(AttributeManager.getNodeMarginOrPaddingData(this.node, 'padding'))
-    .backgroundColor(this.node._st.backgroundColor)
-    .zIndex(AttributeManager.getNodeStyle(this.node, 'zIndex'))
-  }
+struct TaroImage {
+  @ObjectLink node: TaroImageElement
 
   @Styles defaultEvent () {
     .onClick(e => eventHandler(e, 'click', this.node))
@@ -32,29 +56,27 @@ struct Image {
 
   @Builder createImageElement ($$: { instance }) {
     Image($$.instance.getAttribute('src'))
-      .defaultStyle()
       .defaultEvent()
-      .flex($$.instance)
-      .objectFit(ImageFit.Contain)
+      .attrs(getAttributes($$.instance))
       .onComplete(e => eventHandler(e, 'complete', $$.instance))
   }
 
-  @Builder createImageElementWithPosition ($$: { instance }) {
-    if (AttributeManager.getNodeStyle($$.instance, 'position') === 'absolute') {
+  @Builder createImageElementWithPosition ($$: { instance, top, left }) {
+    if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createImageElement({ instance: $$.instance })
       }
       .position({
-        x: AttributeManager.getNodeStyle($$.instance, 'left', 0),
-        y: AttributeManager.getNodeStyle($$.instance, 'top', 0)
+        x: $$.left,
+        y: $$.top
       })
-    } else if ((AttributeManager.getNodeStyle(this.node, 'position') === 'relative')) {
+    } else if ((AttributeManager.getNodeStyle($$.instance._st, 'position') === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createImageElement({ instance: $$.instance })
       }
       .offset({
-        x: AttributeManager.getNodeStyle($$.instance, 'left', 0),
-        y: AttributeManager.getNodeStyle($$.instance, 'top', 0)
+        x: $$.left,
+        y: $$.top
       })
     } else {
       this.createImageElement({ instance: $$.instance })
@@ -62,8 +84,12 @@ struct Image {
   }
 
   build() {
-    this.createImageElementWithPosition({ instance: this.node })
+    this.createImageElementWithPosition({
+      instance: this.node,
+      top: AttributeManager.getNodeStyle(this.node._st, 'top', 0),
+      left: AttributeManager.getNodeStyle(this.node._st, 'left', 0),
+    })
   }
 }
 
-export default Image
+export default TaroImage

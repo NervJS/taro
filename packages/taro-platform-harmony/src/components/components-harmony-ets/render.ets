@@ -1,15 +1,15 @@
-import View from './view'
-import Text from './text'
-import Image from './image'
+import TaroView from './view'
+import TaroText from './text'
+import TaroImage from './image'
 
 @Builder
 function createNode (node: any) {
   if (node.tagName === 'VIEW') {
-    View({ node })
+    TaroView({ node })
   } else if (node.tagName === 'TEXT') {
-    Text({ node })
+    TaroText({ node })
   } else if (node.tagName === 'IMAGE') {
-    Image({ node })
+    TaroImage({ node })
   }
 }
 

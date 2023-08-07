@@ -13,11 +13,11 @@
 // ❌ wx.chooseLocation 地图相关
 // ❌ wx.stopLocationUpdate
 // ❌ wx.startLocationUpdate
+
+import geolocation from '@ohos.geolocation'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
-
-const geolocation = require('@ohos.geolocation')
 
 type GetLocation = typeof Taro.getLocation
 type OnLocationChange = typeof Taro.onLocationChange

@@ -7,17 +7,16 @@
 // ❌ DownloadTask.onHeadersReceived 此接口 ohos 不支持
 // ❌ DownloadTask.offHeadersReceived 此接口 ohos 不支持
 
+import request from '@ohos.request'
 import Taro, { DownloadTask } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
-
-const request = require('@ohos.request')
 
 type DownloadFile = typeof Taro.downloadFile
 
 interface IDownloadConfigOHOS {
   url: string
-  header?: TaroGeneral.IAnyObject
+  header?: any
   filePath?: string
   enableMetered?: boolean // ohos参数
   enableRoaming?: boolean // ohos参数
@@ -31,7 +30,7 @@ const downloadFileSchema = {
 }
 
 const downloadFile: DownloadFile = function (options) {
-  let downloadTask: TaroGeneral.IAnyObject = {}
+  let downloadTask: any = {}
 
   const downloadTaskWX: any = new Promise((resolve, reject) => {
     const { url, header, filePath } = options
