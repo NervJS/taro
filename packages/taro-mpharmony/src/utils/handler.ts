@@ -91,6 +91,11 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
     }
   }
 
+  /** 移除所有回调 */
+  removeAll = () => {
+    this.callbacks = []
+  }
+
   /** 获取回调函数数量 */
   count = () => {
     return this.callbacks.length
