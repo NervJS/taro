@@ -102,24 +102,14 @@ export class Image implements ComponentInterface {
 
     return (
       <Host class={cls}>
-        {lazyLoad && !didLoad ? (
-          <img
-            ref={img => (this.imgRef = img!)}
-            class={imgCls}
-            onLoad={imageOnLoad.bind(this)}
-            onError={imageOnError.bind(this)}
-            {...nativeProps}
-          />
-        ) : (
-          <img
-            ref={img => (this.imgRef = img!)}
-            class={imgCls}
-            src={src}
-            onLoad={imageOnLoad.bind(this)}
-            onError={imageOnError.bind(this)}
-            {...nativeProps}
-          />
-        )}
+       <img
+          ref={(img) => (this.imgRef = img!)}
+          class={imgCls}
+          src={lazyLoad && !didLoad ? undefined : src}
+          onLoad={imageOnLoad.bind(this)}
+          onError={imageOnError.bind(this)}
+          {...nativeProps}
+        />
       </Host>
     )
   }
