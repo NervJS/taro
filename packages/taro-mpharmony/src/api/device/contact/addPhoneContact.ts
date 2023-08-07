@@ -4,6 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
   const name = 'addPhoneContact'
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -11,6 +12,7 @@ export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
+
   const {
     firstName,
     photoFilePath,
@@ -51,46 +53,47 @@ export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.addPhoneContact({
-    firstName: firstName,
-    photoFilePath: photoFilePath,
-    nickName: nickName,
-    middleName: middleName,
-    lastName: lastName,
-    remark: remark,
-    mobilePhoneNumber: mobilePhoneNumber,
-    weChatNumber: weChatNumber,
-    addressCountry: addressCountry,
-    addressState: addressState,
-    addressCity: addressCity,
-    addressStreet: addressStreet,
-    addressPostalCode: addressPostalCode,
-    organization: organization,
-    title: title,
-    workFaxNumber: workFaxNumber,
-    workPhoneNumber: workPhoneNumber,
-    hostNumber: hostNumber,
-    email: email,
-    url: url,
-    workAddressCountry: workAddressCountry,
-    workAddressState: workAddressState,
-    workAddressCity: workAddressCity,
-    workAddressStreet: workAddressStreet,
-    workAddressPostalCode: workAddressPostalCode,
-    homeFaxNumber: homeFaxNumber,
-    homePhoneNumber: homePhoneNumber,
-    homeAddressCountry: homeAddressCountry,
-    homeAddressState: homeAddressState,
-    homeAddressCity: homeAddressCity,
-    homeAddressStreet: homeAddressStreet,
-    homeAddressPostalCode: homeAddressPostalCode,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise((resolve, reject) => {
+    // @ts-ignore
+    native.addPhoneContact({
+      firstName: firstName,
+      photoFilePath: photoFilePath,
+      nickName: nickName,
+      middleName: middleName,
+      lastName: lastName,
+      remark: remark,
+      mobilePhoneNumber: mobilePhoneNumber,
+      weChatNumber: weChatNumber,
+      addressCountry: addressCountry,
+      addressState: addressState,
+      addressCity: addressCity,
+      addressStreet: addressStreet,
+      addressPostalCode: addressPostalCode,
+      organization: organization,
+      title: title,
+      workFaxNumber: workFaxNumber,
+      workPhoneNumber: workPhoneNumber,
+      hostNumber: hostNumber,
+      email: email,
+      url: url,
+      workAddressCountry: workAddressCountry,
+      workAddressState: workAddressState,
+      workAddressCity: workAddressCity,
+      workAddressStreet: workAddressStreet,
+      workAddressPostalCode: workAddressPostalCode,
+      homeFaxNumber: homeFaxNumber,
+      homePhoneNumber: homePhoneNumber,
+      homeAddressCountry: homeAddressCountry,
+      homeAddressState: homeAddressState,
+      homeAddressCity: homeAddressCity,
+      homeAddressStreet: homeAddressStreet,
+      homeAddressPostalCode: homeAddressPostalCode,
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }
