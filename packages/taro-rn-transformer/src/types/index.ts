@@ -12,6 +12,7 @@ export interface TransformType {
     designWidth?: number | ((size?: string | number) => number)
     deviceRatio?: Record<string, number>
     rn?: Record<string, any>
+    plugins?: any[]
   }
 }
 
@@ -39,6 +40,7 @@ export interface AppConfig {
   designWidth: number | ((size?: string | number) => number)
   deviceRatio?: Record<string, number>
   tabBar:Record<string, any>
+  components?: string[]
 }
 
 interface SubPackage {
@@ -63,3 +65,5 @@ export interface TransformLinariaOption {
    */
   sourceCode: string
 }
+
+export declare function getAppConfig (appPath: string): AppConfig

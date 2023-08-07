@@ -16,6 +16,7 @@ const config = {
     __TEST__: '"测试静态常量"'
   },
   alias: {
+    'src': path.resolve(__dirname, '..', 'src/'),
     '@/components': path.resolve(__dirname, '..', 'src/components'),
     '@/utils': path.resolve(__dirname, '..', 'src/utils')
   },
