@@ -320,7 +320,8 @@ module.exports = function (merge) {
 | privateKeyPath      | string | 密钥文件相对项目根目录的相对路径, 私钥可通过[支付宝开放平台开发助手](https://opendocs.alipay.com/common/02kipl)生成 |
 | privateKey          | string | 私钥文本内容, 生成方式同上(privateKeyPath 和 privateKey 之间必须要填写其中一个； 3.6.0 版本开始支持)                |
 | devToolsInstallPath | string | 小程序开发者工具安装路径(选填, 3.6.0 版本开始支持)                                                                  |
-| clientType          | string | 上传的终端,终端类型见下表（选填，默认值 alipay）                                                                    |
+| clientType          | string | 上传的终端,终端类型见下表（选填，默认值 alipay）                                                                    | 
+| deleteVersion       | string | 在上传过程中删除指定的版本，即使该版本正在构建中或不存在。记录已上传的版本并使用这个参数能有效避免上传版本无法超过 20 个的问题    |
 
 ```
 终端类型值及其含义：
