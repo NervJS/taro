@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text, Slider } from '@tarojs/components'
+import { View, Button, Text, Input } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -17,159 +18,124 @@ export default class Index extends React.Component {
         func: null,
       },
       {
-        id: 'setScreenBrightness1',
+        id: 'setScreenBrightness',
         func: () => {
+          TestConsole.consoleTest('Taro.setScreenBrightness')
+          TestConsole.consoleNormal('Taro.setScreenBrightness value:', this.state.brightValue)
           Taro.setScreenBrightness({
-            value: 1,
+            value: this.state.brightValue,
             success: (res) => {
-              console.log('success-----', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: (res) => {
-              console.log('fail-----', res)
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('complete-----', res)
+              TestConsole.consoleComplete(res)
             },
-          })
-        },
-      },
-      {
-        id: 'setScreenBrightness0',
-        func: () => {
-          Taro.setScreenBrightness({
-            value: 0,
-            success: (res) => {
-              console.log('success-----', res)
-            },
-            fail: (res) => {
-              console.log('fail-----', res)
-            },
-            complete: (res) => {
-              console.log('complete-----', res)
-            },
+          }).then(res => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'setKeepScreenOnTrue',
         func: () => {
+          TestConsole.consoleTest('Taro.setKeepScreenOnTrue')
           Taro.setKeepScreenOn({
             keepScreenOn: true,
             success: (res) => {
-              console.log('setKeepScreenOn(true) success-----', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: (res) => {
-              console.log('setKeepScreenOn(true) fail-----', res)
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('setKeepScreenOn(true) complete-----', res)
+              TestConsole.consoleComplete(res)
             },
+          }).then(res => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'setKeepScreenOnFalse',
         func: () => {
+          TestConsole.consoleTest('Taro.setKeepScreenOnFalse')
           Taro.setKeepScreenOn({
             keepScreenOn: false,
             success: (res) => {
-              console.log('setKeepScreenOn(false) success-----', res)
+              TestConsole.consoleSuccess(res)
             },
             fail: (res) => {
-              console.log('setKeepScreenOn(false) fail-----', res)
+              TestConsole.consoleFail(res)
             },
             complete: (res) => {
-              console.log('setKeepScreenOn(false) complete-----', res)
+              TestConsole.consoleComplete(res)
             },
+          }).then(res => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
       {
         id: 'onUserCaptureScreen',
         func: () => {
-          Taro.onUserCaptureScreen((res) => {
-            console.log('success-----用户截屏了', res)
-          })
+          TestConsole.consoleTest('Taro.onUserCaptureScreen')
+          Taro.onUserCaptureScreen(this.userCaptureScreen)
+          TestConsole.consoleTest('Taro.onUserCaptureScreen end')
         },
       },
       {
         id: 'offUserCaptureScreen',
         func: () => {
-          Taro.offUserCaptureScreen((res) => {
-            console.log('success-----取消截屏事件监听', res)
-          })
+          TestConsole.consoleTest('Taro.offUserCaptureScreen')
+          Taro.offUserCaptureScreen(this.userCaptureScreen)
+          TestConsole.consoleTest('Taro.offUserCaptureScreen end')
         },
       },
       {
-        id: 'getScreenBrightness0',
+        id: 'getScreenBrightness',
         func: () => {
-          Taro.setScreenBrightness({
-            value: 0,
+          TestConsole.consoleTest('Taro.getScreenBrightness')
+          Taro.getScreenBrightness({
             success: (res) => {
-              console.log('setKeepScreenOn(true) success-----', res)
-              Taro.getScreenBrightness({
-                success: (res) => {
-                  console.log('success-----', res)
-                },
-                fail: (res) => {
-                  console.log('fail-----', res)
-                },
-                complete: (res) => {
-                  console.log('complete-----', res)
-                },
-              })
+              TestConsole.consoleSuccess(res)
             },
-          })
-        },
-      },
-      {
-        id: 'getScreenBrightness1',
-        func: () => {
-          Taro.setScreenBrightness({
-            value: 1,
-            success: (res) => {
-              console.log('setKeepScreenOn(false) success-----', res)
-              Taro.getScreenBrightness({
-                success: (res) => {
-                  console.log('success-----', res)
-                },
-                fail: (res) => {
-                  console.log('fail-----', res)
-                },
-                complete: (res) => {
-                  console.log('complete-----', res)
-                },
-              })
+            fail: (res) => {
+              TestConsole.consoleFail(res)
             },
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+          }).then(res => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
     ],
-    brightValue: 0.5,
+    brightValue: 0,
+    isKeepOn: false,
+  }
+
+  userCaptureScreen = (res) => {
+    TestConsole.consoleSuccess('result ' + JSON.stringify(res))
   }
 
   changeBrightness = (e) => {
-    let value = parseFloat(e.detail.value.toFixed(1))
+    let value = parseFloat(e.detail.value)
     this.setState({
       brightValue: value,
     })
-    Taro.setScreenBrightness({
-      value: value,
-      success: (res) => {
-        console.log('success-----', res)
-      },
-      fail: (res) => {
-        console.log('fail-----', res)
-      },
-    })
   }
-  render() {
+  render () {
     const { list, brightValue } = this.state
     return (
       <View className='api-page'>
-        <View>当前屏幕亮度</View>
-        <Text>{brightValue}</Text>
-        <Slider step={0.1} value={brightValue} min={0} max={1} onChange={this.changeBrightness} />
+        <View className='form-item'>
+          <Text className='input-text'>请输入屏幕亮度：</Text>
+          <Input type='digit' value={brightValue} placeholder='请设置屏幕亮度,值0-1之间' onInput={this.changeBrightness} />
+        </View>
         <ButtonList buttonList={list} />
       </View>
     )

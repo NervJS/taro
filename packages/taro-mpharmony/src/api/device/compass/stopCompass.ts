@@ -1,9 +1,12 @@
-import Taro from '@tarojs/taro'
+import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
-export const getScreenBrightness: typeof Taro.getScreenBrightness = (options) => {
-  const name = 'getScreenBrightness'
+/**
+ * 停止监听罗盘数据
+ */
+export const stopCompass: typeof Taro.stopCompass = (options) => {
+  const name = 'stopCompass'
   return new Promise((resolve, reject) => {
     // options must be an Object
     const isObject = shouldBeObject(options)
@@ -20,12 +23,18 @@ export const getScreenBrightness: typeof Taro.getScreenBrightness = (options) =>
 
     const handle = new MethodHandler({ name, success, fail, complete })
     // @ts-ignore
-    native.getScreenBrightness({
-      success: (res: any) => {
-        return handle.success(res, { resolve, reject })
+    native.stopCompass({
+      success: () => {
+        const result: TaroGeneral.CallbackResult = {
+          errMsg: `${name}:ok`,
+        }
+        handle.success(result, { resolve, reject })
       },
-      fail: (err: any) => {
-        return handle.fail(err, { resolve, reject })
+      fail: () => {
+        const result: TaroGeneral.CallbackResult = {
+          errMsg: `${name}:fail`,
+        }
+        handle.fail(result, { resolve, reject })
       }
     })
   })

@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 /**
@@ -10,7 +11,7 @@ import './index.scss'
 
 export default class Index extends React.Component {
   state = {
-    list: [
+    list:[
       {
         id: 'openSystemBluetoothSetting',
         func: null,
@@ -18,18 +19,16 @@ export default class Index extends React.Component {
       {
         id: 'openAppAuthorizeSetting',
         func: () => {
+          TestConsole.consoleTest('Taro.openAppAuthorizeSetting')
           Taro.openAppAuthorizeSetting({
             success(res) {
-              Taro.showModal({ content: 'Taro.openAppAuthorizeSetting success ' + JSON.stringify(res) })
-              console.log('Taro.openAppAuthorizeSetting success', res)
+              TestConsole.consoleSuccess('Taro.openAppAuthorizeSetting '+JSON.stringify(res))
             },
             fail(res) {
-              Taro.showModal({ content: 'Taro.openAppAuthorizeSetting fail ' + JSON.stringify(res) })
-              console.log('Taro.openAppAuthorizeSetting fail', res)
+              TestConsole.consoleFail('Taro.openAppAuthorizeSetting '+JSON.stringify(res))
             },
             complete(res) {
-              Taro.showModal({ content: 'Taro.openAppAuthorizeSetting complete ' + JSON.stringify(res) })
-              console.log('Taro.openAppAuthorizeSetting complete ', res)
+              TestConsole.consoleComplete('Taro.openAppAuthorizeSetting '+JSON.stringify(res))
             },
           })
         },
@@ -37,47 +36,44 @@ export default class Index extends React.Component {
       {
         id: 'getWindowInfo',
         func: async () => {
+          TestConsole.consoleTest('Taro.getWindowInfo')
           const res = await Taro.getWindowInfo()
-          Taro.showModal({ content: 'Taro.getWindowInfo success ' + JSON.stringify(res) })
-          console.log('Taro.getWindowInfo success', res)
+          TestConsole.consoleSuccess('Taro.getWindowInfo '+JSON.stringify(res))
         },
       },
       {
         id: 'getSystemSetting',
         func: () => {
+          TestConsole.consoleTest('Taro.getSystemSetting')
           const res = Taro.getSystemSetting()
-          Taro.showModal({ content: 'Taro.getSystemInfoSync success ' + JSON.stringify(res) })
-          console.log('Taro.getSystemSetting success', res)
+          TestConsole.consoleSuccess('Taro.getSystemSetting '+JSON.stringify(res))
         },
       },
       {
         id: 'getSystemInfoSync',
         func: () => {
+          TestConsole.consoleTest('Taro.getSystemInfoSync')
           try {
             const res = Taro.getSystemInfoSync()
-            Taro.showModal({ content: 'Taro.getSystemInfoSync success ' + JSON.stringify(res) })
-            console.log('Taro.getSystemInfoSync success', res)
+            TestConsole.consoleSuccess('Taro.getSystemInfoSync '+JSON.stringify(res))
           } catch (e) {
-            Taro.showModal({ content: 'Taro.getSystemInfoSync exception ' + JSON.stringify(e) })
-            console.error('Taro.getSystemInfoSync success', e)
+            TestConsole.consoleFail('Taro.getSystemInfoSync '+JSON.stringify(e))
           }
         },
       },
       {
         id: 'getSystemInfoAsync',
         func: () => {
+          TestConsole.consoleTest('Taro.getSystemInfoAsync')
           Taro.getSystemInfoAsync({
             success: function (res) {
-              Taro.showModal({ content: 'Taro.getSystemInfoAsync success ' + JSON.stringify(res) })
-              console.log('Taro.getSystemInfoAsync success ', res)
+              TestConsole.consoleSuccess('Taro.getSystemInfoAsync '+JSON.stringify(res))
             },
             fail: function (res) {
-              Taro.showModal({ content: 'Taro.getSystemInfoAsync fail ' + JSON.stringify(res) })
-              console.log('Taro.getSystemInfoAsync fail ', res)
+              TestConsole.consoleFail('Taro.getSystemInfoAsync '+JSON.stringify(res))
             },
             complete: function (res) {
-              Taro.showModal({ content: 'Taro.getSystemInfoAsync complete ' + JSON.stringify(res) })
-              console.log('Taro.getSystemInfoAsync complete ', res)
+              TestConsole.consoleComplete('Taro.getSystemInfoAsync '+JSON.stringify(res))
             },
           })
         },
@@ -85,18 +81,16 @@ export default class Index extends React.Component {
       {
         id: 'getSystemInfo',
         func: () => {
+          TestConsole.consoleTest('Taro.getSystemInfo')
           Taro.getSystemInfo({
             success: function (res) {
-              Taro.showModal({ content: 'Taro.getSystemInfo success ' + JSON.stringify(res) })
-              console.log('Taro.getSystemInfo success ', res)
+              TestConsole.consoleSuccess('Taro.getSystemInfo '+JSON.stringify(res))
             },
             fail: function (res) {
-              Taro.showModal({ content: 'Taro.getSystemInfo fail ' + JSON.stringify(res) })
-              console.log('Taro.getSystemInfo fail ', res)
+              TestConsole.consoleFail('Taro.getSystemInfo '+JSON.stringify(res))
             },
             complete: function (res) {
-              Taro.showModal({ content: 'Taro.getSystemInfo complete ' + JSON.stringify(res) })
-              console.log('Taro.getSystemInfo complete ', res)
+              TestConsole.consoleComplete('Taro.getSystemInfo '+JSON.stringify(res))
             },
           })
         },
@@ -104,25 +98,25 @@ export default class Index extends React.Component {
       {
         id: 'getDeviceInfo',
         func: () => {
+          TestConsole.consoleTest('Taro.getDeviceInfo')
           let res = Taro.getDeviceInfo()
-          Taro.showModal({ content: 'Taro.getDeviceInfo success ' + JSON.stringify(res) })
-          console.log('Taro.getSystemInfoSync getDeviceInfo', res)
+          TestConsole.consoleSuccess('Taro.getDeviceInfo '+JSON.stringify(res))
         },
       },
       {
         id: 'getAppBaseInfo',
         func: async () => {
+          TestConsole.consoleTest('Taro.getAppBaseInfo')
           let res = await Taro.getAppBaseInfo()
-          console.log('Taro.getAppBaseInfo', res)
-          Taro.showModal({ content: 'Taro.getAppBaseInfo success ' + JSON.stringify(res) })
+          TestConsole.consoleSuccess('Taro.getAppBaseInfo '+JSON.stringify(res))
         },
       },
       {
         id: 'getAppAuthorizeSetting',
         func: async () => {
+          TestConsole.consoleTest('Taro.getAppAuthorizeSetting')
           let res = await Taro.getAppAuthorizeSetting()
-          console.log('Taro.getAppAuthorizeSetting', res)
-          Taro.showModal({ content: 'Taro.getAppAuthorizeSetting success ' + JSON.stringify(res) })
+          TestConsole.consoleSuccess('Taro.getAppAuthorizeSetting '+JSON.stringify(res))
         },
       },
     ],

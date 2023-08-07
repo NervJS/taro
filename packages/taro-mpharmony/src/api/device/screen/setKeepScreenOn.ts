@@ -4,7 +4,6 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
   const name = 'setKeepScreenOn'
-
   return new Promise((resolve, reject) => {
     // options must be an Object
     const isObject = shouldBeObject(options)
@@ -21,8 +20,6 @@ export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
     } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
-
-    // options.url must be String
     if (typeof keepScreenOn !== 'boolean') {
       return handle.fail({
         errMsg: getParameterError({
@@ -32,17 +29,15 @@ export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
         })
       }, { resolve, reject })
     }
-
     // @ts-ignore
-    const ret = native.setKeepScreenOn({
+    native.setKeepScreenOn({
       keepScreenOn: keepScreenOn,
       success: (res: any) => {
-        return handle.success(res)
+        return handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        return handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }
