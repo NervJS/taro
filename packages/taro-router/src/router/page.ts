@@ -243,16 +243,16 @@ export default class PageHandler {
       this.unloadTimer = setTimeout(() => {
         this.unloadTimer = null
         this.lastUnloadPage?.onUnload?.()
-        eventCenter.trigger('taro_page_onShow_afterDestroyed')
+        eventCenter.trigger('__taroPageOnShowAfterDestroyed')
       }, this.animationDuration)
     } else {
       const pageEl = this.getPageContainer(page)
       pageEl?.classList.remove('taro_page_stationed')
       pageEl?.classList.remove('taro_page_show')
       page?.onUnload?.()
-      setTimeout(()=>{
-        eventCenter.trigger('taro_page_onShow_afterDestroyed')
-      })
+      setTimeout(() => {
+        eventCenter.trigger('__taroPageOnShowAfterDestroyed')
+      }, 0)
     }
     if (delta >= 1) this.unload(stacks.last, delta)
   }
