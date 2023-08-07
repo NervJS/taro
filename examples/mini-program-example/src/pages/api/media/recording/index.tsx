@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
 
@@ -236,14 +237,7 @@ export default class Index extends React.Component {
           <View>{recording ? '| |' : '| >'}</View>
           <View>{formatedRecordTime}</View>
         </View>
-        {list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }

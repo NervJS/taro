@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text, Input } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import './index.scss'
 
 /**
@@ -65,18 +66,12 @@ export default class Index extends React.Component {
     }
   }
   render() {
+    const { list } = this.state
     return (
       <View className='api-page'>
         <View>点击输入框拉起键盘</View>
         <Input onFocus={this.inputFocus} onInput={this.hideKeyboard}></Input>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }
