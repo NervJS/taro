@@ -16,6 +16,7 @@ const config = {
     '@/util': path.resolve(__dirname, '..', 'src/util'),
     '@/styles': path.resolve(__dirname, '..', 'styles'),
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
   },
   defineConstants: {
   },

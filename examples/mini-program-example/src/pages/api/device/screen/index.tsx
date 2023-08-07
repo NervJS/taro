@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text, Slider } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import './index.scss'
 
 /**
@@ -169,14 +170,7 @@ export default class Index extends React.Component {
         <View>当前屏幕亮度</View>
         <Text>{brightValue}</Text>
         <Slider step={0.1} value={brightValue} min={0} max={1} onChange={this.changeBrightness} />
-        {list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }

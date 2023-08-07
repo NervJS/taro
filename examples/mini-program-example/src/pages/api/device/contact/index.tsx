@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text} from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import { TestConsole } from '@/util/util'
 import './index.scss'
 
@@ -55,13 +56,13 @@ export default class Index extends React.Component {
             success: (res) => {
               TestConsole.consoleSuccess(res)
               Taro.showToast({
-                title: `联系人创建成功:${res.errMsg}`
+                title: `联系人创建成功:${res.errMsg}`,
               })
             },
             fail: (res) => {
               TestConsole.consoleFail(res)
               Taro.showToast({
-                title: `联系人创建失败:${res.errMsg}`
+                title: `联系人创建失败:${res.errMsg}`,
               })
             },
             complete: (res) => {
@@ -80,16 +81,10 @@ export default class Index extends React.Component {
   }
 
   render() {
+    const { list } = this.state
     return (
       <View className='api-page'>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }

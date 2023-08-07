@@ -179,7 +179,7 @@ export default class Index extends React.Component {
     ],
     wifiList: [],
   }
-  render () {
+  render() {
     const { list, wifiList } = this.state
     return (
       <View className='api-page'>
@@ -206,7 +206,7 @@ export default class Index extends React.Component {
         </View>
         {list.map((item) => {
           return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => { } : item.func}>
+            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
               {item.id}
               {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
             </View>

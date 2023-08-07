@@ -9,3 +9,12 @@
     border-radius: 16px;
     background-color: $color-success;
 }
+
+#blank-content {
+    height: 1800px;
+    width: 94%;
+    border: #000 solid 2px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
