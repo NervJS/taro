@@ -123,7 +123,7 @@ export default class AlipayCI extends BaseCI {
         appId,
         clientType
       })
-      if (compareVersion(this.version, lasterVersion) <=0) {
+      if (this.version && compareVersion(this.version, lasterVersion) <=0) {
         printLog(processTypeEnum.ERROR, chalk.red(`上传版本号 "${ this.version }" 必须大于最新上传版本 "${ lasterVersion }"`))
       }
       const result = await this.minidev.minidev.upload({
