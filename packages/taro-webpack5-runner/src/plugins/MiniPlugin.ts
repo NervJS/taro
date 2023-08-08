@@ -290,7 +290,7 @@ export default class TaroMiniPlugin {
         }
       })
 
-      const { PROCESS_ASSETS_STAGE_ADDITIONAL, PROCESS_ASSETS_STAGE_OPTIMIZE } = compiler.webpack.Compilation
+      const { PROCESS_ASSETS_STAGE_ADDITIONAL, PROCESS_ASSETS_STAGE_OPTIMIZE, PROCESS_ASSETS_STAGE_REPORT } = compiler.webpack.Compilation
       compilation.hooks.processAssets.tapAsync(
         {
           name: PLUGIN_NAME,
@@ -309,6 +309,20 @@ export default class TaroMiniPlugin {
         },
         this.tryAsync<any>(async () => {
           await this.optimizeMiniFiles(compilation, compiler)
+        })
+      )
+
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: PLUGIN_NAME,
+          // 该 stage 是最后执行的，确保 taro 暴露给用户的钩子 modifyBuildAssets 在内部处理完 assets 之后再调用
+          stage: PROCESS_ASSETS_STAGE_REPORT
+        },
+        this.tryAsync<any>(async () => {
+          const { modifyBuildAssets } = this.options
+          if (typeof modifyBuildAssets === 'function') {
+            await modifyBuildAssets(compilation.assets, this)
+          }
         })
       )
     })
@@ -909,7 +923,7 @@ export default class TaroMiniPlugin {
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: Compilation, compiler: Compiler) {
     const { RawSource } = compiler.webpack.sources
-    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
+    const { template, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
@@ -1046,9 +1060,6 @@ export default class TaroMiniPlugin {
         const relativePath = pluginJSONPath.replace(sourceDir, '').replace(/\\/g, '/')
         compilation.assets[relativePath] = new RawSource(JSON.stringify(pluginJSON))
       }
-    }
-    if (typeof modifyBuildAssets === 'function') {
-      await modifyBuildAssets(compilation.assets, this)
     }
   }
 
