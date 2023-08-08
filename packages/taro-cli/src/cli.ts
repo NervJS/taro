@@ -1,10 +1,10 @@
-import { fs } from '@tarojs/helper'
+import { dotenvParse, fs, patchEnv } from '@tarojs/helper'
 import { Config, Kernel } from '@tarojs/service'
 import * as minimist from 'minimist'
 import * as path from 'path'
 
 import customCommand from './commands/customCommand'
-import { dotenvParse, getPkgVersion, patchEnv } from './util'
+import { getPkgVersion } from './util'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
 
