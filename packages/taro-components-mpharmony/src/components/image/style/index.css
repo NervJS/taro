@@ -7,8 +7,8 @@ img[src=""] {
   overflow: hidden;
   position: relative;
   font-size: 0;
-  width: 320px;
-  height: 240px;
+  width: 100%;
+  height: 100%;
 }
 
 .taro-img.taro-img__widthfix {

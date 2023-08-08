@@ -85,7 +85,7 @@ class Image extends React.Component<IProps> {
       className
     )
     const imgCls = classNames(
-      'taro-xxx-img__mode-' +
+      'taro-img__mode-' +
         (mode || 'scaleToFill').toLowerCase().replace(/\s/g, '')
     )
 
