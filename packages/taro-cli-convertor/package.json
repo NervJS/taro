@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "3.6.11",
+  "version": "3.6.12-alpha.0",
   "description": "cli tool for taro-convert",
   "main": "index.js",
   "scripts": {
