@@ -1,7 +1,17 @@
 import Taro from '@tarojs/taro'
+import { shouldBeFunction } from 'src/utils'
 
 export const onUserCaptureScreen: typeof Taro.onUserCaptureScreen = (callback) => {
+  const name = 'onUserCaptureScreen'
+
+  // callback must be an Function
+  const isFunction = shouldBeFunction(callback)
+  if (!isFunction.flag) {
+    const res = { errMsg: `${name}:fail ${isFunction.msg}` }
+    console.error(res.errMsg)
+    return
+  }
+
   // @ts-ignore
-  const ret = native.onUserCaptureScreen(callback)
-  return ret
+  native.onUserCaptureScreen(callback)
 }
