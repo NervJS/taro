@@ -78,8 +78,8 @@ class PullDownRefresh extends React.Component<IProps, IState> {
 
   get scrollContainer () {
     return (
-      this.contentRef?.parentElement ||
-      this.contentRef?.closest('.taro_page_stationed') ||
+      this.containerRef?.parentElement ||
+      this.containerRef?.closest('.taro_page_stationed') ||
       document.querySelector('.taro_page_stationed') ||
       document.querySelector('.taro_page') ||
       document.querySelector('.taro_router') ||
@@ -183,6 +183,9 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   onTouchStart = (_, e: TouchEvent) => {
+    if (!e || !e.touches) {
+      return
+    }
     this._ScreenY = this._startScreenY = e.touches[0].screenY
     // 一开始 refreshing 为 true 时 this._lastScreenY 有值
     this._lastScreenY = this._lastScreenY || 0
@@ -210,9 +213,11 @@ class PullDownRefresh extends React.Component<IProps, IState> {
   }
 
   onTouchMove = (ele: HTMLElement, e: TouchEvent) => {
+    if (!e || !e.touches) {
+      return
+    }
     // 使用 pageY 对比有问题
     const _screenY = e.touches[0].screenY
-
     // 拖动方向不符合的不处理
     if (this._startScreenY > _screenY) {
       return
@@ -328,9 +333,9 @@ class PullDownRefresh extends React.Component<IProps, IState> {
       )
     }
 
-    if (this.scrollContainer) {
-      return renderRefresh(`${prefixCls}-content ${prefixCls}-down`)
-    }
+    // if (this.scrollContainer) {
+    //   return renderRefresh(`${prefixCls}-content ${prefixCls}-down`)
+    // }
     return (
       <pull-down-refresh
         ref={el => {

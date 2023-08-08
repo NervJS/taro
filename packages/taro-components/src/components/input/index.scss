@@ -3,10 +3,26 @@ taro-input-core {
 }
 
 input {
-  display: block;
-  overflow: hidden;
-  height: 1.4rem;
-  text-overflow: clip;
-  text-align: inherit;
-  white-space: nowrap;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  background-color: transparent;
+  font-size: inherit;
+  color: inherit;
+  height: 1.47058824em;
+  line-height: 1.47058824
+}
+
+input::-webkit-inner-spin-button, input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0
+}
+
+input::placeholder {
+  position: absolute;
+  top: 50%; /* 将placeholder相对于父元素的50%位置 */
+  left: 5px; /* 设置一些左边距，使placeholder与输入字段之间有一些间隔 */
+  transform: translateY(-50%); /* 使用负值的50%位移，将placeholder向上移动自身高度的一半，实现垂直居中 */
+  color: #999; /* 设置placeholder的文本颜色 */
 }
