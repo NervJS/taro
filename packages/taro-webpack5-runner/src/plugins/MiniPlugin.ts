@@ -3,6 +3,7 @@ import {
   isAliasPath,
   isEmptyObject,
   META_TYPE,
+  NODE_MODULES,
   NODE_MODULES_REG,
   printLog,
   processTypeEnum,
@@ -680,6 +681,11 @@ export default class TaroMiniPlugin {
           fileConfig.usingComponents[compName] = compPath
         }
 
+        if (!/^[.\\/]/.test(compPath)) {
+          compPath = require.resolve(compPath).split('.')[0]
+          fileConfig.usingComponents[compName] = compPath
+        }
+
         depComponents.push({
           name: compName,
           path: compPath
@@ -906,6 +912,24 @@ export default class TaroMiniPlugin {
     return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
   }
 
+  // 调整 config 文件中 usingComponents 的路径
+  // 1. 将 node_modules 调整为 npm
+  // 2. 将 ../../../node_modules/xxx 调整为 /npm/xxx
+  adjustConfigContent (config: Config) {
+    if (config.usingComponents) {
+      Object.keys(config.usingComponents).forEach(key => {
+        if (!config.usingComponents) return
+
+        const value = config.usingComponents[key]
+        if (value.includes(NODE_MODULES)) {
+          const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
+
+          config.usingComponents[key] = match ? `${path.sep}${match[0]}` : value
+        }
+      })
+    }
+  }
+
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: Compilation, compiler: Compiler) {
     const { RawSource } = compiler.webpack.sources
@@ -1021,6 +1045,9 @@ export default class TaroMiniPlugin {
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
+
+        this.adjustConfigContent(config.content)
+
         if(isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
@@ -1079,6 +1106,9 @@ export default class TaroMiniPlugin {
     unofficialConfigs.forEach(item => {
       delete config[item]
     })
+    
+    this.adjustConfigContent(config)
+
     const fileConfigStr = JSON.stringify(config)
     compilation.assets[fileConfigName] = new RawSource(fileConfigStr)
   }
