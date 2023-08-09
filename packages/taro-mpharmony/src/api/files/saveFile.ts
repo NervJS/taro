@@ -5,50 +5,55 @@ import { MethodHandler } from 'src/utils/handler'
 export const saveFile: typeof Taro.saveFile = (options) => {
   const name = 'saveFile'
 
-  return new Promise((resolve, reject) => {
-    // options must be an Object
-    const isObject = shouldBeObject(options)
-    if (!isObject.flag) {
-      const res = { errMsg: `${name}:fail ${isObject.msg}` }
-      console.error(res.errMsg)
-      return reject(res)
-    }
-    const {
-      tempFilePath,
-      filePath,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const {
+    tempFilePath,
+    filePath,
+    success,
+    fail,
+    complete
+  } = options as Exclude<typeof options, undefined>
 
-    const handle = new MethodHandler<{
-      savedFilePath?: string
-      errMsg?: string
-    }>({ name, success, fail, complete })
+  const handle = new MethodHandler<{
+    savedFilePath?: string
+    errMsg?: string
+  }>({ name, success, fail, complete })
 
-    // options.url must be String
-    if (typeof tempFilePath !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'tempFilePath',
-          correct: 'string',
-          wrong: tempFilePath
-        })
-      }, { resolve, reject })
-    }
-        
+  // options.url must be String
+  if (typeof tempFilePath !== 'string') {
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'tempFilePath',
+        correct: 'string',
+        wrong: tempFilePath
+      })
+    })
+  }
+
+  return new Promise<Taro.saveFile.FailCallbackResult | Taro.saveFile.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    const ret = native.saveFile({
+    native.saveFile({
       tempFilePath: tempFilePath,
       filePath: filePath,
       success: (res: any) => {
-        return handle.success(res)
+        const result: Taro.saveFile.SuccessCallbackResult = {
+          savedFilePath: res.savedFilePath,
+          errMsg: res.errMsg
+        }
+        handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        console.error(err.errMsg)
-        return handle.fail(err)
+        const errRet: Taro.saveFile.FailCallbackResult = {
+          errMsg: err.errMsg
+        }
+        handle.fail(errRet, { resolve, reject })
       }
     })
-    return ret
   })
 }
