@@ -50,6 +50,16 @@ export default class TaroNormalModulesPlugin {
                 if (callee.property.name !== 'createElement') {
                   return
                 }
+              } else if (callee.type === 'SequenceExpression') {
+                // (0, jsx_runtime_1.jsx)('comp-name', { ...props })
+                const nameNode = (callee.expressions || [])[1]
+                const { object, property } = nameNode || {}
+                if (
+                  !(object && object.name === 'jsx_runtime_1' &&
+                  property && property.name === 'jsx')
+                ) {
+                  return
+                }
               } else {
                 const nameOfCallee = callee.name
                 if (
