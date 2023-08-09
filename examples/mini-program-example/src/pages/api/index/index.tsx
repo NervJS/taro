@@ -415,7 +415,6 @@ export default class Index extends React.Component {
         url: page.url,
       })
     }
-    console.log(this.state.isTabBarPage)
   }
 
   enterTabBarPage() {

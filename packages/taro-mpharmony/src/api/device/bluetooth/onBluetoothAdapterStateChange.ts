@@ -9,7 +9,7 @@ export const onBluetoothAdapterStateChange: typeof Taro.onBluetoothAdapterStateC
   if (!isFunction.flag) {
     const res = { errMsg: `${name}:fail ${isFunction.msg}` }
     console.error(res.errMsg)
-    return Promise.reject(res)
+    return
   }
 
   // @ts-ignore

@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -13,22 +14,43 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'stopAccelerometer',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('stopAccelerometer')
+          Taro.stopAccelerometer().then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
         id: 'startAccelerometer',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('startAccelerometer')
+          Taro.startAccelerometer().then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
         id: 'onAccelerometerChange',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('onAccelerometerChange')
+          Taro.onAccelerometerChange(this.callback)
+        },
       },
       {
         id: 'offAccelerometerChange',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('offAccelerometerChange')
+          Taro.offAccelerometerChange()
+        },
       },
     ],
   }
+
+  callback = (res: any) => {
+    TestConsole.consoleNormal('AccelerometerChangeCallback', res)
+  }
+
   render() {
     return (
       <View className='api-page'>

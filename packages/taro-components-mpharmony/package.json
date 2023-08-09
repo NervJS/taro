@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c ",
-    "dev": "npm run clean && rollup -c "
+    "dev": "npm run clean && rollup -c -w"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +31,9 @@
     "react-grid-layout": "^1.3.4",
     "react-resizable": "^3.0.4",
     "react-responsive": "^9.0.2",
+    "react-slick": "^0.29.0",
     "react-stonecutter": "^0.3.10",
+    "slick-carousel": "^1.8.1",
     "swiper": "6.8.0",
     "tinymce": "6.5.1",
     "universal-router": "^9.1.0",

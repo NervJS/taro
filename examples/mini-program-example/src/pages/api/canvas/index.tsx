@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro, { useReady } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Canvas  } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import './index.scss'
 
 /**
@@ -14,7 +15,6 @@ export default class Index extends React.Component {
       {
         id: 'createCanvasContext',
         func: () => {
-          useReady(() => {
             const context = Taro.createCanvasContext('canvas')
             context.setStrokeStyle('#00ff00')
             context.setLineWidth(5)
@@ -32,14 +32,12 @@ export default class Index extends React.Component {
             context.arc(120, 80, 5, 0, 2 * Math.PI, true)
             context.stroke()
             context.draw()
-            console.log('createCanvasContext ', context)
-          })
+            console.log('Taro.createCanvasContext success ', context)
         },
       },
       {
         id: 'canvasToTempFilePath',
         func: () => {
-          useReady(() => {
             const context = Taro.createCanvasContext('canvas')
             context.setStrokeStyle('#00ff00')
             context.setLineWidth(5)
@@ -66,25 +64,24 @@ export default class Index extends React.Component {
                 destHeight: 100,
                 quality: 1,
                 fileType: 'png',
-                canvasId: 'myCanvas',
+                canvasId: 'canvas',
                 success: function (res) {
-                  console.log('canvasToTempFilePath success', res)
+                  console.log('Taro.canvasToTempFilePath success', res)
                 },
                 fail: function (res) {
-                  console.log('canvasToTempFilePath fail', res)
+                  console.log('Taro.canvasToTempFilePath fail', res)
                 },
                 complete: function (res) {
-                  console.log('canvasToTempFilePath complete', res)
+                  console.log('Taro.canvasToTempFilePath complete', res)
                 },
               })
             })
-          })
         },
       },
       {
         id: 'CanvasContext',
         func: () => {
-          const ctx = Taro.createCanvasContext('myCanvas')
+          const ctx = Taro.createCanvasContext('canvas')
           // Draw coordinates
           ctx.arc(100, 75, 50, 0, 2 * Math.PI)
           ctx.setFillStyle('#EEEEEE')
@@ -170,16 +167,11 @@ export default class Index extends React.Component {
     ],
   }
   render() {
+    const { list } = this.state
     return (
       <View className='api-page'>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <Canvas canvasId="canvas" className="canvas"></Canvas>
+        <ButtonList buttonList={list} />
       </View>
     )
   }

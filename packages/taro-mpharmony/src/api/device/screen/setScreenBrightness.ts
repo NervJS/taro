@@ -21,7 +21,6 @@ export const setScreenBrightness: typeof Taro.setScreenBrightness = (options) =>
     } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
-
     // options.url must be String
     if (typeof value !== 'number') {
       return handle.fail({
@@ -34,15 +33,14 @@ export const setScreenBrightness: typeof Taro.setScreenBrightness = (options) =>
     }
 
     // @ts-ignore
-    const ret = native.setScreenBrightness({
+    native.setScreenBrightness({
       value: value,
       success: (res: any) => {
-        return handle.success(res)
+        return handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        return handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }

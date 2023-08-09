@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
 import apiImage from '@/assets/tab/api.png'
@@ -259,7 +260,7 @@ export default class Index extends React.Component<Props> {
           TestConsole.consoleTest('setTabBarBadge')
           Taro.setTabBarBadge({
             index: 1,
-            text: '2',
+            text: 'askudfglsajkf',
             success: (res) => {
               TestConsole.consoleSuccess(res)
               Taro.showToast({
@@ -316,19 +317,13 @@ export default class Index extends React.Component<Props> {
     this.props.backToAPI()
   }
   render() {
+    const { list } = this.state
     return (
       <View className='api-page'>
         <View className='api-page-btn back-btn' onClick={this.backToAPI}>
           返回上一级
         </View>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }

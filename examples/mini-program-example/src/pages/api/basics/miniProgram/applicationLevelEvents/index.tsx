@@ -1,6 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
+import ButtonList from '@/components/buttonList'
 
 /**
  * 基础-应用级事件
@@ -12,157 +14,168 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'onUnhandledRejection',
-        func: () => {
-          new Promise((resolve, reject) => {
-            const aa = 'name'
+        func: () =>{
+          TestConsole.consoleTest('Taro.onUnhandledRejection')
+          new Promise((resolve,reject)=>{
+            const aa = 'name';
             // @ts-ignore
             if (aa === 'name1') {
-              resolve(aa)
+              resolve(aa);
             } else {
-              reject({ message: 'error' })
+              reject({message: 'error'});
             }
           })
 
-          Taro.onUnhandledRejection((res) => {
-            console.log('Taro.onUnhandledRejection ', res)
-            Taro.showModal({ content: 'Taro.onUnhandledRejection ' + JSON.stringify(res) })
+          Taro.onUnhandledRejection((res)=>{
+            TestConsole.consoleSuccess('Taro.onUnhandledRejection'+JSON.stringify(res))
           })
         },
-      },
+      }, 
       {
         id: 'onThemeChange',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.onThemeChange')
+          Taro.onThemeChange((res) =>{
+          TestConsole.consoleSuccess('Taro.onThemeChange'+JSON.stringify(res))
+          })
+        },
+      }, 
       {
         id: 'onPageNotFound',
-        func: () => {
+        func: ()=>{
+          TestConsole.consoleTest('Taro.onPageNotFound')
           Taro.navigateTo({
-            url: 'pages/api/index/11',
+            url:'pages/api/index/11'
           })
-          Taro.onPageNotFound((res) => {
-            console.log('Taro.onPageNotFound success', res)
-            Taro.navigateTo({
-              url: 'pages/api/index/index',
-            })
+          Taro.onPageNotFound((res)=>{
+            TestConsole.consoleSuccess('Taro.onPageNotFound'+JSON.stringify(res))
+              Taro.navigateTo({
+                url:'pages/api/index/index'
+              })
           })
         },
-      },
+      }, 
       {
         id: 'onError',
-        func: () => {
-          Taro.onError((err) => {
-            console.log('Taro.onError ', err)
-            Taro.showModal({ content: 'Taro.onError ' + JSON.stringify(err) })
+        func: () =>{
+          TestConsole.consoleTest('Taro.onError')
+          Taro.onError((err)=>{
+            TestConsole.consoleSuccess('Taro.onError'+JSON.stringify(err))
           })
         },
-      },
+      }, 
       {
         id: 'onAudioInterruptionEnd',
-        func: null,
-      },
+        func: () => {
+          TestConsole.consoleTest('Taro.onAudioInterruptionEnd')
+          Taro.onAudioInterruptionEnd((_result) => {
+            TestConsole.consoleSuccess('Taro.onAudioInterruptionEnd'+JSON.stringify(_result))
+          })
+
+        },
+      }, 
       {
         id: 'onAudioInterruptionBegin',
-        func: null,
-      },
+        func: () => {
+          TestConsole.consoleTest('Taro.onAudioInterruptionBegin')
+          Taro.onAudioInterruptionBegin((_result) => {
+            TestConsole.consoleSuccess('Taro.onAudioInterruptionBegin'+JSON.stringify(_result))
+          })
+
+        },
+      }, 
       {
         id: 'onAppShow',
         func: () => {
-          Taro.request({
-            url: 'https://www.baidu.com',
-            success: function (res) {
-              Taro.showModal({
-                title: '一把钥匙',
-                content: res.data,
-                confirmText: '探寻真实',
-                cancelText: '放下钥匙',
-                success: function () {
-                  Taro.navigateTo({
-                    url: '/pages/api/basics/miniProgram/applicationLevelEvents/index',
-                    success: () => {
-                      Taro.onAppShow((_result) => {
-                        console.log('Taro.onAppShow success ')
-                      })
-                    },
-                  })
-                },
-              })
-            },
-            fail: function (res) {
-              console.log(res)
-            },
+          TestConsole.consoleTest('Taro.onAppShow')
+          Taro.onAppShow((_result) => {
+            TestConsole.consoleSuccess('Taro.onAppShow'+JSON.stringify(_result))
           })
+
         },
-      },
+      }, 
       {
         id: 'onAppHide',
         func: () => {
-          Taro.navigateTo({
-            url: '/pages/api/basics/miniProgram/applicationLevelEvents/index',
-            success: () => {
-              Taro.request({
-                url: 'https://www.baidu.com',
-                success: function (res) {
-                  Taro.showModal({
-                    title: '一把钥匙',
-                    content: res.data,
-                    confirmText: '探寻真实',
-                    cancelText: '放下钥匙',
-                    success: function () {
-                      Taro.onAppHide((_result) => {
-                        console.log('Taro.onAppHide success ')
-                      })
-                    },
-                  })
-                },
-                fail: function (res) {
-                  console.log(res)
-                },
-              })
-            },
+          TestConsole.consoleTest('Taro.onAppHide')
+          Taro.onAppHide((_result) => {
+            TestConsole.consoleSuccess('Taro.onAppHide'+JSON.stringify(_result))
           })
         },
-      },
+      }, 
       {
         id: 'offThemeChange',
-        func: null,
-      },
+        func: () => {
+          TestConsole.consoleTest('Taro.offThemeChange')
+          Taro.offThemeChange((_result) => {
+            TestConsole.consoleSuccess('Taro.offThemeChange'+JSON.stringify(_result))
+          })
+        },
+      }, 
       {
         id: 'offPageNotFound',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.offPageNotFound')
+          Taro.offPageNotFound((res)=>{
+            TestConsole.consoleSuccess('Taro.offPageNotFound'+JSON.stringify(res))
+          })
+          Taro.navigateTo({
+            url:'pages/api/index/11'
+          })
+        },
+      }, 
       {
         id: 'offError',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.offError')
+          Taro.offError((_result) => {
+            TestConsole.consoleSuccess('Taro.offError'+JSON.stringify(_result))
+          })
+        },
+      }, 
       {
         id: 'offAudioInterruptionEnd',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.offAudioInterruptionEnd')
+          Taro.offAudioInterruptionEnd((_result) => {
+            TestConsole.consoleSuccess('Taro.offAudioInterruptionEnd'+JSON.stringify(_result))
+          })
+        },
+      }, 
       {
         id: 'offAudioInterruptionBegin',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.offAudioInterruptionBegin')
+          Taro.offAudioInterruptionBegin((_result) => {
+            TestConsole.consoleSuccess('Taro.offAudioInterruptionBegin'+JSON.stringify(_result))
+          })
+        },
+      }, 
       {
         id: 'offAppShow',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.offAppShow')
+          Taro.offAppShow((_result) => {
+            TestConsole.consoleSuccess('Taro.offAppShow'+JSON.stringify(_result))
+          })
+        },
+      }, 
       {
         id: 'offAppHide',
-        func: null,
-      },
+        func: () =>{
+          TestConsole.consoleTest('Taro.offAppHide')
+          Taro.offAppHide((_result) => {
+            TestConsole.consoleSuccess('Taro.offAppHide'+JSON.stringify(_result))
+          })
+        },
+      }, 
     ],
   }
   render() {
+    const { list } = this.state
     return (
       <View className='api-page'>
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }

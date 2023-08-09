@@ -1,6 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text, Form, Input } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -14,6 +16,7 @@ export default class Index extends React.Component {
       {
         id: 'addPhoneContact',
         func: () => {
+          TestConsole.consoleTest('addPhoneContact')
           let formData = {
             firstName: 'Li',
             photoFilePath: '',
@@ -50,24 +53,23 @@ export default class Index extends React.Component {
           }
           Taro.addPhoneContact({
             ...formData,
-            success() {
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
               Taro.showToast({
-                title: '联系人创建成功',
+                title: `联系人创建成功:${res.errMsg}`,
               })
-              console.log('success-----')
             },
-            fail() {
+            fail: (res) => {
+              TestConsole.consoleFail(res)
               Taro.showToast({
-                title: '联系人创建失败',
+                title: `联系人创建失败:${res.errMsg}`,
               })
-              console.log('fail-----')
             },
             complete: (res) => {
-              Taro.showToast({
-                title: '联系人创建完成',
-              })
-              console.log('complete-----', res)
+              TestConsole.consoleComplete(res)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
           })
         },
       },
@@ -77,55 +79,12 @@ export default class Index extends React.Component {
       },
     ],
   }
-  submit = (e) => {
-    const formData = e.detail.value
-    const submitFunc = this.state.list[0].func
-    submitFunc != null && submitFunc(formData)
-  }
+
   render() {
+    const { list } = this.state
     return (
       <View className='api-page'>
-        {/* <Form onSubmit={this.submit}>
-                    <View className="page-section">
-                        <View className="weui-cells__title">姓氏</View>
-                        <View className="weui-cells weui-cells_after-title">
-                            <View className="weui-cell weui-cell_Input">
-                                <Input className="weui-Input" name="lastName" />
-                            </View>
-                        </View>
-                    </View>
-                    <View className="page-section">
-                        <View className="weui-cells__title">名字</View>
-                        <View className="weui-cells weui-cells_after-title">
-                            <View className="weui-cell weui-cell_Input">
-                                <Input className="weui-Input" name="firstName" />
-                            </View>
-                        </View>
-                    </View>
-                    <View className="page-section">
-                        <View className="weui-cells__title">手机号</View>
-                        <View className="weui-cells weui-cells_after-title">
-                            <View className="weui-cell weui-cell_Input">
-                                <Input className="weui-Input" name="mobilePhoneNumber" />
-                            </View>
-                        </View>
-                    </View>
-                    <View className="btn-area">
-                        <Button className='api-page-btn' type="primary" formType="submit">addPhoneContact</Button>
-                        <Button className='api-page-btn' type="primary" onClick={this.state.list[1].func == null ? () => {} : this.state.list[1].func}>
-                            chooseContact
-                            {this.state.list[1].func == null && (<Text className='navigator-state tag'>未创建Demo</Text>)}
-                        </Button>
-                    </View>
-                </Form> */}
-        {this.state.list.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }
