@@ -29,6 +29,8 @@ export default defineAppConfig({
     'pages/component/canvas/canvas',
     'pages/component/slider/slider',
     'pages/component/grid-view/grid-view',
+    'pages/component/grid-view/demo1',
+    'pages/component/grid-view/demo2',
     'pages/component/list-view/list-view',
     'pages/component/page-container/page-container',
     'pages/component/radio-group/radio-group',
