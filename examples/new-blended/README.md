@@ -1,4 +1,4 @@
-## Demo - 把 Taro 项目编译为原生自定义组件
+## Demo - 把 Taro 项目作为原生项目中的一个分包单独使用，并且把特定的组件单独打包为原生组件
 
 [详细文档](https://docs.taro.zone/docs/taro-in-miniapp#%E6%8A%8A-taro-%E7%BB%84%E4%BB%B6%E7%BC%96%E8%AF%91%E4%B8%BA%E5%8E%9F%E7%94%9F%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6)
 
@@ -14,7 +14,7 @@ $ npm run dev
 
 #### 2. 预览
 
-小程序开发者工具导入项目，项目路径请指向 `blended-taro-component/taro-project`。
+小程序开发者工具导入项目，项目路径请指向 `new-blended/taro-project`。
 
 ### 生产环境
 
@@ -26,7 +26,7 @@ $ npm run build
 
 #### 2. 预览
 
-小程序开发者工具导入项目，项目路径请指向 `blended-taro-component/miniapp`。
+小程序开发者工具导入项目，项目路径请指向 `new-blended/miniapp`。
 
 ### 介绍
 

@@ -22,7 +22,6 @@ import { validatePrerenderPages } from '../prerender/prerender'
 import { componentConfig } from '../utils/component'
 import { addRequireToSource, getChunkEntryModule, getChunkIdOrName } from '../utils/webpack'
 import TaroLoadChunksPlugin from './TaroLoadChunksPlugin'
-import TaroNormalModule from './TaroNormalModule'
 import TaroNormalModulesPlugin from './TaroNormalModulesPlugin'
 import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
@@ -32,6 +31,7 @@ import type { Func } from '@tarojs/taro/types/compile'
 import type { Compilation, Compiler } from 'webpack'
 import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
+import type TaroNormalModule from './TaroNormalModule'
 
 const baseCompName = 'comp'
 const customWrapperName = 'custom-wrapper'
@@ -365,7 +365,7 @@ export default class TaroMiniPlugin {
       })
       compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(compilation).render.tap(PLUGIN_NAME, (modules, { chunk }) => {
         const chunkEntryModule = getChunkEntryModule(compilation, chunk) as any
-        if(!chunkEntryModule) return
+        if (!chunkEntryModule) return
         const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
         // addChunkPages
         if (fileChunks.size) {

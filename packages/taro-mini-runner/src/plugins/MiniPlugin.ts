@@ -73,7 +73,6 @@ interface ITaroMiniPluginOptions {
   onCompilerMake?: Func
   onParseCreateElement?: Func
   blended: boolean
-  newBlended: boolean
   alias: Record<string, string>
   deviceRatio: any
   designWidth: number

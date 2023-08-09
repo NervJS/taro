@@ -140,18 +140,17 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
 
   setReconciler(ReactDOM)
 
-  const appDom = document.getElementById('app')
-  let nativeComponentAppDom = null
+  let app = document.getElementById('app')
   if (!isDefaultEntryDom && !nativeComponentApp) {
     // create
-    nativeComponentAppDom = document.createElement('nativeComponent')
+    const nativeApp = document.createElement('nativeComponent')
     // insert
-    appDom.appendChild(nativeComponentAppDom)
+    app.appendChild(nativeApp)
+    app = nativeApp
   }
-  const entryDom = nativeComponentAppDom ?? appDom
   ReactDOM.render(
     h(Entry, {}),
-    entryDom
+    app
   )
 }
 
@@ -338,8 +337,6 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 
   return pageObj
 }
-
-
 
 export function createNativeComponentConfig (Component, react: typeof React, reactdom, componentConfig) {
   reactMeta.R = react
