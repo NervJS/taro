@@ -5,48 +5,47 @@ import { MethodHandler } from 'src/utils/handler'
 export const openDocument: typeof Taro.openDocument = (options) => {
   const name = 'openDocument'
 
-  return new Promise((resolve, reject) => {
-    // options must be an Object
-    const isObject = shouldBeObject(options)
-    if (!isObject.flag) {
-      const res = { errMsg: `${name}:fail ${isObject.msg}` }
-      console.error(res.errMsg)
-      return reject(res)
-    }
-    const {
-      filePath,
-      showMenu,
-      fileType,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
+  const {
+    filePath,
+    showMenu,
+    fileType,
+    success,
+    fail,
+    complete
+  } = options as Exclude<typeof options, undefined>
 
-    const handle = new MethodHandler({ name, success, fail, complete })
+  const handle = new MethodHandler({ name, success, fail, complete })
 
-    // options.url must be String
-    if (typeof filePath !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'filePath',
-          correct: 'string',
-          wrong: filePath
-        })
-      }, { resolve, reject })
-    }
+  // options.url must be String
+  if (typeof filePath !== 'string') {
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'filePath',
+        correct: 'string',
+        wrong: filePath
+      })
+    })
+  }
 
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     // @ts-ignore
-    const ret = native.openDocument({
+    native.openDocument({
       filePath: filePath,
       showMenu: showMenu,
       fileType: fileType,
       success: (res: any) => {
-        return handle.success(res)
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err)
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }

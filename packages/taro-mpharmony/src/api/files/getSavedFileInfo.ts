@@ -5,48 +5,53 @@ import { MethodHandler } from 'src/utils/handler'
 export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
   const name = 'getSavedFileInfo'
 
-  return new Promise((resolve, reject) => {
-    // options must be an Object
-    const isObject = shouldBeObject(options)
-    if (!isObject.flag) {
-      const res = { errMsg: `${name}:fail ${isObject.msg}` }
-      console.error(res.errMsg)
-      return reject(res)
-    }
-    const {
-      filePath,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+    console.error(res.errMsg)
+    return Promise.reject(res)
+  }
 
-    const handle = new MethodHandler<{
-      createTime?: number
-      size?: number
-      errMsg?: string
-    }>({ name, success, fail, complete })
+  const {
+    filePath,
+    success,
+    fail,
+    complete
+  } = options as Exclude<typeof options, undefined>
 
-    // options.url must be String
-    if (typeof filePath !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'filePath',
-          correct: 'string',
-          wrong: filePath
-        })
-      }, { resolve, reject })
-    }
+  const handle = new MethodHandler<{
+    createTime?: number
+    size?: number
+    errMsg?: string
+  }>({ name, success, fail, complete })
 
+  // options.url must be String
+  if (typeof filePath !== 'string') {
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'filePath',
+        correct: 'string',
+        wrong: filePath
+      })
+    })
+  }
+
+  return new Promise<Taro.getSavedFileInfo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    const ret = native.getSavedFileInfo({
+    native.getSavedFileInfo({
       filePath: filePath,
       success: (res: any) => {
-        return handle.success(res)
+        const result: Taro.getSavedFileInfo.SuccessCallbackResult = {
+          createTime: res.createTime,
+          size: res.size,
+          errMsg: res.errMsg
+        }
+        handle.success(result, { resolve, reject })
       },
-      fail: () => {
-        return handle.fail()
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
       }
     })
-    return ret
   })
 }
