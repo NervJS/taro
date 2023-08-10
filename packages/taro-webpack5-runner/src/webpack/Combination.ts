@@ -28,7 +28,10 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
   isWeb = isWebPlatform()
 
   /** special mode */
+  // 将组件打包为原生模块
   isBuildNativeComp = false
+  // 正常打包页面的同时，把组件也打包成独立的原生模块
+  newBlended = false
 
   constructor (appPath: string, config: T) {
     this.appPath = appPath
@@ -37,6 +40,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.outputRoot = config.outputRoot || 'dist'
     this.sourceDir = path.resolve(appPath, this.sourceRoot)
     this.outputDir = path.resolve(appPath, this.outputRoot)
+    this.isBuildNativeComp = !!config.isBuildNativeComp
+    this.newBlended = !!config.newBlended
     this.enableSourceMap = config.enableSourceMap ?? config.isWatch ?? process.env.NODE_ENV !== 'production'
   }
 
@@ -45,15 +50,8 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.process(this.config)
     await this.post(this.config, this.chain)
   }
-
-  process (config: Partial<T>) {
-    const {
-      isBuildNativeComp = false
-    } = config
-    if (isBuildNativeComp) {
-      this.isBuildNativeComp = true
-    }
-  }
+  
+  process (_config: Partial<T>) {}
 
   async pre (rawConfig: T) {
     const preMode = rawConfig.mode || process.env.NODE_ENV
