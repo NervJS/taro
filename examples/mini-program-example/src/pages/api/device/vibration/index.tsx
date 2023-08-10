@@ -1,7 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -14,11 +15,42 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'vibrateShort',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('vibrateShort')
+          Taro.vibrateShort({
+            type: 'heavy',
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
       {
         id: 'vibrateLong',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('vibrateLong')
+          Taro.vibrateLong({
+            success: (res) => {
+              TestConsole.consoleSuccess(res)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail(res)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete(res)
+            },
+          }).then((res) => {
+            TestConsole.consoleReturn(res)
+          })
+        },
       },
     ],
   }
