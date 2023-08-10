@@ -22,6 +22,8 @@ exports[`RichText RichText render 1`] = `
   >
     <RNCWebView
       cacheEnabled={true}
+      fraudulentWebsiteWarningEnabled={true}
+      hasOnFileDownload={false}
       injectedJavaScript="
             document.documentElement.style.padding = 0;
             document.documentElement.style.margin = 0;
@@ -34,6 +36,12 @@ exports[`RichText RichText render 1`] = `
       injectedJavaScriptForMainFrameOnly={true}
       javaScriptEnabled={true}
       messagingEnabled={true}
+      messagingModuleName=""
+      newSource={
+        {
+          "html": "<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><div class="div_class" style="line-height:60px;color:white;font-size:60px;">Hello World!</div>",
+        }
+      }
       onContentProcessDidTerminate={[Function]}
       onHttpError={[Function]}
       onLoadingError={[Function]}

@@ -80,7 +80,15 @@ function handleFile (context: ResolutionContext, moduleName, platform, config) {
 function handleTaroFile (context: ResolutionContext, moduleName, platform, config) {
   const newContext = { ...context }
   if (context.originModulePath === require.resolve(entryFilePath)) {
-    newContext.originModulePath = path.join(context.projectRoot, './index.js')
+    // node_modules/@tarojs/rn-supporter/entry-file.js
+    // index.js
+    newContext.originModulePath = path.resolve(path.join(
+      entryFilePath,
+      '..',
+      '..',
+      '..',
+      './index.js'
+    ))
   }
   return handleFile(newContext, moduleName, platform, config)
 }
