@@ -16,32 +16,27 @@ exports[`scanCode should render scanCode success 1`] = `
   }
 >
   <ViewManagerAdapter_ExponentCamera
+    barCodeScannerEnabled={true}
+    barCodeScannerSettings={
+      {
+        "barCodeTypes": [],
+      }
+    }
+    faceDetectorSettings={{}}
+    focusDepth={0}
     onBarCodeScanned={[Function]}
     onCameraReady={[Function]}
     onFacesDetected={[Function]}
     onMountError={[Function]}
     onPictureSaved={[Function]}
-    proxiedProperties={
-      {
-        "autoFocus": undefined,
-        "barCodeScannerEnabled": true,
-        "barCodeScannerSettings": {
-          "barCodeTypes": [],
-        },
-        "faceDetectorSettings": {},
-        "flashMode": undefined,
-        "focusDepth": 0,
-        "type": undefined,
-        "whiteBalance": undefined,
-        "zoom": 0,
-      }
-    }
+    onResponsiveOrientationChanged={[Function]}
     style={
       {
         "height": 1334,
         "width": 750,
       }
     }
+    zoom={0}
   />
   <View
     accessibilityLabel="Close"
