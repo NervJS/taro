@@ -2268,6 +2268,9 @@ importers:
       react-grid-layout:
         specifier: ^1.3.4
         version: registry.npmjs.org/react-grid-layout@1.3.4(react-dom@18.2.0)(react@18.2.0)
+      react-measure:
+        specifier: ^2.5.2
+        version: registry.npmjs.org/react-measure@2.5.2(react-dom@18.2.0)(react@18.2.0)
       react-resizable:
         specifier: ^3.0.4
         version: registry.npmjs.org/react-resizable@3.0.5(react-dom@18.2.0)(react@18.2.0)
@@ -20932,8 +20935,6 @@ packages:
       babel-register: registry.npmjs.org/babel-register@6.26.0
       babylon: registry.npmjs.org/babylon@6.18.0
       require-from-string: registry.npmjs.org/require-from-string@2.0.2
-    transitivePeerDependencies:
-      - supports-color
 
   registry.npmjs.org/babel-plugin-react-native-web@0.18.12:
     resolution: {integrity: sha512-4djr9G6fMdwQoD6LQ7hOKAm39+y12flWgovAqS1k5O8f42YQ3A1FFMyV5kKfetZuGhZO5BmNmOdRRZQ1TixtDw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-react-native-web/-/babel-plugin-react-native-web-0.18.12.tgz}
@@ -30369,6 +30370,12 @@ packages:
       has: registry.npmjs.org/has@1.0.3
       has-symbols: registry.npmjs.org/has-symbols@1.0.3
 
+  registry.npmjs.org/get-node-dimensions@1.2.1:
+    resolution: {integrity: sha512-2MSPMu7S1iOTL+BOa6K1S62hB2zUAYNF/lV0gSVlOaacd087lc6nR1H1r0e3B1CerTo+RceOmi1iJW+vp21xcQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/get-node-dimensions/-/get-node-dimensions-1.2.1.tgz}
+    name: get-node-dimensions
+    version: 1.2.1
+    dev: false
+
   registry.npmjs.org/get-own-enumerable-property-symbols@3.0.2:
     resolution: {integrity: sha512-I0UBV/XOz1XkIJHEUDMZAbzCThU/H8DxmSfmdGcKPnVhu2VfFqr34jr9777IyaTYvxjedWhqVIilEDsCdP5G6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/get-own-enumerable-property-symbols/-/get-own-enumerable-property-symbols-3.0.2.tgz}
     name: get-own-enumerable-property-symbols
@@ -33869,7 +33876,7 @@ packages:
       pretty-format: registry.npmjs.org/pretty-format@29.5.0
       slash: registry.npmjs.org/slash@3.0.0
       strip-json-comments: registry.npmjs.org/strip-json-comments@3.1.1
-      ts-node: registry.npmjs.org/ts-node@10.9.1(@types/node@9.6.2)(typescript@4.9.5)
+      ts-node: registry.npmjs.org/ts-node@10.9.1(@types/node@14.18.45)(typescript@4.9.5)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -43234,6 +43241,23 @@ packages:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz}
     name: react-lifecycles-compat
     version: 3.0.4
+    dev: false
+
+  registry.npmjs.org/react-measure@2.5.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-M+rpbTLWJ3FD6FXvYV6YEGvQ5tMayQ3fGrZhRPHrE9bVlBYfDCLuDcgNttYfk8IqfOI03jz6cbpqMRTUclQnaA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-measure/-/react-measure-2.5.2.tgz}
+    id: registry.npmjs.org/react-measure/2.5.2
+    name: react-measure
+    version: 2.5.2
+    peerDependencies:
+      react: '>0.13.0'
+      react-dom: '>0.13.0'
+    dependencies:
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.21.5
+      get-node-dimensions: registry.npmjs.org/get-node-dimensions@1.2.1
+      prop-types: registry.npmjs.org/prop-types@15.8.1
+      react: registry.npmjs.org/react@18.2.0
+      react-dom: registry.npmjs.org/react-dom@18.2.0(react@18.2.0)
+      resize-observer-polyfill: registry.npmjs.org/resize-observer-polyfill@1.5.1
     dev: false
 
   registry.npmjs.org/react-motion@0.5.2(react@18.2.0):

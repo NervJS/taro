@@ -4,7 +4,7 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const startGyroscope: typeof Taro.startGyroscope = (options) => {
   const name = 'startGyroscope'
-  
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -21,15 +21,16 @@ export const startGyroscope: typeof Taro.startGyroscope = (options) => {
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.startGyroscope({
-    interval: interval,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    }
+  return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
+    // @ts-ignore
+    native.startGyroscope({
+      interval: interval,
+      success: (res: any) => {
+        handle.success(res, { resolve, reject })
+      },
+      fail: (err: any) => {
+        handle.fail(err, { resolve, reject })
+      }
+    })
   })
-  return ret
 }
