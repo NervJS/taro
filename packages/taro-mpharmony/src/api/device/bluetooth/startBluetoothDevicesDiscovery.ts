@@ -3,7 +3,7 @@ import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
 export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDiscovery = (options) => {
-  const name = 'stopBluetoothDevicesDiscovery'
+  const name = 'startBluetoothDevicesDiscovery'
 
   // options must be an Object
   const isObject = shouldBeObject(options)
