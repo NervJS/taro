@@ -86,9 +86,6 @@
     "@types/react": {
       "optional": true
     },
-    "@types/react-native": {
-      "optional": true
-    },
     "vue": {
       "optional": true
     }
