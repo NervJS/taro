@@ -364,7 +364,7 @@ export default class Convertor {
                 if (componentClassName === importName) {
                   return
                 }
-                const importPath = path.join(self.importsDir, importName + (wxs ? self.wxsIncrementId() : '') + self.isTsProject ? '.ts' : '.js')
+                const importPath = path.join(self.importsDir, importName + (wxs ? self.wxsIncrementId() : '') + (self.isTsProject ? '.ts' : '.js'))
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
