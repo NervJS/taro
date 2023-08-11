@@ -20,7 +20,6 @@ export class H5Combination extends Combination<H5BuildConfig> {
   isMultiRouterMode = false
 
   process (config: Partial<H5BuildConfig>) {
-    super.process(config)
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
