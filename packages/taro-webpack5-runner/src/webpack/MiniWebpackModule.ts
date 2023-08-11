@@ -92,7 +92,7 @@ export class MiniWebpackModule {
         generator: {
           filename ({ filename }) {
             const extname = path.extname(filename)
-            return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ)
+            return filename.replace(sourceRoot + '/', '').replace(extname, fileType.templ).replace(/node_modules/gi, 'npm')
           }
         },
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniTemplateLoader'), {
@@ -105,7 +105,7 @@ export class MiniWebpackModule {
         type: 'asset/resource',
         generator: {
           filename ({ filename }) {
-            return filename.replace(sourceRoot + '/', '')
+            return filename.replace(sourceRoot + '/', '').replace(/node_modules/gi, 'npm')
           }
         },
         use: [WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniXScriptLoader'))]
