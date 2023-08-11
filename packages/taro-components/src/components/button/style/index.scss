@@ -40,6 +40,12 @@ $weuiBtnPlainDefaultBorderColor: rgb(53 53 53 / 100%);
 $weuiBtnPlainDefaultActiveColor: rgb(53 53 53 / 60%);
 $weuiBtnPlainDefaultActiveBorderColor: rgb(53 53 53 / 60%);
 
+// Button Plain Warn
+$weuiBtnPlainWarnColor: #e64340;
+$weuiBtnPlainWarnBorderColor: #e64340;
+$weuiBtnPlainWarnActiveColor: rgba(230 67 64 / 60%);
+$weuiBtnPlainWarnActiveBorderColor: rgba(230 67 64 / 60%);
+
 taro-button-core {
   display: block;
   overflow: hidden;
@@ -162,6 +168,21 @@ taro-button-core {
       border-color: $weuiBtnPlainPrimaryActiveBorderColor;
       background-color: transparent;
       color: $weuiBtnPlainPrimaryActiveColor;
+    }
+
+    &::after {
+      border-width: 0;
+    }
+  }
+  
+  &[plain][type="warn"] {
+    border: 1px solid $weuiBtnPlainWarnBorderColor;
+    color: $weuiBtnPlainWarnColor;
+
+    &:not([disabled]):active {
+      border-color: $weuiBtnPlainWarnActiveBorderColor;
+      background-color: transparent;
+      color: $weuiBtnPlainWarnActiveColor;
     }
 
     &::after {
