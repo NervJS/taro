@@ -1,8 +1,8 @@
+import { dotenvParse } from '@tarojs/helper'
 import { Kernel } from '@tarojs/service'
 import * as path from 'path'
 
 import CLI from '../cli'
-import { dotenvParse } from '../util/index'
 
 jest.mock('@tarojs/service')
 const MockedKernel = Kernel as unknown as jest.Mock<Kernel>
