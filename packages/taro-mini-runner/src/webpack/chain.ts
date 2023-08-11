@@ -144,6 +144,7 @@ export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader')
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
+export const getMiniXScriptLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniXScriptLoader')))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 export const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-loader'))
 
@@ -255,6 +256,7 @@ export const getModule = (appPath: string, {
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
+  const miniXScriptLoader = getMiniXScriptLoader([{}])
 
   const cssLoader = getCssLoader(cssOptions)
 
@@ -431,9 +433,22 @@ export const getModule = (appPath: string, {
       test: REG_TEMPLATE,
       use: [getFileLoader([{
         useRelativePath: true,
-        name: `[path][name]${fileType.templ}`,
+        name: (resourcePath) => {
+          return resourcePath.replace(path.join(sourceDir, '../'), '').replace(/node_modules/gi, 'npm')
+        },
         context: sourceDir
       }]), miniTemplateLoader]
+    },
+    xscript: {
+      test: new RegExp(`\\${fileType.xs || 'wxs'}$`),
+      use: [getFileLoader([{
+        useRelativePath: true,
+        name: (resourcePath) => {
+          return resourcePath.replace(path.join(sourceDir, '../'), '').replace(/node_modules/gi, 'npm')
+        },
+        context: sourceDir
+      }]),
+      miniXScriptLoader]
     },
     media: {
       test: REG_MEDIA,
