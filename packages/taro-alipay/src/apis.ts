@@ -205,6 +205,18 @@ const apiDiff: IApiDiff = {
  * key 为 alipay小程序中的api名称
  */
 const asyncResultApiDiff = {
+  alert: {
+    res: {
+      set: [
+        {
+          key: 'confirm',
+          value (res) {
+            return res.success
+          }
+        }
+      ],
+    }
+  },
   getScreenBrightness: {
     res: {
       set: [
