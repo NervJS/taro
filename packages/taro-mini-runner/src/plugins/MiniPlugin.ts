@@ -708,7 +708,9 @@ export default class TaroMiniPlugin {
           fileConfig.usingComponents[compName] = compPath
         }
 
-        if (!/^[.\\/]/.test(compPath)) {
+        // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
+        const npmPkgReg = /^[.\\/]/
+        if (!npmPkgReg.test(compPath)) {
           compPath = require.resolve(compPath).split('.')[0]
           fileConfig.usingComponents[compName] = compPath
         }
@@ -937,17 +939,15 @@ export default class TaroMiniPlugin {
   // 1. 将 node_modules 调整为 npm
   // 2. 将 ../../../node_modules/xxx 调整为 /npm/xxx
   adjustConfigContent (config: Config) {
-    if (config.usingComponents) {
-      Object.keys(config.usingComponents).forEach(key => {
-        if (!config.usingComponents) return
+    const { usingComponents } = config
 
-        const value = config.usingComponents[key]
-        if (value.includes(NODE_MODULES)) {
-          const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
+    if (!usingComponents) return
 
-          config.usingComponents[key] = match ? `${path.sep}${match[0]}` : value
-        }
-      })
+    for (const [key, value] of Object.entries(usingComponents)) {
+      if (!value.includes(NODE_MODULES)) return
+
+      const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
+      usingComponents[key] = match ? `${path.sep}${match[0]}` : value
     }
   }
 
@@ -1056,8 +1056,6 @@ export default class TaroMiniPlugin {
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
-        
-        this.adjustConfigContent(config.content)
 
         if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
