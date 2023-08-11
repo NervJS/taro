@@ -85,7 +85,7 @@ declare module '../../index' {
     showNavigationBarLoading(option?: showNavigationBarLoading.Option): void
 
     /** 动态设置当前页面的标题
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, alipay, h5, rn, tt
      * @example
      * ```tsx
      * Taro.setNavigationBarTitle({
