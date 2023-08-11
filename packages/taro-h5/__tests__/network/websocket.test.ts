@@ -64,7 +64,7 @@ describe('websocket', () => {
       })
   })
 
-  test('should not keep more than 2 connection', () => {
+  test('should not keep more than 5 connection', () => {
     const success = jest.fn()
     const fail = jest.fn()
     const complete = jest.fn()
@@ -81,6 +81,21 @@ describe('websocket', () => {
           task.close()
           expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 2, errMsg: 'connectSocket:ok' })
         }),
+      Taro.connectSocket({ url: 'wss://localhost:8090', success })
+        .then((task: any) => {
+          task.close()
+          expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 3, errMsg: 'connectSocket:ok' })
+        }),
+      Taro.connectSocket({ url: 'wss://localhost:8090', success })
+        .then((task: any) => {
+          task.close()
+          expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 4, errMsg: 'connectSocket:ok' })
+        }),
+      Taro.connectSocket({ url: 'wss://localhost:8090', success })
+        .then((task: any) => {
+          task.close()
+          expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 5, errMsg: 'connectSocket:ok' })
+        }),
       Taro.connectSocket({
         url: 'wss://localhost:9090',
         success,
@@ -88,7 +103,7 @@ describe('websocket', () => {
         complete
       })
         .then(() => {
-          const expectErrMsg = 'connectSocket:fail 同时最多发起 2 个 socket 请求，更多请参考文档。'
+          const expectErrMsg = 'connectSocket:fail 同时最多发起 5 个 socket 请求，更多请参考文档。'
           expect(success.mock.calls.length).toBe(2)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
