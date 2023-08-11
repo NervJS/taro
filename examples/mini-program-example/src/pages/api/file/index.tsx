@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Button, Text } from '@tarojs/components'
 import './index.scss'
 import { TestConsole } from '@/util/util'
+import ButtonList from '@/components/buttonList'
 
 /**
  * 文件
