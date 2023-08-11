@@ -51,7 +51,6 @@ export class ScrollView implements ComponentInterface {
   @Prop({ attribute: 'scroll-into-view-alignment' }) mpScrollIntoViewAlignment: 'start' | 'center' | 'end' | 'nearest'
   @Prop({ attribute: 'scroll-with-animation' }) animated = false
 
-
   @Event({
     eventName: 'scroll',
     bubbles: false
