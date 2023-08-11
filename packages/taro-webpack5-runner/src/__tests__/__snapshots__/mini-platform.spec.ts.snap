@@ -236,6 +236,16 @@ require("./runtime");
             }
         };
         var asyncResultApiDiff = {
+            alert: {
+                res: {
+                    set: [ {
+                        key: "confirm",
+                        value: function value(res) {
+                            return res.success;
+                        }
+                    } ]
+                }
+            },
             getScreenBrightness: {
                 res: {
                     set: [ {

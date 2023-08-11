@@ -36,6 +36,8 @@ export default class TaroPrebundle {
 
   public isBuildPlugin: boolean
 
+  protected options: IPrebundle
+
   constructor (protected params: IPrebundleParam) {
     const { env = process.env.TARO_ENV || 'h5', isBuildPlugin = false } = params
 
@@ -93,6 +95,7 @@ export default class TaroPrebundle {
   }
 
   async run (options: IPrebundle = {}) {
+    this.options = options
     if (!options.enable) return
 
     let prebundleRunner: BasePrebundle
@@ -109,6 +112,8 @@ export default class TaroPrebundle {
   }
 
   async postCompilerStart (compiler: Compiler) {
+    if (!this.options.enable) return
+
     if (this.platformType === 'web') {
       VirtualModule.apply(compiler)
 
