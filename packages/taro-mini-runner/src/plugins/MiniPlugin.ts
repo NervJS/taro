@@ -953,13 +953,13 @@ export default class TaroMiniPlugin {
 
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
+    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir, blended } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
     }
-    if (!this.options.blended && !isBuildPlugin) {
+    if (!blended && !isBuildPlugin) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
       const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
       this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)

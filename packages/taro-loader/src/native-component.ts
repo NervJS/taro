@@ -8,9 +8,10 @@ import type * as webpack from 'webpack'
 
 export default function (this: webpack.LoaderContext<any>) {
   const options = getOptions(this)
-  const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = options.loaderMeta
-  const { config: loaderConfig } = options
+  const { loaderMeta = {}, config: loaderConfig, isNewBlended = false, runtimePath  } = options
+  const { importFrameworkStatement, frameworkArgs, isNeedRawLoader, creatorLocation } = loaderMeta
   const config = getPageConfig(loaderConfig, this.resourcePath)
+  config.isNewBlended = isNewBlended
   const configString = JSON.stringify(config)
   const stringify = (s: string): string => stringifyRequest(this, s)
   // raw is a placeholder loader to locate changed .vue resource
@@ -20,8 +21,8 @@ export default function (this: webpack.LoaderContext<any>) {
   const componentPath = isNeedRawLoader
     ? `${raw}!${this.resourcePath}`
     : this.request.split('!').slice(thisLoaderIndex + 1).join('!')
-  const runtimePath = Array.isArray(options.runtimePath) ? options.runtimePath : [options.runtimePath]
-  const setReconciler = runtimePath.reduce((res, item) => {
+  const processedRuntimePath = Array.isArray(runtimePath) ? runtimePath : [runtimePath]
+  const setReconciler = processedRuntimePath.reduce((res, item) => {
     if (/^@tarojs\/plugin-(react|vue)-devtools/.test(item)) return res
     return res + `import '${item}'\n`
   }, '')
