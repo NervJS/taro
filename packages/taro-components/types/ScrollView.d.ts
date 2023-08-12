@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { BaseEventOrigFunction, CommonEventFunction, StandardProps } from './common'
+import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
@@ -157,7 +157,7 @@ interface ScrollViewProps extends StandardProps {
    * center - 目标节点显示在视口中间
    * end - 目标节点显示在视口结束处
    * nearest - 目标节点在就近的视口边缘显示，若节点已在视口内则不触发滚动
-   * @supported weapp, h5
+   * @supported weapp
    * @default 'start'
    */
   scrollIntoViewAlignment?: 'start' | 'center' | 'end' | 'nearest'
