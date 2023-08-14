@@ -14,9 +14,7 @@ export default function PageView() {
     console.log('Page loaded.')
   })
 
-  const gridView = grid_data.map((childItem, index) => (
-    <GridTile index={childItem.id} height={100 * childItem.sub} key={index} />
-  ))
+  const gridView = grid_data.map((childItem) => <GridTile index={childItem.id} height={100 * childItem.sub} />)
 
   return (
     <View className='components-page'>
