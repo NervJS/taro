@@ -1,6 +1,7 @@
 import {
   FRAMEWORK_MAP,
   fs,
+  getNpmPackageAbsolutePath,
   isAliasPath,
   isEmptyObject,
   META_TYPE,
@@ -711,8 +712,12 @@ export default class TaroMiniPlugin {
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
         const npmPkgReg = /^[.\\/]/
         if (!npmPkgReg.test(compPath)) {
-          compPath = require.resolve(compPath).split('.')[0]
-          fileConfig.usingComponents[compName] = compPath
+          const tempCompPath = getNpmPackageAbsolutePath(compPath)
+
+          if (tempCompPath) {
+            compPath = tempCompPath
+            fileConfig.usingComponents[compName] = compPath
+          }
         }
 
         depComponents.push({

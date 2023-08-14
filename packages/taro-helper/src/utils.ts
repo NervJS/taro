@@ -261,6 +261,45 @@ export function generateEnvList (env: Record<string, any>): Record<string, any> 
   return res
 }
 
+/**
+ * 获取 npm 文件或者依赖的绝对路径
+ *
+ * @param {string} 参数1 - 组件路径
+ * @param {string} 参数2 - 文件扩展名
+ * @returns {string} npm 文件绝对路径
+ */
+export function getNpmPackageAbsolutePath (npmPath: string, defaultFile = 'index') {
+  try {
+    let packageName = ''
+    let componentRelativePath = ''
+
+    // 获取 npm 包名和指定的包文件路径
+    if (npmPath.startsWith('@')) {
+      const packageParts = npmPath.split(path.sep)
+
+      packageName = packageParts.slice(0, 2).join(path.sep)
+      componentRelativePath = packageParts.slice(2).join(path.sep)
+    } else {
+      const packageParts = npmPath.split(path.sep)
+
+      packageName = packageParts[0]
+      componentRelativePath = packageParts.slice(1).join(path.sep)
+    }
+
+    // 没有指定的包文件路径统一使用 defaultFile
+    componentRelativePath = componentRelativePath || defaultFile
+    const match = require.resolve(packageName).match(new RegExp('.*' + packageName))
+
+    if (!match || !match.length) return null
+
+    const packagePath = match[0]
+
+    return path.join(packagePath, `./${componentRelativePath}`)
+  } catch (error) {
+    return null
+  }
+}
+
 export function generateConstantsList (constants: Record<string, any>): Record<string, any> {
   const res = {}
   if (constants && !isEmptyObject(constants)) {
