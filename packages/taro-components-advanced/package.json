@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.12",
+  "version": "3.6.13-alpha.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
