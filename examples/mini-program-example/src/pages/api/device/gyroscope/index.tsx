@@ -46,7 +46,7 @@ export default class Index extends React.Component {
             },
             complete: (res) => {
               TestConsole.consoleComplete(res)
-            }
+            },
           }).then((ret) => {
             TestConsole.consoleReturn(ret)
           })
@@ -70,7 +70,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>

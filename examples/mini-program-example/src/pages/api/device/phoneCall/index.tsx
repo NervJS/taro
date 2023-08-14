@@ -49,7 +49,7 @@ export default class Index extends React.Component {
       })
     }
   }
-  render () {
+  render() {
     const { api, inputValue, disabled } = this.state
     return (
       <View className='api-page'>
@@ -60,14 +60,14 @@ export default class Index extends React.Component {
           onClick={
             disabled
               ? () => {
-                Taro.showToast({
-                  title: '请输入手机号码',
-                  icon: 'error',
-                })
-              }
+                  Taro.showToast({
+                    title: '请输入手机号码',
+                    icon: 'error',
+                  })
+                }
               : () => {
-                api.func(inputValue)
-              }
+                  api.func(inputValue)
+                }
           }
         >
           {api.id}

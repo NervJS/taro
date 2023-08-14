@@ -33,7 +33,7 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
@@ -53,7 +53,7 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
@@ -73,7 +73,7 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
@@ -108,7 +108,7 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
@@ -128,13 +128,18 @@ export default class Index extends React.Component {
       brightValue: value,
     })
   }
-  render () {
+  render() {
     const { list, brightValue } = this.state
     return (
       <View className='api-page'>
         <View className='form-item'>
           <Text className='input-text'>请输入屏幕亮度：</Text>
-          <Input type='digit' value={brightValue} placeholder='请设置屏幕亮度,值0-1之间' onInput={this.changeBrightness} />
+          <Input
+            type='digit'
+            value={brightValue}
+            placeholder='请设置屏幕亮度,值0-1之间'
+            onInput={this.changeBrightness}
+          />
         </View>
         <ButtonList buttonList={list} />
       </View>
