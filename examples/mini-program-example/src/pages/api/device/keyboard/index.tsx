@@ -41,7 +41,7 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
@@ -60,7 +60,7 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },

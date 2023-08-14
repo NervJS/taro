@@ -14,161 +14,158 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'onUnhandledRejection',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.onUnhandledRejection')
-          new Promise((resolve,reject)=>{
-            const aa = 'name';
+          new Promise((resolve, reject) => {
+            const aa = 'name'
             // @ts-ignore
             if (aa === 'name1') {
-              resolve(aa);
+              resolve(aa)
             } else {
-              reject({message: 'error'});
+              reject({ message: 'error' })
             }
           })
 
-          Taro.onUnhandledRejection((res)=>{
-            TestConsole.consoleSuccess('Taro.onUnhandledRejection'+JSON.stringify(res))
+          Taro.onUnhandledRejection((res) => {
+            TestConsole.consoleSuccess('Taro.onUnhandledRejection' + JSON.stringify(res))
           })
         },
-      }, 
+      },
       {
         id: 'onThemeChange',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.onThemeChange')
-          Taro.onThemeChange((res) =>{
-          TestConsole.consoleSuccess('Taro.onThemeChange'+JSON.stringify(res))
+          Taro.onThemeChange((res) => {
+            TestConsole.consoleSuccess('Taro.onThemeChange' + JSON.stringify(res))
           })
         },
-      }, 
+      },
       {
         id: 'onPageNotFound',
-        func: ()=>{
+        func: () => {
           TestConsole.consoleTest('Taro.onPageNotFound')
           Taro.navigateTo({
-            url:'pages/api/index/11'
+            url: 'pages/api/index/11',
           })
-          Taro.onPageNotFound((res)=>{
-            TestConsole.consoleSuccess('Taro.onPageNotFound'+JSON.stringify(res))
-              Taro.navigateTo({
-                url:'pages/api/index/index'
-              })
+          Taro.onPageNotFound((res) => {
+            TestConsole.consoleSuccess('Taro.onPageNotFound' + JSON.stringify(res))
+            Taro.navigateTo({
+              url: 'pages/api/index/index',
+            })
           })
         },
-      }, 
+      },
       {
         id: 'onError',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.onError')
-          Taro.onError((err)=>{
-            TestConsole.consoleSuccess('Taro.onError'+JSON.stringify(err))
+          Taro.onError((err) => {
+            TestConsole.consoleSuccess('Taro.onError' + JSON.stringify(err))
           })
         },
-      }, 
+      },
       {
         id: 'onAudioInterruptionEnd',
         func: () => {
           TestConsole.consoleTest('Taro.onAudioInterruptionEnd')
           Taro.onAudioInterruptionEnd((_result) => {
-            TestConsole.consoleSuccess('Taro.onAudioInterruptionEnd'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.onAudioInterruptionEnd' + JSON.stringify(_result))
           })
-
         },
-      }, 
+      },
       {
         id: 'onAudioInterruptionBegin',
         func: () => {
           TestConsole.consoleTest('Taro.onAudioInterruptionBegin')
           Taro.onAudioInterruptionBegin((_result) => {
-            TestConsole.consoleSuccess('Taro.onAudioInterruptionBegin'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.onAudioInterruptionBegin' + JSON.stringify(_result))
           })
-
         },
-      }, 
+      },
       {
         id: 'onAppShow',
         func: () => {
           TestConsole.consoleTest('Taro.onAppShow')
           Taro.onAppShow((_result) => {
-            TestConsole.consoleSuccess('Taro.onAppShow'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.onAppShow' + JSON.stringify(_result))
           })
-
         },
-      }, 
+      },
       {
         id: 'onAppHide',
         func: () => {
           TestConsole.consoleTest('Taro.onAppHide')
           Taro.onAppHide((_result) => {
-            TestConsole.consoleSuccess('Taro.onAppHide'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.onAppHide' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
       {
         id: 'offThemeChange',
         func: () => {
           TestConsole.consoleTest('Taro.offThemeChange')
           Taro.offThemeChange((_result) => {
-            TestConsole.consoleSuccess('Taro.offThemeChange'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.offThemeChange' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
       {
         id: 'offPageNotFound',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.offPageNotFound')
-          Taro.offPageNotFound((res)=>{
-            TestConsole.consoleSuccess('Taro.offPageNotFound'+JSON.stringify(res))
+          Taro.offPageNotFound((res) => {
+            TestConsole.consoleSuccess('Taro.offPageNotFound' + JSON.stringify(res))
           })
           Taro.navigateTo({
-            url:'pages/api/index/11'
+            url: 'pages/api/index/11',
           })
         },
-      }, 
+      },
       {
         id: 'offError',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.offError')
           Taro.offError((_result) => {
-            TestConsole.consoleSuccess('Taro.offError'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.offError' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
       {
         id: 'offAudioInterruptionEnd',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.offAudioInterruptionEnd')
           Taro.offAudioInterruptionEnd((_result) => {
-            TestConsole.consoleSuccess('Taro.offAudioInterruptionEnd'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.offAudioInterruptionEnd' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
       {
         id: 'offAudioInterruptionBegin',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.offAudioInterruptionBegin')
           Taro.offAudioInterruptionBegin((_result) => {
-            TestConsole.consoleSuccess('Taro.offAudioInterruptionBegin'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.offAudioInterruptionBegin' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
       {
         id: 'offAppShow',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.offAppShow')
           Taro.offAppShow((_result) => {
-            TestConsole.consoleSuccess('Taro.offAppShow'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.offAppShow' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
       {
         id: 'offAppHide',
-        func: () =>{
+        func: () => {
           TestConsole.consoleTest('Taro.offAppHide')
           Taro.offAppHide((_result) => {
-            TestConsole.consoleSuccess('Taro.offAppHide'+JSON.stringify(_result))
+            TestConsole.consoleSuccess('Taro.offAppHide' + JSON.stringify(_result))
           })
         },
-      }, 
+      },
     ],
   }
   render() {

@@ -18,15 +18,16 @@ export default class Index extends React.Component {
         func: () => {
           TestConsole.consoleTest('Taro.stopCompass')
           Taro.stopCompass({
-            success (res) {
+            success(res) {
               TestConsole.consoleSuccess(res)
             },
-            fail (res) {
+            fail(res) {
               TestConsole.consoleFail(res)
-            }, complete (res) {
+            },
+            complete(res) {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
@@ -36,15 +37,16 @@ export default class Index extends React.Component {
         func: () => {
           TestConsole.consoleTest('Taro.startCompass')
           Taro.startCompass({
-            success (res) {
+            success(res) {
               TestConsole.consoleSuccess(res)
             },
-            fail (res) {
+            fail(res) {
               TestConsole.consoleFail(res)
-            }, complete (res) {
+            },
+            complete(res) {
               TestConsole.consoleComplete(res)
             },
-          }).then(res => {
+          }).then((res) => {
             TestConsole.consoleReturn(res)
           })
         },
