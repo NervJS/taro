@@ -13,11 +13,11 @@ export default function PageView() {
   })
 
   const gridView = grid_data.map((childItem) => (
-    <GridTile index={childItem.id} height={100 * childItem.sub}/>
+    <GridTile key={childItem.id} index={childItem.id} height={100 * childItem.sub} />
   ))
 
   return (
-    <ScrollView className='index' scrollY={true}>
+    <ScrollView className='index' scrollY>
       <GridView className='gridStyle' crossAxisCount={4} mainAxisGap={4} crossAxisGap={8} type='aligned'>
         {gridView}
       </GridView>

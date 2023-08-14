@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text, Button } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import { TestConsole } from '@/util/util'
 import './index.scss'
@@ -19,7 +19,7 @@ export default class Index extends React.Component {
           TestConsole.consoleTest('pageScrollTo')
           Taro.pageScrollTo({
             duration: 300,
-            selector: '#content',
+            selector: '#blank-content',
             offsetTop: 0,
             success: (res) => {
               TestConsole.consoleSuccess(res)

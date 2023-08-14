@@ -208,17 +208,17 @@ class Animation implements Taro.Animation {
   }
 
   skew (x, y) {
-    this.transform.push(`skew(${x}, ${y})`)
+    this.transform.push(`skew(${x}deg, ${y}deg)`)
     return this
   }
 
   skewX (angle) {
-    this.transform.push(`skewX(${angle})`)
+    this.transform.push(`skewX(${angle}deg)`)
     return this
   }
 
   skewY (angle) {
-    this.transform.push(`skewY(${angle})`)
+    this.transform.push(`skewY(${angle}deg)`)
     return this
   }
 
