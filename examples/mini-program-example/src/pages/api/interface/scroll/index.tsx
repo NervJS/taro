@@ -15,20 +15,20 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'pageScrollTo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('pageScrollTo')
           Taro.pageScrollTo({
             duration: 300,
             selector: '#blank-content',
             offsetTop: 0,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
@@ -41,18 +41,18 @@ export default class Index extends React.Component {
     listTail: [
       {
         id: 'pageScrollTo: 滚到顶部',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('pageScrollTo: 滚到顶部')
           Taro.pageScrollTo({
             scrollTop: 0,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },

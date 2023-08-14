@@ -25,7 +25,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'createAnimation',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.createAnimation')
           const an = Taro.createAnimation({
             transformOrigin: '50% 50%',
@@ -43,14 +43,15 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.opacity',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.opacity(0).step().opacity(1).step()
           this.exportAnimation('opacity(0).step().opacity(1).step()')
         },
       },
       {
         id: 'Animation.backgroundColor',
-        func: () => {
+
+        func: (apiIndex) => {
           this.state.animation.backgroundColor('#f00').step().backgroundColor('#5b5').step()
           this.exportAnimation("backgroundColor('#f00').step().backgroundColor('#5b5').step()")
         },
@@ -78,105 +79,105 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.scale',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scale(2, 2).step().scale(1, 1).step()
           this.exportAnimation('scale(2, 2).step().scale(1, 1).step()')
         },
       },
       {
         id: 'Animation.scale3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scale3d(2, 2, 2).step().scale3d(1, 1, 1).step()
           this.exportAnimation('scale3d(2, 2, 2).step().scale3d(1, 1, 1).step()')
         },
       },
       {
         id: 'Animation.scaleX',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scaleX(2).step().scaleX(1).step()
           this.exportAnimation('scaleX(2).step().scaleX(1).step()')
         },
       },
       {
         id: 'Animation.scaleY',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scaleY(2).step().scaleY(1).step()
           this.exportAnimation('scaleY(2).step().scaleY(1).step()')
         },
       },
       {
         id: 'Animation.scaleZ',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scaleZ(2).step().scaleZ(1).step()
           this.exportAnimation('scaleZ(2).step().scaleZ(1).step()')
         },
       },
       {
         id: 'Animation.rotate',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotate(45).step().rotate(0).step()
           this.exportAnimation('rotate(45).step().rotate(0).step()')
         },
       },
       {
         id: 'Animation.rotate3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotate3d(2, 2, 2, 60).step().rotate3d(0, 0, 0, 0).step()
           this.exportAnimation('rotate3d(2, 2, 2, 60).step().rotate3d(0, 0, 0, 0).step()')
         },
       },
       {
         id: 'Animation.rotateX',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotateX(60).step().rotateX(0).step()
           this.exportAnimation('rotateX(60).step().rotateX(0).step()')
         },
       },
       {
         id: 'Animation.rotateY',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotateY(60).step().rotateY(0).step()
           this.exportAnimation('rotateY(60).step().rotateY(0).step()')
         },
       },
       {
         id: 'Animation.rotateZ',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotateZ(60).step().rotateZ(0).step()
           this.exportAnimation('rotateZ(60).step().rotateZ(0).step()')
         },
       },
       {
         id: 'Animation.translate',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translate(20, 20).step().translate(0, 0).step()
           this.exportAnimation('translate(20, 20).step().translate(0, 0).step()')
         },
       },
       {
         id: 'Animation.translate3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translate3d(20, 20, 20).step().translate3d(0, 0, 0).step()
           this.exportAnimation('translate3d(20, 20, 20).step().translate3d(0, 0, 0).step()')
         },
       },
       {
         id: 'Animation.translateX',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translateX(20).step().translateX(0).step()
           this.exportAnimation('translateX(20).step().translateX(0).step()')
         },
       },
       {
         id: 'Animation.translateY',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translateY(20).step().translateY(0).step()
           this.exportAnimation('translateY(20).step().translateY(0).step()')
         },
       },
       {
         id: 'Animation.translateZ',
-        func: () => {
+        func: (apiIndex) => {
           console.log('jerer')
           this.state.animation.rotateY(45).translateZ(200).step().translateZ(0).step()
           this.exportAnimation('rotateY(45).translateZ(200).step().translateZ(0).step()')
@@ -184,42 +185,42 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.width',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.width('60%').step().width('50%').step()
           this.exportAnimation("width('60%').step().width('50%').step()")
         },
       },
       {
         id: 'Animation.height',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.height('60%').step().height('50%').step()
           this.exportAnimation("height('60%').step().height('50%').step()")
         },
       },
       {
         id: 'Animation.left',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.left('20%').step()
           this.exportAnimation("left('20%').step()")
         },
       },
       {
         id: 'Animation.right',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.right('20%').step()
           this.exportAnimation("right('20%').step()")
         },
       },
       {
         id: 'Animation.top',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.top('10%').step()
           this.exportAnimation("top('10%').step()")
         },
       },
       {
         id: 'Animation.bottom',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.bottom('-20%').step()
           this.exportAnimation("bottom('-20%').step()")
         },

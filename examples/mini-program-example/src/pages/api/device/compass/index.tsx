@@ -15,52 +15,52 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'stopCompass',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.stopCompass')
           Taro.stopCompass({
-            success(res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail(res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete(res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'startCompass',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.startCompass')
           Taro.startCompass({
-            success(res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail(res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete(res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'onCompassChange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onCompassChange')
           Taro.onCompassChange(this.callback)
         },
       },
       {
         id: 'offCompassChange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.offCompassChange')
           Taro.offCompassChange(this.callback)
         },

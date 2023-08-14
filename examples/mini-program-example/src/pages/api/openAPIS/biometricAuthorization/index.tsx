@@ -26,7 +26,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'checkIsSupportSoterAuthentication',
-        func: () => {
+        func: (apiIndex) => {
           Taro.checkIsSupportSoterAuthentication({
             success: (res) => {
               console.log('success-----', res)
@@ -42,7 +42,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'checkIsSoterEnrolledInDevice',
-        func: () => {
+        func: (apiIndex) => {
           const authModes = ['fingerPrint', 'facial', 'speech']
           authModes.forEach((mode) => {
             Taro.checkIsSoterEnrolledInDevice({

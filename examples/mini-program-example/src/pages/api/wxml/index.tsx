@@ -14,13 +14,13 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'createSelectorQuery',
-        func: () => {
+        func: (apiIndex) => {
           console.log('createSelectorQuery success ', Taro.createSelectorQuery())
         },
       },
       {
         id: 'NodesRef',
-        func: () => {
+        func: (apiIndex) => {
           Taro.createSelectorQuery()
             .select('#the-id')
             .boundingClientRect(function (rect) {
@@ -88,7 +88,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'SelectorQuery',
-        func: () => {
+        func: (apiIndex) => {
           const query = Taro.createSelectorQuery().in(this)
           console.log('SelectorQuery in ', query)
 

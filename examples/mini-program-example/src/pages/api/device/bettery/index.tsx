@@ -15,11 +15,11 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getBatteryInfo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getBatteryInfo')
           Taro.getBatteryInfo({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               this.setState({ batteryInfo: { isCharging: res.isCharging, level: res.level, errMsg: res.errMsg } })
               Taro.showModal({
                 content: `success:${res.errMsg}`,
@@ -29,7 +29,7 @@ export default class Index extends React.Component {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showModal({
                 content: `fail: ${res.errMsg}`,
                 showCancel: false,
@@ -38,10 +38,10 @@ export default class Index extends React.Component {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

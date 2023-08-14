@@ -20,7 +20,7 @@
     "resolveJsonModule": true,
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@/styles/*": ["./styles/*"],
+      "@/styles/*": ["./src/styles/*"],
       "@/util/*": ["./src/util/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/components/*": ["./src/components/*"]

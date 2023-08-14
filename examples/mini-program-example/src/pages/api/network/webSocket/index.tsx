@@ -14,7 +14,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'sendSocketMessage',
-        func: () => {
+        func: (apiIndex) => {
           Taro.sendSocketMessage({
             data: 'test sendSocketMessage',
             success: (res) => {
@@ -31,7 +31,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onSocketOpen',
-        func: () => {
+        func: (apiIndex) => {
           Taro.connectSocket({
             url: 'www.baidu.com',
           })
@@ -42,7 +42,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onSocketMessage',
-        func: () => {
+        func: (apiIndex) => {
           Taro.connectSocket({
             url: 'www.baidu.com',
           })
@@ -53,7 +53,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onSocketClose',
-        func: () => {
+        func: (apiIndex) => {
           Taro.connectSocket({
             url: 'www.baidu.com',
           })
@@ -68,7 +68,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'connectSocket',
-        func: () => {
+        func: (apiIndex) => {
           Taro.connectSocket({
             url: 'www.baidu.com',
             header: {
@@ -90,7 +90,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'SocketTask',
-        func: () => {
+        func: (apiIndex) => {
           Taro.connectSocket({
             url: 'www.baidu.com',
             success: function () {

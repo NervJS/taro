@@ -14,7 +14,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'login-code',
-        func: () => {
+        func: (apiIndex) => {
           Taro.login({
             // @ts-ignore
             appid: '1208731172335528704',
@@ -32,7 +32,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'login-token',
-        func: () => {
+        func: (apiIndex) => {
           Taro.login({
             // @ts-ignore
             appid: '1208731172335528704',
@@ -51,7 +51,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'checkSession',
-        func: () => {
+        func: (apiIndex) => {
           Taro.checkSession({
             success: function (res) {
               console.log('checkSession success ', res)

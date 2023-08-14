@@ -19,21 +19,21 @@ export default class Index extends React.Component {
       },
       {
         id: 'getApp',
-        func: () => {
+        func: (apiIndex) => {
           const app = Taro.getApp()
           console.log('getApp success ', app)
         },
       },
       {
         id: 'getCurrentPages',
-        func: () => {
+        func: (apiIndex) => {
           const pages = Taro.getCurrentPages()
           console.log('getCurrentPages success ', pages)
         },
       },
       {
         id: 'Page',
-        func: () => {
+        func: (apiIndex) => {
           const pages = Taro.getCurrentPages()
           console.log('pages...')
         },

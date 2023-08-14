@@ -19,68 +19,68 @@ export default class Index extends React.Component {
       },
       {
         id: 'setScreenBrightness',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.setScreenBrightness')
           TestConsole.consoleNormal('Taro.setScreenBrightness value:', this.state.brightValue)
           Taro.setScreenBrightness({
             value: this.state.brightValue,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'setKeepScreenOnTrue',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.setKeepScreenOnTrue')
           Taro.setKeepScreenOn({
             keepScreenOn: true,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'setKeepScreenOnFalse',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.setKeepScreenOnFalse')
           Taro.setKeepScreenOn({
             keepScreenOn: false,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'onUserCaptureScreen',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onUserCaptureScreen')
           Taro.onUserCaptureScreen(this.userCaptureScreen)
           TestConsole.consoleTest('Taro.onUserCaptureScreen end')
@@ -88,7 +88,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offUserCaptureScreen',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.offUserCaptureScreen')
           Taro.offUserCaptureScreen(this.userCaptureScreen)
           TestConsole.consoleTest('Taro.offUserCaptureScreen end')
@@ -96,20 +96,20 @@ export default class Index extends React.Component {
       },
       {
         id: 'getScreenBrightness',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getScreenBrightness')
           Taro.getScreenBrightness({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

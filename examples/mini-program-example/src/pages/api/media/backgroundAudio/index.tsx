@@ -15,7 +15,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getBackgroundAudioManager',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getBackgroundAudioManager')
           backgroundAudioManager = Taro.getBackgroundAudioManager()
           backgroundAudioManager.src = 'https://storage.360buyimg.com/jdrd-blog/27.mp3'
@@ -33,35 +33,35 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_play',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_play')
           backgroundAudioManager.play()
         },
       },
       {
         id: 'BackgroundAudioManager_pause',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_pause')
           backgroundAudioManager.pause()
         },
       },
       {
         id: 'BackgroundAudioManager_stop',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_stop')
           backgroundAudioManager.stop()
         },
       },
       {
         id: 'BackgroundAudioManager_seek',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_seek')
           backgroundAudioManager.seek(150)
         },
       },
       {
         id: 'BackgroundAudioManager_onCanplay',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onCanplay')
           backgroundAudioManager.onCanplay(() => {
             TestConsole.consoleNormal('onCanplay callback')
@@ -70,7 +70,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onWaiting',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onWaiting')
           backgroundAudioManager.onPlay(() => {
             TestConsole.consoleNormal('onWaiting callback')
@@ -79,7 +79,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'backgroundAudioManagert_onError',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('backgroundAudioManagert_onError')
           backgroundAudioManager.onError(() => {
             TestConsole.consoleNormal('onError callback')
@@ -88,7 +88,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onPlay',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onPlay')
           backgroundAudioManager.onPlay(() => {
             TestConsole.consoleNormal('onPlay callback')
@@ -97,7 +97,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onPause',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onPause')
           backgroundAudioManager.onPause(() => {
             TestConsole.consoleNormal('onPause callback')
@@ -106,7 +106,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onSeeking',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onSeeking')
           backgroundAudioManager.onSeeking(() => {
             TestConsole.consoleNormal('onSeeking callback')
@@ -115,7 +115,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onSeeked',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onSeeked')
           backgroundAudioManager.onSeeked(() => {
             TestConsole.consoleNormal('onSeeked callback')
@@ -124,7 +124,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onEnded',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onEnded')
           backgroundAudioManager.onEnded(() => {
             TestConsole.consoleNormal('onEnded callback')
@@ -133,7 +133,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onStop',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onStop')
           backgroundAudioManager.onStop(() => {
             TestConsole.consoleNormal('onStop callback')
@@ -142,7 +142,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onTimeUpdate',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onTimeUpdate')
           backgroundAudioManager.onTimeUpdate(() => {
             TestConsole.consoleNormal('onTimeUpdate callback')
@@ -151,7 +151,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onPrev_暂不支持',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onPrev')
           backgroundAudioManager.onPrev(() => {
             TestConsole.consoleNormal('onPrev callback')
@@ -160,7 +160,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'BackgroundAudioManager_onNext_暂不支持',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('BackgroundAudioManager_onNext')
           backgroundAudioManager.onNext(() => {
             TestConsole.consoleNormal('onNext callback')

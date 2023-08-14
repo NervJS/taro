@@ -15,104 +15,104 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'switchTab',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('switchTab')
           Taro.switchTab({
             url: '/pages/api/index/index',
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'reLaunch',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('reLaunch')
           Taro.reLaunch({
             url: '/pages/api/index/index?testParam=1',
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'redirectTo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('redirectTo')
           Taro.redirectTo({
             url: '/pages/api/index/index?testParam01=1&testParam02=2',
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'navigateTo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('navigateTo')
           Taro.navigateTo({
             url: '/pages/api/index/index?testParam01=1&testParam02=2&testParam03=3',
             events: {
               data: 'test',
             },
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'navigateBack',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('navigateBack')
           Taro.navigateBack({
             delta: 2,
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            success: (res) => {
-              TestConsole.consoleSuccess(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

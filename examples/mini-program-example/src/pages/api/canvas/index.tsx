@@ -14,7 +14,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'createCanvasContext',
-        func: () => {
+        func: (apiIndex) => {
           const context = Taro.createCanvasContext('canvas')
           context.setStrokeStyle('#00ff00')
           context.setLineWidth(5)
@@ -37,7 +37,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'canvasToTempFilePath',
-        func: () => {
+        func: (apiIndex) => {
           const context = Taro.createCanvasContext('canvas')
           context.setStrokeStyle('#00ff00')
           context.setLineWidth(5)
@@ -80,7 +80,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'CanvasContext',
-        func: () => {
+        func: (apiIndex) => {
           const ctx = Taro.createCanvasContext('canvas')
           // Draw coordinates
           ctx.arc(100, 75, 50, 0, 2 * Math.PI)

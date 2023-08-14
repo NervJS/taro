@@ -16,7 +16,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'lifeCycle',
-        func: () => {
+        func: (apiIndex) => {
           this.setState({
             showAPI: 'lifeCycle',
           })
@@ -24,7 +24,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'applicationLevelEvents',
-        func: () => {
+        func: (apiIndex) => {
           this.setState({
             showAPI: 'applicationLevelEvents',
           })

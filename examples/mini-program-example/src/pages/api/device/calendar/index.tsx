@@ -15,7 +15,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'addPhoneRepeatCalendar',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('addPhoneRepeatCalendar')
           Taro.addPhoneRepeatCalendar({
             title: '日历事件标题',
@@ -29,22 +29,22 @@ export default class Index extends React.Component {
             repeatInterval: 'day',
             repeatEndTime: new Date().getTime() + 360000,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'addPhoneCalendar',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('addPhoneCalendar')
           Taro.addPhoneCalendar({
             title: '日历事件标题',
@@ -56,16 +56,16 @@ export default class Index extends React.Component {
             alarm: true,
             alarmOffset: 10,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

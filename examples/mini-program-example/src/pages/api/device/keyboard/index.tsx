@@ -15,53 +15,53 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'onKeyboardHeightChange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onKeyboardHeightChange')
           Taro.onKeyboardHeightChange(this.boardHgiehtChaget)
         },
       },
       {
         id: 'offKeyboardHeightChange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.offKeyboardHeightChange ')
           Taro.offKeyboardHeightChange(this.boardHgiehtChaget)
         },
       },
       {
         id: 'hideKeyboard',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.hideKeyboard ')
           Taro.hideKeyboard({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'getSelectedTextRange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getSelectedTextRange ')
           Taro.getSelectedTextRange({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
@@ -69,7 +69,7 @@ export default class Index extends React.Component {
   }
 
   boardHgiehtChaget = (res) => {
-    TestConsole.consoleSuccess(JSON.stringify(res))
+    TestConsole.consoleSuccess(res)
   }
   inputFocus = (e) => {
     // console.log(this.state.list[3])
@@ -78,7 +78,7 @@ export default class Index extends React.Component {
   hideKeyboard = (e) => {
     let inputValue = e.detail.value + ''
     if (inputValue == 'hide') {
-      this.state.list[2].func()
+      this.state.list[2].func(2)
     }
   }
   render() {

@@ -14,7 +14,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'nextTick',
-        func: () => {
+        func: (apiIndex) => {
           let data = 0 // 直接在当前同步流程中执行
           Taro.nextTick(() => {
             data = 1 // 在当前同步流程结束后，下一个时间片执行

@@ -14,39 +14,39 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'stopWifi',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('stopWifi')
           Taro.stopWifi({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'startWifi',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('startWifi')
           Taro.startWifi({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
@@ -56,7 +56,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onWifiConnectedWithPartialInfo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('onWifiConnectedWithPartialInfo')
           Taro.onWifiConnectedWithPartialInfo((res) => {
             TestConsole.consoleSuccess(res)
@@ -65,7 +65,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onWifiConnected',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('onWifiConnected')
           Taro.onWifiConnected((res) => {
             TestConsole.consoleSuccess(res)
@@ -74,7 +74,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onGetWifiList',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('onGetWifiList')
           Taro.onGetWifiList((res) => {
             TestConsole.consoleSuccess(res)
@@ -92,7 +92,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offWifiConnectedWithPartialInfo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('offWifiConnectedWithPartialInfo')
           Taro.offWifiConnectedWithPartialInfo((res) => {
             TestConsole.consoleSuccess(res)
@@ -101,7 +101,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offWifiConnected',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('offWifiConnected')
           Taro.offWifiConnected((res) => {
             TestConsole.consoleSuccess(res)
@@ -110,7 +110,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offGetWifiList',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('offGetWifiList')
           Taro.offGetWifiList((res) => {
             TestConsole.consoleSuccess(res)
@@ -119,60 +119,60 @@ export default class Index extends React.Component {
       },
       {
         id: 'getWifiList',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getWifiList')
           Taro.getWifiList({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'getConnectedWifi',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getConnectedWifi')
           Taro.getConnectedWifi({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'connectWifi',
-        func: () => {
+        func: (apiIndex) => {
           Taro.connectWifi({
             SSID: '',
             BSSID: '',
             password: '',
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

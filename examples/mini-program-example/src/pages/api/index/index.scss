@@ -1,4 +1,4 @@
-@import '../../../../styles/mixins.scss';
+@import '@/styles/mixins.scss';
 @import '@/styles/variables.scss';
 
 .index-hd {
@@ -29,22 +29,6 @@
 
 .index-desc_text {
   color: #888888;
-}
-
-.api-page {
-  padding-top: 100px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.api-page-btn {
-  color: #f5f5f5;
-  display: flex;
-  margin: 20px 50%;
-  padding: 15px 25px;
-  border-radius: 16px;
-  background-color: $color-success;
 }
 
 .navigator-box {
