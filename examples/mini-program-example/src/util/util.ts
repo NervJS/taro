@@ -1,4 +1,4 @@
-function setCallbackRes (res, type, apiIndex) {
+function setCallbackRes(res, type, apiIndex) {
   if (apiIndex != -1) {
     const apiList = this.state.list
     if (apiList[apiIndex].callbackRes == null) {
@@ -22,19 +22,19 @@ export const TestConsole = {
     console.log('%csuccess:\n', 'color:green;font-weight:bold', res)
     setCallbackRes.call(this, res, 'success', apiIndex)
   },
-  consoleFail: function (res, apiIndex = - 1) {
+  consoleFail: function (res, apiIndex = -1) {
     console.log('%cfail:\n', 'color:red;font-weight:bold', res)
     setCallbackRes.call(this, res, 'fail', apiIndex)
   },
-  consoleComplete: function(res, apiIndex = -1) {
+  consoleComplete: function (res, apiIndex = -1) {
     console.log('%ccomplete:\n', 'color:black;font-weight:bold', res)
     setCallbackRes.call(this, res, 'complete', apiIndex)
   },
-  consoleReturn: function(res, apiIndex = -1) {
+  consoleReturn: function (res, apiIndex = -1) {
     console.log('%creturn:\n', 'color:blue;font-weight:bold', res)
     setCallbackRes.call(this, res, 'return', apiIndex)
   },
-  consoleOnCallback: function(res, apiName, apiIndex = -1) {
+  consoleOnCallback: function (res, apiName, apiIndex = -1) {
     console.log(`%c${apiName} callback:\n`, 'color:green;font-weight:bold', res)
     setCallbackRes.call(this, res, 'callback', apiIndex)
   },

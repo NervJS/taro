@@ -10,7 +10,6 @@ import './index.scss'
  * @returns
  */
 
-
 export default class Index extends React.Component {
   state = {
     list: [

@@ -12,12 +12,12 @@ export default function PageView() {
     console.log('Page loaded.')
   })
 
-  const gridView = grid_data.map((childItem) => (
-    <GridTile index={childItem.id} height={100 * childItem.sub}/>
+  const gridView = grid_data.map((childItem, index) => (
+    <GridTile index={childItem.id} height={100 * childItem.sub} key={index} />
   ))
 
   return (
-    <ScrollView className='index' scrollY={true}>
+    <ScrollView className='index' scrollY>
       <GridView className='gridStyle' crossAxisCount={4} mainAxisGap={4} crossAxisGap={8} type='aligned'>
         {gridView}
       </GridView>

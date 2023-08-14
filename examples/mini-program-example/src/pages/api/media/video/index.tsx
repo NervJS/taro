@@ -204,7 +204,8 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            }).then((res) => {
+            })
+            .then((res) => {
               TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },

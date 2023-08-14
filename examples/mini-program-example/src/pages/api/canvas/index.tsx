@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro, { useReady } from '@tarojs/taro'
-import { View, Canvas  } from '@tarojs/components'
+import { View, Canvas } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -15,67 +15,67 @@ export default class Index extends React.Component {
       {
         id: 'createCanvasContext',
         func: (apiIndex) => {
-            const context = Taro.createCanvasContext('canvas')
-            context.setStrokeStyle('#00ff00')
-            context.setLineWidth(5)
-            context.rect(0, 0, 200, 200)
-            context.stroke()
-            context.setStrokeStyle('#ff0000')
-            context.setLineWidth(2)
-            context.moveTo(160, 100)
-            context.arc(100, 100, 60, 0, 2 * Math.PI, true)
-            context.moveTo(140, 100)
-            context.arc(100, 100, 40, 0, Math.PI, false)
-            context.moveTo(85, 80)
-            context.arc(80, 80, 5, 0, 2 * Math.PI, true)
-            context.moveTo(125, 80)
-            context.arc(120, 80, 5, 0, 2 * Math.PI, true)
-            context.stroke()
-            context.draw()
-            console.log('Taro.createCanvasContext success ', context)
+          const context = Taro.createCanvasContext('canvas')
+          context.setStrokeStyle('#00ff00')
+          context.setLineWidth(5)
+          context.rect(0, 0, 200, 200)
+          context.stroke()
+          context.setStrokeStyle('#ff0000')
+          context.setLineWidth(2)
+          context.moveTo(160, 100)
+          context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+          context.moveTo(140, 100)
+          context.arc(100, 100, 40, 0, Math.PI, false)
+          context.moveTo(85, 80)
+          context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+          context.moveTo(125, 80)
+          context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+          context.stroke()
+          context.draw()
+          console.log('Taro.createCanvasContext success ', context)
         },
       },
       {
         id: 'canvasToTempFilePath',
         func: (apiIndex) => {
-            const context = Taro.createCanvasContext('canvas')
-            context.setStrokeStyle('#00ff00')
-            context.setLineWidth(5)
-            context.rect(0, 0, 200, 200)
-            context.stroke()
-            context.setStrokeStyle('#ff0000')
-            context.setLineWidth(2)
-            context.moveTo(160, 100)
-            context.arc(100, 100, 60, 0, 2 * Math.PI, true)
-            context.moveTo(140, 100)
-            context.arc(100, 100, 40, 0, Math.PI, false)
-            context.moveTo(85, 80)
-            context.arc(80, 80, 5, 0, 2 * Math.PI, true)
-            context.moveTo(125, 80)
-            context.arc(120, 80, 5, 0, 2 * Math.PI, true)
-            context.stroke()
-            context.draw(true, () => {
-              Taro.canvasToTempFilePath({
-                x: 100,
-                y: 200,
-                width: 50,
-                height: 50,
-                destWidth: 100,
-                destHeight: 100,
-                quality: 1,
-                fileType: 'png',
-                canvasId: 'canvas',
-                success: function (res) {
-                  console.log('Taro.canvasToTempFilePath success', res)
-                },
-                fail: function (res) {
-                  console.log('Taro.canvasToTempFilePath fail', res)
-                },
-                complete: function (res) {
-                  console.log('Taro.canvasToTempFilePath complete', res)
-                },
-              })
+          const context = Taro.createCanvasContext('canvas')
+          context.setStrokeStyle('#00ff00')
+          context.setLineWidth(5)
+          context.rect(0, 0, 200, 200)
+          context.stroke()
+          context.setStrokeStyle('#ff0000')
+          context.setLineWidth(2)
+          context.moveTo(160, 100)
+          context.arc(100, 100, 60, 0, 2 * Math.PI, true)
+          context.moveTo(140, 100)
+          context.arc(100, 100, 40, 0, Math.PI, false)
+          context.moveTo(85, 80)
+          context.arc(80, 80, 5, 0, 2 * Math.PI, true)
+          context.moveTo(125, 80)
+          context.arc(120, 80, 5, 0, 2 * Math.PI, true)
+          context.stroke()
+          context.draw(true, () => {
+            Taro.canvasToTempFilePath({
+              x: 100,
+              y: 200,
+              width: 50,
+              height: 50,
+              destWidth: 100,
+              destHeight: 100,
+              quality: 1,
+              fileType: 'png',
+              canvasId: 'canvas',
+              success: function (res) {
+                console.log('Taro.canvasToTempFilePath success', res)
+              },
+              fail: function (res) {
+                console.log('Taro.canvasToTempFilePath fail', res)
+              },
+              complete: function (res) {
+                console.log('Taro.canvasToTempFilePath complete', res)
+              },
             })
+          })
         },
       },
       {
@@ -170,7 +170,7 @@ export default class Index extends React.Component {
     const { list } = this.state
     return (
       <View className='api-page'>
-        <Canvas canvasId="canvas" className="canvas"></Canvas>
+        <Canvas canvasId='canvas' className='canvas'></Canvas>
         <ButtonList buttonList={list} />
       </View>
     )

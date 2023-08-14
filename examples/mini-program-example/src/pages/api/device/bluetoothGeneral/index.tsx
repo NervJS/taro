@@ -150,7 +150,7 @@ export default class Index extends React.Component {
       },
     ],
     deviceUuid: '',
-    devices: []
+    devices: [],
   }
   _discoveryStarted = false
 
@@ -172,7 +172,7 @@ export default class Index extends React.Component {
           Taro.showModal({
             title: '错误',
             content: '未找到蓝牙设备, 请打开蓝牙后重试。',
-            showCancel: false
+            showCancel: false,
           })
           Taro.onBluetoothAdapterStateChange((res) => {
             if (res && res.available) {
@@ -180,7 +180,7 @@ export default class Index extends React.Component {
             }
           })
         }
-      }
+      },
     })
   }
   startBluetoothDevicesDiscovery = () => {
@@ -200,14 +200,14 @@ export default class Index extends React.Component {
     Taro.stopBluetoothDevicesDiscovery({
       complete: () => {
         this._discoveryStarted = false
-      }
+      },
     })
   }
 
   onBluetoothDeviceFound = () => {
     Taro.onBluetoothDeviceFound((res) => {
       console.log(res.devices)
-      res.devices.forEach(device => {
+      res.devices.forEach((device) => {
         if (!device.name && !device.localName) {
           return
         }
@@ -218,11 +218,9 @@ export default class Index extends React.Component {
         } else {
           foundDevices[idx] = device
         }
-        this.setState(
-          {
-            devices: foundDevices,
-          }
-        )
+        this.setState({
+          devices: foundDevices,
+        })
       })
     })
   }
@@ -231,22 +229,21 @@ export default class Index extends React.Component {
     const { list, devices } = this.state
     return (
       <View className='api-page'>
-        <View className="page-body-info">
-        <ScrollView className="device_list" scrollY scrollWithAnimation>
-          {
-            devices.map((item: any, index) => {
+        <View className='page-body-info'>
+          <ScrollView className='device_list' scrollY scrollWithAnimation>
+            {devices.map((item: any, index) => {
               return (
-                <View className="device_item" key={index}>
+                <View className='device_item' key={index}>
                   <View>{item.name}</View>
-                  <View>信号强度: {item.RSSI}dBm ({Math.max(0, item.RSSI + 100)}%)</View>
+                  <View>
+                    信号强度: {item.RSSI}dBm ({Math.max(0, item.RSSI + 100)}%)
+                  </View>
                   <View>UUID: {item.deviceId}</View>
                   <View>Service数量: {item.advertisServiceUUIDs.length}</View>
                 </View>
-
               )
-            })
-          }
-        </ScrollView>
+            })}
+          </ScrollView>
         </View>
         <ButtonList buttonList={list} />
       </View>

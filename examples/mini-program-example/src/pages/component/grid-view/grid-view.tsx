@@ -12,11 +12,10 @@ const grid_data = generateGridList(1000, 4)
 export default function PageView() {
   useLoad(() => {
     console.log('Page loaded.')
-
   })
 
-  const gridView = grid_data.map((childItem) => (
-    <GridTile index={childItem.id} height={100 * childItem.sub}/>
+  const gridView = grid_data.map((childItem, index) => (
+    <GridTile index={childItem.id} height={100 * childItem.sub} key={index} />
   ))
 
   return (
@@ -27,18 +26,30 @@ export default function PageView() {
           {' '}
         </ComponentState>
       </View>
-      <View className="grid-aligned-title">
+      <View className='grid-aligned-title'>
         <View>grid-view高度由同行最大高度子节点决定</View>
-        <Button className="btn" type="primary" onClick={() => {
-          Taro.navigateTo({url: "/pages/component/grid-view/demo1"})
-        }}>grid aligned网格布局</Button>
+        <Button
+          className='btn'
+          type='primary'
+          onClick={() => {
+            Taro.navigateTo({ url: '/pages/component/grid-view/demo1' })
+          }}
+        >
+          grid aligned网格布局
+        </Button>
       </View>
 
-      <View className="grid-aligned-title">
+      <View className='grid-aligned-title'>
         <View>grid-view根据子元素高度自动布局(瀑布流)</View>
-        <Button className="btn" type="primary" onClick={() => {
-          Taro.navigateTo({url: "/pages/component/grid-view/demo2"})
-        }}>grid masonry瀑布流</Button>
+        <Button
+          className='btn'
+          type='primary'
+          onClick={() => {
+            Taro.navigateTo({ url: '/pages/component/grid-view/demo2' })
+          }}
+        >
+          grid masonry瀑布流
+        </Button>
       </View>
     </View>
   )

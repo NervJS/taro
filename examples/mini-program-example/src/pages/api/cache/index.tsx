@@ -149,7 +149,7 @@ export default class Index extends React.Component {
             const res = Taro.clearStorageSync()
             TestConsole.consoleSuccess.call(this, res, apiIndex)
           } catch (err) {
-              TestConsole.consoleFail.call(this, err, apiIndex)
+            TestConsole.consoleFail.call(this, err, apiIndex)
           }
         },
       },

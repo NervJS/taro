@@ -16,54 +16,54 @@ export default class Index extends React.Component {
         id: 'onUnhandledRejection',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onUnhandledRejection')
-          new Promise((resolve,reject)=>{
-            const aa = 'name';
+          new Promise((resolve, reject) => {
+            const aa = 'name'
             // @ts-ignore
             if (aa === 'name1') {
-              resolve(aa);
+              resolve(aa)
             } else {
-              reject({message: 'error'});
+              reject({ message: 'error' })
             }
           })
 
-          Taro.onUnhandledRejection((res)=>{
+          Taro.onUnhandledRejection((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onUnhandledRejection', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'onThemeChange',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onThemeChange')
-          Taro.onThemeChange((res) =>{
+          Taro.onThemeChange((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onThemeChange', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'onPageNotFound',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onPageNotFound')
           Taro.navigateTo({
-            url:'pages/api/index/11'
+            url: 'pages/api/index/11',
           })
-          Taro.onPageNotFound((res)=>{
+          Taro.onPageNotFound((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onPageNotFound', apiIndex)
-              Taro.navigateTo({
-                url:'pages/api/index/index'
-              })
+            Taro.navigateTo({
+              url: 'pages/api/index/index',
+            })
           })
         },
-      }, 
+      },
       {
         id: 'onError',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onError')
-          Taro.onError((err)=>{
+          Taro.onError((err) => {
             TestConsole.consoleOnCallback.call(this, err, 'onError', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'onAudioInterruptionEnd',
         func: (apiIndex) => {
@@ -71,9 +71,8 @@ export default class Index extends React.Component {
           Taro.onAudioInterruptionEnd((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onAudioInterruptionEnd', apiIndex)
           })
-
         },
-      }, 
+      },
       {
         id: 'onAudioInterruptionBegin',
         func: (apiIndex) => {
@@ -81,9 +80,8 @@ export default class Index extends React.Component {
           Taro.onAudioInterruptionBegin((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onAudioInterruptionBegin', apiIndex)
           })
-
         },
-      }, 
+      },
       {
         id: 'onAppShow',
         func: (apiIndex) => {
@@ -91,9 +89,8 @@ export default class Index extends React.Component {
           Taro.onAppShow((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'onAppShow', apiIndex)
           })
-
         },
-      }, 
+      },
       {
         id: 'onAppHide',
         func: (apiIndex) => {
@@ -102,7 +99,7 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'onAppHide', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'offThemeChange',
         func: (apiIndex) => {
@@ -111,19 +108,19 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'offThemeChange', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'offPageNotFound',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.offPageNotFound')
-          Taro.offPageNotFound((res)=>{
+          Taro.offPageNotFound((res) => {
             TestConsole.consoleOnCallback.call(this, res, 'offPageNotFound', apiIndex)
           })
           Taro.navigateTo({
-            url:'pages/api/index/11'
+            url: 'pages/api/index/11',
           })
         },
-      }, 
+      },
       {
         id: 'offError',
         func: (apiIndex) => {
@@ -132,7 +129,7 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'offError', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'offAudioInterruptionEnd',
         func: (apiIndex) => {
@@ -141,7 +138,7 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'offAudioInterruptionEnd', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'offAudioInterruptionBegin',
         func: (apiIndex) => {
@@ -150,7 +147,7 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'offAudioInterruptionBegin', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'offAppShow',
         func: (apiIndex) => {
@@ -159,7 +156,7 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'offAppShow', apiIndex)
           })
         },
-      }, 
+      },
       {
         id: 'offAppHide',
         func: (apiIndex) => {
@@ -168,7 +165,7 @@ export default class Index extends React.Component {
             TestConsole.consoleOnCallback.call(this, res, 'offAppHide', apiIndex)
           })
         },
-      }, 
+      },
     ],
   }
 

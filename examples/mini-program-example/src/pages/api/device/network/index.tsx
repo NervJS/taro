@@ -42,13 +42,13 @@ export default class Index extends React.Component {
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
               this.setState({
-                networkType: res.networkType
+                networkType: res.networkType,
               })
             },
             fail: (res) => {
               TestConsole.consoleFail.call(this, res, apiIndex)
               this.setState({
-                networkType: '获取失败'
+                networkType: '获取失败',
               })
             },
             complete: (res) => {
@@ -65,14 +65,14 @@ export default class Index extends React.Component {
       },
     ],
     networkType: '未获取',
-    networkState: null
+    networkState: null,
   }
 
   callback = (res: any) => {
     TestConsole.consoleSuccess(res)
     this.setState({
       networkState: res.isConnected,
-      networkType: res.networkType
+      networkType: res.networkType,
     })
   }
 
@@ -80,7 +80,7 @@ export default class Index extends React.Component {
     let { list, networkType, networkState } = this.state
     return (
       <View className='api-page'>
-        <View style={{display:'inline-block'}}>
+        <View style={{ display: 'inline-block' }}>
           <View>网络类型：{networkType}</View>
           <View hidden={networkState == null ? false : true}>网络状态：未获取</View>
           <View hidden={networkState == null ? true : false}>网络状态：{networkState ? '已连接' : '已断开'}</View>

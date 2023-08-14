@@ -40,7 +40,7 @@ export default class Index extends React.Component {
           Taro.getClipboardData({
             success: (res) => {
               this.setState({
-                pasted: res.data
+                pasted: res.data,
               })
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },

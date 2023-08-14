@@ -11,7 +11,7 @@ import './index.scss'
 
 export default class Index extends React.Component {
   state = {
-    list:[
+    list: [
       {
         id: 'openSystemBluetoothSetting',
         func: null,
