@@ -79,6 +79,7 @@ interface ITaroMiniPluginOptions {
     targetUnit: string
   }
   newBlended?: boolean
+  skipProcessUsingComponents?: boolean
 }
 
 export interface IComponentObj {
@@ -788,8 +789,8 @@ export default class TaroMiniPlugin {
         }
 
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
-        const npmPkgReg = /^[.\\/]/
-        if (!npmPkgReg.test(compPath)) {
+        const notNpmPkgReg = /^[.\\/]/
+        if (!this.options.skipProcessUsingComponents && !notNpmPkgReg.test(compPath)) {
           const tempCompPath = getNpmPackageAbsolutePath(compPath)
 
           if (tempCompPath) {
@@ -1032,7 +1033,7 @@ export default class TaroMiniPlugin {
   adjustConfigContent (config: Config) {
     const { usingComponents } = config
 
-    if (!usingComponents) return
+    if (!usingComponents || this.options.skipProcessUsingComponents) return
 
     for (const [key, value] of Object.entries(usingComponents)) {
       if (!value.includes(NODE_MODULES)) return
