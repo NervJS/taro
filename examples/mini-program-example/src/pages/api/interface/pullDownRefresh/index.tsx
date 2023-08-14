@@ -14,7 +14,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'stopPullDownRefresh',
-        func: () => {
+        func: (apiIndex) => {
           Taro.startPullDownRefresh({
             success: (res) => {
               console.log('startPullDownRefresh success ', res)
@@ -37,7 +37,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'startPullDownRefresh',
-        func: () => {
+        func: (apiIndex) => {
           Taro.startPullDownRefresh({
             success: (res) => {
               console.log('startPullDownRefresh success ', res)

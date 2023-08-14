@@ -18,7 +18,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onWindowResize',
-        func: () => {
+        func: (apiIndex) => {
           console.log('onWindowResize')
           if (!this.listenResize['registered']) {
             this.listenResize['registered'] = true
@@ -32,7 +32,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offWindowResize',
-        func: () => {
+        func: (apiIndex) => {
           console.log('offWindowResize')
           Taro.offWindowResize(this.listenResize)
           this.listenResize['registered'] = false

@@ -15,41 +15,43 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'setClipboardData',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('setClipboardData')
           Taro.setClipboardData({
             data: this.state.value,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'getClipboardData',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getClipboardData')
           Taro.getClipboardData({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
-              this.setState({ pasted: res.data })
+              this.setState({
+                pasted: res.data
+              })
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

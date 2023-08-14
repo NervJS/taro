@@ -18,7 +18,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'EditorContext',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext')
           Taro.createSelectorQuery()
             .select('#editor')
@@ -31,49 +31,47 @@ export default class Index extends React.Component {
       },
       {
         id: 'EditorContext_blur_暂不支持',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_blur')
           editorContext
             .blur({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_clear',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_clear')
           editorContext
             .clear({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_format_left',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_format_left')
           editorContext.format('align', 'left')
           TestConsole.consoleNormal('editorContext.format success ')
@@ -81,7 +79,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'EditorContext_format_right',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_format_right')
           editorContext.format('align', 'right')
           TestConsole.consoleNormal('editorContext.format success ')
@@ -89,49 +87,47 @@ export default class Index extends React.Component {
       },
       {
         id: 'EditorContext_getContents',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_getContents')
           editorContext
             .getContents({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_insertDivider_暂不支持',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_insertDivider')
           editorContext
             .insertDivider({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_insertImage',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_insertImage')
           editorContext
             .insertImage({
@@ -143,87 +139,83 @@ export default class Index extends React.Component {
               height: '100',
               width: '100',
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_insertText',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_insertText')
           editorContext
             .insertText({
               text: 'developer conference',
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_redo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_redo')
           editorContext
             .redo({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_removeFormat',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_removeFormat')
           editorContext
             .removeFormat({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_scrollIntoView',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_scrollIntoView')
           editorContext.scrollIntoView()
           TestConsole.consoleNormal('editorContext.scrollIntoView success ')
@@ -231,66 +223,63 @@ export default class Index extends React.Component {
       },
       {
         id: 'EditorContext_setContents',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_setContents')
           editorContext
             .setContents({
               delta: 'test_contents',
               html: 'test_html',
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_undo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_undo')
           editorContext
             .undo({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_getSelectionText',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_getSelectionText')
           editorContext
             .getSelectionText({
               success: (res) => {
-                TestConsole.consoleSuccess(res)
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
               fail: (res) => {
-                TestConsole.consoleFail(res)
+                TestConsole.consoleFail.call(this, res, apiIndex)
               },
               complete: (res) => {
-                TestConsole.consoleComplete(res)
+                TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((ret) => {
-              TestConsole.consoleReturn(ret)
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },

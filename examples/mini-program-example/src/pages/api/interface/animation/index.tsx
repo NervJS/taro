@@ -26,7 +26,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'createAnimation',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scale(2, 2).step()
           this.runAnimationAndReset()
           Taro.showToast({
@@ -37,14 +37,14 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.opacity',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.opacity(0).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.backgroundColor',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.backgroundColor('#FF0000').step()
           this.runAnimationAndReset()
         },
@@ -66,35 +66,35 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.scale',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scale(2, 2).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.scale3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scale3d(2, 2, 2).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.scaleX',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scaleX(2).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.scaleY',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scaleY(2).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.scaleZ',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.scaleZ(2).step()
           this.runAnimationAndReset()
         },
@@ -104,42 +104,42 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.rotate',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotate(45).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.rotate3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotate3d(2, 2, 2, 60).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.rotateX',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotateX(60).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.rotateY',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotateY(60).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.rotateZ',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.rotateZ(60).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.matrix',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.matrix(1.2, 0.2, -1, 0.9, 0, 20).step()
           this.runAnimationAndReset()
         },
@@ -149,42 +149,42 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.matrix3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.matrix3d(1, 0, 0, 0, 0, 1, 6, 0, 0, 0, 1, 0, 50, 100, 0, 1.1).step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.translate',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translate('20px', '20px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.translate3d',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translate3d('20px', '20px', '20px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.translateX',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translateX('20px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.translateY',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translateY('20px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.translateZ',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.translateZ('20px').step()
           this.runAnimationAndReset()
         },
@@ -194,42 +194,42 @@ export default class Index extends React.Component {
       },
       {
         id: 'Animation.width',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.width('100px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.height',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.height('60px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.left',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.left('60px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.right',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.right('60px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.top',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.top('100px').step()
           this.runAnimationAndReset()
         },
       },
       {
         id: 'Animation.bottom',
-        func: () => {
+        func: (apiIndex) => {
           this.state.animation.bottom('50px').step()
           this.runAnimationAndReset()
         },

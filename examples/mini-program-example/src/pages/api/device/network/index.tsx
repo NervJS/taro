@@ -18,7 +18,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onNetworkStatusChange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('onNetworkStatusChange')
           Taro.onNetworkStatusChange(this.callback)
         },
@@ -29,33 +29,33 @@ export default class Index extends React.Component {
       },
       {
         id: 'offNetworkStatusChange',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('offNetworkStatusChange')
           Taro.offNetworkStatusChange(this.callback)
         },
       },
       {
         id: 'getNetworkType',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getNetworkType')
           Taro.getNetworkType({
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               this.setState({
                 networkType: res.networkType
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               this.setState({
                 networkType: '获取失败'
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },

@@ -10,66 +10,38 @@ import './index.scss'
  * @returns
  */
 
+
 export default class Index extends React.Component {
   state = {
     list: [
       {
         id: 'addPhoneContact',
-        func: () => {
+        inputData: {
+          firstName: 'xh',
+          nickName: '校花',
+          lastName: 'L',
+          mobilePhoneNumber: '13456846212',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('addPhoneContact')
-          let formData = {
-            firstName: 'Li',
-            photoFilePath: '',
-            nickName: '花',
-            middleName: 'luo',
-            lastName: 'xiaohua',
-            remark: 'test remark',
-            mobilePhoneNumber: '454545321',
-            weChatNumber: 'test wechat num',
-            addressCountry: 'China',
-            addressState: 'Hubei',
-            addressCity: 'Wuhan',
-            addressStreet: 'shendunyilu',
-            addressPostalCode: '4500321',
-            organization: 'huawei',
-            title: 'worker',
-            workFaxNumber: '1234487',
-            workPhoneNumber: '123-123',
-            hostNumber: '8671-123123',
-            email: 'asdjjb@wds.com',
-            url: 'www.baidu.com',
-            workAddressCountry: 'China',
-            workAddressState: 'Guangdong',
-            workAddressCity: 'Dongguan',
-            workAddressStreet: 'songshanhu',
-            workAddressPostalCode: '123874',
-            homeFaxNumber: '026105',
-            homePhoneNumber: '12340-12843',
-            homeAddressCountry: 'China',
-            homeAddressState: 'Fujian',
-            homeAddressCity: 'Quanzhou',
-            homeAddressStreet: '123street',
-            homeAddressPostalCode: '0001237',
-          }
+          console.log(this.state.list, data, apiIndex)
           Taro.addPhoneContact({
-            ...formData,
+            ...data,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: `联系人创建成功:${res.errMsg}`,
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: `联系人创建失败:${res.errMsg}`,
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn(res)
           })
         },
       },

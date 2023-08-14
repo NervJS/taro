@@ -15,95 +15,95 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'chooseImage_album',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('chooseImage_album')
           Taro.chooseImage({
             count: 7,
             sizeType: ['original', 'compressed'],
             sourceType: ['album'],
-            success: function (res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((ret) => {
-            TestConsole.consoleReturn(ret)
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'chooseImage_camera',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('chooseImage_camera')
           Taro.chooseImage({
             count: 5,
             sizeType: ['original', 'compressed'],
             sourceType: ['camera'],
-            success: function (res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((ret) => {
-            TestConsole.consoleReturn(ret)
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'chooseImage_user',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('chooseImage_user')
           Taro.chooseImage({
             count: 7,
             sizeType: ['original', 'compressed'],
             sourceType: ['user'],
-            success: function (res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((ret) => {
-            TestConsole.consoleReturn(ret)
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'chooseImage_environment',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('chooseImage_environment')
           Taro.chooseImage({
             count: 5,
             sizeType: ['original', 'compressed'],
             sourceType: ['environment'],
-            success: function (res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((ret) => {
-            TestConsole.consoleReturn(ret)
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'previewImage',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('previewImage')
           Taro.chooseImage({
             count: 3,
@@ -116,49 +116,41 @@ export default class Index extends React.Component {
                 current: 'test/currentField',
                 showmenu: false,
                 referrerPolicy: 'origin',
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
-              }).then((ret) => {
-                TestConsole.consoleReturn(ret)
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
-            },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
-            },
-          }).then((ret) => {
-            TestConsole.consoleReturn(ret)
           })
         },
       },
       {
         id: 'getImageInfo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getImageInfo')
           Taro.chooseImage({
             success: function (res) {
               Taro.getImageInfo({
                 src: res.tempFilePaths[0],
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
               }).then((res) => {
-                TestConsole.consoleReturn(res)
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
           })
@@ -166,23 +158,23 @@ export default class Index extends React.Component {
       },
       {
         id: 'saveImageToPhotosAlbum',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('saveImageToPhotosAlbum')
           Taro.chooseImage({
             success: function (res) {
               Taro.saveImageToPhotosAlbum({
                 filePath: res.tempFilePaths[0],
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
-              }).then((ret) => {
-                TestConsole.consoleReturn(ret)
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
           })
@@ -190,7 +182,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'compressImage',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('compressImage')
           Taro.chooseImage({
             success: function (res) {
@@ -243,7 +235,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'previewMedia_image',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('previewMedia_image')
           Taro.chooseImage({
             success: function (res) {
@@ -258,17 +250,17 @@ export default class Index extends React.Component {
                 current: 0,
                 showmenu: false,
                 referrerPolicy: 'origin',
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
-              }).then((ret) => {
-                TestConsole.consoleReturn(ret)
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
           })
@@ -276,7 +268,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'previewMedia_video_album',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('previewMedia_video_album')
           Taro.chooseVideo({
             sourceType: ['album'],
@@ -292,17 +284,17 @@ export default class Index extends React.Component {
                     poster: 'test_video',
                   },
                 ],
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
-              }).then((ret) => {
-                TestConsole.consoleReturn(ret)
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
           })
@@ -310,7 +302,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'previewMedia_video_camera',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('previewMedia_video_camera')
           Taro.chooseVideo({
             sourceType: ['camera'],
@@ -326,17 +318,17 @@ export default class Index extends React.Component {
                     poster: 'test_video',
                   },
                 ],
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
-              }).then((ret) => {
-                TestConsole.consoleReturn(ret)
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
           })

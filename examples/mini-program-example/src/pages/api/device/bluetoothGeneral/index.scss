@@ -7,8 +7,11 @@
   font-size: 15px;
 }
 .device_list {
-  height: 150px;
+  height: 300px;
+  padding: 20px;
+  border: #000 solid 5px;
   border-radius: 3px;
+  font-size: 30px;
   flex: 1;
 }
 .device_item {
@@ -19,15 +22,8 @@
 .device_item_hover {
   background-color: rgba(0, 0, 0, .1);
 }
-
-.api-form-info {
-  width: 90%;
-  height: 60px;
-  border: $color-success 2px solid;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-around;
-  input {
-    width: 60%;
-  }
+.page-body-info {
+  padding: 20px;
+  width: 80%;
 }
+

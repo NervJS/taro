@@ -17,13 +17,13 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'stopRecord--Taro(暂不支持)',
-        func: () => {
+        func: (apiIndex) => {
           Taro.stopRecord()
         },
       },
       {
         id: 'startRecord--Taro(暂不支持)',
-        func: () => {
+        func: (apiIndex) => {
           this.setState({
             recording: true,
           })
@@ -40,14 +40,14 @@ export default class Index extends React.Component {
       },
       {
         id: 'getRecoederManager',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getRecoederManager')
           recorderManager = Taro.getRecorderManager()
         },
       },
       {
         id: 'recorderManager_start',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_start')
           this.setState({
             recording: true,
@@ -65,7 +65,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_stop',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_stop')
           recorderManager.stop()
         },
@@ -73,21 +73,21 @@ export default class Index extends React.Component {
 
       {
         id: 'recorderManager_pause',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_pause')
           recorderManager.pause()
         },
       },
       {
         id: 'recorderManager_resume',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_resume')
           recorderManager.resume()
         },
       },
       {
         id: 'recorderManager_onError',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onError')
           recorderManager.onError(() => {
             TestConsole.consoleNormal('onError callback')
@@ -96,7 +96,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onFrameRecorded',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onFrameRecorded')
           recorderManager.onFrameRecorded(() => {
             TestConsole.consoleNormal('onFrameRecorded callback')
@@ -105,7 +105,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onInterruptionBegin',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onInterruptionBegin')
           const that = this
           recorderManager.onInterruptionBegin(() => {
@@ -120,7 +120,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onInterruptionEnd',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onInterruptionEnd')
           const that = this
           recorderManager.onInterruptionEnd(() => {
@@ -141,7 +141,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onPause',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onPause')
           const that = this
           recorderManager.onPause(() => {
@@ -156,7 +156,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onResume',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onResume')
           const that = this
           recorderManager.onResume(() => {
@@ -177,7 +177,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onStart',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onStart')
           const that = this
           recorderManager.onStart(() => {
@@ -198,7 +198,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'recorderManager_onStop',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('recorderManager_onStop')
           const that = this
           recorderManager.onStop(() => {

@@ -16,7 +16,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'onLocationChange',
-        func: () => {
+        func: (apiIndex) => {
           Taro.onLocationChange((res) => {
             console.log('onLocationChange ', res)
           })
@@ -27,7 +27,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'startLocationUpdate',
-        func: () => {
+        func: (apiIndex) => {
           Taro.startLocationUpdate({
             success: function (res) {
               console.log('startLocationUpdate success ', res)
@@ -43,7 +43,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'stopLocationUpdate',
-        func: () => {
+        func: (apiIndex) => {
           Taro.startLocationUpdate({
             success: () => {
               Taro.stopLocationUpdate({
@@ -63,7 +63,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'startLocationUpdateBackground',
-        func: () => {
+        func: (apiIndex) => {
           Taro.startLocationUpdateBackground({
             success: function (res) {
               console.log('startLocationUpdateBackground success ', res)
@@ -79,7 +79,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offLocationChange',
-        func: () => {
+        func: (apiIndex) => {
           Taro.onLocationChange((res) => {
             console.log('onLocationChange ', res)
           })
@@ -90,7 +90,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'onLocationChangeError',
-        func: () => {
+        func: (apiIndex) => {
           Taro.onLocationChange((res) => {
             console.log('onLocationChange ', res)
           })
@@ -104,7 +104,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offLocationChangeError',
-        func: () => {
+        func: (apiIndex) => {
           Taro.onLocationChange((res) => {
             console.log('onLocationChange ', res)
           })
@@ -118,7 +118,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'getLocation',
-        func: () => {
+        func: (apiIndex) => {
           Taro.getLocation({
             altitude: 'true',
             type: 'wgs84',
@@ -142,7 +142,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'chooseLocation',
-        func: () => {
+        func: (apiIndex) => {
           Taro.chooseLocation({
             latitude: 45,
             longitude: 89,

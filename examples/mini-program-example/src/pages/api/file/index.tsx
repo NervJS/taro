@@ -17,25 +17,25 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'saveFile',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('saveFile')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
                 filePath: 'D:/common',
-                success: function (res) {
-                  TestConsole.consoleSuccess(res)
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
-                fail: function (res) {
-                  TestConsole.consoleFail(res)
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
                 },
-                complete: function (res) {
-                  TestConsole.consoleComplete(res)
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
-              }).then((ret) => {
-                TestConsole.consoleReturn(ret)
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
           })
@@ -43,48 +43,48 @@ export default class Index extends React.Component {
       },
       {
         id: 'getSavedFileList',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getSavedFileList')
           Taro.getSavedFileList({
-            success: function (res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'getSavedFileInfo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getSavedFileInfo')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   Taro.getSavedFileInfo({
                     filePath: res.savedFilePath,
-                    success: function (res) {
-                      TestConsole.consoleSuccess(res)
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
                     },
-                    fail: function (res) {
-                      TestConsole.consoleFail(res)
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
                     },
-                    complete: function (res) {
-                      TestConsole.consoleComplete(res)
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
                     },
-                  }).then((ret) => {
-                    TestConsole.consoleReturn(ret)
+                  }).then((res) => {
+                    TestConsole.consoleReturn.call(this, res, apiIndex)
                   })
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
               })
@@ -94,31 +94,31 @@ export default class Index extends React.Component {
       },
       {
         id: 'getFileInfo',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getFileInfo')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   Taro.getFileInfo({
                     filePath: res.savedFilePath,
-                    success: function (res) {
-                      TestConsole.consoleSuccess(res)
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
                     },
-                    fail: function (res) {
-                      TestConsole.consoleFail(res)
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
                     },
-                    complete: function (res) {
-                      TestConsole.consoleComplete(res)
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
                     },
-                  }).then((ret) => {
-                    TestConsole.consoleReturn(ret)
+                  }).then((res) => {
+                    TestConsole.consoleReturn.call(this, res, apiIndex)
                   })
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
               })
@@ -128,25 +128,25 @@ export default class Index extends React.Component {
       },
       {
         id: 'removeSavedFile',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('removeSavedFile')
           Taro.getSavedFileList({
-            success: function (res) {
+            success: (res) => {
               TestConsole.consoleNormal('getSavedFileList success ', res)
               if (res.fileList.length > 0) {
                 Taro.removeSavedFile({
                   filePath: res.fileList[0].filePath,
-                  success: function (res) {
-                    TestConsole.consoleSuccess(res)
+                  success: (res) => {
+                    TestConsole.consoleSuccess.call(this, res, apiIndex)
                   },
-                  fail: function (res) {
-                    TestConsole.consoleFail(res)
+                  fail: (res) => {
+                    TestConsole.consoleFail.call(this, res, apiIndex)
                   },
-                  complete: function (res) {
-                    TestConsole.consoleComplete(res)
+                  complete: (res) => {
+                    TestConsole.consoleComplete.call(this, res, apiIndex)
                   },
-                }).then((ret) => {
-                  TestConsole.consoleReturn(ret)
+                }).then((res) => {
+                  TestConsole.consoleReturn.call(this, res, apiIndex)
                 })
               }
             },
@@ -155,7 +155,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'getFileSystemManager',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('getFileSystemManager')
           fileSystemManager = Taro.getFileSystemManager()
           TestConsole.consoleNormal('getFileSystemManager: ', fileSystemManager)
@@ -163,33 +163,33 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_access',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_access')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
                 filePath: 'D:/common',
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   fileSystemManager.access({
                     path: res.savedFilePath,
-                    success: function (res) {
-                      TestConsole.consoleSuccess(res)
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
                     },
-                    fail: function (res) {
-                      TestConsole.consoleFail(res)
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
                     },
-                    complete: function (res) {
-                      TestConsole.consoleComplete(res)
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
                     },
                   })
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
-                complete: function (res) {
+                complete: (res) => {
                   TestConsole.consoleNormal('saveFile complete ', res)
                 },
               })
@@ -199,23 +199,23 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_accessSync',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_accessSync')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
                 filePath: 'D:/common',
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   fileSystemManager.accessSync(res.savedFilePath)
                   TestConsole.consoleNormal('accessSync success ')
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
-                complete: function (res) {
+                complete: (res) => {
                   TestConsole.consoleNormal('saveFile complete ', res)
                 },
               })
@@ -225,35 +225,35 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_appendFile',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_appendFile')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
                 filePath: 'D:/common',
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   fileSystemManager.appendFile({
                     data: 'append test',
                     filePath: res.savedFilePath,
                     encoding: 'utf8',
-                    success: function (res) {
-                      TestConsole.consoleSuccess(res)
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
                     },
-                    fail: function (res) {
-                      TestConsole.consoleFail(res)
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
                     },
-                    complete: function (res) {
-                      TestConsole.consoleComplete(res)
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
                     },
                   })
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
-                complete: function (res) {
+                complete: (res) => {
                   TestConsole.consoleNormal('saveFile complete ', res)
                 },
               })
@@ -263,23 +263,23 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_appendFileSync',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_appendFileSync')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
                 filePath: 'D:/common',
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   fileSystemManager.appendFileSync(res.savedFilePath, 'sync test', 'utf8')
                   TestConsole.consoleNormal('appendFileSync success ')
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
-                complete: function (res) {
+                complete: (res) => {
                   TestConsole.consoleNormal('saveFile complete ', res)
                 },
               })
@@ -289,35 +289,34 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_open',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_open')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
                 filePath: 'D:/common',
-                success: function (res) {
+                success: (res) => {
                   TestConsole.consoleNormal('saveFile success ', res)
                   fileSystemManager.open({
                     filePath: res.savedFilePath,
                     flag: 'r',
-                    success: function (res) {
-                      openFd = res.fd
-                      TestConsole.consoleSuccess(res)
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
                     },
-                    fail: function (res) {
-                      TestConsole.consoleFail(res)
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
                     },
-                    complete: function (res) {
-                      TestConsole.consoleComplete(res)
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
                     },
                   })
                 },
-                fail: function (res) {
+                fail: (res) => {
                   TestConsole.consoleNormal('saveFile fail ', res.errMsg)
                 },
-                complete: function (res) {
+                complete: (res) => {
                   TestConsole.consoleNormal('saveFile complete ', res)
                 },
               })
@@ -327,28 +326,28 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_close',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_close')
           fileSystemManager.close({
             fd: openFd,
-            success: function (res) {
-              TestConsole.consoleSuccess(res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              TestConsole.consoleFail(res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              TestConsole.consoleComplete(res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'fileSystem_openSync',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_openSync')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
@@ -374,7 +373,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_closeSync',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_closeSync')
           fileSystemManager.closeSync({
             fd: openSyncFd,
@@ -384,25 +383,25 @@ export default class Index extends React.Component {
       },
       {
         id: 'fileSystem_fstat',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_fstat')
           fileSystemManager.fstat({
             fd: openFd,
-            success: function (openSuc) {
-              TestConsole.consoleSuccess(openSuc)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (openFail) {
-              TestConsole.consoleFail(openFail)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (openCom) {
-              TestConsole.consoleComplete(openCom)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'fileSystem_fstatSync_暂不支持',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('fileSystem_fstatSync')
           fileSystemManager.fstatSync({
             fd: openFd,

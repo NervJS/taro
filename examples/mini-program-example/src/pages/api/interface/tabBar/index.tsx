@@ -20,68 +20,68 @@ export default class Index extends React.Component<Props> {
     list: [
       {
         id: 'showTabBarRedDot',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('showTabBarRedDot')
           Taro.showTabBarRedDot({
             index: 0,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
               Taro.showToast({
                 title: '显示tab红点',
                 icon: 'success',
                 duration: 3000,
               })
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
                 duration: 3000,
               })
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'hideTabBarRedDot',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('hideTabBarRedDot')
           Taro.hideTabBarRedDot({
             index: 0,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
               Taro.showToast({
                 title: '隐藏tab红点',
                 icon: 'success',
                 duration: 3000,
               })
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
                 duration: 3000,
               })
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'hideTabBar',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('hideTabBar')
           Taro.hideTabBar({
             animation: true,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '隐藏tabBar',
                 icon: 'success',
@@ -89,7 +89,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -97,19 +97,19 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'showTabBar',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('showTabBar')
           Taro.showTabBar({
             animation: true,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '显示tabBar',
                 icon: 'success',
@@ -117,7 +117,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -125,14 +125,14 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'setTabBarStyle',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('setTabBarStyle')
           Taro.setTabBarStyle({
             color: '#1F69FF',
@@ -140,7 +140,7 @@ export default class Index extends React.Component<Props> {
             backgroundColor: '#7A7E83',
             borderStyle: 'white',
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '设置tabBar样式',
                 icon: 'success',
@@ -148,7 +148,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -156,14 +156,14 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'setTabBarStyle: 恢复初始',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('setTabBarStyle: 恢复初始')
           Taro.setTabBarStyle({
             color: '#7A7E83',
@@ -171,7 +171,7 @@ export default class Index extends React.Component<Props> {
             borderStyle: 'black',
             backgroundColor: '#F7F7F7',
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '恢复tabBar样式',
                 icon: 'success',
@@ -179,7 +179,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -187,14 +187,14 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'setTabBarItem',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('setTabBarItem')
           Taro.setTabBarItem({
             index: 2,
@@ -202,7 +202,7 @@ export default class Index extends React.Component<Props> {
             selectedIconPath: apiImage,
             iconPath: apiSelectImage,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '设置tabBar内容',
                 icon: 'success',
@@ -210,7 +210,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -218,14 +218,14 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'setTabBarItem: 恢复初始',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('setTabBarItem: 恢复初始')
           Taro.setTabBarItem({
             index: 2,
@@ -233,7 +233,7 @@ export default class Index extends React.Component<Props> {
             selectedIconPath: apiSelectImage,
             iconPath: apiImage,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '恢复tabBar内容',
                 icon: 'success',
@@ -241,7 +241,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -249,20 +249,20 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'setTabBarBadge',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('setTabBarBadge')
           Taro.setTabBarBadge({
             index: 1,
             text: 'askudfglsajkf',
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '添加tabBar文本',
                 icon: 'success',
@@ -270,7 +270,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -278,19 +278,19 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'removeTabBarBadge',
-        func: function () {
+        func: (apiIndex) => {
           TestConsole.consoleTest('removeTabBarBadge')
           Taro.removeTabBarBadge({
             index: 1,
             success: (res) => {
-              TestConsole.consoleSuccess(res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({
                 title: '移除tabBar文本',
                 icon: 'success',
@@ -298,7 +298,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             fail: (res) => {
-              TestConsole.consoleFail(res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
               Taro.showToast({
                 title: res.errMsg,
                 icon: 'error',
@@ -306,7 +306,7 @@ export default class Index extends React.Component<Props> {
               })
             },
             complete: (res) => {
-              TestConsole.consoleComplete(res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },

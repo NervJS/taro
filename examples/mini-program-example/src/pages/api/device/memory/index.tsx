@@ -14,7 +14,7 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'onMemoryWarning',
-        func: () => {
+        func: (apiIndex) => {
           Taro.onMemoryWarning(function () {
             console.log('success on memory warning.')
             console.log('memory is run out.')
@@ -23,7 +23,7 @@ export default class Index extends React.Component {
       },
       {
         id: 'offMemoryWarning',
-        func: () => {
+        func: (apiIndex) => {
           Taro.offMemoryWarning(function () {
             console.log('success off memory warning.')
             console.log('memory is enough.')
