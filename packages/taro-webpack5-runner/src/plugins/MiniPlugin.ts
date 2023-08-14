@@ -3,6 +3,7 @@ import {
   isAliasPath,
   isEmptyObject,
   META_TYPE,
+  NODE_MODULES,
   NODE_MODULES_REG,
   printLog,
   processTypeEnum,
@@ -304,7 +305,7 @@ export default class TaroMiniPlugin {
         }
       })
 
-      const { PROCESS_ASSETS_STAGE_ADDITIONAL, PROCESS_ASSETS_STAGE_OPTIMIZE } = compiler.webpack.Compilation
+      const { PROCESS_ASSETS_STAGE_ADDITIONAL, PROCESS_ASSETS_STAGE_OPTIMIZE, PROCESS_ASSETS_STAGE_REPORT } = compiler.webpack.Compilation
       compilation.hooks.processAssets.tapAsync(
         {
           name: PLUGIN_NAME,
@@ -323,6 +324,20 @@ export default class TaroMiniPlugin {
         },
         this.tryAsync<any>(async () => {
           await this.optimizeMiniFiles(compilation, compiler)
+        })
+      )
+
+      compilation.hooks.processAssets.tapAsync(
+        {
+          name: PLUGIN_NAME,
+          // 该 stage 是最后执行的，确保 taro 暴露给用户的钩子 modifyBuildAssets 在内部处理完 assets 之后再调用
+          stage: PROCESS_ASSETS_STAGE_REPORT
+        },
+        this.tryAsync<any>(async () => {
+          const { modifyBuildAssets } = this.options
+          if (typeof modifyBuildAssets === 'function') {
+            await modifyBuildAssets(compilation.assets, this)
+          }
         })
       )
     })
@@ -771,6 +786,13 @@ export default class TaroMiniPlugin {
           fileConfig.usingComponents[compName] = compPath
         }
 
+        // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
+        const npmPkgReg = /^[.\\/]/
+        if (!npmPkgReg.test(compPath)) {
+          compPath = require.resolve(compPath).split('.')[0]
+          fileConfig.usingComponents[compName] = compPath
+        }
+
         depComponents.push({
           name: compName,
           path: compPath
@@ -999,10 +1021,26 @@ export default class TaroMiniPlugin {
     return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
   }
 
+  // 调整 config 文件中 usingComponents 的路径
+  // 1. 将 node_modules 调整为 npm
+  // 2. 将 ../../../node_modules/xxx 调整为 /npm/xxx
+  adjustConfigContent (config: Config) {
+    const { usingComponents } = config
+
+    if (!usingComponents) return
+
+    for (const [key, value] of Object.entries(usingComponents)) {
+      if (!value.includes(NODE_MODULES)) return
+
+      const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
+      usingComponents[key] = match ? `${path.sep}${match[0]}` : value
+    }
+  }
+
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: Compilation, compiler: Compiler) {
     const { RawSource } = compiler.webpack.sources
-    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
+    const { template, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
@@ -1114,6 +1152,7 @@ export default class TaroMiniPlugin {
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
+
         if(isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
@@ -1139,9 +1178,6 @@ export default class TaroMiniPlugin {
         const relativePath = pluginJSONPath.replace(sourceDir, '').replace(/\\/g, '/')
         compilation.assets[relativePath] = new RawSource(JSON.stringify(pluginJSON))
       }
-    }
-    if (typeof modifyBuildAssets === 'function') {
-      await modifyBuildAssets(compilation.assets, this)
     }
   }
 
@@ -1172,6 +1208,9 @@ export default class TaroMiniPlugin {
     unofficialConfigs.forEach(item => {
       delete config[item]
     })
+    
+    this.adjustConfigContent(config)
+
     const fileConfigStr = JSON.stringify(config)
     compilation.assets[fileConfigName] = new RawSource(fileConfigStr)
   }

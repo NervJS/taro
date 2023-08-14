@@ -106,10 +106,12 @@ declare module '../../index' {
       /** 设置请求重试次数
        * @default 2
        * @supported h5
+       * @h5 仅在 jsonp 模式下生效
        */
       retryTimes?: number
       /** 设置请求的兜底接口
        * @supported h5
+       * @h5 仅在 jsonp 模式下生效
        */
       backup?: string | string[]
       /** 设置请求中止信号
@@ -118,19 +120,23 @@ declare module '../../index' {
       signal?: AbortSignal
       /** 设置请求响应的数据校验函数，若返回 false，则请求兜底接口，若无兜底接口，则报请求失败
        * @supported h5
+       * @h5 仅在 jsonp 模式下生效
        */
       dataCheck?(): boolean
       /** 设置请求是否使用缓存
        * @default false
        * @supported h5
+       * @h5 仅在 jsonp 模式下生效
        */
       useStore?: boolean
       /** 设置请求缓存校验的 key
        * @supported h5
+       * @h5 仅在 jsonp 模式下生效
        */
       storeCheckKey?: string
       /** 设置请求缓存签名
        * @supported h5
+       * @h5 仅在 jsonp 模式下生效
        */
       storeSign?: string
       /** 设置请求校验函数，一般不需要设置
