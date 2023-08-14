@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    626: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    106: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -457,7 +457,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -490,11 +490,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var nerv = __webpack_require__(594);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(815);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var nerv = __webpack_require__(366);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -548,7 +548,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(626);
+        return __webpack_exec__(106);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1515,7 +1515,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    594: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    366: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             w: function() {
                 return Component;
@@ -1524,7 +1524,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["Z"] = "nervjs-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -1552,8 +1552,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -1561,7 +1561,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1577,13 +1577,13 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    667: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var nerv = __webpack_require__(594);
+    934: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(815);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var nerv = __webpack_require__(366);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -1640,7 +1640,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(667);
+        return __webpack_exec__(934);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1700,7 +1700,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -1712,13 +1712,13 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    815: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _toPrimitive(input, hint) {
             if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
             var prim = input[Symbol.toPrimitive];
@@ -1751,7 +1751,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -1774,7 +1774,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -1803,7 +1803,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -1833,7 +1833,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -2022,7 +2022,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    415: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    707: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -2468,7 +2468,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -2501,11 +2501,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(815);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -2560,7 +2560,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(415);
+        return __webpack_exec__(707);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3527,7 +3527,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -3537,7 +3537,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -3565,8 +3565,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -3574,7 +3574,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3591,9 +3591,9 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    631: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var esm_typeof = __webpack_require__(361);
+    100: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var esm_typeof = __webpack_require__(671);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -3928,11 +3928,11 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(815);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -4015,7 +4015,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(631);
+        return __webpack_exec__(100);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4079,7 +4079,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -4091,13 +4091,13 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    815: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _toPrimitive(input, hint) {
             if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
             var prim = input[Symbol.toPrimitive];
@@ -4130,7 +4130,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -4153,7 +4153,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -4182,7 +4182,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -4212,7 +4212,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -4399,7 +4399,7 @@ require("./common");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    466: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    440: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -4842,7 +4842,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(792);
+        var taro_runtime = __webpack_require__(619);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -4913,7 +4913,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(466);
+        return __webpack_exec__(440);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5880,7 +5880,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    792: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    619: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -5908,8 +5908,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    817: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(792);
+    30: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(619);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -5917,7 +5917,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(817);
+        return __webpack_exec__(30);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5933,8 +5933,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    734: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(792);
+    544: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(619);
         var render = function render() {
             var _vm = this, _c = _vm._self._c;
             return _c("view", {
@@ -6019,7 +6019,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(734);
+        return __webpack_exec__(544);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6074,9 +6074,11 @@ module.exports = {
 "
 `;
 
-exports[`framework should build vue app web 1`] = `2`;
+exports[`framework should build vue app web 1`] = `3`;
 
-exports[`framework should build vue app web 2`] = `
+exports[`framework should build vue app web 2`] = `2`;
+
+exports[`framework should build vue app web 3`] = `
 "
 /** filePath: dist/index.html **/
 <!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script></head><body><div id="app"></div></body></html>
@@ -6085,7 +6087,7 @@ exports[`framework should build vue app web 2`] = `
 (function() {
     "use strict";
     var __webpack_modules__ = {
-        "407": function(module, __webpack_exports__, __webpack_require__) {
+        "634": function(module, __webpack_exports__, __webpack_require__) {
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(870);
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(857);
@@ -6428,7 +6430,7 @@ exports[`framework should build vue app web 2`] = `
         var insertStyleElement_default = __webpack_require__.n(insertStyleElement);
         var styleTagTransform = __webpack_require__(110);
         var styleTagTransform_default = __webpack_require__.n(styleTagTransform);
-        var app = __webpack_require__(407);
+        var app = __webpack_require__(634);
         var options = {};
         options.styleTagTransform = styleTagTransform_default();
         options.setAttributes = setAttributesWithoutAttributes_default();
@@ -6461,7 +6463,7 @@ require("./common");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    951: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    122: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -6904,7 +6906,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(395);
+        var taro_runtime = __webpack_require__(83);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -6937,7 +6939,7 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var vue = __webpack_require__(261);
+        var vue = __webpack_require__(721);
         var app_App = (0, vue.r)({
             onShow: function onShow(options) {}
         });
@@ -6970,7 +6972,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(951);
+        return __webpack_exec__(122);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -7937,7 +7939,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    395: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    83: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -7959,7 +7961,7 @@ require("./runtime");
         function createVueApp() {}
         function createVue3App() {}
     },
-    261: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    721: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             h: function() {
                 return h;
@@ -7978,8 +7980,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    201: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(395);
+    865: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -7987,7 +7989,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(201);
+        return __webpack_exec__(865);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8003,8 +8005,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    202: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(395);
+    690: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(83);
         var render = function render() {
             var _vm = this, _c = _vm._self._c;
             return _c("view", {
@@ -8013,7 +8015,7 @@ require("./runtime");
         };
         var staticRenderFns = [];
         render._withStripped = true;
-        var vue = __webpack_require__(261);
+        var vue = __webpack_require__(721);
         var indexvue_type_script_lang_js_ = {
             setup: function setup() {
                 var msg = (0, vue.ref)("Hello world");
@@ -8091,7 +8093,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(202);
+        return __webpack_exec__(690);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8157,7 +8159,7 @@ exports[`framework should build vue3 app web 2`] = `
 (function() {
     "use strict";
     var __webpack_modules__ = {
-        "958": function(module, __webpack_exports__, __webpack_require__) {
+        "986": function(module, __webpack_exports__, __webpack_require__) {
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(870);
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(857);
@@ -8500,7 +8502,7 @@ exports[`framework should build vue3 app web 2`] = `
         var insertStyleElement_default = __webpack_require__.n(insertStyleElement);
         var styleTagTransform = __webpack_require__(110);
         var styleTagTransform_default = __webpack_require__.n(styleTagTransform);
-        var app = __webpack_require__(958);
+        var app = __webpack_require__(986);
         var options = {};
         options.styleTagTransform = styleTagTransform_default();
         options.setAttributes = setAttributesWithoutAttributes_default();
