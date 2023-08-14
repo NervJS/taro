@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.6.9-alpha.9",
+  "version": "3.6.12",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -48,6 +48,9 @@
     "@babel/core": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "acorn": "^8.0.4",
+    "babel-plugin-global-define": "1.0.3",
+    "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
+    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "expo": "~47.0.3",
     "expo-file-system": "~15.1.1",
     "jest": "^29.3.1",

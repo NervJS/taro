@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "3.6.9-alpha.9",
+  "version": "3.6.12",
   "description": "Taro Helper",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -50,6 +50,8 @@
     "chokidar": "^3.3.1",
     "cross-spawn": "^7.0.3",
     "debug": "4.3.4",
+    "dotenv": "^16.0.3",
+    "dotenv-expand": "^9.0.0",
     "esbuild": "^0.14.27",
     "find-yarn-workspace-root": "2.0.0",
     "fs-extra": "^8.0.1",

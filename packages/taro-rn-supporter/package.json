@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.6.9-alpha.9",
+  "version": "3.6.12",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {
@@ -36,8 +36,13 @@
     "@react-native-community/cli-tools": "^9.1.0",
     "@rnx-kit/metro-resolver-symlinks": "^0.1.23",
     "@tarojs/helper": "workspace:*",
+    "@tarojs/service": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@tarojs/rn-transformer": "workspace:*",
     "@tarojs/rn-style-transformer": "workspace:*",
+    "babel-plugin-global-define": "1.0.3",
+    "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
+    "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
     "lodash": "^4.17.21",
     "metro": "^0.72.1",
     "metro-cache": "^0.72.1",

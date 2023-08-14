@@ -15,7 +15,6 @@ import { perf } from '../perf'
 import { customWrapperCache, incrementId } from '../utils'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { CustomWrapperElement } from '../dom/custom-wrapper'
 import type { TaroRootElement } from '../dom/root'
 import type { Func, MpInstance } from '../interface'
 import type { Instance, PageInstance, PageProps } from './instance'
@@ -240,8 +239,18 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   }
 
   LIFECYCLES.forEach((lifecycle) => {
+    let isDefer = false
+    lifecycle = lifecycle.replace(/^defer:/, () => {
+      isDefer = true
+      return ''
+    })
     config[lifecycle] = function () {
-      return safeExecute(this.$taroPath, lifecycle, ...arguments)
+      const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+      if (isDefer) {
+        hasLoaded.then(exec)
+      } else {
+        return exec()
+      }
     }
   })
 
@@ -285,7 +294,10 @@ export function createComponentConfig (component: React.ComponentClass, componen
   const config: any = {
     [ATTACHED] () {
       perf.start(PAGE_INIT)
-      const path = getPath(id, { id: this.getPageId?.() || pageId() })
+      this.pageIdCache = this.getPageId?.() || pageId()
+
+      const path = getPath(id, { id: this.pageIdCache })
+
       Current.app!.mount!(component, path, () => {
         componentElement = env.document.getElementById<TaroRootElement>(path)
         ensure(componentElement !== null, '没有找到组件实例。')
@@ -298,7 +310,8 @@ export function createComponentConfig (component: React.ComponentClass, componen
       })
     },
     [DETACHED] () {
-      const path = getPath(id, { id: this.getPageId() })
+      const path = getPath(id, { id: this.pageIdCache })
+
       Current.app!.unmount!(path, () => {
         instances.delete(path)
         if (componentElement) {
@@ -332,7 +345,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.set(componentId, this)
-          const el = env.document.getElementById<CustomWrapperElement>(componentId)
+          const el = env.document.getElementById(componentId)
           if (el) {
             el.ctx = this
           }
@@ -342,7 +355,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
         const componentId = this.data.i?.sid || this.props.i?.sid
         if (isString(componentId)) {
           customWrapperCache.delete(componentId)
-          const el = env.document.getElementById<CustomWrapperElement>(componentId)
+          const el = env.document.getElementById(componentId)
           if (el) {
             el.ctx = null
           }

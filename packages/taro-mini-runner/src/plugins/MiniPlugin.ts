@@ -4,6 +4,7 @@ import {
   isAliasPath,
   isEmptyObject,
   META_TYPE,
+  NODE_MODULES,
   NODE_MODULES_REG,
   printLog,
   processTypeEnum,
@@ -42,6 +43,8 @@ import type { Func } from '@tarojs/taro/types/compile'
 import type { PrerenderConfig } from '../prerender/prerender'
 import type { AddPageChunks, IComponent, IFileType } from '../utils/types'
 
+const baseCompName = 'comp'
+const customWrapperName = 'custom-wrapper'
 const PLUGIN_NAME = 'TaroMiniPlugin'
 
 interface ITaroMiniPluginOptions {
@@ -280,7 +283,7 @@ export default class TaroMiniPlugin {
               isIndependent = true
             }
           })
-          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-component' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
+          const loaderName = isBuildPlugin ? '@tarojs/taro-loader/lib/native-page' : (isIndependent ? '@tarojs/taro-loader/lib/independentPage' : this.pageLoaderName)
           if (!isLoaderExist(module.loaders, loaderName)) {
             module.loaders.unshift({
               loader: loaderName,
@@ -504,9 +507,16 @@ export default class TaroMiniPlugin {
     if (main) {
       pluginJSON.main = this.getTargetFilePath(main, '.js')
     }
-    if (publicComponents && isUsingCustomWrapper) {
+
+    if (!this.options.template.isSupportRecursive) {
       pluginJSON.publicComponents = Object.assign({}, publicComponents, {
-        'custom-wrapper': 'custom-wrapper'
+        [baseCompName]: baseCompName
+      })
+    }
+
+    if (isUsingCustomWrapper) {
+      pluginJSON.publicComponents = Object.assign({}, publicComponents, {
+        [customWrapperName]: customWrapperName
       })
     }
   }
@@ -668,10 +678,22 @@ export default class TaroMiniPlugin {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath)
+    const { componentGenerics } = fileConfig
+
     // 修复百度小程序内容服务组件使用新的引入方式"usingSwanComponents"导致的无法编译到页面配置json的问题
     // 获取 fileConfig 里面的匹配 "/^using[A-Za-z]*Components$/"的字段，之后合并到 usingComponents 中
     const usingArray = Object.keys(fileConfig).filter(item => /^using[A-Za-z]*Components$/.test(item)).map(item => fileConfig[item])
     const usingComponents = usingArray.length < 1 ? undefined : Object.assign({}, ...usingArray)
+
+    if (this.options.isBuildPlugin && componentGenerics) {
+      Object.keys(componentGenerics).forEach(component => {
+        if (componentGenerics[component]) {
+          if (!componentConfig.thirdPartyComponents.has(component)) {
+            componentConfig.thirdPartyComponents.set(component, new Set())
+          }
+        }
+      })
+    }
 
     // 递归收集依赖的第三方组件
     if (usingComponents) {
@@ -683,6 +705,13 @@ export default class TaroMiniPlugin {
 
         if (isAliasPath(compPath, alias)) {
           compPath = replaceAliasPath(filePath, compPath, alias)
+          fileConfig.usingComponents[compName] = compPath
+        }
+
+        // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
+        const npmPkgReg = /^[.\\/]/
+        if (!npmPkgReg.test(compPath)) {
+          compPath = require.resolve(compPath).split('.')[0]
           fileConfig.usingComponents[compName] = compPath
         }
 
@@ -906,17 +935,31 @@ export default class TaroMiniPlugin {
     return filePath.replace(this.context, '').replace(/\\/g, '/').replace(/^\//, '')
   }
 
+  // 调整 config 文件中 usingComponents 的路径
+  // 1. 将 node_modules 调整为 npm
+  // 2. 将 ../../../node_modules/xxx 调整为 /npm/xxx
+  adjustConfigContent (config: Config) {
+    const { usingComponents } = config
+
+    if (!usingComponents) return
+
+    for (const [key, value] of Object.entries(usingComponents)) {
+      if (!value.includes(NODE_MODULES)) return
+
+      const match = value.replace(NODE_MODULES, 'npm').match(/npm.*/)
+      usingComponents[key] = match ? `${path.sep}${match[0]}` : value
+    }
+  }
+
   /** 生成小程序相关文件 */
   async generateMiniFiles (compilation: webpack.compilation.Compilation) {
-    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir } = this.options
+    const { template, modifyBuildAssets, modifyMiniConfigs, isBuildPlugin, sourceDir, blended } = this.options
     const baseTemplateName = this.getIsBuildPluginPath('base', isBuildPlugin)
-    const baseCompName = 'comp'
-    const customWrapperName = 'custom-wrapper'
     const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
     if (typeof modifyMiniConfigs === 'function') {
       await modifyMiniConfigs(this.filesConfig)
     }
-    if (!this.options.blended && !isBuildPlugin) {
+    if (!blended && !isBuildPlugin) {
       const appConfigPath = this.getConfigFilePath(this.appEntry)
       const appConfigName = path.basename(appConfigPath).replace(path.extname(appConfigPath), '')
       this.generateConfigFile(compilation, this.appEntry, this.filesConfig[appConfigName].content)
@@ -1013,6 +1056,7 @@ export default class TaroMiniPlugin {
         config.content.usingComponents = {
           ...config.content.usingComponents
         }
+
         if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
@@ -1053,6 +1097,9 @@ export default class TaroMiniPlugin {
     unOfficalConfigs.forEach(item => {
       delete config[item]
     })
+
+    this.adjustConfigContent(config)
+    
     const fileConfigStr = JSON.stringify(config)
     compilation.assets[fileConfigName] = {
       size: () => fileConfigStr.length,

@@ -169,6 +169,7 @@ export class WebpackModule {
         }
       },
       generator: {
+        emit: options.emitFile || options.emit,
         outputPath: options.outputPath,
         publicPath: options.publicPath,
         filename ({ filename }) {
@@ -189,6 +190,7 @@ export class WebpackModule {
         }
       },
       generator: {
+        emit: options.emitFile || options.emit,
         outputPath: options.outputPath,
         publicPath: options.publicPath,
         filename ({ filename }) {
@@ -209,6 +211,7 @@ export class WebpackModule {
         }
       },
       generator: {
+        emit: options.emitFile || options.emit,
         outputPath: options.outputPath,
         publicPath: options.publicPath,
         filename ({ filename }) {
