@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.13-alpha.1",
+  "version": "3.6.13",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {

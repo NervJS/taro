@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.6.13-alpha.1",
+  "version": "3.6.13",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
