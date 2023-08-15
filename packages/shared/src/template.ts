@@ -685,6 +685,9 @@ export class UnRecursiveTemplate extends BaseTemplate {
       }
       l = depth
     }
+    if (l === ${this.baseLevel}) {
+      return 'tmpl_${this.baseLevel}_${Shortcuts.Container}'
+    }
     return 'tmpl_' + l + '_' + n
   }`
   }
