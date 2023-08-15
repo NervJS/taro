@@ -42,7 +42,6 @@ export default class Index extends React.Component<Props, States> {
     } catch (err) {
       inputData[apiIndex] = e.detail.value
     }
-    console.log(inputData)
     this.setState({
       inputData,
     })
