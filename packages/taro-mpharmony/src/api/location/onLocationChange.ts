@@ -4,11 +4,11 @@ import { shouldBeFunction } from 'src/utils'
 export const onLocationChange: typeof Taro.onLocationChange = (callback) => {
   const name = 'onLocationChange'
   // callback must be an Function
-  const isObject = shouldBeFunction(callback)
-  if (!isObject.flag) {
-    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+  const isFunction = shouldBeFunction(callback)
+  if (!isFunction.flag) {
+    const res = { errMsg: `${name}:fail ${isFunction.msg}` }
     console.error(res.errMsg)
-    return Promise.reject(res)
+    return
   }
   // @ts-ignore
   native.onLocationChange((res: any) => {

@@ -4,36 +4,27 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const stopLocationUpdate: typeof Taro.stopLocationUpdate = (options) => {
   const name = 'stopLocationUpdate'
-  // options must be an Object
-  const isObject = shouldBeObject(options)
-  if (!isObject.flag) {
-    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+  const isValid = shouldBeObject(options).flag || typeof options === 'undefined'
+  if (!isValid) {
+    const res = { errMsg: `${name}:fail invalid params` }
     console.error(res.errMsg)
-    return Promise.reject(res)
+    return
   }
   const {
     success,
     fail,
     complete
-  } = options as Exclude<typeof options, undefined>
-
-  const handle = new MethodHandler({ name, success, fail, complete })
-
+  } = options || {}
+  const handle = new MethodHandler<TaroGeneral.CallbackResult>({ name, success, fail, complete })
   // @ts-ignore
   native.stopLocationUpdate({
     success: (res: any) => {
-      const result: TaroGeneral.CallbackResult = {
-        /** 错误信息 */
-        errMsg: JSON.stringify(res)
-      }
-      handle.success(result)
+      handle.success(res)
     },
-    fail: (err: any) => {
-      const error: TaroGeneral.CallbackResult = {
-        /** 错误信息 */
-        errMsg: JSON.stringify(err)
-      }
-      handle.fail(error)
+    fail: (res: any) => {
+      handle.fail(res).catch((err) => {
+        console.error(err)
+      })
     }
   })
 }
