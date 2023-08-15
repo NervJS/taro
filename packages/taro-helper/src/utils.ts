@@ -268,29 +268,29 @@ export function generateEnvList (env: Record<string, any>): Record<string, any> 
  * @param {string} 参数2 - 文件扩展名
  * @returns {string} npm 文件绝对路径
  */
-export function getNpmPackageAbsolutePath (npmPath: string, defaultFile = 'index') {
+export function getNpmPackageAbsolutePath (npmPath: string, defaultFile = 'index'): string | null {
   try {
     let packageName = ''
     let componentRelativePath = ''
+    const packageParts = npmPath.split(path.sep)
 
     // 获取 npm 包名和指定的包文件路径
+    // taro-loader/path/index => packageName = taro-loader, componentRelativePath = path/index
+    // @tarojs/runtime/path/index => packageName = @tarojs/runtime, componentRelativePath = path/index
     if (npmPath.startsWith('@')) {
-      const packageParts = npmPath.split(path.sep)
-
       packageName = packageParts.slice(0, 2).join(path.sep)
       componentRelativePath = packageParts.slice(2).join(path.sep)
     } else {
-      const packageParts = npmPath.split(path.sep)
-
       packageName = packageParts[0]
       componentRelativePath = packageParts.slice(1).join(path.sep)
     }
 
     // 没有指定的包文件路径统一使用 defaultFile
-    componentRelativePath = componentRelativePath || defaultFile
+    componentRelativePath ||= defaultFile
+    // require.resolve 解析的路径会包含入口文件路径，通过正则过滤一下
     const match = require.resolve(packageName).match(new RegExp('.*' + packageName))
 
-    if (!match || !match.length) return null
+    if (!match?.length) return null
 
     const packagePath = match[0]
 
