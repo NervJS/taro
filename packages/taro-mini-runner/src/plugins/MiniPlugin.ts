@@ -703,7 +703,7 @@ export default class TaroMiniPlugin {
       const depComponents: Array<{ name: string, path: string }> = []
       const alias = this.options.alias
       for (const compName of componentNames) {
-        let compPath = usingComponents[compName]
+        let compPath: string = usingComponents[compName]
 
         if (isAliasPath(compPath, alias)) {
           compPath = replaceAliasPath(filePath, compPath, alias)
@@ -711,8 +711,12 @@ export default class TaroMiniPlugin {
         }
 
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
-        const noNpmPkgReg = /^[.\\/]/
-        if (!this.options.skipProcessUsingComponents && !noNpmPkgReg.test(compPath)) {
+        const notNpmPkgReg = /^[.\\/]/
+        if (
+          !this.options.skipProcessUsingComponents
+          && !compPath.startsWith('plugin://')
+          && !notNpmPkgReg.test(compPath)
+        ) {
           const tempCompPath = getNpmPackageAbsolutePath(compPath)
 
           if (tempCompPath) {
