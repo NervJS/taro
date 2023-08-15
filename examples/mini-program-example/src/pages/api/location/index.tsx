@@ -2,6 +2,7 @@ import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -17,26 +18,25 @@ export default class Index extends React.Component {
       {
         id: 'onLocationChange',
         func: (apiIndex) => {
+          TestConsole.consoleTest('onLocationChange')
           Taro.onLocationChange((res) => {
-            console.log('onLocationChange ', res)
-          })
-          Taro.offLocationChange((res) => {
-            console.log('offLocationChange ', res)
+            TestConsole.consoleOnCallback.call(this, res, 'onLocationChange', apiIndex)
           })
         },
       },
       {
         id: 'startLocationUpdate',
         func: (apiIndex) => {
+          TestConsole.consoleTest('startLocationUpdate')
           Taro.startLocationUpdate({
-            success: function (res) {
-              console.log('startLocationUpdate success ', res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              console.log('startLocationUpdate fail ', res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              console.log('startLocationUpdate complete ', res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
@@ -44,19 +44,16 @@ export default class Index extends React.Component {
       {
         id: 'stopLocationUpdate',
         func: (apiIndex) => {
-          Taro.startLocationUpdate({
-            success: () => {
-              Taro.stopLocationUpdate({
-                success: function (res) {
-                  console.log('stopLocationUpdate success ', res)
-                },
-                fail: function (res) {
-                  console.log('stopLocationUpdate fail ', res)
-                },
-                complete: function (res) {
-                  console.log('stopLocationUpdate complete ', res)
-                },
-              })
+          TestConsole.consoleTest('stopLocationUpdate')
+          Taro.stopLocationUpdate({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
@@ -64,15 +61,16 @@ export default class Index extends React.Component {
       {
         id: 'startLocationUpdateBackground',
         func: (apiIndex) => {
+          TestConsole.consoleTest('startLocationUpdateBackground')
           Taro.startLocationUpdateBackground({
-            success: function (res) {
-              console.log('startLocationUpdateBackground success ', res)
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              console.log('startLocationUpdateBackground fail ', res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              console.log('startLocationUpdateBackground complete ', res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
@@ -80,82 +78,79 @@ export default class Index extends React.Component {
       {
         id: 'offLocationChange',
         func: (apiIndex) => {
-          Taro.onLocationChange((res) => {
-            console.log('onLocationChange ', res)
-          })
+          TestConsole.consoleTest('offLocationChange')
           Taro.offLocationChange((res) => {
-            console.log('offLocationChange ', res)
+            TestConsole.consoleOnCallback.call(this, res, 'offLocationChange', apiIndex)
           })
         },
       },
       {
         id: 'onLocationChangeError',
         func: (apiIndex) => {
-          Taro.onLocationChange((res) => {
-            console.log('onLocationChange ', res)
-          })
+          TestConsole.consoleTest('onLocationChangeError')
           Taro.onLocationChangeError((res) => {
-            console.log('onLocationChangeError ', res)
-          })
-          Taro.offLocationChange((res) => {
-            console.log('offLocationChange ', res)
+            TestConsole.consoleOnCallback.call(this, res, 'onLocationChangeError', apiIndex)
           })
         },
       },
       {
         id: 'offLocationChangeError',
         func: (apiIndex) => {
-          Taro.onLocationChange((res) => {
-            console.log('onLocationChange ', res)
-          })
-          Taro.offLocationChange((res) => {
-            console.log('offLocationChange ', res)
-          })
+          TestConsole.consoleTest('offLocationChangeError')
           Taro.offLocationChangeError((res) => {
-            console.log('offLocationChangeError ', res)
+            TestConsole.consoleOnCallback.call(this, res, 'onLocationChangeError', apiIndex)
           })
         },
       },
       {
         id: 'getLocation',
         func: (apiIndex) => {
+          TestConsole.consoleTest('getLocation')
           Taro.getLocation({
-            altitude: 'true',
-            type: 'wgs84',
-            highAccuracyExpireTime: 40000,
-            isHighAccuracy: true,
             success: (res) => {
               this.setState({
                 location: this.formatLocation(res.longitude, res.latitude),
                 hasLocation: true,
               })
-              console.log('getLocation success ', res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              console.log('getLocation fail ', res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              console.log('getLocation complete ', res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'chooseLocation',
-        func: (apiIndex) => {
-          Taro.chooseLocation({
-            latitude: 45,
-            longitude: 89,
-            success: (res) => {
-              console.log('chooseLocation success ', res)
-            },
-            fail: (res) => {
-              console.log('chooseLocation fail ', res)
-            },
-            complete: (res) => {
-              console.log('chooseLocation complete ', res)
-            },
-          })
+        inputData: {
+          latitude: 45,
+          longitude: 89,
+        },
+        func: (apiIndex, data) => {
+          try {
+            // 需要配置全局变量LOCATION_APIKEY
+            Taro.chooseLocation({
+              ...data,
+              success: (res) => {
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail.call(this, res, apiIndex)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete.call(this, res, apiIndex)
+              },
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+          } catch (err) {
+            TestConsole.consoleDebug('chooseLocation', err)
+          }
         },
       },
     ],
