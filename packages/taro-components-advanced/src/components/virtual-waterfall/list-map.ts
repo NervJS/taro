@@ -52,11 +52,11 @@ export default class ListMap {
   }
 
   get length () {
-    return this.props.itemCount || 100
+    return this.props.itemCount ?? 100
   }
 
   get overscan () {
-    return this.props.overscanDistance || 50
+    return this.props.overscanDistance ?? 50
   }
 
   get columnsSize () {
