@@ -30,14 +30,16 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
       {
         id: 'getWindowInfo',
-        func: async (apiIndex) => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getWindowInfo')
-          const res = await Taro.getWindowInfo()
+          const res = Taro.getWindowInfo()
           TestConsole.consoleSuccess.call(this, res, apiIndex)
         },
       },
@@ -75,6 +77,8 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
@@ -92,6 +96,8 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
@@ -105,23 +111,23 @@ export default class Index extends React.Component {
       },
       {
         id: 'getAppBaseInfo',
-        func: async (apiIndex) => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getAppBaseInfo')
-          let res = await Taro.getAppBaseInfo()
+          let res = Taro.getAppBaseInfo()
           TestConsole.consoleSuccess.call(this, res, apiIndex)
         },
       },
       {
         id: 'getAppAuthorizeSetting',
-        func: async (apiIndex) => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getAppAuthorizeSetting')
-          let res = await Taro.getAppAuthorizeSetting()
+          let res = Taro.getAppAuthorizeSetting()
           TestConsole.consoleSuccess.call(this, res, apiIndex)
         },
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
