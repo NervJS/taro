@@ -71,7 +71,7 @@
     "postcss": "^8.4.18",
     "react": "^18.2.0",
     "react-test-renderer": "^18.2.0",
-    "rollup": "^3.8.1",
+    "rollup": "^3.28.0",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-ts": "^3.0.2",
