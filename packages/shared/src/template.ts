@@ -670,7 +670,8 @@ export class UnRecursiveTemplate extends BaseTemplate {
     const componentsAlias = this.componentsAlias
     const listA = Array.from(isLoopCompsSet).map(item => componentsAlias[item]?._num || item)
     const listB = hasMaxComps.map(item => componentsAlias[item]?._num || item)
-
+    const containerLevel = this.baseLevel - 1
+  
     return `function (l, n, s) {
     var a = ${JSON.stringify(listA)}
     var b = ${JSON.stringify(listB)}
@@ -685,8 +686,8 @@ export class UnRecursiveTemplate extends BaseTemplate {
       }
       l = depth
     }
-    if (l === ${this.baseLevel}) {
-      return 'tmpl_${this.baseLevel}_${Shortcuts.Container}'
+    if (l === ${containerLevel}) {
+      return 'tmpl_${containerLevel}_${Shortcuts.Container}'
     }
     return 'tmpl_' + l + '_' + n
   }`
