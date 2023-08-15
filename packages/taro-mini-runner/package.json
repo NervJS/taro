@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.6.13-alpha.2",
+  "version": "3.6.13",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
