@@ -44,8 +44,8 @@ export const getLocation: typeof Taro.getLocation = (options) => {
         }
         handle.success(result, { resolve, reject })
       },
-      fail: (err: any) => {
-        handle.fail({ errMsg: err.message }, { resolve, reject })
+      fail: (res: any) => {
+        handle.fail(res, { resolve, reject })
       }
     })
   }) 
