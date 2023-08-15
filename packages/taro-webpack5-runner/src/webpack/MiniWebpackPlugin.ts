@@ -169,6 +169,7 @@ export class MiniWebpackPlugin {
       isBuildPlugin: isBuildPlugin,
       pluginConfig: buildNativePlugin?.pluginConfig,
       pluginMainEntry: buildNativePlugin?.pluginMainEntry,
+      skipProcessUsingComponents: config.skipProcessUsingComponents,
       newBlended,
       /** hooks & methods */
       addChunkPages: config.addChunkPages,

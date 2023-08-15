@@ -1,62 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`vue should build vue app 1`] = `3`;
+exports[`vue should build vue app 1`] = `5`;
 
 exports[`vue should build vue app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], [ , , , , , , , , , , , , , , , , function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(9);
-    var content = __webpack_require__(19);
-    content = content.__esModule ? content.default : content;
-    if (typeof content === "string") {
-        content = [ [ module.i, content, "" ] ];
-    }
-    var options = {};
-    options.insert = "head";
-    options.singleton = false;
-    var update = api(content, options);
-    module.exports = content.locals || {};
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(9);
-    var content = __webpack_require__(21);
-    content = content.__esModule ? content.default : content;
-    if (typeof content === "string") {
-        content = [ [ module.i, content, "" ] ];
-    }
-    var options = {};
-    options.insert = "head";
-    options.singleton = false;
-    var update = api(content, options);
-    module.exports = content.locals || {};
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], [ , , , , , , , , , , , , , function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
-        return i[1];
-    }));
-    ___CSS_LOADER_EXPORT___.push([ module.i, ".index {\\n  color: blue;\\n}", "" ]);
-    __webpack_exports__["default"] = ___CSS_LOADER_EXPORT___;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
-        return i[1];
-    }));
-    ___CSS_LOADER_EXPORT___.push([ module.i, ".detail {\\n  color: red;\\n}", "" ]);
-    __webpack_exports__["default"] = ___CSS_LOADER_EXPORT___;
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_uu22vbkb4bn5z46qvg6h5bkv7e_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_izcuroqdza55ucckmxgxii63uq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -76,8 +32,8 @@ exports[`vue should build vue app 2`] = `
         }
     };
     var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-    var indexvue_type_style_index_0_id_26c853a8_prod_lang_scss_ = __webpack_require__(18);
-    var indexvue_type_style_index_1_id_26c853a8_prod_lang_sass_ = __webpack_require__(20);
+    var indexvue_type_style_index_0_id_26c853a8_prod_lang_scss_ = __webpack_require__(15);
+    var indexvue_type_style_index_1_id_26c853a8_prod_lang_sass_ = __webpack_require__(16);
     function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
         var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
         if (render) {
@@ -133,8 +89,14 @@ exports[`vue should build vue app 2`] = `
     var index = __webpack_exports__["default"] = component.exports;
 } ] ]);
 
+/** filePath: dist/css/1.css **/
+.index{color:#00f}.detail{color:red}
+
+/** filePath: dist/css/app.css **/
+
+
 /** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -160,6 +122,9 @@ exports[`vue should build vue app 2`] = `
         }
     }
     var installedModules = {};
+    var installedCssChunks = {
+        "0": 0
+    };
     var installedChunks = {
         "0": 0
     };
@@ -181,6 +146,45 @@ exports[`vue should build vue app 2`] = `
     }
     __webpack_require__.e = function requireEnsure(chunkId) {
         var promises = [];
+        var cssChunks = {
+            "1": 1
+        };
+        if (installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]); else if (installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
+            promises.push(installedCssChunks[chunkId] = new Promise((function(resolve, reject) {
+                var href = "css/" + ({}[chunkId] || chunkId) + ".css";
+                var fullhref = __webpack_require__.p + href;
+                var existingLinkTags = document.getElementsByTagName("link");
+                for (var i = 0; i < existingLinkTags.length; i++) {
+                    var tag = existingLinkTags[i];
+                    var dataHref = tag.getAttribute("data-href") || tag.getAttribute("href");
+                    if (tag.rel === "stylesheet" && (dataHref === href || dataHref === fullhref)) return resolve();
+                }
+                var existingStyleTags = document.getElementsByTagName("style");
+                for (var i = 0; i < existingStyleTags.length; i++) {
+                    var tag = existingStyleTags[i];
+                    var dataHref = tag.getAttribute("data-href");
+                    if (dataHref === href || dataHref === fullhref) return resolve();
+                }
+                var linkTag = document.createElement("link");
+                linkTag.rel = "stylesheet";
+                linkTag.type = "text/css";
+                linkTag.onload = resolve;
+                linkTag.onerror = function(event) {
+                    var request = event && event.target && event.target.src || fullhref;
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    err.code = "CSS_CHUNK_LOAD_FAILED";
+                    err.request = request;
+                    delete installedCssChunks[chunkId];
+                    linkTag.parentNode.removeChild(linkTag);
+                    reject(err);
+                };
+                linkTag.href = fullhref;
+                var head = document.getElementsByTagName("head")[0];
+                head.appendChild(linkTag);
+            })).then((function() {
+                installedCssChunks[chunkId] = 0;
+            })));
+        }
         var installedChunkData = installedChunks[chunkId];
         if (installedChunkData !== 0) {
             if (installedChunkData) {
@@ -286,7 +290,7 @@ exports[`vue should build vue app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 10);
+    return __webpack_require__(__webpack_require__.s = 8);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -319,7 +323,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(6);
+    var toPropertyKey = __webpack_require__(5);
     function _defineProperty(obj, key, value) {
         key = toPropertyKey(key);
         if (key in obj) {
@@ -343,7 +347,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(6);
+    var toPropertyKey = __webpack_require__(5);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
@@ -363,51 +367,8 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    "use strict";
-    module.exports = function(cssWithMappingToString) {
-        var list = [];
-        list.toString = function toString() {
-            return this.map((function(item) {
-                var content = cssWithMappingToString(item);
-                if (item[2]) {
-                    return "@media ".concat(item[2], " {").concat(content, "}");
-                }
-                return content;
-            })).join("");
-        };
-        list.i = function(modules, mediaQuery, dedupe) {
-            if (typeof modules === "string") {
-                modules = [ [ null, modules, "" ] ];
-            }
-            var alreadyImportedModules = {};
-            if (dedupe) {
-                for (var i = 0; i < this.length; i++) {
-                    var id = this[i][0];
-                    if (id != null) {
-                        alreadyImportedModules[id] = true;
-                    }
-                }
-            }
-            for (var _i = 0; _i < modules.length; _i++) {
-                var item = [].concat(modules[_i]);
-                if (dedupe && alreadyImportedModules[item[0]]) {
-                    continue;
-                }
-                if (mediaQuery) {
-                    if (!item[2]) {
-                        item[2] = mediaQuery;
-                    } else {
-                        item[2] = "".concat(mediaQuery, " and ").concat(item[2]);
-                    }
-                }
-                list.push(item);
-            }
-        };
-        return list;
-    };
-}, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(1)["default"];
-    var toPrimitive = __webpack_require__(11);
+    var toPrimitive = __webpack_require__(9);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -415,7 +376,7 @@ exports[`vue should build vue app 2`] = `
     module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(15).default;
+    var taro = __webpack_require__(12).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -446,208 +407,7 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    "use strict";
-    var isOldIE = function isOldIE() {
-        var memo;
-        return function memorize() {
-            if (typeof memo === "undefined") {
-                memo = Boolean(window && document && document.all && !window.atob);
-            }
-            return memo;
-        };
-    }();
-    var getTarget = function getTarget() {
-        var memo = {};
-        return function memorize(target) {
-            if (typeof memo[target] === "undefined") {
-                var styleTarget = document.querySelector(target);
-                if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-                    try {
-                        styleTarget = styleTarget.contentDocument.head;
-                    } catch (e) {
-                        styleTarget = null;
-                    }
-                }
-                memo[target] = styleTarget;
-            }
-            return memo[target];
-        };
-    }();
-    var stylesInDom = [];
-    function getIndexByIdentifier(identifier) {
-        var result = -1;
-        for (var i = 0; i < stylesInDom.length; i++) {
-            if (stylesInDom[i].identifier === identifier) {
-                result = i;
-                break;
-            }
-        }
-        return result;
-    }
-    function modulesToDom(list, options) {
-        var idCountMap = {};
-        var identifiers = [];
-        for (var i = 0; i < list.length; i++) {
-            var item = list[i];
-            var id = options.base ? item[0] + options.base : item[0];
-            var count = idCountMap[id] || 0;
-            var identifier = "".concat(id, " ").concat(count);
-            idCountMap[id] = count + 1;
-            var index = getIndexByIdentifier(identifier);
-            var obj = {
-                "css": item[1],
-                "media": item[2],
-                "sourceMap": item[3]
-            };
-            if (index !== -1) {
-                stylesInDom[index].references++;
-                stylesInDom[index].updater(obj);
-            } else {
-                stylesInDom.push({
-                    "identifier": identifier,
-                    "updater": addStyle(obj, options),
-                    "references": 1
-                });
-            }
-            identifiers.push(identifier);
-        }
-        return identifiers;
-    }
-    function insertStyleElement(options) {
-        var style = document.createElement("style");
-        var attributes = options.attributes || {};
-        if (typeof attributes.nonce === "undefined") {
-            var nonce = true ? __webpack_require__.nc : undefined;
-            if (nonce) {
-                attributes.nonce = nonce;
-            }
-        }
-        Object.keys(attributes).forEach((function(key) {
-            style.setAttribute(key, attributes[key]);
-        }));
-        if (typeof options.insert === "function") {
-            options.insert(style);
-        } else {
-            var target = getTarget(options.insert || "head");
-            if (!target) {
-                throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-            }
-            target.appendChild(style);
-        }
-        return style;
-    }
-    function removeStyleElement(style) {
-        if (style.parentNode === null) {
-            return false;
-        }
-        style.parentNode.removeChild(style);
-    }
-    var replaceText = function replaceText() {
-        var textStore = [];
-        return function replace(index, replacement) {
-            textStore[index] = replacement;
-            return textStore.filter(Boolean).join("\\n");
-        };
-    }();
-    function applyToSingletonTag(style, index, remove, obj) {
-        var css = remove ? "" : obj.media ? "@media ".concat(obj.media, " {").concat(obj.css, "}") : obj.css;
-        if (style.styleSheet) {
-            style.styleSheet.cssText = replaceText(index, css);
-        } else {
-            var cssNode = document.createTextNode(css);
-            var childNodes = style.childNodes;
-            if (childNodes[index]) {
-                style.removeChild(childNodes[index]);
-            }
-            if (childNodes.length) {
-                style.insertBefore(cssNode, childNodes[index]);
-            } else {
-                style.appendChild(cssNode);
-            }
-        }
-    }
-    function applyToTag(style, options, obj) {
-        var css = obj.css;
-        var media = obj.media;
-        var sourceMap = obj.sourceMap;
-        if (media) {
-            style.setAttribute("media", media);
-        } else {
-            style.removeAttribute("media");
-        }
-        if (sourceMap && typeof btoa !== "undefined") {
-            css += "\\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-        }
-        if (style.styleSheet) {
-            style.styleSheet.cssText = css;
-        } else {
-            while (style.firstChild) {
-                style.removeChild(style.firstChild);
-            }
-            style.appendChild(document.createTextNode(css));
-        }
-    }
-    var singleton = null;
-    var singletonCounter = 0;
-    function addStyle(obj, options) {
-        var style;
-        var update;
-        var remove;
-        if (options.singleton) {
-            var styleIndex = singletonCounter++;
-            style = singleton || (singleton = insertStyleElement(options));
-            update = applyToSingletonTag.bind(null, style, styleIndex, false);
-            remove = applyToSingletonTag.bind(null, style, styleIndex, true);
-        } else {
-            style = insertStyleElement(options);
-            update = applyToTag.bind(null, style, options);
-            remove = function remove() {
-                removeStyleElement(style);
-            };
-        }
-        update(obj);
-        return function updateStyle(newObj) {
-            if (newObj) {
-                if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
-                    return;
-                }
-                update(obj = newObj);
-            } else {
-                remove();
-            }
-        };
-    }
-    module.exports = function(list, options) {
-        options = options || {};
-        if (!options.singleton && typeof options.singleton !== "boolean") {
-            options.singleton = isOldIE();
-        }
-        list = list || [];
-        var lastIdentifiers = modulesToDom(list, options);
-        return function update(newList) {
-            newList = newList || [];
-            if (Object.prototype.toString.call(newList) !== "[object Array]") {
-                return;
-            }
-            for (var i = 0; i < lastIdentifiers.length; i++) {
-                var identifier = lastIdentifiers[i];
-                var index = getIndexByIdentifier(identifier);
-                stylesInDom[index].references--;
-            }
-            var newLastIdentifiers = modulesToDom(newList, options);
-            for (var _i = 0; _i < lastIdentifiers.length; _i++) {
-                var _identifier = lastIdentifiers[_i];
-                var _index = getIndexByIdentifier(_identifier);
-                if (stylesInDom[_index].references === 0) {
-                    stylesInDom[_index].updater();
-                    stylesInDom.splice(_index, 1);
-                }
-            }
-            lastIdentifiers = newLastIdentifiers;
-        };
-    };
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(14);
+    module.exports = __webpack_require__(11);
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(1)["default"];
     function _toPrimitive(input, hint) {
@@ -661,36 +421,14 @@ exports[`vue should build vue app 2`] = `
         return (hint === "string" ? String : Number)(input);
     }
     module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var api = __webpack_require__(9);
-    var content = __webpack_require__(13);
-    content = content.__esModule ? content.default : content;
-    if (typeof content === "string") {
-        content = [ [ module.i, content, "" ] ];
-    }
-    var options = {};
-    options.insert = "head";
-    options.singleton = false;
-    var update = api(content, options);
-    module.exports = content.locals || {};
-}, function(module, __webpack_exports__, __webpack_require__) {
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
-        return i[1];
-    }));
-    ___CSS_LOADER_EXPORT___.push([ module.i, "", "" ]);
-    __webpack_exports__["default"] = ___CSS_LOADER_EXPORT___;
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(7);
+    var taro = __webpack_require__(6);
     function createMultiRouter() {}
     function createRouter() {}
     var vue = "vue-mock";
-    var app = __webpack_require__(12);
+    var app = __webpack_require__(10);
     var App = new vue({
         "onShow": function onShow() {},
         "render": function render(h) {
@@ -732,7 +470,7 @@ exports[`vue should build vue app 2`] = `
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 22));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
             return [ page, context, params ];
         }
     }, {
@@ -761,7 +499,7 @@ exports[`vue should build vue app 2`] = `
     var typeof_default = __webpack_require__.n(helpers_typeof);
     var taro_runtime = __webpack_require__(0);
     var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(8);
+    var objectSpread2 = __webpack_require__(7);
     var objectSpread2_default = __webpack_require__.n(objectSpread2);
     var classCallCheck = __webpack_require__(3);
     var classCallCheck_default = __webpack_require__.n(classCallCheck);

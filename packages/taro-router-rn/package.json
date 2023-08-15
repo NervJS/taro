@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router-rn",
-  "version": "3.6.12",
+  "version": "3.6.13",
   "description": "Taro-router-rn",
   "main": "dist/index.js",
   "typings": "src/index.ts",
