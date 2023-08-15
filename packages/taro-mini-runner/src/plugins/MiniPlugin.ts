@@ -1,6 +1,7 @@
 import {
   FRAMEWORK_MAP,
   fs,
+  getNpmPackageAbsolutePath,
   isAliasPath,
   isEmptyObject,
   META_TYPE,
@@ -79,6 +80,7 @@ interface ITaroMiniPluginOptions {
   designWidth: number
   loaderMeta?: Record<string, string>
   hot: boolean
+  skipProcessUsingComponents?: boolean
 }
 
 export interface IComponentObj {
@@ -701,7 +703,7 @@ export default class TaroMiniPlugin {
       const depComponents: Array<{ name: string, path: string }> = []
       const alias = this.options.alias
       for (const compName of componentNames) {
-        let compPath = usingComponents[compName]
+        let compPath: string = usingComponents[compName]
 
         if (isAliasPath(compPath, alias)) {
           compPath = replaceAliasPath(filePath, compPath, alias)
@@ -709,10 +711,18 @@ export default class TaroMiniPlugin {
         }
 
         // 判断是否为第三方依赖的正则，如果 test 为 false 则为第三方依赖
-        const npmPkgReg = /^[.\\/]/
-        if (!npmPkgReg.test(compPath)) {
-          compPath = require.resolve(compPath).split('.')[0]
-          fileConfig.usingComponents[compName] = compPath
+        const notNpmPkgReg = /^[.\\/]/
+        if (
+          !this.options.skipProcessUsingComponents
+          && !compPath.startsWith('plugin://')
+          && !notNpmPkgReg.test(compPath)
+        ) {
+          const tempCompPath = getNpmPackageAbsolutePath(compPath)
+
+          if (tempCompPath) {
+            compPath = tempCompPath
+            fileConfig.usingComponents[compName] = compPath
+          }
         }
 
         depComponents.push({
@@ -941,7 +951,7 @@ export default class TaroMiniPlugin {
   adjustConfigContent (config: Config) {
     const { usingComponents } = config
 
-    if (!usingComponents) return
+    if (!usingComponents || this.options.skipProcessUsingComponents) return
 
     for (const [key, value] of Object.entries(usingComponents)) {
       if (!value.includes(NODE_MODULES)) return
