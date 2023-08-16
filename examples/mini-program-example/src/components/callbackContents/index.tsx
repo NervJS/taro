@@ -19,14 +19,9 @@ export default class Index extends React.Component<Props> {
     const { testApi, callbackRes } = this.props
     return (
       <View className='callback-content'>
-        {Object.keys(callbackRes).map((key) => {
-          const resId = `${testApi}-${key}`
-          return (
-            <View key={key} className='callback-res' id={resId}>
-              {JSON.stringify(callbackRes[key])}
-            </View>
-          )
-        })}
+        <View className='callback-res' id={`${testApi}-callback`}>
+          {JSON.stringify(callbackRes)}
+        </View>
       </View>
     )
   }

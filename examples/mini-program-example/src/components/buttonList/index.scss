@@ -24,11 +24,19 @@
 }
 
 .api-page-btn {
-    color: #f5f5f5;
+    color: $color-grey-6;
     white-space: nowrap;
     display: flex;
     margin: 20px 50%;
     padding: 15px 25px;
-    border-radius: 16px;
+    border-radius: 40px;
+    box-shadow: 0px 5px 5px $color-grey-1;
     background-color: $color-success;
+    transition: 0.2s;
+}
+
+.api-page-btn:active {
+    color: $color-success;
+    background-color: $color-grey-6;
+    box-shadow: inset 0px 0px 2px 2px $color-grey-1;
 }
