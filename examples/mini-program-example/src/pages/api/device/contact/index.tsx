@@ -23,7 +23,6 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('addPhoneContact')
-          console.log(this.state.list, data, apiIndex)
           Taro.addPhoneContact({
             ...data,
             success: (res) => {

@@ -15,15 +15,11 @@ interface Props {
 
 export default class Index extends React.Component<Props> {
   state = {}
-  //   componentDidMount (): void {
-  //       console.log(this.props)
-  //   }
   render() {
     const { testApi, callbackRes } = this.props
     return (
       <View className='callback-content'>
-        {Object.keys(callbackRes).map((key, index) => {
-          console.log(key)
+        {Object.keys(callbackRes).map((key) => {
           const resId = `${testApi}-${key}`
           return (
             <View key={key} className='callback-res' id={resId}>
