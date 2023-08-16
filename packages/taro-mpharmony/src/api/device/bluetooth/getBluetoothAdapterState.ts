@@ -4,11 +4,9 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (options) => {
   const name = 'getBluetoothAdapterState'
-
-  // options must be an Object
-  const isObject = shouldBeObject(options)
-  if (!isObject.flag) {
-    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+  const isValid = shouldBeObject(options).flag || typeof options === 'undefined'
+  if (!isValid) {
+    const res = { errMsg: `${name}:fail invalid params` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
@@ -16,8 +14,7 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
     success,
     fail,
     complete
-  } = options as Exclude<typeof options, undefined>
-
+  } = options || {}
   const handle = new MethodHandler<{
     available?: boolean
     discovering?: boolean
