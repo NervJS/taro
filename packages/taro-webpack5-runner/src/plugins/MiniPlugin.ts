@@ -1084,7 +1084,7 @@ export default class TaroMiniPlugin {
         }
       }
       if (isUsingCustomWrapper) {
-        baseCompConfig[customWrapperName] = `./${customWrapperName}`
+        baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
         this.generateConfigFile(compilation, compiler, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), {
           component: true,
           usingComponents: {
