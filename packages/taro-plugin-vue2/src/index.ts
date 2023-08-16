@@ -32,6 +32,14 @@ export default (ctx: IPluginContext) => {
       // 小程序
       modifyMiniWebpackChain(chain, data)
     }
+    const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+    const externals: Record<string, string> = {}
+    if (isBuildNativeComp) {
+      // Note: 该模式不支持 prebundle 优化，不必再处理
+      externals.vue = 'vue'
+    }
+
+    chain.merge({ externals })
   })
 
   ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {

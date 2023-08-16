@@ -1466,12 +1466,6 @@ require("./taro");
 /** filePath: dist/components/tab/tab.json **/
 {"component":true,"usingComponents":{}}
 
-/** filePath: dist/components/tab/tab.wxml **/
-<view class="tab" bindtap="clickHandler">
-  {{myProperty}}
-</view>
-
-
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 11 ], {
     17: function(module, exports, __webpack_require__) {},
@@ -1610,17 +1604,23 @@ require("./taro");
 /** filePath: dist/pages/native/native.json **/
 {"navigationBarBackgroundColor":"#ffffff","navigationBarTextStyle":"black","navigationBarTitleText":"混写页面示例","backgroundColor":"#eeeeee","backgroundTextStyle":"light","usingComponents":{"tab":"../../components/tab/tab"}}
 
-/** filePath: dist/pages/native/native.wxml **/
+/** filePath: dist/pages/native/native.wxss **/
+.native{color:red}
+
+/** filePath: dist/runtime.js **/
+
+/** filePath: dist/src/components/tab/tab.wxml **/
+<view class="tab" bindtap="clickHandler">
+  {{myProperty}}
+</view>
+
+
+/** filePath: dist/src/pages/native/native.wxml **/
 <view class="native" bindtap="viewTap">
   <text>{{text}}{{x}}</text>
   <tab myProperty="kkl" bindmyevent="handler" />
 </view>
 
-
-/** filePath: dist/pages/native/native.wxss **/
-.native{color:red}
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
@@ -1653,6 +1653,9 @@ module.exports = {
         if (u[i] === n) depth++
       }
       l = depth
+    }
+    if (l === 15) {
+      return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
   },

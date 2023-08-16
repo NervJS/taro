@@ -9,7 +9,6 @@ import type { IConfig } from './index'
 
 export function modifyH5WebpackChain(ctx: IPluginContext, chain, config: IConfig) {
   // vue3 tsx 使用原生组件
-  setStyleLoader(ctx, chain)
   setVueLoader(chain, config)
   setLoader(chain)
   setTaroApiLoader(chain)
@@ -22,20 +21,6 @@ export function modifyH5WebpackChain(ctx: IPluginContext, chain, config: IConfig
   }
 
   chain.merge({ externals })
-}
-
-function setStyleLoader(ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig.h5 || {}
-
-  const { styleLoaderOption = {} } = config
-  chain.module.rule('customStyle').merge({
-    use: [
-      {
-        loader: 'style-loader',
-        options: styleLoaderOption,
-      },
-    ],
-  })
 }
 
 function setVueLoader(chain, config: IConfig) {

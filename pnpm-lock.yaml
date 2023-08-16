@@ -304,11 +304,8 @@ importers:
       '@vue/babel-plugin-jsx': ^1.0.6
       '@vue/babel-preset-jsx': ^1.2.4
       babel-plugin-dynamic-import-node: 2.3.3
-      babel-plugin-global-define: 1.0.3
-      babel-plugin-jsx-attributes-array-to-object: 0.3.0
       babel-plugin-minify-dead-code-elimination: ^0.5.2
       babel-plugin-transform-imports-api: 1.0.0
-      babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       core-js: ^3.6.5
       jest: ^29.3.1
       jest-cli: ^29.3.1
@@ -330,11 +327,8 @@ importers:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/shared': link:../shared
       babel-plugin-dynamic-import-node: registry.npmjs.org/babel-plugin-dynamic-import-node/2.3.3
-      babel-plugin-global-define: registry.npmjs.org/babel-plugin-global-define/1.0.3
-      babel-plugin-jsx-attributes-array-to-object: registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0
       babel-plugin-minify-dead-code-elimination: registry.npmjs.org/babel-plugin-minify-dead-code-elimination/0.5.2
       babel-plugin-transform-imports-api: registry.npmjs.org/babel-plugin-transform-imports-api/1.0.0
-      babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       core-js: registry.npmjs.org/core-js/3.30.2
       metro-react-native-babel-preset: registry.npmjs.org/metro-react-native-babel-preset/0.73.10_@babel+core@7.21.8
       react-refresh: registry.npmjs.org/react-refresh/0.11.0
@@ -559,8 +553,6 @@ importers:
       adm-zip: ^0.4.13
       babel-jest: ^29.5.0
       cli-highlight: ^2.1.11
-      dotenv: ^16.0.3
-      dotenv-expand: ^9.0.0
       download-git-repo: ^2.0.0
       envinfo: ^7.8.1
       eslint: ^8.12.0
@@ -590,8 +582,6 @@ importers:
       '@tarojs/shared': link:../shared
       adm-zip: registry.npmjs.org/adm-zip/0.4.16
       cli-highlight: registry.npmjs.org/cli-highlight/2.1.11
-      dotenv: registry.npmjs.org/dotenv/16.0.3
-      dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
       download-git-repo: registry.npmjs.org/download-git-repo/2.0.0
       envinfo: registry.npmjs.org/envinfo/7.8.1
       eslint: registry.npmjs.org/eslint/8.40.0
@@ -1082,6 +1072,8 @@ importers:
       chokidar: ^3.3.1
       cross-spawn: ^7.0.3
       debug: 4.3.4
+      dotenv: ^16.0.3
+      dotenv-expand: ^9.0.0
       esbuild: ^0.14.27
       find-yarn-workspace-root: 2.0.0
       fs-extra: ^8.0.1
@@ -1115,6 +1107,8 @@ importers:
       chokidar: registry.npmjs.org/chokidar/3.5.3
       cross-spawn: registry.npmjs.org/cross-spawn/7.0.3
       debug: registry.npmjs.org/debug/4.3.4
+      dotenv: registry.npmjs.org/dotenv/16.0.3
+      dotenv-expand: registry.npmjs.org/dotenv-expand/9.0.0
       esbuild: registry.npmjs.org/esbuild/0.14.54
       find-yarn-workspace-root: registry.npmjs.org/find-yarn-workspace-root/2.0.0
       fs-extra: registry.npmjs.org/fs-extra/8.1.0
@@ -1802,6 +1796,9 @@ importers:
       '@tarojs/rn-transformer': workspace:*
       acorn: ^8.0.4
       acorn-jsx: ^5.3.2
+      babel-plugin-global-define: 1.0.3
+      babel-plugin-jsx-attributes-array-to-object: 0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       expo: ~48.0.0
       expo-file-system: ~15.2.2
       fs-extra: ^8.0.1
@@ -1836,6 +1833,9 @@ importers:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env/7.21.5_@babel+core@7.21.8
       acorn: registry.npmjs.org/acorn/8.8.2
+      babel-plugin-global-define: registry.npmjs.org/babel-plugin-global-define/1.0.3
+      babel-plugin-jsx-attributes-array-to-object: registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       expo: registry.npmjs.org/expo/48.0.20_@babel+core@7.21.8
       expo-file-system: registry.npmjs.org/expo-file-system/15.2.2_expo@48.0.20
       jest: registry.npmjs.org/jest/29.5.0
@@ -1909,6 +1909,11 @@ importers:
       '@tarojs/helper': workspace:*
       '@tarojs/rn-style-transformer': workspace:*
       '@tarojs/rn-transformer': workspace:*
+      '@tarojs/service': workspace:*
+      '@tarojs/taro': workspace:*
+      babel-plugin-global-define: 1.0.3
+      babel-plugin-jsx-attributes-array-to-object: 0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: workspace:*
       lodash: ^4.17.21
       metro: ^0.73.7
       metro-cache: ^0.73.7
@@ -1930,6 +1935,11 @@ importers:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/rn-style-transformer': link:../taro-rn-style-transformer
       '@tarojs/rn-transformer': link:../taro-rn-transformer
+      '@tarojs/service': link:../taro-service
+      '@tarojs/taro': link:../taro
+      babel-plugin-global-define: registry.npmjs.org/babel-plugin-global-define/1.0.3
+      babel-plugin-jsx-attributes-array-to-object: registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/0.3.0
+      babel-plugin-transform-react-jsx-to-rn-stylesheet: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       lodash: registry.npmjs.org/lodash/4.17.21
       metro: registry.npmjs.org/metro/0.73.10
       metro-cache: registry.npmjs.org/metro-cache/0.73.10
@@ -14607,7 +14617,7 @@ packages:
       debug: registry.npmjs.org/debug/2.6.9
       json5: registry.npmjs.org/json5/0.5.1
       lodash: registry.npmjs.org/lodash/4.17.21
-      minimatch: registry.npmjs.org/minimatch/3.0.4
+      minimatch: registry.npmjs.org/minimatch/3.1.2
       path-is-absolute: registry.npmjs.org/path-is-absolute/1.0.1
       private: registry.npmjs.org/private/0.1.8
       slash: registry.npmjs.org/slash/1.0.0
@@ -15040,7 +15050,6 @@ packages:
     name: babel-plugin-global-define
     version: 1.0.3
     engines: {node: '>= 6.x.x'}
-    dev: false
 
   registry.npmjs.org/babel-plugin-istanbul/6.1.1:
     resolution: {integrity: sha512-Y1IQok9821cC9onCx5otgFfRm7Lm+I+wwxOx738M/WLPZ9Q42m4IG5W0FNX8WLL2gYMZo3JkuXIH2DOpWM+qwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-istanbul/-/babel-plugin-istanbul-6.1.1.tgz}
@@ -15085,7 +15094,6 @@ packages:
     resolution: {integrity: sha512-XvbCsBFo/y4n2DzRtICQ60Kb3FWPIK359YsUkDPjC4UBCF/FMENKYzxarEhAD1GnrAuui5wOUvli89yqF1IzdA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-jsx-attributes-array-to-object/-/babel-plugin-jsx-attributes-array-to-object-0.3.0.tgz}
     name: babel-plugin-jsx-attributes-array-to-object
     version: 0.3.0
-    dev: false
 
   registry.npmjs.org/babel-plugin-minify-dead-code-elimination/0.5.2:
     resolution: {integrity: sha512-krq9Lwi0QIzyAlcNBXTL4usqUvevB4BzktdEsb8srcXC1AaYqRJiAQw6vdKdJSaXbz6snBvziGr6ch/aoRCfpA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/babel-plugin-minify-dead-code-elimination/-/babel-plugin-minify-dead-code-elimination-0.5.2.tgz}
@@ -23335,7 +23343,7 @@ packages:
     dependencies:
       foreground-child: registry.npmjs.org/foreground-child/3.1.1
       jackspeak: registry.npmjs.org/jackspeak/2.2.0
-      minimatch: registry.npmjs.org/minimatch/9.0.0
+      minimatch: registry.npmjs.org/minimatch/9.0.1
       minipass: registry.npmjs.org/minipass/5.0.0
       path-scurry: registry.npmjs.org/path-scurry/1.7.0
     dev: true
@@ -23374,7 +23382,7 @@ packages:
       fs.realpath: registry.npmjs.org/fs.realpath/1.0.0
       inflight: registry.npmjs.org/inflight/1.0.6
       inherits: registry.npmjs.org/inherits/2.0.4
-      minimatch: registry.npmjs.org/minimatch/3.0.4
+      minimatch: registry.npmjs.org/minimatch/3.1.2
       once: registry.npmjs.org/once/1.4.0
       path-is-absolute: registry.npmjs.org/path-is-absolute/1.0.1
     dev: false
@@ -29431,15 +29439,6 @@ packages:
       brace-expansion: registry.npmjs.org/brace-expansion/2.0.1
     dev: false
 
-  registry.npmjs.org/minimatch/9.0.0:
-    resolution: {integrity: sha512-0jJj8AvgKqWN05mrwuqi8QYKx1WmYSUoKSxu5Qhs9prezTz10sxAHGNZe9J9cqIJzta8DWsleh2KaVaLl6Ru2w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimatch/-/minimatch-9.0.0.tgz}
-    name: minimatch
-    version: 9.0.0
-    engines: {node: '>=16 || 14 >=14.17'}
-    dependencies:
-      brace-expansion: registry.npmjs.org/brace-expansion/2.0.1
-    dev: true
-
   registry.npmjs.org/minimatch/9.0.1:
     resolution: {integrity: sha512-0jWhJpD/MdhPXwPuiRkCbfYfSKp2qnn2eOc279qI7f+osl/l+prKSrvhg157zSYvx/1nmgn2NqdT6k2Z7zSH9w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimatch/-/minimatch-9.0.1.tgz}
     name: minimatch
@@ -29447,7 +29446,6 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: registry.npmjs.org/brace-expansion/2.0.1
-    dev: false
 
   registry.npmjs.org/minimist-options/4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/minimist-options/-/minimist-options-4.1.0.tgz}
@@ -37345,6 +37343,7 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.1
       terser: registry.npmjs.org/terser/5.17.1
       webpack: registry.npmjs.org/webpack/5.78.0
+    dev: true
 
   registry.npmjs.org/terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-4.8.0.tgz}
@@ -39352,7 +39351,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0
+      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -39448,7 +39447,7 @@ packages:
       serve-index: registry.npmjs.org/serve-index/1.9.1
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
-      webpack: registry.npmjs.org/webpack/5.78.0
+      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
     transitivePeerDependencies:
@@ -39594,6 +39593,7 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
 
   registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54:
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}

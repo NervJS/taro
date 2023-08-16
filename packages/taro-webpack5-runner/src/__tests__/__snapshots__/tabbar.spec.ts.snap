@@ -1768,6 +1768,9 @@ module.exports = {
       }
       l = depth
     }
+    if (l === 15) {
+      return 'tmpl_15_container'
+    }
     return 'tmpl_' + l + '_' + n
   },
   b: function (a, b) {
@@ -2181,6 +2184,16 @@ require("./runtime");
             }
         };
         var asyncResultApiDiff = {
+            alert: {
+                res: {
+                    set: [ {
+                        key: "confirm",
+                        value: function value(res) {
+                            return res.success;
+                        }
+                    } ]
+                }
+            },
             getScreenBrightness: {
                 res: {
                     set: [ {
@@ -4837,6 +4850,9 @@ module.exports = {
         if (u[i] === n) depth++
       }
       l = depth
+    }
+    if (l === 15) {
+      return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
   },
