@@ -132,7 +132,7 @@ export default class AlipayCI extends BaseCI {
         version: this.version,
         clientType,
         experience: true,
-        deleteVersion
+        deleteVersion: deleteVersion || lasterVersion // 默认删除上个版本
       })
       /** 注意： 这是二维码的线上图片地址， 不是二维码中的内容 */
       const qrcodeUrl = result.experienceQrCodeUrl!
