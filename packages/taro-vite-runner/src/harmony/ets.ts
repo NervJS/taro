@@ -1,6 +1,8 @@
+import { transformAsync } from '@babel/core'
 import path from 'path'
 import ts from 'typescript'
 
+import type * as BabelCore from '@babel/core'
 import type { PluginOption } from 'vite'
 import type { HarmonyBuildConfig } from '../utils/types'
 
@@ -12,7 +14,7 @@ export class EtsHelper {
   REGEX_MODIFIER = /\s((@\S+)\s*\n)+/
   REGEX_STRUCT = /(?<=\s)struct\s*[^{}]+\{/
 
-  structVarList = ['createReactApp', 'createPageConfig', 'component', 'ReactMeta', 'TaroElement', 'TaroView', 'TaroText', 'TaroImage']
+  structVarList = ['createReactApp', 'createPageConfig', 'component', 'ReactMeta', 'TaroElement', 'TaroView', 'TaroText', 'TaroImage', 'hilog']
 
   // eslint-disable-next-line no-useless-constructor
   constructor(protected appPath: string, protected taroConfig: HarmonyBuildConfig) {}
@@ -57,6 +59,7 @@ export class EtsHelper {
     if (name) {
       replaceCode += `export const ${name} = `
     }
+    // FIXME 临时方案，后续需要通过 acorn 语法树解析使用的变量
     replaceCode += `${codeId}(${this.structVarList.join(', ')})`
     code = code.replace(codeBufferStr, replaceCode)
     return this.transStruct(id, code, count + 1)
@@ -184,12 +187,43 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
   return {
     name: 'taro:vite-ets',
     enforce: 'pre',
-    transform (code, id) {
+    async transform (code, id) {
       if (/\.ets(\?\S*)?$/.test(id)) {
         // FIXME 通过 acornInjectPlugins 注入 struct 语法编译插件
+        code = helper.transEtsCode(id, code)
+      }
+      if (/\.(et|j|t)sx?|\.vue/.test(id)) {
+        const result = await transformAsync(code, {
+          filename: id,
+          plugins: [
+            [
+              function renameImportPlugin (babel: typeof BabelCore): BabelCore.PluginObj<BabelCore.PluginPass> {
+                const t = babel.types
+                return {
+                  name: 'taro-rename-import-plugin',
+                  visitor: {
+                    ImportDeclaration (ast) {
+                      if (ast.node.source.value !== '@tarojs/components') return
+
+                      const newSpecifiers = ast.node.specifiers.map(node => {
+                        if (t.isImportSpecifier(node)) {
+                          const { imported, local } = node
+                          const property = t.isIdentifier(imported) ? imported.name : imported.value
+                          return t.importSpecifier(local, t.identifier(`Taro${property}TagName`))
+                        }
+                        return node
+                      })
+                      ast.node.specifiers = newSpecifiers
+                    },
+                  },
+                }
+              }
+            ],
+          ],
+        })
         return {
-          code: helper.transEtsCode(id, code),
-          map: null,
+          code: result?.code || code,
+          map: result?.map || null,
         }
       }
     },
