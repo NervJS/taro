@@ -71,6 +71,7 @@ export default class Index extends React.Component<Props, States> {
               {inputData[apiIndex] != undefined ? (
                 <Textarea
                   className='api-input-area'
+                  maxlength={-1}
                   id={`${item.id}-input`}
                   value={
                     typeof inputData[apiIndex] == 'string'

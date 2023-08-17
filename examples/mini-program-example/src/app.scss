@@ -23,3 +23,16 @@
     font-size: 20px;
     margin: 5px;
 }
+
+.navigator {
+    padding: 20px 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+  }
+
+.navigator:active {
+    background-color: $color-grey-5;
+    opacity: 0.2;
+}
