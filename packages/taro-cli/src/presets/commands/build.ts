@@ -122,13 +122,13 @@ export default (ctx: IPluginContext) => {
                 },
               })
             },
-            async modifyViteConfig(viteConfig, componentConfig) {
+            async modifyViteConfig(viteConfig, data) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_VITE_CONFIG,
                 initialVal: viteConfig,
                 opts: {
                   viteConfig,
-                  componentConfig,
+                  data,
                 },
               })
             },

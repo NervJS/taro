@@ -42,14 +42,14 @@ export default (ctx: IPluginContext) => {
     chain.merge({ externals })
   })
 
-  ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {
+  ctx.modifyViteConfig(({ viteConfig, data }) => {
     viteConfig.plugins.push(viteCommonPlugin())
     if (isWebPlatform()) {
       // H5
       viteConfig.plugins.push(h5VitePlugin(ctx))
     } else {
       // 小程序
-      viteConfig.plugins.push(miniVitePlugin(componentConfig))
+      viteConfig.plugins.push(miniVitePlugin(data?.componentConfig))
     }
   })
 

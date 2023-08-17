@@ -54,7 +54,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
   })
 
-  ctx.modifyViteConfig(({ viteConfig, componentConfig }) => {
+  ctx.modifyViteConfig(({ viteConfig, data }) => {
     viteConfig.plugins.push(viteCommonPlugin())
     viteConfig.plugins.push(require('@vitejs/plugin-vue-jsx').default())
     if (isWebPlatform()) {
@@ -62,7 +62,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
       viteConfig.plugins.push(h5VitePlugin(ctx, config))
     } else {
       // 小程序
-      viteConfig.plugins.push(miniVitePlugin(ctx, componentConfig, config))
+      viteConfig.plugins.push(miniVitePlugin(ctx, data?.componentConfig, config))
     }
   })
 
