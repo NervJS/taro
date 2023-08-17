@@ -1,4 +1,4 @@
-import { transformAsync } from '@babel/core'
+import { transformSync } from '@babel/core'
 import path from 'path'
 import ts from 'typescript'
 
@@ -187,13 +187,13 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
   return {
     name: 'taro:vite-ets',
     enforce: 'pre',
-    async transform (code, id) {
+    transform (code, id) {
       if (/\.ets(\?\S*)?$/.test(id)) {
         // FIXME 通过 acornInjectPlugins 注入 struct 语法编译插件
         code = helper.transEtsCode(id, code)
       }
       if (/\.(et|j|t)sx?|\.vue/.test(id)) {
-        const result = await transformAsync(code, {
+        const result = transformSync(code, {
           filename: id,
           plugins: [
             [
