@@ -491,7 +491,12 @@ export default class Index extends React.Component {
                         <View className={item.boxClass}>
                           {item._pages.map((page, index) => {
                             return (
-                              <View onClick={this.goToComponent.bind(this, page)} key={index} className='navigator'>
+                              <View
+                                onClick={this.goToComponent.bind(this, page)}
+                                key={index}
+                                className='navigator'
+                                id={page.page}
+                              >
                                 <Text className='navigator-text'>
                                   {page.pageName}
                                   {page.state == 'undo' && <Text className='navigator-state tag'>未创建Demo</Text>}
