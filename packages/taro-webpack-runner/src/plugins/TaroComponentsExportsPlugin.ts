@@ -71,7 +71,7 @@ export default class TaroComponentsExportsPlugin {
         const module = Array.from(modules).find((e: any) => e.rawRequest === taroJsComponents) as any
         if (!module) return
         // Note: 仅在生产环境使用
-        if (compiler.options.mode === 'production') {
+        if (compiler.options.mode === 'production' && !componentConfig.includeAll) {
           if (this.#componentsExports.size > 0) {
             compilation.dependencyTemplates.set(
               NullDependency,
