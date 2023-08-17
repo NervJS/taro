@@ -54,7 +54,7 @@ export function getPxTransform (taro) {
       throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
     }
     const formatSize = ~~size
-    let rootValue = 1 / config.deviceRatio[designWidth]
+    let rootValue = 1 / deviceRatio[designWidth]
     switch (config.targetUnit) {
       case 'rem':
         rootValue *= baseFontSize * 2
