@@ -82,7 +82,8 @@ export default class TaroComponentsExportsPlugin {
               const name = toDashed(dependency.name)
               const taroName = `taro-${name}`
               // Note: Vue2 目前无法解析，需要考虑借助 componentConfig.includes 优化
-              if (this.options?.framework === FRAMEWORK_MAP.VUE ? !componentConfig.includes.has(name) : !this.#componentsExports.has(taroName)) {
+              const isIncluded = componentConfig.includes.has(name) || this.#componentsExports.has(taroName)
+              if (!isIncluded || componentConfig.exclude.has(name)) {
                 // Note: 使用 Null 依赖替换不需要的依赖，如果使用 `dependency.disconnect` 移除会抛出 `MODULE_NOT_FOUND` 错误
                 return new NullDependency()
               }
