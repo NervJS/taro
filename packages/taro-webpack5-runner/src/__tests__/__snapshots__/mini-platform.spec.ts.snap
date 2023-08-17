@@ -1692,7 +1692,7 @@ require("./vendors");
 require("./runtime");
 
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 143 ], {
-    629: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    495: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -1923,7 +1923,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(184);
+        var taro_runtime = __webpack_require__(202);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -1956,11 +1956,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
-        var inherits = __webpack_require__(730);
-        var createSuper = __webpack_require__(605);
-        var react = __webpack_require__(757);
+        var classCallCheck = __webpack_require__(177);
+        var createClass = __webpack_require__(347);
+        var inherits = __webpack_require__(521);
+        var createSuper = __webpack_require__(777);
+        var react = __webpack_require__(800);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -2015,7 +2015,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(629);
+        return __webpack_exec__(495);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2189,7 +2189,7 @@ require("./runtime");
 "use strict";
 
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 592 ], {
-    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -2199,7 +2199,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -2228,9 +2228,9 @@ require("./runtime");
 "use strict";
 
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 539 ], {
-    100: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(184);
-        var esm_typeof = __webpack_require__(671);
+    631: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(202);
+        var esm_typeof = __webpack_require__(361);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -2565,11 +2565,11 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
-        var inherits = __webpack_require__(730);
-        var createSuper = __webpack_require__(605);
-        var react = __webpack_require__(757);
+        var classCallCheck = __webpack_require__(177);
+        var createClass = __webpack_require__(347);
+        var inherits = __webpack_require__(521);
+        var createSuper = __webpack_require__(777);
+        var react = __webpack_require__(800);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -2652,7 +2652,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(100);
+        return __webpack_exec__(631);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -2678,7 +2678,7 @@ require("./runtime");
 "use strict";
 
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 216 ], {
-    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -2690,13 +2690,13 @@ require("./runtime");
             }
         }
     },
-    815: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(671);
+        var esm_typeof = __webpack_require__(361);
         function _toPrimitive(input, hint) {
             if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
             var prim = input[Symbol.toPrimitive];
@@ -2729,7 +2729,7 @@ require("./runtime");
             return Constructor;
         }
     },
-    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -2752,7 +2752,7 @@ require("./runtime");
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(671);
+        var esm_typeof = __webpack_require__(361);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -2781,7 +2781,7 @@ require("./runtime");
             };
         }
     },
-    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -2811,7 +2811,7 @@ require("./runtime");
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -2830,1687 +2830,9 @@ require("./runtime");
 "
 `;
 
-exports[`mini-platform jd should build jd app 1`] = `12`;
+exports[`mini-platform jd should build jd app 1`] = `15`;
 
 exports[`mini-platform jd should build jd app 2`] = `
-"
-/** filePath: dist/app.acss **/
-
-
-/** filePath: dist/app.js **/
-"use strict";
-
-require("./common");
-
-require("./vendors");
-
-require("./runtime");
-
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 143 ], {
-    162: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        function mergeReconciler() {}
-        function mergeInternalComponents() {}
-        function isArray() {}
-        function isFunction() {}
-        function isNumber() {}
-        function isNull() {}
-        function isObject() {}
-        function isString() {}
-        function isUndefined() {}
-        function isWebPlatform() {}
-        function getComponentsAlias() {}
-        function controlledComponent() {}
-        function internalComponents() {}
-        function toCamelCase() {}
-        function toDashed() {}
-        function processApis() {}
-        function singleQuote() {}
-        var EMPTY_OBJ = {};
-        var hooks = {};
-        function Events() {}
-        function ensure() {}
-        function noop() {}
-        function warn() {}
-        var taro_shared = "taro-shared-mock";
-        var runtime_navigator = __webpack_require__(184)["navigator"];
-        var needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
-        var apiDiff = {
-            login: {
-                alias: "getAuthCode",
-                options: {
-                    set: [ {
-                        key: "scopes",
-                        value: "auth_base"
-                    } ]
-                }
-            },
-            showActionSheet: {
-                options: {
-                    change: [ {
-                        old: "itemList",
-                        new: "items"
-                    } ]
-                }
-            },
-            showToast: {
-                options: {
-                    change: [ {
-                        old: "title",
-                        new: "content"
-                    }, {
-                        old: "icon",
-                        new: "type"
-                    } ],
-                    set: [ {
-                        key: "type",
-                        value: function value(options) {
-                            if (options.type === "error") {
-                                return "fail";
-                            }
-                            return options.type;
-                        }
-                    } ]
-                }
-            },
-            showLoading: {
-                options: {
-                    change: [ {
-                        old: "title",
-                        new: "content"
-                    } ],
-                    set: [ {
-                        key: "content",
-                        value: function value(options) {
-                            if (options.content === undefined) {
-                                options.content = "";
-                            }
-                            return options.content;
-                        }
-                    } ]
-                }
-            },
-            setNavigationBarTitle: {
-                alias: "setNavigationBar"
-            },
-            setNavigationBarColor: {
-                alias: "setNavigationBar"
-            },
-            saveImageToPhotosAlbum: {
-                alias: "saveImage",
-                options: {
-                    change: [ {
-                        old: "filePath",
-                        new: "url"
-                    } ]
-                }
-            },
-            previewImage: {
-                options: {
-                    set: [ {
-                        key: "current",
-                        value: function value(options) {
-                            return options.urls.indexOf(options.current || options.urls[0]);
-                        }
-                    } ]
-                }
-            },
-            getFileInfo: {
-                options: {
-                    change: [ {
-                        old: "filePath",
-                        new: "apFilePath"
-                    } ]
-                }
-            },
-            getSavedFileInfo: {
-                options: {
-                    change: [ {
-                        old: "filePath",
-                        new: "apFilePath"
-                    } ]
-                }
-            },
-            removeSavedFile: {
-                options: {
-                    change: [ {
-                        old: "filePath",
-                        new: "apFilePath"
-                    } ]
-                }
-            },
-            saveFile: {
-                options: {
-                    change: [ {
-                        old: "tempFilePath",
-                        new: "apFilePath"
-                    } ]
-                }
-            },
-            openLocation: {
-                options: {
-                    set: [ {
-                        key: "latitude",
-                        value: function value(options) {
-                            return String(options.latitude);
-                        }
-                    }, {
-                        key: "longitude",
-                        value: function value(options) {
-                            return String(options.longitude);
-                        }
-                    } ]
-                }
-            },
-            uploadFile: {
-                options: {
-                    change: [ {
-                        old: "name",
-                        new: "fileName"
-                    } ]
-                }
-            },
-            getClipboardData: {
-                alias: "getClipboard"
-            },
-            setClipboardData: {
-                alias: "setClipboard",
-                options: {
-                    change: [ {
-                        old: "data",
-                        new: "text"
-                    } ]
-                }
-            },
-            makePhoneCall: {
-                options: {
-                    change: [ {
-                        old: "phoneNumber",
-                        new: "number"
-                    } ]
-                }
-            },
-            scanCode: {
-                alias: "scan",
-                options: {
-                    change: [ {
-                        old: "onlyFromCamera",
-                        new: "hideAlbum"
-                    } ],
-                    set: [ {
-                        key: "type",
-                        value: function value(options) {
-                            return options.scanType && options.scanType[0].slice(0, -4) || "qr";
-                        }
-                    } ]
-                }
-            },
-            setScreenBrightness: {
-                options: {
-                    change: [ {
-                        old: "value",
-                        new: "brightness"
-                    } ]
-                }
-            },
-            onBLEConnectionStateChange: {
-                alias: "onBLEConnectionStateChanged"
-            },
-            offBLEConnectionStateChange: {
-                alias: "offBLEConnectionStateChanged"
-            },
-            createBLEConnection: {
-                alias: "connectBLEDevice"
-            },
-            closeBLEConnection: {
-                alias: "disconnectBLEDevice"
-            }
-        };
-        var asyncResultApiDiff = {
-            alert: {
-                res: {
-                    set: [ {
-                        key: "confirm",
-                        value: function value(res) {
-                            return res.success;
-                        }
-                    } ]
-                }
-            },
-            getScreenBrightness: {
-                res: {
-                    set: [ {
-                        key: "value",
-                        value: function value(res) {
-                            return res.brightness;
-                        }
-                    } ],
-                    remove: [ "brightness" ]
-                }
-            },
-            scan: {
-                res: {
-                    set: [ {
-                        key: "result",
-                        value: function value(res) {
-                            return res.code;
-                        }
-                    } ]
-                }
-            },
-            getClipboard: {
-                res: {
-                    set: [ {
-                        key: "data",
-                        value: function value(res) {
-                            return res.text;
-                        }
-                    } ]
-                }
-            },
-            chooseImage: {
-                res: {
-                    set: [ {
-                        key: "tempFilePaths",
-                        value: function value(res) {
-                            return res.apFilePaths;
-                        }
-                    } ]
-                }
-            },
-            downloadFile: {
-                res: {
-                    set: [ {
-                        key: "tempFilePath",
-                        value: function value(res) {
-                            return res.apFilePath;
-                        }
-                    } ]
-                }
-            },
-            getAuthCode: {
-                res: {
-                    set: [ {
-                        key: "code",
-                        value: function value(res) {
-                            return res.authCode;
-                        }
-                    } ]
-                }
-            },
-            getExtConfig: {
-                res: {
-                    set: [ {
-                        key: "extConfig",
-                        value: function value(res) {
-                            return res.data;
-                        }
-                    } ]
-                }
-            },
-            saveFile: {
-                res: {
-                    set: [ {
-                        key: "savedFilePath",
-                        value: function value(res) {
-                            return res.apFilePath;
-                        }
-                    } ]
-                }
-            },
-            getBLEDeviceServices: {
-                res: {
-                    set: [ {
-                        key: "services",
-                        value: function value(res) {
-                            return res.services.map((function(item) {
-                                return {
-                                    uuid: item.serviceId,
-                                    isPrimary: item.isPrimary
-                                };
-                            }));
-                        }
-                    } ]
-                }
-            }
-        };
-        function request(options) {
-            options = options || {};
-            if (typeof options === "string") {
-                options = {
-                    url: options
-                };
-            }
-            var defaultHeaders = {
-                "content-type": "application/json"
-            };
-            options.headers = defaultHeaders;
-            if (options.header) {
-                for (var k in options.header) {
-                    var lowerK = k.toLocaleLowerCase();
-                    options.headers[lowerK] = options.header[k];
-                }
-                delete options.header;
-            }
-            var originSuccess = options.success;
-            var originFail = options.fail;
-            var originComplete = options.complete;
-            var requestTask;
-            var p = new Promise((function(resolve, reject) {
-                options.success = function(res) {
-                    res.statusCode = res.status;
-                    delete res.status;
-                    res.header = res.headers;
-                    delete res.headers;
-                    originSuccess && originSuccess(res);
-                    resolve(res);
-                };
-                options.fail = function(res) {
-                    originFail && originFail(res);
-                    reject(res);
-                };
-                options.complete = function(res) {
-                    originComplete && originComplete(res);
-                };
-                var nativeRequest = my.canIUse("request") ? my.request : my.httpRequest;
-                requestTask = nativeRequest(options);
-            }));
-            p.abort = function(cb) {
-                cb && cb();
-                if (requestTask) {
-                    requestTask.abort();
-                }
-                return p;
-            };
-            return p;
-        }
-        function handleSyncApis(key, global, args) {
-            if (key === "getStorageSync") {
-                var arg1 = args[0];
-                if (arg1 != null) {
-                    var res = global[key]({
-                        key: arg1
-                    });
-                    var data = null;
-                    if (res.hasOwnProperty("data")) {
-                        data = res.data;
-                    } else if (res.hasOwnProperty("APDataStorage")) {
-                        data = res.APDataStorage;
-                    }
-                    return data === null ? "" : data;
-                }
-                return console.error("getStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
-            }
-            if (key === "setStorageSync") {
-                var _arg = args[0];
-                var arg2 = args[1];
-                if (_arg != null) {
-                    return global[key]({
-                        key: _arg,
-                        data: arg2
-                    });
-                }
-                return console.error("setStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
-            }
-            if (key === "removeStorageSync") {
-                var _arg2 = args[0];
-                if (_arg2 != null) {
-                    return global[key]({
-                        key: _arg2
-                    });
-                }
-                return console.error("removeStorageSync \\u4f20\\u5165\\u53c2\\u6570\\u9519\\u8bef");
-            }
-            if (key === "createSelectorQuery") {
-                var query = global[key]();
-                query.in = function() {
-                    return query;
-                };
-                return query;
-            }
-            return global[key].apply(global, args);
-        }
-        function transformMeta(api, options) {
-            var apiAlias = api;
-            if (api === "showModal") {
-                options.cancelButtonText = options.cancelText || "\\u53d6\\u6d88";
-                options.confirmButtonText = options.confirmText || "\\u786e\\u5b9a";
-                apiAlias = "confirm";
-                if (options.showCancel === false) {
-                    options.buttonText = options.confirmText || "\\u786e\\u5b9a";
-                    apiAlias = "alert";
-                }
-            } else {
-                Object.keys(apiDiff).forEach((function(item) {
-                    var apiItem = apiDiff[item];
-                    if (api === item) {
-                        if (apiItem.alias) {
-                            apiAlias = apiItem.alias;
-                        }
-                        if (apiItem.options) {
-                            var change = apiItem.options.change;
-                            var set = apiItem.options.set;
-                            if (change) {
-                                change.forEach((function(changeItem) {
-                                    options[changeItem.new] = options[changeItem.old];
-                                }));
-                            }
-                            if (set) {
-                                set.forEach((function(setItem) {
-                                    options[setItem.key] = typeof setItem.value === "function" ? setItem.value(options) : setItem.value;
-                                }));
-                            }
-                        }
-                    }
-                }));
-            }
-            return {
-                key: apiAlias,
-                options: options
-            };
-        }
-        function modifyApis(apis) {
-            Object.keys(apiDiff).map((function(key) {
-                apis.add(key);
-                var platformKey = apiDiff[key].alias;
-                platformKey && apis.delete(platformKey);
-            }));
-            apis.add("showModal");
-            apis.delete("confirm");
-            apis.delete("alert");
-        }
-        function modifyAsyncResult(key, res) {
-            if (key === "connectSocket") {
-                res.onClose = function(cb) {
-                    my.onSocketClose(cb);
-                };
-                res.onError = function(cb) {
-                    my.onSocketError(cb);
-                };
-                res.onMessage = function(cb) {
-                    my.onSocketMessage(cb);
-                };
-                res.onOpen = function(cb) {
-                    my.onSocketOpen(cb);
-                };
-                res.send = function(opt) {
-                    my.sendSocketMessage(opt);
-                };
-                res.close = function() {
-                    my.closeSocket();
-                };
-            }
-            Object.keys(asyncResultApiDiff).forEach((function(apiKey) {
-                var apiItem = asyncResultApiDiff[apiKey];
-                if (key !== apiKey) {
-                    return;
-                }
-                if (!apiItem.res) {
-                    return;
-                }
-                var set = apiItem.res.set;
-                var remove = apiItem.res.remove;
-                if (set) {
-                    set.forEach((function(setItem) {
-                        res[setItem.key] = typeof setItem.value === "function" ? setItem.value(res) : setItem.value;
-                    }));
-                }
-                if (remove) {
-                    remove.forEach((function(removeItem) {
-                        delete res[removeItem];
-                    }));
-                }
-            }));
-        }
-        function initNativeApi(taro) {
-            processApis(taro, my, {
-                needPromiseApis: needPromiseApis,
-                handleSyncApis: handleSyncApis,
-                transformMeta: transformMeta,
-                modifyApis: modifyApis,
-                modifyAsyncResult: modifyAsyncResult,
-                request: request
-            });
-        }
-        var components = {
-            View: {
-                "disable-scroll": "false",
-                hidden: "false",
-                bindAppear: "",
-                bindDisappear: "",
-                bindFirstAppear: ""
-            },
-            Text: {
-                "number-of-lines": ""
-            },
-            Map: {
-                skew: "0",
-                rotate: "0",
-                polygons: "[]",
-                "include-padding": "",
-                "ground-overlays": "[]",
-                "tile-overlay": "",
-                "custom-map-style": "",
-                panels: "[]",
-                setting: "{}",
-                optimize: "false",
-                "show-compass": "false",
-                "show-scale": "false",
-                "enable-overlooking": "false",
-                "enable-zoom": "true",
-                "enable-scroll": "true",
-                "enable-rotate": "false",
-                "enable-traffic": "false",
-                "enable-poi": "true",
-                "enable-building": "true",
-                "enable-satellite": "false",
-                bindRegionChange: "",
-                bindPanelTap: "",
-                bindInitComplete: ""
-            },
-            Button: {
-                scope: "",
-                "public-id": "",
-                bindGetAuthorize: "",
-                bindError: "",
-                bindGetUserInfo: "",
-                bindGetPhoneNumber: "",
-                bindFollowLifestyle: ""
-            },
-            Checkbox: {
-                bindChange: ""
-            },
-            Input: {
-                "always-system": "false",
-                "random-number": "false",
-                controlled: "false",
-                enableNative: "true",
-                name: ""
-            },
-            Slider: {
-                "track-size": "4",
-                "handle-size": "22",
-                "handle-color": singleQuote("#ffffff")
-            },
-            Switch: {
-                controlled: "false"
-            },
-            Textarea: {
-                "show-count": "true",
-                controlled: "false",
-                enableNative: "false"
-            },
-            MovableView: {
-                bindChangeEnd: ""
-            },
-            ScrollView: {
-                "scroll-animation-duration": "",
-                "trap-scroll": "false"
-            },
-            Swiper: {
-                "active-class": "",
-                "changing-class": "",
-                acceleration: "false",
-                "disable-programmatic-animation": "false",
-                "disable-touch": "false",
-                bindAnimationEnd: ""
-            },
-            Image: {
-                "default-source": ""
-            },
-            Camera: {
-                mode: singleQuote("normal"),
-                "output-dimension": singleQuote("720P"),
-                "frame-size": singleQuote("medium"),
-                bindScanCode: "",
-                bindReady: ""
-            },
-            Canvas: {
-                type: "",
-                width: singleQuote("300px"),
-                height: singleQuote("225px"),
-                bindReady: ""
-            },
-            Video: {
-                "poster-size": singleQuote("contain"),
-                "mobilenet-hint-type": "1",
-                enableNative: "true",
-                bindLoading: "",
-                bindUserAction: "",
-                bindStop: "",
-                bindRenderStart: ""
-            },
-            Lottie: {
-                autoplay: "false",
-                path: "",
-                speed: "1.0",
-                "repeat-count": "0",
-                "auto-reverse": "false",
-                "assets-path": "",
-                placeholder: "",
-                djangoId: "",
-                md5: "",
-                optimize: "false",
-                bindDataReady: "",
-                bindDataFailed: "",
-                bindAnimationStart: "",
-                bindAnimationEnd: "",
-                bindAnimationRepeat: "",
-                bindAnimationCancel: "",
-                bindDataLoadReady: ""
-            },
-            Lifestyle: {
-                "public-id": "",
-                memo: "",
-                bindFollow: ""
-            },
-            LifeFollow: {
-                sceneId: "",
-                checkFollow: "",
-                bindCheckFollow: "",
-                bindClose: ""
-            },
-            ContactButton: {
-                "tnt-inst-id": "",
-                scene: "",
-                size: "25",
-                color: singleQuote("#00A3FF"),
-                icon: "",
-                "alipay-card-no": "",
-                "ext-info": ""
-            },
-            ArCamera: {
-                devicePosition: singleQuote("back"),
-                marker: "",
-                mode: singleQuote("imageTracking"),
-                useCapturedImage: "false",
-                bindInit: "",
-                bindStop: "",
-                bindError: "",
-                bindARFrame: ""
-            },
-            PageContainer: {
-                show: "false",
-                duration: "300",
-                "z-index": "100",
-                overlay: "true",
-                position: singleQuote("bottom"),
-                round: "false",
-                "close-on-slide-down": "false",
-                "overlay-style": "",
-                "custom-style": "",
-                bindBeforeEnter: "",
-                bindEnter: "",
-                bindEnterCancelled: "",
-                bindAfterEnter: "",
-                bindBeforeLeave: "",
-                bindLeave: "",
-                bindLeaveCancelled: "",
-                bindAfterLeave: "",
-                bindClickOverlay: ""
-            },
-            ShareElement: {
-                name: "",
-                transform: "false",
-                duration: "300",
-                "easing-function": singleQuote("ease-out")
-            }
-        };
-        var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
-        var hostConfig = {
-            initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
-                config.component[0] = "didMount";
-                config.component[1] = "didUnmount";
-                return config;
-            },
-            getEventCenter: function getEventCenter(Events) {
-                if (!my.taroEventCenter) {
-                    my.taroEventCenter = new Events;
-                }
-                return my.taroEventCenter;
-            },
-            modifyTaroEvent: function modifyTaroEvent(event, node) {
-                if (node.tagName === "SWIPER" && event.type === "animationend") {
-                    event.type = "animationfinish";
-                }
-            },
-            isBubbleEvents: function isBubbleEvents(eventName) {
-                return BUBBLE_EVENTS.has(eventName);
-            }
-        };
-        var _navigator = runtime_navigator, userAgent = _navigator.userAgent;
-        Object.defineProperty(runtime_navigator, "userAgent", {
-            configurable: true,
-            enumerable: true,
-            get: function get() {
-                return userAgent || runtime_navigator.swuserAgent || "";
-            }
-        });
-        mergeReconciler(hostConfig);
-        mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(184);
-        function setReconciler() {}
-        function connectReactPage() {}
-        function createReactApp() {}
-        function createNativeComponentConfig() {}
-        function connectVuePage() {}
-        function createVueApp() {}
-        function createVue3App() {}
-        var setGlobalDataPlugin = {};
-        function useDidHide() {}
-        function useDidShow() {}
-        function useError() {}
-        function useLaunch() {}
-        function usePageNotFound() {}
-        function useLoad() {}
-        function usePageScroll() {}
-        function usePullDownRefresh() {}
-        function usePullIntercept() {}
-        function useReachBottom() {}
-        function useResize() {}
-        function useUnload() {}
-        function useAddToFavorites() {}
-        function useOptionMenuClick() {}
-        function useSaveExitState() {}
-        function useShareAppMessage() {}
-        function useShareTimeline() {}
-        function useTitleClick() {}
-        function useReady() {}
-        function useRouter() {}
-        function useTabItemTap() {}
-        function useScope() {}
-        function initPxTransform() {}
-        var taro = "taro";
-        var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
-        var inherits = __webpack_require__(730);
-        var createSuper = __webpack_require__(605);
-        var react = __webpack_require__(757);
-        var app_App = function(_Component) {
-            (0, inherits.Z)(App, _Component);
-            var _super = (0, createSuper.Z)(App);
-            function App() {
-                (0, classCallCheck.Z)(this, App);
-                return _super.apply(this, arguments);
-            }
-            (0, createClass.Z)(App, [ {
-                key: "componentDidMount",
-                value: function componentDidMount() {}
-            }, {
-                key: "componentDidShow",
-                value: function componentDidShow() {}
-            }, {
-                key: "componentDidHide",
-                value: function componentDidHide() {}
-            }, {
-                key: "render",
-                value: function render() {
-                    return this.props.children;
-                }
-            } ]);
-            return App;
-        }(react.Component);
-        var app = app_App;
-        var taro_react = "taro-react-mock";
-        var config = {
-            pages: [ "pages/index/index" ],
-            window: {
-                backgroundTextStyle: "light",
-                navigationBarBackgroundColor: "#fff",
-                navigationBarTitleText: "WeChat",
-                navigationBarTextStyle: "black"
-            }
-        };
-        taro_runtime.window.__taroAppConfig = config;
-        var inst = App(createReactApp(app, react, taro_react, config));
-        initPxTransform({
-            designWidth: 750,
-            deviceRatio: {
-                640: 1.17,
-                750: 1,
-                828: .905
-            },
-            baseFontSize: 20,
-            unitPrecision: undefined,
-            targetUnit: undefined
-        });
-    }
-}, function(__webpack_require__) {
-    var __webpack_exec__ = function(moduleId) {
-        return __webpack_require__(__webpack_require__.s = moduleId);
-    };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(162);
-    }));
-    var __webpack_exports__ = __webpack_require__.O();
-} ]);
-
-
-
-/** filePath: dist/app.json **/
-{"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
-
-/** filePath: dist/base.axml **/
-<import-sjs name="xs" from="./utils.sjs" />
-<template name="taro_tmpl">
-  <block a:for="{{root.cn}}" a:key="sid">
-    <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-  </block>
-</template>
-
-<template name="tmpl_0_0">
-  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" onTouchStart="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh" catchTouchMove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </view>
-</template>
-
-<template name="tmpl_0_5">
-  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" animation="{{i.p0}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </view>
-</template>
-
-<template name="tmpl_0_2">
-  <view style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </view>
-</template>
-
-<template name="tmpl_0_7">
-  <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </view>
-</template>
-
-<template name="tmpl_0_4">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </text>
-</template>
-
-<template name="tmpl_0_6">
-  <text selectable="{{xs.b(i.p1,!1)}}" space="{{i.p2}}" decode="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </text>
-</template>
-
-<template name="tmpl_0_21">
-  <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{i:i}}" />
-</template>
-
-<template name="tmpl_0_21_focus">
-  <input value="{{i.p14}}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" focus="{{xs.b(i.focus,!1)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onInput="eh" onFocus="eh" onBlur="eh" onConfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
-</template>
-
-<template name="tmpl_0_21_blur">
-  <input value="{{i.p14}}" type="{{xs.b(i.p13,'')}}" password="{{xs.b(i.p7,!1)}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'input-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p5,140)}}" cursor-spacing="{{xs.b(i.p3,0)}}" confirm-type="{{xs.b(i.p1,'done')}}" confirm-hold="{{xs.b(i.p0,!1)}}" cursor="{{xs.b(i.p2,i.p14?i.p14.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onInput="eh" onFocus="eh" onBlur="eh" onConfirm="eh" name="{{i.p6}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></input>
-</template>
-
-<template name="tmpl_0_17">
-  <cover-image src="{{i.p0}}" onLoad="eh" onError="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </cover-image>
-</template>
-
-<template name="tmpl_0_43">
-  <template is="{{xs.c(i, 'tmpl_0_')}}" data="{{i:i}}" />
-</template>
-
-<template name="tmpl_0_43_focus">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" focus="{{xs.b(i.focus,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
-</template>
-
-<template name="tmpl_0_43_blur">
-  <textarea value="{{i.p13}}" placeholder="{{i.p8}}" placeholder-style="{{i.p10}}" placeholder-class="{{xs.b(i.p9,'textarea-placeholder')}}" disabled="{{i.p4}}" maxlength="{{xs.b(i.p6,140)}}" auto-focus="{{xs.b(i.p0,!1)}}" auto-height="{{xs.b(i.p1,!1)}}" fixed="{{xs.b(i.p5,!1)}}" cursor-spacing="{{xs.b(i.p3,0)}}" cursor="{{xs.b(i.p2,i.p13?i.p13.length:-1)}}" selection-start="{{xs.b(i.p12,-1)}}" selection-end="{{xs.b(i.p11,-1)}}" onFocus="eh" onBlur="eh" onLineChange="eh" onInput="eh" onConfirm="eh" name="{{i.p7}}" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}"></textarea>
-</template>
-
-<template name="tmpl_0_18">
-  <cover-view scroll-top="{{xs.b(i.p0,!1)}}" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </cover-view>
-</template>
-
-<template name="tmpl_0_36">
-  <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" onScrollToUpper="eh" onScrollToLower="eh" onScroll="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </scroll-view>
-</template>
-
-<template name="tmpl_0_40">
-  <swiper indicator-dots="{{xs.b(i.p7,!1)}}" indicator-color="{{xs.b(i.p6,'rgba(0, 0, 0, .3)')}}" indicator-active-color="{{xs.b(i.p5,'#000000')}}" autoplay="{{xs.b(i.p0,!1)}}" current="{{xs.b(i.p2,0)}}" interval="{{xs.b(i.p8,5000)}}" duration="{{xs.b(i.p4,500)}}" circular="{{xs.b(i.p1,!1)}}" vertical="{{xs.b(i.p11,!1)}}" previous-margin="{{xs.b(i.p10,'0px')}}" next-margin="{{xs.b(i.p9,'0px')}}" display-multiple-items="{{xs.b(i.p3,1)}}" onChange="eh" onTransition="eh" onAnimationFinish="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{xs.f(i.cn)}}" a:key="sid">
-      <swiper-item class="{{item.cl}}" style="{{item.st}}" id="{{item.uid||item.sid}}" data-sid="{{item.sid}}">
-        <block a:for="{{item.cn}}" a:key="sid">
-          <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-        </block>
-      </swiper-item>
-    </block>
-  </swiper>
-</template>
-
-<template name="tmpl_0_3">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" style="{{i.st}}" class="{{i.cl}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </image>
-</template>
-
-<template name="tmpl_0_1">
-  <image src="{{i.p2}}" mode="{{xs.b(i.p1,'scaleToFill')}}" lazy-load="{{xs.b(i.p0,!1)}}" onError="eh" onLoad="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </image>
-</template>
-
-<template name="tmpl_0_44">
-  <video src="{{i.p20}}" duration="{{i.p6}}" controls="{{xs.b(i.p2,!0)}}" danmu-list="{{i.p4}}" danmu-btn="{{i.p3}}" enable-danmu="{{i.p7}}" autoplay="{{xs.b(i.p1,!1)}}" loop="{{xs.b(i.p10,!1)}}" muted="{{xs.b(i.p11,!1)}}" initial-time="{{xs.b(i.p9,0)}}" page-gesture="{{xs.b(i.p13,!1)}}" direction="{{i.p5}}" show-progress="{{xs.b(i.p19,!0)}}" show-fullscreen-btn="{{xs.b(i.p16,!0)}}" show-play-btn="{{xs.b(i.p18,!0)}}" show-center-play-btn="{{xs.b(i.p15,!0)}}" enable-progress-gesture="{{xs.b(i.p8,!0)}}" object-fit="{{xs.b(i.p12,'contain')}}" poster="{{i.p14}}" show-mute-btn="{{xs.b(i.p17,!1)}}" onPlay="eh" onPause="eh" onEnded="eh" onTimeUpdate="eh" onFullScreenChange="eh" onWaiting="eh" onError="eh" animation="{{i.p0}}" onAnimationStart="eh" onAnimationIteration="eh" onAnimationEnd="eh" onTransitionEnd="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </video>
-</template>
-
-<template name="tmpl_0_14">
-  <canvas canvas-id="{{i.p0}}" disable-scroll="{{xs.b(i.p1,!1)}}" onError="eh" onTouchStart="eh" onTouchMove="eh" onTouchEnd="eh" onTouchCancel="eh" onLongTap="eh" style="{{i.st}}" class="{{i.cl}}" onTap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
-    <block a:for="{{i.cn}}" a:key="sid">
-      <template is="{{xs.a(0, item.nn)}}" data="{{i:item}}" />
-    </block>
-  </canvas>
-</template>
-
-<template name="tmpl_0_8">
-  <block>{{i.v}}</block>
-</template>
-
-
-/** filePath: dist/common.js **/
-"use strict";
-
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 592 ], {
-    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, {
-            Component: function() {
-                return Component;
-            }
-        });
-        var Component = {};
-        __webpack_exports__["default"] = "react-mock";
-    },
-    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, {
-            createReactApp: function() {
-                return createReactApp;
-            },
-            createVue3App: function() {
-                return createVue3App;
-            },
-            createVueApp: function() {
-                return createVueApp;
-            },
-            window: function() {
-                return window;
-            }
-        });
-        __webpack_exports__["default"] = "taro-runtime-mock";
-        var window = {};
-        function createReactApp() {}
-        function createVueApp() {}
-        function createVue3App() {}
-    }
-} ]);
-
-/** filePath: dist/pages/index/index.acss **/
-
-
-/** filePath: dist/pages/index/index.axml **/
-<import src="../../base.axml"/>
-<template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/pages/index/index.js **/
-/*! For license information please see index.js.LICENSE.txt */
-"use strict";
-
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 539 ], {
-    100: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(184);
-        var esm_typeof = __webpack_require__(671);
-        function _regeneratorRuntime() {
-            "use strict";
-            _regeneratorRuntime = function _regeneratorRuntime() {
-                return exports;
-            };
-            var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function(obj, key, desc) {
-                obj[key] = desc.value;
-            }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-            function define(obj, key, value) {
-                return Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }), obj[key];
-            }
-            try {
-                define({}, "");
-            } catch (err) {
-                define = function define(obj, key, value) {
-                    return obj[key] = value;
-                };
-            }
-            function wrap(innerFn, outerFn, self, tryLocsList) {
-                var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []);
-                return defineProperty(generator, "_invoke", {
-                    value: makeInvokeMethod(innerFn, self, context)
-                }), generator;
-            }
-            function tryCatch(fn, obj, arg) {
-                try {
-                    return {
-                        type: "normal",
-                        arg: fn.call(obj, arg)
-                    };
-                } catch (err) {
-                    return {
-                        type: "throw",
-                        arg: err
-                    };
-                }
-            }
-            exports.wrap = wrap;
-            var ContinueSentinel = {};
-            function Generator() {}
-            function GeneratorFunction() {}
-            function GeneratorFunctionPrototype() {}
-            var IteratorPrototype = {};
-            define(IteratorPrototype, iteratorSymbol, (function() {
-                return this;
-            }));
-            var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-            NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype);
-            var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
-            function defineIteratorMethods(prototype) {
-                [ "next", "throw", "return" ].forEach((function(method) {
-                    define(prototype, method, (function(arg) {
-                        return this._invoke(method, arg);
-                    }));
-                }));
-            }
-            function AsyncIterator(generator, PromiseImpl) {
-                function invoke(method, arg, resolve, reject) {
-                    var record = tryCatch(generator[method], generator, arg);
-                    if ("throw" !== record.type) {
-                        var result = record.arg, value = result.value;
-                        return value && "object" == (0, esm_typeof.Z)(value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then((function(value) {
-                            invoke("next", value, resolve, reject);
-                        }), (function(err) {
-                            invoke("throw", err, resolve, reject);
-                        })) : PromiseImpl.resolve(value).then((function(unwrapped) {
-                            result.value = unwrapped, resolve(result);
-                        }), (function(error) {
-                            return invoke("throw", error, resolve, reject);
-                        }));
-                    }
-                    reject(record.arg);
-                }
-                var previousPromise;
-                defineProperty(this, "_invoke", {
-                    value: function value(method, arg) {
-                        function callInvokeWithMethodAndArg() {
-                            return new PromiseImpl((function(resolve, reject) {
-                                invoke(method, arg, resolve, reject);
-                            }));
-                        }
-                        return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
-                    }
-                });
-            }
-            function makeInvokeMethod(innerFn, self, context) {
-                var state = "suspendedStart";
-                return function(method, arg) {
-                    if ("executing" === state) throw new Error("Generator is already running");
-                    if ("completed" === state) {
-                        if ("throw" === method) throw arg;
-                        return doneResult();
-                    }
-                    for (context.method = method, context.arg = arg; ;) {
-                        var delegate = context.delegate;
-                        if (delegate) {
-                            var delegateResult = maybeInvokeDelegate(delegate, context);
-                            if (delegateResult) {
-                                if (delegateResult === ContinueSentinel) continue;
-                                return delegateResult;
-                            }
-                        }
-                        if ("next" === context.method) context.sent = context._sent = context.arg; else if ("throw" === context.method) {
-                            if ("suspendedStart" === state) throw state = "completed", context.arg;
-                            context.dispatchException(context.arg);
-                        } else "return" === context.method && context.abrupt("return", context.arg);
-                        state = "executing";
-                        var record = tryCatch(innerFn, self, context);
-                        if ("normal" === record.type) {
-                            if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue;
-                            return {
-                                value: record.arg,
-                                done: context.done
-                            };
-                        }
-                        "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg);
-                    }
-                };
-            }
-            function maybeInvokeDelegate(delegate, context) {
-                var methodName = context.method, method = delegate.iterator[methodName];
-                if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", 
-                context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", 
-                context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), 
-                ContinueSentinel;
-                var record = tryCatch(method, delegate.iterator, context.arg);
-                if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, 
-                context.delegate = null, ContinueSentinel;
-                var info = record.arg;
-                return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, 
-                "return" !== context.method && (context.method = "next", context.arg = undefined), 
-                context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), 
-                context.delegate = null, ContinueSentinel);
-            }
-            function pushTryEntry(locs) {
-                var entry = {
-                    tryLoc: locs[0]
-                };
-                1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], 
-                entry.afterLoc = locs[3]), this.tryEntries.push(entry);
-            }
-            function resetTryEntry(entry) {
-                var record = entry.completion || {};
-                record.type = "normal", delete record.arg, entry.completion = record;
-            }
-            function Context(tryLocsList) {
-                this.tryEntries = [ {
-                    tryLoc: "root"
-                } ], tryLocsList.forEach(pushTryEntry, this), this.reset(!0);
-            }
-            function values(iterable) {
-                if (iterable) {
-                    var iteratorMethod = iterable[iteratorSymbol];
-                    if (iteratorMethod) return iteratorMethod.call(iterable);
-                    if ("function" == typeof iterable.next) return iterable;
-                    if (!isNaN(iterable.length)) {
-                        var i = -1, next = function next() {
-                            for (;++i < iterable.length; ) if (hasOwn.call(iterable, i)) return next.value = iterable[i], 
-                            next.done = !1, next;
-                            return next.value = undefined, next.done = !0, next;
-                        };
-                        return next.next = next;
-                    }
-                }
-                return {
-                    next: doneResult
-                };
-            }
-            function doneResult() {
-                return {
-                    value: undefined,
-                    done: !0
-                };
-            }
-            return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", {
-                value: GeneratorFunctionPrototype,
-                configurable: !0
-            }), defineProperty(GeneratorFunctionPrototype, "constructor", {
-                value: GeneratorFunction,
-                configurable: !0
-            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), 
-            exports.isGeneratorFunction = function(genFun) {
-                var ctor = "function" == typeof genFun && genFun.constructor;
-                return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
-            }, exports.mark = function(genFun) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, 
-                define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), 
-                genFun;
-            }, exports.awrap = function(arg) {
-                return {
-                    __await: arg
-                };
-            }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, (function() {
-                return this;
-            })), exports.AsyncIterator = AsyncIterator, exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-                void 0 === PromiseImpl && (PromiseImpl = Promise);
-                var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-                return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then((function(result) {
-                    return result.done ? result.value : iter.next();
-                }));
-            }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, (function() {
-                return this;
-            })), define(Gp, "toString", (function() {
-                return "[object Generator]";
-            })), exports.keys = function(val) {
-                var object = Object(val), keys = [];
-                for (var key in object) keys.push(key);
-                return keys.reverse(), function next() {
-                    for (;keys.length; ) {
-                        var key = keys.pop();
-                        if (key in object) return next.value = key, next.done = !1, next;
-                    }
-                    return next.done = !0, next;
-                };
-            }, exports.values = values, Context.prototype = {
-                constructor: Context,
-                reset: function reset(skipTempReset) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, 
-                    this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), 
-                    !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
-                },
-                stop: function stop() {
-                    this.done = !0;
-                    var rootRecord = this.tryEntries[0].completion;
-                    if ("throw" === rootRecord.type) throw rootRecord.arg;
-                    return this.rval;
-                },
-                dispatchException: function dispatchException(exception) {
-                    if (this.done) throw exception;
-                    var context = this;
-                    function handle(loc, caught) {
-                        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", 
-                        context.arg = undefined), !!caught;
-                    }
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i], record = entry.completion;
-                        if ("root" === entry.tryLoc) return handle("end");
-                        if (entry.tryLoc <= this.prev) {
-                            var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc");
-                            if (hasCatch && hasFinally) {
-                                if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                            } else if (hasCatch) {
-                                if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0);
-                            } else {
-                                if (!hasFinally) throw new Error("try statement without catch or finally");
-                                if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc);
-                            }
-                        }
-                    }
-                },
-                abrupt: function abrupt(type, arg) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
-                            var finallyEntry = entry;
-                            break;
-                        }
-                    }
-                    finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
-                    var record = finallyEntry ? finallyEntry.completion : {};
-                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", 
-                    this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
-                },
-                complete: function complete(record, afterLoc) {
-                    if ("throw" === record.type) throw record.arg;
-                    return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, 
-                    this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), 
-                    ContinueSentinel;
-                },
-                finish: function finish(finallyLoc) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), 
-                        resetTryEntry(entry), ContinueSentinel;
-                    }
-                },
-                catch: function _catch(tryLoc) {
-                    for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                        var entry = this.tryEntries[i];
-                        if (entry.tryLoc === tryLoc) {
-                            var record = entry.completion;
-                            if ("throw" === record.type) {
-                                var thrown = record.arg;
-                                resetTryEntry(entry);
-                            }
-                            return thrown;
-                        }
-                    }
-                    throw new Error("illegal catch attempt");
-                },
-                delegateYield: function delegateYield(iterable, resultName, nextLoc) {
-                    return this.delegate = {
-                        iterator: values(iterable),
-                        resultName: resultName,
-                        nextLoc: nextLoc
-                    }, "next" === this.method && (this.arg = undefined), ContinueSentinel;
-                }
-            }, exports;
-        }
-        function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-            try {
-                var info = gen[key](arg);
-                var value = info.value;
-            } catch (error) {
-                reject(error);
-                return;
-            }
-            if (info.done) {
-                resolve(value);
-            } else {
-                Promise.resolve(value).then(_next, _throw);
-            }
-        }
-        function _asyncToGenerator(fn) {
-            return function() {
-                var self = this, args = arguments;
-                return new Promise((function(resolve, reject) {
-                    var gen = fn.apply(self, args);
-                    function _next(value) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-                    }
-                    function _throw(err) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-                    }
-                    _next(undefined);
-                }));
-            };
-        }
-        var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
-        var inherits = __webpack_require__(730);
-        var createSuper = __webpack_require__(605);
-        var react = __webpack_require__(757);
-        var Canvas = {};
-        var CoverView = {};
-        var CoverImage = {};
-        var Input = {};
-        var Picker = {};
-        var Swiper = {};
-        var SwiperItem = {};
-        var Text = {};
-        var Textarea = {};
-        var Video = {};
-        var View = {};
-        var taro_components = "taro-components-mock";
-        var Index = function(_Component) {
-            (0, inherits.Z)(Index, _Component);
-            var _super = (0, createSuper.Z)(Index);
-            function Index() {
-                (0, classCallCheck.Z)(this, Index);
-                return _super.apply(this, arguments);
-            }
-            (0, createClass.Z)(Index, [ {
-                key: "componentWillMount",
-                value: function() {
-                    var _componentWillMount = _asyncToGenerator(_regeneratorRuntime().mark((function _callee() {
-                        return _regeneratorRuntime().wrap((function _callee$(_context) {
-                            while (1) switch (_context.prev = _context.next) {
-                              case 0:
-                                _context.next = 2;
-                                return Promise.resolve(1);
-
-                              case 2:
-                              case "end":
-                                return _context.stop();
-                            }
-                        }), _callee);
-                    })));
-                    function componentWillMount() {
-                        return _componentWillMount.apply(this, arguments);
-                    }
-                    return componentWillMount;
-                }()
-            }, {
-                key: "componentDidMount",
-                value: function componentDidMount() {}
-            }, {
-                key: "componentWillUnmount",
-                value: function componentWillUnmount() {}
-            }, {
-                key: "componentDidShow",
-                value: function componentDidShow() {}
-            }, {
-                key: "componentDidHide",
-                value: function componentDidHide() {}
-            }, {
-                key: "render",
-                value: function render() {
-                    return react["default"].createElement(View, {
-                        className: "index"
-                    }, react["default"].createElement(Text, null, "Hello world!"), react["default"].createElement(Input, {
-                        placeholder: "input",
-                        value: ""
-                    }), react["default"].createElement(Textarea, {
-                        value: ""
-                    }), react["default"].createElement(Swiper, null, react["default"].createElement(SwiperItem, null, react["default"].createElement(Text, null, "Swiper item"))), react["default"].createElement(Video, null), react["default"].createElement(Canvas, null, react["default"].createElement(CoverView, null, react["default"].createElement(CoverImage, null))));
-                }
-            } ]);
-            return Index;
-        }(react.Component);
-        var config = {
-            navigationBarTitleText: "\\u9996\\u9875"
-        };
-        var inst = Page((0, taro_runtime.createPageConfig)(Index, "pages/index/index", {
-            root: {
-                cn: []
-            }
-        }, config || {}));
-        var index = null && component;
-    }
-}, function(__webpack_require__) {
-    var __webpack_exec__ = function(moduleId) {
-        return __webpack_require__(__webpack_require__.s = moduleId);
-    };
-    __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(100);
-    }));
-    var __webpack_exports__ = __webpack_require__.O();
-} ]);
-
-/** filePath: dist/pages/index/index.js.LICENSE.txt **/
-/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
-
-
-/** filePath: dist/pages/index/index.json **/
-{"navigationBarTitleText":"首页","usingComponents":{}}
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/utils.sjs **/
-export default {
-  a: function (l, n) {
-    return 'tmpl_' + l + '_' + n
-  },
-  b: function (a, b) {
-    return a === undefined ? b : a
-  },
-  c: function(i, prefix) {
-    var s = i.focus !== undefined ? 'focus' : 'blur'
-    return prefix + i.nn + '_' + s
-  },
-  e: function (n) {
-    return 'tmpl_' + n + '_container'
-  },
-  f: function (l) {
-    return l.filter(function (i) {return i.nn === '41'})
-  }
-}
-
-/** filePath: dist/vendors.js **/
-"use strict";
-
-(my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 216 ], {
-    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _classCallCheck;
-            }
-        });
-        function _classCallCheck(instance, Constructor) {
-            if (!(instance instanceof Constructor)) {
-                throw new TypeError("Cannot call a class as a function");
-            }
-        }
-    },
-    815: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createClass;
-            }
-        });
-        var esm_typeof = __webpack_require__(671);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
-        function _defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-            }
-        }
-        function _createClass(Constructor, protoProps, staticProps) {
-            if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) _defineProperties(Constructor, staticProps);
-            Object.defineProperty(Constructor, "prototype", {
-                writable: false
-            });
-            return Constructor;
-        }
-    },
-    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _createSuper;
-            }
-        });
-        function _getPrototypeOf(o) {
-            _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-                return o.__proto__ || Object.getPrototypeOf(o);
-            };
-            return _getPrototypeOf(o);
-        }
-        function _isNativeReflectConstruct() {
-            if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-            if (Reflect.construct.sham) return false;
-            if (typeof Proxy === "function") return true;
-            try {
-                Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        }
-        var esm_typeof = __webpack_require__(671);
-        function _assertThisInitialized(self) {
-            if (self === void 0) {
-                throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-            }
-            return self;
-        }
-        function _possibleConstructorReturn(self, call) {
-            if (call && ((0, esm_typeof.Z)(call) === "object" || typeof call === "function")) {
-                return call;
-            } else if (call !== void 0) {
-                throw new TypeError("Derived constructors may only return object or undefined");
-            }
-            return _assertThisInitialized(self);
-        }
-        function _createSuper(Derived) {
-            var hasNativeReflectConstruct = _isNativeReflectConstruct();
-            return function _createSuperInternal() {
-                var Super = _getPrototypeOf(Derived), result;
-                if (hasNativeReflectConstruct) {
-                    var NewTarget = _getPrototypeOf(this).constructor;
-                    result = Reflect.construct(Super, arguments, NewTarget);
-                } else {
-                    result = Super.apply(this, arguments);
-                }
-                return _possibleConstructorReturn(this, result);
-            };
-        }
-    },
-    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _inherits;
-            }
-        });
-        function _setPrototypeOf(o, p) {
-            _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-                o.__proto__ = p;
-                return o;
-            };
-            return _setPrototypeOf(o, p);
-        }
-        function _inherits(subClass, superClass) {
-            if (typeof superClass !== "function" && superClass !== null) {
-                throw new TypeError("Super expression must either be null or a function");
-            }
-            subClass.prototype = Object.create(superClass && superClass.prototype, {
-                constructor: {
-                    value: subClass,
-                    writable: true,
-                    configurable: true
-                }
-            });
-            Object.defineProperty(subClass, "prototype", {
-                writable: false
-            });
-            if (superClass) _setPrototypeOf(subClass, superClass);
-        }
-    },
-    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return _typeof;
-            }
-        });
-        function _typeof(obj) {
-            "@babel/helpers - typeof";
-            return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-                return typeof obj;
-            } : function(obj) {
-                return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-            }, _typeof(obj);
-        }
-    }
-} ]);
-"
-`;
-
-exports[`mini-platform jd should build jd app 3`] = `15`;
-
-exports[`mini-platform jd should build jd app 4`] = `
 "
 /** filePath: dist/app.js **/
 "use strict";
@@ -4522,7 +2844,7 @@ require("./vendors");
 require("./runtime");
 
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 143 ], {
-    188: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    844: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -4578,7 +2900,7 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(184);
+        var taro_runtime = __webpack_require__(202);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -4611,11 +2933,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
-        var inherits = __webpack_require__(730);
-        var createSuper = __webpack_require__(605);
-        var react = __webpack_require__(757);
+        var classCallCheck = __webpack_require__(177);
+        var createClass = __webpack_require__(347);
+        var inherits = __webpack_require__(521);
+        var createSuper = __webpack_require__(777);
+        var react = __webpack_require__(800);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -4670,7 +2992,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(188);
+        return __webpack_exec__(844);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5637,7 +3959,7 @@ require("./runtime");
 "use strict";
 
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 592 ], {
-    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -5647,7 +3969,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -5675,8 +3997,8 @@ require("./runtime");
 "use strict";
 
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 367 ], {
-    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -5684,7 +4006,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(823);
+        return __webpack_exec__(685);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5701,9 +4023,9 @@ require("./runtime");
 "use strict";
 
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 539 ], {
-    100: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(184);
-        var esm_typeof = __webpack_require__(671);
+    631: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(202);
+        var esm_typeof = __webpack_require__(361);
         function _regeneratorRuntime() {
             "use strict";
             _regeneratorRuntime = function _regeneratorRuntime() {
@@ -6038,11 +4360,11 @@ require("./runtime");
                 }));
             };
         }
-        var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
-        var inherits = __webpack_require__(730);
-        var createSuper = __webpack_require__(605);
-        var react = __webpack_require__(757);
+        var classCallCheck = __webpack_require__(177);
+        var createClass = __webpack_require__(347);
+        var inherits = __webpack_require__(521);
+        var createSuper = __webpack_require__(777);
+        var react = __webpack_require__(800);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -6125,7 +4447,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(100);
+        return __webpack_exec__(631);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6189,7 +4511,7 @@ module.exports = {
 "use strict";
 
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 216 ], {
-    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -6201,13 +4523,13 @@ module.exports = {
             }
         }
     },
-    815: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(671);
+        var esm_typeof = __webpack_require__(361);
         function _toPrimitive(input, hint) {
             if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
             var prim = input[Symbol.toPrimitive];
@@ -6240,7 +4562,7 @@ module.exports = {
             return Constructor;
         }
     },
-    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -6263,7 +4585,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(671);
+        var esm_typeof = __webpack_require__(361);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -6292,7 +4614,7 @@ module.exports = {
             };
         }
     },
-    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -6322,7 +4644,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
