@@ -898,7 +898,7 @@ exports[`config should build from origin and pipe to output 2`] = `
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
             var formatSize = ~~size;
-            var rootValue = 1 / config.deviceRatio[designWidth];
+            var rootValue = 1 / deviceRatio[designWidth];
             switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
@@ -1839,7 +1839,7 @@ I m irrelevant.
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
             var formatSize = ~~size;
-            var rootValue = 1 / config.deviceRatio[designWidth];
+            var rootValue = 1 / deviceRatio[designWidth];
             switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
@@ -2780,7 +2780,7 @@ exports[`config should resolved alias 2`] = `
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
             var formatSize = ~~size;
-            var rootValue = 1 / config.deviceRatio[designWidth];
+            var rootValue = 1 / deviceRatio[designWidth];
             switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
