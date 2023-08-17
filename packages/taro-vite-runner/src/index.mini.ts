@@ -34,7 +34,9 @@ export default async function (appPath: string, taroConfig: MiniBuildConfig) {
     modifyComponentConfig(componentConfig, taroConfig)
   }
 
-  taroConfig.modifyViteConfig?.(commonConfig, componentConfig)
+  taroConfig.modifyViteConfig?.(commonConfig, {
+    componentConfig
+  })
 
   await build(commonConfig)
 }

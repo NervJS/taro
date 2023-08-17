@@ -28,6 +28,8 @@ export default async function (appPath: string, taroConfig: HarmonyBuildConfig) 
     plugins,
   }
 
-  taroConfig.modifyViteConfig?.(commonConfig, componentConfig)
+  taroConfig.modifyViteConfig?.(commonConfig, {
+    componentConfig
+  })
   await build(commonConfig)
 }

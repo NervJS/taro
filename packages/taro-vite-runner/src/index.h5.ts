@@ -30,7 +30,9 @@ export default async function (appPath: string, taroConfig: H5BuildConfig) {
     plugins
   }
 
-  taroConfig.modifyViteConfig?.(commonConfig, componentConfig)
+  taroConfig.modifyViteConfig?.(commonConfig, {
+    componentConfig
+  })
 
   // @TODO pretty print
   const server = await createServer(commonConfig)

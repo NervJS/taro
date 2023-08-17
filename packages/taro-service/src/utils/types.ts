@@ -1,6 +1,6 @@
 import type helper from '@tarojs/helper'
 import type { IMiniFilesConfig, IProjectConfig } from '@tarojs/taro/types/compile'
-import type { IModifyWebpackChain } from '@tarojs/taro/types/compile/hooks'
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
@@ -138,11 +138,11 @@ export declare interface IPluginContext {
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */
-  modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyWebpackChain }) => void) => void
+  modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyChainData }) => void) => void
   /**
    * 编译中修改 vite 配置
    */
-  modifyViteConfig: (fn: (args: { viteConfig: any, componentConfig?: IModifyWebpackChain['componentConfig'] }) => void) => void
+  modifyViteConfig: (fn: (args: { viteConfig: any, data?: IModifyChainData }) => void) => void
   /**
    * 修改编译后的结果
    */
