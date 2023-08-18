@@ -70,21 +70,20 @@ export default function (): PluginOption {
         if (appConfig.tabBar) {
           tabBarCode = [
             'var tabbarIconPath = []',
-            'var tabbarSelectedIconPath = []',
+            'var tabbarSelectedIconPath = [] \n',
           ].join('\n')
           const tabbarList = appConfig.tabBar.list
           tabBarCode = tabbarList.reduce((prev, current, index) => {
             if (current.iconPath) {
-              const iconPath = path.join(compiler.sourceDir, current.iconPath)
-              prev += `tabbarIconPath[${index}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
+              prev += `tabbarIconPath[${index}] = '${current.iconPath}'\n`
             }
             if (current.selectedIconPath) {
-              const iconPath = path.join(compiler.sourceDir, current.selectedIconPath)
-              prev += `tabbarSelectedIconPath[${index}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
+              prev += `tabbarSelectedIconPath[${index}] = '${current.selectedIconPath}'\n`
             }
             return prev
           }, tabBarCode)
           tabBarCode += [
+            '\n',
             'var tabbarList = config.tabBar.list',
             'for (var i = 0; i < tabbarList.length; i++) {',
             '  var t = tabbarList[i]',
