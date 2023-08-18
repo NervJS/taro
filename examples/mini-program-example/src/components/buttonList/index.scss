@@ -7,20 +7,87 @@
     justify-content: center;
 }
 
+.hidden-control {
+    width: 90%;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.stepper {
+    width: 24%;
+    height: 60px;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 20px;
+    align-items: center;
+    border: 4px solid #ccc;
+    border-radius: 10px;
+}
+
+.stepper .stepper-num {
+    display: block;
+    width: 36%;
+    text-align: center;
+    border-left: 4px solid #ccc;
+    border-right: 4px solid #ccc;
+}
+
+.stepper .normal {
+    font-size: 42px;
+    padding: 0;
+    display: block;
+    width: 32%;
+    text-align: center;
+}
+
 .api-page-btn-area {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    transition: 0.3s;
+}
+
+.api-page-btn-area-hidden {
+    opacity: 0;
+    height: 0;
+}
+
+.api-textarea-area {
+    width: 100%;
+    position: relative;
 }
 
 .api-input-area {
     width: 90%;
     height: 200px;
-    min-height: 200px;
-    border: $color-grey-0 solid 2px;
-    border-radius: 5px;
+    margin: 20px auto;
+    border: $color-grey-0 solid 4px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
     resize: none;
+}
+
+.api-input-area-hidden {
+    height: 0;
+    margin: 0;
+    border: 0;
+}
+
+.textarea-control {
+    position: absolute;
+    right: 50px;
+    top: 36px;
+    height: 40px;
+    width: 40px;
+    border: 2px solid $color-grey-0;
+    background-color: $color-success;
+    border-radius: 100%;
+    opacity: $opacity-active;
+    text-align: center;
+    line-height: 40px;
 }
 
 .taro-textarea {
@@ -41,6 +108,11 @@ textarea {
     box-shadow: 5px 5px 5px 2px $color-grey-1, 0 0 0 0 $color-grey-1 inset;
     background-color: $color-success;
     transition: 0.3s;
+}
+
+.api-page-btn-uncreate {
+    opacity: $opacity-disabled;
+    pointer-events: none;
 }
 
 .api-page-btn:active {
