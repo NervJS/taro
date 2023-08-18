@@ -95,6 +95,10 @@ export default class TaroNormalModulesPlugin {
               }
 
               const [type, prop] = node.arguments
+              
+              // 防止 vue2 中类似 h() 的定义报错
+              if (!type) return
+
               const componentName = type.name
 
               if (type.value) {
