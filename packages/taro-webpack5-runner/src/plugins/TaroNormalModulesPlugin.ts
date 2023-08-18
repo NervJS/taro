@@ -54,7 +54,7 @@ export default class TaroNormalModulesPlugin {
         const dependency = dependencies[0]
         if (dependency instanceof TaroSingleEntryDependency) {
           return Promise.resolve(new TaroNormalModule(Object.assign(data,
-            { miniType: dependency.miniType, name: dependency.name }
+            { miniType: dependency.miniType, name: dependency.name, isNativePage: dependency.options.isNativePage }
           )))
         }
         return Promise.resolve(new TaroBaseNormalModule(data))
