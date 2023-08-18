@@ -14,7 +14,7 @@ export class EtsHelper {
   REGEX_MODIFIER = /\s((@\S+)\s*\n)+/
   REGEX_STRUCT = /(?<=\s)struct\s*[^{}]+\{/
 
-  structVarList = ['createReactApp', 'createPageConfig', 'component', 'ReactMeta', 'TaroElement', 'TaroView', 'TaroText', 'TaroImage', 'hilog']
+  structVars = new Set<string>()
 
   // eslint-disable-next-line no-useless-constructor
   constructor(protected appPath: string, protected taroConfig: HarmonyBuildConfig) {}
@@ -37,6 +37,7 @@ export class EtsHelper {
   }
 
   transStruct (id: string, code: string, count = 0) {
+    const that = this
     // Note 基于 acorn 将 ETS struct 与装饰器转换为字符串
     const startIndex = code.search(this.REGEX_STRUCT)
     if (startIndex === -1) return code
@@ -59,8 +60,44 @@ export class EtsHelper {
     if (name) {
       replaceCode += `export const ${name} = `
     }
+    const codeBuffer = codeBufferStr
+      .replace('struct', 'class')
+      .replace(/(\n\s*)([A-Z][a-z]+)\s?\(([^)]*)\)\s?\{/g, (_, p1, p2) => {
+        return `${p1}function ${p2}() {`
+      })
+
+    try {
+      transformSync(codeBuffer, {
+        filename: id,
+        parserOpts: {
+          plugins: [
+            'typescript',
+          ],
+        },
+        plugins: [
+          [
+            function etsPlugin (babel: typeof BabelCore): BabelCore.PluginObj<BabelCore.PluginPass> {
+              const t = babel.types
+              return {
+                name: 'taro-ets-plugin',
+                visitor: {
+                  Identifier(path) {
+                    const node = path.node
+                    if (t.isIdentifier(node) && node.loc) {
+                      that.structVars.add(node.name)
+                    }
+                  }
+                },
+              }
+            }
+          ]
+        ]
+      })
+    } catch (error) {
+      console.error(error)
+    }
     // FIXME 临时方案，后续需要通过 acorn 语法树解析使用的变量
-    replaceCode += `${codeId}(${this.structVarList.join(', ')})`
+    replaceCode += `${codeId}(${Array.from(this.structVars).join(', ')})`
     code = code.replace(codeBufferStr, replaceCode)
     return this.transStruct(id, code, count + 1)
   }
@@ -95,7 +132,7 @@ export class EtsHelper {
       for (const [codeId, codeBufferStr] of bufferMap) {
         code = code?.replace(new RegExp(`${fileId}\\s${exportStruct}?${codeId}${params}?(;\n)?`), (_, _id, _export, vars) => {
           if (vars) {
-            insertVarMap = parseVars(vars, this.structVarList)
+            insertVarMap = parseVars(vars, Array.from(this.structVars))
           }
           return codeBufferStr
         })
@@ -106,7 +143,7 @@ export class EtsHelper {
         if (bufferMap && bufferMap.has(codeId)) {
           const codeBufferStr = bufferMap.get(codeId) || ''
           if (vars) {
-            insertVarMap = parseVars(vars, this.structVarList)
+            insertVarMap = parseVars(vars, Array.from(this.structVars))
           }
           return codeBufferStr
         }
