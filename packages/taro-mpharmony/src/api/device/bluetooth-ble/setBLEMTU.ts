@@ -56,10 +56,22 @@ export const setBLEMTU: typeof Taro.setBLEMTU = (options) => {
       deviceId: deviceId,
       mtu: mtu,
       success: (res: any) => {
-        handle.success(res, { resolve, reject })
+        const result: Taro.setBLEMTU.SuccessCallbackResult = {
+          /** 最终协商的 MTU 值，与传入参数一致。 */
+          mtu: `${mtu}`,
+          errMsg: res.errMsg,
+          errCode: res.errCode
+        }
+        handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
-        handle.fail(err, { resolve, reject })
+        const result: Taro.setBLEMTU.FailCallbackResult = {
+          /** 最终协商的 MTU 值。协商失败则无此参数。 */
+          mtu: '',
+          errMsg: err.errMsg,
+          errCode: err.errCode
+        }
+        handle.fail(result, { resolve, reject })
       }
     })
   })
