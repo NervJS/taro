@@ -32,7 +32,6 @@ export function loadAnimateStyle (ms = 300) {
 export function loadRouterStyle (usingWindowScroll) {
   const css = `
   .taro_router {
-    overflow: hidden;
     position: relative;
     width: 100%;
     height: 100%;
