@@ -189,11 +189,6 @@ interface ButtonProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, jd
    */
   onGetPhoneNumber?: CommonEventFunction<ButtonProps.onGetPhoneNumberEventDetail>
-  /**
-   * 手机号实时验证回调，`open-type="getRealtimePhoneNumber"` 时有效
-   * @supported weapp
-   */
-  onGetRealTimePhoneNumber?: CommonEventFunction<ButtonProps.onGetRealTimePhoneNumberEventDetail>
   /** 当使用开放能力时，发生错误的回调
    *
    * 生效时机：`open-type="launchApp"`
@@ -218,11 +213,6 @@ interface ButtonProps extends StandardProps {
    * @supported weapp
    */
   onChooseAvatar?: CommonEventFunction
-  /**
-   * 用户同意隐私协议事件回调，`open-type="agreePrivacyAuthorization"`时有效
-   * @supported weapp
-   */
-  onAgreePrivacyAuthorization?: CommonEventFunction
   /** 点击。
    * 说明： 每点击一次会触发一次事件，建议自行使用代码防止重复点击,可以使用 js 防抖和节流实现。
    * @supported alipay
