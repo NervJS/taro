@@ -2,7 +2,6 @@
   transform-origin: left top 0px;
 }
 .rmc-pull-to-refresh-content-wrapper {
-  overflow: hidden;
   min-height: 100vh;
 }
 
