@@ -4,9 +4,10 @@ import { toDashed } from '@tarojs/shared'
 import { componentConfig } from '../utils/component'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type AcornWalk from 'acorn-walk'
 import type { Compiler } from 'webpack'
 
-const walk = require('acorn-walk')
+const walk = require('acorn-walk') as typeof AcornWalk
 const NullDependency = require('webpack/lib/dependencies/NullDependency')
 
 const PLUGIN_NAME = 'TaroComponentsExportsPlugin'
@@ -16,7 +17,7 @@ interface IOptions {
   onParseCreateElement?: Func
 }
 
-export function isRenderNode (node, ancestors): boolean {
+export function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
   let renderFn
   const hasRenderMethod = ancestors.some((ancestor) => {
     if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
@@ -26,6 +27,7 @@ export function isRenderNode (node, ancestors): boolean {
       return false
     }
   })
+  // @ts-ignore
   return hasRenderMethod && node.callee.name === renderFn
 }
 
@@ -45,6 +47,7 @@ export default class TaroComponentsExportsPlugin {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
           walk.ancestor(program, {
             CallExpression: (node, ancestors) => {
+              // @ts-ignore
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
@@ -53,7 +56,7 @@ export default class TaroComponentsExportsPlugin {
               } else {
                 const nameOfCallee = callee.name
                 if (
-                  // 兼容 react17 new jsx transtrom
+                  // 兼容 react17 new jsx transform
                   nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
                   // 兼容 Vue 3.0 渲染函数及 JSX
                   !(nameOfCallee && nameOfCallee.includes('createVNode')) &&
@@ -61,16 +64,16 @@ export default class TaroComponentsExportsPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  // 兼容 Vue 2.0 渲染函数及 JSX
                   !isRenderNode(node, ancestors)
-                  // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
-                  // nameOfCallee !== 'h' && nameOfCallee !== '_c'
                 ) {
                   return
                 }
               }
 
+              // @ts-ignore
               const type = node.arguments[0]
-              if (type.value) {
+              if (type?.value) {
                 this.onParseCreateElement?.(type.value, componentConfig)
                 this.#componentsExports.add(type.value)
               }
@@ -85,7 +88,7 @@ export default class TaroComponentsExportsPlugin {
         const module = Array.from(modules).find((e: any) => e.rawRequest === taroJsComponents) as any
         if (!module) return
         // Note: 仅在生产环境使用
-        if (compiler.options.mode === 'production') {
+        if (compiler.options.mode === 'production' && !componentConfig.includeAll) {
           if (this.#componentsExports.size > 0) {
             compilation.dependencyTemplates.set(
               NullDependency,
@@ -96,7 +99,8 @@ export default class TaroComponentsExportsPlugin {
               const name = toDashed(dependency.name)
               const taroName = `taro-${name}`
               // Note: Vue2 目前无法解析，需要考虑借助 componentConfig.includes 优化
-              if (this.options?.framework === FRAMEWORK_MAP.VUE ? !componentConfig.includes.has(name) : !this.#componentsExports.has(taroName)) {
+              const isIncluded = componentConfig.includes.has(name) || this.#componentsExports.has(taroName)
+              if (!isIncluded || componentConfig.exclude.has(name)) {
                 // Note: 使用 Null 依赖替换不需要的依赖，如果使用 `dependency.disconnect` 移除会抛出 `MODULE_NOT_FOUND` 错误
                 return new NullDependency()
               }
