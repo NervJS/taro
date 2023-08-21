@@ -10,6 +10,8 @@ import './index.scss'
  * @returns
  */
 
+// let deviceId = '73:4F:1B:6F:9D:13'
+let deviceId = '34:29:12:7F:79:71'
 export default class Index extends React.Component {
   state = {
     list: [
@@ -17,12 +19,11 @@ export default class Index extends React.Component {
         id: 'writeBLECharacteristicValue',
         func: (apiIndex) => {
           TestConsole.consoleTest('writeBLECharacteristicValue')
-          // 向蓝牙设备发送一个0x00的16进制数据
-          let buffer = new ArrayBuffer(1)
+          let buffer = new ArrayBuffer(12)
           Taro.writeBLECharacteristicValue({
-            characteristicId: '',
-            deviceId: '',
-            serviceId: '',
+            characteristicId: '0000AAAD-0000-1000-8000-00805F9B34FB',
+            deviceId: deviceId,
+            serviceId: '0000AAAA-0000-1000-8000-00805F9B34FB',
             value: buffer,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
@@ -40,11 +41,14 @@ export default class Index extends React.Component {
       },
       {
         id: 'setBLEMTU',
-        func: (apiIndex) => {
+        inputData: {
+          deviceId: deviceId,
+          mtu: 256,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('setBLEMTU')
           Taro.setBLEMTU({
-            deviceId: '',
-            mtu: 300,
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -61,15 +65,18 @@ export default class Index extends React.Component {
       },
       {
         id: 'readBLECharacteristicValue',
-        func: (apiIndex) => {
+        inputData: {
+          // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+          deviceId: deviceId,
+          // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+          serviceId: '0000AAAA-0000-1000-8000-00805F9B34FB',
+          // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
+          characteristicId: '0000AAAD-0000-1000-8000-00805F9B34FB',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('readBLECharacteristicValue')
           Taro.readBLECharacteristicValue({
-            // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-            deviceId: '',
-            // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-            serviceId: '',
-            // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
-            characteristicId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -93,7 +100,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('onBLEConnectionStateChange')
           Taro.onBLEConnectionStateChange((res) => {
-            TestConsole.consoleSuccess.call(this, res, apiIndex)
+            TestConsole.consoleOnCallback.call(this, res, 'onBLEConnectionStateChange', apiIndex)
           })
         },
       },
@@ -102,7 +109,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('onBLECharacteristicValueChange')
           Taro.onBLECharacteristicValueChange((res) => {
-            TestConsole.consoleSuccess.call(this, res, apiIndex)
+            TestConsole.consoleOnCallback.call(this, res, 'onBLECharacteristicValueChange', apiIndex)
           })
         },
       },
@@ -120,17 +127,20 @@ export default class Index extends React.Component {
       },
       {
         id: 'notifyBLECharacteristicValueChange',
-        func: (apiIndex) => {
+        inputData: {
+          // 启用 notify 功能
+          state: true,
+          // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+          deviceId: deviceId,
+          // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+          serviceId: '0000AAAA-0000-1000-8000-00805F9B34FB',
+          // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
+          characteristicId: '0000AAAD-0000-1000-8000-00805F9B34FB',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('notifyBLECharacteristicValueChange')
           Taro.notifyBLECharacteristicValueChange({
-            // 启用 notify 功能
-            state: true,
-            // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-            deviceId: '',
-            // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-            serviceId: '',
-            // 这里的 characteristicId 需要在 getBLEDeviceCharacteristics 接口中获取
-            characteristicId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -151,10 +161,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'getBLEDeviceServices',
-        func: (apiIndex) => {
+        inputData: {
+          deviceId: '34:29:12:7F:79:71'
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('getBLEDeviceServices')
           Taro.getBLEDeviceServices({
-            deviceId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -171,10 +184,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'getBLEDeviceRSSI',
-        func: (apiIndex) => {
+        inputData: {
+          deviceId: deviceId,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('getBLEDeviceRSSI')
           Taro.getBLEDeviceRSSI({
-            deviceId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -191,13 +207,16 @@ export default class Index extends React.Component {
       },
       {
         id: 'getBLEDeviceCharacteristics',
-        func: (apiIndex) => {
+        inputData: {
+            // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+            deviceId: deviceId,
+            // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+            serviceId: '0000AAAA-0000-1000-8000-00805F9B34FB',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('getBLEDeviceCharacteristics')
           Taro.getBLEDeviceCharacteristics({
-            // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-            deviceId: '',
-            // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-            serviceId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -214,11 +233,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'createBLEConnection',
-        func: (apiIndex) => {
+        inputData: {
+          deviceId: deviceId,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('createBLEConnection')
           Taro.createBLEConnection({
-            // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-            deviceId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -235,10 +256,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'closeBLEConnection',
-        func: (apiIndex) => {
+        inputData: {
+          deviceId: deviceId,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('closeBLEConnection')
           Taro.closeBLEConnection({
-            deviceId: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
