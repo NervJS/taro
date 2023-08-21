@@ -127,14 +127,10 @@ export class EtsHelper {
     const exportStruct = '((?:export\\s)?(?:const|var|let)\\s\\S*\\s=\\s)'
     const params = '(\\([^\\)]*\\))'
     const bufferMap = this.codeBuffer[id]
-    let insertVarMap = ''
     if (bufferMap) {
       for (const [codeId, codeBufferStr] of bufferMap) {
         code = code?.replace(new RegExp(`${fileId}\\s${exportStruct}?${codeId}${params}?(;\n)?`), (_, _id, _export, vars) => {
-          if (vars) {
-            insertVarMap = parseVars(vars, Array.from(this.structVars))
-          }
-          return codeBufferStr
+          return parseCodeVars(codeBufferStr, vars, Array.from(this.structVars))
         })
       }
     } else {
@@ -142,28 +138,31 @@ export class EtsHelper {
         const bufferMap = this.codeBuffer[id]
         if (bufferMap && bufferMap.has(codeId)) {
           const codeBufferStr = bufferMap.get(codeId) || ''
-          if (vars) {
-            insertVarMap = parseVars(vars, Array.from(this.structVars))
-          }
-          return codeBufferStr
+          return parseCodeVars(codeBufferStr, vars, Array.from(this.structVars))
         }
         return ''
       }) || ''
     }
 
-    // FIXME 临时方案，仅支持 function、class 类型
-    function parseVars (vars = '', list: string[] = []) {
-      return vars
-        .slice(1, -1).split(',')
-        .map(v => v.trim())
-        .reduce((p, v, i) => {
-          if (list[i] !== v) {
-            p += `var ${list[i]} = ${v};\n`
-          }
-          return p
-        }, '')
+    function parseCodeVars (code = '', vars = '', list: string[] = []) {
+      if (!vars) return code
+
+      const delimiters = ['(?![\\.\'"`])\\b', '\\b(?![\\.\'"`])']
+
+      const varList = vars.slice(1, -1).split(',')
+      varList.forEach((v, i) => {
+        v = v.trim()
+        if (list[i] !== v) {
+          const pattern = new RegExp(
+            `${delimiters[0]}${list[i].replace(/[\\/\-$]/g, '\\$1')}(${delimiters[1]})`,
+            'g'
+          )
+          code = code.replace(pattern, () => v)
+        }
+      })
+
+      return code
     }
-    code = code.replace(/(import\s[^'"]*['"][^'"]*['"];?\n)*/, s => `${s}\n${insertVarMap}`)
 
     return code
   }
