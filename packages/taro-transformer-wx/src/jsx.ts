@@ -12,25 +12,23 @@ import {
   SPECIAL_COMPONENT_PROPS,
   swanSpecialAttrs,
   THIRD_PARTY_COMPONENTS,
-  TRANSFORM_COMPONENT_PROPS} from './constant'
+  TRANSFORM_COMPONENT_PROPS,
+} from './constant'
 import { createHTMLElement } from './create-html-element'
 import { Status } from './functional'
 import { transformOptions } from './options'
 import { codeFrameError, decodeUnicode } from './utils'
 
-export function isStartWithWX (str: string) {
+export function isStartWithWX(str: string) {
   return str[0] === 'w' && str[1] === 'x'
 }
 
 const specialComponentName = ['block', 'Block', 'slot', 'Slot']
 
-export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
+export function removeJSXThisProperty(path: NodePath<t.ThisExpression>) {
   if (!path.parentPath.isCallExpression()) {
     const p = path.getSibling('property')
-    if (
-      p.isIdentifier({ name: 'props' }) ||
-      p.isIdentifier({ name: 'state' })
-    ) {
+    if (p.isIdentifier({ name: 'props' }) || p.isIdentifier({ name: 'state' })) {
       path.parentPath.replaceWithSourceString('this')
     } else {
       path.parentPath.replaceWith(p)
@@ -38,7 +36,7 @@ export function removeJSXThisProperty (path: NodePath<t.ThisExpression>) {
   }
 }
 
-export function findJSXAttrByName (attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[], name: string) {
+export function findJSXAttrByName(attrs: (t.JSXAttribute | t.JSXSpreadAttribute)[], name: string) {
   for (const attr of attrs) {
     if (!t.isJSXAttribute(attr)) continue
 
@@ -52,12 +50,14 @@ export function findJSXAttrByName (attrs: (t.JSXAttribute | t.JSXSpreadAttribute
   return null
 }
 
-export function buildRefTemplate (name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
+export function buildRefTemplate(name: string, refName?: string, loop?: boolean, key?: t.JSXAttribute) {
   const isSwan = Adapter.type === Adapters.swan
-  const dataString = isSwan ? `{{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}}` : `{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`
+  const dataString = isSwan
+    ? `{{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}}`
+    : `{{...${refName ? `${loop ? '' : '$$'}${refName}` : '__data'}}}`
   const attrs = [
     t.jSXAttribute(t.jSXIdentifier('is'), t.stringLiteral(name)),
-    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(dataString))
+    t.jSXAttribute(t.jSXIdentifier('data'), t.stringLiteral(dataString)),
   ]
   if (key) {
     attrs.push(key)
@@ -69,18 +69,15 @@ export function buildRefTemplate (name: string, refName?: string, loop?: boolean
   )
 }
 
-export function buildJSXAttr (name: string, value: t.Identifier | t.Expression) {
+export function buildJSXAttr(name: string, value: t.Identifier | t.Expression) {
   return t.jSXAttribute(t.jSXIdentifier(name), t.jSXExpressionContainer(value))
 }
 
-export function newJSXIfAttr (
-  jsx: t.JSXElement,
-  value: t.Identifier | t.Expression
-) {
+export function newJSXIfAttr(jsx: t.JSXElement, value: t.Identifier | t.Expression) {
   jsx.openingElement.attributes.push(buildJSXAttr(Adapter.if, value))
 }
 
-export function setJSXAttr (
+export function setJSXAttr(
   jsx: t.JSXElement,
   name: string,
   value?: t.StringLiteral | t.JSXExpressionContainer | t.JSXElement,
@@ -95,9 +92,7 @@ export function setJSXAttr (
     return
   }
   if (element.name.name === 'Block' || element.name.name === 'block' || !path) {
-    jsx.openingElement.attributes.push(
-      t.jSXAttribute(t.jSXIdentifier(name), value)
-    )
+    jsx.openingElement.attributes.push(t.jSXAttribute(t.jSXIdentifier(name), value))
   } else {
     const block = buildBlockElement()
     setJSXAttr(block, name, value)
@@ -106,32 +101,30 @@ export function setJSXAttr (
   }
 }
 
-export function buildTrueJSXAttrValue () {
+export function buildTrueJSXAttrValue() {
   return t.jSXExpressionContainer(t.booleanLiteral(true))
 }
 
-export function generateJSXAttr (ast: t.Node) {
+export function generateJSXAttr(ast: t.Node) {
   const options = {
-    quotes: "single",
-    retainFunctionParens: true // 如果您需要 JSON 兼容的字符串，请改用此选项
-  };
-  const code = decodeUnicode(
-    generate(ast,options).code
-  )
-    .replace(/</g, lessThanSignPlacehold)
+    quotes: 'single',
+    retainFunctionParens: true, // 如果您需要 JSON 兼容的字符串，请改用此选项
+  }
+  const code = decodeUnicode(generate(ast, options).code).replace(/</g, lessThanSignPlacehold)
   if (Status.isSFC) {
     return code
   }
-  return code.replace(/(this\.props\.)|(this\.state\.)/g, '')
+  return code
+    .replace(/(this\.props\.)|(this\.state\.)/g, '')
     .replace(/(props\.)|(state\.)/g, '')
     .replace(/this\./g, '')
 }
 
-export function isAllLiteral (...args) {
-  return args.every(p => t.isLiteral(p))
+export function isAllLiteral(...args) {
+  return args.every((p) => t.isLiteral(p))
 }
 
-export function buildBlockElement (attrs: t.JSXAttribute[] = [], isView = false) {
+export function buildBlockElement(attrs: t.JSXAttribute[] = [], isView = false) {
   let blockName = Adapter.type === Adapters.quickapp ? 'div' : 'block'
   if (isView) {
     blockName = 'View'
@@ -143,45 +136,43 @@ export function buildBlockElement (attrs: t.JSXAttribute[] = [], isView = false)
   )
 }
 
-function parseJSXChildren (
-  children: (t.JSXElement | t.JSXText | t.JSXExpressionContainer)[]
-): string {
-  return children
-    .reduce((str, child) => {
-      if (t.isJSXText(child)) {
-        const strings: string[] = []
-        child.value.split(/(\r?\n\s*)/).forEach((val) => {
-          const value = val
-            .replace(/\u00a0/g, '&nbsp;')
-            .replace(/\u2002/g, '&ensp;')
-            .replace(/\u2003/g, '&emsp;')
-          if (!value) {
-            return
-          }
-          if (value.startsWith('\n')) {
-            return
-          }
-          strings.push(value)
-        })
-        return str + strings.join('')
-      }
-      if (t.isJSXElement(child)) {
-        return str + parseJSXElement(child)
-      }
-      if (t.isJSXExpressionContainer(child)) {
-        if (t.isJSXElement(child.expression)) {
-          return str + parseJSXElement(child.expression)
+function parseJSXChildren(children: (t.JSXElement | t.JSXText | t.JSXExpressionContainer)[]): string {
+  return children.reduce((str, child) => {
+    if (t.isJSXText(child)) {
+      const strings: string[] = []
+      child.value.split(/(\r?\n\s*)/).forEach((val) => {
+        const value = val
+          .replace(/\u00a0/g, '&nbsp;')
+          .replace(/\u2002/g, '&ensp;')
+          .replace(/\u2003/g, '&emsp;')
+        if (!value) {
+          return
         }
-        return str + `{${generateJSXAttr(child)}}`
+        if (value.startsWith('\n')) {
+          return
+        }
+        strings.push(value)
+      })
+      return str + strings.join('')
+    }
+    if (t.isJSXElement(child)) {
+      return str + parseJSXElement(child)
+    }
+    if (t.isJSXExpressionContainer(child)) {
+      if (t.isJSXElement(child.expression)) {
+        return str + parseJSXElement(child.expression)
       }
-      return str
-    }, '')
+      return str + `{${generateJSXAttr(child)}}`
+    }
+    return str
+  }, '')
 }
 
-export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): string {
+export function parseJSXElement(element: t.JSXElement, isFirstEmit = false): string {
   const children = element.children
   const { attributes, name } = element.openingElement
-  const TRIGGER_OBSERER = Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp ? 'privateTriggerObserer' : '__triggerObserer'
+  const TRIGGER_OBSERER =
+    Adapter.type === Adapters.swan || Adapter.type === Adapters.quickapp ? 'privateTriggerObserer' : '__triggerObserer'
   const TRIGGER_OBSERER_KEY = Adapter.type === Adapters.quickapp ? 'privateTriggerObsererKey' : '_triggerObserer'
   if (t.isJSXMemberExpression(name)) {
     throw codeFrameError(name.loc, '暂不支持 JSX 成员表达式')
@@ -191,9 +182,19 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
   const componentSpecialProps = SPECIAL_COMPONENT_PROPS.get(componentName as string)
   const componentTransfromProps = TRANSFORM_COMPONENT_PROPS.get(Adapter.type)
   let hasElseAttr = false
-  const isJSXMetHod = componentName === 'Template' && attributes.some(a => t.isJSXAttribute(a) && a.name.name === 'is' && t.isStringLiteral(a.value) && a.value.value.startsWith('render'))
+  const isJSXMetHod =
+    componentName === 'Template' &&
+    attributes.some(
+      (a) =>
+        t.isJSXAttribute(a) && a.name.name === 'is' && t.isStringLiteral(a.value) && a.value.value.startsWith('render')
+    )
   attributes.forEach((a, index) => {
-    if (t.isJSXAttribute(a) && a.name.name === Adapter.else && !['block', 'Block'].includes(componentName as string) && !isDefaultComponent) {
+    if (
+      t.isJSXAttribute(a) &&
+      a.name.name === Adapter.else &&
+      !['block', 'Block'].includes(componentName as string) &&
+      !isDefaultComponent
+    ) {
       hasElseAttr = true
       attributes.splice(index, 1)
     }
@@ -202,9 +203,9 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
     return createHTMLElement({
       name: 'block',
       attributes: {
-        [Adapter.else]: true
+        [Adapter.else]: true,
       },
-      value: parseJSXChildren([element])
+      value: parseJSXChildren([element]),
     })
   }
   let attributesTrans = {}
@@ -224,13 +225,20 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           name = name.toLowerCase()
         }
       }
-      if (Adapters.quickapp === Adapter.type && !DEFAULT_Component_SET_COPY.has(componentName as string) && typeof name === 'string' && !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)) {
+      if (
+        Adapters.quickapp === Adapter.type &&
+        !DEFAULT_Component_SET_COPY.has(componentName as string) &&
+        typeof name === 'string' &&
+        !/(^on[A-Z_])|(^catch[A-Z_])/.test(name)
+      ) {
         name = snakeCase(name)
       }
       let value: string | boolean = true
       let attrValue = attr.value
       if (typeof name === 'string') {
-        const isAlipayOrQuickappEvent = (Adapter.type === Adapters.alipay || Adapter.type === Adapters.quickapp) && /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
+        const isAlipayOrQuickappEvent =
+          (Adapter.type === Adapters.alipay || Adapter.type === Adapters.quickapp) &&
+          /(^on[A-Z_])|(^catch[A-Z_])/.test(name)
         if (t.isStringLiteral(attrValue)) {
           value = attrValue.value
         } else if (t.isJSXExpressionContainer(attrValue)) {
@@ -238,8 +246,8 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
             (name.startsWith('bind') && name !== 'bind') || (name.startsWith('catch') && name !== 'catch')
           const options = {
             quotes: 'single',
-            concise: true
-          };
+            concise: true,
+          }
           let code = decodeUnicode(generate(attrValue.expression, options).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
@@ -262,7 +270,10 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
               }
             } else {
               const isTemplateData = isJSXMetHod && name === 'data'
-              value = isBindEvent || isAlipayOrQuickappEvent ? code : `{{${isJSXMetHod && name === 'data' ? '...' : ''}${code}}}`
+              value =
+                isBindEvent || isAlipayOrQuickappEvent
+                  ? code
+                  : `{{${isJSXMetHod && name === 'data' ? '...' : ''}${code}}}`
               if (isTemplateData && Adapters.swan === Adapter.type) {
                 value = `{${value}}`
               }
@@ -274,7 +285,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
-        // tslint:disable-next-line: strict-type-predicates
+          // tslint:disable-next-line: strict-type-predicates
         } else if (attrValue === null && name !== Adapter.else) {
           value = `{{true}}`
         }
@@ -283,7 +294,7 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
         }
         if (componentTransfromProps && componentTransfromProps[componentName as string]) {
           const transfromProps = componentTransfromProps[componentName as string]
-          Object.keys(transfromProps).forEach(oriName => {
+          Object.keys(transfromProps).forEach((oriName) => {
             if (name === oriName) {
               name = transfromProps[oriName]
             }
@@ -318,32 +329,38 @@ export function parseJSXElement (element: t.JSXElement, isFirstEmit = false): st
   if (isFirstEmit && Adapters.quickapp === Adapter.type && !transformOptions.isRoot) {
     const rootAttributes = Object.assign({}, attributesTrans)
     delete rootAttributes[Adapter.if]
-    elementStr = createHTMLElement({
-      name: kebabCase(componentName as string),
-      attributes: rootAttributes,
-      value: createHTMLElement({
-        name: 'block',
-        attributes: { [Adapter.if]: attributesTrans[Adapter.if] },
-        value: parseJSXChildren(children as any)
-      })
-    }, isFirstEmit)
+    elementStr = createHTMLElement(
+      {
+        name: kebabCase(componentName as string),
+        attributes: rootAttributes,
+        value: createHTMLElement({
+          name: 'block',
+          attributes: { [Adapter.if]: attributesTrans[Adapter.if] },
+          value: parseJSXChildren(children as any),
+        }),
+      },
+      isFirstEmit
+    )
   } else {
-    elementStr = createHTMLElement({
-      name: kebabCase(componentName as string),
-      attributes: attributesTrans,
-      value: parseJSXChildren(children as any)
-    }, isFirstEmit)
+    elementStr = createHTMLElement(
+      {
+        name: kebabCase(componentName as string),
+        attributes: attributesTrans,
+        value: parseJSXChildren(children as any),
+      },
+      isFirstEmit
+    )
   }
 
   return elementStr
 }
 
-export function generateHTMLTemplate (template: t.JSXElement, name: string) {
+export function generateHTMLTemplate(template: t.JSXElement, name: string) {
   return createHTMLElement({
     name: 'template',
     attributes: {
-      name
+      name,
     },
-    value: parseJSXElement(template)
+    value: parseJSXElement(template),
   })
 }

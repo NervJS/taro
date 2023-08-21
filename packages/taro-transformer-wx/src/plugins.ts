@@ -1,25 +1,24 @@
 import * as t from '@babel/types'
 
-function isString (node) {
+function isString(node) {
   return t.isLiteral(node as any) && typeof node.value === 'string'
 }
 
-function buildBinaryExpression (left, right) {
+function buildBinaryExpression(left, right) {
   return t.binaryExpression('+', left, right)
 }
-export function templateLiterals (path, state) {
-
+export function templateLiterals(path, state) {
   let nodes: Array<Object> = []
 
   const expressions = path.get('expressions')
 
-  for (const elem of (path.node.quasis)) {
+  for (const elem of path.node.quasis) {
     nodes.push(t.stringLiteral(elem.value.cooked))
 
     const expr = expressions.shift()
     if (expr) {
       // tslint:disable-next-line:no-multi-spaces
-      if (state.opts.spec && !expr.isBaseType('string') && !expr.isBaseType('number'))  {
+      if (state.opts.spec && !expr.isBaseType('string') && !expr.isBaseType('number')) {
         nodes.push(t.callExpression(t.identifier('String'), [expr.node]))
       } else {
         nodes.push(expr.node)

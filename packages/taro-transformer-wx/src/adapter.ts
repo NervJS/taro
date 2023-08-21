@@ -5,7 +5,7 @@ export const enum Adapters {
   quickapp = 'quickapp',
   tt = 'tt',
   qq = 'qq',
-  jd = 'jd'
+  jd = 'jd',
 }
 
 interface Adapter {
@@ -27,7 +27,7 @@ const weixinAdapter: Adapter = {
   forItem: 'wx:for-item',
   forIndex: 'wx:for-index',
   key: 'wx:key',
-  type: Adapters.weapp
+  type: Adapters.weapp,
 }
 
 const swanAdapter: Adapter = {
@@ -38,7 +38,7 @@ const swanAdapter: Adapter = {
   forItem: 's-for-item',
   forIndex: 's-for-index',
   key: 's-key',
-  type: Adapters.swan
+  type: Adapters.swan,
 }
 
 const alipayAdapter: Adapter = {
@@ -49,7 +49,7 @@ const alipayAdapter: Adapter = {
   forItem: 'a:for-item',
   forIndex: 'a:for-index',
   key: 'a:key',
-  type: Adapters.alipay
+  type: Adapters.alipay,
 }
 
 const ttAdapter: Adapter = {
@@ -60,7 +60,7 @@ const ttAdapter: Adapter = {
   forItem: 'tt:for-item',
   forIndex: 'tt:for-index',
   key: 'tt:key',
-  type: Adapters.tt
+  type: Adapters.tt,
 }
 
 const quickappAdapter: Adapter = {
@@ -71,7 +71,7 @@ const quickappAdapter: Adapter = {
   forItem: 'for-item',
   forIndex: 'for-index',
   key: 'key',
-  type: Adapters.quickapp
+  type: Adapters.quickapp,
 }
 
 const qqAdapter: Adapter = {
@@ -82,7 +82,7 @@ const qqAdapter: Adapter = {
   forItem: 'qq:for-item',
   forIndex: 'qq:for-index',
   key: 'qq:key',
-  type: Adapters.qq
+  type: Adapters.qq,
 }
 
 const jdAdapter: Adapter = {
@@ -93,16 +93,24 @@ const jdAdapter: Adapter = {
   forItem: 'jd:for-item',
   forIndex: 'jd:for-index',
   key: 'jd:key',
-  type: Adapters.jd
+  type: Adapters.jd,
 }
 
 export let Adapter: Adapter = weixinAdapter
 
 export const isNewPropsSystem = () => {
-  return [Adapters.weapp, Adapters.swan, Adapters.tt, Adapters.qq, Adapters.alipay, Adapters.quickapp, Adapters.jd].includes(Adapter.type)
+  return [
+    Adapters.weapp,
+    Adapters.swan,
+    Adapters.tt,
+    Adapters.qq,
+    Adapters.alipay,
+    Adapters.quickapp,
+    Adapters.jd,
+  ].includes(Adapter.type)
 }
 
-export function setAdapter (adapter: Adapters) {
+export function setAdapter(adapter: Adapters) {
   switch (adapter.toLowerCase()) {
     case Adapters.swan:
       Adapter = swanAdapter
