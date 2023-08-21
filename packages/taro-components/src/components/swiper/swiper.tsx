@@ -169,6 +169,7 @@ export class Swiper implements ComponentInterface {
     }
     this.el.addEventListener('DOMNodeInserted', this.handleSwiperSize)
     this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSize)
+    this.el.addEventListener('MutationObserver', this.handleSwiperSize)
   }
 
   @Watch("circular")
@@ -222,6 +223,7 @@ export class Swiper implements ComponentInterface {
   disconnectedCallback () {
     this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSize)
     this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSize)
+    this.el.removeEventListener('MutationObserver', this.handleSwiperSize)
     this.observer?.disconnect?.()
     this.observerFirst?.disconnect?.()
     this.observerLast?.disconnect?.()
