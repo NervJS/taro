@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -13,46 +14,49 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'stopPullDownRefresh',
+        id: 'startPullDownRefresh',
         func: (apiIndex) => {
+          TestConsole.consoleTest('startPullDownRefresh')
           Taro.startPullDownRefresh({
             success: (res) => {
-              console.log('startPullDownRefresh success ', res)
-              setTimeout(() => {
-                Taro.stopPullDownRefresh({
-                  success: (res) => {
-                    console.log('stopPullDownRefresh success ', res)
-                  },
-                  fail: (res) => {
-                    console.log('stopPullDownRefresh fail ', res)
-                  },
-                  complete: (res) => {
-                    console.log('stopPullDownRefresh complete ', res)
-                  },
-                })
-              }, 5000)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
-        id: 'startPullDownRefresh',
+        id: 'stopPullDownRefresh',
         func: (apiIndex) => {
-          Taro.startPullDownRefresh({
+          TestConsole.consoleTest('stopPullDownRefresh')
+          Taro.stopPullDownRefresh({
             success: (res) => {
-              console.log('startPullDownRefresh success ', res)
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              console.log('startPullDownRefresh fail ', res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              console.log('startPullDownRefresh complete ', res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
     ],
   }
+
+  onPullDownRefresh() {
+    console.log('onPullDownRefresh: 下拉刷新事件处理')
+    Taro.showToast({
+      title: '下拉刷新中',
+    })
+  }
+
   render() {
     const { list } = this.state
     return (

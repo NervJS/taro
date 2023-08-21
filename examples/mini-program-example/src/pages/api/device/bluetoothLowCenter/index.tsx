@@ -162,7 +162,7 @@ export default class Index extends React.Component {
       {
         id: 'getBLEDeviceServices',
         inputData: {
-          deviceId: '34:29:12:7F:79:71'
+          deviceId: '34:29:12:7F:79:71',
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('getBLEDeviceServices')
@@ -208,10 +208,10 @@ export default class Index extends React.Component {
       {
         id: 'getBLEDeviceCharacteristics',
         inputData: {
-            // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
-            deviceId: deviceId,
-            // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
-            serviceId: '0000AAAA-0000-1000-8000-00805F9B34FB',
+          // 这里的 deviceId 需要已经通过 createBLEConnection 与对应设备建立链接
+          deviceId: deviceId,
+          // 这里的 serviceId 需要在 getBLEDeviceServices 接口中获取
+          serviceId: '0000AAAA-0000-1000-8000-00805F9B34FB',
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('getBLEDeviceCharacteristics')
