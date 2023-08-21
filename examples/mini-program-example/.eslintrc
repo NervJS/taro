@@ -8,8 +8,6 @@
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-shadow": "off",
-    "react/forbid-elements": "off",
-    "react-hooks/rules-of-hooks": "off",
-    "react/no-unused-state": "off"
+    "react/forbid-elements": "off"
   }
 }

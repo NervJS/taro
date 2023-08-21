@@ -8,10 +8,6 @@ import ComponentState from '../../../components/component_state/component_state'
 export default class PageView extends React.Component {
   constructor() {
     super(...arguments)
-
-    this.state = {
-      contents: [],
-    }
   }
 
   render() {
