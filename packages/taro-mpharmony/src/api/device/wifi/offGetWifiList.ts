@@ -13,5 +13,5 @@ export const offGetWifiList: typeof Taro.offGetWifiList = (callback) => {
   }
 
   // @ts-ignore
-  native.onGetWifiList(callback)
+  native.offGetWifiList(callback)
 }

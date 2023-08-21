@@ -52,15 +52,11 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'setWifiList',
-        func: null,
-      },
-      {
         id: 'onWifiConnectedWithPartialInfo',
         func: (apiIndex) => {
           TestConsole.consoleTest('onWifiConnectedWithPartialInfo')
           Taro.onWifiConnectedWithPartialInfo((res) => {
-            TestConsole.consoleSuccess(res)
+            TestConsole.consoleOnCallback.call(this, res, 'onWifiConnectedWithPartialInfo', apiIndex)
           })
         },
       },
@@ -69,7 +65,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('onWifiConnected')
           Taro.onWifiConnected((res) => {
-            TestConsole.consoleSuccess(res)
+            TestConsole.consoleOnCallback.call(this, res, 'onWifiConnected', apiIndex)
           })
         },
       },
@@ -78,7 +74,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('onGetWifiList')
           Taro.onGetWifiList((res) => {
-            TestConsole.consoleSuccess(res)
+            TestConsole.consoleOnCallback.call(this, res, 'onGetWifiList', apiIndex)
             const wifiList = res.wifiList
               .sort((a, b) => b.signalStrength - a.signalStrength)
               .map((wifi) => {
@@ -96,7 +92,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('offWifiConnectedWithPartialInfo')
           Taro.offWifiConnectedWithPartialInfo((res) => {
-            TestConsole.consoleSuccess(res)
+            TestConsole.consoleOnCallback.call(this, res, 'offWifiConnectedWithPartialInfo', apiIndex)
           })
         },
       },
@@ -105,7 +101,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('offWifiConnected')
           Taro.offWifiConnected((res) => {
-            TestConsole.consoleSuccess(res)
+            TestConsole.consoleOnCallback.call(this, res, 'offWifiConnected', apiIndex)
           })
         },
       },
@@ -114,7 +110,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('offGetWifiList')
           Taro.offGetWifiList((res) => {
-            TestConsole.consoleSuccess(res)
+            TestConsole.consoleOnCallback.call(this, res, 'offGetWifiList', apiIndex)
           })
         },
       },
@@ -158,11 +154,14 @@ export default class Index extends React.Component {
       },
       {
         id: 'connectWifi',
-        func: (apiIndex) => {
+        inputData: {
+          SSID: 'hahaha',
+          BSSID: '72:d4:aa:09:0f:f4',
+          password: 'lwh123456',
+        },
+        func: (apiIndex, data) => {
           Taro.connectWifi({
-            SSID: '',
-            BSSID: '',
-            password: '',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },

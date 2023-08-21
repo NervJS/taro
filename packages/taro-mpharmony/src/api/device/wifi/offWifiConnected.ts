@@ -13,7 +13,7 @@ export const offWifiConnected: typeof Taro.offWifiConnected = (callback) => {
   }
 
   // @ts-ignore
-  native.onWifiConnected((res: any) => {
+  native.offWifiConnected((res: any) => {
     const result: Taro.onWifiConnected.CallbackResult = {
       /** Wi-Fi 信息 */
       wifi: {
