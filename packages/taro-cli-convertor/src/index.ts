@@ -548,6 +548,7 @@ export default class Convertor {
     return fs.copySync(from, to, options)
   }
 
+  // 自定义组件，如果组件文件命名为index，引入时可省略index这一层，解析时需加上
   getComponentPath (component: string, extname: string) {
     if (fs.existsSync(component + extname)) return component + extname
     else return component + '/index' + extname
@@ -796,11 +797,11 @@ ${code}
       if (this.hadBeenBuiltComponents.has(component)) return
       this.hadBeenBuiltComponents.add(component)
 
-      const componentJSPath = component + this.fileTypes.SCRIPT
+      const componentJSPath = this.getComponentPath(component, this.fileTypes.SCRIPT)
       const componentDistJSPath = this.getDistFilePath(componentJSPath)
-      const componentConfigPath = component + this.fileTypes.CONFIG
-      const componentStylePath = component + this.fileTypes.STYLE
-      const componentTemplPath = component + this.fileTypes.TEMPL
+      const componentConfigPath = this.getComponentPath(component, this.fileTypes.CONFIG)
+      const componentStylePath = this.getComponentPath(component, this.fileTypes.STYLE)
+      const componentTemplPath = this.getComponentPath(component, this.fileTypes.TEMPL)
 
       try {
         const param: ITaroizeOptions = {}
