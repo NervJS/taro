@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-vue2",
-  "version": "3.6.13",
+  "version": "3.6.14-alpha.1",
   "description": "Taro 组件库 Vue2 版本库",
   "private": true,
   "main": "index.js",
