@@ -6,7 +6,7 @@ export const baseOptions = {
   sourcetDir: __dirname,
   code: '',
   isTyped: false,
-  isNormal: true
+  isNormal: true,
 }
 
 // 去除字符串每行前面的空格
@@ -14,5 +14,5 @@ export function removeFrontBlank(str: string | undefined) {
   if (str === undefined) {
     return ''
   }
-  return str.replace(/^\s+/gm, '');
+  return str.replace(/^\s+/gm, '')
 }

@@ -1,59 +1,58 @@
 /* eslint-disable */
 // 修改自： https://github.com/babel/minify/blob/master/packages/babel-plugin-minify-dead-code-elimination/src/index.js
 // 主要更改了 `toStatements` 函数，remove if statement 发生在 render JSX 函数时不生成 block statement
-const { some } = require("lodash");
-const { markEvalScopes, hasEval } = require("babel-helper-mark-eval-scopes");
-const evaluate = require("babel-helper-evaluate-path");
+const { some } = require('lodash')
+const { markEvalScopes, hasEval } = require('babel-helper-mark-eval-scopes')
+const evaluate = require('babel-helper-evaluate-path')
 
 function evaluateTruthy(path) {
-  const res = evaluate(path);
-  if (res.confident) return !!res.value;
+  const res = evaluate(path)
+  if (res.confident) return !!res.value
 }
 
-
 function prevSiblings(path) {
-  const parentPath = path.parentPath;
-  const siblings = [];
+  const parentPath = path.parentPath
+  const siblings = []
 
-  let key = parentPath.key;
+  let key = parentPath.key
 
   while ((path = parentPath.getSibling(--key)).type) {
-    siblings.push(path);
+    siblings.push(path)
   }
-  return siblings;
+  return siblings
 }
 
 function forEachAncestor(path, callback) {
   while ((path = path.parentPath)) {
-    callback(path);
+    callback(path)
   }
 }
 
-function containJSXElement (path) {
+function containJSXElement(path) {
   let matched = false
   path.traverse({
-    JSXElement (p) {
+    JSXElement(p) {
       matched = true
       p.stop()
-    }
+    },
   })
   return matched
 }
 
 module.exports = ({ types: t, traverse }) => {
-  const removeOrVoid = require("babel-helper-remove-or-void")(t);
-  const shouldRevisit = Symbol("shouldRevisit");
+  const removeOrVoid = require('babel-helper-remove-or-void')(t)
+  const shouldRevisit = Symbol('shouldRevisit')
 
   // this is used for tracking fn params that can be removed
   // as traversal takes place from left and
   // unused params can be removed only on the right
-  const markForRemoval = Symbol("markForRemoval");
+  const markForRemoval = Symbol('markForRemoval')
 
   const main = {
     // remove side effectless statement
     ExpressionStatement(path) {
-      if (path.get("expression").isPure()) {
-        removeOrVoid(path);
+      if (path.get('expression').isPure()) {
+        removeOrVoid(path)
       }
     },
 
@@ -66,165 +65,155 @@ module.exports = ({ types: t, traverse }) => {
       exit(path) {
         // This hurts gzip size.
         if (!this.optimizeRawSize) {
-          return;
+          return
         }
 
-        const { node, scope } = path;
-        const seen = new Set();
-        const declars = [];
-        const mutations = [];
+        const { node, scope } = path
+        const seen = new Set()
+        const declars = []
+        const mutations = []
         for (const name in scope.bindings) {
-          const binding = scope.bindings[name];
+          const binding = scope.bindings[name]
           if (!binding.path.isVariableDeclarator()) {
-            continue;
+            continue
           }
 
-          const declarPath = binding.path.parentPath;
+          const declarPath = binding.path.parentPath
           if (seen.has(declarPath)) {
-            continue;
+            continue
           }
-          seen.add(declarPath);
+          seen.add(declarPath)
 
           if (declarPath.parentPath.isForInStatement()) {
-            continue;
+            continue
           }
 
           if (declarPath.parentPath.parentPath.isFunction()) {
-            continue;
+            continue
           }
 
           if (!declarPath.node || !declarPath.node.declarations) {
-            continue;
+            continue
           }
 
-          const assignmentSequence = [];
+          const assignmentSequence = []
           for (const declar of declarPath.node.declarations) {
-            declars.push(declar);
+            declars.push(declar)
             if (declar.init) {
-              assignmentSequence.push(
-                t.assignmentExpression("=", declar.id, declar.init)
-              );
+              assignmentSequence.push(t.assignmentExpression('=', declar.id, declar.init))
               mutations.push(() => {
-                declar.init = null;
-              });
+                declar.init = null
+              })
             }
           }
 
           if (assignmentSequence.length) {
-            mutations.push(() =>
-              declarPath.replaceWith(t.sequenceExpression(assignmentSequence))
-            );
+            mutations.push(() => declarPath.replaceWith(t.sequenceExpression(assignmentSequence)))
           } else {
-            mutations.push(() => removeOrVoid(declarPath));
+            mutations.push(() => removeOrVoid(declarPath))
           }
         }
 
         if (declars.length) {
-          mutations.forEach(f => f());
+          mutations.forEach((f) => f())
           for (const statement of node.body.body) {
             if (t.isVariableDeclaration(statement)) {
-              statement.declarations.push(...declars);
-              return;
+              statement.declarations.push(...declars)
+              return
             }
           }
-          const varDecl = t.variableDeclaration("var", declars);
-          node.body.body.unshift(varDecl);
+          const varDecl = t.variableDeclaration('var', declars)
+          node.body.body.unshift(varDecl)
         }
-      }
+      },
     },
 
     // Remove bindings with no references.
     Scope: {
       exit(path) {
         if (path.node[shouldRevisit]) {
-          delete path.node[shouldRevisit];
-          path.visit();
+          delete path.node[shouldRevisit]
+          path.visit()
         }
       },
 
       enter(path) {
         if (path.isProgram()) {
-          return;
+          return
         }
 
         if (hasEval(path.scope)) {
-          return;
+          return
         }
 
-        const { scope } = path;
+        const { scope } = path
 
         // if the scope is created by a function, we obtain its
         // parameter list
-        const canRemoveParams = path.isFunction() && path.node.kind !== "set";
-        const paramsList = canRemoveParams ? path.get("params") : [];
+        const canRemoveParams = path.isFunction() && path.node.kind !== 'set'
+        const paramsList = canRemoveParams ? path.get('params') : []
 
         for (let i = paramsList.length - 1; i >= 0; i--) {
-          const param = paramsList[i];
+          const param = paramsList[i]
 
           if (param.isIdentifier()) {
-            const binding = scope.bindings[param.node.name];
-            if (!binding) continue;
+            const binding = scope.bindings[param.node.name]
+            if (!binding) continue
 
             if (binding.referenced) {
               // when the first binding is referenced (right to left)
               // exit without marking anything after this
-              break;
+              break
             }
 
-            binding[markForRemoval] = true;
-            continue;
+            binding[markForRemoval] = true
+            continue
           } else if (param.isAssignmentPattern()) {
-            const left = param.get("left");
-            const right = param.get("right");
+            const left = param.get('left')
+            const right = param.get('right')
 
             if (left.isIdentifier() && right.isPure()) {
-              const binding = scope.bindings[left.node.name];
+              const binding = scope.bindings[left.node.name]
               if (binding.referenced) {
                 // when the first binding is referenced (right to left)
                 // exit without marking anything after this
-                break;
+                break
               }
 
-              binding[markForRemoval] = true;
-              continue;
+              binding[markForRemoval] = true
+              continue
             }
           }
 
           // other patterns - assignment, object have side-effects
           // and cannot be safely removed
-          break;
+          break
         }
 
         for (const name in scope.bindings) {
-          const binding = scope.bindings[name];
+          const binding = scope.bindings[name]
 
-          if (!binding.referenced && binding.kind !== "module") {
-            if (
-              binding.kind === "param" &&
-              (this.keepFnArgs || !binding[markForRemoval])
-            ) {
-              continue;
+          if (!binding.referenced && binding.kind !== 'module') {
+            if (binding.kind === 'param' && (this.keepFnArgs || !binding[markForRemoval])) {
+              continue
             } else if (binding.path.isVariableDeclarator()) {
-              const declaration = binding.path.parentPath;
-              const maybeBlockParent = declaration.parentPath;
+              const declaration = binding.path.parentPath
+              const maybeBlockParent = declaration.parentPath
               if (
                 maybeBlockParent &&
                 maybeBlockParent.isForXStatement({
-                  left: declaration.node
+                  left: declaration.node,
                 })
               ) {
                 // Can't remove if in a for-in/for-of/for-await statement `for (var x in wat)`.
-                continue;
+                continue
               }
             } else if (!scope.isPure(binding.path.node)) {
               // TODO: AssignmentPattern are marked as impure and unused ids aren't removed yet
-              continue;
-            } else if (
-              binding.path.isFunctionExpression() ||
-              binding.path.isClassExpression()
-            ) {
+              continue
+            } else if (binding.path.isFunctionExpression() || binding.path.isClassExpression()) {
               // `bar(function foo() {})` foo is not referenced but it's used.
-              continue;
+              continue
             } else if (
               // ClassDeclaration has binding in two scopes
               //   1. The scope in which it is declared
@@ -232,43 +221,40 @@ module.exports = ({ types: t, traverse }) => {
               binding.path.isClassDeclaration() &&
               binding.path === scope.path
             ) {
-              continue;
+              continue
             }
 
-            const mutations = [];
-            let bail = false;
+            const mutations = []
+            let bail = false
             // Make sure none of the assignments value is used
-            binding.constantViolations.forEach(p => {
+            binding.constantViolations.forEach((p) => {
               if (bail || p === binding.path) {
-                return;
+                return
               }
 
               if (!p.parentPath.isExpressionStatement()) {
-                bail = true;
+                bail = true
               }
 
               if (p.isAssignmentExpression()) {
-                if (
-                  t.isArrayPattern(p.node.left) ||
-                  t.isObjectPattern(p.node.left)
-                ) {
-                  bail = true;
-                } else if (p.get("right").isPure()) {
-                  mutations.push(() => removeOrVoid(p));
+                if (t.isArrayPattern(p.node.left) || t.isObjectPattern(p.node.left)) {
+                  bail = true
+                } else if (p.get('right').isPure()) {
+                  mutations.push(() => removeOrVoid(p))
                 } else {
-                  mutations.push(() => p.replaceWith(p.get("right")));
+                  mutations.push(() => p.replaceWith(p.get('right')))
                 }
               }
-            });
+            })
 
             if (bail) {
-              continue;
+              continue
             }
 
             if (binding.path.isVariableDeclarator()) {
-              if (!binding.path.get("id").isIdentifier()) {
+              if (!binding.path.get('id').isIdentifier()) {
                 // deopt for object and array pattern
-                continue;
+                continue
               }
 
               // if declarator has some impure init expression
@@ -281,99 +267,91 @@ module.exports = ({ types: t, traverse }) => {
               ) {
                 // binding path has more than one declarations
                 if (binding.path.parentPath.node.declarations.length !== 1) {
-                  continue;
+                  continue
                 }
-                binding.path.parentPath.replaceWith(binding.path.node.init);
+                binding.path.parentPath.replaceWith(binding.path.node.init)
               } else {
-                updateReferences(binding.path, this);
-                removeOrVoid(binding.path);
+                updateReferences(binding.path, this)
+                removeOrVoid(binding.path)
               }
             } else {
-              updateReferences(binding.path, this);
-              removeOrVoid(binding.path);
+              updateReferences(binding.path, this)
+              removeOrVoid(binding.path)
             }
 
-            mutations.forEach(f => f());
-            scope.removeBinding(name);
+            mutations.forEach((f) => f())
+            scope.removeBinding(name)
           } else if (binding.constant) {
             if (
               binding.path.isFunctionDeclaration() ||
-              (binding.path.isVariableDeclarator() &&
-                binding.path.get("init").isFunction())
+              (binding.path.isVariableDeclarator() && binding.path.get('init').isFunction())
             ) {
-              const fun = binding.path.isFunctionDeclaration()
-                ? binding.path
-                : binding.path.get("init");
-              let allInside = true;
+              const fun = binding.path.isFunctionDeclaration() ? binding.path : binding.path.get('init')
+              let allInside = true
               for (const ref of binding.referencePaths) {
-                if (!ref.find(p => p.node === fun.node)) {
-                  allInside = false;
-                  break;
+                if (!ref.find((p) => p.node === fun.node)) {
+                  allInside = false
+                  break
                 }
               }
 
               if (allInside) {
-                scope.removeBinding(name);
-                updateReferences(binding.path, this);
-                removeOrVoid(binding.path);
-                continue;
+                scope.removeBinding(name)
+                updateReferences(binding.path, this)
+                removeOrVoid(binding.path)
+                continue
               }
             }
 
-            if (
-              binding.references === 1 &&
-              binding.kind !== "param" &&
-              binding.kind !== "module" &&
-              binding.constant
-            ) {
-              let replacement = binding.path.node;
-              let replacementPath = binding.path;
-              let isReferencedBefore = false;
+            if (binding.references === 1 && binding.kind !== 'param' && binding.kind !== 'module' && binding.constant) {
+              let replacement = binding.path.node
+              let replacementPath = binding.path
+              let isReferencedBefore = false
 
-              const refPath = binding.referencePaths[0];
+              const refPath = binding.referencePaths[0]
 
               if (t.isVariableDeclarator(replacement)) {
-                const _prevSiblings = prevSiblings(replacementPath);
+                const _prevSiblings = prevSiblings(replacementPath)
                 // traverse ancestors of a reference checking if it's before declaration
-                forEachAncestor(refPath, ancestor => {
+                forEachAncestor(refPath, (ancestor) => {
                   if (_prevSiblings.indexOf(ancestor) > -1) {
-                    isReferencedBefore = true;
+                    isReferencedBefore = true
                   }
-                });
+                })
 
                 // deopt if reference is in different scope than binding
                 // since we don't know if it's sync or async execution
                 // (i.e. whether value has been assigned to a reference or not)
                 if (isReferencedBefore && refPath.scope !== binding.scope) {
-                  continue;
+                  continue
                 }
 
                 // simulate hoisting by replacing value
                 // with undefined if declaration is after reference
                 replacement = isReferencedBefore
-                  ? t.unaryExpression("void", t.numericLiteral(0), true)
-                  : replacement.init;
+                  ? t.unaryExpression('void', t.numericLiteral(0), true)
+                  : replacement.init
 
                 // Bail out for ArrayPattern and ObjectPattern
                 // TODO: maybe a more intelligent approach instead of simply bailing out
-                if (!replacementPath.get("id").isIdentifier()) {
-                  continue;
+                if (!replacementPath.get('id').isIdentifier()) {
+                  continue
                 }
-                replacementPath = replacementPath.get("init");
+                replacementPath = replacementPath.get('init')
               }
 
               if (!replacement) {
-                continue;
+                continue
               }
 
               if (!scope.isPure(replacement, true) && !isReferencedBefore) {
-                continue;
+                continue
               }
 
-              let bail = false;
+              let bail = false
 
               if (replacementPath.isIdentifier()) {
-                const binding = scope.getBinding(replacement.name);
+                const binding = scope.getBinding(replacement.name)
                 // the reference should be in the same scope
                 // and the replacement should be a constant - this is to
                 // ensure that the duplication of replacement is not affected
@@ -382,35 +360,32 @@ module.exports = ({ types: t, traverse }) => {
                   binding &&
                   refPath.scope.getBinding(replacement.name) === binding &&
                   binding.constantViolations.length === 0
-                );
+                )
               } else {
                 replacementPath.traverse({
                   Function(path) {
-                    path.skip();
+                    path.skip()
                   },
 
                   ReferencedIdentifier({ node }) {
                     if (bail) {
-                      return;
+                      return
                     }
-                    const binding = scope.getBinding(node.name);
-                    if (
-                      binding &&
-                      refPath.scope.getBinding(node.name) === binding
-                    ) {
-                      bail = binding.constantViolations.length > 0;
+                    const binding = scope.getBinding(node.name)
+                    if (binding && refPath.scope.getBinding(node.name) === binding) {
+                      bail = binding.constantViolations.length > 0
                     }
-                  }
-                });
+                  },
+                })
               }
 
               if (bail) {
-                continue;
+                continue
               }
 
-              let parent = binding.path.parent;
+              let parent = binding.path.parent
               if (t.isVariableDeclaration(parent)) {
-                parent = binding.path.parentPath.parent;
+                parent = binding.path.parentPath.parent
               }
 
               // 1. Make sure we share the parent with the node. In other words it's lexically defined
@@ -418,28 +393,21 @@ module.exports = ({ types: t, traverse }) => {
               // 2. If the replacement is an object then we have to make sure we are not in a loop or a function
               // because otherwise we'll be inlining and doing a lot more allocation than we have to
               // which would also could affect correctness in that they are not the same reference.
-              let mayLoop = false;
+              let mayLoop = false
               const sharesRoot = refPath.find(({ node }) => {
                 if (!mayLoop) {
-                  mayLoop =
-                    t.isWhileStatement(node) ||
-                    t.isFor(node) ||
-                    t.isFunction(node);
+                  mayLoop = t.isWhileStatement(node) || t.isFor(node) || t.isFunction(node)
                 }
-                return node === parent;
-              });
+                return node === parent
+              })
 
               // Anything that inherits from Object.
-              const isObj = n =>
-                t.isFunction(n) ||
-                t.isObjectExpression(n) ||
-                t.isArrayExpression(n);
+              const isObj = (n) => t.isFunction(n) || t.isObjectExpression(n) || t.isArrayExpression(n)
 
-              const isReplacementObj =
-                isObj(replacement) || some(replacement, isObj);
+              const isReplacementObj = isObj(replacement) || some(replacement, isObj)
 
               if (!sharesRoot || (isReplacementObj && mayLoop)) {
-                continue;
+                continue
               }
 
               // check if it's safe to replace
@@ -450,62 +418,62 @@ module.exports = ({ types: t, traverse }) => {
               // It is expensive to compute the delete operation and we bail for
               // all the binary "in" operations
               let inExpression = replacementPath.isBinaryExpression({
-                operator: "in"
-              });
+                operator: 'in',
+              })
 
               if (!inExpression) {
                 replacementPath.traverse({
                   Function(path) {
-                    path.skip();
+                    path.skip()
                   },
                   BinaryExpression(path) {
-                    if (path.node.operator === "in") {
-                      inExpression = true;
-                      path.stop();
+                    if (path.node.operator === 'in') {
+                      inExpression = true
+                      path.stop()
                     }
-                  }
-                });
+                  },
+                })
               }
 
               if (inExpression) {
-                continue;
+                continue
               }
 
               const replaced = replace(binding.referencePaths[0], {
                 binding,
                 scope,
                 replacement,
-                replacementPath
-              });
+                replacementPath,
+              })
 
               if (replaced) {
-                scope.removeBinding(name);
+                scope.removeBinding(name)
                 if (binding.path.node) {
-                  removeOrVoid(binding.path);
+                  removeOrVoid(binding.path)
                 }
               }
             }
           }
         } // end-for-of
-      }
+      },
     },
 
     // Remove unreachable code.
     BlockStatement(path) {
-      const paths = path.get("body");
+      const paths = path.get('body')
 
-      let purge = false;
+      let purge = false
 
       for (let i = 0; i < paths.length; i++) {
-        const p = paths[i];
+        const p = paths[i]
 
         if (!purge && p.isCompletionStatement()) {
-          purge = true;
-          continue;
+          purge = true
+          continue
         }
 
         if (purge && !canExistAfterCompletion(p)) {
-          removeOrVoid(p);
+          removeOrVoid(p)
         }
       }
     },
@@ -513,9 +481,9 @@ module.exports = ({ types: t, traverse }) => {
     // Double check unreachable code and remove return statements that
     // have no semantic meaning
     ReturnStatement(path) {
-      const { node } = path;
+      const { node } = path
       if (!path.inList) {
-        return;
+        return
       }
 
       // Not last in its block? (See BlockStatement visitor)
@@ -526,245 +494,237 @@ module.exports = ({ types: t, traverse }) => {
       ) {
         // This is probably a new oppurtinity by some other transform
         // let's call the block visitor on this again before proceeding.
-        path.parentPath.pushContext(path.context);
-        path.parentPath.visit();
-        path.parentPath.popContext();
+        path.parentPath.pushContext(path.context)
+        path.parentPath.visit()
+        path.parentPath.popContext()
 
-        return;
+        return
       }
 
       if (node.argument) {
-        return;
+        return
       }
 
-      let noNext = true;
-      let parentPath = path.parentPath;
+      let noNext = true
+      let parentPath = path.parentPath
       while (parentPath && !parentPath.isFunction() && noNext) {
         // https://github.com/babel/minify/issues/265
         if (hasLoopParent(parentPath)) {
-          noNext = false;
-          break;
+          noNext = false
+          break
         }
 
-        const nextPath = parentPath.getSibling(parentPath.key + 1);
+        const nextPath = parentPath.getSibling(parentPath.key + 1)
         if (nextPath.node) {
           if (nextPath.isReturnStatement()) {
-            nextPath.pushContext(path.context);
-            nextPath.visit();
-            nextPath.popContext();
+            nextPath.pushContext(path.context)
+            nextPath.visit()
+            nextPath.popContext()
             if (parentPath.getSibling(parentPath.key + 1).node) {
-              noNext = false;
-              break;
+              noNext = false
+              break
             }
           } else {
-            noNext = false;
-            break;
+            noNext = false
+            break
           }
         }
 
-        parentPath = parentPath.parentPath;
+        parentPath = parentPath.parentPath
       }
 
       if (noNext) {
-        removeOrVoid(path);
+        removeOrVoid(path)
       }
     },
 
     ConditionalExpression(path) {
-      const { node } = path;
-      const evaluateTest = evaluateTruthy(path.get("test"));
+      const { node } = path
+      const evaluateTest = evaluateTruthy(path.get('test'))
       if (evaluateTest === true) {
-        path.replaceWith(node.consequent);
+        path.replaceWith(node.consequent)
       } else if (evaluateTest === false) {
-        path.replaceWith(node.alternate);
+        path.replaceWith(node.alternate)
       }
     },
 
     SwitchStatement: {
       exit(path) {
-        const discriminantPath = path.get("discriminant");
-        const evaluated = evaluate(discriminantPath, { tdz: this.tdz });
+        const discriminantPath = path.get('discriminant')
+        const evaluated = evaluate(discriminantPath, { tdz: this.tdz })
 
-        if (!evaluated.confident) return;
+        if (!evaluated.confident) return
 
         // the simplify transformation might have brought in the previous
         // expressions into the switch's test expression and instead of
         // bailing out of impure path, we collect the impurities of it's
         // a sequence expression and bail out if the primary test itself
         // is impure
-        let beforeTest = [];
+        let beforeTest = []
         if (t.isSequenceExpression(discriminantPath.node)) {
-          const expressions = discriminantPath.get("expressions");
-          const lastExpression = expressions[expressions.length - 1];
+          const expressions = discriminantPath.get('expressions')
+          const lastExpression = expressions[expressions.length - 1]
           if (!lastExpression.isPure()) {
-            return;
+            return
           }
 
           beforeTest = [
             t.expressionStatement(
-              t.sequenceExpression(
-                expressions
-                  .slice(0, expressions.length - 1)
-                  .map(path => path.node)
-              )
-            )
-          ];
+              t.sequenceExpression(expressions.slice(0, expressions.length - 1).map((path) => path.node))
+            ),
+          ]
         } else if (!discriminantPath.isPure()) {
-          return;
+          return
         }
 
-        const discriminant = evaluated.value;
-        const cases = path.get("cases");
+        const discriminant = evaluated.value
+        const cases = path.get('cases')
 
-        let matchingCaseIndex = -1;
-        let defaultCaseIndex = -1;
+        let matchingCaseIndex = -1
+        let defaultCaseIndex = -1
 
         for (let i = 0; i < cases.length; i++) {
-          const test = cases[i].get("test");
+          const test = cases[i].get('test')
 
           // handle default case
           if (test.node === null) {
-            defaultCaseIndex = i;
-            continue;
+            defaultCaseIndex = i
+            continue
           }
 
           const testResult = evaluate(test, {
-            tdz: this.tdz
-          });
+            tdz: this.tdz,
+          })
 
           // if we are not able to deternine a test during
           // compile time, we terminate immediately
-          if (!testResult.confident) return;
+          if (!testResult.confident) return
 
           if (testResult.value === discriminant) {
-            matchingCaseIndex = i;
-            break;
+            matchingCaseIndex = i
+            break
           }
         }
 
-        let result;
+        let result
 
         if (matchingCaseIndex === -1) {
           if (defaultCaseIndex === -1) {
-            path.skip();
-            path.replaceWithMultiple(extractVars(path));
-            return;
+            path.skip()
+            path.replaceWithMultiple(extractVars(path))
+            return
           } else {
-            result = getStatementsUntilBreak(defaultCaseIndex);
+            result = getStatementsUntilBreak(defaultCaseIndex)
           }
         } else {
-          result = getStatementsUntilBreak(matchingCaseIndex);
+          result = getStatementsUntilBreak(matchingCaseIndex)
         }
 
-        if (result.bail) return;
+        if (result.bail) return
 
         // we extract vars from the entire switch statement
         // and there will be duplicates which
         // will be again removed by DCE
-        replaceSwitch([
-          ...extractVars(path),
-          ...beforeTest,
-          ...result.statements
-        ]);
+        replaceSwitch([...extractVars(path), ...beforeTest, ...result.statements])
 
         function getStatementsUntilBreak(start) {
-          const result = { bail: false, statements: [] };
+          const result = { bail: false, statements: [] }
 
           for (let i = start; i < cases.length; i++) {
-            const consequent = cases[i].get("consequent");
+            const consequent = cases[i].get('consequent')
 
             for (let j = 0; j < consequent.length; j++) {
-              const _isBreaking = isBreaking(consequent[j], path);
+              const _isBreaking = isBreaking(consequent[j], path)
               if (_isBreaking.bail) {
-                result.bail = true;
-                return result;
+                result.bail = true
+                return result
               }
               if (_isBreaking.break) {
                 // compute no more
                 // exit out of the loop
-                return result;
+                return result
               } else {
-                result.statements.push(consequent[j].node);
+                result.statements.push(consequent[j].node)
               }
             }
           }
 
-          return result;
+          return result
         }
 
         function replaceSwitch(statements) {
-          let isBlockRequired = false;
+          let isBlockRequired = false
 
           for (let i = 0; i < statements.length; i++) {
-            if (t.isVariableDeclaration(statements[i], { kind: "let" })) {
-              isBlockRequired = true;
-              break;
+            if (t.isVariableDeclaration(statements[i], { kind: 'let' })) {
+              isBlockRequired = true
+              break
             }
-            if (t.isVariableDeclaration(statements[i], { kind: "const" })) {
-              isBlockRequired = true;
-              break;
+            if (t.isVariableDeclaration(statements[i], { kind: 'const' })) {
+              isBlockRequired = true
+              break
             }
           }
 
           if (isBlockRequired) {
-            path.replaceWith(t.BlockStatement(statements));
+            path.replaceWith(t.BlockStatement(statements))
           } else {
-            path.replaceWithMultiple(statements);
+            path.replaceWithMultiple(statements)
           }
         }
-      }
+      },
     },
 
     WhileStatement(path) {
-      const test = path.get("test");
-      const result = evaluate(test, { tdz: this.tdz });
+      const test = path.get('test')
+      const result = evaluate(test, { tdz: this.tdz })
       if (result.confident && test.isPure() && !result.value) {
-        path.remove();
+        path.remove()
       }
     },
 
     ForStatement(path) {
-      const test = path.get("test");
-      if (!test.isPure()) return;
+      const test = path.get('test')
+      if (!test.isPure()) return
 
-      const result = evaluate(test, { tdz: this.tdz });
+      const result = evaluate(test, { tdz: this.tdz })
       if (result.confident) {
         if (result.value) {
-          test.remove();
+          test.remove()
         } else {
-          const init = path.get("init");
+          const init = path.get('init')
           if (init.node && !init.isPure()) {
-            path.replaceWith(init);
+            path.replaceWith(init)
           } else {
-            path.remove();
+            path.remove()
           }
         }
       }
     },
 
     DoWhileStatement(path) {
-      const test = path.get("test");
-      const result = evaluate(test, { tdz: this.tdz });
+      const test = path.get('test')
+      const result = evaluate(test, { tdz: this.tdz })
       if (result.confident && test.isPure() && !result.value) {
-        const body = path.get("body");
+        const body = path.get('body')
 
         if (body.isBlockStatement()) {
-          const stmts = body.get("body");
+          const stmts = body.get('body')
           for (const stmt of stmts) {
-            const _isBreaking = isBreaking(stmt, path);
-            if (_isBreaking.bail || _isBreaking.break) return;
-            const _isContinuing = isContinuing(stmt, path);
-            if (_isContinuing.bail || isContinuing.continue) return;
+            const _isBreaking = isBreaking(stmt, path)
+            if (_isBreaking.bail || _isBreaking.break) return
+            const _isContinuing = isContinuing(stmt, path)
+            if (_isContinuing.bail || isContinuing.continue) return
           }
-          path.replaceWith(body.node);
+          path.replaceWith(body.node)
         } else if (body.isBreakStatement()) {
-          const _isBreaking = isBreaking(body, path);
-          if (_isBreaking.bail) return;
-          if (_isBreaking.break) path.remove();
+          const _isBreaking = isBreaking(body, path)
+          if (_isBreaking.bail) return
+          if (_isBreaking.break) path.remove()
         } else if (body.isContinueStatement()) {
-          return;
+          return
         } else {
-          path.replaceWith(body.node);
+          path.replaceWith(body.node)
         }
       }
     },
@@ -772,111 +732,101 @@ module.exports = ({ types: t, traverse }) => {
     // Join assignment and definition when in sequence.
     // var x; x = 1; -> var x = 1;
     AssignmentExpression(path) {
-      if (
-        !path.get("left").isIdentifier() ||
-        !path.parentPath.isExpressionStatement()
-      ) {
-        return;
+      if (!path.get('left').isIdentifier() || !path.parentPath.isExpressionStatement()) {
+        return
       }
 
-      const prev = path.parentPath.getSibling(path.parentPath.key - 1);
+      const prev = path.parentPath.getSibling(path.parentPath.key - 1)
       if (!(prev && prev.isVariableDeclaration())) {
-        return;
+        return
       }
 
-      const declars = prev.node.declarations;
-      if (
-        declars.length !== 1 ||
-        declars[0].init ||
-        declars[0].id.name !== path.get("left").node.name
-      ) {
-        return;
+      const declars = prev.node.declarations
+      if (declars.length !== 1 || declars[0].init || declars[0].id.name !== path.get('left').node.name) {
+        return
       }
-      declars[0].init = path.node.right;
-      removeOrVoid(path);
+      declars[0].init = path.node.right
+      removeOrVoid(path)
     },
 
     // Remove named function expression name. While this is dangerous as it changes
     // `function.name` all minifiers do it and hence became a standard.
     FunctionExpression(path) {
       if (!this.keepFnName) {
-        removeUnreferencedId(path);
+        removeUnreferencedId(path)
       }
     },
 
     // remove class names
     ClassExpression(path) {
       if (!this.keepClassName) {
-        removeUnreferencedId(path);
+        removeUnreferencedId(path)
       }
     },
 
     // Put the `var` in the left if feasible.
     ForInStatement(path) {
-      const left = path.get("left");
+      const left = path.get('left')
       if (!left.isIdentifier()) {
-        return;
+        return
       }
 
-      const binding = path.scope.getBinding(left.node.name);
+      const binding = path.scope.getBinding(left.node.name)
       if (!binding) {
-        return;
+        return
       }
 
-      if (
-        binding.scope.getFunctionParent() !== path.scope.getFunctionParent()
-      ) {
-        return;
+      if (binding.scope.getFunctionParent() !== path.scope.getFunctionParent()) {
+        return
       }
 
       if (!binding.path.isVariableDeclarator()) {
-        return;
+        return
       }
 
       if (
         binding.path.parentPath.parentPath.isForInStatement({
-          left: binding.path.parent
+          left: binding.path.parent,
         })
       ) {
-        return;
+        return
       }
 
       // If it has company then it's probably more efficient to keep.
       if (binding.path.parent.declarations.length > 1) {
-        return;
+        return
       }
 
       // meh
       if (binding.path.node.init) {
-        return;
+        return
       }
 
-      removeOrVoid(binding.path);
-      path.node.left = t.variableDeclaration("var", [
-        t.variableDeclarator(left.node)
-      ]);
-      binding.path = path.get("left").get("declarations")[0];
-    }
-  };
+      removeOrVoid(binding.path)
+      path.node.left = t.variableDeclaration('var', [t.variableDeclarator(left.node)])
+      binding.path = path.get('left').get('declarations')[0]
+    },
+  }
 
   return {
-    name: "minify-dead-code-elimination",
+    name: 'minify-dead-code-elimination',
     visitor: {
       IfStatement: {
         exit(path, { opts: { tdz = false } = {} }) {
-          const consequent = path.get("consequent");
-          const alternate = path.get("alternate");
-          const test = path.get("test");
+          const consequent = path.get('consequent')
+          const alternate = path.get('alternate')
+          const test = path.get('test')
 
-          const evalResult = evaluate(test, { tdz });
-          const isPure = test.isPure();
+          const evalResult = evaluate(test, { tdz })
+          const isPure = test.isPure()
 
-          const replacements = [];
-          const isRenderFunction = !!path.findParent(p => p.isClassMethod() && t.isIdentifier(p.node.key) && p.node.key.name.startsWith('render')) && containJSXElement(path)
+          const replacements = []
+          const isRenderFunction =
+            !!path.findParent(
+              (p) => p.isClassMethod() && t.isIdentifier(p.node.key) && p.node.key.name.startsWith('render')
+            ) && containJSXElement(path)
           if (evalResult.confident && !isPure && test.isSequenceExpression()) {
-            replacements.push(
-              t.expressionStatement(extractSequenceImpure(test))
-            );
+            replacements.push(t.expressionStatement(extractSequenceImpure(test)))
           }
 
           // we can check if a test will be truthy 100% and if so then we can inline
@@ -889,9 +839,9 @@ module.exports = ({ types: t, traverse }) => {
             path.replaceWithMultiple([
               ...replacements,
               ...toStatements(consequent, isRenderFunction),
-              ...extractVars(alternate)
-            ]);
-            return;
+              ...extractVars(alternate),
+            ])
+            return
           }
 
           // we can check if a test will be falsy 100% and if so we can inline the
@@ -905,14 +855,11 @@ module.exports = ({ types: t, traverse }) => {
               path.replaceWithMultiple([
                 ...replacements,
                 ...toStatements(alternate, isRenderFunction),
-                ...extractVars(consequent)
-              ]);
-              return;
+                ...extractVars(consequent),
+              ])
+              return
             } else {
-              path.replaceWithMultiple([
-                ...replacements,
-                ...extractVars(consequent)
-              ]);
+              path.replaceWithMultiple([...replacements, ...extractVars(consequent)])
             }
           }
 
@@ -921,9 +868,9 @@ module.exports = ({ types: t, traverse }) => {
           //   if (foo) { foo; } else {} -> if (foo) { foo; }
           //
           if (alternate.isBlockStatement() && !alternate.node.body.length) {
-            alternate.remove();
+            alternate.remove()
             // For if-statements babel-traverse replaces with an empty block
-            path.node.alternate = null;
+            path.node.alternate = null
           }
 
           // if the consequent block is empty turn alternate blocks into a consequent
@@ -937,18 +884,18 @@ module.exports = ({ types: t, traverse }) => {
             alternate.isBlockStatement() &&
             alternate.node.body.length
           ) {
-            consequent.replaceWith(alternate.node);
-            alternate.remove();
+            consequent.replaceWith(alternate.node)
+            alternate.remove()
             // For if-statements babel-traverse replaces with an empty block
-            path.node.alternate = null;
-            test.replaceWith(t.unaryExpression("!", test.node, true));
+            path.node.alternate = null
+            test.replaceWith(t.unaryExpression('!', test.node, true))
           }
-        }
+        },
       },
 
       EmptyStatement(path) {
         if (path.parentPath.isBlockStatement() || path.parentPath.isProgram()) {
-          path.remove();
+          path.remove()
         }
       },
 
@@ -962,14 +909,14 @@ module.exports = ({ types: t, traverse }) => {
               keepFnName = false,
               keepClassName = false,
               keepFnArgs = false,
-              tdz = false
-            } = {}
+              tdz = false,
+            } = {},
           } = {}
         ) {
-          (traverse.clearCache || traverse.cache.clear)();
-          path.scope.crawl();
+          ;(traverse.clearCache || traverse.cache.clear)()
+          path.scope.crawl()
 
-          markEvalScopes(path);
+          markEvalScopes(path)
 
           // We need to run this plugin in isolation.
           path.traverse(main, {
@@ -978,33 +925,33 @@ module.exports = ({ types: t, traverse }) => {
             keepFnName,
             keepClassName,
             keepFnArgs,
-            tdz
-          });
-        }
-      }
-    }
-  };
+            tdz,
+          })
+        },
+      },
+    },
+  }
 
   function toStatements(path, isRenderFunction) {
-    const { node } = path;
+    const { node } = path
     if (path.isBlockStatement()) {
       if (isRenderFunction) {
         return node.body
       }
-      let hasBlockScoped = false;
+      let hasBlockScoped = false
 
       for (let i = 0; i < node.body.length; i++) {
-        const bodyNode = node.body[i];
+        const bodyNode = node.body[i]
         if (t.isBlockScoped(bodyNode)) {
-          hasBlockScoped = true;
+          hasBlockScoped = true
         }
       }
 
       if (!hasBlockScoped) {
-        return node.body;
+        return node.body
       }
     }
-    return [node];
+    return [node]
   }
 
   // Extracts vars from a path
@@ -1014,46 +961,40 @@ module.exports = ({ types: t, traverse }) => {
   // drops are inits
   // extractVars({ var x = 5, y = x }) => var x, y;
   function extractVars(path) {
-    const declarators = [];
+    const declarators = []
 
-    if (path.isVariableDeclaration({ kind: "var" })) {
+    if (path.isVariableDeclaration({ kind: 'var' })) {
       for (const decl of path.node.declarations) {
-        const bindingIds = Object.keys(t.getBindingIdentifiers(decl.id));
+        const bindingIds = Object.keys(t.getBindingIdentifiers(decl.id))
 
-        declarators.push(
-          ...bindingIds.map(name => t.variableDeclarator(t.identifier(name)))
-        );
+        declarators.push(...bindingIds.map((name) => t.variableDeclarator(t.identifier(name))))
       }
     } else {
       path.traverse({
         VariableDeclaration(varPath) {
-          if (!varPath.isVariableDeclaration({ kind: "var" })) return;
+          if (!varPath.isVariableDeclaration({ kind: 'var' })) return
 
-          if (!isSameFunctionScope(varPath, path)) return;
+          if (!isSameFunctionScope(varPath, path)) return
 
           for (const decl of varPath.node.declarations) {
-            const bindingIds = Object.keys(t.getBindingIdentifiers(decl.id));
-            declarators.push(
-              ...bindingIds.map(name =>
-                t.variableDeclarator(t.identifier(name))
-              )
-            );
+            const bindingIds = Object.keys(t.getBindingIdentifiers(decl.id))
+            declarators.push(...bindingIds.map((name) => t.variableDeclarator(t.identifier(name))))
           }
-        }
-      });
+        },
+      })
     }
 
-    if (declarators.length <= 0) return [];
+    if (declarators.length <= 0) return []
 
-    return [t.variableDeclaration("var", declarators)];
+    return [t.variableDeclaration('var', declarators)]
   }
 
   function replace(path, options) {
-    const { replacement, replacementPath, scope, binding } = options;
+    const { replacement, replacementPath, scope, binding } = options
 
     // Same name, different binding.
     if (scope.getBinding(path.node.name) !== binding) {
-      return;
+      return
     }
 
     // We don't want to move code around to different scopes because:
@@ -1061,49 +1002,49 @@ module.exports = ({ types: t, traverse }) => {
     // 2. Moving defintions to potentially hot code is bad
     if (scope !== path.scope) {
       if (t.isClass(replacement) || t.isFunction(replacement)) {
-        return;
+        return
       }
 
-      let bail = false;
+      let bail = false
       traverse(
         replacement,
         {
           Function(path) {
             if (bail) {
-              return;
+              return
             }
-            bail = true;
-            path.stop();
-          }
+            bail = true
+            path.stop()
+          },
         },
         scope
-      );
+      )
 
       if (bail) {
-        return;
+        return
       }
     }
 
     // Avoid recursion.
     if (path.find(({ node }) => node === replacement)) {
-      return;
+      return
     }
 
     // https://github.com/babel/minify/issues/611
     // this is valid only for FunctionDeclaration where we convert
     // function declaration to expression in the next step
     if (replacementPath.isFunctionDeclaration()) {
-      const fnName = replacementPath.get("id").node.name;
+      const fnName = replacementPath.get('id').node.name
       for (let name in replacementPath.scope.bindings) {
         if (name === fnName) {
-          return;
+          return
         }
       }
     }
 
     // https://github.com/babel/minify/issues/130
     if (!t.isExpression(replacement)) {
-      t.toExpression(replacement);
+      t.toExpression(replacement)
     }
 
     // We don't remove fn name here, we let the FnExpr & ClassExpr visitors
@@ -1112,117 +1053,112 @@ module.exports = ({ types: t, traverse }) => {
     //   replacement.id = null;
     // }
 
-    path.replaceWith(replacement);
-    return true;
+    path.replaceWith(replacement)
+    return true
   }
 
   function updateReferences(fnToDeletePath) {
     if (!fnToDeletePath.isFunction()) {
-      return;
+      return
     }
 
     fnToDeletePath.traverse({
       ReferencedIdentifier(path) {
-        const { node, scope } = path;
-        const binding = scope.getBinding(node.name);
+        const { node, scope } = path
+        const binding = scope.getBinding(node.name)
 
-        if (
-          !binding ||
-          !binding.path.isFunction() ||
-          binding.scope === scope ||
-          !binding.constant
-        ) {
-          return;
+        if (!binding || !binding.path.isFunction() || binding.scope === scope || !binding.constant) {
+          return
         }
 
-        const index = binding.referencePaths.indexOf(path);
+        const index = binding.referencePaths.indexOf(path)
         if (index === -1) {
-          return;
+          return
         }
-        binding.references--;
-        binding.referencePaths.splice(index, 1);
+        binding.references--
+        binding.referencePaths.splice(index, 1)
         if (binding.references === 0) {
-          binding.referenced = false;
+          binding.referenced = false
         }
 
         if (binding.references <= 1 && binding.scope.path.node) {
-          binding.scope.path.node[shouldRevisit] = true;
+          binding.scope.path.node[shouldRevisit] = true
         }
-      }
-    });
+      },
+    })
   }
 
   function removeUnreferencedId(path) {
-    const id = path.get("id").node;
+    const id = path.get('id').node
     if (!id) {
-      return;
+      return
     }
 
-    const { node, scope } = path;
-    const binding = scope.getBinding(id.name);
+    const { node, scope } = path
+    const binding = scope.getBinding(id.name)
 
     // Check if shadowed or is not referenced.
     if (binding && (binding.path.node !== node || !binding.referenced)) {
-      node.id = null;
+      node.id = null
     }
   }
 
   // path1 -> path2
   // is path1 an ancestor of path2
   function isAncestor(path1, path2) {
-    return !!path2.findParent(parent => parent === path1);
+    return !!path2.findParent((parent) => parent === path1)
   }
 
   function isSameFunctionScope(path1, path2) {
-    return path1.scope.getFunctionParent() === path2.scope.getFunctionParent();
+    return path1.scope.getFunctionParent() === path2.scope.getFunctionParent()
   }
 
   function isBreaking(stmt, path) {
-    return isControlTransfer(stmt, path, "break");
+    return isControlTransfer(stmt, path, 'break')
   }
 
   function isContinuing(stmt, path) {
-    return isControlTransfer(stmt, path, "continue");
+    return isControlTransfer(stmt, path, 'continue')
   }
 
   // tells if a "stmt" is a break/continue statement
-  function isControlTransfer(stmt, path, control = "break") {
+  function isControlTransfer(stmt, path, control = 'break') {
     const { [control]: type } = {
-      break: "BreakStatement",
-      continue: "ContinueStatement"
-    };
-    if (!type) {
-      throw new Error("Can only handle break and continue statements");
+      break: 'BreakStatement',
+      continue: 'ContinueStatement',
     }
-    const checker = `is${type}`;
+    if (!type) {
+      throw new Error('Can only handle break and continue statements')
+    }
+    const checker = `is${type}`
 
     if (stmt[checker]()) {
-      return _isControlTransfer(stmt, path);
+      return _isControlTransfer(stmt, path)
     }
 
-    let isTransferred = false;
+    let isTransferred = false
     let result = {
       [control]: false,
-      bail: false
-    };
+      bail: false,
+    }
 
     stmt.traverse({
       [type](cPath) {
         // if we already detected a break/continue statement,
-        if (isTransferred) return;
+        if (isTransferred) return
 
-        result = _isControlTransfer(cPath, path);
+        result = _isControlTransfer(cPath, path)
 
         if (result.bail || result[control]) {
-          isTransferred = true;
+          isTransferred = true
         }
-      }
-    });
+      },
+    })
 
-    return result;
+    return result
 
     function _isControlTransfer(cPath, path) {
-      const label = cPath.get("label");
+      const label = cPath.get('label')
 
       if (label.node !== null) {
         // labels are fn scoped and not accessible by inner functions
@@ -1231,47 +1167,47 @@ module.exports = ({ types: t, traverse }) => {
           // we don't have to worry about this break statement
           return {
             break: false,
-            bail: false
-          };
+            bail: false,
+          }
         }
 
         // here we handle the break labels
         // if they are outside switch, we bail out
         // if they are within the case, we keep them
-        let labelPath;
+        let labelPath
         if (path.scope.getLabel) {
-          labelPath = getLabel(label.node.name, path);
+          labelPath = getLabel(label.node.name, path)
         } else {
-          labelPath = path.scope.getBinding(label.node.name).path;
+          labelPath = path.scope.getBinding(label.node.name).path
         }
-        const _isAncestor = isAncestor(labelPath, path);
+        const _isAncestor = isAncestor(labelPath, path)
 
         return {
           bail: _isAncestor,
-          [control]: _isAncestor
-        };
+          [control]: _isAncestor,
+        }
       }
 
       // set the flag that it is indeed breaking
-      let isCTransfer = true;
+      let isCTransfer = true
 
       // this flag is to capture
       // switch(0) { case 0: while(1) if (x) break; }
-      let possibleRunTimeControlTransfer = false;
+      let possibleRunTimeControlTransfer = false
 
       // and compute if it's breaking the correct thing
-      let parent = cPath.parentPath;
+      let parent = cPath.parentPath
 
       while (parent !== stmt.parentPath) {
         // loops and nested switch cases
         if (parent.isLoop() || parent.isSwitchCase()) {
           // invalidate all the possible runtime breaks captured
           // while (1) { if (x) break; }
-          possibleRunTimeControlTransfer = false;
+          possibleRunTimeControlTransfer = false
 
           // and set that it's not breaking our switch statement
-          isCTransfer = false;
-          break;
+          isCTransfer = false
+          break
         }
         //
         // this is a special case and depends on
@@ -1289,56 +1225,53 @@ module.exports = ({ types: t, traverse }) => {
         // IfStatement if it was a compile time determined
         //
         if (parent.isIfStatement()) {
-          possibleRunTimeControlTransfer = true;
+          possibleRunTimeControlTransfer = true
         }
-        parent = parent.parentPath;
+        parent = parent.parentPath
       }
 
       return {
         [control]: possibleRunTimeControlTransfer || isCTransfer,
-        bail: possibleRunTimeControlTransfer
-      };
+        bail: possibleRunTimeControlTransfer,
+      }
     }
   }
 
   // things that are hoisted
   function canExistAfterCompletion(path) {
-    return (
-      path.isFunctionDeclaration() ||
-      path.isVariableDeclaration({ kind: "var" })
-    );
+    return path.isFunctionDeclaration() || path.isVariableDeclaration({ kind: 'var' })
   }
 
   function getLabel(name, _path) {
     let label,
-      path = _path;
+      path = _path
     do {
-      label = path.scope.getLabel(name);
+      label = path.scope.getLabel(name)
       if (label) {
-        return label;
+        return label
       }
-    } while ((path = path.parentPath));
-    return null;
+    } while ((path = path.parentPath))
+    return null
   }
 
   function hasLoopParent(path) {
-    let parent = path;
+    let parent = path
     do {
       if (parent.isLoop()) {
-        return true;
+        return true
       }
-    } while ((parent = parent.parentPath));
-    return false;
+    } while ((parent = parent.parentPath))
+    return false
   }
 
   function extractSequenceImpure(seq) {
-    const expressions = seq.get("expressions");
-    const result = [];
+    const expressions = seq.get('expressions')
+    const result = []
     for (let i = 0; i < expressions.length; i++) {
       if (!expressions[i].isPure()) {
-        result.push(expressions[i].node);
+        result.push(expressions[i].node)
       }
     }
-    return t.sequenceExpression(result);
+    return t.sequenceExpression(result)
   }
-};
+}

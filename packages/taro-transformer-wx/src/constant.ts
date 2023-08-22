@@ -47,7 +47,7 @@ export const DEFAULT_Component_SET = new Set<string>([
   'Import',
   'OfficialAccount',
   'Template',
-  'Editor'
+  'Editor',
 ])
 
 // tslint:disable-next-line:variable-name
@@ -82,21 +82,21 @@ export const CLASS_COMPONENT_UID = '_$uid'
 
 export let LOOP_STATE = '$loopState'
 
-export const setLoopState = (s: string) => LOOP_STATE = s
+export const setLoopState = (s: string) => (LOOP_STATE = s)
 
 export let PREV_COMPID = '$prevCompid'
 
 export let COMPID = '$compid'
 
-export const setCompId = (s: string) => COMPID = s
+export const setCompId = (s: string) => (COMPID = s)
 
 export let LOOP_ORIGINAL = '$original'
 
-export const setLoopOriginal = (s: string) => LOOP_ORIGINAL = s
+export const setLoopOriginal = (s: string) => (LOOP_ORIGINAL = s)
 
 export let LOOP_CALLEE = '$anonymousCallee_'
 
-export let setLoopCallee = (s: string) => LOOP_CALLEE = s
+export let setLoopCallee = (s: string) => (LOOP_CALLEE = s)
 
 export const CONTEXT_PROVIDER = 'PrivateContextProvider'
 
@@ -104,27 +104,18 @@ export const SPECIAL_COMPONENT_PROPS = new Map<string, Set<string>>()
 
 export let IS_TARO_READY = '$taroCompReady'
 
-export const setIsTaroReady = (s: string) => IS_TARO_READY = s
+export const setIsTaroReady = (s: string) => (IS_TARO_READY = s)
 
-SPECIAL_COMPONENT_PROPS.set(
-  'Progress',
-  new Set([
-    'activeColor',
-    'backgroundColor'
-  ])
-)
+SPECIAL_COMPONENT_PROPS.set('Progress', new Set(['activeColor', 'backgroundColor']))
 
-export const IMAGE_COMPONENTS = new Set<string>([
-  'Image',
-  'CoverImage'
-])
+export const IMAGE_COMPONENTS = new Set<string>(['Image', 'CoverImage'])
 
 export const swanSpecialAttrs = {
-  'ScrollView': ['scrollTop', 'scrollLeft', 'scrollIntoView'],
-  'Input': ['value'],
-  'Textarea': ['value'],
-  'MovableView': ['x', 'y'],
-  'Slider': ['value']
+  ScrollView: ['scrollTop', 'scrollLeft', 'scrollIntoView'],
+  Input: ['value'],
+  Textarea: ['value'],
+  MovableView: ['x', 'y'],
+  Slider: ['value'],
 }
 
 export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
@@ -133,7 +124,7 @@ export const ALIPAY_BUBBLE_EVENTS = new Set<string>([
   'onTouchEnd',
   'onTouchCancel',
   'onClick',
-  'onLongTap'
+  'onLongTap',
 ])
 
 export const ANONYMOUS_FUNC = 'anonymousFunc'
@@ -141,16 +132,16 @@ export const ANONYMOUS_FUNC = 'anonymousFunc'
 export const TRANSFORM_COMPONENT_PROPS = new Map<Adapters, { [key: string]: { [key: string]: string } }>()
 
 TRANSFORM_COMPONENT_PROPS.set(Adapters.alipay, {
-  'Canvas': {
-    'canvasId': 'id'
-  }
+  Canvas: {
+    canvasId: 'id',
+  },
 })
 
 export const lessThanSignPlacehold = '__LESS_THAN_SIGN_PLACEHOLDER__'
 
 export let FN_PREFIX = '__fn_'
 
-export const setFnPrefix = (s: string) => FN_PREFIX = s
+export const setFnPrefix = (s: string) => (FN_PREFIX = s)
 
 export const quickappComponentName = new Set([
   'Swiper',
@@ -168,5 +159,5 @@ export const quickappComponentName = new Set([
   'Camera',
   'Canvas',
   'Map',
-  'Button'
+  'Button',
 ])

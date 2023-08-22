@@ -33,7 +33,7 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
     require('babel-plugin-transform-do-expressions'),
     require('babel-plugin-transform-export-extensions'),
     require('babel-plugin-transform-flow-strip-types'),
-    [require('babel-plugin-transform-define').default, transformOptions.env]
+    [require('babel-plugin-transform-define').default, transformOptions.env],
   ]
   if (!transformOptions.isNormal) {
     plugins.push(buildVistor())
@@ -56,13 +56,15 @@ export const buildBabelTransformOptions: () => TransformOptions = () => {
         'decorators',
         'dynamicImport',
         'doExpressions',
-        'exportExtensions'
-      ] as any[]
+        'exportExtensions',
+      ] as any[],
     },
     plugins: plugins
       .concat(require('babel-plugin-preval'))
       .concat(process.env.TARO_ENV === 'rn' ? [] : functionalComponent)
-      .concat(process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation)
-      .concat((isTestEnv) ? [] : require('babel-plugin-minify-dead-code').default)
+      .concat(
+        process.env.ESLINT === 'false' || transformOptions.isNormal || transformOptions.isTyped ? [] : eslintValidation
+      )
+      .concat(isTestEnv ? [] : require('babel-plugin-minify-dead-code').default),
   }
 }

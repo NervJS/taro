@@ -11,7 +11,7 @@ export enum Lifecycle {
   componentDidAttached = 'componentDidAttached',
   componentDidMoved = 'componentDidMoved',
   shouldComponentUpdate = 'shouldComponentUpdate',
-  componentWillReceiveProps = 'componentWillReceiveProps'
+  componentWillReceiveProps = 'componentWillReceiveProps',
 }
 
 export const PageLifecycle = {
@@ -19,7 +19,7 @@ export const PageLifecycle = {
   [Lifecycle.componentWillMount]: 'onLoad',
   [Lifecycle.componentWillUnmount]: 'onUnload',
   [Lifecycle.componentDidShow]: 'onShow',
-  [Lifecycle.componentDidHide]: 'onHide'
+  [Lifecycle.componentDidHide]: 'onHide',
 }
 
 export const ComponentLifeCycle = {
@@ -27,5 +27,5 @@ export const ComponentLifeCycle = {
   [Lifecycle.componentDidAttached]: 'attached',
   [Lifecycle.componentDidMount]: 'ready',
   [Lifecycle.componentDidMoved]: 'moved',
-  [Lifecycle.componentWillUnmount]: 'detached'
+  [Lifecycle.componentWillUnmount]: 'detached',
 }

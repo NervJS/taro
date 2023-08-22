@@ -6,14 +6,14 @@ import { cloneDeep } from 'lodash'
 import { DEFAULT_Component_SET } from './constant'
 import { transformOptions } from './options'
 import { injectRenderPropsListener } from './render-props'
-import { buildConstVariableDeclaration,codeFrameError } from './utils'
+import { buildConstVariableDeclaration, codeFrameError } from './utils'
 
-function initialIsCapital (word: string) {
+function initialIsCapital(word: string) {
   return word[0] !== word[0].toLowerCase()
 }
 
 export const Status = {
-  isSFC: false
+  isSFC: false,
 }
 
 const renderFnReg = /^render[A-Z]/
@@ -25,18 +25,24 @@ export const functionalComponent: () => {
   let propsList: string[] = []
   return {
     visitor: {
-      JSXElement (path) {
-        const arrowFuncExpr = path.findParent(p => p.isArrowFunctionExpression())
-        const funcExpr = path.findParent(p => p.isFunctionExpression())
+      JSXElement(path) {
+        const arrowFuncExpr = path.findParent((p) => p.isArrowFunctionExpression())
+        const funcExpr = path.findParent((p) => p.isFunctionExpression())
         if (funcExpr && funcExpr.isFunctionExpression() && funcExpr.parentPath.isVariableDeclarator()) {
           const { params, body, async } = funcExpr.node
-          funcExpr.replaceWith(t.arrowFunctionExpression(params as Array<t.Identifier | t.Pattern | t.RestElement>, body as any, async))
+          funcExpr.replaceWith(
+            t.arrowFunctionExpression(params as Array<t.Identifier | t.Pattern | t.RestElement>, body as any, async)
+          )
           return
         }
         if (arrowFuncExpr && arrowFuncExpr.isArrowFunctionExpression()) {
           if (arrowFuncExpr.parentPath.isVariableDeclarator()) {
             const valDecl = arrowFuncExpr.parentPath.parentPath
-            if (!valDecl.isVariableDeclaration() && !valDecl.isFunctionDeclaration() && !valDecl.isFunctionExpression()) {
+            if (
+              !valDecl.isVariableDeclaration() &&
+              !valDecl.isFunctionDeclaration() &&
+              !valDecl.isFunctionExpression()
+            ) {
               throw codeFrameError(valDecl.node, '函数式组件不能同时定义多个值')
             }
             const id = arrowFuncExpr.parentPath.node.id
@@ -46,7 +52,7 @@ export const functionalComponent: () => {
             if (!initialIsCapital(id.name)) {
               return
             }
-            const hasClassDecl = arrowFuncExpr.findParent(p => p.isClassDeclaration())
+            const hasClassDecl = arrowFuncExpr.findParent((p) => p.isClassDeclaration())
             if (hasClassDecl) {
               // @TODO: 加上链接
               return
@@ -55,9 +61,13 @@ export const functionalComponent: () => {
             if (t.isBlockStatement(body)) {
               valDecl.replaceWith(t.functionDeclaration(id, arrowFuncExpr.node.params as any, body))
             } else {
-              valDecl.replaceWith(t.functionDeclaration(id, arrowFuncExpr.node.params as any, t.blockStatement([
-                t.returnStatement(body as any)
-              ])))
+              valDecl.replaceWith(
+                t.functionDeclaration(
+                  id,
+                  arrowFuncExpr.node.params as any,
+                  t.blockStatement([t.returnStatement(body as any)])
+                )
+              )
             }
             return
           } else if (arrowFuncExpr.parentPath.isExportDefaultDeclaration()) {
@@ -65,9 +75,7 @@ export const functionalComponent: () => {
             const func = t.functionDeclaration(
               t.identifier('AnonymousSFC'),
               params as any,
-              t.isBlockStatement(body) ? body : t.blockStatement([
-                t.returnStatement(body as any)
-              ])
+              t.isBlockStatement(body) ? body : t.blockStatement([t.returnStatement(body as any)])
             )
             arrowFuncExpr.parentPath.insertAfter(t.exportDefaultDeclaration(t.identifier('AnonymousSFC')))
             arrowFuncExpr.parentPath.replaceWith(func)
@@ -75,11 +83,11 @@ export const functionalComponent: () => {
           }
         }
 
-        const functionDecl = path.findParent(p => p.isFunctionDeclaration())
+        const functionDecl = path.findParent((p) => p.isFunctionDeclaration())
         if (functionDecl && functionDecl.isFunctionDeclaration()) {
           propsIdentifier = null
           propsList = []
-          const hasClassDecl = path.findParent(p => p.isClassDeclaration() || p.isClassExpression())
+          const hasClassDecl = path.findParent((p) => p.isClassDeclaration() || p.isClassExpression())
           if (hasClassDecl) {
             // @TODO: 加上链接
             return
@@ -97,15 +105,20 @@ export const functionalComponent: () => {
             arg = params[0] as any
           }
           if (!(typeof id === 'undefined') && !initialIsCapital(id.name)) {
-            throw codeFrameError(id, `普通函数式组件命名规则请遵守帕斯卡命名法（Pascal Case), 如果是在函数内声明闭包组件，则需要使用函数表达式的写法。
+            throw codeFrameError(
+              id,
+              `普通函数式组件命名规则请遵守帕斯卡命名法（Pascal Case), 如果是在函数内声明闭包组件，则需要使用函数表达式的写法。
 形如:
 const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as any)).code}
-            `)
+            `
+            )
           }
           const insertDecls: t.VariableDeclaration[] = []
           if (arg) {
             if (t.isIdentifier(arg)) {
-              insertDecls.push(buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props'))))
+              insertDecls.push(
+                buildConstVariableDeclaration(arg.name, t.memberExpression(t.thisExpression(), t.identifier('props')))
+              )
               propsIdentifier = arg
             } else if (t.isObjectPattern(arg)) {
               let hasChildren = false
@@ -119,27 +132,31 @@ const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as 
               }
               insertDecls.push(
                 t.variableDeclaration('const', [
-                  t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props')))
+                  t.variableDeclarator(arg, t.memberExpression(t.thisExpression(), t.identifier('props'))),
                 ])
               )
               if (hasChildren) {
                 insertDecls.push(
                   t.variableDeclaration('const', [
-                    t.variableDeclarator(t.objectPattern([
-                      t.objectProperty(t.identifier('children'), t.identifier('children')) as any
-                    ]), t.memberExpression(t.thisExpression(), t.identifier('props')))
+                    t.variableDeclarator(
+                      t.objectPattern([t.objectProperty(t.identifier('children'), t.identifier('children')) as any]),
+                      t.memberExpression(t.thisExpression(), t.identifier('props'))
+                    ),
                   ])
                 )
               }
             } else if (t.isAssignmentPattern(arg)) {
-              throw codeFrameError(arg, '给函数式组件的第一个参数设置默认参数是没有意义的，因为 props 永远都有值（不传 props 的时候是个空对象），所以默认参数永远都不会执行。')
+              throw codeFrameError(
+                arg,
+                '给函数式组件的第一个参数设置默认参数是没有意义的，因为 props 永远都有值（不传 props 的时候是个空对象），所以默认参数永远都不会执行。'
+              )
             } else {
               throw codeFrameError(arg, '函数式组件只支持传入一个简单标识符或使用对象结构')
             }
           }
           Status.isSFC = true
           path.traverse({
-            JSXExpressionContainer (path) {
+            JSXExpressionContainer(path) {
               const expr = path.get('expression').node
               if (t.isMemberExpression(expr)) {
                 const { object, property } = expr
@@ -150,31 +167,40 @@ const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as 
                   propsIdentifier &&
                   object.name === propsIdentifier.name
                 ) {
-                  path.set('expression', t.memberExpression(
-                    t.memberExpression(t.thisExpression(), t.identifier('props')),
-                    t.identifier(property.name)
-                  ))
+                  path.set(
+                    'expression',
+                    t.memberExpression(
+                      t.memberExpression(t.thisExpression(), t.identifier('props')),
+                      t.identifier(property.name)
+                    )
+                  )
                 }
               } else if (t.isIdentifier(expr)) {
                 if (!renderFnReg.test(expr.name)) return
-                const prop = propsList.find(prop => prop === expr.name)
+                const prop = propsList.find((prop) => prop === expr.name)
                 if (!prop) return
-                path.set('expression', t.memberExpression(
-                  t.memberExpression(t.thisExpression(), t.identifier('props')),
-                  t.identifier(expr.name)
-                ))
+                path.set(
+                  'expression',
+                  t.memberExpression(
+                    t.memberExpression(t.thisExpression(), t.identifier('props')),
+                    t.identifier(expr.name)
+                  )
+                )
               }
-            }
+            },
           })
           const cloneBody = cloneDeep(body) as any
-          insertDecls.forEach(decl => cloneBody.body.unshift(decl))
-          const classDecl = t.classDeclaration(id as t.Identifier, t.memberExpression(t.identifier('Taro'), t.identifier('Component')), t.classBody([
-            t.classMethod('method', t.identifier('render'), [], cloneBody)
-          ]), [])
+          insertDecls.forEach((decl) => cloneBody.body.unshift(decl))
+          const classDecl = t.classDeclaration(
+            id as t.Identifier,
+            t.memberExpression(t.identifier('Taro'), t.identifier('Component')),
+            t.classBody([t.classMethod('method', t.identifier('render'), [], cloneBody)]),
+            []
+          )
           functionDecl.replaceWith(classDecl)
         }
       },
-      JSXAttribute (path) {
+      JSXAttribute(path) {
         const { name, value } = path.node
         const jsxElementPath = path.parentPath.parentPath
         if (t.isJSXIdentifier(name) && t.isJSXElement(jsxElementPath) && transformOptions.isNormal !== true) {
@@ -189,7 +215,7 @@ const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as 
             }
           }
         }
-      }
-    }
+      },
+    },
   }
 }

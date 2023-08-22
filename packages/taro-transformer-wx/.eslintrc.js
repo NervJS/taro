@@ -1,21 +1,17 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: [
-    '@typescript-eslint'
-  ],
-  parserOptions: { },
-  extends: [
-    'eslint:recommended',
-    'standard',
-    'plugin:@typescript-eslint/recommended',
-    'prettier'
-  ],
+  plugins: ['@typescript-eslint'],
+  parserOptions: {},
+  extends: ['eslint:recommended', 'standard', 'plugin:@typescript-eslint/recommended', 'prettier'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
     '@typescript-eslint/explicit-function-return-type': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     '@typescript-eslint/indent': [2, 2],
-    '@typescript-eslint/member-delimiter-style': [1, { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } }],
+    '@typescript-eslint/member-delimiter-style': [
+      1,
+      { multiline: { delimiter: 'none' }, singleline: { delimiter: 'comma' } },
+    ],
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-explicit-any': 0,
     '@typescript-eslint/no-namespace': 0,
@@ -37,8 +33,8 @@ module.exports = {
     'no-new': 'off',
     'prefer-const': 'off',
     'no-empty': 'off',
-    'no-unsafe-optional-chaining': 'off', 
+    'no-unsafe-optional-chaining': 'off',
     'no-prototype-builtins': 'off',
-    camelcase: 'off'
-  }
+    camelcase: 'off',
+  },
 }

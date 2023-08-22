@@ -5,7 +5,7 @@ import * as t from '@babel/types'
 export function generateMinimalEscapeCode (ast: t.File) {
   return generate(ast, {
     jsescOption: {
-      minimal: true
-    }
+      minimal: true,
+    },
   }).code
 }
