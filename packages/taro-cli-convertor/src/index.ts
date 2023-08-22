@@ -24,7 +24,7 @@ import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
-import { analyzeImportUrl, getPkgVersion, incrementId, searchFile } from './util'
+import { analyzeImportUrl, getPkgVersion, incrementId } from './util'
 import { generateMinimalEscapeCode } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
@@ -262,36 +262,16 @@ export default class Convertor {
               const value = source.value
               analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
-
-            // Fix const xxx = require('filepath') --> import xxx from 'filepath'
-            VariableDeclarator (astPath) {
-              const node = astPath.node
-              const id = node.id as t.Identifier // Identifier: xxx
-              const init = node.init // CallExpression: callee & arguments
-              if (t.isCallExpression(init)) {
-                // 判断node类型
-                const callee = init.callee
-                const args = init.arguments as Array<t.StringLiteral>
-                if (callee && callee.type === 'Identifier') {
-                  if (callee.name === 'require') {
-                    const value = args[0].value
-                    /* if (value) {
-                        analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value);
-                    } */
-                    astPath.parentPath.insertBefore(
-                      t.importDeclaration([t.importDefaultSpecifier(t.identifier(id.name))], t.stringLiteral(value))
-                    )
-                    astPath.remove()
-                  }
-                }
-              }
-            },
-
             CallExpression (astPath) {
+              const node = astPath.node
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
               if (callee.type === 'Identifier') {
-                if (WX_GLOBAL_FN.has(callee.name)) {
+                if (callee.name === 'require') {
+                  const args = node.arguments as Array<t.StringLiteral>
+                  const value = args[0].value
+                  analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value)
+                } else if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
                   needInsertImportTaro = true
                 }
@@ -380,12 +360,15 @@ export default class Convertor {
               })
             }
             if (depComponents && depComponents.size) {
-              depComponents.forEach((componentObj) => {
+              depComponents.forEach(componentObj => {
                 const name = pascalCase(componentObj.name)
-                const component = componentObj.path
+                let componentPath = componentObj.path
+                if (componentPath.indexOf(self.root) !== -1) {
+                  componentPath = path.relative(sourceFilePath, componentPath)
+                }
                 lastImport.insertAfter(
                   template(
-                    `import ${name} from '${promoteRelativePath(path.relative(sourceFilePath, component))}'`,
+                    `import ${name} from '${promoteRelativePath(componentPath)}'`,
                     babylonConfig
                   )() as t.Statement
                 )
@@ -400,21 +383,6 @@ export default class Convertor {
       ast,
       scriptFiles,
     }
-  }
-
-  // Fix: 在小程序三方件中找到入口 index
-  getModulePath (modulePath) {
-    const parts = modulePath.split('/')
-    let moduleIndex = path.join(this.root, 'node_modules') // node_modules文件夹
-    if (parts.at(-1) === 'index') {
-      parts.pop()
-    }
-    parts.push('index.js')
-    parts.forEach((part) => {
-      const moduleFile = moduleIndex
-      moduleIndex = searchFile(moduleFile, part)
-    })
-    return moduleIndex
   }
 
   getApp () {
@@ -436,11 +404,9 @@ export default class Convertor {
         for (const key in using) {
           if (using[key].startsWith('plugin://')) continue
           const componentPath = using[key]
-          using[key] = path.join(this.root, componentPath)
-          // Fix: 插件依赖目录为 miniprogram_npm，现将其目录改为npm_module
-          if (!fs.existsSync(using[key] + this.fileTypes.SCRIPT)) {
-            const realPath = this.getModulePath(componentPath)
-            using[key] = realPath.slice(0, -3)
+          // 非三方库的路径需要处理
+          if (!this.isThirdPartyLib(componentPath)) {
+            using[key] = path.join(this.root, componentPath)
           }
         }
         this.entryUsingComponents = using
@@ -504,6 +470,14 @@ export default class Convertor {
     }
     if (files.size) {
       files.forEach((file) => {
+        // 处理require & import 中的 三方库
+        if (this.isThirdPartyLib(file)) {
+          if (!this.isInNodeModule(file)) {
+            throw new Error(`缺少依赖 ${file} ，请转换前在工程目录下执行 pnpm install!`)
+          }
+          this.generateNodeModule(file)
+          return
+        }
         if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
           return
         }
@@ -672,6 +646,44 @@ ${code}
     return path.join(path.dirname(file), path.basename(file, path.extname(file)) + '.vue')
   }
 
+  // 判断是否是三方库
+  isThirdPartyLib (modulePath: string) {
+    // 相对路径和带根目录的路径都不是三方库
+    if (modulePath.indexOf('.') === 0 || modulePath.indexOf('/') === 0 || modulePath.indexOf(this.root) !== -1) {
+      return false
+    }
+    const parts = modulePath.split('/')
+    const npmModulePath = path.resolve(this.root, 'miniprogram_npm', parts[0])
+    if (fs.existsSync(npmModulePath)) {
+      return true
+    }
+    return false
+  }
+
+  // 判断三方库是否安装
+  isInNodeModule (modulePath: string) {
+    const nodeModules = path.resolve(this.root, 'node_modules')
+    if (!fs.existsSync(nodeModules)) {
+      return false
+    }
+    const modules = fs.readdirSync(nodeModules)
+    const parts = modulePath.split('/')
+    if (modules.indexOf(parts[0]) === -1) {
+      return false
+    }
+    return true
+  }
+
+  // 调用copyFileToTaro实现拷贝对应的三方库到node_modules
+  generateNodeModule (modulePath: string) {
+    const parts = modulePath.split('/')
+    const moduleConvertPath = path.resolve(this.convertRoot, 'node_modules', parts[0])
+    if (!fs.existsSync(moduleConvertPath)) {
+      const moduleRootPath = path.resolve(this.root, 'node_modules', parts[0])
+      this.copyFileToTaro(moduleRootPath, moduleConvertPath)
+    }
+  }
+
   traversePages () {
     this.pages.forEach((page) => {
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
@@ -716,15 +728,12 @@ ${code}
                 let componentPath
                 if (unResolveComponentPath.startsWith(this.root)) {
                   componentPath = unResolveComponentPath
+                } else if (this.isThirdPartyLib(unResolveComponentPath)) {
+                  componentPath = unResolveComponentPath
                 } else {
                   componentPath = path.resolve(pageConfigPath, '..', pageUsingComponents[component])
                   if (!fs.existsSync(resolveScriptPath(componentPath))) {
                     componentPath = path.join(this.root, pageUsingComponents[component])
-                    // Fix: 某些组件不是app.json导入，同样需要适配路径
-                    if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
-                      const realPath = this.getModulePath(pageUsingComponents[component])
-                      componentPath = realPath.slice(0, -3)
-                    }
                   }
                 }
 
@@ -807,7 +816,15 @@ ${code}
         const param: ITaroizeOptions = {}
         const depComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
-          throw new Error(`组件 ${component} 没有 JS 文件！`)
+          if (!this.isThirdPartyLib(component)) {
+            throw new Error(`自定义组件 ${component} 没有 JS 文件！`)
+          }
+          if (!this.isInNodeModule(component)) {
+            throw new Error(`缺少依赖 ${component} ，请转换前在工程目录下执行 pnpm install!`)
+          } else {
+            this.generateNodeModule(component)
+            return
+          }
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
         if (fs.existsSync(componentConfigPath)) {
@@ -821,11 +838,6 @@ ${code}
               let componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
               if (!fs.existsSync(resolveScriptPath(componentPath))) {
                 componentPath = path.join(this.root, componentUsingComponnets[component])
-                // Fix
-                if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
-                  const realPath = this.getModulePath(componentUsingComponnets[component])
-                  componentPath = realPath.slice(0, -3)
-                }
               }
               if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
                 componentPath = path.join(componentPath, `/index`)

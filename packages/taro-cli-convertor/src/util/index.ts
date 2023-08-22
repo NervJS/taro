@@ -19,28 +19,6 @@ export function getPkgVersion (): string {
   return require(path.join(getRootPath(), 'package.json')).version
 }
 
-// Fix: 在小程序三方件中找到入口 index
-function getModulePath (rootPath, modulePath) {
-  const parts = modulePath.split('/')
-  let moduleIndex = path.join(rootPath, 'node_modules') // node_modules文件夹
-  if (parts.at(-1) === 'index') {
-    parts.pop()
-  }
-  parts.push('index.js')
-  const npmIndex = path.join(rootPath, `miniprogram_npm/${modulePath}.js`) // 判断本身是否是一个完整的入口
-  if (fs.existsSync(npmIndex)) {
-    parts.pop()
-    const tempPart = parts.at(-1) + '.js'
-    parts.pop()
-    parts.push(tempPart)
-  }
-  parts.forEach((part) => {
-    const moduleFile = moduleIndex
-    moduleIndex = searchFile(moduleFile, part)
-  })
-  return moduleIndex
-}
-
 function getRelativePath (rootPath: string, sourceFilePath: string, oriPath: string) {
   // 处理以/开头的绝对路径，比如 /a/b
   if (path.isAbsolute(oriPath)) {
@@ -77,15 +55,7 @@ function getRelativePath (rootPath: string, sourceFilePath: string, oriPath: str
       if (fs.existsSync(oriPath)) {
         oriPath = './' + oriPath
       }
-      return oriPath
     }
-    const realPath = getModulePath(rootPath, oriPath)
-    // 转成相对路径
-    const relativePath = path.relative(path.dirname(sourceFilePath), realPath)
-    if (relativePath.indexOf('.') !== 0) {
-      return './' + relativePath
-    }
-    return relativePath
   }
   return oriPath
 }
@@ -145,50 +115,15 @@ export function analyzeImportUrl (
         }
       }
     }
+  } else {
+    if (value.startsWith('/') || value.startsWith('@tarojs')) {
+      return
+    }
+    scriptFiles.add(value)
   }
 }
 
 export const incrementId = () => {
   let n = 0
   return () => (n++).toString()
-}
-
-export function searchFile (moduleFile, indexPart) {
-  // Fix: 递归遍历查找
-  const filePath = path.join(moduleFile, indexPart)
-  if (fs.existsSync(filePath)) {
-    return filePath
-  }
-  const folders = fs.readdirSync(moduleFile) // 获取子目录
-  let resultFile
-  for (let i = 0; i < folders.length; i++) {
-    if (folders[i].indexOf('_dist') !== -1) {
-      // 在先找到miniprogram_dist目录的情况下，查找同级子目录是否有源码（src/index.js)
-      for (let j = i + 1; j < folders.length; j++) {
-        if (folders[j].indexOf('src') !== -1 || folders[j].indexOf('index.js') !== -1) {
-          i = j
-          break
-        }
-      }
-    }
-    if (folders[i].indexOf('ali') !== -1) {
-      continue
-    }
-    if (folders[i].indexOf('baidu') !== -1) {
-      continue
-    }
-    if (folders[i].indexOf('qq') !== -1) {
-      continue
-    }
-    if (folders[i].indexOf('toutiao') !== -1) {
-      continue
-    }
-    const nextModule = path.join(moduleFile, folders[i])
-    if (fs.lstatSync(nextModule).isDirectory()) {
-      resultFile = searchFile(nextModule, indexPart)
-    }
-    if (resultFile && fs.existsSync(resultFile)) {
-      return resultFile
-    }
-  }
 }
