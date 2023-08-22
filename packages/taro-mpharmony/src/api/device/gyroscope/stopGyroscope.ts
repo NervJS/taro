@@ -12,11 +12,7 @@ export const stopGyroscope: typeof Taro.stopGyroscope = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -28,7 +24,7 @@ export const stopGyroscope: typeof Taro.stopGyroscope = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

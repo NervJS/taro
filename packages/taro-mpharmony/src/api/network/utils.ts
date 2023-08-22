@@ -33,7 +33,7 @@ export const XHR_STATS = {
   OPENED: 1, // open() has been called.
   HEADERS_RECEIVED: 2, // send() has been called, and headers and status are available.
   LOADING: 3, // Downloading; responseText holds partial data.
-  DONE: 4 // The operation is complete.
+  DONE: 4, // The operation is complete.
 }
 
 /**
@@ -53,7 +53,7 @@ export const setHeader = (xhr, header) => {
  * @param {string} url 要转换的 blob url
  * @returns {Promise<File>}
  */
-export const convertObjectUrlToBlob = url => {
+export const convertObjectUrlToBlob = (url) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
     xhr.open('GET', url, true)

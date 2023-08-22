@@ -12,11 +12,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -40,13 +36,13 @@ export const getLocation: typeof Taro.getLocation = (options) => {
           /** 垂直精度，单位 m */
           verticalAccuracy: res.accuracy,
           /** 调用结果,自动补充 */
-          errMsg: ''
+          errMsg: '',
         }
         handle.success(result, { resolve, reject })
       },
       fail: (res: any) => {
         handle.fail(res, { resolve, reject })
-      }
+      },
     })
-  }) 
+  })
 }

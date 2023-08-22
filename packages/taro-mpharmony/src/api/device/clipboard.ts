@@ -16,8 +16,8 @@ const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
 document.addEventListener('copy', () => {
   setStorage({
     key: CLIPBOARD_STORAGE_NAME,
-    data: window.getSelection()?.toString()
-  }).catch(e => {
+    data: window.getSelection()?.toString(),
+  }).catch((e) => {
     console.error(e)
   })
 })
@@ -47,7 +47,7 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
       document.execCommand('copy')
       document.body.removeChild(textarea)
     } else {
-      throw new Error('Unsupported Function: \'document.execCommand\'.')
+      throw new Error("Unsupported Function: 'document.execCommand'.")
     }
     return handle.success()
   } catch (e) {
@@ -59,7 +59,12 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
  * 获取系统剪贴板的内容
  */
 export const getClipboardData: typeof Taro.getClipboardData = async ({ success, fail, complete } = {}) => {
-  const handle = new MethodHandler<Taro.getClipboardData.SuccessCallbackOption>({ name: 'getClipboardData', success, fail, complete })
+  const handle = new MethodHandler<Taro.getClipboardData.SuccessCallbackOption>({
+    name: 'getClipboardData',
+    success,
+    fail,
+    complete,
+  })
   try {
     const data: string = getStorageSync(CLIPBOARD_STORAGE_NAME)
     return handle.success({ data })

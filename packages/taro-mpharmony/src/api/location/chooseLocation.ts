@@ -11,9 +11,9 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.cho
   const query = {
     key,
     type: 1,
-    coord: mapOpt.coord ?? [latitude, longitude].every(e => Number(e) >= 0) ? `${latitude},${longitude}` : undefined,
+    coord: mapOpt.coord ?? [latitude, longitude].every((e) => Number(e) >= 0) ? `${latitude},${longitude}` : undefined,
     referer: 'myapp',
-    ...opts
+    ...opts,
   }
   if (!container) {
     const html = `
@@ -23,7 +23,10 @@ function createLocationChooser (handler, key = LOCATION_APIKEY, mapOpt: Taro.cho
     <p class='taro_choose_location_title'>位置</p>
     <button class='taro_choose_location_submit'>完成</button>
   </div>
-  <iframe class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(query, { arrayFormat: 'comma', skipNull: true })}" />
+  <iframe class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/locpicker?${stringify(
+    query,
+    { arrayFormat: 'comma', skipNull: true }
+  )}" />
 </div>
 `
     container = document.createElement('div')
@@ -79,12 +82,15 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
     const chooseLocation: Partial<Taro.chooseLocation.SuccessCallbackResult> = {}
     if (!key) {
       console.warn('chooseLocation api 依赖腾讯地图定位api，需要在 defineConstants 中配置 LOCATION_APIKEY')
-      return handle.fail({
-        errMsg: 'LOCATION_APIKEY needed'
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: 'LOCATION_APIKEY needed',
+        },
+        { resolve, reject }
+      )
     }
 
-    const onMessage = event => {
+    const onMessage = (event) => {
       // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
       const loc = event.data
 
@@ -97,21 +103,25 @@ export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, comp
       chooseLocation.longitude = loc.latlng.lng
     }
 
-    const chooser = createLocationChooser(res => {
-      window.removeEventListener('message', onMessage, false)
-      setTimeout(() => {
-        chooser.remove()
-      }, 300)
-      if (res) {
-        return handle.fail(res, { resolve, reject })
-      } else {
-        if (chooseLocation.latitude && chooseLocation.longitude) {
-          return handle.success(chooseLocation, { resolve, reject })
+    const chooser = createLocationChooser(
+      (res) => {
+        window.removeEventListener('message', onMessage, false)
+        setTimeout(() => {
+          chooser.remove()
+        }, 300)
+        if (res) {
+          return handle.fail(res, { resolve, reject })
         } else {
-          return handle.fail({}, { resolve, reject })
+          if (chooseLocation.latitude && chooseLocation.longitude) {
+            return handle.success(chooseLocation, { resolve, reject })
+          } else {
+            return handle.fail({}, { resolve, reject })
+          }
         }
-      }
-    }, key, mapOpts)
+      },
+      key,
+      mapOpts
+    )
 
     document.body.appendChild(chooser.container)
 

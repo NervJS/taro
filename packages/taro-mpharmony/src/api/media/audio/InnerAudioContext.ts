@@ -15,7 +15,9 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     this.errorStack = new CallbackManager()
     this.stopStack = new CallbackManager()
 
-    Taro.eventCenter.on('__taroRouterChange', () => { this.stop() })
+    Taro.eventCenter.on('__taroRouterChange', () => {
+      this.stop()
+    })
     this.onPlay(() => {
       if (this.__isFirstPlay) {
         this.__isFirstPlay = false
@@ -25,27 +27,89 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     document.body.appendChild(this.Instance)
   }
 
-  set autoplay (e) { this.setProperty('autoplay', e) }
-  get autoplay () { return this.Instance?.autoplay || false }
-  get buffered () { return this.Instance?.buffered.length || 0 }
-  get currentTime () { return this.Instance?.currentTime || 0 }
-  set currentTime (e) { this.seek(e) }
-  get duration () { return this.Instance?.duration || 0 }
-  set loop (e) { this.setProperty('loop', e) }
-  get loop () { return this.Instance?.loop || false }
-  get paused () { return this.Instance?.paused ?? true }
-  set src (e) { this.setProperty('src', e) }
-  get src () { return this.Instance?.src || '' }
-  set volume (e) { this.setProperty('volume', e) }
-  get volume () { return this.Instance?.volume || 0 }
-  set playbackRate (e) { this.setProperty('playbackRate', e) }
-  get playbackRate () { return this.Instance?.playbackRate || 0 }
-  set obeyMuteSwitch (_e) { permanentlyNotSupport('InnerAudioContext.obeyMuteSwitch')() }
-  get obeyMuteSwitch () { return true }
-  set startTime (e) { this.__startTime = e }
-  get startTime () { return this.__startTime || 0 }
-  set referrerPolicy (e) { this.Instance?.setAttribute('referrerpolicy', e) }
-  get referrerPolicy () { return this.Instance?.getAttribute('referrerpolicy') || 'origin' }
+  set autoplay (e) {
+    this.setProperty('autoplay', e)
+  }
+
+  get autoplay () {
+    return this.Instance?.autoplay || false
+  }
+
+  get buffered () {
+    return this.Instance?.buffered.length || 0
+  }
+
+  get currentTime () {
+    return this.Instance?.currentTime || 0
+  }
+
+  set currentTime (e) {
+    this.seek(e)
+  }
+
+  get duration () {
+    return this.Instance?.duration || 0
+  }
+
+  set loop (e) {
+    this.setProperty('loop', e)
+  }
+
+  get loop () {
+    return this.Instance?.loop || false
+  }
+
+  get paused () {
+    return this.Instance?.paused ?? true
+  }
+
+  set src (e) {
+    this.setProperty('src', e)
+  }
+
+  get src () {
+    return this.Instance?.src || ''
+  }
+
+  set volume (e) {
+    this.setProperty('volume', e)
+  }
+
+  get volume () {
+    return this.Instance?.volume || 0
+  }
+
+  set playbackRate (e) {
+    this.setProperty('playbackRate', e)
+  }
+
+  get playbackRate () {
+    return this.Instance?.playbackRate || 0
+  }
+
+  set obeyMuteSwitch (_e) {
+    permanentlyNotSupport('InnerAudioContext.obeyMuteSwitch')()
+  }
+
+  get obeyMuteSwitch () {
+    return true
+  }
+
+  set startTime (e) {
+    this.__startTime = e
+  }
+
+  get startTime () {
+    return this.__startTime || 0
+  }
+
+  set referrerPolicy (e) {
+    this.Instance?.setAttribute('referrerpolicy', e)
+  }
+
+  get referrerPolicy () {
+    return this.Instance?.getAttribute('referrerpolicy') || 'origin'
+  }
 
   private setProperty (key: string, value: unknown) {
     if (this.Instance) {
@@ -86,7 +150,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   onStop = (callback = () => {}) => this.stopStack.add(callback)
   onEnded = (callback = () => {}) => this.Instance?.addEventListener('ended', callback)
   onTimeUpdate = (callback = () => {}) => this.Instance?.addEventListener('timeupdate', callback)
-  onError = (callback?: ((res: Taro.InnerAudioContext.onErrorDetail) => void)) => this.errorStack.add(callback)
+  onError = (callback?: (res: Taro.InnerAudioContext.onErrorDetail) => void) => this.errorStack.add(callback)
   onWaiting = (callback = () => {}) => this.Instance?.addEventListener('waiting', callback)
   onSeeking = (callback = () => {}) => this.Instance?.addEventListener('seeking', callback)
   onSeeked = (callback = () => {}) => this.Instance?.addEventListener('seeked', callback)

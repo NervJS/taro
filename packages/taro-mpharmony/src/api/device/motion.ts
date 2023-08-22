@@ -9,16 +9,16 @@ let deviceMotionListener
 const INTERVAL_MAP = {
   game: {
     interval: 20,
-    frequency: 50
+    frequency: 50,
   },
   ui: {
     interval: 60,
-    frequency: 16.67
+    frequency: 16.67,
   },
   normal: {
     interval: 200,
-    frequency: 5
-  }
+    frequency: 5,
+  },
 }
 
 /**
@@ -37,7 +37,12 @@ export const stopDeviceMotionListening: typeof Taro.stopDeviceMotionListening = 
 /**
  * 开始监听设备方向的变化。
  */
-export const startDeviceMotionListening: typeof Taro.startDeviceMotionListening = ({ interval = 'normal', success, fail, complete } = {}) => {
+export const startDeviceMotionListening: typeof Taro.startDeviceMotionListening = ({
+  interval = 'normal',
+  success,
+  fail,
+  complete,
+} = {}) => {
   const handle = new MethodHandler({ name: 'startDeviceMotionListening', success, fail, complete })
   try {
     const intervalObj = INTERVAL_MAP[interval]
@@ -49,7 +54,7 @@ export const startDeviceMotionListening: typeof Taro.startDeviceMotionListening 
         callbackManager.trigger({
           alpha: evt.alpha,
           beta: evt.beta,
-          gamma: evt.gamma
+          gamma: evt.gamma,
         })
       }, intervalObj.interval)
       window.addEventListener('deviceorientation', deviceMotionListener, true)
@@ -65,13 +70,13 @@ export const startDeviceMotionListening: typeof Taro.startDeviceMotionListening 
 /**
  * 监听设备方向变化事件。
  */
-export const onDeviceMotionChange: typeof Taro.onDeviceMotionChange = callback => {
+export const onDeviceMotionChange: typeof Taro.onDeviceMotionChange = (callback) => {
   callbackManager.add(callback)
 }
 
 /**
  * 取消监听设备方向变化事件，参数为空，则取消所有的事件监听。
  */
-export const offDeviceMotionChange: typeof Taro.offDeviceMotionChange = callback => {
+export const offDeviceMotionChange: typeof Taro.offDeviceMotionChange = (callback) => {
   callbackManager.remove(callback)
 }

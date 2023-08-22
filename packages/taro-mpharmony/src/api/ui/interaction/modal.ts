@@ -10,7 +10,7 @@ export default class Modal {
     cancelText: '取消',
     cancelColor: '#000000',
     confirmText: '确定',
-    confirmColor: '#3CC51F'
+    confirmColor: '#3CC51F',
   }
 
   style = {
@@ -21,7 +21,7 @@ export default class Modal {
       right: '0',
       left: '0',
       bottom: '0',
-      background: 'rgba(0,0,0,0.6)'
+      background: 'rgba(0,0,0,0.6)',
     },
     modalStyle: {
       'z-index': '4999',
@@ -35,11 +35,11 @@ export default class Modal {
       'text-align': 'center',
       'line-height': '1.6',
       overflow: 'hidden',
-      background: '#FFFFFF'
+      background: '#FFFFFF',
     },
     titleStyle: {
       padding: '20px 24px 9px',
-      'font-size': '18px'
+      'font-size': '18px',
     },
     textStyle: {
       padding: '0 24px 12px',
@@ -48,20 +48,20 @@ export default class Modal {
       'line-height': '1.3',
       color: '#808080',
       'word-wrap': 'break-word',
-      'word-break': 'break-all'
+      'word-break': 'break-all',
     },
     footStyle: {
       position: 'relative',
       'line-height': '48px',
       'font-size': '18px',
-      display: 'flex'
+      display: 'flex',
     },
     btnStyle: {
       position: 'relative',
       '-webkit-box-flex': '1',
       '-webkit-flex': '1',
-      flex: '1'
-    }
+      flex: '1',
+    },
   }
 
   currentPath: string | null
@@ -81,7 +81,7 @@ export default class Modal {
       // configuration
       const config = {
         ...this.options,
-        ...options
+        ...options,
       }
 
       // wrapper
@@ -106,10 +106,12 @@ export default class Modal {
       modal.ontouchmove = eventHandler
 
       // title
-      const titleCSS = config.title ? titleStyle : {
-        ...titleStyle,
-        display: 'none'
-      }
+      const titleCSS = config.title
+        ? titleStyle
+        : {
+          ...titleStyle,
+          display: 'none',
+        }
       this.title = document.createElement('div')
 
       this.title.className = 'taro-modal__title'
@@ -117,11 +119,13 @@ export default class Modal {
       this.title.textContent = config.title
 
       // text
-      const textCSS = config.title ? textStyle : {
-        ...textStyle,
-        padding: '40px 20px 26px',
-        color: '#353535'
-      }
+      const textCSS = config.title
+        ? textStyle
+        : {
+          ...textStyle,
+          padding: '40px 20px 26px',
+          color: '#353535',
+        }
       this.text = document.createElement('div')
       this.text.className = 'taro-modal__text'
       this.text.setAttribute('style', inlineStyle(textCSS))
@@ -136,7 +140,7 @@ export default class Modal {
       const cancelCSS = {
         ...btnStyle,
         color: config.cancelColor,
-        display: config.showCancel ? 'block' : 'none'
+        display: config.showCancel ? 'block' : 'none',
       }
       this.cancel = document.createElement('div')
       this.cancel.className = 'taro-model__btn taro-model__cancel'
@@ -169,7 +173,9 @@ export default class Modal {
 
       // show immediately
       document.body.appendChild(this.el)
-      setTimeout(() => { this.el.style.opacity = '1' }, 0)
+      setTimeout(() => {
+        this.el.style.opacity = '1'
+      }, 0)
 
       // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
       this.currentPath = Current.page?.path ?? getCurrentPath()
@@ -180,7 +186,7 @@ export default class Modal {
     return new Promise<string>((resolve) => {
       const config = {
         ...this.options,
-        ...options
+        ...options,
       }
 
       if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
@@ -201,7 +207,7 @@ export default class Modal {
         const textCSS = {
           ...textStyle,
           padding: '40px 20px 26px',
-          color: '#353535'
+          color: '#353535',
         }
         this.text.setAttribute('style', inlineStyle(textCSS))
       }
@@ -235,7 +241,9 @@ export default class Modal {
 
       // show
       this.el.style.display = 'block'
-      setTimeout(() => { this.el.style.opacity = '1' }, 0)
+      setTimeout(() => {
+        this.el.style.opacity = '1'
+      }, 0)
 
       // Current.page不存在时说明路由还未挂载，此时需根据url来分配将要渲染的页面path
       this.currentPath = Current.page?.path ?? getCurrentPath()
@@ -250,7 +258,9 @@ export default class Modal {
 
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
-      this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
+      this.hideDisplayTimer = setTimeout(() => {
+        this.el.style.display = 'none'
+      }, 200)
     }, 0)
   }
 }

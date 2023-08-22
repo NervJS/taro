@@ -13,20 +13,15 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
     return Promise.reject(res)
   }
 
-  const {
-    filePath,
-    success,
-    fail,
-    complete,
-  } = options
+  const { filePath, success, fail, complete } = options
   const handle = new MethodHandler({ name: methodName, success, fail, complete })
   if (typeof filePath !== 'string') {
     return handle.fail({
       errMsg: getParameterError({
         para: 'filePath',
         correct: 'String',
-        wrong: filePath
-      })
+        wrong: filePath,
+      }),
     })
   }
 
@@ -39,7 +34,7 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

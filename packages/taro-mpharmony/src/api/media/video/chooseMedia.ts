@@ -11,7 +11,6 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
     const res = { errMsg: `${name}:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
-        
   }
   const {
     count,
@@ -46,7 +45,7 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

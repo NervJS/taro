@@ -12,11 +12,7 @@ export const getSavedFileList: typeof Taro.getSavedFileList = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler<{
     fileList?: object
@@ -29,13 +25,13 @@ export const getSavedFileList: typeof Taro.getSavedFileList = (options) => {
       success: (res: any) => {
         const result: Taro.getSavedFileList.SuccessCallbackResult = {
           fileList: res.fileList,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

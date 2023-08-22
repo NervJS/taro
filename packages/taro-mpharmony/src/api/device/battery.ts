@@ -15,11 +15,11 @@ export const getBatteryInfo: typeof Taro.getBatteryInfo = async ({ success, fail
     const battery = await navigator.getBattery?.()
     return handle.success({
       isCharging: battery.charging,
-      level: Number(battery.level || 0) * 100
+      level: Number(battery.level || 0) * 100,
     })
   } catch (error) {
     return handle.fail({
-      errMsg: error?.message || error
+      errMsg: error?.message || error,
     })
   }
 }

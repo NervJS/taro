@@ -21,12 +21,7 @@ export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
     return Promise.reject(res)
   }
 
-  const {
-    index,
-    success,
-    fail,
-    complete
-  } = options
+  const { index, success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showTabBarRedDot', success, fail, complete })
 
   if (typeof index !== 'number') {
@@ -34,8 +29,8 @@ export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
       errMsg: getParameterError({
         para: 'index',
         correct: 'Number',
-        wrong: index
-      })
+        wrong: index,
+      }),
     })
   }
 
@@ -43,7 +38,7 @@ export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
     Taro.eventCenter.trigger('__taroShowTabBarRedDotHandler', {
       index,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -68,8 +63,8 @@ export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
       errMsg: getParameterError({
         para: 'animation',
         correct: 'Boolean',
-        wrong: animation
-      })
+        wrong: animation,
+      }),
     })
   }
 
@@ -77,7 +72,7 @@ export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
     Taro.eventCenter.trigger('__taroShowTabBar', {
       animation,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -129,7 +124,7 @@ export const setTabBarStyle: typeof Taro.setTabBarStyle = (options = {}) => {
       backgroundColor,
       borderStyle,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -146,15 +141,7 @@ export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
     return Promise.reject(res)
   }
 
-  const {
-    index,
-    text,
-    iconPath,
-    selectedIconPath,
-    success,
-    fail,
-    complete
-  } = options
+  const { index, text, iconPath, selectedIconPath, success, fail, complete } = options
   const handle = new MethodHandler({ name: 'setTabBarItem', success, fail, complete })
 
   if (typeof index !== 'number') {
@@ -162,8 +149,8 @@ export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
       errMsg: getParameterError({
         para: 'index',
         correct: 'Number',
-        wrong: index
-      })
+        wrong: index,
+      }),
     })
   }
 
@@ -174,7 +161,7 @@ export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
       iconPath,
       selectedIconPath,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -199,8 +186,8 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
       errMsg: getParameterError({
         para: 'index',
         correct: 'Number',
-        wrong: index
-      })
+        wrong: index,
+      }),
     })
   }
 
@@ -209,8 +196,8 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
       errMsg: getParameterError({
         para: 'text',
         correct: 'String',
-        wrong: text
-      })
+        wrong: text,
+      }),
     })
   }
 
@@ -219,7 +206,7 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
       index,
       text: text.length > 4 ? '...' : text,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -244,8 +231,8 @@ export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
       errMsg: getParameterError({
         para: 'index',
         correct: 'Number',
-        wrong: index
-      })
+        wrong: index,
+      }),
     })
   }
 
@@ -253,7 +240,7 @@ export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
     Taro.eventCenter.trigger('__taroRemoveTabBarBadge', {
       index,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -278,8 +265,8 @@ export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
       errMsg: getParameterError({
         para: 'index',
         correct: 'Number',
-        wrong: index
-      })
+        wrong: index,
+      }),
     })
   }
 
@@ -287,7 +274,7 @@ export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
     Taro.eventCenter.trigger('__taroHideTabBarRedDotHandler', {
       index,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -312,8 +299,8 @@ export const hideTabBar: typeof Taro.hideTabBar = (options = {}) => {
       errMsg: getParameterError({
         para: 'animation',
         correct: 'Boolean',
-        wrong: animation
-      })
+        wrong: animation,
+      }),
     })
   }
 
@@ -321,7 +308,7 @@ export const hideTabBar: typeof Taro.hideTabBar = (options = {}) => {
     Taro.eventCenter.trigger('__taroHideTabBar', {
       animation,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }

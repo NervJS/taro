@@ -13,12 +13,7 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      services,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { services, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler<{
       devices?: object
@@ -33,7 +28,7 @@ export const getConnectedBluetoothDevices: typeof Taro.getConnectedBluetoothDevi
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -7,7 +7,7 @@ import { MethodHandler } from '../../utils/handler'
  */
 export const vibrateShort: typeof Taro.vibrateShort = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'vibrateShort', success, fail, complete })
-  return new Promise((resolve,  reject) => {
+  return new Promise((resolve, reject) => {
     // @ts-ignore
     native.vibrateShort({
       success: (res: any) => {
@@ -15,7 +15,7 @@ export const vibrateShort: typeof Taro.vibrateShort = ({ success, fail, complete
       },
       fail: (res: any) => {
         handle.fail(res, { resolve, reject })
-      }
+      },
     })
   })
 }
@@ -25,7 +25,7 @@ export const vibrateShort: typeof Taro.vibrateShort = ({ success, fail, complete
  */
 export const vibrateLong: typeof Taro.vibrateLong = ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'vibrateLong', success, fail, complete })
-  return new Promise((resolve,  reject) => {
+  return new Promise((resolve, reject) => {
     // @ts-ignore
     native.vibrateLong({
       success: (res: any) => {
@@ -33,7 +33,7 @@ export const vibrateLong: typeof Taro.vibrateLong = ({ success, fail, complete }
       },
       fail: (res: any) => {
         handle.fail(res, { resolve, reject })
-      }
+      },
     })
   })
 }

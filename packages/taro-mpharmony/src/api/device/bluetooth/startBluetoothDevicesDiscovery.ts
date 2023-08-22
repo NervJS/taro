@@ -12,14 +12,10 @@ export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDi
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    allowDuplicatesKey,
-    interval,
-    services,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { allowDuplicatesKey, interval, services, success, fail, complete } = options as Exclude<
+    typeof options,
+  undefined
+  >
 
   const handle = new MethodHandler<{
     errMsg?: string
@@ -36,13 +32,13 @@ export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDi
           /** 错误信息 */
           errMsg: res[0] === 0 ? `${name}:ok` : `${res[0]}`,
           /** 错误码 */
-          errCode: 0
+          errCode: 0,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

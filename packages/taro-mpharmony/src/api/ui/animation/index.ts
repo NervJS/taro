@@ -42,7 +42,8 @@ let TRANSITION_END = 'transitionend'
 let TRANSFORM = 'transform'
 
 const $detect = document.createElement('div')
-$detect.style.cssText = '-webkit-animation-name:webkit;-moz-animation-name:moz;-ms-animation-name:ms;animation-name:standard;'
+$detect.style.cssText =
+  '-webkit-animation-name:webkit;-moz-animation-name:moz;-ms-animation-name:ms;animation-name:standard;'
 if ($detect.style['animation-name'] === 'standard') {
   // 支持标准写法
   TRANSITION_END = 'transitionend'
@@ -75,15 +76,13 @@ class Animation implements Taro.Animation {
   id: number
   DEFAULT: IAnimationAttr
 
-  constructor (
-    {
-      duration = 400,
-      delay = 0,
-      timingFunction = 'linear',
-      transformOrigin = '50% 50% 0',
-      unit = 'px'
-    }: Taro.createAnimation.Option = {}
-  ) {
+  constructor ({
+    duration = 400,
+    delay = 0,
+    timingFunction = 'linear',
+    transformOrigin = '50% 50% 0',
+    unit = 'px',
+  }: Taro.createAnimation.Option = {}) {
     // 默认值
     this.setDefault(duration, delay, timingFunction, transformOrigin)
     this.unit = unit
@@ -121,7 +120,7 @@ class Animation implements Taro.Animation {
 
   transformUnit (...args) {
     const ret: string[] = []
-    args.forEach(each => {
+    args.forEach((each) => {
       ret.push(isNaN(each) ? each : `${each}${this.unit}`)
     })
     return ret
@@ -133,9 +132,9 @@ class Animation implements Taro.Animation {
   }
 
   // 属性组合
-  rules: {key: string, rule: string}[] = []
+  rules: { key: string, rule: string }[] = []
   // transform 对象
-  transform: {key: string, transform: string}[] = []
+  transform: { key: string, transform: string }[] = []
   // 组合动画
   steps: string[] = []
   // 动画 map ----- 永久保留
@@ -143,19 +142,36 @@ class Animation implements Taro.Animation {
   // animationMap 的长度
   animationMapCount = 0
   // 历史动画
-  historyAnimations: {key: string, transform: string}[] = []
+  historyAnimations: { key: string, transform: string }[] = []
   // 历史规则
-  historyRules: {key: string, rule: string}[] = []
+  historyRules: { key: string, rule: string }[] = []
 
   matrix (a: number, b: number, c: number, d: number, tx: number, ty: number) {
     this.transform.push({ key: 'matrix', transform: `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})` })
     return this
   }
 
-  matrix3d (a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number) {
+  matrix3d (
+    a1: number,
+    b1: number,
+    c1: number,
+    d1: number,
+    a2: number,
+    b2: number,
+    c2: number,
+    d2: number,
+    a3: number,
+    b3: number,
+    c3: number,
+    d3: number,
+    a4: number,
+    b4: number,
+    c4: number,
+    d4: number
+  ) {
     this.transform.push({
       key: 'matrix3d',
-      transform: `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`
+      transform: `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`,
     })
     return this
   }
@@ -312,7 +328,7 @@ class Animation implements Taro.Animation {
       duration = DEFAULT.duration,
       delay = DEFAULT.delay,
       timingFunction = DEFAULT.timingFunction,
-      transformOrigin = DEFAULT.transformOrigin
+      transformOrigin = DEFAULT.transformOrigin,
     } = arg
     // 生成一条 transition 动画
 
@@ -336,16 +352,16 @@ class Animation implements Taro.Animation {
       }
     })
     const rules = this.historyRules.map((t) => t.rule)
-    const ruleSequence = rules.length > 0 ? rules.map(rule => `${rule}!important`).join(';') : ''
-  
+    const ruleSequence = rules.length > 0 ? rules.map((rule) => `${rule}!important`).join(';') : ''
+
     this.steps.push(
       [
         ruleSequence,
         transformSequence,
         `${TRANSFORM}-origin: ${transformOrigin}`,
-        `transition: all ${duration}ms ${timingFunction} ${delay}ms`
+        `transition: all ${duration}ms ${timingFunction} ${delay}ms`,
       ]
-        .filter(item => item !== '')
+        .filter((item) => item !== '')
         .join(';')
     )
     // 清空 rules 和 transform
@@ -361,9 +377,10 @@ class Animation implements Taro.Animation {
     this.animationMap[animIndex] = this.steps.length
     // 吐出 step
     this.steps.forEach((step, index) => {
-      const selector = index === 0
-        ? `[animation="${animIndex}"], [data-animation="${animIndex}"]`
-        : `[animation="${animIndex}--${index}"], [data-animation="${animIndex}--${index}"]`
+      const selector =
+        index === 0
+          ? `[animation="${animIndex}"], [data-animation="${animIndex}"]`
+          : `[animation="${animIndex}--${index}"], [data-animation="${animIndex}--${index}"]`
       styleSheet.add(`${selector} { ${step} }`)
     })
 

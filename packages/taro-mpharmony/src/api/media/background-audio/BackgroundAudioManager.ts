@@ -21,30 +21,101 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
     })
   }
 
-  set src (e) { this.setProperty('src', e) }
-  get src () { return this.Instance?.src || '' }
-  set startTime (e) { this.__startTime = e }
-  get startTime () { return this.__startTime || 0 }
-  set title (e) { this.dataset('title', e) }
-  get title () { return this.Instance?.dataset.title || '' }
-  set epname (e) { this.dataset('epname', e) }
-  get epname () { return this.Instance?.dataset.epname || '' }
-  set singer (e) { this.dataset('singer', e) }
-  get singer () { return this.Instance?.dataset.singer || '' }
-  set coverImgUrl (e) { this.dataset('coverImgUrl', e) }
-  get coverImgUrl () { return this.Instance?.dataset.coverImgUrl || '' }
-  set webUrl (e) { this.dataset('webUrl', e) }
-  get webUrl () { return this.Instance?.dataset.webUrl || '' }
-  set protocol (e) { this.dataset('protocol', e) }
-  get protocol () { return this.Instance?.dataset.protocol || '' }
-  set playbackRate (e) { this.setProperty('playbackRate', e) }
-  get playbackRate () { return this.Instance?.playbackRate || 0 }
-  get duration () { return this.Instance?.duration || 0 }
-  get currentTime () { return this.Instance?.currentTime || 0 }
-  get paused () { return this.Instance?.paused || false }
-  get buffered () { return this.Instance?.buffered.length || 0 }
-  set referrerPolicy (e) { this.Instance?.setAttribute('referrerpolicy', e) }
-  get referrerPolicy () { return this.Instance?.getAttribute('referrerpolicy') || 'origin' }
+  set src (e) {
+    this.setProperty('src', e)
+  }
+
+  get src () {
+    return this.Instance?.src || ''
+  }
+
+  set startTime (e) {
+    this.__startTime = e
+  }
+
+  get startTime () {
+    return this.__startTime || 0
+  }
+
+  set title (e) {
+    this.dataset('title', e)
+  }
+
+  get title () {
+    return this.Instance?.dataset.title || ''
+  }
+
+  set epname (e) {
+    this.dataset('epname', e)
+  }
+
+  get epname () {
+    return this.Instance?.dataset.epname || ''
+  }
+
+  set singer (e) {
+    this.dataset('singer', e)
+  }
+
+  get singer () {
+    return this.Instance?.dataset.singer || ''
+  }
+
+  set coverImgUrl (e) {
+    this.dataset('coverImgUrl', e)
+  }
+
+  get coverImgUrl () {
+    return this.Instance?.dataset.coverImgUrl || ''
+  }
+
+  set webUrl (e) {
+    this.dataset('webUrl', e)
+  }
+
+  get webUrl () {
+    return this.Instance?.dataset.webUrl || ''
+  }
+
+  set protocol (e) {
+    this.dataset('protocol', e)
+  }
+
+  get protocol () {
+    return this.Instance?.dataset.protocol || ''
+  }
+
+  set playbackRate (e) {
+    this.setProperty('playbackRate', e)
+  }
+
+  get playbackRate () {
+    return this.Instance?.playbackRate || 0
+  }
+
+  get duration () {
+    return this.Instance?.duration || 0
+  }
+
+  get currentTime () {
+    return this.Instance?.currentTime || 0
+  }
+
+  get paused () {
+    return this.Instance?.paused || false
+  }
+
+  get buffered () {
+    return this.Instance?.buffered.length || 0
+  }
+
+  set referrerPolicy (e) {
+    this.Instance?.setAttribute('referrerpolicy', e)
+  }
+
+  get referrerPolicy () {
+    return this.Instance?.getAttribute('referrerpolicy') || 'origin'
+  }
 
   private setProperty (key: string, value: unknown) {
     if (this.Instance) {
@@ -76,7 +147,7 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
 
   onCanplay = (callback = () => {}) => this.Instance?.addEventListener('canplay', callback)
   onWaiting = (callback = () => {}) => this.Instance?.addEventListener('waiting', callback)
-  onError = (callback?: ((res: Taro.InnerAudioContext.onErrorDetail) => void)) => this.errorStack.add(callback)
+  onError = (callback?: (res: Taro.InnerAudioContext.onErrorDetail) => void) => this.errorStack.add(callback)
   onPlay = (callback = () => {}) => this.Instance?.addEventListener('play', callback)
   onPause = (callback = () => {}) => this.Instance?.addEventListener('pause', callback)
   onSeeking = (callback = () => {}) => this.Instance?.addEventListener('seeking', callback)

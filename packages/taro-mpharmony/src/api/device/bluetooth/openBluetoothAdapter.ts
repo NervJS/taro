@@ -10,11 +10,7 @@ export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) 
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options || {}
+  const { success, fail, complete } = options || {}
   const handle = new MethodHandler<{
     errMsg?: string
   }>({ name, success, fail, complete })
@@ -27,13 +23,13 @@ export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) 
           /** 错误信息 */
           errMsg: res[0] === 'ok' ? `${name}:${res[0]}` : `${res[0]}`,
           /** 错误码 */
-          errCode: 0 
+          errCode: 0,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -7,7 +7,7 @@ export * from './stopLocationUpdate'
 
 export const openLocation = /* @__PURE__ */ processOpenApi({
   name: 'openLocation',
-  defaultOptions: { scale: 18 }
+  defaultOptions: { scale: 18 },
 })
 
 export { getLocation } from './getLocation'

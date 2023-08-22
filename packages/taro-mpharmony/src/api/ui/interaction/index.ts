@@ -16,7 +16,8 @@ function init (doc) {
   if (status === 'ready') return
 
   const taroStyle = doc.createElement('style')
-  taroStyle.textContent = '@font-face{font-weight:normal;font-style:normal;font-family:"taro";src:url("data:application/x-font-ttf;charset=utf-8;base64, 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") format("truetype");}@-webkit-keyframes taroLoading{0%{-webkit-transform:rotate3d(0, 0, 1, 0deg);}100%{-webkit-transform:rotate3d(0, 0, 1, 360deg);transform:rotate3d(0, 0, 1, 360deg);}}@keyframes taroLoading{0%{-webkit-transform:rotate3d(0, 0, 1, 0deg);}100%{-webkit-transform:rotate3d(0, 0, 1, 360deg);transform:rotate3d(0, 0, 1, 360deg);}}.taro-modal__foot:after {content: "";position: absolute;left: 0;top: 0;right: 0;height: 1px;border-top: 1px solid #D5D5D6;color: #D5D5D6;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleY(0.5);transform: scaleY(0.5);} .taro-model__btn:active {background-color: #EEEEEE}.taro-model__btn:not(:first-child):after {content: "";position: absolute;left: 0;top: 0;width: 1px;bottom: 0;border-left: 1px solid #D5D5D6;color: #D5D5D6;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleX(0.5);transform: scaleX(0.5);}.taro-actionsheet__cell:not(:first-child):after {content: "";position: absolute;left: 0;top: 0;right: 0;height: 1px;border-top: 1px solid #e5e5e5;color: #e5e5e5;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleY(0.5);transform: scaleY(0.5);}'
+  taroStyle.textContent =
+    '@font-face{font-weight:normal;font-style:normal;font-family:"taro";src:url("data:application/x-font-ttf;charset=utf-8;base64, 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") format("truetype");}@-webkit-keyframes taroLoading{0%{-webkit-transform:rotate3d(0, 0, 1, 0deg);}100%{-webkit-transform:rotate3d(0, 0, 1, 360deg);transform:rotate3d(0, 0, 1, 360deg);}}@keyframes taroLoading{0%{-webkit-transform:rotate3d(0, 0, 1, 0deg);}100%{-webkit-transform:rotate3d(0, 0, 1, 360deg);transform:rotate3d(0, 0, 1, 360deg);}}.taro-modal__foot:after {content: "";position: absolute;left: 0;top: 0;right: 0;height: 1px;border-top: 1px solid #D5D5D6;color: #D5D5D6;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleY(0.5);transform: scaleY(0.5);} .taro-model__btn:active {background-color: #EEEEEE}.taro-model__btn:not(:first-child):after {content: "";position: absolute;left: 0;top: 0;width: 1px;bottom: 0;border-left: 1px solid #D5D5D6;color: #D5D5D6;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleX(0.5);transform: scaleX(0.5);}.taro-actionsheet__cell:not(:first-child):after {content: "";position: absolute;left: 0;top: 0;right: 0;height: 1px;border-top: 1px solid #e5e5e5;color: #e5e5e5;-webkit-transform-origin: 0 0;transform-origin: 0 0;-webkit-transform: scaleY(0.5);transform: scaleY(0.5);}'
   doc.querySelector('head').appendChild(taroStyle)
 
   status = 'ready'
@@ -28,13 +29,16 @@ const actionSheet = new ActionSheet()
 
 const showToast: typeof Taro.showToast = (options = { title: '' }) => {
   init(document)
-  options = Object.assign({
-    title: '',
-    icon: 'success',
-    image: '',
-    duration: 1500,
-    mask: false
-  }, options)
+  options = Object.assign(
+    {
+      title: '',
+      icon: 'success',
+      image: '',
+      duration: 1500,
+      mask: false,
+    },
+    options
+  )
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showToast', success, fail, complete })
 
@@ -43,8 +47,8 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
       errMsg: getParameterError({
         para: 'title',
         correct: 'String',
-        wrong: options.title
-      })
+        wrong: options.title,
+      }),
     })
   }
 
@@ -53,8 +57,8 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
       errMsg: getParameterError({
         para: 'duration',
         correct: 'Number',
-        wrong: options.duration
-      })
+        wrong: options.duration,
+      }),
     })
   }
 
@@ -80,17 +84,20 @@ const hideToast: typeof Taro.hideToast = ({ noConflict = false, success, fail, c
 
 const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
   init(document)
-  options = Object.assign({
-    title: '',
-    mask: false
-  }, options)
+  options = Object.assign(
+    {
+      title: '',
+      mask: false,
+    },
+    options
+  )
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showLoading', success, fail, complete })
 
   const config = {
     icon: 'loading',
     image: '',
-    duration: -1
+    duration: -1,
   }
 
   options = Object.assign({}, options, config)
@@ -100,8 +107,8 @@ const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
       errMsg: getParameterError({
         para: 'title',
         correct: 'String',
-        wrong: options.title
-      })
+        wrong: options.title,
+      }),
     })
   }
 
@@ -125,15 +132,18 @@ const hideLoading: typeof Taro.hideLoading = ({ noConflict = false, success, fai
 
 const showModal: typeof Taro.showModal = async (options = {}) => {
   init(document)
-  options = Object.assign({
-    title: '',
-    content: '',
-    showCancel: true,
-    cancelText: '取消',
-    cancelColor: '#000000',
-    confirmText: '确定',
-    confirmColor: '#3CC51F'
-  }, options)
+  options = Object.assign(
+    {
+      title: '',
+      content: '',
+      showCancel: true,
+      cancelText: '取消',
+      cancelColor: '#000000',
+      confirmText: '确定',
+      confirmColor: '#3CC51F',
+    },
+    options
+  )
   const { success, fail, complete } = options
   const handle = new MethodHandler({ name: 'showModal', success, fail, complete })
 
@@ -142,8 +152,8 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
       errMsg: getParameterError({
         para: 'title',
         correct: 'String',
-        wrong: options.title
-      })
+        wrong: options.title,
+      }),
     })
   }
 
@@ -152,8 +162,8 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
       errMsg: getParameterError({
         para: 'content',
         correct: 'String',
-        wrong: options.content
-      })
+        wrong: options.content,
+      }),
     })
   }
 
@@ -162,14 +172,14 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
       errMsg: getParameterError({
         para: 'cancelText',
         correct: 'String',
-        wrong: options.cancelText
-      })
+        wrong: options.cancelText,
+      }),
     })
   }
 
   if (options.cancelText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
     return handle.fail({
-      errMsg: 'cancelText length should not larger then 4 Chinese characters'
+      errMsg: 'cancelText length should not larger then 4 Chinese characters',
     })
   }
 
@@ -178,14 +188,14 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
       errMsg: getParameterError({
         para: 'confirmText',
         correct: 'String',
-        wrong: options.confirmText
-      })
+        wrong: options.confirmText,
+      }),
     })
   }
 
   if (options.confirmText.replace(/[\u0391-\uFFE5]/g, 'aa').length > 8) {
     return handle.fail({
-      errMsg: 'confirmText length should not larger then 4 Chinese characters'
+      errMsg: 'confirmText length should not larger then 4 Chinese characters',
     })
   }
 
@@ -194,8 +204,8 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
       errMsg: getParameterError({
         para: 'cancelColor',
         correct: 'String',
-        wrong: options.cancelColor
-      })
+        wrong: options.cancelColor,
+      }),
     })
   }
 
@@ -204,8 +214,8 @@ const showModal: typeof Taro.showModal = async (options = {}) => {
       errMsg: getParameterError({
         para: 'confirmColor',
         correct: 'String',
-        wrong: options.confirmColor
-      })
+        wrong: options.confirmColor,
+      }),
     })
   }
 
@@ -229,12 +239,20 @@ function hideModal () {
 
 const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList: [] }) => {
   init(document)
-  options = Object.assign({
-    itemColor: '#000000',
-    itemList: []
-  }, options)
+  options = Object.assign(
+    {
+      itemColor: '#000000',
+      itemList: [],
+    },
+    options
+  )
   const { success, fail, complete } = options
-  const handle = new MethodHandler<Taro.showActionSheet.SuccessCallbackResult>({ name: 'showActionSheet', success, fail, complete })
+  const handle = new MethodHandler<Taro.showActionSheet.SuccessCallbackResult>({
+    name: 'showActionSheet',
+    success,
+    fail,
+    complete,
+  })
 
   // list item String
   if (!Array.isArray(options.itemList)) {
@@ -242,8 +260,8 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
       errMsg: getParameterError({
         para: 'itemList',
         correct: 'Array',
-        wrong: options.itemList
-      })
+        wrong: options.itemList,
+      }),
     })
   }
 
@@ -261,8 +279,8 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
         errMsg: getParameterError({
           para: `itemList[${i}]`,
           correct: 'String',
-          wrong: options.itemList[i]
-        })
+          wrong: options.itemList[i],
+        }),
       })
     }
   }
@@ -272,8 +290,8 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
       errMsg: getParameterError({
         para: 'itemColor',
         correct: 'String',
-        wrong: options.itemColor
-      })
+        wrong: options.itemColor,
+      }),
     })
   }
 
@@ -285,9 +303,9 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
   }
 
   if (typeof result === 'string') {
-    return handle.fail(({ errMsg: result }))
+    return handle.fail({ errMsg: result })
   } else {
-    return handle.success(({ tapIndex: result }))
+    return handle.success({ tapIndex: result })
   }
 }
 
@@ -305,4 +323,13 @@ Taro.eventCenter.on('__afterTaroRouterChange', () => {
 const enableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('enableAlertBeforeUnload')
 const disableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('disableAlertBeforeUnload')
 
-export { disableAlertBeforeUnload, enableAlertBeforeUnload, hideLoading, hideToast, showActionSheet, showLoading, showModal, showToast }
+export {
+  disableAlertBeforeUnload,
+  enableAlertBeforeUnload,
+  hideLoading,
+  hideToast,
+  showActionSheet,
+  showLoading,
+  showModal,
+  showToast,
+}

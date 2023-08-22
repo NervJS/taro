@@ -24,8 +24,8 @@ export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Opti
       errMsg: getParameterError({
         para: 'title',
         correct: 'String',
-        wrong: title
-      })
+        wrong: title,
+      }),
     })
   }
 

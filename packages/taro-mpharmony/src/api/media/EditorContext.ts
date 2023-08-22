@@ -61,13 +61,13 @@ export class EditorContext implements Taro.EditorContext {
       return
     }
 
-    if (name ===  'bold' || name ===  'italic' || name ===  'underline') {
+    if (name === 'bold' || name === 'italic' || name === 'underline') {
       editor.formatter.toggle(name)
       return
-    } else if (name ===  'strike') {
+    } else if (name === 'strike') {
       editor.formatter.toggle('strikethrough')
       return
-    } else if (name ===  'ins') {
+    } else if (name === 'ins') {
       console.error(`Editor not support format ins`)
       return
     }
@@ -78,55 +78,54 @@ export class EditorContext implements Taro.EditorContext {
       return
     }
 
-    if (name ===  'script') {
+    if (name === 'script') {
       // value = sub / super
-      if (value ===  'sub') {
+      if (value === 'sub') {
         editor.formatter.toggle('subscript')
-
-      } else if (value ===  'super') {
+      } else if (value === 'super') {
         editor.formatter.toggle('superscript')
-
       }
-
-    } else if (name ===  'header') {
+    } else if (name === 'header') {
       // value = H1 / H2 / h3 / H4 / h5 / H6
-      const levelMap: Map<string, string> = new Map<string, string>(Object.entries({
-        // H1 / H2 / h3 / H4 / h5 / H6
-        h1: 'h1', 1: 'h1',
-        h2: 'h2', 2: 'h2',
-        h3: 'h3', 3: 'h3',
-        h4: 'h4', 4: 'h4',
-        h5: 'h5', 5: 'h5',
-        h6: 'h6', 6: 'h6',
-      }))
+      const levelMap: Map<string, string> = new Map<string, string>(
+        Object.entries({
+          // H1 / H2 / h3 / H4 / h5 / H6
+          h1: 'h1',
+          1: 'h1',
+          h2: 'h2',
+          2: 'h2',
+          h3: 'h3',
+          3: 'h3',
+          h4: 'h4',
+          4: 'h4',
+          h5: 'h5',
+          5: 'h5',
+          h6: 'h6',
+          6: 'h6',
+        })
+      )
 
       const formatName = levelMap.get(value)
       if (formatName) {
         editor.formatter.toggle(formatName)
       }
-
-    } else if (name ===  'align') {
+    } else if (name === 'align') {
       // value = left / center / right / justify
       editor.formatter.toggle(name + value.toLocaleLowerCase())
-
-    } else if (name ===  'direction') {
+    } else if (name === 'direction') {
       // value = rtl / ltf
-      if (value ===  'ltr' || value ===  'rtl') {
+      if (value === 'ltr' || value === 'rtl') {
         editor.getBody().dir = value
       }
-
-    } else if (name ===  'indent') {
+    } else if (name === 'indent') {
       // value = -1 / +1
       const num = Number(value)
-      if (num ===  1) {
+      if (num === 1) {
         editor.execCommand('Indent')
-
-      } else if (num ===  -1) {
+      } else if (num === -1) {
         editor.execCommand('Outdent')
-
       }
-
-    } else if (name ===  'list') {
+    } else if (name === 'list') {
       // value = ordered / bullet / check
       // ordered = num list
       // bullet = dot list
@@ -134,34 +133,27 @@ export class EditorContext implements Taro.EditorContext {
       // https://www.tiny.cloud/docs/plugins/opensource/lists/
 
       const type = value.toLocaleLowerCase()
-      if (type ===  'ordered') {
+      if (type === 'ordered') {
         editor.execCommand('InsertOrderedList', false, {
-          'list-style-type': 'decimal'
+          'list-style-type': 'decimal',
         })
-
-      } else if (type ===  'bullet') {
+      } else if (type === 'bullet') {
         editor.execCommand('InsertUnorderedList', false, {
-          'list-style-type': 'disc'
+          'list-style-type': 'disc',
         })
-
-      } else if (type ===  'check') {
+      } else if (type === 'check') {
         // https://www.tiny.cloud/docs/plugins/premium/checklist/
         console.error(`Editor not support format list with check`)
-
       } else {
         // 删除list
         // editor.execCommand('RemoveList');
       }
-
-    } else if (name ===  'color') {
+    } else if (name === 'color') {
       editor.formatter.apply('forecolor', { value: value })
-
-    } else if (name ===  'backgroundColor') {
+    } else if (name === 'backgroundColor') {
       editor.formatter.apply('hilitecolor', { value: value })
-
     } else {
       editor.formatter.apply(name, { value: value })
-
     }
   }
 
@@ -201,7 +193,9 @@ export class EditorContext implements Taro.EditorContext {
         dataCustom = dataCustom + `${key}=${data[key]};`
       }
 
-      this.activeEditor()?.insertContent(`<img class="${option.extClass}" data-custom="${dataCustom}" alt="${option.alt}" height="${option.height}" width="${option.width}" src="${option.src}" />`)
+      this.activeEditor()?.insertContent(
+        `<img class="${option.extClass}" data-custom="${dataCustom}" alt="${option.alt}" height="${option.height}" width="${option.width}" src="${option.src}" />`
+      )
       const nowrap = option.nowrap || false
       if (nowrap === false) {
         this.activeEditor()?.insertContent(`<br/>`)
@@ -288,5 +282,4 @@ export class EditorContext implements Taro.EditorContext {
       option?.complete?.({ errMsg: `` })
     }
   }
-
 }

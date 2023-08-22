@@ -9,7 +9,7 @@ export const startPullDownRefresh: typeof Taro.startPullDownRefresh = function (
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroStartPullDownRefresh', {
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }
@@ -22,7 +22,7 @@ export const stopPullDownRefresh: typeof Taro.stopPullDownRefresh = function ({ 
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroStopPullDownRefresh', {
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
-      errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
+      errorHandler: (res = {}) => handle.fail(res, { resolve, reject }),
     })
   })
 }

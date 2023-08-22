@@ -20,11 +20,13 @@ function getItem (key) {
 // 数据缓存
 export const setStorageSync: typeof Taro.setStorageSync = (key, data = '') => {
   if (typeof key !== 'string') {
-    console.error(getParameterError({
-      name: 'setStorage',
-      correct: 'String',
-      wrong: key
-    }))
+    console.error(
+      getParameterError({
+        name: 'setStorage',
+        correct: 'String',
+        wrong: key,
+      })
+    )
     return
   }
 
@@ -56,8 +58,8 @@ export const setStorage: typeof Taro.setStorage = (options) => {
       errMsg: getParameterError({
         para: 'key',
         correct: 'String',
-        wrong: key
-      })
+        wrong: key,
+      }),
     })
   }
 
@@ -69,11 +71,13 @@ export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBuff
 
 export const removeStorageSync: typeof Taro.removeStorageSync = (key: string) => {
   if (typeof key !== 'string') {
-    console.error(getParameterError({
-      name: 'removeStorage',
-      correct: 'String',
-      wrong: key
-    }))
+    console.error(
+      getParameterError({
+        name: 'removeStorage',
+        correct: 'String',
+        wrong: key,
+      })
+    )
     return
   }
 
@@ -96,8 +100,8 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
       errMsg: getParameterError({
         para: 'key',
         correct: 'String',
-        wrong: key
-      })
+        wrong: key,
+      }),
     })
   }
 
@@ -107,11 +111,13 @@ export const removeStorage: typeof Taro.removeStorage = (options: Taro.removeSto
 
 export const getStorageSync: typeof Taro.getStorageSync = (key) => {
   if (typeof key !== 'string') {
-    console.error(getParameterError({
-      name: 'getStorageSync',
-      correct: 'String',
-      wrong: key
-    }))
+    console.error(
+      getParameterError({
+        name: 'getStorageSync',
+        correct: 'String',
+        wrong: key,
+      })
+    )
     return
   }
 
@@ -125,13 +131,18 @@ export const getStorageInfoSync: typeof Taro.getStorageInfoSync = () => {
   const res: Taro.getStorageInfoSync.Option = {
     keys: Object.keys(localStorage),
     limitSize: NaN,
-    currentSize: NaN
+    currentSize: NaN,
   }
   return res
 }
 
 export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, complete } = {}) => {
-  const handle = new MethodHandler<Taro.getStorageInfo.SuccessCallbackOption>({ name: 'getStorageInfo', success, fail, complete })
+  const handle = new MethodHandler<Taro.getStorageInfo.SuccessCallbackOption>({
+    name: 'getStorageInfo',
+    success,
+    fail,
+    complete,
+  })
   return handle.success(getStorageInfoSync())
 }
 
@@ -145,15 +156,20 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
   }
 
   const { key, success, fail, complete } = options
-  const handle = new MethodHandler<Taro.getStorage.SuccessCallbackResult<T>>({ name: 'getStorage', success, fail, complete })
+  const handle = new MethodHandler<Taro.getStorage.SuccessCallbackResult<T>>({
+    name: 'getStorage',
+    success,
+    fail,
+    complete,
+  })
 
   if (typeof key !== 'string') {
     return handle.fail({
       errMsg: getParameterError({
         para: 'key',
         correct: 'String',
-        wrong: key
-      })
+        wrong: key,
+      }),
     })
   }
 
@@ -162,7 +178,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
     return handle.success({ data })
   } else {
     return handle.fail({
-      errMsg: 'data not found'
+      errMsg: 'data not found',
     })
   }
 }

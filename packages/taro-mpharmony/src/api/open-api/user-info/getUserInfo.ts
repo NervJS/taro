@@ -12,14 +12,8 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  
-  const {
-    lang,
-    withCredentials,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+
+  const { lang, withCredentials, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -32,7 +26,7 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

@@ -16,12 +16,7 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
     return Promise.reject(res)
   }
 
-  const {
-    src,
-    success,
-    fail,
-    complete,
-  } = options
+  const { src, success, fail, complete } = options
 
   const handle = new MethodHandler<{
     height?: number
@@ -43,13 +38,13 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
           path: res.path,
           type: res.type,
           width: res.width,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -22,13 +22,16 @@ export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDev
     }>({ name, success, fail, complete })
 
     if (typeof checkAuthMode !== 'object') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'checkAuthMode',
-          correct: 'object',
-          wrong: checkAuthMode
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'checkAuthMode',
+            correct: 'object',
+            wrong: checkAuthMode,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -38,7 +41,7 @@ export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDev
       },
       fail: (err: any) => {
         return handle.fail(err)
-      }
+      },
     })
     return ret
   })

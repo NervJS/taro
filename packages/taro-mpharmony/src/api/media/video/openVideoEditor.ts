@@ -23,13 +23,16 @@ export const openVideoEditor: typeof Taro.openVideoEditor = (options) => {
 
     // options.url must be String
     if (typeof filePath !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'filePath',
-          correct: 'string',
-          wrong: filePath
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'filePath',
+            correct: 'string',
+            wrong: filePath,
+          }),
+        },
+        { resolve, reject }
+      )
     }
     // @ts-ignore
     const ret = native.openVideoEditor({
@@ -39,7 +42,7 @@ export const openVideoEditor: typeof Taro.openVideoEditor = (options) => {
       },
       fail: (err: any) => {
         return handle.fail(err)
-      }
+      },
     })
     return ret
   })

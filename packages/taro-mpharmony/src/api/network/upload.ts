@@ -1,14 +1,20 @@
 import Taro from '@tarojs/api'
 
 import { CallbackManager } from '../../utils/handler'
-import {
-  convertObjectUrlToBlob,
-  NETWORK_TIMEOUT,
-  setHeader,
-  XHR_STATS
-} from './utils'
+import { convertObjectUrlToBlob, NETWORK_TIMEOUT, setHeader, XHR_STATS } from './utils'
 
-const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout, fileName, withCredentials = true, success, error }): Taro.UploadTask => {
+const createUploadTask = ({
+  url,
+  filePath,
+  formData = {},
+  name,
+  header,
+  timeout,
+  fileName,
+  withCredentials = true,
+  success,
+  error,
+}): Taro.UploadTask => {
   let timeoutInter: ReturnType<typeof setTimeout>
   let formKey
   const apiName = 'uploadFile'
@@ -16,7 +22,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
   const form = new FormData()
   const callbackManager = {
     headersReceived: new CallbackManager(),
-    progressUpdate: new CallbackManager()
+    progressUpdate: new CallbackManager(),
   }
 
   xhr.open('POST', url)
@@ -27,19 +33,19 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
     form.append(formKey, formData[formKey])
   }
 
-  xhr.upload.onprogress = e => {
+  xhr.upload.onprogress = (e) => {
     const { loaded, total } = e
     callbackManager.progressUpdate.trigger({
-      progress: Math.round(loaded / total * 100),
+      progress: Math.round((loaded / total) * 100),
       totalBytesSent: loaded,
-      totalBytesExpectedToSend: total
+      totalBytesExpectedToSend: total,
     })
   }
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState !== XHR_STATS.HEADERS_RECEIVED) return
     callbackManager.headersReceived.trigger({
-      header: xhr.getAllResponseHeaders()
+      header: xhr.getAllResponseHeaders(),
     })
   }
 
@@ -49,21 +55,21 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
     success({
       errMsg: `${apiName}:ok`,
       statusCode: status,
-      data: xhr.responseText || xhr.response
+      data: xhr.responseText || xhr.response,
     })
   }
 
   xhr.onabort = () => {
     clearTimeout(timeoutInter)
     error({
-      errMsg: `${apiName}:fail abort`
+      errMsg: `${apiName}:fail abort`,
     })
   }
 
   xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
     clearTimeout(timeoutInter)
     error({
-      errMsg: `${apiName}:fail ${e.message}`
+      errMsg: `${apiName}:fail ${e.message}`,
     })
   }
 
@@ -85,7 +91,7 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
       xhr.onerror = null
       abort()
       error({
-        errMsg: `${apiName}:fail timeout`
+        errMsg: `${apiName}:fail timeout`,
       })
     }, timeout || NETWORK_TIMEOUT)
   }
@@ -98,9 +104,9 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
       form.append(name, fileObj, fileName || `file-${Date.now()}`)
       send()
     })
-    .catch(e => {
+    .catch((e) => {
       error({
-        errMsg: `${apiName}:fail ${e.message}`
+        errMsg: `${apiName}:fail ${e.message}`,
       })
     })
 
@@ -131,14 +137,26 @@ const createUploadTask = ({ url, filePath, formData = {}, name, header, timeout,
     onHeadersReceived,
     offHeadersReceived,
     onProgressUpdate,
-    offProgressUpdate
+    offProgressUpdate,
   }
 }
 
 /**
  * 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 content-type 为 multipart/form-data。使用前请注意阅读相关说明。
  */
-export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header, formData, timeout, fileName,withCredentials, success, fail, complete }) => {
+export const uploadFile: typeof Taro.uploadFile = ({
+  url,
+  filePath,
+  name,
+  header,
+  formData,
+  timeout,
+  fileName,
+  withCredentials,
+  success,
+  fail,
+  complete,
+}) => {
   let task!: Taro.UploadTask
   const result: ReturnType<typeof Taro.uploadFile> = new Promise((resolve, reject) => {
     task = createUploadTask({
@@ -150,16 +168,16 @@ export const uploadFile: typeof Taro.uploadFile = ({ url, filePath, name, header
       timeout,
       fileName,
       withCredentials,
-      success: res => {
+      success: (res) => {
         success && success(res)
         complete && complete(res)
         resolve(res)
       },
-      error: res => {
+      error: (res) => {
         fail && fail(res)
         complete && complete(res)
         reject(res)
-      }
+      },
     })
   }) as any
 

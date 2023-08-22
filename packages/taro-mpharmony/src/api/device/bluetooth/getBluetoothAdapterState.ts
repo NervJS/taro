@@ -10,11 +10,7 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options || {}
+  const { success, fail, complete } = options || {}
   const handle = new MethodHandler<{
     available?: boolean
     discovering?: boolean
@@ -28,13 +24,13 @@ export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (o
         const result: Taro.getBluetoothAdapterState.SuccessCallbackResult = {
           available: res[0].available,
           discovering: res[0].discovering,
-          errMsg: ''
+          errMsg: '',
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

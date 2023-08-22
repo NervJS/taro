@@ -7,7 +7,6 @@ export const offBLEConnectionStateChange = /* @__PURE__ */ temporarilyNotSupport
 export const offBLECharacteristicValueChange = /* @__PURE__ */ temporarilyNotSupport('offBLECharacteristicValueChange')
 export const getBLEMTU = /* @__PURE__ */ temporarilyNotSupport('getBLEMTU')
 
-
 export * from './closeBLEConnection'
 export * from './createBLEConnection'
 export * from './getBLEDeviceCharacteristics'

@@ -13,25 +13,22 @@ export const getUserProfile: typeof Taro.getUserProfile = (options) => {
       console.error(res.errMsg)
       return Promise.reject(res)
     }
-    const {
-      lang,
-      desc,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { lang, desc, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
 
     // options.url must be String
     if (typeof desc !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'desc',
-          correct: 'string',
-          wrong: desc
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'desc',
+            correct: 'string',
+            wrong: desc,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -43,7 +40,7 @@ export const getUserProfile: typeof Taro.getUserProfile = (options) => {
       },
       fail: (err: any) => {
         return handle.fail(err)
-      }
+      },
     })
     return ret
   })

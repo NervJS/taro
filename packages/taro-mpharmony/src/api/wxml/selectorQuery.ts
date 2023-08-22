@@ -21,14 +21,25 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   if (!dom) return null
 
   const isViewport = selector === '.taro_page'
-  const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [], nodeCanvasType, node, context } = fields
+  const {
+    id,
+    dataset,
+    rect,
+    size,
+    scrollOffset,
+    properties = [],
+    computedStyle = [],
+    nodeCanvasType,
+    node,
+    context,
+  } = fields
   const res: any = {}
 
   if (nodeCanvasType && node) {
     const tagName = dom.tagName
     res.node = {
       id: dom.id,
-      $taroElement: dom
+      $taroElement: dom,
     }
     if (/^taro-canvas-core/i.test(tagName)) {
       const type = (dom as any).type! || ''
@@ -54,7 +65,7 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   if (context) {
     const tagName = dom.tagName
     // @ts-ignore
-    const domName : string = dom.name || ''
+    const domName: string = dom.name || ''
     if (/^taro-video-core/i.test(tagName)) {
       // TODO HTMLVideoElement to VideoContext
       return { context: dom as unknown as Taro.VideoContext }
@@ -104,14 +115,14 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
     res.scrollTop = dom.scrollTop
   }
   if (properties.length) {
-    properties.forEach(prop => {
+    properties.forEach((prop) => {
       const attr = dom.getAttribute(prop)
       if (attr) res[prop] = attr
     })
   }
   if (computedStyle.length) {
     const styles = window.getComputedStyle(dom)
-    computedStyle.forEach(key => {
+    computedStyle.forEach((key) => {
       const value = styles.getPropertyValue(key) || styles[key]
       if (value) res[key] = value
     })
@@ -127,15 +138,11 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
 function queryBat (queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): void {
   const result: any[] = []
 
-  queue.forEach(item => {
+  queue.forEach((item) => {
     const { selector, single, fields, component } = item
     // selector 的容器节点
     /* eslint-disable */
-    const container: TElement = (
-      component !== null ?
-        (findDOM(component) as HTMLElement || document) :
-        document
-    )
+    const container: TElement = component !== null ? (findDOM(component) as HTMLElement) || document : document
     /* eslint-enable */
 
     // 特殊处理 ---- 选自己
@@ -162,7 +169,7 @@ function queryBat (queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): v
       for (let i = 0, len = $children.length; i < len; ++i) {
         children.push($children[i])
       }
-      result.push(children.map(dom => filter(fields, dom as HTMLElement)))
+      result.push(children.map((dom) => filter(fields, dom as HTMLElement)))
     }
   })
   cb(result)
@@ -205,7 +212,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
   }
 
   exec (cb) {
-    queryBat(this._queue, res => {
+    queryBat(this._queue, (res) => {
       const _queueCb = this._queueCb
       res.forEach((item, index) => {
         const cb = _queueCb[index]
@@ -221,7 +228,7 @@ export class SelectorQuery implements Taro.SelectorQuery {
       component,
       selector,
       single,
-      fields
+      fields,
     })
     this._queueCb.push(callback)
   }

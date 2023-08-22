@@ -12,8 +12,8 @@ export function shouldBeObject (target: unknown) {
     flag: false,
     msg: getParameterError({
       correct: 'Object',
-      wrong: target
-    })
+      wrong: target,
+    }),
   }
 }
 
@@ -23,8 +23,8 @@ export function shouldBeFunction (target: unknown) {
     flag: false,
     msg: getParameterError({
       correct: 'Function',
-      wrong: target
-    })
+      wrong: target,
+    }),
   }
 }
 
@@ -66,7 +66,7 @@ export function getParameterError ({ name = '', para, correct, wrong }: IParamet
 
 function upperCaseFirstLetter (string) {
   if (typeof string !== 'string') return string
-  string = string.replace(/^./, match => match.toUpperCase())
+  string = string.replace(/^./, (match) => match.toUpperCase())
   return string
 }
 
@@ -89,10 +89,14 @@ export function serializeParams (params) {
     return ''
   }
   return Object.keys(params)
-    .map(key => (
-      `${encodeURIComponent(key)}=${typeof (params[key]) === 'object'
-        ? encodeURIComponent(JSON.stringify(params[key]))
-        : encodeURIComponent(params[key])}`))
+    .map(
+      (key) =>
+        `${encodeURIComponent(key)}=${
+          typeof params[key] === 'object'
+            ? encodeURIComponent(JSON.stringify(params[key]))
+            : encodeURIComponent(params[key])
+        }`
+    )
     .join('&')
 }
 
@@ -168,8 +172,8 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
   name,
   defaultOptions,
   standardMethod,
-  formatOptions = options => options,
-  formatResult = res => res
+  formatOptions = (options) => options,
+  formatResult = (res) => res,
 }: IProcessOpenApi<TOptions, TResult>) {
   const notSupported = weixinCorpSupport(name)
   return (options: Partial<TOptions> = {}, ...args: any[]): Promise<TResult> => {
@@ -178,8 +182,8 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
     const opts = formatOptions(Object.assign({}, defaultOptions, options))
     if (isFunction(targetApi)) {
       return new Promise<TResult>((resolve, reject) => {
-        ['fail', 'success', 'complete'].forEach(k => {
-          opts[k] = preRef => {
+        ['fail', 'success', 'complete'].forEach((k) => {
+          opts[k] = (preRef) => {
             const res = formatResult(preRef)
             options[k] && options[k](res)
             if (k === 'success') {
@@ -206,7 +210,12 @@ export function processOpenApi<TOptions = Record<string, unknown>, TResult exten
 export function getCurrentPath (): string {
   const appConfig = (window as any).__taroAppConfig || {}
   const routePath = getCurrentPage(appConfig.router?.mode, appConfig.router?.basename)
-  const homePath = getHomePage(appConfig.routes?.[0]?.path, appConfig.router?.basename, appConfig.router?.customRoutes, appConfig.entryPagePath)
+  const homePath = getHomePage(
+    appConfig.routes?.[0]?.path,
+    appConfig.router?.basename,
+    appConfig.router?.customRoutes,
+    appConfig.entryPagePath
+  )
 
   /**
    * createPageConfig 时根据 stack 的长度来设置 stamp 以保证页面 path 的唯一，此函数是在 createPageConfig 之前调用，预先设置 stamp=1

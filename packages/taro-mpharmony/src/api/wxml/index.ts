@@ -15,4 +15,3 @@ export const createIntersectionObserver: typeof Taro.createIntersectionObserver 
 export const createMediaQueryObserver: typeof Taro.createMediaQueryObserver = () => {
   return new MediaQueryObserver()
 }
- 

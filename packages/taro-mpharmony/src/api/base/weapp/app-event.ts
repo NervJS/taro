@@ -19,7 +19,7 @@ const unhandledRejectionListener = (res: PromiseRejectionEvent) => {
 let themeMatchMedia: MediaQueryList | null = null
 const themeChangeListener = (res: MediaQueryListEvent) => {
   themeChangeCallbackManager.trigger({
-    theme: res.matches ? 'dark' : 'light'
+    theme: res.matches ? 'dark' : 'light',
   })
 }
 
@@ -44,7 +44,7 @@ const getApp = () => {
     /** 小程序切前台的[场景值](https://developers.weixin.qq.com/miniprogram/dev/framework/app-service/scene.html) */
     scene: 0,
     /** shareTicket，详见[获取更多转发信息](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/share.html) */
-    shareTicket: ''
+    shareTicket: '',
   }
 }
 
@@ -61,14 +61,14 @@ const appHideListener = () => {
 }
 
 // 应用级事件
-export const onUnhandledRejection: typeof Taro.onUnhandledRejection = callback => {
+export const onUnhandledRejection: typeof Taro.onUnhandledRejection = (callback) => {
   unhandledRejectionCallbackManager.add(callback)
   if (unhandledRejectionCallbackManager.count() === 1) {
     window.addEventListener('unhandledrejection', unhandledRejectionListener)
   }
 }
 
-export const onThemeChange: typeof Taro.onThemeChange = callback => {
+export const onThemeChange: typeof Taro.onThemeChange = (callback) => {
   themeChangeCallbackManager.add(callback)
   if (themeChangeCallbackManager.count() === 1) {
     if (isNil(themeMatchMedia)) {
@@ -78,14 +78,14 @@ export const onThemeChange: typeof Taro.onThemeChange = callback => {
   }
 }
 
-export const onPageNotFound: typeof Taro.onPageNotFound = callback => {
+export const onPageNotFound: typeof Taro.onPageNotFound = (callback) => {
   pageNotFoundCallbackManager.add(callback)
   if (pageNotFoundCallbackManager.count() === 1) {
     Taro.eventCenter.on('__taroRouterNotFound', pageNotFoundListener)
   }
 }
 
-export const onError: typeof Taro.onError = callback => {
+export const onError: typeof Taro.onError = (callback) => {
   errorCallbackManager.add(callback)
   if (errorCallbackManager.count() === 1) {
     window.addEventListener('error', errorListener)
@@ -95,28 +95,28 @@ export const onError: typeof Taro.onError = callback => {
 export const onAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionEnd')
 export const onAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionBegin')
 
-export const onAppShow: typeof Taro.onAppShow = callback => {
+export const onAppShow: typeof Taro.onAppShow = (callback) => {
   appShowCallbackManager.add(callback)
   if (appShowCallbackManager.count() === 1) {
     window.addEventListener('visibilitychange', appShowListener)
   }
 }
 
-export const onAppHide: typeof Taro.onAppHide = callback => {
+export const onAppHide: typeof Taro.onAppHide = (callback) => {
   appHideCallbackManager.add(callback)
   if (appHideCallbackManager.count() === 1) {
     window.addEventListener('visibilitychange', appHideListener)
   }
 }
 
-export const offUnhandledRejection: typeof Taro.offUnhandledRejection = callback => {
+export const offUnhandledRejection: typeof Taro.offUnhandledRejection = (callback) => {
   unhandledRejectionCallbackManager.remove(callback)
   if (unhandledRejectionCallbackManager.count() === 0) {
     window.removeEventListener('unhandledrejection', unhandledRejectionListener)
   }
 }
 
-export const offThemeChange: typeof Taro.offThemeChange = callback => {
+export const offThemeChange: typeof Taro.offThemeChange = (callback) => {
   themeChangeCallbackManager.remove(callback)
   if (themeChangeCallbackManager.count() === 0) {
     if (isNil(themeMatchMedia)) {
@@ -127,14 +127,14 @@ export const offThemeChange: typeof Taro.offThemeChange = callback => {
   }
 }
 
-export const offPageNotFound: typeof Taro.offPageNotFound = callback => {
+export const offPageNotFound: typeof Taro.offPageNotFound = (callback) => {
   pageNotFoundCallbackManager.remove(callback)
   if (pageNotFoundCallbackManager.count() === 0) {
     Taro.eventCenter.off('__taroRouterNotFound', pageNotFoundListener)
   }
 }
 
-export const offError: typeof Taro.offError = callback => {
+export const offError: typeof Taro.offError = (callback) => {
   errorCallbackManager.remove(callback)
   if (errorCallbackManager.count() === 0) {
     window.removeEventListener('error', errorListener)
@@ -144,14 +144,14 @@ export const offError: typeof Taro.offError = callback => {
 export const offAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionEnd')
 export const offAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionBegin')
 
-export const offAppShow: typeof Taro.offAppShow = callback => {
+export const offAppShow: typeof Taro.offAppShow = (callback) => {
   appShowCallbackManager.remove(callback)
   if (appShowCallbackManager.count() === 0) {
     window.removeEventListener('visibilitychange', appShowListener)
   }
 }
 
-export const offAppHide: typeof Taro.offAppHide = callback => {
+export const offAppHide: typeof Taro.offAppHide = (callback) => {
   appHideCallbackManager.remove(callback)
   if (appHideCallbackManager.count() === 0) {
     window.removeEventListener('visibilitychange', appHideListener)

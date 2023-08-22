@@ -12,12 +12,7 @@ export const removeSavedFile: typeof Taro.removeSavedFile = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    filePath,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { filePath, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler<{
     errMsg?: string
@@ -29,8 +24,8 @@ export const removeSavedFile: typeof Taro.removeSavedFile = (options) => {
       errMsg: getParameterError({
         para: 'filePath',
         correct: 'string',
-        wrong: filePath
-      })
+        wrong: filePath,
+      }),
     })
   }
 
@@ -43,7 +38,7 @@ export const removeSavedFile: typeof Taro.removeSavedFile = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

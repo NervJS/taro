@@ -5,7 +5,7 @@ const launchOptions: Taro.getLaunchOptionsSync.LaunchOptions = {
   query: {},
   scene: 0,
   shareTicket: '',
-  referrerInfo: {}
+  referrerInfo: {},
 }
 
 function initLaunchOptions (options = {}) {
