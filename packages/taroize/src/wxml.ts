@@ -2,10 +2,7 @@
 import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
-import {
-  printLog,
-  processTypeEnum
-} from '@tarojs/helper'
+import { printLog, processTypeEnum } from '@tarojs/helper'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
 
@@ -14,12 +11,19 @@ import { reserveKeyWords } from './constant'
 import { specialEvents } from './events'
 import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
 import { parseModule, parseTemplate } from './template'
-import { buildBlockElement, buildImportStatement, buildTemplate, codeFrameError, DEFAULT_Component_SET, isValidVarName, parseCode } from './utils'
+import {
+  buildBlockElement,
+  buildImportStatement,
+  buildTemplate,
+  codeFrameError,
+  DEFAULT_Component_SET,
+  isValidVarName,
+  parseCode,
+} from './utils'
 
 const { prettyPrint } = require('html')
 
-const allCamelCase = (str: string) =>
-  str.charAt(0).toUpperCase() + camelCase(str.substr(1))
+const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
 function buildSlotName (slotName: string) {
   return `render${slotName[0].toUpperCase() + slotName.replace('-', '').slice(1)}`
@@ -28,7 +32,7 @@ function buildSlotName (slotName: string) {
 export enum NodeType {
   Element = 'element',
   Comment = 'comment',
-  Text = 'text'
+  Text = 'text',
 }
 
 export interface Element {
@@ -66,11 +70,7 @@ interface Condition {
   tester: t.JSXExpressionContainer
 }
 
-export type AttrValue =
-  | t.StringLiteral
-  | t.JSXElement
-  | t.JSXExpressionContainer
-  | null
+export type AttrValue = t.StringLiteral | t.JSXElement | t.JSXExpressionContainer | null
 
 export interface Imports {
   ast: t.File
@@ -94,26 +94,14 @@ export const WX_KEY = 'wx:key'
 export const WX_ELSE = 'wx:else'
 export const WX_SHOW = 'wx:show'
 
-export const wxTemplateCommand = [
-  WX_IF,
-  WX_ELSE_IF,
-  WX_FOR,
-  WX_FOR_ITEM,
-  WX_FOR_INDEX,
-  WX_KEY,
-  'wx:else'
-]
+export const wxTemplateCommand = [WX_IF, WX_ELSE_IF, WX_FOR, WX_FOR_ITEM, WX_FOR_INDEX, WX_KEY, 'wx:else']
 
-function buildElement (
-  name: string,
-  children: Node[] = [],
-  attributes: Attribute[] = []
-): Element {
+function buildElement (name: string, children: Node[] = [], attributes: Attribute[] = []): Element {
   return {
     tagName: name,
     type: NodeType.Element,
     attributes,
-    children
+    children,
   }
 }
 
@@ -126,9 +114,7 @@ export const createWxmlVistor = (
 ) => {
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
     const name = path.node.name as t.JSXIdentifier
-    const jsx = path.findParent(p => p.isJSXElement()) as NodePath<
-    t.JSXElement
-    >
+    const jsx = path.findParent((p) => p.isJSXElement()) as NodePath<t.JSXElement>
 
     // 把 hidden 转换为 wxif
     if (name.name === 'hidden') {
@@ -140,8 +126,8 @@ export const createWxmlVistor = (
       }
     }
 
-    const valueCopy = cloneDeep(path.get('value').node) 
-    
+    const valueCopy = cloneDeep(path.get('value').node)
+
     if (typeof valueCopy === 'undefined' || t.isJSXFragment(valueCopy)) {
       return
     }
@@ -168,8 +154,7 @@ export const createWxmlVistor = (
         path.replaceWith(t.jSXIdentifier(WX_IF)) // wx:show转换后不支持，不频繁切换的话wx:if可替代
         // eslint-disable-next-line no-console
         console.log(`属性  ${nodeName}不能编译,会被替换为wx:if`)
-      }
-      else if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
+      } else if (nodeName.startsWith('wx:') && !wxTemplateCommand.includes(nodeName)) {
         // eslint-disable-next-line no-console
         console.log(`未知 wx 作用域属性： ${nodeName}，该属性会被移除掉。`)
         path.parentPath.remove()
@@ -193,7 +178,7 @@ export const createWxmlVistor = (
             if (!p.isReferencedIdentifier()) {
               return
             }
-            const jsxExprContainer = p.findParent(p => p.isJSXExpressionContainer())
+            const jsxExprContainer = p.findParent((p) => p.isJSXExpressionContainer())
             if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
               return
             }
@@ -202,9 +187,9 @@ export const createWxmlVistor = (
             }
           },
           JSXAttribute: jsxAttrVisitor,
-          JSXIdentifier: renameJSXKey
+          JSXIdentifier: renameJSXKey,
         })
-        const slotAttr = attrs.find(a => t.isJSXAttribute(a.node) && a.node?.name.name === 'slot')
+        const slotAttr = attrs.find((a) => t.isJSXAttribute(a.node) && a.node?.name.name === 'slot')
         if (slotAttr && t.isJSXAttribute(slotAttr.node)) {
           const slotValue = slotAttr.node.value
           let slotName = ''
@@ -213,19 +198,21 @@ export const createWxmlVistor = (
           } else {
             slotName = 'taroslot'
           }
-          const parentComponent = path.findParent(p => p.isJSXElement() && t.isJSXIdentifier(p.node.openingElement.name) && !DEFAULT_Component_SET.has(p.node.openingElement.name.name))
+          const parentComponent = path.findParent(
+            (p) =>
+              p.isJSXElement() &&
+              t.isJSXIdentifier(p.node.openingElement.name) &&
+              !DEFAULT_Component_SET.has(p.node.openingElement.name.name)
+          )
           if (parentComponent && parentComponent.isJSXElement()) {
             slotAttr.remove()
             path.traverse({
-              JSXAttribute: jsxAttrVisitor
+              JSXAttribute: jsxAttrVisitor,
             })
             const block = buildBlockElement()
             block.children = [cloneDeep(path.node)]
             parentComponent.node.openingElement.attributes.push(
-              t.jSXAttribute(
-                t.jSXIdentifier(buildSlotName(slotName)),
-                t.jSXExpressionContainer(block)
-              )
+              t.jSXAttribute(t.jSXIdentifier(buildSlotName(slotName)), t.jSXExpressionContainer(block))
             )
             path.remove()
           }
@@ -235,7 +222,7 @@ export const createWxmlVistor = (
         }
         const tagName = jsxName.node.name
         if (tagName === 'Slot') {
-          const nameAttr = attrs.find(a =>  t.isJSXAttribute(a.node) && a.node.name.name === 'name')
+          const nameAttr = attrs.find((a) => t.isJSXAttribute(a.node) && a.node.name.name === 'name')
           let slotName = ''
           if (nameAttr && t.isJSXAttribute(nameAttr.node)) {
             if (nameAttr.node.value && t.isStringLiteral(nameAttr.node.value)) {
@@ -255,7 +242,13 @@ export const createWxmlVistor = (
           }
         }
         if (tagName === 'Wxs') {
-          wxses.push(getWXS(attrs.map(a => a.node as t.JSXAttribute), path, imports))
+          wxses.push(
+            getWXS(
+              attrs.map((a) => a.node as t.JSXAttribute),
+              path,
+              imports
+            )
+          )
         }
         if (tagName === 'Template') {
           // path.traverse({
@@ -264,9 +257,7 @@ export const createWxmlVistor = (
           const template = parseTemplate(path, dirPath)
           if (template) {
             const { ast: classDecl, name } = template
-            const taroComponentsImport = buildImportStatement('@tarojs/components', [
-              ...usedComponents
-            ])
+            const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
             const reactImport = buildImportStatement('react', [], 'React')
             // const withWeappImport = buildImportStatement(
@@ -290,18 +281,16 @@ export const createWxmlVistor = (
                 if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
                 }
-              }
+              },
             })
-            usedTemplate.forEach(componentName => {
+            usedTemplate.forEach((componentName) => {
               if (componentName !== classDecl.id.name) {
-                ast.program.body.unshift(
-                  buildImportStatement(`./${componentName}`, [], componentName)
-                )
+                ast.program.body.unshift(buildImportStatement(`./${componentName}`, [], componentName))
               }
             })
             imports.push({
               ast,
-              name
+              name,
             })
           }
         }
@@ -324,7 +313,11 @@ export const createWxmlVistor = (
         const children = path.node.children
         if (children.length === 1) {
           const caller = children[0]
-          if (t.isJSXExpressionContainer(caller) && t.isCallExpression(caller.expression) && !path.parentPath.isExpressionStatement()) {
+          if (
+            t.isJSXExpressionContainer(caller) &&
+            t.isCallExpression(caller.expression) &&
+            !path.parentPath.isExpressionStatement()
+          ) {
             try {
               path.replaceWith(caller)
             } catch (error) {
@@ -332,8 +325,8 @@ export const createWxmlVistor = (
             }
           }
         }
-      }
-    }
+      },
+    },
   } as Visitor
 }
 
@@ -346,7 +339,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
     wxml = prettyPrint(wxml, {
       max_char: 0,
       indent_char: 0,
-      unformatted: ['text', 'wxs']
+      unformatted: ['text', 'wxs'],
     })
   } catch (error) {
     //
@@ -365,25 +358,24 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       wxses,
       imports,
       refIds,
-      wxml: t.nullLiteral()
+      wxml: t.nullLiteral(),
     }
   }
   const nodes = removEmptyTextAndComment(parse(wxml.trim()))
   const ast = t.file(
-    t.program(
-      [
-        t.expressionStatement(parseNode(
-          buildElement('block', nodes as Node[])
-        ) as t.Expression)
-      ],
-      []
-    )
+    t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
 
   traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports))
 
-  refIds.forEach(id => {
-    if (loopIds.has(id) || imports.filter(i => i.wxs).map(i => i.name).includes(id)) {
+  refIds.forEach((id) => {
+    if (
+      loopIds.has(id) ||
+      imports
+        .filter((i) => i.wxs)
+        .map((i) => i.name)
+        .includes(id)
+    ) {
       refIds.delete(id)
     }
   })
@@ -391,7 +383,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
     wxses,
     imports,
     wxml: hydrate(ast),
-    refIds
+    refIds,
   }
   saveCacheWxml(dirPath, parseResult)
   return parseResult
@@ -411,10 +403,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
       }
       if (t.isStringLiteral(attrValue)) {
         value = attrValue.value
-      } else if (
-        t.isJSXExpressionContainer(attrValue) &&
-        t.isStringLiteral(attrValue.expression)
-      ) {
+      } else if (t.isJSXExpressionContainer(attrValue) && t.isStringLiteral(attrValue.expression)) {
         value = attrValue.expression.value
       }
       if (attrName === 'module') {
@@ -427,7 +416,9 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
   }
 
   if (!src) {
-    const { children: [script] } = path.node
+    const {
+      children: [script],
+    } = path.node
     if (!t.isJSXText(script)) {
       throw new Error('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
     }
@@ -441,16 +432,19 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
           if (t.isStringLiteral(arg)) {
             const regex = arg.extra?.raw as string
             const regexWithoutQuotes = regex.replace(/^'(.*)'$/, '$1')
-            const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes), t.stringLiteral('g')])
+            const newExpr = t.newExpression(t.identifier('RegExp'), [
+              t.stringLiteral(regexWithoutQuotes),
+              t.stringLiteral('g'),
+            ])
             path.replaceWith(newExpr)
           }
         }
-      }
+      },
     })
     imports.push({
       ast,
       name: moduleName as string,
-      wxs: true
+      wxs: true,
     })
   }
 
@@ -462,7 +456,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
 
   return {
     module: moduleName,
-    src
+    src,
   }
 }
 
@@ -472,28 +466,22 @@ function hydrate (file: t.File) {
     const jsx = ast.expression
     if (jsx.children.length === 1) {
       const children = jsx.children[0]
-      return t.isJSXExpressionContainer(children)
-        ? children.expression
-        : children
+      return t.isJSXExpressionContainer(children) ? children.expression : children
     } else {
       return jsx
     }
   }
 }
 
-function transformLoop (
-  name: string,
-  attr: NodePath<t.JSXAttribute>,
-  jsx: NodePath<t.JSXElement>,
-  value: AttrValue
-) {
+function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePath<t.JSXElement>, value: AttrValue) {
   const jsxElement = jsx.get('openingElement')
   if (!jsxElement.node) {
     return
   }
-  const attrs = jsxElement.get('attributes').map(a => a.node)
-  const wxForItem = attrs.find(a => t.isJSXAttribute(a) && a.name.name === WX_FOR_ITEM)
-  const hasSinglewxForItem = wxForItem && t.isJSXAttribute(wxForItem) && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
+  const attrs = jsxElement.get('attributes').map((a) => a.node)
+  const wxForItem = attrs.find((a) => t.isJSXAttribute(a) && a.name.name === WX_FOR_ITEM)
+  const hasSinglewxForItem =
+    wxForItem && t.isJSXAttribute(wxForItem) && wxForItem.value && t.isJSXExpressionContainer(wxForItem.value)
   if (hasSinglewxForItem || name === WX_FOR || name === 'wx:for-items') {
     if (!value || !t.isJSXExpressionContainer(value)) {
       throw new Error('wx:for 的值必须使用 "{{}}"  包裹')
@@ -504,7 +492,7 @@ function transformLoop (
     jsx
       .get('openingElement')
       .get('attributes')
-      .forEach(p => {
+      .forEach((p) => {
         const node = p.node as t.JSXAttribute
         if (node.name.name === WX_FOR_ITEM) {
           if (!node.value || !t.isStringLiteral(node.value)) {
@@ -525,13 +513,15 @@ function transformLoop (
     jsx
       .get('openingElement')
       .get('attributes')
-      .forEach(p => {
+      .forEach((p) => {
         const node = p.node as t.JSXAttribute
         if (node.name.name === WX_KEY && t.isStringLiteral(node.value)) {
           if (node.value.value === '*this') {
             node.value = t.jSXExpressionContainer(t.identifier(item.value))
           } else {
-            node.value = t.jSXExpressionContainer(t.memberExpression(t.identifier(item.value), t.identifier(node.value.value)))
+            node.value = t.jSXExpressionContainer(
+              t.memberExpression(t.identifier(item.value), t.identifier(node.value.value))
+            )
           }
         }
       })
@@ -541,15 +531,12 @@ function transformLoop (
       return
     }
     const replacement = t.jSXExpressionContainer(
-      t.callExpression(
-        t.memberExpression(value.expression, t.identifier('map')),
-        [
-          t.arrowFunctionExpression(
-            [t.identifier(item.value), t.identifier(index.value)],
-            t.blockStatement([t.returnStatement(jsx.node)])
-          )
-        ]
-      )
+      t.callExpression(t.memberExpression(value.expression, t.identifier('map')), [
+        t.arrowFunctionExpression(
+          [t.identifier(item.value), t.identifier(index.value)],
+          t.blockStatement([t.returnStatement(jsx.node)])
+        ),
+      ])
     )
 
     const block = buildBlockElement()
@@ -562,27 +549,24 @@ function transformLoop (
 
     return {
       item: item.value,
-      index: index.value
+      index: index.value,
     }
   }
 }
 
-function transformIf (
-  name: string,
-  attr: NodePath<t.JSXAttribute>,
-  jsx: NodePath<t.JSXElement>,
-  value: AttrValue
-) {
+function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePath<t.JSXElement>, value: AttrValue) {
   if (name !== WX_IF) {
     return
   }
-  if (jsx.node.openingElement.attributes.some(a => t.isJSXAttribute(a) && a.name.name === 'slot')) {
+  if (jsx.node.openingElement.attributes.some((a) => t.isJSXAttribute(a) && a.name.name === 'slot')) {
     return
   }
   const conditions: Condition[] = []
   let siblings: NodePath<t.Node>[] = []
   try {
-    siblings = jsx.getAllNextSiblings().filter(s => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
+    siblings = jsx
+      .getAllNextSiblings()
+      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
   } catch (error) {
     return
   }
@@ -595,13 +579,13 @@ function transformIf (
   conditions.push({
     condition: WX_IF,
     path: jsx,
-    tester: value as t.JSXExpressionContainer
+    tester: value as t.JSXExpressionContainer,
   })
   attr.remove()
   for (let index = 0; index < siblings.length; index++) {
     const sibling = siblings[index] as NodePath<t.JSXElement>
     const next = cloneDeep(siblings[index + 1]) as NodePath<t.JSXElement>
-    const currMatches = findWXIfProps(sibling) 
+    const currMatches = findWXIfProps(sibling)
     const nextMatches = findWXIfProps(next)
     if (currMatches === null) {
       break
@@ -609,7 +593,7 @@ function transformIf (
     conditions.push({
       condition: currMatches.reg.input as string,
       path: sibling as any,
-      tester: currMatches.tester as t.JSXExpressionContainer
+      tester: currMatches.tester as t.JSXExpressionContainer,
     })
     if (nextMatches === null) {
       break
@@ -624,9 +608,7 @@ function handleConditions (conditions: Condition[]) {
     if (!t.isJSXEmptyExpression(ct.tester.expression)) {
       try {
         ct.path.replaceWith(
-          t.jSXExpressionContainer(
-            t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node))
-          )
+          t.jSXExpressionContainer(t.logicalExpression('&&', ct.tester.expression, cloneDeep(ct.path.node)))
         )
       } catch (error) {
         //
@@ -639,28 +621,22 @@ function handleConditions (conditions: Condition[]) {
     let lastAlternate: t.Expression = cloneDeep(lastCon.path.node)
     try {
       if (lastCon.condition === WX_ELSE_IF && !t.isJSXEmptyExpression(lastCon.tester.expression)) {
-        lastAlternate = t.logicalExpression(
-          '&&',
-          lastCon.tester.expression,
-          lastAlternate
-        )
+        lastAlternate = t.logicalExpression('&&', lastCon.tester.expression, lastAlternate)
       }
-      const node = conditions
-        .slice(0, lastLength)
-        .reduceRight((acc: t.Expression, condition) => {
-          if (t.isJSXEmptyExpression(condition.tester.expression)) {
-            printLog(processTypeEnum.WARNING, 'condition.tester.expression', 't.isJSXEmptyExpression(condition.tester.expression)')
-            return null
-          }
-          return t.conditionalExpression(
-            condition.tester.expression,
-            cloneDeep(condition.path.node),
-            acc
+      const node = conditions.slice(0, lastLength).reduceRight((acc: t.Expression, condition) => {
+        if (t.isJSXEmptyExpression(condition.tester.expression)) {
+          printLog(
+            processTypeEnum.WARNING,
+            'condition.tester.expression',
+            't.isJSXEmptyExpression(condition.tester.expression)'
           )
-        }, lastAlternate)
+          return null
+        }
+        return t.conditionalExpression(condition.tester.expression, cloneDeep(condition.path.node), acc)
+      }, lastAlternate)
       if (node != null) {
         conditions[0].path.replaceWith(t.jSXExpressionContainer(node))
-        conditions.slice(1).forEach(c => c.path.remove())
+        conditions.slice(1).forEach((c) => c.path.remove())
       }
     } catch (error) {
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
@@ -668,16 +644,14 @@ function handleConditions (conditions: Condition[]) {
   }
 }
 
-function findWXIfProps (
-  jsx: NodePath<t.JSXElement>
-): { reg: RegExpMatchArray, tester: AttrValue } | null {
+function findWXIfProps (jsx: NodePath<t.JSXElement>): { reg: RegExpMatchArray, tester: AttrValue } | null {
   let matches: { reg: RegExpMatchArray, tester: AttrValue } | null = null
   jsx &&
     jsx.isJSXElement() &&
     jsx
       .get('openingElement')
       .get('attributes')
-      .some(path => {
+      .some((path) => {
         const attr = path.node as any
         if (t.isJSXIdentifier(attr.name) && attr != null) {
           const name = attr.name.name
@@ -689,7 +663,7 @@ function findWXIfProps (
             path.remove()
             matches = {
               reg: match,
-              tester: attr.value
+              tester: attr.value,
             }
             return true
           }
@@ -705,24 +679,28 @@ function parseNode (node: AllKindNode, tagName?: string) {
     return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
     const emptyStatement = t.jSXEmptyExpression()
-    emptyStatement.innerComments = [{
-      type: 'CommentBlock',
-      value: ' ' + node.content + ' '
-    }] as any[]
+    emptyStatement.innerComments = [
+      {
+        type: 'CommentBlock',
+        value: ' ' + node.content + ' ',
+      },
+    ] as any[]
     return t.jSXExpressionContainer(emptyStatement)
   }
   return parseElement(node)
 }
 
 function parseElement (element: Element): t.JSXElement {
-  const tagName = t.jSXIdentifier(THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName))
+  const tagName = t.jSXIdentifier(
+    THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName)
+  )
   if (DEFAULT_Component_SET.has(tagName.name)) {
     usedComponents.add(tagName.name)
   }
   let attributes = element.attributes
   if (tagName.name === 'Template') {
     let isSpread = false
-    attributes = attributes.map(attr => {
+    attributes = attributes.map((attr) => {
       if (attr.key === 'data') {
         const value = attr.value || ''
         const content = parseContent(value)
@@ -753,7 +731,7 @@ function parseElement (element: Element): t.JSXElement {
     if (isSpread) {
       attributes.push({
         key: 'spread',
-        value: null
+        value: null,
       })
     }
   }
@@ -766,11 +744,15 @@ function parseElement (element: Element): t.JSXElement {
 }
 
 export function removEmptyTextAndComment (nodes: AllKindNode[]) {
-  return nodes.filter(node => {
-    return node.type === NodeType.Element ||
-      (node.type === NodeType.Text && node.content.trim().length !== 0) ||
-      node.type === NodeType.Comment
-  }).filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
+  return nodes
+    .filter((node) => {
+      return (
+        node.type === NodeType.Element ||
+        (node.type === NodeType.Text && node.content.trim().length !== 0) ||
+        node.type === NodeType.Comment
+      )
+    })
+    .filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
 function parseText (node: Text, tagName?: string) {
@@ -797,7 +779,7 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
   if (!handlebarsRE.test(content)) {
     return {
       type: 'raw',
-      content
+      content,
     }
   }
   const tokens: string[] = []
@@ -823,7 +805,7 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
   }
   return {
     type: 'expression',
-    content: tokens.join('+')
+    content: tokens.join('+'),
   }
 }
 
@@ -839,7 +821,7 @@ function parseAttribute (attr: Attribute) {
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
-      jsxValue = t.stringLiteral(content.replace(/"/g, '\''))
+      jsxValue = t.stringLiteral(content.replace(/"/g, "'"))
     } else {
       let expr: t.Expression
       try {
@@ -854,7 +836,9 @@ function parseAttribute (attr: Attribute) {
             throw new Error(err)
           }
         } else if (content.includes(':') || (content.includes('...') && content.includes(','))) {
-          const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, { plugins: ['objectRestSpread'] })
+          const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, {
+            plugins: ['objectRestSpread'],
+          })
           expr = (file.program.body[0] as any).declarations[0].init
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
@@ -862,7 +846,9 @@ function parseAttribute (attr: Attribute) {
         }
       }
       if (t.isThisExpression(expr)) {
-        console.error('在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。')
+        console.error(
+          '在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。'
+        )
         expr = t.stringLiteral('__placeholder__')
       }
       jsxValue = t.jSXExpressionContainer(expr)
@@ -870,22 +856,21 @@ function parseAttribute (attr: Attribute) {
   }
 
   const jsxKey = handleAttrKey(key)
-  if (/^on[A-Z]/.test(jsxKey) && !(/^catch/.test(key)) && jsxValue && t.isStringLiteral(jsxValue)) {
-    jsxValue = t.jSXExpressionContainer(
-      t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))
-    )
+  if (/^on[A-Z]/.test(jsxKey) && !/^catch/.test(key) && jsxValue && t.isStringLiteral(jsxValue)) {
+    jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
   }
 
   if (key.startsWith('catch') && value) {
     if (value === 'true' || value.trim() === '') {
-      jsxValue = t.jSXExpressionContainer(
-        t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop'))
-      )
+      jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')))
       globals.hasCatchTrue = true
     } else if (t.isStringLiteral(jsxValue)) {
       jsxValue = t.jSXExpressionContainer(
         t.callExpression(
-          t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')), t.identifier('bind')),
+          t.memberExpression(
+            t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')),
+            t.identifier('bind')
+          ),
           [t.thisExpression(), t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))]
         )
       )
@@ -895,11 +880,7 @@ function parseAttribute (attr: Attribute) {
 }
 
 function handleAttrKey (key: string) {
-  if (
-    key.startsWith('wx:') ||
-    key.startsWith('wx-') ||
-    key.startsWith('data-')
-  ) {
+  if (key.startsWith('wx:') || key.startsWith('wx-') || key.startsWith('data-')) {
     return key
   } else if (key === 'class') {
     return 'className'

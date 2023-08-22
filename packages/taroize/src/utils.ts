@@ -46,11 +46,31 @@ export function isValidVarName (str?: string) {
 export function parseCode (code: string, scriptPath?: string) {
   // 支持TS的解析
   if (typeof scriptPath !== 'undefined') {
-    return (babel.transformSync(code, {
+    return (
+      babel.transformSync(code, {
+        ast: true,
+        sourceType: 'module',
+        filename: scriptPath,
+        presets: [presetTypescript],
+        plugins: [
+          classProperties,
+          jsxPlugin,
+          flowStrip,
+          exponentiationOperator,
+          asyncGenerators,
+          objectRestSpread,
+          [decorators, { legacy: true }],
+          dynamicImport,
+          optionalChaining,
+        ],
+      }) as { ast: t.File }
+    ).ast
+  }
+
+  return (
+    babel.transformSync(code, {
       ast: true,
       sourceType: 'module',
-      filename: scriptPath,
-      presets: [presetTypescript],
       plugins: [
         classProperties,
         jsxPlugin,
@@ -60,30 +80,13 @@ export function parseCode (code: string, scriptPath?: string) {
         objectRestSpread,
         [decorators, { legacy: true }],
         dynamicImport,
-        optionalChaining
-      ]
-    }) as { ast: t.File }).ast
-  }
-
-  return (babel.transformSync(code, {
-    ast: true,
-    sourceType: 'module',
-    plugins: [
-      classProperties,
-      jsxPlugin,
-      flowStrip,
-      exponentiationOperator,
-      asyncGenerators,
-      objectRestSpread,
-      [decorators, { legacy: true }],
-      dynamicImport,
-      optionalChaining
-    ]
-  }) as { ast: t.File }).ast
+        optionalChaining,
+      ],
+    }) as { ast: t.File }
+  ).ast
 }
 
 export const buildTemplate = (str: string) => {
-
   // 检查字符串中是否包含占位符
   const hasPlaceholder = /{{\s*(\w+)\s*}/.test(str)
 
@@ -126,64 +129,60 @@ export function buildRender (
   if (stateKeys.length) {
     const stateDecl = t.variableDeclaration('const', [
       t.variableDeclarator(
-        t.objectPattern(Array.from(new Set(stateKeys)).filter(s => !propsKeys.includes(s)).map(s =>
-          t.objectProperty(t.identifier(s), t.identifier(s), false, true)
-        ) as any),
+        t.objectPattern(
+          Array.from(new Set(stateKeys))
+            .filter((s) => !propsKeys.includes(s))
+            .map((s) => t.objectProperty(t.identifier(s), t.identifier(s), false, true)) as any
+        ),
         t.memberExpression(t.thisExpression(), t.identifier('data'))
-      )
+      ),
     ])
     returnStatement.unshift(stateDecl)
   }
 
   if (propsKeys.length) {
-    let patterns = t.objectPattern(Array.from(new Set(propsKeys)).map(s =>
-      t.objectProperty(t.identifier(s), t.identifier(s), false, true)
-    ) as any)
+    let patterns = t.objectPattern(
+      Array.from(new Set(propsKeys)).map((s) => t.objectProperty(t.identifier(s), t.identifier(s), false, true)) as any
+    )
     if (typeof templateType === 'string') {
       patterns = t.objectPattern([
         t.objectProperty(
           t.identifier('data'),
           templateType === 'wxParseData'
-            ? t.objectPattern([t.objectProperty(t.identifier('wxParseData'), t.identifier('wxParseData')) as any]) as any
+            ? (t.objectPattern([
+              t.objectProperty(t.identifier('wxParseData'), t.identifier('wxParseData')) as any,
+            ]) as any)
             : t.identifier(templateType)
-        ) as any
+        ) as any,
       ])
     } else if (Array.isArray(templateType)) {
-      patterns = t.objectPattern([
-        t.objectProperty(t.identifier('data'), patterns as any) as any
-      ])
+      patterns = t.objectPattern([t.objectProperty(t.identifier('data'), patterns as any) as any])
     }
     const stateDecl = t.variableDeclaration('const', [
-      t.variableDeclarator(
-        patterns,
-        t.memberExpression(t.thisExpression(), t.identifier('props'))
-      )
+      t.variableDeclarator(patterns, t.memberExpression(t.thisExpression(), t.identifier('props'))),
     ])
     returnStatement.unshift(stateDecl)
   }
-  return t.classMethod(
-    'method',
-    t.identifier('render'),
-    [],
-    t.blockStatement(returnStatement)
-  )
+  return t.classMethod('method', t.identifier('render'), [], t.blockStatement(returnStatement))
 }
 
 export function buildImportStatement (source: string, specifiers: string[] = [], defaultSpec?: string) {
   return t.importDeclaration(
-    defaultSpec ? [defaultSpec, ...specifiers].map((spec, index) => {
-      if (index === 0) {
-        return t.importDefaultSpecifier(t.identifier(defaultSpec))
-      }
-      return t.importSpecifier(t.identifier(spec), t.identifier(spec))
-    }) : specifiers.map(s => t.importSpecifier(t.identifier(s), t.identifier(s))),
+    defaultSpec
+      ? [defaultSpec, ...specifiers].map((spec, index) => {
+        if (index === 0) {
+          return t.importDefaultSpecifier(t.identifier(defaultSpec))
+        }
+        return t.importSpecifier(t.identifier(spec), t.identifier(spec))
+      })
+      : specifiers.map((s) => t.importSpecifier(t.identifier(s), t.identifier(s))),
     t.stringLiteral(source)
   )
 }
 
 export const setting = {
   sourceCode: '',
-  rootPath: ''
+  rootPath: '',
 }
 
 export function codeFrameError (node, msg: string) {
@@ -248,5 +247,5 @@ export const DEFAULT_Component_SET = new Set<string>([
   'NavigationBar',
   'PageMeta',
   'VoipRoom',
-  'AdCustom'
+  'AdCustom',
 ])
