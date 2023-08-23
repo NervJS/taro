@@ -360,7 +360,7 @@ export default class Convertor {
               })
             }
             if (depComponents && depComponents.size) {
-              depComponents.forEach(componentObj => {
+              depComponents.forEach((componentObj) => {
                 const name = pascalCase(componentObj.name)
                 let componentPath = componentObj.path
                 if (componentPath.indexOf(self.root) !== -1) {
