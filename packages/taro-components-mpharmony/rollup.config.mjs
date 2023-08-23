@@ -10,7 +10,7 @@ import RollupCopy from 'rollup-plugin-copy'
 import nodeExternals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 
-const cwd = path.dirname(new URL(import.meta.url).pathname);
+const cwd = process.cwd();
 import { mkdirSync } from 'fs';
 import NodePath from "path";
 

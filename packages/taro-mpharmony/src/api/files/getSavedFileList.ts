@@ -6,9 +6,9 @@ export const getSavedFileList: typeof Taro.getSavedFileList = (options) => {
   const name = 'getSavedFileList'
 
   // options must be an Object
-  const isObject = shouldBeObject(options)
-  if (!isObject.flag) {
-    const res = { errMsg: `${name}:fail ${isObject.msg}` }
+  const isValid = shouldBeObject(options).flag || typeof options === 'undefined'
+  if (!isValid) {
+    const res = { errMsg: `${name}:fail invalid params` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }

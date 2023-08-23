@@ -14,14 +14,16 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'saveVideoToPhotosAlbum',
+        id: 'saveVideoToPhotosAlbum_album',
         func: (apiIndex) => {
           TestConsole.consoleTest('saveVideoToPhotosAlbum')
           Taro.chooseVideo({
-            sourceType: ['album', 'camera'],
+            sourceType: ['album'],
             maxDuration: 60,
             camera: 'back',
-            success: function (res) {
+            compressed: false,
+            success: (res) => {
+              TestConsole.consoleNormal('chooseVideo success ', res)
               Taro.saveVideoToPhotosAlbum({
                 filePath: res.tempFilePath,
                 success: (res) => {
@@ -37,18 +39,63 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
           })
         },
       },
       {
-        id: 'openVideoEditor',
+        id: 'saveVideoToPhotosAlbum_camera',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('saveVideoToPhotosAlbum')
+          Taro.chooseVideo({
+            sourceType: ['camera'],
+            maxDuration: 60,
+            camera: 'back',
+            compressed: false,
+            success: (res) => {
+              TestConsole.consoleNormal('chooseVideo success ', res)
+              Taro.saveVideoToPhotosAlbum({
+                filePath: res.tempFilePath,
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
+                },
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
+                },
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
+                },
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
+              })
+            },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
+          })
+        },
+      },
+      {
+        id: 'openVideoEditor_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('openVideoEditor')
           Taro.chooseVideo({
             sourceType: ['album', 'camera'],
             maxDuration: 60,
             camera: 'back',
-            success: function (res) {
+            success: (res) => {
               Taro.openVideoEditor({
                 filePath: res.tempFilePath,
                 success: (res) => {
@@ -64,6 +111,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
           })
         },
       },
@@ -75,7 +130,9 @@ export default class Index extends React.Component {
             sourceType: ['album', 'camera'],
             maxDuration: 60,
             camera: 'back',
-            success: function (res) {
+            compressed: false,
+            success: (res) => {
+              TestConsole.consoleNormal('chooseVideo success ', res)
               Taro.getVideoInfo({
                 src: res.tempFilePath,
                 success: (res) => {
@@ -91,6 +148,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
           })
         },
       },
