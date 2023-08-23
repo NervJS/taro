@@ -7,7 +7,9 @@
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix"
   },
   "files": [
     "bin",
