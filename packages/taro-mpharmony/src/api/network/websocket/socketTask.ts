@@ -50,12 +50,7 @@ export class SocketTask {
   close (opts: Partial<Taro.SocketTask.CloseOption> = {}) {
     if (typeof opts !== 'object' || !opts) opts = {}
 
-    const {
-      code = 1000,
-      reason = 'server complete,close',
-      success,
-      complete
-    } = opts
+    const { code = 1000, reason = 'server complete,close', success, complete } = opts
 
     this.closeDetail = { code, reason }
     // 主动断开时需要重置链接数

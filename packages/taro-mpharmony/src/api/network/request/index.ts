@@ -24,7 +24,7 @@ function _request (options) {
   options = options || {}
   if (typeof options === 'string') {
     options = {
-      url: options
+      url: options,
     }
   }
   const { success, complete, fail } = options
@@ -40,14 +40,14 @@ function _request (options) {
     }
     delete params.jsonp
     return jsonpRetry(url, params)
-      .then(data => {
+      .then((data) => {
         res.statusCode = 200
         res.data = data
         isFunction(success) && success(res)
         isFunction(complete) && complete(res)
         return res
       })
-      .catch(err => {
+      .catch((err) => {
         isFunction(fail) && fail(err)
         isFunction(complete) && complete(res)
         return Promise.reject(err)
@@ -61,7 +61,7 @@ function _request (options) {
   } else if (['[object Array]', '[object Object]'].indexOf(Object.prototype.toString.call(options.data)) >= 0) {
     options.header = options.header || {}
 
-    const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
+    const keyOfContentType = Object.keys(options.header).find((item) => item.toLowerCase() === 'content-type')
     if (!keyOfContentType) {
       options.header['Content-Type'] = 'application/json'
     }
@@ -95,7 +95,7 @@ function _request (options) {
   }
   params.credentials = options.credentials
   return fetch(url, params)
-    .then(response => {
+    .then((response) => {
       if (timeoutTimer) {
         clearTimeout(timeoutTimer)
         timeoutTimer = null
@@ -124,13 +124,13 @@ function _request (options) {
       }
       return Promise.resolve(null)
     })
-    .then(data => {
+    .then((data) => {
       res.data = data
       isFunction(success) && success(res)
       isFunction(complete) && complete(res)
       return res
     })
-    .catch(err => {
+    .catch((err) => {
       if (timeoutTimer) {
         clearTimeout(timeoutTimer)
         timeoutTimer = null

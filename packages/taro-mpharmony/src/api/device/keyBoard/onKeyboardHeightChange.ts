@@ -2,7 +2,6 @@ import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
 export const onKeyboardHeightChange: typeof Taro.onKeyboardHeightChange = (callback) => {
-
   const name = 'onKeyboardHeightChange'
 
   // callback must be an Function

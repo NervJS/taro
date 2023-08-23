@@ -9,7 +9,7 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
   const xhr = new XMLHttpRequest()
   const callbackManager = {
     headersReceived: new CallbackManager(),
-    progressUpdate: new CallbackManager()
+    progressUpdate: new CallbackManager(),
   }
 
   xhr.open('GET', url, true)
@@ -17,19 +17,19 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
   xhr.responseType = 'blob'
   setHeader(xhr, header)
 
-  xhr.onprogress = e => {
+  xhr.onprogress = (e) => {
     const { loaded, total } = e
     callbackManager.progressUpdate.trigger({
-      progress: Math.round(loaded / total * 100),
+      progress: Math.round((loaded / total) * 100),
       totalBytesWritten: loaded,
-      totalBytesExpectedToWrite: total
+      totalBytesExpectedToWrite: total,
     })
   }
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState !== XHR_STATS.HEADERS_RECEIVED) return
     callbackManager.headersReceived.trigger({
-      header: xhr.getAllResponseHeaders()
+      header: xhr.getAllResponseHeaders(),
     })
   }
 
@@ -39,20 +39,20 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
     success({
       errMsg: `${apiName}:ok`,
       statusCode: status,
-      tempFilePath: window.URL.createObjectURL(response)
+      tempFilePath: window.URL.createObjectURL(response),
     })
   }
 
   xhr.onabort = () => {
     clearTimeout(timeoutInter)
     error({
-      errMsg: `${apiName}:fail abort`
+      errMsg: `${apiName}:fail abort`,
     })
   }
 
   xhr.onerror = (e: ProgressEvent<EventTarget> & { message?: string }) => {
     error({
-      errMsg: `${apiName}:fail ${e.message}`
+      errMsg: `${apiName}:fail ${e.message}`,
     })
   }
 
@@ -73,7 +73,7 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
       xhr.onerror = null
       abort()
       error({
-        errMsg: `${apiName}:fail timeout`
+        errMsg: `${apiName}:fail timeout`,
       })
     }, timeout || NETWORK_TIMEOUT)
   }
@@ -107,7 +107,7 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
     onHeadersReceived,
     offHeadersReceived,
     onProgressUpdate,
-    offProgressUpdate
+    offProgressUpdate,
   }
 }
 
@@ -115,7 +115,15 @@ const createDownloadTask = ({ url, header, withCredentials = true, timeout, succ
  * 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径。使用前请注意阅读相关说明。
  * 注意：请在服务端响应的 header 中指定合理的 Content-Type 字段，以保证客户端正确处理文件类型。
  */
-export const downloadFile: typeof Taro.downloadFile = ({ url, header, withCredentials, timeout, success, fail, complete }) => {
+export const downloadFile: typeof Taro.downloadFile = ({
+  url,
+  header,
+  withCredentials,
+  timeout,
+  success,
+  fail,
+  complete,
+}) => {
   let task!: Taro.DownloadTask
   const result: ReturnType<typeof Taro.downloadFile> = new Promise((resolve, reject) => {
     task = createDownloadTask({
@@ -123,16 +131,16 @@ export const downloadFile: typeof Taro.downloadFile = ({ url, header, withCreden
       header,
       withCredentials,
       timeout,
-      success: res => {
+      success: (res) => {
         success && success(res)
         complete && complete(res)
         resolve(res)
       },
-      error: res => {
+      error: (res) => {
         fail && fail(res)
         complete && complete(res)
         reject(res)
-      }
+      },
     })
   }) as any
 

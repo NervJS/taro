@@ -18,7 +18,7 @@ export const startAccelerometer: typeof Taro.startAccelerometer = (options) => {
         },
         fail: (res: any) => {
           resolve(res)
-        }
+        },
       })
       return
     }
@@ -30,12 +30,7 @@ export const startAccelerometer: typeof Taro.startAccelerometer = (options) => {
       console.error(res.errMsg)
       return Promise.reject(res)
     }
-    const {
-      interval = 'normal',
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { interval = 'normal', success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler<{
       errMsg?: string
@@ -49,7 +44,7 @@ export const startAccelerometer: typeof Taro.startAccelerometer = (options) => {
       },
       fail: (res: any) => {
         handle.fail(res, { resolve, reject })
-      }
+      },
     })
   })
 }

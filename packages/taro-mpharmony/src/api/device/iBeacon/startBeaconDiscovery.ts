@@ -13,24 +13,22 @@ export const startBeaconDiscovery: typeof Taro.startBeaconDiscovery = (options) 
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      uuids,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { uuids, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
 
     // options.object must be object
     if (typeof uuids !== 'object') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'uuids',
-          correct: 'object',
-          wrong: uuids
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'uuids',
+            correct: 'object',
+            wrong: uuids,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -41,7 +39,7 @@ export const startBeaconDiscovery: typeof Taro.startBeaconDiscovery = (options) 
       },
       fail: (err: any) => {
         return handle.fail(err)
-      }
+      },
     })
     return ret
   })

@@ -53,5 +53,5 @@ export const reserveKeyWords = new Set([
   'super',
   'synchronized',
   'throws',
-  'transient'
+  'transient',
 ])

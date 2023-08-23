@@ -10,11 +10,7 @@ export const startLocationUpdate: typeof Taro.startLocationUpdate = (options) =>
     console.error(res.errMsg)
     return
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options || {}
+  const { success, fail, complete } = options || {}
   const handle = new MethodHandler<TaroGeneral.CallbackResult>({ name, success, fail, complete })
   // @ts-ignore
   native.startLocationUpdate({
@@ -25,6 +21,6 @@ export const startLocationUpdate: typeof Taro.startLocationUpdate = (options) =>
       handle.fail(res).catch((err) => {
         console.error(err)
       })
-    }
+    },
   })
 }

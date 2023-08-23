@@ -26,8 +26,8 @@ export const offWifiConnected: typeof Taro.offWifiConnected = (callback) => {
         /** Wi-Fi 信号强度, 安卓取值 0 ～ 100 ，iOS 取值 0 ～ 1 ，值越大强度越大 */
         signalStrength: res.wifi.signalStrength,
         /** Wi-Fi 频段单位 MHz */
-        frequency: res.wifi.frequency
-      }
+        frequency: res.wifi.frequency,
+      },
     }
     callback(result)
   })

@@ -16,7 +16,7 @@ export const onWifiConnectedWithPartialInfo: typeof Taro.onWifiConnectedWithPart
   native.onWifiConnectedWithPartialInfo((res: any) => {
     const result: Taro.onWifiConnectedWithPartialInfo.CallbackResult = {
       /** 只包含 SSID 属性的 WifiInfo 对象 */
-      wifi: { SSID: res.wifi.SSID }
+      wifi: { SSID: res.wifi.SSID },
     }
     callback(result)
   })

@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import {  shouldBeObject } from 'src/utils'
+import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
 export const getBluetoothDevices: typeof Taro.getBluetoothDevices = (options) => {
@@ -10,11 +10,7 @@ export const getBluetoothDevices: typeof Taro.getBluetoothDevices = (options) =>
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options || {}
+  const { success, fail, complete } = options || {}
   const handle = new MethodHandler<{
     devices?: object
     errMsg?: string
@@ -28,7 +24,7 @@ export const getBluetoothDevices: typeof Taro.getBluetoothDevices = (options) =>
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

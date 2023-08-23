@@ -12,14 +12,7 @@ export const openDocument: typeof Taro.openDocument = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    filePath,
-    showMenu,
-    fileType,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { filePath, showMenu, fileType, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -29,8 +22,8 @@ export const openDocument: typeof Taro.openDocument = (options) => {
       errMsg: getParameterError({
         para: 'filePath',
         correct: 'string',
-        wrong: filePath
-      })
+        wrong: filePath,
+      }),
     })
   }
 
@@ -45,7 +38,7 @@ export const openDocument: typeof Taro.openDocument = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

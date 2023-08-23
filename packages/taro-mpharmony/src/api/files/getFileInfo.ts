@@ -12,13 +12,7 @@ export const getFileInfo: typeof Taro.getFileInfo = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    filePath,
-    digestAlgorithm,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { filePath, digestAlgorithm, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler<{
     size?: number
@@ -32,30 +26,32 @@ export const getFileInfo: typeof Taro.getFileInfo = (options) => {
       errMsg: getParameterError({
         para: 'filePath',
         correct: 'string',
-        wrong: filePath
-      })
+        wrong: filePath,
+      }),
     })
   }
 
-  return new Promise<Taro.getFileInfo.FailCallbackResult | Taro.getFileInfo.SuccessCallbackResult>((resolve, reject) => {
-    // @ts-ignore
-    native.getFileInfo({
-      filePath: filePath,
-      digestAlgorithm: digestAlgorithm,
-      success: (res: any) => {
-        const result: Taro.getFileInfo.SuccessCallbackResult = {
-          size: res.size,
-          digest: res.digest,
-          errMsg: res.errMsg
-        }
-        handle.success(result, { resolve, reject })
-      },
-      fail: (err: any) => {
-        const errRet: Taro.getFileInfo.FailCallbackResult = {
-          errMsg: err.errMsg
-        }
-        handle.fail(errRet, { resolve, reject })
-      }
-    })
-  })
+  return new Promise<Taro.getFileInfo.FailCallbackResult | Taro.getFileInfo.SuccessCallbackResult>(
+    (resolve, reject) => {
+      // @ts-ignore
+      native.getFileInfo({
+        filePath: filePath,
+        digestAlgorithm: digestAlgorithm,
+        success: (res: any) => {
+          const result: Taro.getFileInfo.SuccessCallbackResult = {
+            size: res.size,
+            digest: res.digest,
+            errMsg: res.errMsg,
+          }
+          handle.success(result, { resolve, reject })
+        },
+        fail: (err: any) => {
+          const errRet: Taro.getFileInfo.FailCallbackResult = {
+            errMsg: err.errMsg,
+          }
+          handle.fail(errRet, { resolve, reject })
+        },
+      })
+    }
+  )
 }

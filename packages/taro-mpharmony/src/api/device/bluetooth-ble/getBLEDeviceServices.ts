@@ -13,12 +13,7 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      deviceId,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { deviceId, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler<{
       services?: object
@@ -27,13 +22,16 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
 
     // options.deviceId must be string
     if (typeof deviceId !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'deviceId',
-          correct: 'string',
-          wrong: deviceId
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'deviceId',
+            correct: 'string',
+            wrong: deviceId,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -44,7 +42,7 @@ export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) 
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

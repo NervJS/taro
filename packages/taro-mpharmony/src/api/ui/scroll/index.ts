@@ -10,26 +10,38 @@ const FRAME_DURATION = 17
 /**
  * 将页面滚动到目标位置
  */
-export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '', offsetTop = 0, duration = 300, success, fail, complete }) => {
+export const pageScrollTo: typeof Taro.pageScrollTo = ({
+  scrollTop,
+  selector = '',
+  offsetTop = 0,
+  duration = 300,
+  success,
+  fail,
+  complete,
+}) => {
   let scrollFunc
   const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   return new Promise((resolve, reject) => {
     try {
       if (scrollTop === undefined && !selector) {
-        return handle.fail({
-          errMsg: 'scrollTop" 或 "selector" 需要其之一'
-        }, { resolve, reject })
+        return handle.fail(
+          {
+            errMsg: 'scrollTop" 或 "selector" 需要其之一',
+          },
+          { resolve, reject }
+        )
       }
 
-      const id = Current.page?.path?.replace(/([^a-z0-9\u00a0-\uffff_-])/ig, '\\$1')
-      const el: HTMLDivElement | null = (id
-        ? document.querySelector(`.taro_page#${id}`)
-        : document.querySelector('.taro_page') ||
-      document.querySelector('.taro_router')) as HTMLDivElement
+      const id = Current.page?.path?.replace(/([^a-z0-9\u00a0-\uffff_-])/gi, '\\$1')
+      const el: HTMLDivElement | null = (
+        id
+          ? document.querySelector(`.taro_page#${id}`)
+          : document.querySelector('.taro_page') || document.querySelector('.taro_router')
+      ) as HTMLDivElement
 
       if (!scrollFunc) {
         if (!el) {
-          scrollFunc = pos => {
+          scrollFunc = (pos) => {
             if (pos === undefined) {
               return window.pageYOffset
             } else {
@@ -37,7 +49,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
             }
           }
         } else {
-          scrollFunc = pos => {
+          scrollFunc = (pos) => {
             if (pos === undefined) {
               return el.scrollTop
             } else {
@@ -77,9 +89,12 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       }
       scroll()
     } catch (e) {
-      return handle.fail({
-        errMsg: e.message
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: e.message,
+        },
+        { resolve, reject }
+      )
     }
   })
 }

@@ -10,18 +10,14 @@ const defaultClassName = '_C'
 const buildDecorator = (id: t.Identifier | t.ObjectExpression, isApp = false) => {
   const args: any[] = [id]
   isApp && args.push(t.booleanLiteral(true))
-  return t.decorator(
-    t.callExpression(t.identifier('withWeapp'), args)
-  )
+  return t.decorator(t.callExpression(t.identifier('withWeapp'), args))
 }
 
 export function replaceIdentifier (callee: NodePath<t.Node>) {
   if (callee.isIdentifier()) {
     const name = callee.node.name
     if (name === 'getApp' || name === 'getCurrentPages') {
-      callee.replaceWith(
-        t.memberExpression(t.identifier('Taro'), callee.node)
-      )
+      callee.replaceWith(t.memberExpression(t.identifier('Taro'), callee.node))
     }
   }
 }
@@ -73,14 +69,7 @@ export function parseScript (
       ) {
         foundWXInstance = true
         const componentType = callee.node.name
-        classDecl = parsePage(
-          path,
-          returned || t.nullLiteral(),
-          componentType,
-          refId,
-          wxses,
-          isApp
-        )
+        classDecl = parsePage(path, returned || t.nullLiteral(), componentType, refId, wxses, isApp)
         ast.program.body.push(
           classDecl,
           t.exportDefaultDeclaration(t.identifier(componentType !== 'App' ? defaultClassName : 'App'))
@@ -88,7 +77,7 @@ export function parseScript (
         // path.insertAfter(t.exportDefaultDeclaration(t.identifier(defaultClassName)))
         path.remove()
       }
-    }
+    },
   }
 
   traverse(ast, vistor)
@@ -98,22 +87,16 @@ export function parseScript (
     traverse(ast, vistor)
   }
 
-  const taroComponentsImport = buildImportStatement('@tarojs/components', [
-    ...usedComponents
-  ])
+  const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
   const reactImport = buildImportStatement('react', [], 'React')
-  const withWeappImport = buildImportStatement(
-    '@tarojs/with-weapp',
-    [],
-    'withWeapp'
-  )
+  const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp')
   ast.program.body.unshift(
     taroComponentsImport,
     reactImport,
     taroImport,
     withWeappImport,
-    ...wxses.filter(wxs => !wxs.src.startsWith('./wxs__')).map(wxs => buildImportStatement(wxs.src, [], wxs.module))
+    ...wxses.filter((wxs) => !wxs.src.startsWith('./wxs__')).map((wxs) => buildImportStatement(wxs.src, [], wxs.module))
   )
 
   return ast
@@ -133,10 +116,10 @@ function parsePage (
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)
-    }
+    },
   })
   if (refId) {
-    refId.forEach(id => {
+    refId.forEach((id) => {
       if (!stateKeys.includes(id)) {
         stateKeys.push(id)
       }
@@ -152,25 +135,20 @@ function parsePage (
     throw codeFrameError(arg.node, `${componentType || '组件'} 的第一个参数必须是一个对象或变量才能转换。`)
   }
 
-  const wxsNames = new Set(wxses ? wxses.map(w => w.module) : [])
+  const wxsNames = new Set(wxses ? wxses.map((w) => w.module) : [])
 
   const renderFunc = buildRender(
     componentType === 'App'
-      ? t.memberExpression(
-        t.memberExpression(t.thisExpression(), t.identifier('props')),
-        t.identifier('children')
-      )
-      : returned
-    ,
-    stateKeys.filter(s => !wxsNames.has(s)), propsKeys
+      ? t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('props')), t.identifier('children'))
+      : returned,
+    stateKeys.filter((s) => !wxsNames.has(s)),
+    propsKeys
   )
 
   const classDecl = t.classDeclaration(
     t.identifier(componentType === 'App' ? 'App' : defaultClassName),
     t.memberExpression(t.identifier('React'), t.identifier('Component')),
-    t.classBody(
-      classBody.concat(renderFunc)
-    ),
+    t.classBody(classBody.concat(renderFunc)),
     []
   )
 

@@ -13,46 +13,48 @@ export const connectWifi: typeof Taro.connectWifi = (options) => {
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      SSID,
-      password,
-      BSSID,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { SSID, password, BSSID, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
 
     // options.SSID must be string
     if (typeof SSID !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'SSID',
-          correct: 'string',
-          wrong: SSID
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'SSID',
+            correct: 'string',
+            wrong: SSID,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     if (typeof password !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'password',
-          correct: 'string',
-          wrong: password
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'password',
+            correct: 'string',
+            wrong: password,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     if (typeof BSSID !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'BSSID',
-          correct: 'string',
-          wrong: BSSID
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'BSSID',
+            correct: 'string',
+            wrong: BSSID,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -65,7 +67,7 @@ export const connectWifi: typeof Taro.connectWifi = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

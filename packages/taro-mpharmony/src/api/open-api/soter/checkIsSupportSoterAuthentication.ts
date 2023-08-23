@@ -5,7 +5,7 @@ import { MethodHandler } from '../../../utils/handler'
 
 export const checkIsSupportSoterAuthentication: typeof Taro.checkIsSupportSoterAuthentication = (options) => {
   const name = 'checkIsSupportSoterAuthentication'
-  
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -27,7 +27,7 @@ export const checkIsSupportSoterAuthentication: typeof Taro.checkIsSupportSoterA
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

@@ -11,7 +11,6 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
     const res = { errMsg: `${name}:fail ${isObject.msg}` }
     console.error(res.errMsg)
     return Promise.reject(res)
-
   }
   const {
     compressed,
@@ -42,7 +41,7 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

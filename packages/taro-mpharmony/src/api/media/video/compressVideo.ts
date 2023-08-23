@@ -15,13 +15,13 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
     }
     const {
       src,
-      quality = ['low','medium','high'],
+      quality = ['low', 'medium', 'high'],
       bitrate,
       fps,
       resolution,
       success,
       fail,
-      complete
+      complete,
     } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler<{
@@ -31,49 +31,64 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
 
     // options.url must be String
     if (typeof src !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'src',
-          correct: 'string',
-          wrong: src
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'src',
+            correct: 'string',
+            wrong: src,
+          }),
+        },
+        { resolve, reject }
+      )
     }
     if (typeof quality !== 'object') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'quality',
-          correct: 'object',
-          wrong: quality
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'quality',
+            correct: 'object',
+            wrong: quality,
+          }),
+        },
+        { resolve, reject }
+      )
     }
     if (typeof bitrate !== 'number') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'bitrate',
-          correct: 'number',
-          wrong: bitrate
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'bitrate',
+            correct: 'number',
+            wrong: bitrate,
+          }),
+        },
+        { resolve, reject }
+      )
     }
     if (typeof fps !== 'number') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'fps',
-          correct: 'number',
-          wrong: fps
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'fps',
+            correct: 'number',
+            wrong: fps,
+          }),
+        },
+        { resolve, reject }
+      )
     }
     if (typeof resolution !== 'number') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'resolution',
-          correct: 'number',
-          wrong: resolution
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'resolution',
+            correct: 'number',
+            wrong: resolution,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -88,7 +103,7 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
       },
       fail: (err: any) => {
         return handle.fail(err)
-      }
+      },
     })
     return ret
   })

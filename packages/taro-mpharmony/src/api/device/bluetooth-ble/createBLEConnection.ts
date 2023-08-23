@@ -13,13 +13,7 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      deviceId,
-      timeout,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { deviceId, timeout, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler<{
       errMsg?: string
@@ -27,13 +21,16 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
 
     // options.deviceId must be string
     if (typeof deviceId !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'deviceId',
-          correct: 'string',
-          wrong: deviceId
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'deviceId',
+            correct: 'string',
+            wrong: deviceId,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -45,13 +42,13 @@ export const createBLEConnection: typeof Taro.createBLEConnection = (options) =>
           /** 错误信息 */
           errMsg: '',
           /** 错误码 */
-          errCode: res[0]
+          errCode: res[0],
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

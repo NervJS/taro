@@ -13,23 +13,21 @@ export const setScreenBrightness: typeof Taro.setScreenBrightness = (options) =>
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      value,
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { value, success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
     // options.url must be String
     if (typeof value !== 'number') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'value',
-          correct: 'number',
-          wrong: value
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'value',
+            correct: 'number',
+            wrong: value,
+          }),
+        },
+        { resolve, reject }
+      )
     }
 
     // @ts-ignore
@@ -40,7 +38,7 @@ export const setScreenBrightness: typeof Taro.setScreenBrightness = (options) =>
       },
       fail: (err: any) => {
         return handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

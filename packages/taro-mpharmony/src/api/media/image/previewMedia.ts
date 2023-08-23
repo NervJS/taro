@@ -1,6 +1,9 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
-import { defineCustomElementTaroSwiperCore, defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components'
+import {
+  defineCustomElementTaroSwiperCore,
+  defineCustomElementTaroSwiperItemCore,
+} from '@tarojs/components/dist/components'
 import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
@@ -29,7 +32,7 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
         image.src = sources?.url
       } else {
         video.style.maxWidth = '100%'
-        video.setAttribute('controls','controls')
+        video.setAttribute('controls', 'controls')
         const source = document.createElement('source')
         source.src = sources?.url
         video.appendChild(source)
@@ -62,11 +65,12 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
     return Promise.reject(res)
   }
 
-  const { sources = [], current = 0,success, fail, complete } = options
+  const { sources = [], current = 0, success, fail, complete } = options
   const handle = new MethodHandler({ name: 'previewMedia', success, fail, complete })
   const container = document.createElement('div')
   container.classList.add('preview-image')
-  container.style.cssText = 'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
+  container.style.cssText =
+    'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
   container.addEventListener('click', () => {
     container.remove()
   })
@@ -79,12 +83,10 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
 
   let children: Node[] = []
   try {
-    children = await Promise.all(
-      sources.map(e => loadImageAndVideo(e, fail))
-    )
+    children = await Promise.all(sources.map((e) => loadImageAndVideo(e, fail)))
   } catch (error) {
     return handle.fail({
-      errMsg: error
+      errMsg: error,
     })
   }
 

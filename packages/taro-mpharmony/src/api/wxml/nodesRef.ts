@@ -43,15 +43,21 @@ export class NodesRef implements Taro.NodesRef {
     const { _selector, _component, _single, _selectorQuery } = this
     const { id, dataset, rect, size, scrollOffset, properties = [], computedStyle = [] } = fields
 
-    _selectorQuery._push(_selector, _component, _single, {
-      id,
-      dataset,
-      rect,
-      size,
-      scrollOffset,
-      properties,
-      computedStyle
-    }, cb)
+    _selectorQuery._push(
+      _selector,
+      _component,
+      _single,
+      {
+        id,
+        dataset,
+        rect,
+        size,
+        scrollOffset,
+        properties,
+        computedStyle,
+      },
+      cb
+    )
 
     return _selectorQuery
   }

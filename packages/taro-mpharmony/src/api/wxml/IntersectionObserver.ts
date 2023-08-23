@@ -12,14 +12,13 @@ type TListener = {
 }
 
 export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
-
   // 自定义组件实例
   private _component: TaroGeneral.IAnyObject
   // 选项
   private _options = {
     thresholds: [0],
     initialRatio: 0,
-    observeAll: false
+    observeAll: false,
   }
 
   // Observer实例
@@ -35,11 +34,8 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
 
   // selector 的容器节点
   protected get container () {
-    const container: TElement = (
-      this._component !== null 
-        ? (findDOM(this._component) as HTMLElement || document) 
-        : document
-    )
+    const container: TElement =
+      this._component !== null ? (findDOM(this._component) as HTMLElement) || document : document
     return container
   }
 
@@ -53,29 +49,32 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     this.disconnect()
 
     const { left = 0, top = 0, bottom = 0, right = 0 } = this._rootMargin
-    return new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const _callback = this._getCallbackByElement(entry.target)
-        const result = {
-          boundingClientRect: entry.boundingClientRect,
-          intersectionRatio: entry.intersectionRatio,
-          intersectionRect: entry.intersectionRect,
-          relativeRect: entry.rootBounds || { left: 0, right: 0, top: 0, bottom: 0 },
-          time: entry.time
-        }
-        // web端会默认首次触发
-        if (!this._isInited && this._options.initialRatio <= Math.min.apply(Math, this._options.thresholds)) {
-          // 初始的相交比例，如果调用时检测到的相交比例与这个值不相等且达到阈值，则会触发一次监听器的回调函数。
-          return
-        }
-        _callback && _callback.call(this, result)
-      })
-      this._isInited = true
-    }, {
-      root: this._root,
-      rootMargin: [`${top}px`, `${right}px`, `${bottom}px`, `${left}px`].join(' '),
-      threshold: this._options.thresholds
-    })
+    return new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const _callback = this._getCallbackByElement(entry.target)
+          const result = {
+            boundingClientRect: entry.boundingClientRect,
+            intersectionRatio: entry.intersectionRatio,
+            intersectionRect: entry.intersectionRect,
+            relativeRect: entry.rootBounds || { left: 0, right: 0, top: 0, bottom: 0 },
+            time: entry.time,
+          }
+          // web端会默认首次触发
+          if (!this._isInited && this._options.initialRatio <= Math.min.apply(Math, this._options.thresholds)) {
+            // 初始的相交比例，如果调用时检测到的相交比例与这个值不相等且达到阈值，则会触发一次监听器的回调函数。
+            return
+          }
+          _callback && _callback.call(this, result)
+        })
+        this._isInited = true
+      },
+      {
+        root: this._root,
+        rootMargin: [`${top}px`, `${right}px`, `${bottom}px`, `${left}px`].join(' '),
+        threshold: this._options.thresholds,
+      }
+    )
   }
 
   public disconnect (): void {
@@ -96,19 +95,22 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
       console.warn('Intersection observer will be ignored because no relative nodes are found.')
       return
     }
-  
-    const nodeList = this._options.observeAll 
-      ? this.container.querySelectorAll(targetSelector) 
+
+    const nodeList = this._options.observeAll
+      ? this.container.querySelectorAll(targetSelector)
       : [this.container.querySelector(targetSelector)]
-    
-    nodeList.forEach(element => {
+
+    nodeList.forEach((element) => {
       if (!element) return
       this._observerInst.observe(element)
       this._listeners.push({ element, callback })
     })
   }
 
-  public relativeTo (selector: string, margins?: Taro.IntersectionObserver.RelativeToMargins | undefined): Taro.IntersectionObserver {
+  public relativeTo (
+    selector: string,
+    margins?: Taro.IntersectionObserver.RelativeToMargins | undefined
+  ): Taro.IntersectionObserver {
     // 已设置observe监听后，重新关联节点
     if (this._listeners.length) {
       console.error('Relative nodes cannot be added after "observe" call in IntersectionObserver')
@@ -122,13 +124,14 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
     return this
   }
 
-  public relativeToViewport (margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined): Taro.IntersectionObserver {
+  public relativeToViewport (
+    margins?: Taro.IntersectionObserver.RelativeToViewportMargins | undefined
+  ): Taro.IntersectionObserver {
     return this.relativeTo('.taro_page', margins)
   }
 
   private _getCallbackByElement (element: Element) {
-    const listener = this._listeners.find(listener => listener.element === element)
+    const listener = this._listeners.find((listener) => listener.element === element)
     return listener ? listener.callback : null
   }
-
 }

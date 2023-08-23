@@ -8,9 +8,10 @@
     "lib"
   ],
   "scripts": {
-    "format": "eslint src/ --ext .js --ext .ts --ext .tsx --fix",
     "build": "tsc",
-    "dev": "tsc -w --pretty"
+    "dev": "tsc -w --pretty",
+    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix"
   },
   "repository": {
     "type": "git",

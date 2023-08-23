@@ -38,8 +38,8 @@ export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (optio
       errMsg: getParameterError({
         para: 'title',
         correct: 'String',
-        wrong: title
-      })
+        wrong: title,
+      }),
     })
   }
 
@@ -56,7 +56,7 @@ export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (optio
     const repeatEnd = new Date(repeatEndTime)
     if (repeatEnd < start) {
       return handle.fail({
-        errMsg: 'repeatEndTime must be greater than startTime'
+        errMsg: 'repeatEndTime must be greater than startTime',
       })
     }
     switch (repeatInterval) {
@@ -79,22 +79,26 @@ export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (optio
     description,
     location,
     end: parseTime2Array(end, allDay),
-    alarms: alarm ? [{
-      action: 'display',
-      description,
-      trigger: {
-        before: true,
-        seconds: alarmOffset,
-      },
-      duration: {
-        days,
-      },
-      repeat,
-    }] : [],
+    alarms: alarm
+      ? [
+        {
+          action: 'display',
+          description,
+          trigger: {
+            before: true,
+            seconds: alarmOffset,
+          },
+          duration: {
+            days,
+          },
+          repeat,
+        },
+      ]
+      : [],
   })
   if (error || !value) {
     return handle.fail({
-      errMsg: error?.message
+      errMsg: error?.message,
     })
   }
   const url = URL.createObjectURL(new Blob([value]))
@@ -102,7 +106,7 @@ export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (optio
   return handle.success()
 }
 
-export const addPhoneCalendar: typeof Taro.addPhoneCalendar =  (options) => {
+export const addPhoneCalendar: typeof Taro.addPhoneCalendar = (options) => {
   const methodName = 'addPhoneCalendar'
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -131,8 +135,8 @@ export const addPhoneCalendar: typeof Taro.addPhoneCalendar =  (options) => {
       errMsg: getParameterError({
         para: 'title',
         correct: 'String',
-        wrong: title
-      })
+        wrong: title,
+      }),
     })
   }
 
@@ -147,18 +151,22 @@ export const addPhoneCalendar: typeof Taro.addPhoneCalendar =  (options) => {
     description,
     location,
     end: parseTime2Array(end, allDay),
-    alarms: alarm ? [{
-      action: 'display',
-      description,
-      trigger: {
-        before: true,
-        seconds: alarmOffset,
-      },
-    }] : [],
+    alarms: alarm
+      ? [
+        {
+          action: 'display',
+          description,
+          trigger: {
+            before: true,
+            seconds: alarmOffset,
+          },
+        },
+      ]
+      : [],
   })
   if (error || !value) {
     return handle.fail({
-      errMsg: error?.message
+      errMsg: error?.message,
     })
   }
   const url = URL.createObjectURL(new Blob([value]))
@@ -168,11 +176,7 @@ export const addPhoneCalendar: typeof Taro.addPhoneCalendar =  (options) => {
 
 function parseTime2Array (time: Date, allDay = false): DateArray {
   const t = new Date(time)
-  const timeArr: DateArray = [
-    t.getFullYear(),
-    t.getMonth() + 1,
-    t.getDate(),
-  ]
+  const timeArr: DateArray = [t.getFullYear(), t.getMonth() + 1, t.getDate()]
   if (!allDay) {
     timeArr.push(t.getHours(), t.getMinutes())
   }

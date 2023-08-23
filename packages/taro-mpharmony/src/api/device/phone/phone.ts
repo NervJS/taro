@@ -14,12 +14,7 @@ export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
     return Promise.reject(res)
   }
 
-  const {
-    phoneNumber,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { phoneNumber, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler<{
     errMsg: string
@@ -30,8 +25,8 @@ export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
       errMsg: getParameterError({
         para: 'phoneNumber',
         correct: 'string',
-        wrong: phoneNumber
-      })
+        wrong: phoneNumber,
+      }),
     })
   }
 
@@ -44,7 +39,7 @@ export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

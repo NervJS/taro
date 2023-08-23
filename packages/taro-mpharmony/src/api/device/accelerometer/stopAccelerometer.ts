@@ -17,7 +17,7 @@ export const stopAccelerometer: typeof Taro.stopAccelerometer = (options) => {
         },
         fail: (res: any) => {
           resolve(res)
-        }
+        },
       })
       return
     }
@@ -29,16 +29,11 @@ export const stopAccelerometer: typeof Taro.stopAccelerometer = (options) => {
       console.error(res.errMsg)
       return Promise.reject(res)
     }
-    const {
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler<{
       errMsg?: string
     }>({ name, success, fail, complete })
-
 
     // @ts-ignore
     native.stopAccelerometer({
@@ -47,7 +42,7 @@ export const stopAccelerometer: typeof Taro.stopAccelerometer = (options) => {
       },
       fail: (res: any) => {
         handle.fail(res, { resolve, reject })
-      }
+      },
     })
   })
 }

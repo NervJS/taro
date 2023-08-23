@@ -12,13 +12,10 @@ export const compressImage: typeof Taro.compressImage = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const { src,
-    quality,
-    compressedWidth,
-    compressHeight,
-    success,
-    fail,
-    complete } = options as Exclude<typeof options, undefined>
+  const { src, quality, compressedWidth, compressHeight, success, fail, complete } = options as Exclude<
+    typeof options,
+  undefined
+  >
   const handle = new MethodHandler<{
     tempFilePath?: string
     errMsg?: string
@@ -30,8 +27,8 @@ export const compressImage: typeof Taro.compressImage = (options) => {
       errMsg: getParameterError({
         para: 'src',
         correct: 'string',
-        wrong: src
-      })
+        wrong: src,
+      }),
     })
   }
 
@@ -45,13 +42,13 @@ export const compressImage: typeof Taro.compressImage = (options) => {
       success: (res: any) => {
         const result: Taro.compressImage.SuccessCallbackResult = {
           tempFilePath: res.tempFilePath,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

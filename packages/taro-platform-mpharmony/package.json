@@ -25,7 +25,9 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c",
-    "dev": "cross-env NODE_ENV=development rollup -c -w"
+    "dev": "cross-env NODE_ENV=development rollup -c -w",
+    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

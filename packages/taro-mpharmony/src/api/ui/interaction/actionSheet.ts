@@ -8,7 +8,7 @@ export default class ActionSheet {
     itemColor: '#000000',
     success: noop,
     fail: noop,
-    complete: noop
+    complete: noop,
   }
 
   style = {
@@ -19,7 +19,7 @@ export default class ActionSheet {
       right: '0',
       left: '0',
       bottom: '0',
-      background: 'rgba(0,0,0,0.6)'
+      background: 'rgba(0,0,0,0.6)',
     },
     actionSheetStyle: {
       'z-index': '4999',
@@ -32,16 +32,16 @@ export default class ActionSheet {
       'line-height': '1.6',
       background: '#EFEFF4',
       '-webkit-transition': '-webkit-transform .3s',
-      transition: 'transform .3s'
+      transition: 'transform .3s',
     },
     menuStyle: {
-      'background-color': '#FCFCFD'
+      'background-color': '#FCFCFD',
     },
     cellStyle: {
       position: 'relative',
       padding: '10px 0',
       'text-align': 'center',
-      'font-size': '18px'
+      'font-size': '18px',
     },
     cancelStyle: {
       'margin-top': '6px',
@@ -49,8 +49,8 @@ export default class ActionSheet {
       'text-align': 'center',
       'font-size': '18px',
       color: '#000000',
-      'background-color': '#FCFCFD'
-    }
+      'background-color': '#FCFCFD',
+    },
   }
 
   lastConfig = {}
@@ -71,7 +71,7 @@ export default class ActionSheet {
       // configuration
       const config = {
         ...this.options,
-        ...options
+        ...options,
       }
 
       this.lastConfig = config
@@ -92,10 +92,13 @@ export default class ActionSheet {
 
       // menu
       this.menu = document.createElement('div')
-      this.menu.setAttribute('style', inlineStyle({
-        ...menuStyle,
-        color: config.itemColor
-      }))
+      this.menu.setAttribute(
+        'style',
+        inlineStyle({
+          ...menuStyle,
+          color: config.itemColor,
+        })
+      )
 
       // cells
       this.cells = config.itemList.map((item, index) => {
@@ -104,7 +107,7 @@ export default class ActionSheet {
         cell.setAttribute('style', inlineStyle(cellStyle))
         cell.textContent = item
         cell.dataset.tapIndex = `${index}`
-        cell.onclick = e => {
+        cell.onclick = (e) => {
           this.hide()
           const target = e.currentTarget as HTMLDivElement
           const index = Number(target?.dataset.tapIndex) || 0
@@ -119,7 +122,7 @@ export default class ActionSheet {
       this.cancel.textContent = '取消'
 
       // result
-      this.cells.forEach(item => this.menu.appendChild(item))
+      this.cells.forEach((item) => this.menu.appendChild(item))
       this.actionSheet.appendChild(this.menu)
       this.actionSheet.appendChild(this.cancel)
       this.el.appendChild(this.mask)
@@ -146,7 +149,7 @@ export default class ActionSheet {
     return new Promise<string | number>((resolve) => {
       const config = {
         ...this.options,
-        ...options
+        ...options,
       }
 
       this.lastConfig = config
@@ -175,7 +178,7 @@ export default class ActionSheet {
           this.menu.appendChild(cell)
         }
         cell.textContent = item
-        cell.onclick = e => {
+        cell.onclick = (e) => {
           this.hide()
           const target = e.currentTarget as HTMLDivElement
           const index = Number(target?.dataset.tapIndex) || 0
@@ -215,7 +218,9 @@ export default class ActionSheet {
     this.hideOpacityTimer = setTimeout(() => {
       this.el.style.opacity = '0'
       setTransform(this.actionSheet, 'translate(0, 100%)')
-      this.hideDisplayTimer = setTimeout(() => { this.el.style.display = 'none' }, 200)
+      this.hideDisplayTimer = setTimeout(() => {
+        this.el.style.display = 'none'
+      }, 200)
     }, 0)
   }
 }

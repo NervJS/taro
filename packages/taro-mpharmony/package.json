@@ -19,13 +19,14 @@
     "*.css"
   ],
   "scripts": {
-    "format": "eslint src/ --ext .js --ext .ts --ext .tsx --fix",
     "build": "rimraf ./dist && cross-env NODE_ENV=production rollup -c",
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "test": "node_modules/jest/bin/jest.js",
     "test:ci": "jest --ci -i --coverage false",
     "test:dev": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext .js --ext .ts --ext .tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix"
   },
   "repository": {
     "type": "git",

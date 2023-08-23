@@ -11,7 +11,12 @@ function getConnection () {
 export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
   const connection = getConnection()
   const { success, fail, complete } = options
-  const handle = new MethodHandler<Taro.getNetworkType.SuccessCallbackResult>({ name: 'getNetworkType', success, fail, complete })
+  const handle = new MethodHandler<Taro.getNetworkType.SuccessCallbackResult>({
+    name: 'getNetworkType',
+    success,
+    fail,
+    complete,
+  })
 
   let networkType: keyof Taro.getNetworkType.NetworkType = 'unknown'
   // 浏览器不支持获取网络状态
@@ -76,7 +81,7 @@ const OffNetworkStatusChangeCallback = async (callback: any) => {
  */
 export const onNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('onNetworkWeakChange')
 
-export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback => {
+export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = (callback) => {
   networkStatusManager.add(callback)
   const connection = getConnection()
   if (connection && networkStatusManager.count() === 1) {
@@ -86,7 +91,7 @@ export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback
 
 export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNetworkStatusChange')
 
-export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
+export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = (callback) => {
   // 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
   if (callback) {
     networkStatusManager.remove(callback)

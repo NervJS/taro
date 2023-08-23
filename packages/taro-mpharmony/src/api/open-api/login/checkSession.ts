@@ -12,11 +12,7 @@ export const checkSession: typeof Taro.checkSession = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -27,7 +23,7 @@ export const checkSession: typeof Taro.checkSession = (options) => {
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

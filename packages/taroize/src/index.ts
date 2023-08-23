@@ -36,7 +36,7 @@ export function parse (option: Option) {
     const result = parseVue(option.path, option.wxml || '', option.script)
     return {
       ...result,
-      errors
+      errors,
     }
   }
 
@@ -46,6 +46,6 @@ export function parse (option: Option) {
   return {
     ast,
     imports,
-    errors
+    errors,
   }
 }

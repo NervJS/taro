@@ -13,12 +13,7 @@ export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
     return Promise.reject(res)
   }
 
-  const {
-    filePath,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { filePath, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler<{
     createTime?: number
@@ -32,8 +27,8 @@ export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
       errMsg: getParameterError({
         para: 'filePath',
         correct: 'string',
-        wrong: filePath
-      })
+        wrong: filePath,
+      }),
     })
   }
 
@@ -45,13 +40,13 @@ export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
         const result: Taro.getSavedFileInfo.SuccessCallbackResult = {
           createTime: res.createTime,
           size: res.size,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

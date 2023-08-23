@@ -5,7 +5,7 @@ import { MethodHandler } from '../../../utils/handler'
 
 export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (options) => {
   const name = 'startSoterAuthentication'
-  
+
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -28,8 +28,8 @@ export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (o
       errMsg: getParameterError({
         para: 'challenge',
         correct: 'String',
-        wrong: challenge
-      })
+        wrong: challenge,
+      }),
     })
   }
 
@@ -38,8 +38,8 @@ export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (o
       errMsg: getParameterError({
         para: 'requestAuthModes',
         correct: 'object',
-        wrong: requestAuthModes
-      })
+        wrong: requestAuthModes,
+      }),
     })
   }
 
@@ -53,7 +53,7 @@ export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (o
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

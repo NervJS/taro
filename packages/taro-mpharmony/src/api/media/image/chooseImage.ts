@@ -23,7 +23,7 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     complete,
     imageId = 'taroChooseImage',
     sizeType = ['original', 'compressed'],
-    sourceType = ['album', 'camera']
+    sourceType = ['album', 'camera'],
   } = options
 
   const handle = new MethodHandler<{
@@ -37,8 +37,8 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
       errMsg: getParameterError({
         para: 'count',
         correct: 'Number',
-        wrong: count
-      })
+        wrong: count,
+      }),
     })
   }
 
@@ -53,13 +53,13 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
         const result: Taro.chooseImage.SuccessCallbackResult = {
           tempFilePaths: res.tempFilePaths,
           tempFiles: res.tempFiles,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -12,13 +12,8 @@ export const login: typeof Taro.login = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  
-  const {
-    timeout,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+
+  const { timeout, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -36,7 +31,7 @@ export const login: typeof Taro.login = (options) => {
     },
     fail: (err: any) => {
       return handle.fail(err)
-    }
+    },
   })
   return ret
 }

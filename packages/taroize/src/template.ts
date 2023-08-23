@@ -37,12 +37,30 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
-  const is = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'is')
-  const data = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'data')
-  const name = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'name')
+  const is = attrs.find(
+    (attr) =>
+      t.isJSXAttribute(attr) &&
+      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr.node) &&
+      attr.node.name.name === 'is'
+  )
+  const data = attrs.find(
+    (attr) =>
+      t.isJSXAttribute(attr) &&
+      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr.node) &&
+      attr.node.name.name === 'data'
+  )
+  const name = attrs.find(
+    (attr) =>
+      t.isJSXAttribute(attr) &&
+      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr.node) &&
+      attr.node.name.name === 'name'
+  )
 
   const refIds = new Set<string>()
-  const loopIds = new Set<string>() 
+  const loopIds = new Set<string>()
   const imports: any[] = []
   if (name && t.isJSXAttribute(name.node)) {
     const value = name.node.value
@@ -53,7 +71,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
 
     path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
     const firstId = Array.from(refIds)[0]
-    refIds.forEach(id => {
+    refIds.forEach((id) => {
       if (loopIds.has(id) && id !== firstId) {
         refIds.delete(id)
       }
@@ -81,7 +99,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     path.remove()
     return {
       name: className,
-      ast: classDecl
+      ast: classDecl,
     }
   } else if (is && t.isJSXAttribute(is.node)) {
     const value = is.node.value
@@ -94,12 +112,14 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       if (data && t.isJSXAttribute(data.node)) {
         attributes.push(data.node)
       }
-      path.replaceWith(t.jSXElement(
-        t.jSXOpeningElement(t.jSXIdentifier(className), attributes),
-        t.jSXClosingElement(t.jSXIdentifier(className)),
-        [],
-        true
-      ))
+      path.replaceWith(
+        t.jSXElement(
+          t.jSXOpeningElement(t.jSXIdentifier(className), attributes),
+          t.jSXClosingElement(t.jSXIdentifier(className)),
+          [],
+          true
+        )
+      )
     } else if (t.isJSXExpressionContainer(value)) {
       if (t.isStringLiteral(value.expression)) {
         const className = buildTemplateName(value.expression.value)
@@ -107,12 +127,14 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
         if (data && t.isJSXAttribute(data.node)) {
           attributes.push(data.node)
         }
-        path.replaceWith(t.jSXElement(
-          t.jSXOpeningElement(t.jSXIdentifier(className), attributes),
-          t.jSXClosingElement(t.jSXIdentifier(className)),
-          [],
-          true
-        ))
+        path.replaceWith(
+          t.jSXElement(
+            t.jSXOpeningElement(t.jSXIdentifier(className), attributes),
+            t.jSXClosingElement(t.jSXIdentifier(className)),
+            [],
+            true
+          )
+        )
       } else if (t.isConditional(value.expression)) {
         const { test, consequent, alternate } = value.expression
         if (!t.isStringLiteral(consequent) || !t.isStringLiteral(alternate)) {
@@ -123,25 +145,31 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
           attributes.push(data.node)
         }
         const block = buildBlockElement()
-        block.children = [t.jSXExpressionContainer(t.conditionalExpression(
-          test,
-          t.jSXElement(
-            t.jSXOpeningElement(t.jSXIdentifier('Template'), attributes.concat(
-              [t.jSXAttribute(t.jSXIdentifier('is'), consequent)]
-            )),
-            t.jSXClosingElement(t.jSXIdentifier('Template')),
-            [],
-            true
+        block.children = [
+          t.jSXExpressionContainer(
+            t.conditionalExpression(
+              test,
+              t.jSXElement(
+                t.jSXOpeningElement(
+                  t.jSXIdentifier('Template'),
+                  attributes.concat([t.jSXAttribute(t.jSXIdentifier('is'), consequent)])
+                ),
+                t.jSXClosingElement(t.jSXIdentifier('Template')),
+                [],
+                true
+              ),
+              t.jSXElement(
+                t.jSXOpeningElement(
+                  t.jSXIdentifier('Template'),
+                  attributes.concat([t.jSXAttribute(t.jSXIdentifier('is'), alternate)])
+                ),
+                t.jSXClosingElement(t.jSXIdentifier('Template')),
+                [],
+                true
+              )
+            )
           ),
-          t.jSXElement(
-            t.jSXOpeningElement(t.jSXIdentifier('Template'), attributes.concat(
-              [t.jSXAttribute(t.jSXIdentifier('is'), alternate)]
-            )),
-            t.jSXClosingElement(t.jSXIdentifier('Template')),
-            [],
-            true
-          )
-        ))]
+        ]
         path.replaceWith(block)
       }
     }
@@ -155,7 +183,7 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
     let filePath = resolve(dirPath, src)
     if (!extname(filePath)) {
-      filePath = (filePath + '.wxml')
+      filePath = filePath + '.wxml'
     }
     const file = fs.readFileSync(filePath, 'utf-8')
     return file
@@ -170,7 +198,13 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   const attrs = openingElement.get('attributes')
   // const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
   // Fix
-  const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.get('name')) && t.isJSXAttribute(attr.node) && attr.node.name.name === 'src')
+  const src = attrs.find(
+    (attr) =>
+      t.isJSXAttribute(attr) &&
+      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr.node) &&
+      attr.node.name.name === 'src'
+  )
   if (!src) {
     throw new Error(`${type} 标签必须包含 \`src\` 属性`)
   }
@@ -211,7 +245,9 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     const block = buildBlockElement()
     if (wxmlStr === '') {
       if (jsx.node.children.length) {
-        console.error(`标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`)
+        console.error(
+          `标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`
+        )
       }
       jsx.remove()
       return

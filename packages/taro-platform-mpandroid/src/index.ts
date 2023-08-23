@@ -9,6 +9,6 @@ export default (ctx: IPluginContext) => {
     async fn ({ config }) {
       const program = new H5(ctx, config)
       await program.start()
-    }
+    },
   })
 }

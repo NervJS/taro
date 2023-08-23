@@ -1,4 +1,3 @@
-
 import { isFunction, toKebabCase } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
@@ -6,12 +5,8 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
   const mediaQueryArr: string[] = []
   const descriptorMenu = ['width', 'minWidth', 'maxWidth', 'height', 'minHeight', 'maxHeight', 'orientation']
   for (const item of descriptorMenu) {
-    if (
-      item !== 'orientation' &&
-      descriptor[item] &&
-      Number(descriptor[item]) >= 0
-    ) {
-      mediaQueryArr.push(`(${(toKebabCase(item))}: ${Number(descriptor[item])}px)`)
+    if (item !== 'orientation' && descriptor[item] && Number(descriptor[item]) >= 0) {
+      mediaQueryArr.push(`(${toKebabCase(item)}: ${Number(descriptor[item])}px)`)
     }
     if (item === 'orientation' && descriptor[item]) {
       mediaQueryArr.push(`(${toKebabCase(item)}: ${descriptor[item]})`)
@@ -20,13 +15,15 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
   return mediaQueryArr.join(' and ')
 }
 
-
 export class MediaQueryObserver implements Taro.MediaQueryObserver {
   private _mediaQueryObserver: MediaQueryList
   private _listener: (ev: MediaQueryListEvent) => void
 
   // 监听页面媒体查询变化情况
-  public observe (descriptor: Taro.MediaQueryObserver.descriptor, callback: Taro.MediaQueryObserver.observeCallback): void {
+  public observe (
+    descriptor: Taro.MediaQueryObserver.descriptor,
+    callback: Taro.MediaQueryObserver.observeCallback
+  ): void {
     if (isFunction(callback)) {
       // 创建媒体查询对象
       this._mediaQueryObserver = window.matchMedia(generateMediaQueryStr(descriptor))
@@ -57,5 +54,4 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
       }
     }
   }
-
 }

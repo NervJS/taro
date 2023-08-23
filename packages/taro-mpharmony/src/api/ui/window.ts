@@ -8,7 +8,7 @@ const callbackManager = new CallbackManager()
 const resizeListener = () => {
   callbackManager.trigger({
     windowWidth: window.screen.width,
-    windowHeight: window.screen.height
+    windowHeight: window.screen.height,
   })
 }
 
@@ -20,7 +20,7 @@ export const setWindowSize = /* @__PURE__ */ temporarilyNotSupport('setWindowSiz
 /**
  * 监听窗口尺寸变化事件
  */
-export const onWindowResize: typeof Taro.onWindowResize = callback => {
+export const onWindowResize: typeof Taro.onWindowResize = (callback) => {
   callbackManager.add(callback)
   if (callbackManager.count() === 1) {
     window.addEventListener('resize', resizeListener)
@@ -30,7 +30,7 @@ export const onWindowResize: typeof Taro.onWindowResize = callback => {
 /**
  * 取消监听窗口尺寸变化事件
  */
-export const offWindowResize: typeof Taro.offWindowResize = callback => {
+export const offWindowResize: typeof Taro.offWindowResize = (callback) => {
   callbackManager.remove(callback)
   if (callbackManager.count() === 0) {
     window.removeEventListener('resize', resizeListener)

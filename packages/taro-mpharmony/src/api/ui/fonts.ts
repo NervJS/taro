@@ -3,7 +3,7 @@ import Taro from '@tarojs/api'
 import { MethodHandler } from '../../utils/handler'
 
 // 字体
-export const loadFontFace: typeof Taro.loadFontFace = async options => {
+export const loadFontFace: typeof Taro.loadFontFace = async (options) => {
   options = Object.assign({ global: false }, options)
   const { success, fail, complete, family, source, desc = {} } = options
   const handle = new MethodHandler({ name: 'loadFontFace', success, fail, complete })
@@ -18,22 +18,14 @@ export const loadFontFace: typeof Taro.loadFontFace = async options => {
       return handle.success({})
     } catch (error) {
       return handle.fail({
-        errMsg: error.message || error
+        errMsg: error.message || error,
       })
     }
   } else {
     const style = document.createElement('style')
-    let innerText = `font-family:"${
-      family
-    }";src:${
-      source
-    };font-style:${
-      desc.style || 'normal'
-    };font-weight:${
+    let innerText = `font-family:"${family}";src:${source};font-style:${desc.style || 'normal'};font-weight:${
       desc.weight || 'normal'
-    };font-variant:${
-      desc.variant || 'normal'
-    };`
+    };font-variant:${desc.variant || 'normal'};`
 
     if (desc.ascentOverride) {
       innerText += `ascent-override:${desc.ascentOverride};`

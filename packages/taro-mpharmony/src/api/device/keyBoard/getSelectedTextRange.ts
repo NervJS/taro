@@ -12,11 +12,7 @@ export const getSelectedTextRange: typeof Taro.getSelectedTextRange = (options) 
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      success,
-      fail,
-      complete
-    } = options as Exclude<typeof options, undefined>
+    const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
     // @ts-ignore
@@ -26,7 +22,7 @@ export const getSelectedTextRange: typeof Taro.getSelectedTextRange = (options) 
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

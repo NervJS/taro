@@ -12,13 +12,7 @@ export const saveFile: typeof Taro.saveFile = (options) => {
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    tempFilePath,
-    filePath,
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { tempFilePath, filePath, success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler<{
     savedFilePath?: string
@@ -31,8 +25,8 @@ export const saveFile: typeof Taro.saveFile = (options) => {
       errMsg: getParameterError({
         para: 'tempFilePath',
         correct: 'string',
-        wrong: tempFilePath
-      })
+        wrong: tempFilePath,
+      }),
     })
   }
 
@@ -44,16 +38,16 @@ export const saveFile: typeof Taro.saveFile = (options) => {
       success: (res: any) => {
         const result: Taro.saveFile.SuccessCallbackResult = {
           savedFilePath: res.savedFilePath,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         const errRet: Taro.saveFile.FailCallbackResult = {
-          errMsg: err.errMsg
+          errMsg: err.errMsg,
         }
         handle.fail(errRet, { resolve, reject })
-      }
+      },
     })
   })
 }

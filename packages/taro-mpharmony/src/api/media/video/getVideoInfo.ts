@@ -27,13 +27,16 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
 
     // options.url must be String
     if (typeof src !== 'string') {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'src',
-          correct: 'string',
-          wrong: src
-        })
-      }, { resolve, reject })
+      return handle.fail(
+        {
+          errMsg: getParameterError({
+            para: 'src',
+            correct: 'string',
+            wrong: src,
+          }),
+        },
+        { resolve, reject }
+      )
     }
     // @ts-ignore
     const ret = native.getVideoInfo({
@@ -43,7 +46,7 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
       },
       fail: (err: any) => {
         return handle.fail(err)
-      }
+      },
     })
     return ret
   })

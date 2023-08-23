@@ -2,7 +2,17 @@ import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 
-import { getApp, getCurrentInstance, getCurrentPages, navigateBack, navigateTo, nextTick, redirectTo, reLaunch, switchTab } from '../api'
+import {
+  getApp,
+  getCurrentInstance,
+  getCurrentPages,
+  navigateBack,
+  navigateTo,
+  nextTick,
+  redirectTo,
+  reLaunch,
+  switchTab,
+} from '../api'
 import { permanentlyNotSupport } from '../utils'
 
 const {
@@ -16,7 +26,7 @@ const {
   options,
   eventCenter,
   Events,
-  preload
+  preload,
 } = Taro as any
 
 const taro: typeof Taro = {
@@ -40,7 +50,7 @@ const taro: typeof Taro = {
   reLaunch,
   redirectTo,
   getCurrentPages,
-  switchTab
+  switchTab,
 }
 
 const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')
@@ -55,11 +65,11 @@ const initPxTransform = function ({
   deviceRatio = {
     640: 2.34 / 2,
     750: 1,
-    828: 1.81 / 2
+    828: 1.81 / 2,
   } as TaroGeneral.TDeviceRatio,
   baseFontSize = 20,
   unitPrecision = 5,
-  targetUnit = 'rem'
+  targetUnit = 'rem',
 }) {
   const config = getConfig.call(this)
   config.designWidth = designWidth
@@ -72,9 +82,8 @@ const initPxTransform = function ({
 const pxTransform = function (size = 0) {
   const config = getConfig.call(this)
   const baseFontSize = config.baseFontSize || 20
-  const designWidth = (((input = 0) => isFunction(config.designWidth)
-    ? config.designWidth(input)
-    : config.designWidth))(size)
+  const designWidth = ((input = 0) =>
+    isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth)(size)
   if (!(designWidth in config.deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
@@ -138,5 +147,5 @@ export {
   options,
   preload,
   pxTransform,
-  requirePlugin
+  requirePlugin,
 }

@@ -15,11 +15,7 @@ export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (opt
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options as Exclude<typeof options, undefined>
+  const { success, fail, complete } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
 
@@ -31,7 +27,7 @@ export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (opt
       },
       fail: (err: any) => {
         return handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }
@@ -53,8 +49,8 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
       left: 0,
       right: 0,
       top: 0,
-      width: 0
-    }
+      width: 0,
+    },
   }
   return res
 }
@@ -67,7 +63,7 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
     bluetoothEnabled: info.bluetoothEnabled,
     locationEnabled: info.locationEnabled,
     wifiEnabled: info.wifiEnabled,
-    deviceOrientation: info.deviceOrientation
+    deviceOrientation: info.deviceOrientation,
   }
   return res
 }
@@ -78,7 +74,7 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
   const info = JSON.parse(JSON.stringify(native.getDeviceInfo()))
   return {
     ...info,
-    platform: 'harmony'
+    platform: 'harmony',
   }
 }
 
@@ -90,7 +86,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
     appId: info.appId,
     appName: info.appName,
     version: info.appVersion,
-    language: info.appLanguage
+    language: info.appLanguage,
   }
   return res
 }
@@ -116,7 +112,7 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
     ...systemSetting,
     ...deviceInfo,
     ...appBaseInfo,
-    ...appAuthorizeSetting
+    ...appAuthorizeSetting,
   }
 }
 
@@ -129,7 +125,7 @@ export const getSystemInfoAsync: typeof Taro.getSystemInfoAsync = async (options
     return handle.success(info)
   } catch (error) {
     return handle.fail({
-      errMsg: error
+      errMsg: error,
     })
   }
 }
@@ -143,7 +139,7 @@ export const getSystemInfo: typeof Taro.getSystemInfo = async (options = {}) => 
     return handle.success(info)
   } catch (error) {
     return handle.fail({
-      errMsg: error
+      errMsg: error,
     })
   }
 }

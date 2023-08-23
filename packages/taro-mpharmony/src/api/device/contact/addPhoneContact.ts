@@ -48,7 +48,7 @@ export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
     homeAddressPostalCode,
     success,
     fail,
-    complete
+    complete,
   } = options as Exclude<typeof options, undefined>
 
   const handle = new MethodHandler({ name, success, fail, complete })
@@ -93,7 +93,7 @@ export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -30,7 +30,10 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     this.isHandlerError = isFunction(this.__complete) || isFunction(this.__fail)
   }
 
-  success<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, promise: IMockPromise = {}): Promise<T & U & TaroGeneral.CallbackResult> {
+  success<U = Record<string, unknown>> (
+    res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {},
+    promise: IMockPromise = {}
+  ): Promise<T & U & TaroGeneral.CallbackResult> {
     if (!res.errMsg) {
       res.errMsg = `${this.methodName}:ok`
     }
@@ -41,7 +44,10 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     return resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
   }
 
-  fail<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, promise: IMockPromise = {}): Promise<T & U & TaroGeneral.CallbackResult> {
+  fail<U = Record<string, unknown>> (
+    res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {},
+    promise: IMockPromise = {}
+  ): Promise<T & U & TaroGeneral.CallbackResult> {
     if (!res.errMsg) {
       res.errMsg = `${this.methodName}:fail`
     } else {
@@ -50,13 +56,8 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     isFunction(this.__fail) && this.__fail(res)
     isFunction(this.__complete) && this.__complete(res)
 
-    const {
-      resolve = Promise.resolve.bind(Promise),
-      reject = Promise.reject.bind(Promise)
-    } = promise
-    return this.isHandlerError
-      ? resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
-      : reject(res)
+    const { resolve = Promise.resolve.bind(Promise), reject = Promise.reject.bind(Promise) } = promise
+    return this.isHandlerError ? resolve(res as Required<T & U & TaroGeneral.CallbackResult>) : reject(res)
   }
 }
 
@@ -66,7 +67,7 @@ interface ICallbackManagerOption<T extends unknown[] = unknown[]> {
   ctx?: any
   [key: string]: unknown
 }
-type TCallbackManagerUnit<T extends unknown[] = unknown[]> = (TCallbackManagerFunc<T> | ICallbackManagerOption<T>)
+type TCallbackManagerUnit<T extends unknown[] = unknown[]> = TCallbackManagerFunc<T> | ICallbackManagerOption<T>
 
 export class CallbackManager<T extends unknown[] = unknown[]> {
   callbacks: TCallbackManagerUnit<T>[] = []
@@ -103,7 +104,7 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
 
   /** 触发回调 */
   trigger = (...args: T) => {
-    this.callbacks.forEach(opt => {
+    this.callbacks.forEach((opt) => {
       if (isFunction(opt)) {
         opt(...args)
       } else {

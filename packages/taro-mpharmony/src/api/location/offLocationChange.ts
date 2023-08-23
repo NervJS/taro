@@ -30,7 +30,7 @@ export const offLocationChange: typeof Taro.offLocationChange = (callback) => {
     }
     const result: TaroGeneral.CallbackResult = {
       /** 错误信息 */
-      errMsg: JSON.stringify(cbResult)
+      errMsg: JSON.stringify(cbResult),
     }
     callback(result)
   })
