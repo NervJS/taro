@@ -2,7 +2,7 @@ import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import { type Input } from 'postcss'
 import type { Compiler } from '../compiler'
-import type { IModifyWebpackChain } from '../hooks'
+import type { IModifyChainData } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
 import type { IH5Config } from './h5'
 import type { IMiniAppConfig } from './mini'
@@ -179,7 +179,7 @@ export interface IProjectBaseConfig {
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail#miniwebpackchain)
    */
-  modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyWebpackChain) => Promise<any>
+  modifyWebpackChain?: (chain: Chain, webpack: typeof Webpack, data: IModifyChainData) => Promise<any>
 
   /**
    * 修改编译过程中的页面组件配置

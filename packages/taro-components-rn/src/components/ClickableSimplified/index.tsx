@@ -48,8 +48,8 @@ export default function <P extends Record<string, any>>(WrappedComponent: React.
 
     $ref = React.createRef<any>()
     startTimestamp = 0
-    startTimer: any
-    stayTimer: any
+    startTimer: ReturnType<typeof setTimeout>
+    stayTimer: ReturnType<typeof setTimeout>
 
     panResponder: any = PanResponder.create({
       onStartShouldSetPanResponder: () => {

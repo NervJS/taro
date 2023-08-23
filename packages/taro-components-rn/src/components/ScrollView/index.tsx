@@ -78,7 +78,7 @@ class _ScrollView extends React.Component<ScrollViewProps<any>, ScrollViewState>
   _scrollEventThrottle = 50
   _hasCallScrollToUpperInRange = true
   _hasCallScrollToLowerInRange = false
-  _initialScrollIndexTimeout: any
+  _initialScrollIndexTimeout: ReturnType<typeof setTimeout>
 
   _selectLength = (metrics: { height: number; width: number }): number => {
     return !this.props.scrollX ? metrics.height : metrics.width
