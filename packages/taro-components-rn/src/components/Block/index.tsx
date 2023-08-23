@@ -3,7 +3,7 @@ import { _ViewProps } from '../View/PropsType'
 
 // _Block.displayName = '_Block'
 
-const _Block: React.FC<_ViewProps> = (props: _ViewProps) => {
+const _Block: React.FC<_ViewProps> = (props) => {
   return (
     <>
       {props.children}

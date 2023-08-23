@@ -12,7 +12,7 @@ interface ExtPromise<T> extends Promise<T> {
   abort?: Func
 }
 
-let timer: any
+let timer: ReturnType<typeof setTimeout>
 
 const _fetch = (requestPromise, timeout) => {
   let timeoutAction

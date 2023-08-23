@@ -8,6 +8,6 @@ export interface IComponentConfig {
   includeAll: boolean
 }
 
-export interface IModifyWebpackChain {
+export interface IModifyChainData {
   componentConfig?: IComponentConfig
 }
