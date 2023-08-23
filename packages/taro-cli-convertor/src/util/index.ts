@@ -60,14 +60,43 @@ function getRelativePath (rootPath: string, sourceFilePath: string, oriPath: str
   return oriPath
 }
 
+export function copyFileToTaro (from: string, to: string, options?: fs.CopyOptionsSync) {
+  const filename = path.basename(from)
+  if (fs.statSync(from).isFile() && !path.extname(to)) {
+    fs.ensureDir(to)
+    return fs.copySync(from, path.join(to, filename), options)
+  }
+  fs.ensureDir(path.dirname(to))
+  return fs.copySync(from, to, options)
+}
+
 export function analyzeImportUrl (
   rootPath: string,
   sourceFilePath: string,
   scriptFiles: Set<string>,
   source: t.StringLiteral,
   value: string,
+  external: string[],
+  miniprogramRoot: string,
+  convertDir: string,
   isTsProject?: boolean
 ) {
+  let valueAbs: string = path.resolve(sourceFilePath, '..', value)
+  // 正则匹配需要正斜杠,win32默认反斜杠，先转posix
+  valueAbs = valueAbs.split(path.sep).join(path.posix.sep)
+  if (external) {
+    for (let iExternal of external) {
+      iExternal = iExternal.split(path.sep).join(path.posix.sep)
+      const reg = new RegExp(iExternal)
+      if (reg.test(valueAbs)) {
+        // 分隔符改回win32 再操作路径
+        valueAbs = valueAbs.split(path.posix.sep).join(path.sep)
+        const outputFilePath = valueAbs.replace(isTsProject ? miniprogramRoot : rootPath, convertDir)
+        copyFileToTaro(valueAbs, outputFilePath)
+        return
+      }
+    }
+  }
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
