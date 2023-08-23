@@ -24,7 +24,7 @@ import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
-import { analyzeImportUrl, getPkgVersion, incrementId } from './util'
+import { analyzeImportUrl, copyFileToTaro,getPkgVersion, incrementId } from './util'
 import { generateMinimalEscapeCode } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
@@ -128,6 +128,7 @@ export default class Convertor {
   framework: 'react' | 'vue'
   isTsProject: boolean
   miniprogramRoot: string
+  external: string[]
 
   constructor (root, isTsProject) {
     this.root = root
@@ -155,6 +156,7 @@ export default class Convertor {
   init () {
     console.log(chalk.green('开始代码转换...'))
     this.initConvert()
+    this.getConvertConfig()
     this.getApp()
     this.getPages()
     this.getSitemapLocation()
@@ -260,7 +262,17 @@ export default class Convertor {
               const node = astPath.node
               const source = node.source
               const value = source.value
-              analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
+              analyzeImportUrl(
+                self.root,
+                sourceFilePath,
+                scriptFiles,
+                source,
+                value,
+                self.external,
+                self.miniprogramRoot,
+                self.convertDir,
+                self.isTsProject
+              )
             },
             CallExpression (astPath) {
               const node = astPath.node
@@ -270,7 +282,17 @@ export default class Convertor {
                 if (callee.name === 'require') {
                   const args = node.arguments as Array<t.StringLiteral>
                   const value = args[0].value
-                  analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value)
+                  analyzeImportUrl(
+                    self.root,
+                    sourceFilePath,
+                    scriptFiles,
+                    args[0],
+                    value,
+                    self.external,
+                    self.miniprogramRoot,
+                    self.convertDir,
+                    self.isTsProject
+                  )
                 } else if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
                   needInsertImportTaro = true
@@ -311,7 +333,7 @@ export default class Convertor {
                 const imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
                 const outputImagePath = self.getDistFilePath(sourceImagePath)
                 if (fs.existsSync(sourceImagePath)) {
-                  self.copyFileToTaro(sourceImagePath, outputImagePath)
+                  copyFileToTaro(sourceImagePath, outputImagePath)
                   printLog(processTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
                 } else if (!t.isBinaryExpression(astPath.parent) || astPath.parent.operator !== '+') {
                   printLog(processTypeEnum.ERROR, '图片不存在', self.generateShowPath(sourceImagePath))
@@ -360,7 +382,7 @@ export default class Convertor {
               })
             }
             if (depComponents && depComponents.size) {
-              depComponents.forEach(componentObj => {
+              depComponents.forEach((componentObj) => {
                 const name = pascalCase(componentObj.name)
                 let componentPath = componentObj.path
                 if (componentPath.indexOf(self.root) !== -1) {
@@ -382,6 +404,31 @@ export default class Convertor {
     return {
       ast,
       scriptFiles,
+    }
+  }
+
+  getConvertConfig () {
+    // 处理convert.config.json,转为绝对路径后存到external里
+    let convertJsonPath: string
+    if (this.isTsProject) {
+      convertJsonPath = path.join(this.miniprogramRoot, `convert.config${this.fileTypes.CONFIG}`)
+    } else {
+      convertJsonPath = path.join(this.root, `convert.config${this.fileTypes.CONFIG}`)
+    }
+    if (fs.existsSync(convertJsonPath)) {
+      try {
+        const convertJson = JSON.parse(String(fs.readFileSync(convertJsonPath)))
+        const externalJson = convertJson.external
+        const absolutePath: string[] = []
+        for (const iRpath of externalJson) {
+          // 相对路径转为绝对路径
+          absolutePath.push(path.resolve(convertJsonPath, '..', iRpath))
+        }
+        this.external = absolutePath
+      } catch (err) {
+        console.log(chalk.red(`convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`))
+        process.exit(1)
+      }
     }
   }
 
@@ -459,7 +506,7 @@ export default class Convertor {
       const sitemapFilePath = path.join(this.root, sitemapLocation)
       if (fs.existsSync(sitemapFilePath)) {
         const outputFilePath = path.join(this.convertRoot, sitemapLocation)
-        this.copyFileToTaro(sitemapFilePath, outputFilePath)
+        copyFileToTaro(sitemapFilePath, outputFilePath)
       }
     }
   }
@@ -510,16 +557,6 @@ export default class Convertor {
   writeFileToTaro (dist: string, code: string) {
     fs.ensureDirSync(path.dirname(dist))
     fs.writeFileSync(dist, code)
-  }
-
-  copyFileToTaro (from: string, to: string, options?: fs.CopyOptionsSync) {
-    const filename = path.basename(from)
-    if (fs.statSync(from).isFile() && !path.extname(to)) {
-      fs.ensureDir(to)
-      return fs.copySync(from, path.join(to, filename), options)
-    }
-    fs.ensureDir(path.dirname(to))
-    return fs.copySync(from, to, options)
   }
 
   // 自定义组件，如果组件文件命名为index，引入时可省略index这一层，解析时需加上
@@ -620,7 +657,7 @@ ${code}
           .map((icon) => path.join(this.root, icon))
           .forEach((iconPath) => {
             const iconDistPath = this.getDistFilePath(iconPath)
-            this.copyFileToTaro(iconPath, iconDistPath)
+            copyFileToTaro(iconPath, iconDistPath)
             printLog(processTypeEnum.COPY, 'TabBar 图标', this.generateShowPath(iconDistPath))
           })
       }
@@ -633,7 +670,7 @@ ${code}
     const customTabbarPath = path.join(this.root, 'custom-tab-bar')
     if (fs.existsSync(customTabbarPath)) {
       const customTabbarDistPath = this.getDistFilePath(customTabbarPath)
-      this.copyFileToTaro(customTabbarPath, customTabbarDistPath)
+      copyFileToTaro(customTabbarPath, customTabbarDistPath)
       printLog(processTypeEnum.COPY, '自定义 TabBar', this.generateShowPath(customTabbarDistPath))
     }
   }
@@ -680,7 +717,7 @@ ${code}
     const moduleConvertPath = path.resolve(this.convertRoot, 'node_modules', parts[0])
     if (!fs.existsSync(moduleConvertPath)) {
       const moduleRootPath = path.resolve(this.root, 'node_modules', parts[0])
-      this.copyFileToTaro(moduleRootPath, moduleConvertPath)
+      copyFileToTaro(moduleRootPath, moduleConvertPath)
     }
   }
 
