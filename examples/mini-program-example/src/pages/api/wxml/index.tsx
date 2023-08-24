@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Button, Canvas, ScrollView, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -9,129 +10,338 @@ import './index.scss'
  * @returns
  */
 
-export default class Index extends React.Component {
+class Welcome extends React.Component {
+  handleClickWelcome() {
+    TestConsole.consoleTest('SelectorQuery.in')
+    console.log("Taro.createSelectorQuery().in(this)->select('#welcome').boundingClientRect(callback).exec()")
+
+    Taro.createSelectorQuery()
+      .in(process.env.TARO_ENV === 'weapp' ? Taro.getCurrentInstance().page! : this)
+      .select('#welcome')
+      .boundingClientRect((res) => {
+        console.log('callback boundingClientRect:', res)
+      })
+      .exec()
+  }
+  render() {
+    return (
+      <Button id='welcome' className='test-style' onClick={this.handleClickWelcome}>
+        自定义组件id: #welcome
+      </Button>
+    )
+  }
+}
+
+class SelectorQueryTest extends React.Component {
   state = {
     list: [
       {
         id: 'createSelectorQuery',
-        func: (apiIndex) => {
-          console.log('createSelectorQuery success ', Taro.createSelectorQuery())
+        func: () => {
+          TestConsole.consoleTest('Taro.createSelectorQuery')
+          const query = Taro.createSelectorQuery()
+          console.log('Taro.createSelectorQuery:', query)
         },
       },
       {
-        id: 'NodesRef',
+        id: 'SelectorQuery.select',
+        func: () => {
+          TestConsole.consoleTest('SelectorQuery.select')
+          console.log("Taro.createSelectorQuery()->select('#welcome')")
+          const query = Taro.createSelectorQuery().select('#welcome')
+          console.log('SelectorQuery.select:', query)
+        },
+      },
+      {
+        id: 'SelectorQuery.selectAll',
+        func: () => {
+          TestConsole.consoleTest('NodesRef.selectAll')
+          console.log("Taro.createSelectorQuery()->.selectAll('.test-view')")
+          const query = Taro.createSelectorQuery().selectAll('.test-view')
+          console.log('SelectorQuery.selectAll:', query)
+        },
+      },
+      {
+        id: 'SelectorQuery.selectViewport',
+        func: () => {
+          TestConsole.consoleTest('SelectorQuery.selectViewport')
+          console.log('Taro.createSelectorQuery()->.selectViewport()')
+          const query = Taro.createSelectorQuery().selectViewport()
+          console.log('SelectorQuery.selectViewport:', query)
+        },
+      },
+      {
+        id: 'NodesRef.boundingClientRect',
         func: (apiIndex) => {
+          TestConsole.consoleTest('NodesRef.boundingClientRect')
+          console.log("Taro.createSelectorQuery()->select('#welcome').boundingClientRect(callback).exec()")
           Taro.createSelectorQuery()
-            .select('#the-id')
-            .boundingClientRect(function (rect) {
-              // rect.id      // 节点的ID
-              // rect.dataset // 节点的dataset
-              // rect.left    // 节点的左边界坐标
-              // rect.right   // 节点的右边界坐标
-              // rect.top     // 节点的上边界坐标
-              // rect.bottom  // 节点的下边界坐标
-              // rect.width   // 节点的宽度
-              // rect.height  // 节点的高度
-              console.log('boundingClientRect ', rect)
+            .select('#welcome')
+            .boundingClientRect((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.boundingClientRect', apiIndex)
             })
-            .exec()
-          Taro.createSelectorQuery()
-            .select('.the-video-class')
-            .context(function (res) {
-              console.log('context ', res.context) // 节点对应的 Context 对象。如：选中的节点是 <video> 组件，那么此处即返回 VideoContext 对象
-            })
-            .exec()
-          Taro.createSelectorQuery()
-            .select('#the-id')
-            .fields(
-              {
-                dataset: true,
-                size: true,
-                scrollOffset: true,
-                properties: ['scrollX', 'scrollY'],
-                computedStyle: ['margin', 'backgroundColor'],
-                context: true,
-              },
-              function (res) {
-                res.dataset // 节点的dataset
-                res.width // 节点的宽度
-                res.height // 节点的高度
-                res.scrollLeft // 节点的水平滚动位置
-                res.scrollTop // 节点的竖直滚动位置
-                res.scrollX // 节点 scroll-x 属性的当前值
-                res.scrollY // 节点 scroll-y 属性的当前值
-                // 此处返回指定要返回的样式名
-                res.margin
-                res.backgroundColor
-                res.context // 节点对应的 Context 对象
-                console.log('fields ', res)
-                Taro.createSelectorQuery()
-                  .select('.canvas')
-                  .node(function (res) {
-                    console.log('node', res.node) // 节点对应的 Canvas 实例。
-                  })
-                  .exec()
-                Taro.createSelectorQuery()
-                  .selectViewport()
-                  .scrollOffset(function (res) {
-                    res.id // 节点的ID
-                    res.dataset // 节点的dataset
-                    res.scrollLeft // 节点的水平滚动位置
-                    res.scrollTop // 节点的竖直滚动位置
-                    console.log('scrollOffset ', res)
-                  })
-                  .exec()
-              }
-            )
             .exec()
         },
       },
       {
-        id: 'SelectorQuery',
+        id: 'NodesRef.context',
         func: (apiIndex) => {
-          const query = Taro.createSelectorQuery().in(this)
-          console.log('SelectorQuery in ', query)
-
+          TestConsole.consoleTest('NodesRef.context')
+          console.log("Taro.createSelectorQuery()->select('#mycanvas').context(callback).exec()")
           Taro.createSelectorQuery()
-            .select('#the-id')
-            .fields(
-              {
-                dataset: true,
-                size: true,
-                scrollOffset: true,
-                properties: ['scrollX', 'scrollY'],
-              },
-              function (res) {
-                res.dataset // 节点的dataset
-                res.width // 节点的宽度
-                res.height // 节点的高度
-                res.scrollLeft // 节点的水平滚动位置
-                res.scrollTop // 节点的竖直滚动位置
-                res.scrollX // 节点 scroll-x 属性的当前值
-                res.scrollY // 节点 scroll-x 属性的当前值
-                console.log('SelectorQuery select ', res)
-              }
-            )
+            .select('#mycanvas')
+            .context((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.context', apiIndex)
+            })
             .exec()
+        },
+      },
+      {
+        id: 'NodesRef.fields',
+        inputData: {
+          id: true,
+          dataset: true,
+          rect: true,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('NodesRef.fields')
+          console.log("Taro.createSelectorQuery()->select('#button0').fields(data, callback).exec()")
+          Taro.createSelectorQuery()
+            .select('#button0')
+            .fields(data, (res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
+            })
+            .exec()
+        },
+      },
+      {
+        id: 'NodesRef.scrollOffset',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('NodesRef.scrollOffset')
+          console.log('Taro.createSelectorQuery()->selectViewport()).scrollOffset(callback).exec()')
           Taro.createSelectorQuery()
             .selectViewport()
-            .scrollOffset(function (res) {
-              res.id // 节点的ID
-              res.dataset // 节点的dataset
-              res.scrollLeft // 节点的水平滚动位置
-              res.scrollTop // 节点的竖直滚动位置
-              console.log('SelectorQuery selectViewport ', res)
+            .scrollOffset((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.scrollOffset', apiIndex)
+            })
+            .exec()
+        },
+      },
+      {
+        id: 'SelectorQuery.node',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('NodesRef.node')
+          console.log("Taro.createSelectorQuery()->select('#mycanvas')).node(callback).exec()")
+          Taro.createSelectorQuery()
+            .select('#mycanvas')
+            .node((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.node', apiIndex)
             })
             .exec()
         },
       },
     ],
   }
+
   render() {
     const { list } = this.state
     return (
-      <View className='api-page'>
-        <ButtonList buttonList={list} />
+      <>
+        <View style={{ fontSize: '30px', textAlign: 'center' }}>SelectorQuery测试</View>
+        <Button id='button0' className='test-view'>
+          id: #button0, class: test-view
+        </Button>
+        <Button id='button1' className='test-view'>
+          id: #button1, class: test-view
+        </Button>
+        <Canvas id='mycanvas' type='2d' canvasId='canvas2D'>
+          <View>id: #mycanvas</View>
+        </Canvas>
+        <Welcome />
+        <View className='api-page'>
+          <ButtonList buttonList={list} />
+        </View>
+      </>
+    )
+  }
+}
+
+class IntersectionObserverTest extends React.Component {
+  state = {
+    list: [
+      {
+        id: 'createIntersectionObserver',
+        inputData: {
+          initialRatio: 0,
+          observeAll: true,
+          thresholds: [],
+        },
+        func: () => {
+          TestConsole.consoleTest('Taro.createIntersectionObserver')
+          if (this.observer) {
+            this.observer.disconnect()
+            this.observer = undefined
+          }
+          this.observer = this.createIntersectionObserver()
+          console.log('Taro.createIntersectionObserver', this.observer)
+        },
+      },
+      {
+        id: 'relativeTo',
+        inputData: {
+          left: 0,
+        },
+        func: (_, data) => {
+          TestConsole.consoleTest('IntersectionObserver.relativeTo')
+          if (this.observer) {
+            this.observer.disconnect()
+          }
+          this.observer = this.createIntersectionObserver()
+          this.observer.relativeTo('.scroll-view', data).observe('.ball', (res) => {
+            console.log('IntersectionObserver.observe:', res)
+            this.setState({
+              appear: res.intersectionRatio > 0,
+            })
+          })
+        },
+      },
+      {
+        id: 'relativeToViewport',
+        inputData: {
+          left: 0,
+        },
+        func: (_, data) => {
+          TestConsole.consoleTest('IntersectionObserver.relativeTo')
+          if (this.observer) {
+            this.observer.disconnect()
+          }
+          this.observer = this.createIntersectionObserver()
+          this.observer.relativeToViewport(data).observe('.ball', (res) => {
+            console.log('IntersectionObserver.observe:', res)
+            this.setState({
+              appear: res.intersectionRatio > 0,
+            })
+          })
+        },
+      },
+      {
+        id: 'disconnect',
+        func: () => {
+          TestConsole.consoleTest('IntersectionObserver.disconnect')
+          if (this.observer) {
+            this.observer.disconnect()
+            this.observer = undefined
+          }
+          console.log('IntersectionObserver已断开')
+        },
+      },
+    ],
+    appear: false,
+  }
+  observer?: Taro.IntersectionObserver
+
+  createIntersectionObserver() {
+    if (process.env.TARO_ENV === 'weapp') {
+      return Taro.getCurrentInstance().page!.createIntersectionObserver!()
+    } else {
+      return Taro.createIntersectionObserver(this)
+    }
+  }
+
+  render() {
+    const { list, appear } = this.state
+    return (
+      <View>
+        <View style={{ fontSize: '30px', textAlign: 'center' }}>IntersectionObserver测试</View>
+        <ScrollView className='scroll-view' scrollY>
+          <View className='scroll-area' style={{ background: appear ? '#0f0' : '' }}>
+            <Text className='notice'>先创建IntersectionObserver再滚动</Text>
+            <View className='filling'></View>
+            <View className='ball'></View>
+          </View>
+        </ScrollView>
+        <View className='api-page'>
+          <ButtonList buttonList={list} />
+        </View>
+      </View>
+    )
+  }
+}
+
+class MediaObserverTest extends React.Component {
+  state = {
+    list: [
+      {
+        id: 'createMediaQueryObserver',
+        func: () => {
+          TestConsole.consoleTest('Taro.createMediaQueryObserver')
+          if (this.observer) {
+            this.observer.disconnect()
+            this.observer = undefined
+          }
+          this.observer = this.createMediaQueryObserver()
+          console.log(this.observer)
+        },
+      },
+      {
+        id: 'observe',
+        inputData: {
+          orientation: 'portrait',
+        },
+        func: (_, data) => {
+          TestConsole.consoleTest('MediaQueryObserver.observe')
+          if (this.observer) {
+            this.observer.disconnect()
+          }
+          this.observer = this.createMediaQueryObserver()
+          this.observer.observe(data, (res) => {
+            console.log('MediaQueryObserver.observe:', res)
+          })
+        },
+      },
+      {
+        id: 'disconnect',
+        func: () => {
+          TestConsole.consoleTest('MediaQueryObserver.disconnect')
+          if (this.observer) {
+            this.observer.disconnect()
+            this.observer = undefined
+          }
+          console.log('MediaQueryObserver已断开')
+        },
+      },
+    ],
+  }
+  observer?: Taro.MediaQueryObserver
+
+  createMediaQueryObserver() {
+    if (process.env.TARO_ENV === 'weapp') {
+      return Taro.getCurrentInstance().page!.createMediaQueryObserver!()
+    } else {
+      return Taro.createMediaQueryObserver()
+    }
+  }
+
+  render() {
+    const { list } = this.state
+    return (
+      <View>
+        <View style={{ fontSize: '30px', textAlign: 'center' }}>MediaQueryObserver测试</View>
+        <View className='api-page'>
+          <ButtonList buttonList={list} />
+        </View>
+      </View>
+    )
+  }
+}
+
+export default class Index extends React.Component {
+  render() {
+    return (
+      <View>
+        <SelectorQueryTest />
+        <IntersectionObserverTest />
+        <MediaObserverTest />
       </View>
     )
   }
