@@ -350,7 +350,8 @@ export function request (options) {
   let requestTask
   const p: any = new Promise((resolve, reject) => {
     options.success = res => {
-      res.statusCode = res.status
+      // 旧版返回的状态码是字符串数字
+      res.statusCode = Number(res.status)
       delete res.status
       res.header = res.headers
       delete res.headers
@@ -358,6 +359,25 @@ export function request (options) {
       resolve(res)
     }
     options.fail = res => {
+      /**
+        抹平阿里系小程序和微信小程序对于 success fail 的差异 https://github.com/NervJS/taro/pull/14366
+        {
+          data: "{\"code\": 401,\"msg\":\"登录过期，请重新登录\"}"
+          error: 19
+          errorMessage: "http status error"
+          headers: {}
+          originalData: "{\"code\": 401,\"msg\":\"登录过期，请重新登录\"}"
+          status: 401
+        }
+      */
+      // 统一行为规范，能正常响应的，都算 success.
+      if (res.status) {
+        delete res.originalData
+        delete res.error
+        delete res.errorMessage
+        options.success(res)
+        return
+      }
       originFail && originFail(res)
       reject(res)
     }
