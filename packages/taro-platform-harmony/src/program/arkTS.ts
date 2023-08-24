@@ -122,7 +122,7 @@ export default class Harmony extends TaroPlatformHarmony {
             : `./${relativePath}`
         if (HARMONY_SCOPES.every(e => !e.test(p1))) {
           if (this.indexOfLibraries(p1) === -1) {
-            this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([\\/-])/g, '\\$1')}$`)])
+            this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
             this.moveLibraries(p1, targetPath, path.dirname(lib), true)
           }
           return src.replace(p1, relativePath)
@@ -162,7 +162,7 @@ export default class Harmony extends TaroPlatformHarmony {
     const that = this
     const { appPath } = that.ctx.paths
     const { config } = that.ctx.runOpts
-    const { outputRoot, sourceRoot } = config
+    const { outputRoot } = config
 
     that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function externalPlugin() {
@@ -175,27 +175,11 @@ export default class Harmony extends TaroPlatformHarmony {
               return this.resolve('@tarojs/runtime', importer, options)
             }
 
-            const targetRoot = path.resolve(appPath, sourceRoot)
-            const targetDir = path.resolve(targetRoot, NODE_MODULES)
-            const isInvalidFirst = /^[^a-z@/\\]/i.test(importer)
-            const realImporter = importer.slice(isInvalidFirst ? 1 : 0)
-            const importerPath = path.dirname(realImporter)
             // Note: 映射 Taro 相关依赖到注入 taro 目录
             if (that.indexOfLibraries(source) > -1) {
-              const targetPath = path.join(targetDir, source)
-              let relativePath = path.relative(importerPath, targetPath)
-              relativePath = /^\.{1,2}[\\/]/.test(relativePath)
-                ? relativePath
-                : /^\.{1,2}$/.test(relativePath)
-                  ? `${relativePath}/`
-                  : `./${relativePath}`
-              if (source === realImporter) {
-                relativePath = path.join(outputRoot, path.relative(targetRoot, targetPath))
-              }
-
               return {
-                external: 'absolute',
-                id: relativePath,
+                external: 'resolve',
+                id: path.join(outputRoot, NODE_MODULES, source),
                 resolvedBy: name,
               }
             }
