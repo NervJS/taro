@@ -2,7 +2,7 @@ import { convertNumber2PX } from '@tarojs/runtime'
 import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
-  static getNodeStyle (style, name: string, defaultValue?) {
+  static getNodeStyle (style = {}, name: string, defaultValue?) {
     if (!style[name] && style[name] !== 0) return defaultValue // false?
 
     let value = style[name]
@@ -14,7 +14,7 @@ class AttributeManager {
     return value
   }
 
-  static  getNodeTextDecoration (style): { type: TextDecorationType; color?: ResourceColor } {
+  static getNodeTextDecoration (style): { type: TextDecorationType; color?: ResourceColor } {
     const value = AttributeManager.getNodeStyle(style, 'textDecoration', 'none')
     const type = value.split('-').map(item => capitalize(item)).join('')
 
@@ -24,12 +24,12 @@ class AttributeManager {
     }
   }
 
-  static getNodeHeight (style) {
+  static getNodeHeight (style = {}) {
     // TODO: 没有办法判断实际高度是否大于 minHeight
     return AttributeManager.getNodeStyle(style, 'minHeight') || AttributeManager.getNodeStyle(style, 'height')
   }
 
-  static getNodeLinearGradient (style) {
+  static getNodeLinearGradient (style = {}) {
     const str = style.backgroundImage || style.background
 
     if (!str || !str.includes("linear-gradient")) return
@@ -73,7 +73,7 @@ class AttributeManager {
     return gradient
   }
 
-  static getNodeBackGroundData (style, name: string) {
+  static getNodeBackGroundData (style = {}, name: string) {
     const background = style.background
     const singleItem = AttributeManager.getNodeStyle(style, name)
 
@@ -102,7 +102,7 @@ class AttributeManager {
         part === 'top' || part === 'bottom'
       const partHasSlash = part.indexOf('/') !== -1 && part.indexOf('url') === -1
 
-      if (part.charAt(0) === '#' ||  part.indexOf('rgb(') !== -1 || part.indexOf('hsl(') !== -1) {
+      if (part.charAt(0) === '#' || part.indexOf('rgb(') !== -1 || part.indexOf('hsl(') !== -1) {
         // 如果以 # 开头或包含 rgb/hsl，则说明是 background-color 属性
         result['backgroundColor'] = part
         return
@@ -141,7 +141,7 @@ class AttributeManager {
     return result[name]
   }
 
-  static getNodeMarginOrPaddingData (style, name: 'margin' | 'padding') {
+  static getNodeMarginOrPaddingData (style = {}, name: 'margin' | 'padding') {
     let res: any = {}
     const dataValue = AttributeManager.getNodeStyle(style, name)
 

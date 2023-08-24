@@ -2,7 +2,7 @@ import type { TaroElement } from '@tarojs/runtime'
 
 class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
-    const { _st } = node
+    const { _st = {} } = node
     const flexAttrs: FlexOptions = {
       direction: FlexManager.flexDirection(_st),
     }
@@ -60,7 +60,7 @@ class FlexManager {
     }
   }
 
-  static flexDirection (style: Record<string, string | number>): FlexDirection {
+  static flexDirection (style: Record<string, string | number> = {}): FlexDirection {
     const value = style.flexDirection
     switch (value) {
       case 'row':
@@ -74,33 +74,33 @@ class FlexManager {
     }
   }
 
-  static justifyContent (style: Record<string, string | number>): FlexAlign {
+  static justifyContent (style: Record<string, string | number> = {}): FlexAlign {
     const value = style.justifyContent
     return FlexManager.flexAlign(value)
   }
 
-  static alignItems (style: Record<string, string | number>): ItemAlign {
+  static alignItems (style: Record<string, string | number> = {}): ItemAlign {
     const value = style.alignItems
     return FlexManager.itemAlign(value)
   }
 
-  static alignSelf (style: Record<string, string | number>): ItemAlign | undefined {
+  static alignSelf (style: Record<string, string | number> = {}): ItemAlign | undefined {
     const value = style.alignSelf
     return FlexManager.itemAlign(value)
   }
 
-  static flexWrap (style: Record<string, string | number>): FlexWrap {
+  static flexWrap (style: Record<string, string | number> = {}): FlexWrap {
     const value = style.flexWrap
     return value === 'wrap' ? FlexWrap.Wrap : FlexWrap.NoWrap
   }
 
-  static alignContent (style: Record<string, string | number>): FlexAlign | undefined {
+  static alignContent (style: Record<string, string | number> = {}): FlexAlign | undefined {
     if (style.flexWrap !== 'wrap') return undefined
     const value = style.alignContent
     return FlexManager.flexAlign(value)
   }
 
-  static flexSize (style: Record<string, string | number>): [number, number, number | string] {
+  static flexSize (style: Record<string, string | number> = {}): [number, number, number | string] {
     const { flex, flexGrow = 0, flexShrink = 0, flexBasis = 'auto' } = style
     let res: [number, number, number | string] = [Number(flexGrow), Number(flexShrink), flexBasis]
 

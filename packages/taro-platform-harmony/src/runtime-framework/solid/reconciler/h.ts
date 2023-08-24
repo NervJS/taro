@@ -55,7 +55,7 @@ export function h(tagName: string, props?: any, children?: Children) {
 function setProps(ele: TaroNode, otherProps: Record<string, any> = {}) {
   const desc = { ...otherProps }
   const plain_keys = Object.keys(desc).filter((key) => {
-    if (desc[key].get) {
+    if (desc[key]?.get) {
       return false
     }
     return true
