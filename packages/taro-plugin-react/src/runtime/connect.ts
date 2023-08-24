@@ -11,11 +11,13 @@ import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, se
 
 import type { AppConfig } from '@tarojs/taro'
 import type * as React from 'react'
+import type * as TReactDOM from 'react-dom'
+import type * as TReactDOMClient from 'react-dom/client'
 
 type PageComponent = React.CElement<PageProps, React.Component<PageProps, any, any>>
 
 let h: typeof React.createElement
-let ReactDOM
+let ReactDOM: typeof TReactDOM & typeof TReactDOMClient
 let Fragment: typeof React.Fragment
 
 const pageKeyId = incrementId()

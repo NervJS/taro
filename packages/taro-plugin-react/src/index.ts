@@ -13,7 +13,7 @@ import type { PluginOption } from 'vite'
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
 export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
-  return ['react', 'preact', 'nerv'].includes(framework)
+  return ['react', 'preact', 'nerv', 'solid'].includes(framework)
 }
 
 export default (ctx: IPluginContext) => {

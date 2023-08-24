@@ -6,6 +6,12 @@ import { TaroPlatformHarmony } from './harmony'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
 
+const frameworkAlias = {
+  solid: 'solid',
+  vue: 'vue2',
+  vue3: 'vue3',
+}
+
 export default class Harmony extends TaroPlatformHarmony {
   platform = PLATFORM_NAME
   globalObject = 'globalThis'
@@ -30,6 +36,14 @@ export default class Harmony extends TaroPlatformHarmony {
     })
   }
 
+  get framework() {
+    return this.ctx.initialConfig.framework || 'react'
+  }
+
+  get aliasFramework(): string {
+    return frameworkAlias[this.framework] || 'react'
+  }
+
   get apiLibrary() {
     return path.resolve(__dirname, './apis')
   }
@@ -43,7 +57,7 @@ export default class Harmony extends TaroPlatformHarmony {
   }
 
   get runtimeFrameworkLibrary() {
-    return path.resolve(__dirname, './runtime-framework/react')
+    return path.resolve(__dirname, `./runtime-framework/${this.aliasFramework}`)
   }
 
   externalDeps: [string, RegExp, string?][] = [
@@ -75,21 +89,26 @@ export default class Harmony extends TaroPlatformHarmony {
       const libName = lib
       lib = resolveSync(lib, {
         basedir,
-        mainFields: [...defaultMainFields],
+        mainFields: ['unpkg', ...defaultMainFields],
       }) || ''
       // Note: 跳过 node 相关或未能找到的依赖
       if (!lib || /^[^/]/.test(lib)) {
         return this.removeFromLibraries(libName)
       }
-      const ext = path.extname(lib)
+      let ext = path.extname(lib)
       const basename = path.basename(lib, ext)
+      if (['.cjs', '.mjs'].includes(ext)) {
+        ext = '.js'
+      } else if (ext === '.mts') {
+        ext = '.ts'
+      }
       if (basename === 'index') {
         lib = path.dirname(lib)
         if (ext === '.js') {
           const typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
           const typePath = resolveSync(typeName, {
             basedir,
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
             mainFields: [...defaultMainFields],
           })
           if (typePath) {
@@ -164,6 +183,19 @@ export default class Harmony extends TaroPlatformHarmony {
     const { config } = that.ctx.runOpts
     const { outputRoot } = config
 
+    // @ts-ignore
+    if (that.framework === 'solid') {
+      that.externalDeps.push([
+        '@tarojs/plugin-framework-react/dist/runtime/reconciler',
+        /^@tarojs\/plugin-framework-react\/dist\/runtime\/reconciler$/,
+        path.join(this.runtimeFrameworkLibrary, 'reconciler')
+      ])
+      that.externalDeps.push([
+        'solid-js/universal',
+        /^solid-js\/universal$/,
+      ])
+    }
+
     that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function externalPlugin() {
         const name = 'taro:vite-harmony-external'
@@ -186,13 +218,41 @@ export default class Harmony extends TaroPlatformHarmony {
           },
         }
       }
+      function injectLoaderMeta() {
+        return {
+          name: 'taro:vite-h5-loader-meta',
+          async buildStart () {
+            await this.load({ id: 'taro:compiler' })
+            const info = this.getModuleInfo('taro:compiler')
+            const compiler = info?.meta.compiler
+            if (compiler) {
+
+              switch (that.framework) {
+                // @ts-ignore
+                case 'solid':
+                  compiler.loaderMeta ||= {}
+                  compiler.loaderMeta.importFrameworkStatement = ``
+                  compiler.mockAppStatement = `
+function App(props) {
+  return null
+}
+`
+                  compiler.loaderMeta.frameworkArgs = `config`
+                  compiler.loaderMeta.creator = `createSolidApp`
+                  compiler.loaderMeta.importFrameworkName = ''
+                  break
+              }
+            }
+          },
+        }
+      }
 
       const targetPath = path.join(outputRoot, NODE_MODULES)
       // Note: 注入 Taro 相关依赖
       this.externalDeps.forEach(([libName, _, target]) => {
         this.moveLibraries(target || libName, path.resolve(targetPath, libName), appPath, !target)
       })
-      viteConfig.plugins.push(externalPlugin())
+      viteConfig.plugins.push(externalPlugin(), injectLoaderMeta())
     })
   }
 }

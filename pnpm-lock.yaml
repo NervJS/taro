@@ -63,6 +63,7 @@ importers:
       '@types/node': ^14.14.31
       '@types/postcss-import': ^14.0.0
       '@types/react': ^18.0.0
+      '@types/react-dom': ^18.0.0
       '@types/react-reconciler': 0.28.1
       '@types/request': ^2.48.1
       '@types/resolve': 1.19.0
@@ -182,6 +183,7 @@ importers:
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       '@types/postcss-import': registry.npmjs.org/@types/postcss-import/14.0.0
       '@types/react': registry.npmjs.org/@types/react/18.2.6
+      '@types/react-dom': registry.npmjs.org/@types/react-dom/18.2.7
       '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.28.1
       '@types/request': registry.npmjs.org/@types/request/2.48.8
       '@types/resolve': registry.npmjs.org/@types/resolve/1.19.0
@@ -1375,6 +1377,7 @@ importers:
       rollup-plugin-copy: ^3.4.0
       rollup-plugin-node-externals: ^5.0.0
       rollup-plugin-ts: ^3.0.2
+      solid-js: ^1.6.15
       tslib: ^2.4.0
       typescript: ^4.8.2
       webpack-sources: ^3.2.3
@@ -1395,6 +1398,7 @@ importers:
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_2kkkjclyparzkaevnmwvqixwuq
+      solid-js: registry.npmjs.org/solid-js/1.7.11
       tslib: registry.npmjs.org/tslib/2.5.0
       typescript: registry.npmjs.org/typescript/4.9.5
 
@@ -12064,14 +12068,14 @@ packages:
     version: 3.7.4
     dependencies:
       '@types/eslint': registry.npmjs.org/@types/eslint/8.37.0
-      '@types/estree': registry.npmjs.org/@types/estree/0.0.51
+      '@types/estree': registry.npmjs.org/@types/estree/1.0.1
 
   registry.npmjs.org/@types/eslint/8.37.0:
     resolution: {integrity: sha512-Piet7dG2JBuDIfohBngQ3rCt7MgO9xCO4xIMKxBThCq5PNRB91IjlJ10eJVwfoNtvTErmxLzwBZ7rHZtbOMmFQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/eslint/-/eslint-8.37.0.tgz}
     name: '@types/eslint'
     version: 8.37.0
     dependencies:
-      '@types/estree': registry.npmjs.org/@types/estree/0.0.51
+      '@types/estree': registry.npmjs.org/@types/estree/1.0.1
       '@types/json-schema': registry.npmjs.org/@types/json-schema/7.0.11
 
   registry.npmjs.org/@types/estree/0.0.39:
@@ -12394,6 +12398,14 @@ packages:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/range-parser/-/range-parser-1.2.4.tgz}
     name: '@types/range-parser'
     version: 1.2.4
+
+  registry.npmjs.org/@types/react-dom/18.2.7:
+    resolution: {integrity: sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.7.tgz}
+    name: '@types/react-dom'
+    version: 18.2.7
+    dependencies:
+      '@types/react': registry.npmjs.org/@types/react/18.2.6
+    dev: true
 
   registry.npmjs.org/@types/react-native/0.69.20:
     resolution: {integrity: sha512-zIAQb4zBecmJCpmf+FCnZK8IHoRZyDxC/BetiZrJHD4gpiCyhkA68CL25v0Qmq2KRgJWf1MFbRrbtnOSTJVAoA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-native/-/react-native-0.69.20.tgz}
@@ -35561,6 +35573,13 @@ packages:
     dependencies:
       randombytes: registry.npmjs.org/randombytes/2.1.0
 
+  registry.npmjs.org/seroval/0.5.1:
+    resolution: {integrity: sha512-ZfhQVB59hmIauJG5Ydynupy8KHyr5imGNtdDhbZG68Ufh1Ynkv9KOYOAABf71oVbQxJ8VkWnMHAjEHE7fWkH5g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/seroval/-/seroval-0.5.1.tgz}
+    name: seroval
+    version: 0.5.1
+    engines: {node: '>=10'}
+    dev: true
+
   registry.npmjs.org/serve-index/1.9.1:
     resolution: {integrity: sha512-pXHfKNP4qujrtteMrSBb0rc8HJ9Ms/GrXwcUtUtD5s4ewDJI8bT3Cz2zTVRMKtri49pLx2e0Ya8ziP5Ya2pZZw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/serve-index/-/serve-index-1.9.1.tgz}
     name: serve-index
@@ -36025,6 +36044,15 @@ packages:
       faye-websocket: registry.npmjs.org/faye-websocket/0.11.4
       uuid: registry.npmjs.org/uuid/8.3.2
       websocket-driver: registry.npmjs.org/websocket-driver/0.7.4
+
+  registry.npmjs.org/solid-js/1.7.11:
+    resolution: {integrity: sha512-JkuvsHt8jqy7USsy9xJtT18aF9r2pFO+GB8JQ2XGTvtF49rGTObB46iebD25sE3qVNvIbwglXOXdALnJq9IHtQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/solid-js/-/solid-js-1.7.11.tgz}
+    name: solid-js
+    version: 1.7.11
+    dependencies:
+      csstype: registry.npmjs.org/csstype/3.1.2
+      seroval: registry.npmjs.org/seroval/0.5.1
+    dev: true
 
   registry.npmjs.org/sort-keys-length/1.0.1:
     resolution: {integrity: sha512-GRbEOUqCxemTAk/b32F2xa8wDTs+Z1QHOkbhJDQTvv/6G3ZkbJ+frYWsTcc7cBB3Fu4wy4XlLCuNtJuMn7Gsvw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sort-keys-length/-/sort-keys-length-1.0.1.tgz}
@@ -37438,7 +37466,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.1
       terser: registry.npmjs.org/terser/5.17.1
       webpack: registry.npmjs.org/webpack/5.78.0
-    dev: true
 
   registry.npmjs.org/terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-4.8.0.tgz}
@@ -39446,7 +39473,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -39542,7 +39569,7 @@ packages:
       serve-index: registry.npmjs.org/serve-index/1.9.1
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
     transitivePeerDependencies:
@@ -39667,7 +39694,7 @@ packages:
       '@webassemblyjs/wasm-parser': registry.npmjs.org/@webassemblyjs/wasm-parser/1.11.1
       acorn: registry.npmjs.org/acorn/8.8.2
       acorn-import-assertions: registry.npmjs.org/acorn-import-assertions/1.8.0_acorn@8.8.2
-      browserslist: registry.npmjs.org/browserslist/4.21.5
+      browserslist: registry.npmjs.org/browserslist/4.21.10
       chrome-trace-event: registry.npmjs.org/chrome-trace-event/1.0.3
       enhanced-resolve: registry.npmjs.org/enhanced-resolve/5.13.0
       es-module-lexer: registry.npmjs.org/es-module-lexer/0.9.3
@@ -39688,7 +39715,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54:
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
@@ -39710,7 +39736,7 @@ packages:
       '@webassemblyjs/wasm-parser': registry.npmjs.org/@webassemblyjs/wasm-parser/1.11.1
       acorn: registry.npmjs.org/acorn/8.8.2
       acorn-import-assertions: registry.npmjs.org/acorn-import-assertions/1.8.0_acorn@8.8.2
-      browserslist: registry.npmjs.org/browserslist/4.21.5
+      browserslist: registry.npmjs.org/browserslist/4.21.10
       chrome-trace-event: registry.npmjs.org/chrome-trace-event/1.0.3
       enhanced-resolve: registry.npmjs.org/enhanced-resolve/5.13.0
       es-module-lexer: registry.npmjs.org/es-module-lexer/0.9.3
