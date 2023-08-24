@@ -93,7 +93,7 @@ describe('config validator of doctor', () => {
       framework: 'other'
     }))
     expect(res.messages.length).toEqual(3)
-    expect(res.messages[2].content).toEqual('framework 的值 "other" 与任何指定选项 ["nerv","react","preact","vue","vue3"] 都不匹配')
+    expect(res.messages[2].content).toEqual('framework 的值 "other" 与任何指定选项 ["nerv","react","preact","solid","vue","vue3"] 都不匹配')
   })
 
   it('designWidth', async () => {
