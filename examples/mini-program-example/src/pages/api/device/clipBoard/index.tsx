@@ -15,10 +15,13 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'setClipboardData',
-        func: (apiIndex) => {
+        inputData: {
+          data: '我是复制的内容',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('setClipboardData')
           Taro.setClipboardData({
-            data: this.state.value,
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -56,7 +59,6 @@ export default class Index extends React.Component {
         },
       },
     ],
-    value: '我是复制的内容',
     pasted: '',
   }
   render() {
@@ -64,7 +66,6 @@ export default class Index extends React.Component {
     return (
       <View className='api-page'>
         <View style={{ display: 'inline-block' }}>
-          <View>复制内容：{value}</View>
           <View>粘贴内容：{pasted}</View>
         </View>
         <ButtonList buttonList={list} />

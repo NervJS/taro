@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
+import { taroCallbackMap } from 'src/utils/callbakMap'
 
 export const offUserCaptureScreen: typeof Taro.offUserCaptureScreen = (callback) => {
   const name = 'offUserCaptureScreen'
@@ -9,8 +10,18 @@ export const offUserCaptureScreen: typeof Taro.offUserCaptureScreen = (callback)
   if (!isFunction.flag) {
     const res = { errMsg: `${name}:fail ${isFunction.msg}` }
     console.error(res.errMsg)
-    return
+    return 
   }
-  // @ts-ignore
-  native.offUserCaptureScreen(callback)
+
+  try {
+    if (taroCallbackMap.has(callback)) {
+      // @ts-ignore
+      native.offUserCaptureScreen(taroCallbackMap.get(callback))
+      taroCallbackMap.delete(callback)
+    } else {
+      console.error('Invalid callback.')
+    }
+  } catch (exception) {
+    console.error(JSON.stringify(exception))
+  }
 }

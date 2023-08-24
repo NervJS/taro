@@ -3,11 +3,9 @@ import { shouldBeFunction } from 'src/utils'
 
 export const offKeyboardHeightChange: typeof Taro.offKeyboardHeightChange = (callback) => {
   const name = 'offKeyboardHeightChange'
-
-  // callback must be an Function
-  const isFunction = shouldBeFunction(callback)
-  if (!isFunction.flag) {
-    const res = { errMsg: `${name}:fail ${isFunction.msg}` }
+  const isValid = shouldBeFunction(callback).flag || typeof callback === 'undefined'
+  if (!isValid) {
+    const res = { errMsg: `${name}:fail invalid params` }
     console.error(res.errMsg)
     return
   }
