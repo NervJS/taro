@@ -42,7 +42,7 @@
   ],
   "author": "",
   "dependencies": {
-    "@babel/runtime": "^7.7.7",
+    "@babel/runtime": "^7.14.5",
     "@tarojs/components": "3.6.8",
     "@tarojs/helper": "3.6.8",
     "@tarojs/plugin-platform-weapp": "3.6.8",
