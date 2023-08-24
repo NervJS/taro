@@ -228,7 +228,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
         // FIXME 通过 acornInjectPlugins 注入 struct 语法编译插件
         code = helper.transEtsCode(id, code)
       }
-      if (/\.(et|j|t)sx?|\.vue/.test(id)) {
+      if (/(\.(et|j|t)sx?|\.vue)$/.test(id.split('?')[0])) {
         const result = transformSync(code, {
           filename: id,
           plugins: [

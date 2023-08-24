@@ -56,4 +56,6 @@ export interface HarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
   useJSON5?: boolean
   runtimePath?: string | string[]
   taroComponentsPath: string
+  postcss?: any
+  sassLoaderOption?: any
 }

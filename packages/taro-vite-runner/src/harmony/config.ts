@@ -1,13 +1,16 @@
 import { type RollupBabelInputPluginOptions, babel } from '@rollup/plugin-babel'
 import inject, { type RollupInjectOptions } from '@rollup/plugin-inject'
-import { defaultMainFields, NODE_MODULES, PLATFORMS } from '@tarojs/helper'
-import { PLATFORM_TYPE } from '@tarojs/shared'
+import { defaultMainFields, fs, NODE_MODULES, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
+import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
 import { getMode, stripMultiPlatformExt } from '../utils'
 import { HARMONY_SCOPES } from '../utils/constants'
+import { logger } from '../utils/logger'
 
-import type { PluginOption } from 'vite'
+import type { CSSModulesOptions, PluginOption } from 'vite'
 import type { HarmonyBuildConfig } from '../utils/types'
 
 export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption {
@@ -63,6 +66,21 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
     return babelOptions
   }
 
+  function getCSSModulesOptions(): false | CSSModulesOptions {
+    if (taroConfig.postcss?.cssModules?.enable !== true) return false
+    const config = recursiveMerge(
+      {},
+      {
+        namingPattern: 'module',
+        generateScopedName: '[name]__[local]___[hash:base64:5]',
+      },
+      taroConfig.postcss.cssModules.config
+    )
+    return {
+      generateScopedName: config.generateScopedName,
+    }
+  }
+
   function getInjectOption(): RollupInjectOptions {
     const options: RollupInjectOptions = {
       window: ['@tarojs/runtime', 'window'],
@@ -97,9 +115,59 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
     return options
   }
 
+  const __postcssOption = getDefaultPostcssConfig({
+    designWidth: taroConfig.designWidth || 750,
+    deviceRatio: taroConfig.deviceRatio,
+    postcssOption: taroConfig.postcss,
+  })
+
+  async function getSassOption() {
+    const sassLoaderOption = taroConfig.sassLoaderOption
+    const nativeStyleImporter = function importer(url, prev, done) {
+      // 让 sass 文件里的 @import 能解析小程序原生样式文体，如 @import "a.wxss";
+      const extname = path.extname(url)
+      // fix: @import 文件可以不带scss/sass缀，如: @import "define";
+      if (extname === '.scss' || extname === '.sass' || extname === '.css' || !extname) {
+        return null
+      } else {
+        const filePath = path.resolve(path.dirname(prev), url)
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+          if (err) {
+            logger.error(err.message)
+            return null
+          } else {
+            fs.readFile(filePath)
+              .then((res) => {
+                done({ contents: res.toString() })
+              })
+              .catch((err) => {
+                logger.error(err)
+                return null
+              })
+          }
+        })
+      }
+    }
+    const importer = [nativeStyleImporter]
+    if (sassLoaderOption?.importer) {
+      isArray(sassLoaderOption.importer)
+        ? importer.unshift(...sassLoaderOption.importer)
+        : importer.unshift(sassLoaderOption.importer)
+    }
+    const option = {
+      ...(await getSassLoaderOption(taroConfig)),
+      ...sassLoaderOption,
+      importer,
+    }
+    return {
+      scss: option,
+      sass: option,
+    }
+  }
+  
   return {
     name: 'taro:vite-harmony-config',
-    config: () => ({
+    config: async () => ({
       mode: getMode(taroConfig),
       build: {
         outDir: taroConfig.outputRoot || 'dist',
@@ -157,7 +225,13 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
         jsxDev: false,
       },
       css: {
-        // TODO postcss
+        postcss: {
+          plugins: getPostcssPlugins(appPath, __postcssOption),
+        },
+        preprocessorOptions: {
+          ...(await getSassOption()),
+        },
+        modules: getCSSModulesOptions(),
       },
     }),
   }
