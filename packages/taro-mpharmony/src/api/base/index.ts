@@ -17,7 +17,7 @@ export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
 }
 
 export function base64ToArrayBuffer (base64: string) {
-  return toByteArray(base64)
+  return toByteArray(base64).buffer
 }
 
 export * from './crypto'
