@@ -28,23 +28,23 @@ export class EditorContext implements Taro.EditorContext {
       const selection = this.activeEditor()?.selection
       if (selection) {
         const selectionText = selection.getContent({ format: 'text' })
-        option?.success?.({ errMsg: '', text: selectionText })
+        option?.success?.({ errMsg: 'ok', text: selectionText })
       }
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
   clear (option?: Taro.EditorContext.ClearOption | undefined): void {
     try {
       this.activeEditor()?.setContent('')
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
@@ -162,7 +162,7 @@ export class EditorContext implements Taro.EditorContext {
       const editor = this.activeEditor()
       if (editor) {
         option?.success?.({
-          errMsg: '',
+          errMsg: 'ok',
           html: editor.getContent({ format: 'html' }),
           text: editor.getContent({ format: 'text' }),
           delta: editor.getContent({ format: 'tree' }),
@@ -171,17 +171,15 @@ export class EditorContext implements Taro.EditorContext {
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
-
-    option?.complete?.({ errMsg: `` })
   }
 
   insertDivider (option?: Taro.EditorContext.InsertDividerOption | undefined): void {
     try {
       option?.fail?.({ errMsg: 'not support EditorContext.insertDivider api.' })
     } finally {
-      option?.complete?.({ errMsg: '' })
+      option?.complete?.({ errMsg: 'ok' })
     }
   }
 
@@ -198,13 +196,13 @@ export class EditorContext implements Taro.EditorContext {
       )
       const nowrap = option.nowrap || false
       if (nowrap === false) {
-        this.activeEditor()?.insertContent(`<br/>`)
+        this.activeEditor()?.insertContent(`<br/><br/>`)
       }
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
@@ -214,11 +212,11 @@ export class EditorContext implements Taro.EditorContext {
       if (text.length > 0) {
         this.activeEditor()?.insertContent(text)
       }
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
@@ -226,11 +224,11 @@ export class EditorContext implements Taro.EditorContext {
     try {
       // https://www.tiny.cloud/docs/tinymce/6/editor-command-identifiers/#supported-browser-native-commands
       this.activeEditor()?.execCommand('RemoveFormat')
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
@@ -253,33 +251,33 @@ export class EditorContext implements Taro.EditorContext {
         }
       }
 
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
   redo (option?: Taro.EditorContext.RedoOption | undefined): void {
     try {
       this.activeEditor()?.undoManager.redo()
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
   undo (option?: Taro.EditorContext.UndoOption | undefined): void {
     try {
       this.activeEditor()?.undoManager.undo()
-      option?.success?.({ errMsg: `` })
+      option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `` })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 }
