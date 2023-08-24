@@ -76,7 +76,7 @@ export default class TaroNormalModule extends TaroBaseNormalModule {
     super(data)
     this.name = data.name
     this.miniType = data.miniType
-    this.isNativePage = data.isNativePage
+    this.isNativePage = data.isNativePage || false
   }
 
   serialize (context) {
