@@ -4,6 +4,12 @@ import { SocketTask } from './socketTask'
 
 let socketTasks: SocketTask[] = []
 let socketsCounter = 1
+const socketCallbacks: {
+  onSocketOpen?: Taro.onSocketOpen.Callback
+  onSocketMessage?: Taro.onSocketMessage.Callback
+  onSocketError?: Taro.onSocketError.Callback
+  onSocketClose?: Taro.onSocketClose.Callback
+} = {}
 
 export function sendSocketMessage (options?: Taro.sendSocketMessage.Option) {
   const isObject = shouldBeObject(options)
@@ -15,43 +21,39 @@ export function sendSocketMessage (options?: Taro.sendSocketMessage.Option) {
   const { data, complete, success, fail } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'sendSocketMessage', success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.sendSocketMessage({
-    data: data,
-    success: () => {
-      return handle.success
-    },
-    fail: () => {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'data',
-          correct: 'String',
-          wrong: data
+  if (socketTasks.length > 0) {
+    socketTasks[0].send({
+      data: data,
+      success: () => {
+        return handle.success
+      },
+      fail: () => {
+        return handle.fail({
+          errMsg: getParameterError({
+            para: 'data',
+            correct: 'String',
+            wrong: data,
+          }),
         })
-      })
-    }
-  })
-  return ret
+      },
+    })
+  }
 }
 
 export function onSocketOpen (callback?: Taro.onSocketOpen.Callback) {
-  // @ts-expect-error
-  native.onSocketOpen(callback)
+  socketCallbacks.onSocketOpen = callback
 }
 
 export function onSocketMessage (callback?: Taro.onSocketMessage.Callback) {
-  // @ts-ignore
-  native.onSocketMessage(callback)
+  socketCallbacks.onSocketMessage = callback
 }
 
 export function onSocketError (callback?: Taro.onSocketError.Callback) {
-  // @ts-ignore
-  native.onSocketError(callback)
+  socketCallbacks.onSocketError = callback
 }
 
 export function onSocketClose (callback?: Taro.onSocketClose.Callback) {
-  // @ts-ignore
-  native.onSocketClose(callback)
+  socketCallbacks.onSocketClose = callback
 }
 
 export function connectSocket (options?: Taro.connectSocket.Option) {
@@ -84,7 +86,7 @@ export function connectSocket (options?: Taro.connectSocket.Option) {
       )
     }
 
-    // options.url must be invalid
+    // options.url must be valid
     if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
       return handle.fail(
         {
@@ -111,6 +113,20 @@ export function connectSocket (options?: Taro.connectSocket.Option) {
     task._destroyWhenClose = function () {
       socketTasks = socketTasks.filter((socketTask) => socketTask !== this)
     }
+
+    task.onOpen((res) => {
+      socketCallbacks.onSocketOpen?.call(null, res)
+    })
+    task.onMessage((res) => {
+      socketCallbacks.onSocketMessage?.call(null, res)
+    })
+    task.onError((res) => {
+      socketCallbacks.onSocketError?.call(null, res)
+    })
+    task.onClose((res) => {
+      socketCallbacks.onSocketClose?.call(null, res)
+    })
+
     socketTasks.push(task)
 
     handle.success({
@@ -131,21 +147,23 @@ export function closeSocket (options?: Taro.closeSocket.Option) {
   const { code, reason, complete, success, fail } = options as Exclude<typeof options, undefined>
   const handle = new MethodHandler({ name: 'closeSocket', success, fail, complete })
 
-  // @ts-ignore
-  native.closeSocket({
-    code: code,
-    reason: reason,
-    success: () => {
-      return handle.success
-    },
-    fail: () => {
-      return handle.fail({
-        errMsg: getParameterError({
-          para: 'reason',
-          correct: 'String',
-          wrong: reason
+  for (const task of socketTasks) {
+    task.close({
+      code: code,
+      reason: reason,
+      success: () => {
+        return handle.success
+      },
+      fail: () => {
+        return handle.fail({
+          errMsg: getParameterError({
+            para: 'reason',
+            correct: 'String',
+            wrong: reason,
+          }),
         })
-      })
-    }
-  })
+      },
+    })
+    socketTasks = []
+  }
 }
