@@ -49,7 +49,7 @@ describe('config validator of doctor', () => {
 
     expect(messages.length).toEqual(3)
     msgs = messages.map(line => line.content)
-    expect(msgs.includes('framework 的值 "" 与任何指定选项 ["nerv","react","preact","vue","vue3"] 都不匹配')).toBeTruthy()
+    expect(msgs.includes('framework 的值 "" 与任何指定选项 ["nerv","react","preact","solid,""vue","vue3"] 都不匹配')).toBeTruthy()
   })
 
   it('date', async () => {
