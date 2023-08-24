@@ -103,7 +103,12 @@ export default class Index extends React.Component {
       },
       {
         id: 'previewImage',
-        func: (apiIndex) => {
+        inputData: {
+          current: '',
+          showmenu: false,
+          referrerPolicy: '',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('previewImage')
           Taro.chooseImage({
             count: 3,
@@ -113,9 +118,7 @@ export default class Index extends React.Component {
               TestConsole.consoleNormal('chooseImage success:', res)
               Taro.previewImage({
                 urls: res.tempFilePaths,
-                current: 'test/currentField',
-                showmenu: false,
-                referrerPolicy: 'origin',
+                ...data,
                 success: (res) => {
                   TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
@@ -386,7 +389,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
