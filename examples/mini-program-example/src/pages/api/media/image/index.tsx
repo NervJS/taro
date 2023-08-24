@@ -109,8 +109,8 @@ export default class Index extends React.Component {
             count: 3,
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
-            success: function (res) {
-              TestConsole.consoleNormal('chooseImage success')
+            success: (res) => {
+              TestConsole.consoleNormal('chooseImage success:', res)
               Taro.previewImage({
                 urls: res.tempFilePaths,
                 current: 'test/currentField',
@@ -129,6 +129,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseImage fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseImage complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseImage return', ret)
           })
         },
       },
@@ -137,7 +145,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('getImageInfo')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               Taro.getImageInfo({
                 src: res.tempFilePaths[0],
                 success: (res) => {
@@ -153,6 +161,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseImage fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseImage complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseImage return', ret)
           })
         },
       },
@@ -161,7 +177,8 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('saveImageToPhotosAlbum')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
+              TestConsole.consoleNormal('chooseImage success:', res)
               Taro.saveImageToPhotosAlbum({
                 filePath: res.tempFilePaths[0],
                 success: (res) => {
@@ -177,6 +194,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseImage fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseImage complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseImage return', ret)
           })
         },
       },
@@ -185,43 +210,43 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('compressImage')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
               Taro.compressImage({
                 quality: 1,
                 src: res.tempFilePaths[0],
                 compressedWidth: 300,
                 compressHeight: 200,
-                success: function (res1) {
+                success: (res1) => {
                   TestConsole.consoleNormal('compressImage success ', res1)
                   Taro.saveImageToPhotosAlbum({
                     filePath: res1.tempFilePath,
-                    success: function (res2) {
+                    success: (res2) => {
                       TestConsole.consoleNormal('saveImageToPhotosAlbum success ', res2)
                       Taro.getImageInfo({
                         src: res1.tempFilePath,
-                        success: function (res) {
+                        success: (res) => {
                           TestConsole.consoleNormal('compress later:getImageInfo success ', res)
                         },
-                        fail: function (res) {
+                        fail: (res) => {
                           TestConsole.consoleNormal('compress later:getImageInfo fail ', res)
                         },
-                        complete: function (res) {
+                        complete: (res) => {
                           TestConsole.consoleNormal('compress later:getImageInfo complete ', res)
                         },
                       })
                     },
-                    fail: function (res2) {
+                    fail: (res2) => {
                       TestConsole.consoleNormal('saveImageToPhotosAlbum fail ', res2)
                     },
-                    complete: function (res2) {
+                    complete: (res2) => {
                       TestConsole.consoleNormal('saveImageToPhotosAlbum complete ', res2)
                     },
                   })
                 },
-                fail: function (res1) {
+                fail: (res1) => {
                   TestConsole.consoleFail(res1)
                 },
-                complete: function (res1) {
+                complete: (res1) => {
                   TestConsole.consoleComplete(res1)
                 },
               }).then((ret1) => {
@@ -238,7 +263,8 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('previewMedia_image')
           Taro.chooseImage({
-            success: function (res) {
+            success: (res) => {
+              TestConsole.consoleNormal('chooseImage success:', res)
               Taro.previewMedia({
                 sources: [
                   {
@@ -263,6 +289,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseImage fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseImage complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseImage return', ret)
           })
         },
       },
@@ -274,8 +308,8 @@ export default class Index extends React.Component {
             sourceType: ['album'],
             maxDuration: 60,
             camera: 'back',
-            success: function (res) {
-              TestConsole.consoleNormal('chooseMedia success ', res)
+            success: (res) => {
+              TestConsole.consoleNormal('chooseVideo success ', res)
               Taro.previewMedia({
                 sources: [
                   {
@@ -297,6 +331,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
           })
         },
       },
@@ -308,8 +350,8 @@ export default class Index extends React.Component {
             sourceType: ['camera'],
             maxDuration: 60,
             camera: 'back',
-            success: function (res) {
-              TestConsole.consoleNormal('chooseMedia success ', res)
+            success: (res) => {
+              TestConsole.consoleNormal('chooseVideo success ', res)
               Taro.previewMedia({
                 sources: [
                   {
@@ -331,6 +373,14 @@ export default class Index extends React.Component {
                 TestConsole.consoleReturn.call(this, res, apiIndex)
               })
             },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
           })
         },
       },

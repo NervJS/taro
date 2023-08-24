@@ -8,10 +8,11 @@ import { MethodHandler } from '../../../utils/handler'
  */
 export const chooseImage: typeof Taro.chooseImage = function (options) {
   const name = 'chooseImage'
+
   // options must be an Object
-  const isObject = shouldBeObject(options)
-  if (!isObject.flag) {
-    const res = { errMsg: `chooseImage:fail ${isObject.msg}` }
+  const isValid = shouldBeObject(options).flag || typeof options === 'undefined'
+  if (!isValid) {
+    const res = { errMsg: `${name}:fail invalid params` }
     console.error(res.errMsg)
     return Promise.reject(res)
   }
