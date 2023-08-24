@@ -15,12 +15,26 @@ interface Props {
 
 export default class Index extends React.Component<Props> {
   state = {}
+  stringify = (object) => {
+    const cache = new Map()
+    const JSONStr = JSON.stringify(object, (key, value) => {
+      if (typeof value === 'object' && value !== null) {
+        if (cache.has(value)) {
+          return
+        }
+        cache.set(value, value)
+      }
+      return value
+    })
+    cache.clear()
+    return JSONStr
+  }
   render() {
     const { testApi, callbackRes } = this.props
     return (
       <View className='callback-content'>
         <View className='callback-res' id={`${testApi}-callback`}>
-          {JSON.stringify(callbackRes)}
+          {this.stringify(callbackRes)}
         </View>
       </View>
     )
