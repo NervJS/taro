@@ -13,6 +13,9 @@ import type Taro from '@tarojs/taro'
 
 type pageScrollTo = typeof Taro.pageScrollTo
 
+// TODO
+export const getCurrentPages = () => []
+
 export const pageScrollTo: pageScrollTo = (options) => {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro

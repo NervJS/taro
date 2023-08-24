@@ -268,7 +268,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
       const id = chunk.facadeModuleId || chunk.fileName
       const etsSuffix = /\.ets(\?\S*)?$/
       if (etsSuffix.test(id) || chunk.moduleIds?.some(id => etsSuffix.test(id))) {
-        code = helper.recoverEtsCode(id, code)
+        code = `// @ts-nocheck\n${helper.recoverEtsCode(id, code)}`
       }
 
       return helper.resolveAbsoluteRequire(id, code)
