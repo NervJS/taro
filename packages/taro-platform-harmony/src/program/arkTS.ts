@@ -149,7 +149,23 @@ export default class Harmony extends TaroPlatformHarmony {
 
         return src
       })
-      const define = {}
+
+      const { config } = this.ctx.runOpts
+      const runtime = config.runtime || {}
+      // FIXME 小程序运行时包含的变量，后续需要从鸿蒙运行时中排除
+      const runtimeConstants = {
+        ENABLE_INNER_HTML: runtime.enableInnerHTML ?? true,
+        ENABLE_ADJACENT_HTML: runtime.enableAdjacentHTML ?? false,
+        ENABLE_SIZE_APIS: runtime.enableSizeAPIs ?? false,
+        ENABLE_TEMPLATE_CONTENT: runtime.enableTemplateContent ?? false,
+        ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
+        ENABLE_CONTAINS: runtime.enableContains ?? false,
+        ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
+      }
+      const define = {
+        global: 'globalThis',
+        ...runtimeConstants,
+      }
       // FIXME 临时方案，后续考虑获取配置 define、env 配置
       Object.keys(process.env).forEach(key => {
         define[`process.env.${key}`] = JSON.stringify(process.env[key])

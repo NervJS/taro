@@ -16,10 +16,12 @@ import type { HarmonyBuildConfig } from '../utils/types'
 export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption {
   function getDefineOption() {
     const {
+      buildAdapter = PLATFORMS.HARMONY,
       env = {},
       defineConstants = {},
       framework = 'react',
-      buildAdapter = PLATFORMS.HARMONY,
+      // @ts-ignore
+      runtime = {} as Record<string, boolean>,
     } = taroConfig
 
     env.FRAMEWORK = JSON.stringify(framework)
@@ -30,9 +32,21 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
       return target
     }, {})
 
+    // FIXME 小程序运行时包含的变量，后续需要从鸿蒙运行时中排除
+    const runtimeConstants = {
+      ENABLE_INNER_HTML: runtime.enableInnerHTML ?? true,
+      ENABLE_ADJACENT_HTML: runtime.enableAdjacentHTML ?? false,
+      ENABLE_SIZE_APIS: runtime.enableSizeAPIs ?? false,
+      ENABLE_TEMPLATE_CONTENT: runtime.enableTemplateContent ?? false,
+      ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
+      ENABLE_CONTAINS: runtime.enableContains ?? false,
+      ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
+    }
+
     return {
       ...envConstants,
       ...defineConstants,
+      ...runtimeConstants,
     }
   }
 
@@ -164,7 +178,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
       sass: option,
     }
   }
-  
+
   return {
     name: 'taro:vite-harmony-config',
     config: async () => ({
