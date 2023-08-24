@@ -12,30 +12,32 @@ export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
       console.error(res.errMsg)
       return reject(res)
     }
-    const { keepScreenOn, success, fail, complete } = options as Exclude<typeof options, undefined>
+    const {
+      keepScreenOn,
+      success,
+      fail,
+      complete
+    } = options as Exclude<typeof options, undefined>
 
     const handle = new MethodHandler({ name, success, fail, complete })
     if (typeof keepScreenOn !== 'boolean') {
-      return handle.fail(
-        {
-          errMsg: getParameterError({
-            para: 'value',
-            correct: 'boolean',
-            wrong: keepScreenOn,
-          }),
-        },
-        { resolve, reject }
-      )
+      return handle.fail({
+        errMsg: getParameterError({
+          para: 'value',
+          correct: 'boolean',
+          wrong: keepScreenOn
+        })
+      }, { resolve, reject })
     }
     // @ts-ignore
     native.setKeepScreenOn({
       keepScreenOn: keepScreenOn,
       success: (res: any) => {
-        return handle.success(res, { resolve, reject })
+        handle.success(res, { resolve, reject })
       },
       fail: (err: any) => {
-        return handle.fail(err, { resolve, reject })
-      },
+        handle.fail(err, { resolve, reject })
+      }
     })
   })
 }

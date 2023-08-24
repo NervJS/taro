@@ -14,16 +14,15 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'setVisualEffectOnCapture',
-        func: null,
-      },
-      {
         id: 'setScreenBrightness',
-        func: (apiIndex) => {
+        inputData: {
+          value: 0.5,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.setScreenBrightness')
-          TestConsole.consoleNormal('Taro.setScreenBrightness value:', this.state.brightValue)
+          TestConsole.consoleNormal('Taro.setScreenBrightness value:', data.value)
           Taro.setScreenBrightness({
-            value: this.state.brightValue,
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -39,31 +38,14 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'setKeepScreenOnTrue',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('Taro.setKeepScreenOnTrue')
-          Taro.setKeepScreenOn({
-            keepScreenOn: true,
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
-          })
+        id: 'setKeepScreenOn',
+        inputData: {
+          keepScreenOn: true,
         },
-      },
-      {
-        id: 'setKeepScreenOnFalse',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('Taro.setKeepScreenOnFalse')
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.setKeepScreenOn')
           Taro.setKeepScreenOn({
-            keepScreenOn: false,
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -83,7 +65,6 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.onUserCaptureScreen')
           Taro.onUserCaptureScreen(this.userCaptureScreen)
-          TestConsole.consoleTest('Taro.onUserCaptureScreen end')
         },
       },
       {
@@ -91,7 +72,6 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.offUserCaptureScreen')
           Taro.offUserCaptureScreen(this.userCaptureScreen)
-          TestConsole.consoleTest('Taro.offUserCaptureScreen end')
         },
       },
       {
@@ -114,33 +94,16 @@ export default class Index extends React.Component {
         },
       },
     ],
-    brightValue: 0,
-    isKeepOn: false,
   }
 
   userCaptureScreen = (res) => {
-    TestConsole.consoleSuccess('result ' + JSON.stringify(res))
+    TestConsole.consoleOnCallback(res, 'onUserCaptureScreen')
   }
 
-  changeBrightness = (e) => {
-    let value = parseFloat(e.detail.value)
-    this.setState({
-      brightValue: value,
-    })
-  }
   render() {
-    const { list, brightValue } = this.state
+    const { list } = this.state
     return (
       <View className='api-page'>
-        <View className='form-item'>
-          <Text className='input-text'>请输入屏幕亮度：</Text>
-          <Input
-            type='digit'
-            value={brightValue}
-            placeholder='请设置屏幕亮度,值0-1之间'
-            onInput={this.changeBrightness}
-          />
-        </View>
         <ButtonList buttonList={list} />
       </View>
     )
