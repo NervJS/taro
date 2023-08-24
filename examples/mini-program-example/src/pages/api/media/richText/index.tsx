@@ -45,9 +45,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
         },
       },
       {
@@ -65,9 +62,6 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
@@ -91,21 +85,17 @@ export default class Index extends React.Component {
         id: 'EditorContext_getContents',
         func: (apiIndex) => {
           TestConsole.consoleTest('EditorContext_getContents')
-          editorContext
-            .getContents({
-              success: (res) => {
-                TestConsole.consoleSuccess.call(this, res, apiIndex)
-              },
-              fail: (res) => {
-                TestConsole.consoleFail.call(this, res, apiIndex)
-              },
-              complete: (res) => {
-                TestConsole.consoleComplete.call(this, res, apiIndex)
-              },
-            })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
+          editorContext.getContents({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
         },
       },
       {
@@ -124,24 +114,24 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
         },
       },
       {
         id: 'EditorContext_insertImage',
-        func: (apiIndex) => {
+        inputData: {
+          src: 'https://user-images.githubusercontent.com/3369400/133268513-5bfe2f93-4402-42c9-a403-81c9e86934b6.jpeg',
+          nowrap: false,
+          alt: 'hello,beautiful world',
+          data: '',
+          extClass: 'test_image',
+          height: '100',
+          width: '100',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('EditorContext_insertImage')
           editorContext
             .insertImage({
-              src: '',
-              nowrap: true,
-              alt: 'hello,beautiful world',
-              data: '',
-              extClass: 'test_image',
-              height: '100',
-              width: '100',
+              ...data,
               success: (res) => {
                 TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
@@ -151,19 +141,19 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
       {
         id: 'EditorContext_insertText',
-        func: (apiIndex) => {
+        inputData: {
+          text: 'developer conference',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('EditorContext_insertText')
           editorContext
             .insertText({
-              text: 'developer conference',
+              ...data,
               success: (res) => {
                 TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
@@ -173,9 +163,6 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
@@ -195,9 +182,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
         },
       },
       {
@@ -216,9 +200,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
         },
       },
       {
@@ -231,12 +212,15 @@ export default class Index extends React.Component {
       },
       {
         id: 'EditorContext_setContents',
-        func: (apiIndex) => {
+        inputData: {
+          delta: '',
+          html: 'test_html',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('EditorContext_setContents')
           editorContext
             .setContents({
-              delta: 'test_contents',
-              html: 'test_html',
+              ...data,
               success: (res) => {
                 TestConsole.consoleSuccess.call(this, res, apiIndex)
               },
@@ -246,9 +230,6 @@ export default class Index extends React.Component {
               complete: (res) => {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
-            })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
             })
         },
       },
@@ -268,9 +249,6 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
         },
       },
       {
@@ -289,14 +267,11 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             })
-            .then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
-            })
         },
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
