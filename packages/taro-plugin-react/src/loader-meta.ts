@@ -75,9 +75,9 @@ import Nerv from 'nervjs';
 `,
   mockAppStatement: `
 class App extends Nerv.Component {
-render () {
-  return this.props.children
-}
+  render () {
+    return this.props.children
+  }
 }
 `,
   frameworkArgs: 'Nerv, Nerv, config',

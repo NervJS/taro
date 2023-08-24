@@ -303,7 +303,7 @@ export class TaroElement extends TaroNode {
 
   public getElementsByClassName (className: string): TaroElement[] {
     const classNames = className.trim().split(/\s+/)
-  
+
     return treeToArray(this, (el) => {
       const classList = el.classList
       return classNames.every(c => classList.contains(c))

@@ -1,4 +1,4 @@
-import { type esbuild, fs, REG_TARO_H5 } from '@tarojs/helper'
+import { esbuild, fs, REG_TARO_H5 } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 
 import { h5iVitePlugin } from './vite.h5'
@@ -7,14 +7,19 @@ import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { PluginOption } from 'vite'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
-export default (ctx: IPluginContext) => {
-  const { framework } = ctx.initialConfig
+export function isReactLike(framework: IProjectConfig['framework'] = 'react'): framework is Frameworks {
+  return ['react', 'preact', 'nerv'].includes(framework)
+}
 
-  if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
+export default (ctx: IPluginContext) => {
+  const { framework = 'react' } = ctx.initialConfig
+
+  if (!isReactLike(framework)) return
 
   ctx.modifyWebpackChain(({ chain }) => {
     // 通用
