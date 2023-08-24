@@ -11,7 +11,9 @@ export const components = {
   },
   Button: {
     bindGetPhoneNumber: _empty,
-    'data-channel': _empty
+    'data-channel': _empty,
+    'data-aweme-id': _empty,
+    bindOpenAwemeUserProfile: _empty
   },
   Form: {
     'report-submit-timeout': '0'
