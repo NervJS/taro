@@ -40,21 +40,10 @@ function getRelativePath (rootPath: string, sourceFilePath: string, oriPath: str
   if (oriPath.indexOf('.') !== 0) {
     const vpath = path.resolve(sourceFilePath, '..', oriPath)
     if (fs.existsSync(vpath)) {
-      return './' + oriPath
-    }
-    const testParts = oriPath.split('/')
-    const testindex = path.join(rootPath, `node_modules/${testParts[0]}`) // 判断三方件是否在node_modules中
-    if (!fs.existsSync(testindex)) {
-      if (
-        oriPath.indexOf('/') !== -1 &&
-        oriPath.indexOf('@') === -1 &&
-        oriPath.lastIndexOf('.js') !== oriPath.length - 3
-      ) {
-        oriPath = oriPath + '.js' // 不在这里返回    utils/auth -> utils/auth.js
-      }
-      if (fs.existsSync(oriPath)) {
-        oriPath = './' + oriPath
-      }
+      return `./${oriPath}`
+    } else if (fs.existsSync(`${vpath}.js`)) {
+      // 微信小程序中js文件的引用可不加后缀，需考虑
+      return `./${oriPath}.js`
     }
   }
   return oriPath
