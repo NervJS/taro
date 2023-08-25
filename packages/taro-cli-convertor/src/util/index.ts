@@ -1,4 +1,5 @@
 import {
+  chalk,
   fs,
   printLog,
   processTypeEnum,
@@ -10,6 +11,8 @@ import {
 import * as path from 'path'
 
 import type * as t from '@babel/types'
+
+const NODE_MODULES = 'node_modules'
 
 export function getRootPath (): string {
   return path.resolve(__dirname, '../../')
@@ -134,7 +137,7 @@ export function analyzeImportUrl (
       }
     }
   } else {
-    if (value.startsWith('/') || value.startsWith('@tarojs')) {
+    if (value.startsWith('/') || value.startsWith('@tarojs') || value.startsWith('react')) {
       return
     }
     scriptFiles.add(value)
@@ -144,4 +147,31 @@ export function analyzeImportUrl (
 export const incrementId = () => {
   let n = 0
   return () => (n++).toString()
+}
+
+// 处理三方库引用
+export function handleThirdPartyLib (filePath: string, nodePath: string[], root: string, convertRoot: string) {
+  // 默认使用node_modules中的三方库
+  if (typeof nodePath === 'undefined') {
+    nodePath = [NODE_MODULES]
+  }
+
+  let isThirdPartyLibExist = false
+  for (const modulePath of nodePath) {
+    const parts = filePath.split('/')
+    const npmModulePath = path.resolve(root, modulePath, parts[0])
+    if (fs.existsSync(npmModulePath)) {
+      isThirdPartyLibExist = true
+      // 转换后的三方库放在node_modules中
+      const moduleConvertPath = path.resolve(convertRoot, NODE_MODULES, parts[0])
+      if (!fs.existsSync(moduleConvertPath)) {
+        copyFileToTaro(npmModulePath, moduleConvertPath)
+      }
+      break
+    }
+  }
+
+  if (!isThirdPartyLibExist) {
+    console.log(chalk.red(`在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`))
+  }
 }

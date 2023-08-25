@@ -24,7 +24,7 @@ import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
-import { analyzeImportUrl, copyFileToTaro,getPkgVersion, incrementId } from './util'
+import { analyzeImportUrl, copyFileToTaro, getPkgVersion, handleThirdPartyLib, incrementId } from './util'
 import { generateMinimalEscapeCode } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
@@ -83,6 +83,12 @@ interface ITaroizeOptions {
   scriptPath?: string
 }
 
+// convert.config,json配置参数
+interface IConvertConfig {
+  external: string[] // 不做转换的目录
+  nodePath: string[] // 搜索三方库的目录
+}
+
 function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
   const style: string[] = []
   const imports: string[] = []
@@ -128,6 +134,7 @@ export default class Convertor {
   framework: 'react' | 'vue'
   isTsProject: boolean
   miniprogramRoot: string
+  convertConfig: IConvertConfig
   external: string[]
 
   constructor (root, isTsProject) {
@@ -418,7 +425,11 @@ export default class Convertor {
     if (fs.existsSync(convertJsonPath)) {
       try {
         const convertJson = JSON.parse(String(fs.readFileSync(convertJsonPath)))
+        this.convertConfig = { ...convertJson }
         const externalJson = convertJson.external
+        if (typeof externalJson === 'undefined') {
+          return
+        }
         const absolutePath: string[] = []
         for (const iRpath of externalJson) {
           // 相对路径转为绝对路径
@@ -452,7 +463,7 @@ export default class Convertor {
           if (using[key].startsWith('plugin://')) continue
           const componentPath = using[key]
           // 非三方库的路径需要处理
-          if (!this.isThirdPartyLib(componentPath)) {
+          if (!this.isThirdPartyLib(componentPath, this.root)) {
             using[key] = path.join(this.root, componentPath)
           }
         }
@@ -517,17 +528,16 @@ export default class Convertor {
     }
     if (files.size) {
       files.forEach((file) => {
-        // 处理require & import 中的 三方库
-        if (this.isThirdPartyLib(file)) {
-          if (!this.isInNodeModule(file)) {
-            throw new Error(`缺少依赖 ${file} ，请转换前在工程目录下执行 pnpm install!`)
-          }
-          this.generateNodeModule(file)
+        // 处理三方库引用
+        if (!path.isAbsolute(file)) {
+          handleThirdPartyLib(file, this.convertConfig?.nodePath, this.root, this.convertRoot)
           return
         }
+
         if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
           return
         }
+
         const code = fs.readFileSync(file).toString()
         let outputFilePath = file.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
         const extname = path.extname(outputFilePath)
@@ -684,17 +694,29 @@ ${code}
   }
 
   // 判断是否是三方库
-  isThirdPartyLib (modulePath: string) {
+  isThirdPartyLib (modulePath: string, curPageDir: string) {
     // 相对路径和带根目录的路径都不是三方库
     if (modulePath.indexOf('.') === 0 || modulePath.indexOf('/') === 0 || modulePath.indexOf(this.root) !== -1) {
       return false
     }
-    const parts = modulePath.split('/')
-    const npmModulePath = path.resolve(this.root, 'miniprogram_npm', parts[0])
-    if (fs.existsSync(npmModulePath)) {
-      return true
+
+    // 通过格式如component/component引用组件
+    // app.json中引用组件
+    if (curPageDir === this.root) {
+      if (fs.existsSync(resolveScriptPath(path.join(curPageDir, modulePath)))) {
+        return false
+      }
+    } else {
+      // 页面中引用组件
+      if (
+        fs.existsSync(resolveScriptPath(path.join(curPageDir, modulePath))) ||
+        fs.existsSync(resolveScriptPath(path.join(this.root, modulePath)))
+      ) {
+        return false
+      }
     }
-    return false
+
+    return true
   }
 
   // 判断三方库是否安装
@@ -761,14 +783,15 @@ ${code}
               const unResolveComponentPath: string = pageUsingComponents[component]
               if (unResolveComponentPath.startsWith('plugin://')) {
                 usingComponents[component] = unResolveComponentPath
+              } else if (this.isThirdPartyLib(unResolveComponentPath, path.resolve(pagePath, '..'))) {
+                handleThirdPartyLib(unResolveComponentPath, this.convertConfig?.nodePath, this.root, this.convertRoot)
               } else {
                 let componentPath
                 if (unResolveComponentPath.startsWith(this.root)) {
                   componentPath = unResolveComponentPath
-                } else if (this.isThirdPartyLib(unResolveComponentPath)) {
-                  componentPath = unResolveComponentPath
                 } else {
                   componentPath = path.resolve(pageConfigPath, '..', pageUsingComponents[component])
+                  // 支持将组件库放在工程根目录下
                   if (!fs.existsSync(resolveScriptPath(componentPath))) {
                     componentPath = path.join(this.root, pageUsingComponents[component])
                   }
@@ -814,9 +837,7 @@ ${code}
           depComponents,
           imports: taroizeResult.imports,
         })
-        printLog(processTypeEnum.GENERATE, '抽象语法树', this.generateShowPath(pageDistJSPath))
         const jsCode = generateMinimalEscapeCode(ast)
-        printLog(processTypeEnum.GENERATE, 'JSCode', this.generateShowPath(pageDistJSPath))
         this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
         printLog(processTypeEnum.GENERATE, 'writeFileToTaro', this.generateShowPath(pageDistJSPath))
         this.writeFileToConfig(pageDistJSPath, param.json)
@@ -825,7 +846,6 @@ ${code}
           this.traverseStyle(pageStylePath, pageStyle)
         }
         this.generateScriptFiles(scriptFiles)
-        printLog(processTypeEnum.GENERATE, 'generateScriptFiles')
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
@@ -853,15 +873,7 @@ ${code}
         const param: ITaroizeOptions = {}
         const depComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
-          if (!this.isThirdPartyLib(component)) {
-            throw new Error(`自定义组件 ${component} 没有 JS 文件！`)
-          }
-          if (!this.isInNodeModule(component)) {
-            throw new Error(`缺少依赖 ${component} ，请转换前在工程目录下执行 pnpm install!`)
-          } else {
-            this.generateNodeModule(component)
-            return
-          }
+          throw new Error(`自定义组件 ${component} 没有 JS 文件！`)
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
         if (fs.existsSync(componentConfigPath)) {
