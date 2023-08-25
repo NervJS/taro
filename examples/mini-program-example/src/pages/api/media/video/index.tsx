@@ -160,14 +160,6 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'createVideoContext',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('createVideoContext')
-          videoContext = Taro.createVideoContext('myVideo')
-          TestConsole.consoleNormal('createVideoContext ', videoContext)
-        },
-      },
-      {
         id: 'compressVideo_暂不支持',
         func: null,
       },
@@ -236,6 +228,14 @@ export default class Index extends React.Component {
           }).then((res) => {
             TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+        },
+      },
+      {
+        id: 'createVideoContext',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('createVideoContext')
+          videoContext = Taro.createVideoContext('myVideo')
+          TestConsole.consoleNormal('createVideoContext ', videoContext)
         },
       },
       {
@@ -322,6 +322,11 @@ export default class Index extends React.Component {
           videoContext.requestFullScreen({
             direction: 0,
           })
+          setTimeout(() => {
+            videoContext.exitFullScreen()
+            TestConsole.consoleNormal('exitFullScreen')
+          }, 20000)
+
           TestConsole.consoleNormal('requestFullScreen')
         },
       },
@@ -362,7 +367,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
