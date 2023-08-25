@@ -1501,8 +1501,8 @@ require("./runtime");
 </template>
 
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -3520,8 +3520,8 @@ require("./runtime");
 </template>
 
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -5880,8 +5880,8 @@ require("./runtime");
 </template>
 
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -7948,8 +7948,8 @@ require("./runtime");
 </template>
 
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
