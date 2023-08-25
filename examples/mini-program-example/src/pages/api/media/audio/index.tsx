@@ -18,54 +18,68 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext')
           innercontext = Taro.createInnerAudioContext()
-          innercontext.src = 'https://storage.360buyimg.com/jdrd-blog/27.mp3'
-          innercontext.startTime = 0
-          innercontext.autoplay = true
-          innercontext.loop = false
-          innercontext.volume = 1
-          innercontext.playbackRate = 1
-          innercontext.currentTime = 0
-          innercontext.referrerPolicy = 'origin'
           TestConsole.consoleNormal('create innerAudioContext :', innercontext)
         },
       },
       {
-        id: 'InnerAudioContext_play',
+        id: 'set',
+        inputData: {
+          src: 'https://storage.360buyimg.com/jdrd-blog/27.mp3',
+          startTime: 0,
+          autoplay: true,
+          loop: false,
+          volume: 1,
+          playbackRate: 1,
+          referrerPolicy: 'origin'
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('InnerAudioContext_set')
+          innercontext.src = data.src
+          innercontext.startTime = data.startTime
+          innercontext.autoplay = data.autoplay
+          innercontext.loop = data.loop
+          innercontext.volume = data.volume
+          innercontext.playbackRate = data.playbackRate
+          innercontext.referrerPolicy = data.referrerPolicy
+        },
+      },
+      {
+        id: 'play',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_play')
           innercontext.play()
         },
       },
       {
-        id: 'InnerAudioContext_pause',
+        id: 'pause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_pause')
           innercontext.pause()
         },
       },
       {
-        id: 'InnerAudioContext_stop',
+        id: 'stop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_stop')
           innercontext.stop()
         },
       },
       {
-        id: 'InnerAudioContext_seek',
+        id: 'seek',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_seek')
           innercontext.seek(150)
         },
       },
       {
-        id: 'InnerAudioContext_destroy',
+        id: 'destroy',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_destroy')
           innercontext.destroy()
         },
       },
       {
-        id: 'InnerAudioContext_onCanplay',
+        id: 'onCanplay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onCanplay')
           innercontext.onCanplay(() => {
@@ -74,7 +88,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onPlay',
+        id: 'onPlay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onPlay')
           innercontext.onPlay(() => {
@@ -83,7 +97,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onPause',
+        id: 'onPause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onPause')
           innercontext.onPause(() => {
@@ -92,7 +106,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onStop',
+        id: 'onStop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onStop')
           innercontext.onStop(() => {
@@ -101,7 +115,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onEnded',
+        id: 'onEnded',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onEnded')
           innercontext.onEnded(() => {
@@ -110,7 +124,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onTimeUpdate',
+        id: 'onTimeUpdate',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onTimeUpdate')
           innercontext.onTimeUpdate(() => {
@@ -119,7 +133,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onError-音频出错才能触发',
+        id: 'onError-音频出错才能触发',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onError')
           innercontext.onError(() => {
@@ -128,7 +142,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onWaiting-音频缓冲不足暂停才能触发',
+        id: '_onWaiting-音频缓冲不足暂停才能触发',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onWaiting')
           innercontext.onWaiting(() => {
@@ -137,7 +151,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onSeeking',
+        id: 'onSeeking',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onSeeking')
           innercontext.onSeeking(() => {
@@ -146,7 +160,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_onSeeked',
+        id: 'onSeeked',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onSeeked')
           innercontext.onSeeked(() => {
@@ -155,7 +169,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offCanplay',
+        id: 'offCanplay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offCanplay')
           innercontext.offCanplay(() => {
@@ -164,7 +178,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offPlay',
+        id: 'offPlay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offPlay')
           innercontext.offPlay(() => {
@@ -173,7 +187,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offPause',
+        id: 'offPause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offPause')
           innercontext.offPause(() => {
@@ -182,7 +196,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offStop',
+        id: 'offStop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offStop')
           innercontext.offStop(() => {
@@ -191,7 +205,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offEnded',
+        id: 'offEnded',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offEnded')
           innercontext.offEnded(() => {
@@ -200,7 +214,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offTimeUpdate',
+        id: 'offTimeUpdate',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offTimeUpdate')
           innercontext.offTimeUpdate(() => {
@@ -209,7 +223,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offError',
+        id: 'offError',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offError')
           innercontext.offError(() => {
@@ -218,7 +232,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offWaiting',
+        id: 'offWaiting',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offWaiting')
           innercontext.offWaiting(() => {
@@ -227,7 +241,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offSeeking',
+        id: 'offSeeking',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offSeeking')
           innercontext.offSeeking(() => {
@@ -236,7 +250,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'InnerAudioContext_offSeeked',
+        id: 'offSeeked',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offSeeked')
           innercontext.offSeeked(() => {
@@ -246,7 +260,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
