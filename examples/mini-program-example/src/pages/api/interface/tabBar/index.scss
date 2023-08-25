@@ -6,5 +6,20 @@
 }
 
 .back-btn {
-    background-color: $color-warning !important;
+    white-space: nowrap;
+    color: $color-grey-6;
+    margin: 20px auto;
+    text-align: center;
+    width: 240px;
+    padding: 15px 25px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 5px 2px $color-grey-1, 0 0 0 0 $color-grey-1 inset;
+    background-color: $color-oncall;
+    transition: 0.3s;
+}
+
+.back-btn:active {
+    color: $color-oncall;
+    background-color: $color-grey-6;
+    box-shadow: 0 0 0 0 $color-grey-1, 5px 5px 5px 2px $color-grey-1 inset;
 }

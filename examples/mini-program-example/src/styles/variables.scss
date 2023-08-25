@@ -6,10 +6,11 @@ $color-brand-light: #78a4f4 !default;
 $color-brand-dark: #346fc2 !default;
 
 /* Color */
-$color-success: #1F69FF !default;
-$color-error: #ff4949 !default;
-$color-warning: #ffc82c !default;
-$color-info: #78a4fa !default;
+$color-success: #317af7 !default;
+$color-error: #e84026 !default;
+$color-warning: #ed6f21 !default;
+$color-oncall: #64bb5c !default;
+$color-advanced: #63d095 !default;
 
 /* Color Palette */
 $color-black-0: #000 !default;
@@ -44,7 +45,7 @@ $color-link-disabled: #bfbfbf !default;
 
 /* 背景色 */
 $color-bg: #fff !default;
-$color-bg-base: #fafbfc !default;
+$color-bg-base: #f1f3f5 !default;
 $color-bg-light: #ecf5fd !default;
 $color-bg-lighter: tint($color-bg-light, 50%) !default;
 $color-bg-grey: #f7f7f7 !default;
@@ -68,7 +69,7 @@ $border-radius-circle: 50% !default;
 
 /* 透明度 */
 $opacity-active: 0.6 !default; // Button 等组件点击态额透明度
-$opacity-disabled: 0.3 !default; // Button 等组件禁用态的透明度
+$opacity-disabled: 0.4 !default; // Button 等组件禁用态的透明度
 
 /* Font */
 $font-size-xs: 10px * $hd !default; // 非常用字号，用于标签

@@ -56,16 +56,16 @@ export default class Index extends React.Component {
       },
       {
         id: 'getSelectedTextRange',
-        func: null
+        func: null,
       },
     ],
   }
 
-  onBoardHgiehtChange01 = (res:any) => {
+  onBoardHgiehtChange01 = (res: any) => {
     TestConsole.consoleOnCallback(res, 'onKeyboardHeightChange01')
   }
 
-  onBoardHgiehtChange02 = (res:any) => {
+  onBoardHgiehtChange02 = (res: any) => {
     TestConsole.consoleOnCallback(res, 'onKeyboardHeightChange02')
   }
 

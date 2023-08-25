@@ -1,10 +1,10 @@
+@import '@/styles/reset.scss';
 @import '@/styles/variables.scss';
 
 .api-page {
-    padding-top: 100px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    box-sizing: border-box;
+    padding: 40px;
+    height: 100%;
 }
 
 .test-style {
