@@ -1,8 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
-import withWeapp from '@tarojs/with-weapp'
 import './index.scss'
 
 /**
@@ -14,37 +14,89 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'App',
-        func: null,
+        id: 'App.onPageNotFound',
+        func: () => {
+          TestConsole.consoleTest('触发App.onPageNotFound')
+          Taro.navigateTo({
+            url: '/pages/unexistedpage',
+          })
+        },
+      },
+      {
+        id: 'App.onError',
+        func: () => {
+          TestConsole.consoleTest('触发App.onError')
+          throw new Error('')
+        },
       },
       {
         id: 'getApp',
-        func: (apiIndex) => {
-          const app = Taro.getApp()
-          console.log('getApp success ', app)
+        func: () => {
+          TestConsole.consoleTest('Taro.getApp')
+          TestConsole.consoleNormal('Taro.getApp', Taro.getApp())
         },
       },
       {
         id: 'getCurrentPages',
-        func: (apiIndex) => {
-          const pages = Taro.getCurrentPages()
-          console.log('getCurrentPages success ', pages)
+        func: () => {
+          TestConsole.consoleTest('Taro.getCurrentPages')
+          TestConsole.consoleNormal('Taro.getCurrentPages', Taro.getCurrentPages())
         },
       },
       {
         id: 'Page',
-        func: (apiIndex) => {
-          const pages = Taro.getCurrentPages()
-          console.log('pages...')
+        func: () => {
+          TestConsole.consoleTest('Taro.getCurrentInstance().page')
+          TestConsole.consoleNormal('当前页面信息', Taro.getCurrentInstance().page)
         },
       },
     ],
   }
+
+  onLoad(res) {
+    TestConsole.consoleNormal('Page.onLoad', res)
+  }
+
+  onUnload() {
+    TestConsole.consoleNormal('Page.onUnload')
+  }
+
+  onReady() {
+    TestConsole.consoleNormal('Page.onReady')
+  }
+
+  onPullDownRefresh() {
+    TestConsole.consoleNormal('Page.onPullDownRefresh')
+    Taro.showModal({
+      title: 'onPullDownRefresh',
+      showCancel: false,
+      success: () => {
+        Taro.stopPullDownRefresh()
+      },
+    })
+  }
+
+  onReachBottom() {
+    TestConsole.consoleNormal('Page.onReachBottom')
+    Taro.showToast({
+      title: 'onReachBottom',
+    })
+  }
+
+  onPageScroll(res) {
+    TestConsole.consoleNormal('Page.onPageScroll', res)
+  }
+
+  onResize(res) {
+    TestConsole.consoleNormal('Page.onResize', res)
+  }
+
   render() {
     const { list } = this.state
     return (
       <View className='api-page'>
         <ButtonList buttonList={list} />
+        <View style={{ height: '1000px', textAlign: 'center', border: '1px solid #000' }}>填充区域，可以滚动屏幕</View>
       </View>
     )
   }
