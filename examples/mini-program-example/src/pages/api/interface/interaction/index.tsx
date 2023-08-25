@@ -18,14 +18,78 @@ export default class Index extends React.Component {
         id: 'showToast',
         inputData: {
           title: 'showToast',
-          duration: 2000,
+          duration: 10000,
           icon: 'success',
           image: apiImage,
-          mask: true,
+          mask: false,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('showToast')
           Taro.showToast({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
+      },
+      {
+        id: 'hideToast',
+        inputData: {
+          noConflict: false,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('hideToast')
+          Taro.hideToast({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
+      },
+      {
+        id: 'showLoading',
+        inputData: {
+          title: '加载中',
+          mask: false,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('showLoading')
+          Taro.showLoading({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
+      },
+      {
+        id: 'hideLoading',
+        inputData: {
+          noConflict: false,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('hideLoading')
+          Taro.hideLoading({
             ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
@@ -53,28 +117,6 @@ export default class Index extends React.Component {
         func: (apiIndex, data) => {
           TestConsole.consoleTest('showModal')
           Taro.showModal({
-            ...data,
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          })
-        },
-      },
-      {
-        id: 'showLoading',
-        inputData: {
-          title: '加载中',
-          mask: true,
-        },
-        func: (apiIndex, data) => {
-          TestConsole.consoleTest('showLoading')
-          Taro.showLoading({
             ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
@@ -117,112 +159,6 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
-        },
-      },
-      {
-        id: 'hideToast',
-        inputData: {
-          noConflict: false,
-        },
-        func: (apiIndex, data) => {
-          TestConsole.consoleTest('showToast->hideToast')
-          Taro.showToast({
-            title: 'hideToast',
-            duration: 5000,
-          })
-          setTimeout(() => {
-            Taro.hideToast({
-              ...data,
-              success: (res) => {
-                TestConsole.consoleSuccess.call(this, res, apiIndex)
-              },
-              fail: (res) => {
-                TestConsole.consoleFail.call(this, res, apiIndex)
-              },
-              complete: (res) => {
-                TestConsole.consoleComplete.call(this, res, apiIndex)
-              },
-            })
-          }, 2000)
-        },
-      },
-      {
-        id: 'hideToast1',
-        inputData: {
-          noConflict: false,
-        },
-        func: (apiIndex, data) => {
-          TestConsole.consoleTest('showLoading->hideToast')
-          Taro.showLoading({
-            title: 'hideToast',
-          })
-          setTimeout(() => {
-            Taro.hideToast({
-              ...data,
-              success: (res) => {
-                TestConsole.consoleSuccess.call(this, res, apiIndex)
-              },
-              fail: (res) => {
-                TestConsole.consoleFail.call(this, res, apiIndex)
-              },
-              complete: (res) => {
-                TestConsole.consoleComplete.call(this, res, apiIndex)
-              },
-            })
-          }, 2000)
-        },
-      },
-      {
-        id: 'hideLoading',
-        inputData: {
-          noConflict: false,
-        },
-        func: (apiIndex, data) => {
-          TestConsole.consoleTest('showLoading->hideLoading')
-          Taro.showLoading({
-            title: 'hideLoading',
-          })
-          setTimeout(() => {
-            Taro.hideLoading({
-              ...data,
-              success: (res) => {
-                TestConsole.consoleSuccess.call(this, res, apiIndex)
-              },
-              fail: (res) => {
-                TestConsole.consoleFail.call(this, res, apiIndex)
-              },
-              complete: (res) => {
-                TestConsole.consoleComplete.call(this, res, apiIndex)
-              },
-            })
-          }, 2000)
-        },
-      },
-      {
-        id: 'hideLoading2',
-        inputData: {
-          noConflict: false,
-        },
-        func: (apiIndex, data) => {
-          TestConsole.consoleTest('showToast->hideLoading')
-          Taro.showToast({
-            title: 'hideLoading',
-            duration: 5000,
-          })
-          setTimeout(() => {
-            Taro.hideLoading({
-              ...data,
-              success: (res) => {
-                TestConsole.consoleSuccess.call(this, res, apiIndex)
-              },
-              fail: (res) => {
-                TestConsole.consoleFail.call(this, res, apiIndex)
-              },
-              complete: (res) => {
-                TestConsole.consoleComplete.call(this, res, apiIndex)
-              },
-            })
-          }, 2000)
         },
       },
       {
