@@ -733,25 +733,6 @@ ${code}
     return true
   }
 
-  // 调用copyFileToTaro实现拷贝对应的三方库到node_modules
-  generateNodeModule (modulePath: string) {
-    const parts = modulePath.split('/')
-    let moduleConvertPath = path.resolve(this.convertRoot, 'node_modules', parts[0])
-    if (!fs.existsSync(moduleConvertPath)) {
-      let moduleRootPath = path.resolve(this.root, 'node_modules', parts[0])
-      // 如果是pnpm下载的三方库，node_modules下的依赖包为快捷方式
-      while (fs.readdirSync(moduleRootPath).length < 2) {
-        const folders = fs.readdirSync(moduleRootPath)
-        moduleRootPath = path.join(moduleRootPath, folders[0])
-        moduleConvertPath = path.join(moduleConvertPath, folders[0])
-      }
-      if (fs.lstatSync(moduleRootPath).isSymbolicLink()) {
-        moduleRootPath = fs.readlinkSync(moduleRootPath)
-      }
-      copyFileToTaro(moduleRootPath, moduleConvertPath)
-    }
-  }
-
   traversePages () {
     this.pages.forEach((page) => {
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)

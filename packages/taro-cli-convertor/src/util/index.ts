@@ -159,12 +159,21 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
   let isThirdPartyLibExist = false
   for (const modulePath of nodePath) {
     const parts = filePath.split('/')
-    const npmModulePath = path.resolve(root, modulePath, parts[0])
+    let npmModulePath = path.resolve(root, modulePath, parts[0])
     if (fs.existsSync(npmModulePath)) {
       isThirdPartyLibExist = true
       // 转换后的三方库放在node_modules中
-      const moduleConvertPath = path.resolve(convertRoot, NODE_MODULES, parts[0])
+      let moduleConvertPath = path.resolve(convertRoot, NODE_MODULES, parts[0])
       if (!fs.existsSync(moduleConvertPath)) {
+        // 如果是pnpm下载的三方库，node_modules下的依赖包为快捷方式
+        while (fs.readdirSync(npmModulePath).length < 2) {
+          const folders = fs.readdirSync(npmModulePath)
+          npmModulePath = path.join(npmModulePath, folders[0])
+          moduleConvertPath = path.join(moduleConvertPath, folders[0])
+        }
+        if (fs.lstatSync(npmModulePath).isSymbolicLink()) {
+          npmModulePath = fs.readlinkSync(npmModulePath)
+        }
         copyFileToTaro(npmModulePath, moduleConvertPath)
       }
       break
