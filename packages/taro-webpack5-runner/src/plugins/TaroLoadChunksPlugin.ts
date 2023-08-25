@@ -118,7 +118,8 @@ export default class TaroLoadChunksPlugin {
           }
 
           const entryModule: TaroNormalModule = chunkEntryModule.rootModule ?? chunkEntryModule
-          const { miniType } = entryModule
+          const { miniType, isNativePage } = entryModule
+
           if (this.needAddCommon.length) {
             for (const item of this.needAddCommon) {
               if (getChunkIdOrName(chunk) === item) {
@@ -132,7 +133,7 @@ export default class TaroLoadChunksPlugin {
           }
 
           if (this.isIndependentPackages &&
-            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT)
+            (miniType === META_TYPE.PAGE || miniType === META_TYPE.COMPONENT || isNativePage)
           ) {
             return addRequireToSource(getChunkIdOrName(chunk), modules, commonChunks)
           }
