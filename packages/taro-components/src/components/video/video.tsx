@@ -451,7 +451,7 @@ export class Video implements ComponentInterface {
   }
 
   @Method()
-  async getHlsObject() {
+  async getHlsObject () {
     // Note: H5 端专属方法，获取 HLS 实例 fix #11894
     return this.hls
   }
@@ -537,6 +537,7 @@ export class Video implements ComponentInterface {
 
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
     this.isFullScreen = isFullScreen // this.videoRef?.['webkitDisplayingFullscreen']
+    console.log('1111111:' + this.isFullScreen)
     this.controlsRef.toggleVisibility(true)
     this.fullScreenTimestamp = new Date().getTime()
     this.onFullScreenChange.emit({

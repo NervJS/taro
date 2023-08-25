@@ -223,7 +223,13 @@ export class EditorContext implements Taro.EditorContext {
   removeFormat (option?: Taro.EditorContext.RemoveFormatOption | undefined): void {
     try {
       // https://www.tiny.cloud/docs/tinymce/6/editor-command-identifiers/#supported-browser-native-commands
+
+      this.activeEditor()?.formatter.remove('alignleft')
+      this.activeEditor()?.formatter.remove('aligncenter')
+      this.activeEditor()?.formatter.remove('alignright')
+      this.activeEditor()?.formatter.remove('alignjustify')
       this.activeEditor()?.execCommand('RemoveFormat')
+
       option?.success?.({ errMsg: `ok` })
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
