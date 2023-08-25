@@ -163,7 +163,6 @@ export default class Harmony extends TaroPlatformHarmony {
         ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
       }
       const define = {
-        global: 'globalThis',
         ...runtimeConstants,
       }
       // FIXME 临时方案，后续考虑获取配置 define、env 配置
