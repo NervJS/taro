@@ -320,7 +320,7 @@ export default class Index extends React.Component<Props> {
     const { list } = this.state
     return (
       <View className='api-page'>
-        <View className='api-page-btn back-btn' onClick={this.backToAPI}>
+        <View className='back-btn' onClick={this.backToAPI}>
           返回上一级
         </View>
         <ButtonList buttonList={list} />

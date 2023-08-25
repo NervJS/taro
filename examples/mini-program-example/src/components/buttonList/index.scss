@@ -115,6 +115,10 @@ textarea {
     pointer-events: none;
 }
 
+.api-page-btn-advanced {
+    background-color: $color-advanced;
+}
+
 .api-page-btn:active {
     color: $color-success;
     background-color: $color-grey-6;

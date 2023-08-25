@@ -494,7 +494,7 @@ export default class Index extends React.Component {
                               <View
                                 onClick={this.goToComponent.bind(this, page)}
                                 key={index}
-                                className='navigator'
+                                className='navigator navigator-bottom-line'
                                 id={page.page}
                               >
                                 <Text className='navigator-text'>

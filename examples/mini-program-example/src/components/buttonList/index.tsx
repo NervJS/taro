@@ -149,7 +149,9 @@ export default class Index extends React.Component<Props, States> {
                 ''
               )}
               <View
-                className={`api-page-btn ${item.func == null ? 'api-page-btn-uncreate' : ''}`}
+                className={`api-page-btn ${item.func == null ? 'api-page-btn-uncreate' : ''} ${
+                  item.advancedAPI ? 'api-page-btn-advanced' : ''
+                }`}
                 id={item.id}
                 onClick={() => {
                   this.submitData(inputData[apiIndex], item, apiIndex)
