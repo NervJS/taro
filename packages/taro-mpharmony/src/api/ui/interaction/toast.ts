@@ -39,7 +39,7 @@ export default class Toast {
       'text-align': 'center',
       'line-height': '1.6',
       color: '#FFFFFF',
-      background: 'rgba(17, 17, 17, 0.7)',
+      background: 'rgba(76, 76, 76, 1)',
     },
     successStyle: {
       margin: '6px auto',

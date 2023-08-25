@@ -4,6 +4,7 @@ const noop = function () {}
 
 export default class ActionSheet {
   options = {
+    alertText: '',
     itemList: [],
     itemColor: '#000000',
     success: noop,
@@ -33,15 +34,25 @@ export default class ActionSheet {
       background: '#EFEFF4',
       '-webkit-transition': '-webkit-transform .3s',
       transition: 'transform .3s',
+      'border-radius': '15px 15px 0 0',
     },
     menuStyle: {
       'background-color': '#FCFCFD',
+      'border-radius': '15px 15px 0 0',
     },
     cellStyle: {
       position: 'relative',
       padding: '10px 0',
       'text-align': 'center',
       'font-size': '18px',
+    },
+    titleStyle: {
+      position: 'relative',
+      padding: '10px 0',
+      'text-align': 'center',
+      'font-size': '16px',
+      color: 'rgba(0,0,0,0.8)',
+      display: 'none',
     },
     cancelStyle: {
       'margin-top': '6px',
@@ -59,6 +70,7 @@ export default class ActionSheet {
   actionSheet: HTMLDivElement
   menu: HTMLDivElement
   cells: HTMLDivElement[]
+  title: HTMLDivElement
   cancel: HTMLDivElement
   hideOpacityTimer: ReturnType<typeof setTimeout>
   hideDisplayTimer: ReturnType<typeof setTimeout>
@@ -66,7 +78,7 @@ export default class ActionSheet {
   create (options = {}) {
     return new Promise<string | number>((resolve) => {
       // style
-      const { maskStyle, actionSheetStyle, menuStyle, cellStyle, cancelStyle } = this.style
+      const { maskStyle, actionSheetStyle, menuStyle, cellStyle, titleStyle, cancelStyle } = this.style
 
       // configuration
       const config = {
@@ -116,12 +128,20 @@ export default class ActionSheet {
         return cell
       })
 
+      // title
+      this.title = document.createElement('div')
+      this.title.setAttribute('style', inlineStyle(titleStyle))
+      this.title.className = 'taro-actionsheet__cell'
+      this.title.textContent = config.alertText
+      this.title.style.display = config.alertText ? 'block' : 'none'
+
       // cancel
       this.cancel = document.createElement('div')
       this.cancel.setAttribute('style', inlineStyle(cancelStyle))
       this.cancel.textContent = '取消'
 
       // result
+      this.menu.appendChild(this.title)
       this.cells.forEach((item) => this.menu.appendChild(item))
       this.actionSheet.appendChild(this.menu)
       this.actionSheet.appendChild(this.cancel)
@@ -193,6 +213,8 @@ export default class ActionSheet {
         }
         this.cells.splice(itemListLen)
       }
+      this.title.textContent = config.alertText
+      this.title.style.display = config.alertText ? 'block' : 'none'
 
       // callbacks
       const cb = () => {
