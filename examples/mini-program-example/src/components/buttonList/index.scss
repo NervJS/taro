@@ -72,8 +72,8 @@
 
 .api-input-area-hidden {
     height: 0;
-    margin: 0;
-    border: 0;
+    margin: 0 auto;
+    border: $color-grey-0 solid 0px;
 }
 
 .textarea-control {
@@ -88,6 +88,7 @@
     opacity: $opacity-active;
     text-align: center;
     line-height: 40px;
+    z-index: 99;
 }
 
 .taro-textarea {

@@ -30,7 +30,7 @@ export default class Index extends React.Component {
           loop: false,
           volume: 1,
           playbackRate: 1,
-          referrerPolicy: 'origin'
+          referrerPolicy: 'origin',
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('InnerAudioContext_set')
@@ -260,7 +260,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>
