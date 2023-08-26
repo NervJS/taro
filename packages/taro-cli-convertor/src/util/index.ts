@@ -77,9 +77,9 @@ function copyFolderToTaro (source: string, destination: string) {
 
     const stat = fs.lstatSync(sourcePath)
     if (stat.isSymbolicLink()) {
-      // 如果是符号链接，获取链接的目标路径并创建新的符号链接
+      // 如果是符号链接，获取链接的目标路径并进行复制
       const target = fs.readlinkSync(sourcePath)
-      fs.symlinkSync(target, destinationPath)
+      copyFolderToTaro(target, destinationPath)
     } else if (stat.isDirectory()) {
       // 如果是子文件夹，则递归复制
       copyFolderToTaro(sourcePath, destinationPath)
