@@ -74,7 +74,7 @@ export default class Index extends React.Component<Props, States> {
       })
     } else {
       Taro.showToast({
-        title: '无法继续减少',
+        title: '已全部显示',
       })
     }
   }
@@ -87,7 +87,7 @@ export default class Index extends React.Component<Props, States> {
       })
     } else {
       Taro.showToast({
-        title: '无法继续增加',
+        title: '已全部隐藏',
       })
     }
   }
