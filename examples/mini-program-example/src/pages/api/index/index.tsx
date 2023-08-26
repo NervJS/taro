@@ -28,7 +28,7 @@ import alipayPng from '@/assets/api/alipay.png'
 import qqPng from '@/assets/api/qq.png'
 import swanPng from '@/assets/api/swan.png'
 import taroPng from '@/assets/api/taro.png'
-
+import { TestConsole } from '@/util/util'
 import TabBar from '../interface/tabBar'
 
 import './index.scss'
@@ -415,6 +415,10 @@ export default class Index extends React.Component {
         url: page.url,
       })
     }
+  }
+
+  onTabItemTap(res) {
+    TestConsole.consoleNormal('Page.onTabItemTap', res)
   }
 
   enterTabBarPage() {
