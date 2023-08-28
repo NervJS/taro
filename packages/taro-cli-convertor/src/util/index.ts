@@ -197,14 +197,15 @@ export function getMatchUnconvertDir (importPath: string, externalPaths: string[
   }
   // 支持用户在convert.config.json中配置不转换的目录
   for (let externalPath of externalPaths) {
-    externalPath = normalizePath(externalPath)
+    externalPath = normalizePath(externalPath).replace('*', '.*')
     const reg = new RegExp(externalPath)
     const match = reg.exec(normalizePath(importPath))
     // external字段配置如 1：../demo 2：../demo/* 3：../demo/*/demo
     if (match) {
       // 处理../demo/*
       if (externalPath.length >= 2 && externalPath.endsWith('*')) {
-        return externalPath.slice(0, externalPath.length - 2)
+        // 去掉结尾的".*"
+        return externalPath.slice(0, externalPath.length - 3)
       }
       return match[0]
     }
