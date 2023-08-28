@@ -1,4 +1,5 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import importPlugin from './babel'
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'
@@ -18,5 +19,6 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
     etsPlugin(appPath, taroConfig),
     multiPlatformPlugin(taroConfig),
     emitPlugin(),
+    importPlugin()
   ]
 }

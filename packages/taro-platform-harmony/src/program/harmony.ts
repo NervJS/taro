@@ -5,6 +5,7 @@ import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
 export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.HARMONY
+  globalObject = 'globalThis'
 
   abstract fileType: IFileType
   abstract useETS: boolean

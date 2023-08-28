@@ -1,7 +1,12 @@
-import { Current } from '@tarojs/runtime'
+import { Current, hooks } from '@tarojs/runtime'
 
 import * as apis from './apis'
 import { noop } from './utils'
+
+const taro = Object.assign({}, apis)
+if (hooks.isExist('initNativeApi')) {
+  hooks.call('initNativeApi', taro)
+}
 
 export function initNativeApi (taro) {
   (Current as any).taro = taro
@@ -13,12 +18,13 @@ export function initNativeApi (taro) {
       return globalThis.getApp
     }
   })
-  Object.assign(taro, apis)
 }
 
 export function initPxTransform (_opts?: any) {
   // noop
 }
 
+initNativeApi(taro)
+
 export * from './apis'
-export default apis
+export default taro

@@ -83,7 +83,7 @@ export default class Harmony extends TaroPlatformHarmony {
 
   moveLibraries(lib: string, target = '', basedir = this.ctx.paths.appPath, sync = false) {
     if (!lib) return
-
+  
     if (sync) {
       // FIXME 不支持 alias 配置
       const libName = lib
@@ -162,8 +162,11 @@ export default class Harmony extends TaroPlatformHarmony {
         ENABLE_CONTAINS: runtime.enableContains ?? false,
         ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
       }
-      const define = {
+      const define: { [name: string]: any } = {
         ...runtimeConstants,
+      }
+      if (lib.includes('@tarojs/runtime/dist')) {
+        define.global = 'globalThis'
       }
       // FIXME 临时方案，后续考虑获取配置 define、env 配置
       Object.keys(process.env).forEach(key => {

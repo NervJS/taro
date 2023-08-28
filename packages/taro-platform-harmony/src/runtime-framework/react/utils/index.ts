@@ -13,3 +13,4 @@ export const incrementId = () => {
 
 export const EMPTY_OBJ: any = {}
 
+export const HOOKS_APP_ID = 'taro-app'

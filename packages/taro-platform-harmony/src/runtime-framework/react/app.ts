@@ -9,7 +9,13 @@ import type React from 'react'
 let h: typeof React.createElement
 let ReactDOM
 
-export const ReactMeta = {
+interface ReactMeta {
+  PageContext: React.Context<string>
+  R: typeof React
+  Container: any
+}
+
+export const ReactMeta: ReactMeta = {
   R: EMPTY_OBJ,
   Container: EMPTY_OBJ,
   PageContext: EMPTY_OBJ
