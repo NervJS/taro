@@ -96,29 +96,8 @@ export function analyzeImportUrl (
   scriptFiles: Set<string>,
   source: t.StringLiteral,
   value: string,
-  external: string[],
-  miniprogramRoot: string,
-  convertDir: string,
   isTsProject?: boolean
 ) {
-  // 支持用户在convert.config.json中配置不转换的目录
-  let valueAbs: string = path.resolve(sourceFilePath, '..', value)
-  // 正则匹配需要正斜杠,win32默认反斜杠，先转posix
-  valueAbs = valueAbs.split(path.sep).join(path.posix.sep)
-  if (external) {
-    for (let iExternal of external) {
-      iExternal = iExternal.split(path.sep).join(path.posix.sep)
-      const reg = new RegExp(iExternal)
-      if (reg.test(valueAbs)) {
-        // 分隔符改回win32 再操作路径
-        valueAbs = valueAbs.split(path.posix.sep).join(path.sep)
-        const outputFilePath = valueAbs.replace(isTsProject ? miniprogramRoot : rootPath, convertDir)
-        copyFileToTaro(valueAbs, outputFilePath)
-        return
-      }
-    }
-  }
-
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
@@ -197,6 +176,7 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
         const moduleConvertPath = path.resolve(convertRoot, NODE_MODULES, parts[0])
         if (!fs.existsSync(moduleConvertPath)) {
           copyFolderToTaro(npmModulePath, moduleConvertPath)
+          printLog(processTypeEnum.COPY, '三方库', normalizePath(npmModulePath.replace(path.join(root, '/'), '')))
         }
         break
       }
@@ -208,4 +188,69 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
   } catch (error) {
     console.log(chalk.red(`转换三方库${filePath}异常，请手动处理, error message:${error}`))
   }
+}
+
+export function getMatchUnconvertDir (importPath: string, externalPaths: string[]) {
+  if (importPath === undefined || externalPaths === undefined) {
+    return null
+  }
+  // 支持用户在convert.config.json中配置不转换的目录
+  for (let externalPath of externalPaths) {
+    externalPath = normalizePath(externalPath)
+    const reg = new RegExp(externalPath)
+    const match = reg.exec(normalizePath(importPath))
+    // external字段配置如 1：../demo 2：../demo/* 3：../demo/*/demo
+    if (match) {
+      // 处理../demo/*
+      if (externalPath.length >= 2 && externalPath.endsWith('*')) {
+        return externalPath.slice(0, externalPath.length - 2)
+      }
+      return match[0]
+    }
+  }
+  return null
+}
+
+export function handleUnconvertDir (matchUnconvertDir: string, rootPath: string, convertRoot: string) {
+  if (matchUnconvertDir == null) {
+    return
+  }
+  // 支持用户在convert.config.json中配置不转换的目录
+  const outputFilePath = matchUnconvertDir.replace(normalizePath(rootPath), normalizePath(convertRoot))
+  if (!fs.existsSync(outputFilePath)) {
+    copyFileToTaro(matchUnconvertDir, outputFilePath)
+    printLog(processTypeEnum.COPY, '不转换目录', matchUnconvertDir.replace(normalizePath(path.join(rootPath, '/')), ''))
+  }
+}
+
+export function getMatchDirPath (filePath: string, matchStr: string) {
+  const reg = new RegExp(matchStr)
+  const match = reg.exec(filePath)
+  if (match) {
+    if (matchStr.length >= 2 && matchStr.endsWith('*')) {
+      return matchStr.slice(0, matchStr.length - 2)
+    }
+    return match[0]
+  }
+}
+
+// 路径标准化
+function normalizePath (path) {
+  if (typeof path === 'undefined') {
+    return ''
+  }
+  return path.replace(/\\/g, '/')
+}
+
+// 将数组中的相对路径转换为绝对路径
+export function transRelToAbsPath (baseFilePath: string, fileRelativePaths: string[]) {
+  if (typeof fileRelativePaths === 'undefined') {
+    return []
+  }
+  const absolutePath: string[] = []
+  for (const fileRelativePath of fileRelativePaths) {
+    // 相对路径转为绝对路径
+    absolutePath.push(path.resolve(baseFilePath, '..', fileRelativePath))
+  }
+  return absolutePath
 }
