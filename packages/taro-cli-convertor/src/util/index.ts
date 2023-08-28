@@ -1,5 +1,6 @@
 import {
   chalk,
+  CSS_IMPORT_REG,
   fs,
   printLog,
   processTypeEnum,
@@ -253,4 +254,23 @@ export function transRelToAbsPath (baseFilePath: string, fileRelativePaths: stri
     absolutePath.push(path.resolve(baseFilePath, '..', fileRelativePath))
   }
   return absolutePath
+}
+
+// 获取wxss中引用文件的相对路径集合
+export function getWxssImports (content: string) {
+  if (content == null) {
+    return []
+  }
+  // 匹配 /* ... */ 形式的注释
+  const regex = /\/\*([\s\S]*?)\*\//g
+  // 去掉css中的注释
+  const contentWithoutComment = content.replace(regex, '')
+
+  let match
+  const imports: string[] = []
+  const cssImportReg = new RegExp(CSS_IMPORT_REG)
+  while ((match = cssImportReg.exec(contentWithoutComment)) !== null) {
+    imports.push(match[2])
+  }
+  return imports
 }

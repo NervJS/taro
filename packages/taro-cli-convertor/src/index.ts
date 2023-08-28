@@ -29,6 +29,7 @@ import {
   copyFileToTaro,
   getMatchUnconvertDir,
   getPkgVersion,
+  getWxssImports,
   handleThirdPartyLib,
   handleUnconvertDir,
   incrementId,
@@ -99,13 +100,13 @@ interface IConvertConfig {
 }
 
 function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
-  const style: string[] = []
-  const imports: string[] = []
+  // 获取css中的引用样式文件路径集合
+  const imports: string[] = getWxssImports(content)
+
+  // 将引用的样式文件路径转换为相对路径，后缀名转换为.scss
   const styleReg = new RegExp('.wxss')
   content = content.replace(CSS_IMPORT_REG, (m, _$1, $2) => {
     if (styleReg.test($2)) {
-      style.push(m)
-      imports.push($2)
       if (processFn) {
         return processFn(m, $2)
       }
@@ -116,9 +117,9 @@ function processStyleImports (content: string, processFn: (a: string, b: string)
     }
     return m
   })
+
   return {
     content,
-    style,
     imports,
   }
 }
