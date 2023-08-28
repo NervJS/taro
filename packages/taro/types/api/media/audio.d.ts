@@ -292,83 +292,83 @@ declare module '../../index' {
     /** 音频进入可以播放状态，但不保证后面可以流畅播放
      * @supported weapp, h5, rn
      */
-    onCanplay(callback?: () => void): void
+    onCanplay(callback?: InnerAudioContext.OnCanplayCallback): void
     /** 音频播放事件
      * @supported weapp, h5, rn
      */
-    onPlay(callback?: () => void): void
+    onPlay(callback?: InnerAudioContext.OnPlayCallback): void
     /** 音频暂停事件
      * @supported weapp, h5, rn
      */
-    onPause(callback?: () => void): void
+    onPause(callback?: InnerAudioContext.OnPauseCallback): void
     /** 音频停止事件
      * @supported weapp, h5, rn
      */
-    onStop(callback?: () => void): void
+    onStop(callback?: InnerAudioContext.OnStopCallback): void
     /** 音频自然播放结束事件
      * @supported weapp, h5, rn
      */
-    onEnded(callback?: () => void): void
+    onEnded(callback?: InnerAudioContext.OnEndedCallback): void
     /** 音频播放进度更新事件
      * @supported weapp, h5, rn
      */
-    onTimeUpdate(callback?: () => void): void
+    onTimeUpdate(callback?: InnerAudioContext.OnTimeUpdateCallback): void
     /** 音频播放错误事件
      * @supported weapp, h5, rn
      */
-    onError(callback?: (res: InnerAudioContext.onErrorDetail) => void): void
+    onError(callback?: InnerAudioContext.OnErrorCallback): void
     /** 音频加载中事件，当音频因为数据不足，需要停下来加载时会触发
      * @supported weapp, h5, rn
      */
-    onWaiting(callback?: () => void): void
+    onWaiting(callback?: InnerAudioContext.OnWaitingCallback): void
     /** 音频进行 seek 操作事件
      * @supported weapp, h5, rn
      */
-    onSeeking(callback?: () => void): void
+    onSeeking(callback?: InnerAudioContext.OnSeekingCallback): void
     /** 音频完成 seek 操作事件
      * @supported weapp, h5, rn
      */
-    onSeeked(callback?: () => void): void
-    /** 取消监听 onCanplay 事件
+    onSeeked(callback?: InnerAudioContext.OnSeekedCallback): void
+    /** 取消监听 canplay 事件
      * @supported weapp, h5, rn
      */
-    offCanplay(callback?: () => void): void
-    /** 取消监听 onPlay 事件
+    offCanplay(callback?: InnerAudioContext.OnCanplayCallback): void
+    /** 取消监听 play 事件
      * @supported weapp, h5, rn
      */
-    offPlay(callback?: () => void): void
-    /** 取消监听 onPause 事件
+    offPlay(callback?: InnerAudioContext.OnPlayCallback): void
+    /** 取消监听 pause 事件
      * @supported weapp, h5, rn
      */
-    offPause(callback?: () => void): void
-    /** 取消监听 onStop 事件
+    offPause(callback?: InnerAudioContext.OnPauseCallback): void
+    /** 取消监听 stop 事件
      * @supported weapp, h5, rn
      */
-    offStop(callback?: () => void): void
-    /** 取消监听 onEnded 事件
+    offStop(callback?: InnerAudioContext.OnStopCallback): void
+    /** 取消监听 ended 事件
      * @supported weapp, h5, rn
      */
-    offEnded(callback?: () => void): void
-    /** 取消监听 onTimeUpdate 事件
+    offEnded(callback?: InnerAudioContext.OnEndedCallback): void
+    /** 取消监听 timeUpdate 事件
      * @supported weapp, h5, rn
      */
-    offTimeUpdate(callback?: () => void): void
-    /** 取消监听 onError 事件
+    offTimeUpdate(callback?: InnerAudioContext.OnTimeUpdateCallback): void
+    /** 取消监听 error 事件
      * @supported weapp, h5, rn
      */
-    offError(callback?: () => void): void
-    /** 取消监听 onWaiting 事件
+    offError(callback?: InnerAudioContext.OnErrorCallback): void
+    /** 取消监听 waiting 事件
      * @supported weapp, h5, rn
      */
-    offWaiting(callback?: () => void): void
-    /** 取消监听 onSeeking 事件
+    offWaiting(callback?: InnerAudioContext.OnWaitingCallback): void
+    /** 取消监听 seeking 事件
      * @supported weapp, h5, rn
      */
-    offSeeking(callback?: () => void): void
-    /** 取消监听 onSeeked 事件
+    offSeeking(callback?: InnerAudioContext.OnSeekingCallback): void
+    /** 取消监听 seeked 事件
      * @supported weapp, h5, rn
      */
-    offSeeked(callback?: () => void): void
+    offSeeked(callback?: InnerAudioContext.OnSeekedCallback): void
   }
 
   namespace InnerAudioContext {
@@ -391,6 +391,26 @@ declare module '../../index' {
       /** 未知错误 */
       '-1'
     }
+    /** 音频进入可以播放状态事件的回调函数 */
+    type OnCanplayCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频播放事件的回调函数 */
+    type OnPlayCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频暂停事件的回调函数 */
+    type OnPauseCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频停止事件的回调函数 */
+    type OnStopCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频自然播放结束事件的回调函数 */
+    type OnEndedCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频播放进度更新事件的回调函数 */
+    type OnTimeUpdateCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频播放错误事件的回调函数 */
+    type OnErrorCallback = (res: onErrorDetail) => void
+    /** 音频加载中事件的回调函数 */
+    type OnWaitingCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频进行 seek 操作事件的回调函数 */
+    type OnSeekingCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
+    /** 音频完成 seek 操作事件的回调函数 */
+    type OnSeekedCallback = (res: Partial<TaroGeneral.CallbackResult>) => void
   }
 
   /** MediaAudioPlayer 实例，可通过 [Taro.createMediaAudioPlayer](./createMediaAudioPlayer) 接口获取实例。
