@@ -256,11 +256,14 @@ export default class Index extends React.Component<Props> {
       },
       {
         id: 'setTabBarBadge',
-        func: (apiIndex) => {
+        inputData: {
+          index: 1,
+          text: '3',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('setTabBarBadge')
           Taro.setTabBarBadge({
-            index: 1,
-            text: 'askudfglsajkf',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
               Taro.showToast({

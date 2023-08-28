@@ -139,6 +139,7 @@ export default defineAppConfig({
     'pages/api/qq/index',
     'pages/api/redirection/index',
     'pages/api/routing/index',
+    'pages/api/routing/routeA/index',
     'pages/api/swan/index',
     'pages/api/taro/expand/index',
     'pages/api/taro/hooks/index',

@@ -78,7 +78,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('navigateTo')
           Taro.navigateTo({
-            url: '/pages/api/index/index?testParam01=1&testParam02=2&testParam03=3',
+            url: '/pages/api/routing/routeA/index?testParam01=1&testParam02=2&testParam03=3',
             events: {
               data: 'test',
             },
@@ -98,10 +98,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'navigateBack',
-        func: (apiIndex) => {
+        inputData: {
+          delta: 1,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('navigateBack')
           Taro.navigateBack({
-            delta: 2,
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
