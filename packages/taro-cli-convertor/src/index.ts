@@ -719,6 +719,14 @@ ${code}
   traversePages () {
     this.pages.forEach((page) => {
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
+
+      // 处理不转换的页面，可在convert.config.json中external字段配置
+      const matchUnconvertDir: string | null = getMatchUnconvertDir(pagePath, this.convertConfig?.external)
+      if (matchUnconvertDir !== null) {
+        handleUnconvertDir(matchUnconvertDir, this.root, this.convertRoot)
+        return
+      }
+
       const pageJSPath = pagePath + this.fileTypes.SCRIPT
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
       const pageConfigPath = pagePath + this.fileTypes.CONFIG
