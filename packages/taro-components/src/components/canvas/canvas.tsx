@@ -36,7 +36,7 @@ export class Canvas implements ComponentInterface {
 
   componentDidRender (): void {
     const [canvas] = this.el.children as unknown as HTMLCanvasElement[]
-    if (typeof this.height !== 'number' || typeof this.width !== 'number') {
+    if (!this.height || !this.width) {
       let style = window.getComputedStyle(canvas)
       this.height ||= style.height
       this.width ||= style.width
