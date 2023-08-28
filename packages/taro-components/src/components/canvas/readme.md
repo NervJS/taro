@@ -7,10 +7,12 @@
 
 ## Properties
 
-| Property      | Attribute   | Description | Type     | Default     |
-| ------------- | ----------- | ----------- | -------- | ----------- |
-| `canvasId`    | `canvas-id` |             | `string` | `undefined` |
-| `nativeProps` | --          |             | `{}`     | `{}`        |
+| Property      | Attribute | Description | Type     | Default     |
+| ------------- | --------- | ----------- | -------- | ----------- |
+| `canvasId`    | `id`      |             | `string` | `undefined` |
+| `height`      | `height`  |             | `string` | `undefined` |
+| `nativeProps` | --        |             | `{}`     | `{}`        |
+| `width`       | `width`   |             | `string` | `undefined` |
 
 
 ## Events
