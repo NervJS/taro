@@ -24,7 +24,16 @@ import Processors from 'postcss'
 import * as unitTransform from 'postcss-taro-unit-transform'
 import * as prettier from 'prettier'
 
-import { analyzeImportUrl, copyFileToTaro, getPkgVersion, handleThirdPartyLib, incrementId } from './util'
+import {
+  analyzeImportUrl,
+  copyFileToTaro,
+  getMatchUnconvertDir,
+  getPkgVersion,
+  handleThirdPartyLib,
+  handleUnconvertDir,
+  incrementId,
+  transRelToAbsPath,
+} from './util'
 import { generateMinimalEscapeCode } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
@@ -269,17 +278,7 @@ export default class Convertor {
               const node = astPath.node
               const source = node.source
               const value = source.value
-              analyzeImportUrl(
-                self.root,
-                sourceFilePath,
-                scriptFiles,
-                source,
-                value,
-                self.external,
-                self.miniprogramRoot,
-                self.convertDir,
-                self.isTsProject
-              )
+              analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
             CallExpression (astPath) {
               const node = astPath.node
@@ -289,17 +288,7 @@ export default class Convertor {
                 if (callee.name === 'require') {
                   const args = node.arguments as Array<t.StringLiteral>
                   const value = args[0].value
-                  analyzeImportUrl(
-                    self.root,
-                    sourceFilePath,
-                    scriptFiles,
-                    args[0],
-                    value,
-                    self.external,
-                    self.miniprogramRoot,
-                    self.convertDir,
-                    self.isTsProject
-                  )
+                  analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value, self.isTsProject)
                 } else if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
                   needInsertImportTaro = true
@@ -415,27 +404,13 @@ export default class Convertor {
   }
 
   getConvertConfig () {
-    // 处理convert.config.json,转为绝对路径后存到external里
-    let convertJsonPath: string
-    if (this.isTsProject) {
-      convertJsonPath = path.join(this.miniprogramRoot, `convert.config${this.fileTypes.CONFIG}`)
-    } else {
-      convertJsonPath = path.join(this.root, `convert.config${this.fileTypes.CONFIG}`)
-    }
+    // 处理convert.config.json，并存储到convertConfig中
+    const convertJsonPath: string = path.join(this.root, `convert.config${this.fileTypes.CONFIG}`)
     if (fs.existsSync(convertJsonPath)) {
       try {
         const convertJson = JSON.parse(String(fs.readFileSync(convertJsonPath)))
         this.convertConfig = { ...convertJson }
-        const externalJson = convertJson.external
-        if (typeof externalJson === 'undefined') {
-          return
-        }
-        const absolutePath: string[] = []
-        for (const iRpath of externalJson) {
-          // 相对路径转为绝对路径
-          absolutePath.push(path.resolve(convertJsonPath, '..', iRpath))
-        }
-        this.external = absolutePath
+        this.convertConfig.external = transRelToAbsPath(convertJsonPath, this.convertConfig.external)
       } catch (err) {
         console.log(chalk.red(`convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`))
         process.exit(1)
@@ -528,13 +503,20 @@ export default class Convertor {
     }
     if (files.size) {
       files.forEach((file) => {
-        // 处理三方库引用
+        if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
+          return
+        }
+
+        // 处理三方库引用，可在convert.config.json中nodePath字段自定义配置配置，默认node_modules
         if (!path.isAbsolute(file)) {
           handleThirdPartyLib(file, this.convertConfig?.nodePath, this.root, this.convertRoot)
           return
         }
 
-        if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
+        // 处理不转换的目录，可在convert.config.json中external字段配置
+        const matchUnconvertDir: string | null = getMatchUnconvertDir(file, this.convertConfig?.external)
+        if (matchUnconvertDir !== null) {
+          handleUnconvertDir(matchUnconvertDir, this.root, this.convertRoot)
           return
         }
 
