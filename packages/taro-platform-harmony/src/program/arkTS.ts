@@ -66,7 +66,7 @@ export default class Harmony extends TaroPlatformHarmony {
     ['@tarojs/runtime', /^@tarojs\/runtime$/, this.runtimeLibrary],
     ['@tarojs/taro', /^@tarojs\/taro$/, this.apiLibrary],
     ['@tarojs/plugin-framework-react/dist/runtime', /^@tarojs\/plugin-framework-react\/dist\/runtime$/, this.runtimeFrameworkLibrary],
-    ['react', /^react$/],
+    ['react', /^react$|react\/cjs/],
     ['react/jsx-runtime', /^react\/jsx-runtime$/], // Note: React 环境下自动注入，避免重复
   ]
 

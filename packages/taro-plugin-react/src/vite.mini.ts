@@ -36,8 +36,9 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
         ]
 
         const isProd = config.mode === 'production'
-
-        if (!isProd && ctx.initialConfig.mini?.debugReact !== true) {
+        // TODO：harmony 目前会导致部分包用 production 版本，部分用 development 版本，导致许多 api 报错
+        const isHarmony = ctx.runOpts.options.platform === 'harmony'
+        if (!isProd && ctx.initialConfig.mini?.debugReact !== true && !isHarmony) {
           // 不是生产环境，且没有设置 debugReact，则使用压缩版本的 react 依赖，减少体积
           alias.push({ find: /react-reconciler$/, replacement: 'react-reconciler/cjs/react-reconciler.production.min.js' })
           alias.push({ find: /react$/, replacement: 'react/cjs/react.production.min.js' })

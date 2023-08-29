@@ -1,5 +1,5 @@
 import { Current } from '@tarojs/runtime'
-import { isArray, isFunction, isUndefined } from '@tarojs/shared'
+import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
 import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
 import { incrementId } from './utils'
@@ -10,6 +10,7 @@ const pageId = incrementId()
 
 // TODO TYPE
 export function injectPageInstance (inst: any, id: string) {
+  hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
 }
 
@@ -133,7 +134,6 @@ export function createPageConfig (component: any, pageName?: string) {
           // if (!pageElement) {
           //   throw new Error(`没有找到页面实例。`)
           // }
-
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
           cb && cb()
