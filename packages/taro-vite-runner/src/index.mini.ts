@@ -4,13 +4,16 @@ import { build } from 'vite'
 import miniPreset from './mini'
 import { componentConfig } from './template/component'
 import { convertCopyOptions } from './utils'
+import { TaroCompiler } from './utils/compiler/mini'
 
 import type { UserConfig } from 'vite'
 import type { MiniBuildConfig } from './utils/types'
 
 export default async function (appPath: string, taroConfig: MiniBuildConfig) {
+  const compiler = new TaroCompiler(appPath, taroConfig)
+  
   const plugins: UserConfig['plugins'] = [
-    miniPreset(appPath, taroConfig)
+    miniPreset(compiler)
   ]
 
   // copy-plugin

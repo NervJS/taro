@@ -11,7 +11,7 @@ import { logger } from '../utils/logger'
 
 import type { InputPluginOption } from 'rollup'
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { MiniBuildConfig } from '../utils/types'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 const DEFAULT_TERSER_OPTIONS = {
   parse: {
@@ -51,7 +51,8 @@ const DEFAULT_TERSER_OPTIONS = {
   },
 }
 
-export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig, cwd: appPath } = compiler
   function getDefineOption() {
     const {
       env = {},

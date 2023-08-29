@@ -13,7 +13,6 @@ import { getComponentName } from '../../utils'
 import { Compiler } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { PluginContext } from 'rollup'
 import type { MiniBuildConfig } from '../types'
 import type { AppMeta, PageMeta } from './base'
 
@@ -47,8 +46,8 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
   commonChunks: string[]
   nativeComponents = new Map<string, NativeCompMeta>()
 
-  constructor (rollupCtx: PluginContext, appPath: string, taroConfig: MiniBuildConfig) {
-    super(rollupCtx, appPath, taroConfig)
+  constructor (appPath: string, taroConfig: MiniBuildConfig) {
+    super(appPath, taroConfig)
 
     this.fileType = this.taroConfig.fileType || defaultFileType
     this.commonChunks = this.getCommonChunks()

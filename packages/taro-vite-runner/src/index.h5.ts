@@ -4,13 +4,16 @@ import { createServer } from 'vite'
 import h5Preset from './h5'
 import { componentConfig } from './template/component'
 import { convertCopyOptions } from './utils'
+import { TaroCompiler } from './utils/compiler/h5'
 
 import type { InlineConfig, UserConfig } from 'vite'
 import type { H5BuildConfig } from './utils/types'
 
 export default async function (appPath: string, taroConfig: H5BuildConfig) {
+  const compiler = new TaroCompiler(appPath, taroConfig)
+
   const plugins: UserConfig['plugins'] = [
-    h5Preset(appPath, taroConfig)
+    h5Preset(compiler)
   ]
 
   // copy-plugin

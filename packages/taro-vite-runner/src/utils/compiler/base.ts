@@ -47,12 +47,17 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
   filesConfig: IMiniFilesConfig = {}
   compilePage: (pageName: string) => PageMeta
 
-  constructor (rollupCtx: PluginContext, appPath: string, taroConfig: T) {
-    this.rollupCtx = rollupCtx
+  constructor (appPath: string, taroConfig: T) {
     this.cwd = appPath
     this.sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
     this.taroConfig = taroConfig
     this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
+  }
+
+  // 在内部 preset 插件中，buildStart 钩子里面去调用
+  setRollupCtx (rollupCtx: PluginContext) {
+    this.rollupCtx = rollupCtx
+    this.rollupCtx?.addWatchFile(this.app.configPath)
   }
 
   getAppScriptPath (): string {

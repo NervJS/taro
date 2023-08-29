@@ -8,12 +8,13 @@ import path from 'path'
 import { Compiler } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { PluginContext } from 'rollup'
 import type { H5BuildConfig } from '../types'
 
 export class TaroCompiler extends Compiler<H5BuildConfig> {
-  constructor (rollupCtx: PluginContext, appPath: string, taroConfig: H5BuildConfig) {
-    super(rollupCtx, appPath, taroConfig)
+  pageName?: string
+
+  constructor (appPath: string, taroConfig: H5BuildConfig) {
+    super(appPath, taroConfig)
 
     this.app = this.getApp()
     this.pages = this.getPages()
@@ -46,5 +47,9 @@ export class TaroCompiler extends Compiler<H5BuildConfig> {
     this.rollupCtx?.addWatchFile(pageMeta.configPath)
 
     return pageMeta
+  }
+
+  setPageName (pageNmae: string): void {
+    this.pageName = pageNmae
   }
 }

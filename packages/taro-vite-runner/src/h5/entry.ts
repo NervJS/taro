@@ -1,7 +1,5 @@
-import path from 'path'
-
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
-import { appendVirtualModulePrefix, getH5Compiler } from '../utils'
+import { appendVirtualModulePrefix } from '../utils'
 
 import type { PluginOption } from 'vite'
 import type { PageMeta } from '../utils/compiler/base'
@@ -12,41 +10,50 @@ function genResource (page: PageMeta) {
   return [
     'Object.assign({',
     `  path: '${page.name}',`,
-    '  load: function(context, params) {',
-    `    const page = import("${page.scriptPath}")`,
+    '  load: async function(context, params) {',
+    `    const page = await import("${page.scriptPath}")`,
     '    return [page, context, params]',
     '  }',
     `}, ${JSON.stringify(page.config)})`
   ].join('\n')
 }
 
-export default function (): PluginOption {
+
+export default function (compiler): PluginOption {
+  const { taroConfig, app, pages } = compiler
+  const { router } = taroConfig
+  const isMultiRouterMode = router?.mode === 'multi'
+  const routerConfig = taroConfig.router || {}
+
   return {
     name: 'taro:vite-h5-entry',
     enforce: 'pre',
     async resolveId (source, importer) {
-      const compiler = getH5Compiler(this)
       const resolved = await this.resolve(source, importer, { skipSelf: true })
-      if (compiler && resolved?.id === compiler.app.configPath) {
+      if (!resolved?.id) return null
+      if (isMultiRouterMode && pages.some(({ configPath })=> configPath === resolved.id)) {
+        return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
+      }
+      if (resolved.id === compiler.app.configPath) {
         return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
-      const compiler = getH5Compiler(this)
-      if (compiler && id.endsWith(ENTRY_SUFFIX)) {
-        const { taroConfig, app, pages } = compiler
-        const routerConfig = taroConfig.router || {}
-        const routerMode = routerConfig.mode || 'hash'
-        const isMultiRouterMode = routerMode === 'multi'
+      if (id.endsWith(ENTRY_SUFFIX)) {
+        const { pageName } = compiler
         const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
         const appConfig = {
           router: routerConfig,
           ...app.config,
         }
-        // @TODO mutil router mode
+        const page = pages.find(({ name }) => name === pageName) as PageMeta
         const routesConfig = isMultiRouterMode
-          ? ''
+          ? [
+            'config.routes = []',
+            `config.route = ${genResource(page)}`,
+            `config.pageName = "${pageName}"`
+          ].join('\n')
           : [
             'config.routes = [',
             `${pages.map(page => genResource(page)).join(',\n')}`,

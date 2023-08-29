@@ -4,10 +4,9 @@ import { TaroCompiler } from '../utils/compiler/mini'
 
 import type { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { PluginOption } from 'vite'
-import type { MiniBuildConfig } from '../utils/types'
 
-export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
-  let compiler: TaroCompiler
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig } = compiler
   return {
     name: 'taro:vite-mini-pipeline',
     enforce: 'pre',
@@ -15,7 +14,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
       this.load({ id: TaroCompiler.label })
       const info = this.getModuleInfo(TaroCompiler.label)
       if (info) {
-        compiler = new TaroCompiler(this, appPath, taroConfig)
+        compiler.setRollupCtx(this)
         info.meta = { compiler }
       }
       const { template, baseLevel = 16 } = taroConfig

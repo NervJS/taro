@@ -2,27 +2,26 @@ import { fs, isEmptyObject } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { appendVirtualModulePrefix, getMiniCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
 import { miniTemplateLoader, QUERY_IS_NATIVE_COMP, QUERY_IS_NATIVE_PAGE } from './native-support'
 
+import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
 
 const ENTRY_SUFFIX = '?entry-loader=true'
 
-export default function (/* taroConfig: MiniBuildConfig */): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
   return {
     name: 'taro:vite-mini-entry',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      const compiler = getMiniCompiler(this)
       if (compiler?.isApp(source) && options.isEntry) {
         return appendVirtualModulePrefix(source + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
-      const compiler = getMiniCompiler(this)
       if (compiler && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, app } = compiler

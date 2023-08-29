@@ -5,8 +5,8 @@ import mrmime from 'mrmime'
 import { getMiniCompiler, isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
+import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption, ResolvedConfig } from 'vite'
-import type { MiniBuildConfig } from '../utils/types'
 
 type PostcssURLConfig = Partial<PostcssOption.url['config']>
 
@@ -18,7 +18,8 @@ const hashRE = /#.*$/s
 const cleanUrl = (url: string): string =>
   url.replace(hashRE, '').replace(queryRE, '')
 
-export default function (taroConfig: MiniBuildConfig): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig } = compiler
   let resolvedConfig: ResolvedConfig
   const assetsCache: WeakMap<ResolvedConfig, Map<string, string>> = new WeakMap()
   return {
