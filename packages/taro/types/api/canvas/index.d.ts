@@ -547,6 +547,7 @@ declare module '../../index' {
     ): CanvasPattern | null | Promise<CanvasPattern | null>
     /** 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
      * @supported weapp, h5
+     * @h5 第二次调用 draw 前需要等待上一次 draw 调用结束后再调用，否则新的一次 draw 调用栈不会清空而导致结果异常。
      * @example
      * 第二次 draw() reserve 为 true。所以保留了上一次的绘制结果，在上下文设置的 fillStyle 'red' 也变成了默认的 'black'。
      *
@@ -554,9 +555,10 @@ declare module '../../index' {
      * const ctx = Taro.createCanvasContext('myCanvas')
      * ctx.setFillStyle('red')
      * ctx.fillRect(10, 10, 150, 100)
-     * ctx.draw()
-     * ctx.fillRect(50, 50, 150, 100)
-     * ctx.draw(true)
+     * ctx.draw(false, () => {
+     *   ctx.fillRect(50, 50, 150, 100)
+     *   ctx.draw(true)
+     * })
      * ```
      * @example
      * 第二次 draw() reserve 为 false。所以没有保留了上一次的绘制结果和在上下文设置的 fillStyle 'red'。
@@ -565,9 +567,10 @@ declare module '../../index' {
      * const ctx = Taro.createCanvasContext('myCanvas')
      * ctx.setFillStyle('red')
      * ctx.fillRect(10, 10, 150, 100)
-     * ctx.draw()
-     * ctx.fillRect(50, 50, 150, 100)
-     * ctx.draw()
+     * ctx.draw(false, () => {
+     *   ctx.fillRect(50, 50, 150, 100)
+     *   ctx.draw()
+     * })
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.draw.html
      */
@@ -576,7 +579,7 @@ declare module '../../index' {
       reserve?: boolean,
       /** 绘制完成后执行的回调函数 */
       callback?: (...args: any[]) => any,
-    ): void
+    ): void | Promise<void>
     /** 绘制图像到画布
      * @supported weapp, h5
      * @example
