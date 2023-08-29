@@ -25,13 +25,20 @@ export default class Index extends React.Component {
         id: 'offKeyboardHeightChange',
         inputData: {
           closeAll: false,
+          close01: true,
+          close02: false,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.offKeyboardHeightChange ')
           if (data.closeAll) {
             Taro.offKeyboardHeightChange()
           } else {
-            Taro.offKeyboardHeightChange(this.onBoardHgiehtChange01)
+            if (data.close01) {
+              Taro.offKeyboardHeightChange(this.onBoardHgiehtChange01)
+            }
+            if (data.close02) {
+              Taro.offKeyboardHeightChange(this.onBoardHgiehtChange02)
+            }
           }
         },
       },
@@ -49,9 +56,13 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {

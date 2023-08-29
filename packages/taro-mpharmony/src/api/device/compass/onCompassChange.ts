@@ -1,12 +1,12 @@
 import Taro from '@tarojs/api'
 import { shouldBeFunction } from 'src/utils'
+import { taroCallbackMap } from 'src/utils/callbakMap'
 
 /**
- * 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 wx.stopCompass 停止监听。
- */
-export const onCompassChange: typeof Taro.onCompassChange = (callback) => {
-  const name = 'onKeyboardHeightChange'
-
+* 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 wx.stopCompass 停止监听。
+*/
+export const onCompassChange: typeof Taro.onCompassChange = callback => {
+  const name = 'onCompassChange'
   // callback must be an Function
   const isFunction = shouldBeFunction(callback)
   if (!isFunction.flag) {
@@ -14,6 +14,23 @@ export const onCompassChange: typeof Taro.onCompassChange = (callback) => {
     console.error(res.errMsg)
     return
   }
-  // @ts-ignore
-  native.onCompassChange(callback)
+
+  try {
+    if (!taroCallbackMap.has(callback)) {
+      function newCallback (res: any) {
+        const result: Taro.onCompassChange.OnCompassChangeCallbackResult = {
+          /** 精度 */
+          accuracy: res.accuracy === 3 ? 'high' : 'unreliable',
+          /** 面对的方向度数 */
+          direction: res.direction
+        }
+        callback(result)
+      }
+      taroCallbackMap.set(callback, newCallback)
+      // @ts-ignore
+      native.onCompassChange(newCallback)
+    }
+  } catch (exception) {
+    console.error(JSON.stringify(exception))
+  }
 }

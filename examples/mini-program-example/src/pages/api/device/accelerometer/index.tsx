@@ -17,39 +17,90 @@ export default class Index extends React.Component {
         id: 'stopAccelerometer',
         func: (apiIndex) => {
           TestConsole.consoleTest('stopAccelerometer')
-          Taro.stopAccelerometer().then((res) => {
-            TestConsole.consoleReturn(res)
+          Taro.stopAccelerometer({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {
         id: 'startAccelerometer',
-        func: (apiIndex) => {
+        inputData: {
+          interval: 'normal',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('startAccelerometer')
-          Taro.startAccelerometer().then((res) => {
-            TestConsole.consoleReturn(res)
+          Taro.startAccelerometer({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {
         id: 'onAccelerometerChange',
         func: (apiIndex) => {
           TestConsole.consoleTest('onAccelerometerChange')
-          Taro.onAccelerometerChange(this.callback)
+          Taro.onAccelerometerChange(this.onAccelerometerChange01)
+          Taro.onAccelerometerChange(this.onAccelerometerChange02)
         },
       },
       {
         id: 'offAccelerometerChange',
-        func: (apiIndex) => {
+        inputData: {
+          closeAll: false,
+          close01: true,
+          close02: false,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('offAccelerometerChange')
-          Taro.offAccelerometerChange()
+          if (data.closeAll) {
+            Taro.offAccelerometerChange()
+          } else {
+            if (data.close01) {
+              Taro.offAccelerometerChange(this.onAccelerometerChange01)
+            }
+            if (data.close02) {
+              Taro.offAccelerometerChange(this.onAccelerometerChange02)
+            }
+          }
         },
       },
     ],
   }
 
-  callback = (res: any) => {
-    TestConsole.consoleNormal('AccelerometerChangeCallback', res)
+  onAccelerometerChange01 = (res: any) => {
+    TestConsole.consoleOnCallback(res, 'onAccelerometerChange01')
+  }
+
+  onAccelerometerChange02 = (res: any) => {
+    TestConsole.consoleOnCallback(res, 'onAccelerometerChange02')
   }
 
   render() {

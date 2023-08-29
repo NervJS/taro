@@ -21,7 +21,8 @@ export default class Index extends React.Component {
         id: 'onNetworkStatusChange',
         func: (apiIndex) => {
           TestConsole.consoleTest('onNetworkStatusChange')
-          Taro.onNetworkStatusChange(this.callback)
+          Taro.onNetworkStatusChange(this.onNetworkStatusChange01)
+          Taro.onNetworkStatusChange(this.onNetworkStatusChange02)
         },
       },
       {
@@ -30,9 +31,23 @@ export default class Index extends React.Component {
       },
       {
         id: 'offNetworkStatusChange',
-        func: (apiIndex) => {
+        inputData: {
+          closeAll: false,
+          close01: true,
+          close02: false,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('offNetworkStatusChange')
-          Taro.offNetworkStatusChange(this.callback)
+          if (data.closeAll) {
+            Taro.offNetworkStatusChange()
+          } else {
+            if (data.close01) {
+              Taro.offNetworkStatusChange(this.onNetworkStatusChange01)
+            }
+            if (data.close02) {
+              Taro.offNetworkStatusChange(this.onNetworkStatusChange02)
+            }
+          }
         },
       },
       {
@@ -55,9 +70,13 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {
@@ -68,9 +87,17 @@ export default class Index extends React.Component {
     networkType: '未获取',
     networkState: null,
   }
+  // 网络状态的订阅，H5实现，数组存储订阅函数，同一个订阅函数未做去重处理。
+  onNetworkStatusChange01 = (res: any) => {
+    TestConsole.consoleOnCallback(res, 'onNetworkStatusChange01')
+    this.setState({
+      networkState: res.isConnected,
+      networkType: res.networkType,
+    })
+  }
 
-  callback = (res: any) => {
-    TestConsole.consoleSuccess(res)
+  onNetworkStatusChange02 = (res: any) => {
+    TestConsole.consoleOnCallback(res, 'onNetworkStatusChange02')
     this.setState({
       networkState: res.isConnected,
       networkType: res.networkType,
