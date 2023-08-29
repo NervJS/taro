@@ -50,6 +50,15 @@ export default class Index extends React.Component {
           TestConsole.consoleNormal('当前页面信息', Taro.getCurrentInstance().page)
         },
       },
+      {
+        id: 'Page.componentDidHide',
+        func: () => {
+          TestConsole.consoleTest('Page.componentDidHide')
+          Taro.navigateTo({
+            url: '/pages/api/interface/interaction/index',
+          })
+        },
+      },
     ],
   }
 
@@ -63,6 +72,14 @@ export default class Index extends React.Component {
 
   onReady() {
     TestConsole.consoleNormal('Page.onReady')
+  }
+
+  componentDidShow() {
+    TestConsole.consoleNormal('componentDidShow')
+  }
+
+  componentDidHide() {
+    TestConsole.consoleNormal('componentDidHide')
   }
 
   onPullDownRefresh() {
