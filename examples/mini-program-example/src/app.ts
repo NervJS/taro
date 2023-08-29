@@ -13,7 +13,7 @@ function App({ children }: PropsWithChildren) {
   })
 
   useDidHide(() => {
-    TestConsole.consoleNormal('useDiduseDidHideShow')
+    TestConsole.consoleNormal('useDidHide')
   })
 
   useError((error) => {
