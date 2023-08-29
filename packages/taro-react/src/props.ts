@@ -50,6 +50,7 @@ export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: P
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   const isCapture = name.endsWith('Capture')
+  const isHarmony = process.env.TARO_PLATFORM === 'harmony'
   let eventName = name.toLowerCase().slice(2)
   if (isCapture) {
     eventName = eventName.slice(0, -7)
@@ -57,12 +58,11 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 
   const compName = capitalize(toCamelCase(dom.tagName.toLowerCase()))
 
-  if (eventName === 'click' && compName in internalComponents) {
+  if (eventName === 'click' && !isHarmony && compName in internalComponents) {
     eventName = 'tap'
   }
 
   if (isFunction(value)) {
-    const isHarmony = process.env.TARO_PLATFORM === 'harmony'
     if (oldValue) {
       dom.removeEventListener(eventName, oldValue as any, !isHarmony ? false : undefined)
       dom.addEventListener(eventName, value, !isHarmony ? { isCapture, sideEffect: false } : undefined)

@@ -1,7 +1,13 @@
+/**
+ * 从API Version 6开始，该模块不再维护，可以使用模块@ohos.data.storage。在API Version 9后，推荐使用新模块@ohos.data.preferences。
+ * https://developer.harmonyos.com/cn/docs/documentation/doc-references-V3/js-apis-data-preferences-0000001427745052-V3
+*/
+
+import featureAbility from '@ohos.ability.featureAbility'
 import dataStorage from '@ohos.data.storage'
 import hilog from '@ohos.hilog'
-import app from '@system.app'
 
+// import app from '@system.app'
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
 import type { IAsyncParams } from '../utils/types'
@@ -18,16 +24,19 @@ interface IRemoveStorageParams extends IAsyncParams {
   key: string
 }
 
-const appInfo = app.getInfo()
-const appID = appInfo?.appID
+// const appInfo = app.getInfo()
+// const appID = appInfo?.appID
+const context = featureAbility.getContext()
 
-const storagePath = `/data/data/${appID}/api_storage`
 let storage
-try {
-  storage = dataStorage.getStorageSync(storagePath)
-} catch (error) {
-  hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
-}
+context.getFilesDir((error, data) => {
+  if (error) {
+    hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
+  } else {
+    const storagePath = `${data}/api_storage`
+    storage = dataStorage.getStorageSync(storagePath)
+  }
+})
 
 function getItem (key: string): { result: boolean, data?: number | string | boolean } {
   try {
