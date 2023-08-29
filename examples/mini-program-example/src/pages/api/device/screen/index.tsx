@@ -32,9 +32,13 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {
@@ -55,9 +59,13 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {
@@ -88,9 +96,13 @@ export default class Index extends React.Component {
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
     ],

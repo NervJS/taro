@@ -21,28 +21,20 @@ export default class Index extends React.Component {
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
               this.setState({ batteryInfo: { isCharging: res.isCharging, level: res.level, errMsg: res.errMsg } })
-              Taro.showModal({
-                content: `success:${res.errMsg}`,
-                showCancel: false,
-                confirmText: 'CLOSE',
-                confirmColor: '#00ff00',
-              })
             },
             fail: (res) => {
               TestConsole.consoleFail.call(this, res, apiIndex)
-              Taro.showModal({
-                content: `fail: ${res.errMsg}`,
-                showCancel: false,
-                confirmText: 'CLOSE',
-                confirmColor: '#ff0000',
-              })
             },
             complete: (res) => {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+            .then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+            .catch((err) => {
+              TestConsole.consoleReturn.call(this, err, apiIndex)
+            })
         },
       },
       {

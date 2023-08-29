@@ -15,6 +15,9 @@ export const onAccelerometerChange: typeof Taro.onAccelerometerChange = (callbac
     return
   }
 
+  if (!callback.name) {
+    Object.defineProperty(callback, 'name', { value: `${name}` })
+  }
   // @ts-ignore
   native.onAccelerometerChange(callback)
 }

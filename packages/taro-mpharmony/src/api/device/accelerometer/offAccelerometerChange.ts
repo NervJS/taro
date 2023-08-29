@@ -8,9 +8,9 @@ export const offAccelerometerChange: typeof Taro.offAccelerometerChange = (callb
   const name = 'offAccelerometerChange'
 
   // callback must be an Function or undefined
-  const isFunction = shouldBeFunction(callback)
-  if (!isFunction.flag && typeof callback !== 'undefined') {
-    const res = { errMsg: `${name}:fail ${isFunction.msg}` }
+  const isValid = shouldBeFunction(callback).flag || typeof callback === 'undefined'
+  if (!isValid) {
+    const res = { errMsg: `${name}:fail invalid params` }
     console.error(res.errMsg)
     return
   }
