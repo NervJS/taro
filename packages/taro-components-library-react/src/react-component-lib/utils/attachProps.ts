@@ -70,7 +70,7 @@ export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}
       }
       // Note: 移除节点上冗余事件、属性
       if (!newProps.hasOwnProperty(name)) {
-        if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+        if (/^on([A-Z].*)/.test(name)) {
           const eventName = name.substring(2)
           const eventNameLc = eventName.toLowerCase()
 
@@ -94,7 +94,7 @@ export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}
       if ((name === 'style' && typeof newProps[name] !== 'string') || ['children', 'ref', 'class', 'className', 'forwardedRef'].includes(name)) {
         return
       }
-      if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+      if (/^on([A-Z].*)/.test(name)) {
         const eventName = name.substring(2)
         const eventNameLc = eventName.toLowerCase()
 
