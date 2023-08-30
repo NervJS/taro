@@ -64,6 +64,25 @@ export const syncEvent = (
 export const attachProps = (node: HTMLElement, newProps: any, oldProps: any = {}) => {
   // some test frameworks don't render DOM elements, so we test here to make sure we are dealing with DOM first
   if (node instanceof Element) {
+    Object.keys(oldProps).forEach((name) => {
+      if (['style', 'children', 'ref', 'class', 'className', 'forwardedRef'].includes(name)) {
+        return
+      }
+      // Note: 移除节点上冗余事件、属性
+      if (!newProps.hasOwnProperty(name)) {
+        if (name.indexOf('on') === 0 && name[2] === name[2].toUpperCase()) {
+          const eventName = name.substring(2)
+          const eventNameLc = eventName.toLowerCase()
+
+          if (!isCoveredByReact(eventNameLc)) {
+            syncEvent(node, eventNameLc, undefined)
+          }
+        } else {
+          (node as any)[name] = null
+          node.removeAttribute(camelToDashCase(name))
+        }
+      }
+    })
     // add any classes in className to the class list
     node.className = getClassName(node.classList, newProps, oldProps)
 
