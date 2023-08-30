@@ -10,7 +10,7 @@ import type { NavigateBackOption, Option } from '../types/api'
 
 type MethodName = 'navigateTo' | 'navigateBack' | 'switchTab' | 'redirectTo' | 'reLaunch'
 
-function processNavigateUrl (option: Option) {
+export function processNavigateUrl (option: Option) {
   const pathPieces = parsePath(option.url)
 
   // 处理相对路径
