@@ -11,6 +11,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "files": [
+    "dist",
+    "index.js"
+  ],
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@tarojs/components": "~3.3.20",
