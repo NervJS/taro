@@ -136,14 +136,16 @@ export const downloadFile: typeof Taro.downloadFile = ({ url, header, withCreden
     })
   }) as any
 
-  result.headersReceive = task.onHeadersReceived
-  result.progress = task.onProgressUpdate
+  result.headersReceive = task.onHeadersReceived.bind(task)
+  result.progress = task.onProgressUpdate.bind(task)
 
-  return new Proxy(result, {
-    get (target, prop) {
-      const object = prop in task ? task : target
-      const value = object[prop]
-      return typeof value === 'function' ? value.bind(object) : value
-    },
+  const properties = {}
+  Object.keys(task).forEach(key => {
+    properties[key] = {
+      get () {
+        return typeof task[key] === 'function' ? task[key].bind(task) : task[key]
+      }
+    }
   })
+  return Object.defineProperties(result, properties)
 }
