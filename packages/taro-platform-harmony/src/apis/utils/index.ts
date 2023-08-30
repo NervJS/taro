@@ -10,6 +10,23 @@ export function unsupport (str: string) {
   }
 }
 
+export function temporarilyNotSupport (apiName: string, recommended?: string, isSync = true) {
+  return () => {
+    let errMsg = `暂不支持 API ${apiName}`
+    if (recommended) {
+      errMsg += `, 请使用 ${recommended}`
+    }
+    console.error(errMsg)
+    const error = new Error(errMsg)
+
+    if (!isSync) {
+      return Promise.reject(error)
+    } else {
+      return error
+    }
+  }
+}
+
 export function callAsyncSuccess<T extends FunctionType> (resolve, res, options?: IAsyncParams<T>) {
   options?.success?.(res)
   options?.complete?.(res)

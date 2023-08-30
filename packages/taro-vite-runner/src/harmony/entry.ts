@@ -56,6 +56,7 @@ export default function (): PluginOption {
   onDestroy() {}
 
   onWindowStageCreate(stage) {
+    context.resolver(this.context)
     stage.loadContent("${entryPagePath}", (err, data) => {
       if (err.code) {
         return this.app?.onError(err)
@@ -134,7 +135,7 @@ export default function (): PluginOption {
         return [
           setReconciler,
           'import UIAbility from "@ohos.app.ability.UIAbility"',
-          'import { window } from "@tarojs/runtime"',
+          'import { window, context } from "@tarojs/runtime"',
           `import { ${creator} } from "${creatorLocation}"`,
           'import { initPxTransform } from "@tarojs/taro"',
           setReconcilerPost,

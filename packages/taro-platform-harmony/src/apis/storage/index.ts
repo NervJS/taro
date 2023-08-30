@@ -2,13 +2,12 @@
  * 从API Version 6开始，该模块不再维护，可以使用模块@ohos.data.storage。在API Version 9后，推荐使用新模块@ohos.data.preferences。
  * https://developer.harmonyos.com/cn/docs/documentation/doc-references-V3/js-apis-data-preferences-0000001427745052-V3
 */
-
-import featureAbility from '@ohos.ability.featureAbility'
-import dataStorage from '@ohos.data.storage'
+import bundleManager from '@ohos.bundle.bundleManager'
+import dataPreferences from '@ohos.data.preferences'
 import hilog from '@ohos.hilog'
+import { Current } from '@tarojs/runtime'
 
-// import app from '@system.app'
-import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
 
 import type { IAsyncParams } from '../utils/types'
 
@@ -24,28 +23,25 @@ interface IRemoveStorageParams extends IAsyncParams {
   key: string
 }
 
-// const appInfo = app.getInfo()
-// const appID = appInfo?.appID
-const context = featureAbility.getContext()
-
-let storage
-context.getFilesDir((error, data) => {
-  if (error) {
+const preferencesPromise = (Current as any).contextPromise
+  .then((context) => {
+    return bundleManager
+      .getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+      .then(data => {
+        return dataPreferences
+          .getPreferences(context, `${data.appInfo.uid}Store`)
+      })
+  })
+  .catch((error) => {
     hilog.error(0x0000, 'TaroFailedTag', 'Failed to load the storage. Cause: %{public}s', error.code ? JSON.stringify(error) : error.message || error)
-  } else {
-    const storagePath = `${data}/api_storage`
-    storage = dataStorage.getStorageSync(storagePath)
-  }
-})
+  })
 
-function getItem (key: string): { result: boolean, data?: number | string | boolean } {
+async function getItem (key: string): Promise<{ result: boolean, data?: number | string | boolean }> {
   try {
-    const item = JSON.parse(storage.getSync(key, null))
-    if (item && typeof item === 'object' && item.hasOwnProperty('data')) {
-      return { result: true, data: item.data }
-    } else {
-      return { result: false }
-    }
+    const preferences = await preferencesPromise
+    const item = await preferences.get(key, null)
+
+    return { result: true, data: item }
   } catch (error) {
     return { result: false }
   }
@@ -53,14 +49,6 @@ function getItem (key: string): { result: boolean, data?: number | string | bool
 
 const storageSchema = {
   key: 'String'
-}
-
-export function getStorageSync (key: string) {
-  validateParams('getStorageSync', [key], ['string'])
-
-  const res = getItem(key)
-  if (res.result) return res.data
-  return ''
 }
 
 export function getStorage (options: IGetStorageParams) {
@@ -71,24 +59,18 @@ export function getStorage (options: IGetStorageParams) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
     }
-
-    const { result, data } = getItem(options.key)
-    const res: Record<string, any> = { errMsg: 'getStorage:ok' }
-    if (result) {
-      res.data = data
-      callAsyncSuccess(resolve, res, options)
-    } else {
-      res.errMsg = 'getStorage:fail data not found'
-      callAsyncFail(reject, res, options)
-    }
+    getItem(options.key).then(({ result, data }) => {
+      const res: Record<string, any> = { errMsg: 'getStorage:ok' }
+    
+      if (result) {
+        res.data = data
+        callAsyncSuccess(resolve, res, options)
+      } else {
+        res.errMsg = 'getStorage:fail data not found'
+        callAsyncFail(reject, res, options)
+      }
+    })
   })
-}
-
-export function setStorageSync (key: string, data: number | string | boolean) {
-  validateParams('setStorageSync', [key], ['string'])
-  const obj = { data }
-  storage.putSync(key, JSON.stringify(obj))
-  storage.flushSync()
 }
 
 export function setStorage (options: ISetStorageParams) {
@@ -103,15 +85,13 @@ export function setStorage (options: ISetStorageParams) {
     const { key, data } = options
     const res = { errMsg: 'setStorage:ok' }
 
-    setStorageSync(key, data)
+    preferencesPromise.then(async (preferences) => {
+      await preferences.put(key, data)
+      await preferences.flush()
 
-    callAsyncSuccess(resolve, res, options)
+      callAsyncSuccess(resolve, res, options)
+    })
   })
-}
-
-export function removeStorageSync (key: string) {
-  validateParams('removeStorageSync', [key], ['string'])
-  storage.deleteSync(key)
 }
 
 export function removeStorage (options: IRemoveStorageParams) {
@@ -123,22 +103,30 @@ export function removeStorage (options: IRemoveStorageParams) {
       return callAsyncFail(reject, res, options)
     }
 
-    removeStorageSync(options.key)
+    const { key } = options
 
-    const res = { errMsg: 'removeStorage:ok' }
-    callAsyncSuccess(resolve, res, options)
+    preferencesPromise.then(async (preferences) => {
+      await preferences.delete(key)
+      await preferences.flush()
+
+      const res = { errMsg: 'removeStorage:ok' }
+      callAsyncSuccess(resolve, res, options)
+    })
   })
-}
-
-export function clearStorageSync () {
-  storage.clearSync()
 }
 
 export function clearStorage (options: IAsyncParams) {
   return new Promise(resolve => {
-    clearStorageSync()
+    preferencesPromise.then(async (preferences) => {
+      await preferences.clear()
+      await preferences.flush()
 
-    const res = { errMsg: 'clearStorage:ok' }
-    callAsyncSuccess(resolve, res, options)
+      const res = { errMsg: 'clearStorage:ok' }
+      callAsyncSuccess(resolve, res, options)
+    })
   })
 }
+export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorage')
+export const setStorageSync = temporarilyNotSupport('setStorageSync', 'setStorage')
+export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')
+export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'removeStorage')
