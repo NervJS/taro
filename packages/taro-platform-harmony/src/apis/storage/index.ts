@@ -7,7 +7,7 @@ import dataPreferences from '@ohos.data.preferences'
 import hilog from '@ohos.hilog'
 import { Current } from '@tarojs/runtime'
 
-import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
 import type { IAsyncParams } from '../utils/types'
 
@@ -126,7 +126,3 @@ export function clearStorage (options: IAsyncParams) {
     })
   })
 }
-export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorage')
-export const setStorageSync = temporarilyNotSupport('setStorageSync', 'setStorage')
-export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')
-export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'removeStorage')

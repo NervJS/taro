@@ -304,3 +304,6 @@ export {
   setClipboardData,
   setScreenBrightness
 }
+
+export * from './vibrator'
+export * from './window'

@@ -11,32 +11,6 @@ import { isFunction } from '@tarojs/shared'
 import { unsupport } from '../utils'
 
 /**
- * 帐号授权登录
- * @param options
- */
-const login = (_options) => {
-  process.env.NODE_ENV !== 'production' && unsupport('login')
-  // return new Promise((resolve, reject) => {
-  //   const res: Record<string, any> = {}
-  //   const signInOption = new hmsJSAccount.HuaweiIdAuthParamsHelper().setScope(hmsJSAccount.PROFILE).setAuthorizationCode().build()
-  //   hmsJSAccount.HuaweiIdAuthManager.getAuthApi().getSignInIntent(signInOption)
-  //     .then(result => {
-  //       if (result) {
-  //         res.data = { code: result.serverAuthCode }
-  //         callAsyncSuccess(resolve, res, options)
-  //       } else {
-  //         res.errorMsg = 'signIn result data is null'
-  //         callAsyncFail(reject, res, options)
-  //       }
-  //     })
-  //     .catch(error => {
-  //       res.data = { errMsg: error.errMsg }
-  //       callAsyncFail(reject, res, options)
-  //     })
-  // })
-}
-
-/**
  * 通过Scope数组获取已登录的对应帐号信息(依赖login行为)
  * @param options
  */
@@ -123,6 +97,5 @@ export {
   getSetting,
   getUserInfo,
   getUserProfile,
-  login,
   openSetting
 }
