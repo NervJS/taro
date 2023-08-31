@@ -1,4 +1,7 @@
-import { eventCenter, getCurrentInstance } from '@tarojs/runtime/dist/runtime.esm'
+// eslint-disable-next-line import/no-duplicates
+import { Current } from '@tarojs/runtime'
+// eslint-disable-next-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
 const ENV_TYPE = {
   WEAPP: 'WEAPP',
@@ -16,6 +19,8 @@ const ENV_TYPE = {
 function getEnv () {
   return ENV_TYPE.HARMONY
 }
+
+const getCurrentInstance = () => Current
 
 export {
   ENV_TYPE,
