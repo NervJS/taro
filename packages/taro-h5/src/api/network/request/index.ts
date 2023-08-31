@@ -10,7 +10,7 @@ import { serializeParams } from '../../../utils'
 // @ts-ignore
 const { Link } = Taro
 
-function generateRequestUrlWithParams (url: string, params?: unknown) {
+function generateRequestUrlWithParams (url = '', params?: unknown) {
   params = typeof params === 'string' ? params : serializeParams(params)
   if (params) {
     url += (~url.indexOf('?') ? '&' : '?') + params
@@ -19,26 +19,36 @@ function generateRequestUrlWithParams (url: string, params?: unknown) {
   return url
 }
 
-// FIXME 移除 any 标注
-function _request (options) {
-  options = options || {}
-  if (typeof options === 'string') {
-    options = {
-      url: options
-    }
-  }
+function _request (options: Partial<Taro.request.Option> = {}) {
   const { success, complete, fail } = options
-  let url = options.url
-  const params: any = {}
+  const params: RequestInit = {}
   const res: any = {}
-  if (options.jsonp) {
-    Object.assign(params, options)
-    params.params = options.data
-    params.cache = options.jsonpCache
-    if (typeof options.jsonp === 'string') {
-      params.name = options.jsonp
+  let {
+    cache = 'default',
+    credentials,
+    data, dataType,
+    header = {},
+    jsonp,
+    method = 'GET',
+    mode,
+    responseType,
+    signal,
+    timeout = 2000,
+    url = '',
+    ...opts
+  } = options
+  Object.assign(params, opts)
+  if (jsonp) {
+    // @ts-ignore
+    params.params = data
+    params.cache = opts.jsonpCache
+    // @ts-ignore
+    params.timeout = timeout
+    if (typeof jsonp === 'string') {
+      // @ts-ignore
+      params.name = jsonp
     }
-    delete params.jsonp
+    // Note: https://github.com/luckyadam/jsonp-retry
     return jsonpRetry(url, params)
       .then(data => {
         res.statusCode = 200
@@ -53,47 +63,45 @@ function _request (options) {
         return Promise.reject(err)
       })
   }
-  params.method = options.method || 'GET'
+  params.method = method
   const methodUpper = params.method.toUpperCase()
-  params.cache = options.cache || 'default'
+  params.cache = cache
   if (methodUpper === 'GET' || methodUpper === 'HEAD') {
-    url = generateRequestUrlWithParams(url, options.data)
-  } else if (['[object Array]', '[object Object]'].indexOf(Object.prototype.toString.call(options.data)) >= 0) {
-    options.header = options.header || {}
-
-    const keyOfContentType = Object.keys(options.header).find(item => item.toLowerCase() === 'content-type')
+    url = generateRequestUrlWithParams(url, data)
+  } else if (['[object Array]', '[object Object]'].indexOf(Object.prototype.toString.call(data)) >= 0) {
+    const keyOfContentType = Object.keys(header).find(item => item.toLowerCase() === 'content-type')
     if (!keyOfContentType) {
-      options.header['Content-Type'] = 'application/json'
+      header['Content-Type'] = 'application/json'
     }
-    const contentType = options.header[keyOfContentType || 'Content-Type']
+    const contentType = header[keyOfContentType || 'Content-Type']
 
     if (contentType.indexOf('application/json') >= 0) {
-      params.body = JSON.stringify(options.data)
+      params.body = JSON.stringify(data)
     } else if (contentType.indexOf('application/x-www-form-urlencoded') >= 0) {
-      params.body = serializeParams(options.data)
+      params.body = serializeParams(data)
     } else {
-      params.body = options.data
+      params.body = data
     }
   } else {
-    params.body = options.data
+    params.body = data
   }
-  if (options.header) {
-    params.headers = options.header
+  if (header) {
+    params.headers = header
   }
-  if (options.mode) {
-    params.mode = options.mode
+  if (mode) {
+    params.mode = mode
   }
   let timeoutTimer: ReturnType<typeof setTimeout> | null = null
-  if (options.signal) {
-    params.signal = options.signal
-  } else if (typeof options.timeout === 'number') {
+  if (signal) {
+    params.signal = signal
+  } else if (typeof timeout === 'number') {
     const controller = new window.AbortController()
     params.signal = controller.signal
     timeoutTimer = setTimeout(function () {
       controller.abort()
-    }, options.timeout)
+    }, timeout)
   }
-  params.credentials = options.credentials
+  params.credentials = credentials
   return fetch(url, params)
     .then(response => {
       if (timeoutTimer) {
@@ -109,17 +117,17 @@ function _request (options) {
       for (const key of response.headers.keys()) {
         res.header[key] = response.headers.get(key)
       }
-      if (options.responseType === 'arraybuffer') {
+      if (responseType === 'arraybuffer') {
         return response.arrayBuffer()
       }
       if (res.statusCode !== 204) {
-        if (options.dataType === 'json' || typeof options.dataType === 'undefined') {
+        if (dataType === 'json' || typeof dataType === 'undefined') {
           return response.json().catch(() => {
             return null
           })
         }
       }
-      if (options.responseType === 'text' || options.dataType === 'text') {
+      if (responseType === 'text' || dataType === 'text') {
         return response.text()
       }
       return Promise.resolve(null)
@@ -149,6 +157,14 @@ function taroInterceptor (chain) {
 
 const link = new Link(taroInterceptor)
 
-export const request: typeof Taro.request = link.request.bind(link)
+export const request = (<T extends Partial<Taro.request.Option> = TaroGeneral.IAnyObject>(...args: [string | T, T]) => {
+  const [url = '', options = {} as T] = args
+  if (typeof url === 'string') {
+    options.url = url
+  } else {
+    Object.assign(options, url)
+  }
+  return link.request(options)
+}) as typeof Taro.request
 export const addInterceptor = link.addInterceptor.bind(link)
 export const cleanInterceptors = link.cleanInterceptors.bind(link)

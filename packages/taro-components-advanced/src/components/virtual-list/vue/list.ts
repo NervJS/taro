@@ -1,25 +1,27 @@
 import { isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
+import { defineComponent } from 'vue'
 
-import { convertNumber2PX } from '../../../utils/convert'
-import { omit } from '../../../utils/lodash'
-import { cancelTimeout, requestTimeout } from '../../../utils/timer'
+import { cancelTimeout, convertNumber2PX, defaultItemKey, getRectSizeSync, getScrollViewContextNode, omit, requestTimeout } from '../../../utils'
+import render from '../../../utils/vue-render'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
-import Preset from '../preset'
-import { defaultItemKey, getRectSize, getScrollViewContextNode } from '../utils'
-import render from './render'
+import Preset, { type IProps } from '../preset'
 
 const isWeb = isWebPlatform()
 
-export default {
+export default defineComponent({
   props: {
+    id: String,
     height: {
       type: [String, Number],
       required: true
     },
     width: {
       type: [String, Number],
+      required: true
+    },
+    item: {
       required: true
     },
     itemCount: {
@@ -30,6 +32,7 @@ export default {
       type: Array,
       required: true
     },
+    itemKey: Function,
     itemSize: {
       type: [Number, Function],
       required: true
@@ -42,14 +45,6 @@ export default {
       type: String,
       default: 'absolute'
     },
-    initialScrollOffset: {
-      type: Number,
-      default: 0
-    },
-    innerElementType: {
-      type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
-    },
     direction: {
       type: String,
       default: 'ltr'
@@ -57,6 +52,10 @@ export default {
     layout: {
       type: String,
       default: 'vertical'
+    },
+    initialScrollOffset: {
+      type: Number,
+      default: 0
     },
     overscanCount: {
       type: Number,
@@ -69,39 +68,42 @@ export default {
       type: Boolean,
       default: false
     },
-    item: {
-      required: true
+    enhanced: {
+      type: Boolean,
+      default: false
     },
-    itemKey: String,
-    itemTagName: {
-      type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
-    },
-    innerTagName: {
-      type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
-    },
-    outerTagName: {
-      type: String,
-      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
-    },
-    itemElementType: String,
-    outerElementType: String,
-    innerRef: String,
-    outerRef: String,
-    onItemsRendered: Function,
-    onScrollNative: Function,
     shouldResetStyleCacheOnItemSizeChange: {
       type: Boolean,
       default: true
     },
+    outerElementType: {
+      type: String,
+      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
+    },
+    innerElementType: {
+      type: String,
+      default: isWeb ? 'taro-view-core' : 'view'
+    },
+    itemElementType: {
+      type: String,
+      default: isWeb ? 'taro-view-core' : 'view'
+    },
+    outerTagName: String,
+    innerTagName: String,
+    itemTagName: String,
+    outerRef: String,
+    innerRef: String,
+    onScrollNative: Function,
+    onItemsRendered: Function,
   },
   data () {
-    const preset = new Preset(this.$props, this.refresh)
+    const preset = new Preset(this.$props as IProps, this.refresh as TFunc)
+    const id = this.$props.id || preset.id
+    preset.updateWrapper(id)
+
     return {
       itemList: preset.itemList,
       preset,
-      id: this.$props.id || preset.id,
       instance: this,
       isScrolling: false,
       scrollDirection: 'forward',
@@ -118,8 +120,7 @@ export default {
     refresh () {
       this.refreshCount = this.refreshCount + 1
     },
-    scrollTo (scrollOffset) {
-      const { enhanced } = this.$props
+    scrollTo (scrollOffset = 0, enhanced = this.preset.enhanced) {
       scrollOffset = Math.max(0, scrollOffset)
       if (this.scrollOffset === scrollOffset) return
 
@@ -127,14 +128,14 @@ export default {
         const isHorizontal = this.preset.isHorizontal
         const option: any = {
           animated: true,
-          duration: 500
+          duration: 300,
         }
         if (isHorizontal) {
           option.left	= scrollOffset
         } else {
           option.top = scrollOffset
         }
-        return getScrollViewContextNode(`#${this.$data.id}`).then((node: any) => node.scrollTo(option))
+        return getScrollViewContextNode(`#${this.preset.id}`).then((node: any) => node.scrollTo(option))
       }
 
       this.scrollDirection = this.scrollOffset < scrollOffset ? 'forward' : 'backward'
@@ -144,7 +145,7 @@ export default {
       this.$nextTick(this._resetIsScrollingDebounced)
     },
 
-    scrollToItem (index, align = 'auto') {
+    scrollToItem (index: number, align = 'auto', enhanced = this.preset.enhanced) {
       const { itemCount } = this.$props
       const { scrollOffset } = this.$data
 
@@ -152,101 +153,72 @@ export default {
 
       this.scrollTo(
         this.itemList.getOffsetForIndexAndAlignment(
-          this.$props,
           index,
           align,
           scrollOffset
-        )
+        ),
+        enhanced,
       )
     },
 
-    _callOnItemsRendered: memoizeOne(
-      function (
+    _callOnItemsRendered: memoizeOne(function (overscanStartIndex, overscanStopIndex, startIndex, stopIndex) {
+      return this.$props.onItemsRendered({
         overscanStartIndex,
         overscanStopIndex,
-        visibleStartIndex,
-        visibleStopIndex
-      ) {
-        return this.$props.onItemsRendered({
-          overscanStartIndex,
-          overscanStopIndex,
-          visibleStartIndex,
-          visibleStopIndex
-        })
-      }
-    ),
+        startIndex,
+        stopIndex
+      })
+    }),
 
-    _callOnScroll: memoizeOne(
-      function (
+    _callOnScroll: memoizeOne(function (scrollDirection, scrollOffset, scrollUpdateWasRequested, detail) {
+      this.$emit('scroll', {
         scrollDirection,
         scrollOffset,
         scrollUpdateWasRequested,
         detail
-      ) {
-        this.$emit('scroll', {
-          scrollDirection,
-          scrollOffset,
-          scrollUpdateWasRequested,
-          detail
-        })
-      }
-    ),
+      })
+    }),
 
     _callPropsCallbacks () {
       if (typeof this.$props.onItemsRendered === 'function') {
-        const { itemCount } = this.$props
-        if (itemCount > 0) {
-          const [
-            overscanStartIndex,
-            overscanStopIndex,
-            visibleStartIndex,
-            visibleStopIndex
-          ] = this._getRangeToRender()
-          this._callOnItemsRendered(
-            overscanStartIndex,
-            overscanStopIndex,
-            visibleStartIndex,
-            visibleStopIndex
-          )
+        if (this.$props.itemCount > 0) {
+          const [overscanStartIndex, overscanStopIndex, startIndex, stopIndex] = this._getRangeToRender()
+          this._callOnItemsRendered(overscanStartIndex, overscanStopIndex, startIndex, stopIndex)
         }
       }
 
-      this._callOnScroll(
-        this.scrollDirection,
-        this.scrollOffset,
-        this.scrollUpdateWasRequested,
-        this.preset.field
-      )
+      if (typeof this.$props.onScroll === 'function') {
+        this._callOnScroll(
+          this.scrollDirection,
+          this.scrollOffset,
+          this.scrollUpdateWasRequested,
+          this.preset.field
+        )
+      }
 
-      setTimeout(() => {
-        const [startIndex, stopIndex] = this._getRangeToRender()
-        const isHorizontal = this.preset.isHorizontal
-        for (let index = startIndex; index <= stopIndex; index++) {
-          this._getSizeUploadSync(index, isHorizontal)
-        }
-      }, 0)
+      if (this.itemList.isUnlimitedMode) {
+        setTimeout(() => {
+          const [startIndex, stopIndex] = this._getRangeToRender()
+          const isHorizontal = this.preset.isHorizontal
+          for (let index = startIndex; index <= stopIndex; index++) {
+            this._getSizeUploadSync(index, isHorizontal)
+          }
+        }, 0)
+      }
     },
 
     _getSizeUploadSync (index: number, isHorizontal: boolean) {
-      const ID = `#${this.$data.id}-${index}`
-
       return new Promise((resolve) => {
-        const success = ({ width, height }) => {
-          const size = isHorizontal ? width : height
-          if (!this.itemList.compareSize(index, size)) {
-            this.itemList.setSize(index, size)
-            resolve(this.itemList.getSize(index))
-          }
+        if (index >= 0 && index < this.$props.itemCount) {
+          const times = this.itemList.compareSize(index) ? 0 : 2
+          getRectSizeSync(`#${this.preset.id}-${index}`, 100, times).then(({ width, height }) => {
+            const size = isHorizontal ? width : height
+            if (typeof size === 'number' && size > 0 && !this.itemList.compareSize(index, size)) {
+              this.itemList.setSize(index, size)
+              resolve(this.itemList.getSize(index))
+            }
+          })
         }
-        const fail = () => {
-          const [startIndex, stopIndex] = this._getRangeToRender()
-          if (index >= startIndex && index <= stopIndex) {
-            setTimeout(() => {
-              getRectSize(ID, success, fail)
-            }, 100)
-          }
-        }
-        getRectSize(ID, success, fail)
       })
     },
 
@@ -260,17 +232,17 @@ export default {
 
     _onScrollHorizontal (event) {
       const {
-        clientWidth = this.itemList.wrapperSize,
         scrollHeight,
-        scrollWidth = this.itemList.getOffsetSize(),
+        scrollWidth = this.itemList.getOffsetSizeCache(),
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      const clientWidth = this.itemList.wrapperSize
       this.preset.field = {
-        scrollHeight: scrollHeight,
-        scrollWidth: this.itemList.getOffsetSize(),
-        scrollTop: scrollTop,
-        scrollLeft: scrollLeft,
+        scrollHeight,
+        scrollWidth,
+        scrollTop,
+        scrollLeft,
         clientHeight: scrollHeight,
         clientWidth: scrollWidth
       }
@@ -315,12 +287,12 @@ export default {
 
     _onScrollVertical (event) {
       const {
-        clientHeight = this.itemList.wrapperSize,
-        scrollHeight = this.itemList.getOffsetSize(),
+        scrollHeight = this.itemList.getOffsetSizeCache(),
         scrollWidth,
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      const clientHeight = this.itemList.wrapperSize
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)
       }
@@ -330,16 +302,13 @@ export default {
       }
 
       // Prevent Safari's elastic scrolling from causing visual shaking when scrolling past bounds.
-      const scrollOffset = Math.max(
-        0,
-        Math.min(scrollTop, scrollHeight - clientHeight)
-      )
+      const scrollOffset = Math.max(0, Math.min(scrollTop, scrollHeight - clientHeight))
       this.preset.field = {
-        scrollHeight: this.itemList.getOffsetSize(),
-        scrollWidth: scrollWidth,
+        scrollHeight,
+        scrollWidth,
         scrollTop: scrollOffset,
-        scrollLeft: scrollLeft,
-        clientHeight: clientHeight,
+        scrollLeft,
+        clientHeight,
         clientWidth: scrollWidth,
         diffOffset: this.preset.field.scrollTop - scrollOffset,
       }
@@ -352,9 +321,7 @@ export default {
     },
 
     _outerRefSetter (ref) {
-      const {
-        outerRef
-      } = this.$props
+      const { outerRef } = this.$props
       this._outerRef = ref
 
       if (typeof outerRef === 'function') {
@@ -369,18 +336,114 @@ export default {
         cancelTimeout(this.resetIsScrollingTimeoutId)
       }
 
-      this.resetIsScrollingTimeoutId = requestTimeout(
-        this._resetIsScrolling,
-        IS_SCROLLING_DEBOUNCE_INTERVAL
-      )
+      this.resetIsScrollingTimeoutId = requestTimeout(this._resetIsScrolling, IS_SCROLLING_DEBOUNCE_INTERVAL)
     },
 
     _resetIsScrolling () {
       this.resetIsScrollingTimeoutId = null
       this.isScrolling = false
       this.$nextTick(() => {
-        this.preset.getItemStyleCache(-1, null)
+        this.preset.resetCache()
       })
+    },
+
+    getRenderItemNode (index: number, type: 'node' | 'placeholder' = 'node') {
+      const { item, itemData, itemKey = defaultItemKey, useIsScrolling } = this.$props
+      const { isScrolling } = this.$data
+      const key = itemKey(index, itemData)
+
+      const style = this.preset.getItemStyle(index)
+      if (type === 'placeholder') {
+        return render(this.preset.itemElement, {
+          key,
+          id: `${this.preset.id}-${index}-wrapper`,
+          style: this.preset.isBrick ? style : { display: 'none' }
+        })
+      }
+
+      return render(this.preset.itemElement, {
+        key: itemKey(index, itemData),
+        id: `${this.preset.id}-${index}-wrapper`,
+        style
+      }, render(item, {
+        id: `${this.preset.id}-${index}`,
+        data: itemData,
+        index,
+        isScrolling: useIsScrolling ? isScrolling : undefined
+      }))
+    },
+
+    getRenderColumnNode () {
+      const { isScrolling } = this.$data
+      const { innerRef, itemCount } = this.$props
+      const isHorizontal = this.preset.isHorizontal
+      // Read this value AFTER items have been created,
+      // So their actual sizes (if variable) are taken into consideration.
+      const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
+      const columnProps: any = {
+        ref: innerRef,
+        key: `${this.preset.id}-inner`,
+        id: `${this.preset.id}-inner`,
+        style: {
+          height: isHorizontal ? '100%' : estimatedTotalSize,
+          width: !isHorizontal ? '100%' : estimatedTotalSize,
+          position: 'relative',
+          pointerEvents: isScrolling ? 'none' : 'auto',
+        }
+      }
+
+      const [startIndex, stopIndex] = this._getRangeToRender()
+      const items = []
+
+      if (this.preset.isRelative && !this.preset.isBrick) {
+        const pre = convertNumber2PX(this.itemList.getOffsetSizeCache(startIndex))
+        items.push(
+          render(this.preset.itemElement, {
+            key: `${this.preset.id}-pre`,
+            id: `${this.preset.id}-pre`,
+            style: {
+              height: isHorizontal ? '100%' : pre,
+              width: !isHorizontal ? '100%' : pre
+            }
+          })
+        )
+      }
+
+      const placeholderCount = this.preset.placeholderCount
+      const restCount = itemCount - stopIndex
+      const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
+      const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
+
+      for (let itemIndex = 0; itemIndex < stopIndex + postPlaceholder; itemIndex++) {
+        if (!this.preset.isBrick) {
+          if (itemIndex < startIndex - prevPlaceholder) {
+            itemIndex = startIndex - prevPlaceholder
+            continue
+          }
+        }
+
+        if (itemIndex < startIndex || itemIndex > stopIndex) {
+          items.push(this.getRenderItemNode(itemIndex, 'placeholder'))
+        } else {
+          items.push(this.getRenderItemNode(itemIndex))
+        }
+      }
+      return render(this.preset.innerElement, columnProps, items)
+    },
+    getRenderExpandNodes (direction: 'top' | 'bottom' | 'left' | 'right') {
+      const isHorizontal = this.preset.isHorizontal
+      const isRtl = this.preset.isRtl
+      const props: any = {
+        id: `${this.preset.id}-${direction}`,
+        style: {
+          visibility: 'hidden',
+          height: isHorizontal ? '100%' : 100,
+          width: isHorizontal ? 100 : '100%',
+          [isHorizontal ? isRtl ? 'marginRight' : 'marginLeft': 'marginTop']: -100,
+          zIndex: -1,
+        }
+      }
+      return render(this.preset.innerElement, props)
     }
   },
   mounted () {
@@ -396,6 +459,7 @@ export default {
     }
 
     this._callPropsCallbacks()
+    this.preset.boundaryDetection()
   },
   updated () {
     this.preset.update(this.$props)
@@ -438,81 +502,32 @@ export default {
     if (this.resetIsScrollingTimeoutId !== null) {
       cancelTimeout(this.resetIsScrollingTimeoutId)
     }
+    this.preset.dispose()
   },
 
   render () {
     const {
-      item,
       direction,
       height,
-      innerRef,
-      itemCount,
-      itemData,
-      itemKey = defaultItemKey,
       layout,
-      useIsScrolling,
       width,
       enhanced = false
-    } = omit(this.$props, ['innerElementType', 'innerTagName', 'itemElementType', 'itemTagName', 'outerElementType', 'outerTagName', 'position'])
+    } = omit(this.$props, [
+      'item', 'itemCount', 'itemData', 'itemKey', 'useIsScrolling',
+      'innerElementType', 'innerTagName', 'itemElementType', 'itemTagName',
+      'outerElementType', 'outerTagName', 'onScrollToLower', 'onScrollToUpper',
+      'upperThreshold', 'lowerThreshold',
+      'position', 'innerRef',
+    ])
     const {
-      id,
-      isScrolling,
       scrollOffset,
       scrollUpdateWasRequested
     } = this.$data
 
     const isHorizontal = this.preset.isHorizontal
-    const placeholderCount = this.preset.placeholderCount
-    const onScroll = isHorizontal
-      ? this._onScrollHorizontal
-      : this._onScrollVertical
-
-    const [startIndex, stopIndex] = this._getRangeToRender()
-
-    const items = []
-    if (itemCount > 0) {
-      const prevPlaceholder = startIndex < placeholderCount ? startIndex : placeholderCount
-      items.push(new Array(prevPlaceholder).fill(-1).map((_, index) => render(
-        this.preset.itemTagName, {
-          key: itemKey(index + startIndex - prevPlaceholder, itemData),
-          style: { display: 'none' }
-        }
-      )))
-      for (let index = startIndex; index <= stopIndex; index++) {
-        const style = this.preset.getItemStyle(index)
-        items.push(
-          render(this.preset.itemTagName, {
-            key: itemKey(index, itemData),
-            style
-          }, [
-            render(item, {
-              id: `${id}-${index}`,
-              props: {
-                id: `${id}-${index}`,
-                data: itemData,
-                index,
-                isScrolling: useIsScrolling ? isScrolling : undefined
-              }
-            })
-          ])
-        )
-      }
-      let restCount = itemCount - stopIndex
-      restCount =  restCount > 0 ? restCount : 0
-      const postPlaceholder = restCount < placeholderCount ? restCount : placeholderCount
-      items.push(new Array(postPlaceholder).fill(-1).map((_, index) => render(
-        this.preset.itemTagName, {
-          key: itemKey(1 + index + stopIndex, itemData),
-          style: { display: 'none' }
-        }
-      )))
-    }
-
-    // Read this value AFTER items have been created,
-    // So their actual sizes (if variable) are taken into consideration.
-    const estimatedTotalSize = convertNumber2PX(this.itemList.getOffsetSize())
+    const isRtl = this.preset.isRtl
     const outerElementProps: any = {
-      id,
+      id: this.preset.id,
       ref: this._outerRefSetter,
       layout,
       enhanced,
@@ -526,11 +541,13 @@ export default {
         direction
       },
       attrs: {
-        scrollY: layout === 'vertical',
-        scrollX: layout === 'horizontal'
+        scrollY: !this.preset.isHorizontal,
+        scrollX: this.preset.isHorizontal
       },
       on: {
-        scroll: onScroll
+        scroll: isHorizontal
+          ? this._onScrollHorizontal
+          : this._onScrollVertical
       }
     }
 
@@ -542,45 +559,12 @@ export default {
       }
     }
 
-    if (this.preset.isRelative) {
-      const pre = convertNumber2PX(this.itemList.getOffsetSize(startIndex))
-      return render(this.preset.outerTagName, outerElementProps, [
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
-        render(this.preset.itemTagName, {
-          key: `${id}-pre`,
-          id: `${id}-pre`,
-          style: {
-            height: isHorizontal ? '100%' : pre,
-            width: !isHorizontal ? '100%' : pre
-          }
-        }),
-        render(this.preset.innerTagName, {
-          ref: innerRef,
-          key: `${id}-inner`,
-          id: `${id}-inner`,
-          style: {
-            pointerEvents: isScrolling ? 'none' : 'auto',
-            position: 'relative',
-          }
-        }, items),
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
-      ])
-    } else {
-      return render(this.preset.outerTagName, outerElementProps, [
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
-        render(this.preset.innerTagName, {
-          ref: innerRef,
-          key: `${id}-inner`,
-          id: `${id}-inner`,
-          style: {
-            height: isHorizontal ? '100%' : estimatedTotalSize,
-            pointerEvents: isScrolling ? 'none' : 'auto',
-            position: 'relative',
-            width: !isHorizontal ? '100%' : estimatedTotalSize
-          }
-        }, items),
-        process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
-      ])
-    }
+    return render(this.preset.outerElement, outerElementProps, [
+      this.getRenderExpandNodes(isHorizontal ? isRtl ? 'right' : 'left' : 'top'),
+      process.env.FRAMEWORK === 'vue3' ? this.$slots.top?.() : this.$slots.top,
+      this.getRenderColumnNode(),
+      process.env.FRAMEWORK === 'vue3' ? this.$slots.bottom?.() : this.$slots.bottom,
+      this.getRenderExpandNodes(isHorizontal ? isRtl ? 'left' : 'right' : 'bottom'),
+    ])
   }
-}
+})

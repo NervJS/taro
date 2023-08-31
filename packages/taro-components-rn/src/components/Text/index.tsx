@@ -16,7 +16,7 @@ const _Text: React.FC<TextProps> = ({
   selectable,
   onClick,
   ...otherProps
-}: TextProps) => {
+}) => {
   return (
     <Text
       selectable={!!selectable}

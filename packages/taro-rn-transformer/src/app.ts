@@ -37,10 +37,16 @@ function getPagesResource (appPath: string, basePath: string, pathPrefix: string
   }
 }
 
-function getPageScreen (pagePath: string) {
+function getPageComponent (pagePath: string){
   const screen = camelCase(pagePath)
   const screenConfigName = `${screen}Config`
-  return `{name:'${screen}',pagePath:'${pagePath}',component:createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})}`
+  return `createPageConfig(${screen},{...${screenConfigName},pagePath:'${pagePath}'})`
+}
+
+function getPageScreen (pagePath: string) {
+  const screen = camelCase(pagePath)
+  const screenComponent = getPageComponent(pagePath)
+  return `{name:'${screen}',pagePath:'${pagePath}',component:${screenComponent}}`
 }
 
 export function getAppConfig (appPath: string) {
@@ -119,6 +125,7 @@ export default function generateEntry ({
   const appComponentPath = `./${sourceDir}/${entryName}`
 
   const appTabBar = getFormatTabBar(appPath, basePath)
+  const firstPage = getPageComponent(routeList[0])
 
   const code = `import 'react-native-gesture-handler'
   import { AppRegistry } from 'react-native'
@@ -134,7 +141,7 @@ export default function generateEntry ({
   const config = { appConfig: { ...buildConfig, ...AppComponentConfig } }
   global.__taroAppConfig = config
   config['pageList'] = [${routeList.map(pageItem => getPageScreen(pageItem))}]
-  AppRegistry.registerComponent('${appName}',() => createReactNativeApp(Component,config))
+  AppRegistry.registerComponent('${appName}',() => createReactNativeApp(Component,config,${firstPage}))
   `
   return code
 }
