@@ -5,7 +5,7 @@ import nodeResolve from '@rollup/plugin-node-resolve'
 import * as pluginReplace from '@rollup/plugin-replace'
 import { recursiveMerge } from '@tarojs/helper'
 import { rollupTransform as styleTransformer } from '@tarojs/rn-style-transformer'
-import { resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
+import { getBabelConfig, resolveExtFile, rollupResolver as taroResolver } from '@tarojs/rn-supporter'
 import { getAppConfig } from '@tarojs/rn-transformer'
 import * as jsx from 'acorn-jsx'
 import * as path from 'path'
@@ -49,7 +49,7 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       if (!path.isAbsolute(cur)) {
         absolutePath = path.resolve(sourceRootPath, cur)
       }
-      const realPath = resolveExtFile({ originModulePath: absolutePath }, absolutePath)
+      const realPath = resolveExtFile({ originModulePath: absolutePath }, absolutePath, undefined, projectConfig)
       const relativePath = path
         .relative(sourceRootPath, realPath)
         .replace(/\.(js|ts|jsx|tsx)$/, '')
@@ -80,6 +80,8 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
     })
   }
 
+  const { plugins } = getBabelConfig(projectConfig, true)
+
   const rollupOptions: RollupOptions = {
     input: getInputOption(),
     output: {
@@ -100,7 +102,7 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
       taroResolver({
         externalResolve,
         platform: projectConfig.deviceType // ios|android
-      }),
+      }, projectConfig),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.node', '.ts', '.tsx']
       }),
@@ -123,6 +125,7 @@ export const build = async (projectConfig, componentConfig: IComponentConfig) =>
             }
           ]
         ],
+        plugins,
         extensions: ['js', 'ts', 'jsx', 'tsx']
       }),
       styleTransformer({

@@ -1,6 +1,10 @@
 import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
-import { defineCustomElementTaroSwiperCore, defineCustomElementTaroSwiperItemCore } from '@tarojs/components/dist/components'
+import {
+  defineCustomElementTaroSwiperCore,
+  defineCustomElementTaroSwiperItemCore,
+} from '@tarojs/components/dist/components'
+import { eventCenter } from '@tarojs/runtime'
 import { isFunction } from '@tarojs/shared'
 
 import { shouldBeObject } from '../../../utils'
@@ -51,11 +55,17 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const { urls = [], current = '', success, fail, complete } = options
   const handle = new MethodHandler({ name: 'previewImage', success, fail, complete })
   const container = document.createElement('div')
-  container.classList.add('preview-image')
-  container.style.cssText = 'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
-  container.addEventListener('click', () => {
+  const removeHandler = () => {
+    eventCenter.off('__taroRouterChange', removeHandler)
     container.remove()
-  })
+  }
+  // 路由改变后应该关闭预览框
+  eventCenter.on('__taroRouterChange', removeHandler)
+
+  container.classList.add('preview-image')
+  container.style.cssText =
+    'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
+  container.addEventListener('click', removeHandler)
 
   const swiper: HTMLElement & Omit<SwiperProps, 'style' | 'children'> = document.createElement('taro-swiper-core')
   // @ts-ignore
@@ -65,12 +75,10 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
 
   let children: Node[] = []
   try {
-    children = await Promise.all(
-      urls.map(e => loadImage(e, fail))
-    )
+    children = await Promise.all(urls.map((e) => loadImage(e, fail)))
   } catch (error) {
     return handle.fail({
-      errMsg: error
+      errMsg: error,
     })
   }
 
@@ -79,8 +87,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
     swiper.appendChild(child)
   }
 
-  const currentIndex = urls.indexOf(current)
-  // @ts-ignore
+  const currentIndex = typeof current === 'number' ? current : urls.indexOf(current)
+
   swiper.current = currentIndex
 
   container.appendChild(swiper)

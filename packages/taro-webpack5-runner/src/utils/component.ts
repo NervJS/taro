@@ -6,3 +6,7 @@ export const componentConfig: IComponentConfig = {
   thirdPartyComponents: new Map(),
   includeAll: false
 }
+
+// 用户 cache 功能开启时，记录 parser 过程中的组件信息
+export const elementNameSet = new Set()
+export const componentNameSet = new Set()

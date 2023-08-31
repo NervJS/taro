@@ -7,3 +7,6 @@ export const setKeepScreenOn = /* @__PURE__ */ temporarilyNotSupport('setKeepScr
 export const onUserCaptureScreen = /* @__PURE__ */ temporarilyNotSupport('onUserCaptureScreen')
 export const offUserCaptureScreen = /* @__PURE__ */ temporarilyNotSupport('offUserCaptureScreen')
 export const getScreenBrightness = /* @__PURE__ */ temporarilyNotSupport('getScreenBrightness')
+export const onScreenRecordingStateChanged = /* @__PURE__ */ temporarilyNotSupport('onScreenRecordingStateChanged')
+export const offScreenRecordingStateChanged = /* @__PURE__ */ temporarilyNotSupport('offScreenRecordingStateChanged')
+export const getScreenRecordingState = /* @__PURE__ */ temporarilyNotSupport('getScreenRecordingState')

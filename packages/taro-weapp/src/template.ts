@@ -1,4 +1,4 @@
-import { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import { Shortcuts, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 import type { IOptions } from './index'
 
@@ -57,18 +57,19 @@ export class Template extends UnRecursiveTemplate {
     }
   }
 
-  modifyTemplateResult = (res: string, nodeName: string, _level, children) => {
+  modifyTemplateResult = (res: string, nodeName: string, _, children) => {
     if (nodeName === 'keyboard-accessory') return ''
 
     if ((nodeName === 'textarea' || nodeName === 'input') && this.pluginOptions.enablekeyboardAccessory) {
       const list = res.split('</template>')
       const componentAlias = this.componentsAlias[nodeName]
       const nodeNameAlias = componentAlias._num
+      const xs = `xs.a(c, item.${Shortcuts.NodeName}, l)`
 
       const target = `
     <keyboard-accessory style="{{i.cn[0].st}}" class="{{i.cn[0].cl}}" bindtap="eh"  id="{{i.cn[0].uid||i.cn[0].sid}}" data-sid="{{i.cn[0].sid}}">
       <block wx:for="{{i.cn[0].cn}}" wx:key="sid">
-        <template is="{{xs.e(cid+1)}}" data="{{i:item,l:l}}" />
+        <template is="{{${xs}}}" data="{{i:item,c:c+1,l:xs.f(l,item.${Shortcuts.NodeName})}}" />
       </block>
     </keyboard-accessory>
   `

@@ -59,6 +59,8 @@ export function createRouter (
 
   const render: LocationListener = async ({ location, action }) => {
     handler.pathname = decodeURI(location.pathname)
+
+    if ((window as any).__taroAppConfig?.usingWindowScroll) window.scrollTo(0,0)
     eventCenter.trigger('__taroRouterChange', {
       toLocation: {
         path: handler.pathname
@@ -141,7 +143,9 @@ export function createRouter (
       if (currentPage !== stacks.getItem(prevIndex)) {
         handler.unload(currentPage, delta, prevIndex > -1)
         if (prevIndex > -1) {
-          handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+          eventCenter.once('__taroPageOnShowAfterDestroyed', () => {
+            handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+          })
         } else {
           shouldLoad = true
         }

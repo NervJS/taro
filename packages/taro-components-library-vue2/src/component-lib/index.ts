@@ -21,9 +21,3 @@ components.forEach(params => {
     }
   }
 })
-
-Vue.config.ignoredElements = [
-  'root',
-  'block',
-  /^taro-/
-]

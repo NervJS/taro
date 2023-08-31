@@ -5,7 +5,8 @@
     "outDir": "dist",
     "rootDir": "./src",
     "module": "commonjs",
-    "sourceMap": true
+    "sourceMap": true,
+    "declaration": true
   },
   "include": ["./src"],
   "exclude": ["./src/__tests__"]

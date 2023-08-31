@@ -154,6 +154,11 @@ declare module './index' {
      * @default: false
      */
     disableScroll?: boolean
+    /** 是否使用页面全局滚动，MPA下默认为全局滚动，SPA默认为局部滚动
+     * 只在H5生效
+     * @default: MPA:true  SPA:false
+     */
+    usingWindowScroll?: boolean
     /** 禁止页面右滑手势返回
      *
      * **注意** 自微信客户端 7.0.5 开始，页面配置中的 disableSwipeBack 属性将不再生效，
@@ -210,6 +215,22 @@ declare module './index' {
      * @default "webview"
      */
     renderer?: 'webview' | 'skyline'
+    /**
+     * 组件框架
+     * @default "exparser"
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/glass-easel/migration.html
+     */
+    componentFramework?: 'exparser' | 'glass-easel'
+    /**
+     * 指定特殊的样式隔离选项
+     *
+     * isolated 表示启用样式隔离，在自定义组件内外，使用 class 指定的样式将不会相互影响（一般情况下的默认值）
+     *
+     * apply-shared 表示页面 wxss 样式将影响到自定义组件，但自定义组件 wxss 中指定的样式不会影响页面
+     *
+     * shared 表示页面 wxss 样式将影响到自定义组件，自定义组件 wxss 中指定的样式也会影响页面和其他设置了 apply-shared 或 shared 的自定义组件。（这个选项在插件中不可用。）
+     */
+    styleIsolation?: 'isolated' | 'apply-shared' | 'shared'
     /**
      * 设置导航栏额外图标，目前支持设置属性 icon，值为图标 url（以 https/http 开头）或 base64 字符串，大小建议 30*30 px
      *
@@ -340,6 +361,34 @@ declare module './index' {
     delay?: number
   }
 
+  interface RenderOptions {
+    skyline: {
+      /**
+       * 开启默认Block布局
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/wxss.html#%E5%BC%80%E5%90%AF%E9%BB%98%E8%AE%A4Block%E5%B8%83%E5%B1%80
+       */
+      defaultDisplayBlock?: boolean
+      /**
+       * 关闭 Skyline AB 实验
+       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/migration/release.html#%E5%8F%91%E5%B8%83%E4%B8%8A%E7%BA%BF
+       */
+      disableABTest?: boolean
+    }
+  }
+
+  interface Behavior {
+    /**
+     * 使用小程序默认分享功能时（即不显式设置 Page.onShareAppMessage），当设置此字段后，会使客户端生成的用于分享的 scheme 带上当前用户打开的页面所携带的 query 参数。
+     * @supported alipay 基础库 2.7.10 及以上开始支持，同时需使用 IDE 2.7.0 及以上版本进行构建。
+     */
+    shareAppMessage?: 'appendQuery'
+    /**
+     * 小程序在解析全局参数、页面参数时默认会对键/值做 encodeURIComponent。当设置为 disable 后，则不再对键/值做encodeURIComponent
+     * @supported alipay 基础库 2.7.19 及以上开始支持，同时需使用 IDE 3.0.0 及以上版本进行构建。
+     */
+    decodeQuery?: 'disable'
+  }
+
   interface AppConfig {
     /** 小程序默认启动首页，未指定 entryPagePath 时，数组的第一项代表小程序的初始页面（首页）。 */
     entryPagePath?: string
@@ -360,9 +409,11 @@ declare module './index' {
      * @default false
      * @since 2.1.0
      */
-    functionalPages?: boolean | {
-      independent?: boolean
-    }
+    functionalPages?:
+      | boolean
+      | {
+          independent?: boolean
+        }
     /** 分包结构配置
      * @example
      * ```json
@@ -383,7 +434,7 @@ declare module './index' {
      * 使用 Worker 处理多线程任务时，设置 Worker 代码放置的目录
      * @since 1.9.90
      */
-    workers?: string
+    workers?: string | string[]
     /** 申明需要后台运行的能力，类型为数组。目前支持以下项目：
      * - audio: 后台音乐播放
      * - location: 后台定位
@@ -550,6 +601,42 @@ declare module './index' {
      * @default "webview"
      */
     renderer?: 'webview' | 'skyline'
+    /**
+     * 渲染后端选项
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#rendererOptions
+     */
+    rendererOptions?: RenderOptions
+    /**
+     * 指定小程序使用的组件框架
+     * @default "exparser"
+     * @see https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/glass-easel/migration.html
+     */
+    componentFramework?: 'exparser' | 'glass-easel'
+    /**
+     * 多端模式场景接入身份管理服务时开启小程序授权页相关配置
+     * @see https://dev.weixin.qq.com/docs/framework/getting_started/auth.html#%E6%96%B0%E6%89%8B%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B
+     */
+    miniApp?: {
+      /**
+       * 用于 wx.weixinMinProgramLogin 在小程序中插入「小程序授权 Page」
+       */
+      useAuthorizePage: boolean
+    }
+    /**
+     * 正常情况下默认所有资源文件都被打包发布到所有平台，可以通过 static 字段配置特定每个目录/文件只能发布到特定的平台(多端场景)
+     * @see https://dev.weixin.qq.com/docs/framework/guideline/devtools/condition-compile.html#%E8%B5%84%E6%BA%90
+     */
+    static?: { pattern: string; platforms: string[] }[]
+    /**
+     * 	动态插件配置规则,声明小程序需要使用动态插件
+     * @supported alipay
+     */
+    useDynamicPlugins?: boolean
+    /**
+     * 用于改变小程序若干运行行为
+     * @supported alipay
+     */
+    behavior?: Behavior
   }
 
   interface Config extends PageConfig, AppConfig {

@@ -155,6 +155,52 @@ declare module '../../index' {
     }
   }
 
+  namespace preloadWebview {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+  }
+
+  namespace preloadSkylineView {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+  }
+
+  namespace preloadAssets {
+    interface AssetsObjectType {
+      /** 字体 */
+      font
+      /** 图片 */
+      image
+    }
+    interface AssetsObject {
+      /** 类型 */
+      type: keyof AssetsObjectType
+      /** 资源地址 */
+      src: string
+    }
+    interface Option {
+      data: AssetsObjectType[]
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+  }
+
   interface TaroStatic {
     /** 小程序测速上报。使用前，需要在小程序管理后台配置。 详情参见[小程序测速](https://developers.weixin.qq.com/miniprogram/dev/framework/performanceReport/index.html)指南。
      * @supported weapp
@@ -174,6 +220,23 @@ declare module '../../index' {
       dimensions?: string | string[],
     ): void
 
+    /** 预加载下个页面的 WebView
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadWebview.html 
+     */
+    preloadWebview(option: preloadWebview.Option): Promise<TaroGeneral.CallbackResult>
+
+    /**预加载下个页面所需要的 Skyline 运行环境
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadSkylineView.html 
+     */
+    preloadSkylineView(option: preloadSkylineView.Option): Promise<TaroGeneral.CallbackResult>
+
+    /** 为视图层预加载媒体资源文件, 目前支持：font，image
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadAssets.html 
+     */
+    preloadAssets(option: preloadAssets.Option): Promise<TaroGeneral.CallbackResult>
     /** 小程序测速上报。使用前，需要在小程序管理后台配置。 详情参见[小程序测速](https://developers.weixin.qq.com/miniprogram/dev/framework/performanceReport/index.html)指南。
      * 
      * **注意**

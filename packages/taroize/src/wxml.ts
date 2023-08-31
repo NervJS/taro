@@ -214,11 +214,8 @@ export const createWxmlVistor = (
               path.remove()
             }
           } else {
-            const openingElement = path.node.openingElement
-            openingElement.attributes = openingElement.attributes.filter((attr) => {
-              t.isJSXAttribute(attr) && attr.name ? attr.name.name !== 'slot' : true
-            })
-
+            // 当元素设置slot标签且值为空串时，移除slot属性
+            slotAttr.remove() 
           }
         }
         const tagName = jsxName.node.name
