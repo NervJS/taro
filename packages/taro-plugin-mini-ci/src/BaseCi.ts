@@ -81,6 +81,8 @@ export interface AlipayConfig {
   devToolsInstallPath?: string
   /** 上传的终端, 默认alipay */
   clientType?: AlipayClientType
+  /** 上传时想要删除的一个版本 */
+  deleteVersion?: string
 }
 
 export type DingtalkProjectType =

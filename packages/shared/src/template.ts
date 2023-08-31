@@ -458,8 +458,8 @@ export class BaseTemplate {
 
   // 最后一层的 comp 需要引用 container 进行重新的模版循环，其他情况不需要 container
   protected buildContainerTemplate (level: number) {
-    const tmpl = `<block ${this.Adapter.if}="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{${this.dataKeymap('i:i')}}}" />
+    const tmpl = `<block ${this.Adapter.if}="{{i.nn === '${this.componentsAlias['#text']._num}'}}">
+    <template is="tmpl_0_${this.componentsAlias['#text']._num}" data="{{${this.dataKeymap('i:i')}}}" />
   </block>
   <block ${this.Adapter.else}>
     ${!this.isSupportRecursive && this.supportXS ? '<comp i="{{i}}" l="{{l}}" />' : '<comp i="{{i}}" />'}
