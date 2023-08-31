@@ -1,7 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -11,54 +12,31 @@ import './index.scss'
 
 export default class Index extends React.Component {
   state = {
+    task: null,
     list: [
       {
         id: 'request',
-        func: (apiIndex) => {
-          Taro.request({
-            url: 'www.baidu.com', //仅为示例，并非真实的接口地址
-            data: {
-              x: 'test01',
-              y: 'test02',
-            },
-            header: {
-              'content-type': 'application/json', // 默认值
-            },
-            timeout: 3000,
-            method: 'GET',
-            dataType: '',
-            responseType: 'text',
-            enableHttp2: false,
-            enableQuic: false,
-            enableCache: false,
-            enableHttpDNS: false,
-            httpDNSServiceId: '',
-            enableChunked: false,
-            jsonp: false,
-            jsonpCache: false,
-            mode: 'same-origin',
-            credentials: 'omit',
-            cache: 'default',
-            retryTimes: 2,
-            backup: 'www.baidu.com',
-            dataCheck: () => {
-              return false
-            },
-            success: function (res) {
-              console.log('Request success ', res)
-            },
-            fail: function (res) {
-              console.log('Request fail ', res)
-            },
-            complete: function (res) {
-              console.log('Request complete ', res)
-            },
-          })
+        inputData: {
+          url: 'http://192.168.217.245:3000/hello',
+          dataType: 'json',
+          method: 'POST',
+          data: { name: 'Taro' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+        func: (apiIndex, data) => {
+          this.startRequest(apiIndex, data, 'Taro.request')
         },
       },
       {
-        id: 'RequestTask',
-        func: null,
+        id: 'RequestTask.abort',
+        func: () => {
+          TestConsole.consoleTest('RequestTask.abort')
+          if (this.state.task) {
+            ;(this.state.task as Taro.RequestTask<any>).abort()
+          }
+        },
       },
       {
         id: 'addInterceptor',
@@ -70,6 +48,31 @@ export default class Index extends React.Component {
       },
     ],
   }
+
+  startRequest(apiIndex, data, testTitle) {
+    TestConsole.consoleTest(testTitle)
+    const task = Taro.request({
+      ...data,
+      success: (res) => {
+        TestConsole.consoleSuccess.call(this, res, apiIndex)
+      },
+      fail: (res) => {
+        TestConsole.consoleFail.call(this, res, apiIndex)
+      },
+      complete: (res) => {
+        TestConsole.consoleComplete.call(this, res, apiIndex)
+      },
+    })
+    task.catch(() => {
+      TestConsole.consoleNormal('catch RequestTask error')
+    })
+    this.setState({ task })
+    TestConsole.consoleNormal('Taro.RequestTask', task)
+    task.onHeadersReceived((res) => {
+      TestConsole.consoleNormal('onHeadersReceived', res)
+    })
+  }
+
   render() {
     const { list } = this.state
     return (
