@@ -7,11 +7,6 @@ export const env = {
   TARO_VERSION: process.env.TARO_VERSION,
 }
 
-export function canIUse (apiName: string) {
-  // @ts-ignore
-  return native.canIUse(apiName)
-}
-
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
   return fromByteArray(arrayBuffer as Uint8Array)
 }
@@ -20,6 +15,7 @@ export function base64ToArrayBuffer (base64: string) {
   return toByteArray(base64).buffer
 }
 
+export * from './caniuse'
 export * from './crypto'
 export * from './debug'
 export * from './performance'
