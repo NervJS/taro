@@ -710,6 +710,22 @@ export function readConfig(configPath: string) {
   return result
 }
 
+
+// 去除路径前缀，比如 /, ./
+export function removePathPrefix(filePath) {
+  const normalizedPath = path.normalize(filePath)
+  const parsedPath = path.parse(normalizedPath)
+  const { root, dir, base } = parsedPath
+
+  let result = path.join(dir, base)
+
+  if (result.startsWith(root)) {
+    result = result.slice(root.length)
+  }
+
+  return result
+}
+
 export { fs }
 
 // 集中引入 babel 工具箱，供编译时使用
