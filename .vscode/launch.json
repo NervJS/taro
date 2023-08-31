@@ -7,18 +7,18 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "vue",
+      "name": "vite",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-      "cwd": "/Users/liuzejia/test/taro-vue-vite",
+      "cwd": "/Users/liuzejia/test/taro-react-vite",
       "args": ["build", "--type", "h5", "--watch"],
       "skipFiles": ["<node_internals>/**"]
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "react",
+      "name": "webpack",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-      "cwd": "/Users/liuzejia/test/taro-vite-preact",
+      "cwd": "/Users/liuzejia/test/webpack5-demo",
       "args": ["build", "--type", "h5", "--watch"],
       "skipFiles": ["<node_internals>/**"]
     }
