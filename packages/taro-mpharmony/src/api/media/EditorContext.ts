@@ -7,7 +7,16 @@ export class EditorContext implements Taro.EditorContext {
   // blur = temporarilyNotSupport('EditorContext.blur')
 
   blur (option?: Taro.EditorContext.BlurOption | undefined): void {
-    option?.fail?.({ errMsg: `not support blur.` })
+    try {
+      // 将焦点设置到页面上一个非输入元素（例如按钮）上
+      const buttonName = document.getElementById('myButtonTest')
+      buttonName?.focus()
+      option?.success?.({ errMsg: `ok` })
+    } catch (e) {
+      option?.fail?.({ errMsg: `${e}` })
+    } finally {
+      option?.complete?.({ errMsg: `ok` })
+    }
   }
 
   getContext (): Taro.EditorContext {
@@ -177,9 +186,12 @@ export class EditorContext implements Taro.EditorContext {
 
   insertDivider (option?: Taro.EditorContext.InsertDividerOption | undefined): void {
     try {
-      option?.fail?.({ errMsg: 'not support EditorContext.insertDivider api.' })
+      this.activeEditor()?.insertContent('<hr>')
+      option?.success?.({ errMsg: `ok` })
+    } catch (e) {
+      option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: 'ok' })
+      option?.complete?.({ errMsg: `ok` })
     }
   }
 
