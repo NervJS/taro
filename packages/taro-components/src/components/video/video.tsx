@@ -548,7 +548,7 @@ export class Video implements ComponentInterface {
         this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
     } else {
-      document.exitFullscreen()
+      document[screenFn.exitFullscreen]()
     }
   }
 
