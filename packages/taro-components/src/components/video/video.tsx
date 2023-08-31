@@ -451,7 +451,7 @@ export class Video implements ComponentInterface {
   }
 
   @Method()
-  async getHlsObject() {
+  async getHlsObject () {
     // Note: H5 端专属方法，获取 HLS 实例 fix #11894
     return this.hls
   }
@@ -547,6 +547,8 @@ export class Video implements ComponentInterface {
       setTimeout(() => {
         this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
+    } else {
+      document.exitFullscreen()
     }
   }
 
