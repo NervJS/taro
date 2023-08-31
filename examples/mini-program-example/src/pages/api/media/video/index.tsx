@@ -239,7 +239,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_exitBackgroundPlayback_暂不支持',
+        id: 'video_exitBackgroundPlayback_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_exitBackgroundPlayback')
           videoContext.exitBackgroundPlayback()
@@ -247,7 +247,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_exitFullScreen',
+        id: 'video_exitFullScreen',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_exitFullScreen')
           videoContext.exitFullScreen()
@@ -255,7 +255,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_exitPictureInPicture_暂不支持',
+        id: 'video_exitPictureInPicture_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_exitPictureInPicture')
           videoContext
@@ -276,7 +276,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_hideStatusBar_暂不支持',
+        id: 'video_hideStatusBar_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_hideStatusBar')
           videoContext.hideStatusBar()
@@ -284,7 +284,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_pause',
+        id: 'video_pause',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_pause')
           videoContext.pause()
@@ -292,7 +292,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_play',
+        id: 'video_play',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_play')
           videoContext.play()
@@ -300,7 +300,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_playbackRate_暂不支持',
+        id: 'video_playbackRate_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_playbackRate')
           videoContext.playbackRate(1.5)
@@ -308,7 +308,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_requestBackgroundPlayback_暂不支持',
+        id: 'video_requestBackgroundPlayback_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_requestBackgroundPlayback')
           videoContext.requestBackgroundPlayback()
@@ -316,11 +316,14 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_requestFullScreen',
-        func: (apiIndex) => {
+        id: 'video_requestFullScreen',
+        inputData: {
+          direction: 0,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('videoContext_requestFullScreen')
           videoContext.requestFullScreen({
-            direction: 0,
+            ...data,
           })
           setTimeout(() => {
             videoContext.exitFullScreen()
@@ -331,7 +334,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_seek',
+        id: 'video_seek',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_seek')
           videoContext.seek(5)
@@ -339,7 +342,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_sendDanmu_暂不支持',
+        id: 'video_sendDanmu_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_sendDanmu')
           videoContext.sendDanmu({
@@ -350,7 +353,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_showStatusBar_暂不支持',
+        id: 'video_showStatusBar_暂不支持',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_showStatusBar')
           videoContext.showStatusBar()
@@ -358,7 +361,7 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'videoContext_stop',
+        id: 'video_stop',
         func: (apiIndex) => {
           TestConsole.consoleTest('videoContext_stop')
           videoContext.stop()
