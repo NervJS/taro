@@ -1,4 +1,4 @@
-import { defaultMainFields, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, isNodeModule, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString } from '@tarojs/shared'
 import history from 'connect-history-api-fallback'
@@ -13,6 +13,7 @@ import type { TaroCompiler } from '../utils/compiler/h5'
 export default function (complier: TaroCompiler): PluginOption {
   const { taroConfig, cwd: appPath, pages, app, sourceDir } = complier
   const routerMode = taroConfig.router?.mode || 'hash'
+  const basename = taroConfig.router?.basename || ''
   const isMultiRouterMode = routerMode === 'multi'
   function parsePublicPath(publicPath = '/') {
     return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
@@ -98,6 +99,7 @@ export default function (complier: TaroCompiler): PluginOption {
     designWidth: taroConfig.designWidth,
     deviceRatio: taroConfig.deviceRatio,
     option: taroConfig.postcss,
+    esnextModules: taroConfig.esnextModules || []
   })
   const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
   const serverOption = taroConfig.devServer || {}
@@ -119,10 +121,9 @@ export default function (complier: TaroCompiler): PluginOption {
     mainFields.unshift('main:h5')
   }
 
-  const taroModuleRgx = [/@tarojs[/\\_]components/, /\btaro-components\b/]
 
-  // todo 待完善
-  const isTaroModule = (filename: string) => taroModuleRgx.some(reg => reg.test(filename))
+
+
 
   return {
     name: 'taro:vite-h5-config',
@@ -155,7 +156,7 @@ export default function (complier: TaroCompiler): PluginOption {
         postcss: {
           // @Todo Vite 的 postcss 功能不支持 filter 逻辑，Webpack 里的 filter 逻辑需要判断是否仍需要迁移过来 等待 vite pr 合并
           plugins: getPostcssPlugins(appPath, __postcssOption),
-          exclude: isTaroModule
+          // exclude: postcssExclude
         },
         preprocessorOptions: {
           ...(await getSassOption()),
@@ -173,7 +174,8 @@ export default function (complier: TaroCompiler): PluginOption {
       const proxyKeys = Object.keys(proxy)
       const baseUrl = server.config.base ?? '/'
       pages.forEach(({ name })=> {
-        rewrites.push(createRewire(`${name}`, baseUrl, proxyKeys))
+        const pageName = removeHeadSlash(path.join(basename, name))
+        rewrites.push(createRewire(pageName, baseUrl, proxyKeys))
       })
       server.middlewares.use(history({          
         disableDotRule: undefined,
@@ -185,13 +187,16 @@ export default function (complier: TaroCompiler): PluginOption {
     transformIndexHtml(html, ctx) {
       const { configPath } = app
       let srciptSource = configPath.replace(sourceDir, '')
+      // mpa 模式
       if (isMultiRouterMode) {
         const { originalUrl } = ctx
-        const page = pages.filter(({ name })=> originalUrl?.startsWith(`/${name}`))?.[0]
+        const page = pages.filter(({ name })=> originalUrl?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
         if (page) {
           srciptSource = page.configPath.replace(sourceDir, '')
           const pageName = page.name
           complier.setPageName(pageName)
+        } else {
+          complier.setPageName('')
         }
       }
       let htmlScript = ''

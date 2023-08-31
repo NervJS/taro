@@ -31,6 +31,7 @@ export default function (compiler): PluginOption {
     async resolveId (source, importer) {
       const resolved = await this.resolve(source, importer, { skipSelf: true })
       if (!resolved?.id) return null
+      // mpa 模式，入口文件为每个page下的config
       if (isMultiRouterMode && pages.some(({ configPath })=> configPath === resolved.id)) {
         return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
       }
@@ -77,20 +78,19 @@ export default function (compiler): PluginOption {
         if (appConfig.tabBar) {
           tabBarCode = [
             'var tabbarIconPath = []',
-            'var tabbarSelectedIconPath = [] \n',
+            'var tabbarSelectedIconPath = []\n',
           ].join('\n')
           const tabbarList = appConfig.tabBar.list
           tabBarCode = tabbarList.reduce((prev, current, index) => {
             if (current.iconPath) {
-              prev += `tabbarIconPath[${index}] = '${current.iconPath}'\n`
+              prev += `tabbarIconPath[${index}] = '${current.iconPath.replace(/^./, '')}'\n`
             }
             if (current.selectedIconPath) {
-              prev += `tabbarSelectedIconPath[${index}] = '${current.selectedIconPath}'\n`
+              prev += `tabbarSelectedIconPath[${index}] = '${current.selectedIconPath.replace(/^./, '')}'\n`
             }
             return prev
           }, tabBarCode)
           tabBarCode += [
-            '\n',
             'var tabbarList = config.tabBar.list',
             'for (var i = 0; i < tabbarList.length; i++) {',
             '  var t = tabbarList[i]',
@@ -118,7 +118,8 @@ export default function (compiler): PluginOption {
         const __postcssOption = getDefaultPostcssConfig({
           designWidth: taroConfig.designWidth,
           deviceRatio: taroConfig.deviceRatio,
-          option: taroConfig.postcss
+          option: taroConfig.postcss,
+          esnextModules: taroConfig.esnextModules || []
         })
         const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
         const pxTransformConfig = pxtransformOption?.config || {}
