@@ -50,7 +50,7 @@ export async function compile<T extends MiniBuildConfig | H5BuildConfig = Common
     alias.set('@tarojs/plugin-framework-react/dist/runtime', path.resolve(__dirname, '../mocks/taro'))
     alias.set('@tarojs/plugin-framework-vue2/dist/runtime', path.resolve(__dirname, '../mocks/taro'))
     alias.set('@tarojs/plugin-framework-vue3/dist/runtime', path.resolve(__dirname, '../mocks/taro'))
-    // alias.set('@tarojs/runtime', path.resolve(__dirname, '../mocks/taro-runtime'))
+    alias.set('@tarojs/runtime', path.resolve(__dirname, '../mocks/taro-runtime'))
     alias.set('@tarojs/shared', path.resolve(__dirname, '../mocks/taro-shared'))
     alias.set('@tarojs/taro', path.resolve(__dirname, '../mocks/taro'))
     alias.set('react$', path.resolve(__dirname, '../mocks/react'))

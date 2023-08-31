@@ -7,8 +7,15 @@ import { mergeWith } from 'lodash'
 import { getLoaderMeta } from './loader-meta'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 
 export const CUSTOM_WRAPPER = 'custom-wrapper'
+
+
+interface OnParseCreateElementArgs {
+  nodeName: string
+  componentConfig: IComponentConfig
+}
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
@@ -22,7 +29,14 @@ export default (ctx: IPluginContext) => {
     setLoader(chain)
 
     if (isWebPlatform()) {
-      setStyleLoader(ctx, chain)
+      const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+      const externals: Record<string, string> = {}
+      if (isBuildNativeComp) {
+        // Note: 该模式不支持 prebundle 优化，不必再处理
+        externals.vue = 'vue'
+      }
+
+      chain.merge({ externals })
     }
   })
 
@@ -49,6 +63,12 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.include ||= []
       prebundleOptions.include = prebundleOptions.include.concat(deps)
       prebundleOptions.exclude ||= []
+    }
+  })
+
+  ctx.onParseCreateElement(({ nodeName, componentConfig }: OnParseCreateElementArgs) => {
+    if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+      componentConfig.includes.add(nodeName)
     }
   })
 }
@@ -153,20 +173,6 @@ function customVueChain (chain, data) {
     .use('vueLoader')
     .loader(vueLoaderPath)
     .options(vueLoaderOption)
-}
-
-function setStyleLoader (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig.h5 || {}
-
-  const { styleLoaderOption = {} } = config
-  chain.module
-    .rule('customStyle')
-    .merge({
-      use: [{
-        loader: 'style-loader',
-        options: styleLoaderOption
-      }]
-    })
 }
 
 function setLoader (chain) {

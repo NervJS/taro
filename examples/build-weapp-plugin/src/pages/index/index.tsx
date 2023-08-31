@@ -15,6 +15,7 @@ export default class Index extends Component {
       <View className='index'>
         {/** 测试插件组件 */}
         <avatar
+          onAvatarClick={() => console.log('组件事件传递成功')}
           props={{
             mode: 'aspectFit',
             onAvatarClick: () => console.log('组件事件传递成功')

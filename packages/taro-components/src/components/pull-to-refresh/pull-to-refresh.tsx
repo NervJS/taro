@@ -130,7 +130,7 @@ export class PullToRefresh implements ComponentInterface {
 
   init = () => {
     const ele = this.scrollContainer
-    const child = this.el.querySelector('rmc-pull-to-refresh-content')
+    const child = this.el.querySelector('.rmc-pull-to-refresh-content')
     this.el.appendChild = child?.appendChild.bind(child)
     this.el.insertBefore = child?.insertBefore.bind(child)
     this.el.replaceChild = child?.replaceChild.bind(child)

@@ -18,7 +18,6 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
   }
 
   process (config: Partial<MiniBuildConfig>) {
-    super.process(config)
     const baseConfig = new MiniBaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {

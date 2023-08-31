@@ -41,17 +41,21 @@ export interface IProjectConf {
   compiler?: 'webpack4' | 'webpack5' | 'vite'
 }
 
+type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+type IProjectConfOptions = CustomPartial<IProjectConf,  'projectName' | 'projectDir' | 'template' | 'css' | 'npm' | 'framework' | 'templateSource'>
+
 interface AskMethods {
-  (conf: IProjectConf, prompts: Record<string, unknown>[], choices?: ITemplates[]): void
+  (conf: IProjectConfOptions, prompts: Record<string, unknown>[], choices?: ITemplates[]): void
 }
 
 const NONE_AVAILABLE_TEMPLATE = '无可用模板'
 
 export default class Project extends Creator {
   public rootPath: string
-  public conf: IProjectConf
+  public conf: IProjectConfOptions
 
-  constructor (options: IProjectConf) {
+  constructor (options: IProjectConfOptions) {
     super(options.sourceRoot)
     const unSupportedVer = semver.lt(process.version, 'v7.6.0')
     if (unSupportedVer) {
@@ -103,12 +107,12 @@ export default class Project extends Creator {
     this.askNpm(conf, prompts)
     await this.askTemplateSource(conf, prompts)
 
-    const answers = await inquirer.prompt(prompts)
+    const answers = await inquirer.prompt<IProjectConf>(prompts)
 
     prompts = []
     const templates = await this.fetchTemplates(answers)
     await this.askTemplate(conf, prompts, templates)
-    const templateChoiceAnswer = await inquirer.prompt(prompts)
+    const templateChoiceAnswer = await inquirer.prompt<IProjectConf>(prompts)
 
     return {
       ...answers,
@@ -117,7 +121,7 @@ export default class Project extends Creator {
   }
 
   askProjectName: AskMethods = function (conf, prompts) {
-    if ((typeof conf.projectName as string | undefined) !== 'string') {
+    if ((typeof conf.projectName) !== 'string') {
       prompts.push({
         type: 'input',
         name: 'projectName',
@@ -132,7 +136,7 @@ export default class Project extends Creator {
           return true
         }
       })
-    } else if (fs.existsSync(conf.projectName)) {
+    } else if (fs.existsSync(conf.projectName!)) {
       prompts.push({
         type: 'input',
         name: 'projectName',
@@ -190,7 +194,7 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.css as string | undefined) !== 'string') {
+    if (typeof conf.css !== 'string') {
       prompts.push({
         type: 'list',
         name: 'css',
@@ -212,7 +216,7 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.compiler as string | undefined) !== 'string') {
+    if (typeof conf.compiler !== 'string') {
       prompts.push({
         type: 'list',
         name: 'compiler',
@@ -246,7 +250,7 @@ export default class Project extends Creator {
       }
     ]
 
-    if ((typeof conf.framework as string | undefined) !== 'string') {
+    if (typeof conf.framework !== 'string') {
       prompts.push({
         type: 'list',
         name: 'framework',
@@ -387,7 +391,7 @@ export default class Project extends Creator {
     }
   }
 
-  async fetchTemplates (answers): Promise<ITemplates[]> {
+  async fetchTemplates (answers: IProjectConf): Promise<ITemplates[]> {
     const { templateSource, framework } = answers
     this.conf.templateSource = this.conf.templateSource || templateSource
 
@@ -420,7 +424,7 @@ export default class Project extends Creator {
 
   write (cb?: () => void) {
     this.conf.src = SOURCE_DIR
-    createApp(this, this.conf, cb).catch(err => console.log(err))
+    createApp(this, this.conf as IProjectConf, cb).catch(err => console.log(err))
   }
 }
 
