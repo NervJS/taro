@@ -4406,22 +4406,22 @@ importers:
     dependencies:
       '@react-native-masked-view/masked-view':
         specifier: ~0.2.7
-        version: registry.npmjs.org/@react-native-masked-view/masked-view@0.2.9(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/@react-native-masked-view/masked-view@0.2.9(react-native@0.70.5)(react@18.1.0)
       '@react-navigation/bottom-tabs':
         specifier: ^6.2.0
-        version: registry.npmjs.org/@react-navigation/bottom-tabs@6.5.7(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/@react-navigation/bottom-tabs@6.5.7(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.5)(react@18.1.0)
       '@react-navigation/native':
         specifier: ^6.0.8
-        version: registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.5)(react@18.1.0)
       '@react-navigation/native-stack':
         specifier: ^6.7.0
-        version: registry.npmjs.org/@react-navigation/native-stack@6.9.12(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/@react-navigation/native-stack@6.9.12(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.5)(react@18.1.0)
       '@react-navigation/routers':
         specifier: ^6.1.0
         version: registry.npmjs.org/@react-navigation/routers@6.1.8
       '@react-navigation/stack':
         specifier: ^6.1.1
-        version: registry.npmjs.org/@react-navigation/stack@6.3.16(@react-navigation/native@6.1.6)(react-native-gesture-handler@2.9.0)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/@react-navigation/stack@6.3.16(@react-navigation/native@6.1.6)(react-native-gesture-handler@2.9.0)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.5)(react@18.1.0)
       nanoid:
         specifier: ^3.1.12
         version: registry.npmjs.org/nanoid@3.3.6
@@ -4430,13 +4430,13 @@ importers:
         version: registry.npmjs.org/query-string@7.1.3
       react-native-gesture-handler:
         specifier: ~2.9.0
-        version: registry.npmjs.org/react-native-gesture-handler@2.9.0(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/react-native-gesture-handler@2.9.0(react-native@0.70.5)(react@18.1.0)
       react-native-safe-area-context:
         specifier: ~4.4.1
-        version: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.5)(react@18.1.0)
       react-native-screens:
         specifier: ^3.18.2
-        version: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.9)(react@18.1.0)
+        version: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.5)(react@18.1.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.14.5
@@ -4445,14 +4445,14 @@ importers:
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
       '@types/react-native':
-        specifier: ^0.69.8
-        version: registry.npmjs.org/@types/react-native@0.69.20
+        specifier: 0.70.5
+        version: registry.npmjs.org/@types/react-native@0.70.5
       react:
         specifier: 18.1.0
         version: registry.npmjs.org/react@18.1.0
       react-native:
-        specifier: ^0.70.5
-        version: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+        specifier: 0.70.5
+        version: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
 
   packages/taro-runner-utils:
     dependencies:
@@ -9772,6 +9772,14 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
 
+  registry.npmjs.org/@jest/create-cache-key-function@29.6.3:
+    resolution: {integrity: sha512-kzSK9XAxtD1kRPJKxsmD0YKw2fyXveP+5ikeQkCYCHeacWW1EGYMTgjDIM/Di4Uhttx7lnHwrNpz2xn+0rTp8g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/create-cache-key-function/-/create-cache-key-function-29.6.3.tgz}
+    name: '@jest/create-cache-key-function'
+    version: 29.6.3
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/types': registry.npmjs.org/@jest/types@29.6.3
+
   registry.npmjs.org/@jest/environment@26.6.2:
     resolution: {integrity: sha512-nFy+fHl28zUrRsCeMB61VDThV1pVTtlEokBRgqPrcT1JNq4yRNIyTHfyht6PqtUvY9IsuLGTrbG8kPXjSZIZwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/environment/-/environment-26.6.2.tgz}
     name: '@jest/environment'
@@ -10025,6 +10033,14 @@ packages:
     dependencies:
       '@sinclair/typebox': registry.npmjs.org/@sinclair/typebox@0.25.24
 
+  registry.npmjs.org/@jest/schemas@29.6.3:
+    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/schemas/-/schemas-29.6.3.tgz}
+    name: '@jest/schemas'
+    version: 29.6.3
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@sinclair/typebox': registry.npmjs.org/@sinclair/typebox@0.27.8
+
   registry.npmjs.org/@jest/source-map@26.6.2:
     resolution: {integrity: sha512-YwYcCwAnNmOVsZ8mr3GfnzdXDAl4LaenZP5z+G0c8bzC9/dugL8zRmxZzdoTl4IaS3CryS1uWnROLPFmb6lVvA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/source-map/-/source-map-26.6.2.tgz}
     name: '@jest/source-map'
@@ -10241,6 +10257,19 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/schemas': registry.npmjs.org/@jest/schemas@29.4.3
+      '@types/istanbul-lib-coverage': registry.npmjs.org/@types/istanbul-lib-coverage@2.0.4
+      '@types/istanbul-reports': registry.npmjs.org/@types/istanbul-reports@3.0.1
+      '@types/node': registry.npmjs.org/@types/node@18.15.11
+      '@types/yargs': registry.npmjs.org/@types/yargs@17.0.24
+      chalk: registry.npmjs.org/chalk@4.1.2
+
+  registry.npmjs.org/@jest/types@29.6.3:
+    resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/types/-/types-29.6.3.tgz}
+    name: '@jest/types'
+    version: 29.6.3
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': registry.npmjs.org/@jest/schemas@29.6.3
       '@types/istanbul-lib-coverage': registry.npmjs.org/@types/istanbul-lib-coverage@2.0.4
       '@types/istanbul-reports': registry.npmjs.org/@types/istanbul-reports@3.0.1
       '@types/node': registry.npmjs.org/@types/node@18.15.11
@@ -11727,6 +11756,21 @@ packages:
     transitivePeerDependencies:
       - encoding
 
+  registry.npmjs.org/@react-native-community/cli-platform-android@9.2.1:
+    resolution: {integrity: sha512-VamCZ8nido3Q3Orhj6pBIx48itORNPLJ7iTfy3nucD1qISEDih3DOzCaQCtmqdEBgUkNkNl0O+cKgq5A3th3Zg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-9.2.1.tgz}
+    name: '@react-native-community/cli-platform-android'
+    version: 9.2.1
+    dependencies:
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools@9.2.1
+      chalk: registry.npmjs.org/chalk@4.1.2
+      execa: registry.npmjs.org/execa@1.0.0
+      fs-extra: registry.npmjs.org/fs-extra@8.1.0
+      glob: registry.npmjs.org/glob@7.2.3
+      logkitty: registry.npmjs.org/logkitty@0.7.1
+      slash: registry.npmjs.org/slash@3.0.0
+    transitivePeerDependencies:
+      - encoding
+
   registry.npmjs.org/@react-native-community/cli-platform-android@9.3.1:
     resolution: {integrity: sha512-m0bQ6Twewl7OEZoVf79I2GZmsDqh+Gh0bxfxWgwxobsKDxLx8/RNItAo1lVtTCgzuCR75cX4EEO8idIF9jYhew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-android/-/cli-platform-android-9.3.1.tgz}
     name: '@react-native-community/cli-platform-android'
@@ -11739,6 +11783,19 @@ packages:
       glob: registry.npmjs.org/glob@7.2.3
       logkitty: registry.npmjs.org/logkitty@0.7.1
       slash: registry.npmjs.org/slash@3.0.0
+    transitivePeerDependencies:
+      - encoding
+
+  registry.npmjs.org/@react-native-community/cli-platform-ios@9.2.1:
+    resolution: {integrity: sha512-dEgvkI6CFgPk3vs8IOR0toKVUjIFwe4AsXFvWWJL5qhrIzW9E5Owi0zPkSvzXsMlfYMbVX0COfVIK539ZxguSg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli-platform-ios/-/cli-platform-ios-9.2.1.tgz}
+    name: '@react-native-community/cli-platform-ios'
+    version: 9.2.1
+    dependencies:
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools@9.2.1
+      chalk: registry.npmjs.org/chalk@4.1.2
+      execa: registry.npmjs.org/execa@1.0.0
+      glob: registry.npmjs.org/glob@7.2.3
+      ora: registry.npmjs.org/ora@5.4.1
     transitivePeerDependencies:
       - encoding
 
@@ -11822,6 +11879,38 @@ packages:
     dependencies:
       joi: registry.npmjs.org/joi@17.9.2
 
+  registry.npmjs.org/@react-native-community/cli@9.2.1(@babel/core@7.21.8):
+    resolution: {integrity: sha512-feMYS5WXXKF4TSWnCXozHxtWq36smyhGaENXlkiRESfYZ1mnCUlPfOanNCAvNvBqdyh9d4o0HxhYKX1g9l6DCQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-9.2.1.tgz}
+    id: registry.npmjs.org/@react-native-community/cli/9.2.1
+    name: '@react-native-community/cli'
+    version: 9.2.1
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@react-native-community/cli-clean': registry.npmjs.org/@react-native-community/cli-clean@9.2.1
+      '@react-native-community/cli-config': registry.npmjs.org/@react-native-community/cli-config@9.2.1
+      '@react-native-community/cli-debugger-ui': registry.npmjs.org/@react-native-community/cli-debugger-ui@9.0.0
+      '@react-native-community/cli-doctor': registry.npmjs.org/@react-native-community/cli-doctor@9.3.0
+      '@react-native-community/cli-hermes': registry.npmjs.org/@react-native-community/cli-hermes@9.3.1
+      '@react-native-community/cli-plugin-metro': registry.npmjs.org/@react-native-community/cli-plugin-metro@9.2.1(@babel/core@7.21.8)
+      '@react-native-community/cli-server-api': registry.npmjs.org/@react-native-community/cli-server-api@9.2.1
+      '@react-native-community/cli-tools': registry.npmjs.org/@react-native-community/cli-tools@9.2.1
+      '@react-native-community/cli-types': registry.npmjs.org/@react-native-community/cli-types@9.1.0
+      chalk: registry.npmjs.org/chalk@4.1.2
+      commander: registry.npmjs.org/commander@9.5.0
+      execa: registry.npmjs.org/execa@1.0.0
+      find-up: registry.npmjs.org/find-up@4.1.0
+      fs-extra: registry.npmjs.org/fs-extra@8.1.0
+      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
+      prompts: registry.npmjs.org/prompts@2.4.2
+      semver: registry.npmjs.org/semver@6.3.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+
   registry.npmjs.org/@react-native-community/cli@9.3.2(@babel/core@7.21.8):
     resolution: {integrity: sha512-IAW4X0vmX/xozNpp/JVZaX7MrC85KV0OP2DF4o7lNGOfpUhzJAEWqTfkxFYS+VsRjZHDve4wSTiGIuXwE7FG1w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-community/cli/-/cli-9.3.2.tgz}
     id: registry.npmjs.org/@react-native-community/cli/9.3.2
@@ -11896,7 +11985,7 @@ packages:
     version: 4.3.3
     dev: false
 
-  registry.npmjs.org/@react-native-masked-view/masked-view@0.2.9(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/@react-native-masked-view/masked-view@0.2.9(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-Hs4vKBKj+15VxHZHFtMaFWSBxXoOE5Ea8saoigWhahp8Mepssm0ezU+2pTl7DK9z8Y9s5uOl/aPb4QmBZ3R3Zw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-native-masked-view/masked-view/-/masked-view-0.2.9.tgz}
     id: registry.npmjs.org/@react-native-masked-view/masked-view/0.2.9
     name: '@react-native-masked-view/masked-view'
@@ -11906,7 +11995,7 @@ packages:
       react-native: '>=0.57'
     dependencies:
       react: registry.npmjs.org/react@18.1.0
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
     dev: false
 
   registry.npmjs.org/@react-native-picker/picker@2.4.10(react-native@0.70.9)(react@18.1.0):
@@ -11942,7 +12031,7 @@ packages:
     name: '@react-native/polyfills'
     version: 2.0.0
 
-  registry.npmjs.org/@react-navigation/bottom-tabs@6.5.7(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/@react-navigation/bottom-tabs@6.5.7(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-9oZYyRu2z7+1pr2dX5V54rHFPmlj4ztwQxFe85zwpnGcPtGIsXj7VCIdlHnjRHJBBFCszvJGQpYY6/G2+DfD+A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/bottom-tabs/-/bottom-tabs-6.5.7.tgz}
     id: registry.npmjs.org/@react-navigation/bottom-tabs/6.5.7
     name: '@react-navigation/bottom-tabs'
@@ -11954,13 +12043,13 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.9)(react@18.1.0)
-      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.9)(react@18.1.0)
+      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.5)(react@18.1.0)
+      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.5)(react@18.1.0)
       color: registry.npmjs.org/color@4.2.3
       react: registry.npmjs.org/react@18.1.0
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.9)(react@18.1.0)
-      react-native-screens: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.9)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.5)(react@18.1.0)
+      react-native-screens: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.5)(react@18.1.0)
       warn-once: registry.npmjs.org/warn-once@0.1.1
     dev: false
 
@@ -11981,7 +12070,7 @@ packages:
       use-latest-callback: registry.npmjs.org/use-latest-callback@0.1.6(react@18.1.0)
     dev: false
 
-  registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-sui8AzHm6TxeEvWT/NEXlz3egYvCUog4tlXA4Xlb2Vxvy3purVXDq/XsM56lJl344U5Aj/jDzkVanOTMWyk4UA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/elements/-/elements-1.3.17.tgz}
     id: registry.npmjs.org/@react-navigation/elements/1.3.17
     name: '@react-navigation/elements'
@@ -11992,13 +12081,13 @@ packages:
       react-native: '*'
       react-native-safe-area-context: '>= 3.0.0'
     dependencies:
-      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.9)(react@18.1.0)
+      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.5)(react@18.1.0)
       react: registry.npmjs.org/react@18.1.0
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.9)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.5)(react@18.1.0)
     dev: false
 
-  registry.npmjs.org/@react-navigation/native-stack@6.9.12(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/@react-navigation/native-stack@6.9.12(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-kS2zXCWP0Rgt7uWaCUKrRl7U2U1Gp19rM1kyRY2YzBPXhWGVPjQ2ygBp88CTQzjgy8M07H/79jvGiZ0mlEJI+g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/native-stack/-/native-stack-6.9.12.tgz}
     id: registry.npmjs.org/@react-navigation/native-stack/6.9.12
     name: '@react-navigation/native-stack'
@@ -12010,16 +12099,16 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.9)(react@18.1.0)
-      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.9)(react@18.1.0)
+      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.5)(react@18.1.0)
+      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.5)(react@18.1.0)
       react: registry.npmjs.org/react@18.1.0
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.9)(react@18.1.0)
-      react-native-screens: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.9)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.5)(react@18.1.0)
+      react-native-screens: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.5)(react@18.1.0)
       warn-once: registry.npmjs.org/warn-once@0.1.1
     dev: false
 
-  registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-14PmSy4JR8HHEk04QkxQ0ZLuqtiQfb4BV9kkMXD2/jI4TZ+yc43OnO6fQ2o9wm+Bq8pY3DxyerC2AjNUz+oH7Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/native/-/native-6.1.6.tgz}
     id: registry.npmjs.org/@react-navigation/native/6.1.6
     name: '@react-navigation/native'
@@ -12033,7 +12122,7 @@ packages:
       fast-deep-equal: registry.npmjs.org/fast-deep-equal@3.1.3
       nanoid: registry.npmjs.org/nanoid@3.3.6
       react: registry.npmjs.org/react@18.1.0
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
     dev: false
 
   registry.npmjs.org/@react-navigation/routers@6.1.8:
@@ -12044,7 +12133,7 @@ packages:
       nanoid: registry.npmjs.org/nanoid@3.3.6
     dev: false
 
-  registry.npmjs.org/@react-navigation/stack@6.3.16(@react-navigation/native@6.1.6)(react-native-gesture-handler@2.9.0)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/@react-navigation/stack@6.3.16(@react-navigation/native@6.1.6)(react-native-gesture-handler@2.9.0)(react-native-safe-area-context@4.4.1)(react-native-screens@3.20.0)(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-KTOn9cNuZ6p154Htbl2DiR95Wl+c7niLPRiGs7gjOkyVDGiaGQF9ODNQTYBDE1OxZGHe/EyYc6T2CbmiItLWDg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@react-navigation/stack/-/stack-6.3.16.tgz}
     id: registry.npmjs.org/@react-navigation/stack/6.3.16
     name: '@react-navigation/stack'
@@ -12057,14 +12146,14 @@ packages:
       react-native-safe-area-context: '>= 3.0.0'
       react-native-screens: '>= 3.0.0'
     dependencies:
-      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.9)(react@18.1.0)
-      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.9)(react@18.1.0)
+      '@react-navigation/elements': registry.npmjs.org/@react-navigation/elements@1.3.17(@react-navigation/native@6.1.6)(react-native-safe-area-context@4.4.1)(react-native@0.70.5)(react@18.1.0)
+      '@react-navigation/native': registry.npmjs.org/@react-navigation/native@6.1.6(react-native@0.70.5)(react@18.1.0)
       color: registry.npmjs.org/color@4.2.3
       react: registry.npmjs.org/react@18.1.0
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
-      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler@2.9.0(react-native@0.70.9)(react@18.1.0)
-      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.9)(react@18.1.0)
-      react-native-screens: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.9)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native-gesture-handler: registry.npmjs.org/react-native-gesture-handler@2.9.0(react-native@0.70.5)(react@18.1.0)
+      react-native-safe-area-context: registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.5)(react@18.1.0)
+      react-native-screens: registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.5)(react@18.1.0)
       warn-once: registry.npmjs.org/warn-once@0.1.1
     dev: false
 
@@ -12466,6 +12555,11 @@ packages:
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.25.24.tgz}
     name: '@sinclair/typebox'
     version: 0.25.24
+
+  registry.npmjs.org/@sinclair/typebox@0.27.8:
+    resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.27.8.tgz}
+    name: '@sinclair/typebox'
+    version: 0.27.8
 
   registry.npmjs.org/@sindresorhus/is@0.14.0:
     resolution: {integrity: sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz}
@@ -19106,6 +19200,14 @@ packages:
     version: 0.69.20
     dependencies:
       '@types/react': registry.npmjs.org/@types/react@17.0.2
+    dev: true
+
+  registry.npmjs.org/@types/react-native@0.70.5:
+    resolution: {integrity: sha512-Z+NdP5EB1qGSHPSOcsrXqxXrxlFyp/GBllajUIEQ0+XVSFd1l/B+nmHBvACiZvDwRVE/l2hL2pBWeOUPi2C1JA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-native/-/react-native-0.70.5.tgz}
+    name: '@types/react-native'
+    version: 0.70.5
+    dependencies:
+      '@types/react': registry.npmjs.org/@types/react@18.2.6
     dev: true
 
   registry.npmjs.org/@types/react-reconciler@0.28.1:
@@ -45254,6 +45356,24 @@ packages:
       react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
     dev: false
 
+  registry.npmjs.org/react-native-gesture-handler@2.9.0(react-native@0.70.5)(react@18.1.0):
+    resolution: {integrity: sha512-a0BcH3Qb1tgVqUutc6d3VuWQkI1AM3+fJx8dkxzZs9t06qA27QgURYFoklpabuWpsUTzuKRpxleykp25E8m7tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz}
+    id: registry.npmjs.org/react-native-gesture-handler/2.9.0
+    name: react-native-gesture-handler
+    version: 2.9.0
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      '@egjs/hammerjs': registry.npmjs.org/@egjs/hammerjs@2.0.17
+      hoist-non-react-statics: registry.npmjs.org/hoist-non-react-statics@3.3.2
+      invariant: registry.npmjs.org/invariant@2.2.4
+      lodash: registry.npmjs.org/lodash@4.17.21
+      prop-types: registry.npmjs.org/prop-types@15.8.1
+      react: registry.npmjs.org/react@18.1.0
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+    dev: false
+
   registry.npmjs.org/react-native-gesture-handler@2.9.0(react-native@0.70.9)(react@18.1.0):
     resolution: {integrity: sha512-a0BcH3Qb1tgVqUutc6d3VuWQkI1AM3+fJx8dkxzZs9t06qA27QgURYFoklpabuWpsUTzuKRpxleykp25E8m7tg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz}
     id: registry.npmjs.org/react-native-gesture-handler/2.9.0
@@ -45412,6 +45532,19 @@ packages:
       - react
     dev: false
 
+  registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.5)(react@18.1.0):
+    resolution: {integrity: sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz}
+    id: registry.npmjs.org/react-native-safe-area-context/4.4.1
+    name: react-native-safe-area-context
+    version: 4.4.1
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: registry.npmjs.org/react@18.1.0
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+    dev: false
+
   registry.npmjs.org/react-native-safe-area-context@4.4.1(react-native@0.70.9)(react@18.1.0):
     resolution: {integrity: sha512-N9XTjiuD73ZpVlejHrUWIFZc+6Z14co1K/p1IFMkImU7+avD69F3y+lhkqA2hN/+vljdZrBSiOwXPkuo43nFQA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz}
     id: registry.npmjs.org/react-native-safe-area-context/4.4.1
@@ -45425,7 +45558,7 @@ packages:
       react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
     dev: false
 
-  registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.9)(react@18.1.0):
+  registry.npmjs.org/react-native-screens@3.20.0(react-native@0.70.5)(react@18.1.0):
     resolution: {integrity: sha512-joWUKWAVHxymP3mL9gYApFHAsbd9L6ZcmpoZa6Sl3W/82bvvNVMqcfP7MeNqVCg73qZ8yL4fW+J/syusHleUgg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.20.0.tgz}
     id: registry.npmjs.org/react-native-screens/3.20.0
     name: react-native-screens
@@ -45436,7 +45569,7 @@ packages:
     dependencies:
       react: registry.npmjs.org/react@18.1.0
       react-freeze: registry.npmjs.org/react-freeze@1.0.3(react@18.1.0)
-      react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+      react-native: registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
       warn-once: registry.npmjs.org/warn-once@0.1.1
     dev: false
 
@@ -45499,6 +45632,57 @@ packages:
       react: registry.npmjs.org/react@18.1.0
       react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
     dev: false
+
+  registry.npmjs.org/react-native@0.70.5(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0):
+    resolution: {integrity: sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz}
+    id: registry.npmjs.org/react-native/0.70.5
+    name: react-native
+    version: 0.70.5
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      react: 18.1.0
+    dependencies:
+      '@jest/create-cache-key-function': registry.npmjs.org/@jest/create-cache-key-function@29.6.3
+      '@react-native-community/cli': registry.npmjs.org/@react-native-community/cli@9.2.1(@babel/core@7.21.8)
+      '@react-native-community/cli-platform-android': registry.npmjs.org/@react-native-community/cli-platform-android@9.2.1
+      '@react-native-community/cli-platform-ios': registry.npmjs.org/@react-native-community/cli-platform-ios@9.2.1
+      '@react-native/assets': registry.npmjs.org/@react-native/assets@1.0.0
+      '@react-native/normalize-color': registry.npmjs.org/@react-native/normalize-color@2.0.0
+      '@react-native/polyfills': registry.npmjs.org/@react-native/polyfills@2.0.0
+      abort-controller: registry.npmjs.org/abort-controller@3.0.0
+      anser: registry.npmjs.org/anser@1.4.10
+      base64-js: registry.npmjs.org/base64-js@1.5.1
+      event-target-shim: registry.npmjs.org/event-target-shim@5.0.1
+      invariant: registry.npmjs.org/invariant@2.2.4
+      jsc-android: registry.npmjs.org/jsc-android@250230.2.1
+      memoize-one: registry.npmjs.org/memoize-one@5.2.1
+      metro-react-native-babel-transformer: registry.npmjs.org/metro-react-native-babel-transformer@0.72.3(@babel/core@7.21.8)
+      metro-runtime: registry.npmjs.org/metro-runtime@0.72.3
+      metro-source-map: registry.npmjs.org/metro-source-map@0.72.3
+      mkdirp: registry.npmjs.org/mkdirp@0.5.6
+      nullthrows: registry.npmjs.org/nullthrows@1.1.1
+      pretty-format: registry.npmjs.org/pretty-format@26.6.2
+      promise: registry.npmjs.org/promise@8.3.0
+      react: registry.npmjs.org/react@18.1.0
+      react-devtools-core: registry.npmjs.org/react-devtools-core@4.24.0
+      react-native-codegen: registry.npmjs.org/react-native-codegen@0.70.6(@babel/preset-env@7.21.5)
+      react-native-gradle-plugin: registry.npmjs.org/react-native-gradle-plugin@0.70.3
+      react-refresh: registry.npmjs.org/react-refresh@0.4.3
+      react-shallow-renderer: registry.npmjs.org/react-shallow-renderer@16.15.0(react@18.1.0)
+      regenerator-runtime: registry.npmjs.org/regenerator-runtime@0.13.11
+      scheduler: registry.npmjs.org/scheduler@0.22.0
+      stacktrace-parser: registry.npmjs.org/stacktrace-parser@0.1.10
+      use-sync-external-store: registry.npmjs.org/use-sync-external-store@1.2.0(react@18.1.0)
+      whatwg-fetch: registry.npmjs.org/whatwg-fetch@3.6.2
+      ws: registry.npmjs.org/ws@6.2.2
+    transitivePeerDependencies:
+      - '@babel/core'
+      - '@babel/preset-env'
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
 
   registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0):
     resolution: {integrity: sha512-Z8K7BayzswIVdmDzF/VS6RG1mCkNJSCgA3NjrXl8YmadCDDuDbEIM5BE+Qiiz8UK5XzNsF9NxH/FVojty/1I4A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native/-/react-native-0.70.9.tgz}
