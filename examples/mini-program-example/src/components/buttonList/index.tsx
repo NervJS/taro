@@ -98,6 +98,11 @@ export default class Index extends React.Component<Props, States> {
       textareaControl,
     })
   }
+
+  isAdvancedAPI = (APIName) => {
+    // @ts-ignore
+    return asAPIMap.get(APIName) || native[APIName]
+  }
   render() {
     const { buttonList } = this.props
     const { inputData, textareaControl, hiddenNum } = this.state
@@ -150,7 +155,7 @@ export default class Index extends React.Component<Props, States> {
               )}
               <View
                 className={`api-page-btn ${item.func == null ? 'api-page-btn-uncreate' : ''} ${
-                  item.advancedAPI ? 'api-page-btn-advanced' : ''
+                  this.isAdvancedAPI(item.id) ? 'api-page-btn-advanced' : ''
                 }`}
                 id={item.id}
                 onClick={() => {
