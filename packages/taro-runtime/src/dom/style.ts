@@ -36,7 +36,7 @@ function setStyle (this: Style, newVal: string, styleKey: string) {
 
   !this._pending && recordCss(this)
 
-  if (isNull(newVal) || isUndefined(newVal)) {
+  if (isNull(newVal) || isUndefined(newVal) || newVal === '') {
     this._usedStyleProp.delete(styleKey)
     delete this._value[styleKey]
   } else {
@@ -52,7 +52,7 @@ function initStyle (ctor: typeof Style, styleProperties: string[]) {
 
   for (let i = 0; i < styleProperties.length; i++) {
     const styleKey = styleProperties[i]
-    
+
     if (ctor[styleKey]) return
 
     properties[styleKey] = {
@@ -194,7 +194,7 @@ initStyle(Style, styleProperties)
 
 hooks.tap('injectNewStyleProperties', (newStyleProperties: string[]) => {
   if (isArray(newStyleProperties)) {
-    initStyle(Style, newStyleProperties)    
+    initStyle(Style, newStyleProperties)
   } else {
     if (typeof newStyleProperties !== 'string') return
 
