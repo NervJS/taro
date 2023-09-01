@@ -110,7 +110,7 @@ export function generateJSXAttr(ast: t.Node) {
     quotes: 'single',
     retainFunctionParens: true, // 如果您需要 JSON 兼容的字符串，请改用此选项
   }
-  const code = decodeUnicode(generate(ast, options).code).replace(/</g, lessThanSignPlacehold)
+  const code = decodeUnicode(generate(ast as any, options).code).replace(/</g, lessThanSignPlacehold)
   if (Status.isSFC) {
     return code
   }
@@ -248,7 +248,7 @@ export function parseJSXElement(element: t.JSXElement, isFirstEmit = false): str
             quotes: 'single',
             concise: true,
           }
-          let code = decodeUnicode(generate(attrValue.expression, options).code)
+          let code = decodeUnicode(generate(attrValue.expression as any, options).code)
             .replace(/"/g, "'")
             .replace(/(this\.props\.)|(this\.state\.)/g, '')
             .replace(/this\./g, '')
