@@ -121,10 +121,6 @@ export default function (complier: TaroCompiler): PluginOption {
     mainFields.unshift('main:h5')
   }
 
-
-
-
-
   return {
     name: 'taro:vite-h5-config',
     enforce: 'pre',
