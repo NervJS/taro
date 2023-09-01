@@ -1,4 +1,4 @@
-import { defaultMainFields, isNodeModule, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
+import { defaultMainFields, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString } from '@tarojs/shared'
 import history from 'connect-history-api-fallback'
