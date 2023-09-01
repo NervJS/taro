@@ -41,12 +41,12 @@ describe('request', () => {
       })
   })
 
-  test.skip('should return fetch data when options is url string', () => {
+  test('should return fetch data when options is url string', () => {
     fetch.once(JSON.stringify({ data: '12345' }))
 
     return Taro.request('https://github.com')
       .then(res => {
-        expect(fetch.mock.calls[0][0]).toBe('https://github.com?')
+        expect(fetch.mock.calls[0][0]).toBe('https://github.com')
         expect(res.statusCode).toBe(200)
         expect(res.data).toEqual({
           data: '12345'
@@ -82,7 +82,8 @@ describe('request', () => {
           },
           mode: 'cors',
           cache: 'no-cache',
-          credentials: 'include'
+          credentials: 'include',
+          signal: new window.AbortController().signal
         })
         expect(res.statusCode).toBe(201)
         expect(res.data).toEqual({
