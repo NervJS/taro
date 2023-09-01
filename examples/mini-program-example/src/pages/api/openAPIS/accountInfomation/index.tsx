@@ -1,7 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -14,7 +15,10 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getAccountInfoSync',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('Taro.getAccountInfoSync')
+          TestConsole.consoleNormal('Taro.getAccountInfoSync', Taro.getAccountInfoSync())
+        },
       },
     ],
   }

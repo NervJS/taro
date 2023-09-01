@@ -25,7 +25,7 @@ export default class Index extends React.Component<Props, States> {
     textareaControl: [],
     hiddenNum: 0,
   }
-  componentDidMount (): void {
+  componentDidMount(): void {
     const buttonList = this.props.buttonList
     const inputData: Array<Object> = []
     const textareaControl: Array<Boolean> = []
@@ -107,7 +107,7 @@ export default class Index extends React.Component<Props, States> {
       return false
     }
   }
-  render () {
+  render() {
     const { buttonList } = this.props
     const { inputData, textareaControl, hiddenNum } = this.state
     return (
@@ -158,8 +158,9 @@ export default class Index extends React.Component<Props, States> {
                 ''
               )}
               <View
-                className={`api-page-btn ${item.func == null ? 'api-page-btn-uncreate' : ''} ${this.isAdvancedAPI(item.id) ? 'api-page-btn-advanced' : ''
-                  }`}
+                className={`api-page-btn ${item.func == null ? 'api-page-btn-uncreate' : ''} ${
+                  this.isAdvancedAPI(item.id) ? 'api-page-btn-advanced' : ''
+                }`}
                 id={item.id}
                 onClick={() => {
                   this.submitData(inputData[apiIndex], item, apiIndex)

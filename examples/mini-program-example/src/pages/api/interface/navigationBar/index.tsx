@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -18,17 +19,21 @@ export default class Index extends React.Component {
       },
       {
         id: 'setNavigationBarTitle',
-        func: (apiIndex) => {
+        inputData: {
+          title: '当前页面',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.setNavigationBarTitle')
           Taro.setNavigationBarTitle({
-            title: '当前页面',
-            success: function (res) {
-              console.log('setNavigationBarTitle success ', res)
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: function (res) {
-              console.log('setNavigationBarTitle fail ', res)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: function (res) {
-              console.log('setNavigationBarTitle   complete ', res)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
@@ -43,7 +48,23 @@ export default class Index extends React.Component {
       },
       {
         id: 'hideHomeButton',
-        func: null,
+        func: (apiIndex) => {
+          TestConsole.consoleTest('Taro.hideHomeButton')
+          Taro.hideHomeButton().then(() => {
+            TestConsole.consoleNormal('hideHomeButton')
+          })
+          Taro.hideHomeButton({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
     ],
   }
