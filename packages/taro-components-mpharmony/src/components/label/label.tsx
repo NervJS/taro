@@ -1,4 +1,4 @@
-import { LabelProps } from '@tarojs/components/dist/types/Label'
+import { LabelProps } from '@tarojs/components'
 import React, { useRef } from 'react'
 
 export const Label: React.FC<LabelProps> = (props: LabelProps) => {

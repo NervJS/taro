@@ -151,7 +151,7 @@ export function findMethodName(expression: t.Expression): string {
   } else if (t.isStringLiteral(expression)) {
     methodName = expression.value
   } else if (t.isMemberExpression(expression) && t.isIdentifier(expression.property)) {
-    const { code } = generate(expression)
+    const { code } = generate(expression as any)
     const ids = code.split('.')
     if (ids[0] === 'this' && ids[1] === 'props' && ids[2]) {
       methodName = code.replace('this.props.', '')
