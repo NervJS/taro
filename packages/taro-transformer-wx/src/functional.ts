@@ -109,7 +109,7 @@ export const functionalComponent: () => {
               id,
               `普通函数式组件命名规则请遵守帕斯卡命名法（Pascal Case), 如果是在函数内声明闭包组件，则需要使用函数表达式的写法。
 形如:
-const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as any)).code}
+const ${id?.name} = ${generate(t.arrowFunctionExpression(params as any, body as any) as any).code}
             `
             )
           }

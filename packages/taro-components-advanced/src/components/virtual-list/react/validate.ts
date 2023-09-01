@@ -6,24 +6,18 @@ let devWarningsTagName = null
 
 if (process.env.NODE_ENV !== 'production') {
   if (typeof window !== 'undefined' && typeof window.WeakSet !== 'undefined') {
-    devWarningsDirection =
-      /* #__PURE__ */
-      new WeakSet()
-    devWarningsTagName =
-      /* #__PURE__ */
-      new WeakSet()
+    devWarningsDirection = /* #__PURE__ */ new WeakSet()
+    devWarningsTagName = /* #__PURE__ */ new WeakSet()
   }
 }
 
 export const validateListProps = ({
   item,
   direction,
-  height,
   layout,
   itemTagName,
   innerTagName,
   outerTagName,
-  width,
   itemSize
 }: IProps, {
   instance,
@@ -41,8 +35,6 @@ export const validateListProps = ({
         console.warn('The itemTagName、innerTagName and outerTagName props have been deprecated. ' + 'Please use the itemElementType、innerElementType and outerElementType props instead.')
       }
     }
-
-    const isHorizontal = direction as string === 'horizontal' || layout === 'horizontal'
 
     switch (direction as string) {
       case 'horizontal':
@@ -77,11 +69,11 @@ export const validateListProps = ({
       throw Error('An invalid "item" prop has been specified. ' + 'Value should be a React component. ' + `"${item === null ? 'null' : typeof item}" was specified.`)
     }
 
-    if (isHorizontal && typeof width !== 'number') {
-      throw Error('An invalid "width" prop has been specified. ' + 'Horizontal lists must specify a number for width. ' + `"${width === null ? 'null' : typeof width}" was specified.`)
-    } else if (!isHorizontal && typeof height !== 'number') {
-      throw Error('An invalid "height" prop has been specified. ' + 'Vertical lists must specify a number for height. ' + `"${height === null ? 'null' : typeof height}" was specified.`)
-    }
+    // if (isHorizontal && typeof width !== 'number') {
+    //   throw Error('An invalid "width" prop has been specified. ' + 'Horizontal lists must specify a number for width. ' + `"${width === null ? 'null' : typeof width}" was specified.`)
+    // } else if (!isHorizontal && typeof height !== 'number') {
+    //   throw Error('An invalid "height" prop has been specified. ' + 'Vertical lists must specify a number for height. ' + `"${height === null ? 'null' : typeof height}" was specified.`)
+    // }
   }
 
   return null

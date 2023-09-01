@@ -895,7 +895,7 @@ exports[`typescript should build project with ts 2`] = `
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
             var formatSize = ~~size;
-            var rootValue = 1 / config.deviceRatio[designWidth];
+            var rootValue = 1 / deviceRatio[designWidth];
             switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;

@@ -19,7 +19,10 @@ const UNDERSCORED_DOTFILES = [
   'watchmanconfig',
   'editorconfig',
   'bundle',
-  'ruby-version'
+  'ruby-version',
+  'env.dev',
+  'env.test',
+  'env.prod',
 ]
 const DEFAULT_RN_PROJECT_NAME = 'taroDemo'
 

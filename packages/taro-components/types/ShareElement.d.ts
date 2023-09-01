@@ -3,8 +3,13 @@ import { StandardProps, CommonEventFunction } from './common'
 interface ShareElementProps extends StandardProps {
   /** 映射标记
    * @supported weapp
+   * @deprecated 使用mapkey替换key
    */
   key?: string
+  /** 映射标记
+   * @supported weapp
+   */
+  mapkey?: string
   /** 映射标记
    * @supported alipay
    */

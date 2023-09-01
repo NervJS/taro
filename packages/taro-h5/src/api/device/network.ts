@@ -77,7 +77,7 @@ export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback
   }
 }
 
-export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNetworkStatusChange')
+export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNetworkWeakChange')
 
 export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
   networkStatusManager.remove(callback)

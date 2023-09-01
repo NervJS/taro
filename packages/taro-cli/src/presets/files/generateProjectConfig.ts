@@ -5,8 +5,8 @@ import type { IPluginContext } from '@tarojs/service'
 export default (ctx: IPluginContext) => {
   ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName }) => {
     // 混合模式不需要生成项目配置
-    const { blended } = ctx.runOpts
-    if (blended) return
+    const { blended, newBlended } = ctx.runOpts
+    if (blended || newBlended) return
 
     const { appPath, sourcePath, outputPath } = ctx.paths
     const { printLog, processTypeEnum, fs } = ctx.helper
@@ -20,6 +20,9 @@ export default (ctx: IPluginContext) => {
     }
 
     const origProjectConfig = fs.readJSONSync(projectConfigPath)
+    // 优先从环境变量中获取 appid, 以应对多环境appid不同的情况
+    origProjectConfig.appid = process.env.TARO_APP_ID || origProjectConfig.appid
+
     // compileType 是 plugin 时不修改 miniprogramRoot 字段
     let distProjectConfig = origProjectConfig
     if (origProjectConfig.compileType !== 'plugin') {
@@ -31,6 +34,7 @@ export default (ctx: IPluginContext) => {
     })
 
     if (ctx.initialConfig.logger?.quiet === false) {
+      printLog(processTypeEnum.REMIND, 'appid', `${origProjectConfig.appid}`)
       printLog(processTypeEnum.GENERATE, '工具配置', `${outputPath}/${distConfigName}`)
     }
   })

@@ -210,6 +210,9 @@ export function isEmptyObject (obj: any): boolean {
 }
 
 export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
+  if (p.startsWith('pages/') || p === 'app.config') {
+    return p
+  }
   const realPath = p
   const taroEnv = process.env.TARO_ENV
   for (let i = 0; i < extArrs.length; i++) {
@@ -232,6 +235,11 @@ export function resolveMainFilePath (p: string, extArrs = SCRIPT_EXT): string {
       return `${p}${path.sep}index${item}`
     }
   }
+  // 存在多端页面但是对应的多端页面配置不存在时，使用该页面默认配置
+  if (taroEnv && path.parse(p).base.endsWith(`.${taroEnv}.config`)) {
+    const idx = p.lastIndexOf(`.${taroEnv}.config`)
+    return resolveMainFilePath(p.slice(0, idx) + '.config')
+  }
   return realPath
 }
 
@@ -240,7 +248,7 @@ export function resolveScriptPath (p: string): string {
 }
 
 export function generateEnvList (env: Record<string, any>): Record<string, any> {
-  const res = { }
+  const res = {}
   if (env && !isEmptyObject(env)) {
     for (const key in env) {
       try {
@@ -253,8 +261,47 @@ export function generateEnvList (env: Record<string, any>): Record<string, any> 
   return res
 }
 
+/**
+ * 获取 npm 文件或者依赖的绝对路径
+ *
+ * @param {string} 参数1 - 组件路径
+ * @param {string} 参数2 - 文件扩展名
+ * @returns {string} npm 文件绝对路径
+ */
+export function getNpmPackageAbsolutePath (npmPath: string, defaultFile = 'index'): string | null {
+  try {
+    let packageName = ''
+    let componentRelativePath = ''
+    const packageParts = npmPath.split(path.sep)
+
+    // 获取 npm 包名和指定的包文件路径
+    // taro-loader/path/index => packageName = taro-loader, componentRelativePath = path/index
+    // @tarojs/runtime/path/index => packageName = @tarojs/runtime, componentRelativePath = path/index
+    if (npmPath.startsWith('@')) {
+      packageName = packageParts.slice(0, 2).join(path.sep)
+      componentRelativePath = packageParts.slice(2).join(path.sep)
+    } else {
+      packageName = packageParts[0]
+      componentRelativePath = packageParts.slice(1).join(path.sep)
+    }
+
+    // 没有指定的包文件路径统一使用 defaultFile
+    componentRelativePath ||= defaultFile
+    // require.resolve 解析的路径会包含入口文件路径，通过正则过滤一下
+    const match = require.resolve(packageName).match(new RegExp('.*' + packageName))
+
+    if (!match?.length) return null
+
+    const packagePath = match[0]
+
+    return path.join(packagePath, `./${componentRelativePath}`)
+  } catch (error) {
+    return null
+  }
+}
+
 export function generateConstantsList (constants: Record<string, any>): Record<string, any> {
-  const res = { }
+  const res = {}
   if (constants && !isEmptyObject(constants)) {
     for (const key in constants) {
       if (isPlainObject(constants[key])) {
@@ -283,7 +330,7 @@ export function cssImports (content: string): string[] {
 
 /*eslint-disable*/
 const retries = (process.platform === 'win32') ? 100 : 1
-export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = { excludes: [] }) {
+export function emptyDirectory (dirPath: string, opts: { excludes: Array<string | RegExp> | string | RegExp } = { excludes: [] }) {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach(file => {
       const curPath = path.join(dirPath, file)
@@ -292,7 +339,13 @@ export function emptyDirectory (dirPath: string, opts: { excludes: string[] } = 
         let i = 0 // retry counter
         do {
           try {
-            if (!opts.excludes.length || !opts.excludes.some(item => curPath.indexOf(item) >= 0)) {
+            const excludes = Array.isArray(opts.excludes) ? opts.excludes : [opts.excludes]
+            const canRemove =
+              !excludes.length ||
+              !excludes.some((item) =>
+                typeof item === 'string' ? curPath.indexOf(item) >= 0 : item.test(curPath)
+              )
+            if (canRemove) {
               emptyDirectory(curPath)
               fs.rmdirSync(curPath)
             }
@@ -332,7 +385,7 @@ export function getInstalledNpmPkgVersion (pkgName: string, basedir: string): st
   return fs.readJSONSync(pkgPath).version
 }
 
-export const recursiveMerge = <T = any>(src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
+export const recursiveMerge = <T = any> (src: Partial<T>, ...args: (Partial<T> | undefined)[]) => {
   return mergeWith(src, ...args, (value, srcValue) => {
     const typeValue = typeof value
     const typeSrcValue = typeof srcValue
@@ -424,7 +477,7 @@ export function unzip (zipPath) {
             fileNameArr.shift()
             const fileName = fileNameArr.join('/')
             const writeStream = fs.createWriteStream(path.join(path.dirname(zipPath), fileName))
-            writeStream.on('close', () => {})
+            writeStream.on('close', () => { })
             readStream
               .pipe(filter)
               .pipe(writeStream)

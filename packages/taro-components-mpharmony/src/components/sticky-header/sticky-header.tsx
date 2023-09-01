@@ -1,7 +1,7 @@
-import { StickyHeaderProps } from '@tarojs/components/dist/types/StickyHeader'
+import { StandardProps } from '@tarojs/components'
 import React, { FC } from 'react'
 
-export const StickyHeader: FC<StickyHeaderProps> = ({ className, children, hidden = false }) => {
+export const StickyHeader: FC<StandardProps> = ({ className, children, hidden = false }) => {
 
   return <div className={className} style={{
     display: 'flex',
