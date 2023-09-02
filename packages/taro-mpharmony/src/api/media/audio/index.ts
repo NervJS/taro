@@ -16,6 +16,13 @@ export const createMediaAudioPlayer = /* @__PURE__ */ temporarilyNotSupport('cre
 /**
  * 创建内部 audio 上下文 InnerAudioContext 对象。
  */
-export const createInnerAudioContext: typeof Taro.createInnerAudioContext = () => new InnerAudioContext()
+export const createInnerAudioContext: typeof Taro.createInnerAudioContext = (options) => {
+  if (options && typeof options === 'object' && options.useWebAudioImplement) {
+    return new InnerAudioContext()
+  } else {
+    // @ts-ignore
+    return native.createInnerAudioContext()
+  }
+}
 
 export const createAudioContext = /* @__PURE__ */ temporarilyNotSupport('createAudioContext')

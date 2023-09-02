@@ -177,6 +177,48 @@ export default class Index extends React.Component {
         func: null,
       },
       {
+        id: 'setBackgroundFetchToken',
+        inputData: {
+          token: '',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('setBackgroundFetchToken')
+          Taro.setBackgroundFetchToken({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
+      },
+      {
+        id: 'getBackgroundFetchData',
+        inputData: {
+          fetchType: '',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('getBackgroundFetchData')
+          Taro.getBackgroundFetchData({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
+      },
+      {
         id: 'CacheManager_暂不支持',
         func: null,
       },

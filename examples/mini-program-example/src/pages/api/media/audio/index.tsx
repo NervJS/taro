@@ -9,7 +9,6 @@ import { TestConsole } from '@/util/util'
  * 媒体-音频
  * @returns
  */
-let innercontext
 const canPlayCallback = () => {
   TestConsole.consoleNormal('on/offCanplay callback')
 }
@@ -49,14 +48,33 @@ const seekingCallback = () => {
 const seekedCallback = () => {
   TestConsole.consoleNormal('on/offseeked callback')
 }
+let innercontext
 export default class Index extends React.Component {
   state = {
     list: [
       {
         id: 'createInnerAudioContext',
         func: (apiIndex) => {
-          TestConsole.consoleTest('createInnerAudioContext')
+          TestConsole.consoleTest('createInnerAudioContext_native')
           innercontext = Taro.createInnerAudioContext()
+          TestConsole.consoleNormal('create innerAudioContext :', innercontext)
+        },
+      },
+      {
+        id: 'createInnerAudioContext_{}',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('createInnerAudioContext_native')
+          innercontext = Taro.createInnerAudioContext({})
+          TestConsole.consoleNormal('create innerAudioContext :', innercontext)
+        },
+      },
+      {
+        id: 'createInnerAudioContext_',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('createInnerAudioContext_h5')
+          innercontext = Taro.createInnerAudioContext({
+            useWebAudioImplement: true
+          })
           TestConsole.consoleNormal('create innerAudioContext :', innercontext)
         },
       },
@@ -69,13 +87,13 @@ export default class Index extends React.Component {
           loop: false,
           volume: 1,
           playbackRate: 1,
-          referrerPolicy: 'origin',
+          referrerPolicy: 'origin'
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('InnerAudioContext_set')
+          innercontext.autoplay = data.autoplay
           innercontext.src = data.src
           innercontext.startTime = data.startTime
-          innercontext.autoplay = data.autoplay
           innercontext.loop = data.loop
           innercontext.volume = data.volume
           innercontext.playbackRate = data.playbackRate
@@ -259,7 +277,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
