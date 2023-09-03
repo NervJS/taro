@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/shared",
-  "version": "3.7.0-alpha.11",
+  "version": "3.7.0-beta.1",
   "description": "Taro utils internal use.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/shared#readme",
