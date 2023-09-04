@@ -1341,8 +1341,8 @@ require("./taro");
 </template>
   
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -1466,6 +1466,12 @@ require("./taro");
 
 /** filePath: dist/components/tab/tab.json **/
 {"component":true,"usingComponents":{}}
+
+/** filePath: dist/components/tab/tab.wxml **/
+<view class="tab" bindtap="clickHandler">
+  {{myProperty}}
+</view>
+
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 11 ], {
@@ -1605,23 +1611,17 @@ require("./taro");
 /** filePath: dist/pages/native/native.json **/
 {"navigationBarBackgroundColor":"#ffffff","navigationBarTextStyle":"black","navigationBarTitleText":"混写页面示例","backgroundColor":"#eeeeee","backgroundTextStyle":"light","usingComponents":{"tab":"../../components/tab/tab"}}
 
-/** filePath: dist/pages/native/native.wxss **/
-.native{color:red}
-
-/** filePath: dist/runtime.js **/
-
-
-/** filePath: dist/src/components/tab/tab.wxml **/
-<view class="tab" bindtap="clickHandler">
-  {{myProperty}}
-</view>
-
-
-/** filePath: dist/src/pages/native/native.wxml **/
+/** filePath: dist/pages/native/native.wxml **/
 <view class="native" bindtap="viewTap">
   <text>{{text}}{{x}}</text>
   <tab myProperty="kkl" bindmyevent="handler" />
 </view>
+
+
+/** filePath: dist/pages/native/native.wxss **/
+.native{color:red}
+
+/** filePath: dist/runtime.js **/
 
 
 /** filePath: dist/taro.js **/

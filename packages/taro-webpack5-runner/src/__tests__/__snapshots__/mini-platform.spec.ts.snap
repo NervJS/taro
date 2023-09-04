@@ -1774,7 +1774,9 @@ require("./runtime");
             },
             Button: {
                 bindGetPhoneNumber: _empty,
-                "data-channel": _empty
+                "data-channel": _empty,
+                "data-aweme-id": _empty,
+                bindOpenAwemeUserProfile: _empty
             },
             Form: {
                 "report-submit-timeout": "0"
@@ -3946,8 +3948,8 @@ require("./runtime");
 </template>
 
 <template name="tmpl_15_container">
-  <block jd:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block jd:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block jd:else>
     <comp i="{{i}}" l="{{l}}" />

@@ -99,7 +99,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   /** 点击键盘右下角按钮时是否保持键盘不收起
    * @supported weapp, swan, tt
    */
-  confirmHold?: string
+  confirmHold?: boolean
   /** 组件名字，用于表单提交获取数据。
    * @supported alipay
    */
