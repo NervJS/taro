@@ -76,6 +76,7 @@
 /// <reference path="api/open-api/channels.d.ts" />
 /// <reference path="api/open-api/device-voip.d.ts" />
 /// <reference path="api/open-api/group.d.ts" />
+/// <reference path="api/open-api/privacy.d.ts" />
 /// <reference path="api/open-api/customer-service.d.ts" />
 /// <reference path="api/device/bluetooth.d.ts" />
 /// <reference path="api/device/bluetooth-ble.d.ts" />
@@ -107,7 +108,6 @@
 /// <reference path="api/wxml/index.d.ts" />
 /// <reference path="api/ext/index.d.ts" />
 /// <reference path="api/ad/index.d.ts" />
-/// <reference path="api/privacy/index.d.ts" />
 
 /// <reference path="api/cloud/index.d.ts" />
 /// <reference path="api/open-api/facial.d.ts" />

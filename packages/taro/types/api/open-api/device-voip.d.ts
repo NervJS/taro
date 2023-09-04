@@ -20,7 +20,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallbackResult) => void
+      success?: (result: TaroGeneral.CallbackResult) => void
     }
   }
 

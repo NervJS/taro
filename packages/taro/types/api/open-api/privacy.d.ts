@@ -69,21 +69,25 @@ declare module '../../index' {
     /**
      * 查询隐私授权情况。隐私合规开发指南详情可见《小程序隐私协议开发指南》
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/privacy/wx.getPrivacySetting.html
      */
     getPrivacySetting: (option?: getPrivacySetting.Option) => void;
     /**
      * 跳转至隐私协议页面。隐私合规开发指南详情可见《小程序隐私协议开发指南》
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/privacy/wx.openPrivacyContract.html
      */
     openPrivacyContract: (option?: openPrivacyContract.Option) => void;
     /**
      * 模拟隐私接口调用，并触发隐私弹窗逻辑。隐私合规开发指南详情可见《小程序隐私协议开发指南》
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/privacy/wx.requirePrivacyAuthorize.html
      */
     requirePrivacyAuthorize: (option?: requirePrivacyAuthorize.Option) => void;
-    /** 
+    /**
      * 监听隐私接口需要用户授权事件。当需要用户进行隐私授权时会触发。触发该事件时，开发者需要弹出隐私协议说明，并在用户同意或拒绝授权后调用回调接口 resolve 触发原隐私接口或组件继续执行。隐私合规开发指南详情可见《小程序隐私协议开发指南》
      * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/privacy/wx.onNeedPrivacyAuthorization.html
     */
     onNeedPrivacyAuthorization: (listener: onNeedPrivacyAuthorization.Listener) => void;
   }
