@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.6.14",
+  "version": "3.6.15",
   "description": "cli tool for taro",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "@tarojs/plugin-doctor": "0.0.10",
+    "@tarojs/plugin-doctor": "^0.0.11",
     "adm-zip": "^0.4.13",
     "cli-highlight": "^2.1.11",
     "download-git-repo": "^2.0.0",
