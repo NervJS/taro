@@ -1,5 +1,5 @@
 
-import { isArray, isFunction, isObject, isString, isWebPlatform } from '@tarojs/shared'
+import { isArray, isFunction, isObject, isString } from '@tarojs/shared'
 import * as path from 'path'
 
 import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
@@ -18,7 +18,6 @@ export interface IOptions {
 }
 
 export default (ctx: IPluginContext, options: IOptions) => {
-  if(isWebPlatform()) return
   const fs = ctx.helper.fs
 
   ctx.modifyWebpackChain(({ chain }) => {
@@ -41,7 +40,8 @@ export default (ctx: IPluginContext, options: IOptions) => {
       } = options
 
       const template = platform.template
-
+      if(!template) return
+      
       if (isArray(voidComponents)) {
         voidComponents.forEach(el => template.voidElements.add(el))
       } else if (isFunction(voidComponents)) {
