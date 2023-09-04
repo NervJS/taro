@@ -625,7 +625,7 @@ declare module './index' {
     /**
      * 在 2023年9月15号之前，在 app.json 中配置 __usePrivacyCheck__: true 后，会启用隐私相关功能，如果不配置或者配置为 false 则不会启用。
      * 在 2023年9月15号之后，不论 app.json 中是否有配置 __usePrivacyCheck__，隐私相关功能都会启用
-     * @supported wx
+     * @supported weapp
      */
     __usePrivacyCheck__?: boolean
     /**
