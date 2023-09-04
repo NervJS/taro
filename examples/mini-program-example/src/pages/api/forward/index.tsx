@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -18,7 +19,27 @@ export default class Index extends React.Component {
       },
       {
         id: 'showShareMenu',
-        func: null,
+        inputData: {
+          withShareTicket: true,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.showShareMenu')
+          Taro.showShareMenu(data).then(() => {
+            TestConsole.consoleNormal('showShareMenu')
+          })
+          Taro.showShareMenu({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'showShareImageMenu',
@@ -42,11 +63,48 @@ export default class Index extends React.Component {
       },
       {
         id: 'hideShareMenu',
-        func: null,
+        inputData: {
+          menus: ['shareAppMessage', 'shareTimeline'],
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.hideShareMenu')
+          Taro.hideShareMenu(data).then(() => {
+            TestConsole.consoleNormal('hideShareMenu')
+          })
+          Taro.hideShareMenu({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'getShareInfo',
-        func: null,
+        inputData: {
+          shareTicket: '',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.getShareInfo')
+          Taro.getShareInfo({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'authPrivateMessage',

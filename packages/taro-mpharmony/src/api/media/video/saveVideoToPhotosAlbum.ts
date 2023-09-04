@@ -14,7 +14,7 @@ export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (optio
   }
 
   const { filePath, success, fail, complete } = options
-  
+
   const handle = new MethodHandler({ name: methodName, success, fail, complete })
   if (typeof filePath !== 'string') {
     return handle.fail({
@@ -35,7 +35,7 @@ export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (optio
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

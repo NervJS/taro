@@ -48,4 +48,6 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
 }
 
 export const hideNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('hideNavigationBarLoading')
-export const hideHomeButton = /* @__PURE__ */ temporarilyNotSupport('hideHomeButton')
+
+// null-implementation
+export const hideHomeButton = () => Promise.resolve()

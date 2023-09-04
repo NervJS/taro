@@ -31,8 +31,8 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
       errMsg: getParameterError({
         para: 'src',
         correct: 'string',
-        wrong: src
-      })
+        wrong: src,
+      }),
     })
   }
 
@@ -50,13 +50,13 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
           width: res.width,
           fps: res.fps,
           bitrate: res.bitrate,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -14,11 +14,7 @@ export const stopCompass: typeof Taro.stopCompass = (options) => {
       console.error(res.errMsg)
       return reject(res)
     }
-    const {
-      success,
-      fail,
-      complete
-    } = options || {}
+    const { success, fail, complete } = options || {}
     const handle = new MethodHandler({ name, success, fail, complete })
 
     // @ts-ignore
@@ -34,7 +30,7 @@ export const stopCompass: typeof Taro.stopCompass = (options) => {
           errMsg: `${name}:fail`,
         }
         handle.fail(result, { resolve, reject })
-      }
+      },
     })
   })
 }

@@ -26,7 +26,7 @@ const components = [
   'text',
   'button',
   'checkbox',
-  'checkbox-group'
+  'checkbox-group',
 ]
 export const canIUse: typeof Taro.canIUse = (apiName: string) => {
   if (!apiName) {
@@ -40,8 +40,7 @@ export const canIUse: typeof Taro.canIUse = (apiName: string) => {
   if (native[_apiName]) {
     return true
   }
-  if (allAPI[_apiName]
-    && allAPI[_apiName].toString().indexOf('__taroNotSupport') === -1) {
+  if (allAPI[_apiName] && allAPI[_apiName].toString().indexOf('__taroNotSupport') === -1) {
     return true
   }
   return false

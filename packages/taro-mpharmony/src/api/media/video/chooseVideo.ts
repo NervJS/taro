@@ -45,13 +45,13 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
           size: res.size,
           tempFilePath: res.tempFilePath,
           width: res.width,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }
