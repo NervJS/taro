@@ -13,7 +13,6 @@ import {
   reLaunch,
   switchTab,
 } from '../api'
-import { permanentlyNotSupport } from '../utils'
 
 const {
   Behavior,
@@ -53,8 +52,14 @@ const taro: typeof Taro = {
   switchTab,
 }
 
-const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')
+const requirePlugin = () => {
+  return {
+    world: '',
+    hello: function () {
 
+    }
+  }
+}
 function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig
   return ((taro as any).config ||= {})
