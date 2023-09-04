@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
+import { TestConsole } from '@/util/util'
 
 /**
  * 数据分析
@@ -22,11 +23,24 @@ export default class Index extends React.Component {
       },
       {
         id: 'reportAnalytics',
-        func: null,
+        inputData: {
+          eventName: '',
+          data: {},
+        },
+        func: (apiIndex, inData) => {
+          TestConsole.consoleTest('reportAnalytics')
+          Taro.reportAnalytics(inData.eventName, inData.data)
+        },
       },
       {
         id: 'getExptInfoSync',
-        func: null,
+        inputData: {
+          key: [],
+        },
+        func: (apiIndex, inData) => {
+          TestConsole.consoleTest('getExptInfoSync')
+          Taro.getExptInfoSync(inData.key)
+        },
       },
     ],
   }

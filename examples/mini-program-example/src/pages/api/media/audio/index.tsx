@@ -49,6 +49,7 @@ const seekedCallback = () => {
   TestConsole.consoleNormal('on/offseeked callback')
 }
 let innercontext
+let audioContext
 export default class Index extends React.Component {
   state = {
     list: [
@@ -73,7 +74,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext_h5')
           innercontext = Taro.createInnerAudioContext({
-            useWebAudioImplement: true
+            useWebAudioImplement: true,
           })
           TestConsole.consoleNormal('create innerAudioContext :', innercontext)
         },
@@ -87,7 +88,7 @@ export default class Index extends React.Component {
           loop: false,
           volume: 1,
           playbackRate: 1,
-          referrerPolicy: 'origin'
+          referrerPolicy: 'origin',
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('InnerAudioContext_set')
@@ -275,9 +276,50 @@ export default class Index extends React.Component {
           innercontext.offSeeked(seekedCallback)
         },
       },
+      {
+        id: 'createAudioContext',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('createAudioContext')
+          audioContext = Taro.createAudioContext('myAudio')
+        },
+      },
+      {
+        id: 'audioContext_play',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('audioContext_play')
+          audioContext.play()
+        },
+      },
+      {
+        id: 'audioContext_pause',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('audioContext_pause')
+          audioContext.pause()
+        },
+      },
+      {
+        id: 'audioContext_seek',
+        inputData: {
+          position: 120,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('audioContext_seek')
+          audioContext.seek(data.position)
+        },
+      },
+      {
+        id: 'audioContext_setSrc',
+        inputData: {
+          src: 'https://storage.360buyimg.com/jdrd-blog/27.mp3',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('audioContext_setSrc')
+          audioContext.setSrc(data.src)
+        },
+      },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>
