@@ -10,11 +10,7 @@ export const getScreenBrightness: typeof Taro.getScreenBrightness = (options) =>
     console.error(res.errMsg)
     return Promise.reject(res)
   }
-  const {
-    success,
-    fail,
-    complete
-  } = options || {}
+  const { success, fail, complete } = options || {}
   const handle = new MethodHandler({ name, success, fail, complete })
 
   return new Promise((resolve, reject) => {
@@ -25,7 +21,7 @@ export const getScreenBrightness: typeof Taro.getScreenBrightness = (options) =>
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

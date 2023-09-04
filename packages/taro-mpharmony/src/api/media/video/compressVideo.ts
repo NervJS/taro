@@ -31,60 +31,49 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
 
   // options.url must be String
   if (typeof src !== 'string') {
-    return handle.fail(
-      {
-        errMsg: getParameterError({
-          para: 'src',
-          correct: 'string',
-          wrong: src,
-        }),
-      }
-
-    )
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'src',
+        correct: 'string',
+        wrong: src,
+      }),
+    })
   }
   if (typeof quality !== 'object') {
-    return handle.fail(
-      {
-        errMsg: getParameterError({
-          para: 'quality',
-          correct: 'object',
-          wrong: quality,
-        }),
-      }
-    )
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'quality',
+        correct: 'object',
+        wrong: quality,
+      }),
+    })
   }
   if (typeof bitrate !== 'number') {
-    return handle.fail(
-      {
-        errMsg: getParameterError({
-          para: 'bitrate',
-          correct: 'number',
-          wrong: bitrate,
-        }),
-      }
-    )
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'bitrate',
+        correct: 'number',
+        wrong: bitrate,
+      }),
+    })
   }
   if (typeof fps !== 'number') {
-    return handle.fail(
-      {
-        errMsg: getParameterError({
-          para: 'fps',
-          correct: 'number',
-          wrong: fps,
-        }),
-      }
-    )
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'fps',
+        correct: 'number',
+        wrong: fps,
+      }),
+    })
   }
   if (typeof resolution !== 'number') {
-    return handle.fail(
-      {
-        errMsg: getParameterError({
-          para: 'resolution',
-          correct: 'number',
-          wrong: resolution,
-        }),
-      }
-    )
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'resolution',
+        correct: 'number',
+        wrong: resolution,
+      }),
+    })
   }
 
   return new Promise<Taro.compressVideo.SuccessCallbackResult>((resolve, reject) => {
@@ -99,14 +88,14 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
         const result: Taro.compressVideo.SuccessCallbackResult = {
           tempFilePath: res.tempFilePath,
           size: res.size,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         return handle.fail(err)
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

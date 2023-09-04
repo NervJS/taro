@@ -26,8 +26,8 @@ export const openVideoEditor: typeof Taro.openVideoEditor = (options) => {
       errMsg: getParameterError({
         para: 'filePath',
         correct: 'string',
-        wrong: filePath
-      })
+        wrong: filePath,
+      }),
     })
   }
 
@@ -41,13 +41,13 @@ export const openVideoEditor: typeof Taro.openVideoEditor = (options) => {
           size: res.size,
           tempFilePath: res.tempFilePath,
           tempThumbPath: res.tempThumbPath,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

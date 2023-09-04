@@ -10,7 +10,7 @@ export const offUserCaptureScreen: typeof Taro.offUserCaptureScreen = (callback)
   if (!isFunction.flag) {
     const res = { errMsg: `${name}:fail ${isFunction.msg}` }
     console.error(res.errMsg)
-    return 
+    return
   }
 
   try {

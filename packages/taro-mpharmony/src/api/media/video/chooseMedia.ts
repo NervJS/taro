@@ -42,13 +42,13 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
         const result: Taro.chooseMedia.SuccessCallbackResult = {
           tempFiles: res.tempFiles,
           type: res.type,
-          errMsg: res.errMsg
+          errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
       },
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
-      }
+      },
     })
   })
 }

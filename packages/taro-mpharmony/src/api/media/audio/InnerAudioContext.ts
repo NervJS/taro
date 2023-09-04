@@ -144,44 +144,75 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     }
   }
 
-  canPlayCallback = () => { }
+  canPlayCallback = () => {}
 
-  playCallback = () => { }
+  playCallback = () => {}
 
-  pauseCallback = () => { }
+  pauseCallback = () => {}
 
-  stopCallback = () => { }
+  stopCallback = () => {}
 
-  endedCallback = () => { }
+  endedCallback = () => {}
 
-  timeUpdateCallback = () => { }
+  timeUpdateCallback = () => {}
 
-  waitingCallback = () => { }
+  waitingCallback = () => {}
 
-  seekingCallback = () => { }
+  seekingCallback = () => {}
 
-  seekedCallback = () => { }
+  seekedCallback = () => {}
 
-  errorCallback = () => { }
+  errorCallback = () => {}
 
-  onCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = this.canPlayCallback) => this.Instance?.addEventListener('canplay', callback as any)
-  onPlay = (callback: Taro.InnerAudioContext.OnPlayCallback = this.playCallback) => this.Instance?.addEventListener('play', callback as any)
-  onPause = (callback: Taro.InnerAudioContext.OnPauseCallback = this.pauseCallback) => this.Instance?.addEventListener('pause', callback as any)
+  onCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = this.canPlayCallback) =>
+    this.Instance?.addEventListener('canplay', callback as any)
+
+  onPlay = (callback: Taro.InnerAudioContext.OnPlayCallback = this.playCallback) =>
+    this.Instance?.addEventListener('play', callback as any)
+
+  onPause = (callback: Taro.InnerAudioContext.OnPauseCallback = this.pauseCallback) =>
+    this.Instance?.addEventListener('pause', callback as any)
+
   onStop = (callback: Taro.InnerAudioContext.OnStopCallback = this.stopCallback) => this.stopStack.add(callback)
-  onEnded = (callback: Taro.InnerAudioContext.OnEndedCallback = this.endedCallback) => this.Instance?.addEventListener('ended', callback as any)
-  onTimeUpdate = (callback: Taro.InnerAudioContext.OnTimeUpdateCallback = this.timeUpdateCallback) => this.Instance?.addEventListener('timeupdate', callback as any)
+  onEnded = (callback: Taro.InnerAudioContext.OnEndedCallback = this.endedCallback) =>
+    this.Instance?.addEventListener('ended', callback as any)
+
+  onTimeUpdate = (callback: Taro.InnerAudioContext.OnTimeUpdateCallback = this.timeUpdateCallback) =>
+    this.Instance?.addEventListener('timeupdate', callback as any)
+
   onError = (callback: Taro.InnerAudioContext.OnErrorCallback = this.errorCallback) => this.errorStack.add(callback)
-  onWaiting = (callback: Taro.InnerAudioContext.OnWaitingCallback = this.waitingCallback) => this.Instance?.addEventListener('waiting', callback as any)
-  onSeeking = (callback: Taro.InnerAudioContext.OnSeekingCallback = this.seekingCallback) => this.Instance?.addEventListener('seeking', callback as any)
-  onSeeked = (callback: Taro.InnerAudioContext.OnSeekedCallback = this.seekedCallback) => this.Instance?.addEventListener('seeked', callback as any)
-  offCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = this.canPlayCallback) => this.Instance?.removeEventListener('canplay', callback as any)
-  offPlay = (callback: Taro.InnerAudioContext.OnPlayCallback = this.playCallback) => this.Instance?.removeEventListener('play', callback as any)
-  offPause = (callback: Taro.InnerAudioContext.OnPauseCallback = this.pauseCallback) => this.Instance?.removeEventListener('pause', callback as any)
+  onWaiting = (callback: Taro.InnerAudioContext.OnWaitingCallback = this.waitingCallback) =>
+    this.Instance?.addEventListener('waiting', callback as any)
+
+  onSeeking = (callback: Taro.InnerAudioContext.OnSeekingCallback = this.seekingCallback) =>
+    this.Instance?.addEventListener('seeking', callback as any)
+
+  onSeeked = (callback: Taro.InnerAudioContext.OnSeekedCallback = this.seekedCallback) =>
+    this.Instance?.addEventListener('seeked', callback as any)
+
+  offCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = this.canPlayCallback) =>
+    this.Instance?.removeEventListener('canplay', callback as any)
+
+  offPlay = (callback: Taro.InnerAudioContext.OnPlayCallback = this.playCallback) =>
+    this.Instance?.removeEventListener('play', callback as any)
+
+  offPause = (callback: Taro.InnerAudioContext.OnPauseCallback = this.pauseCallback) =>
+    this.Instance?.removeEventListener('pause', callback as any)
+
   offStop = (callback: Taro.InnerAudioContext.OnStopCallback = this.stopCallback) => this.stopStack.remove(callback)
-  offEnded = (callback: Taro.InnerAudioContext.OnEndedCallback = this.endedCallback) => this.Instance?.removeEventListener('ended', callback as any)
-  offTimeUpdate = (callback: Taro.InnerAudioContext.OnTimeUpdateCallback = this.timeUpdateCallback) => this.Instance?.removeEventListener('timeupdate', callback as any)
+  offEnded = (callback: Taro.InnerAudioContext.OnEndedCallback = this.endedCallback) =>
+    this.Instance?.removeEventListener('ended', callback as any)
+
+  offTimeUpdate = (callback: Taro.InnerAudioContext.OnTimeUpdateCallback = this.timeUpdateCallback) =>
+    this.Instance?.removeEventListener('timeupdate', callback as any)
+
   offError = (callback: Taro.InnerAudioContext.OnErrorCallback = this.errorCallback) => this.errorStack.remove(callback)
-  offWaiting = (callback: Taro.InnerAudioContext.OnWaitingCallback = this.waitingCallback) => this.Instance?.removeEventListener('waiting', callback as any)
-  offSeeking = (callback: Taro.InnerAudioContext.OnSeekingCallback = this.seekingCallback) => this.Instance?.removeEventListener('seeking', callback as any)
-  offSeeked = (callback: Taro.InnerAudioContext.OnSeekedCallback = this.seekedCallback) => this.Instance?.removeEventListener('seeked', callback as any)
+  offWaiting = (callback: Taro.InnerAudioContext.OnWaitingCallback = this.waitingCallback) =>
+    this.Instance?.removeEventListener('waiting', callback as any)
+
+  offSeeking = (callback: Taro.InnerAudioContext.OnSeekingCallback = this.seekingCallback) =>
+    this.Instance?.removeEventListener('seeking', callback as any)
+
+  offSeeked = (callback: Taro.InnerAudioContext.OnSeekedCallback = this.seekedCallback) =>
+    this.Instance?.removeEventListener('seeked', callback as any)
 }
