@@ -42,7 +42,10 @@ export default class Index extends React.Component {
       },
       {
         id: 'requirePlugin',
-        func: null,
+        func: () => {
+            let pluginName = Taro.requirePlugin('test')
+            TestConsole.consoleNormal('requirePlugin',pluginName)
+        },
       },
       {
         id: 'getCurrentInstance',
@@ -62,7 +65,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
