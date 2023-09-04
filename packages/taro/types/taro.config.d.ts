@@ -623,6 +623,12 @@ declare module './index' {
       useAuthorizePage: boolean
     }
     /**
+     * 在 2023年9月15号之前，在 app.json 中配置 __usePrivacyCheck__: true 后，会启用隐私相关功能，如果不配置或者配置为 false 则不会启用。
+     * 在 2023年9月15号之后，不论 app.json 中是否有配置 __usePrivacyCheck__，隐私相关功能都会启用
+     * @supported wx
+     */
+    __usePrivacyCheck__?: boolean
+    /**
      * 正常情况下默认所有资源文件都被打包发布到所有平台，可以通过 static 字段配置特定每个目录/文件只能发布到特定的平台(多端场景)
      * @see https://dev.weixin.qq.com/docs/framework/guideline/devtools/condition-compile.html#%E8%B5%84%E6%BA%90
      */
