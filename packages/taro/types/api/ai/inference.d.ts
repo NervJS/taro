@@ -57,17 +57,17 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.offError.html
      */
-    offError(callback?: InferenceSession.OffErrorCallback): void
+    offError(callback?: InferenceSession.OnErrorCallback): void
     /** 取消监听模型加载完成事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.offLoad.html
      */
-    offLoad(callback?: InferenceSession.OffLoadCallback): void
+    offLoad(callback?: InferenceSession.OnLoadCallback): void
     /** 监听模型加载失败事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.onError.html
      */
-    onError(callback: InferenceSession.OnLoadCallback): void
+    onError(callback: InferenceSession.OnErrorCallback): void
     /** 监听模型加载完成事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/inference/InferenceSession.onLoad.html
@@ -103,12 +103,8 @@ declare module '../../index' {
       [key: string]: Tensor
     }
 
-    /** 模型加载失败回调函数。*/
-    type OffErrorCallback = (res: TaroGeneral.CallbackResult) => void
-    /** 模型加载完成回调函数 */
-    type OffLoadCallback = (res: TaroGeneral.CallbackResult) => void
     /** 模型加载失败回调函数 */
-    type OnLoadCallback = (res: TaroGeneral.CallbackResult) => void
+    type OnErrorCallback = (res: TaroGeneral.CallbackResult) => void
     /** 模型加载完成回调函数 */
     type OnLoadCallback = (res: TaroGeneral.CallbackResult) => void
   }
