@@ -443,7 +443,7 @@ export const getModule = (appPath: string, {
           // 因此在 webpack4 中如果包含 sourceDir，证明是在 src 内的路径
           if (resourcePath.includes(sourceDir)) {
             // 直接将 /xxx/src/yyy/zzz.wxml 转换成 yyy/zzz.wxml 即可
-            return resourcePath.replace(sourceDir + '/', '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(sourceDir + path.sep, '').replace(/node_modules/gi, 'npm')
           } else {
             // 否则，证明是外层，存在一下两种可能
             // resourcePath /xxx/uuu/aaa/node_modules/yy/zzz.wxml
@@ -451,7 +451,7 @@ export const getModule = (appPath: string, {
             
             // resourcePath /xxx/uuu/aaa/bbb/abc/yy/zzz.wxml
             // --> result: bbb/abc/yy/zzz.wxml
-            return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(appPath + path.sep, '').replace(/node_modules/gi, 'npm')
           }
         },
         context: sourceDir
@@ -463,9 +463,9 @@ export const getModule = (appPath: string, {
         useRelativePath: true,
         name: (resourcePath) => {
           if (resourcePath.includes(sourceDir)) {
-            return resourcePath.replace(sourceDir + '/', '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(sourceDir + path.sep, '').replace(/node_modules/gi, 'npm')
           } else {
-            return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(appPath + path.sep, '').replace(/node_modules/gi, 'npm')
           }
         },
         context: sourceDir
