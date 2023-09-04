@@ -193,6 +193,7 @@ class ScrollView extends React.Component<IProps> {
         ref={container => {
           this.container = container
         }}
+        id={this.props.id}
         style={style}
         className={cls}
         onScroll={_onScroll}
