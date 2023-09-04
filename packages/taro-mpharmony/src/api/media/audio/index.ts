@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 
 import { temporarilyNotSupport } from '../../../utils'
+import { AudioContext } from './AudioContext'
 import { InnerAudioContext } from './InnerAudioContext'
 
 // 音频
@@ -25,4 +26,4 @@ export const createInnerAudioContext: typeof Taro.createInnerAudioContext = (opt
   }
 }
 
-export const createAudioContext = /* @__PURE__ */ temporarilyNotSupport('createAudioContext')
+export const createAudioContext: typeof Taro.createAudioContext = () => new AudioContext()
