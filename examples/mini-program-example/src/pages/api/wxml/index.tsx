@@ -111,14 +111,25 @@ class SelectorQueryTest extends React.Component {
             .fields(data, (res) => {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
             })
-            .exec()
+            .exec((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'exec', apiIndex)
+            })
         },
       },
       {
         id: 'NodesRef.scrollOffset',
         func: (apiIndex) => {
           TestConsole.consoleTest('NodesRef.scrollOffset')
-          console.log('Taro.createSelectorQuery()->selectViewport()).scrollOffset(callback).exec()')
+
+          console.log("Taro.createSelectorQuery()->select('#scrollview').scrollOffset(callback).exec()")
+          Taro.createSelectorQuery()
+            .select('#scrollview')
+            .scrollOffset((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.scrollOffset', apiIndex)
+            })
+            .exec()
+
+          console.log('Taro.createSelectorQuery()->selectViewport().scrollOffset(callback).exec()')
           Taro.createSelectorQuery()
             .selectViewport()
             .scrollOffset((res) => {
@@ -128,7 +139,7 @@ class SelectorQueryTest extends React.Component {
         },
       },
       {
-        id: 'SelectorQuery.node',
+        id: 'NodesRef.node',
         func: (apiIndex) => {
           TestConsole.consoleTest('NodesRef.node')
           console.log("Taro.createSelectorQuery()->select('#mycanvas')).node(callback).exec()")
@@ -158,6 +169,11 @@ class SelectorQueryTest extends React.Component {
           <View>id: #mycanvas</View>
         </Canvas>
         <Welcome />
+        <ScrollView id='scrollview' className='scroll-view' scrollY>
+          <View className='scroll-area'>
+            <Text className='notice'>测试NodesRef.scrollOffset</Text>
+          </View>
+        </ScrollView>
         <View className='api-page'>
           <ButtonList buttonList={list} />
         </View>
@@ -176,13 +192,13 @@ class IntersectionObserverTest extends React.Component {
           observeAll: true,
           thresholds: [],
         },
-        func: () => {
+        func: (_, data) => {
           TestConsole.consoleTest('Taro.createIntersectionObserver')
           if (this.observer) {
             this.observer.disconnect()
             this.observer = undefined
           }
-          this.observer = this.createIntersectionObserver()
+          this.observer = this.createIntersectionObserver(data)
           console.log('Taro.createIntersectionObserver', this.observer)
         },
       },
@@ -240,11 +256,11 @@ class IntersectionObserverTest extends React.Component {
   }
   observer?: Taro.IntersectionObserver
 
-  createIntersectionObserver() {
+  createIntersectionObserver(options?) {
     if (process.env.TARO_ENV === 'weapp') {
-      return Taro.getCurrentInstance().page!.createIntersectionObserver!()
+      return Taro.createIntersectionObserver(Taro.getCurrentInstance().page!, options)
     } else {
-      return Taro.createIntersectionObserver(this)
+      return Taro.createIntersectionObserver(this, options)
     }
   }
 

@@ -83,7 +83,7 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
     }
     return
   }
-  if (id) res.id = dom.id
+  if (id) res.id = isViewport ? '' : dom.id
   if (dataset) res.dataset = Object.assign({}, dom.dataset)
   if (rect || size) {
     const { left, right, top, bottom, width, height } = dom.getBoundingClientRect()
