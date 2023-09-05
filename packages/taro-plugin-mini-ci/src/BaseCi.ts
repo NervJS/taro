@@ -118,7 +118,12 @@ export interface SwanConfig {
 }
 
 export interface JdConfig {
+  /** 秘钥信息 */
   privateKey: string
+  /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
+  robot?: number
+  /** 指定需要排除的规则。无需配置以“.”开头的隐藏文件，它们将默认被忽略，如“.git” */
+  ignores?: string[]
 }
 
 export interface CIOptions {
