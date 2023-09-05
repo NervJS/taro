@@ -21,7 +21,7 @@ export class TerminalReporter {
     this._sourceRoot = sourceRoot
     this.qr = qr ?? false
     this.entry = entry || 'app'
-    const argvs = yargs(process.argv).argv
+    const argvs = yargs(process.argv).argv as any
     if(this.qr && argvs._.includes('bundle')) {
       process.on('beforeExit', () => {
         previewProd({
