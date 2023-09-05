@@ -173,7 +173,6 @@ export default class Convertor {
   init () {
     console.log(chalk.green('开始代码转换...'))
     this.initConvert()
-    this.getSelfDefinedConfig()
     this.getConvertConfig()
     this.getApp()
     this.getPages()
@@ -187,6 +186,7 @@ export default class Convertor {
     } else {
       fs.ensureDirSync(this.convertRoot)
     }
+    this.convertSelfDefinedConfig()
   }
 
   wxsIncrementId = incrementId()
@@ -478,7 +478,7 @@ export default class Convertor {
     }
   }
 
-  getSelfDefinedConfig () {
+  convertSelfDefinedConfig () {
     // 搬运自定义的配置文件
     const selfDefinedConfig: any = []
     // 目前只有tsconfig.json，还有的话继续加到array里
