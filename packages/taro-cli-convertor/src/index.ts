@@ -186,6 +186,7 @@ export default class Convertor {
     } else {
       fs.ensureDirSync(this.convertRoot)
     }
+    this.convertSelfDefinedConfig()
   }
 
   wxsIncrementId = incrementId()
@@ -361,7 +362,6 @@ export default class Convertor {
               }
             },
             AssignmentExpression (astPath) {
-              // fix!
               const node = astPath.node
               // 处理this.data.xx = XXX 的情况，因为此表达式在taro暂不支持
               if (t.isMemberExpression(node.left)) {
@@ -373,7 +373,7 @@ export default class Convertor {
                         if (t.isIdentifier(node.left.property)) {
                           // 判断在this.data.xx=XX的同一作用域内是否有setData
                           let hasSetDataInSameScope = 0
-                          let setDataAstPath:any
+                          let setDataAstPath: any
                           if (setDataInfo) {
                             for (const [key, value] of setDataInfo) {
                               if (key === astPath.scope) {
@@ -389,7 +389,7 @@ export default class Convertor {
                           if (hasSetDataInSameScope === 1) {
                             // this.data.xx = XX 和 setData 在同一作用域，要合并
                             let hasobjexp = 0
-                            let singleArg:any
+                            let singleArg: any
                             for (singleArg of setDataAstPath.node.arguments) {
                               if (t.isObjectExpression(singleArg)) {
                                 hasobjexp = 1
@@ -475,6 +475,25 @@ export default class Convertor {
     return {
       ast,
       scriptFiles,
+    }
+  }
+
+  convertSelfDefinedConfig () {
+    // 搬运自定义的配置文件
+    const selfDefinedConfig: any = []
+    // 目前只有tsconfig.json，还有的话继续加到array里
+    selfDefinedConfig[0] = `tsconfig${this.fileTypes.CONFIG}`
+    for (const tempConfig of selfDefinedConfig) {
+      const tempConfigPath = path.join(this.root, tempConfig)
+      if (fs.existsSync(tempConfig)) {
+        try {
+          const outputFilePath = path.join(this.convertRoot, tempConfig)
+          copyFileToTaro(tempConfigPath, outputFilePath)
+        } catch (err) {
+          // 失败不退出，仅提示
+          console.log(chalk.red(`tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`))
+        }
+      }
     }
   }
 
