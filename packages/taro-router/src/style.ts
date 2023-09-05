@@ -37,10 +37,6 @@ export function loadRouterStyle (usingWindowScroll) {
     height: 100%;
   }
 
-  .taro-tabbar__container .taro_router {
-    min-height: calc(100vh - 50px);
-  }
-
   .taro_page {
     width: 100%;
     height: 100%;

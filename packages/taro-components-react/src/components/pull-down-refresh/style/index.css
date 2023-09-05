@@ -2,13 +2,12 @@
   transform-origin: left top 0px;
 }
 .rmc-pull-to-refresh-content-wrapper {
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .rmc-pull-to-refresh-transition {
   transition: transform 0.3s;
 }
-
 
 @keyframes rmc-pull-to-refresh-indicator {
   50% {
