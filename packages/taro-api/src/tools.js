@@ -45,17 +45,19 @@ export function getInitPxTransform (taro) {
 export function getPxTransform (taro) {
   return function (size) {
     const config = taro.config || {}
-    const deviceRatio = config.deviceRatio || defaultDesignRatio
     const baseFontSize = config.baseFontSize
+    const deviceRatio = config.deviceRatio || defaultDesignRatio
     const designWidth = (((input = 0) => isFunction(config.designWidth)
       ? config.designWidth(input)
       : config.designWidth || defaultDesignWidth))(size)
     if (!(designWidth in deviceRatio)) {
       throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
     }
+    const targetUnit = config.targetUnit || defaultTargetUnit
+    const unitPrecision = config.unitPrecision || defaultUnitPrecision
     const formatSize = ~~size
     let rootValue = 1 / deviceRatio[designWidth]
-    switch (config.targetUnit) {
+    switch (targetUnit) {
       case 'rem':
         rootValue *= baseFontSize * 2
         break
@@ -64,9 +66,9 @@ export function getPxTransform (taro) {
         break
     }
     let val = formatSize / rootValue
-    if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-      val = Number(val.toFixed(config.unitPrecision))
+    if (unitPrecision >= 0 && unitPrecision <= 100) {
+      val = Number(val.toFixed(unitPrecision))
     }
-    return val + config.targetUnit
+    return val + targetUnit
   }
 }
