@@ -83,7 +83,7 @@ declare module '../index' {
     /** 尺寸转换
      * @supported global
      */
-    pxTransform(size: number, designWidth?: number): string
+    pxTransform(size: number): string
 
     /** 尺寸转换初始化
      * @supported global
