@@ -1,6 +1,6 @@
-import { StickySectionProps } from '@tarojs/components/dist/types/StickySection'
+import { StandardProps } from '@tarojs/components'
 import React, { FC } from 'react'
 
-export const StickySection: FC<StickySectionProps> = ({ children, style, className }) => {
+export const StickySection: FC<StandardProps> = ({ children, style, className }) => {
   return <div style={typeof style === 'string' ? {} : style} className={className}>{children}</div>
 }
