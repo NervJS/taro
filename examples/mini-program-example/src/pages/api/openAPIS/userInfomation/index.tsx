@@ -1,7 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -14,11 +15,48 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getUserProfile',
-        func: null,
+        inputData: {
+          desc: '空实现',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.getUserProfile')
+          Taro.getUserProfile(data).then((res) => {
+            TestConsole.consoleNormal('getUserProfile', res)
+          })
+          Taro.getUserProfile({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'getUserInfo',
-        func: null,
+        inputData: {
+          withCredentials: true,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.getUserInfo')
+          Taro.getUserInfo({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'UserInfo',

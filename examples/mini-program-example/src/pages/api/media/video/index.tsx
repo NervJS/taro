@@ -328,7 +328,7 @@ export default class Index extends React.Component {
           setTimeout(() => {
             videoContext.exitFullScreen()
             TestConsole.consoleNormal('exitFullScreen')
-          }, 20000)
+          }, 8000)
 
           TestConsole.consoleNormal('requestFullScreen')
         },

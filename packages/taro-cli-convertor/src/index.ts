@@ -186,6 +186,7 @@ export default class Convertor {
     } else {
       fs.ensureDirSync(this.convertRoot)
     }
+    this.convertSelfDefinedConfig()
   }
 
   wxsIncrementId = incrementId()
@@ -199,6 +200,7 @@ export default class Convertor {
     const self = this
     let componentClassName: string
     let needInsertImportTaro = false
+    const setDataInfo = new Map()
     traverse(ast, {
       Program: {
         enter (astPath) {
@@ -294,6 +296,19 @@ export default class Convertor {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
                   needInsertImportTaro = true
                 }
+              } else if (callee.type === 'MemberExpression') {
+                // find this.setData({}) ,includes this & _this
+                if (
+                  t.isThisExpression(callee.object) ||
+                  (t.isIdentifier(callee.object) && callee.object.name === '_this')
+                ) {
+                  if (t.isIdentifier(callee.property)) {
+                    if (callee.property.name === 'setData') {
+                      // 把scope存为key,后续判断是否跟this.data.xx在同一个作用域
+                      setDataInfo.set(astPath.scope, astPath)
+                    }
+                  }
+                }
               }
             },
 
@@ -343,6 +358,65 @@ export default class Convertor {
                       t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)])
                     )
                   )
+                }
+              }
+            },
+            AssignmentExpression (astPath) {
+              const node = astPath.node
+              // 处理this.data.xx = XXX 的情况，因为此表达式在taro暂不支持
+              if (t.isMemberExpression(node.left)) {
+                if (t.isMemberExpression(node.left.object)) {
+                  if (t.isThisExpression(node.left.object.object)) {
+                    if (t.isIdentifier(node.left.object.property)) {
+                      if (node.left.object.property.name === 'data') {
+                        // 已确认左边是this.data
+                        if (t.isIdentifier(node.left.property)) {
+                          // 判断在this.data.xx=XX的同一作用域内是否有setData
+                          let hasSetDataInSameScope = 0
+                          let setDataAstPath: any
+                          if (setDataInfo) {
+                            for (const [key, value] of setDataInfo) {
+                              if (key === astPath.scope) {
+                                hasSetDataInSameScope = 1
+                                setDataAstPath = value
+                                break
+                              }
+                            }
+                          }
+                          const lastName = node.left.property.name
+                          // 右边不能确定数据类型，所以直接存整个对象
+                          const rightValue = node.right
+                          if (hasSetDataInSameScope === 1) {
+                            // this.data.xx = XX 和 setData 在同一作用域，要合并
+                            let hasobjexp = 0
+                            let singleArg: any
+                            for (singleArg of setDataAstPath.node.arguments) {
+                              if (t.isObjectExpression(singleArg)) {
+                                hasobjexp = 1
+                                break
+                              }
+                            }
+                            if (hasobjexp === 1) {
+                              // 有ObjectExpression，往更里层插入objectProperty新值
+                              singleArg.properties.push(t.objectProperty(t.identifier(lastName), rightValue))
+                            } else {
+                              // 插入一个ObjectExpression
+                              setDataAstPath.node.arguments.push(
+                                t.objectExpression([t.objectProperty(t.identifier(lastName), rightValue)])
+                              )
+                            }
+                            astPath.remove()
+                          } else {
+                            // 此作用域只有this.data.xx = XX ,直接转换为setData的形式
+                            const memberExp = t.memberExpression(t.thisExpression(), t.identifier('setData'))
+                            const objExp = t.objectExpression([t.objectProperty(t.identifier(lastName), rightValue)])
+                            astPath.replaceWith(t.expressionStatement(t.callExpression(memberExp, [objExp])))
+                          }
+                          console.log(`语法  this.data.xx=XX暂不支持,会被替换为setData()`)
+                        }
+                      }
+                    }
+                  }
                 }
               }
             },
@@ -401,6 +475,25 @@ export default class Convertor {
     return {
       ast,
       scriptFiles,
+    }
+  }
+
+  convertSelfDefinedConfig () {
+    // 搬运自定义的配置文件
+    const selfDefinedConfig: any = []
+    // 目前只有tsconfig.json，还有的话继续加到array里
+    selfDefinedConfig[0] = `tsconfig${this.fileTypes.CONFIG}`
+    for (const tempConfig of selfDefinedConfig) {
+      const tempConfigPath = path.join(this.root, tempConfig)
+      if (fs.existsSync(tempConfig)) {
+        try {
+          const outputFilePath = path.join(this.convertRoot, tempConfig)
+          copyFileToTaro(tempConfigPath, outputFilePath)
+        } catch (err) {
+          // 失败不退出，仅提示
+          console.log(chalk.red(`tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`))
+        }
+      }
     }
   }
 

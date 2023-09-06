@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
 import { Current } from '@tarojs/runtime'
 
-import { getParameterError, temporarilyNotSupport } from '../../../utils'
+import { getParameterError } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 import ActionSheet from './actionSheet'
 import Modal from './modal'
@@ -320,8 +320,11 @@ Taro.eventCenter.on('__afterTaroRouterChange', () => {
   }
 })
 
-const enableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('enableAlertBeforeUnload')
-const disableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('disableAlertBeforeUnload')
+// null-implementation
+const enableAlertBeforeUnload = () => {}
+
+// null-implementation
+const disableAlertBeforeUnload = () => {}
 
 export {
   disableAlertBeforeUnload,

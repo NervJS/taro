@@ -1,7 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -14,11 +15,51 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'openSetting',
-        func: null,
+        inputData: {
+          withSubscriptions: false,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.openSetting')
+          Taro.openSetting(data).then((res) => {
+            TestConsole.consoleNormal('openSetting', res)
+          })
+          Taro.openSetting({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'getSetting',
-        func: null,
+        inputData: {
+          withSubscriptions: false,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.getSetting')
+          Taro.getSetting(data).then((res) => {
+            TestConsole.consoleNormal('getSetting', res)
+          })
+          Taro.getSetting({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'AuthSetting',

@@ -163,11 +163,41 @@ export default class Index extends React.Component {
       },
       {
         id: 'enableAlertBeforeUnload',
-        func: null,
+        inputData: {
+          message: '空实现',
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.enableAlertBeforeUnload')
+          Taro.enableAlertBeforeUnload({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'disableAlertBeforeUnload',
-        func: null,
+        func: (apiIndex) => {
+          TestConsole.consoleTest('Taro.disableAlertBeforeUnload')
+          Taro.disableAlertBeforeUnload({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
     ],
   }

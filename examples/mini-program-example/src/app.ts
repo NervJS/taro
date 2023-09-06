@@ -1,41 +1,35 @@
-import { PropsWithChildren } from 'react'
-import Taro, { useDidHide, useDidShow, useError, useLaunch, usePageNotFound } from '@tarojs/taro'
+import React from 'react'
+import Taro from '@tarojs/taro'
 import { TestConsole } from '@/util/util'
 import './app.scss'
 
-function App({ children }: PropsWithChildren) {
-  useLaunch(() => {
-    TestConsole.consoleNormal('useLaunch')
-  })
+class App extends React.Component {
+  onLaunch() {
+    TestConsole.consoleNormal('onLaunch')
+  }
 
-  useDidShow((res) => {
-    TestConsole.consoleNormal('useDidShow', res)
-  })
-
-  useDidHide(() => {
-    TestConsole.consoleNormal('useDidHide')
-  })
-
-  useError((error) => {
-    TestConsole.consoleNormal('useError', error)
+  onError(error) {
+    TestConsole.consoleNormal('onError', error)
     Taro.showToast({
-      title: 'Error',
+      title: 'onError',
       icon: 'error',
     })
-  })
+  }
 
-  usePageNotFound((res) => {
-    TestConsole.consoleNormal('usePageNotFound', res)
+  onPageNotFound(res) {
+    TestConsole.consoleNormal('onPageNotFound', res)
     try {
       Taro.showToast({
         title: 'PageNotFound',
         icon: 'error',
       })
     } catch (err) {}
-  })
+  }
 
-  // children 是将要会渲染的页面
-  return children
+  render() {
+    // this.props.children 是将要会渲染的页面
+    return this.props.children
+  }
 }
 
 export default App

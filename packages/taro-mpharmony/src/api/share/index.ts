@@ -6,7 +6,8 @@ import { permanentlyNotSupport, temporarilyNotSupport } from '../../utils'
 export const updateShareMenu = /* @__PURE__ */ temporarilyNotSupport('updateShareMenu')
 
 /** 显示当前页面的转发按钮 */
-export const showShareMenu = /* @__PURE__ */ temporarilyNotSupport('showShareMenu')
+// null-implementation
+export const showShareMenu = () => Promise.resolve({})
 
 /** 打开分享图片弹窗，可以将图片发送给朋友、收藏或下载 */
 export const showShareImageMenu = /* @__PURE__ */ temporarilyNotSupport('showShareImageMenu')
@@ -24,10 +25,12 @@ export const onCopyUrl = /* @__PURE__ */ temporarilyNotSupport('onCopyUrl')
 export const offCopyUrl = /* @__PURE__ */ temporarilyNotSupport('offCopyUrl')
 
 /** 隐藏当前页面的转发按钮 */
-export const hideShareMenu = /* @__PURE__ */ temporarilyNotSupport('hideShareMenu')
+// null-implementation
+export const hideShareMenu = () => Promise.resolve({})
 
 /** 获取转发详细信息 */
-export const getShareInfo = /* @__PURE__ */ temporarilyNotSupport('getShareInfo')
+// null-implementation
+export const getShareInfo = () => Promise.resolve({})
 
 /** 验证私密消息。 */
 export const authPrivateMessage = /* @__PURE__ */ permanentlyNotSupport('authPrivateMessage')

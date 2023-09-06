@@ -113,6 +113,9 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
     ...deviceInfo,
     ...appBaseInfo,
     ...appAuthorizeSetting,
+    fontSizeSetting: 16,
+    host: { env: 'harmony' }
+
   }
 }
 

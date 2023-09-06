@@ -1,11 +1,11 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
-import './index.scss'
 import { TestConsole } from '@/util/util'
 import apiImage from '@/assets/tab/api.png'
 import apiSelectImage from '@/assets/tab/api_select.png'
+import './index.scss'
 
 /**
  * 界面-Tab Bar

@@ -17,9 +17,9 @@ export function base64ToArrayBuffer (base64: string) {
 
 export * from './caniuse'
 export * from './crypto'
-export * from './debug'
+export * from './debug/index'
 export * from './performance'
 export * from './system'
-export * from './update'
+export * from './update/index'
 export * from './weapp/app-event'
 export * from './weapp/life-cycle'

@@ -409,6 +409,112 @@ export default class Index extends React.Component {
           TestConsole.consoleNormal('closeSync success ', openFd)
         },
       },
+      {
+        id: 'fileSystem_getFileInfo',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('fileSystem_getFileInfo')
+          Taro.chooseImage({
+            success: (res) => {
+              var tempFilePaths = res.tempFilePaths
+              Taro.saveFile({
+                tempFilePath: tempFilePaths[0],
+                filePath: 'D:/common',
+                success: (res) => {
+                  TestConsole.consoleNormal('saveFile success ', res)
+                  fileSystemManager.getFileInfo({
+                    filePath: res.savedFilePath,
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
+                    },
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
+                    },
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
+                    },
+                  })
+                },
+                fail: (res) => {
+                  TestConsole.consoleNormal('saveFile fail ', res.errMsg)
+                },
+                complete: (res) => {
+                  TestConsole.consoleNormal('saveFile complete ', res)
+                },
+              })
+            },
+          })
+        },
+      },
+      {
+        id: 'fileSystem_readFile',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('fileSystem_readFile')
+          Taro.chooseImage({
+            success: (res) => {
+              var tempFilePaths = res.tempFilePaths
+              Taro.saveFile({
+                tempFilePath: tempFilePaths[0],
+                filePath: 'D:/common',
+                success: (res) => {
+                  TestConsole.consoleNormal('saveFile success ', res)
+                  fileSystemManager.readFile({
+                    filePath: res.savedFilePath,
+                    position: 0,
+                    length: 1,
+                    encoding: '',
+                    success: (res) => {
+                      TestConsole.consoleSuccess.call(this, res, apiIndex)
+                    },
+                    fail: (res) => {
+                      TestConsole.consoleFail.call(this, res, apiIndex)
+                    },
+                    complete: (res) => {
+                      TestConsole.consoleComplete.call(this, res, apiIndex)
+                    },
+                  })
+                },
+                fail: (res) => {
+                  TestConsole.consoleNormal('saveFile fail ', res.errMsg)
+                },
+                complete: (res) => {
+                  TestConsole.consoleNormal('saveFile complete ', res)
+                },
+              })
+            },
+          })
+        },
+      },
+      {
+        id: 'fileSystem_readFileSync',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('fileSystem_readFileSync')
+          Taro.chooseImage({
+            success: (res) => {
+              var tempFilePaths = res.tempFilePaths
+              Taro.saveFile({
+                tempFilePath: tempFilePaths[0],
+                filePath: 'D:/common',
+                success: function (sucRes) {
+                  TestConsole.consoleNormal('saveFile success ', sucRes)
+                  str = fileSystemManager.readFileSync({
+                    filePath: sucRes.savedFilePath,
+                    encoding: '',
+                    position: 0,
+                    length: 1,
+                  })
+                  TestConsole.consoleNormal('readFileSync success ', str)
+                },
+                fail: function (failRes) {
+                  TestConsole.consoleNormal('saveFile fail ', failRes.errMsg)
+                },
+                complete: function (comRes) {
+                  TestConsole.consoleNormal('saveFile complete ', comRes)
+                },
+              })
+            },
+          })
+        },
+      },
     ],
   }
   render() {

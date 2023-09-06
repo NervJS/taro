@@ -1,6 +1,8 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
+import { TestConsole } from '@/util/util'
 import './index.scss'
 
 /**
@@ -10,19 +12,21 @@ import './index.scss'
 
 export default class Index extends React.Component {
   state = {
-    api: {
-      id: 'getAccountInfoSync',
-      func: null,
-    },
+    list: [
+      {
+        id: 'getAccountInfoSync',
+        func: () => {
+          TestConsole.consoleTest('Taro.getAccountInfoSync')
+          TestConsole.consoleNormal('Taro.getAccountInfoSync', Taro.getAccountInfoSync())
+        },
+      },
+    ],
   }
   render() {
-    const { api } = this.state
+    const { list } = this.state
     return (
       <View className='api-page'>
-        <View key={api.id} className='api-page-btn' onClick={api.func == null ? () => {} : api.func}>
-          {api.id}
-          {api.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-        </View>
+        <ButtonList buttonList={list} />
       </View>
     )
   }
