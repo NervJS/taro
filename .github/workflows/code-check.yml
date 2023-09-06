@@ -1,0 +1,35 @@
+name: codecheck
+
+on:
+  push:
+    branches:
+      - release-3.6.8-app
+  pull_request:
+    branches:
+      - release-3.6.8-app
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: setup pnpm
+        run: |
+          npm --version
+          npm install pnpm -g
+          pnpm --version
+
+      - name: pnpm install
+        run: |
+          pnpm install
+               
+      - name: lint
+        run: pnpm lint
+     
