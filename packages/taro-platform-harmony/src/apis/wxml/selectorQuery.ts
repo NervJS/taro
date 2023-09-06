@@ -14,22 +14,22 @@ type TSelectorQueryQueueCallback = (res: ISelectorQueryQueue) => void
 
 let arr: any = []
 
+// 深度搜索 rootDom 下的所有节点，存放在 arr 中
 function traversalDFSDom (rootDom) {
   if (!rootDom) return
-  if (rootDom.children.length === 0) {
+  if (rootDom.childNodes.length === 0) {
     arr.push(rootDom)
     return
   }
   arr.push(rootDom)
-  for (let i = 0; i < rootDom.pureChildren.length; i++) {
-    traversalDFSDom(rootDom.pureChildren[i])
+  for (let i = 0; i < rootDom.childNodes.length; i++) {
+    traversalDFSDom(rootDom.childNodes[i])
   }
 }
 
-function parseHandler (element, selector, selectAll) {
+// 从 arr 中寻找所有符合 selector 的节点
+function parseHandler (selector, selectAll) {
   const domList:any = []
-  arr = []
-  traversalDFSDom(element)
   if (arr.length === 0) return null
 
   let selectedId, clsList
@@ -51,7 +51,7 @@ function parseHandler (element, selector, selectAll) {
 
       for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < clsList.length; j++) {
-          if (arr[i].classList.indexOf(clsList[j]) > -1) {
+          if (arr[i].className?.includes(clsList[j])) {
             domList.push(arr[i])
             if (!selectAll) {
               break
@@ -67,11 +67,12 @@ function parseHandler (element, selector, selectAll) {
   if (selectAll) {
     return domList
   } else if (domList.length > 0) {
-    return domList[0]
+    return [domList[0]]
   }
-  return null
+  return []
 }
 
+// 从 TaroNode 里找到对应的 fields 内容
 function filter (fields, dom, selector) {
   if (!dom) return null
   const isViewport = selector === '.taro_page'
@@ -89,6 +90,7 @@ function filter (fields, dom, selector) {
   } = fields
   const res: any = {}
 
+  return res
   if (nodeCanvasType && node) { // Node节点获取处理
     const typeName = dom.type
     res.node = {
@@ -176,10 +178,9 @@ function filter (fields, dom, selector) {
   return res
 }
 
-function querySelector (selector, element, selectAll) {
-  if (element == null) return null
+function querySelector (selector, selectAll) {
   if (typeof selector === 'string') {
-    return parseHandler(element, selector, selectAll)
+    return parseHandler(selector, selectAll)
   }
   return null
 }
@@ -188,36 +189,19 @@ function queryBat (queue, cb) {
   const result: any = []
   const taro = (Current as any).taro
   const page = taro.getCurrentInstance().page
+  const element = page.node
+
+  if (element == null) return null
+
+  arr = []
+  traversalDFSDom(element)
   queue.forEach(item => {
-    const { selector, single, fields, component } = item
-    const container = typeof (component) !== 'undefined' ? component : page.$rootElement()
+    const { selector, single, fields } = item
 
-    let selectSelf = false
-    if (container !== page.$rootElement()) {
-      const $nodeList = querySelector(selector, component.parentNode, true)
-      if ($nodeList) {
-        for (let i = 0, len = $nodeList.length; i < len; i++) {
-          if (container === $nodeList[i]) {
-            selectSelf = true
-            break
-          }
-        }
-      }
-    }
-
-    if (single) {
-      const el = selectSelf ? container : querySelector(selector, container, false)
-      result.push(filter(fields, el, selector))
-    } else {
-      const $children = querySelector(selector, container, true)
-      const children: any = []
-      selectSelf && children.push(container)
-      for (let i = 0, len = $children.length; i < len; i++) {
-        children.push($children[i])
-      }
-      result.push(children.map(dom => filter(fields, dom, selector)))
-    }
+    const nodeList = querySelector(selector, !single)
+    result.push(nodeList.map(dom => filter(fields, dom, selector)))
   })
+
   cb(result)
 }
 
@@ -237,8 +221,10 @@ export class SelectorQuery implements Taro.SelectorQuery {
    * @param component 指定组件
    * @return selectQuery 返回查询对象
    */
-  in = (component: any) => {
-    this._component = component
+  in = (_: any) => {
+    this._component = null
+    console.warn('暂不支持 in 操作')
+    // this._component = component
     return this
   }
 

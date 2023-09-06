@@ -69,7 +69,7 @@ export function connectReactPage (
         // TODO root
         return h(
           'view',
-          { id },
+          { id, className: 'taro_page' },
           children
         )
       }
