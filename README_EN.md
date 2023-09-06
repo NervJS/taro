@@ -34,9 +34,10 @@
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
   </a>
+  <p>
+    <a href="https://github.com/NervJS/taro/blob/next/README.md">简体中文</a> | <a href="https://github.com/NervJS/taro/blob/next/README_EN.md">English</a>
+  </p>
 </div>
-
-[简体中文](./README.md) | [English](./README_EN.md)
 
 > 👽 Taro['tɑ:roʊ], Ultraman Taro, the chief instructor of the Space Guard, the strongest Ultraman.
 
@@ -45,8 +46,8 @@
 1. [Introduction](#Introduction)
 2. [Resources](#Resources)
 3. [Community](#Community)
-4. [Cases](#Cases)
-5. [Feature](#Feature)
+4. [Status](#Status)
+5. [Cases](#Cases)
 6. [Join us](#join-us)
 7. [Issues](#Issues)
 8. [Acknowledgements](#Acknowledgements)
@@ -85,7 +86,9 @@ Juejin book: [Taro Cross-platform Development in Action](https://juejin.im/book/
 | [taroify](https://github.com/mallfoundry/taroify)  | https://taroify.gitee.io/taroify.com/introduce/ | A light-weighted and reliable Taro library for mini-programs (Vant's Taro version) | React | Taro 3 |
 | [@antmjs/vantui](https://github.com/AntmJS/vantui)  | https://antmjs.github.io/vantui/#/home | A UI library that supports Taro and React, based on Youzan VantWeapp | React | Taro 3 |
 
+## Status
 
+![Alt](https://repobeats.axiom.co/api/embed/275806b6f177f7e4c005e956d94440562635c36d.svg "Repobeats analytics image")
 ## Cases
 
 Taro has been used in our production environment, and widely used in the industry for cross-platform development.
@@ -93,73 +96,6 @@ Taro has been used in our production environment, and widely used in the industr
 <a href="https://nervjs.github.io/taro-user-cases/"><img src="https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg" /></a>
 
 [Call for more cases](https://github.com/NervJS/taro/issues/244)
-
-## Feature
-
-### Framework support
-
-#### React/Nerv
-
-Taro 3 has full-featured development experience with React/Nerv, please refer to [Basic tutorial for React](https://nervjs.github.io/taro/docs/react).
-
-Example:
-
-```javascript
-import React, { Component } from 'react'
-import { View, Text } from '@tarojs/components'
-
-export default class Index extends Component {
-  state = {
-    msg: 'Hello World！ '
-  }
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  render () {
-    return (
-      <View className='index'>
-        <Text>{this.state.msg}</Text>
-      </View>
-    )
-  }
-}
-```
-
-#### Vue
-
-Taro 3 has full-featured development experience with Vue, please refer to [Basic tutorial for Vue](https://nervjs.github.io/taro/docs/vue).
-
-Example:
-
-```vue
-<template>
-  <view class="index">
-    <text>{{msg}}</text>
-  </view>
-</template>
-
-<script>
-export default {
-  data () {
-    return {
-      msg: 'Hello World!'
-    }
-  },
-  created () {},
-  onShow () {},
-  onHide () {}
-}
-</script>
-```
-
-### Cross-platform support
-
-Taro's ultimate goal is to provide a solution for cross-platform development.
-
-Taro supports converting code to WeChat/JD/Baidu/Alipay/ByteDance/QQ mini-programs and H5 applications.
 
 ## Join us
 
