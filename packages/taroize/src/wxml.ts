@@ -3,6 +3,7 @@ import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 import { printLog, processTypeEnum } from '@tarojs/helper'
+import { toCamelCase } from '@tarojs/shared'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
 
@@ -99,11 +100,37 @@ export const wxTemplateCommand = [WX_IF, WX_ELSE_IF, WX_FOR, WX_FOR_ITEM, WX_FOR
 function buildElement (name: string, children: Node[] = [], attributes: Attribute[] = []): Element {
   return {
     tagName: name,
-    type: NodeType.Element,
+    type: NodeType.Element, 
     attributes,
     children,
   }
 }
+
+// 将 style 属性中属性名转小驼峰格式 并且将 {{}} 转为 ${}格式生成对应ast节点
+function styleNameToCamelCase (attributes: any[]) {
+  attributes.forEach((attr) => {
+    attr.attrName = toCamelCase(attr.attrName.trim())
+
+    // 匹配双大括号内变量
+    const attrValueReg = /\{\{(.+?)\}\}/g
+    const matchs = attrValueReg.exec(attr.value)
+    if (matchs !== null) {
+      // 获取{{}}模版左右位置的值
+      const tempLeftValue = attr.value.split('{{')
+      const tempRightValue = attr.value.split('}}')
+      attr.value = t.templateLiteral(
+        [
+          t.templateElement({ raw: tempLeftValue[0]?.trim() || '' }),
+          t.templateElement({ raw: tempRightValue[tempRightValue.length - 1]?.trim() || '' }, true)
+        ],
+        [t.identifier(matchs[1]?.trim())]
+      )
+    } else {
+      attr.value = t.stringLiteral(attr.value.trim())
+    }
+  })
+}
+
 
 export const createWxmlVistor = (
   loopIds: Set<string>,
@@ -124,6 +151,30 @@ export const createWxmlVistor = (
         path.set('value', t.jSXExpressionContainer(exclamation))
         path.set('name', t.jSXIdentifier(WX_IF))
       }
+    }
+
+    // 当设置 style 属性但未赋值则删除该属性
+    if (name.name === 'style' && !path.node.value) {
+      path.remove()
+      return
+    }
+
+    // 把 style 中 {{}} 转为 ${} 格式
+    if (name.name === 'style' && t.isStringLiteral(path.node.value)) {
+      const styleValue = path.node.value as any
+      const styleKeys: any[] = []
+      const styleAttrs =  styleValue.value.split(';')
+      styleAttrs.forEach((attr) => {
+        const [attrName, value] = attr.split(':')
+        if (attrName) {
+          styleKeys.push({ attrName, value })
+        }
+      })
+      styleNameToCamelCase(styleKeys)
+      const objectLiteral = t.objectExpression(
+        styleKeys.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
+      )
+      path.node.value = t.jsxExpressionContainer(objectLiteral)
     }
 
     const valueCopy = cloneDeep(path.get('value').node)
@@ -816,6 +867,11 @@ function parseAttribute (attr: Attribute) {
       // eslint-disable-next-line no-console
       console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
     }
+
+    if (key === 'style' && value) {
+      return t.jSXAttribute(t.jSXIdentifier(key), t.stringLiteral(value))
+    }
+
     const { type, content } = parseContent(value)
 
     if (type === 'raw') {
