@@ -107,23 +107,22 @@ function buildElement (name: string, children: Node[] = [], attributes: Attribut
 }
 
 // 将 style 属性中属性名转小驼峰格式 并且将 {{}} 转为 ${}格式生成对应ast节点
-function styleNameToCamelCase (attributes: any[]) {
-  attributes.forEach((attr) => {
+function convertStyleAttrs (styleAttrsMap: any[]) {
+  styleAttrsMap.forEach((attr) => {
     attr.attrName = toCamelCase(attr.attrName.trim())
-
-    // 匹配双大括号内变量
-    const attrValueReg = /\{\{(.+?)\}\}/g
+    // 匹配 {{}} 内部以及左右两边值
+    const attrValueReg = /([^{}]*)\{\{([^{}]*)\}\}([^{}]*)/
     const matchs = attrValueReg.exec(attr.value)
     if (matchs !== null) {
-      // 获取{{}}模版左右位置的值
-      const tempLeftValue = attr.value.split('{{')
-      const tempRightValue = attr.value.split('}}')
+      const tempLeftValue = matchs[1]?.trim() || ''
+      const tempMidValue = matchs[2]?.trim() || ''
+      const tempRightValue = matchs[3]?.trim() || ''
       attr.value = t.templateLiteral(
         [
-          t.templateElement({ raw: tempLeftValue[0]?.trim() || '' }),
-          t.templateElement({ raw: tempRightValue[tempRightValue.length - 1]?.trim() || '' }, true)
+          t.templateElement({ raw: tempLeftValue }),
+          t.templateElement({ raw: tempRightValue }, true)
         ],
-        [t.identifier(matchs[1]?.trim())]
+        [t.identifier(tempMidValue)]
       )
     } else {
       attr.value = t.stringLiteral(attr.value.trim())
@@ -131,6 +130,17 @@ function styleNameToCamelCase (attributes: any[]) {
   })
 }
 
+// 对 style 属性值进行解析
+function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) {
+  const styleValue = path.node.value as any
+  const styleAttrs =  styleValue.value.split(';')
+  styleAttrs.forEach((attr) => {
+    const [attrName, value] = attr.split(':')
+    if (attrName) {
+      styleAttrsMap.push({ attrName, value })
+    }
+  })
+}
 
 export const createWxmlVistor = (
   loopIds: Set<string>,
@@ -161,18 +171,11 @@ export const createWxmlVistor = (
 
     // 把 style 中 {{}} 转为 ${} 格式
     if (name.name === 'style' && t.isStringLiteral(path.node.value)) {
-      const styleValue = path.node.value as any
-      const styleKeys: any[] = []
-      const styleAttrs =  styleValue.value.split(';')
-      styleAttrs.forEach((attr) => {
-        const [attrName, value] = attr.split(':')
-        if (attrName) {
-          styleKeys.push({ attrName, value })
-        }
-      })
-      styleNameToCamelCase(styleKeys)
+      const styleAttrsMap: any[] = []
+      parseStyleAttrs(styleAttrsMap, path)
+      convertStyleAttrs(styleAttrsMap)
       const objectLiteral = t.objectExpression(
-        styleKeys.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
+        styleAttrsMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
       )
       path.node.value = t.jsxExpressionContainer(objectLiteral)
     }
