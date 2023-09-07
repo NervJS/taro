@@ -597,13 +597,13 @@ export default class Convertor {
     }
     if (files.size) {
       files.forEach((file) => {
-        if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
-          return
-        }
-
         // 处理三方库引用，可在convert.config.json中nodePath字段自定义配置配置，默认node_modules
         if (!path.isAbsolute(file)) {
           handleThirdPartyLib(file, this.convertConfig?.nodePath, this.root, this.convertRoot)
+          return
+        }
+
+        if (!fs.existsSync(file) || this.hadBeenCopyedFiles.has(file)) {
           return
         }
 
