@@ -890,7 +890,7 @@ function parseAttribute (attr: Attribute) {
           } else {
             throw new Error(err)
           }
-        } else if (content.includes(':') || (content.includes('...') && content.includes(','))) {
+        } else if (content.includes(':') || (content.includes('...'))) {
           const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, {
             plugins: ['objectRestSpread'],
           })
