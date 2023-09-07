@@ -861,15 +861,7 @@ function parseAttribute (attr: Attribute) {
       jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')))
       globals.hasCatchTrue = true
     } else if (t.isStringLiteral(jsxValue)) {
-      jsxValue = t.jSXExpressionContainer(
-        t.callExpression(
-          t.memberExpression(
-            t.memberExpression(t.thisExpression(), t.identifier('privateStopNoop')),
-            t.identifier('bind')
-          ),
-          [t.thisExpression(), t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value))]
-        )
-      )
+      jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
     }
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
