@@ -20,13 +20,13 @@ export default class Index extends React.Component {
           TestConsole.consoleTest('setEnableDebug')
           Taro.setEnableDebug({
             enableDebug: true,
-            success (res) {
+            success(res) {
               TestConsole.consoleSuccess(res)
             },
-            fail (res) {
+            fail(res) {
               TestConsole.consoleFail(res)
             },
-            complete (res) {
+            complete(res) {
               TestConsole.consoleComplete(res)
             },
           }).then((res) => {
@@ -135,7 +135,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>

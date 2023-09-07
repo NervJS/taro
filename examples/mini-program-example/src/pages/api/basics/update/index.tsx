@@ -9,7 +9,7 @@ import { TestConsole } from '@/util/util'
  * 基础-更新
  * @returns
  */
-let UpdateManager;
+let UpdateManager
 export default class Index extends React.Component {
   state = {
     list: [
@@ -61,7 +61,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>
