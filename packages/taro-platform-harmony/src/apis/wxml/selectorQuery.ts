@@ -78,7 +78,7 @@ function filter (fields, dom, selector) {
   const isViewport = selector === '.taro_page'
   const {
     id,
-    dataset,
+    // dataset,
     rect,
     size,
     scrollOffset,
@@ -90,14 +90,14 @@ function filter (fields, dom, selector) {
   } = fields
   const res: any = {}
 
-  return res
   if (nodeCanvasType && node) { // Node节点获取处理
-    const typeName = dom.type
+    const typeName = dom.nodeName
     res.node = {
       id: dom.id,
       $taroElement: dom
     }
     if (/^canvas/i.test(typeName)) {
+      // harmony todo canvas attr type
       const canvasType = dom.attr.type || ''
       res.nodeCanvasType = canvasType
       if (/^(2d|webgl)/i.test(canvasType) && dom) {
@@ -119,6 +119,7 @@ function filter (fields, dom, selector) {
       return { context: dom }
     } else if (/^canvas/i.test(typeName)) {
       const type = dom.type || '2d'
+      // harmony todo canvas context
       const ctx = dom?.getContext(type)
       return { context: ctx }
     } else if (/^taro-live-player-core/i.test(typeName)) {
@@ -131,7 +132,8 @@ function filter (fields, dom, selector) {
     return
   }
   if (id) res.id = dom.id
-  if (dataset) res.dataset = Object.assign({}, dom.dataset)
+  // harmony todo dataset
+  // if (dataset) res.dataset = Object.assign({}, dom.dataset)
   if (rect || size) {
     const { width, height, left, top } = dom.getBoundingClientRect()
     if (rect) {
