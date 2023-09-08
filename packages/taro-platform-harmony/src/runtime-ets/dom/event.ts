@@ -1,7 +1,6 @@
 import { hooks } from '@tarojs/shared'
 
 import { CONFIRM, CURRENT_TARGET, INPUT, KEY_CODE, TARGET, TIME_STAMP, TYPE } from '../constant'
-import { isParentBinded } from '../utils'
 import { TaroElement } from './element'
 
 import type { EventOptions } from '../interface'
@@ -98,7 +97,7 @@ function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
 
       if (!isStop) {
         // 由于冒泡也是模拟的，因此需要收集父节点事件，进行 batched 操作
-        collectBatchFunction(target, event.type, listener.bind(node, event), event)
+        collectBatchFunction(event.type, listener.bind(node, event))
       }
 
       listener._stop = true
@@ -107,26 +106,20 @@ function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
 }
 
 const eventsBatch = {}
+const BUBBLE_EVENTS = new Set([
+  'touchStart',
+  'touchMove',
+  'touchEnd',
+  'touchCancel',
+  'click',
+  'longTap'
+])
 
-function collectBatchFunction (node: TaroElement, type: string, dispatch: () => void, e: TaroEvent) {
-  if (!hooks.isExist('batchedEventUpdates')) return
-
-  if (
-    !hooks.call('isBubbleEvents', type) || !isParentBinded(node, type)
-  ) {
-    // 最上层组件统一 batchUpdate
-    hooks.call('batchedEventUpdates', () => {
-      if (eventsBatch[type]) {
-        eventsBatch[type].forEach(fn => fn())
-        delete eventsBatch[type]
-      }
-      dispatch()
-    })
-  } else {
-    // 如果上层组件也有绑定同类型的组件，委托给上层组件调用事件回调
+function collectBatchFunction (type: string, dispatch: () => void) {
+  if (hooks.isExist('batchedEventUpdates')) {
     (eventsBatch[type] ||= []).push(dispatch)
-
-    stopOrTriggerPropagation(e, node)
+  } else {
+    dispatch()
   }
 }
 
@@ -156,7 +149,19 @@ export function eventHandler (event, type: string, node: TaroElement) {
   }
 
   if (isBatchUpdates) {
-    collectBatchFunction(node, type, dispatch, e)
+    collectBatchFunction(type, dispatch)
+
+    // 如果需要触发冒泡，则执行 stopOrTriggerPropagation
+    if (BUBBLE_EVENTS.has(type)) {
+      stopOrTriggerPropagation(e, node)
+    }
+
+    hooks.call('batchedEventUpdates', () => {
+      if (eventsBatch[type]) {
+        eventsBatch[type].forEach(fn => fn())
+        delete eventsBatch[type]
+      }
+    })
   } else {
     dispatch()
   }

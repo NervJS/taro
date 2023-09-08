@@ -57,6 +57,8 @@ struct Index {
           TaroText({ node: this.node })
         } else if (this.node.tagName === 'IMAGE') {
           TaroImage({ node: this.node })
+        } else if (this.node.tagName === 'SCROLL-VIEW') {
+          TaroScrollView({ node: this.node })
         }
       }
     }
@@ -72,6 +74,7 @@ struct Index {
           'import TaroView from "@tarojs/components/view"',
           'import TaroText from "@tarojs/components/text"',
           'import TaroImage from "@tarojs/components/image"',
+          'import TaroScrollView from "@tarojs/components/scrollView"',
           'import { TaroElement } from "@tarojs/runtime"',
           `import component from "${rawId}"`,
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,

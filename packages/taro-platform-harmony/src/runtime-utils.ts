@@ -6,6 +6,16 @@ declare const getApp: any
 
 export { initNativeApi }
 export * from './components'
+
+const BUBBLE_EVENTS = new Set([
+  'touchStart',
+  'touchMove',
+  'touchEnd',
+  'touchCancel',
+  'click',
+  'longTap'
+])
+
 export const hostConfig = {
   initNativeApi,
   modifyTaroEvent (event, node) {
@@ -146,5 +156,8 @@ export const hostConfig = {
       originOnDestroy.call(this)
     }
     config.data = { root: { cn: [] } }
+  },
+  isBubbleEvents (eventName) {
+    return BUBBLE_EVENTS.has(eventName)
   }
 }
