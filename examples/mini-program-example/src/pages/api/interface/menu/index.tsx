@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -14,7 +15,11 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getMenuButtonBoundingClientRect',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('Taro.getMenuButtonBoundingClientRect')
+          const rect = Taro.getMenuButtonBoundingClientRect()
+          TestConsole.consoleNormal('getMenuButtonBoundingClientRect', rect)
+        },
       },
     ],
   }

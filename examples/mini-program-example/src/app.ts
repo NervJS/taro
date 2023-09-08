@@ -4,8 +4,8 @@ import { TestConsole } from '@/util/util'
 import './app.scss'
 
 class App extends React.Component {
-  onLaunch() {
-    TestConsole.consoleNormal('onLaunch')
+  onLaunch(res) {
+    TestConsole.consoleNormal('onLaunch', res)
   }
 
   onError(error) {

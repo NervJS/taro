@@ -1,15 +1,34 @@
 import Taro from '@tarojs/api'
 
-const launchOptions: Taro.getLaunchOptionsSync.LaunchOptions = {
-  path: '',
-  query: {},
-  scene: 0,
-  shareTicket: '',
-  referrerInfo: {},
+function getReferrerInfo () {
+  let referrerInfo
+  try {
+    // @ts-ignore
+    const callerBundle = bundleMap.get('callerBundle')
+    // @ts-ignore
+    const callerParams = bundleMap.get('callerParams')
+
+    referrerInfo = {
+      referrerInfo: {
+        appId: callerBundle || '',
+        extraData: JSON.parse(callerParams),
+      },
+    }
+  } catch (err) {
+    referrerInfo = {
+      referrerInfo: {
+        appId: '',
+        extraData: {},
+      },
+    }
+  }
+  return referrerInfo
 }
 
+let launchOptions
 function initLaunchOptions (options = {}) {
-  Object.assign(launchOptions, options)
+  Object.assign(options, getReferrerInfo())
+  launchOptions = options
 }
 
 Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)
