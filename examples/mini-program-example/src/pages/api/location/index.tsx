@@ -104,9 +104,16 @@ export default class Index extends React.Component {
       },
       {
         id: 'getLocation',
-        func: (apiIndex) => {
+        inputData: {
+          altitude: "false",
+          highAccuracyExpireTime: 8000,
+          isHighAccuracy: true,
+          type: 'wgs84',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('getLocation')
           Taro.getLocation({
+            ...data,
             success: (res) => {
               this.setState({
                 location: this.formatLocation(res.longitude, res.latitude),
@@ -128,11 +135,22 @@ export default class Index extends React.Component {
       {
         id: 'chooseLocation',
         inputData: {
-          latitude: 45,
-          longitude: 89,
+          mapOpts: {
+            type: 1,
+            search: 1,
+            coord: [39.90374, 116.397827],
+            // coordtype: 5,
+            policy: 0,
+            mapdraggable: 1,
+            zoom: 15,
+            radius: 1000,
+            total: 10,
+            referer: 'myTaro'
+          },
         },
         func: (apiIndex, data) => {
           try {
+            TestConsole.consoleTest('chooseLocation')
             // 需要配置全局变量LOCATION_APIKEY
             Taro.chooseLocation({
               ...data,
@@ -150,6 +168,61 @@ export default class Index extends React.Component {
             })
           } catch (err) {
             TestConsole.consoleDebug('chooseLocation', err)
+          }
+        },
+      },
+      {
+        id: 'getFuzzyLocation',
+        inputData: {
+          type: 'gcj02',
+        },
+        func: (apiIndex, data) => {
+          try {
+            TestConsole.consoleTest('getFuzzyLocation')
+            Taro.getFuzzyLocation({
+              ...data,
+              success: (res) => {
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail.call(this, res, apiIndex)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete.call(this, res, apiIndex)
+              },
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+          } catch (err) {
+            TestConsole.consoleDebug('getFuzzyLocation', err)
+          }
+        },
+      },
+      {
+        id: 'openLocation',
+        func: async (apiIndex) => {
+          try {
+            TestConsole.consoleTest('openLocation')
+            const loc = await Taro.getFuzzyLocation({type: 'gcj02'})
+            Taro.openLocation({
+              longitude: loc.longitude,
+              latitude: loc.latitude,
+              name: '未来科技城',
+              address: '中国湖北省武汉市高新大道999号未来科技城',
+              success: (res) => {
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail.call(this, res, apiIndex)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete.call(this, res, apiIndex)
+              },
+            }).then((res) => {
+              TestConsole.consoleReturn.call(this, res, apiIndex)
+            })
+          } catch (err) {
+            TestConsole.consoleDebug('openLocation', err)
           }
         },
       },
