@@ -163,6 +163,11 @@ export const createWxmlVistor = (
       }
     }
 
+    // 当设置图片mode="",则改为默认值(且taro不支持mode空值)
+    if (name.name === 'mode' && path.node.value === null) {
+      path.set('value', t.stringLiteral('scaleToFill'))
+    }
+
     // 当设置 style 属性但未赋值则删除该属性
     if (name.name === 'style' && !path.node.value) {
       path.remove()
