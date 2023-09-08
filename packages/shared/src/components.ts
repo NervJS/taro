@@ -91,6 +91,7 @@ const Button = {
   'hover-start-time': '20',
   'hover-stay-time': '70',
   name: NO_DEFAULT_VALUE,
+  bindagreeprivacyauthorization: NO_DEFAULT_VALUE,
   ...touchEvents
 }
 

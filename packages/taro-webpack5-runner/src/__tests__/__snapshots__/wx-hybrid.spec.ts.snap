@@ -589,7 +589,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_12">
-  <button size="{{xs.b(i.p10,'default')}}" type="{{i.p11}}" plain="{{xs.b(i.p9,!1)}}" disabled="{{i.p0}}" loading="{{xs.b(i.p6,!1)}}" form-type="{{i.p1}}" open-type="{{i.p8}}" hover-class="{{xs.b(i.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(i.p5,!1)}}" hover-start-time="{{xs.b(i.p3,20)}}" hover-stay-time="{{xs.b(i.p4,70)}}" name="{{i.p7}}" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <button size="{{xs.b(i.p10,'default')}}" type="{{i.p11}}" plain="{{xs.b(i.p9,!1)}}" disabled="{{i.p0}}" loading="{{xs.b(i.p6,!1)}}" form-type="{{i.p1}}" open-type="{{i.p8}}" hover-class="{{xs.b(i.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(i.p5,!1)}}" hover-start-time="{{xs.b(i.p3,20)}}" hover-stay-time="{{xs.b(i.p4,70)}}" name="{{i.p7}}" bindagreeprivacyauthorization="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
