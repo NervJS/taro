@@ -1,4 +1,4 @@
-import prompt from '@system.prompt'
+import prompt from '@ohos.prompt'
 
 import { callAsyncFail, callAsyncSuccess, unsupport, validateParams } from '../utils'
 
@@ -17,7 +17,7 @@ export function showToast (options) {
     const _default = {
       title: '',
       duration: 1500,
-      bottom: '100px'
+      bottom: '50%'
     }
 
     options = { ..._default, ...options }
