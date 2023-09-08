@@ -1,4 +1,4 @@
-import { fs, getViteH5Compiler } from '@tarojs/helper'
+import { fs, getViteH5Compiler, REG_TARO_H5_RUNTIME_API } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
 import apiLoader from './api-loader'
@@ -33,17 +33,19 @@ function injectLoaderMeta (framework: Frameworks): PluginOption {
 }
 
 function setTaroApi (): PluginOption {
+  // dev 环境通过 esbuild 来做； pro 环境通过 rollup load 钩子来做；因为生产环境不会走 esbuild
   return {
     name: 'taro-react:process-import-taro',
     enforce: 'pre',
     config: () => ({
       optimizeDeps: {
+        force: true,
         esbuildOptions: {
           plugins: [
             {
               name: 'taro:react-api',
               setup (build) {
-                build.onLoad({ filter: /@tarojs[\\/]plugin-platform-h5[\\/]dist[\\/]runtime[\\/]apis[\\/]index/ }, async (args) => {
+                build.onLoad({ filter: REG_TARO_H5_RUNTIME_API }, async (args) => {
                   const input = await fs.readFile(args.path, 'utf8')
                   return {
                     contents: apiLoader(input + '\n' + 'const taro = Taro__default\n')
@@ -54,7 +56,13 @@ function setTaroApi (): PluginOption {
           ]
         }
       },
-    })
+    }),
+    async load (id) {
+      if (process.env.NODE_ENV === 'production' && REG_TARO_H5_RUNTIME_API.test(id)) {
+        const input = await fs.readFile(id, 'utf8')
+        return apiLoader(input + '\n' + 'const taro = Taro__default\n')
+      }
+    }
   }
 }
 

@@ -21,7 +21,7 @@ export default function (complier: TaroH5Compiler | TaroMinCompiler): PluginOpti
 
       // example: 'js|jsx|ts|tsx|vue'
       const allowedExts = Array.from(new Set(SCRIPT_EXT.concat(taroConfig.frameworkExts || [])))
-        .map(item => item.replace(/^\./, ''))
+        .map((item : string) => item.replace(/^\./, ''))
         .join('|')
       // example: /\.weapp\.(js|jsx|ts|tsx|vue)/
       const multiPlatformReg = new RegExp(`\\.${process.env.TARO_ENV}\\.(${allowedExts})`)
