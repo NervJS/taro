@@ -1,5 +1,5 @@
 import { isString } from '@tarojs/shared'
-import { createServer } from 'vite'
+import { build, createServer } from 'vite'
 
 import h5Preset from './h5'
 import { componentConfig } from './template/component'
@@ -37,8 +37,15 @@ export default async function (appPath: string, taroConfig: H5BuildConfig) {
     componentConfig
   })
 
-  // @TODO pretty print
-  const server = await createServer(commonConfig)
-  await server.listen()
-  server.printUrls()
+  const { mode } = taroConfig
+
+
+  if (mode === 'production') {
+    await build(commonConfig)
+  } else {
+    // @TODO pretty print
+    const server = await createServer(commonConfig)
+    await server.listen()
+    server.printUrls()
+  }
 }

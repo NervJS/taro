@@ -1,5 +1,5 @@
 import { transformAsync } from '@babel/core'
-import { defaultMainFields, SCRIPT_EXT } from '@tarojs/helper'
+import { defaultMainFields, getViteH5Compiler, SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 import path from 'path'
 
@@ -180,9 +180,7 @@ export default class H5 extends TaroPlatformWeb {
         return {
           name: 'taro:vite-h5-loader-meta',
           async buildStart () {
-            await this.load({ id: 'taro:compiler' })
-            const info = this.getModuleInfo('taro:compiler')
-            const compiler = info?.meta.compiler
+            const compiler = await getViteH5Compiler(this)
             if (compiler) {
               compiler.loaderMeta ||= {
                 extraImportForWeb: '',
@@ -224,9 +222,7 @@ export default class H5 extends TaroPlatformWeb {
           name: 'taro:vite-h5-api',
           enforce: 'post',
           async transform(code, id) {
-            await this.load({ id: 'taro:compiler' })
-            const info = this.getModuleInfo('taro:compiler')
-            const compiler = info?.meta.compiler
+            const compiler = await getViteH5Compiler(this)
             if (compiler) {
               const exts = Array.from(new Set(compiler.frameworkExts.concat(SCRIPT_EXT)))
               if (id.startsWith(compiler.sourceDir) && exts.some((ext) => id.includes(ext))) {

@@ -1,4 +1,4 @@
-import { fs } from '@tarojs/helper'
+import { fs, getViteH5Compiler } from '@tarojs/helper'
 import { mergeWith } from 'lodash'
 
 import apiLoader from './api-loader'
@@ -22,9 +22,7 @@ function injectLoaderMeta (framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:loader-meta',
     async buildStart () {
-      await this.load({ id: 'taro:compiler' })
-      const info = this.getModuleInfo('taro:compiler')
-      const compiler = info?.meta.compiler
+      const compiler = await getViteH5Compiler(this)
       if (compiler) {
         compiler.loaderMeta = mergeWith(
           getLoaderMeta(framework), compiler.loaderMeta, customizer

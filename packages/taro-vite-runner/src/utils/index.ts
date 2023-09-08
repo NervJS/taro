@@ -46,8 +46,15 @@ export function getMiniCompiler (rollupPluginContext: PluginContext): MiniCompil
   return getCompiler<MiniCompiler>(rollupPluginContext)
 }
 
-export function getH5Compiler (rollupPluginContext: PluginContext): H5Compiler | undefined {
-  return getCompiler<H5Compiler>(rollupPluginContext)
+// todo 迁移到 taro-help
+export async function getH5Compiler (rollupPluginContext: PluginContext): Promise<H5Compiler | undefined> {
+  const info = process.env.NODE_ENV === 'production' 
+    ?
+    rollupPluginContext.getModuleInfo(Compiler.label) 
+    : 
+    await rollupPluginContext.load({ id: Compiler.label })
+  const compiler: H5Compiler | undefined = info?.meta.compiler
+  return compiler
 }
 
 export function prettyPrintJson (obj: Record<string, any>) {
