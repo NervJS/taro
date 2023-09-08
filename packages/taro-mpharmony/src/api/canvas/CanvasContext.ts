@@ -264,8 +264,19 @@ export class CanvasContext implements Taro.CanvasContext {
     return this.enqueueActions(this.ctx.closePath, ...args)
   }
 
-  createPattern (image: string, repetition: keyof Taro.CanvasContext.Repetition): void {
-    return this.createPattern(image, repetition)
+  createPattern (imageResource: string, repetition: keyof Taro.CanvasContext.Repetition): CanvasPattern | null | Promise<CanvasPattern | null> {
+    // 需要转换为 Image
+    if (typeof imageResource === 'string') {
+      const img = new Image()
+      img.src = imageResource
+      return new Promise<CanvasPattern | null>((resolve, reject) => {
+        img.onload = () => {
+          resolve(this.ctx.createPattern(img, repetition))
+        }
+        img.onerror = reject
+      })
+    }
+    return this.ctx.createPattern(imageResource, repetition)
   }
 
   /**
@@ -364,15 +375,21 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   setFontSize (fontSize: number): void {
-    this.font = `${fontSize}px`
+    this.enqueueActions(() => {
+      this.ctx.font = `${fontSize}px sans-serif`
+    })
   }
 
   setGlobalAlpha (alpha: number): void {
-    this.globalAlpha = alpha
+    this.enqueueActions(() => {
+      this.ctx.globalAlpha = alpha
+    })
   }
 
   setLineCap (lineCap: keyof Taro.CanvasContext.LineCap): void {
-    this.lineCap = lineCap
+    this.enqueueActions(() => {
+      this.ctx.lineCap = lineCap
+    })
   }
 
   setLineDash (pattern: number[], offset: number): void {
@@ -383,15 +400,21 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   setLineJoin (lineJoin: keyof Taro.CanvasContext.LineJoin): void {
-    this.lineJoin = lineJoin
+    this.enqueueActions(() => {
+      this.ctx.lineJoin = lineJoin
+    })
   }
 
   setLineWidth (lineWidth: number): void {
-    this.lineWidth = lineWidth
+    this.enqueueActions(() => {
+      this.ctx.lineWidth = lineWidth
+    })
   }
 
   setMiterLimit (miterLimit: number): void {
-    this.miterLimit = miterLimit
+    this.enqueueActions(() => {
+      this.ctx.miterLimit = miterLimit
+    })
   }
 
   setShadow (offsetX: number, offsetY: number, blur: number, color: string): void {
@@ -410,11 +433,15 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   setTextAlign (align: keyof Taro.CanvasContext.Align): void {
-    this.textAlign = align
+    this.enqueueActions(() => {
+      this.ctx.textAlign = align
+    })
   }
 
   setTextBaseline (textBaseline: keyof Taro.CanvasContext.TextBaseline): void {
-    this.textBaseline = TextBaseLineMap[textBaseline] || 'alphabetic'
+    this.enqueueActions(() => {
+      this.ctx.textBaseline = TextBaseLineMap[textBaseline] || 'alphabetic'
+    })
   }
 
   setTransform (...args) {
