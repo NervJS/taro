@@ -338,6 +338,21 @@ declare namespace ButtonProps {
        * 用户同意隐私协议按钮。可通过 bindagreeprivacyauthorization 监听用户同意隐私协议事件
        */
       agreePrivacyAuthorization
+      /**
+       * 从基础库 2.32.3 版本起，隐私同意按钮支持与手机号快速验证组件耦合使用，调用方式为：
+       * <button open-type="getPhoneNumber|agreePrivacyAuthorization">
+       */
+      ['getPhoneNumber|agreePrivacyAuthorization']
+      /**
+       * 从基础库 2.32.3 版本起，支持隐私同意按钮与手机号实时验证组件耦合使用，调用方式为：
+       * <button open-type="getRealtimePhoneNumber|agreePrivacyAuthorization">
+       */
+      ['getRealtimePhoneNumber|agreePrivacyAuthorization']
+      /**
+       * 从基础库 2.32.3 版本起，支持隐私同意按钮与获取用户信息组件耦合使用，调用方式为：
+       * <button open-type="getUserInfo|agreePrivacyAuthorization">
+       */
+      ['getUserInfo|agreePrivacyAuthorization']
     }
     /** 支付宝小程序专属的 open-type 合法值
      * @see https://opendocs.alipay.com/mini/component/button
