@@ -1,13 +1,39 @@
 import Taro from '@tarojs/api'
 import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
+import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
-// 导航栏
-export const showNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('showNavigationBarLoading')
+/**
+ * 显示页面导航条加载图标
+ */
+export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (options?) => {
+  const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
+  const handle = new MethodHandler({ name: 'showNavigationBarLoading', success, fail, complete })
 
-export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Option) {
+  // @ts-ignore
+  native.showNavigationBarLoading()
+  return handle.success()
+}
+
+/**
+ * 隐藏页面导航条加载图标
+ */
+export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (options?) => {
+  const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
+  const handle = new MethodHandler({ name: 'hideNavigationBarLoading', success, fail, complete })
+
+  // @ts-ignore
+  native.hideNavigationBarLoading()
+  return handle.success()
+}
+
+/**
+ * 设置页面导航条标题
+ */
+export const setNavigationBarTitle: typeof Taro.hideNavigationBarLoading = (
+  options?: Taro.setNavigationBarTitle.Option
+) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -38,16 +64,49 @@ export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Opti
  * 设置页面导航条颜色
  */
 export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options) => {
-  const { backgroundColor, success, fail, complete } = options
-  const handle = new MethodHandler({ name: 'setNavigationBarColor', success, fail, complete })
-  const meta = document.createElement('meta')
-  meta.setAttribute('name', 'theme-color')
-  meta.setAttribute('content', backgroundColor)
-  document.head.appendChild(meta)
+  const apiName = 'setNavigationBarColor'
+  // options must be an Object
+  const isObject = shouldBeObject(options)
+  if (!isObject.flag) {
+    const res = { errMsg: `${apiName}:fail ${isObject.msg}` }
+    return Promise.reject(res)
+  }
+
+  const { frontColor, backgroundColor, success, fail, complete, ...otherOptions } = options as Exclude<
+    typeof options,
+  undefined
+  >
+  const handle = new MethodHandler({ name: apiName, success, fail, complete })
+
+  if (!frontColor || typeof frontColor !== 'string') {
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'frontColor',
+        correct: 'String',
+        wrong: frontColor,
+      }),
+    })
+  }
+
+  if (frontColor && !['#000000', '#ffffff'].includes(frontColor)) {
+    return handle.fail({
+      errMsg: `invalid frontColor "${frontColor}"`,
+    })
+  }
+
+  if (!backgroundColor || typeof backgroundColor !== 'string') {
+    return handle.fail({
+      errMsg: getParameterError({
+        para: 'backgroundColor',
+        correct: 'String',
+        wrong: backgroundColor,
+      }),
+    })
+  }
+  // @ts-ignore
+  native.setNavigationBarColor({ frontColor, backgroundColor, ...otherOptions })
   return handle.success()
 }
-
-export const hideNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('hideNavigationBarLoading')
 
 // null-implementation
 export const hideHomeButton = () => Promise.resolve()

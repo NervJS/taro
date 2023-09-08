@@ -15,7 +15,37 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'showNavigationBarLoading',
-        func: null,
+        func: (apiIndex) => {
+          TestConsole.consoleTest('Taro.showNavigationBarLoading')
+          Taro.showNavigationBarLoading({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
+      },
+      {
+        id: 'hideNavigationBarLoading',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('Taro.hideNavigationBarLoading')
+          Taro.hideNavigationBarLoading({
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'setNavigationBarTitle',
@@ -40,11 +70,29 @@ export default class Index extends React.Component {
       },
       {
         id: 'setNavigationBarColor',
-        func: null,
-      },
-      {
-        id: 'hideNavigationBarLoading',
-        func: null,
+        inputData: {
+          frontColor: '#000000',
+          backgroundColor: '#04305f',
+          animation: {
+            duration: 2000,
+            timingFunc: 'easeIn',
+          },
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.setNavigationBarColor')
+          Taro.setNavigationBarColor({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'hideHomeButton',
