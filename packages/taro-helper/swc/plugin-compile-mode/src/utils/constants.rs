@@ -1,0 +1,1 @@
+pub const COMPILE_MODE: &str = "compileMode";

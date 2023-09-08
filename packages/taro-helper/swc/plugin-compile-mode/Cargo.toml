@@ -1,0 +1,20 @@
+[package]
+name = "example_plugin"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.105"
+swc_atoms = "0.5.8"
+swc_core = { version = "0.79.*", features = ["ecma_plugin_transform", "__parser", "ecma_codegen"] }
+
+# .cargo/config defines few alias to build plugin.
+# cargo build-wasi generates wasm-wasi32 binary
+# cargo build-wasm32 generates wasm32-unknown-unknown binary.

@@ -24,7 +24,7 @@ export interface MiniElementData {
   [key: string]: unknown
 }
 
-interface MiniTextData {
+export interface MiniTextData {
   [Shortcuts.Text]: string
   [Shortcuts.NodeName]: string
 }
