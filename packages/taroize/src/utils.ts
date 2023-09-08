@@ -14,6 +14,7 @@ import presetTypescript from '@babel/preset-typescript'
 import { default as template } from '@babel/template'
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
+import babel_plugin_transform_commonjs from 'babel-plugin-transform-commonjs'
 import { camelCase, capitalize } from 'lodash'
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
@@ -62,6 +63,7 @@ export function parseCode (code: string, scriptPath?: string) {
           [decorators, { legacy: true }],
           dynamicImport,
           optionalChaining,
+          babel_plugin_transform_commonjs,
         ],
       }) as { ast: t.File }
     ).ast
@@ -81,6 +83,7 @@ export function parseCode (code: string, scriptPath?: string) {
         [decorators, { legacy: true }],
         dynamicImport,
         optionalChaining,
+        babel_plugin_transform_commonjs,
       ],
     }) as { ast: t.File }
   ).ast
