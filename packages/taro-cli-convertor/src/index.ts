@@ -454,7 +454,7 @@ export default class Convertor {
             }
             if (depComponents && depComponents.size) {
               depComponents.forEach((componentObj) => {
-                const name = pascalCase(componentObj.name)
+                const name = pascalCase(componentObj.name.toLowerCase())
                 let componentPath = componentObj.path
                 if (componentPath.indexOf(self.root) !== -1) {
                   componentPath = path.relative(sourceFilePath, componentPath)
