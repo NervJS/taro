@@ -993,7 +993,7 @@ importers:
       intersection-observer: ^0.7.0
       jest: ^29.3.1
       jest-cli: ^29.3.1
-      jest-environment-jsdom: ^29.5.0
+      jest-environment-jsdom: ^29.6.4
       jest-fetch-mock: ^3.0.3
       jest-mock-console: ^1.0.0
       jest-transform-css: ^6.0.1
@@ -1036,7 +1036,7 @@ importers:
       babel-jest: registry.npmjs.org/babel-jest/29.5.0_@babel+core@7.21.8
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
-      jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom/29.5.0
+      jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom/29.7.0
       jest-fetch-mock: registry.npmjs.org/jest-fetch-mock/3.0.3
       jest-mock-console: registry.npmjs.org/jest-mock-console/1.3.0_jest@29.5.0
       jest-transform-css: registry.npmjs.org/jest-transform-css/6.0.1_postcss@8.4.23
@@ -2004,7 +2004,7 @@ importers:
       history: ^5.1.0
       jest: ^29.3.1
       jest-cli: ^29.3.1
-      jest-environment-jsdom: ^29.5.0
+      jest-environment-jsdom: ^29.6.4
       jsdom: ^21.1.0
       mobile-detect: ^1.4.2
       query-string: ^7.1.1
@@ -2028,7 +2028,7 @@ importers:
       '@types/jest': registry.npmjs.org/@types/jest/29.5.1
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
-      jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom/29.5.0
+      jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom/29.7.0
       jsdom: registry.npmjs.org/jsdom/21.1.2
       rollup: registry.npmjs.org/rollup/2.79.1
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@2.79.1
@@ -2578,7 +2578,7 @@ importers:
       '@types/sinon': ^7.5.0
       jest: ^29.3.1
       jest-cli: ^29.3.1
-      jest-environment-jsdom: ^29.5.0
+      jest-environment-jsdom: ^29.6.4
       jsdom: ^21.1.0
       lodash: ^4.17.21
       rollup: ^2.79.0
@@ -2599,7 +2599,7 @@ importers:
       '@types/sinon': registry.npmjs.org/@types/sinon/7.5.2
       jest: registry.npmjs.org/jest/29.5.0
       jest-cli: registry.npmjs.org/jest-cli/29.5.0
-      jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom/29.5.0
+      jest-environment-jsdom: registry.npmjs.org/jest-environment-jsdom/29.7.0
       jsdom: registry.npmjs.org/jsdom/21.1.2
       rollup: registry.npmjs.org/rollup/2.79.1
       rollup-plugin-ts: registry.npmjs.org/rollup-plugin-ts/3.2.0_3f7un4j2mg4r2yqs4z2id6bmly
@@ -8206,6 +8206,18 @@ packages:
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       jest-mock: registry.npmjs.org/jest-mock/29.5.0
 
+  registry.npmjs.org/@jest/environment/29.7.0:
+    resolution: {integrity: sha512-aQIfHDq33ExsN4jP1NWGXhxgQ/wixs60gDiKO+XVMd8Mn0NWPWgc34ZQDTb2jKaUWQ7MuwoitXAsN2XVXNMpAw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/environment/-/environment-29.7.0.tgz}
+    name: '@jest/environment'
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers/29.7.0
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.3
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      jest-mock: registry.npmjs.org/jest-mock/29.7.0
+    dev: true
+
   registry.npmjs.org/@jest/expect-utils/29.5.0:
     resolution: {integrity: sha512-fmKzsidoXQT2KwnrwE0SQq3uj8Z763vzR8LnLBwC2qYWEFpjX8daRsk6rHUM1QvNlEW/UJXNXm59ztmJJWs2Mg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/expect-utils/-/expect-utils-29.5.0.tgz}
     name: '@jest/expect-utils'
@@ -8261,12 +8273,26 @@ packages:
     version: 29.5.0
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/29.5.0
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.1
       '@sinonjs/fake-timers': registry.npmjs.org/@sinonjs/fake-timers/10.0.2
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       jest-message-util: registry.npmjs.org/jest-message-util/29.5.0
       jest-mock: registry.npmjs.org/jest-mock/29.5.0
       jest-util: registry.npmjs.org/jest-util/29.5.0
+
+  registry.npmjs.org/@jest/fake-timers/29.7.0:
+    resolution: {integrity: sha512-q4DH1Ha4TTFPdxLsqDXK1d3+ioSL7yL5oCMJZgDYm6i+6CygW5E5xVr/D1HdsGxjt1ZWSfUAs9OxSB/BNelWrQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/fake-timers/-/fake-timers-29.7.0.tgz}
+    name: '@jest/fake-timers'
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.3
+      '@sinonjs/fake-timers': registry.npmjs.org/@sinonjs/fake-timers/10.0.2
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      jest-message-util: registry.npmjs.org/jest-message-util/29.7.0
+      jest-mock: registry.npmjs.org/jest-mock/29.7.0
+      jest-util: registry.npmjs.org/jest-util/29.7.0
+    dev: true
 
   registry.npmjs.org/@jest/globals/26.6.2:
     resolution: {integrity: sha512-85Ltnm7HlB/KesBUuALwQ68YTU72w9H2xW9FjZ1eL1U3lhtefjjl5c2MiUbpXt/i6LaPRvoOFJ22yCBSfQ0JIA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/globals/-/globals-26.6.2.tgz}
@@ -8298,7 +8324,7 @@ packages:
     dependencies:
       '@jest/environment': registry.npmjs.org/@jest/environment/29.5.0
       '@jest/expect': registry.npmjs.org/@jest/expect/29.5.0
-      '@jest/types': registry.npmjs.org/@jest/types/29.5.0
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.1
       jest-mock: registry.npmjs.org/jest-mock/29.5.0
     transitivePeerDependencies:
       - supports-color
@@ -8398,6 +8424,15 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@sinclair/typebox': registry.npmjs.org/@sinclair/typebox/0.27.8
+
+  registry.npmjs.org/@jest/schemas/29.6.3:
+    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/schemas/-/schemas-29.6.3.tgz}
+    name: '@jest/schemas'
+    version: 29.6.3
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@sinclair/typebox': registry.npmjs.org/@sinclair/typebox/0.27.8
+    dev: true
 
   registry.npmjs.org/@jest/source-map/27.5.1:
     resolution: {integrity: sha512-y9NIHUYF3PJRlHk98NdC/N1gl88BL08aQQgu4k4ZopQkCw9t9cV8mtl3TV8b/YCB8XaVTFrmUTAJvjsntDireg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/source-map/-/source-map-27.5.1.tgz}
@@ -8570,6 +8605,20 @@ packages:
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       '@types/yargs': registry.npmjs.org/@types/yargs/17.0.24
       chalk: registry.npmjs.org/chalk/4.1.2
+
+  registry.npmjs.org/@jest/types/29.6.3:
+    resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/types/-/types-29.6.3.tgz}
+    name: '@jest/types'
+    version: 29.6.3
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': registry.npmjs.org/@jest/schemas/29.6.3
+      '@types/istanbul-lib-coverage': registry.npmjs.org/@types/istanbul-lib-coverage/2.0.4
+      '@types/istanbul-reports': registry.npmjs.org/@types/istanbul-reports/3.0.1
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      '@types/yargs': registry.npmjs.org/@types/yargs/17.0.24
+      chalk: registry.npmjs.org/chalk/4.1.2
+    dev: true
 
   registry.npmjs.org/@jimp/bmp/0.22.7_@jimp+custom@0.22.7:
     resolution: {integrity: sha512-0cfBPvugURS7G+60vRBL+penDRst8x40alS5Rhn2nlGsgsBHljFDw7+H4o5r6gldw9nv9PR9JA90Wloy7KMZdQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jimp/bmp/-/bmp-0.22.7.tgz}
@@ -25792,7 +25841,7 @@ packages:
     version: 29.5.0
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/29.5.0
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.1
       chalk: registry.npmjs.org/chalk/4.1.2
       jest-get-type: registry.npmjs.org/jest-get-type/29.4.3
       jest-util: registry.npmjs.org/jest-util/29.5.0
@@ -25837,6 +25886,31 @@ packages:
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       jest-mock: registry.npmjs.org/jest-mock/29.5.0
       jest-util: registry.npmjs.org/jest-util/29.5.0
+      jsdom: registry.npmjs.org/jsdom/20.0.3
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
+  registry.npmjs.org/jest-environment-jsdom/29.7.0:
+    resolution: {integrity: sha512-k9iQbsf9OyOfdzWH8HDmrRT0gSIcX+FLNW7IQq94tFX0gynPwqDTW0Ho6iMVNjGz/nb+l/vW3dWM2bbLLpkbXA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-environment-jsdom/-/jest-environment-jsdom-29.7.0.tgz}
+    name: jest-environment-jsdom
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      canvas: ^2.5.0
+    peerDependenciesMeta:
+      canvas:
+        optional: true
+    dependencies:
+      '@jest/environment': registry.npmjs.org/@jest/environment/29.7.0
+      '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers/29.7.0
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.3
+      '@types/jsdom': registry.npmjs.org/@types/jsdom/20.0.1
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      jest-mock: registry.npmjs.org/jest-mock/29.7.0
+      jest-util: registry.npmjs.org/jest-util/29.7.0
       jsdom: registry.npmjs.org/jsdom/20.0.3
     transitivePeerDependencies:
       - bufferutil
@@ -26105,6 +26179,23 @@ packages:
       slash: registry.npmjs.org/slash/3.0.0
       stack-utils: registry.npmjs.org/stack-utils/2.0.6
 
+  registry.npmjs.org/jest-message-util/29.7.0:
+    resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-message-util/-/jest-message-util-29.7.0.tgz}
+    name: jest-message-util
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.22.5
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.3
+      '@types/stack-utils': registry.npmjs.org/@types/stack-utils/2.0.1
+      chalk: registry.npmjs.org/chalk/4.1.2
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.11
+      micromatch: registry.npmjs.org/micromatch/4.0.5
+      pretty-format: registry.npmjs.org/pretty-format/29.7.0
+      slash: registry.npmjs.org/slash/3.0.0
+      stack-utils: registry.npmjs.org/stack-utils/2.0.6
+    dev: true
+
   registry.npmjs.org/jest-mock-console/1.3.0_jest@29.5.0:
     resolution: {integrity: sha512-7JXZK153sADxq/LaEXvx5AQs7kBshdBofdVb2C4X+dmdgJrOPI3BvgxZAj7uvYnjmahKzNAECu8Rjo4Lf2bghQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock-console/-/jest-mock-console-1.3.0.tgz}
     id: registry.npmjs.org/jest-mock-console/1.3.0
@@ -26142,9 +26233,20 @@ packages:
     version: 29.5.0
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types/29.5.0
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.1
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       jest-util: registry.npmjs.org/jest-util/29.5.0
+
+  registry.npmjs.org/jest-mock/29.7.0:
+    resolution: {integrity: sha512-ITOMZn+UkYS4ZFh83xYAOzWStloNzJFO2s8DWrE4lhtGD+AorgnbkiKERe4wQVBydIGPx059g6riW5Btp6Llnw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock/-/jest-mock-29.7.0.tgz}
+    name: jest-mock
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.3
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      jest-util: registry.npmjs.org/jest-util/29.7.0
+    dev: true
 
   registry.npmjs.org/jest-pnp-resolver/1.2.3_jest-resolve@27.5.1:
     resolution: {integrity: sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-pnp-resolver/-/jest-pnp-resolver-1.2.3.tgz}
@@ -26534,6 +26636,20 @@ packages:
       ci-info: registry.npmjs.org/ci-info/3.8.0
       graceful-fs: registry.npmjs.org/graceful-fs/4.2.11
       picomatch: registry.npmjs.org/picomatch/2.3.1
+
+  registry.npmjs.org/jest-util/29.7.0:
+    resolution: {integrity: sha512-z6EbKajIpqGKU56y5KBUgy1dt1ihhQJgWzUlZHArA/+X2ad7Cb5iF+AK1EWVL/Bo7Rz9uurpqw6SiBCefUbCGA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-util/-/jest-util-29.7.0.tgz}
+    name: jest-util
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/types': registry.npmjs.org/@jest/types/29.6.3
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      chalk: registry.npmjs.org/chalk/4.1.2
+      ci-info: registry.npmjs.org/ci-info/3.8.0
+      graceful-fs: registry.npmjs.org/graceful-fs/4.2.11
+      picomatch: registry.npmjs.org/picomatch/2.3.1
+    dev: true
 
   registry.npmjs.org/jest-validate/26.6.2:
     resolution: {integrity: sha512-NEYZ9Aeyj0i5rQqbq+tpIOom0YS1u2MVu6+euBsvpgIme+FOfRmoC4R5p0JiAUpaFvFy24xgrpMknarR/93XjQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-validate/-/jest-validate-26.6.2.tgz}
@@ -32437,6 +32553,17 @@ packages:
       '@jest/schemas': registry.npmjs.org/@jest/schemas/29.4.3
       ansi-styles: registry.npmjs.org/ansi-styles/5.2.0
       react-is: registry.npmjs.org/react-is/18.2.0
+
+  registry.npmjs.org/pretty-format/29.7.0:
+    resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-format/-/pretty-format-29.7.0.tgz}
+    name: pretty-format
+    version: 29.7.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': registry.npmjs.org/@jest/schemas/29.6.3
+      ansi-styles: registry.npmjs.org/ansi-styles/5.2.0
+      react-is: registry.npmjs.org/react-is/18.2.0
+    dev: true
 
   registry.npmjs.org/pretty-time/1.1.0:
     resolution: {integrity: sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/pretty-time/-/pretty-time-1.1.0.tgz}
