@@ -209,7 +209,7 @@ export class BaseTemplate {
           result[compName] = {
             name: newComp?.name,
           }
-        }  else {
+        } else {
           result[compName] = newComp
         }
       }
@@ -227,7 +227,7 @@ export class BaseTemplate {
         : this.dataKeymap('i:item,c:1')
     const xs = this.supportXS
       ? (this.isSupportRecursive
-        ? `xs.a(0, item.${Shortcuts.NodeName})` 
+        ? `xs.a(0, item.${Shortcuts.NodeName})`
         : `xs.a(0, item.${Shortcuts.NodeName}, '')`)
       : "'tmpl_0_' + item.nn"
     return `${this.buildXsTemplate()}
@@ -285,7 +285,7 @@ export class BaseTemplate {
     const { isSupportRecursive, supportXS } = this
     const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
     const isUseXs = !this.isSupportRecursive && this.supportXS
-  
+
     if (isLastRecursiveComp) {
       const data = isUseXs
         ? `${this.dataKeymap('i:item,c:c,l:l')}`
@@ -309,19 +309,19 @@ export class BaseTemplate {
 
       return supportXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" />`
-        : isSupportRecursive 
+        : isSupportRecursive
           ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
           : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
-  
+
   }
 
   private getChildren (comp: Component, level: number): string {
     const { isSupportRecursive, Adapter } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
-  
+
     let child = this.getChildrenTemplate(nextLevel)
-  
+
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
     }
@@ -441,13 +441,17 @@ export class BaseTemplate {
           child = this.modifyThirdPartyLoopBody(child, compName)
         }
 
-        template += `
-<template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+        const children = this.voidElements.has(compName)
+          ? ''
+          : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
       ${child}
     </block>
-  </${compName}>
+  `
+
+        template += `
+<template name="tmpl_${level}_${compName}">
+  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
 </template>
   `
       }
@@ -671,7 +675,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     const listA = Array.from(isLoopCompsSet).map(item => componentsAlias[item]?._num || item)
     const listB = hasMaxComps.map(item => componentsAlias[item]?._num || item)
     const containerLevel = this.baseLevel - 1
-  
+
     return `function (l, n, s) {
     var a = ${JSON.stringify(listA)}
     var b = ${JSON.stringify(listB)}
