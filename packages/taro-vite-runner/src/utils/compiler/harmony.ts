@@ -25,6 +25,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   fileType: IFileType
   useETS: boolean
   useJSON5: boolean
+  nativeExt = ['.ets']
 
   constructor (rollupCtx: PluginContext, appPath: string, taroConfig: HarmonyBuildConfig) {
     super(rollupCtx, appPath, taroConfig)
@@ -50,9 +51,10 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   }
 
   compilePage = (pageName: string): PageMeta => {
-    const { sourceDir, frameworkExts } = this
+    const { sourceDir, frameworkExts, nativeExt } = this
 
     const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
+    const nativePath = resolveMainFilePath(path.join(sourceDir, pageName), nativeExt)
     const configPath = this.getConfigFilePath(scriptPath)
     const config: PageConfig = readConfig(configPath) || {}
 
@@ -61,7 +63,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
       scriptPath,
       configPath,
       config,
-      isNative: false,
+      isNative: this.isNativePageORComponent(nativePath),
     }
 
     this.filesConfig[this.getConfigFilePath(pageMeta.name)] = {

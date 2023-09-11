@@ -1,7 +1,7 @@
-import router from '@system.router'
+import router from '@ohos.router'
 import { queryToJson } from '@tarojs/shared'
 
-import { callAsyncSuccess } from '../utils'
+import { callAsyncFail, callAsyncSuccess } from '../utils'
 import { IAsyncParams } from '../utils/types'
 
 import type Taro from '@tarojs/taro'
@@ -13,19 +13,29 @@ type SwitchTab = typeof Taro.switchTab
 type NavigateTo = typeof Taro.navigateTo
 
 const getRouterFunc = (method): NavigateTo => {
-  const methodName = method === 'navigateTo' ? 'push' : 'replace'
+  const methodName = method === 'navigateTo' ? 'pushUrl' : 'replaceUrl'
 
   return function (options) {
     const [uri, queryString = ''] = options.url.split('?')
     const params = queryToJson(queryString)
 
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       router[methodName]({
-        uri: uri.replace(/^\//, ''),
+        url: uri.replace(/^\//, ''),
         params
+      }, (error) => {
+        const res: { code?: number, errMsg: string } = { errMsg: `${method}:ok` }
+        if (error) {
+          const { code, message } = error
+          res.code = code
+          res.errMsg = `${method}:failed, ${message}`
+          callAsyncFail(reject, res, options)
+
+          return
+        }
+
+        callAsyncSuccess(resolve, res, options)
       })
-      const res = { errMsg: `${method}:ok` }
-      callAsyncSuccess(resolve, res, options)
     })
   }
 }
