@@ -20,12 +20,6 @@ export interface IOptions {
 export default (ctx: IPluginContext, options: IOptions) => {
   const fs = ctx.helper.fs
 
-  ctx.modifyWebpackChain(({ chain }) => {
-    if(options.componentsMap){
-      chain.optimization.providedExports(false)
-    }
-  })
-
   ctx.registerMethod({
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
