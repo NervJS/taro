@@ -3,7 +3,7 @@
  */
 export function loadAnimateStyle (ms = 300) {
   const css = `
-.taro_router .taro_page {
+.taro_router > .taro_page {
   position: absolute;
   left: 0;
   top: 0;
@@ -15,13 +15,17 @@ export function loadAnimateStyle (ms = 300) {
   z-index: 0;
 }
 
-.taro_router .taro_page.taro_tabbar_page,
-.taro_router .taro_page.taro_page_show.taro_page_stationed {
+.taro_router > .taro_page.taro_tabbar_page,
+.taro_router > .taro_page.taro_page_show.taro_page_stationed {
   transform: none;
 }
 
-.taro_router .taro_page.taro_page_show {
+.taro_router > .taro_page.taro_page_show {
   transform: translate(0, 0);
+}
+
+.taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_tabbar_page):not(:last-child) {
+  display: none;
 }`
   addStyle(css)
 }
