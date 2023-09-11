@@ -23,6 +23,6 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/my-miniprogram/wx.checkIsAddedToMyMiniProgram.html
      */
-    checkIsAddedToMyMiniProgram: (option?: checkIsAddedToMyMiniProgram.Option) => void
+    checkIsAddedToMyMiniProgram(option?: checkIsAddedToMyMiniProgram.Option): void
   }
 }
