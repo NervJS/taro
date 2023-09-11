@@ -1,5 +1,6 @@
 import { Func, getCurrentInstance } from '@tarojs/runtime'
 import { ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
+import * as taroApi from '@tarojs/taro'
 
 import { clone } from './clone'
 import { diff } from './diff'
@@ -563,6 +564,12 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const page = this.current.page
           if (page?.[method]) {
             return page[method](...args)
+          } else if ([
+            'createSelectorQuery',
+            'createIntersectionObserver',
+            'createMediaQueryObserver'].includes(method))
+          {
+            return taroApi[method](this, ...args)
           } else {
             console.error(`page 下没有 ${method} 方法`)
           }
