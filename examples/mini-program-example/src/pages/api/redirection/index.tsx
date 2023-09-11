@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -22,7 +23,26 @@ export default class Index extends React.Component {
       },
       {
         id: 'navigateToMiniProgram',
-        func: null,
+        inputData: {
+          appId: 'com.example.myapplication',
+          path: 'EntryAbility',
+          extraData: {},
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.navigateToMiniProgram')
+          Taro.navigateToMiniProgram({
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          })
+        },
       },
       {
         id: 'navigateBackMiniProgram',

@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'

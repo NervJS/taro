@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 
 /**
@@ -13,11 +14,19 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getLaunchOptionsSync',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('Taro.getLaunchOptionsSync')
+          const options = Taro.getLaunchOptionsSync()
+          TestConsole.consoleNormal('getLaunchOptionsSync', options)
+        },
       },
       {
         id: 'getEnterOptionsSync',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('Taro.getEnterOptionsSync')
+          const options = Taro.getEnterOptionsSync()
+          TestConsole.consoleNormal('getEnterOptionsSync', options)
+        },
       },
     ],
   }
