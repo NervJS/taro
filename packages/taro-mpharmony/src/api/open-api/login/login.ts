@@ -14,24 +14,34 @@ export const login: typeof Taro.login = (options) => {
   }
 
   const { timeout, success, fail, complete } = options as Exclude<typeof options, undefined>
-
   const handle = new MethodHandler({ name, success, fail, complete })
 
-  // @ts-ignore
-  const ret = native.authorize({
+  let loginPromise = new Promise((resolve, reject) => {
     // @ts-ignore
-    appid: options.appid,
-    // @ts-ignore
-    type: options.type || 'code',
-    // @ts-ignore
-    scope: options.scope || 'scope.baseProfile',
-    timeout: timeout,
-    success: (res: any) => {
-      return handle.success(res)
-    },
-    fail: (err: any) => {
-      return handle.fail(err)
-    },
+    native.login({
+      success: (res: any) => {
+        resolve(res)
+      },
+      fail: (err: any) => {
+        reject(err)
+      },
+    })
   })
-  return ret
+  if (typeof timeout === 'number' && timeout >= 0) {
+    const timeoutPromise = new Promise((_resolve, reject) => {
+      setTimeout(() => reject(new Error('timeout')), timeout)
+    })
+    loginPromise = Promise.race([loginPromise, timeoutPromise])
+  }
+  return loginPromise.then(
+    (res: any) => handle.success(res),
+    (err) => {
+      if (err instanceof Error) {
+        return handle.fail({ errMsg: err.message })
+      } else {
+        const { errMsg, errCode: code } = err
+        return handle.fail({ errMsg, code })
+      }
+    }
+  )
 }
