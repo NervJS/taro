@@ -24,7 +24,7 @@ export default class JdCI extends BaseCI {
   }
 
   async preview () {
-    const { privateKey } = this.pluginOpts.jd!
+    const { privateKey, ignores } = this.pluginOpts.jd!
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const previewQrcodePath = join(this.projectPath, 'preview.jpg')
 
@@ -35,8 +35,9 @@ export default class JdCI extends BaseCI {
         desc: this.desc,
         privateKey,
         projectPath: this.projectPath,
-        uv: this.version, // 版本号和备注京东小程序暂不支持，后续优化
-        qrcodeFormat: 'image'
+        uv: this.version,
+        qrcodeFormat: 'image',
+        ignores,
       })
 
       const qrcodeContent = await readQrcodeImageContent(result.imgUrl)
@@ -67,7 +68,7 @@ export default class JdCI extends BaseCI {
   }
 
   async upload () {
-    const { privateKey } = this.pluginOpts.jd!
+    const { privateKey, robot, ignores } = this.pluginOpts.jd!
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     const uploadQrcodePath = join(this.projectPath, 'upload.jpg')
 
@@ -77,8 +78,10 @@ export default class JdCI extends BaseCI {
         desc: this.desc,
         privateKey,
         projectPath: this.projectPath,
-        uv: this.version, // 版本号和备注京东小程序暂不支持，后续优化
+        uv: this.version,
         qrcodeFormat: 'image',
+        robot,
+        ignores,
       })
 
       const qrcodeContent = await readQrcodeImageContent(result.imgUrl)

@@ -10,7 +10,7 @@ interface NativeSlotProps {
 
 /** 编译的原生组件支持使用 slot 插槽
  * @classification viewContainer
- * @supported weapp, swan, alipay, tt, jd, qq
+ * @supported weapp, swan, alipay, tt, jd, qq, h5
  * @version 3.5.7+
  * @example
  * ```tsx
