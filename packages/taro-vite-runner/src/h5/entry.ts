@@ -1,3 +1,6 @@
+import { fs, isEmptyObject } from '@tarojs/helper'
+import path from 'path'
+
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { appendVirtualModulePrefix } from '../utils'
 
@@ -21,9 +24,10 @@ function genResource (page: PageMeta) {
 
 export default function (compiler): PluginOption {
   const { taroConfig, app, pages } = compiler
-  const { router } = taroConfig
+  const { router, mode } = taroConfig
   const isMultiRouterMode = router?.mode === 'multi'
   const routerConfig = taroConfig.router || {}
+  const isProd = mode === 'production'
 
   return {
     name: 'taro:vite-h5-entry',
@@ -73,6 +77,14 @@ export default function (compiler): PluginOption {
           }
         }, '')
 
+        const getTabbarIconPath = (iconPath) => {
+          return isProd 
+            ? 
+            path.join('/', taroConfig!.staticDirectory, 'images', path.basename(iconPath)) 
+            : 
+            iconPath.replace(/^./, '')
+        }
+
         // tabbar
         let tabBarCode = ''
         if (appConfig.tabBar) {
@@ -83,10 +95,10 @@ export default function (compiler): PluginOption {
           const tabbarList = appConfig.tabBar.list
           tabBarCode = tabbarList.reduce((prev, current, index) => {
             if (current.iconPath) {
-              prev += `tabbarIconPath[${index}] = '${current.iconPath.replace(/^./, '')}'\n`
+              prev += `tabbarIconPath[${index}] = '${getTabbarIconPath(current.iconPath)}'\n`
             }
             if (current.selectedIconPath) {
-              prev += `tabbarSelectedIconPath[${index}] = '${current.selectedIconPath.replace(/^./, '')}'\n`
+              prev += `tabbarSelectedIconPath[${index}] = '${getTabbarIconPath(current.selectedIconPath)}'\n`
             }
             return prev
           }, tabBarCode)
@@ -103,6 +115,37 @@ export default function (compiler): PluginOption {
             '}',
           ].join('\n')
         }
+
+        // tabbar && pro
+        if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar) && isProd) {
+          const list = appConfig.tabBar.list || []
+          const { sourceDir } = compiler
+          list.forEach(async item => {
+            const { iconPath, selectedIconPath } = item
+            if (iconPath) {
+              const filePath = path.resolve(sourceDir, iconPath)
+              const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
+              this.emitFile({
+                type: 'asset',
+                fileName,
+                source: await fs.readFile(filePath)
+              })
+              this.addWatchFile(filePath)
+            }
+
+            if (selectedIconPath) {
+              const filePath = path.resolve(sourceDir, selectedIconPath)
+              const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(selectedIconPath))
+              this.emitFile({
+                type: 'asset',
+                fileName,
+                source: await fs.readFile(filePath)
+              })
+              this.addWatchFile(filePath)
+            }
+          })
+        }
+
 
         const {
           creator,

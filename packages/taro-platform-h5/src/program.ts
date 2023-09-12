@@ -1,5 +1,5 @@
 import { transformAsync } from '@babel/core'
-import { defaultMainFields, getViteH5Compiler, SCRIPT_EXT } from '@tarojs/helper'
+import { defaultMainFields, SCRIPT_EXT } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 import path from 'path'
 
@@ -160,6 +160,8 @@ export default class H5 extends TaroPlatformWeb {
    */
   modifyViteConfig() {
     const that = this
+    const { runnerUtils } = this.ctx
+    const { getViteH5Compiler } = runnerUtils
     that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function aliasPlugin() {
         return {

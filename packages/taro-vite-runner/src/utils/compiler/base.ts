@@ -5,6 +5,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT,
 } from '@tarojs/helper'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils/types/constant'
 import path from 'path'
 
 import { stripMultiPlatformExt } from '../../utils'
@@ -34,7 +35,7 @@ export interface PageMeta {
 }
 
 export class Compiler<T extends MiniBuildConfig | H5BuildConfig> {
-  static label = 'taro:compiler'
+  static label = VITE_COMPILER_LABEL
   rollupCtx: PluginContext | null
   cwd: string
   sourceDir: string

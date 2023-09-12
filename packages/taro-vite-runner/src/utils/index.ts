@@ -2,9 +2,6 @@ import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { Compiler } from '../utils/compiler/base'
-
-import type { PluginContext } from 'rollup'
 import type { Target } from 'vite-plugin-static-copy'
 import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
 import type { TaroCompiler as MiniCompiler } from '../utils/compiler/mini'
@@ -34,27 +31,6 @@ export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig)
     })
   })
   return copyOptions
-}
-
-export function getCompiler<T extends MiniCompiler | H5Compiler> (rollupPluginContext: PluginContext): T | undefined {
-  const info = rollupPluginContext.getModuleInfo(Compiler.label)
-  const compiler: T | undefined = info?.meta.compiler
-  return compiler
-}
-
-export function getMiniCompiler (rollupPluginContext: PluginContext): MiniCompiler | undefined {
-  return getCompiler<MiniCompiler>(rollupPluginContext)
-}
-
-// todo 迁移到 taro-help
-export async function getH5Compiler (rollupPluginContext: PluginContext): Promise<H5Compiler | undefined> {
-  const info = process.env.NODE_ENV === 'production' 
-    ?
-    rollupPluginContext.getModuleInfo(Compiler.label) 
-    : 
-    await rollupPluginContext.load({ id: Compiler.label })
-  const compiler: H5Compiler | undefined = info?.meta.compiler
-  return compiler
 }
 
 export function prettyPrintJson (obj: Record<string, any>) {

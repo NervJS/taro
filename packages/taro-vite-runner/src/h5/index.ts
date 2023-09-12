@@ -1,4 +1,5 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import assetsPlugin from './assets'
 import configPlugin from './config'
 import entryPlugin from './entry'
 import pipelinePlugin from './pipeline'
@@ -12,5 +13,6 @@ export default function (compiler: TaroCompiler): PluginOption[] {
     configPlugin(compiler),
     entryPlugin(compiler),
     multiPlatformPlugin(compiler),
+    assetsPlugin(compiler),
   ]
 }

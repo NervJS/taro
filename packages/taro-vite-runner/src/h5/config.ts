@@ -1,18 +1,52 @@
-import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
-// import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
 import { defaultMainFields, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString } from '@tarojs/shared'
 import history from 'connect-history-api-fallback'
 import path from 'path'
-import { InputPluginOption } from 'rollup'
 
-// import { InputPluginOption } from 'rollup'
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
-import { addTrailingSlash, getMode } from '../utils'
+import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
 
 import type { CSSModulesOptions, PluginOption } from 'vite'
 import type { TaroCompiler } from '../utils/compiler/h5'
+
+const DEFAULT_TERSER_OPTIONS = {
+  parse: {
+    ecma: 8,
+  },
+  compress: {
+    ecma: 5,
+    warnings: false,
+    arrows: false,
+    collapse_vars: false,
+    comparisons: false,
+    computed_props: false,
+    hoist_funs: false,
+    hoist_props: false,
+    hoist_vars: false,
+    inline: false,
+    loops: false,
+    negate_iife: false,
+    properties: false,
+    reduce_funcs: false,
+    reduce_vars: false,
+    switches: false,
+    toplevel: false,
+    typeofs: false,
+    booleans: true,
+    if_return: true,
+    sequences: true,
+    unused: true,
+    conditionals: true,
+    dead_code: true,
+    evaluate: true,
+  },
+  output: {
+    ecma: 5,
+    comments: false,
+    ascii_only: true,
+  },
+}
 
 export default function (complier: TaroCompiler): PluginOption {
   const { taroConfig, cwd: appPath, pages, app, sourceDir } = complier
@@ -83,11 +117,8 @@ export default function (complier: TaroCompiler): PluginOption {
       from: new RegExp(`/${reg}.html`),
       to({ parsedUrl }) {
         const pathname: string = parsedUrl.pathname
-  
         const excludeBaseUrl = pathname.replace(baseUrl, '/')
-  
         const template = path.resolve(baseUrl, 'index.html')
-  
         if (excludeBaseUrl === '/') {
           return template
         }
@@ -99,62 +130,17 @@ export default function (complier: TaroCompiler): PluginOption {
     }
   }
 
-
-  function getBabelOption(): RollupBabelInputPluginOptions {
-    const { compile = {} } = taroConfig
-    const babelOptions: RollupBabelInputPluginOptions = {
-      extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
-      babelHelpers: 'runtime',
-      skipPreflightCheck: true,
-    }
-
-    if (compile.exclude?.length) {
-      const list = compile.exclude
-      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
-      if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
-      babelOptions.exclude = list
-    } else if (compile.include?.length) {
-      const sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-      babelOptions.include = [...compile.include, sourceDir, /taro/]
-    } else {
-      babelOptions.exclude = [/node_modules[/\\](?!@tarojs)/]
-    }
-
-    return babelOptions
+  function getMinify(): 'terser' | 'esbuild' | boolean {
+    return taroConfig.mode !== 'production'
+      ? false
+      : taroConfig.jsMinimizer === 'esbuild'
+        ? taroConfig.esbuild?.minify?.enable === false
+          ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
+          : 'esbuild'
+        : taroConfig.terser?.enable === false
+          ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
+          : 'terser'
   }
-
-  // function getInjectOption(): RollupInjectOptions {
-  //   const options: RollupInjectOptions = {
-  //     window: ['@tarojs/runtime', 'window'],
-  //     document: ['@tarojs/runtime', 'document'],
-  //     navigator: ['@tarojs/runtime', 'navigator'],
-  //     requestAnimationFrame: ['@tarojs/runtime', 'requestAnimationFrame'],
-  //     cancelAnimationFrame: ['@tarojs/runtime', 'cancelAnimationFrame'],
-  //     Element: ['@tarojs/runtime', 'TaroElement'],
-  //     SVGElement: ['@tarojs/runtime', 'SVGElement'],
-  //     MutationObserver: ['@tarojs/runtime', 'MutationObserver'],
-  //     history: ['@tarojs/runtime', 'history'],
-  //     location: ['@tarojs/runtime', 'location'],
-  //     URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
-  //     URL: ['@tarojs/runtime', 'URL'],
-  //   }
-
-  //   const injectOptions = taroConfig.injectOptions
-
-  //   if (injectOptions?.include) {
-  //     for (const key in injectOptions.include) {
-  //       options[key] = injectOptions.include[key]
-  //     }
-  //   }
-
-  //   if (injectOptions?.exclude?.length) {
-  //     injectOptions.exclude.forEach((item) => {
-  //       delete options[item]
-  //     })
-  //   }
-
-  //   return options
-  // }
 
   const __postcssOption = getDefaultPostcssConfig({
     designWidth: taroConfig.designWidth,
@@ -200,32 +186,29 @@ export default function (complier: TaroCompiler): PluginOption {
         rollupOptions: {
           input: { 'index': path.join(appPath, 'src/index.html') },
           output: {
-            filename: 'js/[name].[hash:8].js',
-            chunkFilename: 'js/[name].[chunkhash:8].js',
+            entryFileNames: taroConfig.viteOutput!.entryFileNames,
+            chunkFileNames: taroConfig.viteOutput!.chunkFileNames,
+            assetFileNames: taroConfig.viteOutput!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
-              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
+              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
                 return 'common'
               }
             },
           },
-          plugins: [
-            // inject(getInjectOption()) as InputPluginOption,
-            babel(getBabelOption()) as InputPluginOption,
-          ],
         },
         commonjsOptions: {
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true,
         },
 
-        // minify: false,
-        // terserOptions:
-        //   getMinify() === 'terser'
-        //     ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
-        //     : undefined,
+        minify: getMinify(),
+        terserOptions:
+          getMinify() === 'terser'
+            ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
+            : undefined,
       },
       define: getDefineOption(),
       resolve: {

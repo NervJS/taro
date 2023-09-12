@@ -17,6 +17,7 @@
     "autoprefixer": "^10.4.0",
     "connect-history-api-fallback": "^2.0.0",
     "html-minifier": "^4.0.0",
+    "lodash": "^4.17.21",
     "mrmime": "^1.0.1",
     "postcss-html-transform": "workspace:*",
     "postcss-plugin-constparse": "workspace:*",

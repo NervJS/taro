@@ -77,7 +77,7 @@ export default (ctx: IPluginContext) => {
       compiler.vitePlugins.push(VitePresetPlugin(framework))
       if (isWebPlatform()) {
         // H5
-        compiler.vitePlugins.push(h5iVitePlugin(framework))
+        compiler.vitePlugins.push(h5iVitePlugin(ctx, framework))
       } else {
         // 小程序
         compiler.vitePlugins.push(miniVitePlugin(ctx, framework))

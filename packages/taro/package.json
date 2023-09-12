@@ -45,6 +45,9 @@
     },
     "vue": {
       "optional": true
+    },
+    "rollup": {
+      "optional": true
     }
   }
 }

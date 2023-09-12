@@ -145,6 +145,7 @@
     "react-dom": "^18.2.0",
     "react-test-renderer": "^18.2.0",
     "rimraf": "^5.0.0",
+    "rollup": "^3.8.1",
     "stylelint": "^14.6.1",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-config-taro-rn": "workspace:*",
