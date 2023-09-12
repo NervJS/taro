@@ -27,7 +27,7 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
 
   set autoplay (e) { this.setProperty('autoplay', e) }
   get autoplay () { return this.Instance?.autoplay || false }
-  get buffered () { 
+  get buffered () {
     const { currentTime = 0, buffered: timeRange } = this.Instance || {};
     for (let i = 0; i < timeRange?.length || 0; i++) {
       if(timeRange.start(i) <= currentTime && timeRange.end(i) >= currentTime) {
