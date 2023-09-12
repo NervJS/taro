@@ -2,6 +2,8 @@ import Taro from '@tarojs/taro'
 
 export const offMemoryWarning: typeof Taro.offMemoryWarning = (callback) => {
   // @ts-ignore
-  const ret = native.offMemoryWarning(callback)
-  return ret
+  if (native[offMemoryWarning]) {
+    // @ts-ignore
+    native.offMemoryWarning(callback)
+  }
 }

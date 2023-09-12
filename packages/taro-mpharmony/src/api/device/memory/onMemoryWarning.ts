@@ -1,8 +1,14 @@
 import Taro from '@tarojs/taro'
 
 export const onMemoryWarning: typeof Taro.onMemoryWarning = (callback) => {
-  const ret: Taro.onMemoryWarning.CallbackResult = {
-    level: 5
+  // @ts-ignore
+  if (native[onMemoryWarning]) {
+    // @ts-ignore
+    native.onMemoryWarning((res: any) => {
+      const ret: Taro.onMemoryWarning.CallbackResult = {
+        level: res.level 
+      }
+      callback(ret)
+    })
   }
-  callback(ret)
 }
