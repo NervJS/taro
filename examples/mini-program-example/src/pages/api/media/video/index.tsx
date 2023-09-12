@@ -164,13 +164,17 @@ export default class Index extends React.Component {
         func: null,
       },
       {
-        id: 'chooseVideo_album',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseVideo_album')
+        id: 'chooseVideo',
+        inputData: {
+          camera: '',
+          compressed: false,
+          sourceType: ['album'],
+          maxDuration: 30,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('chooseVideo')
           Taro.chooseVideo({
-            sourceType: ['album'],
-            maxDuration: 60,
-            camera: 'back',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -186,39 +190,20 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'chooseVideo_camera',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseVideo_camera')
-          Taro.chooseVideo({
-            sourceType: ['camera'],
-            maxDuration: 60,
-            camera: 'back',
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
-          })
+        id: 'chooseMedia',
+        inputData: {
+          count: 9,
+          mediaType: ['image'],
+          sourceType: ['album', 'camera'],
+          maxDuration: 30,
+          sizeType: ['original', 'compressed'],
+          camera: 'back',
+          mediaId: '',
         },
-      },
-      {
-        id: 'chooseMedia_image',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseMedia_image')
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('chooseMedia')
           Taro.chooseMedia({
-            count: 9,
-            mediaType: ['image'],
-            sourceType: ['album', 'camera'],
-            maxDuration: 30,
-            camera: 'back',
-            sizeType: ['original', 'compressed'],
-            // mediaId: 'test mediaId field',//'mediaId' does not exist in type 'Option'
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
