@@ -42,9 +42,11 @@ struct Index {
   scroller: Scroller = new Scroller()\n
   @State node: TaroElement = new TaroElement("Block")\n
   aboutToAppear() {
+    const params = router.getParams() || {}
+    
     this.page = createPageConfig(component, '${page.name}')
-    this.page.onLoad({}, () => {
-      this.node = ReactMeta.Container
+    this.page.onLoad(params, (instance) => {
+      this.node = instance
     })
   }
 
@@ -78,6 +80,7 @@ struct Index {
           'import { TaroElement } from "@tarojs/runtime"',
           `import component from "${rawId}"`,
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
+          "import router from '@ohos.router';",
           importFrameworkStatement,
           `var config = ${pageConfig}`,
           page.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,

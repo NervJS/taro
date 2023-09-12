@@ -1,3 +1,6 @@
+import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+
+import { ID } from '../constant'
 import { isElement } from '../utils'
 import { NodeType, TaroNode } from './node'
 
@@ -45,6 +48,11 @@ class TaroElement extends TaroNode {
   }
 
   public setAttribute (name: string, value: any): void {
+    if (name === ID) {
+      eventSource.delete(this._attrs.id)
+      eventSource.set(value, this as any)
+    }
+  
     this._attrs[name] = String(value)
   }
 

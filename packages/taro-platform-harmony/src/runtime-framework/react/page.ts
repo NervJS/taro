@@ -1,4 +1,4 @@
-import { Current } from '@tarojs/runtime'
+import { Current, document } from '@tarojs/runtime'
 import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
 import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
@@ -128,17 +128,16 @@ export function createPageConfig (component: any, pageName?: string) {
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          // TODO TYPE env
-          // pageElement = document.getElementById($taroPath)
+          pageElement = document.getElementById($taroPath)
 
-          // if (!pageElement) {
-          //   throw new Error(`没有找到页面实例。`)
-          // }
+          if (!pageElement) {
+            throw new Error(`没有找到页面实例。`)
+          }
+
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
-          cb && cb()
-          // pageElement.ctx = this
-          // pageElement.performUpdate(true, cb)
+          cb && cb(pageElement)
+          pageElement.ctx = this
         })
       }
 

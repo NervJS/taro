@@ -1,3 +1,5 @@
+import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+
 import { TaroEventTarget } from './eventTarget'
 
 import type { TaroDocument } from './document'
@@ -36,6 +38,7 @@ export class TaroNode extends TaroEventTarget {
     super()
     this.nodeType = nodeType
     this.nodeName = nodeName
+    eventSource.set(this._nid, this as any)
   }
 
   protected findIndex (refChild: TaroNode): number {

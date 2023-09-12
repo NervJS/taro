@@ -1,3 +1,6 @@
+import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { isUndefined } from '@tarojs/shared'
+
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
 import { TaroElement, TaroImageElement, TaroTextElement, TaroViewElement } from './element'
@@ -54,8 +57,13 @@ class TaroDocument extends TaroNode {
     return new TaroComment(data)
   }
 
+
+  public getElementById<T extends TaroElement> (id: string | undefined | null): T | null {
+    const el = eventSource.get(id)
+    return isUndefined(el) ? null : el as unknown as T
+  }
+
   // @Todo
-  // public getElementById (id: string): TaroElement | null
   // public getElementsByClassName (names: string): TaroElement[]
   // public querySelector (selectors: string): TaroElement | null
   // public querySelectorAll (selectors: string): TaroElement[]

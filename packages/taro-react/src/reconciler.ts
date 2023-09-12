@@ -102,7 +102,8 @@ const hostConfig: HostConfig<
   //      Microtasks
   //     (optional)
   // -------------------
-  supportsMicrotasks: true,
+  // 鸿蒙平台不支持微任务
+  supportsMicrotasks: process.env.TARO_PLATFORM !== 'harmony',
   scheduleMicrotask: isUndefined(Promise)
     ? setTimeout
     : (callback) =>
