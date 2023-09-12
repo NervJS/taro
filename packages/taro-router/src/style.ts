@@ -24,7 +24,8 @@ export function loadAnimateStyle (ms = 300) {
   transform: translate(0, 0);
 }
 
-.taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_tabbar_page):not(:last-child) {
+.taro_page_shade,
+.taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
   display: none;
 }`
   addStyle(css)
