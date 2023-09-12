@@ -6,7 +6,7 @@ import Taro from '@tarojs/api'
 export class EditorContext implements Taro.EditorContext {
   // blur = temporarilyNotSupport('EditorContext.blur')
 
-  blur (option?: Taro.EditorContext.BlurOption | undefined): void {
+  blur(option?: Taro.EditorContext.BlurOption | undefined): void {
     try {
       // 将焦点设置到页面上一个非输入元素（例如按钮）上
       const buttonName = document.getElementById('myButtonTest')
@@ -19,20 +19,20 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  getContext (): Taro.EditorContext {
+  getContext(): Taro.EditorContext {
     return this as Taro.EditorContext
   }
 
-  activeEditor (): any {
+  activeEditor(): any {
     // @ts-ignore
     return tinymce.activeEditor
   }
 
-  scrollIntoView (): void {
+  scrollIntoView(): void {
     this.activeEditor()?.selection.scrollIntoView()
   }
 
-  getSelectionText (option?: Taro.EditorContext.getSelectionText.Option | undefined): void {
+  getSelectionText(option?: Taro.EditorContext.getSelectionText.Option | undefined): void {
     try {
       const selection = this.activeEditor()?.selection
       if (selection) {
@@ -46,7 +46,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  clear (option?: Taro.EditorContext.ClearOption | undefined): void {
+  clear(option?: Taro.EditorContext.ClearOption | undefined): void {
     try {
       this.activeEditor()?.setContent('')
       option?.success?.({ errMsg: `ok` })
@@ -57,7 +57,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  format (name: string, value?: string | undefined): void {
+  format(name: string, value?: string | undefined): void {
     // 微信: https://developers.weixin.qq.com/miniprogram/dev/api/media/editor/EditorContext.format.html
     // tinymce: https://www.tiny.cloud/docs/tinymce/6/content-formatting/#formats
     // NOT SUPPORT
@@ -166,25 +166,28 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  getContents (option?: Taro.EditorContext.GetContents.Option | undefined): void {
+  getContents(option?: Taro.EditorContext.GetContents.Option | undefined): void {
+    const editor = this.activeEditor()
+    const content = {
+      errMsg: 'ok',
+      html: editor.getContent({ format: 'html' }),
+      text: editor.getContent({ format: 'text' }),
+      delta: editor.getContent({ format: 'tree' }),
+    }
     try {
-      const editor = this.activeEditor()
       if (editor) {
-        option?.success?.({
-          errMsg: 'ok',
-          html: editor.getContent({ format: 'html' }),
-          text: editor.getContent({ format: 'text' }),
-          delta: editor.getContent({ format: 'tree' }),
-        })
+        option?.success?.(content)
       }
     } catch (e) {
       option?.fail?.({ errMsg: `${e}` })
     } finally {
-      option?.complete?.({ errMsg: `ok` })
+      if (editor) {
+        option?.complete?.(content)
+      }
     }
   }
 
-  insertDivider (option?: Taro.EditorContext.InsertDividerOption | undefined): void {
+  insertDivider(option?: Taro.EditorContext.InsertDividerOption | undefined): void {
     try {
       this.activeEditor()?.insertContent('<hr>')
       option?.success?.({ errMsg: `ok` })
@@ -195,7 +198,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  insertImage (option: Taro.EditorContext.InsertImageOption): void {
+  insertImage(option: Taro.EditorContext.InsertImageOption): void {
     try {
       const data = (option.data || {}) as Record<string, any>
       let dataCustom = ''
@@ -218,7 +221,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  insertText (option: Taro.EditorContext.InsertTextOption): void {
+  insertText(option: Taro.EditorContext.InsertTextOption): void {
     try {
       const text = option.text || ''
       if (text.length > 0) {
@@ -232,7 +235,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  removeFormat (option?: Taro.EditorContext.RemoveFormatOption | undefined): void {
+  removeFormat(option?: Taro.EditorContext.RemoveFormatOption | undefined): void {
     try {
       // https://www.tiny.cloud/docs/tinymce/6/editor-command-identifiers/#supported-browser-native-commands
 
@@ -250,7 +253,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  setContents (option: Taro.EditorContext.SetContentsOption): void {
+  setContents(option: Taro.EditorContext.SetContentsOption): void {
     try {
       const delta = option && option.delta
       const html = option && option.html
@@ -277,7 +280,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  redo (option?: Taro.EditorContext.RedoOption | undefined): void {
+  redo(option?: Taro.EditorContext.RedoOption | undefined): void {
     try {
       this.activeEditor()?.undoManager.redo()
       option?.success?.({ errMsg: `ok` })
@@ -288,7 +291,7 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  undo (option?: Taro.EditorContext.UndoOption | undefined): void {
+  undo(option?: Taro.EditorContext.UndoOption | undefined): void {
     try {
       this.activeEditor()?.undoManager.undo()
       option?.success?.({ errMsg: `ok` })
