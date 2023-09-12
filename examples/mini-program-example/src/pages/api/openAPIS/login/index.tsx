@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -13,57 +14,28 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'login-code',
-        func: (apiIndex) => {
-          Taro.login({
-            // @ts-ignore
-            appid: '1208731172335528704',
-            success: function (res) {
-              Taro.showModal({ content: 'Taro.login code success ' + JSON.stringify(res) })
-            },
-            fail: (res) => {
-              console.log('login fail ', res)
-            },
-            complete: (res) => {
-              console.log('login complete ', res)
-            },
-          })
+        id: 'login',
+        inputData: {
+          timeout: 2000,
         },
-      },
-      {
-        id: 'login-token',
-        func: (apiIndex) => {
+        func: (apiIndex, data) => {
           Taro.login({
-            // @ts-ignore
-            appid: '1208731172335528704',
-            type: 'token',
-            success: function (res) {
-              Taro.showModal({ content: 'Taro.login token success ' + JSON.stringify(res) })
+            ...data,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
             fail: (res) => {
-              console.log('login fail ', res)
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
             complete: (res) => {
-              console.log('login complete ', res)
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           })
         },
       },
       {
         id: 'checkSession',
-        func: (apiIndex) => {
-          Taro.checkSession({
-            success: function (res) {
-              console.log('checkSession success ', res)
-            },
-            fail: function (res) {
-              console.log('checkSession fail ', res)
-            },
-            complete: (res) => {
-              console.log('checkSession complete ', res)
-            },
-          })
-        },
+        func: null,
       },
     ],
   }
