@@ -4,6 +4,8 @@ import { MethodHandler } from 'src/utils/handler'
 
 export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
   const name = 'getVideoInfo'
+  const FPS_NUM = 30
+  const BRI_NUM = 1000
 
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -48,8 +50,8 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
           size: res.size,
           height: res.height,
           width: res.width,
-          fps: res.fps,
-          bitrate: res.bitrate,
+          fps: FPS_NUM,
+          bitrate: BRI_NUM,
           errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })

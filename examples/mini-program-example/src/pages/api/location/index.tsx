@@ -105,7 +105,7 @@ export default class Index extends React.Component {
       {
         id: 'getLocation',
         inputData: {
-          altitude: "false",
+          altitude: 'false',
           highAccuracyExpireTime: 8000,
           isHighAccuracy: true,
           type: 'wgs84',
@@ -145,7 +145,7 @@ export default class Index extends React.Component {
             zoom: 15,
             radius: 1000,
             total: 10,
-            referer: 'myTaro'
+            referer: 'myTaro',
           },
         },
         func: (apiIndex, data) => {
@@ -203,7 +203,7 @@ export default class Index extends React.Component {
         func: async (apiIndex) => {
           try {
             TestConsole.consoleTest('openLocation')
-            const loc = await Taro.getFuzzyLocation({type: 'gcj02'})
+            const loc = await Taro.getFuzzyLocation({ type: 'gcj02' })
             Taro.openLocation({
               longitude: loc.longitude,
               latitude: loc.latitude,
