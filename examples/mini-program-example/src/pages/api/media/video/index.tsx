@@ -161,7 +161,45 @@ export default class Index extends React.Component {
       },
       {
         id: 'compressVideo_暂不支持',
-        func: null,
+        // func: null,
+        func: (apiIndex) => {
+          TestConsole.consoleTest('compressVideo')
+          Taro.chooseVideo({
+            sourceType: ['album', 'camera'],
+            maxDuration: 60,
+            camera: 'back',
+            compressed:false,
+            success: (res) => {
+              
+              Taro.compressVideo({
+                src: res.tempFilePath,
+                quality:'high',
+                bitrate:1032,
+                fps:24,
+                resolution:0.5,
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
+                },
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
+                },
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
+                },
+              }).then((res) => {
+                TestConsole.consoleReturn.call(this, res, apiIndex)
+              })
+            },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseVideo fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseVideo complete', com)
+            },
+          }).then((ret) => {
+            TestConsole.consoleNormal('chooseVideo return', ret)
+          })
+        },
       },
       {
         id: 'chooseVideo_album',
