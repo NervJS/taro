@@ -15,7 +15,7 @@ interface SlotProps {
 
 /** slot 插槽
  * @classification viewContainer
- * @supported weapp, swan, alipay, tt, jd, qq, harmony
+ * @supported weapp, swan, alipay, tt, jd, qq, harmony, h5
  * @example
  * ```tsx
  * import { Slot, View, Text } from '@tarojs/components'
