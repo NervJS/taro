@@ -280,23 +280,54 @@ export default class Index extends React.Component {
         id: 'createAudioContext',
         func: (apiIndex) => {
           TestConsole.consoleTest('createAudioContext')
-          audioContext = Taro.createAudioContext('myAudio')
+          const str = this.state.IdList[this.state.IdList.length-1]
+          audioContext = Taro.createAudioContext(str)
+          this.state.IdList.push(`${this.state.mainstr}${this.state.count++}`)
+          //@ts-ignore
+          this.state.AudioList.push(audioContext)
         },
       },
       {
         id: 'audioContext_play',
         func: (apiIndex) => {
           TestConsole.consoleTest('audioContext_play')
-          audioContext.play()
+          if(this.state.AudioList.length>0){
+            audioContext.play()
+            this.state.isPlay = true
+          }
+          else if(this.state.AudioList.length === 0){
+            this.state.AudioList.length++
+            //@ts-ignore
+            this.state.AudioList.push(audioContext)
+            audioContext.play()
+          }
         },
       },
+      
       {
         id: 'audioContext_pause',
         func: (apiIndex) => {
           TestConsole.consoleTest('audioContext_pause')
-          audioContext.pause()
+            if(this.state.AudioList.length>1&&this.state.isPlay === true){
+              const currentAudio = this.state.AudioList[this.state.AudioList.length-1]
+              //@ts-ignore
+              currentAudio.pause()
+              this.state.isPlay = false
+              this.state.AudioList.length--;
+            }
+            else if(this.state.AudioList.length>=1&&this.state.isPlay === false){
+              const currentAudio = this.state.AudioList[this.state.AudioList.length-1]
+              //@ts-ignore
+              currentAudio.pause()
+              this.state.isPlay = false
+              this.state.AudioList.length--;
+            }
+            else if(this.state.AudioList.length === 1){
+              audioContext.pause()
+            }
         },
       },
+
       {
         id: 'audioContext_seek',
         inputData: {
@@ -304,9 +335,21 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('audioContext_seek')
-          audioContext.seek(data.position)
+          if(this.state.AudioList.length > 1){
+            const currentAudio = this.state.AudioList[this.state.AudioList.length-1]
+            //@ts-ignore
+            currentAudio.seek(data.position)
+          }else if(this.state.AudioList.length === 1){   
+            audioContext.seek(data.position)        
+          }else{
+            this.state.AudioList.length++
+            //@ts-ignore
+            this.state.AudioList.push(audioContext)
+            audioContext.seek(data.position)
+          }
         },
       },
+
       {
         id: 'audioContext_setSrc',
         inputData: {
@@ -318,6 +361,11 @@ export default class Index extends React.Component {
         },
       },
     ],
+    IdList:['myAudio'],
+    AudioList:[],
+    isPlay:false,
+    mainstr:'myAudio',
+    count:0
   }
   render() {
     const { list } = this.state
