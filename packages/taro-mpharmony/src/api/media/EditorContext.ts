@@ -120,6 +120,10 @@ export class EditorContext implements Taro.EditorContext {
       }
     } else if (name === 'align') {
       // value = left / center / right / justify
+      editor.formatter.remove('alignleft')
+      editor.formatter.remove('aligncenter')
+      editor.formatter.remove('alignright')
+      editor.formatter.remove('alignjustify')
       editor.formatter.toggle(name + value.toLocaleLowerCase())
     } else if (name === 'direction') {
       // value = rtl / ltf
