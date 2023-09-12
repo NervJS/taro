@@ -44,7 +44,7 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
           const tmpFile: Taro.chooseMedia.ChooseMedia = {
             tempFilePath: tempFile.path,
             size: tempFile.size,
-            duration: tempFile.duration,
+            duration: tempFile.duration || 0,
             height: tempFile.height,
             width: tempFile.width,
             fileType: tempFile.type,
@@ -52,10 +52,18 @@ export const chooseMedia: typeof Taro.chooseMedia = (options) => {
           }
           tempFiles.push(tmpFile)
         })
+        let retType = 'image'
+        if (mediaType.length === 1 && mediaType.includes('image')) {
+          retType = 'image'
+        } else if (mediaType.length === 1 && mediaType.includes('video')) {
+          retType = 'video'
+        } else {
+          retType = 'mix'
+        }
 
         const result: Taro.chooseMedia.SuccessCallbackResult = {
           tempFiles: tempFiles,
-          type: res.type,
+          type: retType,
           errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
