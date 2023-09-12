@@ -32,8 +32,8 @@ export default function (compiler): PluginOption {
   return {
     name: 'taro:vite-h5-entry',
     enforce: 'pre',
-    async resolveId (source, importer) {
-      const resolved = await this.resolve(source, importer, { skipSelf: true })
+    async resolveId (source, importer, options) {
+      const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
       if (!resolved?.id) return null
       // mpa 模式，入口文件为每个page下的config
       if (isMultiRouterMode && pages.some(({ configPath })=> configPath === resolved.id)) {
