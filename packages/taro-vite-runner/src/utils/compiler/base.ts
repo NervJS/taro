@@ -5,7 +5,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT,
 } from '@tarojs/helper'
-import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils/types/constant'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import path from 'path'
 
 import { stripMultiPlatformExt } from '../../utils'

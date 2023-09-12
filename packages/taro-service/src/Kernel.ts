@@ -241,6 +241,7 @@ export default class Kernel extends EventEmitter {
       'paths',
       'helper',
       'runOpts',
+      'runnerUtils',
       'initialConfig',
       'applyPlugins',
       'applyCliCommandPlugin'
