@@ -44,14 +44,15 @@ export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
   get currentTime () { return this.Instance?.currentTime || 0 }
   get paused () { return this.Instance?.paused || false }
   get buffered () { 
-    const { currentTime = 0, buffered: timeRange } = this.Instance || {};
+    const { currentTime = 0, buffered: timeRange } = this.Instance || {}
     for (let i = 0; i < timeRange?.length || 0; i++) {
       if(timeRange.start(i) <= currentTime && timeRange.end(i) >= currentTime) {
         return timeRange.end(i)
       }
     }
-    return 0;
+    return 0
   }
+
   set referrerPolicy (e) { this.Instance?.setAttribute('referrerpolicy', e) }
   get referrerPolicy () { return this.Instance?.getAttribute('referrerpolicy') || 'origin' }
 
