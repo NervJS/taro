@@ -118,7 +118,10 @@ export class XMLHttpRequest extends Events {
   #withCredentials: boolean
   #requestTask: null | Taro.RequestTask<any>
 
-  // 事件
+  // 事件正常流转： loadstart => progress（可能多次） => load => loadend
+  // error 流转： loadstart => error => loadend
+  // abort 流转： loadstart => abort => loadend
+  // web在线测试： https://developer.mozilla.org/zh-CN/play
 
   /** 当 request 被停止时触发，例如当程序调用 XMLHttpRequest.abort() 时 */
   onabort: ((e: XMLHttpRequestEvent) => void) | null = null
@@ -309,8 +312,30 @@ export class XMLHttpRequest extends Events {
    * 请求失败
    */
   #requestFail (err) {
-    this.#status = 0
-    this.#statusText = err.errMsg
+    // 微信小程序，无论接口返回200还是其他，响应无论是否有错误，都会进入 success 回调；只有类似超时这种请求错误才会进入 fail 回调
+    // 
+    /**
+     * 阿里系小程序，接口返回非200状态码，会进入 fail 回调, 此时 err 对象结构如下（当错误码为 14 或 19 时，会多返回 status、data、headers。可通过这些字段获取服务端相关错误信息）：
+     {
+       data: "{\"code\": 401,\"msg\":\"登录过期，请重新登录\"}"
+       error: 19
+       errorMessage: "http status error"
+       headers: {date: 'Mon, 14 Aug 2023 08:54:58 GMT', content-type: 'application/json;charset=UTF-8', content-length: '52', connection: 'close', access-control-allow-credentials: 'true', …}
+       originalData: "{\"code\": 401,\"msg\":\"登录过期，请重新登录\"}"
+       status: 401
+     }
+     */
+    // 统一行为，能正常响应的，都算 success.
+    if (err.status) {
+      this.#requestSuccess({
+        data: err,
+        statusCode: err.status,
+        header: err.headers
+      })
+      return
+    }
+    this.#status =  0
+    this.#statusText = err.errMsg || err.errorMessage
     const errorEvent = createXMLHttpRequestEvent('error', this, 0)
     this.trigger('error', errorEvent)
     isFunction(this.onerror) && this.onerror(errorEvent)

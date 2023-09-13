@@ -93,8 +93,20 @@ export class CanvasContext implements Taro.CanvasContext {
   clip (...args) { return this.enqueueActions(this.ctx.clip, ...args) }
   closePath (...args) { return this.enqueueActions(this.ctx.closePath, ...args) }
 
-  createPattern (image: string, repetition: keyof Taro.CanvasContext.Repetition): void {
-    return this.createPattern(image, repetition)
+  createPattern (imageResource: string, repetition: keyof Taro.CanvasContext.Repetition): CanvasPattern | null | Promise<CanvasPattern | null> {
+    // 需要转换为 Image
+    if (typeof imageResource === 'string') {
+      const img = new Image()
+      img.src = imageResource
+      return new Promise<CanvasPattern | null>((resolve, reject) => {
+        img.onload = () => {
+          resolve(this.ctx.createPattern(img, repetition))
+        }
+        img.onerror = reject
+      })
+    }
+
+    return this.ctx.createPattern(imageResource, repetition)
   }
 
   /**

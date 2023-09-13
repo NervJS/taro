@@ -40,7 +40,8 @@ export default (ctx: IPluginContext, options: IOptions) => {
       } = options
 
       const template = platform.template
-
+      if(!template) return
+      
       if (isArray(voidComponents)) {
         voidComponents.forEach(el => template.voidElements.add(el))
       } else if (isFunction(voidComponents)) {
