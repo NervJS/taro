@@ -9,6 +9,8 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   stopStack: CallbackManager
   __startTime = 0
   __isFirstPlay = true
+  MIN_PLAYBACKRATE = 0.5
+  MAX_PLAYBACKRATE = 2.0
 
   constructor () {
     this.Instance = new Audio()
@@ -76,15 +78,21 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
   }
 
   get volume () {
-    return this.Instance?.volume || 0
+    return this.Instance?.volume || 1
   }
 
   set playbackRate (e) {
+    if (e < this.MIN_PLAYBACKRATE) {
+      e = this.MIN_PLAYBACKRATE
+    }
+    if (e > this.MAX_PLAYBACKRATE) {
+      e = this.MAX_PLAYBACKRATE
+    }
     this.setProperty('playbackRate', e)
   }
 
   get playbackRate () {
-    return this.Instance?.playbackRate || 0
+    return this.Instance?.playbackRate || 1
   }
 
   set obeyMuteSwitch (_e) {
@@ -144,25 +152,25 @@ export class InnerAudioContext implements Taro.InnerAudioContext {
     }
   }
 
-  canPlayCallback = () => {}
+  canPlayCallback = () => { }
 
-  playCallback = () => {}
+  playCallback = () => { }
 
-  pauseCallback = () => {}
+  pauseCallback = () => { }
 
-  stopCallback = () => {}
+  stopCallback = () => { }
 
-  endedCallback = () => {}
+  endedCallback = () => { }
 
-  timeUpdateCallback = () => {}
+  timeUpdateCallback = () => { }
 
-  waitingCallback = () => {}
+  waitingCallback = () => { }
 
-  seekingCallback = () => {}
+  seekingCallback = () => { }
 
-  seekedCallback = () => {}
+  seekedCallback = () => { }
 
-  errorCallback = () => {}
+  errorCallback = () => { }
 
   onCanplay = (callback: Taro.InnerAudioContext.OnCanplayCallback = this.canPlayCallback) =>
     this.Instance?.addEventListener('canplay', callback as any)
