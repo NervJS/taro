@@ -1,8 +1,10 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
+
 
 /**
  * 基础-性能
@@ -18,7 +20,11 @@ export default class Index extends React.Component {
       },
       {
         id: 'getPerformance',
-        func: null,
+        func: (apiIndex) => {
+          TestConsole.consoleTest('Taro.getPerformance')
+          const performance = Taro.getPerformance()
+          TestConsole.consoleSuccess.call(this, performance, apiIndex)
+        },
       },
       {
         id: 'EntryList',
