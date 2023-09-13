@@ -170,7 +170,7 @@ export default class Index extends React.Component {
             camera: 'back',
             compressed:false,
             success: (res) => {
-              
+
               Taro.compressVideo({
                 src: res.tempFilePath,
                 quality:'high',
