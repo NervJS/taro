@@ -100,7 +100,7 @@ export const wxTemplateCommand = [WX_IF, WX_ELSE_IF, WX_FOR, WX_FOR_ITEM, WX_FOR
 function buildElement (name: string, children: Node[] = [], attributes: Attribute[] = []): Element {
   return {
     tagName: name,
-    type: NodeType.Element, 
+    type: NodeType.Element,
     attributes,
     children,
   }
@@ -118,10 +118,7 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
       const tempMidValue = matchs[2]?.trim() || ''
       const tempRightValue = matchs[3]?.trim() || ''
       attr.value = t.templateLiteral(
-        [
-          t.templateElement({ raw: tempLeftValue }),
-          t.templateElement({ raw: tempRightValue }, true)
-        ],
+        [t.templateElement({ raw: tempLeftValue }), t.templateElement({ raw: tempRightValue }, true)],
         [t.identifier(tempMidValue)]
       )
     } else {
@@ -133,7 +130,7 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
 // 对 style 属性值进行解析
 function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) {
   const styleValue = path.node.value as any
-  const styleAttrs =  styleValue.value.split(';')
+  const styleAttrs = styleValue.value.split(';')
   styleAttrs.forEach((attr) => {
     const [attrName, value] = attr.split(':')
     if (attrName) {
@@ -274,7 +271,7 @@ export const createWxmlVistor = (
             }
           } else {
             // 当元素设置slot标签且值为空串时，移除slot属性
-            slotAttr.remove() 
+            slotAttr.remove()
           }
         }
         const tagName = jsxName.node.name
@@ -318,7 +315,7 @@ export const createWxmlVistor = (
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
             const reactImport = buildImportStatement('react', [], 'React')
             // 引入 @tarojs/with-weapp
-            const withWeappImport = buildImportStatement('@tarojs/with-weapp',[],'withWeapp')
+            const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp')
             const ast = t.file(t.program([]))
             ast.program.body.unshift(
               taroComponentsImport,
@@ -895,7 +892,7 @@ function parseAttribute (attr: Attribute) {
           } else {
             throw new Error(err)
           }
-        } else if (content.includes(':') || (content.includes('...'))) {
+        } else if (content.includes(':') || content.includes('...')) {
           const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, {
             plugins: ['objectRestSpread'],
           })

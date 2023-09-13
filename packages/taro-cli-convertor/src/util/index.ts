@@ -8,7 +8,8 @@ import {
   REG_SCRIPT,
   REG_TYPESCRIPT,
   resolveScriptPath,
-  SCRIPT_EXT } from '@tarojs/helper'
+  SCRIPT_EXT,
+} from '@tarojs/helper'
 import * as path from 'path'
 
 import type * as t from '@babel/types'
@@ -25,10 +26,10 @@ export function getPkgVersion (): string {
 
 // 文件存在或添加后缀.js、.jsx、.ts、.tsx存在则返回文件路径，否则返回null
 function revertScriptPath (absolutePath: string, SCRIPT_EXT: string[]) {
-  for (const item of SCRIPT_EXT){
-    if (fs.existsSync(absolutePath)){
+  for (const item of SCRIPT_EXT) {
+    if (fs.existsSync(absolutePath)) {
       return absolutePath
-    } else if (fs.existsSync(`${absolutePath}${item}`)){
+    } else if (fs.existsSync(`${absolutePath}${item}`)) {
       return `${absolutePath}${item}`
     }
   }
@@ -61,7 +62,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
     if (absolutePath == null) {
       return oriPath
     }
-    
+
     let relativePath = path.relative(path.dirname(sourceFilePath), absolutePath)
     relativePath = promoteRelativePath(relativePath)
     if (relativePath.indexOf('.') !== 0) {

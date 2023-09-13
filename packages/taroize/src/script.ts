@@ -2,12 +2,12 @@ import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { usedComponents } from './global'
-import { buildBlockElement, buildImportStatement, buildRender, codeFrameError, parseCode } from './utils'
+import { buildBlockElement, buildImportStatement, buildRender, parseCode } from './utils'
 import { WXS } from './wxml'
 
 const defaultClassName = '_C'
 
-const buildDecorator = (id: t.Identifier | t.ObjectExpression, isApp = false) => {
+const buildDecorator = (id: t.Identifier | t.ObjectExpression | t.CallExpression, isApp = false) => {
   const args: any[] = [id]
   isApp && args.push(t.booleanLiteral(true))
   return t.decorator(t.callExpression(t.identifier('withWeapp'), args))
@@ -74,8 +74,6 @@ export function parseScript (
           classDecl,
           t.exportDefaultDeclaration(t.identifier(componentType !== 'App' ? defaultClassName : 'App'))
         )
-        // path.insertAfter(t.exportDefaultDeclaration(t.identifier(defaultClassName)))
-        path.remove()
       }
     },
     VariableDeclaration (path) {
@@ -179,17 +177,8 @@ function parsePage (
     })
   }
   const propsKeys: string[] = []
-  const arg = pagePath.get('arguments')[0]
-
   const classBody: any[] = []
-  if (arg.isObjectExpression() || arg.isIdentifier()) {
-    //
-  } else {
-    throw codeFrameError(arg.node, `${componentType || '组件'} 的第一个参数必须是一个对象或变量才能转换。`)
-  }
-
   const wxsNames = new Set(wxses ? wxses.map((w) => w.module) : [])
-
   const renderFunc = buildRender(
     componentType === 'App'
       ? t.memberExpression(t.memberExpression(t.thisExpression(), t.identifier('props')), t.identifier('children'))
@@ -205,7 +194,12 @@ function parsePage (
     []
   )
 
-  classDecl.decorators = [buildDecorator(arg.node, isApp)]
+  // @withWeapp 通过调用 cacheOptions.getOptionsFromCache() 获取 options
+  const withWeappArgmentNode = t.callExpression(
+    t.memberExpression(t.identifier('cacheOptions'), t.identifier('getOptionsFromCache')),
+    []
+  )
+  classDecl.decorators = [buildDecorator(withWeappArgmentNode, isApp)]
 
   return classDecl
 }
