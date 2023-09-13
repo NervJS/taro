@@ -120,7 +120,7 @@ export class EditorContext implements Taro.EditorContext {
       }
     } else if (name === 'align') {
       // value = left / center / right / justify
-      // 为了避免联机两次同一属性，第二次取消问题
+      // 为了避免通过 editor.formatter.toggle连续两次同一属性，第二次默认取消问题
       editor.formatter.remove('alignleft')
       editor.formatter.remove('aligncenter')
       editor.formatter.remove('alignright')
