@@ -70,7 +70,7 @@ export default function (compiler: TaroCompiler): PluginOption {
       if (REG_IMAGE.test(id)) {
         Object.assign(options, postcssUrlOption, imageUrlLoaderOption)
         limit = options.limit || 2 * 1024
-        sourceDir = 'iamges'
+        sourceDir = 'images'
       } else if (REG_FONT.test(id)) {
         Object.assign(options, postcssUrlOption, fontUrlLoaderOption)
         limit = options.limit || 10 * 1024

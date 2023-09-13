@@ -181,12 +181,15 @@ export default function (complier: TaroCompiler): PluginOption {
         cssCodeSplit: true,
         emptyOutDir: false,
         watch: taroConfig.isWatch ? {} : null,
+        
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
         rollupOptions: {
-          input: { 'index': path.join(appPath, 'src/index.html') },
+          input: { 'pages/answer/answer': path.join(appPath, 'src/index3.html'), 'pages/index/index': path.join(appPath, 'src/index.html') },
           output: {
-            entryFileNames: taroConfig.viteOutput!.entryFileNames,
+            entryFileNames: (a)=>{ 
+              return a.name
+            },
             chunkFileNames: taroConfig.viteOutput!.chunkFileNames,
             assetFileNames: taroConfig.viteOutput!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
@@ -264,6 +267,7 @@ export default function (complier: TaroCompiler): PluginOption {
     transformIndexHtml: {
       enforce: 'pre',
       transform(html, ctx) {
+        debugger
         const { configPath } = app
         let srciptSource = configPath.replace(sourceDir, '')
         // mpa 模式
