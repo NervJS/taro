@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 
+// null-implementation
 export const onMemoryWarning: typeof Taro.onMemoryWarning = (callback) => {
   // @ts-ignore
   if (native[onMemoryWarning]) {

@@ -9,32 +9,19 @@ export const startAccelerometer: typeof Taro.startAccelerometer = (options) => {
   const name = 'startAccelerometer'
 
   return new Promise((resolve, reject) => {
-    if (typeof options === 'undefined') {
-      // @ts-ignore
-      native.startAccelerometer({
-        interval: 'normal',
-        success: (res: any) => {
-          resolve(res)
-        },
-        fail: (res: any) => {
-          resolve(res)
-        },
-      })
-      return
-    }
-
-    // options must be an Object
-    const isObject = shouldBeObject(options)
-    if (!isObject.flag) {
-      const res = { errMsg: `${name}:fail ${isObject.msg}` }
+    const isValid = shouldBeObject(options).flag || typeof options === 'undefined'
+    if (!isValid) {
+      const res = { errMsg: `${name}:fail invalid params` }
       console.error(res.errMsg)
       return reject(res)
     }
-    const { interval = 'normal', success, fail, complete } = options as Exclude<typeof options, undefined>
-
-    const handle = new MethodHandler<{
-      errMsg?: string
-    }>({ name, success, fail, complete })
+    const {
+      interval = 'normal',
+      success,
+      fail,
+      complete
+    } = options || {}
+    const handle = new MethodHandler({ name, success, fail, complete })
 
     // @ts-ignore
     native.startAccelerometer({
@@ -44,7 +31,7 @@ export const startAccelerometer: typeof Taro.startAccelerometer = (options) => {
       },
       fail: (res: any) => {
         handle.fail(res, { resolve, reject })
-      },
+      }
     })
   })
 }
