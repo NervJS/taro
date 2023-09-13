@@ -67,7 +67,7 @@ export class TaroEvent {
     if (!cacheTarget) {
       const target = Object.create(this.mpEvent?.target || null)
 
-      const element = env.document.getElementById(target.id || target.dataset?.sid || null)
+      const element = env.document.getElementById(target.targetDataset?.sid || target.dataset?.sid || target.id || null)
       target.dataset = element !== null ? element.dataset : EMPTY_OBJ
 
       for (const key in this.mpEvent?.detail) {
