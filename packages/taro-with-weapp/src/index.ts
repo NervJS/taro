@@ -571,12 +571,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const page = this.current.page
           if (page?.[method]) {
             return page[method](...args)
-          } else if ([
-            'createSelectorQuery',
-            'createIntersectionObserver',
-            'createMediaQueryObserver'].includes(method))
-          {
-            return taroApi[method](this, ...args)
+          } else if (method === 'createSelectorQuery') {
+            return createSelectorQuery()
+          } else if (method === 'createIntersectionObserver') {
+            // @ts-ignore
+            return createIntersectionObserver(...args)
+          } else if (method === 'createMediaQueryObserver') {
+            return createMediaQueryObserver()
           } else {
             console.error(`page 下没有 ${method} 方法`)
           }
