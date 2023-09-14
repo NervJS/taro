@@ -22,9 +22,17 @@ function getEnv () {
 
 const getCurrentInstance = () => Current
 
+const nextTick = (cb: (...args: any[]) => any, ctx?: Record<string, any>) => {
+  setTimeout(function () {
+    ctx ? cb.call(ctx) : cb()
+  }, 1)
+}
+
+
 export {
   ENV_TYPE,
   eventCenter,
   getCurrentInstance,
   getEnv,
+  nextTick,
 }

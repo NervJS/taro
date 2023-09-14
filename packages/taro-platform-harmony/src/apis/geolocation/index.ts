@@ -14,7 +14,7 @@
 // ❌ wx.stopLocationUpdate
 // ❌ wx.startLocationUpdate
 
-import geolocation from '@ohos.geolocation'
+import geoLocationManager from '@ohos.geoLocationManager'
 import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
@@ -88,36 +88,33 @@ export const getLocation: GetLocation = function (options = {}) {
      * 二者参数不一致
      */
     const { type, altitude, isHighAccuracy, highAccuracyExpireTime } = options
-    // try {
-    //   validateParams('getLocation', options, getLocationSchema)
-    // } catch (error) {
-    //   const res = { errMsg: error.message }
-    //   return callAsyncFail(reject, res, options)
-    // }
-
     const params: IGetOHOSGeolocationParams = {
       type,
       altitude,
       isHighAccuracy,
       highAccuracyExpireTime
     }
-    return geolocation.getCurrentLocation(params).then((location: LocationSuccessOHOS) => {
-      if (location.code !== 0) {
-        callAsyncFail(reject, location, options)
-      } else {
-        const locationWX = formatLocation(location.data)
-        callAsyncSuccess(resolve, locationWX, options)
-      }
-    }).catch(error => {
+    try {
+      return geoLocationManager.getCurrentLocation(params).then((location: LocationSuccessOHOS) => {
+        if (location.code !== 0) {
+          callAsyncFail(reject, location, options)
+        } else {
+          const locationWX = formatLocation(location.data)
+          callAsyncSuccess(resolve, locationWX, options)
+        }
+      }).catch(error => {
+        callAsyncFail(reject, error, options)
+      })
+    } catch (error) {
       callAsyncFail(reject, error, options)
-    })
+    }
   })
 }
 
 export const onLocationChange: OnLocationChange = function (callback) {
   validateParams('onLocationChange', [callback], ['Function'])
   const requestInfo: LocationRequest = {}
-  geolocation.on('locationChange', requestInfo, (location: LocationSuccessDataOHOS) => {
+  geoLocationManager.on('locationChange', requestInfo, (location: LocationSuccessDataOHOS) => {
     if (location) {
       const locationWX = formatLocation(location)
       callback(locationWX)
@@ -127,7 +124,7 @@ export const onLocationChange: OnLocationChange = function (callback) {
 
 export const offLocationChange: OffLocationChange = function (callback) {
   validateParams('offLocationChange', [callback], ['Function'])
-  geolocation.off('locationChange', (location: LocationSuccessOHOS) => {
+  geoLocationManager.off('locationChange', (location: LocationSuccessOHOS) => {
     const status = {
       errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
     }

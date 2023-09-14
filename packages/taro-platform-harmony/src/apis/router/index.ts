@@ -1,4 +1,5 @@
 import router from '@ohos.router'
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 import { queryToJson } from '@tarojs/shared'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
@@ -11,6 +12,24 @@ declare const getApp: any
 type ReLaunch = typeof Taro.reLaunch
 type SwitchTab = typeof Taro.switchTab
 type NavigateTo = typeof Taro.navigateTo
+
+const launchOptions: Taro.getLaunchOptionsSync.LaunchOptions = {
+  path: '',
+  query: {},
+  scene: 0,
+  shareTicket: '',
+  referrerInfo: {}
+}
+
+function initLaunchOptions (options = {}) {
+  Object.assign(launchOptions, options)
+}
+
+eventCenter.once('__taroRouterLaunch', initLaunchOptions)
+
+// 生命周期
+const getLaunchOptionsSync = () => launchOptions
+const getEnterOptionsSync = () => launchOptions
 
 const getRouterFunc = (method): NavigateTo => {
   const methodName = method === 'navigateTo' ? 'pushUrl' : 'replaceUrl'
@@ -51,9 +70,9 @@ function navigateBack (options: INavigateBackParams): Promise<any> {
     if (!options?.url) {
       router.back()
     } else {
-      let [uri] = options.url.split('?')
-      uri = uri.replace(/^\//, '')
-      router.back({ uri })
+      let [url] = options.url.split('?')
+      url = url.replace(/^\//, '')
+      router.back({ url })
     }
 
     const res = { errMsg: 'navigateBack:ok' }
@@ -101,6 +120,8 @@ const getState = () => {
 }
 
 export {
+  getEnterOptionsSync,
+  getLaunchOptionsSync,
   getLength,
   getState,
   navigateBack,

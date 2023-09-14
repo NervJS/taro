@@ -11,13 +11,7 @@ if (hooks.isExist('initNativeApi')) {
 export function initNativeApi (taro) {
   (Current as any).taro = taro
   taro.initPxTransform = noop
-  Object.defineProperty(taro, 'getApp', {
-    configurable: true,
-    enumerable: true,
-    get () {
-      return globalThis.getApp
-    }
-  })
+  taro.getApp = () => Current.app
 }
 
 export function initPxTransform (_opts?: any) {

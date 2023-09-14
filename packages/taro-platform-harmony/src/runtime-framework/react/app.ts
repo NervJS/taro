@@ -1,4 +1,7 @@
+// eslint-disable-next-line import/no-duplicates
 import { Current, document } from '@tarojs/runtime'
+// eslint-disable-next-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
 import { setReconciler } from './connect'
 import { injectPageInstance } from './page'
@@ -180,7 +183,7 @@ export function createReactApp (
     unmount (id: string, cb: () => void) {
       appWrapper.unmount(id, cb)
     },
-    onLaunch (_?: any) {
+    onLaunch (launchParam?: any) {
       waitAppWrapper(() => {
         // 用户编写的入口组件实例
         const app = getAppInstance()
@@ -209,6 +212,8 @@ export function createReactApp (
 
           app.onCreate?.()
         }
+        
+        eventCenter.trigger('__taroRouterLaunch', launchParam)
       })
     },
     onShow () {
