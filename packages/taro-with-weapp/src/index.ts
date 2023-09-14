@@ -63,7 +63,7 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       ['created', []],
       ['attached', []],
       ['ready', []],
-      ['detached', [],
+      ['detached', []],
       ['lifetimes', []]
     ])
     const behaviorProperties = {}
