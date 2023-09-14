@@ -91,7 +91,8 @@ export class TaroRootElement extends TaroElement {
     setTimeout(() => {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`
       perf.start(setDataMark)
-      const data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> = Object.create(null)
+      let data: Record<string, UpdatePayloadValue | ReturnType<HydratedData>> | null = Object.create(null)
+
       const resetPaths = new Set<string>(
         initRender
           ? ['root.cn.[0]', 'root.cn[0]']
@@ -103,13 +104,16 @@ export class TaroRootElement extends TaroElement {
         if (path.endsWith(Shortcuts.Childnodes)) {
           resetPaths.add(path)
         }
-        data[path] = value
+
+        if (data) {
+          data[path] = value
+        }
       }
 
       for (const path in data) {
         resetPaths.forEach(p => {
           // 已经重置了数组，就不需要分别再设置了
-          if (path.includes(p) && path !== p) {
+          if (path.includes(p) && path !== p && data) {
             delete data[path]
           }
         })
@@ -130,7 +134,9 @@ export class TaroRootElement extends TaroElement {
 
       if (initRender) {
         // 初次渲染，使用页面级别的 setData
-        normalUpdate = data
+        if (data) {
+          normalUpdate = data
+        }
       } else {
         // 更新渲染，区分 CustomWrapper 与页面级别的 setData
         for (const p in data) {
@@ -166,12 +172,13 @@ export class TaroRootElement extends TaroElement {
 
       // custom-wrapper setData
       if (customWrapperCount) {
-        customWrapperMap.forEach((data, ctx) => {
+        customWrapperMap.forEach((customWrapperData, ctx) => {
           if (process.env.NODE_ENV !== 'production' && options.debug) {
             // eslint-disable-next-line no-console
-            console.log('custom wrapper setData: ', data)
+            console.log('custom wrapper setData: ', customWrapperData)
           }
-          ctx.setData(data, cb)
+          ctx.setData(customWrapperData, cb)
+          data = null
         })
       }
 
@@ -182,6 +189,7 @@ export class TaroRootElement extends TaroElement {
           console.log('page setData:', normalUpdate)
         }
         ctx.setData(normalUpdate, cb)
+        data = null
       }
     }, 0)
   }
