@@ -49,7 +49,7 @@ export default (ctx: IPluginContext) => {
       viteConfig.plugins.push(h5VitePlugin(ctx))
     } else {
       // 小程序
-      viteConfig.plugins.push(miniVitePlugin(data?.componentConfig))
+      viteConfig.plugins.push(miniVitePlugin(ctx, data?.componentConfig))
     }
   })
 

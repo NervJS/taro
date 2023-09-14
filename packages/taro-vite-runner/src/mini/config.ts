@@ -10,7 +10,7 @@ import { getMode, stripMultiPlatformExt } from '../utils'
 import { logger } from '../utils/logger'
 
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { MiniBuildConfig } from '../utils/types'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 const DEFAULT_TERSER_OPTIONS = {
   parse: {
@@ -50,7 +50,8 @@ const DEFAULT_TERSER_OPTIONS = {
   },
 }
 
-export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig, cwd: appPath } = compiler
   function getDefineOption() {
     const {
       env = {},
@@ -63,6 +64,7 @@ export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOp
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
     env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
+    env.NODE_ENV = JSON.stringify(process.env.NODE_ENV)
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target

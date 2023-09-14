@@ -1,15 +1,13 @@
 import path from 'path'
 
-import { getMiniCompiler } from '../utils'
-
 import type { OutputAsset } from 'rollup'
+import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
 
-export default function (): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
   return {
     name: 'taro:vite-style',
     generateBundle (_opts, bundle) {
-      const compiler = getMiniCompiler(this)
       if (compiler) {
         const nativeStyleExt = compiler.fileType.style
         const appStyleFileName = `app${nativeStyleExt}`

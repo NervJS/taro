@@ -1,7 +1,8 @@
+import { fs, isEmptyObject } from '@tarojs/helper'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
-import { appendVirtualModulePrefix, getH5Compiler } from '../utils'
+import { appendVirtualModulePrefix } from '../utils'
 
 import type { PluginOption } from 'vite'
 import type { PageMeta } from '../utils/compiler/base'
@@ -12,41 +13,52 @@ function genResource (page: PageMeta) {
   return [
     'Object.assign({',
     `  path: '${page.name}',`,
-    '  load: function(context, params) {',
-    `    const page = import("${page.scriptPath}")`,
+    '  load: async function(context, params) {',
+    `    const page = await import("${page.scriptPath}")`,
     '    return [page, context, params]',
     '  }',
     `}, ${JSON.stringify(page.config)})`
   ].join('\n')
 }
 
-export default function (): PluginOption {
+
+export default function (compiler): PluginOption {
+  const { taroConfig, app, pages } = compiler
+  const { router, mode } = taroConfig
+  const isMultiRouterMode = router?.mode === 'multi'
+  const routerConfig = taroConfig.router || {}
+  const isProd = mode === 'production'
+
   return {
     name: 'taro:vite-h5-entry',
     enforce: 'pre',
-    async resolveId (source, importer) {
-      const compiler = getH5Compiler(this)
-      const resolved = await this.resolve(source, importer, { skipSelf: true })
-      if (compiler && resolved?.id === compiler.app.configPath) {
+    async resolveId (source, importer, options) {
+      const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
+      if (!resolved?.id) return null
+      // mpa 模式，入口文件为每个page下的config
+      if (isMultiRouterMode && pages.some(({ configPath })=> configPath === resolved.id)) {
+        return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
+      }
+      if (resolved.id === compiler.app.configPath) {
         return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
-      const compiler = getH5Compiler(this)
-      if (compiler && id.endsWith(ENTRY_SUFFIX)) {
-        const { taroConfig, app, pages } = compiler
-        const routerConfig = taroConfig.router || {}
-        const routerMode = routerConfig.mode || 'hash'
-        const isMultiRouterMode = routerMode === 'multi'
+      if (id.endsWith(ENTRY_SUFFIX)) {
+        const { pageName } = compiler
         const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
         const appConfig = {
           router: routerConfig,
           ...app.config,
         }
-        // @TODO mutil router mode
+        const page = pages.find(({ name }) => name === pageName) as PageMeta
         const routesConfig = isMultiRouterMode
-          ? ''
+          ? [
+            'config.routes = []',
+            `config.route = ${genResource(page)}`,
+            `config.pageName = "${pageName}"`
+          ].join('\n')
           : [
             'config.routes = [',
             `${pages.map(page => genResource(page)).join(',\n')}`,
@@ -65,22 +77,28 @@ export default function (): PluginOption {
           }
         }, '')
 
+        const getTabbarIconPath = (iconPath) => {
+          return isProd 
+            ? 
+            path.join('/', taroConfig!.staticDirectory, 'images', path.basename(iconPath)) 
+            : 
+            iconPath.replace(/^./, '')
+        }
+
         // tabbar
         let tabBarCode = ''
         if (appConfig.tabBar) {
           tabBarCode = [
             'var tabbarIconPath = []',
-            'var tabbarSelectedIconPath = []',
+            'var tabbarSelectedIconPath = []\n',
           ].join('\n')
           const tabbarList = appConfig.tabBar.list
           tabBarCode = tabbarList.reduce((prev, current, index) => {
             if (current.iconPath) {
-              const iconPath = path.join(compiler.sourceDir, current.iconPath)
-              prev += `tabbarIconPath[${index}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
+              prev += `tabbarIconPath[${index}] = '${getTabbarIconPath(current.iconPath)}'\n`
             }
             if (current.selectedIconPath) {
-              const iconPath = path.join(compiler.sourceDir, current.selectedIconPath)
-              prev += `tabbarSelectedIconPath[${index}] = typeof require(${iconPath}) === 'object' ? require(${iconPath}).default : require(${iconPath})\n`
+              prev += `tabbarSelectedIconPath[${index}] = '${getTabbarIconPath(current.selectedIconPath)}'\n`
             }
             return prev
           }, tabBarCode)
@@ -98,6 +116,37 @@ export default function (): PluginOption {
           ].join('\n')
         }
 
+        // tabbar && pro
+        if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar) && isProd) {
+          const list = appConfig.tabBar.list || []
+          const { sourceDir } = compiler
+          list.forEach(async item => {
+            const { iconPath, selectedIconPath } = item
+            if (iconPath) {
+              const filePath = path.resolve(sourceDir, iconPath)
+              const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
+              this.emitFile({
+                type: 'asset',
+                fileName,
+                source: await fs.readFile(filePath)
+              })
+              this.addWatchFile(filePath)
+            }
+
+            if (selectedIconPath) {
+              const filePath = path.resolve(sourceDir, selectedIconPath)
+              const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(selectedIconPath))
+              this.emitFile({
+                type: 'asset',
+                fileName,
+                source: await fs.readFile(filePath)
+              })
+              this.addWatchFile(filePath)
+            }
+          })
+        }
+
+
         const {
           creator,
           creatorLocation,
@@ -112,7 +161,8 @@ export default function (): PluginOption {
         const __postcssOption = getDefaultPostcssConfig({
           designWidth: taroConfig.designWidth,
           deviceRatio: taroConfig.deviceRatio,
-          option: taroConfig.postcss
+          option: taroConfig.postcss,
+          esnextModules: taroConfig.esnextModules || []
         })
         const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
         const pxTransformConfig = pxtransformOption?.config || {}

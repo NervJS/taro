@@ -8,17 +8,18 @@ import type { Frameworks } from './index'
 
 export function miniVitePlugin (ctx: IPluginContext, framework: Frameworks): PluginOption {
   return [
-    injectLoaderMeta(framework),
+    injectLoaderMeta(ctx, framework),
     aliasPlugin(ctx, framework),
   ]
 }
 
-function injectLoaderMeta (framework: Frameworks): PluginOption {
+function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOption {
   return {
     name: 'taro-react:loader-meta',
     buildStart () {
-      const info = this.getModuleInfo('taro:compiler')
-      const compiler = info?.meta.compiler
+      const { runnerUtils } = ctx
+      const { getViteMiniCompiler } = runnerUtils
+      const compiler = getViteMiniCompiler(this)
       if (compiler) {
         compiler.loaderMeta = getLoaderMeta(framework)
       }

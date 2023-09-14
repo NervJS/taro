@@ -1,4 +1,5 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import { TaroCompiler } from '../utils/compiler/mini'
 import assetsPlugin from './assets'
 import configPlugin from './config'
 import emitPlugin from './emit'
@@ -9,18 +10,17 @@ import pipelinePlugin from './pipeline'
 import stylePlugin from './style'
 
 import type { PluginOption } from 'vite'
-import type { MiniBuildConfig } from '../utils/types'
 
-export default function (appPath: string, taroConfig: MiniBuildConfig): PluginOption[] {
+export default function (compiler: TaroCompiler): PluginOption[] {
   return [
-    pipelinePlugin(appPath, taroConfig),
-    configPlugin(appPath, taroConfig),
-    entryPlugin(),
-    pagePlugin(),
-    multiPlatformPlugin(taroConfig),
-    nativeSupportPlugin(taroConfig),
-    assetsPlugin(taroConfig),
-    stylePlugin(),
-    emitPlugin(),
+    pipelinePlugin(compiler),
+    configPlugin(compiler),
+    entryPlugin(compiler),
+    pagePlugin(compiler),
+    multiPlatformPlugin(compiler),
+    nativeSupportPlugin(compiler),
+    assetsPlugin(compiler),
+    stylePlugin(compiler),
+    emitPlugin(compiler),
   ]
 }

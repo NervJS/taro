@@ -99,6 +99,8 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           }),
           jd: joi.object({
             privateKey: joi.string().required(),
+            robot: joi.number(),
+            ignores: joi.array().items(joi.string()),
           }),
           version: joi.string(),
           desc: joi.string(),

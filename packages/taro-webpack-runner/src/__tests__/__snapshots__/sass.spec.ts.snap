@@ -865,8 +865,8 @@ exports[`sass should build app with sass 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -874,9 +874,11 @@ exports[`sass should build app with sass 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (config.targetUnit) {
+            switch (targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -886,10 +888,10 @@ exports[`sass should build app with sass 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-                val = Number(val.toFixed(config.unitPrecision));
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
             }
-            return val + config.targetUnit;
+            return val + targetUnit;
         };
     }
     var Taro = {
@@ -1803,8 +1805,8 @@ exports[`sass should build app with scss 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -1812,9 +1814,11 @@ exports[`sass should build app with scss 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (config.targetUnit) {
+            switch (targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -1824,10 +1828,10 @@ exports[`sass should build app with scss 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-                val = Number(val.toFixed(config.unitPrecision));
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
             }
-            return val + config.targetUnit;
+            return val + targetUnit;
         };
     }
     var Taro = {
@@ -2742,8 +2746,8 @@ exports[`sass should set global sass content with data 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -2751,9 +2755,11 @@ exports[`sass should set global sass content with data 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (config.targetUnit) {
+            switch (targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -2763,10 +2769,10 @@ exports[`sass should set global sass content with data 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-                val = Number(val.toFixed(config.unitPrecision));
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
             }
-            return val + config.targetUnit;
+            return val + targetUnit;
         };
     }
     var Taro = {
@@ -3681,8 +3687,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -3690,9 +3696,11 @@ exports[`sass should set global sass content with source & dir 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (config.targetUnit) {
+            switch (targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -3702,10 +3710,10 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-                val = Number(val.toFixed(config.unitPrecision));
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
             }
-            return val + config.targetUnit;
+            return val + targetUnit;
         };
     }
     var Taro = {
@@ -4620,8 +4628,8 @@ exports[`sass should set global sass content with source 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -4629,9 +4637,11 @@ exports[`sass should set global sass content with source 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (config.targetUnit) {
+            switch (targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -4641,10 +4651,10 @@ exports[`sass should set global sass content with source 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
-                val = Number(val.toFixed(config.unitPrecision));
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
             }
-            return val + config.targetUnit;
+            return val + targetUnit;
         };
     }
     var Taro = {

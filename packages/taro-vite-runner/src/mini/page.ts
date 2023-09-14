@@ -1,15 +1,15 @@
-import { appendVirtualModulePrefix, getMiniCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
+import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
 
 const PAGE_SUFFIX = '?page-loader=true'
 
-export default function (): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
   return {
     name: 'taro:vite-mini-page',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      const compiler = getMiniCompiler(this)
       if (compiler?.isPage(source) && options.isEntry) {
         if (compiler.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
@@ -17,7 +17,6 @@ export default function (): PluginOption {
       return null
     },
     load (id) {
-      const compiler = getMiniCompiler(this)
       if (compiler && id.endsWith(PAGE_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
         const page = compiler.getPageById(rawId)

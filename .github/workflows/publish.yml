@@ -26,7 +26,7 @@ jobs:
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v3
         with:
