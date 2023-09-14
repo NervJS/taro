@@ -139,6 +139,33 @@ function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) 
   })
 }
 
+function transUnit (path: NodePath<t.JSXAttribute>) {
+  // 尺寸单位转换 都转为rem : 1rpx 转为 1/40rem,,1px 转为 1/20rem
+  if (t.isStringLiteral(path.node.value)) {
+    let tempValue = path.node.value.value
+    if (tempValue.indexOf('px') !== -1) {
+      // 把 xxx="...[数字]rpx/px" 的尺寸单位都转为 rem, 转换方法类似postcss-taro-unit-transform
+      tempValue = tempValue
+        .replace(/([0-9.]+)px/gi, function (match) {
+          // <1的值转十进制会被转为0, 这种情况直接把值认为是1
+          return parseInt(match, 10) > 0 ? parseInt(match, 10) / 20 + 'rem' : '1rem'
+        })
+        .replace(/([0-9.]+)rpx/gi, function (match) {
+          return parseInt(match, 10) > 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
+        })
+      // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
+      tempValue = tempValue
+        .replace(/\{\{([^{}]*)\}\}(px)/gi, function (match, size, unit) {
+          return match.replace(size, size + '/20').replace(unit, 'rem')
+        })
+        .replace(/\{\{([^{}]*)\}\}(rpx)/gi, function (match, size, unit) {
+          return match.replace(size, size + '/40').replace(unit, 'rem')
+        })
+      path.node.value.value = tempValue
+    }
+  }
+}
+
 export const createWxmlVistor = (
   loopIds: Set<string>,
   refIds: Set<string>,
@@ -170,6 +197,9 @@ export const createWxmlVistor = (
       path.remove()
       return
     }
+
+    // 把wxml中的 xx = "...rpx" / xx = "...px" 的单位都转为rem
+    transUnit(path)
 
     // 把 style 中 {{}} 转为 ${} 格式
     if (name.name === 'style' && t.isStringLiteral(path.node.value)) {
