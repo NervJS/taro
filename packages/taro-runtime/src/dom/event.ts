@@ -66,7 +66,7 @@ export class TaroEvent {
     const cacheTarget = this.cacheTarget
     if (!cacheTarget) {
       const target = Object.create(this.mpEvent?.target || null)
-
+      // Note：优先判断冒泡场景alipay的targetDataset的sid, 不然冒泡场景target属性吐出不对，其余拿取当前绑定id
       const element = env.document.getElementById(target.targetDataset?.sid || target.dataset?.sid || target.id || null)
       target.dataset = element !== null ? element.dataset : EMPTY_OBJ
 
