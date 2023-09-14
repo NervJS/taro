@@ -1,5 +1,5 @@
 import { Func, getCurrentInstance } from '@tarojs/runtime'
-import { ComponentLifecycle, eventCenter, nextTick, createSelectorQuery, createIntersectionObserver, createMediaQueryObserver } from '@tarojs/taro'
+import { ComponentLifecycle, createIntersectionObserver, createMediaQueryObserver,createSelectorQuery, eventCenter, nextTick } from '@tarojs/taro'
 
 import { clone } from './clone'
 import { diff } from './diff'
