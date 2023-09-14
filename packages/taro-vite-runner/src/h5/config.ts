@@ -1,11 +1,11 @@
-import { defaultMainFields, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
+import { defaultMainFields, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString } from '@tarojs/shared'
-import history from 'connect-history-api-fallback'
 import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
 import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
+import { getHtmlScript } from '../utils/html'
 
 import type { CSSModulesOptions, PluginOption } from 'vite'
 import type { TaroCompiler } from '../utils/compiler/h5'
@@ -49,10 +49,11 @@ const DEFAULT_TERSER_OPTIONS = {
 }
 
 export default function (complier: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath, pages, app, sourceDir } = complier
+  const { taroConfig, cwd: appPath, app, sourceDir } = complier
   const routerMode = taroConfig.router?.mode || 'hash'
-  const basename = taroConfig.router?.basename || ''
   const isMultiRouterMode = routerMode === 'multi'
+  const isPro = !!(taroConfig.mode === 'production')
+
   function parsePublicPath(publicPath = '/') {
     return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
   }
@@ -108,30 +109,8 @@ export default function (complier: TaroCompiler): PluginOption {
     }
   }
 
-  function createRewire(
-    reg: string,
-    baseUrl: string,
-    proxyUrlKeys: string[],
-  ) {
-    return {
-      from: new RegExp(`/${reg}.html`),
-      to({ parsedUrl }) {
-        const pathname: string = parsedUrl.pathname
-        const excludeBaseUrl = pathname.replace(baseUrl, '/')
-        const template = path.resolve(baseUrl, 'index.html')
-        if (excludeBaseUrl === '/') {
-          return template
-        }
-        const isApiUrl = proxyUrlKeys.some((item) =>
-          pathname.startsWith(path.resolve(baseUrl, item)),
-        )
-        return isApiUrl ? excludeBaseUrl : template
-      },
-    }
-  }
-
   function getMinify(): 'terser' | 'esbuild' | boolean {
-    return taroConfig.mode !== 'production'
+    return !isPro
       ? false
       : taroConfig.jsMinimizer === 'esbuild'
         ? taroConfig.esbuild?.minify?.enable === false
@@ -164,7 +143,7 @@ export default function (complier: TaroCompiler): PluginOption {
   }
   const mode = getMode(taroConfig)
   const mainFields = [...defaultMainFields]
-  if (mode !== 'production') {
+  if (!isPro) {
     mainFields.unshift('main:h5')
   }
 
@@ -183,13 +162,10 @@ export default function (complier: TaroCompiler): PluginOption {
         watch: taroConfig.isWatch ? {} : null,
         
         // @TODO doc needed: sourcemapType not supported
-        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
+        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? !isPro,
         rollupOptions: {
-          input: { 'pages/answer/answer': path.join(appPath, 'src/index3.html'), 'pages/index/index': path.join(appPath, 'src/index.html') },
           output: {
-            entryFileNames: (a)=>{ 
-              return a.name
-            },
+            entryFileNames: 'js/app.[hash].js',
             chunkFileNames: taroConfig.viteOutput!.chunkFileNames,
             assetFileNames: taroConfig.viteOutput!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
@@ -247,55 +223,15 @@ export default function (complier: TaroCompiler): PluginOption {
       },
     }),
 
-    configureServer(server){
-      if (!isMultiRouterMode) return
-      const rewrites: { from: RegExp, to: any }[] = []
-      const proxy = server.config.server.proxy || {}
-      const proxyKeys = Object.keys(proxy)
-      const baseUrl = server.config.base ?? '/'
-      pages.forEach(({ name })=> {
-        const pageName = removeHeadSlash(path.join(basename, name))
-        rewrites.push(createRewire(pageName, baseUrl, proxyKeys))
-      })
-      server.middlewares.use(history({          
-        disableDotRule: undefined,
-        htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
-        rewrites: rewrites
-      }) )
-    },
 
     transformIndexHtml: {
       enforce: 'pre',
-      transform(html, ctx) {
-        debugger
+      transform(html) {
+        // mpa 模式关于 html 的处理已经解藕到 mpa.ts
+        if (isMultiRouterMode) return html
         const { configPath } = app
-        let srciptSource = configPath.replace(sourceDir, '')
-        // mpa 模式
-        if (isMultiRouterMode) {
-          const { originalUrl } = ctx
-          const page = pages.filter(({ name })=> originalUrl?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
-          if (page) {
-            srciptSource = page.configPath.replace(sourceDir, '')
-            const pageName = page.name
-            complier.setPageName(pageName)
-          } else {
-            complier.setPageName('')
-          }
-        }
-        let htmlScript = ''
-        const options = pxtransformOption?.config || {}
-        const max = options?.maxRootSize ?? 40
-        const min = options?.minRootSize ?? 20
-        const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
-        const designWidth = ((input) =>
-          typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth)(baseFontSize)
-        const rootValue = (baseFontSize / options.deviceRatio[designWidth]) * 2
-
-        if ((options?.targetUnit ?? 'rem') === 'rem') {
-          htmlScript = `<script>!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);</script>\n`
-        }
-        htmlScript += `  <script type="module" src="${srciptSource}"></script>`
-
+        const srciptSource = configPath.replace(sourceDir, '')
+        const htmlScript = getHtmlScript(srciptSource, pxtransformOption)
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
       } 
     },

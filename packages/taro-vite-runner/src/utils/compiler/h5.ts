@@ -11,7 +11,10 @@ import type { PageConfig } from '@tarojs/taro'
 import type { H5BuildConfig } from '../types'
 
 export class TaroCompiler extends Compiler<H5BuildConfig> {
-  pageName?: string
+  routerMeta: {
+    routerCreator: string
+    getRoutesConfig: (pageName?: string) => string
+  }
 
   constructor (appPath: string, taroConfig: H5BuildConfig) {
     super(appPath, taroConfig)
@@ -49,7 +52,4 @@ export class TaroCompiler extends Compiler<H5BuildConfig> {
     return pageMeta
   }
 
-  setPageName (pageNmae: string): void {
-    this.pageName = pageNmae
-  }
 }

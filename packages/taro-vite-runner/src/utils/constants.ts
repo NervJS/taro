@@ -1,3 +1,5 @@
 export const baseTemplateName = 'base'
 export const baseCompName = 'comp'
 export const customWrapperName = 'custom-wrapper'
+export const ENTRY_QUERY= 'taro-entry-loader'
+export const PAGENAME_QUERY = 'taro-pagename'

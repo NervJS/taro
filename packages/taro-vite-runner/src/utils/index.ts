@@ -1,6 +1,9 @@
 import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
+import querystring from 'querystring'
+
+import { PageMeta } from './compiler/base'
 
 import type { Target } from 'vite-plugin-static-copy'
 import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
@@ -86,10 +89,33 @@ export function stripMultiPlatformExt (id: string): string {
 
 export const addTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url : url + '/')
 
+
+// todo 关于mode 全部替换成这个
 export function getMode (config: H5BuildConfig | MiniBuildConfig) {
   const preMode = config.mode || process.env.NODE_ENV
   const modes: ('production' | 'development' | 'none')[] = ['production', 'development', 'none']
   const mode = modes.find(e => e === preMode)
     || (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
   return mode
+}
+
+
+export function genRouterResource (page: PageMeta) {
+  return [
+    'Object.assign({',
+    `  path: '${page.name}',`,
+    '  load: async function(context, params) {',
+    `    const page = await import("${page.scriptPath}")`,
+    '    return [page, context, params]',
+    '  }',
+    `}, ${JSON.stringify(page.config)})`
+  ].join('\n')
+}
+
+export function getQueryParams (path: string) {
+  return querystring.parse(path.split('?')[1])
+}
+
+export function generateQueryString (params: { [key: string] : string }): string {
+  return querystring.stringify(params)
 }
