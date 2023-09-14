@@ -128,9 +128,8 @@ interface ButtonProps extends StandardProps {
    */
   subscribeId?: string
   /**
-   * 打开群资料卡时，传递的群号 (qq)
-   *
-   * 群聊 id，通过创建聊天群、查询群信息获取 (tt)
+   * @qq 打开群资料卡时，传递的群号
+   * @tt 群聊 id，通过创建聊天群、查询群信息获取
    * @supported qq, tt
    */
   groupId?: string
