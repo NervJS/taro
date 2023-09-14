@@ -139,7 +139,7 @@ function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) 
   })
 }
 
-function transUnit (path: NodePath<t.JSXAttribute>) {
+function convertStyleUnit (path: NodePath<t.JSXAttribute>) {
   // 尺寸单位转换 都转为rem : 1rpx 转为 1/40rem,,1px 转为 1/20rem
   if (t.isStringLiteral(path.node.value)) {
     let tempValue = path.node.value.value
@@ -199,7 +199,7 @@ export const createWxmlVistor = (
     }
 
     // 把wxml中的 xx = "...rpx" / xx = "...px" 的单位都转为rem
-    transUnit(path)
+    convertStyleUnit(path)
 
     // 把 style 中 {{}} 转为 ${} 格式
     if (name.name === 'style' && t.isStringLiteral(path.node.value)) {
@@ -510,15 +510,30 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
       CallExpression (path) {
         // wxs标签中getRegExp转换为new RegExp
         if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
-          const arg = path.node.arguments[0]
-          if (t.isStringLiteral(arg)) {
-            const regex = arg.extra?.raw as string
-            const regexWithoutQuotes = regex.replace(/^'(.*)'$/, '$1')
-            const newExpr = t.newExpression(t.identifier('RegExp'), [
-              t.stringLiteral(regexWithoutQuotes),
-              t.stringLiteral('g'),
-            ])
-            path.replaceWith(newExpr)
+          // 根据正则表达式是否定义了正则匹配修饰符，有则不变，没有就用默认
+          if (path.node.arguments.length > 1) {
+            const regex = path.node.arguments[0]
+            const modifier = path.node.arguments[1]
+            if (t.isStringLiteral(regex)) {
+              const regexStr = regex.extra?.raw as string
+              const regexModifier = modifier.extra?.rawValue as string
+              const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
+              const newExpr = t.newExpression(t.identifier('RegExp'), [
+                t.stringLiteral(regexWithoutQuotes),
+                t.stringLiteral(regexModifier),
+              ])
+              path.replaceWith(newExpr)
+            }
+          } else {
+            const regex = path.node.arguments[0]
+            if (t.isStringLiteral(regex)) {
+              const regexStr = regex.extra?.raw as string
+              const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
+              const newExpr = t.newExpression(t.identifier('RegExp'), [ 
+                t.stringLiteral(regexWithoutQuotes)
+              ])
+              path.replaceWith(newExpr)
+            }
           }
         }
       },
