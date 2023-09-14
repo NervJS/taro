@@ -97,11 +97,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       []
     )
     // 添加withWeapp装饰器
-    classDecl.decorators = [t.decorator(
-      t.callExpression(
-        t.identifier('withWeapp'), [t.objectExpression([])]
-      )
-    )]
+    classDecl.decorators = [t.decorator(t.callExpression(t.identifier('withWeapp'), [t.objectExpression([])]))]
     path.remove()
     return {
       name: className,
