@@ -13,7 +13,7 @@ import type { PluginOption } from 'vite'
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption[] {
   const { taroConfig } = viteCompilerContext
   const isMultiRouterMode = taroConfig.router?.mode === 'multi'
-  const isProd = getMode(taroConfig)
+  const isProd = getMode(taroConfig) === 'production'
 
   const preset = [ 
     pipelinePlugin(viteCompilerContext),

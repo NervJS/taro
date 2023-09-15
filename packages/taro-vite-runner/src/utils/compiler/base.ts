@@ -33,7 +33,7 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteMiniBuildConfig>
   loaderMeta: any
   logger = logger
   filesConfig: IMiniFilesConfig = {}
-  configFileList: string[]
+  configFileList: string[] = []
   compilePage: (pageName: string) => VitePageMeta
 
   constructor (appPath: string, taroConfig: T) {
