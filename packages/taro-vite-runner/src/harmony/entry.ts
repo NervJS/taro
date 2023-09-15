@@ -2,25 +2,24 @@ import { fs, isEmptyObject } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { appendVirtualModulePrefix, getHarmonyCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/harmony'
 
 const ENTRY_SUFFIX = '?entry-loader=true'
 
-export default function (): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
   return {
     name: 'taro:vite-harmony-entry',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      const compiler = getHarmonyCompiler(this)
       if (compiler?.isApp(source) && options.isEntry) {
         return appendVirtualModulePrefix(source + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
-      const compiler = getHarmonyCompiler(this)
       if (compiler && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, app } = compiler

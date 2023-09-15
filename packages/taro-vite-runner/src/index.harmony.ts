@@ -3,13 +3,16 @@ import { type UserConfig, build } from 'vite'
 
 import harmonyPreset from './harmony'
 import { convertCopyOptions } from './utils'
+import { TaroCompiler } from './utils/compiler/harmony'
 import { componentConfig } from './utils/component'
 
 import type { HarmonyBuildConfig } from './utils/types'
 
 export default async function (appPath: string, taroConfig: HarmonyBuildConfig) {
+  const compiler = new TaroCompiler(appPath, taroConfig)
+
   const plugins: UserConfig['plugins'] = [
-    harmonyPreset(appPath, taroConfig)
+    harmonyPreset(compiler)
   ]
 
   // copy-plugin

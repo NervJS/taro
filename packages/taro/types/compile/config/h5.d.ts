@@ -3,6 +3,7 @@ import type Chain from 'webpack-chain'
 import type webpackDevServer from 'webpack-dev-server'
 import type HtmlWebpackPlugin from 'html-webpack-plugin'
 import type { IOption, IPostcssOption } from './util'
+import type { OutputOptions as RollupOutputOptions } from 'rollup'
 
 export interface IH5RouterConfig {
   /** 配置路由模式 */
@@ -38,6 +39,9 @@ export interface IH5Config {
   /** 可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/) */
   output?: Webpack.Configuration['output']
 
+  /** vite 编译模式下，用于修改、扩展 rollup 的 output，配置想参考[官方文档](https://rollupjs.org/configuration-options/) */
+  viteOutput?: RollupOutputOptions
+  
   /** 路由相关的配置 */
   router?: IH5RouterConfig
 

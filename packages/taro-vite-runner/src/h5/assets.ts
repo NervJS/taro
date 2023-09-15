@@ -1,12 +1,13 @@
 import { fs, recursiveMerge, REG_FONT, REG_IMAGE, REG_MEDIA, } from '@tarojs/helper'
 import { isBoolean, isFunction, isString } from '@tarojs/shared'
 import mrmime from 'mrmime'
+import path from 'path'
 
 import { isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
 import type { PluginOption, ResolvedConfig } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/mini'
+import type { TaroCompiler } from '../utils/compiler/h5'
 
 type PostcssURLConfig = Partial<PostcssOption.url['config']>
 
@@ -63,19 +64,21 @@ export default function (compiler: TaroCompiler): PluginOption {
         ? urlOptions.config
         : {}
 
-
       let limit: number
       const options: PostcssURLConfig & IOption = {}
-
+      let sourceDir: string
       if (REG_IMAGE.test(id)) {
         Object.assign(options, postcssUrlOption, imageUrlLoaderOption)
         limit = options.limit || 2 * 1024
+        sourceDir = 'iamges'
       } else if (REG_FONT.test(id)) {
         Object.assign(options, postcssUrlOption, fontUrlLoaderOption)
         limit = options.limit || 10 * 1024
+        sourceDir = 'fonts'
       } else if (REG_MEDIA.test(id)) {
         Object.assign(options, postcssUrlOption, mediaUrlLoaderOption)
         limit = options.limit || 10 * 1024
+        sourceDir = 'media'
       } else {
         return
       }
@@ -86,15 +89,13 @@ export default function (compiler: TaroCompiler): PluginOption {
         const mimeType = mrmime.lookup(id) ?? 'application/octet-stream'
         url = `data:${mimeType};base64,${source.toString('base64')}`
       } else {
-        let fileName = id.replace(compiler.sourceDir + '/', '')
+        let fileName = path.join(taroConfig.staticDirectory as string, sourceDir, path.basename(id))
         isFunction(options.name) && (fileName = options.name(fileName))
-
         const referenceId = this.emitFile({
           type: 'asset',
           fileName,
           source
         })
-
         url = `__VITE_ASSET__${referenceId}__`
       }
 

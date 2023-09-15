@@ -34,9 +34,10 @@
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/release-date/NervJS/taro" alt="GitHub Release Date">
   </a>
+  <p>
+    <a href="https://github.com/NervJS/taro/blob/next/README.md">简体中文</a> | <a href="https://github.com/NervJS/taro/blob/next/README_EN.md">English</a>
+  </p>
 </div>
-
-[简体中文](./README.md) | [English](./README_EN.md)
 
 > 👽 Taro['tɑ:roʊ]，泰罗·奥特曼，宇宙警备队总教官，实力最强的奥特曼。
 
@@ -45,8 +46,8 @@
 1. [简介](#简介)
 2. [学习资源](#学习资源)
 3. [社区共享](#社区共享)
-4. [使用案例](#使用案例)
-5. [特性介绍](#特性介绍)
+4. [项目状态](#项目状态)
+5. [使用案例](#使用案例)
 6. [加入共建](#加入共建)
 7. [问题反馈与建议](#问题反馈与建议)
 8. [特别鸣谢](#特别鸣谢)
@@ -85,6 +86,10 @@ Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https
 | [@antmjs/vantui](https://github.com/AntmJS/vantui) | https://antmjs.github.io/vantui/#/home          | 基于有赞 VantWeapp 开发的同时支持 Taro 和 React 的 UI 库 | React      | Taro 3                                    |
 | [Tard](https://github.com/jd-antelope/tard)        | https://tard-ui.selling.cn/                     | 一套基于 Taro 框架开发的多端 React UI 组件库             | React      | Taro 3                                    |
 
+## 项目状态
+
+![Alt](https://repobeats.axiom.co/api/embed/275806b6f177f7e4c005e956d94440562635c36d.svg "Repobeats analytics image")
+
 ## 使用案例
 
 Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用 Taro 开发多端应用。
@@ -92,74 +97,6 @@ Taro 已经投入了我们的生产环境中使用，业界也在广泛地使用
 <a href="https://nervjs.github.io/taro-user-cases/"><img src="https://raw.githubusercontent.com/NervJS/taro-user-cases/master/user-cases.jpg" /></a>
 
 [征集更多优秀案例](https://github.com/NervJS/taro/issues/244)
-
-## 特性介绍
-
-### 跨框架支持
-
-#### React/Nerv 支持
-
-在 Taro 3 中可以使用完整的 React/Nerv 开发体验，具体请参考[基础教程——React](https://docs.taro.zone/docs/react-overall)
-
-代码示例
-
-```javascript
-import React, { Component } from 'react'
-import { View, Text } from '@tarojs/components'
-
-export default class Index extends Component {
-  state = {
-    msg: 'Hello World！ ',
-  }
-
-  componentWillUnmount() {}
-
-  componentDidShow() {}
-
-  componentDidHide() {}
-
-  render() {
-    return (
-      <View className="index">
-        <Text>{this.state.msg}</Text>
-      </View>
-    )
-  }
-}
-```
-
-#### Vue 支持
-
-在 Taro 3 中可以使用完整的 Vue 开发体验，具体请参考[基础教程——Vue](https://docs.taro.zone/docs/vue-overall)
-
-代码示例
-
-```vue
-<template>
-  <view class="index">
-    <text>{{ msg }}</text>
-  </view>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      msg: 'Hello World!',
-    }
-  },
-  created() {},
-  onShow() {},
-  onHide() {},
-}
-</script>
-```
-
-### 多端转换支持
-
-Taro 方案的初心就是为了打造一个多端开发的解决方案。
-
-目前 Taro 3 可以支持转换到`微信/京东/百度/支付宝/字节跳动/ QQ 小程序/H5/React Native` 等端。
 
 ## 加入共建
 

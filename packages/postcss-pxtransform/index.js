@@ -40,7 +40,7 @@ let targetUnit
 
 module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
-
+  const exclude = options.exclude
   const transUnits = ['px']
   const baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
   const designWidth = (input) =>
@@ -116,6 +116,10 @@ module.exports = (options = {}) => {
 
       /** 是否跳过当前文件不处理 */
       let skip = false
+      
+      if (exclude && exclude?.(result.opts.from)) {
+        return null
+      }
 
       return {
         // 注意：钩子在节点变动时会重新执行，Once，OnceExit只执行一次，https://github.com/NervJS/taro/issues/13238

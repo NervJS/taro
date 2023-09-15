@@ -3,19 +3,23 @@ import { isFunction } from '@tarojs/shared'
 import { TaroCompiler } from '../utils/compiler/h5'
 
 import type { PluginOption } from 'vite'
-import type { H5BuildConfig } from '../utils/types'
 
-export default function (appPath: string, taroConfig: H5BuildConfig): PluginOption {
-  let compiler: TaroCompiler
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig } = compiler
   return {
     name: 'taro:vite-h5-pipeline',
     enforce: 'pre',
     async buildStart () {
-      const compiler = new TaroCompiler(this, appPath, taroConfig)
-      await this.load({
-        id: TaroCompiler.label,
-        meta: { compiler }
-      })
+      // 下面这么写 是因为生产环境不需要异步，开发环境需要异步。是因为插件的执行顺序正确而这么写的
+      process.env.NODE_ENV === 'production'
+        ? this.load({ id: TaroCompiler.label })
+        : await this.load({ id: TaroCompiler.label })
+
+      const info = this.getModuleInfo(TaroCompiler.label)
+      if (info) {
+        info.meta = { compiler }
+      }
+      compiler.setRollupCtx(this)
     },
     load (id) {
       if (id === TaroCompiler.label) return ''

@@ -1,15 +1,15 @@
-import { appendVirtualModulePrefix, getHarmonyCompiler, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/harmony'
 
 const PAGE_SUFFIX = '.ets?page-loader=true'
 
-export default function (): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
   return {
     name: 'taro:vite-harmony-page',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      const compiler = getHarmonyCompiler(this)
       if (compiler?.isPage(source) && options.isEntry) {
         if (compiler.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
@@ -17,7 +17,6 @@ export default function (): PluginOption {
       return null
     },
     load (id) {
-      const compiler = getHarmonyCompiler(this)
       if (compiler && id.endsWith(PAGE_SUFFIX)) {
         const {
           creatorLocation,
@@ -43,7 +42,7 @@ struct Index {
   @State node: TaroElement = new TaroElement("Block")\n
   aboutToAppear() {
     const params = router.getParams() || {}
-    
+
     this.page = createPageConfig(component, '${page.name}')
     this.page.onLoad(params, (instance) => {
       this.node = instance

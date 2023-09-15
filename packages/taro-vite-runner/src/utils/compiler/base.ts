@@ -5,6 +5,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT,
 } from '@tarojs/helper'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import path from 'path'
 
 import { stripMultiPlatformExt } from '../../utils'
@@ -34,7 +35,7 @@ export interface PageMeta {
 }
 
 export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildConfig> {
-  static label = 'taro:compiler'
+  static label = VITE_COMPILER_LABEL
   rollupCtx: PluginContext | null
   cwd: string
   sourceDir: string
@@ -46,11 +47,16 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
   filesConfig: IMiniFilesConfig = {}
   compilePage: (pageName: string) => PageMeta
 
-  constructor (rollupCtx: PluginContext, appPath: string, public taroConfig: T) {
-    this.rollupCtx = rollupCtx
+  constructor (appPath: string, public taroConfig: T) {
     this.cwd = appPath
     this.sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
     this.frameworkExts = taroConfig.frameworkExts || SCRIPT_EXT
+  }
+
+  // 在内部 preset 插件中，buildStart 钩子里面去调用
+  setRollupCtx (rollupCtx: PluginContext) {
+    this.rollupCtx = rollupCtx
+    this.rollupCtx?.addWatchFile(this.app.configPath)
   }
 
   getAppScriptPath (): string {

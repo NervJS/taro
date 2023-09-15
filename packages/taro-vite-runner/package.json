@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/vite-runner",
-  "version": "3.7.0-alpha.8",
+  "version": "3.7.0-alpha.14",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -11,11 +11,13 @@
   "dependencies": {
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-inject": "^5.0.3",
-    "@tarojs/shared": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "acorn-walk": "^8.0.0",
     "autoprefixer": "^10.4.0",
+    "connect-history-api-fallback": "^2.0.0",
     "html-minifier": "^4.0.0",
+    "lodash": "^4.17.21",
     "mrmime": "^1.0.1",
     "postcss-html-transform": "workspace:*",
     "postcss-plugin-constparse": "workspace:*",

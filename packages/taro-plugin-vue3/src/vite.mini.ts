@@ -8,7 +8,7 @@ import type { IConfig } from './index'
 
 export function miniVitePlugin (ctx: IPluginContext, componentConfig: IComponentConfig | undefined, config: IConfig): PluginOption {
   return [
-    injectLoaderMeta(),
+    injectLoaderMeta(ctx),
     miniConfig(),
     require('@vitejs/plugin-vue').default({
       template: getMiniVueLoaderOptions(ctx, componentConfig, config)
@@ -16,12 +16,13 @@ export function miniVitePlugin (ctx: IPluginContext, componentConfig: IComponent
   ]
 }
 
-function injectLoaderMeta (): PluginOption {
+function injectLoaderMeta (ctx: IPluginContext): PluginOption {
   return {
     name: 'taro-vue3:loader-meta',
     buildStart () {
-      const info = this.getModuleInfo('taro:compiler')
-      const compiler = info?.meta.compiler
+      const { runnerUtils } = ctx
+      const { getViteMiniCompiler } = runnerUtils
+      const compiler = getViteMiniCompiler(this)
       if (compiler) {
         compiler.loaderMeta = getLoaderMeta()
       }

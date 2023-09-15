@@ -79,7 +79,7 @@ const downloadFile: DownloadFile = function (options) {
       return data
     })
   }
-  downloadTaskWX.offProgressUpdate = function offProgressUpdate (callback: DownloadTask.OffProgressUpdateCallback) {
+  downloadTaskWX.offProgressUpdate = function offProgressUpdate (callback: DownloadTask.OnProgressUpdateCallback) {
     validateParams('offProgressUpdate', [callback], ['Function'])
     downloadTask.off('progress', (receivedSize: number, totalSize: number) => {
       const totalBytesWritten: number = receivedSize * 1024

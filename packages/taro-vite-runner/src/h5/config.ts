@@ -1,15 +1,58 @@
-import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, PLATFORMS, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
+import history from 'connect-history-api-fallback'
 import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
-import { addTrailingSlash, getMode } from '../utils'
+import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
 
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { H5BuildConfig } from '../utils/types'
+import type { TaroCompiler } from '../utils/compiler/h5'
 
-export default function (appPath: string, taroConfig: H5BuildConfig): PluginOption {
+const DEFAULT_TERSER_OPTIONS = {
+  parse: {
+    ecma: 8,
+  },
+  compress: {
+    ecma: 5,
+    warnings: false,
+    arrows: false,
+    collapse_vars: false,
+    comparisons: false,
+    computed_props: false,
+    hoist_funs: false,
+    hoist_props: false,
+    hoist_vars: false,
+    inline: false,
+    loops: false,
+    negate_iife: false,
+    properties: false,
+    reduce_funcs: false,
+    reduce_vars: false,
+    switches: false,
+    toplevel: false,
+    typeofs: false,
+    booleans: true,
+    if_return: true,
+    sequences: true,
+    unused: true,
+    conditionals: true,
+    dead_code: true,
+    evaluate: true,
+  },
+  output: {
+    ecma: 5,
+    comments: false,
+    ascii_only: true,
+  },
+}
+
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig, cwd: appPath, pages, app, sourceDir } = compiler
+  const routerMode = taroConfig.router?.mode || 'hash'
+  const basename = taroConfig.router?.basename || ''
+  const isMultiRouterMode = routerMode === 'multi'
   function parsePublicPath(publicPath = '/') {
     return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
   }
@@ -74,10 +117,45 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
     }
   }
 
+  function createRewire(
+    reg: string,
+    baseUrl: string,
+    proxyUrlKeys: string[],
+  ) {
+    return {
+      from: new RegExp(`/${reg}.html`),
+      to({ parsedUrl }) {
+        const pathname: string = parsedUrl.pathname
+        const excludeBaseUrl = pathname.replace(baseUrl, '/')
+        const template = path.resolve(baseUrl, 'index.html')
+        if (excludeBaseUrl === '/') {
+          return template
+        }
+        const isApiUrl = proxyUrlKeys.some((item) =>
+          pathname.startsWith(path.resolve(baseUrl, item)),
+        )
+        return isApiUrl ? excludeBaseUrl : template
+      },
+    }
+  }
+
+  function getMinify(): 'terser' | 'esbuild' | boolean {
+    return taroConfig.mode !== 'production'
+      ? false
+      : taroConfig.jsMinimizer === 'esbuild'
+        ? taroConfig.esbuild?.minify?.enable === false
+          ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
+          : 'esbuild'
+        : taroConfig.terser?.enable === false
+          ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
+          : 'terser'
+  }
+
   const __postcssOption = getDefaultPostcssConfig({
     designWidth: taroConfig.designWidth,
     deviceRatio: taroConfig.deviceRatio,
     option: taroConfig.postcss,
+    esnextModules: taroConfig.esnextModules || []
   })
   const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
   const serverOption = taroConfig.devServer || {}
@@ -107,7 +185,39 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
       base: parsePublicPath(taroConfig.publicPath),
       mode,
       build: {
-        outDir: taroConfig.outputRoot || 'dist',
+        outDir: path.join(appPath, taroConfig.outputRoot || 'dist'),
+        target: 'es6',
+        cssCodeSplit: true,
+        emptyOutDir: false,
+        watch: taroConfig.isWatch ? {} : null,
+        // @TODO doc needed: sourcemapType not supported
+        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
+        rollupOptions: {
+          input: { 'index': path.join(appPath, 'src/index.html') },
+          output: {
+            entryFileNames: taroConfig.viteOutput!.entryFileNames,
+            chunkFileNames: taroConfig.viteOutput!.chunkFileNames,
+            assetFileNames: taroConfig.viteOutput!.assetFileNames,
+            manualChunks(id, { getModuleInfo }) {
+              const moduleInfo = getModuleInfo(id)
+              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+                return 'vendors'
+              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
+                return 'common'
+              }
+            },
+          },
+        },
+        commonjsOptions: {
+          exclude: [/\.esm/, /[/\\]esm[/\\]/],
+          transformMixedEsModules: true,
+        },
+
+        minify: getMinify(),
+        terserOptions:
+          getMinify() === 'terser'
+            ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
+            : undefined,
       },
       define: getDefineOption(),
       resolve: {
@@ -128,37 +238,72 @@ export default function (appPath: string, taroConfig: H5BuildConfig): PluginOpti
         headers,
         hmr,
       },
-      // @TODO 检查CSS的前插后插位置
       css: {
         postcss: {
-          // @Todo Vite 的 postcss 功能不支持 filter 逻辑，Webpack 里的 filter 逻辑需要判断是否仍需要迁移过来
+          // @Todo Vite 的 postcss 功能不支持 filter 逻辑，Webpack 里的 filter 逻辑需要判断是否仍需要迁移过来 等待 vite pr 合并
           plugins: getPostcssPlugins(appPath, __postcssOption),
+          // exclude: postcssExclude
         },
         preprocessorOptions: {
           ...(await getSassOption()),
           less: taroConfig.lessLoaderOption || {},
           stylus: taroConfig.stylusLoaderOption || {},
         },
-        modules: getCSSModulesOptions(),
+        modules: getCSSModulesOptions()
       },
     }),
-    transformIndexHtml(html) {
-      let htmlScript = ''
-      const options = pxtransformOption?.config || {}
-      const max = options?.maxRootSize ?? 40
-      const min = options?.minRootSize ?? 20
-      const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
-      const designWidth = ((input) =>
-        typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth)(baseFontSize)
-      const rootValue = (baseFontSize / options.deviceRatio[designWidth]) * 2
 
-      if ((options?.targetUnit ?? 'rem') === 'rem') {
-        htmlScript = `<script>!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);</script>\n`
+    configureServer(server){
+      if (!isMultiRouterMode) return
+      const rewrites: { from: RegExp, to: any }[] = []
+      const proxy = server.config.server.proxy || {}
+      const proxyKeys = Object.keys(proxy)
+      const baseUrl = server.config.base ?? '/'
+      pages.forEach(({ name })=> {
+        const pageName = removeHeadSlash(path.join(basename, name))
+        rewrites.push(createRewire(pageName, baseUrl, proxyKeys))
+      })
+      server.middlewares.use(history({
+        disableDotRule: undefined,
+        htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
+        rewrites: rewrites
+      }) )
+    },
+
+    transformIndexHtml: {
+      enforce: 'pre',
+      transform(html, ctx) {
+        const { configPath } = app
+        let srciptSource = configPath.replace(sourceDir, '')
+        // mpa 模式
+        if (isMultiRouterMode) {
+          const { originalUrl } = ctx
+          const page = pages.filter(({ name })=> originalUrl?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
+          if (page) {
+            srciptSource = page.configPath.replace(sourceDir, '')
+            const pageName = page.name
+            compiler.setPageName(pageName)
+          } else {
+            compiler.setPageName('')
+          }
+        }
+        let htmlScript = ''
+        const options = pxtransformOption?.config || {}
+        const max = options?.maxRootSize ?? 40
+        const min = options?.minRootSize ?? 20
+        const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
+        const designWidth = ((input) =>
+          typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth)(baseFontSize)
+        const rootValue = (baseFontSize / options.deviceRatio[designWidth]) * 2
+
+        if ((options?.targetUnit ?? 'rem') === 'rem') {
+          htmlScript = `<script>!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);</script>\n`
+        }
+        htmlScript += `  <script type="module" src="${srciptSource}"></script>`
+
+        return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
       }
-
-      htmlScript += '  <script type="module" src="app.config.ts"></script>'
-
-      return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
     },
   }
 }
+

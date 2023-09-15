@@ -4,6 +4,7 @@ import ts from 'typescript'
 
 import type * as BabelCore from '@babel/core'
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/harmony'
 import type { HarmonyBuildConfig } from '../utils/types'
 
 export class EtsHelper {
@@ -217,7 +218,8 @@ export class EtsHelper {
   }
 }
 
-export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig, cwd: appPath } = compiler
   const helper = new EtsHelper(appPath, taroConfig)
 
   return {

@@ -8,17 +8,17 @@ import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
 
 import type { PluginOption } from 'vite'
-import type { HarmonyBuildConfig } from '../utils/types'
+import type { TaroCompiler } from '../utils/compiler/harmony'
 
-export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption[] {
+export default function (compiler: TaroCompiler): PluginOption[] {
   return [
-    pipelinePlugin(appPath, taroConfig),
-    configPlugin(appPath, taroConfig),
-    entryPlugin(),
-    pagePlugin(),
-    etsPlugin(appPath, taroConfig),
-    multiPlatformPlugin(taroConfig),
-    emitPlugin(),
-    importPlugin()
+    pipelinePlugin(compiler),
+    configPlugin(compiler),
+    entryPlugin(compiler),
+    pagePlugin(compiler),
+    etsPlugin(compiler),
+    multiPlatformPlugin(compiler),
+    emitPlugin(compiler),
+    importPlugin(compiler)
   ]
 }

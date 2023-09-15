@@ -3,9 +3,12 @@ import { fs, SCRIPT_EXT } from '@tarojs/helper'
 import { isVirtualModule } from '../utils'
 
 import type { PluginOption } from 'vite'
-import type { H5BuildConfig, MiniBuildConfig } from '../utils/types'
+import type { TaroCompiler as TaroH5Compiler } from '../utils/compiler/h5'
+import type { TaroCompiler as TaroHarmonyCompiler } from '../utils/compiler/harmony'
+import type { TaroCompiler as TaroMinCompiler } from '../utils/compiler/mini'
 
-export default function (taroConfig: MiniBuildConfig | H5BuildConfig): PluginOption {
+export default function (compiler: TaroH5Compiler | TaroHarmonyCompiler | TaroMinCompiler): PluginOption {
+  const { taroConfig } = compiler
   let cache: Map<string, string>
   return {
     name: 'taro:vite-multi-platform-plugin',
@@ -19,7 +22,7 @@ export default function (taroConfig: MiniBuildConfig | H5BuildConfig): PluginOpt
 
       // example: 'js|jsx|ts|tsx|vue'
       const allowedExts = Array.from(new Set(SCRIPT_EXT.concat(taroConfig.frameworkExts || [])))
-        .map(item => item.replace(/^\./, ''))
+        .map((item : string) => item.replace(/^\./, ''))
         .join('|')
       // example: /\.weapp\.(js|jsx|ts|tsx|vue)/
       const multiPlatformReg = new RegExp(`\\.${process.env.TARO_ENV}\\.(${allowedExts})`)

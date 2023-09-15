@@ -50,16 +50,22 @@ function getConfig (): Record<string, any> {
   return ((taro as any).config ||= {})
 }
 
+const defaultDesignWidth = 750
+const defaultDesignRatio: TaroGeneral.TDeviceRatio = {
+  640: 2.34 / 2,
+  750: 1,
+  828: 1.81 / 2
+}
+const defaultBaseFontSize = 20
+const defaultUnitPrecision = 5
+const defaultTargetUnit = 'rem'
+
 const initPxTransform = function ({
-  designWidth = 750,
-  deviceRatio = {
-    640: 2.34 / 2,
-    750: 1,
-    828: 1.81 / 2
-  } as TaroGeneral.TDeviceRatio,
-  baseFontSize = 20,
-  unitPrecision = 5,
-  targetUnit = 'rem'
+  designWidth = defaultDesignWidth,
+  deviceRatio = defaultDesignRatio,
+  baseFontSize = defaultBaseFontSize,
+  unitPrecision = defaultUnitPrecision,
+  targetUnit = defaultTargetUnit
 }) {
   const config = getConfig.call(this)
   config.designWidth = designWidth
@@ -71,16 +77,19 @@ const initPxTransform = function ({
 
 const pxTransform = function (size = 0) {
   const config = getConfig.call(this)
-  const baseFontSize = config.baseFontSize || 20
+  const baseFontSize = config.baseFontSize || defaultBaseFontSize
+  const deviceRatio = config.deviceRatio || defaultDesignRatio
   const designWidth = (((input = 0) => isFunction(config.designWidth)
     ? config.designWidth(input)
     : config.designWidth))(size)
   if (!(designWidth in config.deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
+  const targetUnit = config.targetUnit || defaultTargetUnit
+  const unitPrecision = config.unitPrecision || defaultUnitPrecision
   const formatSize = ~~size
-  let rootValue = 1 / config.deviceRatio[designWidth]
-  switch (config?.targetUnit) {
+  let rootValue = 1 / deviceRatio[designWidth]
+  switch (targetUnit) {
     case 'vw':
       rootValue = designWidth / 100
       break
@@ -92,11 +101,11 @@ const pxTransform = function (size = 0) {
       rootValue *= baseFontSize * 2
   }
   let val: number | string = formatSize / rootValue
-  if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+  if (unitPrecision >= 0 && unitPrecision <= 100) {
     // Number(val): 0.50000 => 0.5
-    val = Number(val.toFixed(config.unitPrecision))
+    val = Number(val.toFixed(unitPrecision))
   }
-  return val + config?.targetUnit
+  return val + targetUnit
 }
 
 const canIUseWebp = function () {

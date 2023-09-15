@@ -1,16 +1,18 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import assetsPlugin from './assets'
 import configPlugin from './config'
 import entryPlugin from './entry'
 import pipelinePlugin from './pipeline'
 
 import type { PluginOption } from 'vite'
-import type { H5BuildConfig } from '../utils/types'
+import type { TaroCompiler } from '../utils/compiler/h5'
 
-export default function (appPath: string, taroConfig: H5BuildConfig): PluginOption[] {
+export default function (compiler: TaroCompiler): PluginOption[] {
   return [
-    pipelinePlugin(appPath, taroConfig),
-    configPlugin(appPath, taroConfig),
-    entryPlugin(),
-    multiPlatformPlugin(taroConfig),
+    pipelinePlugin(compiler),
+    configPlugin(compiler),
+    entryPlugin(compiler),
+    multiPlatformPlugin(compiler),
+    assetsPlugin(compiler),
   ]
 }
