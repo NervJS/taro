@@ -882,6 +882,11 @@ declare module '../../index' {
       /** 矩形路径的高度 */
       height: number,
     ): void
+    /** 重置绘图上下文状态
+     * @supported h5
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/reset
+     */
+    reset(): void
     /** 恢复之前保存的绘图上下文
      * @supported weapp, h5
      * @example
@@ -1230,11 +1235,13 @@ declare module '../../index' {
      * ctx.setFontSize(15)
      * ctx.setTextAlign('left')
      * ctx.fillText('textAlign=left', 150, 60)
+     * await ctx.draw(true)
      * ctx.setTextAlign('center')
      * ctx.fillText('textAlign=center', 150, 80)
+     * await ctx.draw(true)
      * ctx.setTextAlign('right')
      * ctx.fillText('textAlign=right', 150, 100)
-     * ctx.draw()
+     * await ctx.draw(true)
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTextAlign.html
      */
@@ -1254,13 +1261,16 @@ declare module '../../index' {
      * ctx.setFontSize(20)
      * ctx.setTextBaseline('top')
      * ctx.fillText('top', 5, 75)
+     * await ctx.draw(true)
      * ctx.setTextBaseline('middle')
      * ctx.fillText('middle', 50, 75)
+     * await ctx.draw(true)
      * ctx.setTextBaseline('bottom')
      * ctx.fillText('bottom', 120, 75)
+     * await ctx.draw(true)
      * ctx.setTextBaseline('normal')
      * ctx.fillText('normal', 200, 75)
-     * ctx.draw()
+     * await ctx.draw(true)
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTextBaseline.html
      */

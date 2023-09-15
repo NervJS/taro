@@ -1,7 +1,7 @@
 import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Listen, Method, Prop, Watch, h } from '@stencil/core'
 import classNames from 'classnames'
 
-import { debounce } from '../../utils'
+import { debounce, handleStencilNodes } from '../../utils'
 
 import type { ScrollViewContext } from '@tarojs/taro'
 
@@ -201,6 +201,10 @@ export class ScrollView implements ComponentInterface {
       })
     }
   }, 200)
+
+  componentDidRender () {
+    handleStencilNodes(this.el)
+  }
 
   render () {
     const { scrollX, scrollY } = this
