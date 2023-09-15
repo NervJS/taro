@@ -6,11 +6,11 @@ import {
 import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
-import { Compiler } from './base'
+import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
 
-export class TaroCompiler extends Compiler<ViteH5BuildConfig> implements ViteH5CompilerContext {
+export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> implements ViteH5CompilerContext {
   routerMeta: {
     routerCreator: string
     getRoutesConfig: (pageName?: string) => string

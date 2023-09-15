@@ -22,7 +22,7 @@ import type {
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginContext } from 'rollup'
 
-export class Compiler <T extends ViteH5BuildConfig | ViteMiniBuildConfig> implements ViteCompilerContext<T> {
+export class CompilerContext <T extends ViteH5BuildConfig | ViteMiniBuildConfig> implements ViteCompilerContext<T> {
   static label = VITE_COMPILER_LABEL
   cwd: string
   sourceDir: string

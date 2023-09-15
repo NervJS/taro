@@ -1,12 +1,15 @@
 import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
-import { ViteH5BuildConfig, ViteMiniBuildConfig, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 import querystring from 'querystring'
 
+import type { ViteH5BuildConfig, 
+  ViteH5CompilerContext, 
+  ViteMiniBuildConfig, 
+  ViteMiniCompilerContext, 
+  VitePageMeta
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { Target } from 'vite-plugin-static-copy'
-import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
-import type { TaroCompiler as MiniCompiler } from '../utils/compiler/mini'
 
 
 export function convertCopyOptions (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig) {
@@ -39,17 +42,17 @@ export function prettyPrintJson (obj: Record<string, any>) {
   return JSON.stringify(obj, null, 2)
 }
 
-export function getComponentName (compiler: MiniCompiler | H5Compiler, componentPath: string) {
+export function getComponentName (viteCompilerContext: ViteH5CompilerContext | ViteMiniCompilerContext, componentPath: string) {
   let componentName: string
   if (NODE_MODULES_REG.test(componentPath)) {
     componentName = componentPath
-      .replace(compiler.cwd, '')
+      .replace(viteCompilerContext.cwd, '')
       .replace(/\\/g, '/')
       .replace(path.extname(componentPath), '')
       .replace(/node_modules/gi, 'npm')
   } else {
     componentName = componentPath
-      .replace(compiler.sourceDir, '')
+      .replace(viteCompilerContext.sourceDir, '')
       .replace(/\\/g, '/')
       .replace(path.extname(componentPath), '')
   }

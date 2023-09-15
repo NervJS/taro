@@ -18,7 +18,7 @@ import path from 'path'
 
 import { componentConfig } from '../../template/component'
 import { getComponentName } from '../../utils'
-import { Compiler } from './base'
+import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
 
@@ -29,7 +29,7 @@ const defaultFileType = {
   templ: '.wxml'
 }
 
-export class TaroCompiler extends Compiler<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
+export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
   fileType: ViteFileType
   commonChunks: string[]
   nativeComponents = new Map<string, ViteNativeCompMeta>()

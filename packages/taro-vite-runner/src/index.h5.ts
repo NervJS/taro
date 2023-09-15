@@ -4,11 +4,9 @@ import { merge } from 'lodash'
 import { build, createServer } from 'vite'
 
 import h5Preset from './h5'
-import assets from './h5/assets'
-import mpaPlugin from './h5/mpa'
 import { componentConfig } from './template/component'
 import { convertCopyOptions, getMode } from './utils'
-import { TaroCompiler } from './utils/compiler/h5'
+import { TaroCompilerContext } from './utils/compiler/h5'
 
 import type { InlineConfig, UserConfig } from 'vite'
 
@@ -22,21 +20,11 @@ export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
   }
 
   const isProd = getMode(taroConfig) === 'production'
-  const viteCompilerContext = new TaroCompiler(appPath, merge(defaultConifg, taroConfig))
+  const viteCompilerContext = new TaroCompilerContext(appPath, merge(defaultConifg, taroConfig))
 
   const plugins: UserConfig['plugins'] = [
     h5Preset(viteCompilerContext)
   ]
-
-  // assets
-  if (isProd) [
-    plugins.push(assets(viteCompilerContext))
-  ]
-
-  // mpa
-  if (taroConfig.router?.mode === 'multi') {
-    plugins.push(mpaPlugin(viteCompilerContext))
-  }
 
   // copy-plugin
   if (taroConfig.copy?.patterns?.length) {
@@ -59,9 +47,7 @@ export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
     componentConfig
   })
 
-  const mode = getMode(taroConfig)
-
-  if (mode === 'production') {
+  if (isProd) {
     await build(commonConfig)
   } else {
     // @TODO pretty print
