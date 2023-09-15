@@ -154,12 +154,18 @@ function convertStyleUnit (path: NodePath<t.JSXAttribute>) {
     if (tempValue.indexOf('px') !== -1) {
       // 把 xxx="...[数字]rpx/px" 的尺寸单位都转为 rem, 转换方法类似postcss-taro-unit-transform
       tempValue = tempValue
-        .replace(/([0-9.]+)px/gi, function (match) {
-          // <1的值转十进制会被转为0, 这种情况直接把值认为是1
-          return parseInt(match, 10) > 0 ? parseInt(match, 10) / 20 + 'rem' : '1rem'
+        .replace(/([0-9.]+)px/gi, function (match, size) {
+          // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
+          if (Number(size) === 0) {
+            return '0rem'
+          }
+          return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 20 + 'rem' : '1rem'
         })
-        .replace(/([0-9.]+)rpx/gi, function (match) {
-          return parseInt(match, 10) > 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
+        .replace(/([0-9.]+)rpx/gi, function (match, size) {
+          if (Number(size) === 0) {
+            return '0rem'
+          }           
+          return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
         })
       // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
       tempValue = tempValue
@@ -537,9 +543,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
             if (t.isStringLiteral(regex)) {
               const regexStr = regex.extra?.raw as string
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
-              const newExpr = t.newExpression(t.identifier('RegExp'), [ 
-                t.stringLiteral(regexWithoutQuotes)
-              ])
+              const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes)])
               path.replaceWith(newExpr)
             }
           }
