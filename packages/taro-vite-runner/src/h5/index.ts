@@ -1,6 +1,5 @@
-import { getMode } from 'src/utils'
-
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import { getMode } from '../utils'
 import assets from './assets'
 import configPlugin from './config'
 import entryPlugin from './entry'
