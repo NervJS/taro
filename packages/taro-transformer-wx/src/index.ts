@@ -5,7 +5,6 @@ import generate from '@babel/generator'
 import classProperties from '@babel/plugin-proposal-class-properties'
 import decorators from '@babel/plugin-proposal-decorators'
 import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
-import optionalChaining from '@babel/plugin-proposal-optional-chaining'
 import asyncGenerators from '@babel/plugin-syntax-async-generators'
 import dynamicImport from '@babel/plugin-syntax-dynamic-import'
 import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
@@ -227,7 +226,6 @@ function parseCode(code: string) {
         objectRestSpread,
         [decorators, { legacy: true }],
         dynamicImport,
-        optionalChaining,
         babel_plugin_transform_commonjs,
       ],
     }) as { ast: t.File }
