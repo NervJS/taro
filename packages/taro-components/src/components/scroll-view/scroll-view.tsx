@@ -94,7 +94,7 @@ export class ScrollView implements ComponentInterface {
     this.mpScrollIntoViewMethod(newVal)
   }
 
-  @Listen('scroll', { capture: true })
+  @Listen('scroll')
   handleScroll (e: Event) {
     if (e instanceof CustomEvent) return
     e.stopPropagation()
@@ -118,11 +118,9 @@ export class ScrollView implements ComponentInterface {
     })
   }
 
-  @Listen('touchmove', { capture: true })
+  @Listen('touchmove')
   handleTouchMove (e: Event) {
     if (e instanceof CustomEvent) return
-
-    // Note: 避免滚动穿透
     e.stopPropagation()
   }
 
