@@ -1,10 +1,10 @@
 import { genRouterResource } from '../utils/index'
 
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/h5'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { pages, taroConfig } = compiler
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const { pages, taroConfig } = viteCompilerContext
   const { router } = taroConfig
   const isMultiRouterMode = router?.mode === 'multi'
   return {
@@ -18,7 +18,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         ']',
       ].join('\n')
 
-      compiler.routerMeta = {
+      viteCompilerContext.routerMeta = {
         routerCreator: 'createRouter',
         getRoutesConfig
       }

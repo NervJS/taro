@@ -1,18 +1,17 @@
 import { fs, removeHeadSlash } from '@tarojs/helper'
 import history from 'connect-history-api-fallback'
 import path from 'path'
-import { PageMeta } from 'src/utils/compiler/base'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { appendVirtualModulePrefix, generateQueryString, genRouterResource, getMode, getQueryParams } from '../utils'  
-import { TaroCompiler } from '../utils/compiler/h5'
 import { ENTRY_QUERY, PAGENAME_QUERY } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
+import type { ViteH5CompilerContext, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { pages, taroConfig, cwd: appPath, sourceDir, app } = compiler
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const { pages, taroConfig, cwd: appPath, sourceDir, app } = viteCompilerContext
   const basename = taroConfig.router?.basename || ''
   const htmlTemplate = fs.readFileSync(path.join(appPath, taroConfig.sourceRoot || 'src', 'index.html')).toString()
   const isProd = getMode(taroConfig) === 'production'
@@ -72,7 +71,7 @@ export default function (compiler: TaroCompiler): PluginOption {
     enforce: 'pre',
     buildStart () {
       const getRoutesConfig = (pageName: string) => {
-        const page = pages.find(({ name }) => name === pageName) || pages[0] as PageMeta
+        const page = pages.find(({ name }) => name === pageName) || pages[0] as VitePageMeta
         const routesConfig = [
           'config.routes = []',
           `config.route = ${genRouterResource(page)}`,
@@ -80,7 +79,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         ].join('\n')
         return routesConfig
       }
-      compiler.routerMeta = {
+      viteCompilerContext.routerMeta = {
         routerCreator: 'createMultiRouter',
         getRoutesConfig
       }

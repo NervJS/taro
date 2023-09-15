@@ -7,22 +7,22 @@ import { getComponentName, prettyPrintJson } from '../utils'
 import { baseCompName, baseTemplateName, customWrapperName } from '../utils/constants'
 
 import type { Config } from '@tarojs/taro'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/mini'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return [{
     name: 'taro:vite-mini-emit',
     async generateBundle (_outputOpts, bundle) {
       const isUsingCustomWrapper = componentConfig.thirdPartyComponents.has('custom-wrapper')
 
-      if (compiler) {
-        const { taroConfig, sourceDir } = compiler
+      if (viteCompilerContext) {
+        const { taroConfig, sourceDir } = viteCompilerContext
         const template = taroConfig.template
 
-        if (isFunction(compiler.taroConfig.modifyMiniConfigs)) {
-          compiler.taroConfig.modifyMiniConfigs(compiler.filesConfig)
+        if (isFunction(viteCompilerContext.taroConfig.modifyMiniConfigs)) {
+          viteCompilerContext.taroConfig.modifyMiniConfigs(viteCompilerContext.filesConfig)
         }
 
 
@@ -54,13 +54,13 @@ export default function (compiler: TaroCompiler): PluginOption {
         }
 
         // emit: app.json
-        generateConfigFile(this, compiler, {
-          filePath: compiler.app.name,
-          config: compiler.app.config
+        generateConfigFile(this, viteCompilerContext, {
+          filePath: viteCompilerContext.app.name,
+          config: viteCompilerContext.app.config
         })
 
         // emit: page
-        compiler.pages.forEach(page => {
+        viteCompilerContext.pages.forEach(page => {
           const pageConfig = page.config
 
           if (!page.isNative) {
@@ -68,43 +68,43 @@ export default function (compiler: TaroCompiler): PluginOption {
               ...pageConfig.usingComponents
             }
             if (isUsingCustomWrapper) {
-              const importCustomWrapperPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, compiler.getTargetFilePath(customWrapperName, ''))))
+              const importCustomWrapperPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, viteCompilerContext.getTargetFilePath(customWrapperName, ''))))
               usingComponents[customWrapperName] = importCustomWrapperPath
             }
             if (!template.isSupportRecursive) {
-              const importBaseCompPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, compiler.getTargetFilePath(baseCompName, ''))))
+              const importBaseCompPath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, viteCompilerContext.getTargetFilePath(baseCompName, ''))))
               usingComponents[baseCompName] = importBaseCompPath
             }
-            const importBaseTemplatePath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, compiler.getTemplatePath(baseTemplateName))))
-            generateTemplateFile(this, compiler, {
+            const importBaseTemplatePath = promoteRelativePath(path.relative(page.scriptPath, path.join(sourceDir, viteCompilerContext.getTemplatePath(baseTemplateName))))
+            generateTemplateFile(this, viteCompilerContext, {
               filePath: page.scriptPath,
               content: template.buildPageTemplate(importBaseTemplatePath)
             })
           }
 
-          generateConfigFile(this, compiler, {
+          generateConfigFile(this, viteCompilerContext, {
             filePath: page.name,
             config: pageConfig
           })
         })
 
         // emit native components' json
-        for (const comp of compiler.nativeComponents.values()) {
-          generateConfigFile(this, compiler, {
+        for (const comp of viteCompilerContext.nativeComponents.values()) {
+          generateConfigFile(this, viteCompilerContext, {
             filePath: comp.name,
             config: comp.config
           })
         }
 
         // emit: base.xml
-        generateTemplateFile(this, compiler, {
+        generateTemplateFile(this, viteCompilerContext, {
           filePath: baseTemplateName,
           content: template.buildTemplate(componentConfig)
         })
         // emit: utils.xs
-        generateXSFile(this, compiler, {
+        generateXSFile(this, viteCompilerContext, {
           filePath: 'utils',
-          content: compiler.taroConfig.template.buildXScript()
+          content: viteCompilerContext.taroConfig.template.buildXScript()
         })
 
         // emit: comp.json, comp.xml
@@ -119,13 +119,13 @@ export default function (compiler: TaroCompiler): PluginOption {
           if (isUsingCustomWrapper) {
             baseCompConfig.usingComponents[customWrapperName] = `./${customWrapperName}`
           }
-          generateConfigFile(this, compiler, {
+          generateConfigFile(this, viteCompilerContext, {
             filePath: baseCompName,
             config: baseCompConfig
           })
-          generateTemplateFile(this, compiler, {
+          generateTemplateFile(this, viteCompilerContext, {
             filePath: baseCompName,
-            content: template.buildBaseComponentTemplate(compiler.fileType.templ)
+            content: template.buildBaseComponentTemplate(viteCompilerContext.fileType.templ)
           })
         }
 
@@ -143,7 +143,7 @@ export default function (compiler: TaroCompiler): PluginOption {
           if (!template.isSupportRecursive) {
             customWrapperConfig.config.usingComponents[baseCompName] = `./${baseCompName}`
           }
-          generateConfigFile(this, compiler, {
+          generateConfigFile(this, viteCompilerContext, {
             filePath: customWrapperName,
             config: {
               component: true,
@@ -152,20 +152,20 @@ export default function (compiler: TaroCompiler): PluginOption {
               }
             }
           })
-          generateTemplateFile(this, compiler, {
+          generateTemplateFile(this, viteCompilerContext, {
             filePath: customWrapperName,
-            content: template.buildCustomComponentTemplate(compiler.fileType.templ)
+            content: template.buildCustomComponentTemplate(viteCompilerContext.fileType.templ)
           })
         } else {
-          delete bundle[compiler.getScriptPath(customWrapperName)]
+          delete bundle[viteCompilerContext.getScriptPath(customWrapperName)]
         }
       }
     }
   }, {
     name: 'taro:vite-mini-emit-post',
     async generateBundle (_outputOpts, bundle) {
-      if (compiler) {
-        const { taroConfig } = compiler
+      if (viteCompilerContext) {
+        const { taroConfig } = viteCompilerContext
         if (isFunction(taroConfig.modifyBuildAssets)) {
           const assets = {}
           for (const name in bundle) {
@@ -192,11 +192,11 @@ export default function (compiler: TaroCompiler): PluginOption {
           taroConfig.modifyBuildAssets(
             assetsProxy,
             {
-              pages: compiler.pages,
-              filesConfig: compiler.filesConfig,
-              getConfigFilePath: compiler.getConfigFilePath,
+              pages: viteCompilerContext.pages,
+              filesConfig: viteCompilerContext.filesConfig,
+              getConfigFilePath: viteCompilerContext.getConfigFilePath,
               options: {
-                isBuildPlugin: compiler.taroConfig.isBuildPlugin
+                isBuildPlugin: viteCompilerContext.taroConfig.isBuildPlugin
               }
             }
           )
@@ -206,9 +206,9 @@ export default function (compiler: TaroCompiler): PluginOption {
   }]
 }
 
-function generateConfigFile (ctx: PluginContext, compiler: TaroCompiler, options: { filePath: string, config: Config & { component?: boolean } }) {
+function generateConfigFile (ctx: PluginContext, viteCompilerContext: ViteMiniCompilerContext, options: { filePath: string, config: Config & { component?: boolean } }) {
   const { filePath, config } = options
-  const fileName = compiler.getConfigPath(getComponentName(compiler, filePath))
+  const fileName = viteCompilerContext.getConfigPath(getComponentName(viteCompilerContext, filePath))
   const unOfficalConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
   unOfficalConfigs.forEach(item => {
     delete config[item]
@@ -221,11 +221,11 @@ function generateConfigFile (ctx: PluginContext, compiler: TaroCompiler, options
   })
 }
 
-function generateTemplateFile (ctx: PluginContext, compiler: TaroCompiler, options: { filePath: string, content: string }) {
+function generateTemplateFile (ctx: PluginContext, viteCompilerContext: ViteMiniCompilerContext, options: { filePath: string, content: string }) {
   let source = options.content
-  const fileName = compiler.getTemplatePath(getComponentName(compiler, options.filePath))
+  const fileName = viteCompilerContext.getTemplatePath(getComponentName(viteCompilerContext, options.filePath))
 
-  if (compiler.taroConfig.minifyXML?.collapseWhitespace) {
+  if (viteCompilerContext.taroConfig.minifyXML?.collapseWhitespace) {
     const minify = require('html-minifier').minify
     source = minify(source, {
       collapseWhitespace: true,
@@ -240,12 +240,12 @@ function generateTemplateFile (ctx: PluginContext, compiler: TaroCompiler, optio
   })
 }
 
-function generateXSFile (ctx: PluginContext, compiler: TaroCompiler, options: { filePath: string, content: string }) {
-  const ext = compiler.fileType.xs
+function generateXSFile (ctx: PluginContext, viteCompilerContext: ViteMiniCompilerContext, options: { filePath: string, content: string }) {
+  const ext = viteCompilerContext.fileType.xs
 
   if (ext == null) return
 
-  const fileName = compiler.getTargetFilePath(options.filePath, ext)
+  const fileName = viteCompilerContext.getTargetFilePath(options.filePath, ext)
 
   ctx.emitFile({
     type: 'asset',

@@ -18,10 +18,10 @@ function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOp
     name: 'taro-react:loader-meta',
     buildStart () {
       const { runnerUtils } = ctx
-      const { getViteMiniCompiler } = runnerUtils
-      const compiler = getViteMiniCompiler(this)
-      if (compiler) {
-        compiler.loaderMeta = getLoaderMeta(framework)
+      const { getViteMiniCompilerContext } = runnerUtils
+      const viteCompilerContext = getViteMiniCompilerContext(this)
+      if (viteCompilerContext) {
+        viteCompilerContext.loaderMeta = getLoaderMeta(framework)
       }
     }
   }

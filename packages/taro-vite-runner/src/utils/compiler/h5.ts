@@ -3,22 +3,21 @@ import {
   resolveMainFilePath,
   resolveScriptPath,
 } from '@tarojs/helper'
+import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
 import { Compiler } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { H5BuildConfig } from '../types'
 
-export class TaroCompiler extends Compiler<H5BuildConfig> {
+export class TaroCompiler extends Compiler<ViteH5BuildConfig> implements ViteH5CompilerContext {
   routerMeta: {
     routerCreator: string
     getRoutesConfig: (pageName?: string) => string
   }
 
-  constructor (appPath: string, taroConfig: H5BuildConfig) {
+  constructor (appPath: string, taroConfig: ViteH5BuildConfig) {
     super(appPath, taroConfig)
-
     this.app = this.getApp()
     this.pages = this.getPages()
   }
@@ -47,9 +46,8 @@ export class TaroCompiler extends Compiler<H5BuildConfig> {
       path: configPath,
       content: config
     }
-    this.rollupCtx?.addWatchFile(pageMeta.configPath)
 
+    this.configFileList.push(pageMeta.configPath)
     return pageMeta
   }
-
 }

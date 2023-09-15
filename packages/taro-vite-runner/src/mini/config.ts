@@ -9,9 +9,9 @@ import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.m
 import { getMode, stripMultiPlatformExt } from '../utils'
 import { logger } from '../utils/logger'
 
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { InputPluginOption } from 'rollup'
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/mini'
 
 const DEFAULT_TERSER_OPTIONS = {
   parse: {
@@ -51,8 +51,8 @@ const DEFAULT_TERSER_OPTIONS = {
   },
 }
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath } = compiler
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
+  const { taroConfig, cwd: appPath } = viteCompilerContext
   function getDefineOption() {
     const {
       env = {},

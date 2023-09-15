@@ -4,15 +4,15 @@ import entryPlugin from './entry'
 import pipelinePlugin from './pipeline'
 import router from './router'
 
-import type { TaroCompiler } from 'src/utils/compiler/h5'
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-export default function (compiler: TaroCompiler): PluginOption[] {
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption[] {
   return [
-    pipelinePlugin(compiler),
-    configPlugin(compiler),
-    router(compiler),
-    entryPlugin(compiler),
-    multiPlatformPlugin(compiler),
+    pipelinePlugin(viteCompilerContext),
+    configPlugin(viteCompilerContext),
+    router(viteCompilerContext),
+    entryPlugin(viteCompilerContext),
+    multiPlatformPlugin(viteCompilerContext),
   ]
 }

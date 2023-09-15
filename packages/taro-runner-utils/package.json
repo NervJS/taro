@@ -24,5 +24,10 @@
   "dependencies": {
     "@tarojs/helper": "workspace:*",
     "scss-bundle": "^3.0.2"
+  },
+  "peerDependenciesMeta": {
+    "rollup": {
+      "optional": true
+    }
   }
 }

@@ -1,8 +1,9 @@
-import { TaroCompiler } from '../utils/compiler/h5'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 
+import type{ ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-export default function (compiler): PluginOption {
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   return {
     name: 'taro:vite-h5-pipeline',
     enforce: 'pre',
@@ -10,21 +11,18 @@ export default function (compiler): PluginOption {
       // 下面这么写 是因为生产环境不需要异步，开发环境需要异步。是因为插件的执行顺序正确而这么写的
       process.env.NODE_ENV === 'production'
         ? 
-        this.load({ id: TaroCompiler.label })
+        this.load({ id: VITE_COMPILER_LABEL })
         :
-        await this.load({ id: TaroCompiler.label })
+        await this.load({ id: VITE_COMPILER_LABEL })
       
-      const info = this.getModuleInfo(TaroCompiler.label)
+      const info = this.getModuleInfo(VITE_COMPILER_LABEL)
       if (info) {
-        info.meta = { compiler }
+        info.meta = { viteCompilerContext }
+        viteCompilerContext.watchConfigFile(this)
       }
-      compiler.setRollupCtx(this)
     },
     load (id) {
-      if (id === TaroCompiler.label) return ''
-    },
-    closeBundle () {
-      compiler.cleanup()
+      if (id === VITE_COMPILER_LABEL) return ''
     }
   }
 }

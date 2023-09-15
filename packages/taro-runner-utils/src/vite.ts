@@ -1,17 +1,20 @@
 import { VITE_COMPILER_LABEL } from './constant'
 
-export async function getViteH5Compiler (rollupPluginContext) {
+import type { ViteH5CompilerContext, ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { PluginContext } from 'rollup'
+
+export async function getViteH5CompilerContext (rollupPluginContext: PluginContext): Promise<ViteH5CompilerContext | undefined > {
   const info = process.env.NODE_ENV === 'production' 
     ?
     rollupPluginContext.getModuleInfo(VITE_COMPILER_LABEL) 
     : 
     await rollupPluginContext.load({ id: VITE_COMPILER_LABEL })
-  const compiler = info?.meta.compiler
+  const compiler = info?.meta.viteCompilerContext
   return compiler
 }
 
-export function getViteMiniCompiler (rollupPluginContext) {
+export function getViteMiniCompilerContext (rollupPluginContext: PluginContext): ViteMiniCompilerContext | undefined {
   const info = rollupPluginContext.getModuleInfo(VITE_COMPILER_LABEL)
-  const compiler = info?.meta.compiler
+  const compiler = info?.meta.viteCompilerContext
   return compiler
 }

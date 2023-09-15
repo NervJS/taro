@@ -7,8 +7,8 @@ import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h
 import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
 import { getHtmlScript } from '../utils/html'
 
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/h5'
 
 const DEFAULT_TERSER_OPTIONS = {
   parse: {
@@ -48,8 +48,8 @@ const DEFAULT_TERSER_OPTIONS = {
   },
 }
 
-export default function (complier: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath, app, sourceDir } = complier
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const { taroConfig, cwd: appPath, app, sourceDir } = viteCompilerContext
   const routerMode = taroConfig.router?.mode || 'hash'
   const isMultiRouterMode = routerMode === 'multi'
   const isPro = !!(taroConfig.mode === 'production')

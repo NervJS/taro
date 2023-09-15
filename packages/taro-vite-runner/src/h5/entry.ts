@@ -5,12 +5,12 @@ import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { appendVirtualModulePrefix, generateQueryString, getMode, getQueryParams } from '../utils'
 import { ENTRY_QUERY, PAGENAME_QUERY } from '../utils/constants'
 
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/h5'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   const tabbarAssetsCache = new Map<string, string>()
-  const { taroConfig, app } = compiler
+  const { taroConfig, app } = viteCompilerContext
   const routerConfig = taroConfig.router || {}
   const isProd = getMode(taroConfig) === 'production'
 
@@ -21,7 +21,7 @@ export default function (compiler: TaroCompiler): PluginOption {
     async resolveId (source, importer, options) {
       // mpa 模式关于 入口脚本文件 的处理已经解藕到 mpa.ts
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
-      if (resolved?.id && resolved.id === compiler.app.configPath) {
+      if (resolved?.id && resolved.id === app.configPath) {
         const params = {
           [ENTRY_QUERY]: 'true'
         }
@@ -110,7 +110,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         // tabbar && pro
         if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar) && isProd) {
           const list = appConfig.tabBar.list || []
-          const { sourceDir } = compiler
+          const { sourceDir } = viteCompilerContext
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
             if (iconPath) {
@@ -122,7 +122,7 @@ export default function (compiler: TaroCompiler): PluginOption {
           })
         }
 
-        const { getRoutesConfig, routerCreator } = compiler.routerMeta
+        const { getRoutesConfig, routerCreator } = viteCompilerContext.routerMeta
         const routesConfig = getRoutesConfig(pagename)
 
         const {
@@ -133,7 +133,7 @@ export default function (compiler: TaroCompiler): PluginOption {
           execBeforeCreateWebApp,
           frameworkArgs,
           importFrameworkName,
-        } = compiler.loaderMeta
+        } = viteCompilerContext.loaderMeta
 
         // pxTransform
         const __postcssOption = getDefaultPostcssConfig({

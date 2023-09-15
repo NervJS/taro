@@ -2,11 +2,10 @@ import { fs, SCRIPT_EXT } from '@tarojs/helper'
 
 import { isVirtualModule } from '../utils'
 
+import type { ViteH5CompilerContext, ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler as TaroH5Compiler } from '../utils/compiler/h5'
-import type { TaroCompiler as TaroMinCompiler } from '../utils/compiler/mini'
 
-export default function (complier: TaroH5Compiler | TaroMinCompiler): PluginOption {
+export default function (complier: ViteH5CompilerContext | ViteMiniCompilerContext): PluginOption {
   const { taroConfig } = complier
   let cache: Map<string, string>
   return {

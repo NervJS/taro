@@ -5,7 +5,7 @@ import mrmime from 'mrmime'
 import { isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
-import type { TaroCompiler } from 'src/utils/compiler/mini'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption, ResolvedConfig } from 'vite'
 
 type PostcssURLConfig = Partial<PostcssOption.url['config']>
@@ -18,8 +18,8 @@ const hashRE = /#.*$/s
 const cleanUrl = (url: string): string =>
   url.replace(hashRE, '').replace(queryRE, '')
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
+  const { taroConfig, sourceDir } = viteCompilerContext
   let resolvedConfig: ResolvedConfig
   const assetsCache: WeakMap<ResolvedConfig, Map<string, string>> = new WeakMap()
   return {
@@ -86,7 +86,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         const mimeType = mrmime.lookup(id) ?? 'application/octet-stream'
         url = `data:${mimeType};base64,${source.toString('base64')}`
       } else {
-        let fileName = id.replace(compiler.sourceDir + '/', '')
+        let fileName = id.replace(sourceDir + '/', '')
         isFunction(options.name) && (fileName = options.name(fileName))
 
         const referenceId = this.emitFile({

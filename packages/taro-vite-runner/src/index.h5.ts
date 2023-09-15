@@ -1,4 +1,5 @@
 import { isString } from '@tarojs/shared'
+import { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 import { merge } from 'lodash'
 import { build, createServer } from 'vite'
 
@@ -10,9 +11,8 @@ import { convertCopyOptions, getMode } from './utils'
 import { TaroCompiler } from './utils/compiler/h5'
 
 import type { InlineConfig, UserConfig } from 'vite'
-import type { H5BuildConfig } from './utils/types'
 
-export default async function (appPath: string, taroConfig: H5BuildConfig) {
+export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
   const defaultConifg = {
     staticDirectory: 'static',
     viteOutput: {
@@ -22,20 +22,20 @@ export default async function (appPath: string, taroConfig: H5BuildConfig) {
   }
 
   const isProd = getMode(taroConfig) === 'production'
-  const compiler = new TaroCompiler(appPath, merge(defaultConifg, taroConfig))
+  const viteCompilerContext = new TaroCompiler(appPath, merge(defaultConifg, taroConfig))
 
   const plugins: UserConfig['plugins'] = [
-    h5Preset(compiler)
+    h5Preset(viteCompilerContext)
   ]
 
   // assets
   if (isProd) [
-    plugins.push(assets(compiler))
+    plugins.push(assets(viteCompilerContext))
   ]
 
   // mpa
   if (taroConfig.router?.mode === 'multi') {
-    plugins.push(mpaPlugin(compiler))
+    plugins.push(mpaPlugin(viteCompilerContext))
   }
 
   // copy-plugin

@@ -1,17 +1,17 @@
 import path from 'path'
 
+import type{ ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { OutputAsset } from 'rollup'
-import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return {
     name: 'taro:vite-style',
     generateBundle (_opts, bundle) {
-      if (compiler) {
-        const nativeStyleExt = compiler.fileType.style
+      if (viteCompilerContext) {
+        const nativeStyleExt = viteCompilerContext.fileType.style
         const appStyleFileName = `app${nativeStyleExt}`
-        const commonStyleChunks = compiler.commonChunks.map(item => `${item}${nativeStyleExt}`)
+        const commonStyleChunks = viteCompilerContext.commonChunks.map(item => `${item}${nativeStyleExt}`)
         const commonStyleFileNames: string[] = []
         let appStyleChunk: OutputAsset | null = null
 
@@ -37,7 +37,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         // 小程序全局样式文件中引入 common chunks 中的公共样式文件
         if (appStyleChunk) {
           const APP_STYLE_NAME = 'app-origin' + nativeStyleExt
-          const sourceDir = compiler.sourceDir
+          const sourceDir = viteCompilerContext.sourceDir
           this.emitFile({
             type: 'asset',
             fileName: APP_STYLE_NAME,

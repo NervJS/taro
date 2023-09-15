@@ -9,6 +9,7 @@
     "mv:comp": "node ./mv-comp.js"
   },
   "dependencies": {
+    "@tarojs/taro": "workspace:*",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-inject": "^5.0.3",
     "@tarojs/runner-utils": "workspace:*",

@@ -1,4 +1,5 @@
 import { isFunction, isString } from '@tarojs/shared'
+import { ViteMiniBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 import { build } from 'vite'
 
 import miniPreset from './mini'
@@ -7,13 +8,12 @@ import { convertCopyOptions } from './utils'
 import { TaroCompiler } from './utils/compiler/mini'
 
 import type { UserConfig } from 'vite'
-import type { MiniBuildConfig } from './utils/types'
 
-export default async function (appPath: string, taroConfig: MiniBuildConfig) {
-  const compiler = new TaroCompiler(appPath, taroConfig)
+export default async function (appPath: string, taroConfig: ViteMiniBuildConfig) {
+  const viteCompilerContext = new TaroCompiler(appPath, taroConfig)
   
   const plugins: UserConfig['plugins'] = [
-    miniPreset(compiler)
+    miniPreset(viteCompilerContext)
   ]
 
   // copy-plugin

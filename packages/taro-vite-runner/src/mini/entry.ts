@@ -6,25 +6,25 @@ import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } 
 import { baseCompName, customWrapperName } from '../utils/constants'
 import { miniTemplateLoader, QUERY_IS_NATIVE_COMP, QUERY_IS_NATIVE_PAGE } from './native-support'
 
-import type { TaroCompiler } from 'src/utils/compiler/mini'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
 const ENTRY_SUFFIX = '?entry-loader=true'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return {
     name: 'taro:vite-mini-entry',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      if (compiler?.isApp(source) && options.isEntry) {
+      if (viteCompilerContext?.isApp(source) && options.isEntry) {
         return appendVirtualModulePrefix(source + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
-      if (compiler && id.endsWith(ENTRY_SUFFIX)) {
+      if (viteCompilerContext && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
-        const { taroConfig, app } = compiler
+        const { taroConfig, app } = viteCompilerContext
         const appConfig = app.config
         const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : [taroConfig.runtimePath]
         let setReconcilerPost = ''
@@ -37,7 +37,7 @@ export default function (compiler: TaroCompiler): PluginOption {
           }
         }, '')
 
-        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = compiler.loaderMeta
+        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = viteCompilerContext.loaderMeta
         const createApp = `${creator}(component, ${frameworkArgs})`
 
         const appConfigStr = prettyPrintJson(appConfig)
@@ -55,14 +55,14 @@ export default function (compiler: TaroCompiler): PluginOption {
         }
 
         // pages
-        compiler.pages.forEach(page => {
+        viteCompilerContext.pages.forEach(page => {
           // 小程序原生页面
           if (page.isNative) {
             if (page.templatePath) {
-              const source = miniTemplateLoader(this, page.templatePath, compiler.sourceDir)
+              const source = miniTemplateLoader(this, page.templatePath, viteCompilerContext.sourceDir)
               this.emitFile({
                 type: 'asset',
-                fileName: compiler.getTemplatePath(page.name),
+                fileName: viteCompilerContext.getTemplatePath(page.name),
                 source
               })
             }
@@ -71,34 +71,34 @@ export default function (compiler: TaroCompiler): PluginOption {
           this.emitFile({
             type: 'chunk',
             id: `${page.scriptPath}${page.isNative ? QUERY_IS_NATIVE_PAGE : ''}`,
-            fileName: compiler.getScriptPath(page.name),
+            fileName: viteCompilerContext.getScriptPath(page.name),
             implicitlyLoadedAfterOneOf: [rawId]
           })
         })
 
         // native components
-        for (const comp of compiler.nativeComponents.values()) {
+        for (const comp of viteCompilerContext.nativeComponents.values()) {
           this.emitFile({
             type: 'chunk',
             id: comp.scriptPath + QUERY_IS_NATIVE_COMP,
-            fileName: compiler.getScriptPath(comp.name),
+            fileName: viteCompilerContext.getScriptPath(comp.name),
             implicitlyLoadedAfterOneOf: [rawId]
           })
-          const source = miniTemplateLoader(this, comp.templatePath, compiler.sourceDir)
+          const source = miniTemplateLoader(this, comp.templatePath, viteCompilerContext.sourceDir)
           this.emitFile({
             type: 'asset',
-            fileName: compiler.getTemplatePath(comp.name),
+            fileName: viteCompilerContext.getTemplatePath(comp.name),
             source
           })
           comp.cssPath && this.addWatchFile(comp.cssPath)
         }
 
         // comp' script
-        if (!compiler.taroConfig.template.isSupportRecursive) {
+        if (!viteCompilerContext.taroConfig.template.isSupportRecursive) {
           this.emitFile({
             type: 'chunk',
             id: path.resolve(__dirname, '../template/comp'),
-            fileName: compiler.getScriptPath(baseCompName),
+            fileName: viteCompilerContext.getScriptPath(baseCompName),
             implicitlyLoadedAfterOneOf: [rawId]
           })
         }
@@ -107,14 +107,14 @@ export default function (compiler: TaroCompiler): PluginOption {
         this.emitFile({
           type: 'chunk',
           id: path.resolve(__dirname, '../template/custom-wrapper'),
-          fileName: compiler.getScriptPath(customWrapperName),
+          fileName: viteCompilerContext.getScriptPath(customWrapperName),
           implicitlyLoadedAfterOneOf: [rawId]
         })
 
         // tabbar
         if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar)) {
           const list = appConfig.tabBar.list || []
-          const { sourceDir } = compiler
+          const { sourceDir } = viteCompilerContext
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
             if (iconPath) {
@@ -141,7 +141,7 @@ export default function (compiler: TaroCompiler): PluginOption {
 
         // darkmode
         if (appConfig.darkmode && isString(appConfig.themeLocation)) {
-          const themePath = path.resolve(compiler.sourceDir, appConfig.themeLocation)
+          const themePath = path.resolve(viteCompilerContext.sourceDir, appConfig.themeLocation)
           this.emitFile({
             type: 'asset',
             fileName: appConfig.themeLocation,
