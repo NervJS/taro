@@ -23,6 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@tarojs/helper": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "scss-bundle": "^3.0.2"
   },
   "peerDependenciesMeta": {
