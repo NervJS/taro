@@ -27,6 +27,7 @@ import * as prettier from 'prettier'
 import {
   analyzeImportUrl,
   copyFileToTaro,
+  DEFAULT_Component_SET,
   getMatchUnconvertDir,
   getPkgVersion,
   getWxssImports,
@@ -222,6 +223,8 @@ export default class Convertor {
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
+    // 转换后js页面的所有自定义标签
+    const scriptComponents: string[] = []
     let componentClassName: string
     let needInsertImportTaro = false
     const setDataInfo = new Map()
@@ -374,6 +377,18 @@ export default class Convertor {
                 needInsertImportTaro = true
               }
             },
+
+            // 获取js界面所有用到的自定义标签，不重复
+            JSXElement (astPath) {
+              const openingElement = astPath.get('openingElement')
+              const jsxName = openingElement.get('name')
+              if (jsxName.isJSXIdentifier()) {
+                const componentName = jsxName.node.name
+                if (!DEFAULT_Component_SET.has(componentName) && scriptComponents.indexOf(componentName) === -1) {
+                  scriptComponents.push(componentName)
+                }
+              }
+            }
           })
         },
         exit (astPath) {
@@ -509,6 +524,13 @@ export default class Convertor {
             if (depComponents && depComponents.size) {
               depComponents.forEach((componentObj) => {
                 const name = pascalCase(componentObj.name.toLowerCase())
+                // 如果不是js页面用到的组件，无需导入
+                if (scriptComponents.indexOf(name) === -1) {
+                  return
+                }
+                // 如果用到了，从scriptComponents中移除
+                const index = scriptComponents.indexOf(name)
+                scriptComponents.splice(index,1)
                 let componentPath = componentObj.path
                 if (componentPath.indexOf(self.root) !== -1) {
                   componentPath = path.relative(sourceFilePath, componentPath)
@@ -664,7 +686,7 @@ export default class Convertor {
         // 处理不转换的目录，可在convert.config.json中external字段配置
         const matchUnconvertDir: string | null = getMatchUnconvertDir(file, this.convertConfig?.external)
         if (matchUnconvertDir !== null) {
-          handleUnconvertDir(matchUnconvertDir, this.root, this.convertRoot)
+          handleUnconvertDir(matchUnconvertDir, this.root, this.convertDir)
           return
         }
 
