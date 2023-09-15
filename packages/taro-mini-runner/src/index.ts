@@ -10,6 +10,7 @@ import { makeConfig } from './webpack/chain'
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
+import type { Stats } from 'webpack'
 import type { IBuildConfig } from './utils/types'
 
 const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: IBuildConfig['webpackChain']) => {
@@ -21,6 +22,12 @@ const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack, META_TYPE)
+  }
+}
+
+function errorHandling (errorLevel: number | string, stats: Stats) {
+  if ((errorLevel === 1 || errorLevel === '1') && stats.hasErrors()) {
+    process.exit(1)
   }
 }
 
@@ -63,7 +70,9 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
         const error = err ?? stats.toJson().errors
         printBuildError(error)
         onFinish(error, null)
-        return reject(error)
+        reject(error)
+        errorHandling(config.errorLevel, stats)
+        return
       }
 
       if (!isEmpty(newConfig.prerender)) {

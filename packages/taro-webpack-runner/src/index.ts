@@ -16,6 +16,7 @@ import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelpe
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
+import type { Stats } from 'webpack'
 import type { BuildConfig } from './utils/types'
 
 export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: BuildConfig['webpackChain']) => {
@@ -27,6 +28,12 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)
+  }
+}
+
+function errorHandling (errorLevel: number | string, stats: Stats) {
+  if ((errorLevel === 1 || errorLevel === '1') && stats.hasErrors()) {
+    process.exit(1)
   }
 }
 
@@ -68,6 +75,7 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
         })
       }
       resolve()
+      errorHandling(config.errorLevel, stats)
     })
   })
 }
@@ -217,6 +225,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
         isWatch: true
       })
     }
+    errorHandling(config.errorLevel, stats)
   })
   compiler.hooks.failed.tap('taroBuildDone', error => {
     if (typeof onBuildFinish === 'function') {
