@@ -5,54 +5,18 @@ import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
 import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
+import { DEFAULT_TERSER_OPTIONS } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { CSSModulesOptions, PluginOption } from 'vite'
 
-const DEFAULT_TERSER_OPTIONS = {
-  parse: {
-    ecma: 8,
-  },
-  compress: {
-    ecma: 5,
-    warnings: false,
-    arrows: false,
-    collapse_vars: false,
-    comparisons: false,
-    computed_props: false,
-    hoist_funs: false,
-    hoist_props: false,
-    hoist_vars: false,
-    inline: false,
-    loops: false,
-    negate_iife: false,
-    properties: false,
-    reduce_funcs: false,
-    reduce_vars: false,
-    switches: false,
-    toplevel: false,
-    typeofs: false,
-    booleans: true,
-    if_return: true,
-    sequences: true,
-    unused: true,
-    conditionals: true,
-    dead_code: true,
-    evaluate: true,
-  },
-  output: {
-    ecma: 5,
-    comments: false,
-    ascii_only: true,
-  },
-}
 
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   const { taroConfig, cwd: appPath, app, sourceDir } = viteCompilerContext
   const routerMode = taroConfig.router?.mode || 'hash'
   const isMultiRouterMode = routerMode === 'multi'
-  const isPro = !!(taroConfig.mode === 'production')
+  const isProd = getMode(taroConfig) === 'production'
 
   function parsePublicPath(publicPath = '/') {
     return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
@@ -110,7 +74,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   }
 
   function getMinify(): 'terser' | 'esbuild' | boolean {
-    return !isPro
+    return !isProd
       ? false
       : taroConfig.jsMinimizer === 'esbuild'
         ? taroConfig.esbuild?.minify?.enable === false
@@ -143,7 +107,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   }
   const mode = getMode(taroConfig)
   const mainFields = [...defaultMainFields]
-  if (!isPro) {
+  if (!isProd) {
     mainFields.unshift('main:h5')
   }
 
@@ -162,7 +126,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         watch: taroConfig.isWatch ? {} : null,
         
         // @TODO doc needed: sourcemapType not supported
-        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? !isPro,
+        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? !isProd,
         rollupOptions: {
           output: {
             entryFileNames: 'js/app.[hash].js',

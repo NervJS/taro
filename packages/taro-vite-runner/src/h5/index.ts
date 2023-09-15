@@ -1,6 +1,5 @@
-import { getMode } from 'src/utils'
-
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import { getMode } from '../utils'
 import assets from './assets'
 import configPlugin from './config'
 import entryPlugin from './entry'
@@ -14,7 +13,7 @@ import type { PluginOption } from 'vite'
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption[] {
   const { taroConfig } = viteCompilerContext
   const isMultiRouterMode = taroConfig.router?.mode === 'multi'
-  const isProd = getMode(taroConfig)
+  const isProd = getMode(taroConfig) === 'production'
 
   const preset = [ 
     pipelinePlugin(viteCompilerContext),
