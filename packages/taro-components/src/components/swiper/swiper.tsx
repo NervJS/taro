@@ -167,9 +167,9 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
-    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSize)
-    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSize)
-    this.el.addEventListener('MutationObserver', this.handleSwiperSize)
+    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
+    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
+    this.el.addEventListener('MutationObserver', this.handleSwiperSizeDebounce)
   }
 
   @Watch("circular")
@@ -221,9 +221,9 @@ export class Swiper implements ComponentInterface {
   }
 
   disconnectedCallback () {
-    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSize)
-    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSize)
-    this.el.removeEventListener('MutationObserver', this.handleSwiperSize)
+    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
+    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
+    this.el.removeEventListener('MutationObserver', this.handleSwiperSizeDebounce)
     this.observer?.disconnect?.()
     this.observerFirst?.disconnect?.()
     this.observerLast?.disconnect?.()
@@ -232,8 +232,8 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoopListen = () => {
     this.observerFirst?.disconnect && this.observerFirst.disconnect()
     this.observerLast?.disconnect && this.observerLast.disconnect()
-    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
-    this.observerLast = new MutationObserver(this.handleSwiperLoop)
+    this.observerFirst = new MutationObserver(this.handleSwiperLoopDebounce)
+    this.observerLast = new MutationObserver(this.handleSwiperLoopDebounce)
     const wrapper = this.swiper.$wrapperEl?.[0]
     const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
     if (list.length >= 1) {
@@ -247,20 +247,22 @@ export class Swiper implements ComponentInterface {
     }
   }
 
-  handleSwiperLoop = debounce(() => {
+  handleSwiperLoop = () => {
     if (!this.swiper || !this.circular) return
     const swiper = this.swiper as any // Note: loop 相关的方法 swiper 未声明
     const duplicates = this.swiperWrapper?.querySelectorAll('.swiper-slide-duplicate') || []
     if (duplicates.length < 2) {
       // Note: 循环模式下，但是前后垫片未注入
-      swiper.loopDestroy()
-      swiper.loopCreate()
+      swiper.loopDestroy?.()
+      swiper.loopCreate?.()
     } else {
-      swiper.loopFix()
+      swiper.loopFix?.()
     }
-  }, 50)
+  }
 
-  handleSwiperSize = debounce(() => {
+  handleSwiperLoopDebounce = debounce(this.handleSwiperLoop, 50)
+
+  handleSwiperSizeDebounce = debounce(() => {
     if (this.swiper && !this.circular) {
       this.swiper.updateSlides()
     }
