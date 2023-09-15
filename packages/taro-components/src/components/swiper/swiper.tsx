@@ -253,10 +253,10 @@ export class Swiper implements ComponentInterface {
     const duplicates = this.swiperWrapper?.querySelectorAll('.swiper-slide-duplicate') || []
     if (duplicates.length < 2) {
       // Note: 循环模式下，但是前后垫片未注入
-      swiper.loopDestroy()
-      swiper.loopCreate()
+      swiper.loopDestroy?.()
+      swiper.loopCreate?.()
     } else {
-      swiper.loopFix()
+      swiper.loopFix?.()
     }
   }
 
