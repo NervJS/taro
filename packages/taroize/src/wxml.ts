@@ -117,9 +117,11 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
       const tempLeftValue = matchs[1]?.trim() || ''
       const tempMidValue = matchs[2]?.trim() || ''
       const tempRightValue = matchs[3]?.trim() || ''
+      // 将模版中的内容转换为 ast 节点
+      const tempMidValueAst = parseFile(tempMidValue).program.body[0] as any
       attr.value = t.templateLiteral(
         [t.templateElement({ raw: tempLeftValue }), t.templateElement({ raw: tempRightValue }, true)],
-        [t.identifier(tempMidValue)]
+        [tempMidValueAst.expression]
       )
     } else {
       attr.value = t.stringLiteral(attr.value.trim())
@@ -132,9 +134,15 @@ function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) 
   const styleValue = path.node.value as any
   const styleAttrs = styleValue.value.split(';')
   styleAttrs.forEach((attr) => {
-    const [attrName, value] = attr.split(':')
-    if (attrName) {
-      styleAttrsMap.push({ attrName, value })
+    if (attr) {
+      // 对含三元运算符的写法 style="width:{{ xx ? xx : xx }}" 匹配第一个 : 避免匹配三元表达式中的 : 运算符
+      const reg = /([^:]+):\s*([^;]+)/
+      const matchs = attr.match(reg)
+      const attrName = matchs[1]
+      const value = matchs[2]
+      if (attrName) {
+        styleAttrsMap.push({ attrName, value })
+      }
     }
   })
 }
