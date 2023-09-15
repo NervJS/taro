@@ -1,8 +1,8 @@
 import path from 'path'
 
 import type { OutputAsset } from 'rollup'
-import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 export default function (compiler: TaroCompiler): PluginOption {
   return {

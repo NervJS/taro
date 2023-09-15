@@ -48,8 +48,8 @@ const DEFAULT_TERSER_OPTIONS = {
   },
 }
 
-export default function (complier: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath, pages, app, sourceDir } = complier
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig, cwd: appPath, pages, app, sourceDir } = compiler
   const routerMode = taroConfig.router?.mode || 'hash'
   const basename = taroConfig.router?.basename || ''
   const isMultiRouterMode = routerMode === 'multi'
@@ -282,9 +282,9 @@ export default function (complier: TaroCompiler): PluginOption {
           if (page) {
             srciptSource = page.configPath.replace(sourceDir, '')
             const pageName = page.name
-            complier.setPageName(pageName)
+            compiler.setPageName(pageName)
           } else {
-            complier.setPageName('')
+            compiler.setPageName('')
           }
         }
         let htmlScript = ''

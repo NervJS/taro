@@ -5,8 +5,8 @@ import mrmime from 'mrmime'
 import { isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
-import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption, ResolvedConfig } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 type PostcssURLConfig = Partial<PostcssOption.url['config']>
 

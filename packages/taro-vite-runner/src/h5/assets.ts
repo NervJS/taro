@@ -6,8 +6,8 @@ import path from 'path'
 import { isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
-import type { TaroCompiler } from 'src/utils/compiler/h5'
 import type { PluginOption, ResolvedConfig } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/h5'
 
 type PostcssURLConfig = Partial<PostcssOption.url['config']>
 
@@ -89,7 +89,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         const mimeType = mrmime.lookup(id) ?? 'application/octet-stream'
         url = `data:${mimeType};base64,${source.toString('base64')}`
       } else {
-        let fileName = path.join(taroConfig.staticDirectory as string, sourceDir, path.basename(id)) 
+        let fileName = path.join(taroConfig.staticDirectory as string, sourceDir, path.basename(id))
         isFunction(options.name) && (fileName = options.name(fileName))
         const referenceId = this.emitFile({
           type: 'asset',

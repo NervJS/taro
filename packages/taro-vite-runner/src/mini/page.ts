@@ -1,7 +1,7 @@
 import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
-import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 const PAGE_SUFFIX = '?page-loader=true'
 

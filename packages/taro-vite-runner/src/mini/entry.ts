@@ -6,8 +6,8 @@ import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } 
 import { baseCompName, customWrapperName } from '../utils/constants'
 import { miniTemplateLoader, QUERY_IS_NATIVE_COMP, QUERY_IS_NATIVE_PAGE } from './native-support'
 
-import type { TaroCompiler } from 'src/utils/compiler/mini'
 import type { PluginOption } from 'vite'
+import type { TaroCompiler } from '../utils/compiler/mini'
 
 const ENTRY_SUFFIX = '?entry-loader=true'
 
