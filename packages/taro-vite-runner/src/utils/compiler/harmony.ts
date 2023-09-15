@@ -10,7 +10,6 @@ import path from 'path'
 import { type PageMeta, Compiler } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
-import type { PluginContext } from 'rollup'
 import type { HarmonyBuildConfig, IFileType } from '../types'
 
 const defaultFileType = {
@@ -27,8 +26,8 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   useJSON5: boolean
   nativeExt = ['.ets']
 
-  constructor (rollupCtx: PluginContext, appPath: string, taroConfig: HarmonyBuildConfig) {
-    super(rollupCtx, appPath, taroConfig)
+  constructor (appPath: string, taroConfig: HarmonyBuildConfig) {
+    super(appPath, taroConfig)
 
     this.fileType = taroConfig.fileType || defaultFileType
     this.useETS = taroConfig.useETS !== false

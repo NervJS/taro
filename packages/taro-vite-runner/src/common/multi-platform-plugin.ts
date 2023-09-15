@@ -4,10 +4,11 @@ import { isVirtualModule } from '../utils'
 
 import type { PluginOption } from 'vite'
 import type { TaroCompiler as TaroH5Compiler } from '../utils/compiler/h5'
+import type { TaroCompiler as TaroHarmonyCompiler } from '../utils/compiler/harmony'
 import type { TaroCompiler as TaroMinCompiler } from '../utils/compiler/mini'
 
-export default function (complier: TaroH5Compiler | TaroMinCompiler): PluginOption {
-  const { taroConfig } = complier
+export default function (compiler: TaroH5Compiler | TaroHarmonyCompiler | TaroMinCompiler): PluginOption {
+  const { taroConfig } = compiler
   let cache: Map<string, string>
   return {
     name: 'taro:vite-multi-platform-plugin',

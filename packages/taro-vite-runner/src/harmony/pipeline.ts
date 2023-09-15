@@ -3,10 +3,9 @@ import { isFunction } from '@tarojs/shared'
 import { TaroCompiler } from '../utils/compiler/harmony'
 
 import type { PluginOption } from 'vite'
-import type { HarmonyBuildConfig } from '../utils/types'
 
-export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption {
-  let compiler: TaroCompiler
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig } = compiler
   return {
     name: 'taro:vite-harmony-pipeline',
     enforce: 'pre',
@@ -14,7 +13,7 @@ export default function (appPath: string, taroConfig: HarmonyBuildConfig): Plugi
       this.load({ id: TaroCompiler.label })
       const info = this.getModuleInfo(TaroCompiler.label)
       if (info) {
-        compiler = new TaroCompiler(this, appPath, taroConfig)
+        compiler.setRollupCtx(this)
         info.meta = { compiler }
       }
     },

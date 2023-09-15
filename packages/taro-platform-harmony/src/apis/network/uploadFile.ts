@@ -139,7 +139,7 @@ const uploadFile: UploadFile = function (options) {
       callback(progressParams)
     })
   }
-  UploadTaskWX.offProgressUpdate = function (callback: UploadTask.OffProgressUpdateCallback) {
+  UploadTaskWX.offProgressUpdate = function (callback: UploadTask.OnProgressUpdateCallback) {
     validateParams('offProgressUpdate', [callback], ['Function'])
     uploadTask.off('progress', (uploadSize: number, totalSize: number) => {
       const totalBytesSent: number = uploadSize * 1024

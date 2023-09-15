@@ -11,9 +11,10 @@ import { HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { HarmonyBuildConfig } from '../utils/types'
+import type { TaroCompiler } from '../utils/compiler/harmony'
 
-export default function (appPath: string, taroConfig: HarmonyBuildConfig): PluginOption {
+export default function (compiler: TaroCompiler): PluginOption {
+  const { taroConfig, cwd: appPath } = compiler
   function getDefineOption() {
     const {
       buildAdapter = PLATFORMS.HARMONY,

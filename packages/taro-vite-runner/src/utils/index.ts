@@ -6,9 +6,9 @@ import type { Target } from 'vite-plugin-static-copy'
 import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
 import type { TaroCompiler as HarmonyCompiler } from '../utils/compiler/harmony'
 import type { TaroCompiler as MiniCompiler } from '../utils/compiler/mini'
-import type { H5BuildConfig, MiniBuildConfig } from './types'
+import type { H5BuildConfig, HarmonyBuildConfig, MiniBuildConfig } from './types'
 
-export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig) {
+export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig | HarmonyBuildConfig) {
   const copy = taroConfig.copy
   const copyOptions: Target[] = []
   copy?.patterns.forEach(({ from, to }) => {
@@ -87,7 +87,7 @@ export function stripMultiPlatformExt (id: string): string {
 
 export const addTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url : url + '/')
 
-export function getMode (config: H5BuildConfig | MiniBuildConfig) {
+export function getMode (config: H5BuildConfig | MiniBuildConfig | HarmonyBuildConfig) {
   const preMode = config.mode || process.env.NODE_ENV
   const modes: ('production' | 'development' | 'none')[] = ['production', 'development', 'none']
   const mode = modes.find(e => e === preMode)
