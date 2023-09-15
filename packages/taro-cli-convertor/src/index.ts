@@ -686,7 +686,7 @@ export default class Convertor {
         // 处理不转换的目录，可在convert.config.json中external字段配置
         const matchUnconvertDir: string | null = getMatchUnconvertDir(file, this.convertConfig?.external)
         if (matchUnconvertDir !== null) {
-          handleUnconvertDir(matchUnconvertDir, this.root, this.convertRoot)
+          handleUnconvertDir(matchUnconvertDir, this.root, this.convertDir)
           return
         }
 
