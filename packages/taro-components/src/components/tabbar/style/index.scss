@@ -3,6 +3,10 @@ body {
   height: 100%;
 }
 
+:root {
+  --taro-tabbar-height: 50px;
+}
+
 #app {
   height: 100%;
 }
@@ -33,7 +37,7 @@ body {
   &__tabbar {
     position: relative;
     width: 100%;
-    height: 50px;
+    height: var(--taro-tabbar-height);
     transition: bottom 0.2s, top 0.2s;
 
     &-top {
