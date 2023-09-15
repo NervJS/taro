@@ -1,3 +1,5 @@
+import { Events } from '@tarojs/runtime/dist/runtime.esm'
+
 import { TaroEvent } from './event'
 
 import type { EventHandler } from '../interface'
@@ -10,7 +12,7 @@ interface IOptions {
 
 type fn = (...args: any[]) => any
 
-class TaroEventTarget {
+class TaroEventTarget extends Events {
   __listeners: Record<string, EventHandler[]> = {}
 
   public addEventListener (type: string, listener: fn, options?: IOptions) {

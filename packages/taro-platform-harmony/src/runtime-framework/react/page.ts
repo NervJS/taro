@@ -1,4 +1,7 @@
-import { Current, document } from '@tarojs/runtime'
+// eslint-disable-next-line import/no-duplicates
+import { Current, document, window } from '@tarojs/runtime'
+// eslint-disable-next-line import/no-duplicates
+import { CONTEXT_ACTIONS } from '@tarojs/runtime/dist/runtime.esm'
 import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
 import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
@@ -124,7 +127,7 @@ export function createPageConfig (component: any, pageName?: string) {
 
       setCurrentRouter(this)
 
-      // window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
+      window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
@@ -150,7 +153,7 @@ export function createPageConfig (component: any, pageName?: string) {
     onUnLoad () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      // window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
+      window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
 
       // 触发onUnload生命周期
       safeExecute($taroPath, ON_UNLOAD)
@@ -174,7 +177,7 @@ export function createPageConfig (component: any, pageName?: string) {
         Current.page = this as any
         setCurrentRouter(this)
         // 恢复上下文信息
-        // window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
+        window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         // 触发生命周期
         safeExecute(this.$taroPath, ON_SHOW, options)
         // TODO 通过事件触发子组件的生命周期
@@ -183,7 +186,7 @@ export function createPageConfig (component: any, pageName?: string) {
     },
     onHide () {
       // 缓存当前页面上下文信息
-      // window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
+      window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
 
       // 设置 Current 的 page 和 router
       if (Current.page === this) {
