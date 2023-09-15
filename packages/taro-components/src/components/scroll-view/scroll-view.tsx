@@ -118,6 +118,14 @@ export class ScrollView implements ComponentInterface {
     })
   }
 
+  @Listen('touchmove', { capture: true })
+  handleTouchMove (e: Event) {
+    if (e instanceof CustomEvent) return
+
+    // Note: 避免滚动穿透
+    e.stopPropagation()
+  }
+
   @Method()
   async mpScrollToMethod(object: ScrollViewContext.scrollTo.Option) {
     let { top, left, duration, animated = false } = object
