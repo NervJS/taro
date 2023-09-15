@@ -10,6 +10,7 @@ import WebpackDevServer from 'webpack-dev-server'
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import AppHelper from './utils/app'
 import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
+import { errorHandling } from './utils/webpack'
 import { H5Combination } from './webpack/H5Combination'
 
 import type { EntryNormalized, Stats } from 'webpack'
@@ -45,7 +46,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
   const { isWatch } = config
-
+  const errorLevel = rawConfig.errorLevel
   try {
     if (!isWatch) {
       const compiler = webpack(webpackConfig)
@@ -72,6 +73,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
             }
 
             err ? reject(err) : resolve(stats)
+
+            errorHandling(errorLevel, stats)
           })
         })
       })
@@ -112,6 +115,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
             isWatch: true
           })
         }
+        errorHandling(errorLevel, stats)
       })
       compiler.hooks.failed.tap('taroBuildDone', error => {
         if (isFunction(config.onBuildFinish)) {

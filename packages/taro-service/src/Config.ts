@@ -105,6 +105,7 @@ export default class Config {
       cache: initialConfig.cache,
       logger: initialConfig.logger,
       baseLevel: initialConfig.baseLevel,
+      errorLevel: initialConfig.errorLevel || 0,
       csso: initialConfig.csso,
       sass: initialConfig.sass,
       uglify: initialConfig.uglify,

@@ -39,6 +39,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   mode: 'production' | 'development' | 'none'
   buildAdapter: string // weapp | swan | alipay | tt | qq | jd | h5
   platformType: string // mini | web
+  errorLevel: number | string // 0 | 1
   /** special mode */
   isBuildNativeComp?: boolean
   newBlended?: boolean
