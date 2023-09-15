@@ -221,17 +221,19 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     throw new Error(`${type} 标签的 src 属性值必须是一个字符串`)
   }
   let srcValue = value.value
+  // 判断是否为绝对路径
   if (srcValue.startsWith('/')) {
-    const vpath = resolve(setting.rootPath, srcValue.substr(1))
-    if (!fs.existsSync(vpath)) {
-      throw new Error(`import/include 的 src 请填入相对路径再进行转换：src="${srcValue}"`)
+    const absolutPath = resolve(setting.rootPath, srcValue.substr(1))
+    if (!fs.existsSync(absolutPath) && !fs.existsSync(`${absolutPath}.wxml`)) {
+      throw new Error(`import/include 的 src 请填入正确路径再进行转换：src="${srcValue}"`)
     }
-    let relativePath = relative(dirPath, vpath)
+    let relativePath = relative(dirPath, absolutPath)
     relativePath = relativePath.replace(/\\/g, '/')
     if (relativePath.indexOf('.') !== 0) {
       srcValue = './' + relativePath
+    } else {
+      srcValue = relativePath
     }
-    srcValue = relativePath
   }
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
