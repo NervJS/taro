@@ -10,6 +10,10 @@ import './index.scss'
  * @returns
  */
 
+function progressUpdate(res) {
+  TestConsole.consoleNormal('onProgressUpdate', res)
+}
+
 export default class Index extends React.Component {
   state = {
     task: null,
@@ -43,6 +47,32 @@ export default class Index extends React.Component {
           }
         },
       },
+      {
+        id: 'onProgressUpdate',
+        func: () => {
+          TestConsole.consoleTest('DownloadTask.onProgressUpdate')
+          if (this.state.task) {
+            ;(this.state.task as Taro.DownloadTask).onProgressUpdate(progressUpdate)
+          }
+        },
+      },
+      {
+        id: 'offProgressUpdate',
+        func: () => {
+          TestConsole.consoleTest('DownloadTask.offProgressUpdate')
+          if (this.state.task) {
+            ;(this.state.task as Taro.DownloadTask).offProgressUpdate(progressUpdate)
+          }
+        },
+      },
+      {
+        id: 'onHeadersReceived',
+        func: null,
+      },
+      {
+        id: 'offHeadersReceived',
+        func: null,
+      },
     ],
   }
 
@@ -65,12 +95,7 @@ export default class Index extends React.Component {
     })
     TestConsole.consoleNormal('DownloadTask', task)
     this.setState({ task })
-    task.onProgressUpdate((res) => {
-      TestConsole.consoleNormal('onProgressUpdate', res)
-    })
-    task.onHeadersReceived((res) => {
-      TestConsole.consoleNormal('onHeadersReceived', res)
-    })
+    task.onProgressUpdate(progressUpdate)
   }
 
   render() {
