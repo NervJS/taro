@@ -5,7 +5,6 @@ import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
-
 /**
  * 云开发
  * @returns
@@ -19,8 +18,8 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.cloud')
           // @ts-ignore
-          const myCloudInstance = new Taro.cloud({  
-            env: 'your-env-id'  
+          const myCloudInstance = new Taro.cloud({
+            env: 'your-env-id',
           })
           TestConsole.consoleSuccess.call(this, myCloudInstance, apiIndex)
         },

@@ -5,7 +5,6 @@ import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
-
 /**
  * 基础-性能
  * @returns

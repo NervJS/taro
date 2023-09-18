@@ -10,6 +10,14 @@ import './index.scss'
  * @returns
  */
 
+function progressUpdate(res) {
+  TestConsole.consoleNormal('onProgressUpdate', res)
+}
+
+function headersReceived(res) {
+  TestConsole.consoleNormal('onHeadersReceived', res)
+}
+
 export default class Index extends React.Component {
   state = {
     task: null,
@@ -47,6 +55,42 @@ export default class Index extends React.Component {
           }
         },
       },
+      {
+        id: 'onProgressUpdate',
+        func: () => {
+          TestConsole.consoleTest('UploadTask.onProgressUpdate')
+          if (this.state.task) {
+            ;(this.state.task as Taro.UploadTask).onProgressUpdate(progressUpdate)
+          }
+        },
+      },
+      {
+        id: 'offProgressUpdate',
+        func: () => {
+          TestConsole.consoleTest('UploadTask.offProgressUpdate')
+          if (this.state.task) {
+            ;(this.state.task as Taro.UploadTask).offProgressUpdate(progressUpdate)
+          }
+        },
+      },
+      {
+        id: 'onHeadersReceived',
+        func: () => {
+          TestConsole.consoleTest('UploadTask.onHeadersReceived')
+          if (this.state.task) {
+            ;(this.state.task as Taro.UploadTask).onHeadersReceived(headersReceived)
+          }
+        },
+      },
+      {
+        id: 'offHeadersReceived',
+        func: () => {
+          TestConsole.consoleTest('UploadTask.offHeadersReceived')
+          if (this.state.task) {
+            ;(this.state.task as Taro.UploadTask).offHeadersReceived(headersReceived)
+          }
+        },
+      },
     ],
   }
 
@@ -69,12 +113,8 @@ export default class Index extends React.Component {
     })
     this.setState({ task })
     TestConsole.consoleNormal('Taro.UploadTask', task)
-    task.onProgressUpdate((res) => {
-      TestConsole.consoleNormal('onProgressUpdate', res)
-    })
-    task.onHeadersReceived((res) => {
-      TestConsole.consoleNormal('onHeadersReceived', res)
-    })
+    task.onProgressUpdate(progressUpdate)
+    task.onHeadersReceived(headersReceived)
   }
 
   render() {
