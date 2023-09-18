@@ -402,18 +402,22 @@ declare module '../../index' {
     config: VKSession.Config
     /** 相机尺寸 */
     cameraSize: VKSession.Size
-    /** 添加一个 marker，要求调 wx.createVKSession 时传入的 track.marker 为 true
+    /** 添加一个 marker，要求调 Taro.createVKSession 时传入的 track.marker 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.addMarker.html
-     * @param path 图片路径，目前只支持本地用户图片
      */
-    addMarker(path: string): number
-    /** 添加一个 OSD marker（one-shot detection marker），要求调 wx.createVKSession 时传入的 track.OSD 为 true
+    addMarker(
+      /** 图片路径，目前只支持本地用户图片 */
+      path: string
+    ): number
+    /** 添加一个 OSD marker（one-shot detection marker），要求调 Taro.createVKSession 时传入的 track.OSD 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.addOSDMarker.html
-     * @param path 图片路径，目前只支持本地用户图片
      */
-    addOSDMarker(path: string): number
+    addOSDMarker(
+      /** 图片路径，目前只支持本地用户图片 */
+      path: string
+    ): number
     /** 取消由 requestAnimationFrame 添加到计划中的动画帧请求
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.cancelAnimationFrame.html
@@ -424,32 +428,32 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.destroy.html
      */
     destroy(): void
-    /** 静态图像人体关键点检测。当 wx.createVKSession 参数传入 {track: {body: {mode: 2} } } 时可用。
+    /** 静态图像人体关键点检测。当 Taro.createVKSession 参数传入 {track: {body: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectBody.html
      */
     detectBody(option: VKSession.DetectBodyOption): void
-    /** 深度识别。当 wx.createVKSession 参数传入 {track: {depth: {mode: 2} } } 时可用。
+    /** 深度识别。当 Taro.createVKSession 参数传入 {track: {depth: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectDepth.html
      */
     detectDepth(option: VKSession.DetectDepthOption): void
-    /** 静态图像人脸关键点检测。当 wx.createVKSession 参数传入 {track: {face: {mode: 2} } } 时可用。安卓微信8.0.25开始支持，iOS微信8.0.24开始支持。
+    /** 静态图像人脸关键点检测。当 Taro.createVKSession 参数传入 {track: {face: {mode: 2} } } 时可用。安卓微信8.0.25开始支持，iOS微信8.0.24开始支持。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectFace.html
      */
     detectFace(option: VKSession.DetectFaceOption): void
-    /** 静态图像手势关键点检测。当 wx.createVKSession 参数传入 {track: {hand: {mode: 2} } } 时可用。
+    /** 静态图像手势关键点检测。当 Taro.createVKSession 参数传入 {track: {hand: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectHand.html
      */
     detectHand(option: VKSession.DetectHandOption): void
-    /** 获取所有 marker，要求调 wx.createVKSession 时传入的 track.marker 为 true
+    /** 获取所有 marker，要求调 Taro.createVKSession 时传入的 track.marker 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.getAllMarker.html
      */
     getAllMarker(): VKSession.IMarker[]
-    /** 获取所有 OSD marker，要求调 wx.createVKSession 时传入的 track.OSD 为 true
+    /** 获取所有 OSD marker，要求调 Taro.createVKSession 时传入的 track.OSD 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.getAllOSDMarker.html
      */
@@ -486,7 +490,7 @@ declare module '../../index' {
      /** 事件名称 */
      eventName: string,
      /** 事件监听函数 */
-     fn: Function
+     fn: TaroGeneral.EventCallback
     ): void
     /** 监听会话事件。
      * @supported weapp
@@ -496,18 +500,16 @@ declare module '../../index' {
      /** 事件名称 */
      eventName: string,
      /** 事件监听函数 */
-     fn: Function
+     fn: TaroGeneral.EventCallback
     ): void
-    /** 删除一个 marker，要求调 wx.createVKSession 时传入的 track.marker 为 true
+    /** 删除一个 marker，要求调 Taro.createVKSession 时传入的 track.marker 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.removeMarker.html
-     * @param markerId
      */
     removeMarker(markerId: number): number
-    /** 删除一个 OSD marker，要求调 wx.createVKSession 时传入的 track.OSD 为true
+    /** 删除一个 OSD marker，要求调 Taro.createVKSession 时传入的 track.OSD 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.removeOSDMarker.html
-     * @param markerId
      */
     removeOSDMarker(markerId: number): number
     /** 在下次进行重绘时执行。
@@ -516,9 +518,9 @@ declare module '../../index' {
      */
     requestAnimationFrame(
      /** 执行函数 */
-     callback: Function
+     callback: TaroGeneral.TFunc
     ): number
-    /** 静态图像OCR检测。当 wx.createVKSession 参数传入 {track: {OCR: {mode: 2} } } 时可用。
+    /** 静态图像 OCR 检测。当 Taro.createVKSession 参数传入 {track: {OCR: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.runOCR.html
      */
@@ -536,13 +538,12 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.stop.html
      */
     stop(): void
-    /** 开启3D模式
+    /** 开启 3D 模式
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.update3DMode.html
-     * @param open3d
      */
     update3DMode(open3d: boolean): void
-    /** 更新 OSD 识别精确度，要求调 wx.createVKSession 时传入的 track.OSD 为 true
+    /** 更新 OSD 识别精确度，要求调 Taro.createVKSession 时传入的 track.OSD 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.updateOSDThreshold.html
      */
@@ -574,7 +575,7 @@ declare module '../../index' {
       depth: IDepth
       /** 人脸检测配置。安卓微信8.0.25开始支持，iOS微信8.0.24开始支持。 */
       face: IFace
-      /** OCR检测配置。 */
+      /** OCR 检测配置。 */
       OCR: IOCR
       /** 人体检测配置。 */
       body: IBody
@@ -631,7 +632,7 @@ declare module '../../index' {
       /** 静态图片检测 */
       2
     }
-    /** OCR检测配置 */
+    /** OCR 检测配置 */
     interface IOCR {
       mode: keyof OCRMode
     }
@@ -675,7 +676,7 @@ declare module '../../index' {
       width: number
       /** 图像高度 */
       height: number
-      /** 评分阈值。正常情况传入 0.8 即可。默认值0.8 */
+      /** 评分阈值。正常情况传入 0.8 即可。默认值 0.8 */
       scoreThreshold?: number
       /** 图像源类型。正常情况传入 1 即可。当输入的图片是来自一个连续视频的每一帧图像时，sourceType 传入 0 会得到更优的效果。默认值1 */
       sourceType?: keyof ISourceType
@@ -702,10 +703,11 @@ declare module '../../index' {
       width: number
       /** 图像高度 */
       height: number
-      /** 评分阈值。正常情况传入 0.8 即可。默认值0.8 */
+      /** 评分阈值。正常情况传入 0.8 即可。默认值 0.8 */
       scoreThreshold?: number
       /** 图像源类型。正常情况传入 1 即可。当输入的图片是来自一个连续视频的每一帧图像时，sourceType 传入 0 会得到更优的效果。默认值1 */
       sourceType?: keyof ISourceType
+      /** 算法模型类型。正常情况传入 1 即可。0、1、2 分别表示小、中、大模型，模型越大识别准确率越高，但资源占用也越高。建议根据用户设备性能进行选择。 */
       modelModel?: keyof IModelModel
     }
     interface IModelModel {

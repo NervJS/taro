@@ -32,7 +32,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/Performance.createObserver.html
      */
-    createObserver(callback: Function): PerformanceObserver
+    createObserver(callback: TaroGeneral.TFunc): PerformanceObserver
     /** 该方法返回当前缓冲区中的所有性能数据
      * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/Performance.getEntries.html
@@ -222,23 +222,23 @@ declare module '../../index' {
 
     /** 预加载下个页面的 WebView
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadWebview.html 
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadWebview.html
      */
     preloadWebview(option: preloadWebview.Option): Promise<TaroGeneral.CallbackResult>
 
     /**预加载下个页面所需要的 Skyline 运行环境
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadSkylineView.html 
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadSkylineView.html
      */
     preloadSkylineView(option: preloadSkylineView.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 为视图层预加载媒体资源文件, 目前支持：font，image
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadAssets.html 
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/performance/wx.preloadAssets.html
      */
     preloadAssets(option: preloadAssets.Option): Promise<TaroGeneral.CallbackResult>
     /** 小程序测速上报。使用前，需要在小程序管理后台配置。 详情参见[小程序测速](https://developers.weixin.qq.com/miniprogram/dev/framework/performanceReport/index.html)指南。
-     * 
+     *
      * **注意**
      *  - 目前，当开启代码 [按需注入](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/lazyload.html) `时，evaluateScript` 将仅包含公有部分代码，页面和组件的代码注入的时间会包含在 `firstRender` 中（因为页面和组件的代码注入过程成为了首次渲染过程的一部分）。因此开启按需注入后，脚本耗时降低，渲染时间提高属于正常现象，优化效果可以关注整体启动耗时（`appLaunch`）来评估。
      *  - `firstPaint` 和 `firstContentfulPaint` 指标在开启 `vconsole` 的情况下，由于绘制 `vconsoel` 的面板，会导致数据提前。
