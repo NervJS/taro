@@ -76,59 +76,6 @@ export function parseScript (
         )
       }
     },
-    VariableDeclaration (path) {
-      const variableDeclarator = path.node.declarations[0]
-      variableDeclarator.init
-      if (t.isVariableDeclarator(variableDeclarator)) {
-        // 去除commonjs转es6生成的var module = {exports: {},}
-        if (
-          t.isIdentifier(variableDeclarator.id) &&
-          variableDeclarator.id.name === 'module' &&
-          t.isObjectExpression(variableDeclarator.init)
-        ) {
-          const init: t.ObjectExpression = variableDeclarator.init
-          if (
-            init.properties &&
-            init.properties.length > 0 &&
-            t.isObjectProperty(init.properties[0]) &&
-            t.isIdentifier(init.properties[0].key) &&
-            init.properties[0].key.name === 'exports'
-          ) {
-            path.remove()
-          }
-        }
-        // 去除commonjs转es6生成的var exports = module.exports
-        if (
-          t.isIdentifier(variableDeclarator.id) &&
-          variableDeclarator.id.name === 'exports' &&
-          t.isMemberExpression(variableDeclarator.init)
-        ) {
-          const init: t.MemberExpression = variableDeclarator.init
-          if (
-            t.isIdentifier(init.object) &&
-            init.object.name === 'module' &&
-            t.isIdentifier(init.property) &&
-            init.property.name === 'exports'
-          ) {
-            path.remove()
-          }
-        }
-      }
-    },
-    ExportDefaultDeclaration (path) {
-      const declaration = path.node.declaration
-      // 去除commonjs转es6生成的export default module.exports
-      if (t.isMemberExpression(declaration)) {
-        if (
-          t.isIdentifier(declaration.object) &&
-          declaration.object.name === 'module' &&
-          t.isIdentifier(declaration.property) &&
-          declaration.property.name === 'exports'
-        ) {
-          path.remove()
-        }
-      }
-    },
   }
 
   traverse(ast, vistor)
