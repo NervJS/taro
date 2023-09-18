@@ -38,7 +38,7 @@
  * │   │   ├── scan.d.ts                    设备 -> 扫码 API
  * │   │   ├── screen.d.ts                  设备 -> 屏幕 API
  * │   │   ├── vibrate.d.ts                 设备 -> 振动 API
- * │   │   └── wifi.d.ts                    设备 -> Wi-Fi API
+ * │   │   └── wifi.d.ts                     设备 -> Wi-Fi API
  * │   ├── ext
  * │   │   └── index.d.ts                   第三方平台 API
  * │   ├── files
@@ -87,6 +87,8 @@
  * │   │   └── index.d.ts                   路由 API
  * │   ├── share
  * │   │   └── index.d.ts                   转发 API
+ * │   ├── skyline
+ * │   │   └── index.d.ts                   微信 Skyline API
  * │   ├── storage
  * │   │   ├── background-fetch.d.ts        数据缓存 -> 后台获取 API
  * │   │   └── index.d.ts                   数据缓存 API
