@@ -446,7 +446,8 @@ require("./runtime");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -2233,7 +2234,8 @@ require("./runtime");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -4131,7 +4133,8 @@ require("./runtime");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -5930,7 +5933,8 @@ require("./runtime");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
