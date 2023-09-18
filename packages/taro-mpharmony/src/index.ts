@@ -62,6 +62,8 @@ function logObj (obj) {
   })
 }
 
-// TODO 非正式代码，应该判断环境，仅在开发阶段输出
-// @ts-ignore
-native = logObj(native || {}, '')
+if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+  console.warn(`当前为development阶段，输出所有原生Api的调用日志。`)
+  // @ts-ignore
+  window.native = logObj(window.native || {})
+}
