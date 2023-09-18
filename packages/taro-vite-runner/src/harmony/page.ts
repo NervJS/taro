@@ -60,6 +60,8 @@ struct Index {
           TaroImage({ node: this.node })
         } else if (this.node.tagName === 'SCROLL-VIEW') {
           TaroScrollView({ node: this.node })
+        } else if (this.node.tagName === 'BUTTON') {
+          TaroButton({ node: this.node })
         }
       }
     }
@@ -75,6 +77,7 @@ struct Index {
           'import TaroView from "@tarojs/components/view"',
           'import TaroText from "@tarojs/components/text"',
           'import TaroImage from "@tarojs/components/image"',
+          'import TaroButton from "@tarojs/components/button"',
           'import TaroScrollView from "@tarojs/components/scrollView"',
           'import { TaroElement } from "@tarojs/runtime"',
           `import component from "${rawId}"`,

@@ -6,3 +6,18 @@ export const TEXT_DEFAULT_STYLE = {
   FONT_WEIGHT: FontWeight.Normal,
   FONT_FAMILY: 'HarmonyOS Sans'
 }
+
+export const BUTTON_THEME_COLOR = {
+  default: {
+    text: '#000',
+    background: '#f7f7f7',
+  },
+  primary: {
+    text: '#fff',
+    background: '#1aad19',
+  },
+  warn: {
+    text: '#fff',
+    background: '#e64340'
+  }
+}

@@ -107,6 +107,13 @@ class TaroImageElement extends TaroElement {
 }
 
 @Observed
+class TaroButtonElement extends TaroElement {
+  constructor() {
+    super('Button')
+  }
+}
+
+@Observed
 export class FormElement extends TaroElement {
   public get type () {
     return this._attrs.type ?? ''
@@ -129,6 +136,7 @@ export class FormElement extends TaroElement {
 
 
 export {
+  TaroButtonElement,
   TaroElement,
   TaroImageElement,
   TaroTextElement,
