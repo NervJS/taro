@@ -121,7 +121,7 @@ export default class Index extends React.Component {
             })
           }
           else if (this.state.innerConTextList.length === 1) { // 当innerConTextList数组只有一个音频实例，使用当前音频实例来播放并修改状态，通过count数值恢复innerConTextList数组
-            if(this.state.count !== 0){
+            if (this.state.count !== 0){
               this.setState ((preState : any) => {
                 return preState.innerConTextList = [...preState.innerConTextList,innercontext]
               })
@@ -395,14 +395,14 @@ export default class Index extends React.Component {
         id: 'audioContext_play',
         func: (apiIndex) => {
           TestConsole.consoleTest('audioContext_play')
-          if (this.state.AudioList.length > 1) { //当AudioList数组中只要有音频实例，直接播放并修改状态
+            if (this.state.AudioList.length > 1) { //当AudioList数组中只要有音频实例，直接播放并修改状态
             this.state.AudioList.map ((audio : any)=>{
               audio.play()
               this.setState ({isPlay : true})
             })
           }
-          else if (this.state.AudioList.length === 1){ // 当AudioList数组不存在音频实例，向右移动一个指针，使用当前音频实例来播放并修改状态
-            if(this.state.count !== 0){
+            else if (this.state.AudioList.length === 1){ // 当AudioList数组不存在音频实例，向右移动一个指针，使用当前音频实例来播放并修改状态
+            if (this.state.count !== 0){
               this.setState ((preState : any) => { 
                 return preState.AudioList = [...preState.AudioList,audioContext]
               })
