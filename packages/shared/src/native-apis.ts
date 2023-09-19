@@ -388,7 +388,6 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
     }
   }
   taro.createSelectorQuery = delayRef(taro, global, 'createSelectorQuery', 'exec')
-  taro.createIntersectionObserver = delayRef(taro, global, 'createIntersectionObserver', 'observe')
 }
 
 /**
