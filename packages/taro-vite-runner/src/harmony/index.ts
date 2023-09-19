@@ -7,18 +7,18 @@ import etsPlugin from './ets'
 import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
 
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/harmony'
 
-export default function (compiler: TaroCompiler): PluginOption[] {
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption[] {
   return [
-    pipelinePlugin(compiler),
-    configPlugin(compiler),
-    entryPlugin(compiler),
-    pagePlugin(compiler),
-    etsPlugin(compiler),
-    multiPlatformPlugin(compiler),
-    emitPlugin(compiler),
-    importPlugin(compiler)
+    pipelinePlugin(viteCompilerContext),
+    configPlugin(viteCompilerContext),
+    entryPlugin(viteCompilerContext),
+    pagePlugin(viteCompilerContext),
+    etsPlugin(viteCompilerContext),
+    multiPlatformPlugin(viteCompilerContext),
+    emitPlugin(viteCompilerContext),
+    importPlugin(viteCompilerContext)
   ]
 }

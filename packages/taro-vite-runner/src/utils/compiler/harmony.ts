@@ -5,12 +5,17 @@ import {
   resolveMainFilePath,
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
+import {
+  ViteFileType,
+  ViteHarmonyBuildConfig,
+  ViteHarmonyCompilerContext,
+  VitePageMeta
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
-import { type PageMeta, Compiler } from './base'
+import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
-import type { HarmonyBuildConfig, IFileType } from '../types'
 
 const defaultFileType = {
   style: '.css',
@@ -19,14 +24,14 @@ const defaultFileType = {
   templ: '.hml'
 }
 
-export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
+export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig> implements ViteHarmonyCompilerContext {
   commonChunks: string[]
-  fileType: IFileType
+  fileType: ViteFileType
   useETS: boolean
   useJSON5: boolean
   nativeExt = ['.ets']
 
-  constructor (appPath: string, taroConfig: HarmonyBuildConfig) {
+  constructor (appPath: string, taroConfig: ViteHarmonyBuildConfig) {
     super(appPath, taroConfig)
 
     this.fileType = taroConfig.fileType || defaultFileType
@@ -49,7 +54,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
     return customCommonChunks
   }
 
-  compilePage = (pageName: string): PageMeta => {
+  compilePage = (pageName: string): VitePageMeta => {
     const { sourceDir, frameworkExts, nativeExt } = this
 
     const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
@@ -69,7 +74,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
       path: configPath,
       content: config
     }
-    this.rollupCtx?.addWatchFile(pageMeta.configPath)
+    this.configFileList.push(pageMeta.configPath)
 
     return pageMeta
   }
@@ -103,7 +108,7 @@ export class TaroCompiler extends Compiler<HarmonyBuildConfig> {
   }
 
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
-  modifyHarmonyConfig (config: AppConfig = {}) {
+  modifyHarmonyConfig (config: Partial<AppConfig> = {}) {
     const { pages = [] } = config
     const { projectPath, hapName = 'entry', outputRoot = 'dist', name = 'default', designWidth = 750 } = this.taroConfig
     const buildProfilePath = path.join(projectPath, `build-profile.${this.useJSON5 !== false ? 'json5' : 'json'}`)

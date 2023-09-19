@@ -3,9 +3,8 @@ import path from 'path'
 import ts from 'typescript'
 
 import type * as BabelCore from '@babel/core'
+import type { ViteHarmonyBuildConfig, ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/harmony'
-import type { HarmonyBuildConfig } from '../utils/types'
 
 export class EtsHelper {
   code: string
@@ -18,7 +17,7 @@ export class EtsHelper {
   structVars = new Set<string>()
 
   // eslint-disable-next-line no-useless-constructor
-  constructor(protected appPath: string, protected taroConfig: HarmonyBuildConfig) {}
+  constructor(protected appPath: string, protected taroConfig: ViteHarmonyBuildConfig) {}
 
   transEtsCode (id: string, code: string) {
     code = this.transStruct(id, code)
@@ -218,8 +217,8 @@ export class EtsHelper {
   }
 }
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath } = compiler
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
+  const { taroConfig, cwd: appPath } = viteCompilerContext
   const helper = new EtsHelper(appPath, taroConfig)
 
   return {

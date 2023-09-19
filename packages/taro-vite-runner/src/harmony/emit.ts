@@ -3,11 +3,11 @@ import path from 'path'
 
 import { componentConfig } from '../utils/component'
 
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/harmony'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
+  const { taroConfig } = viteCompilerContext
   return [{
     name: 'taro:vite-harmony-emit',
     async generateBundle (_outputOpts, bundle) {
@@ -35,7 +35,7 @@ export default function (compiler: TaroCompiler): PluginOption {
       }
 
       // Note: 修改 harmony Hap 的配置文件，注入路由配置
-      compiler.modifyHarmonyConfig(compiler.app.config)
+      viteCompilerContext.modifyHarmonyConfig(viteCompilerContext.app.config)
     }
   }, {
     name: 'taro:vite-harmony-emit-post',
@@ -67,9 +67,9 @@ export default function (compiler: TaroCompiler): PluginOption {
         taroConfig.modifyBuildAssets(
           assetsProxy,
           {
-            pages: compiler.pages,
-            filesConfig: compiler.filesConfig,
-            getConfigFilePath: compiler.getConfigFilePath,
+            pages: viteCompilerContext.pages,
+            filesConfig: viteCompilerContext.filesConfig,
+            getConfigFilePath: viteCompilerContext.getConfigFilePath,
             options: {}
           }
         )
@@ -82,7 +82,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         // '@hmscore/hms-js-base': '^6.1.0-300',
         // '@hmscore/hms-jsb-account': '^1.0.300'
       }
-      compiler.modifyHostPackageDep(outDir, deps)
+      viteCompilerContext.modifyHostPackageDep(outDir, deps)
       // TODO 判断 ohpm 是否存在，如果存在则在 projectPath 目录下执行 ohpm install
     }
   }]

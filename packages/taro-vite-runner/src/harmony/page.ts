@@ -1,33 +1,33 @@
 import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/harmony'
 
 const PAGE_SUFFIX = '.ets?page-loader=true'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   return {
     name: 'taro:vite-harmony-page',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      if (compiler?.isPage(source) && options.isEntry) {
-        if (compiler.getPageById(source)?.isNative) return null
+      if (viteCompilerContext?.isPage(source) && options.isEntry) {
+        if (viteCompilerContext.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
       }
       return null
     },
     load (id) {
-      if (compiler && id.endsWith(PAGE_SUFFIX)) {
+      if (viteCompilerContext && id.endsWith(PAGE_SUFFIX)) {
         const {
           creatorLocation,
           importFrameworkStatement,
           // frameworkArgs,
-        } = compiler.loaderMeta
+        } = viteCompilerContext.loaderMeta
         const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
-        const page = compiler.getPageById(rawId)
+        const page = viteCompilerContext.getPageById(rawId)
 
         if (!page) {
-          compiler.logger.warn(`编译页面 ${rawId} 失败!`)
+          viteCompilerContext.logger.warn(`编译页面 ${rawId} 失败!`)
           process.exit(1)
         }
 
@@ -69,8 +69,8 @@ struct Index {
 }`,
         ].filter(e => typeof e === 'string').join('\n')
 
-        if (typeof compiler.loaderMeta.modifyInstantiate === 'function') {
-          instantiatePage = compiler.loaderMeta.modifyInstantiate(instantiatePage, 'page')
+        if (typeof viteCompilerContext.loaderMeta.modifyInstantiate === 'function') {
+          instantiatePage = viteCompilerContext.loaderMeta.modifyInstantiate(instantiatePage, 'page')
         }
 
         return [

@@ -4,25 +4,25 @@ import path from 'path'
 
 import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/harmony'
 
 const ENTRY_SUFFIX = '?entry-loader=true'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   return {
     name: 'taro:vite-harmony-entry',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      if (compiler?.isApp(source) && options.isEntry) {
+      if (viteCompilerContext?.isApp(source) && options.isEntry) {
         return appendVirtualModulePrefix(source + ENTRY_SUFFIX)
       }
       return null
     },
     load (id) {
-      if (compiler && id.endsWith(ENTRY_SUFFIX)) {
+      if (viteCompilerContext && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
-        const { taroConfig, app } = compiler
+        const { taroConfig, app } = viteCompilerContext
         const appConfig = app.config
         const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : [taroConfig.runtimePath]
         let setReconcilerPost = ''
@@ -35,7 +35,7 @@ export default function (compiler: TaroCompiler): PluginOption {
           }
         }, '')
 
-        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = compiler.loaderMeta
+        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = viteCompilerContext.loaderMeta
         const createApp = `${creator}(component, ${frameworkArgs})`
 
         const appConfigStr = prettyPrintJson(appConfig)
@@ -81,11 +81,11 @@ export default function (compiler: TaroCompiler): PluginOption {
         }
 
         // pages
-        compiler.pages.forEach(page => {
+        viteCompilerContext.pages.forEach(page => {
           this.emitFile({
             type: 'chunk',
             id: page.scriptPath,
-            fileName: compiler.getScriptPath(page.name),
+            fileName: viteCompilerContext.getScriptPath(page.name),
             implicitlyLoadedAfterOneOf: [rawId]
           })
         })
@@ -95,7 +95,7 @@ export default function (compiler: TaroCompiler): PluginOption {
           const list = appConfig.tabBar.list || []
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
-            const { sourceDir } = compiler
+            const { sourceDir } = viteCompilerContext
 
 
             if (iconPath) {
@@ -122,7 +122,7 @@ export default function (compiler: TaroCompiler): PluginOption {
 
         // darkmode
         if (appConfig.darkmode && isString(appConfig.themeLocation)) {
-          const themePath = path.resolve(compiler.sourceDir, appConfig.themeLocation)
+          const themePath = path.resolve(viteCompilerContext.sourceDir, appConfig.themeLocation)
           this.emitFile({
             type: 'asset',
             fileName: appConfig.themeLocation,

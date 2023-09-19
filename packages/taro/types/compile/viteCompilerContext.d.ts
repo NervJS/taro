@@ -1,5 +1,5 @@
-import type { AppConfig, PageConfig } from "../index"
-import type { IMiniFilesConfig, IH5Config, IMiniAppConfig } from "./config"
+import type { AppConfig, PageConfig } from '../index'
+import type { IMiniFilesConfig, IH5Config, IHarmonyConfig, IMiniAppConfig } from './config'
 import type { IProjectBaseConfig } from './config/project'
 import type { PluginContext } from "rollup"
 
@@ -43,6 +43,16 @@ export interface VitePageMeta {
 export interface ViteH5BuildConfig extends CommonBuildConfig, IH5Config {
   entryFileName?: string
   runtimePath?: string | string[]
+}
+
+export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
+  fileType: IFileType
+  useETS?: boolean
+  useJSON5?: boolean
+  runtimePath?: string | string[]
+  taroComponentsPath: string
+  postcss?: any
+  sassLoaderOption?: any
 }
 
 export interface CommonBuildConfig extends IProjectBaseConfig {
@@ -109,6 +119,17 @@ export interface ViteH5CompilerContext extends ViteCompilerContext<ViteH5BuildCo
     routerCreator: string
     getRoutesConfig: (pageName?: string) => string
   }
+}
+
+export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarmonyBuildConfig> {
+  fileType: ViteFileType
+  commonChunks: string[]
+  getCommonChunks: () => string[]
+  modifyHarmonyConfig: (config: Partial<AppConfig>) => void
+  modifyHostPackageDep: (outDir: string, deps?: Record<string, string>, devDeps?: Record<string, string>) => void
+  getScriptPath: (filePath: string) => string
+  getStylePath: (filePath: string) => string
+  getConfigPath: (filePath: string) => string
 }
 
 export interface ViteMiniCompilerContext extends ViteCompilerContext<ViteMiniBuildConfig> {

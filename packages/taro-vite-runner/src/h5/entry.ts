@@ -60,7 +60,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
             : iconPath.replace(/^./, '')
         }
 
-        const emitTabbarIcon = async (sourceDir, iconPath) =>{
+        const emitTabbarIcon = async (sourceDir, iconPath) => {
           const filePath = path.resolve(sourceDir, iconPath)
           const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
           if (!tabbarAssetsCache.get(fileName)) {
