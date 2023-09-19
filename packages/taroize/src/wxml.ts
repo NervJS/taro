@@ -624,9 +624,13 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
       .get('attributes')
       .forEach((p) => {
         const node = p.node as t.JSXAttribute
-        if (node.name.name === WX_KEY && t.isStringLiteral(node.value)) {
+        // 如果wx:key写到wx:for前面, 此时wx:key就已经被改为key, 所以还要判断key
+        if ( t.isStringLiteral(node.value) && (node.name.name === WX_KEY || node.name.name === 'key')) {
           if (node.value.value === '*this') {
             node.value = t.jSXExpressionContainer(t.identifier(item.value))
+          } else if (node.value.value === 'index') {
+            // index表示item在数组里的下标, 单独抽出来处理
+            node.value = t.jSXExpressionContainer(t.identifier(node.value.value))
           } else {
             node.value = t.jSXExpressionContainer(
               t.memberExpression(t.identifier(item.value), t.identifier(node.value.value))
