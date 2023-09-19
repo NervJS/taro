@@ -70,25 +70,6 @@ declare module '../../index' {
     }
   }
 
-  interface Origin {
-    /** 横坐标 */
-    x: number
-    /** 纵坐标 */
-    y: number
-  }
-  interface Size {
-    /** 宽度 */
-    width: number
-    /** 高度 */
-    height: number
-  }
-  interface Point {
-    /** 横坐标 */
-    x: number
-    /** 纵坐标 */
-    y: number
-  }
-
   /** 人体 anchor
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKBodyAnchor.html
@@ -101,13 +82,13 @@ declare module '../../index' {
     /** 识别序号 */
     detectId: number
     /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: Size
+    size: VKBodyAnchor.Size
     /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: Origin
+    origin: VKBodyAnchor.Origin
     /** 关键点的置信度 */
     confidence: number[]
     /** 关键点 */
-    points: Point[]
+    points: VKBodyAnchor.Point[]
     /** 总体置信值 */
     score: number
   }
@@ -115,6 +96,24 @@ declare module '../../index' {
     interface Type {
       /** 人体 */
       5
+    }
+    interface Size {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+    interface Origin {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+    interface Point {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
     }
   }
   
@@ -128,7 +127,7 @@ declare module '../../index' {
     /** 类型 */
     type: keyof VKDepthAnchor.Type
     /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: Size
+    size: VKDepthAnchor.Size
     /** 包含深度信息的数组 */
     depthArray: number[]
   }
@@ -136,6 +135,12 @@ declare module '../../index' {
     interface Type {
       /** DEPTH */
       8
+    }
+    interface Size {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
     }
   }
 
@@ -151,11 +156,11 @@ declare module '../../index' {
     /** 识别序号 */
     detectId: number
     /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: Origin
+    origin: VKFaceAnchor.Origin
     /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: Size
+    size: VKFaceAnchor.Size
     /** 人脸 106 个关键点的坐标 */
-    points: Point[]
+    points: VKFaceAnchor.Point[]
     /** 人脸角度信息 */
     angle: number[]
     /** 关键点的置信度 */
@@ -165,6 +170,24 @@ declare module '../../index' {
     interface Type {
       /** 人脸 */
       3
+    }
+    interface Size {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+    interface Origin {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+    interface Point {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
     }
   }
   
@@ -180,13 +203,13 @@ declare module '../../index' {
     /** 识别序号 */
     detectId: number
     /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: Size
+    size: VKHandAnchor.Size
     /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: Origin
+    origin: VKHandAnchor.Origin
     /** 关键点的置信度 */
     confidence: number[]
     /** 关键点 */
-    points: Point[]
+    points: VKHandAnchor.Point[]
     /** 总体置信值 */
     score: number
     /** 手势分类, 返回整数-1到18, -1表示无效手势 */
@@ -196,6 +219,24 @@ declare module '../../index' {
     interface Type {
       /** 手势 */
       7
+    }
+    interface Size {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+    interface Origin {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+    interface Point {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
     }
     enum Gesture {
       /** 无效手势 */
@@ -506,32 +547,38 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.removeMarker.html
      */
-    removeMarker(markerId: number): number
+    removeMarker(
+      /** marker id */
+      markerId: number
+    ): number
     /** 删除一个 OSD marker，要求调 Taro.createVKSession 时传入的 track.OSD 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.removeOSDMarker.html
      */
-    removeOSDMarker(markerId: number): number
+    removeOSDMarker(
+      /** marker id */
+      markerId: number
+    ): number
     /** 在下次进行重绘时执行。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.requestAnimationFrame.html
      */
     requestAnimationFrame(
-     /** 执行函数 */
-     callback: TaroGeneral.TFunc
+      /** 执行函数 */
+      callback: TaroGeneral.TFunc
     ): number
     /** 静态图像 OCR 检测。当 Taro.createVKSession 参数传入 {track: {OCR: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.runOCR.html
      */
-    runOCR(): void
+    runOCR(option: VKSession.IRunOCROption): void
     /** 开启会话。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.start.html
      */
     start(
-     /** 开启会话回调 */
-     callback: (status: keyof VKSession.StartStatus) => void
+      /** 开启会话回调 */
+      callback: (status: keyof VKSession.StartStatus) => void
     ): void
     /** 停止会话。
      * @supported weapp
@@ -542,12 +589,18 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.update3DMode.html
      */
-    update3DMode(open3d: boolean): void
+    update3DMode(
+      /** 是否开启 */
+      open3d: boolean
+    ): void
     /** 更新 OSD 识别精确度，要求调 Taro.createVKSession 时传入的 track.OSD 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.updateOSDThreshold.html
      */
-    updateOSDThreshold(threshold: number): void
+    updateOSDThreshold(
+      /** 阈值 */
+      threshold: number
+    ): void
   }
   namespace VKSession {
     /** state 的合法值 */
