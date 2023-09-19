@@ -21,10 +21,10 @@ function injectLoaderMeta (ctx: IPluginContext): PluginOption {
     name: 'taro-vue3:loader-meta',
     buildStart () {
       const { runnerUtils } = ctx
-      const { getViteMiniCompiler } = runnerUtils
-      const compiler = getViteMiniCompiler(this)
-      if (compiler) {
-        compiler.loaderMeta = getLoaderMeta()
+      const { getViteMiniCompilerContext } = runnerUtils
+      const viteCompilerContext = getViteMiniCompilerContext(this)
+      if (viteCompilerContext) {
+        viteCompilerContext.loaderMeta = getLoaderMeta()
       }
     }
   }

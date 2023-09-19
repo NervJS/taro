@@ -7,51 +7,15 @@ import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
 import { getMode, stripMultiPlatformExt } from '../utils'
+import { DEFAULT_TERSER_OPTIONS } from '../utils/constants'
 import { logger } from '../utils/logger'
 
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/mini'
 
-const DEFAULT_TERSER_OPTIONS = {
-  parse: {
-    ecma: 8,
-  },
-  compress: {
-    ecma: 5,
-    warnings: false,
-    arrows: false,
-    collapse_vars: false,
-    comparisons: false,
-    computed_props: false,
-    hoist_funs: false,
-    hoist_props: false,
-    hoist_vars: false,
-    inline: false,
-    loops: false,
-    negate_iife: false,
-    properties: false,
-    reduce_funcs: false,
-    reduce_vars: false,
-    switches: false,
-    toplevel: false,
-    typeofs: false,
-    booleans: true,
-    if_return: true,
-    sequences: true,
-    unused: true,
-    conditionals: true,
-    dead_code: true,
-    evaluate: true,
-  },
-  output: {
-    ecma: 5,
-    comments: false,
-    ascii_only: true,
-  },
-}
-
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath } = compiler
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
+  const { taroConfig, cwd: appPath } = viteCompilerContext
+  const isProd = getMode(taroConfig) === 'production'
   function getDefineOption() {
     const {
       env = {},
@@ -210,7 +174,7 @@ export default function (compiler: TaroCompiler): PluginOption {
   }
 
   function getMinify(): 'terser' | 'esbuild' | boolean {
-    return taroConfig.mode !== 'production'
+    return isProd
       ? false
       : taroConfig.jsMinimizer === 'esbuild'
         ? taroConfig.esbuild?.minify?.enable === false
@@ -242,7 +206,7 @@ export default function (compiler: TaroCompiler): PluginOption {
         },
         watch: taroConfig.isWatch ? {} : null,
         // @TODO doc needed: sourcemapType not supported
-        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
+        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? isProd,
         rollupOptions: {
           output: {
             entryFileNames(chunkInfo) {

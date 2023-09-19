@@ -6,8 +6,8 @@ import path from 'path'
 import { isVirtualModule } from '../utils'
 
 import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption, ResolvedConfig } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/h5'
 
 type PostcssURLConfig = Partial<PostcssOption.url['config']>
 
@@ -19,8 +19,8 @@ const hashRE = /#.*$/s
 const cleanUrl = (url: string): string =>
   url.replace(hashRE, '').replace(queryRE, '')
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const { taroConfig } = viteCompilerContext
   let resolvedConfig: ResolvedConfig
   const assetsCache: WeakMap<ResolvedConfig, Map<string, string>> = new WeakMap()
   return {
@@ -70,7 +70,7 @@ export default function (compiler: TaroCompiler): PluginOption {
       if (REG_IMAGE.test(id)) {
         Object.assign(options, postcssUrlOption, imageUrlLoaderOption)
         limit = options.limit || 2 * 1024
-        sourceDir = 'iamges'
+        sourceDir = 'images'
       } else if (REG_FONT.test(id)) {
         Object.assign(options, postcssUrlOption, fontUrlLoaderOption)
         limit = options.limit || 10 * 1024

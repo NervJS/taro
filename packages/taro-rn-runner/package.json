@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.7.0-alpha.14",
+  "version": "3.7.0-alpha.16",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -31,7 +31,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",

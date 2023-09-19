@@ -5,9 +5,9 @@ import { normalizePath } from 'vite'
 import { isRelativePath, isVirtualModule } from '../utils'
 import { componentConfig } from '../utils/component'
 
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginContext } from 'rollup'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/mini'
 
 const QUERY_IS_NATIVE_SCRIPT = '?isNativeScript='
 export const QUERY_IS_NATIVE_PAGE = QUERY_IS_NATIVE_SCRIPT + 'page'
@@ -16,23 +16,23 @@ const IS_NATIVE_SCRIPT_REG = new RegExp(`\\${QUERY_IS_NATIVE_SCRIPT}(page|comp)$
 const QUERY_IS_NATIVE_STYLE = '?isNativeStyle=true'
 const IS_NATIVE_STYLE_REG = new RegExp(`\\${QUERY_IS_NATIVE_STYLE}`)
 
-export default function (compiler: TaroCompiler | undefined): PluginOption {
+export default function (viteCompilerContext: ViteMiniCompilerContext | undefined): PluginOption {
   // todo 这个插件逻辑不是很清晰 待验证
-  const { taroConfig } = compiler as TaroCompiler
+  const { taroConfig } = viteCompilerContext as ViteMiniCompilerContext
   return {
     name: 'taro:vite-native-support',
     enforce: 'pre',
     buildEnd () {
-      compiler = undefined
+      viteCompilerContext = undefined
     },
     resolveId (id) {
-      if (!compiler) return
+      if (!viteCompilerContext) return
       if (IS_NATIVE_STYLE_REG.test(id)) {
         return id
       }
     },
     async load (id) {
-      if (!compiler) return
+      if (!viteCompilerContext) return
 
       if (IS_NATIVE_SCRIPT_REG.test(id)) {
         let type: 'page' | 'comp' = 'page'
@@ -44,16 +44,16 @@ export default function (compiler: TaroCompiler | undefined): PluginOption {
         let stylePath = ''
 
         if (type === 'page') {
-          for (const page of compiler.pages) {
+          for (const page of viteCompilerContext.pages) {
             if (page.isNative && page.scriptPath === target && page.cssPath && fs.existsSync(page.cssPath)) {
-              stylePath = compiler.getTargetFilePath(page.cssPath, '.scss')
+              stylePath = viteCompilerContext.getTargetFilePath(page.cssPath, '.scss')
               break
             }
           }
         } else {
-          for (const comp of compiler.nativeComponents.values()) {
+          for (const comp of viteCompilerContext.nativeComponents.values()) {
             if (comp.scriptPath === target && comp.cssPath && fs.existsSync(comp.cssPath)) {
-              stylePath = compiler.getTargetFilePath(comp.cssPath, '.scss')
+              stylePath = viteCompilerContext.getTargetFilePath(comp.cssPath, '.scss')
               break
             }
           }
@@ -67,7 +67,7 @@ export default function (compiler: TaroCompiler | undefined): PluginOption {
         }
       } else if (IS_NATIVE_STYLE_REG.test(id)) {
         let source = id.replace(new RegExp(`\\${QUERY_IS_NATIVE_STYLE}`), '')
-        source = compiler.getTargetFilePath(source, compiler.fileType.style)
+        source = viteCompilerContext.getTargetFilePath(source, viteCompilerContext.fileType.style)
         const code = await fs.readFile(source, 'utf-8')
         return {
           code

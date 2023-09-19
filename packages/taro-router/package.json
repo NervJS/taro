@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "3.7.0-alpha.14",
+  "version": "3.7.0-alpha.16",
   "description": "Taro-router",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
@@ -43,7 +43,7 @@
     "@types/jest": "^29.4.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
-    "jest-environment-jsdom": "^29.5.0",
+    "jest-environment-jsdom": "^29.6.4",
     "jsdom": "^21.1.0",
     "rollup": "^2.79.0",
     "rollup-plugin-node-externals": "^5.0.0",

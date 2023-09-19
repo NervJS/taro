@@ -6,25 +6,21 @@ import {
   resolveMainFilePath,
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
+import {
+  ViteAppMeta,
+  ViteFileType,
+  ViteMiniBuildConfig,
+  ViteMiniCompilerContext,
+  ViteNativeCompMeta,
+  VitePageMeta
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
 import { getComponentName } from '../../utils'
 import { componentConfig } from '../../utils/component'
-import { Compiler } from './base'
+import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
-import type { IFileType, MiniBuildConfig } from '../types'
-import type { AppMeta, PageMeta } from './base'
-
-interface NativeCompMeta {
-  name: string
-  scriptPath: string
-  configPath: string
-  config: PageConfig
-  isNative: true
-  templatePath: string
-  cssPath?: string
-}
 
 const defaultFileType = {
   style: '.wxss',
@@ -33,12 +29,12 @@ const defaultFileType = {
   templ: '.wxml'
 }
 
-export class TaroCompiler extends Compiler<MiniBuildConfig> {
-  fileType: IFileType
+export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
+  fileType: ViteFileType
   commonChunks: string[]
-  nativeComponents = new Map<string, NativeCompMeta>()
+  nativeComponents = new Map<string, ViteNativeCompMeta>()
 
-  constructor (appPath: string, taroConfig: MiniBuildConfig) {
+  constructor (appPath: string, taroConfig: ViteMiniBuildConfig) {
     super(appPath, taroConfig)
 
     this.fileType = taroConfig.fileType || defaultFileType
@@ -60,7 +56,7 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
     return customCommonChunks
   }
 
-  compilePage = (pageName: string): PageMeta => {
+  compilePage = (pageName: string): VitePageMeta => {
     const { sourceDir, frameworkExts } = this
 
     const scriptPath = resolveMainFilePath(path.join(sourceDir, pageName), frameworkExts)
@@ -86,12 +82,12 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
       content: config
     }
     this.collectNativeComponents(pageMeta)
-    this.rollupCtx?.addWatchFile(pageMeta.configPath)
+    this.configFileList.push(pageMeta.configPath)
 
     return pageMeta
   }
 
-  collectNativeComponents (meta: AppMeta | PageMeta | NativeCompMeta) {
+  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
     const { name, scriptPath, config } = meta
     const { usingComponents } = config
     if (!usingComponents) return
@@ -116,7 +112,7 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
         return this.logger.warn(`找不到页面 ${name} 依赖的自定义组件：${compScriptPath}`)
       }
 
-      const nativeCompMeta: NativeCompMeta = {
+      const nativeCompMeta: ViteNativeCompMeta = {
         name: getComponentName(this, compScriptPath),
         scriptPath: compScriptPath,
         configPath,
@@ -131,8 +127,7 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
         content: nativeCompMeta.config
       }
       this.nativeComponents.set(compScriptPath, nativeCompMeta)
-      this.rollupCtx?.addWatchFile(nativeCompMeta.configPath)
-
+      this.configFileList.push(nativeCompMeta.configPath)
       if (!componentConfig.thirdPartyComponents.has(compName) && !meta.isNative) {
         componentConfig.thirdPartyComponents.set(compName, new Set())
       }
@@ -142,7 +137,6 @@ export class TaroCompiler extends Compiler<MiniBuildConfig> {
   }
 
   /** 工具函数 */
-
   getScriptPath (filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.script)
   }

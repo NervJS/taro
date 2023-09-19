@@ -1,28 +1,28 @@
 import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/mini'
 
 const PAGE_SUFFIX = '?page-loader=true'
 
-export default function (compiler: TaroCompiler): PluginOption {
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
   return {
     name: 'taro:vite-mini-page',
     enforce: 'pre',
     resolveId (source, _importer, options) {
-      if (compiler?.isPage(source) && options.isEntry) {
-        if (compiler.getPageById(source)?.isNative) return null
+      if (viteCompilerContext?.isPage(source) && options.isEntry) {
+        if (viteCompilerContext.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
       }
       return null
     },
     load (id) {
-      if (compiler && id.endsWith(PAGE_SUFFIX)) {
+      if (viteCompilerContext && id.endsWith(PAGE_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
-        const page = compiler.getPageById(rawId)
+        const page = viteCompilerContext.getPageById(rawId)
 
         if (!page) {
-          compiler.logger.warn(`编译页面 ${rawId} 失败!`)
+          viteCompilerContext.logger.warn(`编译页面 ${rawId} 失败!`)
           process.exit(1)
         }
 
@@ -30,8 +30,8 @@ export default function (compiler: TaroCompiler): PluginOption {
 
         let instantiatePage = `var inst = Page(createPageConfig(component, '${page.name}', {root:{cn:[]}}, config || {}))`
 
-        if (typeof compiler.loaderMeta.modifyInstantiate === 'function') {
-          instantiatePage = compiler.loaderMeta.modifyInstantiate(instantiatePage, 'page')
+        if (typeof viteCompilerContext.loaderMeta.modifyInstantiate === 'function') {
+          instantiatePage = viteCompilerContext.loaderMeta.modifyInstantiate(instantiatePage, 'page')
         }
 
         return [

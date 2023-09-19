@@ -11,41 +11,30 @@ import path from 'path'
 import { stripMultiPlatformExt } from '../../utils'
 import { logger } from '../logger'
 
-import type { AppConfig, PageConfig } from '@tarojs/taro'
+import type { AppConfig } from '@tarojs/taro'
 import type { IMiniFilesConfig } from '@tarojs/taro/types/compile'
+import type {
+  ViteAppMeta,
+  ViteCompilerContext,
+  ViteH5BuildConfig,
+  ViteHarmonyBuildConfig,
+  ViteMiniBuildConfig,
+  VitePageMeta
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginContext } from 'rollup'
-import type { H5BuildConfig, HarmonyBuildConfig, MiniBuildConfig } from '../types'
 
-export interface AppMeta {
-  name: string
-  scriptPath: string
-  configPath: string
-  config: AppConfig
-  isNative: false
-}
-
-export interface PageMeta {
-  name: string
-  scriptPath: string
-  configPath: string
-  config: PageConfig
-  isNative: boolean
-  templatePath?: string
-  cssPath?: string
-}
-
-export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildConfig> {
+export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConfig | ViteMiniBuildConfig> implements ViteCompilerContext<T> {
   static label = VITE_COMPILER_LABEL
-  rollupCtx: PluginContext | null
   cwd: string
   sourceDir: string
   frameworkExts: string[]
-  app: AppMeta
-  pages: PageMeta[]
+  app: ViteAppMeta
+  pages: VitePageMeta[]
   loaderMeta: any
   logger = logger
   filesConfig: IMiniFilesConfig = {}
-  compilePage: (pageName: string) => PageMeta
+  configFileList: string[] = []
+  compilePage: (pageName: string) => VitePageMeta
 
   constructor (appPath: string, public taroConfig: T) {
     this.cwd = appPath
@@ -53,17 +42,15 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
     this.frameworkExts = taroConfig.frameworkExts || SCRIPT_EXT
   }
 
-  // 在内部 preset 插件中，buildStart 钩子里面去调用
-  setRollupCtx (rollupCtx: PluginContext) {
-    this.rollupCtx = rollupCtx
-    this.rollupCtx?.addWatchFile(this.app.configPath)
+  watchConfigFile (rollupCtx: PluginContext) {
+    this.configFileList.forEach((configFile)=> rollupCtx.addWatchFile(configFile))
   }
 
   getAppScriptPath (): string {
     return this.taroConfig.entry.app[0]
   }
 
-  getApp (): AppMeta {
+  getApp (): ViteAppMeta {
     const scriptPath = this.getAppScriptPath()
     const configPath = this.getConfigFilePath(scriptPath)
     const config: AppConfig = readConfig(configPath)
@@ -73,7 +60,7 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
       process.exit(1)
     }
 
-    const appMeta: AppMeta = {
+    const appMeta: ViteAppMeta = {
       name: path.basename(scriptPath).replace(path.extname(scriptPath), ''),
       scriptPath,
       configPath,
@@ -85,12 +72,10 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
       path: configPath,
       content: config
     }
-    this.rollupCtx?.addWatchFile(appMeta.configPath)
-
     return appMeta
   }
 
-  getPages (): PageMeta[] {
+  getPages (): VitePageMeta[] {
     const appConfig = this.app.config
 
     if (!appConfig.pages?.length) {
@@ -98,7 +83,7 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
       process.exit(1)
     }
 
-    const pagesList = appConfig.pages.map<PageMeta>(pageName => this.compilePage(pageName))
+    const pagesList = appConfig.pages.map<VitePageMeta>(pageName => this.compilePage(pageName))
 
     const subPackages = appConfig.subPackages || appConfig.subpackages || []
     subPackages.forEach(item => {
@@ -150,7 +135,4 @@ export class Compiler<T extends MiniBuildConfig | H5BuildConfig | HarmonyBuildCo
       : filePath + targetExtName
   }
 
-  cleanup () {
-    this.rollupCtx = null
-  }
 }

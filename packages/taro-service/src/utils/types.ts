@@ -1,4 +1,5 @@
 import type helper from '@tarojs/helper'
+import type runnerUtils from '@tarojs/runner-utils'
 import type { IMiniFilesConfig, IProjectConfig } from '@tarojs/taro/types/compile'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
@@ -91,6 +92,10 @@ export declare interface IPluginContext {
    * 为包 @tarojs/helper 的快捷使用方式，包含其所有 API
    */
   helper: typeof helper
+  /**
+   * 为包 @tarojs/runner-utils 的快捷使用方式，包含其所有 API
+   */
+  runnerUtils: typeof runnerUtils
   /**
    * 项目配置
    */

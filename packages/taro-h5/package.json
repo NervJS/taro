@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.7.0-alpha.14",
+  "version": "3.7.0-alpha.16",
   "description": "Taro h5 framework",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
@@ -63,7 +63,7 @@
     "babel-jest": "^29.5.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
-    "jest-environment-jsdom": "^29.5.0",
+    "jest-environment-jsdom": "^29.6.4",
     "jest-fetch-mock": "^3.0.3",
     "jest-mock-console": "^1.0.0",
     "jest-transform-css": "^6.0.1",

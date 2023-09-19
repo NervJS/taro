@@ -1,18 +1,31 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
-import assetsPlugin from './assets'
+import { getMode } from '../utils'
+import assets from './assets'
 import configPlugin from './config'
 import entryPlugin from './entry'
+import mpa from './mpa'
 import pipelinePlugin from './pipeline'
+import router from './router'
 
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/h5'
 
-export default function (compiler: TaroCompiler): PluginOption[] {
-  return [
-    pipelinePlugin(compiler),
-    configPlugin(compiler),
-    entryPlugin(compiler),
-    multiPlatformPlugin(compiler),
-    assetsPlugin(compiler),
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption[] {
+  const { taroConfig } = viteCompilerContext
+  const isMultiRouterMode = taroConfig.router?.mode === 'multi'
+  const isProd = getMode(taroConfig) === 'production'
+
+  const preset = [
+    pipelinePlugin(viteCompilerContext),
+    configPlugin(viteCompilerContext),
+    router(viteCompilerContext),
+    entryPlugin(viteCompilerContext),
+    multiPlatformPlugin(viteCompilerContext)
   ]
+
+  if (isMultiRouterMode) preset.push(mpa(viteCompilerContext))
+
+  if (isProd) preset.push(assets(viteCompilerContext))
+
+  return preset
 }

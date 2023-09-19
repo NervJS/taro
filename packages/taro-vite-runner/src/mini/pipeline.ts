@@ -1,21 +1,21 @@
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
 
-import { TaroCompiler } from '../utils/compiler/mini'
-
 import type { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
+  const { taroConfig } = viteCompilerContext
   return {
     name: 'taro:vite-mini-pipeline',
     enforce: 'pre',
     buildStart () {
-      this.load({ id: TaroCompiler.label })
-      const info = this.getModuleInfo(TaroCompiler.label)
+      this.load({ id: VITE_COMPILER_LABEL })
+      const info = this.getModuleInfo(VITE_COMPILER_LABEL)
       if (info) {
-        compiler.setRollupCtx(this)
-        info.meta = { compiler }
+        info.meta = { viteCompilerContext }
+        viteCompilerContext.watchConfigFile(this)
       }
       const { template, baseLevel = 16 } = taroConfig
       if (template.isSupportRecursive === false && baseLevel > 0) {
@@ -23,11 +23,9 @@ export default function (compiler: TaroCompiler): PluginOption {
       }
     },
     load (id) {
-      if (id === TaroCompiler.label) return ''
+      if (id === VITE_COMPILER_LABEL) return ''
     },
     closeBundle () {
-      compiler.cleanup()
-
       const onBuildFinish = taroConfig.onBuildFinish
       if (isFunction(onBuildFinish)) {
         onBuildFinish({

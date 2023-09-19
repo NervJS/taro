@@ -1,29 +1,29 @@
 import { isString } from '@tarojs/shared'
+import { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 import { merge } from 'lodash'
 import { build, createServer } from 'vite'
 
 import h5Preset from './h5'
-import { convertCopyOptions } from './utils'
-import { TaroCompiler } from './utils/compiler/h5'
+import { convertCopyOptions, getMode } from './utils'
+import { TaroCompilerContext } from './utils/compiler/h5'
 import { componentConfig } from './utils/component'
 
 import type { InlineConfig, UserConfig } from 'vite'
-import type { H5BuildConfig } from './utils/types'
 
-export default async function (appPath: string, taroConfig: H5BuildConfig) {
+export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
   const defaultConifg = {
     staticDirectory: 'static',
     viteOutput: {
-      entryFileNames: 'js/app.[hash].js',
       chunkFileNames: 'js/[name].[hash].js',
       assetFileNames: '[ext]/[name].[hash][extname]'
     }
   }
 
-  const compiler = new TaroCompiler(appPath, merge(defaultConifg, taroConfig))
+  const isProd = getMode(taroConfig) === 'production'
+  const viteCompilerContext = new TaroCompilerContext(appPath, merge(defaultConifg, taroConfig))
 
   const plugins: UserConfig['plugins'] = [
-    h5Preset(compiler)
+    h5Preset(viteCompilerContext)
   ]
 
   // copy-plugin
@@ -47,10 +47,7 @@ export default async function (appPath: string, taroConfig: H5BuildConfig) {
     componentConfig
   })
 
-  const { mode } = taroConfig
-
-
-  if (mode === 'production') {
+  if (isProd) {
     await build(commonConfig)
   } else {
     // @TODO pretty print

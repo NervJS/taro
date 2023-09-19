@@ -45,7 +45,8 @@ export default function (this: webpack.LoaderContext<any>) {
 
   if (isBuildNativeComp) {
     const compPath = join(pathDirname, options.filename)
-    return `import component from ${stringify(compPath)}
+    return `${setReconciler}
+import component from ${stringify(compPath)}
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
 component.config = {}

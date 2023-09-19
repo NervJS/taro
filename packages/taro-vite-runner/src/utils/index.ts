@@ -1,14 +1,20 @@
 import { NODE_MODULES_REG } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
+import querystring from 'querystring'
 
+import type {
+  ViteH5BuildConfig,
+  ViteH5CompilerContext,
+  ViteHarmonyBuildConfig,
+  ViteHarmonyCompilerContext,
+  ViteMiniBuildConfig,
+  ViteMiniCompilerContext,
+  VitePageMeta
+} from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { Target } from 'vite-plugin-static-copy'
-import type { TaroCompiler as H5Compiler } from '../utils/compiler/h5'
-import type { TaroCompiler as HarmonyCompiler } from '../utils/compiler/harmony'
-import type { TaroCompiler as MiniCompiler } from '../utils/compiler/mini'
-import type { H5BuildConfig, HarmonyBuildConfig, MiniBuildConfig } from './types'
 
-export function convertCopyOptions (taroConfig: MiniBuildConfig | H5BuildConfig | HarmonyBuildConfig) {
+export function convertCopyOptions (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig) {
   const copy = taroConfig.copy
   const copyOptions: Target[] = []
   copy?.patterns.forEach(({ from, to }) => {
@@ -38,17 +44,17 @@ export function prettyPrintJson (obj: Record<string, any>) {
   return JSON.stringify(obj, null, 2)
 }
 
-export function getComponentName (compiler: MiniCompiler | H5Compiler | HarmonyCompiler, componentPath: string) {
+export function getComponentName (viteCompilerContext: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext, componentPath: string) {
   let componentName: string
   if (NODE_MODULES_REG.test(componentPath)) {
     componentName = componentPath
-      .replace(compiler.cwd, '')
+      .replace(viteCompilerContext.cwd, '')
       .replace(/\\/g, '/')
       .replace(path.extname(componentPath), '')
       .replace(/node_modules/gi, 'npm')
   } else {
     componentName = componentPath
-      .replace(compiler.sourceDir, '')
+      .replace(viteCompilerContext.sourceDir, '')
       .replace(/\\/g, '/')
       .replace(path.extname(componentPath), '')
   }
@@ -87,10 +93,32 @@ export function stripMultiPlatformExt (id: string): string {
 
 export const addTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url : url + '/')
 
-export function getMode (config: H5BuildConfig | MiniBuildConfig | HarmonyBuildConfig) {
+// TODO 关于mode 全部替换成这个
+export function getMode (config: ViteH5BuildConfig | ViteHarmonyBuildConfig | ViteMiniBuildConfig) {
   const preMode = config.mode || process.env.NODE_ENV
   const modes: ('production' | 'development' | 'none')[] = ['production', 'development', 'none']
   const mode = modes.find(e => e === preMode)
     || (!config.isWatch || process.env.NODE_ENV === 'production' ? 'production' : 'development')
   return mode
+}
+
+
+export function genRouterResource (page: VitePageMeta) {
+  return [
+    'Object.assign({',
+    `  path: '${page.name}',`,
+    '  load: async function(context, params) {',
+    `    const page = await import("${page.scriptPath}")`,
+    '    return [page, context, params]',
+    '  }',
+    `}, ${JSON.stringify(page.config)})`
+  ].join('\n')
+}
+
+export function getQueryParams (path: string) {
+  return querystring.parse(path.split('?')[1])
+}
+
+export function generateQueryString (params: { [key: string] : string }): string {
+  return querystring.stringify(params)
 }
