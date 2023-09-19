@@ -287,6 +287,7 @@ export const components = {
     'video-height': '640',
     'beauty-style': "'smooth'",
     filter: "'standard'",
+    'picture-in-picture-mode': '[]',
     animation: _empty,
     bindStateChange: _empty,
     bindNetStatus: _empty,
