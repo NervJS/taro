@@ -3,6 +3,7 @@ dist-h5
 lib
 node_modules
 *.d.ts
+*.ets
 coverage
 examples
 

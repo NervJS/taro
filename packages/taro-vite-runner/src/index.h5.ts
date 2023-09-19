@@ -11,7 +11,7 @@ import { componentConfig } from './utils/component'
 import type { InlineConfig, UserConfig } from 'vite'
 
 export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
-  const defaultConifg = {
+  const defaultConfig = {
     staticDirectory: 'static',
     viteOutput: {
       chunkFileNames: 'js/[name].[hash].js',
@@ -20,7 +20,7 @@ export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
   }
 
   const isProd = getMode(taroConfig) === 'production'
-  const viteCompilerContext = new TaroCompilerContext(appPath, merge(defaultConifg, taroConfig))
+  const viteCompilerContext = new TaroCompilerContext(appPath, merge(defaultConfig, taroConfig))
 
   const plugins: UserConfig['plugins'] = [
     h5Preset(viteCompilerContext)
