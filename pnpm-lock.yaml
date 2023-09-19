@@ -18,7 +18,7 @@ importers:
       '@babel/plugin-transform-react-jsx': ^7.14.5
       '@babel/plugin-transform-runtime': ^7.14.5
       '@babel/preset-env': ^7.14.5
-      '@babel/preset-react': ^7.22.15
+      '@babel/preset-react': ^7.14.5
       '@babel/preset-typescript': ^7.14.5
       '@babel/runtime': ^7.14.5
       '@babel/traverse': ^7.14.5
@@ -296,7 +296,7 @@ importers:
       '@babel/plugin-syntax-jsx': ^7.14.5
       '@babel/plugin-transform-runtime': ^7.14.5
       '@babel/preset-env': ^7.14.5
-      '@babel/preset-react': ^7.22.15
+      '@babel/preset-react': ^7.14.5
       '@babel/preset-typescript': ^7.14.5
       '@babel/runtime': ^7.14.5
       '@babel/runtime-corejs3': ^7.14.5
@@ -1312,7 +1312,7 @@ importers:
     specifiers:
       '@babel/core': ^7.14.5
       '@rollup/plugin-commonjs': ^20.0.0
-      '@rollup/plugin-json': ^4.1.0
+      '@rollup/plugin-json': ^6.0.0
       '@rollup/plugin-node-resolve': ^8.0.0
       '@rollup/plugin-typescript': ^11.1.0
       '@tarojs/components': workspace:*
@@ -1347,7 +1347,7 @@ importers:
       lodash-es: registry.npmjs.org/lodash-es/4.17.21
     devDependencies:
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
-      '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.21.5
+      '@rollup/plugin-json': registry.npmjs.org/@rollup/plugin-json/6.0.0_rollup@3.21.5
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5
       '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/11.1.1_2kkkjclyparzkaevnmwvqixwuq
       '@tarojs/taro': link:../taro
@@ -4369,7 +4369,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.21.5
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.22.5
     dev: true
 
   registry.npmjs.org/@babel/plugin-syntax-bigint/7.8.3_@babel+core@7.22.9:
@@ -4381,7 +4381,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.22.9
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.21.5
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.22.5
     dev: true
 
   registry.npmjs.org/@babel/plugin-syntax-class-properties/7.12.13_@babel+core@7.12.3:
@@ -6690,8 +6690,8 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core/7.22.9
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.21.5
-      '@babel/helper-validator-option': registry.npmjs.org/@babel/helper-validator-option/7.22.5
+      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils/7.22.5
+      '@babel/helper-validator-option': registry.npmjs.org/@babel/helper-validator-option/7.22.15
       '@babel/plugin-transform-flow-strip-types': registry.npmjs.org/@babel/plugin-transform-flow-strip-types/7.21.0_@babel+core@7.22.9
 
   registry.npmjs.org/@babel/preset-modules/0.1.5_@babel+core@7.12.3:
@@ -10542,18 +10542,6 @@ packages:
       rollup: registry.npmjs.org/rollup/2.79.1
     dev: false
 
-  registry.npmjs.org/@rollup/plugin-json/4.1.0_rollup@3.21.5:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-4.1.0.tgz}
-    id: registry.npmjs.org/@rollup/plugin-json/4.1.0
-    name: '@rollup/plugin-json'
-    version: 4.1.0
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils/3.1.0_rollup@3.21.5
-      rollup: registry.npmjs.org/rollup/3.21.5
-    dev: true
-
   registry.npmjs.org/@rollup/plugin-json/6.0.0_rollup@3.21.5:
     resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-6.0.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-json/6.0.0
@@ -11038,7 +11026,7 @@ packages:
     version: 4.3.2
     engines: {node: '>=8'}
     dependencies:
-      '@babel/types': registry.npmjs.org/@babel/types/7.22.5
+      '@babel/types': registry.npmjs.org/@babel/types/7.22.19
     dev: false
 
   registry.npmjs.org/@svgr/plugin-jsx/4.3.3:
@@ -14641,7 +14629,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@babel/template': registry.npmjs.org/@babel/template/7.22.5
-      '@babel/types': registry.npmjs.org/@babel/types/7.22.5
+      '@babel/types': registry.npmjs.org/@babel/types/7.22.19
       '@types/babel__core': registry.npmjs.org/@types/babel__core/7.20.0
       '@types/babel__traverse': registry.npmjs.org/@types/babel__traverse/7.18.5
     dev: true
