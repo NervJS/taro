@@ -3,10 +3,11 @@ import { eventHandler, NodeType } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
+import { TOUCH_EVENT_MAP } from './utils/constant/event.ets'
+import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 
 import type { TaroButtonElement } from '../runtime'
-import { BUTTON_THEME_COLOR } from './utils/constant/style'
 
 @Extend(Button)
 function attrs ({
@@ -31,20 +32,27 @@ function attrs ({
 function themeStyles({
  isPlain,
  fontColor,
+ isDisabled,
  backgroundColor,
 }) {
-  .backgroundColor(isPlain ? 'transparent' : backgroundColor)
-  .borderColor(backgroundColor)
+  .border({
+    width: 1,
+    color: backgroundColor
+  })
   .fontColor(fontColor)
+  .opacity(isDisabled ? 0.4 : 1)
+  .backgroundColor(isPlain ? Color.Transparent : backgroundColor)
 }
 
 function getThemeAttributes (node: TaroButtonElement) {
   const { _st, _attrs } = node
   const isPlain = _attrs.plain
+  const isDisabled = _attrs.disabled
   const type = _attrs.type || 'default'
 
   return {
     isPlain,
+    isDisabled,
     backgroundColor: _st.backgroundColor || BUTTON_THEME_COLOR[type].background,
     fontColor: AttributeManager.getNodeStyle(_st, 'color', BUTTON_THEME_COLOR[type].text),
   }
@@ -70,12 +78,8 @@ function getAttributes (node: TaroButtonElement) {
 struct TaroButton {
   @ObjectLink node: TaroButtonElement
 
-  @Styles defaultEvent () {
-    .onClick(e => eventHandler(e, 'click', this.node))
-  }
-
   @Builder createButtonElement ($$: { instance }) {
-    Button() {
+    Button({ stateEffect: !$$.instance._attrs.disabled }) {
       Row() {
         if ($$.instance._attrs.loading) {
           LoadingProgress()
@@ -87,9 +91,10 @@ struct TaroButton {
         }, item => item._nid)
       }
     }
-    .defaultEvent()
     .attrs(getAttributes($$.instance))
     .themeStyles(getThemeAttributes($$.instance))
+    .onClick(e => !$$.instance._attrs.disabled && eventHandler(e, 'click', $$.instance))
+    .onTouch(e => !$$.instance._attrs.disabled && eventHandler(e, TOUCH_EVENT_MAP[e.type], $$.instance))
   }
 
   @Builder createImageElementWithPosition ($$: { instance, top, left }) {

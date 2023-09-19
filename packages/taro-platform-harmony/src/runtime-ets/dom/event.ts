@@ -88,7 +88,7 @@ function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
     event.currentTarget = target
     const listeners = target.__listeners[event.type]
 
-    if (!Array.isArray(listeners)) {
+    if (!Array.isArray(listeners) || target._attrs?.disabled) {
       continue
     }
 
