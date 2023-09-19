@@ -78,11 +78,11 @@ export default class Index extends React.Component {
             useWebAudioImplement: true, // 使用 Web Audio API 实现
           })
           this.setState((preState: any) => {
-            //每创建一个实例，就往innerConTextList数组中添加
+            // 每创建一个实例，就往innerConTextList数组中添加
             return (preState.innerConTextList = [...preState.innerConTextList, innercontext])
           })
           this.setState((preState: any) => {
-            //每创建一个音频实例，让count自加1
+            // 每创建一个音频实例，让count自加1
             return { count: preState.count + 1 }
           })
           TestConsole.consoleNormal('create innerAudioContext :', innercontext)
