@@ -407,6 +407,33 @@ declare namespace TaroGeneral {
     trigger (eventName: EventName, ...args: any[]): this
   }
 
+  class eventChannel implements EventChannel {
+    constructor() {}
+    emit(
+      /** 事件名称 */
+      eventName: string,
+      /** 事件参数 */
+      ...args: any
+    ): void
+    on(
+      /** 事件名称 */
+      eventName: string,
+      /** 事件监听函数 */
+      fn: TaroGeneral.EventCallback
+    ): void
+    once(
+      /** 事件名称 */
+      eventName: string,
+      /** 事件监听函数 */
+      fn: TaroGeneral.EventCallback
+    ): void
+    off(
+      /** 事件名称 */
+      eventName: string,
+      /** 事件监听函数 */
+      fn: TaroGeneral.EventCallback
+    ): void
+  }
   // ENV_TYPE
   enum ENV_TYPE {
     WEAPP = 'WEAPP',
