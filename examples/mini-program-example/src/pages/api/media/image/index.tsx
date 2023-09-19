@@ -4,12 +4,10 @@ import { View, Text, Button } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
-
 /**
  * 媒体-图片
  * @returns
  */
-
 export default class Index extends React.Component {
   state = {
     list: [
@@ -104,43 +102,33 @@ export default class Index extends React.Component {
       {
         id: 'previewImage',
         inputData: {
+          urls: [
+            "http://www.baidu.com/img/bdlogo.png",
+            "https://img1.baidu.com/it/u=698323844,3339950020&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1694278800&t=60a09ae53f4ed052e28032d918935164",
+            "https://img1.baidu.com/it/u=698323844,3339950020&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1694278800&t=60a09ae53f4ed052e28032d918935164"],
           current: '',
-          showmenu: false,
+          showmenu: true,
           referrerPolicy: '',
+          imageMenuPrevent: false,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('previewImage')
-          Taro.chooseImage({
-            count: 3,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['album', 'camera'],
+          Taro.previewImage({
+            ...data,
             success: (res) => {
-              TestConsole.consoleNormal('chooseImage success:', res)
-              Taro.previewImage({
-                urls: res.tempFilePaths,
-                ...data,
-                success: (res) => {
-                  TestConsole.consoleSuccess.call(this, res, apiIndex)
-                },
-                fail: (res) => {
-                  TestConsole.consoleFail.call(this, res, apiIndex)
-                },
-                complete: (res) => {
-                  TestConsole.consoleComplete.call(this, res, apiIndex)
-                },
-              }).then((res) => {
-                TestConsole.consoleReturn.call(this, res, apiIndex)
-              })
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
-            fail: (err) => {
-              TestConsole.consoleNormal('chooseImage fail:', err)
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
             },
-            complete: (com) => {
-              TestConsole.consoleNormal('chooseImage complete', com)
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
             },
-          }).then((ret) => {
-            TestConsole.consoleNormal('chooseImage return', ret)
+          }).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
+
+
         },
       },
       {
@@ -165,6 +153,7 @@ export default class Index extends React.Component {
               })
             },
             fail: (err) => {
+
               TestConsole.consoleNormal('chooseImage fail:', err)
             },
             complete: (com) => {
@@ -389,7 +378,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
