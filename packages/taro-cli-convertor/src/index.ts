@@ -36,7 +36,7 @@ import {
   incrementId,
   transRelToAbsPath,
 } from './util'
-import { generateMinimalEscapeCode } from './util/astConvert'
+import { generateMinimalEscapeCode, hasTaroImport, isCommonjsModule } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
 import type { AppConfig, TabBar } from '@tarojs/taro'
@@ -388,17 +388,28 @@ export default class Convertor {
                   scriptComponents.push(componentName)
                 }
               }
-            }
+            },
           })
         },
         exit (astPath) {
           const bodyNode = astPath.get('body') as NodePath<t.Node>[]
           const lastImport = bodyNode.filter((p) => p.isImportDeclaration()).pop()
-          const hasTaroImport = bodyNode.some((p) => p.isImportDeclaration() && p.node.source.value === '@tarojs/taro')
-          if (needInsertImportTaro && !hasTaroImport) {
-            (astPath.node as t.Program).body.unshift(
-              t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tarojs/taro'))
-            )
+          if (needInsertImportTaro && !hasTaroImport(bodyNode)) {
+            // 根据模块类型（commonjs/es6) 确定导入taro模块的类型
+            if (isCommonjsModule(bodyNode)) {
+              (astPath.node as t.Program).body.unshift(
+                t.variableDeclaration('const', [
+                  t.variableDeclarator(
+                    t.identifier('Taro'),
+                    t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/taro')])
+                  ),
+                ])
+              )
+            } else {
+              (astPath.node as t.Program).body.unshift(
+                t.importDeclaration([t.importDefaultSpecifier(t.identifier('Taro'))], t.stringLiteral('@tarojs/taro'))
+              )
+            }
           }
           astPath.traverse({
             StringLiteral (astPath) {
@@ -530,7 +541,7 @@ export default class Convertor {
                 }
                 // 如果用到了，从scriptComponents中移除
                 const index = scriptComponents.indexOf(name)
-                scriptComponents.splice(index,1)
+                scriptComponents.splice(index, 1)
                 let componentPath = componentObj.path
                 if (componentPath.indexOf(self.root) !== -1) {
                   componentPath = path.relative(sourceFilePath, componentPath)
