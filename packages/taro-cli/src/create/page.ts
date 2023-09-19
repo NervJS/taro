@@ -6,7 +6,8 @@ import {
   getUserHomeDir,
   resolveScriptPath,
   TARO_BASE_CONFIG,
-  TARO_CONFIG_FOLDER } from '@tarojs/helper'
+  TARO_CONFIG_FOLDER
+} from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
 
