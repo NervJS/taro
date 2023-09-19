@@ -2,6 +2,7 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+// null-implementation
 export const openDocument: typeof Taro.openDocument = (options) => {
   const name = 'openDocument'
 
