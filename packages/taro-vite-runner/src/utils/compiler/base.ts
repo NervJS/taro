@@ -37,15 +37,19 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteMiniBuildConfig>
   configFileList: string[] = []
   compilePage: (pageName: string) => VitePageMeta
 
-  constructor (appPath: string, taroConfig: T) {
+  constructor (appPath: string, rawTaroConfig: T) {
     this.cwd = appPath
-    this.sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-    this.rawTaroConfig = taroConfig
+    this.rawTaroConfig = rawTaroConfig
+    this.process()
+  }
+
+  protected process () {
     this.processConfig()
+    this.sourceDir = path.join(this.cwd, this.taroConfig.sourceRoot as string)
     this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
   }
 
-  processConfig () {}
+  protected processConfig () {}
 
   watchConfigFile (rollupCtx: PluginContext) {
     this.configFileList.forEach((configFile)=> rollupCtx.addWatchFile(configFile))

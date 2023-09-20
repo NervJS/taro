@@ -2,6 +2,7 @@ import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
+import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
 
 interface Runtime {
   enableInnerHTML: boolean
@@ -28,7 +29,7 @@ interface OutputExt {
   }
 }
 
-export interface IMiniAppConfig<T = 'webpack' | 'vite'> {
+export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> {
   /** 默认值：'cheap-module-source-map'， 具体参考[Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool) */
   sourceMapType?: string
 
@@ -54,7 +55,8 @@ export interface IMiniAppConfig<T = 'webpack' | 'vite'> {
   webpackChain?: (chain: Chain, webpack: typeof Webpack, PARSE_AST_TYPE: any) => void
 
   /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
-  vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 这个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/) */
+  * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/) 
+  */
   output?: T extends 'vite' 
     ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
     : Webpack.Configuration['output'] & OutputExt
@@ -110,7 +112,7 @@ export interface IMiniAppConfig<T = 'webpack' | 'vite'> {
 
 export interface IMiniFilesConfig {
   [configName: string]: {
-    content: Config
+    content: any
     path: string
   }
 }

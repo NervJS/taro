@@ -107,7 +107,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     name: 'taro:vite-h5-config',
     enforce: 'pre',
     config: async () => ({
-      root: path.join(appPath, taroConfig.sourceRoot as string),
+      root: sourceDir,
       base: parsePublicPath(taroConfig.publicPath),
       mode,
       build: {
@@ -123,7 +123,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
             entryFileNames: 'js/app.[hash].js',
             chunkFileNames: taroConfig.output!.chunkFileNames,
             assetFileNames: taroConfig.output!.assetFileNames,
-            plugins: [babel(getBabelOption(taroConfig, appPath)) as InputPluginOption,],
+            plugins: [babel(getBabelOption(taroConfig, sourceDir)) as InputPluginOption,],
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {

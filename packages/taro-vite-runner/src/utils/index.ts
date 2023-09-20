@@ -183,7 +183,7 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
 }
 
 
-export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig, appPath: string): RollupBabelInputPluginOptions {
+export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig, sourceDir: string): RollupBabelInputPluginOptions {
   const { compile = {} } = taroConfig
   const babelOptions: RollupBabelInputPluginOptions = {
     extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
@@ -197,7 +197,6 @@ export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildCon
     if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
     babelOptions.exclude = list
   } else if (compile.include?.length) {
-    const sourceDir = path.join(appPath, taroConfig.sourceRoot as string)
     babelOptions.include = [...compile.include, sourceDir, /taro/]
   } else {
     babelOptions.exclude = [/node_modules[/\\](?!@tarojs)/]

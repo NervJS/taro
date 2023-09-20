@@ -6,8 +6,8 @@ import {
 } from '@tarojs/helper'
 import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
-import defaultConifg from 'src/defaultConfig/defaultConfig.h5'
 
+import defaultConifg from '../../defaultConfig/defaultConfig.h5'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'

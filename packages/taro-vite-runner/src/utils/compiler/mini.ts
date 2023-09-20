@@ -16,8 +16,8 @@ import {
   VitePageMeta 
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
-import defaultConifg from 'src/defaultConfig/defaultConfig.mini'
 
+import defaultConifg from '../../defaultConfig/defaultConfig.mini'
 import { componentConfig } from '../../template/component'
 import { getComponentName } from '../../utils'
 import { CompilerContext } from './base'

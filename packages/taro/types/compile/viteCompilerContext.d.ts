@@ -1,6 +1,6 @@
 import type { AppConfig, PageConfig } from "../index"
 import type { IMiniFilesConfig, IH5Config, IMiniAppConfig } from "./config"
-import type { IViteProjectConfig } from './config/project'
+import type { IProjectConfig } from './config/project'
 import type { PluginContext } from "rollup"
 import { IComponentConfig } from "./hooks"
 
@@ -48,7 +48,7 @@ export interface ViteH5BuildConfig extends CommonBuildConfig, IH5Config<'vite'> 
   runtimePath?: string | string[]
 }
 
-export interface CommonBuildConfig extends IViteProjectConfig {
+export interface CommonBuildConfig extends IProjectConfig<'vite'> {
   entry: {
     app: string | string[]
   }
@@ -88,7 +88,6 @@ export interface ViteCompilerContext<T> {
   sourceDir: string
   taroConfig: T
   rawTaroConfig: T
-  processConfig: () => void
   frameworkExts: string[]
   app: ViteAppMeta
   pages: VitePageMeta[]
