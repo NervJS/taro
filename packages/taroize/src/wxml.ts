@@ -164,7 +164,7 @@ function convertStyleUnit (path: NodePath<t.JSXAttribute>) {
         .replace(/([0-9.]+)rpx/gi, function (match, size) {
           if (Number(size) === 0) {
             return '0rem'
-          }           
+          }
           return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
         })
       // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
@@ -247,9 +247,6 @@ export const createWxmlVistor = (
   const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
     const nodeName = path.node.name
     if (path.parentPath.isJSXAttribute()) {
-      if (nodeName === WX_KEY) {
-        path.replaceWith(t.jSXIdentifier('key'))
-      }
       if (nodeName === WX_SHOW) {
         path.replaceWith(t.jSXIdentifier(WX_IF)) // wx:show转换后不支持，不频繁切换的话wx:if可替代
         // eslint-disable-next-line no-console
@@ -624,12 +621,12 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
       .get('attributes')
       .forEach((p) => {
         const node = p.node as t.JSXAttribute
-        // 如果wx:key写到wx:for前面, 此时wx:key就已经被改为key, 所以还要判断key
-        if (t.isStringLiteral(node.value) && (node.name.name === WX_KEY || node.name.name === 'key')) {
+        if (t.isStringLiteral(node.value) && node.name.name === WX_KEY) {
+          node.name = t.jSXIdentifier('key')
           if (node.value.value === '*this') {
             node.value = t.jSXExpressionContainer(t.identifier(item.value))
           } else if (node.value.value === 'index') {
-            // index表示item在数组里的下标, 单独抽出来处理
+            // index表示item在数组里的下标, 并不是item的某个property, 单独抽出来处理
             node.value = t.jSXExpressionContainer(t.identifier(node.value.value))
           } else {
             node.value = t.jSXExpressionContainer(
