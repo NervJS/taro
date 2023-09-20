@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
-    "@tarojs/share": "workspace:*"
+    "@tarojs/shared": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@types/react": {
