@@ -1389,6 +1389,7 @@ importers:
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       '@tarojs/taro': workspace:*
+      fast-glob: ^3.3.1
       rollup: ^3.8.1
       rollup-plugin-copy: ^3.4.0
       rollup-plugin-node-externals: ^5.0.0
@@ -1410,6 +1411,7 @@ importers:
       '@rollup/plugin-commonjs': registry.npmjs.org/@rollup/plugin-commonjs/20.0.0_rollup@3.21.5
       '@rollup/plugin-node-resolve': registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0_rollup@3.21.5
       '@rollup/plugin-typescript': registry.npmjs.org/@rollup/plugin-typescript/11.1.1_zbvynxjsshkmfsrzjt34poassy
+      fast-glob: registry.npmjs.org/fast-glob/3.3.1
       rollup: registry.npmjs.org/rollup/3.21.5
       rollup-plugin-copy: registry.npmjs.org/rollup-plugin-copy/3.4.0
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5
@@ -22519,6 +22521,18 @@ packages:
       merge2: registry.npmjs.org/merge2/1.4.1
       micromatch: registry.npmjs.org/micromatch/4.0.5
 
+  registry.npmjs.org/fast-glob/3.3.1:
+    resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/fast-glob/-/fast-glob-3.3.1.tgz}
+    name: fast-glob
+    version: 3.3.1
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': registry.npmjs.org/@nodelib/fs.stat/2.0.5
+      '@nodelib/fs.walk': registry.npmjs.org/@nodelib/fs.walk/1.2.8
+      glob-parent: registry.npmjs.org/glob-parent/5.1.2
+      merge2: registry.npmjs.org/merge2/1.4.1
+      micromatch: registry.npmjs.org/micromatch/4.0.5
+
   registry.npmjs.org/fast-json-stable-stringify/2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/fast-json-stable-stringify/-/fast-json-stable-stringify-2.1.0.tgz}
     name: fast-json-stable-stringify
@@ -23758,7 +23772,7 @@ packages:
       '@types/glob': registry.npmjs.org/@types/glob/7.2.0
       array-union: registry.npmjs.org/array-union/2.1.0
       dir-glob: registry.npmjs.org/dir-glob/3.0.1
-      fast-glob: registry.npmjs.org/fast-glob/3.2.12
+      fast-glob: registry.npmjs.org/fast-glob/3.3.1
       glob: registry.npmjs.org/glob/7.2.3
       ignore: registry.npmjs.org/ignore/5.2.4
       merge2: registry.npmjs.org/merge2/1.4.1
@@ -23773,7 +23787,7 @@ packages:
     dependencies:
       array-union: registry.npmjs.org/array-union/2.1.0
       dir-glob: registry.npmjs.org/dir-glob/3.0.1
-      fast-glob: registry.npmjs.org/fast-glob/3.2.12
+      fast-glob: registry.npmjs.org/fast-glob/3.3.1
       ignore: registry.npmjs.org/ignore/5.2.4
       merge2: registry.npmjs.org/merge2/1.4.1
       slash: registry.npmjs.org/slash/3.0.0
@@ -23798,7 +23812,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       dir-glob: registry.npmjs.org/dir-glob/3.0.1
-      fast-glob: registry.npmjs.org/fast-glob/3.2.12
+      fast-glob: registry.npmjs.org/fast-glob/3.3.1
       ignore: registry.npmjs.org/ignore/5.2.4
       merge2: registry.npmjs.org/merge2/1.4.1
       slash: registry.npmjs.org/slash/4.0.0
@@ -37357,7 +37371,7 @@ packages:
       cosmiconfig: registry.npmjs.org/cosmiconfig/7.1.0
       css-functions-list: registry.npmjs.org/css-functions-list/3.1.0
       debug: registry.npmjs.org/debug/4.3.4
-      fast-glob: registry.npmjs.org/fast-glob/3.2.12
+      fast-glob: registry.npmjs.org/fast-glob/3.3.1
       fastest-levenshtein: registry.npmjs.org/fastest-levenshtein/1.0.16
       file-entry-cache: registry.npmjs.org/file-entry-cache/6.0.1
       global-modules: registry.npmjs.org/global-modules/2.0.0
