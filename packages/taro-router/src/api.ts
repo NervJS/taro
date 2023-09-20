@@ -42,8 +42,37 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     stacks.method = method
     const { success, complete, fail } = option
+    const  eventChannel : TaroGeneral.eventChannel = {
+      emit (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件参数 */
+        ..._args: any
+      ): void{},
+      on (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件监听函数 */
+        _fn: TaroGeneral.EventCallback
+      ): void{},
+      once (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件监听函数 */
+        _fn: TaroGeneral.EventCallback
+      ): void{},
+      off (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件监听函数 */
+        _fn: TaroGeneral.EventCallback
+      ): void{},
+    }
     const unListen = history.listen(() => {
-      const res = { errMsg: `${method}:ok` }
+      const res = { 
+        errMsg: `${method}:ok` ,
+        eventChannel : eventChannel 
+      }
       success?.(res)
       complete?.(res)
       resolve(res)
