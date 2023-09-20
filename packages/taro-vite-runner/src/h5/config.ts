@@ -1,15 +1,19 @@
+import { babel } from '@rollup/plugin-babel'
 import { defaultMainFields, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString } from '@tarojs/shared'
+import { PostcssOption } from '@tarojs/taro/types/compile'
+import { get, isNumber } from 'lodash'
 import path from 'path'
+import { InputPluginOption } from 'rollup'
 
-import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
-import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
-import { DEFAULT_TERSER_OPTIONS } from '../utils/constants'
+import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
+import { addTrailingSlash, getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
+import { DEFAULT_TERSER_OPTIONS, H5_EXCULDE_POSTCSS_PLUGINA_NAME } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { CSSModulesOptions, PluginOption } from 'vite'
+import type { PluginOption } from 'vite'
 
 
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
@@ -58,31 +62,19 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     }
   }
 
-  function getCSSModulesOptions(): false | CSSModulesOptions {
-    if (taroConfig.postcss?.cssModules?.enable !== true) return false
-    const config = recursiveMerge(
-      {},
-      {
-        namingPattern: 'module',
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
-      },
-      taroConfig.postcss.cssModules.config
-    )
-    return {
-      generateScopedName: config.generateScopedName,
+  function assetsInlineLimit () :number {
+    const urlOptions = get(taroConfig, 'postcss.url', {}) as PostcssOption.url
+    const url = urlOptions.config?.url
+    const maxSize = urlOptions.config?.maxSize
+    // 如果 enable 等于 false，不给转 base64
+    if (urlOptions.enable === false) return 0
+    if (url === 'inline') {
+      // inline 模式下可以转 base64
+      let _maxSize = Number.MAX_SAFE_INTEGER
+      if (isNumber(maxSize)) _maxSize = maxSize
+      return _maxSize
     }
-  }
-
-  function getMinify(): 'terser' | 'esbuild' | boolean {
-    return !isProd
-      ? false
-      : taroConfig.jsMinimizer === 'esbuild'
-        ? taroConfig.esbuild?.minify?.enable === false
-          ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
-          : 'esbuild'
-        : taroConfig.terser?.enable === false
-          ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
-          : 'terser'
+    return 0
   }
 
   const __postcssOption = getDefaultPostcssConfig({
@@ -115,23 +107,23 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     name: 'taro:vite-h5-config',
     enforce: 'pre',
     config: async () => ({
-      root: path.join(appPath, taroConfig.sourceRoot || 'src'),
+      root: path.join(appPath, taroConfig.sourceRoot as string),
       base: parsePublicPath(taroConfig.publicPath),
       mode,
       build: {
-        outDir: path.join(appPath, taroConfig.outputRoot || 'dist'),
+        outDir: path.join(appPath, taroConfig.outputRoot as string),
         target: 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
         watch: taroConfig.isWatch ? {} : null,
-        
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? !isProd,
         rollupOptions: {
           output: {
             entryFileNames: 'js/app.[hash].js',
-            chunkFileNames: taroConfig.viteOutput!.chunkFileNames,
-            assetFileNames: taroConfig.viteOutput!.assetFileNames,
+            chunkFileNames: taroConfig.output!.chunkFileNames,
+            assetFileNames: taroConfig.output!.assetFileNames,
+            plugins: [babel(getBabelOption(taroConfig, appPath)) as InputPluginOption,],
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
@@ -146,10 +138,10 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true,
         },
-
-        minify: getMinify(),
+        assetsInlineLimit: assetsInlineLimit(),
+        minify: getMinify(taroConfig),
         terserOptions:
-          getMinify() === 'terser'
+          getMinify(taroConfig) === 'terser'
             ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
             : undefined,
       },
@@ -175,7 +167,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       css: {
         postcss: {
           // @Todo Vite 的 postcss 功能不支持 filter 逻辑，Webpack 里的 filter 逻辑需要判断是否仍需要迁移过来 等待 vite pr 合并
-          plugins: getPostcssPlugins(appPath, __postcssOption),
+          plugins: getPostcssPlugins(appPath, __postcssOption, H5_EXCULDE_POSTCSS_PLUGINA_NAME),
           // exclude: postcssExclude
         },
         preprocessorOptions: {
@@ -183,7 +175,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
           less: taroConfig.lessLoaderOption || {},
           stylus: taroConfig.stylusLoaderOption || {},
         },
-        modules: getCSSModulesOptions()
+        modules: getCSSModulesOptions(taroConfig)
       },
     }),
 

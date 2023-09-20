@@ -97,6 +97,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^14.14.31",
     "@types/postcss-import": "^14.0.0",
+    "@types/postcss-url": "^10.0.0",
     "@types/react": "^18.0.0",
     "@types/react-reconciler": "0.28.1",
     "@types/request": "^2.48.1",

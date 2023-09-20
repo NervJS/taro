@@ -17,7 +17,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { FONT_LIMIT, getSassLoaderOption, IMAGE_LIMIT, MEDIA_LIMIT } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import { cloneDeep, partial } from 'lodash'
@@ -81,15 +81,15 @@ const defaultCSSCompressOption = {
 }
 
 const defaultMediaUrlLoaderOption = {
-  limit: 10240,
+  limit: MEDIA_LIMIT,
   esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240,
+  limit: FONT_LIMIT,
   esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 2046,
+  limit: IMAGE_LIMIT,
   esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
@@ -97,13 +97,6 @@ const defaultCssModuleOption: PostcssOption.cssModules = {
   config: {
     namingPattern: 'global',
     generateScopedName: '[name]__[local]___[hash:base64:5]'
-  }
-}
-
-const defaultUrlOption: PostcssOption.url = {
-  enable: true,
-  config: {
-    limit: 10240 // limit 10k base on document
   }
 }
 
@@ -221,7 +214,7 @@ export const getModule = (appPath: string, {
   postcss,
   fileType
 }) => {
-  const postcssOption: IPostcssOption = postcss || {}
+  const postcssOption: IPostcssOption<'mini'> = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
@@ -367,12 +360,6 @@ export const getModule = (appPath: string, {
     })
   }
 
-  const urlOptions: PostcssOption.url = recursiveMerge({}, defaultUrlOption, postcssOption.url)
-  let postcssUrlOption
-  if (urlOptions.enable) {
-    postcssUrlOption = urlOptions.config
-  }
-
   function addCssLoader (cssLoaders, ...loader) {
     const cssLoadersCopy = cloneDeep(cssLoaders)
     cssLoadersCopy.forEach(item => {
@@ -479,7 +466,6 @@ export const getModule = (appPath: string, {
           name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
-          ...(postcssUrlOption || {}),
           ...mediaUrlLoaderOption
         }])
       }
@@ -491,7 +477,6 @@ export const getModule = (appPath: string, {
           name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
-          ...(postcssUrlOption || {}),
           ...fontUrlLoaderOption
         }])
       }
@@ -503,7 +488,6 @@ export const getModule = (appPath: string, {
           name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
-          ...(postcssUrlOption || {}),
           ...imageUrlLoaderOption
         }])
       }

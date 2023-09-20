@@ -1,15 +1,12 @@
-import { fs, recursiveMerge, REG_FONT, REG_IMAGE, REG_MEDIA, } from '@tarojs/helper'
+import { fs, REG_FONT, REG_IMAGE, REG_MEDIA, } from '@tarojs/helper'
 import { isBoolean, isFunction, isString } from '@tarojs/shared'
 import mrmime from 'mrmime'
-import path from 'path'
 
 import { isVirtualModule } from '../utils'
 
-import type { IOption, PostcssOption } from '@tarojs/taro/types/compile'
-import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
+import type { IUrlLoaderOption } from '@tarojs/taro/types/compile'
+import type { ViteH5CompilerContext, ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption, ResolvedConfig } from 'vite'
-
-type PostcssURLConfig = Partial<PostcssOption.url['config']>
 
 const rawRE = /(?:\?|&)raw(?:&|$)/
 const urlRE = /(\?|&)url(?:&|$)/
@@ -19,8 +16,8 @@ const hashRE = /#.*$/s
 const cleanUrl = (url: string): string =>
   url.replace(hashRE, '').replace(queryRE, '')
 
-export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
-  const { taroConfig } = viteCompilerContext
+export default function (viteCompilerContext: ViteH5CompilerContext | ViteMiniCompilerContext): PluginOption {
+  const { taroConfig, sourceDir } = viteCompilerContext
   let resolvedConfig: ResolvedConfig
   const assetsCache: WeakMap<ResolvedConfig, Map<string, string>> = new WeakMap()
   return {
@@ -47,50 +44,37 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
 
       const source = await fs.readFile(id)
 
-      const defaultUrlOption: PostcssOption.url = {
-        enable: true,
-        config: {
-          limit: 10 * 1024 // limit 10k base on document
-        }
-      }
       const {
-        postcss: postcssOption = {},
-        imageUrlLoaderOption,
-        fontUrlLoaderOption,
-        mediaUrlLoaderOption
+        imageUrlLoaderOption = {},
+        fontUrlLoaderOption = {},
+        mediaUrlLoaderOption = {}
       } = taroConfig
-      const urlOptions: PostcssOption.url = recursiveMerge({}, defaultUrlOption, postcssOption.url)
-      const postcssUrlOption: PostcssURLConfig = urlOptions.enable
-        ? urlOptions.config
-        : {}
 
-      let limit: number
-      const options: PostcssURLConfig & IOption = {}
-      let sourceDir: string
+      let limit: number | boolean
+
+      let options: IUrlLoaderOption = {}
+
       if (REG_IMAGE.test(id)) {
-        Object.assign(options, postcssUrlOption, imageUrlLoaderOption)
-        limit = options.limit || 2 * 1024
-        sourceDir = 'images'
+        options = imageUrlLoaderOption
+        limit = options.limit as number | boolean
       } else if (REG_FONT.test(id)) {
-        Object.assign(options, postcssUrlOption, fontUrlLoaderOption)
-        limit = options.limit || 10 * 1024
-        sourceDir = 'fonts'
+        options = fontUrlLoaderOption
+        limit = options.limit as number | boolean
       } else if (REG_MEDIA.test(id)) {
-        Object.assign(options, postcssUrlOption, mediaUrlLoaderOption)
-        limit = options.limit || 10 * 1024
-        sourceDir = 'media'
+        options = mediaUrlLoaderOption
+        limit = options.limit as number | boolean
       } else {
         return
       }
       const isEsModule = isBoolean(options.esModule) ? options.esModule : true
 
       let url: string
-      if (source.length < limit) {
+      if (limit || (!isBoolean(limit) && source.length < limit)) {
         const mimeType = mrmime.lookup(id) ?? 'application/octet-stream'
         url = `data:${mimeType};base64,${source.toString('base64')}`
       } else {
-        let fileName = path.join(taroConfig.staticDirectory as string, sourceDir, path.basename(id)) 
-        isFunction(options.name) && (fileName = options.name(fileName))
+        let fileName = id.replace(sourceDir + '/', '')
+        isFunction(options.name) && (fileName = options.name(id))
         const referenceId = this.emitFile({
           type: 'asset',
           fileName,

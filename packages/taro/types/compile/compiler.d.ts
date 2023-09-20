@@ -20,7 +20,6 @@ interface IPrebundle {
 interface ICompiler {
   type: CompilerTypes
   prebundle?: IPrebundle
-  vitePlugins?: any[]
 }
 
 export type Compiler = CompilerTypes | ICompiler

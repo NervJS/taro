@@ -47,7 +47,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
-export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
+export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig<'webpack'> {
   isBuildPlugin: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
@@ -64,7 +64,7 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
 }
 
-export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
+export interface H5BuildConfig extends CommonBuildConfig, IH5Config<'webapck'> {
   entryFileName?: string
   runtimePath?: string | string[]
 }

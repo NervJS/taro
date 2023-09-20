@@ -9,9 +9,9 @@ import { TaroCompilerContext } from './utils/compiler/mini'
 
 import type { UserConfig } from 'vite'
 
-export default async function (appPath: string, taroConfig: ViteMiniBuildConfig) {
-  const viteCompilerContext = new TaroCompilerContext(appPath, taroConfig)
-  
+export default async function (appPath: string, rawTaroConfig: ViteMiniBuildConfig) {
+  const viteCompilerContext = new TaroCompilerContext(appPath, rawTaroConfig)
+  const { taroConfig } = viteCompilerContext
   const plugins: UserConfig['plugins'] = [
     miniPreset(viteCompilerContext)
   ]

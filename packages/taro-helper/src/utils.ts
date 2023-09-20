@@ -31,7 +31,7 @@ export function normalizePath(path: string) {
   return path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')
 }
 
-export const isNodeModule = (filename: string) => NODE_MODULES_REG.test(filename)
+export const isNodeModule = (filename: string): boolean => NODE_MODULES_REG.test(filename)
 
 export function isNpmPkg(name: string): boolean {
   if (/^(\.|\/)/.test(name)) {

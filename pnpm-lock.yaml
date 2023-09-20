@@ -62,6 +62,7 @@ importers:
       '@types/lodash-es': ^4.17.6
       '@types/node': ^14.14.31
       '@types/postcss-import': ^14.0.0
+      '@types/postcss-url': ^10.0.0
       '@types/react': ^18.0.0
       '@types/react-reconciler': 0.28.1
       '@types/request': ^2.48.1
@@ -182,6 +183,7 @@ importers:
       '@types/lodash-es': registry.npmjs.org/@types/lodash-es/4.17.7
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       '@types/postcss-import': registry.npmjs.org/@types/postcss-import/14.0.0
+      '@types/postcss-url': registry.npmjs.org/@types/postcss-url/10.0.0
       '@types/react': registry.npmjs.org/@types/react/18.2.6
       '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.28.1
       '@types/request': registry.npmjs.org/@types/request/2.48.8
@@ -11706,6 +11708,15 @@ packages:
     version: 14.0.0
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.23
+    dev: true
+
+  registry.npmjs.org/@types/postcss-url/10.0.0:
+    resolution: {integrity: sha512-Ci0+xR7WUFw7K1z4qBml1+QJQmekD7B6fn5DTbb8X8Ud5gsVWvEsS5mmTHhyezgRtC60M1/EFuQRcvqNrGv/KQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/postcss-url/-/postcss-url-10.0.0.tgz}
+    name: '@types/postcss-url'
+    version: 10.0.0
+    dependencies:
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      postcss: registry.npmjs.org/postcss/8.4.27
     dev: true
 
   registry.npmjs.org/@types/prettier/2.7.2:
@@ -36732,7 +36743,6 @@ packages:
       serialize-javascript: registry.npmjs.org/serialize-javascript/6.0.1
       terser: registry.npmjs.org/terser/5.17.1
       webpack: registry.npmjs.org/webpack/5.78.0
-    dev: true
 
   registry.npmjs.org/terser/4.8.0:
     resolution: {integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/terser/-/terser-4.8.0.tgz}
@@ -38740,7 +38750,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types/2.1.35
       range-parser: registry.npmjs.org/range-parser/1.2.1
       schema-utils: registry.npmjs.org/schema-utils/4.0.1
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
 
   registry.npmjs.org/webpack-dev-server/3.11.3_webpack@4.46.0:
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -38836,7 +38846,7 @@ packages:
       serve-index: registry.npmjs.org/serve-index/1.9.1
       sockjs: registry.npmjs.org/sockjs/0.3.24
       spdy: registry.npmjs.org/spdy/4.0.2
-      webpack: registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54
+      webpack: registry.npmjs.org/webpack/5.78.0
       webpack-dev-middleware: registry.npmjs.org/webpack-dev-middleware/5.3.3_webpack@5.78.0
       ws: registry.npmjs.org/ws/8.13.0
     transitivePeerDependencies:
@@ -38982,7 +38992,6 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
-    dev: true
 
   registry.npmjs.org/webpack/5.78.0_esbuild@0.14.54:
     resolution: {integrity: sha512-gT5DP72KInmE/3azEaQrISjTvLYlSM0j1Ezhht/KLVkrqtv10JoP/RXhwmX/frrutOPuSq3o5Vq0ehR/4Vmd1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack/-/webpack-5.78.0.tgz}
