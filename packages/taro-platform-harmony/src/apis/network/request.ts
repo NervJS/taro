@@ -83,7 +83,7 @@ const request: typeof Taro.request = function (options) {
       const reswx = {
         data: dataType === 'json' && isString(requestData.result) ? JSON.parse(requestData.result) : requestData.result,
         statusCode: requestData.responseCode,
-        header: JSON.parse(requestData.header)
+        header: requestData.header
       }
       callAsyncSuccess(resolve, reswx, options)
     }).catch(error => {

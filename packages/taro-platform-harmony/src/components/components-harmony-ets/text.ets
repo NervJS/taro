@@ -78,8 +78,19 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 struct TaroText {
   @ObjectLink node: TaroTextElement
 
+  info: Area
+
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onAreaChange((_: Area, areaResult: Area) => {
+      this.info = areaResult
+    })
+  }
+
+  aboutToAppear () {
+    if (!this.node) return
+
+    this.node.instance = this
   }
 
   build() {

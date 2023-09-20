@@ -44,7 +44,7 @@ struct Index {
     const params = router.getParams() || {}
 
     this.page = createPageConfig(component, '${page.name}')
-    this.page.onLoad(params, (instance) => {
+    this.page.onLoad.call(this, params, (instance) => {
       this.node = instance
     })
   }
