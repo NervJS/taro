@@ -1,11 +1,12 @@
 // @ts-ignore
-import { eventHandler, NodeType } from '@tarojs/runtime'
+import { eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
-import { FlexManager } from './utils/FlexManager'
-import { TOUCH_EVENT_MAP } from './utils/constant/event.ets'
+import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
+import { TOUCH_EVENT_MAP } from './utils/constant/event.ets'
+import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
@@ -58,73 +59,35 @@ function getThemeAttributes (node: TaroButtonElement) {
   }
 }
 
-function getAttributes (node: TaroButtonElement) {
-  const { _st } = node
-
-  return {
-    size: {
-      width: AttributeManager.getNodeStyle(_st, 'width', 0),
-      height: AttributeManager.getNodeStyle(_st, 'height', 0)
-    },
-    alignSelf: ItemAlign.Auto,
-    flexSize: FlexManager.flexSize(_st),
-    zIndex: AttributeManager.getNodeStyle(_st, 'zIndex'),
-    margin: AttributeManager.getNodeMarginOrPaddingData(_st, 'margin'),
-    padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
-  }
-}
-
 @Component
 struct TaroButton {
+  info: Area = null
+
   @ObjectLink node: TaroButtonElement
 
-  @Builder createButtonElement ($$: { instance }) {
-    Button({ stateEffect: !$$.instance._attrs.disabled }) {
-      Row() {
-        if ($$.instance._attrs.loading) {
-          LoadingProgress()
-          .width(20).height(20)
-          .color(getThemeAttributes($$.instance).fontColor)
-        }
-        ForEach($$.instance.childNodes, item => {
-          createNode(item)
-        }, item => item._nid)
-      }
-    }
-    .attrs(getAttributes($$.instance))
-    .themeStyles(getThemeAttributes($$.instance))
-    .onClick(e => !$$.instance._attrs.disabled && eventHandler(e, 'click', $$.instance))
-    .onTouch(e => !$$.instance._attrs.disabled && eventHandler(e, TOUCH_EVENT_MAP[e.type], $$.instance))
-  }
-
-  @Builder createImageElementWithPosition ($$: { instance, top, left }) {
-    if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'absolute') {
-      Stack({ alignContent: Alignment.TopStart }) {
-        this.createButtonElement({ instance: $$.instance })
-      }
-      .position({
-        x: $$.left,
-        y: $$.top
-      })
-    } else if ((AttributeManager.getNodeStyle($$.instance._st, 'position') === 'relative')) {
-      Stack({ alignContent: Alignment.TopStart }) {
-        this.createButtonElement({ instance: $$.instance })
-      }
-      .offset({
-        x: $$.left,
-        y: $$.top
-      })
-    } else {
-      this.createButtonElement({ instance: $$.instance })
-    }
+  aboutToAppear () {
+    bindInstanceToNode(this.node, this)
   }
 
   build() {
-    this.createImageElementWithPosition({
-      instance: this.node,
-      top: AttributeManager.getNodeStyle(this.node._st, 'top', 0),
-      left: AttributeManager.getNodeStyle(this.node._st, 'left', 0),
-    })
+    TaroComponentWrapper({ node: this.node }) {
+      Button({ stateEffect: !this.node._attrs.disabled }) {
+        Row() {
+          if (this.node._attrs.loading) {
+            LoadingProgress()
+            .width(20).height(20)
+            .color(getThemeAttributes(this.node).fontColor)
+          }
+          ForEach(this.node.childNodes, item => {
+            createNode(item)
+          }, item => item._nid)
+        }
+      }
+      .attrs(getNormalAttributes(this.node))
+      .themeStyles(getThemeAttributes(this.node))
+      .onClick(e => !this.node._attrs.disabled && eventHandler(e, 'click', this.node))
+      .onTouch(e => !this.node._attrs.disabled && eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node))
+    }
   }
 }
 
