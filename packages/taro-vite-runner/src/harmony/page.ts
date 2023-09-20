@@ -44,9 +44,27 @@ struct Index {
     const params = router.getParams() || {}
 
     this.page = createPageConfig(component, '${page.name}')
-    this.page.onLoad.call(this, params, (instance) => {
+    this.page?.onLoad?.call(this, params, (instance) => {
       this.node = instance
     })
+  }
+
+  onPageShow () {
+    if (!this.page) return
+
+    this.page?.onShow?.call(this)
+  }
+
+  onPageHide () {
+    if (!this.page) return
+
+    this.page?.onHide?.call(this)
+  }
+
+  aboutToDisappear () {
+    if (!this.page) return
+
+    this.page?.onUnLoad?.call(this)
   }
 
   build() {

@@ -58,21 +58,21 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     context.resolver(this.context)
     stage.loadContent("${entryPagePath}", (err, data) => {
       if (err.code) {
-        return this.app?.onError(err)
+        return this.app?.onError?.call(this, err)
       }
     })
   }
 
   onWindowStageDestroy() {
-    this.app?.onUnload()
+    this.app?.onUnload?.call(this)
   }
 
   onForeground() {
-    this.app?.onShow()
+    this.app?.onShow?.call(this)
   }
 
   onBackground() {
-    this.app?.onHide()
+    this.app?.onHide?.call(this)
   }
 }`
 
