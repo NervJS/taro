@@ -7,6 +7,7 @@ import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './ut
 import type { IH5Config } from './h5'
 import type { IMiniAppConfig, IMiniFilesConfig } from './mini'
 import type { IRNConfig } from './rn'
+import type { IPrebundle } from '../compiler'
 
 export type PluginItem<T = object> = string | [string, T] | [string, () => T | Promise<T>]
 
@@ -203,7 +204,9 @@ export interface IProjectBaseConfig {
 }
 
 /** 暴露出来给 config/index 使用的配置类型，参考 https://github.com/NervJS/taro-doctor/blob/main/assets/config_schema.json */
-export interface IProjectConfig {
+
+
+interface IBaseProjectConfig {
   /** 项目名称 */
   projectName?: string
 
@@ -295,7 +298,7 @@ export interface IProjectConfig {
   /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
   framework?: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
 
-  /** 使用的编译工具。可选值：webpack4、webpack5 */
+  /** 使用的编译工具。可选值：webpack4、webpack5、vite */
   compiler?: Compiler
 
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
@@ -304,14 +307,33 @@ export interface IProjectConfig {
   /** 控制 Taro 编译日志的输出方式 */
   logger?: ILogger
 
-  /** 专属于小程序的配置 */
-  mini?: IMiniAppConfig
-
-  /** 专属于 H5 的配置 */
-  h5?: IH5Config
-
   /** 专属于 RN 的配置 */
   rn?: IRNConfig
 
   [key: string]: any
 }
+
+
+export interface IViteProjectConfig extends IBaseProjectConfig {
+  compiler?: 'vite' | {
+    type: 'vite'
+    prebundle?: IPrebundle
+    vitePlugins?: any[]
+  }
+
+  /** 专属于 H5 的配置 */
+  h5?: IH5Config<'vite'>
+
+  /** 专属于小程序的配置 */
+  mini?: IMiniAppConfig<'vite'>
+}
+
+interface IWebpackProjectConfig extends IBaseProjectConfig {
+  /** 专属于 H5 的配置 */
+  h5?: IH5Config<'webpack'>
+
+  /** 专属于小程序的配置 */
+  mini?: IMiniAppConfig<'webpack'>
+}
+
+export type IProjectConfig = IWebpackProjectConfig | IViteProjectConfig

@@ -40,3 +40,5 @@ export const DEFAULT_TERSER_OPTIONS = {
     ascii_only: true,
   },
 }
+export const MINI_EXCULDE_POSTCSS_PLUGINA_NAME = ['cssModules']
+export const H5_EXCULDE_POSTCSS_PLUGINA_NAME = ['cssModules', 'url']

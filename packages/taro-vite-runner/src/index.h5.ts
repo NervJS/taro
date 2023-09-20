@@ -1,6 +1,5 @@
 import { isString } from '@tarojs/shared'
 import { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
-import { merge } from 'lodash'
 import { build, createServer } from 'vite'
 
 import h5Preset from './h5'
@@ -10,17 +9,10 @@ import { TaroCompilerContext } from './utils/compiler/h5'
 
 import type { InlineConfig, UserConfig } from 'vite'
 
-export default async function (appPath: string, taroConfig: ViteH5BuildConfig) {
-  const defaultConifg = {
-    staticDirectory: 'static',
-    viteOutput: {
-      chunkFileNames: 'js/[name].[hash].js',
-      assetFileNames: '[ext]/[name].[hash][extname]'
-    }
-  }
-
+export default async function (appPath: string, rawTaroConfig: ViteH5BuildConfig) {
+  const viteCompilerContext = new TaroCompilerContext(appPath, rawTaroConfig)
+  const { taroConfig } = viteCompilerContext
   const isProd = getMode(taroConfig) === 'production'
-  const viteCompilerContext = new TaroCompilerContext(appPath, merge(defaultConifg, taroConfig))
 
   const plugins: UserConfig['plugins'] = [
     h5Preset(viteCompilerContext)

@@ -1,10 +1,12 @@
 import {
   readConfig,
+  recursiveMerge,
   resolveMainFilePath,
-  resolveScriptPath,
+  resolveScriptPath
 } from '@tarojs/helper'
 import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
+import defaultConifg from 'src/defaultConfig/defaultConfig.h5'
 
 import { CompilerContext } from './base'
 
@@ -20,6 +22,18 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
     super(appPath, taroConfig)
     this.app = this.getApp()
     this.pages = this.getPages()
+  }
+
+  processConfig () {
+    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConifg.staticDirectory
+    defaultConifg.imageUrlLoaderOption!.name = 
+      (filename: string) => filename.replace(this.sourceDir + '/', `${staticDirectory}/images/`)
+    defaultConifg.fontUrlLoaderOption!.name = 
+      (filename: string) => filename.replace(this.sourceDir + '/', `${staticDirectory}/fonts/`)
+    defaultConifg.mediaUrlLoaderOption!.name = 
+      (filename: string) => filename.replace(this.sourceDir + '/', `${staticDirectory}/media/`)
+    
+    this.taroConfig = recursiveMerge({}, defaultConifg, this.rawTaroConfig)
   }
 
   getAppScriptPath (): string {

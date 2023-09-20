@@ -28,7 +28,8 @@
     "@tarojs/runtime": "workspace:*"
   },
   "devDependencies": {
-    "@tarojs/helper": "workspace:*"
+    "@tarojs/helper": "workspace:*",
+    "@tarojs/share": "workspace:*"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -38,6 +39,9 @@
       "optional": true
     },
     "@types/webpack-dev-server": {
+      "optional": true
+    },
+    "@types/postcss-url": {
       "optional": true
     },
     "postcss": {

@@ -62,6 +62,7 @@ importers:
       '@types/lodash-es': ^4.17.6
       '@types/node': ^14.14.31
       '@types/postcss-import': ^14.0.0
+      '@types/postcss-url': ^10.0.0
       '@types/react': ^18.0.0
       '@types/react-reconciler': 0.28.1
       '@types/request': ^2.48.1
@@ -182,6 +183,7 @@ importers:
       '@types/lodash-es': registry.npmjs.org/@types/lodash-es/4.17.7
       '@types/node': registry.npmjs.org/@types/node/14.18.45
       '@types/postcss-import': registry.npmjs.org/@types/postcss-import/14.0.0
+      '@types/postcss-url': registry.npmjs.org/@types/postcss-url/10.0.0
       '@types/react': registry.npmjs.org/@types/react/18.2.6
       '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.28.1
       '@types/request': registry.npmjs.org/@types/request/2.48.8
@@ -12372,6 +12374,15 @@ packages:
     version: 14.0.0
     dependencies:
       postcss: registry.npmjs.org/postcss/8.4.23
+    dev: true
+
+  registry.npmjs.org/@types/postcss-url/10.0.0:
+    resolution: {integrity: sha512-Ci0+xR7WUFw7K1z4qBml1+QJQmekD7B6fn5DTbb8X8Ud5gsVWvEsS5mmTHhyezgRtC60M1/EFuQRcvqNrGv/KQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/postcss-url/-/postcss-url-10.0.0.tgz}
+    name: '@types/postcss-url'
+    version: 10.0.0
+    dependencies:
+      '@types/node': registry.npmjs.org/@types/node/14.18.45
+      postcss: registry.npmjs.org/postcss/8.4.27
     dev: true
 
   registry.npmjs.org/@types/prettier/2.7.2:

@@ -1,6 +1,7 @@
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
-import type { IOption, IPostcssOption } from './util'
+import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
+import type { OutputOptions as RollupOutputOptions } from 'rollup'
 
 interface Runtime {
   enableInnerHTML: boolean
@@ -12,7 +13,22 @@ interface Runtime {
   enableMutationObserver: boolean
 }
 
-export interface IMiniAppConfig {
+interface OutputExt {
+  /**
+   * 编译前清空输出目录
+   * @since Taro v3.6.9
+   * @description
+   * - 默认清空输出目录，可设置 clean: false 不清空
+   * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
+   * - 注意 clean.keep 不支持函数
+   */
+  clean?: boolean | {
+    /** 保留指定文件不删除 */
+    keep?: Array<string | RegExp> | string | RegExp
+  }
+}
+
+export interface IMiniAppConfig<T = 'webpack' | 'vite'> {
   /** 默认值：'cheap-module-source-map'， 具体参考[Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool) */
   sourceMapType?: string
 
@@ -37,24 +53,14 @@ export interface IMiniAppConfig {
    */
   webpackChain?: (chain: Chain, webpack: typeof Webpack, PARSE_AST_TYPE: any) => void
 
-  /** 可用于修改、拓展 Webpack 的 [output](https://webpack.js.org/configuration/output/) 选项 */
-  output?: Webpack.Configuration['output'] & {
-    /**
-     * 编译前清空输出目录
-     * @since Taro v3.6.9
-     * @description
-     * - 默认清空输出目录，可设置 clean: false 不清空
-     * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
-     * - 注意 clean.keep 不支持函数
-     */
-    clean?: boolean | {
-      /** 保留指定文件不删除 */
-      keep?: Array<string | RegExp> | string | RegExp
-    }
-  }
+  /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
+  vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 这个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/) */
+  output?: T extends 'vite' 
+    ? Pick<RollupOutputOptions, 'chunkFileNames'>  & OutputExt
+    : Webpack.Configuration['output'] & OutputExt
 
   /** 配置 postcss 相关插件 */
-  postcss?: IPostcssOption
+  postcss?: IPostcssOption<'mini'>
 
   /** [css-loader](https://github.com/webpack-contrib/css-loader) 的附加配置 */
   cssLoaderOption?: IOption
@@ -69,13 +75,13 @@ export interface IMiniAppConfig {
   stylusLoaderOption?: IOption
 
   /** 针对 mp4 | webm | ogg | mp3 | wav | flac | aac 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  mediaUrlLoaderOption?: IOption
+  mediaUrlLoaderOption?: IUrlLoaderOption
 
   /** 针对 woff | woff2 | eot | ttf | otf 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  fontUrlLoaderOption?: IOption
+  fontUrlLoaderOption?: IUrlLoaderOption
 
   /** 针对 png | jpg | jpeg | gif | bpm | svg 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  imageUrlLoaderOption?: IOption
+  imageUrlLoaderOption?: IUrlLoaderOption
 
   /** [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的附加配置 */
   miniCssExtractPluginOption?: IOption

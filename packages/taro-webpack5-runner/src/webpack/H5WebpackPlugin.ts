@@ -12,7 +12,7 @@ import type { PluginArgs } from './WebpackPlugin'
 export class H5WebpackPlugin {
   combination: H5Combination
   pages?: string[]
-  pxtransformOption?: IPostcssOption['pxtransform']
+  pxtransformOption?: IPostcssOption<'h5'>['pxtransform']
 
   constructor (combination: H5Combination) {
     this.combination = combination
