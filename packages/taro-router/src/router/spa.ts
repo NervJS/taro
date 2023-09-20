@@ -90,13 +90,18 @@ export function createRouter (
     if (!element) return
     const pageConfig = handler.pageConfig
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
+    let navigationStyle = config?.window?.navigationStyle || 'default'
 
     if (pageConfig) {
       setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
+      if (typeof pageConfig.navigationStyle === 'string') {
+        navigationStyle = pageConfig.navigationStyle
+      }
     }
+    eventCenter.trigger('__taroSetNavigationStyle', navigationStyle)
 
     const currentPage = Current.page
     const pathname = handler.pathname
