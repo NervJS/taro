@@ -1,7 +1,10 @@
 import { eventHandler, isElement } from '@tarojs/runtime'
 import { capitalize } from '@tarojs/shared'
+
+import TaroComponentWrapper from './base'
 import { AttributeManager } from './utils/AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
+import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -36,14 +39,17 @@ function attrs ({
   .textOverflow(textOverflow)
 }
 
-function getAttributes (node: TaroTextElement) {
+function getAttributes (node: TaroElement) {
+  return {
+    ...getNormalAttributes(node),
+    ...getFontAttributes(node)
+  }
+}
+
+function getFontAttributes (node: TaroElement) {
   const { _st } = node
 
   return {
-    zIndex: AttributeManager.getNodeStyle(_st, 'zIndex'),
-    opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
-    margin: AttributeManager.getNodeMarginOrPaddingData(_st, 'margin'),
-    padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
     decoration: AttributeManager.getNodeTextDecoration(_st),
     lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
     letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
@@ -76,9 +82,13 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 
 @Component
 struct TaroText {
+  info: Area = null
+
   @ObjectLink node: TaroTextElement
 
-  info: Area
+  aboutToAppear () {
+    bindInstanceToNode(this.node, this)
+  }
 
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
@@ -86,27 +96,24 @@ struct TaroText {
       this.info = areaResult
     })
   }
-
-  aboutToAppear () {
-    if (!this.node) return
-
-    this.node.instance = this
-  }
+  
 
   build() {
-    if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
-      // Text 嵌套 Text。受 Span 限制，最多嵌套一层
-      Text() {
-        ForEach(this.node.childNodes, node => {
-          buildSpan(node)
-        }, node => node._nid)
-      }
-      .defaultEvent()
-      .attrs(getAttributes(this.node))
-    } else {
-      Text(this.node.textContent)
+    TaroComponentWrapper({ node: this.node }) {
+      if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
+        // Text 嵌套 Text。受 Span 限制，最多嵌套一层
+        Text() {
+          ForEach(this.node.childNodes, node => {
+            buildSpan(node)
+          }, node => node._nid)
+        }
         .defaultEvent()
         .attrs(getAttributes(this.node))
+      } else {
+        Text(this.node.textContent)
+          .defaultEvent()
+          .attrs(getAttributes(this.node))
+      }
     }
   }
 }
