@@ -10,11 +10,11 @@ import { getMode, stripMultiPlatformExt } from '../utils'
 import { HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/harmony'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath } = compiler
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
+  const { taroConfig, cwd: appPath } = viteCompilerContext
   function getDefineOption() {
     const {
       buildAdapter = PLATFORMS.HARMONY,

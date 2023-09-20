@@ -21,14 +21,14 @@ function injectLoaderMeta (ctx: IPluginContext, framework: Frameworks): PluginOp
     if ([object, sources].every(e => typeof e === 'string')) return object + sources
   }
   const { runnerUtils } = ctx
-  const { getViteH5Compiler } = runnerUtils
+  const { getViteH5CompilerContext } = runnerUtils
   return {
     name: 'taro-react:loader-meta',
     async buildStart () {
-      const compiler = await getViteH5Compiler(this)
-      if (compiler) {
-        compiler.loaderMeta = mergeWith(
-          getLoaderMeta(framework), compiler.loaderMeta, customizer
+      const viteCompilerContext = await getViteH5CompilerContext(this)
+      if (viteCompilerContext) {
+        viteCompilerContext.loaderMeta = mergeWith(
+          getLoaderMeta(framework), viteCompilerContext.loaderMeta, customizer
         )
       }
     }

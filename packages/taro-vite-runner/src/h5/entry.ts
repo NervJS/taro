@@ -2,69 +2,46 @@ import { fs, isEmptyObject } from '@tarojs/helper'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
-import { appendVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, generateQueryString, getMode, getQueryParams } from '../utils'
+import { ENTRY_QUERY, PAGENAME_QUERY } from '../utils/constants'
 
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { PageMeta } from '../utils/compiler/base'
 
-const ENTRY_SUFFIX = '?entry-loader=true'
-
-function genResource (page: PageMeta) {
-  return [
-    'Object.assign({',
-    `  path: '${page.name}',`,
-    '  load: async function(context, params) {',
-    `    const page = await import("${page.scriptPath}")`,
-    '    return [page, context, params]',
-    '  }',
-    `}, ${JSON.stringify(page.config)})`
-  ].join('\n')
-}
-
-
-export default function (compiler): PluginOption {
-  const { taroConfig, app, pages } = compiler
-  const { router, mode } = taroConfig
-  const isMultiRouterMode = router?.mode === 'multi'
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const tabbarAssetsCache = new Map<string, string>()
+  const { taroConfig, app } = viteCompilerContext
   const routerConfig = taroConfig.router || {}
-  const isProd = mode === 'production'
+  const isProd = getMode(taroConfig) === 'production'
 
   return {
     name: 'taro:vite-h5-entry',
     enforce: 'pre',
+
     async resolveId (source, importer, options) {
+      // mpa 模式关于 入口脚本文件 的处理已经解藕到 mpa.ts
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true })
-      if (!resolved?.id) return null
-      // mpa 模式，入口文件为每个page下的config
-      if (isMultiRouterMode && pages.some(({ configPath })=> configPath === resolved.id)) {
-        return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
-      }
-      if (resolved.id === compiler.app.configPath) {
-        return appendVirtualModulePrefix(resolved.id + ENTRY_SUFFIX)
+      if (resolved?.id && resolved.id === app.configPath) {
+        const params = {
+          [ENTRY_QUERY]: 'true'
+        }
+        const queryString = generateQueryString(params)
+        return appendVirtualModulePrefix(resolved.id + `?${queryString}`)
       }
       return null
     },
     load (id) {
-      if (id.endsWith(ENTRY_SUFFIX)) {
-        const { pageName } = compiler
-        const routerCreator = isMultiRouterMode ? 'createMultiRouter' : 'createRouter'
+      const queryParams = getQueryParams(id)
+      const encodeIsEntry = queryParams?.[ENTRY_QUERY] || ''
+      const encodePagename = queryParams?.[PAGENAME_QUERY] || ''
+      const isEntry = decodeURIComponent(encodeIsEntry as string)
+      const pagename = decodeURIComponent(encodePagename as string)
+
+      if (isEntry) {
         const appConfig = {
           router: routerConfig,
           ...app.config,
         }
-        const page = pages.find(({ name }) => name === pageName) as PageMeta
-        const routesConfig = isMultiRouterMode
-          ? [
-            'config.routes = []',
-            `config.route = ${genResource(page)}`,
-            `config.pageName = "${pageName}"`
-          ].join('\n')
-          : [
-            'config.routes = [',
-            `${pages.map(page => genResource(page)).join(',\n')}`,
-            ']',
-          ].join('\n')
-
         // runtime
         const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : (taroConfig.runtimePath ? [taroConfig.runtimePath] : [])
         let setReconcilerPost = ''
@@ -78,11 +55,23 @@ export default function (compiler): PluginOption {
         }, '')
 
         const getTabbarIconPath = (iconPath) => {
-          return isProd 
-            ? 
-            path.join('/', taroConfig!.staticDirectory, 'images', path.basename(iconPath)) 
-            : 
-            iconPath.replace(/^./, '')
+          return isProd
+            ? path.join('/', taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
+            : iconPath.replace(/^./, '')
+        }
+
+        const emitTabbarIcon = async (sourceDir, iconPath) => {
+          const filePath = path.resolve(sourceDir, iconPath)
+          const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
+          if (!tabbarAssetsCache.get(fileName)) {
+            tabbarAssetsCache.set(fileName, filePath)
+            this.emitFile({
+              type: 'asset',
+              fileName,
+              source: await fs.readFile(filePath)
+            })
+            this.addWatchFile(filePath)
+          }
         }
 
         // tabbar
@@ -119,33 +108,20 @@ export default function (compiler): PluginOption {
         // tabbar && pro
         if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar) && isProd) {
           const list = appConfig.tabBar.list || []
-          const { sourceDir } = compiler
+          const { sourceDir } = viteCompilerContext
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
             if (iconPath) {
-              const filePath = path.resolve(sourceDir, iconPath)
-              const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(iconPath))
-              this.emitFile({
-                type: 'asset',
-                fileName,
-                source: await fs.readFile(filePath)
-              })
-              this.addWatchFile(filePath)
+              await emitTabbarIcon.bind(this)(sourceDir, iconPath)
             }
-
             if (selectedIconPath) {
-              const filePath = path.resolve(sourceDir, selectedIconPath)
-              const fileName = path.join(taroConfig.staticDirectory as string, 'images', path.basename(selectedIconPath))
-              this.emitFile({
-                type: 'asset',
-                fileName,
-                source: await fs.readFile(filePath)
-              })
-              this.addWatchFile(filePath)
+              await emitTabbarIcon.bind(this)(sourceDir, selectedIconPath)
             }
           })
         }
 
+        const { getRoutesConfig, routerCreator } = viteCompilerContext.routerMeta
+        const routesConfig = getRoutesConfig(pagename)
 
         const {
           creator,
@@ -155,7 +131,7 @@ export default function (compiler): PluginOption {
           execBeforeCreateWebApp,
           frameworkArgs,
           importFrameworkName,
-        } = compiler.loaderMeta
+        } = viteCompilerContext.loaderMeta
 
         // pxTransform
         const __postcssOption = getDefaultPostcssConfig({

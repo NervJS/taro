@@ -1,58 +1,23 @@
-import { defaultMainFields, PLATFORMS, recursiveMerge, removeHeadSlash } from '@tarojs/helper'
+import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
-import history from 'connect-history-api-fallback'
 import path from 'path'
 
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.h5'
 import { addTrailingSlash, getMode, isVirtualModule } from '../utils'
+import { DEFAULT_TERSER_OPTIONS } from '../utils/constants'
+import { getHtmlScript } from '../utils/html'
 
+import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { CSSModulesOptions, PluginOption } from 'vite'
-import type { TaroCompiler } from '../utils/compiler/h5'
 
-const DEFAULT_TERSER_OPTIONS = {
-  parse: {
-    ecma: 8,
-  },
-  compress: {
-    ecma: 5,
-    warnings: false,
-    arrows: false,
-    collapse_vars: false,
-    comparisons: false,
-    computed_props: false,
-    hoist_funs: false,
-    hoist_props: false,
-    hoist_vars: false,
-    inline: false,
-    loops: false,
-    negate_iife: false,
-    properties: false,
-    reduce_funcs: false,
-    reduce_vars: false,
-    switches: false,
-    toplevel: false,
-    typeofs: false,
-    booleans: true,
-    if_return: true,
-    sequences: true,
-    unused: true,
-    conditionals: true,
-    dead_code: true,
-    evaluate: true,
-  },
-  output: {
-    ecma: 5,
-    comments: false,
-    ascii_only: true,
-  },
-}
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig, cwd: appPath, pages, app, sourceDir } = compiler
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
+  const { taroConfig, cwd: appPath, app, sourceDir } = viteCompilerContext
   const routerMode = taroConfig.router?.mode || 'hash'
-  const basename = taroConfig.router?.basename || ''
   const isMultiRouterMode = routerMode === 'multi'
+  const isProd = getMode(taroConfig) === 'production'
+
   function parsePublicPath(publicPath = '/') {
     return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
   }
@@ -117,30 +82,8 @@ export default function (compiler: TaroCompiler): PluginOption {
     }
   }
 
-  function createRewire(
-    reg: string,
-    baseUrl: string,
-    proxyUrlKeys: string[],
-  ) {
-    return {
-      from: new RegExp(`/${reg}.html`),
-      to({ parsedUrl }) {
-        const pathname: string = parsedUrl.pathname
-        const excludeBaseUrl = pathname.replace(baseUrl, '/')
-        const template = path.resolve(baseUrl, 'index.html')
-        if (excludeBaseUrl === '/') {
-          return template
-        }
-        const isApiUrl = proxyUrlKeys.some((item) =>
-          pathname.startsWith(path.resolve(baseUrl, item)),
-        )
-        return isApiUrl ? excludeBaseUrl : template
-      },
-    }
-  }
-
   function getMinify(): 'terser' | 'esbuild' | boolean {
-    return taroConfig.mode !== 'production'
+    return !isProd
       ? false
       : taroConfig.jsMinimizer === 'esbuild'
         ? taroConfig.esbuild?.minify?.enable === false
@@ -173,7 +116,7 @@ export default function (compiler: TaroCompiler): PluginOption {
   }
   const mode = getMode(taroConfig)
   const mainFields = [...defaultMainFields]
-  if (mode !== 'production') {
+  if (!isProd) {
     mainFields.unshift('main:h5')
   }
 
@@ -190,12 +133,12 @@ export default function (compiler: TaroCompiler): PluginOption {
         cssCodeSplit: true,
         emptyOutDir: false,
         watch: taroConfig.isWatch ? {} : null,
+
         // @TODO doc needed: sourcemapType not supported
-        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
+        sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? !isProd,
         rollupOptions: {
-          input: { 'index': path.join(appPath, 'src/index.html') },
           output: {
-            entryFileNames: taroConfig.viteOutput!.entryFileNames,
+            entryFileNames: 'js/app.[hash].js',
             chunkFileNames: taroConfig.viteOutput!.chunkFileNames,
             assetFileNames: taroConfig.viteOutput!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {
@@ -253,54 +196,14 @@ export default function (compiler: TaroCompiler): PluginOption {
       },
     }),
 
-    configureServer(server){
-      if (!isMultiRouterMode) return
-      const rewrites: { from: RegExp, to: any }[] = []
-      const proxy = server.config.server.proxy || {}
-      const proxyKeys = Object.keys(proxy)
-      const baseUrl = server.config.base ?? '/'
-      pages.forEach(({ name })=> {
-        const pageName = removeHeadSlash(path.join(basename, name))
-        rewrites.push(createRewire(pageName, baseUrl, proxyKeys))
-      })
-      server.middlewares.use(history({
-        disableDotRule: undefined,
-        htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
-        rewrites: rewrites
-      }) )
-    },
-
     transformIndexHtml: {
       enforce: 'pre',
-      transform(html, ctx) {
+      transform(html) {
+        // mpa 模式关于 html 的处理已经解藕到 mpa.ts
+        if (isMultiRouterMode) return html
         const { configPath } = app
-        let srciptSource = configPath.replace(sourceDir, '')
-        // mpa 模式
-        if (isMultiRouterMode) {
-          const { originalUrl } = ctx
-          const page = pages.filter(({ name })=> originalUrl?.startsWith(`/${removeHeadSlash(path.join(basename, name))}`))?.[0]
-          if (page) {
-            srciptSource = page.configPath.replace(sourceDir, '')
-            const pageName = page.name
-            compiler.setPageName(pageName)
-          } else {
-            compiler.setPageName('')
-          }
-        }
-        let htmlScript = ''
-        const options = pxtransformOption?.config || {}
-        const max = options?.maxRootSize ?? 40
-        const min = options?.minRootSize ?? 20
-        const baseFontSize = options?.baseFontSize || (min > 1 ? min : 20)
-        const designWidth = ((input) =>
-          typeof options.designWidth === 'function' ? options.designWidth(input) : options.designWidth)(baseFontSize)
-        const rootValue = (baseFontSize / options.deviceRatio[designWidth]) * 2
-
-        if ((options?.targetUnit ?? 'rem') === 'rem') {
-          htmlScript = `<script>!function(n){function f(){var e=n.document.documentElement,w=e.getBoundingClientRect().width,x=${rootValue}*w/${designWidth};e.style.fontSize=x>=${max}?"${max}px":x<=${min}?"${min}px":x+"px"}n.addEventListener("resize",(function(){f()})),f()}(window);</script>\n`
-        }
-        htmlScript += `  <script type="module" src="${srciptSource}"></script>`
-
+        const scriptSource = configPath.replace(sourceDir, '')
+        const htmlScript = getHtmlScript(scriptSource, pxtransformOption)
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
       }
     },

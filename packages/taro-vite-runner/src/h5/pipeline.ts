@@ -1,40 +1,30 @@
-import { isFunction } from '@tarojs/shared'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 
-import { TaroCompiler } from '../utils/compiler/h5'
+import { getMode } from '../utils'
 
+import type{ ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   return {
     name: 'taro:vite-h5-pipeline',
     enforce: 'pre',
     async buildStart () {
+      const { taroConfig } = viteCompilerContext
+      const isProd = getMode(taroConfig) === 'production'
       // 下面这么写 是因为生产环境不需要异步，开发环境需要异步。是因为插件的执行顺序正确而这么写的
-      process.env.NODE_ENV === 'production'
-        ? this.load({ id: TaroCompiler.label })
-        : await this.load({ id: TaroCompiler.label })
+      isProd
+        ? this.load({ id: VITE_COMPILER_LABEL })
+        : await this.load({ id: VITE_COMPILER_LABEL })
 
-      const info = this.getModuleInfo(TaroCompiler.label)
+      const info = this.getModuleInfo(VITE_COMPILER_LABEL)
       if (info) {
-        info.meta = { compiler }
+        info.meta = { viteCompilerContext }
+        viteCompilerContext.watchConfigFile(this)
       }
-      compiler.setRollupCtx(this)
     },
     load (id) {
-      if (id === TaroCompiler.label) return ''
-    },
-    closeBundle () {
-      compiler.cleanup()
-
-      const onBuildFinish = taroConfig.onBuildFinish
-      if (isFunction(onBuildFinish)) {
-        onBuildFinish({
-          error: null,
-          stats: {},
-          isWatch: taroConfig.isWatch
-        })
-      }
+      if (id === VITE_COMPILER_LABEL) return ''
     }
   }
 }

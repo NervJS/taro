@@ -1,28 +1,26 @@
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
 
-import { TaroCompiler } from '../utils/compiler/harmony'
-
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-export default function (compiler: TaroCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
+  const { taroConfig } = viteCompilerContext
   return {
     name: 'taro:vite-harmony-pipeline',
     enforce: 'pre',
     buildStart () {
-      this.load({ id: TaroCompiler.label })
-      const info = this.getModuleInfo(TaroCompiler.label)
+      this.load({ id: VITE_COMPILER_LABEL })
+      const info = this.getModuleInfo(VITE_COMPILER_LABEL)
       if (info) {
-        compiler.setRollupCtx(this)
-        info.meta = { compiler }
+        info.meta = { viteCompilerContext }
+        viteCompilerContext.watchConfigFile(this)
       }
     },
     load (id) {
-      if (id === TaroCompiler.label) return ''
+      if (id === VITE_COMPILER_LABEL) return ''
     },
     closeBundle () {
-      compiler.cleanup()
-
       const onBuildFinish = taroConfig.onBuildFinish
       if (isFunction(onBuildFinish)) {
         onBuildFinish({

@@ -161,7 +161,7 @@ export default class H5 extends TaroPlatformWeb {
   modifyViteConfig() {
     const that = this
     const { runnerUtils } = this.ctx
-    const { getViteH5Compiler } = runnerUtils
+    const { getViteH5CompilerContext } = runnerUtils
     that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function aliasPlugin() {
         return {
@@ -182,37 +182,37 @@ export default class H5 extends TaroPlatformWeb {
         return {
           name: 'taro:vite-h5-loader-meta',
           async buildStart () {
-            const compiler = await getViteH5Compiler(this)
-            if (compiler) {
-              compiler.loaderMeta ||= {
+            const viteCompilerContext = await getViteH5CompilerContext(this)
+            if (viteCompilerContext) {
+              viteCompilerContext.loaderMeta ||= {
                 extraImportForWeb: '',
                 execBeforeCreateWebApp: '',
               }
 
               // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
               if (that.useDeprecatedAdapterComponent) {
-                compiler.loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
-                compiler.loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
+                viteCompilerContext.loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
+                viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
               }
 
               if (!that.useHtmlComponents) {
-                compiler.loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
-                compiler.loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
+                viteCompilerContext.loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
+                viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
               }
 
               switch (that.framework) {
                 case 'vue':
-                  compiler.loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
-                  compiler.loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
+                  viteCompilerContext.loaderMeta.extraImportForWeb += `import { initVue2Components } from '@tarojs/components/lib/vue2/components-loader'\nimport * as list from '@tarojs/components'\n`
+                  viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `initVue2Components(list)\n`
                   break
                 case 'vue3':
-                  compiler.loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
-                  compiler.loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
+                  viteCompilerContext.loaderMeta.extraImportForWeb += `import { initVue3Components } from '@tarojs/components/lib/vue3/components-loader'\nimport * as list from '@tarojs/components'\n`
+                  viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
                   break
                 default:
                   if (that.useHtmlComponents) {
-                    compiler.loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
-                    compiler.loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+                    viteCompilerContext.loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+                    viteCompilerContext.loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
                   }
               }
             }
@@ -224,10 +224,10 @@ export default class H5 extends TaroPlatformWeb {
           name: 'taro:vite-h5-api',
           enforce: 'post',
           async transform(code, id) {
-            const compiler = await getViteH5Compiler(this)
-            if (compiler) {
-              const exts = Array.from(new Set(compiler.frameworkExts.concat(SCRIPT_EXT)))
-              if (id.startsWith(compiler.sourceDir) && exts.some((ext) => id.includes(ext))) {
+            const viteCompilerContext = await getViteH5CompilerContext(this)
+            if (viteCompilerContext) {
+              const exts = Array.from(new Set(viteCompilerContext.frameworkExts.concat(SCRIPT_EXT)))
+              if (id.startsWith(viteCompilerContext.sourceDir) && exts.some((ext) => id.includes(ext))) {
                 // @TODO 后续考虑使用 SWC 插件的方式实现
                 const result = await transformAsync(code, {
                   filename: id,

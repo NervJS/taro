@@ -25,14 +25,14 @@ function injectLoaderMeta (ctx: IPluginContext): PluginOption {
     if ([object, sources].every(e => typeof e === 'string')) return object + sources
   }
   const { runnerUtils } = ctx
-  const { getViteH5Compiler } = runnerUtils
+  const { getViteH5CompilerContext } = runnerUtils
   return {
     name: 'taro-vue3:loader-meta',
     async buildStart () {
-      const compiler = await getViteH5Compiler(this)
-      if (compiler) {
-        compiler.loaderMeta = mergeWith(
-          getLoaderMeta(), compiler.loaderMeta, customizer
+      const viteCompilerContext = await getViteH5CompilerContext(this)
+      if (viteCompilerContext) {
+        viteCompilerContext.loaderMeta = mergeWith(
+          getLoaderMeta(), viteCompilerContext.loaderMeta, customizer
         )
       }
     }

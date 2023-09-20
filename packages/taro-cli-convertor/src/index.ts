@@ -196,7 +196,7 @@ export default class Convertor {
                   }
                 })
                 if (isTaroComponent) {
-                  componentClassName = node.id.name
+                  componentClassName = node.id?.name || ''
                 }
               }
             },
@@ -219,7 +219,7 @@ export default class Convertor {
                 if (isTaroComponent) {
                   if (node.id === null) {
                     const parentNode = astPath.parentPath.node as t.VariableDeclarator
-                    if (t.isVariableDeclarator(astPath.parentPath)) {
+                    if (t.isVariableDeclarator(astPath.parentPath as t.Node)) {
                       componentClassName = (parentNode.id as t.Identifier).name
                     }
                   } else {

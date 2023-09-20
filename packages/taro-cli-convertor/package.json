@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli-convertor",
-  "version": "3.7.0-alpha.14",
+  "version": "3.7.0-alpha.16",
   "description": "cli tool for taro-convert",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,7 @@
   "dependencies": {
     "@babel/template": "^7.20.0",
     "@babel/traverse": "^7.20.0",
-    "@babel/types": "^7.20.0",
+    "@babel/types": "^7.22.19",
     "@tarojs/helper": "workspace:*",
     "@tarojs/taroize": "workspace:*",
     "@tarojs/cli": "workspace:*",
@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.14.5",
+    "@types/babel__template": "^7.4.2",
+    "@types/babel__traverse": "^7.20.2",
     "@tarojs/taro": "workspace:*"
   }
 }

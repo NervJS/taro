@@ -1,5 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
+import fg from 'fast-glob'
 import { join } from 'path'
 import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
 import copy from 'rollup-plugin-copy'
@@ -52,7 +53,16 @@ const compileConfig: RollupOptions = {
         { src: 'src/runtime-framework', dest: 'dist' },
         { src: 'src/react', dest: 'dist' },
       ]
-    }) as InputPluginOption
+    }) as InputPluginOption,
+    {
+      name: 'copy-runtime-watch',
+      async buildStart () {
+        const files = await fg('src/**/*')
+        for (const file of files) {
+          this.addWatchFile(file)
+        }
+      }
+    }
   ]
 }
 

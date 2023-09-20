@@ -83,13 +83,14 @@ export default class Harmony extends TaroPlatformHarmony {
 
   moveLibraries(lib: string, target = '', basedir = this.ctx.paths.appPath, sync = false) {
     if (!lib) return
-  
+
     if (sync) {
       // FIXME 不支持 alias 配置
       const libName = lib
       lib = resolveSync(lib, {
         basedir,
         mainFields: ['unpkg', ...defaultMainFields],
+        preserveSymlinks: false,
       }) || ''
       // Note: 跳过 node 相关或未能找到的依赖
       if (!lib || /^[^/]/.test(lib)) {
@@ -165,7 +166,7 @@ export default class Harmony extends TaroPlatformHarmony {
       const define: { [name: string]: any } = {
         ...runtimeConstants,
       }
-      if (lib.includes('@tarojs/runtime/dist')) {
+      if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
         define.global = 'globalThis'
       }
       // FIXME 临时方案，后续考虑获取配置 define、env 配置

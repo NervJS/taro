@@ -2,13 +2,11 @@ import { fs, SCRIPT_EXT } from '@tarojs/helper'
 
 import { isVirtualModule } from '../utils'
 
+import type { ViteH5CompilerContext, ViteHarmonyCompilerContext, ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
-import type { TaroCompiler as TaroH5Compiler } from '../utils/compiler/h5'
-import type { TaroCompiler as TaroHarmonyCompiler } from '../utils/compiler/harmony'
-import type { TaroCompiler as TaroMinCompiler } from '../utils/compiler/mini'
 
-export default function (compiler: TaroH5Compiler | TaroHarmonyCompiler | TaroMinCompiler): PluginOption {
-  const { taroConfig } = compiler
+export default function (complier: ViteH5CompilerContext | ViteHarmonyCompilerContext | ViteMiniCompilerContext): PluginOption {
+  const { taroConfig } = complier
   let cache: Map<string, string>
   return {
     name: 'taro:vite-multi-platform-plugin',
