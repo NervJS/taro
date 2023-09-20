@@ -52,17 +52,7 @@ struct Index {
   build() {
     Scroll(this.scroller) {
       Column() {
-        if (this.node.tagName === 'VIEW') {
-          TaroView({ node: this.node })
-        } else if (this.node.tagName === 'TEXT') {
-          TaroText({ node: this.node })
-        } else if (this.node.tagName === 'IMAGE') {
-          TaroImage({ node: this.node })
-        } else if (this.node.tagName === 'SCROLL-VIEW') {
-          TaroScrollView({ node: this.node })
-        } else if (this.node.tagName === 'BUTTON') {
-          TaroButton({ node: this.node })
-        }
+        TaroView({ node: this.node })
       }
     }
   }
@@ -75,10 +65,6 @@ struct Index {
 
         return [
           'import TaroView from "@tarojs/components/view"',
-          'import TaroText from "@tarojs/components/text"',
-          'import TaroImage from "@tarojs/components/image"',
-          'import TaroButton from "@tarojs/components/button"',
-          'import TaroScrollView from "@tarojs/components/scrollView"',
           'import { TaroElement } from "@tarojs/runtime"',
           `import component from "${rawId}"`,
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,

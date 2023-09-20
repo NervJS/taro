@@ -3,7 +3,7 @@ import { isUndefined } from '@tarojs/shared'
 
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
-import { TaroElement, TaroImageElement, TaroTextElement, TaroViewElement } from './element'
+import { TaroButtonElement, TaroElement, TaroImageElement, TaroTextElement, TaroViewElement } from './element'
 import { NodeType, TaroNode } from './node'
 import { TaroTextNode } from './text'
 
@@ -37,6 +37,9 @@ class TaroDocument extends TaroNode {
         break
       case 'image':
         node = new TaroImageElement()
+        break
+      case 'button':
+        node = new TaroButtonElement()
         break
       default:
         node = new TaroElement(tagName)
