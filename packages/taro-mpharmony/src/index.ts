@@ -1,3 +1,5 @@
+import Taro from '@tarojs/api'
+
 import taro from './api/taro'
 
 export * from './api/index'
@@ -67,3 +69,10 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   // @ts-ignore
   window.native = logObj(window.native || {})
 }
+
+Taro.eventCenter.on('__taroSetNavigationStyle', (style) => {
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.native.setNavigationStyle && window.native.setNavigationStyle(style)
+  }
+})
