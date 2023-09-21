@@ -8,13 +8,6 @@ struct TaroComponentWrapper {
 
   @BuilderParam createElement: () => void
 
-  aboutToAppear () {
-    if (!this.node) return
-
-    // @ts-ignore
-    this.node.instance = this
-  }
-
   @Builder createFlexElementWithPosition ($$: { instance: TaroElement, top: number, left: number }) {
     if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {

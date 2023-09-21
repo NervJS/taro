@@ -1,12 +1,13 @@
 import { NodeType } from '@tarojs/runtime'
 
-import TaroImage from './image'
 import TaroText from './text'
 import TaroView from './view'
+import TaroInput from './input'
+import TaroImage from './image'
 import TaroButton from './button'
-import TaroScrollView from './scrollView'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
+import TaroScrollView from './scrollView'
 
 @Builder
 function createNode (node: any) {
@@ -22,6 +23,8 @@ function createNode (node: any) {
     TaroSlider({ node })
   } else if (node.tagName === 'SWITCH') {
     TaroSwitch({ node })
+  } else if (node.tagName === 'INPUT') {
+    TaroInput({ node })
   } else {
     TaroView({ node })
   }
