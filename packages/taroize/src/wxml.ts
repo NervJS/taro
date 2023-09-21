@@ -215,15 +215,48 @@ export const createWxmlVistor = (
     // 把wxml中的 xx = "...rpx" / xx = "...px" 的单位都转为rem
     convertStyleUnit(path)
 
-    // 把 style 中 {{}} 转为 ${} 格式
+    // 解析标签中 style 属性
     if (name.name === 'style' && t.isStringLiteral(path.node.value)) {
-      const styleAttrsMap: any[] = []
-      parseStyleAttrs(styleAttrsMap, path)
-      convertStyleAttrs(styleAttrsMap)
-      const objectLiteral = t.objectExpression(
-        styleAttrsMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
-      )
-      path.node.value = t.jsxExpressionContainer(objectLiteral)
+      const styleValue = path.node.value.value?.trim()
+      const matchDoubleBraceReg = /^({{)(.*?)(}})$/
+      const matchs = matchDoubleBraceReg.exec(styleValue)
+      // 处理 style="{{ xxx }}" 这种写法
+      if (matchs) {
+        // 获取 {{ }} 中的值
+        const content = matchs?.[2].trim()  
+        if (content) {
+          try {
+            const contentAst = parseFile(content).program.body[0] as any
+            if (t.isExpressionStatement(contentAst)) {
+              path.node.value = t.jsxExpressionContainer(contentAst.expression) 
+            } else {
+              // style="{{ 'height:100px;width:100px' }}"，在这种场景下使用 exec 方法匹配 matchs 时，会在左右再添加单引号，会导致格式为 ''xxx'' 这种错误。使用 slice 去掉多余单引号
+              path.node.value = t.stringLiteral(content.replace(/^'|'$/g, ''))
+            } 
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log(`style属性解析失败，errorMsg: ${error}`)
+          }
+        } else {
+          path.remove() // 如果 style="{{}}" 存在空值，删除该属性
+          return
+        }
+      } 
+      // 处理 style="xxx:xxx" 这种写法
+      else {     
+        if (styleValue.replace(/^'|'$/g, '') !== '') {
+          const styleAttrsMap: any[] = []
+          parseStyleAttrs(styleAttrsMap, path)
+          convertStyleAttrs(styleAttrsMap)
+          const objectLiteral = t.objectExpression(
+            styleAttrsMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
+          )
+          path.node.value = t.jsxExpressionContainer(objectLiteral)
+        } else {
+          path.remove()   // 如果 style="''" 存在空字符串，删除该属性
+          return
+        }
+      }
     }
 
     const valueCopy = cloneDeep(path.get('value').node)
