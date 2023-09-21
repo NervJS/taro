@@ -701,28 +701,33 @@ export default class Convertor {
           return
         }
 
-        const code = fs.readFileSync(file).toString()
-        let outputFilePath = file.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
-        const extname = path.extname(outputFilePath)
-        if (/\.wxs/.test(extname)) {
-          outputFilePath += '.js'
+        try {
+          const code = fs.readFileSync(file).toString()
+          let outputFilePath = file.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
+          const extname = path.extname(outputFilePath)
+          if (/\.wxs/.test(extname)) {
+            outputFilePath += '.js'
+          }
+          const transformResult = wxTransformer({
+            code,
+            sourcePath: file,
+            isNormal: true,
+            isTyped: REG_TYPESCRIPT.test(file),
+          })
+          const { ast, scriptFiles } = this.parseAst({
+            ast: transformResult.ast,
+            outputFilePath,
+            sourceFilePath: file,
+          })
+          const jsCode = generateMinimalEscapeCode(ast)
+          this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
+          printLog(processTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
+          this.hadBeenCopyedFiles.add(file)
+          this.generateScriptFiles(scriptFiles)
+        } catch (error) {
+          console.log(`转换文件${file}异常，errorMessage:${error}`)
+          
         }
-        const transformResult = wxTransformer({
-          code,
-          sourcePath: file,
-          isNormal: true,
-          isTyped: REG_TYPESCRIPT.test(file),
-        })
-        const { ast, scriptFiles } = this.parseAst({
-          ast: transformResult.ast,
-          outputFilePath,
-          sourceFilePath: file,
-        })
-        const jsCode = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
-        printLog(processTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
-        this.hadBeenCopyedFiles.add(file)
-        this.generateScriptFiles(scriptFiles)
       })
     }
   }
