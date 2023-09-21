@@ -4,6 +4,7 @@ import { wgs84Togcj02 } from 'src/utils/coordinateConvert'
 
 import { MethodHandler } from '../../utils/handler'
 
+const HIGH_ACCURACY_TIMEOUT = 10000
 export const getLocation: typeof Taro.getLocation = (options) => {
   const name = 'getLocation'
   // options must be an Object
@@ -27,21 +28,24 @@ export const getLocation: typeof Taro.getLocation = (options) => {
   return new Promise<Taro.getLocation.SuccessCallbackResult>((resolve, reject) => {
     const loc: Partial<Taro.getLocation.SuccessCallbackResult> = {}
     let flag = true
-
-    const timeoutId = setTimeout(function () {
-      if (!loc.latitude && !loc.longitude) {
-        const result: TaroGeneral.CallbackResult = {
-          errMsg: '定位超时！'
+    let timeoutId: NodeJS.Timeout
+    // 只有开启了高精度定位才需要设置超时时间，默认超时时间10秒
+    if (isHighAccuracy) {
+      timeoutId = setTimeout(function () {
+        if (!loc.latitude && !loc.longitude) {
+          const result: TaroGeneral.CallbackResult = {
+            errMsg: '定位超时！'
+          }
+          flag = false
+          handle.fail(result, { resolve, reject })
         }
-        flag = false
-        handle.fail(result, { resolve, reject })
-      }
-    }, highAccuracyExpireTime)
+      }, highAccuracyExpireTime ?? HIGH_ACCURACY_TIMEOUT)
+    }
 
     // @ts-ignore
     native.getLocation({
       success: (res: any) => {
-        // 超时后即使后面回调触发了也不后面的逻辑
+        // 超时后即使后面回调触发了也不执行后面的逻辑
         if (!flag) {
           return
         }
