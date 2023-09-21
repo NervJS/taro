@@ -173,7 +173,7 @@ export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
     /** 用户字体大小（单位px）。以微信客户端「我-设置-通用-字体大小」中的设置为准 */
     fontSizeSetting: info?.fontSizeSetting ?? 16,
     /** 客户端基础库版本 */
-    SDKVersion: info.ohosAPILevel,
+    SDKVersion: info.ohosAPILevel.toString(),
     /** 设备性能等级（仅Android小游戏）。取值为：-2 或 0（该设备无法运行小游戏），-1（性能未知），>=1（设备性能值，该值越高，设备性能越好，目前最高不到50） */
     benchmarkLevel: info.benchmarkLevel || -1,
     /** 允许微信使用相册的开关（仅 iOS 有效） */
