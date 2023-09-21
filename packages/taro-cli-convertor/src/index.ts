@@ -227,7 +227,6 @@ export default class Convertor {
     const scriptComponents: string[] = []
     let componentClassName: string
     let needInsertImportTaro = false
-    const setDataInfo = new Map()
     let hasCacheOptionsRequired = false
     traverse(ast, {
       Program: {
@@ -353,19 +352,6 @@ export default class Convertor {
 
                   self.generateCacheOptionFile()
                 }
-              } else if (callee.type === 'MemberExpression') {
-                // find this.setData({}) ,includes this & _this
-                if (
-                  t.isThisExpression(callee.object) ||
-                  (t.isIdentifier(callee.object) && callee.object.name === '_this')
-                ) {
-                  if (t.isIdentifier(callee.property)) {
-                    if (callee.property.name === 'setData') {
-                      // 把scope存为key,后续判断是否跟this.data.xx在同一个作用域
-                      setDataInfo.set(astPath.scope, astPath)
-                    }
-                  }
-                }
               }
             },
 
@@ -386,6 +372,29 @@ export default class Convertor {
                 const componentName = jsxName.node.name
                 if (!DEFAULT_Component_SET.has(componentName) && scriptComponents.indexOf(componentName) === -1) {
                   scriptComponents.push(componentName)
+                }
+              }
+            },
+
+            // 处理this.data.xx = XXX 的情况，因为此表达式在taro暂不支持, 转为setData
+            AssignmentExpression (astPath) {
+              const node = astPath.node
+              if (
+                t.isMemberExpression(node.left) &&
+                t.isMemberExpression(node.left.object) &&
+                t.isThisExpression(node.left.object.object) &&
+                t.isIdentifier(node.left.object.property)
+              ) {
+                // 确认左边是this.data
+                if (node.left.object.property.name === 'data' && t.isIdentifier(node.left.property)) {
+                  const lastName = node.left.property.name
+                  // 右边不能确定数据类型，所以直接存整个对象
+                  const rightValue = node.right
+                  // 由于合并setData会导致打乱代码顺序, 影响代码逻辑, 所以每一句this.data.xx单独转成一句setData
+                  const memberExp = t.memberExpression(t.thisExpression(), t.identifier('setData'))
+                  const objExp = t.objectExpression([t.objectProperty(t.identifier(lastName), rightValue)])
+                  astPath.replaceWith(t.expressionStatement(t.callExpression(memberExp, [objExp])))
+                  console.log(`转换  语法      this.data.xx=XX暂不支持,原地替换为setData()`)
                 }
               }
             },
@@ -438,65 +447,6 @@ export default class Convertor {
                       t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)])
                     )
                   )
-                }
-              }
-            },
-            AssignmentExpression (astPath) {
-              const node = astPath.node
-              // 处理this.data.xx = XXX 的情况，因为此表达式在taro暂不支持
-              if (t.isMemberExpression(node.left)) {
-                if (t.isMemberExpression(node.left.object)) {
-                  if (t.isThisExpression(node.left.object.object)) {
-                    if (t.isIdentifier(node.left.object.property)) {
-                      if (node.left.object.property.name === 'data') {
-                        // 已确认左边是this.data
-                        if (t.isIdentifier(node.left.property)) {
-                          // 判断在this.data.xx=XX的同一作用域内是否有setData
-                          let hasSetDataInSameScope = 0
-                          let setDataAstPath: any
-                          if (setDataInfo) {
-                            for (const [key, value] of setDataInfo) {
-                              if (key === astPath.scope) {
-                                hasSetDataInSameScope = 1
-                                setDataAstPath = value
-                                break
-                              }
-                            }
-                          }
-                          const lastName = node.left.property.name
-                          // 右边不能确定数据类型，所以直接存整个对象
-                          const rightValue = node.right
-                          if (hasSetDataInSameScope === 1) {
-                            // this.data.xx = XX 和 setData 在同一作用域，要合并
-                            let hasobjexp = 0
-                            let singleArg: any
-                            for (singleArg of setDataAstPath.node.arguments) {
-                              if (t.isObjectExpression(singleArg)) {
-                                hasobjexp = 1
-                                break
-                              }
-                            }
-                            if (hasobjexp === 1) {
-                              // 有ObjectExpression，往更里层插入objectProperty新值
-                              singleArg.properties.push(t.objectProperty(t.identifier(lastName), rightValue))
-                            } else {
-                              // 插入一个ObjectExpression
-                              setDataAstPath.node.arguments.push(
-                                t.objectExpression([t.objectProperty(t.identifier(lastName), rightValue)])
-                              )
-                            }
-                            astPath.remove()
-                          } else {
-                            // 此作用域只有this.data.xx = XX ,直接转换为setData的形式
-                            const memberExp = t.memberExpression(t.thisExpression(), t.identifier('setData'))
-                            const objExp = t.objectExpression([t.objectProperty(t.identifier(lastName), rightValue)])
-                            astPath.replaceWith(t.expressionStatement(t.callExpression(memberExp, [objExp])))
-                          }
-                          console.log(`语法  this.data.xx=XX暂不支持,会被替换为setData()`)
-                        }
-                      }
-                    }
-                  }
                 }
               }
             },
