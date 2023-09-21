@@ -474,12 +474,14 @@ export default class Convertor {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
                 }
-                lastImport.insertAfter(
-                  template(
-                    `import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
-                    babylonConfig
-                  )() as t.Statement
-                )
+                if (scriptComponents.indexOf(importName) !== -1) {
+                  lastImport.insertAfter(
+                    template(
+                      `import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
+                      babylonConfig
+                    )() as t.Statement
+                  )
+                }
               })
             }
             if (depComponents && depComponents.size) {
