@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
-import { Events } from '@tarojs/shared'
 
 import TaroComponentWrapper from './base'
+import { createTaroEvent } from './utils/events'
 import { bindInstanceToNode } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
@@ -75,9 +75,11 @@ struct TaroSlider {
       } else {
         this.value = value
         if (mode === SliderChangeMode.End) {
-          eventHandler(new Events(), 'change', this.node)
+          const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
+          eventHandler(event, 'change', this.node)
         } else if (mode === SliderChangeMode.Moving) {
-          eventHandler(new Events(), 'changing', this.node)
+          const event = createTaroEvent('changing', { detail: { value: this.value } }, this.node)
+          eventHandler(event, 'changing', this.node)
         }
       }
     })
