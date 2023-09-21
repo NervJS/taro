@@ -22,10 +22,6 @@ function attrs ({
 function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
-    min: Number(_attrs.min || 0),
-    max: Number(_attrs.max || 100),
-    value: Number(_attrs.value || 0),
-    step: Number(_attrs.step || 1),
     activeColor: _attrs.activeColor || _attrs.selectedColor || '#1aad19',
     backgroundColor: _attrs.backgroundColor || _attrs.color || '#e9e9e9',
     blockSize: _attrs.blockSize,
@@ -36,19 +32,8 @@ function getAttributes (node: TaroViewElement) {
 }
 
 @Extend(Slider)
-function themeStyles({
-  isDisabled,
-}) {
+function themeStyles(isDisabled: boolean) {
   .opacity(isDisabled ? 0.4 : 1)
-}
-
-function getThemeAttributes (node: TaroViewElement) {
-  const { _attrs } = node
-  const isDisabled = _attrs.disabled
-
-  return {
-    isDisabled,
-  }
 }
 
 @Component
@@ -61,11 +46,11 @@ struct TaroSlider {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
-    this.value = getAttributes(this.node).value
+    this.value = Number(this.node._attrs.value || 0)
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => !getThemeAttributes(this.node).isDisabled && eventHandler(e, 'click', this.node))
+    .onClick((e: ClickEvent) => !this.node._attrs.disabled && eventHandler(e, 'click', this.node))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
@@ -73,19 +58,19 @@ struct TaroSlider {
 
   @Builder createSlider ($$: { width: string }) {
     Slider({
-      min: getAttributes(this.node).min,
-      max: getAttributes(this.node).max,
+      min: Number(this.node._attrs.min || 0),
+      max: Number(this.node._attrs.max || 100),
       value: this.value,
-      step: getAttributes(this.node).step,
+      step: Number(this.node._attrs.step || 1),
       style: SliderStyle.OutSet,
       direction: Axis.Horizontal
     })
       .defaultEvent()
       .attrs(getAttributes(this.node))
       .width($$.width)
-      .themeStyles(getThemeAttributes(this.node))
+      .themeStyles(!!this.node._attrs.disabled)
       .onChange((value: number, mode: SliderChangeMode) => {
-        if (getThemeAttributes(this.node).isDisabled) {
+        if (!!this.node._attrs.disabled) {
           if (mode === SliderChangeMode.End) {
             // FIXME 找下文档是否有强制刷新方法
             this.value = this.value + 0.01
@@ -106,13 +91,13 @@ struct TaroSlider {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (getAttributes(this.node).showValue) {
+      if (!!this.node._attrs.showValue) {
         Row() {
           this.createSlider({ width: '90%' })
           Text(Number(this.value).toFixed(0))
             .width('10%')
             .textAlign(TextAlign.Center)
-            .opacity(getThemeAttributes(this.node).isDisabled ? 0.4 : 1)
+            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
         }
       } else {
         this.createSlider({ width: '100%' })
