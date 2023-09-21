@@ -32,7 +32,7 @@ function attrs ({
 @Component
 struct TaroScrollView {
   info: Area = null
-  
+
   scroller: Scroller = new Scroller()
 
   @ObjectLink node: TaroViewElement

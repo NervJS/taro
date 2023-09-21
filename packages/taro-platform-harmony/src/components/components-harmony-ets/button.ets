@@ -1,4 +1,3 @@
-// @ts-ignore
 import { eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
