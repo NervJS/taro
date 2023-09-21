@@ -1,48 +1,45 @@
-import { eventHandler } from '../runtime'
+import { eventHandler } from '@tarojs/runtime'
 
-import { createNode } from './render'
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { createTaroEvent } from './utils/events'
+import { bindInstanceToNode } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
-@Extend(Row)
+@Extend(Toggle)
 function attrs ({
- margin,
- padding,
- linearGradient,
- zIndex,
- borderRadius,
- opacity,
- backgroundColor,
- backgroundImage,
- backgroundImageSize,
+ color,
 }) {
-  .margin(margin)
-  .zIndex(zIndex)
-  .padding(padding)
-  .opacity(opacity)
-  .borderRadius(borderRadius)
-  .linearGradient(linearGradient)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
-  .backgroundImageSize(backgroundImageSize)
+  .selectedColor(color)
+}
+
+function getAttributes (node: TaroViewElement) {
+  const { _attrs = {} } = node
+  return {
+    color: _attrs.color || '#04BE02',
+  }
+}
+
+@Extend(Toggle)
+function themeStyles(isDisabled: boolean) {
+  .opacity(isDisabled ? 0.4 : 1)
 }
 
 @Component
 struct TaroSwitch {
   info: Area = null
 
-  scroller: Scroller = new Scroller()
-
   @ObjectLink node: TaroViewElement
+
+  @State value: boolean = false
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    this.value = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick((e: ClickEvent) => !this.node._attrs.disabled && eventHandler(e, 'click', this.node))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
@@ -50,33 +47,24 @@ struct TaroSwitch {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (this.node._attrs.scrollX) {
-        Scroll(this.scroller) {
-          Row() {
-            ForEach(this.node.childNodes, item => {
-              createNode(item)
-            }, item => item._nid)
-          }
-          .attrs(getNormalAttributes(this.node))
-          .height(getNormalAttributes(this.node).size.height)
-        }
-        .width(getNormalAttributes(this.node).size.width)
-        .scrollable(ScrollDirection.Horizontal)
+      Toggle({
+        type: this.node._attrs.type !== 'checkbox' ? ToggleType.Switch : ToggleType.Checkbox,
+        isOn: this.value,
+      })
         .defaultEvent()
-      } else {
-        Scroll(this.scroller) {
-          Row() {
-            ForEach(this.node.childNodes, item => {
-              createNode(item)
-            }, item => item._nid)
+        .attrs(getAttributes(this.node))
+        .themeStyles(!!this.node._attrs.disabled)
+        .onChange((isOn: boolean) => {
+          if (!this.node._attrs.disabled) {
+            this.value = isOn
+            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
+            eventHandler(event, 'change', this.node)
+          } else {
+            // FIXME 找下文档是否有强制刷新方法
+            this.value = !this.value
+            this.value = !this.value
           }
-          .width(getNormalAttributes(this.node).size.width)
-          .attrs(getNormalAttributes(this.node))
-        }
-        .height(getNormalAttributes(this.node).size.height)
-        .scrollable(ScrollDirection.Horizontal)
-        .defaultEvent()
-      }
+        })
     }
   }
 }

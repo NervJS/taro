@@ -96,7 +96,7 @@ struct TaroText {
       this.info = areaResult
     })
   }
-  
+
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
