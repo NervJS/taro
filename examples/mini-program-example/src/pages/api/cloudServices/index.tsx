@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 
@@ -14,7 +15,14 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'cloud',
-        func: null,
+        func: (apiIndex) => {
+          TestConsole.consoleTest('Taro.cloud')
+          // @ts-ignore
+          const myCloudInstance = new Taro.cloud({
+            env: 'your-env-id',
+          })
+          TestConsole.consoleSuccess.call(this, myCloudInstance, apiIndex)
+        },
       },
       {
         id: 'DB',

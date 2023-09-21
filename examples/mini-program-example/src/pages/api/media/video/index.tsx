@@ -168,15 +168,14 @@ export default class Index extends React.Component {
             sourceType: ['album', 'camera'],
             maxDuration: 60,
             camera: 'back',
-            compressed:false,
+            compressed: false,
             success: (res) => {
-
               Taro.compressVideo({
                 src: res.tempFilePath,
-                quality:'high',
-                bitrate:1032,
-                fps:24,
-                resolution:0.5,
+                quality: 'high',
+                bitrate: 1032,
+                fps: 24,
+                resolution: 0.5,
                 success: (res) => {
                   TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },

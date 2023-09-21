@@ -45,7 +45,7 @@ export default class Index extends React.Component {
         inputData: {
           filePath: '',
           showMenu: false,
-          fileType: []
+          fileType: [],
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('openDocument')
@@ -522,7 +522,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>

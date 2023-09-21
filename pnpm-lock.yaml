@@ -4388,9 +4388,6 @@ importers:
       babel-generator:
         specifier: ^6.26.1
         version: registry.npmjs.org/babel-generator@6.26.1
-      babel-plugin-transform-commonjs:
-        specifier: ^1.1.6
-        version: registry.npmjs.org/babel-plugin-transform-commonjs@1.1.6(@babel/core@7.21.8)
       babel-template:
         specifier: ^6.26.0
         version: registry.npmjs.org/babel-template@6.26.0
@@ -16063,6 +16060,8 @@ packages:
       babel-register: registry.npmjs.org/babel-register@6.26.0
       babylon: registry.npmjs.org/babylon@6.18.0
       require-from-string: registry.npmjs.org/require-from-string@2.0.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   registry.npmjs.org/babel-plugin-react-native-web@0.18.12:
@@ -40343,7 +40342,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types@2.1.35
       range-parser: registry.npmjs.org/range-parser@1.2.1
       schema-utils: registry.npmjs.org/schema-utils@4.0.1
-      webpack: registry.npmjs.org/webpack@5.78.0
+      webpack: registry.npmjs.org/webpack@5.78.0(@swc/core@1.3.42)(webpack-cli@5.0.1)
 
   registry.npmjs.org/webpack-dev-server@3.11.3(webpack@4.46.0):
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}

@@ -10,6 +10,10 @@ import './index.scss'
  * @returns
  */
 
+function headersReceived(res) {
+  TestConsole.consoleNormal('onHeadersReceived', res)
+}
+
 export default class Index extends React.Component {
   state = {
     task: null,
@@ -35,6 +39,24 @@ export default class Index extends React.Component {
           TestConsole.consoleTest('RequestTask.abort')
           if (this.state.task) {
             ;(this.state.task as Taro.RequestTask<any>).abort()
+          }
+        },
+      },
+      {
+        id: 'onHeadersReceived',
+        func: () => {
+          TestConsole.consoleTest('RequestTask.onHeadersReceived')
+          if (this.state.task) {
+            ;(this.state.task as Taro.RequestTask<any>).onHeadersReceived(headersReceived)
+          }
+        },
+      },
+      {
+        id: 'offHeadersReceived',
+        func: () => {
+          TestConsole.consoleTest('RequestTask.offHeadersReceived')
+          if (this.state.task) {
+            ;(this.state.task as Taro.RequestTask<any>).offHeadersReceived(headersReceived)
           }
         },
       },
@@ -68,9 +90,7 @@ export default class Index extends React.Component {
     })
     this.setState({ task })
     TestConsole.consoleNormal('Taro.RequestTask', task)
-    task.onHeadersReceived((res) => {
-      TestConsole.consoleNormal('onHeadersReceived', res)
-    })
+    task.onHeadersReceived(headersReceived)
   }
 
   render() {

@@ -154,12 +154,18 @@ function convertStyleUnit (path: NodePath<t.JSXAttribute>) {
     if (tempValue.indexOf('px') !== -1) {
       // 把 xxx="...[数字]rpx/px" 的尺寸单位都转为 rem, 转换方法类似postcss-taro-unit-transform
       tempValue = tempValue
-        .replace(/([0-9.]+)px/gi, function (match) {
-          // <1的值转十进制会被转为0, 这种情况直接把值认为是1
-          return parseInt(match, 10) > 0 ? parseInt(match, 10) / 20 + 'rem' : '1rem'
+        .replace(/([0-9.]+)px/gi, function (match, size) {
+          // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
+          if (Number(size) === 0) {
+            return '0rem'
+          }
+          return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 20 + 'rem' : '1rem'
         })
-        .replace(/([0-9.]+)rpx/gi, function (match) {
-          return parseInt(match, 10) > 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
+        .replace(/([0-9.]+)rpx/gi, function (match, size) {
+          if (Number(size) === 0) {
+            return '0rem'
+          }
+          return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
         })
       // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
       tempValue = tempValue
@@ -274,9 +280,6 @@ export const createWxmlVistor = (
   const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
     const nodeName = path.node.name
     if (path.parentPath.isJSXAttribute()) {
-      if (nodeName === WX_KEY) {
-        path.replaceWith(t.jSXIdentifier('key'))
-      }
       if (nodeName === WX_SHOW) {
         path.replaceWith(t.jSXIdentifier(WX_IF)) // wx:show转换后不支持，不频繁切换的话wx:if可替代
         // eslint-disable-next-line no-console
@@ -570,9 +573,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
             if (t.isStringLiteral(regex)) {
               const regexStr = regex.extra?.raw as string
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
-              const newExpr = t.newExpression(t.identifier('RegExp'), [ 
-                t.stringLiteral(regexWithoutQuotes)
-              ])
+              const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes)])
               path.replaceWith(newExpr)
             }
           }
@@ -653,9 +654,13 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
       .get('attributes')
       .forEach((p) => {
         const node = p.node as t.JSXAttribute
-        if (node.name.name === WX_KEY && t.isStringLiteral(node.value)) {
+        if (t.isStringLiteral(node.value) && node.name.name === WX_KEY) {
+          node.name = t.jSXIdentifier('key')
           if (node.value.value === '*this') {
             node.value = t.jSXExpressionContainer(t.identifier(item.value))
+          } else if (node.value.value === 'index') {
+            // index表示item在数组里的下标, 并不是item的某个property, 单独抽出来处理
+            node.value = t.jSXExpressionContainer(t.identifier(node.value.value))
           } else {
             node.value = t.jSXExpressionContainer(
               t.memberExpression(t.identifier(item.value), t.identifier(node.value.value))

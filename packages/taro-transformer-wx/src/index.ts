@@ -12,7 +12,6 @@ import flowStrip from '@babel/plugin-transform-flow-strip-types'
 import jsxPlugin from '@babel/plugin-transform-react-jsx'
 import traverse, { Binding, NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import babel_plugin_transform_commonjs from 'babel-plugin-transform-commonjs'
 // import * as template from '@babel/template'
 // const template = require('babel-template')
 import { prettyPrint } from 'html'
@@ -226,68 +225,9 @@ function parseCode(code: string) {
         objectRestSpread,
         [decorators, { legacy: true }],
         dynamicImport,
-        babel_plugin_transform_commonjs,
       ],
     }) as { ast: t.File }
   ).ast
-}
-
-// 删除commonjs转es6 加入的导出适配语句，包括var module = {exports: {},}、var exports = module.exports、export default module.exports
-function removeEs6AdapterStat(ast) {
-  traverse(ast, {
-    VariableDeclaration(path) {
-      const variableDeclarator = path.node.declarations[0]
-      if (t.isVariableDeclarator(variableDeclarator)) {
-        // 去除commonjs转es6生成的var module = {exports: {},}
-        if (
-          t.isIdentifier(variableDeclarator.id) &&
-          variableDeclarator.id.name === 'module' &&
-          t.isObjectExpression(variableDeclarator.init)
-        ) {
-          const init: t.ObjectExpression = variableDeclarator.init
-          if (
-            init.properties &&
-            init.properties.length > 0 &&
-            t.isObjectProperty(init.properties[0]) &&
-            t.isIdentifier(init.properties[0].key) &&
-            init.properties[0].key.name === 'exports'
-          ) {
-            path.remove()
-          }
-        }
-        // 去除commonjs转es6生成的var exports = module.exports
-        if (
-          t.isIdentifier(variableDeclarator.id) &&
-          variableDeclarator.id.name === 'exports' &&
-          t.isMemberExpression(variableDeclarator.init)
-        ) {
-          const init: t.MemberExpression = variableDeclarator.init
-          if (
-            t.isIdentifier(init.object) &&
-            init.object.name === 'module' &&
-            t.isIdentifier(init.property) &&
-            init.property.name === 'exports'
-          ) {
-            path.remove()
-          }
-        }
-      }
-    },
-    ExportDefaultDeclaration(path) {
-      const declaration = path.node.declaration
-      // 去除commonjs转es6生成的export default module.exports
-      if (t.isMemberExpression(declaration)) {
-        if (
-          t.isIdentifier(declaration.object) &&
-          declaration.object.name === 'module' &&
-          t.isIdentifier(declaration.property) &&
-          declaration.property.name === 'exports'
-        ) {
-          path.remove()
-        }
-      }
-    },
-  })
 }
 
 export default function transform(options: TransformOptions): TransformResult {
@@ -353,38 +293,6 @@ export default function transform(options: TransformOptions): TransformResult {
   //     }
   //   }
   // })
-
-  traverse(ast, {
-    AssignmentExpression(path) {
-      const left = path.get('left')
-      const right = path.get('right')
-
-      // 判断是否为module.exports = {}的格式
-      if (
-        t.isMemberExpression(left) &&
-        t.isIdentifier((left.get('object') as any).node, { name: 'module' }) &&
-        t.isIdentifier((left.get('property') as any).node, { name: 'exports' }) &&
-        t.isObjectExpression(right)
-      ) {
-        // 删除commonjs转es6 加入的导出适配语句，包括var module = {exports: {},}、var exports = module.exports、export default module.exports
-        removeEs6AdapterStat(ast)
-
-        // 将module.exports = {} 转为 export {}
-        const properties = right.get('properties') as any
-        if (properties.length > 0) {
-          const exportSpecifiers = properties.map((property) => {
-            if (t.isIdentifier(property.get('key'))) {
-              const name = property.get('key').node.name
-              return t.exportSpecifier(t.identifier(name), t.identifier(name))
-            }
-          })
-
-          const exportDeclaration = t.exportNamedDeclaration(null, exportSpecifiers)
-          path.parentPath.replaceWith(exportDeclaration)
-        }
-      }
-    },
-  })
 
   if (options.isNormal) {
     if (options.isTyped) {

@@ -90,26 +90,32 @@ export class Image implements ComponentInterface {
       didLoad
     } = this
 
+    // mode="" 按默认值处理
+    const compMode = mode || 'scaleToFill'
+
     const cls = classNames({
-      'taro-img__widthfix': mode === 'widthFix'
+      'taro-img__widthfix': compMode === 'widthFix'
     })
     const imgCls = classNames(
-      `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`,
+      `taro-img__mode-${compMode.toLowerCase().replace(/\s/g, '')}`,
       {
-        [`taro-img__mode-aspectfill--${aspectFillMode}`]: mode === 'aspectFill'
+        [`taro-img__mode-aspectfill--${aspectFillMode}`]: compMode === 'aspectFill'
       }
     )
 
     return (
       <Host class={cls}>
-       <img
-          ref={(img) => (this.imgRef = img!)}
-          class={imgCls}
-          src={lazyLoad && !didLoad ? undefined : src}
-          onLoad={imageOnLoad.bind(this)}
-          onError={imageOnError.bind(this)}
-          {...nativeProps}
-        />
+        {
+          src ? (
+            <img
+              ref={(img) => (this.imgRef = img!)}
+              class={imgCls}
+              src={lazyLoad && !didLoad ? undefined : src}
+              onLoad={imageOnLoad.bind(this)}
+              onError={imageOnError.bind(this)}
+              {...nativeProps} />
+          ) : ''
+        }
       </Host>
     )
   }

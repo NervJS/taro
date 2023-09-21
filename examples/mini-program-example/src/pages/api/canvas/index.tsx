@@ -1,9 +1,10 @@
 import React from 'react'
-import Taro, { useReady } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Canvas, Image } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
+import { hooks } from '@tarojs/runtime'
 
 /**
  * 画布
@@ -44,39 +45,50 @@ export default class Index extends React.Component {
       {
         id: 'canvasToTempFilePath',
         inputData: {
-          x: 100,
-          y: 200,
-          width: 50,
-          height: 50,
-          destWidth: 100,
-          destHeight: 100,
+          canvas: false,
+          canvasId: true,
+          x: 0,
+          y: 0,
+          width: 100,
+          height: 100,
+          destWidth: 200,
+          destHeight: 200,
           quality: 1,
           fileType: 'png',
         },
         func: (apiIndex, data) => {
           let _this = this
+          const { canvas, canvasId, ...mydata } = data
+          let args = { ...mydata }
           TestConsole.consoleTest('canvasToTempFilePath')
-          Taro.canvasToTempFilePath({
-            canvasId: _this.state.canvasId,
-            ...data,
-            success: (res) => {
-              _this.setState({
-                src: res.tempFilePath,
-              })
-              Taro.saveImageToPhotosAlbum({
-                filePath: res.tempFilePath,
-                success: (res) => {
-                  TestConsole.consoleNormal('Taro.saveImageToPhotosAlbum success ', res)
-                },
-              })
-              TestConsole.consoleSuccess(res)
+          if (canvas) {
+            const el = hooks.call('getDOMNode', _this)
+            const mycanvas = el.querySelector(`canvas[canvas-id="${_this.state.canvasId}"]`) as Taro.Canvas
+            Object.assign(args, { canvas: mycanvas })
+          }
+          if (canvasId) {
+            Object.assign(args, { canvasId: _this.state.canvasId })
+          }
+          TestConsole.consoleDebug('args:', args)
+          Taro.canvasToTempFilePath(
+            {
+              ...args,
+              success: (res) => {
+                _this.setState({
+                  src: res.tempFilePath,
+                })
+                TestConsole.consoleSuccess.call(this, res, apiIndex)
+              },
+              fail: (res) => {
+                TestConsole.consoleFail.call(this, res, apiIndex)
+              },
+              complete: (res) => {
+                TestConsole.consoleComplete.call(this, res, apiIndex)
+              },
             },
-            fail: (res) => {
-              TestConsole.consoleFail(res)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete(res)
-            },
+            _this
+          ).then((res) => {
+            TestConsole.consoleReturn.call(this, res, apiIndex)
           })
         },
       },
@@ -316,15 +328,14 @@ export default class Index extends React.Component {
           dHeight: 100,
         },
         func: (apiIndex, data) => {
-          this.initCanvas(apiIndex, () => {
-            Taro.chooseImage({
-              success: async (res) => {
-                context.beginPath()
-                context.drawImage(res.tempFilePaths[0], ...Object.values(data))
-                await context.draw()
-                TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
-              },
-            })
+          this.initCanvas(apiIndex, async () => {
+            context.beginPath()
+            context.drawImage(
+              'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
+              ...Object.values(data)
+            )
+            await context.draw()
+            TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
           })
         },
       },
