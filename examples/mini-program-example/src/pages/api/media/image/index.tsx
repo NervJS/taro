@@ -103,9 +103,10 @@ export default class Index extends React.Component {
         id: 'previewImage',
         inputData: {
           urls: [
-            "http://www.baidu.com/img/bdlogo.png",
-            "https://img1.baidu.com/it/u=698323844,3339950020&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1694278800&t=60a09ae53f4ed052e28032d918935164",
-            "https://img1.baidu.com/it/u=698323844,3339950020&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1694278800&t=60a09ae53f4ed052e28032d918935164"],
+            'http://www.baidu.com/img/bdlogo.png',
+            'https://img1.baidu.com/it/u=698323844,3339950020&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1694278800&t=60a09ae53f4ed052e28032d918935164',
+            'https://img1.baidu.com/it/u=698323844,3339950020&fm=253&app=138&size=w931&n=0&f=PNG&fmt=auto?sec=1694278800&t=60a09ae53f4ed052e28032d918935164',
+          ],
           current: '',
           showmenu: true,
           referrerPolicy: '',
@@ -127,8 +128,6 @@ export default class Index extends React.Component {
           }).then((res) => {
             TestConsole.consoleReturn.call(this, res, apiIndex)
           })
-
-
         },
       },
       {
@@ -153,7 +152,6 @@ export default class Index extends React.Component {
               })
             },
             fail: (err) => {
-
               TestConsole.consoleNormal('chooseImage fail:', err)
             },
             complete: (com) => {
@@ -378,7 +376,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>
