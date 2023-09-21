@@ -21,3 +21,10 @@ export const BUTTON_THEME_COLOR = {
     background: '#e64340'
   }
 }
+
+export const INPUT_TYPE_MAP = {
+  text: InputType.Normal,
+  number: InputType.Number,
+  idcard: InputType.Number,
+  ['safe-password']: InputType.Password,
+}
