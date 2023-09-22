@@ -394,6 +394,7 @@ require("./taro");
                 "video-height": "640",
                 "beauty-style": "'smooth'",
                 filter: "'standard'",
+                "picture-in-picture-mode": "[]",
                 animation: _empty,
                 bindStateChange: _empty,
                 bindNetStatus: _empty,
@@ -608,7 +609,7 @@ require("./taro");
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 
@@ -2606,6 +2607,7 @@ require("./taro");
                 "video-height": "640",
                 "beauty-style": "'smooth'",
                 filter: "'standard'",
+                "picture-in-picture-mode": "[]",
                 animation: _empty,
                 bindStateChange: _empty,
                 bindNetStatus: _empty,
@@ -2820,7 +2822,7 @@ require("./taro");
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 
