@@ -38,7 +38,7 @@
  * │   │   ├── scan.d.ts                    设备 -> 扫码 API
  * │   │   ├── screen.d.ts                  设备 -> 屏幕 API
  * │   │   ├── vibrate.d.ts                 设备 -> 振动 API
- * │   │   └── wifi.d.ts                     设备 -> Wi-Fi API
+ * │   │   └── wifi.d.ts                    设备 -> Wi-Fi API
  * │   ├── ext
  * │   │   └── index.d.ts                   第三方平台 API
  * │   ├── files
