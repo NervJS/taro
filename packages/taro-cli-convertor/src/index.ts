@@ -678,7 +678,6 @@ export default class Convertor {
           this.generateScriptFiles(scriptFiles)
         } catch (error) {
           console.log(`转换文件${file}异常，errorMessage:${error}`)
-          
         }
       })
     }
