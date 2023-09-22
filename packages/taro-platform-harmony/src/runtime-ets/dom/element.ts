@@ -12,6 +12,7 @@ class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
   public readonly tagName: string
   public innerHTML: string
+  // public changeRecord = ''
 
   constructor(tagName: string) {
     super(tagName.toUpperCase(), NodeType.ELEMENT_NODE)
@@ -54,6 +55,10 @@ class TaroElement extends TaroNode {
     }
   
     this._attrs[name] = value
+
+    // if (!this.changeRecord.includes(`${name}-${value}`)) {
+    //   this.changeRecord += `${name}-${value};`
+    // }
   }
 
   public getAttribute (name: string): string | null {

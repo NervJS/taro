@@ -1,6 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
+import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
 import { bindInstanceToNode, getNormalAttributes, parseStyles } from './utils/helper'
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
@@ -77,6 +78,8 @@ struct TaroInput {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    
+    this.text = this.node._attrs.value || ''
   }
 
   getPlaceholderColor (node) {
@@ -102,12 +105,16 @@ struct TaroInput {
     TaroComponentWrapper({ node: this.node }) {
       TextInput({ text: this.text, placeholder: this.node._attrs?.placeholder || '', controller: this.controller })
         .type(this.getInputType(this.node))
-        .maxLength(Number(this.node._attrs?.maxlength))
+        .maxLength(Number(this.node._attrs?.maxlength) || null)
         .placeholderColor(this.getPlaceholderColor(this.node))
         .enterKeyType(INPUT_CONFIRM_MAP[this.node._attrs?.confirmType] || EnterKeyType.Done)
         .defaultEvent()
         .attrs(getNormalAttributes(this.node))
         .textAttrs(getFontAttributes(this.node))
+        .onChange((value: string) => {
+          const event = createTaroEvent('input', { detail: { value } }, this.node)
+          eventHandler(event, 'input', this.node)
+        })
     }
   }
 }
