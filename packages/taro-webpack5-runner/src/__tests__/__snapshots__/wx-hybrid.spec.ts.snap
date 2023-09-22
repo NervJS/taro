@@ -453,7 +453,8 @@ require("./runtime");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         const hostConfig = {
             initNativeApi: initNativeApi,

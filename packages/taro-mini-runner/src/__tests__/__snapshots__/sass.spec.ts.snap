@@ -472,7 +472,8 @@ require("./taro");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -2034,7 +2035,8 @@ require("./taro");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -3596,7 +3598,8 @@ require("./taro");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -5158,7 +5161,8 @@ require("./taro");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,

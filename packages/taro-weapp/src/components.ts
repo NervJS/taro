@@ -391,4 +391,5 @@ export const components = {
     objectFit: "'contain'",
     bindError: _empty
   },
+  Snapshot: {}
 }
