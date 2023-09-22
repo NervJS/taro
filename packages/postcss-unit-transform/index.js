@@ -6,10 +6,10 @@ function plugin (opts) {
   return function (root) {
     root.walkDecls(function (decl) {
       let value = decl.value
-      value = value.replace(/([0-9.]+)px/ig, function (match, size) {
+      value = value.replace(/\b-?(\d+(\.\d+)?)px\b/ig, function (match, size) {
         // 绝对值<1的非0数值转十进制后会被转成0,赋值为1
         return Number(size) === 0 ? '0px': parseInt(size, 10) !== 0? (parseInt(size, 10) * 2) + 'px': '1px'
-      }).replace(/([0-9.]+)rpx/ig, function (match, size) {
+      }).replace(/\b-?(\d+(\.\d+)?)rpx\b/ig, function (match, size) {
         return size + 'px'
       })
       decl.value = value
