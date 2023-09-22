@@ -65,6 +65,7 @@ import { ScrollViewProps } from './ScrollView'
 import { ShareElementProps } from './ShareElement'
 import { SliderProps } from './Slider'
 import { SlotProps } from './Slot'
+import { SnapshotProps } from './SnapShot'
 import { StickyHeaderProps } from './StickyHeader'
 import { StickySectionProps } from './StickySection'
 import { SwiperProps } from './Swiper'
@@ -108,17 +109,12 @@ export * from './props'
 export declare const Block: VueComponentType<StandardProps>
 export declare const CoverImage: VueComponentType<CoverImageProps>
 export declare const CoverView: VueComponentType<CoverViewProps>
-export declare const GridView: VueComponentType<GridViewProps>
-export declare const ListView: VueComponentType<ListViewProps>
 export declare const MatchMedia: VueComponentType<MatchMediaProps>
 export declare const MovableArea: VueComponentType<MovableAreaProps>
 export declare const MovableView: VueComponentType<MovableViewProps>
 export declare const PageContainer: VueComponentType<PageContainerProps>
 export declare const RootPortal: VueComponentType<RootPortalProps>
 export declare const ScrollView: VueComponentType<ScrollViewProps>
-export declare const ShareElement: VueComponentType<ShareElementProps>
-export declare const StickyHeader: VueComponentType<StickyHeaderProps>
-export declare const StickySection: VueComponentType<StickySectionProps>
 export declare const Swiper: VueComponentType<SwiperProps>
 export declare const SwiperItem: VueComponentType<SwiperItemProps>
 export declare const View: VueComponentType<ViewProps>
@@ -144,6 +140,13 @@ export declare const RadioGroup: VueComponentType<RadioGroupProps>
 export declare const Slider: VueComponentType<SliderProps>
 export declare const Switch: VueComponentType<SwitchProps>
 export declare const Textarea: VueComponentType<TextareaProps>
+/** Skyline */
+export declare const GridView: VueComponentType<GridViewProps>
+export declare const ListView: VueComponentType<ListViewProps>
+export declare const Snapshot: VueComponentType<SnapshotProps>
+export declare const ShareElement: VueComponentType<ShareElementProps>
+export declare const StickyHeader: VueComponentType<StickyHeaderProps>
+export declare const StickySection: VueComponentType<StickySectionProps>
 /** 导航 */
 export declare const FunctionalPageNavigator: VueComponentType<FunctionalPageNavigatorProps>
 export declare const Navigator: VueComponentType<NavigatorProps>
@@ -206,8 +209,6 @@ declare global {
       'taro-root-portal-core': ElementAttrs<TransformReact2VueType<RootPortalProps>>
       'scroll-view': ElementAttrs<TransformReact2VueType<ScrollViewProps>>
       'taro-scroll-view-core': ElementAttrs<TransformReact2VueType<ScrollViewProps>>
-      'share-element': ElementAttrs<TransformReact2VueType<ShareElementProps>>
-      'taro-share-element-core': ElementAttrs<TransformReact2VueType<ShareElementProps>>
       swiper: ElementAttrs<TransformReact2VueType<SwiperProps>>
       'taro-swiper-core': ElementAttrs<TransformReact2VueType<SwiperProps>>
       'swiper-item': ElementAttrs<TransformReact2VueType<SwiperItemProps>>
@@ -256,6 +257,19 @@ declare global {
       'taro-switch-core': ElementAttrs<TransformReact2VueType<SwitchProps>>
       textarea: ElementAttrs<TransformReact2VueType<TextareaProps>>
       'taro-textarea-core': ElementAttrs<TransformReact2VueType<TextareaProps>>
+      /** Skyline */
+      'grid-view': ElementAttrs<TransformReact2VueType<GridViewProps>>
+      'taro-grid-view-core': ElementAttrs<TransformReact2VueType<GridViewProps>>
+      'list-view': ElementAttrs<TransformReact2VueType<ListViewProps>>
+      'taro-list-view-core': ElementAttrs<TransformReact2VueType<ListViewProps>>
+      'share-element': ElementAttrs<TransformReact2VueType<ShareElementProps>>
+      'taro-share-element-core': ElementAttrs<TransformReact2VueType<ShareElementProps>>
+      'snapshot': ElementAttrs<TransformReact2VueType<SnapshotProps>>
+      'taro-snapshot-core': ElementAttrs<TransformReact2VueType<SnapshotProps>>
+      'sticky-header': ElementAttrs<TransformReact2VueType<StickyHeaderProps>>
+      'taro-sticky-header-core': ElementAttrs<TransformReact2VueType<StickyHeaderProps>>
+      'sticky-section': ElementAttrs<TransformReact2VueType<StickySectionProps>>
+      'taro-sticky-section-core': ElementAttrs<TransformReact2VueType<StickySectionProps>>
       /** 导航 */
       'functional-page-navigator': ElementAttrs<TransformReact2VueType<FunctionalPageNavigatorProps>>
       'taro-functional-page-navigator-core': ElementAttrs<TransformReact2VueType<FunctionalPageNavigatorProps>>

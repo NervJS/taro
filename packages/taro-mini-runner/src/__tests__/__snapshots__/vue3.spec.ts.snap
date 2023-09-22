@@ -286,6 +286,7 @@ require("./taro");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -295,12 +296,22 @@ require("./taro");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -471,7 +482,8 @@ require("./taro");
                 muted: _false,
                 objectFit: "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,

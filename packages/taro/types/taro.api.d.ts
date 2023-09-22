@@ -109,6 +109,7 @@
 /// <reference path="api/wxml/index.d.ts" />
 /// <reference path="api/ext/index.d.ts" />
 /// <reference path="api/ad/index.d.ts" />
+/// <reference path="api/skyline/index.d.ts" />
 
 /// <reference path="api/cloud/index.d.ts" />
 /// <reference path="api/open-api/facial.d.ts" />
