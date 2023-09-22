@@ -388,6 +388,7 @@ function equipCommonApis (taro, global, apis: Record<string, any> = {}) {
     }
   }
   taro.createSelectorQuery = delayRef(taro, global, 'createSelectorQuery', 'exec')
+  taro.createIntersectionObserver = delayRef(taro, global, 'createIntersectionObserver', 'observe')
 }
 
 /**
@@ -406,11 +407,11 @@ function equipTaskMethodsIntoPromise (task, promise) {
 }
 
 function delayRef (taro, global, name: string, method: string) {
-  return function () {
-    const res = global[name]()
+  return function (...args) {
+    const res = global[name](...args)
     const raw = res[method].bind(res)
-    res[method] = function (...args) {
-      taro.nextTick(() => raw(...args))
+    res[method] = function (...methodArgs) {
+      taro.nextTick(() => raw(...methodArgs))
     }
     return res
   }
