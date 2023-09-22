@@ -153,28 +153,45 @@ function convertStyleUnit (path: NodePath<t.JSXAttribute>) {
     let tempValue = path.node.value.value
     if (tempValue.indexOf('px') !== -1) {
       // 把 xxx="...[数字]rpx/px" 的尺寸单位都转为 rem, 转换方法类似postcss-taro-unit-transform
-      tempValue = tempValue
-        .replace(/([0-9.]+)px/gi, function (match, size) {
-          // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
-          if (Number(size) === 0) {
-            return '0rem'
-          }
-          return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 20 + 'rem' : '1rem'
-        })
-        .replace(/([0-9.]+)rpx/gi, function (match, size) {
-          if (Number(size) === 0) {
-            return '0rem'
-          }
-          return parseInt(match, 10) !== 0 ? parseInt(match, 10) / 40 + 'rem' : '1rem'
-        })
-      // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
-      tempValue = tempValue
-        .replace(/\{\{([^{}]*)\}\}(px)/gi, function (match, size, unit) {
-          return match.replace(size, size + '/20').replace(unit, 'rem')
-        })
-        .replace(/\{\{([^{}]*)\}\}(rpx)/gi, function (match, size, unit) {
-          return match.replace(size, size + '/40').replace(unit, 'rem')
-        })
+      try {
+        tempValue = tempValue
+          .replace(/:\s*-?([0-9.]+)(px)\b/gi, function (match, size, unit) {
+            if (Number(size) === 0) {
+              return match.replace(size, '0rem')
+            }
+            // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
+            if (parseInt(size, 10) === 0) {
+              return match.replace(size, '1rem')
+            }
+            return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
+          })
+          .replace(/:\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
+            if (Number(size) === 0) {
+              return match.replace(size, '0rem')
+            }
+            if (parseInt(size, 10) === 0) {
+              return match.replace(size, '1rem')
+            }
+            return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
+          })
+        // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
+        tempValue = tempValue
+          .replace(/\{\{([^{}]*)\}\}(px)/gi, function (match, size, unit) {
+            // 判断{{}}是否包含加减乘除算式和三元表达式, 是的话得加括号
+            if (match.match(/[+\-*/?]/g)) {
+              return match.replace(size, '(' + size + ')/20').replace(unit, 'rem')
+            }
+            return match.replace(size, size + '/20').replace(unit, 'rem')
+          })
+          .replace(/\{\{([^{}]*)\}\}(rpx)/gi, function (match, size, unit) {
+            if (match.match(/[+\-*/?]/g)) {
+              return match.replace(size, '(' + size + ')/40').replace(unit, 'rem')
+            }
+            return match.replace(size, size + '/40').replace(unit, 'rem')
+          })
+      } catch (error) {
+        printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
+      }
       path.node.value.value = tempValue
     }
   }
@@ -223,37 +240,41 @@ export const createWxmlVistor = (
       // 处理 style="{{ xxx }}" 这种写法
       if (matchs) {
         // 获取 {{ }} 中的值
-        const content = matchs?.[2].trim()  
+        const content = matchs?.[2].trim()
         if (content) {
           try {
             const contentAst = parseFile(content).program.body[0] as any
             if (t.isExpressionStatement(contentAst)) {
-              path.node.value = t.jsxExpressionContainer(contentAst.expression) 
+              path.node.value = t.jsxExpressionContainer(contentAst.expression)
             } else {
               // style="{{ 'height:100px;width:100px' }}"，在这种场景下使用 exec 方法匹配 matchs 时，会在左右再添加单引号，会导致格式为 ''xxx'' 这种错误。使用 slice 去掉多余单引号
               path.node.value = t.stringLiteral(content.replace(/^'|'$/g, ''))
-            } 
+            }
           } catch (error) {
             // eslint-disable-next-line no-console
-            console.log(`style属性解析失败，errorMsg: ${error}`)
+            console.log(`style属性解析失败,errorMsg: ${error}`)
           }
         } else {
           path.remove() // 如果 style="{{}}" 存在空值，删除该属性
           return
         }
-      } 
+      }
       // 处理 style="xxx:xxx" 这种写法
-      else {     
+      else {
         if (styleValue.replace(/^'|'$/g, '') !== '') {
-          const styleAttrsMap: any[] = []
-          parseStyleAttrs(styleAttrsMap, path)
-          convertStyleAttrs(styleAttrsMap)
-          const objectLiteral = t.objectExpression(
-            styleAttrsMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
-          )
-          path.node.value = t.jsxExpressionContainer(objectLiteral)
+          try {
+            const styleAttrsMap: any[] = []
+            parseStyleAttrs(styleAttrsMap, path)
+            convertStyleAttrs(styleAttrsMap)
+            const objectLiteral = t.objectExpression(
+              styleAttrsMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
+            )
+            path.node.value = t.jsxExpressionContainer(objectLiteral)
+          } catch (error) {
+            printLog(processTypeEnum.ERROR, `style属性解析失败:${error}`)
+          }
         } else {
-          path.remove()   // 如果 style="''" 存在空字符串，删除该属性
+          path.remove() // 如果 style="''" 存在空字符串，删除该属性
           return
         }
       }
