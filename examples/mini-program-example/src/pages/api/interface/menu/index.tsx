@@ -29,19 +29,23 @@ export default class Index extends React.Component {
   }
 
   onLoad() {
-    const rect = Taro.getMenuButtonBoundingClientRect()
-    this.setState({
-      style: {
-        top: `${rect.top}px`,
-        left: `${rect.right - 87}px`,
-        position: 'relative',
-        marginBottom: '50px',
-        width: '87px',
-        borderRadius: `${rect.height}px`,
-        height: `${rect.height}px`,
-        fontSize: '16fp',
-      },
-    })
+    try {
+      const rect = Taro.getMenuButtonBoundingClientRect()
+      this.setState({
+        style: {
+          top: `${rect.top}px`,
+          left: `${rect.right - 87}px`,
+          position: 'relative',
+          marginBottom: '50px',
+          width: '87px',
+          borderRadius: `${rect.height}px`,
+          height: `${rect.height}px`,
+          fontSize: '16fp',
+        },
+      })
+    } catch (err) {
+      console.log('getMenuButtonBoundingClientRect failed')
+    }
   }
 
   render() {

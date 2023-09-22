@@ -64,7 +64,7 @@ export function loadRouterStyle (usingWindowScroll) {
   addStyle(css)
 }
 
-function addStyle (css) {
+export function addStyle (css) {
   if (!css) return
   const style = document.createElement('style')
   style.innerHTML = css
