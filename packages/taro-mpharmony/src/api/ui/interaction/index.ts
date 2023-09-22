@@ -311,12 +311,11 @@ const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList
 
 Taro.eventCenter.on('__afterTaroRouterChange', () => {
   if (toast.currentPath && toast.currentPath !== Current.page?.path) {
-    hideToast()
-    hideLoading()
+    // 目前跳转新的页面不需要隐藏toast
   }
 
   if (modal.currentPath && modal.currentPath !== Current.page?.path) {
-    hideModal()
+    // 目前跳转新的页面不需要隐藏modal
   }
 })
 
@@ -330,6 +329,7 @@ export {
   disableAlertBeforeUnload,
   enableAlertBeforeUnload,
   hideLoading,
+  hideModal,
   hideToast,
   showActionSheet,
   showLoading,
