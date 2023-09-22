@@ -13,7 +13,10 @@ export const components = {
     bindGetPhoneNumber: _empty,
     'data-channel': _empty,
     'data-aweme-id': _empty,
-    bindOpenAwemeUserProfile: _empty
+    'group-id': _empty,
+    'data-is-half-page': _empty,
+    bindOpenAwemeUserProfile: _empty,
+    bindJoinGroup: _empty,
   },
   Form: {
     'report-submit-timeout': '0'
