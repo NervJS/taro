@@ -28,3 +28,11 @@ export const INPUT_TYPE_MAP = {
   idcard: InputType.Number,
   ['safe-password']: InputType.Password,
 }
+
+export const INPUT_CONFIRM_MAP = {
+  go: EnterKeyType.Go,	// 右下角按钮为“前往”
+  send: EnterKeyType.Send,	// 右下角按钮为“发送”
+  done: EnterKeyType.Done,	// 右下角按钮为“完成”
+  next: EnterKeyType.Next,	// 右下角按钮为“下一个”
+  search: EnterKeyType.Search,	// 右下角按钮为“搜索”
+}
