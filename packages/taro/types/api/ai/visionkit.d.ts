@@ -3,7 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   namespace isVKSupport {
     /** vision kit 版本 */
-    interface Version {
+    interface IVersion {
       /** 旧版本 */
       v1
       /** v2 版本，目前只有 iOS 基础库 2.22.0 以上支持 */
@@ -12,24 +12,24 @@ declare module '../../index' {
   }
   namespace createVKSession {
     /** vision kit 版本 */
-    interface Version {
+    interface IVersion {
       /** 旧版本 */
       v1
       /** v2 版本，目前只有 iOS 基础库 2.22.0 以上支持 */
       v2
     }
     /** 跟踪配置 */
-    interface Track {
+    interface ITrack {
       /** 平面跟踪配置 */
-      plane: Plane
+      plane: IPlane
     }
     /** 平面跟踪配置 */
-    interface Plane {
+    interface IPlane {
       /** 平面跟踪配置模式 */
-      mode: keyof PlaneMode
+      mode: keyof IPlaneMode
     }
     /** 平面跟踪配置模式合法值 */
-    interface PlaneMode {
+    interface IPlaneMode {
       /** 检测横向平面 */
       1
       /** 检测纵向平面，只有 v2 版本支持 */
@@ -41,34 +41,9 @@ declare module '../../index' {
 
   /** anchor 对象，只有 v2 版本支持
    * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKAnchor.html
+   * @ignore
    */
-  interface VKAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKAnchor.Type
-    /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
-    transform: Float32Array
-    /** 尺寸，只有平面 anchor 支持 */
-    size: VKAnchor.Size
-    /** 方向，只有平面 anchor 支持 */
-    alignment: number
-  }
-  namespace VKAnchor {
-    /** anchor 对象类型合法值 */
-    interface Type {
-      /** 平面 */
-      0
-    }
-    /** anchor 对象类型合法值 */
-    interface Size {
-      /** 宽度 */
-      width: number
-      /** 高度 */
-      height: number
-    }
-  }
+  type VKAnchor = VKBodyAnchor | VKDepthAnchor | VKFaceAnchor | VKHandAnchor | VKMarkerAnchor | VKOCRAnchor | VKPlaneAnchor
 
   /** 人体 anchor
    * @supported weapp
@@ -78,298 +53,46 @@ declare module '../../index' {
     /** 唯一标识 */
     id: number
     /** 类型 */
-    type: keyof VKBodyAnchor.Type
+    type: keyof VKBodyAnchor.IType
     /** 识别序号 */
     detectId: number
     /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: VKBodyAnchor.Size
+    size: VKBodyAnchor.ISize
     /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: VKBodyAnchor.Origin
+    origin: VKBodyAnchor.IOrigin
     /** 关键点的置信度 */
     confidence: number[]
     /** 关键点 */
-    points: VKBodyAnchor.Point[]
+    points: VKBodyAnchor.IPoint[]
     /** 总体置信值 */
     score: number
   }
   namespace VKBodyAnchor {
-    interface Type {
+    /** 类型 */
+    interface IType {
       /** 人体 */
       5
     }
-    interface Size {
+    /** 相对视窗的尺寸*/
+    interface ISize {
       /** 宽度 */
       width: number
       /** 高度 */
       height: number
     }
-    interface Origin {
+    /** 相对视窗的位置信息 */
+    interface IOrigin {
       /** 横坐标 */
       x: number
       /** 纵坐标 */
       y: number
     }
-    interface Point {
-      /** 横坐标 */
-      x: number
-      /** 纵坐标 */
-      y: number
-    }
-  }
-  
-  /** depth anchor
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKDepthAnchor.html
-   */
-  interface VKDepthAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKDepthAnchor.Type
-    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: VKDepthAnchor.Size
-    /** 包含深度信息的数组 */
-    depthArray: number[]
-  }
-  namespace VKDepthAnchor {
-    interface Type {
-      /** DEPTH */
-      8
-    }
-    interface Size {
-      /** 宽度 */
-      width: number
-      /** 高度 */
-      height: number
-    }
-  }
-
-  /** 人脸 anchor
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKFaceAnchor.html
-   */
-  interface VKFaceAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKFaceAnchor.Type
-    /** 识别序号 */
-    detectId: number
-    /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: VKFaceAnchor.Origin
-    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: VKFaceAnchor.Size
-    /** 人脸 106 个关键点的坐标 */
-    points: VKFaceAnchor.Point[]
-    /** 人脸角度信息 */
-    angle: number[]
-    /** 关键点的置信度 */
-    confidence: number
-  }
-  namespace VKFaceAnchor {
-    interface Type {
-      /** 人脸 */
-      3
-    }
-    interface Size {
-      /** 宽度 */
-      width: number
-      /** 高度 */
-      height: number
-    }
-    interface Origin {
-      /** 横坐标 */
-      x: number
-      /** 纵坐标 */
-      y: number
-    }
-    interface Point {
-      /** 横坐标 */
-      x: number
-      /** 纵坐标 */
-      y: number
-    }
-  }
-  
-  /** 手势 anchor
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKHandAnchor.html
-   */
-  interface VKHandAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKHandAnchor.Type
-    /** 识别序号 */
-    detectId: number
-    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    size: VKHandAnchor.Size
-    /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: VKHandAnchor.Origin
-    /** 关键点的置信度 */
-    confidence: number[]
     /** 关键点 */
-    points: VKHandAnchor.Point[]
-    /** 总体置信值 */
-    score: number
-    /** 手势分类, 返回整数-1到18, -1表示无效手势 */
-    gesture: VKHandAnchor.Gesture
-  }
-  namespace VKHandAnchor {
-    interface Type {
-      /** 手势 */
-      7
-    }
-    interface Size {
-      /** 宽度 */
-      width: number
-      /** 高度 */
-      height: number
-    }
-    interface Origin {
+    interface IPoint {
       /** 横坐标 */
       x: number
       /** 纵坐标 */
       y: number
-    }
-    interface Point {
-      /** 横坐标 */
-      x: number
-      /** 纵坐标 */
-      y: number
-    }
-    enum Gesture {
-      /** 无效手势 */
-      INVALID = -1,
-      /**单手比心 */
-      0,
-      /** 布（数字5）*/
-      1,
-      /** 剪刀（数字2） */
-      2,
-      /** 握拳 */
-      3,
-      /** 数字1 */
-      4,
-      /** 热爱 */
-      5,
-      /** 点赞 */
-      6,
-      /** 数字3 */
-      7,
-      /** 摇滚 */
-      8,
-      /** 数字6 */
-      9,
-      /** 数字8 */
-      10,
-      /** 双手抱拳（恭喜发财） */
-      11,
-      /** 数字4 */
-      12,
-      /** 比ok */
-      13,
-      /** 不喜欢（踩） */
-      14,
-      /** 双手比心 */
-      15,
-      /** 祈祷（双手合十） */
-      16,
-      /** 双手抱拳 */
-      17,
-      /** 无手势动作 */
-      18,
-    }
-  }
-
-  /** marker anchor
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKMarkerAnchor.html
-   */
-  interface VKMarkerAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKMarkerAnchor.Type
-    /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
-    transform: Float32Array
-    /** marker id */
-    markerId: number
-    /** 图片路径 */
-    path: string
-  }
-  namespace VKMarkerAnchor {
-    interface Type {
-      /** marker */
-      1
-    }
-  }
-
-  /** OCR anchor
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKOCRAnchor.html
-   */
-  interface VKOCRAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKOCRAnchor.Type
-    /** 识别的文字结果 */
-    text: string
-  }
-  namespace VKOCRAnchor {
-    interface Type {
-      /** OCR */
-      6
-    }
-  }
-
-  /** OSD anchor
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKOSDAnchor.html
-   */
-  interface VKOSDAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKOSDAnchor.Type
-    /** marker id */
-    markerId: number
-    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘*/
-    size: Size
-    /** 图片路径 */
-    path: string
-    /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
-    origin: Origin
-  }
-  namespace VKOSDAnchor {
-    interface Type {
-      /** OSD */
-      2
-    }
-  }
-
-  /** 平面 anchor，只有 v2 版本支持
-   * @supported weapp
-   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKPlaneAnchor.html
-   */
-  interface VKPlaneAnchor {
-    /** 唯一标识 */
-    id: number
-    /** 类型 */
-    type: keyof VKPlaneAnchor.Type
-    /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
-    transform: Float32Array
-    /** 尺寸 */
-    size: Size
-    /** 方向 */
-    alignment: number
-  }
-
-  namespace VKPlaneAnchor {
-    interface Type {
-      /** 平面 */
-      0
     }
   }
 
@@ -394,6 +117,296 @@ declare module '../../index' {
     ): Float32Array
   }
 
+  /** depth anchor
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKDepthAnchor.html
+   */
+  interface VKDepthAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKDepthAnchor.IType
+    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
+    size: VKDepthAnchor.ISize
+    /** 包含深度信息的数组 */
+    depthArray: number[]
+  }
+  namespace VKDepthAnchor {
+    /** 类型 */
+    interface IType {
+      /** DEPTH */
+      8
+    }
+    /** 相对视窗的尺寸 */
+    interface ISize {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+  }
+
+  /** 人脸 anchor
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKFaceAnchor.html
+   */
+  interface VKFaceAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKFaceAnchor.IType
+    /** 识别序号 */
+    detectId: number
+    /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
+    origin: VKFaceAnchor.IOrigin
+    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
+    size: VKFaceAnchor.ISize
+    /** 人脸 106 个关键点的坐标 */
+    points: VKFaceAnchor.IPoint[]
+    /** 人脸角度信息 */
+    angle: number[]
+    /** 关键点的置信度 */
+    confidence: number
+  }
+  namespace VKFaceAnchor {
+    /** 类型 */
+    interface IType {
+      /** 人脸 */
+      3
+    }
+    /** 相对视窗的尺寸*/
+    interface ISize {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+    /** 相对视窗的位置信息 */
+    interface IOrigin {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+    /** 关键点 */
+    interface IPoint {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+  }
+
+  /** 手势 anchor
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKHandAnchor.html
+   */
+  interface VKHandAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKHandAnchor.IType
+    /** 识别序号 */
+    detectId: number
+    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
+    size: VKHandAnchor.ISize
+    /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
+    origin: VKHandAnchor.IOrigin
+    /** 关键点的置信度 */
+    confidence: number[]
+    /** 关键点 */
+    points: VKHandAnchor.IPoint[]
+    /** 总体置信值 */
+    score: number
+    /** 手势分类, 返回整数 -1 到 18, -1 表示无效手势 */
+    gesture: keyof VKHandAnchor.IGesture | -1
+  }
+  namespace VKHandAnchor {
+    /** 类型 */
+    interface IType {
+      /** 手势 */
+      7
+    }
+    /** 相对视窗的尺寸*/
+    interface ISize {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+    /** 相对视窗的位置信息 */
+    interface IOrigin {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+    /** 关键点 */
+    interface IPoint {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+    /** 手势分类 */
+    interface IGesture {
+      /**单手比心 */
+      0
+      /** 布（数字5）*/
+      1
+      /** 剪刀（数字2） */
+      2
+      /** 握拳 */
+      3
+      /** 数字1 */
+      4
+      /** 热爱 */
+      5
+      /** 点赞 */
+      6
+      /** 数字3 */
+      7
+      /** 摇滚 */
+      8
+      /** 数字6 */
+      9
+      /** 数字8 */
+      10
+      /** 双手抱拳（恭喜发财） */
+      11
+      /** 数字4 */
+      12
+      /** 比ok */
+      13
+      /** 不喜欢（踩） */
+      14
+      /** 双手比心 */
+      15
+      /** 祈祷（双手合十） */
+      16
+      /** 双手抱拳 */
+      17
+      /** 无手势动作 */
+      18
+    }
+  }
+
+  /** marker anchor
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKMarkerAnchor.html
+   */
+  interface VKMarkerAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKMarkerAnchor.IType
+    /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
+    transform: Float32Array
+    /** marker id */
+    markerId: number
+    /** 图片路径 */
+    path: string
+  }
+  namespace VKMarkerAnchor {
+    /** 类型 */
+    interface IType {
+      /** marker */
+      1
+    }
+  }
+
+  /** OCR anchor
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKOCRAnchor.html
+   */
+  interface VKOCRAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKOCRAnchor.IType
+    /** 识别的文字结果 */
+    text: string
+  }
+  namespace VKOCRAnchor {
+    /** 类型 */
+    interface IType {
+      /** OCR */
+      6
+    }
+  }
+
+  /** OSD anchor
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKOSDAnchor.html
+   */
+  interface VKOSDAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKOSDAnchor.IType
+    /** marker id */
+    markerId: number
+    /** 相对视窗的尺寸，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘*/
+    size: VKOSDAnchor.ISize
+    /** 图片路径 */
+    path: string
+    /** 相对视窗的位置信息，取值范围为 [0, 1]，0 为左/上边缘，1 为右/下边缘 */
+    origin: VKOSDAnchor.IOrigin
+  }
+  namespace VKOSDAnchor {
+    /** 类型 */
+    interface IType {
+      /** OSD */
+      2
+    }
+    /** 相对视窗的尺寸*/
+    interface ISize {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+    /** 相对视窗的位置信息 */
+    interface IOrigin {
+      /** 横坐标 */
+      x: number
+      /** 纵坐标 */
+      y: number
+    }
+  }
+
+  /** 平面 anchor，只有 v2 版本支持
+   * @supported weapp
+   * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKPlaneAnchor.html
+   */
+  interface VKPlaneAnchor {
+    /** 唯一标识 */
+    id: number
+    /** 类型 */
+    type: keyof VKPlaneAnchor.IType
+    /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
+    transform: Float32Array
+    /** 尺寸 */
+    size: VKPlaneAnchor.ISize
+    /** 方向 */
+    alignment: number
+  }
+
+  namespace VKPlaneAnchor {
+    /** 类型 */
+    interface IType {
+      /** 平面 */
+      0
+    }
+    /** 相对视窗的尺寸*/
+    interface ISize {
+      /** 宽度 */
+      width: number
+      /** 高度 */
+      height: number
+    }
+  }
+
   /** vision kit 会话对象
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKFrame.html
@@ -407,7 +420,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKFrame.getCameraTexture.html
      */
-    getCameraTexture(ctx: WebGLRenderingContext): VKFrame.getCameraTextureResult
+    getCameraTexture(ctx: WebGLRenderingContext): VKFrame.IGetCameraTextureResult
     /** 获取当前帧 rgba buffer。iOS 端微信在 v8.0.20 开始支持，安卓端微信在 v8.0.30 开始支持。
      *  按 aspect-fill 规则裁剪，此接口要求在创建 VKSession 对象时必须传入 gl 参数。
      *  此接口仅建议拿来做帧分析使用，上屏请使用 getCameraTexture 来代替。
@@ -424,7 +437,7 @@ declare module '../../index' {
 
   namespace VKFrame {
     /** 帧纹理对象 */
-    interface getCameraTextureResult {
+    interface IGetCameraTextureResult {
       /** Y 分量纹理 */
       yTexture: WebGLTexture
       /** UV 分量纹理 */
@@ -438,11 +451,11 @@ declare module '../../index' {
    */
   interface VKSession {
     /** 会话状态 */
-    state: keyof VKSession.State
+    state: keyof VKSession.IState
     /** 会话配置 */
-    config: VKSession.Config
+    config: VKSession.IConfig
     /** 相机尺寸 */
-    cameraSize: VKSession.Size
+    cameraSize: VKSession.ISize
     /** 添加一个 marker，要求调 Taro.createVKSession 时传入的 track.marker 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.addMarker.html
@@ -473,22 +486,22 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectBody.html
      */
-    detectBody(option: VKSession.DetectBodyOption): void
+    detectBody(option: VKSession.IDetectBodyOption): void
     /** 深度识别。当 Taro.createVKSession 参数传入 {track: {depth: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectDepth.html
      */
-    detectDepth(option: VKSession.DetectDepthOption): void
+    detectDepth(option: VKSession.IDetectDepthOption): void
     /** 静态图像人脸关键点检测。当 Taro.createVKSession 参数传入 {track: {face: {mode: 2} } } 时可用。安卓微信8.0.25开始支持，iOS微信8.0.24开始支持。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectFace.html
      */
-    detectFace(option: VKSession.DetectFaceOption): void
+    detectFace(option: VKSession.IDetectFaceOption): void
     /** 静态图像手势关键点检测。当 Taro.createVKSession 参数传入 {track: {hand: {mode: 2} } } 时可用。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.detectHand.html
      */
-    detectHand(option: VKSession.DetectHandOption): void
+    detectHand(option: VKSession.IDetectHandOption): void
     /** 获取所有 marker，要求调 Taro.createVKSession 时传入的 track.marker 为 true
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.getAllMarker.html
@@ -522,7 +535,7 @@ declare module '../../index' {
      y: number,
      /** 是否需要重新识别其他平面，v2 版本不再需要此参数 */
      reset?: boolean
-    ): VKSession.hitTestResult[]
+    ): VKSession.IHitTestResult[]
     /** 取消监听会话事件。
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/VKSession.off.html
@@ -539,7 +552,7 @@ declare module '../../index' {
      */
     on(
      /** 事件名称 */
-     eventName: string,
+     eventName: 'resize' | 'addAnchors' | 'updateAnchors' | 'removeAnchors' | string,
      /** 事件监听函数 */
      fn: TaroGeneral.EventCallback
     ): void
@@ -578,7 +591,7 @@ declare module '../../index' {
      */
     start(
       /** 开启会话回调 */
-      callback: (status: keyof VKSession.StartStatus) => void
+      callback: (status: keyof VKSession.IStartStatus) => void
     ): void
     /** 停止会话。
      * @supported weapp
@@ -604,7 +617,7 @@ declare module '../../index' {
   }
   namespace VKSession {
     /** state 的合法值 */
-    interface State {
+    interface IState {
       /** 不可用 */
       0
       /** 运行中 */
@@ -615,11 +628,11 @@ declare module '../../index' {
       3
     }
     /** 会话配置 */
-    interface Config {
+    interface IConfig {
       /** 不可用 */
-      version: keyof version
+      version: keyof IVersion
       /** 运行中 */
-      track: track
+      track: ITrack
       /** marker 跟踪配置，基础库(3.0.0)开始允许同时支持v2的水平面检测能力 */
       marker: boolean
       /** OSD 跟踪配置 */
@@ -640,24 +653,24 @@ declare module '../../index' {
       gl: WebGLRenderingContext
     }
     /** vision kit 版本 */
-    interface version {
+    interface IVersion {
       /** 旧版本 */
       v1
       /** v2 版本，目前只有 iOS 基础库 2.22.0 以上支持 */
       v2
     }
     /** 跟踪配置 */
-    interface track {
+    interface ITrack {
       /** 平面跟踪配置 */
-      plane: plane
+      plane: IPlane
     }
     /** 平面跟踪配置 */
-    interface plane {
+    interface IPlane {
       /** 平面跟踪配置模式 */
-      mode: keyof PlaneMode
+      mode: keyof IPlaneMode
     }
     /** 平面跟踪配置模式合法值 */
-    interface PlaneMode {
+    interface IPlaneMode {
       /** 检测横向平面 */
       1
       /** 检测纵向平面，只有 v2 版本支持 */
@@ -667,9 +680,10 @@ declare module '../../index' {
     }
     /** 深度识别配置 */
     interface IDepth {
-      mode: keyof DepthMode
+      mode: keyof IDepthMode
     }
-    interface DepthMode {
+    /** 深度识别模式 */
+    interface IDepthMode {
       /** 通过摄像头实时检测 */
       1
       /** 静态图片检测 */
@@ -677,9 +691,10 @@ declare module '../../index' {
     }
     /** 人脸检测模式 */
     interface IFace {
-      mode: keyof FaceMode
+      mode: keyof IFaceMode
     }
-    interface FaceMode {
+    /** 人脸检测模式 */
+    interface IFaceMode {
       /** 通过摄像头实时检测 */
       1
       /** 静态图片检测 */
@@ -687,9 +702,10 @@ declare module '../../index' {
     }
     /** OCR 检测配置 */
     interface IOCR {
-      mode: keyof OCRMode
+      mode: keyof IOCRMode
     }
-    interface OCRMode {
+    /** OCR 检测模式 */
+    interface IOCRMode {
       /** 通过摄像头实时检测 */
       1
       /** 静态图片检测 */
@@ -697,9 +713,10 @@ declare module '../../index' {
     }
     /** 人体检测模式 */
     interface IBody {
-      mode: keyof BodyMode
+      mode: keyof IBodyMode
     }
-    interface BodyMode {
+    /** 人体检测模式 */
+    interface IBodyMode {
       /** 通过摄像头实时检测 */
       1
       /** 静态图片检测 */
@@ -707,22 +724,23 @@ declare module '../../index' {
     }
     /** 手势检测配置 */
     interface IHand {
-      mode: keyof HandMode
+      mode: keyof IHandMode
     }
-    interface HandMode {
+    /** 手势检测模式 */
+    interface IHandMode {
       /** 通过摄像头实时检测 */
       1
       /** 静态图片检测 */
       2
     }
     /** 相机尺寸 */
-    interface Size {
+    interface ISize {
       /** 宽度 */
       width: number
       /** 高度 */
       height: number
     }
-    interface DetectBodyOption {
+    interface IDetectBodyOption {
       /** 人脸图像像素点数据，每四项表示一个像素点的 RGBA */
       frameBuffer: ArrayBuffer
       /** 图像宽度 */
@@ -741,7 +759,7 @@ declare module '../../index' {
       /** 表示输入的图片是来自一个连续视频的每一帧图像 */
       0
     }
-    interface DetectDepthOption {
+    interface IDetectDepthOption {
       /** 人需要识别深度的图像像素点数据，每四项表示一个像素点的 RGBA */
       frameBuffer: ArrayBuffer
       /** 图像宽度 */
@@ -749,7 +767,7 @@ declare module '../../index' {
       /** 图像高度 */
       height: number
     }
-    interface DetectFaceOption {
+    interface IDetectFaceOption {
       /** 人脸图像像素点数据，每四项表示一个像素点的 RGBA */
       frameBuffer: ArrayBuffer
       /** 图像宽度 */
@@ -763,6 +781,7 @@ declare module '../../index' {
       /** 算法模型类型。正常情况传入 1 即可。0、1、2 分别表示小、中、大模型，模型越大识别准确率越高，但资源占用也越高。建议根据用户设备性能进行选择。 */
       modelModel?: keyof IModelModel
     }
+    /** 算法模型类型 */
     interface IModelModel {
       /** 小模型 */
       0
@@ -771,7 +790,7 @@ declare module '../../index' {
       /** 大模型 */
       2
     }
-    interface DetectHandOption {
+    interface IDetectHandOption {
       /** 人脸图像像素点数据，每四项表示一个像素点的 RGBA */
       frameBuffer: ArrayBuffer
       /** 图像宽度 */
@@ -783,6 +802,7 @@ declare module '../../index' {
       /** 算法检测模式 */
       algoMode?: keyof IAlgoMode
     }
+    /** 算法检测模式 */
     interface IAlgoMode {
       /** 检测模式，输出框和点 */
       0
@@ -797,6 +817,7 @@ declare module '../../index' {
       /** 图片路径 */
       path: string
     }
+    /** OSD marker */
     interface IOSDMarker {
       /** marker id */
       markerId: number
@@ -812,13 +833,12 @@ declare module '../../index' {
       height: number
     }
     /** hitTest 检测结果 */
-    interface hitTestResult {
+    interface IHitTestResult {
       /** 包含位置、旋转、放缩信息的矩阵，以列为主序 */
       transform: Float32Array
     }
-
     /** start status 的合法值 */
-    interface StartStatus {
+    interface IStartStatus {
       /** 成功 */
       0
       /** 系统错误 */
@@ -843,12 +863,12 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/wx.isVKSupport.html
      */
-     isVKSupport (version: keyof isVKSupport.Version): boolean /** 是否支持对应版本的 vision kit */
+     isVKSupport (version: keyof isVKSupport.IVersion): boolean /** 是否支持对应版本的 vision kit */
 
     /** 创建 vision kit 会话对象
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ai/visionkit/wx.createVKSession.html
      */
-    createVKSession (version: keyof createVKSession.Version): VKSession /** vision kit 会话对象 */
+    createVKSession (version: keyof createVKSession.IVersion): VKSession /** vision kit 会话对象 */
   }
 }
