@@ -192,8 +192,9 @@ interface VideoProps extends StandardProps {
   nativeProps?: Record<string, unknown>
   /** 是否展示底部进度条
    * @supported weapp
+   * @default true
    */
-  showBottomProgress?: string
+  showBottomProgress?: boolean
   /** 是否在小窗模式下显示播放进度
    * @supported weapp
    */
@@ -205,7 +206,7 @@ interface VideoProps extends StandardProps {
   /** 是否是 DRM 视频源
    * @supported weapp
    */
-  isDrm?: string
+  isDrm?: boolean
   /** DRM 设备身份认证 url，仅 is-drm 为 true 时生效 (Android)
    * @supported weapp
    */
