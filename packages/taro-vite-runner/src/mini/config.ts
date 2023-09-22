@@ -163,6 +163,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           formats: ['cjs'],
         },
         watch: taroConfig.isWatch ? {} : null,
+        chunkSizeWarningLimit: Number.MAX_SAFE_INTEGER,
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? isProd,
         rollupOptions: {
