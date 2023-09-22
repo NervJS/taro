@@ -306,6 +306,10 @@ declare namespace ScrollViewProps {
     /** 滚动速度 */
     velocity: number
   }
+  interface RefresherStatusChange {
+    status: RefreshStatus
+    dy: number
+  }
   const enum RefreshStatus {
     // 空闲
     Idle,
@@ -325,10 +329,6 @@ declare namespace ScrollViewProps {
     TwoLeveling,
     // 开始关闭二级
     TwoLevelClosing,
-  }
-  interface RefresherStatusChange {
-    status: RefreshStatus
-    dy: number
   }
 }
 /** 可滚动视图区域。使用竖向滚动时，需要给scroll-view一个固定高度，通过 WXSS 设置 height。组件属性的长度单位默认为 px

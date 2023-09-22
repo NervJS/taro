@@ -1,6 +1,8 @@
+import { StandardProps } from './common'
+
 import type { ComponentType, ReactNode } from 'react'
 
-interface SlotProps {
+interface SlotProps extends StandardProps {
   /** 指定插入的 slot 位置
    * @default none
    * @supported weapp, swan, alipay, tt, jd, qq
@@ -11,7 +13,6 @@ interface SlotProps {
    * @supported swan
    */
   varName?: string
-  children?: ReactNode
 }
 
 /** slot 插槽
