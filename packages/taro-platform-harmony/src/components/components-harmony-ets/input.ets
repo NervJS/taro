@@ -12,6 +12,7 @@ function attrs ({
   flexSize,
   alignSelf,
   size,
+  focus,
   margin,
   padding,
   linearGradient,
@@ -33,6 +34,7 @@ function attrs ({
   .zIndex(zIndex)
   .borderRadius(borderRadius)
   .opacity(opacity)
+  .defaultFocus(focus)
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)

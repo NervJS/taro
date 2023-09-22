@@ -53,7 +53,7 @@ class TaroElement extends TaroNode {
       eventSource.set(value, this as any)
     }
   
-    this._attrs[name] = String(value)
+    this._attrs[name] = value
   }
 
   public getAttribute (name: string): string | null {

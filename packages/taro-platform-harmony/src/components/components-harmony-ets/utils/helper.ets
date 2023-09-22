@@ -12,7 +12,7 @@ export function bindInstanceToNode (node: TaroElement, instance: object) {
 }
 
 export function getNormalAttributes (node: TaroElement) {
-  const { _st } = node
+  const { _st, _attrs } = node
   return {
     flexSize: FlexManager.flexSize(_st),
     alignSelf: ItemAlign.Auto,
@@ -20,6 +20,7 @@ export function getNormalAttributes (node: TaroElement) {
       width: AttributeManager.getNodeStyle(_st, 'width'),
       height: AttributeManager.getNodeHeight(_st)
     },
+    focus: AttributeManager.getNodeStyle(_attrs, 'focus', false),
     margin: AttributeManager.getNodeMarginOrPaddingData(_st, 'margin'),
     padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
     linearGradient: AttributeManager.getNodeLinearGradient(_st),
