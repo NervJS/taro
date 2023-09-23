@@ -161,8 +161,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'compressVideo_暂不支持',
-        // func: null,
-        func: (apiIndex) => {
+        inputData: {
+          quality: 'high',
+          bitrate: 1032,
+          fps: 24,
+          resolution: 0.5,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('compressVideo')
           Taro.chooseVideo({
             sourceType: ['album', 'camera'],
@@ -172,10 +177,7 @@ export default class Index extends React.Component {
             success: (res) => {
               Taro.compressVideo({
                 src: res.tempFilePath,
-                quality: 'high',
-                bitrate: 1032,
-                fps: 24,
-                resolution: 0.5,
+                ...data,
                 success: (res) => {
                   TestConsole.consoleSuccess.call(this, res, apiIndex)
                 },
