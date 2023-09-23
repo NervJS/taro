@@ -1,6 +1,7 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
+    'pages/error/index',
     'pages/component/index/index',
     'pages/component/cover-image/cover-image',
     'pages/component/cover-view/cover-view',

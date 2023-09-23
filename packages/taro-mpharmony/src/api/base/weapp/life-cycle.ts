@@ -8,6 +8,7 @@ function getCustomLaunchInfo () {
     launchInfo = {
       referrerInfo: {},
       apiCategory: 'default',
+      query: {},
     }
     if (params.appId) {
       Object.assign(launchInfo.referrerInfo, { appId: params.appId })
@@ -31,6 +32,7 @@ function getCustomLaunchInfo () {
     launchInfo = {
       referrerInfo: {},
       apiCategory: 'default',
+      query: {},
     }
   }
   return launchInfo

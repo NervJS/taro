@@ -23,6 +23,9 @@ class App extends React.Component {
         title: 'PageNotFound',
         icon: 'error',
       })
+      Taro.redirectTo({
+        url: '/pages/error/index',
+      })
     } catch (err) {}
   }
 
