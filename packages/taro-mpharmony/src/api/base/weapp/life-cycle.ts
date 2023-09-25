@@ -1,33 +1,44 @@
 import Taro from '@tarojs/api'
 
-function getReferrerInfo () {
-  let referrerInfo
+function getCustomLaunchInfo () {
+  let launchInfo
   try {
     // @ts-ignore
-    const callerBundle = bundleMap.get('callerBundle')
-    // @ts-ignore
-    const callerParams = bundleMap.get('callerParams')
-
-    referrerInfo = {
-      referrerInfo: {
-        appId: callerBundle || '',
-        extraData: JSON.parse(callerParams),
-      },
+    const params = JSON.parse(window.customLaunchOptions)
+    launchInfo = {
+      referrerInfo: {},
+      apiCategory: 'default',
+    }
+    if (params.appId) {
+      Object.assign(launchInfo.referrerInfo, { appId: params.appId })
+    }
+    if (params.extraData) {
+      Object.assign(launchInfo.referrerInfo, { extraData: params.extraData })
+    }
+    if (params.path) {
+      Object.assign(launchInfo, { path: params.path })
+    }
+    if (params.query) {
+      const parts = params.query.split('&')
+      const query = {}
+      for (const param of parts) {
+        const items = param.split('=')
+        query[items[0]] = items[1]
+      }
+      Object.assign(launchInfo, { query })
     }
   } catch (err) {
-    referrerInfo = {
-      referrerInfo: {
-        appId: '',
-        extraData: {},
-      },
+    launchInfo = {
+      referrerInfo: {},
+      apiCategory: 'default',
     }
   }
-  return referrerInfo
+  return launchInfo
 }
 
 let launchOptions
 function initLaunchOptions (options = {}) {
-  Object.assign(options, getReferrerInfo())
+  Object.assign(options, getCustomLaunchInfo())
   launchOptions = options
 }
 
