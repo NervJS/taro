@@ -474,7 +474,7 @@ export default class Convertor {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
                 }
-                if (scriptComponents.indexOf(importName) !== -1) {
+                if (scriptComponents.indexOf(importName) !== -1 || (wxs && wxs === true)) {
                   lastImport.insertAfter(
                     template(
                       `import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
