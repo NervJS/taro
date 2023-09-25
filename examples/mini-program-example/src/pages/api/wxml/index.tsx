@@ -102,12 +102,35 @@ class SelectorQueryTest extends React.Component {
           id: true,
           dataset: true,
           rect: true,
+          computedStyle: ['margin'],
+          scrollOffset: true,
+          size: true,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('NodesRef.fields')
-          console.log("Taro.createSelectorQuery()->select('#button0').fields(data, callback).exec()")
+          console.log("Taro.createSelectorQuery()->select('#scrollview').fields(data, callback).exec()")
           Taro.createSelectorQuery()
-            .select('#button0')
+            .select('#scrollview')
+            .fields(data, (res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
+            })
+            .exec((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'exec', apiIndex)
+            })
+        },
+      },
+      {
+        id: 'NodesRef.fields1',
+        inputData: {
+          id: true,
+          node: true,
+          context: true,
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('NodesRef.fields')
+          console.log("Taro.createSelectorQuery()->select('#mycanvas').fields(data, callback).exec()")
+          Taro.createSelectorQuery()
+            .select('#mycanvas')
             .fields(data, (res) => {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
             })
@@ -169,7 +192,7 @@ class SelectorQueryTest extends React.Component {
           <View>id: #mycanvas</View>
         </Canvas>
         <Welcome />
-        <ScrollView id='scrollview' className='scroll-view' scrollY>
+        <ScrollView id='scrollview' className='scroll-view' scrollY style={{ margin: '5px' }}>
           <View className='scroll-area'>
             <Text className='notice'>测试NodesRef.scrollOffset</Text>
           </View>

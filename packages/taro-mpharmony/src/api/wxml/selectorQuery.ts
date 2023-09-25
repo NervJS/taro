@@ -60,7 +60,6 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
       res.nodeCanvasType = ''
       res.node = dom
     }
-    return res
   }
   if (context) {
     const tagName = dom.tagName
@@ -68,20 +67,19 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
     const domName: string = dom.name || ''
     if (/^taro-video-core/i.test(tagName)) {
       // TODO HTMLVideoElement to VideoContext
-      return { context: dom as unknown as Taro.VideoContext }
+      res.context = dom as unknown as Taro.VideoContext
     } else if (/^taro-canvas-core/i.test(tagName)) {
       const type = (dom as any).type! || '2d'
       const canvas = dom?.querySelector('canvas') as HTMLCanvasElement
       const ctx = canvas?.getContext(type) as CanvasRenderingContext2D
-      return { context: new CanvasContext(canvas, ctx) }
+      res.context = new CanvasContext(canvas, ctx)
     } else if (/^taro-live-player-core/i.test(tagName)) {
       console.error('暂时不支持通过 NodesRef.context 获取 LivePlayerContext')
     } else if (/^taro-editor-core/i.test(tagName) || /^taro-editor-core/i.test(domName)) {
-      return { context: new EditorContext() }
+      res.context = new EditorContext()
     } else if (/^taro-map-core/i.test(tagName)) {
       console.error('暂时不支持通过 NodesRef.context 获取 MapContext')
     }
-    return
   }
   if (id) res.id = isViewport ? '' : dom.id
   if (dataset) res.dataset = Object.assign({}, dom.dataset)
