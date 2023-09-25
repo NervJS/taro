@@ -1444,7 +1444,7 @@ export default class TaroMiniPlugin {
             const source = new ConcatSource('')
             const originSource = assets[pageStyle]
             componentCommons.forEach(item => {
-              source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), item)))};\n`)
+              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), item)))};\n`)
             })
             source.add(originSource)
             assets[pageStyle] = source
@@ -1452,7 +1452,7 @@ export default class TaroMiniPlugin {
             if (pageStyle in assets) {
               const source = new ConcatSource('')
               const originSource = assets[pageStyle]
-              source.add(`@import ${JSON.stringify(urlToRequest(path.relative(path.dirname(pageStyle), 'app.wxss')))};\n`)
+              source.add(`@import ${JSON.stringify(urlToRequest(path.posix.relative(path.dirname(pageStyle), 'app.wxss')))};\n`)
               source.add(originSource)
               assets[pageStyle] = source
             }
