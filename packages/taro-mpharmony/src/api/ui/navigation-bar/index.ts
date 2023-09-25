@@ -1,8 +1,43 @@
 import Taro from '@tarojs/api'
+import { addStyle } from '@tarojs/router/dist/style'
 import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+
+/**
+ * 导航条与Web层叠布局，导航条可见情况下Web页面顶部空出一定高度的留白
+ */
+function loadNavigationSytle () {
+  if (typeof window === 'undefined') {
+    return
+  }
+  // @ts-ignore
+  const naviHeight = window.navigationHeight ? window.navigationHeight : 0
+  const css = `
+.taro_router .taro_page.taro_tabbar_page.taro_navigation_page,
+.taro_router .taro_page.taro_navigation_page.taro_page_show.taro_page_stationed {
+  transform: none;
+}
+
+.taro_router .taro_page.taro_navigation_page,
+.taro_router .taro_page.taro_tabbar_page.taro_navigation_page,
+.taro_router .taro_page.taro_navigation_page.taro_page_show,
+.taro_router .taro_page.taro_navigation_page.taro_page_show.taro_page_stationed {
+  top: ${naviHeight}px;
+}
+
+.taro_router .taro_page.taro_navigation_page.taro_page_show {
+  transform: translateX(0);
+}
+
+.taro-tabbar__container .taro_page.taro_tabbar_page.taro_navigation_page {
+  max-height: calc(100vh - 50px - ${naviHeight}px);
+}`
+  addStyle(css)
+}
+
+loadNavigationSytle()
 
 /**
  * 显示页面导航条加载图标

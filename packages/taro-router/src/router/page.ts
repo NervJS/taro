@@ -93,6 +93,14 @@ export default class PageHandler {
     return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
   }
 
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
+    }
+    return style !== 'custom'
+  }
+
   isSamePage (page?: PageInstance | null) {
     const routePath = stripBasename(this.pathname, this.basename)
     const pagePath = stripBasename(page?.path, this.basename)
@@ -204,6 +212,7 @@ export default class PageHandler {
     if (pageEl) {
       setDisplay(pageEl)
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
+      this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
@@ -212,6 +221,7 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
+        this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, true)
         page.onShow?.()
