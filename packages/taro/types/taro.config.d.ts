@@ -363,26 +363,41 @@ declare module './index' {
 
   interface RenderOptions {
     skyline: {
-      /**
-       * 开启默认Block布局
+      /** 开启默认Block布局
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/wxss.html#%E5%BC%80%E5%90%AF%E9%BB%98%E8%AE%A4Block%E5%B8%83%E5%B1%80
+       * @supported weapp
        */
       defaultDisplayBlock?: boolean
-      /**
-       * 关闭 Skyline AB 实验
+      /** 关闭 Skyline AB 实验
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/migration/release.html#%E5%8F%91%E5%B8%83%E4%B8%8A%E7%BA%BF
+       * @supported weapp
        */
       disableABTest?: boolean
-      /**
-       * Skyline 启用的最低基础库版本，分基础库、iOS版本和安卓版本
-       * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/migration/release.html#%E5%8F%91%E5%B8%83%E4%B8%8A%E7%BA%BF
+      /** 基础库最低版本
+       * @supported weapp
        */
-      sdkVersionBegin?: string // 基础库最低版本
-      sdkVersionEnd?: string // 一般填最大值 15.255.255 ，否则之后的新版本会不生效
-      iosVersionBegin?: string // iOS 微信最低版本
-      iosVersionEnd?: string // 一般填最大值 15.255.255 ，否则之后的新版本会不生效
-      androidVersionBegin?: string // 安卓微信最低版本
-      androidVersionEnd?: string // 一般填最大值 15.255.255 ，否则之后的新版本会不生效
+      sdkVersionBegin?: string
+      /** 基础库最高版本
+       * @supported weapp
+       */
+      sdkVersionEnd?: string
+      /** iOS 微信最低版本
+       * @supported weapp
+       */
+      iosVersionBegin?: string
+      /** iOS 微信最高版本
+       * @supported weapp
+       */
+      iosVersionEnd?: string
+      /** 安卓微信最低版本
+       * @supported weapp
+       */
+      androidVersionBegin?: string
+      /** 安卓微信最高版本
+       * @supported weapp
+       */
+      androidVersionEnd?: string
+      [key: string]: unknown
     }
   }
 
