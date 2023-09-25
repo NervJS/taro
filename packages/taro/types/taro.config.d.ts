@@ -363,16 +363,41 @@ declare module './index' {
 
   interface RenderOptions {
     skyline: {
-      /**
-       * 开启默认Block布局
+      /** 开启默认Block布局
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/wxss.html#%E5%BC%80%E5%90%AF%E9%BB%98%E8%AE%A4Block%E5%B8%83%E5%B1%80
+       * @supported weapp
        */
       defaultDisplayBlock?: boolean
-      /**
-       * 关闭 Skyline AB 实验
+      /** 关闭 Skyline AB 实验
        * @see https://developers.weixin.qq.com/miniprogram/dev/framework/runtime/skyline/migration/release.html#%E5%8F%91%E5%B8%83%E4%B8%8A%E7%BA%BF
+       * @supported weapp
        */
       disableABTest?: boolean
+      /** 基础库最低版本
+       * @supported weapp
+       */
+      sdkVersionBegin?: string
+      /** 基础库最高版本
+       * @supported weapp
+       */
+      sdkVersionEnd?: string
+      /** iOS 微信最低版本
+       * @supported weapp
+       */
+      iosVersionBegin?: string
+      /** iOS 微信最高版本
+       * @supported weapp
+       */
+      iosVersionEnd?: string
+      /** 安卓微信最低版本
+       * @supported weapp
+       */
+      androidVersionBegin?: string
+      /** 安卓微信最高版本
+       * @supported weapp
+       */
+      androidVersionEnd?: string
+      [key: string]: unknown
     }
   }
 
@@ -622,6 +647,12 @@ declare module './index' {
        */
       useAuthorizePage: boolean
     }
+    /**
+     * 在 2023年9月15号之前，在 app.json 中配置 __usePrivacyCheck__: true 后，会启用隐私相关功能，如果不配置或者配置为 false 则不会启用。
+     * 在 2023年9月15号之后，不论 app.json 中是否有配置 __usePrivacyCheck__，隐私相关功能都会启用
+     * @supported weapp
+     */
+    __usePrivacyCheck__?: boolean
     /**
      * 正常情况下默认所有资源文件都被打包发布到所有平台，可以通过 static 字段配置特定每个目录/文件只能发布到特定的平台(多端场景)
      * @see https://dev.weixin.qq.com/docs/framework/guideline/devtools/condition-compile.html#%E8%B5%84%E6%BA%90

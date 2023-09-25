@@ -17,6 +17,7 @@ function setAlias (ctx: IPluginContext, framework: Frameworks, chain) {
 
   if (framework === 'react') {
     alias.set('react-dom$', '@tarojs/react')
+    alias.set('react-dom/client$', '@tarojs/react')
     const webpackConfig = chain.toConfig()
     const isProd = webpackConfig.mode === 'production'
     if (!isProd && config.mini?.debugReact !== true) {

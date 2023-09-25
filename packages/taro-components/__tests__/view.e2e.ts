@@ -9,7 +9,8 @@ describe('View e2e', () => {
     })
   })
 
-  it('screenshot', async () => {
+  // Note: E2E 测试的文件，不能包含引入，否则会导致测试失败
+  it.skip('screenshot', async () => {
     await page.waitForChanges()
     await page.compareScreenshot()
   })

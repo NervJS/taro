@@ -3,7 +3,7 @@
  */
 export function loadAnimateStyle (ms = 300) {
   const css = `
-.taro_router .taro_page {
+.taro_router > .taro_page {
   position: absolute;
   left: 0;
   top: 0;
@@ -15,13 +15,18 @@ export function loadAnimateStyle (ms = 300) {
   z-index: 0;
 }
 
-.taro_router .taro_page.taro_tabbar_page,
-.taro_router .taro_page.taro_page_show.taro_page_stationed {
+.taro_router > .taro_page.taro_tabbar_page,
+.taro_router > .taro_page.taro_page_show.taro_page_stationed {
   transform: none;
 }
 
-.taro_router .taro_page.taro_page_show {
+.taro_router > .taro_page.taro_page_show {
   transform: translate(0, 0);
+}
+
+.taro_page_shade,
+.taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
+  display: none;
 }`
   addStyle(css)
 }
@@ -29,17 +34,12 @@ export function loadAnimateStyle (ms = 300) {
 /**
  * 插入路由相关样式
  */
-export function loadRouterStyle (usingWindowScroll) {
+export function loadRouterStyle (usingWindowScroll: boolean) {
   const css = `
   .taro_router {
     position: relative;
     width: 100%;
     height: 100%;
-    min-height: 100vh;
-  }
-
-  .taro-tabbar__container .taro_router {
-    min-height: calc(100vh - 50px);
   }
 
   .taro_page {
@@ -53,12 +53,13 @@ export function loadRouterStyle (usingWindowScroll) {
   `}
   }
 
-  .taro-tabbar__container .taro-tabbar__panel {
+  .taro-tabbar__container > .taro-tabbar__panel {
     overflow: hidden;
   }
 
-  .taro-tabbar__container .taro_page.taro_tabbar_page {
-    max-height: calc(100vh - 50px);
+  .taro-tabbar__container > .taro-tabbar__panel > .taro_page.taro_tabbar_page {
+    max-height: calc(100vh - var(--taro-tabbar-height) - constant(safe-area-inset-bottom));
+    max-height: calc(100vh - var(--taro-tabbar-height) - env(safe-area-inset-bottom));
   }
 `
   addStyle(css)
