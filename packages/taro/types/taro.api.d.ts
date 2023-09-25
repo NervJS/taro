@@ -72,6 +72,7 @@
 /// <reference path="api/open-api/subscribe-message.d.ts" />
 /// <reference path="api/open-api/redpackage.d.ts" />
 /// <reference path="api/open-api/favorites.d.ts" />
+/// <reference path="api/open-api/my-miniprogram.d.ts" />
 /// <reference path="api/open-api/license-plate.d.ts" />
 /// <reference path="api/open-api/channels.d.ts" />
 /// <reference path="api/open-api/device-voip.d.ts" />
@@ -108,6 +109,7 @@
 /// <reference path="api/wxml/index.d.ts" />
 /// <reference path="api/ext/index.d.ts" />
 /// <reference path="api/ad/index.d.ts" />
+/// <reference path="api/skyline/index.d.ts" />
 
 /// <reference path="api/cloud/index.d.ts" />
 /// <reference path="api/open-api/facial.d.ts" />

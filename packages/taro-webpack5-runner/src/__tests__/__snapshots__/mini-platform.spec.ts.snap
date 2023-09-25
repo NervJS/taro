@@ -1776,7 +1776,10 @@ require("./runtime");
                 bindGetPhoneNumber: _empty,
                 "data-channel": _empty,
                 "data-aweme-id": _empty,
-                bindOpenAwemeUserProfile: _empty
+                "group-id": _empty,
+                "data-is-half-page": _empty,
+                bindOpenAwemeUserProfile: _empty,
+                bindJoinGroup: _empty
             },
             Form: {
                 "report-submit-timeout": "0"
@@ -3011,7 +3014,7 @@ require("./runtime");
 <jds src="./utils.jds" module="xs" />
 <template name="taro_tmpl">
   <block jd:for="{{root.cn}}" jd:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 

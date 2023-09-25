@@ -161,9 +161,11 @@ export class CanvasContext implements Taro.CanvasContext {
   moveTo (...args) { return this.enqueueActions(this.ctx.moveTo, ...args) }
   quadraticCurveTo (...args) { return this.enqueueActions(this.ctx.quadraticCurveTo, ...args) }
   rect (...args) { return this.enqueueActions(this.ctx.rect, ...args) }
-  restore (...args) { return this.enqueueActions(this.ctx.restore, ...args) }
+  // @ts-ignore
+  reset () { return this.ctx.reset() }
+  restore () { return this.ctx.restore() }
   rotate (...args) { return this.enqueueActions(this.ctx.rotate, ...args) }
-  save (...args) { return this.enqueueActions(this.ctx.save, ...args) }
+  save () { return this.ctx.save() }
   scale (...args) { return this.enqueueActions(this.ctx.scale, ...args) }
 
   setFillStyle (color: string | CanvasGradient): void {
@@ -171,7 +173,12 @@ export class CanvasContext implements Taro.CanvasContext {
   }
 
   setFontSize (fontSize: number): void {
-    this.font = `${fontSize}px`
+    const arr = this.font.split(/\s/)
+    const idx = arr.findIndex(e => /^\d+px$/.test(e))
+    if (idx !== -1) {
+      arr[idx] = `${fontSize}px`
+      this.font = arr.join(' ')
+    }
   }
 
   setGlobalAlpha (alpha: number): void {
