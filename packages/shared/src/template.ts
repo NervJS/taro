@@ -247,9 +247,9 @@ export class BaseTemplate {
         if (value.indexOf('-') > -1) {
           value = `:${value}`
         }
-        return str + `bind${value}="eh" `
+        return str + ` bind${value}="eh"`
       } else if (attr.startsWith('bind')) {
-        return str + `${attr}="eh" `
+        return str + ` ${attr}="eh"`
       } else if (attr.startsWith('on')) {
         // react, vue3
         let value = toKebabCase(attr.slice(2))
@@ -257,11 +257,11 @@ export class BaseTemplate {
           // 兼容如 vant 某些组件的 bind:a-b 这类属性
           value = `:${value}`
         }
-        return str + `bind${value}="eh" `
+        return str + ` bind${value}="eh"`
       } else if (attr === 'class') {
-        return str + `class="{{i.${Shortcuts.Class}}}" `
+        return str + ` class="{{i.${Shortcuts.Class}}}"`
       } else if (attr === 'style') {
-        return str + `style="{{i.${Shortcuts.Style}}}" `
+        return str + ` style="{{i.${Shortcuts.Style}}}"`
       }
 
       const patchValue = patcher[attr]
@@ -269,7 +269,7 @@ export class BaseTemplate {
         const propValue = this.supportXS
           ? `xs.b(i.${toCamelCase(attr)},${patchValue})`
           : `i.${toCamelCase(attr)}===undefined?${patchValue}:i.${toCamelCase(attr)}`
-        return str + `${attr}="{{${propValue}}}" `
+        return str + ` ${attr}="{{${propValue}}}"`
       }
       return str + ` ${attr}="{{i.${toCamelCase(attr)}}}"`
     }, '')
