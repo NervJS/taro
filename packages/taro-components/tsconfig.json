@@ -11,5 +11,18 @@
     "target": "ES2017",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["src", "types"]
+  "include": ["src", "types"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "UMD",
+      "moduleResolution": "Node",
+      "noEmit": true,
+      "resolveJsonModule": false,
+      "rootDir": ".",
+      "target": "ESNext"
+    },
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "require": ["tsconfig-paths/register"]
+  }
 }

@@ -52,6 +52,7 @@ export interface ScrollViewProps<ItemT> {
   onScroll?: (evt: EventOnScroll) => void;
   // RN 属性
   contentContainerStyle?: StyleProp<ViewStyle>;
+  scrollEventThrottle?: number;
   data?: ReadonlyArray<ItemT> | null;
   renderItem?: ListRenderItem<ItemT>;
 }

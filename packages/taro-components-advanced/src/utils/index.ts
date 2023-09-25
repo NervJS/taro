@@ -1,4 +1,6 @@
 export * from './convert'
+export * from './dom'
+export * from './helper'
 export * from './lodash'
 export * from './math'
 export * from './timer'

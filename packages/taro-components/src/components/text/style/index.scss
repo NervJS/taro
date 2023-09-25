@@ -1,9 +1,32 @@
 taro-text-core {
   display: inline;
   user-select: none;
-  white-space: pre-wrap;
-}
 
-.taro-text__selectable {
-  user-select: text;
+  &[selectable=true],
+  &[user-select=true] {
+    display: inline-block;
+    user-select: text;
+  }
+
+  &[space] {
+    white-space: pre-wrap;
+  }
+
+  &[space=ensp] {
+    word-spacing: .5em;
+  }
+
+  &[space=nbsp] {
+    word-spacing: 1em;
+  }
+
+  &[number-of-lines] {
+    --line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: var(--line-clamp);
+  }
 }

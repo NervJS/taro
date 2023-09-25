@@ -1,7 +1,7 @@
 import { UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends UnRecursiveTemplate {
-  supportXS = false
+  supportXS = true
   Adapter = {
     if: 'jd:if',
     else: 'jd:else',
@@ -11,6 +11,10 @@ export class Template extends UnRecursiveTemplate {
     forIndex: 'jd:for-index',
     key: 'jd:key',
     type: 'jd'
+  }
+
+  buildXsTemplate () {
+    return '<jds src="./utils.jds" module="xs" />'
   }
 
   replacePropName (name, value, componentName) {

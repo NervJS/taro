@@ -6,14 +6,16 @@ import type { IPluginContext, TaroPlatformBase } from '@tarojs/service'
 const spawn = require('cross-spawn')
 const detectPort = require('detect-port')
 
-interface IOptions {
+export interface IOptions {
   enabled?: boolean
+  hostname?: string
   port?: string
 }
 
 export default function (ctx: IPluginContext, options: IOptions) {
   if (process.env.NODE_ENV === 'production' || options.enabled === false) return
 
+  const hostname = JSON.stringify(options.hostname || 'localhost')
   const port = Number(options.port || '8097')
 
   detectPort(port, (err, availablePort) => {
@@ -41,6 +43,7 @@ export default function (ctx: IPluginContext, options: IOptions) {
       .plugin('definePlugin')
       .tap(args => {
         const config = args[0]
+        config.__REACT_DEVTOOLS_HOSTNAME__ = hostname
         config.__REACT_DEVTOOLS_PORT__ = port
         return args
       })

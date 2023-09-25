@@ -24,3 +24,5 @@ loader
 src/components.d.ts
 stuff.*
 www
+
+stencil.config.*

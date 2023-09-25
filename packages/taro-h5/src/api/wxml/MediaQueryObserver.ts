@@ -1,8 +1,6 @@
 
-import { isFunction } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
-
-import { toKebabCase } from '../../utils'
+import Taro from '@tarojs/api'
+import { isFunction, toKebabCase } from '@tarojs/shared'
 
 function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) {
   const mediaQueryArr: string[] = []
@@ -41,6 +39,7 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
       if ('addEventListener' in this._mediaQueryObserver) {
         this._mediaQueryObserver.addEventListener('change', this._listener)
       } else {
+        // @ts-ignore
         this._mediaQueryObserver.addListener(this._listener)
       }
     }
@@ -53,6 +52,7 @@ export class MediaQueryObserver implements Taro.MediaQueryObserver {
       if ('removeEventListener' in this._mediaQueryObserver) {
         this._mediaQueryObserver.removeEventListener('change', this._listener)
       } else {
+        // @ts-ignore
         this._mediaQueryObserver.removeListener(this._listener)
       }
     }

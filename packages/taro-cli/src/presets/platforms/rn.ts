@@ -1,12 +1,13 @@
 
 import { chalk } from '@tarojs/helper'
-import { IPluginContext } from '@tarojs/service'
 import * as child_process from 'child_process'
 import * as fs from 'fs'
 import * as os from 'os'
 import * as path from 'path'
 
 import { printDevelopmentTip } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 function checkReactNativeDependencies (packageInfo): boolean {
   const packageNames = ['react', 'react-native', '@tarojs/taro-rn', '@tarojs/rn-runner']

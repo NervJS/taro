@@ -8,3 +8,5 @@ export const ON_PARSE_CREATE_ELEMENT = 'onParseCreateElement'
 export const ON_BUILD_START = 'onBuildStart'
 export const ON_BUILD_FINISH = 'onBuildFinish'
 export const ON_BUILD_COMPLETE = 'onBuildComplete'
+
+export const MODIFY_CREATE_TEMPLATE = 'modifyCreateTemplate'

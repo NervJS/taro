@@ -167,8 +167,9 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
-    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSize)
-    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSize)
+    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
+    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
+    this.el.addEventListener('MutationObserver', this.handleSwiperSizeDebounce)
   }
 
   @Watch("circular")
@@ -220,8 +221,9 @@ export class Swiper implements ComponentInterface {
   }
 
   disconnectedCallback () {
-    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSize)
-    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSize)
+    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
+    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
+    this.el.removeEventListener('MutationObserver', this.handleSwiperSizeDebounce)
     this.observer?.disconnect?.()
     this.observerFirst?.disconnect?.()
     this.observerLast?.disconnect?.()
@@ -230,8 +232,8 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoopListen = () => {
     this.observerFirst?.disconnect && this.observerFirst.disconnect()
     this.observerLast?.disconnect && this.observerLast.disconnect()
-    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
-    this.observerLast = new MutationObserver(this.handleSwiperLoop)
+    this.observerFirst = new MutationObserver(this.handleSwiperLoopDebounce)
+    this.observerLast = new MutationObserver(this.handleSwiperLoopDebounce)
     const wrapper = this.swiper.$wrapperEl?.[0]
     const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
     if (list.length >= 1) {
@@ -245,14 +247,22 @@ export class Swiper implements ComponentInterface {
     }
   }
 
-  handleSwiperLoop = debounce(() => {
-    if (this.swiper && this.circular) {
-      // @ts-ignore
-      this.swiper.loopFix()
+  handleSwiperLoop = () => {
+    if (!this.swiper || !this.circular) return
+    const swiper = this.swiper as any // Note: loop 相关的方法 swiper 未声明
+    const duplicates = this.swiperWrapper?.querySelectorAll('.swiper-slide-duplicate') || []
+    if (duplicates.length < 2) {
+      // Note: 循环模式下，但是前后垫片未注入
+      swiper.loopDestroy?.()
+      swiper.loopCreate?.()
+    } else {
+      swiper.loopFix?.()
     }
-  }, 50)
+  }
 
-  handleSwiperSize = debounce(() => {
+  handleSwiperLoopDebounce = debounce(this.handleSwiperLoop, 50)
+
+  handleSwiperSizeDebounce = debounce(() => {
     if (this.swiper && !this.circular) {
       this.swiper.updateSlides()
     }
@@ -277,7 +287,7 @@ export class Swiper implements ComponentInterface {
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: displayMultipleItems,
-      initialSlide: current,
+      initialSlide: circular ? current + 1 : current,
       speed: duration,
       observer: true,
       observeParents: true,
@@ -286,11 +296,16 @@ export class Swiper implements ComponentInterface {
         slideTo () {
           that.current = this.realIndex
         },
-         // slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionStart 事件代替
-         slideChangeTransitionStart (_swiper: ISwiper) {
-          if (that.circular) {
-            if (_swiper.isBeginning || _swiper.isEnd) {
-              // _swiper.slideToLoop(this.realIndex, 0, false) // 更新下标
+        // Note: slideChange 事件在 swiper.slideTo 改写 current 时不触发，因此用 slideChangeTransitionEnd 事件代替
+        slideChangeTransitionEnd () {
+          /** Note: 此处不能使用 slideChangeTransitionStart 事件
+           * - 因为在它触发时 swiper 各个参数并未准备好，将会导致错误的事件抛出；
+           * - 同时抛出 change 事件会导致 current 监听被打乱 swiper 的生命周期；
+           * - 模式与 slideTo 结合时，会导致动画会被中断、slider 展示不完整或衔接模式错误等问题。
+           */
+          if (circular) {
+            if (this.isBeginning || this.isEnd) {
+              this.slideToLoop(this.realIndex, 0) // 更新下标
               return
             }
           }

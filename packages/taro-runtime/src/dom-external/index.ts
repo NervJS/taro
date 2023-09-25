@@ -1,3 +1,4 @@
+import { isWebPlatform } from '@tarojs/shared'
 
 import { TaroElement } from '../dom/element'
 import { TaroNode } from '../dom/node'
@@ -13,7 +14,7 @@ declare const ENABLE_CONTAINS: boolean
 declare const ENABLE_SIZE_APIS: boolean
 declare const ENABLE_TEMPLATE_CONTENT: boolean
 
-if (process.env.TARO_ENV !== 'h5') {
+if (!isWebPlatform()) {
   if (ENABLE_INNER_HTML) {
     TaroNode.extend('innerHTML', {
       set (html: string) {

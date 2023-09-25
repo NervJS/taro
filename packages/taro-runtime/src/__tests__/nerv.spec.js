@@ -1,40 +1,46 @@
+import ReactDOM from '@tarojs/react'
+import React from 'react'
+
 import { delay } from './utils'
 
 // todo: 有些测试用例没过，需要调整，目前先 skip
 describe.skip('nerv', () => {
-  process.env.FRAMEWORK = 'nerv'
   const runtime = require('../../dist/runtime.esm')
-  global.document = runtime.document
-  global.window = runtime.window
-  global.navigator = runtime.navigator
-  // eslint-disable-next-line no-use-before-define
-  const React = require('react')
-  const ReactDOM = require('@tarojs/react')
   const appDidShow = jest.fn()
   const appDidHide = jest.fn()
-  class App extends React.Component {
-    componentDidShow (...arg) {
-      appDidShow(...arg)
+
+  let app
+  let home
+  beforeAll(() => {
+    process.env.FRAMEWORK = 'nerv'
+    global.document = runtime.document
+    global.window = runtime.window
+    global.navigator = runtime.navigator
+
+    class App extends React.Component {
+      componentDidShow (...arg) {
+        appDidShow(...arg)
+      }
+  
+      componentDidHide (...arg) {
+        appDidHide(...arg)
+      }
+  
+      render () {
+        return this.props.children
+      }
     }
-
-    componentDidHide (...arg) {
-      appDidHide(...arg)
-    }
-
-    render () {
-      return this.props.children
-    }
-  }
-
-  const app = runtime.createReactApp(App, React, ReactDOM, {})
-
-  app.onLaunch()
+  
+    app = runtime.createReactApp(App, React, ReactDOM, {})
+  
+    app.onLaunch()
+  })
 
   afterAll(() => {
     process.env.FRAMEWORK = ''
   })
 
-  describe('lifecycle', () => {
+  describe.skip('lifecycle', () => {
     const onLoad = jest.fn()
     const onUnload = jest.fn()
     const onShow = jest.fn()
@@ -50,75 +56,78 @@ describe.skip('nerv', () => {
     const onPopMenuClick = jest.fn()
     const onPullIntercept = jest.fn()
 
-    const homeContainer = React.createRef()
-
-    class Home extends React.Component {
-      componentDidShow (...arg) {
-        onShow(...arg)
+    let homeContainer
+    beforeAll(() => {
+      homeContainer = React.createRef()
+  
+      class Home extends React.Component {
+        componentDidShow (...arg) {
+          onShow(...arg)
+        }
+  
+        componentDidHide (...arg) {
+          onHide(...arg)
+        }
+  
+        componentDidMount () {
+          onLoad()
+        }
+  
+        onReachBottom () {
+          onReachBottom()
+        }
+  
+        onPageScroll () {
+          onPageScroll.apply(this, arguments)
+        }
+  
+        onShareAppMessage () {
+          onShareAppMessage.apply(this, arguments)
+        }
+  
+        onResize () {
+          onResize.apply(this, arguments)
+        }
+  
+        onTabItemTap () {
+          onTabItemTap.apply(this, arguments)
+        }
+  
+        onTitleClick () {
+          onTitleClick()
+        }
+  
+        onOptionMenuClick () {
+          onOptionMenuClick()
+        }
+  
+        onPopMenuClick () {
+          onPopMenuClick()
+        }
+  
+        onPullIntercept () {
+          onPullIntercept()
+        }
+  
+        onPullDownRefresh () {
+          onPullDownRefresh()
+        }
+  
+        componentWillUnmount () {
+          onUnload()
+        }
+  
+        render () {
+          return <view id='home' ref={homeContainer}>home</view>
+        }
       }
-
-      componentDidHide (...arg) {
-        onHide(...arg)
+  
+      home = runtime.createPageConfig(Home, '/page/home')
+  
+      home.setData = function (_, cb) {
+        cb()
       }
-
-      componentDidMount () {
-        onLoad()
-      }
-
-      onReachBottom () {
-        onReachBottom()
-      }
-
-      onPageScroll () {
-        onPageScroll.apply(this, arguments)
-      }
-
-      onShareAppMessage () {
-        onShareAppMessage.apply(this, arguments)
-      }
-
-      onResize () {
-        onResize.apply(this, arguments)
-      }
-
-      onTabItemTap () {
-        onTabItemTap.apply(this, arguments)
-      }
-
-      onTitleClick () {
-        onTitleClick()
-      }
-
-      onOptionMenuClick () {
-        onOptionMenuClick()
-      }
-
-      onPopMenuClick () {
-        onPopMenuClick()
-      }
-
-      onPullIntercept () {
-        onPullIntercept()
-      }
-
-      onPullDownRefresh () {
-        onPullDownRefresh()
-      }
-
-      componentWillUnmount () {
-        onUnload()
-      }
-
-      render () {
-        return <view id='home' ref={homeContainer}>home</view>
-      }
-    }
-
-    const home = runtime.createPageConfig(Home, '/page/home')
-
-    home.setData = function (_, cb) {
-      cb()
-    }
+    })
 
     it('App#onShow', () => {
       const obj = {}
@@ -210,10 +219,13 @@ describe.skip('nerv', () => {
     })
   })
 
-  describe('event', () => {
+  describe.skip('event', () => {
+    const eventSpy = jest.fn()
+
+    let home
+    let homeContainer
     it('can fire event', (done) => {
-      const homeContainer = React.createRef()
-      const eventSpy = jest.fn()
+      homeContainer = React.createRef()
 
       class Home extends React.Component {
         state = {
@@ -229,7 +241,7 @@ describe.skip('nerv', () => {
         }
       }
 
-      const home = runtime.createPageConfig(Home, '/page/home')
+      home = runtime.createPageConfig(Home, '/page/home')
       const dataSpy = jest.fn()
 
       home.setData = function (data, cb) {
@@ -362,33 +374,38 @@ describe.skip('nerv', () => {
     })
   })
 
-  describe('data', () => {
-    const homeContainer = React.createRef()
-    let homeInst
-
-    class Home extends React.Component {
-      constructor (props) {
-        super(props)
-        // eslint-disable-next-line @typescript-eslint/no-this-alias
-        homeInst = this
-      }
-
-      state = {
-        render: 'home'
-      }
-
-      render () {
-        return <view id='home' ref={homeContainer}>{this.state.render}</view>
-      }
-    }
-
-    const home = runtime.createPageConfig(Home, '/page/home')
+  describe.skip('data', () => {
     const dataSpy = jest.fn()
 
-    home.setData = function (data, cb) {
-      dataSpy(data)
-      cb()
-    }
+    let home
+    let homeInst
+    let homeContainer
+    beforeAll(() => {
+      homeContainer = React.createRef()
+  
+      class Home extends React.Component {
+        constructor (props) {
+          super(props)
+          // eslint-disable-next-line @typescript-eslint/no-this-alias
+          homeInst = this
+        }
+  
+        state = {
+          render: 'home'
+        }
+  
+        render () {
+          return <view id='home' ref={homeContainer}>{this.state.render}</view>
+        }
+      }
+  
+      home = runtime.createPageConfig(Home, '/page/home')
+  
+      home.setData = function (data, cb) {
+        dataSpy(data)
+        cb()
+      }
+    })
 
     afterAll(() => {
       home.onUnload()

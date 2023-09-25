@@ -2,16 +2,19 @@ name: Sync Components types
 on:
   schedule:
     - cron: '0 0 * * 6'
+  push:
+    branches:
+      - dev-ci
 
 jobs:
   sync-components-types:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout taro-docs
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: NervJS/taro-docs
           fetch-depth: 1
@@ -29,7 +32,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: install
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v2.4.0
         with:
           version: 7
           run_install: |
@@ -37,18 +40,23 @@ jobs:
               args: [--frozen-lockfile, --strict-peer-dependencies]
             - args: [--filter @tarojs/components, -D, miniapp-types@latest]
 
+      - name: build
+        run: pnpm build
+
       - name: execute sync script
         run: |
-          cd packages/taro-components
-          pnpm run sync:types
+          pnpm --filter=@tarojs/components run sync:types
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "refactor(types): sync components types"
-          title: "refactor(types): sync components types"
+          base: master
           body: "sync components types"
+          branch: "refactor/sync-types"
+          commit-message: "refactor(types): sync components types"
+          delete-branch: true
+          title: "refactor(types): sync components types"
           labels: |
             A-typings
             A-components

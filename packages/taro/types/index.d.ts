@@ -87,6 +87,8 @@
  * │   │   └── index.d.ts                   路由 API
  * │   ├── share
  * │   │   └── index.d.ts                   转发 API
+ * │   ├── skyline
+ * │   │   └── index.d.ts                   微信 Skyline API
  * │   ├── storage
  * │   │   ├── background-fetch.d.ts        数据缓存 -> 后台获取 API
  * │   │   └── index.d.ts                   数据缓存 API
@@ -108,13 +110,13 @@
  * │   │   └── interaction.d.ts             界面 -> 交互 API
  * │   ├── worker
  * │   │   └── index.d.ts                   Worker API
- * │   └── wxml
- * │       └── index.d.ts                   WXML API
+ * │   ├── wxml
+ * │   │   └── index.d.ts                   WXML API
+ * │   ├── taro.extend.d.ts                 Taro 扩展 API 类型定义
+ * │   └── taro.hooks.d.ts                  Taro Hooks 类型定义
  * ├── index.d.ts                           此文件
  * ├── taro.component.d.ts                  Taro Component 类型定义
- * ├── taro.config.d.ts                     Taro 小程序 App 与 Window 设置类型定义
- * ├── taro.extend.d.ts                     Taro 扩展 API 类型定义
- * ├── taro.hooks.d.ts                      Taro Hooks 类型定义
+ * ├── taro.config.d.ts                      Taro 小程序 App 与 Window 设置类型定义
  * └── taro.lifecycle.d.ts                  Taro 生命周期类型定义
  */
 
@@ -123,8 +125,6 @@
 /// <reference path="taro.api.d.ts" />
 /// <reference path="taro.component.d.ts" />
 /// <reference path="taro.config.d.ts" />
-/// <reference path="taro.extend.d.ts" />
-/// <reference path="taro.hooks.d.ts" />
 /// <reference path="taro.lifecycle.d.ts" />
 
 /// <reference types="@tarojs/plugin-platform-alipay/types/shims-alipay" />
@@ -132,6 +132,8 @@
 /// <reference types="@tarojs/plugin-platform-swan/types/shims-swan" />
 /// <reference types="@tarojs/plugin-platform-tt/types/shims-tt" />
 /// <reference types="@tarojs/plugin-platform-weapp/types/shims-weapp" />
+/// <reference types="@tarojs/taro-h5/types/overlay" />
+/// <reference types="@tarojs/taro-rn/types/overlay" />
 
 export = Taro
 export as namespace Taro

@@ -26,6 +26,7 @@ import type { Attributes, Func } from '../interface'
 import type { TaroEvent } from './event'
 
 export class TaroElement extends TaroNode {
+  public ctx?
   public tagName: string
   public props: Record<string, any> = {}
   public style: Style
@@ -301,10 +302,11 @@ export class TaroElement extends TaroNode {
   }
 
   public getElementsByClassName (className: string): TaroElement[] {
+    const classNames = className.trim().split(/\s+/)
+  
     return treeToArray(this, (el) => {
       const classList = el.classList
-      const classNames = className.trim().split(/\s+/)
-      return classNames.every(c => classList.has(c))
+      return classNames.every(c => classList.contains(c))
     })
   }
 

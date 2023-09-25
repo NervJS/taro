@@ -1,8 +1,9 @@
-import { IPluginContext } from '@tarojs/service'
 import * as envinfo from 'envinfo'
 import * as path from 'path'
 
 import { getPkgVersion } from '../../util'
+
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({

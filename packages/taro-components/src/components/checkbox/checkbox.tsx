@@ -7,7 +7,7 @@ import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Host, Watc
 export class Checkbox implements ComponentInterface {
   private inputEl: HTMLInputElement
   @Prop() name: string
-  @Prop() value = ''
+  @Prop({ mutable: true }) value: string | number = ''
   @Prop() color: string
   @Prop({ mutable: true }) id: string
   @Prop() checked = false

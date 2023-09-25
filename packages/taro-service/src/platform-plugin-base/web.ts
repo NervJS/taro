@@ -1,10 +1,15 @@
+import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 import { get, merge } from 'lodash'
 import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
 
-export abstract class TaroPlatformWeb extends TaroPlatform {
+import type { TConfig } from '../utils/types'
+
+export abstract class TaroPlatformWeb<T extends TConfig = TConfig> extends TaroPlatform<T> {
+  platformType = PLATFORM_TYPE.WEB
+
   /**
    * 1. 清空 dist 文件夹
    * 2. 输出编译提示
@@ -15,9 +20,14 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
   }
 
   private setupWebApp () {
-    const { needClearOutput } = this.config
-    if (typeof needClearOutput === 'undefined' || !!needClearOutput) {
+    const { output } = this.config
+    // webpack5 原生支持 output.clean 选项，但是 webpack4 不支持， 为统一行为，这里做一下兼容
+    // （在 packages/taro-mini-runner/src/webpack/chain.ts 和 packages/taro-webpack-runner/src/utils/chain.ts 的 makeConfig 中对 clean 选项做了过滤）
+    // eslint-disable-next-line eqeqeq
+    if (output == undefined || output.clean == undefined || output.clean === true) {
       this.emptyOutputDir()
+    } else if (isObject(output.clean)) {
+      this.emptyOutputDir(output.clean.keep || [])
     }
     this.printDevelopmentTip()
   }
@@ -77,8 +87,9 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
     const config = recursiveMerge(Object.assign({}, this.config), {
       entryFileName: ENTRY,
       env: {
-        TARO_ENV: JSON.stringify('h5'),
         FRAMEWORK: JSON.stringify(this.config.framework),
+        TARO_ENV: JSON.stringify(this.platform),
+        TARO_PLATFORM: JSON.stringify(this.platformType),
         TARO_VERSION: JSON.stringify(getPkgVersion())
       },
       devServer: { port },
@@ -89,6 +100,8 @@ export abstract class TaroPlatformWeb extends TaroPlatform {
 
     return {
       ...config,
+      buildAdapter: config.platform,
+      platformType: this.platformType,
       ...extraOptions
     }
   }

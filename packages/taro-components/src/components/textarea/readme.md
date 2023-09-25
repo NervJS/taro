@@ -31,14 +31,14 @@
 
 | Property      | Attribute     | Description | Type      | Default     |
 | ------------- | ------------- | ----------- | --------- | ----------- |
-| `autoFocus`   | `auto-focus`  |             | `boolean` | `false`     |
+| `autoFocus`   | `focus`       |             | `boolean` | `false`     |
 | `autoHeight`  | `auto-height` |             | `boolean` | `false`     |
 | `disabled`    | `disabled`    |             | `boolean` | `false`     |
 | `maxlength`   | `maxlength`   |             | `number`  | `140`       |
 | `name`        | `name`        |             | `string`  | `undefined` |
 | `nativeProps` | --            |             | `{}`      | `{}`        |
 | `placeholder` | `placeholder` |             | `string`  | `undefined` |
-| `value`       | `value`       |             | `string`  | `undefined` |
+| `value`       | `value`       |             | `string`  | `''`        |
 
 
 ## Events
@@ -47,8 +47,10 @@
 | ------------ | ----------- | ------------------ |
 | `blur`       |             | `CustomEvent<any>` |
 | `change`     |             | `CustomEvent<any>` |
+| `confirm`    |             | `CustomEvent<any>` |
 | `focus`      |             | `CustomEvent<any>` |
 | `input`      |             | `CustomEvent<any>` |
+| `keydown`    |             | `CustomEvent<any>` |
 | `linechange` |             | `CustomEvent<any>` |
 
 

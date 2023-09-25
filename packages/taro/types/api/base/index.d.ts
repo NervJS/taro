@@ -3,7 +3,7 @@ import Taro from '../../index'
 declare module '../../index' {
   interface TaroStatic {
     /** 判断小程序的 API，回调，参数，组件等是否在当前版本可用。
-     * @supported weapp, tt
+     * @supported weapp, tt, h5
      * @example
      * ```tsx
      * Taro.canIUse('openBluetoothAdapter')
@@ -36,7 +36,7 @@ declare module '../../index' {
     ): boolean
 
     /** 判断能否使用 WebP 格式
-     * 
+     *
      * > 在小程序平台中仅在 android 和 devtools 设备时可用
      * @supported global
      */

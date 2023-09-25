@@ -10,5 +10,6 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["./src/__tests__"]
 }

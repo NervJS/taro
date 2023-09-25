@@ -202,6 +202,98 @@ declare module '../../index' {
     }
   }
 
+  namespace join1v1Chat {
+    interface Caller {
+      /** 昵称 */
+      nickname: string
+      /** 头像 */
+      headImage?: string
+      /** 小程序内 openid */
+      openid: string
+    }
+    interface Listener {
+      /** 昵称 */
+      nickname: string
+      /** 头像 */
+      headImage?: string
+      /** 小程序内 openid */
+      openid: string
+    }
+    interface RoomType {
+      /** 语音通话 */
+      voice
+      /** 视频通话 */
+      video
+    }
+    interface Option {
+      /** 呼叫方信息 */
+      caller: Caller
+      /** 接听方信息 */
+      listener: Listener
+      /** 窗口背景色
+       * @default 0
+       */
+      backgroundType?: keyof setEnable1v1Chat.ColorType
+      /** 通话类型 */
+      roomType?: keyof RoomType
+      /** 小窗样式
+       * @default 1
+       */
+      minWindowType?: keyof setEnable1v1Chat.ColorType
+      /** 不允许切换到语音通话
+       * @default false
+       */
+      disableSwitchVoice?: boolean
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface ChatErrCode {
+      /** 未开通双人通话 */
+      [-20000]
+      /** 当前设备不支持 */
+      [-20001]
+      /** 正在通话中 */
+      [-20002]
+      /** 其它小程序正在通话中 */
+      [-20003]
+      /** 内部系统错误 */
+      [-30000]
+      /** 微信缺失相机权限 */
+      [-30001]
+      /** 微信缺失录音权限  */
+      [-30002]
+      /** 小程序缺失录音权限 */
+      [-30003]
+      /** 小程序缺失相机权限 */
+      [-30004]
+      /** 当前已在房间内 */
+      [-1]
+      /** 录音设备被占用，可能是当前正在使用微信内语音通话或系统通话 */
+      [-2]
+      /** 加入会话期间退出（可能是用户主动退出，或者退后台、来电等原因），因此加入失败 */
+      [-3]
+      /** 系统错误 */
+      [-1000]
+    }
+    interface FailCallbackResult extends TaroGeneral.CallbackResult {
+      /** 错误信息 */
+      errMsg: string
+      /** 错误码 */
+      errCode: keyof ChatErrCode
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 错误码 */
+      errCode: number
+      /** 调用结果 */
+      errMsg: string
+    }
+    type Promised = FailCallbackResult | SuccessCallbackResult
+  }
+
   namespace exitVoIPChat {
     interface Option {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -264,6 +356,12 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.offVoIPChatStateChanged.html
      */
     offVoIPChatStateChanged(callback: onVoIPChatStateChanged.Callback): void
+    /**
+     * 取消监听实时语音通话成员通话状态变化事件
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.offVoIPChatSpeakersChanged.html
+     */
+    offVoIPChatSpeakersChanged(callback: onVoIPChatSpeakersChanged.Callback): void
     /** 取消监听实时语音通话成员在线状态变化事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.offVoIPChatMembersChanged.html
@@ -281,6 +379,11 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.joinVoIPChat.html
      */
     joinVoIPChat(option: joinVoIPChat.Option): Promise<joinVoIPChat.Promised>
+    /**加入（创建）双人通话
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.join1v1Chat.html
+     */
+    join1v1Chat(option: join1v1Chat.Option): Promise<join1v1Chat.Promised>
     /** 退出（销毁）实时语音通话
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/voip/wx.exitVoIPChat.html

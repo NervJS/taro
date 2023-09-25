@@ -52,6 +52,15 @@ const apiDiff: IApiDiff = {
       change: [{
         old: 'title',
         new: 'content'
+      }],
+      set: [{
+        key: 'content',
+        value: function value (options) {
+          if (options.content === undefined) {
+            options.content = ''
+          }
+          return options.content
+        }
       }]
     }
   },
@@ -196,6 +205,18 @@ const apiDiff: IApiDiff = {
  * key 为 alipay小程序中的api名称
  */
 const asyncResultApiDiff = {
+  alert: {
+    res: {
+      set: [
+        {
+          key: 'confirm',
+          value (res) {
+            return res.success
+          }
+        }
+      ],
+    }
+  },
   getScreenBrightness: {
     res: {
       set: [
@@ -295,8 +316,8 @@ const asyncResultApiDiff = {
         {
           key: 'services',
           value (res) {
-            return res.services.map(item => { 
-              return {uuid: item.serviceId, isPrimary: item.isPrimary}
+            return res.services.map(item => {
+              return { uuid: item.serviceId, isPrimary: item.isPrimary }
             })
           }
         }
@@ -304,8 +325,6 @@ const asyncResultApiDiff = {
     }
   }
 }
-
-const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
 
 export function request (options) {
   options = options || {}
@@ -346,7 +365,8 @@ export function request (options) {
     options.complete = res => {
       originComplete && originComplete(res)
     }
-
+    // 改为实时获取原生API，防止用户修改原生API后无法同步
+    const nativeRequest = my.canIUse('request') ? my.request : my.httpRequest
     requestTask = nativeRequest(options)
   })
   p.abort = (cb) => {

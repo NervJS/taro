@@ -11,24 +11,18 @@ import type { IConfig } from './index'
 
 export function modifyH5WebpackChain (ctx: IPluginContext, chain, config: IConfig) {
   // vue3 tsx 使用原生组件
-  setStyleLoader(ctx, chain)
   setVueLoader(chain, config)
   setLoader(chain)
   setTaroApiLoader(chain)
-}
 
-function setStyleLoader (ctx: IPluginContext, chain) {
-  const config = ctx.initialConfig.h5 || {}
+  const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
+  const externals: Record<string, string> = {}
+  if (isBuildNativeComp) {
+    // Note: 该模式不支持 prebundle 优化，不必再处理
+    externals.vue = 'vue'
+  }
 
-  const { styleLoaderOption = {} } = config
-  chain.module
-    .rule('customStyle')
-    .merge({
-      use: [{
-        loader: 'style-loader',
-        options: styleLoaderOption
-      }]
-    })
+  chain.merge({ externals })
 }
 
 function setVueLoader (chain, config: IConfig) {

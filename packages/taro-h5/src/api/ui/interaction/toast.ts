@@ -103,6 +103,10 @@ export default class Toast {
     this.el.className = 'taro__toast'
     this.el.style.opacity = '0'
     this.el.style.transition = 'opacity 0.1s linear'
+    this.el.ontouchmove = (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+    }
 
     // mask
     this.mask = document.createElement('div')
@@ -215,8 +219,8 @@ export default class Toast {
     return ''
   }
 
-  hide (duration = 0, type) {
-    if (this.type !== type) return
+  hide (duration = 0, type = '') {
+    if (type && type !== this.type) return
 
     if (this.hideOpacityTimer) clearTimeout(this.hideOpacityTimer)
     if (this.hideDisplayTimer) clearTimeout(this.hideDisplayTimer)

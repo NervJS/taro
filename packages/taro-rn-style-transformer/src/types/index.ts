@@ -198,7 +198,7 @@ interface RNConfig {
 }
 
 export interface Config {
-  designWidth?: number | ((size: number) => number)
+  designWidth?: number | ((size?: string | number) => number)
   deviceRatio?: Record<string, number>
   sass?: SassGlobalConfig
   alias?: Record<string, string>

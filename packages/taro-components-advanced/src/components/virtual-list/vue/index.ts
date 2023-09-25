@@ -14,7 +14,7 @@ declare global {
   }
 }
 
-export const VirtualList = List as VueComponentType<VueVirtualListProps>
+export const VirtualList = List as unknown as VueComponentType<VueVirtualListProps>
 
 function install (Vue: App) {
   Vue.component('virtual-list', VirtualList)

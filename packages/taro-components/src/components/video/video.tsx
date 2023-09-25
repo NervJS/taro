@@ -334,7 +334,10 @@ export class Video implements ComponentInterface {
     const { src, videoRef } = this
 
     if (isHls(src)) {
-      import('hls.js').then(e => {
+      import(
+        /* webpackExports: ["default"] */
+        'hls.js'
+      ).then(e => {
         const Hls = e.default
         this.HLS = Hls
         if (Hls.isSupported()) {
@@ -448,7 +451,7 @@ export class Video implements ComponentInterface {
   }
 
   @Method()
-  async getHlsObject() {
+  async getHlsObject () {
     // Note: H5 端专属方法，获取 HLS 实例 fix #11894
     return this.hls
   }
@@ -544,6 +547,8 @@ export class Video implements ComponentInterface {
       setTimeout(() => {
         this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
+    } else {
+      document[screenFn.exitFullscreen]()
     }
   }
 

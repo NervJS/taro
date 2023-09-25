@@ -1,7 +1,7 @@
-import { navigationRef as rnNavigationRef } from '@tarojs/router-rn'
 import * as React from 'react'
 
 import { AppInstance, PageInstance } from './instance'
+import { rnNavigationRef } from './router'
 
 interface Router {
   params: Record<string, unknown>

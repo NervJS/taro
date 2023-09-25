@@ -1,6 +1,11 @@
+import { recursiveMerge } from '@tarojs/helper'
+import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
+
+import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { TConfig } from '../utils/types'
 
 interface IFileType {
   templ: string
@@ -10,7 +15,9 @@ interface IFileType {
   xs?: string
 }
 
-export abstract class TaroPlatformBase extends TaroPlatform {
+export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends TaroPlatform<T> {
+  platformType = PLATFORM_TYPE.MINI
+
   abstract globalObject: string
   abstract fileType: IFileType
   abstract template: RecursiveTemplate | UnRecursiveTemplate
@@ -28,9 +35,15 @@ export abstract class TaroPlatformBase extends TaroPlatform {
   }
 
   private setupImpl () {
-    const { needClearOutput } = this.config
-    if (typeof needClearOutput === 'undefined' || !!needClearOutput) {
+    const { output } = this.config
+    // webpack5 原生支持 output.clean 选项，但是 webpack4 不支持， 为统一行为，这里做一下兼容
+    // （在 packages/taro-mini-runner/src/webpack/chain.ts 和 packages/taro-webpack-runner/src/utils/chain.ts 的 makeConfig 中对 clean 选项做了过滤）
+    // 仅 output.clean 为 false 时不清空输出目录
+    // eslint-disable-next-line eqeqeq
+    if (output == undefined || output.clean == undefined || output.clean === true) {
       this.emptyOutputDir()
+    } else if (isObject(output.clean)) {
+      this.emptyOutputDir(output.clean.keep || [])
     }
     this.printDevelopmentTip(this.platform)
     if (this.projectConfigJson) {
@@ -95,12 +108,22 @@ ${exampleCommand}`))
    * @param extraOptions 需要额外合入 Options 的配置项
    */
   protected getOptions (extraOptions = {}) {
-    const { ctx, config, globalObject, fileType, template } = this
+    const { ctx, globalObject, fileType, template } = this
+
+    const config = recursiveMerge(Object.assign({}, this.config), {
+      env: {
+        FRAMEWORK: JSON.stringify(this.config.framework),
+        TARO_ENV: JSON.stringify(this.platform),
+        TARO_PLATFORM: JSON.stringify(this.platformType),
+        TARO_VERSION: JSON.stringify(getPkgVersion())
+      }
+    })
 
     return {
       ...config,
       nodeModulesPath: ctx.paths.nodeModulesPath,
       buildAdapter: config.platform,
+      platformType: this.platformType,
       globalObject,
       fileType,
       template,
@@ -119,10 +142,15 @@ ${exampleCommand}`))
 
   private async buildImpl (extraOptions = {}) {
     const runner = await this.getRunner()
-    const options = this.getOptions(Object.assign({
-      runtimePath: this.runtimePath,
-      taroComponentsPath: this.taroComponentsPath
-    }, extraOptions))
+    const options = this.getOptions(
+      Object.assign(
+        {
+          runtimePath: this.runtimePath,
+          taroComponentsPath: this.taroComponentsPath
+        },
+        extraOptions
+      )
+    )
     await runner(options)
   }
 
@@ -143,7 +171,7 @@ ${exampleCommand}`))
    * 递归替换对象的 key 值
    */
   protected recursiveReplaceObjectKeys (obj, keyMap) {
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
       if (keyMap[key]) {
         obj[keyMap[key]] = obj[key]
         if (typeof obj[key] === 'object') {

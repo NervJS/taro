@@ -7,7 +7,10 @@ export const manipulatePropsFunction = <ElementType>(
   originalProps: StencilReactInternalProps<ElementType>,
   propsToPass: Record<string, unknown> = {}
 ) => {
-  const { dangerouslySetInnerHTML } = originalProps
+  const { dangerouslySetInnerHTML, style } = originalProps
+  if (typeof style !== 'string') {
+    propsToPass.style = style
+  }
   return {
     ...propsToPass,
     dangerouslySetInnerHTML

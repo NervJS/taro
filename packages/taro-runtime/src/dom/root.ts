@@ -1,4 +1,4 @@
-import { isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
+import { hooks,isArray, isFunction, isUndefined, Shortcuts } from '@tarojs/shared'
 
 import {
   CUSTOM_WRAPPER,
@@ -8,7 +8,7 @@ import {
 } from '../constants'
 import { options } from '../options'
 import { perf } from '../perf'
-import { customWrapperCache } from '../utils'
+import { customWrapperCache, isComment } from '../utils'
 import { TaroElement } from './element'
 
 import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
@@ -28,6 +28,10 @@ function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
       .replace(/\bcn\b/g, 'childNodes')
 
     currentData = currentData[key]
+
+    if (isArray(currentData)) {
+      currentData = currentData.filter(el => !isComment(el))
+    }
 
     if (isUndefined(currentData)) return true
 
@@ -82,7 +86,7 @@ export class TaroRootElement extends TaroElement {
   public performUpdate (initRender = false, prerender?: Func) {
     this.pendingUpdate = true
 
-    const ctx = this.ctx!
+    const ctx = hooks.call('proxyToRaw', this.ctx)!
 
     setTimeout(() => {
       const setDataMark = `${SET_DATA} 开始时间戳 ${Date.now()}`

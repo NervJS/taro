@@ -7,7 +7,7 @@ function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+const IS_NON_DIMENSIONAL = /aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)

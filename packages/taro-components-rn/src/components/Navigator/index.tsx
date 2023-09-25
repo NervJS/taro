@@ -1,17 +1,20 @@
 import React, {
   useCallback,
 } from 'react'
-import {
-  navigateTo,
-  navigateBack,
-  redirectTo,
-  switchTab,
-  reLaunch,
-} from '@tarojs/router-rn'
 import type { NavigatorProps } from '@tarojs/components/types/Navigator'
-
 import View from '../View'
 import { omit } from '../../utils'
+
+let navigateTo, navigateBack, redirectTo, switchTab, reLaunch
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const routerObj = require('@tarojs/router-rn')
+  navigateTo = routerObj?.navigateTo
+  navigateBack = routerObj?.navigateBack
+  redirectTo = routerObj?.redirectTo
+  switchTab = routerObj?.switchTab
+  reLaunch = routerObj?.reLaunch
+} catch (error) {}
 
 export default function Navigator (props: NavigatorProps) {
   const {

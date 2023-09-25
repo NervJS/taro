@@ -13,9 +13,12 @@
 
 ## Properties
 
-| Property     | Attribute    | Description | Type      | Default |
-| ------------ | ------------ | ----------- | --------- | ------- |
-| `selectable` | `selectable` |             | `boolean` | `false` |
+| Property        | Attribute         | Description | Type                                      | Default     |
+| --------------- | ----------------- | ----------- | ----------------------------------------- | ----------- |
+| `numberOfLines` | `number-of-lines` |             | `number \| undefined`                     | `undefined` |
+| `selectable`    | `selectable`      |             | `boolean`                                 | `false`     |
+| `space`         | `space`           |             | `"emsp" \| "ensp" \| "nbsp" \| undefined` | `undefined` |
+| `userSelect`    | `user-select`     |             | `boolean`                                 | `false`     |
 
 
 ----------------------------------------------

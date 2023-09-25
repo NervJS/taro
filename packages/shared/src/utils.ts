@@ -1,4 +1,5 @@
 import { internalComponents } from './components'
+import { PLATFORM_CONFIG_MAP, PLATFORM_TYPE } from './constants'
 import { hooks } from './runtime-hooks'
 
 export const EMPTY_OBJ: any = {}
@@ -198,6 +199,14 @@ export function getComponentsAlias (origin: typeof internalComponents) {
     })
 
   return mapping
+}
+
+export function getPlatformType (platform = 'weapp', configNameOrType: string = PLATFORM_TYPE.MINI): PLATFORM_TYPE {
+  if (Object.keys(PLATFORM_CONFIG_MAP).includes(platform)) {
+    configNameOrType = platform
+  }
+  const param = PLATFORM_CONFIG_MAP[configNameOrType] || {}
+  return param.type || configNameOrType
 }
 
 export function mergeReconciler (hostConfig, hooksForTest?) {

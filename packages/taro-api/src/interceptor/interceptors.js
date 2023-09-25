@@ -30,18 +30,14 @@ export function logInterceptor (chain) {
   const requestParams = chain.requestParams
   const { method, data, url } = requestParams
 
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
-    console.log(`http ${method || 'GET'} --> ${url} data: `, data)
-  }
+  // eslint-disable-next-line no-console
+  console.log(`http ${method || 'GET'} --> ${url} data: `, data)
 
   const p = chain.proceed(requestParams)
   const res = p
     .then(res => {
-      if (process.env.NODE_ENV !== 'production') {
-        // eslint-disable-next-line no-console
-        console.log(`http <-- ${url} result:`, res)
-      }
+      // eslint-disable-next-line no-console
+      console.log(`http <-- ${url} result:`, res)
       return res
     })
   if (isFunction(p.abort)) res.abort = p.abort

@@ -91,6 +91,7 @@ const Button = {
   'hover-start-time': '20',
   'hover-stay-time': '70',
   name: NO_DEFAULT_VALUE,
+  bindagreeprivacyauthorization: NO_DEFAULT_VALUE,
   ...touchEvents
 }
 
@@ -127,7 +128,7 @@ const Input = {
   focus: DEFAULT_FALSE,
   'confirm-type': singleQuote('done'),
   'confirm-hold': DEFAULT_FALSE,
-  cursor: 'i.value.length',
+  cursor: '-1',
   'selection-start': '-1',
   'selection-end': '-1',
   bindInput: NO_DEFAULT_VALUE,

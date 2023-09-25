@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
-import {createNativeStackNavigator, NativeStackNavigationOptions} from '@react-navigation/native-stack'
+import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { CardStyleInterpolators, createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
 import { StackHeaderMode, StackHeaderOptions } from '@react-navigation/stack/src/types'
@@ -9,7 +9,7 @@ import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 
 import { navigationRef } from './rootNavigation'
-import { getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, setTabConfig } from './utils/index'
+import { getCurrentJumpUrl, getTabInitRoute, getTabItemConfig, getTabVisible, handleUrl, hasJumpAnimate, setTabConfig } from './utils/index'
 import BackButton from './view/BackButton'
 import HeadTitle from './view/HeadTitle'
 import CustomTabBar from './view/TabBar'
@@ -82,11 +82,27 @@ export interface RouterConfig {
   entryPagePath?: string // 默认启动路径
 }
 
-export function createRouter (config: RouterConfig) {
+export interface RouterOption{
+  onReady?: (options)=> void
+  onUnhandledAction?: (options)=> void
+}
+
+export function createRouter (config: RouterConfig, options:RouterOption) {
   if (config?.tabBar?.list?.length) {
-    return createTabNavigate(config)
+    return createTabNavigate(config,options)
   } else {
-    return createStackNavigate(config)
+    return createStackNavigate(config,options)
+  }
+}
+
+// 初始化路由相关，入口组件，onLaunch，onShow  
+export function getInitOptions (config){
+  const initRouteName = getInitRouteName(config)
+  const initParams = getInitParams(config, initRouteName)
+  const initPath = config.pages.find(p => p.name === initRouteName)?.pagePath
+  return {
+    path: initPath,
+    query:initParams,
   }
 }
 
@@ -327,21 +343,76 @@ function getLinkingConfig (config: RouterConfig) {
   }
 }
 
-function createTabNavigate (config: RouterConfig) {
+function defaultOnUnhandledAction (action){
+  // @ts-ignore
+  if (process.env.NODE_ENV === 'production') {
+    return
+  }
+  const payload: Record<string, any> | undefined = action.payload
+  let message = `The action '${action.type}'${
+    payload ? ` with payload ${JSON.stringify(action.payload)}` : ''
+  } was not handled by any navigator.`
+  switch (action.type) {
+    case 'NAVIGATE':
+    case 'PUSH':
+    case 'REPLACE':
+    case 'JUMP_TO':
+      if (payload?.name) {
+        const pageName = getCurrentJumpUrl() ?? payload?.name
+        message += `\n\nDo you have a screen '${pageName}'?\n\nIf you're trying to navigate to a screen in a nested navigator, see https://reactnavigation.org/docs/nesting-navigators#navigating-to-a-screen-in-a-nested-navigator.`
+      } else {
+        message += `\n\nYou need to pass the name of the screen to navigate to.\n\nSee https://reactnavigation.org/docs/navigation-actions for usage.`
+      }
+
+      break
+    case 'GO_BACK':
+    case 'POP':
+    case 'POP_TO_TOP':
+      message += `\n\nIs there any screen to go back to?`
+      break
+    case 'OPEN_DRAWER':
+    case 'CLOSE_DRAWER':
+    case 'TOGGLE_DRAWER':
+      message += `\n\nIs your screen inside a Drawer navigator?`
+      break
+  }
+  message += `\n\nThis is a development-only warning and won't be shown in production.`
+  console.error(message)
+}
+
+function handlePageNotFound (action, options){
+  const routeObj:Record<string,any> = action?.payload  ?? {}
+  if(routeObj?.name){
+    options?.onUnhandledAction && options?.onUnhandledAction({
+      path: getCurrentJumpUrl() ?? routeObj?.name,
+      query: routeObj?.params ?? {}
+    })
+  }
+  // 监听了onUnhandledAction，导航默认打印错误就不执行了, 把源码中默认打印加一下😭
+  defaultOnUnhandledAction(action)
+}
+
+function createTabNavigate (config: RouterConfig, options: RouterOption) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
   const screenOptions = getStackOptions(config)
+
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
+    onUnhandledAction = {(action)=> handlePageNotFound(action, options)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
       {...stackProps}
       // @ts-ignore
-      screenOptions={screenOptions}
+      screenOptions={() => ({
+        ...screenOptions,
+        animation: hasJumpAnimate() ? 'default' : 'none',
+        animationEnabled: !!hasJumpAnimate()
+      })}
       initialRouteName={getInitRouteName(config)}
     >
       <Stack.Screen
@@ -364,21 +435,28 @@ function createTabNavigate (config: RouterConfig) {
   </NavigationContainer>
 }
 
-function createStackNavigate (config: RouterConfig) {
+function createStackNavigate (config: RouterConfig, options:RouterOption) {
   const Stack = config.rnConfig?.useNativeStack ? createNativeStackNavigator() : createStackNavigator()
   const pageList = getPageList(config)
   if (pageList.length <= 0) return null
   const linking = getLinkingConfig(config)
   const stackProps = config.rnConfig?.stackProps
+  const screenOptions = getStackOptions(config)
+
   return <NavigationContainer
     ref={navigationRef}
     linking={linking}
+    onUnhandledAction = {(action)=> handlePageNotFound(action, options)}
   >
     <Stack.Navigator
       detachInactiveScreens={false}
       {...stackProps}
       // @ts-ignore
-      screenOptions={getStackOptions(config)}
+      screenOptions={() => ({
+        ...screenOptions,
+        animation: hasJumpAnimate() ? 'default' : 'none',
+        animationEnabled: !!hasJumpAnimate()
+      })}
       initialRouteName={getInitRouteName(config)}
     >{pageList.map(item => {
         const initParams = getInitParams(config, item.name)

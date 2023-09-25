@@ -1,4 +1,5 @@
 import {
+  fs,
   recursiveMerge,
   REG_FONT,
   REG_IMAGE,
@@ -6,7 +7,6 @@ import {
   REG_SCRIPTS
 } from '@tarojs/helper'
 import { isFunction } from '@tarojs/shared'
-import fs from 'fs-extra'
 import path from 'path'
 
 import type { PostcssOption } from '@tarojs/taro/types/compile'
@@ -169,6 +169,7 @@ export class WebpackModule {
         }
       },
       generator: {
+        emit: options.emitFile || options.emit,
         outputPath: options.outputPath,
         publicPath: options.publicPath,
         filename ({ filename }) {
@@ -189,6 +190,7 @@ export class WebpackModule {
         }
       },
       generator: {
+        emit: options.emitFile || options.emit,
         outputPath: options.outputPath,
         publicPath: options.publicPath,
         filename ({ filename }) {
@@ -209,6 +211,7 @@ export class WebpackModule {
         }
       },
       generator: {
+        emit: options.emitFile || options.emit,
         outputPath: options.outputPath,
         publicPath: options.publicPath,
         filename ({ filename }) {

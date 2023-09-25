@@ -6,23 +6,19 @@ interface AdCustomProps extends StandardProps {
    * @supported weapp
    */
   unitId: string
-
   /** 广告自动刷新的间隔时间，单位为秒，参数值必须大于等于30（该参数不传入时 Banner 广告不会自动刷新）
    * @supported weapp
    */
   adIntervals?: number
-
   /** 广告加载成功的回调
    * @supported weapp
    */
   onLoad?: CommonEventFunction
-
   /** 当广告发生错误时，触发的事件，可以通过该事件获取错误码及原因
    * @supported weapp
    */
   onError?: CommonEventFunction<AdProps.onErrorEventDetail>
 }
-
 /** Banner 广告
  * @classification open
  * @supported weapp

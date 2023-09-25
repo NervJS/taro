@@ -30,6 +30,28 @@ $ pnpm run build # 等价于 pnpm -r --filter=./packages/* run build
 $ pnpm --filter @tarojs/cli run dev
 ```
 
+### 在其他项目中测试
+
+先在 `taro` 项目目录下执行以下命令：
+
+```bash
+# 编译某个子包，如 `@tarojs/plugin-mini-ci`
+$ pnpm -r --filter ./packages/taro-plugin-mini-ci build
+$ pnpm link --global
+```
+
+然后在引用该子包的项目下执行：
+
+```bash
+yarn link @tarojs/plugin-mini-ci
+```
+
+接着，就可以在引用该子包的项目中从本地使用该子包了。在测试完毕后，可以执行以下命令取消链接：
+
+```bash
+yarn unlink @tarojs/plugin-mini-ci
+```
+
 ### 新增/删除依赖
 
 可以分为三种情况：

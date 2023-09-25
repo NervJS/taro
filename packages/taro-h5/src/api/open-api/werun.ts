@@ -1,5 +1,5 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 微信运动
-export const shareToWeRun = temporarilyNotSupport('shareToWeRun')
-export const getWeRunData = temporarilyNotSupport('getWeRunData')
+export const shareToWeRun = /* @__PURE__ */ temporarilyNotSupport('shareToWeRun')
+export const getWeRunData = /* @__PURE__ */ temporarilyNotSupport('getWeRunData')

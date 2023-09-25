@@ -5,6 +5,7 @@ import queryString from 'query-string'
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistoryMode } from '../history'
+import { loadRouterStyle } from '../style'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, stripBasename } from '../utils'
 
@@ -49,6 +50,17 @@ export default class MultiPageHandler {
 
   get search () { return location.search.substr(1) }
 
+  get usingWindowScroll () {
+    let usingWindowScroll = true
+    if (typeof this.pageConfig?.usingWindowScroll === 'boolean') {
+      usingWindowScroll = this.pageConfig.usingWindowScroll
+    }
+    const win = window as any
+    win.__taroAppConfig ||= {}
+    win.__taroAppConfig.usingWindowScroll = usingWindowScroll
+    return usingWindowScroll
+  }
+
   getQuery (search = '', options: Record<string, unknown> = {}) {
     search = search ? `${search}&${this.search}` : this.search
     const query = search
@@ -60,12 +72,17 @@ export default class MultiPageHandler {
   mount () {
     setHistoryMode(this.routerMode, this.router.basename)
 
+    loadRouterStyle(this.usingWindowScroll)
+
     const appId = this.appId
     let app = document.getElementById(appId)
+    let isPosition = true
     if (!app) {
       app = document.createElement('div')
       app.id = appId
+      isPosition = false
     }
+    const appWrapper = app?.parentNode || app?.parentElement || document.body
     app.classList.add('taro_router')
 
     if (this.tabBarList.length > 1) {
@@ -76,14 +93,18 @@ export default class MultiPageHandler {
       const panel = document.createElement('div')
       panel.classList.add('taro-tabbar__panel')
 
-      panel.appendChild(app)
+      panel.appendChild(app.cloneNode(true))
       container.appendChild(panel)
 
-      document.body.appendChild(container)
+      if (!isPosition) {
+        appWrapper.appendChild(container)
+      } else {
+        appWrapper.replaceChild(container, app)
+      }
 
       initTabbar(this.config)
     } else {
-      document.body.appendChild(app)
+      if (!isPosition) appWrapper.appendChild(app)
     }
   }
 
@@ -91,7 +112,18 @@ export default class MultiPageHandler {
     const pageEl = this.getPageContainer(page)
     if (pageEl && !pageEl?.['__isReady']) {
       const el = pageEl.firstElementChild
-      el?.['componentOnReady']?.()
+      const componentOnReady = el?.['componentOnReady']
+      if (componentOnReady) {
+        componentOnReady?.().then(() => {
+          requestAnimationFrame(() => {
+            page.onReady?.()
+            pageEl!['__isReady'] = true
+          })
+        })
+      } else {
+        page.onReady?.()
+        pageEl!['__isReady'] = true
+      }
       onLoad && (pageEl['__page'] = page)
     }
   }
@@ -100,11 +132,13 @@ export default class MultiPageHandler {
     if (!page) return
 
     page.onLoad?.(this.getQuery('', page.options), () => {
-      const pageEl = this.getPageContainer(page)
-      this.isTabBar && pageEl?.classList.add('taro_tabbar_page')
+      if (this.isTabBar) {
+        const pageEl = this.getPageContainer(page)
+        pageEl?.classList.add('taro_tabbar_page')
+      }
       this.onReady(page, true)
       page.onShow?.()
-      this.bindPageEvents(page, pageEl, pageConfig)
+      this.bindPageEvents(page, pageConfig)
     })
   }
 
@@ -118,15 +152,18 @@ export default class MultiPageHandler {
       ? document.querySelector(`.taro_page#${id}`)
       : document.querySelector('.taro_page') ||
     document.querySelector('.taro_router')) as HTMLDivElement
-    return el || window
+    return el
   }
 
-  bindPageEvents (page: PageInstance, pageEl?: HTMLElement | null, config: Partial<PageConfig> = {}) {
-    if (!pageEl) {
-      pageEl = this.getPageContainer() as HTMLElement
-    }
+  getScrollingElement (page?: PageInstance | null) {
+    if (this.usingWindowScroll) return window
+    return this.getPageContainer(page) || window
+  }
+
+  bindPageEvents (page: PageInstance, config: Partial<PageConfig> = {}) {
+    const scrollEl = this.getScrollingElement(page)
     const distance = config.onReachBottomDistance || this.config.window?.onReachBottomDistance || 50
-    bindPageScroll(page, pageEl, distance)
+    bindPageScroll(page, scrollEl, distance)
     bindPageResize(page)
   }
 }

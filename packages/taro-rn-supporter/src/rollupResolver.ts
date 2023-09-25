@@ -2,6 +2,8 @@ import * as path from 'path'
 
 import { includes, isRelativePath, resolveExtFile, resolvePathFromAlias } from './utils'
 
+import type { IProjectConfig } from '@tarojs/taro/types/compile'
+
 interface ResolverOption {
   platform?: 'ios' | 'android'
   include?: (path: boolean) => boolean
@@ -14,11 +16,11 @@ const DEFAULT_ALIAS = {
   '@tarojs/components': '@tarojs/components-rn'
 }
 
-const isInclude = (_moduleName, originModulePath) => {
-  return originModulePath.indexOf('node_modules') < 0 || includes(originModulePath)
+const isInclude = (_moduleName, originModulePath, config: IProjectConfig ) => {
+  return originModulePath.indexOf('node_modules') < 0 || includes(originModulePath, config)
 }
 
-export default function resolver (options: ResolverOption) {
+export default function resolver (options: ResolverOption, config: IProjectConfig) {
   const { externalResolve, platform } = options
 
   return {
@@ -28,7 +30,7 @@ export default function resolver (options: ResolverOption) {
         return null
       }
 
-      if (!isInclude(moduleName, originModulePath)) {
+      if (!isInclude(moduleName, originModulePath, config)) {
         return null
       }
 
@@ -46,7 +48,7 @@ export default function resolver (options: ResolverOption) {
         }
       }
 
-      moduleName = resolvePathFromAlias(moduleName)
+      moduleName = resolvePathFromAlias(moduleName, config)
 
       if ((externalId = externalResolve(moduleName, originModulePath))) {
         return { id: externalId, external: true }
@@ -56,7 +58,7 @@ export default function resolver (options: ResolverOption) {
         return null
       }
 
-      moduleName = resolveExtFile({ originModulePath }, moduleName, platform)
+      moduleName = resolveExtFile({ originModulePath }, moduleName, platform, config)
       return moduleName || null
     }
   }

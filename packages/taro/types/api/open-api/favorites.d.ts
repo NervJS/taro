@@ -64,7 +64,8 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/favorites/wx.addVideoToFavorites.html
      */
     addVideoToFavorites(option?: addVideoToFavorites.Option): Promise<TaroGeneral.CallbackResult>
-    /** 预约视频号直播
+
+    /** 收藏文件
      * @supported weapp
      * @example
      * ```tsx

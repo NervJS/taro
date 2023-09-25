@@ -230,7 +230,8 @@ export class H5WebpackModule {
     this.__postcssOption = getDefaultPostcssConfig({
       designWidth,
       deviceRatio,
-      option: postcssOption
+      option: postcssOption,
+      alias: config.alias,
     })
     const postcssLoader = WebpackModule.getPostCSSLoader({
       postcssOptions: {

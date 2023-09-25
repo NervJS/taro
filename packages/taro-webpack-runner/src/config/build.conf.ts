@@ -1,4 +1,4 @@
-import { BuildConfig } from '../util/types'
+import { BuildConfig } from '../utils/types'
 
 export default ({
   sourceRoot = 'src',

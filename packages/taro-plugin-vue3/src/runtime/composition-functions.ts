@@ -61,6 +61,12 @@ function createTaroHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
 export const useDidShow = createTaroHook('onShow')
 export const useDidHide = createTaroHook('onHide')
 
+/** App */
+export const useError = createTaroHook('onError')
+export const useUnhandledRejection = createTaroHook('onUnhandledRejection')
+export const useLaunch = createTaroHook('onLaunch')
+export const usePageNotFound = createTaroHook('onPageNotFound')
+
 /** Page */
 export const useLoad = createTaroHook('onLoad')
 export const usePageScroll = createTaroHook('onPageScroll')

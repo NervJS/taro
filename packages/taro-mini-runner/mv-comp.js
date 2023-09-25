@@ -1,4 +1,4 @@
-const fs = require('fs-extra')
+const fs = require('@tarojs/helper').fs
 
 fs.ensureDirSync('./dist/template')
 

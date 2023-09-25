@@ -35,4 +35,5 @@ export interface PageInstance extends PageLifeCycle {
 
 export interface AppInstance extends Show {
   onLaunch?(options?: string): void
+  onPageNotFound?(options?: string): void
 }

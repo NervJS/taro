@@ -5,72 +5,59 @@ interface AudioProps extends StandardProps {
    * @supported weapp, swan, qq
    */
   id?: string
-
   /** 要播放音频的资源地址
    * @supported weapp, swan, qq, h5
    */
   src?: string
-
   /** 是否循环播放
    * @default false
    * @supported weapp, swan, qq, h5
    */
   loop?: boolean
-
   /** 是否静音播放
    * @default false
    * @supported h5
    */
   muted?: boolean
-
   /** 是否显示默认控件
    * @default false
    * @supported weapp, swan, qq, h5
    */
   controls?: boolean
-
   /** 默认控件上的音频封面的图片资源地址，如果 controls 属性值为 false 则设置 poster 无效
    * @supported weapp, swan, qq
    */
   poster?: string
-
   /** 默认控件上的音频名字，如果 controls 属性值为 false 则设置 name 无效
    * @default "未知音频"
    * @supported weapp, swan, qq
    */
   name?: string
-
   /** 默认控件上的作者名字，如果 controls 属性值为 false 则设置 author 无效
    * @default "未知作者"
    * @supported weapp, swan, qq
    */
   author?: string
-
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
   nativeProps?: Record<string, unknown>
-
   /** 当发生错误时触发 error 事件，detail = {errMsg: MediaError.code}
    * @supported weapp, swan, qq, h5
    */
   onError?: CommonEventFunction<AudioProps.onErrorEventDetail>
-
   /** 当开始/继续播放时触发play事件
    * @supported weapp, swan, qq, h5
    */
   onPlay?: CommonEventFunction
-
   /** 当暂停播放时触发 pause 事件
    * @supported weapp, swan, qq, h5
    */
   onPause?: CommonEventFunction
-
   /** 当播放进度改变时触发 timeupdate 事件，detail = {currentTime, duration}
    * @supported weapp, swan, qq, h5
    */
   onTimeUpdate?: CommonEventFunction<AudioProps.onTimeUpdateEventDetail>
-
   /** 当播放到末尾时触发 ended 事件
    * @supported weapp, swan, qq, h5
    */
@@ -83,7 +70,6 @@ declare namespace AudioProps {
   interface onTimeUpdateEventDetail {
     /** 当前时间 */
     currentTime: number
-
     /** 持续时间 */
     duration: number
   }
@@ -91,19 +77,15 @@ declare namespace AudioProps {
     interface Code {
       /** 获取资源被用户禁止 */
       1
-
       /** 网络错误 */
       2
-
       /** 解码错误 */
       3
-
       /** 不合适资源 */
       4
     }
   }
 }
-
 /** 音频。1.6.0版本开始，该组件不再维护。建议使用能力更强的 Taro.createInnerAudioContext 接口
  * @classification media
  * @deprecated

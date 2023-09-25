@@ -4,7 +4,7 @@ import syntaxJSX from 'babel-plugin-syntax-jsx'
 import jSXStylePlugin from '../src/index'
 
 describe('jsx style plugin', () => {
-  function getTransfromCode (source, debug = false, options = {}) {
+  function getTransformCode (source, debug = false, options = {}) {
     const { enableCSSModule, enableMultipleClassName = false } = options
     const code = transform(source, {
       plugins: [[jSXStylePlugin, { enableCSSModule, enableMultipleClassName }], syntaxJSX],
@@ -20,7 +20,7 @@ describe('jsx style plugin', () => {
   }
 
   it('no stylesheet import', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 
 class App extends Component {
@@ -28,17 +28,15 @@ class App extends Component {
     return <div className="header" />;
   }
 }`)).toBe(`import { createElement, Component } from 'rax';
-
 class App extends Component {
   render() {
     return <div className="header" />;
   }
-
 }`)
   })
 
   it('transform only one className to style as member', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 
@@ -50,7 +48,7 @@ class App extends Component {
   })
 
   it('transform multiple classNames to style as array', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 
@@ -62,7 +60,7 @@ class App extends Component {
   })
 
   it('transform array, object and expressions', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 
@@ -79,7 +77,7 @@ class App extends Component {
   })
 
   it('combine multiple anonymous css file', () => {
-    expect(getTransfromCode(`import { createElement, Component } from 'rax';
+    expect(getTransformCode(`import { createElement, Component } from 'rax';
 import './app1.css';
 import './app2.css';
 
@@ -91,7 +89,7 @@ class App extends Component {
   })
 
   it('combine the same filename style source', () => {
-    expect(getTransfromCode(`import { createElement, Component } from 'rax';
+    expect(getTransformCode(`import { createElement, Component } from 'rax';
 import './app.css';
 import '../a/app.css';
 import '../b/app.css';
@@ -104,7 +102,7 @@ class App extends Component {
   })
 
   it('combine one style and className', () => {
-    expect(getTransfromCode(`import { createElement, Component } from 'rax';
+    expect(getTransformCode(`import { createElement, Component } from 'rax';
 import './app.css';
 import style from './style.css';
 
@@ -116,7 +114,7 @@ class App extends Component {
   })
 
   it('combine inline style object and className', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import "./app.css";
 
@@ -130,7 +128,7 @@ class App extends Component {
   })
 
   it('combine multiple styles and className', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 import style from './style.css';
@@ -142,20 +140,19 @@ class App extends Component {
 }`)).toMatchSnapshot()
   })
 
-  it('do not transfrom code when no css file', () => {
+  it('do not transform code when no css file', () => {
     const code = `import { createElement, Component } from 'rax';
-
 class App extends Component {
   render() {
     return <div className="header" />;
-  }\n
+  }
 }`
 
-    expect(getTransfromCode(code)).toBe(code)
+    expect(getTransformCode(code)).toBe(code)
   })
 
   it('transform scss file', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.scss';
 
@@ -167,7 +164,7 @@ class App extends Component {
   })
 
   it('transform scss file with hyphen(-) in the filename', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app-style.scss';
 
@@ -179,7 +176,7 @@ class App extends Component {
   })
 
   it('transform constant elements in render', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 import './app.css';
 
@@ -188,7 +185,7 @@ render(<div className="header" />);
   })
 
   it('transform stylus in render', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 import './app.styl';
 
@@ -197,7 +194,7 @@ render(<div className="header" />);
   })
 
   it('transform less in render', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 import './app.less';
 
@@ -206,7 +203,7 @@ render(<div className="header" />);
   })
 
   it('combine multiple different extension style sources', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 import './index.css'
 import './index.scss'
@@ -217,7 +214,7 @@ render(<div className="header" />);
 `)).toMatchSnapshot()
   })
   it('transform styleAttribute expression', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 import './app.less';
 
@@ -225,7 +222,7 @@ render(<div className="header" style={{width: 100, height: 100}} />);
 `)).toMatchSnapshot()
   })
   it('transform styleAttribute inline string', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 
 render(<div style="width:100px;height:100px;background-color:rgba(0, 0, 0, 0.5);border: 1px solid;" />);
@@ -241,7 +238,7 @@ render(<div style={{
   })
 
   it('transform styleAttribute inline string and exsit classNameAttribute', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, render } from 'rax';
 import './app.less';
 render(<div className="header" style="width:100px;height:100px;background-color:rgba(0, 0, 0, 0.5);border: 1px solid;" />);
@@ -249,7 +246,7 @@ render(<div className="header" style="width:100px;height:100px;background-color:
   })
 
   it('Provide a default stylesheet object when css module enable and import css module sheet only', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
 
@@ -264,7 +261,7 @@ class App extends Component {
   })
 
   it('Processing module style assignment When css module enable', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.scss';
 import styleSheet from './app.module.scss';
@@ -278,7 +275,7 @@ class App extends Component {
   })
 
   it('Processing multiple module style When css module enable', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
 import styleSheet2 from './app2.module.scss';
@@ -292,7 +289,7 @@ class App extends Component {
   })
 
   it('Processing module style spread and assign When css module enable', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.scss';
 import styleSheet from './app.module.scss';
@@ -307,7 +304,7 @@ class App extends Component {
   })
 
   it('Processing module style conditional expression When css module enable', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.scss';
 import styleSheet from './app.module.scss';
@@ -321,7 +318,7 @@ class App extends Component {
   })
 
   it('Processing module style through call expression When css module enable', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import styleSheet from './app.module.scss';
 
@@ -335,7 +332,7 @@ class App extends Component {
   })
 
   it('merge stylesheet when css module disable', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.scss';
 import styleSheet from './app.module.scss';
@@ -348,7 +345,7 @@ class App extends Component {
   })
 
   it('disableMultipleClassName and transform multiple className to multiple style', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 
@@ -360,7 +357,7 @@ class App extends Component {
   })
 
   it('enableMultipleClassName and transform multiple className to multiple style', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 
@@ -372,7 +369,7 @@ class App extends Component {
   })
 
   it('enableMultipleClassName and transform multiple className to multiple style as array', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 
@@ -384,7 +381,7 @@ class App extends Component {
   })
 
   it('enableMultipleClassName and transform error css value', () => {
-    expect(getTransfromCode(`
+    expect(getTransformCode(`
 import { createElement, Component } from 'rax';
 import './app.css';
 

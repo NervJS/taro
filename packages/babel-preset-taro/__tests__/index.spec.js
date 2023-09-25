@@ -163,4 +163,50 @@ describe('babel-preset-taro', () => {
       ignoreBrowserslistConfig: true
     })
   })
+
+  it('has dynamic-import-node', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'react',
+      ts: true
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [dynamicImportNode] = override.plugins[override.plugins.length - 2]
+    expect(dynamicImportNode === require('babel-plugin-dynamic-import-node')).toBeTruthy()
+  })
+
+  it('disable dynamic-import-node', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'react',
+      ts: true,
+      'dynamic-import-node': false
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [dynamicImportNode] = override.plugins[override.plugins.length - 2]
+    expect(dynamicImportNode === require('babel-plugin-dynamic-import-node')).toBeFalsy()
+  })
+
+  it('can react preset change', () => {
+    const config = babelPresetTaro({}, {
+      framework: 'react',
+      ts: true,
+      react: {
+        throwIfNamespace: false
+      }
+    })
+
+    expect(config.sourceType).toBe('unambiguous')
+
+    const [override] = config.overrides
+
+    const [, [, reactConfig]] = override.presets
+    expect(reactConfig.throwIfNamespace).toBeFalsy()
+  })
 })

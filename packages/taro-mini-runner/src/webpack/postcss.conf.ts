@@ -1,7 +1,8 @@
 import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
-import { IPostcssOption } from '@tarojs/taro/types/compile'
 import * as path from 'path'
 import { sync as resolveSync } from 'resolve'
+
+import type { IHtmlTransformOption, IPostcssOption } from '@tarojs/taro/types/compile'
 
 const defaultAutoprefixerOption = {
   enable: true,
@@ -28,9 +29,7 @@ const defaultUrlOption: {
   }
 }
 
-const defaultHtmltransformOption: {
-  [key: string]: any
-} = {
+const defaultHtmltransformOption: IHtmlTransformOption = {
   enable: false,
   config: {
     platform: process.env.TARO_ENV,
@@ -59,7 +58,7 @@ export const getPostcssPlugins = function (appPath: string, {
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
   const urlOption = recursiveMerge({}, defaultUrlOption, postcssOption.url)
-  const htmltransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
+  const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
   if (autoprefixerOption.enable) {
     const autoprefixer = require('autoprefixer')
     plugins.push(autoprefixer(autoprefixerOption.config))
