@@ -271,7 +271,7 @@ export class BaseTemplate {
           : `i.${toCamelCase(attr)}===undefined?${patchValue}:i.${toCamelCase(attr)}`
         return str + `${attr}="{{${propValue}}}" `
       }
-      return str + `${attr}="{{i.${toCamelCase(attr)}}}" `
+      return str + ` ${attr}="{{i.${toCamelCase(attr)}}}"`
     }, '')
   }
 
@@ -451,7 +451,7 @@ export class BaseTemplate {
 
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
+  <${compName}${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
 </template>
   `
       }
