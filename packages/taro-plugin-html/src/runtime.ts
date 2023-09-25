@@ -11,14 +11,14 @@ import {
   mapNameByContion
 } from './utils'
 
-hooks.tap('modifyHydrateData', data => {
+hooks.tap('modifyHydrateData', (data, node) => {
   const nodeName = data[Shortcuts.NodeName]
   if (!isHtmlTags(nodeName)) return
 
   process.env.NODE_ENV !== 'production' && warn(data[Shortcuts.NodeName] === 'select', '请使用 Picker 组件代替 <select>')
 
   // map nodeName
-  data[Shortcuts.NodeName] = getMappedType(nodeName, data)
+  data[Shortcuts.NodeName] = getMappedType(nodeName, data, node)
 
   // map attr Key/Value
   const attrMapFn = getAttrMapFn(nodeName)

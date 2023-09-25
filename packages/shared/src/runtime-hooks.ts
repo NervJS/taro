@@ -209,7 +209,7 @@ type ITaroHooks = {
    * @todo: multi
    * 修改 Taro DOM 序列化数据
    **/
-  modifyHydrateData:(data: Record<string, any>) => void
+  modifyHydrateData:(data: Record<string, any>, node) => void
   /**
     * @todo: multi
     * 修改 Taro DOM 序列化数据

@@ -1,3 +1,4 @@
+import { isHasExtractProp, TaroElement } from '@tarojs/runtime'
 import { isFunction, isString, Shortcuts } from '@tarojs/shared'
 
 import {
@@ -7,6 +8,12 @@ import {
   SpecialMaps
 } from './constant'
 
+export function isAnyEventBinded (node: TaroElement): boolean {
+  const handlers = node.__handlers
+  const isAnyEventBinded = Object.keys(handlers).find(key => handlers[key].length)
+  return Boolean(isAnyEventBinded)
+}
+
 export function isHtmlTags (nodeName: string): boolean {
   if (inlineElements.has(nodeName) || blockElements.has(nodeName) || specialElements.has(nodeName)) {
     return true
@@ -14,7 +21,7 @@ export function isHtmlTags (nodeName: string): boolean {
   return false
 }
 
-export function getMappedType (nodeName: string, rawProps: Record<string, any>): string {
+export function getMappedType (nodeName: string, rawProps: Record<string, any>, node?: TaroElement): string {
   if (inlineElements.has(nodeName)) {
     return 'text'
   } else if (specialElements.has(nodeName)) {
@@ -24,8 +31,12 @@ export function getMappedType (nodeName: string, rawProps: Record<string, any>):
     }
     const { mapName } = mapping
     return isFunction(mapName) ? mapName(rawProps) : mapName
-  } else {
+  } else if (!node || isAnyEventBinded(node)) {
     return 'view'
+  } else if (isHasExtractProp(node)) {
+    return 'static-view'
+  } else {
+    return 'pure-view'
   }
 }
 
