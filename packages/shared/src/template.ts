@@ -221,7 +221,7 @@ export class BaseTemplate {
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,c:1,l:\'\'')}`
+      ? `${this.dataKeymap(`i:item,c:1,l:xs.f('',item.${Shortcuts.NodeName})`)}`
       : this.isSupportRecursive
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
@@ -509,7 +509,7 @@ export class BaseTemplate {
   public buildCustomComponentTemplate = (ext: string) => {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,c:1,l:\'\'')}`
+      ? `${this.dataKeymap(`i:item,c:1,l:xs.f('',item.${Shortcuts.NodeName})`)}`
       : this.isSupportRecursive
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
