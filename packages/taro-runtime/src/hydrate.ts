@@ -39,6 +39,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
 
   if (isText(node)) {
     return {
+      sid: node.sid,
       [Shortcuts.Text]: node.nodeValue,
       [Shortcuts.NodeName]: componentsAlias[nodeName]?._num || '8'
     }
