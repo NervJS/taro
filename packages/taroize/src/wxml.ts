@@ -77,6 +77,8 @@ export interface Imports {
   ast: t.File
   name: string
   wxs?: boolean
+  // 模板处理事件的function
+  funcs?: string[]
 }
 
 export interface Wxml {
@@ -405,6 +407,7 @@ export const createWxmlVistor = (
           // })
           const template = parseTemplate(path, dirPath)
           if (template) {
+            const funcs: string[] = []
             const { ast: classDecl, name } = template
             const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
@@ -427,8 +430,70 @@ export const createWxmlVistor = (
                 const node = path.node
                 if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
+                  // 将要传递的方法插入到被引用的template中
+                  const templateImport = imports.find(tmplImport => 
+                    tmplImport.name === `${node.name}`
+                  )
+                  const templateFuncs = templateImport?.funcs
+                  if (templateFuncs && templateFuncs.length > 0) {
+                    const openingElement = path.parentPath.node
+                    const attributes: any[] = openingElement.attributes
+                    templateFuncs.forEach(templateFunc => {
+                      const value = t.jsxExpressionContainer(t.identifier(templateFunc))
+                      const name = t.jsxIdentifier(templateFunc)
+                      // 传递的方法插入到Tmpl标签属性中
+                      attributes.push(t.jsxAttribute(name, value))
+                      funcs.push(templateFunc)
+                    })
+                  }
                 }
               },
+              JSXAttribute (path) {
+                // 识别并获取template使用到的处理事件的func
+                const node = path.node
+                if (t.isJSXExpressionContainer(node.value) && t.isMemberExpression(node.value.expression)
+                    && t.isThisExpression(node.value.expression.object)
+                    && t.isIdentifier(node.value.expression.property)
+                ) {
+                  // funcName加入到funcs
+                  const funcName = node.value.expression.property.name
+                  if (funcs.indexOf(funcName) === -1) {
+                    funcs.push(funcName)
+                  }
+                  // func的调用形式 this.func --> func
+                  path.replaceWith(t.jsxAttribute(node.name, t.jsxExpressionContainer(t.identifier(funcName))))
+                }
+              }
+            })
+
+            traverse(ast, {
+              // 将使用到的处理事件的func写入到props
+              BlockStatement (path) {
+                if (funcs.length > 0) {
+                  const body = path.node.body
+                  if (t.isVariableDeclaration(body[0])) {
+                    // 如果已经定义了props
+                    const declarator = body[0].declarations[0]
+                    if (t.isObjectPattern(declarator.id)) {
+                      const properties = declarator.id.properties
+                      funcs.forEach(func => {
+                        properties.push(t.objectProperty(t.identifier(func), t.identifier(func), false, true))
+                      })
+                    }
+                  } else {
+                    // 没有定义，则插入 const {xxx} = this.props
+                    const properties: t.ObjectProperty[] = []
+                    funcs.forEach(func => {
+                      properties.push(t.objectProperty(t.identifier(func), t.identifier(func), false, true))
+                    })
+                    const id = t.objectPattern(properties)
+                    const init = t.memberExpression(t.thisExpression(), t.identifier('props'))
+                    const declarator = t.variableDeclarator(id, init)
+                    const declaration = t.variableDeclaration('const', [declarator])
+                    body.splice(0, 0, declaration)
+                  }
+                }
+              }
             })
             usedTemplate.forEach((componentName) => {
               if (componentName !== classDecl.id.name) {
@@ -438,6 +503,7 @@ export const createWxmlVistor = (
             imports.push({
               ast,
               name,
+              funcs,
             })
           }
         }
