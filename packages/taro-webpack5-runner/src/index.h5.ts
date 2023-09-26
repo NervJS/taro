@@ -45,8 +45,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
-  const { isWatch } = config
-  const errorLevel = rawConfig.errorLevel
+  const { isWatch, compiler: compilerConfig } = config
+  const errorLevel = (compilerConfig as any)?.errorLevel || 0
   try {
     if (!isWatch) {
       const compiler = webpack(webpackConfig)
@@ -125,6 +125,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
             isWatch: true
           })
         }
+        process.exit(1)
       })
 
       return new Promise<void>((resolve, reject) => {

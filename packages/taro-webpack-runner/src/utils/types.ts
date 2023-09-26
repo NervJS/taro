@@ -18,7 +18,6 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   entry?: webpack.Entry
   entryFileName?: string
   runtimePath?: string | string[]
-  errorLevel: number | string // 0 | 1
   /** special mode */
   isBuildNativeComp?: boolean
   /** hooks */

@@ -43,7 +43,6 @@ export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   hot?: boolean
   fileType: IFileType
   globalObject: string
-  errorLevel: number | string
   isBuildNativeComp?: boolean
   isBuildPlugin: boolean
   isBuildQuickapp: boolean

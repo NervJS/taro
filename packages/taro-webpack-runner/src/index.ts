@@ -31,8 +31,8 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
   }
 }
 
-function errorHandling (errorLevel: number | string, stats: Stats) {
-  if ((errorLevel === 1 || errorLevel === '1') && stats.hasErrors()) {
+function errorHandling (errorLevel: number, stats: Stats) {
+  if (errorLevel === 1 && stats.hasErrors()) {
     process.exit(1)
   }
 }
@@ -43,6 +43,7 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
+  const errorLevel = (config.compiler as any)?.errorLevel || 0
   const webpackConfig = webpackChain.toConfig()
   const compiler = webpack(webpackConfig)
   const onBuildFinish = config.onBuildFinish
@@ -75,7 +76,7 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
         })
       }
       resolve()
-      errorHandling(config.errorLevel, stats)
+      errorHandling(errorLevel, stats)
     })
   })
 }
@@ -89,6 +90,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
   const webpackChain = devConf(appPath, config, appHelper)
+  const errorLevel = (config.compiler as any)?.errorLevel || 0
   const onBuildFinish = config.onBuildFinish
   await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
 
@@ -225,7 +227,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
         isWatch: true
       })
     }
-    errorHandling(config.errorLevel, stats)
+    errorHandling(errorLevel, stats)
   })
   compiler.hooks.failed.tap('taroBuildDone', error => {
     if (typeof onBuildFinish === 'function') {
@@ -235,6 +237,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
         isWatch: true
       })
     }
+    process.exit(1)
   })
   return new Promise<void>((resolve, reject) => {
     server.listen(devServerOptions.port, (devServerOptions.host as string), err => {

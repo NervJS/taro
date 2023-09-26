@@ -42,8 +42,8 @@ export function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
   return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
 }
 
-export function errorHandling (errorLevel: number | string, stats: Stats) {
-  if ((errorLevel === 1 || errorLevel === '1') && stats.hasErrors()) {
+export function errorHandling (errorLevel: number | undefined, stats: Stats) {
+  if (errorLevel === 1 && stats.hasErrors()) {
     process.exit(1)
   }
 }
