@@ -209,7 +209,7 @@ export class BaseTemplate {
           result[compName] = {
             name: newComp?.name,
           }
-        }  else {
+        } else {
           result[compName] = newComp
         }
       }
@@ -221,13 +221,13 @@ export class BaseTemplate {
   protected buildBaseTemplate () {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,c:1,l:\'\'')}`
+      ? `${this.dataKeymap(`i:item,c:1,l:xs.f('',item.${Shortcuts.NodeName})`)}`
       : this.isSupportRecursive
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
     const xs = this.supportXS
       ? (this.isSupportRecursive
-        ? `xs.a(0, item.${Shortcuts.NodeName})` 
+        ? `xs.a(0, item.${Shortcuts.NodeName})`
         : `xs.a(0, item.${Shortcuts.NodeName}, '')`)
       : "'tmpl_0_' + item.nn"
     return `${this.buildXsTemplate()}
@@ -247,9 +247,9 @@ export class BaseTemplate {
         if (value.indexOf('-') > -1) {
           value = `:${value}`
         }
-        return str + `bind${value}="eh" `
+        return str + ` bind${value}="eh"`
       } else if (attr.startsWith('bind')) {
-        return str + `${attr}="eh" `
+        return str + ` ${attr}="eh"`
       } else if (attr.startsWith('on')) {
         // react, vue3
         let value = toKebabCase(attr.slice(2))
@@ -257,11 +257,11 @@ export class BaseTemplate {
           // 兼容如 vant 某些组件的 bind:a-b 这类属性
           value = `:${value}`
         }
-        return str + `bind${value}="eh" `
+        return str + ` bind${value}="eh"`
       } else if (attr === 'class') {
-        return str + `class="{{i.${Shortcuts.Class}}}" `
+        return str + ` class="{{i.${Shortcuts.Class}}}"`
       } else if (attr === 'style') {
-        return str + `style="{{i.${Shortcuts.Style}}}" `
+        return str + ` style="{{i.${Shortcuts.Style}}}"`
       }
 
       const patchValue = patcher[attr]
@@ -269,9 +269,9 @@ export class BaseTemplate {
         const propValue = this.supportXS
           ? `xs.b(i.${toCamelCase(attr)},${patchValue})`
           : `i.${toCamelCase(attr)}===undefined?${patchValue}:i.${toCamelCase(attr)}`
-        return str + `${attr}="{{${propValue}}}" `
+        return str + ` ${attr}="{{${propValue}}}"`
       }
-      return str + `${attr}="{{i.${toCamelCase(attr)}}}" `
+      return str + ` ${attr}="{{i.${toCamelCase(attr)}}}"`
     }, '')
   }
 
@@ -285,7 +285,7 @@ export class BaseTemplate {
     const { isSupportRecursive, supportXS } = this
     const isLastRecursiveComp = !isSupportRecursive && level + 1 === this.baseLevel
     const isUseXs = !this.isSupportRecursive && this.supportXS
-  
+
     if (isLastRecursiveComp) {
       const data = isUseXs
         ? `${this.dataKeymap('i:item,c:c,l:l')}`
@@ -309,19 +309,19 @@ export class BaseTemplate {
 
       return supportXS
         ? `<template is="{{${xs}}}" data="{{${data}}}" />`
-        : isSupportRecursive 
+        : isSupportRecursive
           ? `<template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />`
           : `<template is="{{'tmpl_' + c + '_' + item.nn}}" data="{{${data}}}" />`
     }
-  
+
   }
 
   private getChildren (comp: Component, level: number): string {
     const { isSupportRecursive, Adapter } = this
     const nextLevel = isSupportRecursive ? 0 : level + 1
-  
+
     let child = this.getChildrenTemplate(nextLevel)
-  
+
     if (isFunction(this.modifyLoopBody)) {
       child = this.modifyLoopBody(child, comp.nodeName)
     }
@@ -441,13 +441,17 @@ export class BaseTemplate {
           child = this.modifyThirdPartyLoopBody(child, compName)
         }
 
-        template += `
-<template name="tmpl_${level}_${compName}">
-  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+        const children = this.voidElements.has(compName)
+          ? ''
+          : `
     <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
       ${child}
     </block>
-  </${compName}>
+  `
+
+        template += `
+<template name="tmpl_${level}_${compName}">
+  <${compName}${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
 </template>
   `
       }
@@ -509,7 +513,7 @@ export class BaseTemplate {
   public buildCustomComponentTemplate = (ext: string) => {
     const Adapter = this.Adapter
     const data = !this.isSupportRecursive && this.supportXS
-      ? `${this.dataKeymap('i:item,c:1,l:\'\'')}`
+      ? `${this.dataKeymap(`i:item,c:1,l:xs.f('',item.${Shortcuts.NodeName})`)}`
       : this.isSupportRecursive
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
@@ -671,7 +675,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     const listA = Array.from(isLoopCompsSet).map(item => componentsAlias[item]?._num || item)
     const listB = hasMaxComps.map(item => componentsAlias[item]?._num || item)
     const containerLevel = this.baseLevel - 1
-  
+
     return `function (l, n, s) {
     var a = ${JSON.stringify(listA)}
     var b = ${JSON.stringify(listB)}

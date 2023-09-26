@@ -1,6 +1,8 @@
-import { ComponentType } from 'react'
+import { StandardProps } from './common'
 
-interface NativeSlotProps {
+import type { ComponentType, ReactNode } from 'react'
+
+interface NativeSlotProps extends StandardProps {
   /** 指定插入的 slot 位置
    * @default none
    * @supported weapp, swan, alipay, tt, jd, qq
