@@ -150,7 +150,8 @@ require("./taro");
                         set: [ {
                             key: "current",
                             value: function value(options) {
-                                return options.urls.indexOf(options.current || options.urls[0]);
+                                var current = options.current, urls = options.urls;
+                                return typeof current === "number" ? current : options.urls.indexOf(current || urls[0]);
                             }
                         } ]
                     }
