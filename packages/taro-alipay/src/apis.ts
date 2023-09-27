@@ -84,7 +84,8 @@ const apiDiff: IApiDiff = {
       set: [{
         key: 'current',
         value (options) {
-          return options.urls.indexOf(options.current || options.urls[0])
+          const { current, urls } = options
+          return typeof current === 'number' ? current : options.urls.indexOf(current || urls[0])
         }
       }]
     }
