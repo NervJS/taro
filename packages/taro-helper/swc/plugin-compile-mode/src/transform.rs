@@ -5,6 +5,7 @@ use swc_core::{
         DUMMY_SP as span
     },
     ecma::{
+        self,
         ast::*,
         visit::{VisitMut, VisitMutWith},
     },
@@ -15,18 +16,18 @@ use crate::utils::{self, constants::*};
 
 pub struct TransformVisitor {
     pub config: PluginConfig,
-    pub xml: Vec<String>,
     pub is_compile_mode: bool,
     pub node_stack: Vec<usize>,
+    pub templates: HashMap<String, String>,
 }
 
 impl TransformVisitor {
     pub fn new (config: PluginConfig) -> Self {
         Self {
             config,
-            xml: Vec::new(),
             is_compile_mode: false,
             node_stack: vec![],
+            templates: HashMap::new(),
         }
     }
 
@@ -48,7 +49,7 @@ impl TransformVisitor {
     fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, alias_map: Option<&HashMap<String, String>>) -> String {
         let mut props = HashMap::new();
         let mut attrs_string = String::new();
-        
+
         opening_element.attrs.retain_mut(|attr| {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
@@ -120,7 +121,7 @@ impl TransformVisitor {
 
     fn build_xml_children (&mut self, el: &mut JSXElement) -> String {
         let mut children_string = String::new();
-        
+
         el.children
             .iter_mut()
             .filter(|child| {
@@ -216,6 +217,7 @@ impl VisitMut for TransformVisitor {
                     if &*jsx_attr_name.sym == COMPILE_MODE {
                         self.is_compile_mode = true;
                         let tmpl_prefix = format!("{}t", self.config.tmpl_prefix);
+                        // @TODO 测试同一文件多个编译模式的情况
                         let mut get_tmpl_name = utils::named_iter(&tmpl_prefix);
                         tmpl_name = get_tmpl_name();
                         jsx_attr.value = Some(JSXAttrValue::Lit(Lit::Str(Str {
@@ -229,15 +231,39 @@ impl VisitMut for TransformVisitor {
             }
         }
         if self.is_compile_mode {
-            let xml = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
+            let tmpl_contents = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
                 &tmpl_name,
                 self.build_xml_element(el)
             );
-            self.xml.push(xml);
-            println!("xml: {}", self.xml[0]);
+            self.templates.insert(tmpl_name, tmpl_contents);
             self.is_compile_mode = false;
         } else {
             el.visit_mut_children_with(self)
         }
+    }
+
+    fn visit_mut_module_items (&mut self, body_stmts: &mut Vec<ModuleItem>) {
+        body_stmts.visit_mut_children_with(self);
+
+        let stmts_being_inserted = self.templates.iter()
+            .map(|(key, value)| {
+                println!("value.as_str().into(): {}", value);
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    span,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span,
+                        name: Pat::Ident(Ident::new(format!("TARO_TEMPLATES_{}", key).as_str().into(), span).into()),
+                        init: Some(Box::new(Expr::Lit(Lit::Str(Str {
+                            span,
+                            value: value.as_str().into(),
+                            raw: None
+                        })))),
+                        definite: false,
+                    }],
+                }))))
+            });
+        ecma::utils::prepend_stmts(body_stmts, stmts_being_inserted);
     }
 }
