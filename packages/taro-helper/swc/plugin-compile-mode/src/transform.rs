@@ -112,7 +112,7 @@ impl TransformVisitor {
         }
 
         for (key, value) in props {
-            let key = utils::convert_jsx_attr_key(&key);
+            let key = utils::convert_jsx_attr_key(&key, &self.config.adapter);
             attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
         }
 

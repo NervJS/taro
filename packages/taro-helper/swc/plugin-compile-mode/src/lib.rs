@@ -18,7 +18,8 @@ mod transform;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
-    pub component_alias: HashMap<String, HashMap<String, String>>
+    pub component_alias: HashMap<String, HashMap<String, String>>,
+    pub adapter: HashMap<String, String>,
 }
 
 /// An example plugin function with macro support.
@@ -88,6 +89,17 @@ mod tests{
                         "hoverStayTime": "p3",
                         "hoverStopPropagation": "p4"
                     }
+                },
+                "adapter": {
+                    "if": "jd:if",
+                    "else": "wx:else",
+                    "elseif": "wx:elif",
+                    "for": "wx:for",
+                    "forItem": "wx:for-item",
+                    "forIndex": "wx:for-index",
+                    "key": "wx:key",
+                    "xs": "wxs",
+                    "type": "weapp"
                 }
             }"#
         )

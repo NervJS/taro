@@ -2,6 +2,7 @@ use swc_core::{
     ecma::atoms::Atom,
     common::iter::IdentifyLast,
 };
+use std::collections::HashMap;
 
 pub mod constants;
 
@@ -64,12 +65,13 @@ fn to_kebab_case (val: &str) -> String {
     res
 }
 
-pub fn convert_jsx_attr_key (jsx_key: &str) -> String {
+pub fn convert_jsx_attr_key (jsx_key: &str, adapter: &HashMap<String, String>) -> String {
     if jsx_key == "className" {
         return String::from("class");
     } else if jsx_key == "compileIf" {
         // @TODO wx:if -> 变量，支持不同平台
-        return String::from("wx:if")
+        let if_adapter = adapter.get("if").expect("[compile mode] 模板 if 语法未配置");
+        return if_adapter.clone()
     }
     to_kebab_case(jsx_key)
 }
