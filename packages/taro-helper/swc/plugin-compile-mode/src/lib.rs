@@ -91,7 +91,7 @@ mod tests{
                     }
                 },
                 "adapter": {
-                    "if": "jd:if",
+                    "if": "wx:if",
                     "else": "wx:else",
                     "elseif": "wx:elif",
                     "for": "wx:for",

@@ -69,7 +69,6 @@ pub fn convert_jsx_attr_key (jsx_key: &str, adapter: &HashMap<String, String>) -
     if jsx_key == "className" {
         return String::from("class");
     } else if jsx_key == "compileIf" {
-        // @TODO wx:if -> 变量，支持不同平台
         let if_adapter = adapter.get("if").expect("[compile mode] 模板 if 语法未配置");
         return if_adapter.clone()
     }
