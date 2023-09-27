@@ -39,7 +39,6 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
       // ast.replaceInline(t.booleanLiteral(isSupported))
       // Note: 暂不处理canIUse字符串字面量传参
       canIUse(definition, args[0].value)
-      return
     }
   }
 
