@@ -73,6 +73,8 @@ interface IImport {
   ast: t.File
   name: string
   wxs?: boolean
+  // 模板处理事件的function
+  funcs?: string[]
 }
 
 interface IParseAstOptions {
@@ -372,6 +374,22 @@ export default class Convertor {
                 const componentName = jsxName.node.name
                 if (!DEFAULT_Component_SET.has(componentName) && scriptComponents.indexOf(componentName) === -1) {
                   scriptComponents.push(componentName)
+                }
+                if (/^\S(\S)*Tmpl$/.test(componentName)) {
+                  const templateImport = imports.find(tmplImport => 
+                    tmplImport.name === `${componentName}`
+                  )
+                  const templateFuncs = templateImport?.funcs
+                  if (templateFuncs && templateFuncs.length > 0) {
+                    const attributes: any[] = openingElement.node.attributes
+                    templateFuncs.forEach(templateFunc => {
+                      const memberExpression = t.memberExpression(t.thisExpression(), t.identifier(templateFunc))
+                      const value = t.jsxExpressionContainer(memberExpression)
+                      const name = t.jsxIdentifier(templateFunc)
+                      // 传递的方法插入到Tmpl标签属性中
+                      attributes.push(t.jsxAttribute(name, value))
+                    })
+                  }
                 }
               }
             },
