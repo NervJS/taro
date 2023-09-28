@@ -431,14 +431,12 @@ export const createWxmlVistor = (
                 if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
                   // 将要传递的方法插入到被引用的template中
-                  const templateImport = imports.find(tmplImport => 
-                    tmplImport.name === `${node.name}`
-                  )
+                  const templateImport = imports.find((tmplImport) => tmplImport.name === `${node.name}`)
                   const templateFuncs = templateImport?.funcs
                   if (templateFuncs && templateFuncs.length > 0) {
                     const openingElement = path.parentPath.node
                     const attributes: any[] = openingElement.attributes
-                    templateFuncs.forEach(templateFunc => {
+                    templateFuncs.forEach((templateFunc) => {
                       const value = t.jsxExpressionContainer(t.identifier(templateFunc))
                       const name = t.jsxIdentifier(templateFunc)
                       // 传递的方法插入到Tmpl标签属性中
@@ -451,9 +449,11 @@ export const createWxmlVistor = (
               JSXAttribute (path) {
                 // 识别并获取template使用到的处理事件的func
                 const node = path.node
-                if (t.isJSXExpressionContainer(node.value) && t.isMemberExpression(node.value.expression)
-                    && t.isThisExpression(node.value.expression.object)
-                    && t.isIdentifier(node.value.expression.property)
+                if (
+                  t.isJSXExpressionContainer(node.value) &&
+                  t.isMemberExpression(node.value.expression) &&
+                  t.isThisExpression(node.value.expression.object) &&
+                  t.isIdentifier(node.value.expression.property)
                 ) {
                   // funcName加入到funcs
                   const funcName = node.value.expression.property.name
@@ -463,7 +463,7 @@ export const createWxmlVistor = (
                   // func的调用形式 this.func --> func
                   path.replaceWith(t.jsxAttribute(node.name, t.jsxExpressionContainer(t.identifier(funcName))))
                 }
-              }
+              },
             })
 
             traverse(ast, {
@@ -476,14 +476,14 @@ export const createWxmlVistor = (
                     const declarator = body[0].declarations[0]
                     if (t.isObjectPattern(declarator.id)) {
                       const properties = declarator.id.properties
-                      funcs.forEach(func => {
+                      funcs.forEach((func) => {
                         properties.push(t.objectProperty(t.identifier(func), t.identifier(func), false, true))
                       })
                     }
                   } else {
                     // 没有定义，则插入 const {xxx} = this.props
                     const properties: t.ObjectProperty[] = []
-                    funcs.forEach(func => {
+                    funcs.forEach((func) => {
                       properties.push(t.objectProperty(t.identifier(func), t.identifier(func), false, true))
                     })
                     const id = t.objectPattern(properties)
@@ -493,7 +493,7 @@ export const createWxmlVistor = (
                     body.splice(0, 0, declaration)
                   }
                 }
-              }
+              },
             })
             usedTemplate.forEach((componentName) => {
               if (componentName !== classDecl.id.name) {
@@ -741,17 +741,19 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
       .get('attributes')
       .forEach((p) => {
         const node = p.node as t.JSXAttribute
-        if (t.isStringLiteral(node.value) && node.name.name === WX_KEY) {
+        if (node.name.name === WX_KEY) {
           node.name = t.jSXIdentifier('key')
-          if (node.value.value === '*this') {
-            node.value = t.jSXExpressionContainer(t.identifier(item.value))
-          } else if (node.value.value === 'index') {
-            // index表示item在数组里的下标, 并不是item的某个property, 单独抽出来处理
-            node.value = t.jSXExpressionContainer(t.identifier(node.value.value))
-          } else {
-            node.value = t.jSXExpressionContainer(
-              t.memberExpression(t.identifier(item.value), t.identifier(node.value.value))
-            )
+          if (t.isStringLiteral(node.value)) {
+            if (node.value.value === '*this') {
+              node.value = t.jSXExpressionContainer(t.identifier(item.value))
+            } else if (node.value.value === 'index') {
+              // index表示item在数组里的下标, 并不是item的某个property, 单独抽出来处理
+              node.value = t.jSXExpressionContainer(t.identifier(node.value.value))
+            } else {
+              node.value = t.jSXExpressionContainer(
+                t.memberExpression(t.identifier(item.value), t.identifier(node.value.value))
+              )
+            }
           }
         }
       })
