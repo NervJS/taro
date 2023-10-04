@@ -1,4 +1,6 @@
-import { eventHandler } from '@tarojs/runtime'
+import window from '@ohos.window'
+import { isNumber, isUndefined } from '@tarojs/shared'
+import { eventHandler, Current } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
@@ -76,10 +78,48 @@ struct TaroInput {
 
   controller: TextInputController = new TextInputController()
 
+  windowClass: Window = null
+
+  height: number = 0
+
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
-    
+
     this.text = this.node._attrs.value || ''
+
+    try {
+      (Current as any).contextPromise
+        .then(context => {
+          return window.getTopWindow(context)
+        }).then(windowClass => {
+          this.windowClass = windowClass
+          windowClass.on('keyboardHeightChange', (height) => {
+            if (isNumber(height)) {
+              if (this.height !== height) {
+                this.onKeyboardHeightChange(height)
+                this.height = height
+              }
+            }
+          })
+        }).catch((err)=>{
+          console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+        })
+    } catch (exception) {
+      console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(exception))
+    }
+  }
+
+  aboutToDisappear () {
+    if (this.windowClass) {
+      this.windowClass.then(win => {
+        win.off('keyboardheightchange')
+      })
+    }
+  }
+
+  onKeyboardHeightChange (height) {
+    const event = createTaroEvent('keyboardheightchange', { detail: { height: height, duration: 0 } }, this.node)
+    eventHandler(event, 'keyboardheightchange', this.node)
   }
 
   getPlaceholderColor (node) {
@@ -94,8 +134,20 @@ struct TaroInput {
     return INPUT_TYPE_MAP[node._attrs?.type] || InputType.Normal
   }
 
+  getText () {
+    return isUndefined(this.node._attrs.value) ? this.text : this.node._attrs.value
+  }
+
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onBlur(() => {
+      const event = createTaroEvent('blur', { detail: { value: this.value } }, this.node)
+      eventHandler(event, 'blur', this.node)
+    })
+    .onFocus(() => {
+      const event = createTaroEvent('focus', { detail: { value: this.value, height: this.height } }, this.node)
+      eventHandler(event, 'focus', this.node)
+    })
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
@@ -103,7 +155,7 @@ struct TaroInput {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      TextInput({ text: this.text, placeholder: this.node._attrs?.placeholder || '', controller: this.controller })
+      TextInput({ text: this.getText(), placeholder: this.node._attrs?.placeholder || '', controller: this.controller })
         .type(this.getInputType(this.node))
         .maxLength(Number(this.node._attrs?.maxlength) || null)
         .placeholderColor(this.getPlaceholderColor(this.node))
@@ -114,6 +166,11 @@ struct TaroInput {
         .onChange((value: string) => {
           const event = createTaroEvent('input', { detail: { value } }, this.node)
           eventHandler(event, 'input', this.node)
+          this.text = value
+        })
+        .onSubmit(() => {
+          const event = createTaroEvent('confirm', { detail: { value } }, this.node)
+          eventHandler(event, 'confirm', this.node)
         })
     }
   }

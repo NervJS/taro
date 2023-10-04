@@ -8,6 +8,7 @@ import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 
+@Observed
 class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
   public readonly tagName: string
