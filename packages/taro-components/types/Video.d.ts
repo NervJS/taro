@@ -236,7 +236,7 @@ interface VideoProps extends StandardProps {
    *
    * @supported alipay, jd
    */
-  mobilenetHintType?: string
+  mobilenetHintType?: number
   /** 浮窗设置。暂时不支持全局浮窗。
    * 可选值：
    *
@@ -315,7 +315,7 @@ interface VideoProps extends StandardProps {
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
   /** 当视频进入和退出全屏时触发
    *
-   * @supported h5, rn
+   * @supported h5, rn, alipay
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
   /** 视频出现缓冲时触发
@@ -488,6 +488,14 @@ declare namespace VideoProps {
     currentTime: number
     /** 持续时间 */
     duration: number
+    /** 用户实际观看时长
+     * @supported alipay
+     */
+    userPlayDuration: number
+    /** 视频总时长
+     * @supported alipay
+     */
+    videoDuration: number
   }
   interface onFullscreenChangeEventDetail {
     /** 方向 */
