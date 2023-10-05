@@ -14,3 +14,8 @@ export const navigateToMiniProgram = temporarilyNotSupport('navigateToMiniProgra
 export const requestSubscribeMessage = temporarilyNotSupport('requestSubscribeMessage')
 export const getMenuButtonBoundingClientRect = temporarilyNotSupport('getMenuButtonBoundingClientRect')
 /** wx:end **/
+
+/** media:start **/
+export const previewImage = temporarilyNotSupport('previewImage')
+export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
+/** media:end **/
