@@ -36,3 +36,11 @@ export const INPUT_CONFIRM_MAP = {
   next: EnterKeyType.Next,	// 右下角按钮为“下一个”
   search: EnterKeyType.Search,	// 右下角按钮为“搜索”
 }
+
+export const CurveMap = {
+  default: Curve.Linear,
+  linear: Curve.Linear,
+  easeInCubic: Curve.EaseIn,
+  easeOutCubic: Curve.EaseOut,
+  easeInOutCubic: Curve.EaseInOut,
+}

@@ -4,6 +4,7 @@ import TaroText from './text'
 import TaroView from './view'
 import TaroInput from './input'
 import TaroImage from './image'
+import TaroSwiper from './swiper'
 import TaroButton from './button'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
@@ -25,6 +26,8 @@ function createNode (node: any) {
     TaroSwitch({ node })
   } else if (node.tagName === 'INPUT') {
     TaroInput({ node })
+  } else if (node.tagName === 'SWIPER') {
+    TaroSwiper({ node })
   } else {
     TaroView({ node })
   }
