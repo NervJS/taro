@@ -189,6 +189,7 @@ export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildCon
     extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
     babelHelpers: 'runtime',
     skipPreflightCheck: true,
+    compact: false,
   }
 
   if (compile.exclude?.length) {

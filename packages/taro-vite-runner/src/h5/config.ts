@@ -62,7 +62,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     }
   }
 
-  function assetsInlineLimit () :number {
+  function getAssetsInlineLimit () :number {
     const urlOptions = get(taroConfig, 'postcss.url', {}) as PostcssOption.url
     const url = urlOptions.config?.url
     const maxSize = urlOptions.config?.maxSize
@@ -118,12 +118,12 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         watch: taroConfig.isWatch ? {} : null,
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? !isProd,
+        chunkSizeWarningLimit: Number.MAX_SAFE_INTEGER,
         rollupOptions: {
           output: {
             entryFileNames: 'js/app.[hash].js',
             chunkFileNames: taroConfig.output!.chunkFileNames,
             assetFileNames: taroConfig.output!.assetFileNames,
-            plugins: [babel(getBabelOption(taroConfig, sourceDir)) as InputPluginOption,],
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
@@ -133,12 +133,13 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
               }
             },
           },
+          plugins: [babel(getBabelOption(taroConfig, sourceDir)) as InputPluginOption]
         },
         commonjsOptions: {
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true,
         },
-        assetsInlineLimit: assetsInlineLimit(),
+        assetsInlineLimit: getAssetsInlineLimit(),
         minify: getMinify(taroConfig),
         terserOptions:
           getMinify(taroConfig) === 'terser'

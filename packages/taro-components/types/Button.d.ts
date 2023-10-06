@@ -127,8 +127,10 @@ interface ButtonProps extends StandardProps {
    * @supported swan
    */
   subscribeId?: string
-  /** 打开群资料卡时，传递的群号
-   * @supported qq
+  /** 群聊 id
+   * @qq 打开群资料卡时，传递的群号
+   * @tt 通过创建聊天群、查询群信息获取
+   * @supported qq, tt
    */
   groupId?: string
   /** 打开频道页面时，传递的频道号
@@ -169,6 +171,11 @@ interface ButtonProps extends StandardProps {
    * @supported tt
    */
   dataAwemeId?: string
+  /**
+   * 是否开启半屏模式
+   * @supported tt
+   */
+  dataIsHalfPage?: boolean
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
@@ -271,6 +278,11 @@ interface ButtonProps extends StandardProps {
    * @supported tt
    */
   onOpenAwemeUserProfile?: CommonEventFunction
+  /**
+   * 加群后触发
+   * @supported tt
+   */
+  onJoinGroup?: CommonEventFunction<{ errMsg: string; errNo: number }>
 }
 declare namespace ButtonProps {
   /** size 的合法值 */

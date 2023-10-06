@@ -26,6 +26,7 @@ export function requireWithEsbuild(
 ) {
   const { outputFiles = [] } = esbuild.buildSync(
     defaults(omit(customConfig, ['define', 'loader', 'plugins']), {
+      platform: 'node',
       absWorkingDir: cwd,
       bundle: true,
       define: defaults(customConfig.define, {

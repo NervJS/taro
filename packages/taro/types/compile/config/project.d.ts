@@ -1,7 +1,7 @@
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import { type Input } from 'postcss'
-import type { Compiler, IPrebundle, CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { IModifyChainData } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
 import type { IH5Config } from './h5'
