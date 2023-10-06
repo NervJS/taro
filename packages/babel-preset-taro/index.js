@@ -29,12 +29,15 @@ module.exports = (_, options = {}) => {
   const presets = []
   const plugins = []
   const overrides = []
+  const isVite = options.complier === 'vite'
   const isReact = options.framework === 'react' || options.framework === 'preact'
   const isNerv = options.framework === 'nerv'
   const isVue = options.framework === 'vue'
   const isVue3 = options.framework === 'vue3'
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
+
+  if (isVite) plugins.push(require('./modifySourceType'))
 
   if (isNerv) {
     presets.push([require('@babel/preset-react'), {
