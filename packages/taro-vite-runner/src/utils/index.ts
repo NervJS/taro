@@ -5,6 +5,7 @@ import path from 'path'
 import querystring from 'querystring'
 import { sync as resolveSync } from 'resolve'
 
+import createFilter from './createFilter'
 import { logger } from './logger'
 
 import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
@@ -192,16 +193,19 @@ export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildCon
     compact: false,
   }
 
+  let exclude: any[] = []
+  let include: any[] = [sourceDir]
+
   if (compile.exclude?.length) {
-    const list = compile.exclude
-    const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
-    if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
-    babelOptions.exclude = list
-  } else if (compile.include?.length) {
-    babelOptions.include = [...compile.include, sourceDir, /taro/]
-  } else {
-    babelOptions.exclude = [/node_modules[/\\](?!@tarojs)/]
+    exclude = compile.exclude
+  }  
+  if (compile.include?.length) {
+    include = compile.include
   }
+
+  const filter = createFilter(include, exclude)
+  babelOptions.filter = filter
 
   return babelOptions
 }
+

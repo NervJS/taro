@@ -114,4 +114,6 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
     exclude?: any[]
     include?: any[]
   }
+  /** 是否把代码转化为 es5，只在 vite 编译模式下有效 */
+  es5?: T extends 'vite' ? boolean : undefined
 }

@@ -1,14 +1,12 @@
-import { babel } from '@rollup/plugin-babel'
 import { defaultMainFields, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isObject, isString } from '@tarojs/shared'
 import { PostcssOption } from '@tarojs/taro/types/compile'
 import { get, isNumber } from 'lodash'
 import path from 'path'
-import { InputPluginOption } from 'rollup'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
-import { addTrailingSlash, getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
+import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, H5_EXCULDE_POSTCSS_PLUGINA_NAME } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
@@ -132,8 +130,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
                 return 'common'
               }
             },
-          },
-          plugins: [babel(getBabelOption(taroConfig, sourceDir)) as InputPluginOption]
+          }
         },
         commonjsOptions: {
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
@@ -180,7 +177,6 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       },
     }),
 
-
     transformIndexHtml: {
       enforce: 'pre',
       transform(html) {
@@ -191,7 +187,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         const htmlScript = getHtmlScript(srciptSource, pxtransformOption)
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
       } 
-    },
+    }
   }
 }
 
