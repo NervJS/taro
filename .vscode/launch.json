@@ -9,8 +9,9 @@
       "request": "launch",
       "name": "vite",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
-      "cwd": "/Users/liuzejia/test/taro-react-vite",
-      "args": ["build", "--type", "h5", "--watch"],
+      "cwd": "/Users/liuzejia/Desktop",
+      "args": ["init"],
+      "console": "integratedTerminal",
       "skipFiles": ["<node_internals>/**"]
     },
     {
