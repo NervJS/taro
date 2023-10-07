@@ -1,6 +1,7 @@
 import { isNpmPkg, NODE_MODULES_REG, recursiveMerge } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
+import { isFunction } from 'lodash'
 import path from 'path'
 import querystring from 'querystring'
 import { sync as resolveSync } from 'resolve'
@@ -184,7 +185,13 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
 }
 
 
-export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig): RollupBabelInputPluginOptions {
+export function getBabelOption (
+  taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig, 
+  filterConfig: {
+    defaultInclude?: (string | RegExp)[]
+    defaultExclude?: (string | RegExp)[]
+  } = {}
+): RollupBabelInputPluginOptions {
   const { compile = {} } = taroConfig
   const babelOptions: RollupBabelInputPluginOptions = {
     extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
@@ -192,19 +199,27 @@ export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildCon
     skipPreflightCheck: true,
     compact: false,
   }
-
-  let exclude: any[] = []
-  let include: any[] = []
-
-  if (compile.exclude?.length) {
-    exclude = compile.exclude
-  }  
-  if (compile.include?.length) {
-    include = compile.include
+  const filter = compile.filter
+  const { defaultExclude = [], defaultInclude = [] } = filterConfig
+  if (isFunction(filter)) {
+    babelOptions.filter = filter
+  } else {
+    let exclude: (string | RegExp)[] = []
+    let include: (string | RegExp)[] = []
+  
+    if (compile.exclude?.length) {
+      const list = compile.exclude
+      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
+      if (!isNodeModuleReseted) list.push(...defaultExclude)
+      exclude = list
+    } else if (compile.include?.length) {
+      include = [...compile.include, ...defaultInclude]
+    } else {
+      exclude = [...defaultExclude]
+    }
+    const filter = createFilter(include, exclude)
+    babelOptions.filter = filter
   }
-
-  const filter = createFilter(include, exclude)
-  babelOptions.filter = filter
 
   return babelOptions
 }

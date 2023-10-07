@@ -102,8 +102,9 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
 
   /** 小程序编译过程的相关配置 */
   compile?: {
-    exclude?: any[]
-    include?: any[]
+    exclude?: (string | RegExp)[]
+    include?: (string | RegExp)[]
+    filter?: (filename: string) => boolean
   }
 
   /** 插件内部使用 */

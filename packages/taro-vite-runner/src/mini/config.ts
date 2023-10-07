@@ -22,7 +22,7 @@ import type { InputPluginOption } from 'rollup'
 import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
-  const { taroConfig, cwd: appPath } = viteCompilerContext
+  const { taroConfig, cwd: appPath, sourceDir } = viteCompilerContext
   const isProd = getMode(taroConfig) === 'production'
   function getDefineOption() {
     const {
@@ -184,7 +184,13 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           },
           plugins: [
             inject(getInjectOption()) as InputPluginOption,
-            babel(getBabelOption(taroConfig)) as InputPluginOption,
+            babel(getBabelOption(
+              taroConfig, 
+              { 
+                defaultExclude: [/node_modules[/\\](?!@tarojs)/],
+                defaultInclude: [sourceDir, /taro/]
+              }
+            )) as InputPluginOption,
           ],
         },
         commonjsOptions: {

@@ -111,8 +111,9 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
 
   /** Web 编译过程的相关配置 */
   compile?: {
-    exclude?: any[]
-    include?: any[]
+    exclude?: (string | RegExp)[]
+    include?: (string | RegExp)[]
+    filter?: (filename: string) => boolean
   }
   /** 是否把代码转化为 es5，只在 vite 编译模式下有效 */
   es5?: T extends 'vite' ? boolean : undefined
