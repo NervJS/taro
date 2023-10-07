@@ -9,7 +9,8 @@
   "files": [
     "rn/",
     "remove-define-config.js",
-    "index.js"
+    "index.js",
+    "modifySourceType.js"
   ],
   "repository": {
     "type": "git",
