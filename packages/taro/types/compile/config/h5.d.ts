@@ -2,8 +2,9 @@ import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import type webpackDevServer from 'webpack-dev-server'
 import type HtmlWebpackPlugin from 'html-webpack-plugin'
-import type { IOption, IPostcssOption } from './util'
+import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
+import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
 
 export interface IH5RouterConfig {
   /** 配置路由模式 */
@@ -17,7 +18,7 @@ export interface IH5RouterConfig {
   forcePath?: string
 }
 
-export interface IH5Config {
+export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   /** 设置输出解析文件的目录（默认值：'/'）*/
   publicPath?: string
 
@@ -36,12 +37,11 @@ export interface IH5Config {
    */
   webpackChain?: (chain: Chain, webpack: typeof Webpack) => void
 
-  /** 可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/) */
-  output?: Webpack.Configuration['output']
+  /** webpack 编译模式下，可用于修改、拓展 Webpack 的 output 选项，配置项参考[官方文档](https://webpack.js.org/configuration/output/)
+  * vite 编译模式下，用于修改、扩展 rollup 的 output，目前仅适配 chunkFileNames 和 assetFileNames 两个配置，修改其他配置请使用 vite 插件进行修改。配置想参考[官方文档](https://rollupjs.org/configuration-options/)
+  */
+  output?: T extends 'vite' ? Pick<RollupOutputOptions, 'chunkFileNames' | 'assetFileNames' > : Webpack.Configuration['output']
 
-  /** vite 编译模式下，用于修改、扩展 rollup 的 output，配置想参考[官方文档](https://rollupjs.org/configuration-options/) */
-  viteOutput?: RollupOutputOptions
-  
   /** 路由相关的配置 */
   router?: IH5RouterConfig
 
@@ -83,13 +83,13 @@ export interface IH5Config {
   stylusLoaderOption?: IOption
 
   /** 针对 mp4 | webm | ogg | mp3 | wav | flac | aac 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  mediaUrlLoaderOption?: IOption
+  mediaUrlLoaderOption?: IUrlLoaderOption
 
   /** 针对 woff | woff2 | eot | ttf | otf 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  fontUrlLoaderOption?: IOption
+  fontUrlLoaderOption?: IUrlLoaderOption
 
   /** 针对 png | jpg | jpeg | gif | bpm | svg 文件的 [url-loader](https://github.com/webpack-contrib/url-loader) 配置 */
-  imageUrlLoaderOption?: IOption
+  imageUrlLoaderOption?: IUrlLoaderOption
 
   /** [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的附加配置 */
   miniCssExtractPluginOption?: IOption
@@ -104,14 +104,17 @@ export interface IH5Config {
   useDeprecatedAdapterComponent?: boolean
 
   /** 配置 postcss 相关插件 */
-  postcss?: IPostcssOption
+  postcss?: IPostcssOption<'h5'>
 
   /** html-webpack-plugin 的具体配置 */
   htmlPluginOption?: HtmlWebpackPlugin.Options
 
   /** Web 编译过程的相关配置 */
   compile?: {
-    exclude?: any[]
-    include?: any[]
+    exclude?: (string | RegExp)[]
+    include?: (string | RegExp)[]
+    filter?: (filename: string) => boolean
   }
+  /** 是否把代码转化为 es5，只在 vite 编译模式下有效 */
+  es5?: T extends 'vite' ? boolean : undefined
 }

@@ -2,8 +2,9 @@ import {
   fs,
   isAliasPath,
   readConfig,
+  recursiveMerge,
   replaceAliasPath,
-  resolveMainFilePath,
+  resolveMainFilePath
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
 import {
@@ -16,18 +17,14 @@ import {
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
+import defaultConfig from '../../defaultConfig/defaultConfig.mini'
 import { getComponentName } from '../../utils'
 import { componentConfig } from '../../utils/component'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
 
-const defaultFileType = {
-  style: '.wxss',
-  config: '.json',
-  script: '.js',
-  templ: '.wxml'
-}
+
 
 export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> implements ViteMiniCompilerContext {
   fileType: ViteFileType
@@ -37,11 +34,15 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
   constructor (appPath: string, taroConfig: ViteMiniBuildConfig) {
     super(appPath, taroConfig)
 
-    this.fileType = taroConfig.fileType || defaultFileType
+    this.fileType = this.taroConfig.fileType
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.collectNativeComponents(this.app)
     this.pages = this.getPages()
+  }
+
+  processConfig () {
+    this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
   }
 
   getCommonChunks () {

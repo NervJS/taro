@@ -41,4 +41,6 @@ export const DEFAULT_TERSER_OPTIONS = {
   },
 }
 
+export const MINI_EXCLUDE_POSTCSS_PLUGIN_NAME = ['cssModules']
+export const H5_EXCLUDE_POSTCSS_PLUGIN_NAME = ['cssModules', 'url']
 export const HARMONY_SCOPES = [/^@system\./, /^@ohos\./, /^@hmscore\//]

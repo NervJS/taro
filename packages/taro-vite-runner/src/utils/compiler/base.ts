@@ -27,6 +27,8 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
   static label = VITE_COMPILER_LABEL
   cwd: string
   sourceDir: string
+  taroConfig: T
+  rawTaroConfig: T
   frameworkExts: string[]
   app: ViteAppMeta
   pages: VitePageMeta[]
@@ -36,11 +38,19 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
   configFileList: string[] = []
   compilePage: (pageName: string) => VitePageMeta
 
-  constructor (appPath: string, public taroConfig: T) {
+  constructor (appPath: string, rawTaroConfig: T) {
     this.cwd = appPath
-    this.sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-    this.frameworkExts = taroConfig.frameworkExts || SCRIPT_EXT
+    this.rawTaroConfig = rawTaroConfig
+    this.process()
   }
+
+  protected process () {
+    this.processConfig()
+    this.sourceDir = path.join(this.cwd, this.taroConfig.sourceRoot as string)
+    this.frameworkExts = this.taroConfig.frameworkExts || SCRIPT_EXT
+  }
+
+  protected processConfig () {}
 
   watchConfigFile (rollupCtx: PluginContext) {
     this.configFileList.forEach((configFile)=> rollupCtx.addWatchFile(configFile))
@@ -134,5 +144,4 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
       ? filePath.replace(extname, targetExtName)
       : filePath + targetExtName
   }
-
 }

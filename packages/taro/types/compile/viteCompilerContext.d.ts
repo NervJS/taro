@@ -1,7 +1,10 @@
 import type { AppConfig, PageConfig } from '../index'
 import type { IMiniFilesConfig, IH5Config, IHarmonyConfig, IMiniAppConfig } from './config'
-import type { IProjectBaseConfig } from './config/project'
+import type { IProjectConfig } from './config/project'
 import type { PluginContext } from "rollup"
+import { IComponentConfig } from "./hooks"
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export interface ViteNativeCompMeta {
   name: string
@@ -40,7 +43,7 @@ export interface VitePageMeta {
 }
 
 
-export interface ViteH5BuildConfig extends CommonBuildConfig, IH5Config {
+export interface ViteH5BuildConfig extends CommonBuildConfig, IH5Config<'vite'> {
   entryFileName?: string
   runtimePath?: string | string[]
 }
@@ -55,7 +58,7 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   sassLoaderOption?: any
 }
 
-export interface CommonBuildConfig extends IProjectBaseConfig {
+export interface CommonBuildConfig extends IProjectConfig<'vite'> {
   entry: {
     app: string | string[]
   }
@@ -70,7 +73,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
 }
 
 
-export interface ViteMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
+export interface ViteMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig<'vite'> {
   isBuildPlugin: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
@@ -94,6 +97,7 @@ export interface ViteCompilerContext<T> {
   cwd: string
   sourceDir: string
   taroConfig: T
+  rawTaroConfig: T
   frameworkExts: string[]
   app: ViteAppMeta
   pages: VitePageMeta[]

@@ -127,43 +127,45 @@ export class Picker implements ComponentInterface {
     } else if (mode === 'date') {
       const value = this.value as string
 
-      const _value = verifyDate(value) || new Date(new Date().setHours(0, 0, 0, 0)) // 没传值或值的合法性错误默认今天时间
+      let _value = verifyDate(value) || new Date(new Date().setHours(0, 0, 0, 0)) // 没传值或值的合法性错误默认今天时间
       const _start = verifyDate(start) || new Date('1970/01/01')
       const _end = verifyDate(end) || new Date('2999/01/01')
 
       // 时间区间有效性
-      if (_value >= _start && _value <= _end) {
-        const currentYear = _value.getFullYear()
-        const currentMonth = _value.getMonth() + 1
-        const currentDay = _value.getDate()
-        const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
-        const monthRange = getMonthRange(_start, _end, currentYear)
-        const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
+      if (!(_start <= _end)) {
+        throw new Error(`Picker start time must be less than end time.`)
+      }
+      if (!(_value >= _start && _value <= _end)) {
+        _value = _start
+      }
+      const currentYear = _value.getFullYear()
+      const currentMonth = _value.getMonth() + 1
+      const currentDay = _value.getDate()
+      const yearRange = getYearRange(_start.getFullYear(), _end.getFullYear())
+      const monthRange = getMonthRange(_start, _end, currentYear)
+      const dayRange = getDayRange(_start, _end, currentYear, currentMonth)
 
-        this.index = [
-          yearRange.indexOf(currentYear),
-          monthRange.indexOf(currentMonth),
-          dayRange.indexOf(currentDay)
-        ]
-        if (
-          !this.pickerDate ||
-          this.pickerDate._value.getTime() !== _value.getTime() ||
-          this.pickerDate._start.getTime() !== _start.getTime() ||
-          this.pickerDate._end.getTime() !== _end.getTime()
-        ) {
-          this.pickerDate = {
-            _value,
-            _start,
-            _end,
-            _updateValue: [
-              currentYear,
-              currentMonth,
-              currentDay
-            ]
-          }
+      this.index = [
+        yearRange.indexOf(currentYear),
+        monthRange.indexOf(currentMonth),
+        dayRange.indexOf(currentDay)
+      ]
+      if (
+        !this.pickerDate ||
+        this.pickerDate._value.getTime() !== _value.getTime() ||
+        this.pickerDate._start.getTime() !== _start.getTime() ||
+        this.pickerDate._end.getTime() !== _end.getTime()
+      ) {
+        this.pickerDate = {
+          _value,
+          _start,
+          _end,
+          _updateValue: [
+            currentYear,
+            currentMonth,
+            currentDay
+          ]
         }
-      } else {
-        throw new Error('Date Interval Error')
       }
     } else {
       throw new Error(`Picker not support "${mode}" mode.`)

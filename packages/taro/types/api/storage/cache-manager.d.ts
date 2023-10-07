@@ -26,7 +26,7 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/CacheManager.deleteCache.html
      */
-    deleteCache( 
+    deleteCache(
       /** 缓存 id */
       id: string
     ): void
@@ -40,7 +40,7 @@ declare module '../../index' {
     ): void
     /** 删除规则，同时会删除对应规则下所有缓存
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/CacheManager.deleteRule.html 
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/CacheManager.deleteRule.html
      */
     deleteRule(
       /** 规则 id */
@@ -67,17 +67,17 @@ declare module '../../index' {
       /** 事件名称 */
       eventName: string,
       /** 事件监听函数 */
-      handler: Function
+      handler: TaroGeneral.EventCallback
     ): void
     /** 监听事件
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/CacheManager.on.html
      */
-    on( 
+    on(
       /** 事件名称 */
       eventName: keyof CacheManager.OnEventName,
       /** 事件监听函数 */
-      handler: Function
+      handler: TaroGeneral.EventCallback
     ): void
     /** 开启缓存，仅在 mode 为 none 时生效，调用后缓存管理器的 state 会置为 1
      * @supported weapp
@@ -117,7 +117,7 @@ declare module '../../index' {
       method: string
       /** uri 匹配规则，可参考规则字符串写法和正则写法 */
       url: any
-      /** 
+      /**
        * 缓存有效时间，单位为 ms，不填则默认取缓存管理器全局的缓存有效时间
        * @default 7 * 24 * 60 * 60 * 1000
        */
@@ -189,9 +189,9 @@ declare module '../../index' {
   }
 
   interface TaroStatic {
-    /** 拉起手机发送短信界面
-     * @supported weap
-     * @see declare module '../../index' 
+    /** 创建缓存管理器
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/wx.createCacheManager.html
      */
     createCacheManager(option: createCacheManager.Option): CacheManager
   }

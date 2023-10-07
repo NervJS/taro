@@ -51,7 +51,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: master
+          base: next
           body: "sync components types"
           branch: "refactor/sync-types"
           commit-message: "refactor(types): sync components types"
