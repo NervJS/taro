@@ -8,11 +8,12 @@ import { componentConfig } from './utils/component'
 
 import type { ViteHarmonyBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 
-export default async function (appPath: string, taroConfig: ViteHarmonyBuildConfig) {
-  const compiler = new TaroCompilerContext(appPath, taroConfig)
+export default async function (appPath: string, rawTaroConfig: ViteHarmonyBuildConfig) {
+  const viteCompilerContext = new TaroCompilerContext(appPath, rawTaroConfig)
+  const { taroConfig } = viteCompilerContext
 
   const plugins: UserConfig['plugins'] = [
-    harmonyPreset(compiler)
+    harmonyPreset(viteCompilerContext)
   ]
 
   // copy-plugin

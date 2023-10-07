@@ -2,6 +2,7 @@ import {
   chalk,
   fs,
   readConfig,
+  recursiveMerge,
   resolveMainFilePath,
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
@@ -13,16 +14,10 @@ import {
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
+import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
 import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
-
-const defaultFileType = {
-  style: '.css',
-  config: '.json',
-  script: '.ets',
-  templ: '.hml'
-}
 
 export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig> implements ViteHarmonyCompilerContext {
   commonChunks: string[]
@@ -34,12 +29,16 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   constructor (appPath: string, taroConfig: ViteHarmonyBuildConfig) {
     super(appPath, taroConfig)
 
-    this.fileType = taroConfig.fileType || defaultFileType
+    this.fileType = this.taroConfig.fileType
     this.useETS = taroConfig.useETS !== false
     this.useJSON5 = taroConfig.useJSON5 !== false
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.pages = this.getPages()
+  }
+
+  processConfig () {
+    this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
   }
 
   getCommonChunks () {

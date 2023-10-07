@@ -5,8 +5,8 @@ import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
-import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
-import { getMode, stripMultiPlatformExt } from '../utils'
+import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
+import { getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
 import { HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 
