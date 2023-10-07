@@ -641,7 +641,9 @@ require("./runtime");
             },
             Video: {
                 "poster-size": singleQuote("contain"),
+                "show-thin-progress-bar": "false",
                 "mobilenet-hint-type": "1",
+                "floating-mode": singleQuote("none"),
                 enableNative: "true",
                 bindLoading: "",
                 bindUserAction: "",
