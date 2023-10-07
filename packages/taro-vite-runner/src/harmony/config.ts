@@ -112,7 +112,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
       getComputedStyle: ['@tarojs/runtime', 'getComputedStyle'],
       URL: ['@tarojs/runtime', 'URL'],
-      wx: ['@tarojs/taro', 'default']
+      wx: ['@tarojs/taro', 'default'],
+      getCurrentPages: ['@tarojs/taro', 'getCurrentPages']
     }
 
     const injectOptions: Record<string, any> = {}
