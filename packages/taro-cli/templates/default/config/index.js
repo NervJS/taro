@@ -1,5 +1,5 @@
 import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from '@tarojs/cli'
-<% if (typescript) {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
+<% if (typescript && compiler !== 'vite') {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
 import devConfig from './dev'
 import prodConfig from './prod'
 
@@ -39,12 +39,6 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
 
           }
         },
-        url: {
-          enable: true,
-          config: {
-            limit: 1024 // 设定转换尺寸上限
-          }
-        },
         cssModules: {
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
@@ -52,7 +46,7 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }<% if (typescript) {%>,
+      }<% if (typescript && compiler !== 'vite') {%>,
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }<%}%>
@@ -81,7 +75,7 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }<% if (typescript) {%>,
+      }<% if (typescript && compiler !== 'vite') {%>,
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }<%}%>
