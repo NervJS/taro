@@ -17,7 +17,7 @@ import {
   resolveMainFilePath,
   SCRIPT_EXT
 } from '@tarojs/helper'
-import { getSassLoaderOption } from '@tarojs/runner-utils'
+import { FONT_LIMIT, getSassLoaderOption, IMAGE_LIMIT, MEDIA_LIMIT } from '@tarojs/runner-utils'
 import * as CopyWebpackPlugin from 'copy-webpack-plugin'
 import CssoWebpackPlugin from 'csso-webpack-plugin'
 import { cloneDeep, partial } from 'lodash'
@@ -81,15 +81,15 @@ const defaultCSSCompressOption = {
 }
 
 const defaultMediaUrlLoaderOption = {
-  limit: 10240,
+  limit: MEDIA_LIMIT,
   esModule: false
 }
 const defaultFontUrlLoaderOption = {
-  limit: 10240,
+  limit: FONT_LIMIT,
   esModule: false
 }
 const defaultImageUrlLoaderOption = {
-  limit: 2046,
+  limit: IMAGE_LIMIT,
   esModule: false
 }
 const defaultCssModuleOption: PostcssOption.cssModules = {
@@ -97,13 +97,6 @@ const defaultCssModuleOption: PostcssOption.cssModules = {
   config: {
     namingPattern: 'global',
     generateScopedName: '[name]__[local]___[hash:base64:5]'
-  }
-}
-
-const defaultUrlOption: PostcssOption.url = {
-  enable: true,
-  config: {
-    limit: 10240 // limit 10k base on document
   }
 }
 
@@ -221,7 +214,7 @@ export const getModule = (appPath: string, {
   postcss,
   fileType
 }) => {
-  const postcssOption: IPostcssOption = postcss || {}
+  const postcssOption: IPostcssOption<'mini'> = postcss || {}
 
   const cssModuleOptions: PostcssOption.cssModules = recursiveMerge({}, defaultCssModuleOption, postcssOption.cssModules)
 
@@ -367,12 +360,6 @@ export const getModule = (appPath: string, {
     })
   }
 
-  const urlOptions: PostcssOption.url = recursiveMerge({}, defaultUrlOption, postcssOption.url)
-  let postcssUrlOption
-  if (urlOptions.enable) {
-    postcssUrlOption = urlOptions.config
-  }
-
   function addCssLoader (cssLoaders, ...loader) {
     const cssLoadersCopy = cloneDeep(cssLoaders)
     cssLoadersCopy.forEach(item => {
@@ -443,7 +430,7 @@ export const getModule = (appPath: string, {
           // 因此在 webpack4 中如果包含 sourceDir，证明是在 src 内的路径
           if (resourcePath.includes(sourceDir)) {
             // 直接将 /xxx/src/yyy/zzz.wxml 转换成 yyy/zzz.wxml 即可
-            return resourcePath.replace(sourceDir + path.sep, '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(sourceDir + '/', '').replace(/node_modules/gi, 'npm')
           } else {
             // 否则，证明是外层，存在一下两种可能
             // resourcePath /xxx/uuu/aaa/node_modules/yy/zzz.wxml
@@ -451,7 +438,7 @@ export const getModule = (appPath: string, {
             
             // resourcePath /xxx/uuu/aaa/bbb/abc/yy/zzz.wxml
             // --> result: bbb/abc/yy/zzz.wxml
-            return resourcePath.replace(appPath + path.sep, '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
           }
         },
         context: sourceDir
@@ -463,9 +450,9 @@ export const getModule = (appPath: string, {
         useRelativePath: true,
         name: (resourcePath) => {
           if (resourcePath.includes(sourceDir)) {
-            return resourcePath.replace(sourceDir + path.sep, '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(sourceDir + '/', '').replace(/node_modules/gi, 'npm')
           } else {
-            return resourcePath.replace(appPath + path.sep, '').replace(/node_modules/gi, 'npm')
+            return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
           }
         },
         context: sourceDir
@@ -479,7 +466,6 @@ export const getModule = (appPath: string, {
           name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
-          ...(postcssUrlOption || {}),
           ...mediaUrlLoaderOption
         }])
       }
@@ -491,7 +477,6 @@ export const getModule = (appPath: string, {
           name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
-          ...(postcssUrlOption || {}),
           ...fontUrlLoaderOption
         }])
       }
@@ -503,7 +488,6 @@ export const getModule = (appPath: string, {
           name: '[path][name].[ext]',
           useRelativePath: true,
           context: sourceDir,
-          ...(postcssUrlOption || {}),
           ...imageUrlLoaderOption
         }])
       }

@@ -1,5 +1,5 @@
+import assetsPlugin from '../common/assets'
 import multiPlatformPlugin from '../common/multi-platform-plugin'
-import assetsPlugin from './assets'
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'

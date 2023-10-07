@@ -1,20 +1,28 @@
-import { babel, RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
+import { babel } from '@rollup/plugin-babel'
 import inject, { RollupInjectOptions } from '@rollup/plugin-inject'
 import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
-import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
-import { getMode, stripMultiPlatformExt } from '../utils'
-import { DEFAULT_TERSER_OPTIONS } from '../utils/constants'
+import { getDefaultPostcssConfig } from '../postcss/postcss.mini'
+import {
+  getBabelOption,
+  getCSSModulesOptions,
+  getMinify,
+  getMode,
+  getPostcssPlugins,
+  stripMultiPlatformExt
+} from '../utils'
+import { DEFAULT_TERSER_OPTIONS, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../utils/constants'
 import { logger } from '../utils/logger'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { CSSModulesOptions, PluginOption } from 'vite'
+import type { InputPluginOption } from 'rollup'
+import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOption {
-  const { taroConfig, cwd: appPath } = viteCompilerContext
+  const { taroConfig, cwd: appPath, sourceDir } = viteCompilerContext
   const isProd = getMode(taroConfig) === 'production'
   function getDefineOption() {
     const {
@@ -56,29 +64,6 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
-  }
-
-  function getBabelOption(): RollupBabelInputPluginOptions {
-    const { compile = {} } = taroConfig
-    const babelOptions: RollupBabelInputPluginOptions = {
-      extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
-      babelHelpers: 'runtime',
-      skipPreflightCheck: true,
-    }
-
-    if (compile.exclude?.length) {
-      const list = compile.exclude
-      const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))
-      if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
-      babelOptions.exclude = list
-    } else if (compile.include?.length) {
-      const sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-      babelOptions.include = [...compile.include, sourceDir, /taro/]
-    } else {
-      babelOptions.exclude = [/node_modules[/\\](?!@tarojs)/]
-    }
-
-    return babelOptions
   }
 
   function getInjectOption(): RollupInjectOptions {
@@ -158,33 +143,6 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     }
   }
 
-  function getCSSModulesOptions(): false | CSSModulesOptions {
-    if (taroConfig.postcss?.cssModules?.enable !== true) return false
-    const config = recursiveMerge(
-      {},
-      {
-        namingPattern: 'module',
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
-      },
-      taroConfig.postcss.cssModules.config
-    )
-    return {
-      generateScopedName: config.generateScopedName,
-    }
-  }
-
-  function getMinify(): 'terser' | 'esbuild' | boolean {
-    return isProd
-      ? false
-      : taroConfig.jsMinimizer === 'esbuild'
-        ? taroConfig.esbuild?.minify?.enable === false
-          ? false // 只有在明确配置了 esbuild.minify.enable: false 时才不启用压缩
-          : 'esbuild'
-        : taroConfig.terser?.enable === false
-          ? false // 只有在明确配置了 terser.enable: false 时才不启用压缩
-          : 'terser'
-  }
-
   const __postcssOption = getDefaultPostcssConfig({
     designWidth: taroConfig.designWidth || 750,
     deviceRatio: taroConfig.deviceRatio,
@@ -196,7 +154,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     config: async () => ({
       mode: getMode(taroConfig),
       build: {
-        outDir: taroConfig.outputRoot || 'dist',
+        outDir: path.join(appPath, taroConfig.outputRoot || 'dist'),
         target: 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
@@ -205,6 +163,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           formats: ['cjs'],
         },
         watch: taroConfig.isWatch ? {} : null,
+        chunkSizeWarningLimit: Number.MAX_SAFE_INTEGER,
         // @TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? isProd,
         rollupOptions: {
@@ -212,7 +171,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             entryFileNames(chunkInfo) {
               return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
             },
-            chunkFileNames: '[name].js',
+            chunkFileNames: taroConfig.output!.chunkFileNames,
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
 
@@ -224,17 +183,23 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
             },
           },
           plugins: [
-            inject(getInjectOption()) as PluginOption,
-            babel(getBabelOption()) as PluginOption,
+            inject(getInjectOption()) as InputPluginOption,
+            babel(getBabelOption(
+              taroConfig,
+              {
+                defaultExclude: [/node_modules[/\\](?!@tarojs)/],
+                defaultInclude: [sourceDir, /taro/]
+              }
+            )) as InputPluginOption,
           ],
         },
         commonjsOptions: {
           exclude: [/\.esm/, /[/\\]esm[/\\]/],
           transformMixedEsModules: true,
         },
-        minify: getMinify(),
+        minify: getMinify(taroConfig),
         terserOptions:
-          getMinify() === 'terser'
+          getMinify(taroConfig) === 'terser'
             ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
             : undefined,
       },
@@ -255,14 +220,14 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       },
       css: {
         postcss: {
-          plugins: getPostcssPlugins(appPath, __postcssOption),
+          plugins: getPostcssPlugins(appPath, __postcssOption, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME),
         },
         preprocessorOptions: {
           ...(await getSassOption()),
           less: taroConfig.lessLoaderOption || {},
           stylus: taroConfig.stylusLoaderOption || {},
         },
-        modules: getCSSModulesOptions(),
+        modules: getCSSModulesOptions(taroConfig),
       },
       // @TODO xsscript loader
     }),

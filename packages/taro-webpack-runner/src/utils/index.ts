@@ -47,7 +47,7 @@ export function parsePublicPath (publicPath = '/') {
   return ['', 'auto'].includes(publicPath) ? publicPath : addTrailingSlash(publicPath)
 }
 
-export function parseHtmlScript (pxtransformOption: IPostcssOption['pxtransform'] = {}) {
+export function parseHtmlScript (pxtransformOption: IPostcssOption<'h5'>['pxtransform'] = {}) {
   const options = pxtransformOption?.config || {}
   const max = options?.maxRootSize ?? 40
   const min = options?.minRootSize ?? 20

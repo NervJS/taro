@@ -40,7 +40,7 @@ function injectLoaderMeta (ctx: IPluginContext): PluginOption {
 }
 
 function setTaroApi () {
-  // dev 环境通过 esbuild 来做； pro 环境通过 rollup load 钩子来做；因为生产环境不会走 esbuild
+  // dev 环境通过 esbuild 来做； pro 环境通过 rollup load 钩子来做；因为生产环境不会走 optimizeDeps
   return {
     name: 'taro-vue3:process-import-taro',
     enforce: 'pre',

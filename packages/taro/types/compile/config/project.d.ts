@@ -1,7 +1,7 @@
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import { type Input } from 'postcss'
-import type { Compiler } from '../compiler'
+import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { IModifyChainData } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
 import type { IH5Config } from './h5'
@@ -203,7 +203,7 @@ export interface IProjectBaseConfig {
 }
 
 /** 暴露出来给 config/index 使用的配置类型，参考 https://github.com/NervJS/taro-doctor/blob/main/assets/config_schema.json */
-export interface IProjectConfig {
+export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> {
   /** 项目名称 */
   projectName?: string
 
@@ -295,20 +295,20 @@ export interface IProjectConfig {
   /** 使用的开发框架。可选值：react、preact、nerv、vue、vue3 */
   framework?: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
 
-  /** 使用的编译工具。可选值：webpack4、webpack5 */
-  compiler?: Compiler
-
   /** Webpack5 持久化缓存配置。具体配置请参考 [WebpackConfig.cache](https://webpack.js.org/configuration/cache/#cache) */
   cache?: ICache
 
   /** 控制 Taro 编译日志的输出方式 */
   logger?: ILogger
 
-  /** 专属于小程序的配置 */
-  mini?: IMiniAppConfig
+  /** 使用的编译工具。可选值：webpack4、webpack5、vite */
+  compiler?: Compiler<T>
 
   /** 专属于 H5 的配置 */
-  h5?: IH5Config
+  h5?: IH5Config<T>
+
+  /** 专属于小程序的配置 */
+  mini?: IMiniAppConfig<T>
 
   /** 专属于 RN 的配置 */
   rn?: IRNConfig

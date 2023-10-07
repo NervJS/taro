@@ -1,7 +1,9 @@
 import type { swc } from '@tarojs/helper'
 import type Webpack from 'webpack'
 
-type CompilerTypes = 'webpack4' | 'webpack5' | 'vite'
+export type CompilerTypes = CompilerWebpackTypes | 'vite'
+
+export type CompilerWebpackTypes = 'webpack5' | 'webpack4'
 
 interface IPrebundle {
   enable?: boolean
@@ -17,10 +19,10 @@ interface IPrebundle {
   }
 }
 
-interface ICompiler {
-  type: CompilerTypes
+interface ICompiler<T> {
+  type: T
   prebundle?: IPrebundle
-  vitePlugins?: any[]
+  vitePlugins?: any
 }
 
-export type Compiler = CompilerTypes | ICompiler
+export type Compiler<T extends CompilerTypes = CompilerWebpackTypes> = T | ICompiler<T>
