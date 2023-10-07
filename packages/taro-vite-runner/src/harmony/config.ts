@@ -28,6 +28,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
     env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.HARMONY)
+    env.NODE_ENV = JSON.stringify(process.env.NODE_ENV || 'development')
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target
@@ -109,7 +110,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       history: ['@tarojs/runtime', 'history'],
       location: ['@tarojs/runtime', 'location'],
       URLSearchParams: ['@tarojs/runtime', 'URLSearchParams'],
+      getComputedStyle: ['@tarojs/runtime', 'getComputedStyle'],
       URL: ['@tarojs/runtime', 'URL'],
+      wx: ['@tarojs/taro', 'default']
     }
 
     const injectOptions: Record<string, any> = {}
@@ -213,11 +216,13 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             },
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
+              // const isBabelModule = id.includes('@babel/runtime')
+              const isNodeMoudles = /[\\/]node_modules[\\/]/.test(id)
 
-              if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
+              if (isNodeMoudles || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
-                return 'common'
+                return 'vendors'
               }
             },
           },
@@ -225,6 +230,12 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             inject(getInjectOption()) as PluginOption,
             babel(getBabelOption()) as PluginOption,
           ],
+        },
+        commonjsOptions: {
+          // TODO: 优化过滤
+          include: [/./],
+          extensions: ['.js', '.ts'],
+          transformMixedEsModules: true,
         },
       },
       define: getDefineOption(),

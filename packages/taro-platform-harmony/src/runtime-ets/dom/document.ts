@@ -13,6 +13,7 @@ class TaroDocument extends TaroNode {
   public documentElement: TaroElement
   public head: TaroElement
   public body: TaroElement
+  public cookie = ''
   private _win: Window
 
   constructor(window: Window) {

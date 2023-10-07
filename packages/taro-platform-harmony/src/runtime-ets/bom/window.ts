@@ -1,6 +1,7 @@
-import { Location } from '@tarojs/runtime/dist/runtime.esm'
+import { History, Location } from '@tarojs/runtime/dist/runtime.esm'
 
 import { TaroEventTarget } from '../dom/eventTarget'
+import { getComputedStyle } from './getComputedStyle'
 
 import type { TaroDocument } from '../dom/document'
 
@@ -9,12 +10,16 @@ class Window extends TaroEventTarget {
   public __taroAppConfig: any
 
   public location: Location
+  public history: History
+  public getComputedStyle = getComputedStyle
 
   constructor () {
     super()
 
     // @ts-ignore
     this.location = new Location({ window: this })
+    // @ts-ignore
+    this.history = new History(this.location, { window: this })
   }
 
   get document (): TaroDocument {
@@ -34,3 +39,4 @@ export { Location, Window }
 
 export const window = new Window()
 export const location = window.location
+export const history = window.history

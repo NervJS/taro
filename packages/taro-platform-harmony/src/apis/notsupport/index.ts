@@ -10,6 +10,7 @@ export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'rem
 
 /** wx:start **/
 export const login = temporarilyNotSupport('login')
+export const getAccountInfoSync = temporarilyNotSupport('getAccountInfoSync')
 export const navigateToMiniProgram = temporarilyNotSupport('navigateToMiniProgram')
 export const requestSubscribeMessage = temporarilyNotSupport('requestSubscribeMessage')
 export const getMenuButtonBoundingClientRect = temporarilyNotSupport('getMenuButtonBoundingClientRect')

@@ -22,3 +22,8 @@ initNativeApi(taro)
 
 export * from './apis'
 export default taro
+
+// @ts-ignore
+export const useDidHide = taro.useDidHide
+// @ts-ignore
+export const useDidShow = taro.useDidShow

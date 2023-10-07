@@ -119,6 +119,8 @@ const getSystemInfoSync: GetSystemInfoSync = function () {
   res.windowWidth = device && device.windowWidth // 可使用窗口宽度，单位px number
   res.windowHeight = device && device.windowHeight // 可使用窗口高度，单位px number
   res.version = deviceInfo && deviceInfo.displayVersion // 版本号 string
+  res.getNetworkType = getNetworkType
+
   return res
 }
 /* 异步版本 */
@@ -304,6 +306,8 @@ export {
   setClipboardData,
   setScreenBrightness
 }
+
+globalThis.getSystemInfoSync = getSystemInfoSync
 
 export * from './vibrator'
 export * from './window'

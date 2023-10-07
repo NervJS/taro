@@ -9,5 +9,6 @@ export interface IComponentConfig {
 }
 
 export interface IModifyChainData {
+  compiler?: any
   componentConfig?: IComponentConfig
 }
