@@ -1,6 +1,9 @@
 import {
   readConfig,
   recursiveMerge,
+  REG_FONT,
+  REG_IMAGE,
+  REG_MEDIA,
   resolveMainFilePath,
   resolveScriptPath
 } from '@tarojs/helper'
@@ -25,14 +28,20 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
   }
 
   processConfig () {
-    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConifg.staticDirectory
+    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConifg.staticDirectory as string
     defaultConifg.imageUrlLoaderOption!.name = 
-      (filename: string) => filename.replace(this.sourceDir + '/', `${staticDirectory}/images/`)
+      (filename: string) => path.join(staticDirectory, 'images', path.basename(filename))
     defaultConifg.fontUrlLoaderOption!.name = 
-      (filename: string) => filename.replace(this.sourceDir + '/', `${staticDirectory}/fonts/`)
+      (filename: string) => path.join(staticDirectory, 'fonts', path.basename(filename))
     defaultConifg.mediaUrlLoaderOption!.name = 
-      (filename: string) => filename.replace(this.sourceDir + '/', `${staticDirectory}/media/`)
-    
+      (filename: string) => path.join(staticDirectory, 'media', path.basename(filename))
+    defaultConifg.output!.assetFileNames = ({ name }) => {
+      if (!name) return '[ext]/[name].[hash][extname]'
+      if (REG_IMAGE.test(name)) return `${staticDirectory}/images/${name}`
+      if (REG_MEDIA.test(name)) return `${staticDirectory}/media/${name}`
+      if (REG_FONT.test(name)) return `${staticDirectory}/fonts/${name}`
+      return '[ext]/[name].[hash][extname]'
+    }
     this.taroConfig = recursiveMerge({}, defaultConifg, this.rawTaroConfig)
   }
 

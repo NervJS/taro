@@ -8,8 +8,7 @@ const defaultConifg: Partial<ViteH5BuildConfig> = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   output: {
-    chunkFileNames: 'js/[name].[hash].js',
-    assetFileNames: '[ext]/[name].[hash][extname]'
+    chunkFileNames: 'js/[name].[hash].js'
   },
   imageUrlLoaderOption: {
     limit: IMAGE_LIMIT

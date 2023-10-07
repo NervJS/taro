@@ -8,15 +8,15 @@ import type{ ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompil
 import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
-  const { taroConfig, sourceDir } = viteCompilerContext
+  const { taroConfig } = viteCompilerContext
   const { parse, generate, traverse } = babelKit
   return {
     name: 'taro:vite-h5-es5',
     // 如果要把代码编译成 es5，那么 rollup 就要使用 babel 插件
     config: async () => ({
-      build:{
-        rollupOptions:{
-          plugins: [babel(getBabelOption(taroConfig, sourceDir)) as InputPluginOption]
+      build: {
+        rollupOptions: {
+          plugins: [babel(getBabelOption(taroConfig)) as InputPluginOption]
         }
       }
     }),

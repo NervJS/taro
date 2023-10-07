@@ -184,7 +184,7 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
 }
 
 
-export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig, sourceDir: string): RollupBabelInputPluginOptions {
+export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig): RollupBabelInputPluginOptions {
   const { compile = {} } = taroConfig
   const babelOptions: RollupBabelInputPluginOptions = {
     extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
@@ -194,7 +194,7 @@ export function getBabelOption (taroConfig: ViteMiniBuildConfig | ViteH5BuildCon
   }
 
   let exclude: any[] = []
-  let include: any[] = [sourceDir]
+  let include: any[] = []
 
   if (compile.exclude?.length) {
     exclude = compile.exclude
