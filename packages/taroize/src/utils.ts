@@ -163,7 +163,30 @@ export function buildRender (
   return t.classMethod('method', t.identifier('render'), [], t.blockStatement(returnStatement))
 }
 
-export function buildImportStatement (source: string, specifiers: string[] = [], defaultSpec?: string) {
+export function buildImportStatement (
+  source: string,
+  specifiers: string[] = [],
+  defaultSpec?: string,
+  isCommonjsModule?: boolean
+) {
+  if (isCommonjsModule) {
+    if (defaultSpec && specifiers.length > 0) {
+      throw new Error(
+        `commomjs模块不支持同时引入default和非default模块，default：${defaultSpec}, 非default：${specifiers}`
+      )
+    }
+    return t.variableDeclaration('const', [
+      t.variableDeclarator(
+        defaultSpec
+          ? t.identifier(defaultSpec)
+          : t.objectPattern(
+            specifiers.map((specifier) => t.objectProperty(t.identifier(specifier), t.identifier(specifier)))
+          ),
+        t.callExpression(t.identifier('require'), [t.stringLiteral(source)])
+      ),
+    ])
+  }
+
   return t.importDeclaration(
     defaultSpec
       ? [defaultSpec, ...specifiers].map((spec, index) => {
@@ -246,3 +269,34 @@ export const DEFAULT_Component_SET = new Set<string>([
   'VoipRoom',
   'AdCustom',
 ])
+
+/**
+ * 根据关键字exports判断是否为commonjs模块
+ *
+ * @param {} bodyNode
+ * @returns {boolean}
+ */
+export function isCommonjsModule (bodyNode) {
+  return bodyNode.some((p) => {
+    if (t.isExpressionStatement(p) && t.isAssignmentExpression(p.expression)) {
+      const expression = p.expression
+      // 1、module.exports.num = num 2、module.exports = {}
+      const isModuleExports =
+        (expression.left.type === 'MemberExpression' &&
+          expression.left.object.type === 'MemberExpression' &&
+          expression.left.object.property.type === 'Identifier' &&
+          expression.left.object.property.name === 'exports') ||
+        (expression.left.type === 'MemberExpression' &&
+          expression.left.property.type === 'Identifier' &&
+          expression.left.property.name === 'exports')
+
+      // exports.num = num
+      const isExports =
+        expression.left.type === 'MemberExpression' &&
+        expression.left.object.type === 'Identifier' &&
+        expression.left.object.name === 'exports'
+      return isModuleExports || isExports
+    }
+    return false
+  })
+}
