@@ -1,13 +1,13 @@
-import { defaultMainFields, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
-import { isBoolean, isObject, isString } from '@tarojs/shared'
+import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
 import { PostcssOption } from '@tarojs/taro/types/compile'
-import { get, isNumber } from 'lodash'
+import { get } from 'lodash'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.h5'
 import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule } from '../utils'
-import { DEFAULT_TERSER_OPTIONS, H5_EXCULDE_POSTCSS_PLUGINA_NAME } from '../utils/constants'
+import { DEFAULT_TERSER_OPTIONS, H5_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -25,8 +25,17 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   }
 
   function getDefineOption() {
-    const { env = {}, defineConstants = {}, useDeprecatedAdapterComponent = false } = taroConfig
+    const {
+      env = {},
+      defineConstants = {},
+      framework = 'react',
+      buildAdapter = PLATFORMS.H5,
+      useDeprecatedAdapterComponent = false
+    } = taroConfig
 
+    env.FRAMEWORK = JSON.stringify(framework)
+    env.TARO_ENV = JSON.stringify(buildAdapter)
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB)
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
@@ -146,7 +155,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       define: getDefineOption(),
       resolve: {
         mainFields,
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
         alias: getAliasOption(),
         dedupe: ['@tarojs/shared', '@tarojs/runtime'],
       },
@@ -165,7 +174,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       css: {
         postcss: {
           // @Todo Vite 的 postcss 功能不支持 filter 逻辑，Webpack 里的 filter 逻辑需要判断是否仍需要迁移过来 等待 vite pr 合并
-          plugins: getPostcssPlugins(appPath, __postcssOption, H5_EXCULDE_POSTCSS_PLUGINA_NAME),
+          plugins: getPostcssPlugins(appPath, __postcssOption, H5_EXCLUDE_POSTCSS_PLUGIN_NAME),
           // exclude: postcssExclude
         },
         preprocessorOptions: {
@@ -183,11 +192,11 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         // mpa 模式关于 html 的处理已经解藕到 mpa.ts
         if (isMultiRouterMode) return html
         const { configPath } = app
-        const srciptSource = configPath.replace(sourceDir, '')
-        const htmlScript = getHtmlScript(srciptSource, pxtransformOption)
+        const scriptSource = configPath.replace(sourceDir, '')
+        const htmlScript = getHtmlScript(scriptSource, pxtransformOption)
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
-      } 
-    }
+      },
+    },
   }
 }
 

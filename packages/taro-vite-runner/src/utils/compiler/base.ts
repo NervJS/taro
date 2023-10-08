@@ -17,7 +17,7 @@ import type {
   ViteAppMeta,
   ViteCompilerContext,
   ViteH5BuildConfig,
-  ViteMiniBuildConfig, 
+  ViteMiniBuildConfig,
   VitePageMeta
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginContext } from 'rollup'

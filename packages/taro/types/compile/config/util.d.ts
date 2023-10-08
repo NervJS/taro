@@ -1,6 +1,4 @@
-import { type } from 'os'
 import type { Input } from 'postcss'
-
 import type { Options as PostcssUrlOption } from 'postcss-url'
 
 export type Func = (...args: any[]) => any
@@ -12,8 +10,8 @@ export type TogglableOptions<T = IOption> = {
   config?: T
 }
 
-export interface IUrlLoaderOption extends IOption { 
-  limit?: number | boolean 
+export interface IUrlLoaderOption extends IOption {
+  limit?: number | boolean
   name?: ((moduleId: string) => string) | string
 }
 
@@ -79,7 +77,7 @@ export interface IPxTransformOption {
   deviceRatio?: TaroGeneral.TDeviceRatio
   /** 平台 */
   platform?: 'weapp' | 'h5' | string
-  /** fliter 回调函数，可 exclude 不处理的文件 */
+  /** filter 回调函数，可 exclude 不处理的文件 */
   exclude?: (fileName: string) => boolean
 }
 
@@ -92,11 +90,9 @@ interface IBasePostcssOption {
   [key: string]: any
 }
 
-export type IPostcssOption<T = 'H5' | 'mini'> = T extends 'H5' 
-  ? IBasePostcssOption & { url?: PostcssOption.url } 
+export type IPostcssOption<T = 'h5' | 'mini'> = T extends 'h5'
+  ? IBasePostcssOption & { url?: PostcssOption.url }
   : IBasePostcssOption
-
-export type Conifg = ViteConfg | WebpackConfig
 
 export interface ICopyOptions {
   patterns: {

@@ -10,7 +10,7 @@ import {
 import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
-import defaultConifg from '../../defaultConfig/defaultConfig.h5'
+import defaultConfig from '../../defaultConfig/defaultConfig.h5'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
@@ -28,21 +28,21 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
   }
 
   processConfig () {
-    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConifg.staticDirectory as string
-    defaultConifg.imageUrlLoaderOption!.name = 
+    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConfig.staticDirectory as string
+    defaultConfig.imageUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'images', path.basename(filename))
-    defaultConifg.fontUrlLoaderOption!.name = 
+    defaultConfig.fontUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'fonts', path.basename(filename))
-    defaultConifg.mediaUrlLoaderOption!.name = 
+    defaultConfig.mediaUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'media', path.basename(filename))
-    defaultConifg.output!.assetFileNames = ({ name }) => {
+    defaultConfig.output!.assetFileNames = ({ name }) => {
       if (!name) return '[ext]/[name].[hash][extname]'
       if (REG_IMAGE.test(name)) return `${staticDirectory}/images/${name}`
       if (REG_MEDIA.test(name)) return `${staticDirectory}/media/${name}`
       if (REG_FONT.test(name)) return `${staticDirectory}/fonts/${name}`
       return '[ext]/[name].[hash][extname]'
     }
-    this.taroConfig = recursiveMerge({}, defaultConifg, this.rawTaroConfig)
+    this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
   }
 
   getAppScriptPath (): string {
