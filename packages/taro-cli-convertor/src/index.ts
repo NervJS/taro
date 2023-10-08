@@ -28,6 +28,7 @@ import {
   analyzeImportUrl,
   copyFileToTaro,
   DEFAULT_Component_SET,
+  generateReportFile,
   getMatchUnconvertDir,
   getPkgVersion,
   getWxssImports,
@@ -102,6 +103,14 @@ interface IConvertConfig {
   nodePath: string[] // 搜索三方库的目录
 }
 
+interface IReportMsg {
+  filePath: string  // 报告信息所在文件路径
+  message: string   // 报告信息
+  type?: string     // 报告信息类型
+  childReportMsg?: IReportMsg[]
+}
+
+
 function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
   // 获取css中的引用样式文件路径集合
   const imports: string[] = getWxssImports(content)
@@ -149,6 +158,7 @@ export default class Convertor {
   miniprogramRoot: string
   convertConfig: IConvertConfig
   external: string[]
+  reportErroMsg: IReportMsg[]
 
   constructor (root, isTsProject) {
     this.root = root
@@ -170,6 +180,7 @@ export default class Convertor {
     this.hadBeenCopyedFiles = new Set<string>()
     this.hadBeenBuiltComponents = new Set<string>()
     this.hadBeenBuiltImports = new Set<string>()
+    this.reportErroMsg = []
     this.init()
   }
 
@@ -1223,6 +1234,18 @@ ${code}
     })
   }
 
+  /**
+   * generateReport: 为转换后的 taroConvert 工程添加转换报告
+   */
+  generateReport (){
+    const reportDir = path.join(this.convertRoot, 'report')
+    const reportBundleFilePath = path.resolve(__dirname, '../', 'report/bundle.js')
+    const reportIndexFilePath = path.resolve(__dirname, '../', 'report/report.html')
+
+    generateReportFile(reportBundleFilePath, reportDir, 'bundle.js', this.reportErroMsg)
+    generateReportFile(reportIndexFilePath, reportDir, 'report.html')
+  }
+
   showLog () {
     console.log()
     console.log(
@@ -1230,6 +1253,7 @@ ${code}
         'taroConvert'
       )} 目录下使用 npm 或者 yarn 安装项目依赖后再运行！`
     )
+    console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
   }
 
   run () {
@@ -1237,5 +1261,6 @@ ${code}
     this.generateEntry()
     this.traversePages()
     this.generateConfigFiles()
+    this.generateReport()
   }
 }
