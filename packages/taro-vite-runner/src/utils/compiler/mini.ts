@@ -7,19 +7,19 @@ import {
   resolveMainFilePath
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
-import { 
+import {
   ViteAppMeta,
   ViteFileType,
   ViteMiniBuildConfig,
   ViteMiniCompilerContext,
   ViteNativeCompMeta,
-  VitePageMeta 
+  VitePageMeta
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.mini'
-import { componentConfig } from '../../template/component'
 import { getComponentName } from '../../utils'
+import { componentConfig } from '../../utils/component'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
@@ -43,7 +43,7 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
 
   processConfig () {
     this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
-  } 
+  }
 
   getCommonChunks () {
     const { commonChunks } = this.taroConfig
@@ -138,7 +138,6 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
   }
 
   /** 工具函数 */
-
   getScriptPath (filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.script)
   }

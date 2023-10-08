@@ -33,11 +33,11 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
 
   processConfig () {
     const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConfig.staticDirectory as string
-    defaultConfig.imageUrlLoaderOption!.name = 
+    defaultConfig.imageUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'images', path.basename(filename))
-    defaultConfig.fontUrlLoaderOption!.name = 
+    defaultConfig.fontUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'fonts', path.basename(filename))
-    defaultConfig.mediaUrlLoaderOption!.name = 
+    defaultConfig.mediaUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'media', path.basename(filename))
     defaultConfig.output!.assetFileNames = ({ name }) => {
       if (!name) return '[ext]/[name].[hash][extname]'

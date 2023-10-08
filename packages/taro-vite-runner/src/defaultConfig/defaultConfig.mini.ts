@@ -3,7 +3,7 @@ import { ViteMiniBuildConfig } from '@tarojs/taro/types/compile/viteCompilerCont
 
 const platform = 'mini'
 
-const defaultConifg: Partial<ViteMiniBuildConfig> = {
+const defaultConfig: Partial<ViteMiniBuildConfig> = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   output: {
@@ -47,4 +47,4 @@ const defaultConifg: Partial<ViteMiniBuildConfig> = {
   }
 }
 
-export default defaultConifg
+export default defaultConfig

@@ -15,7 +15,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
   const isMultiRouterMode = taroConfig.router?.mode === 'multi'
   const isProd = getMode(taroConfig) === 'production'
 
-  const preset = [ 
+  const preset = [
     pipelinePlugin(viteCompilerContext),
     configPlugin(viteCompilerContext),
     router(viteCompilerContext),

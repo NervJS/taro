@@ -12,9 +12,9 @@ import {
   getMinify,
   getMode,
   getPostcssPlugins,
-  stripMultiPlatformExt 
+  stripMultiPlatformExt
 } from '../utils'
-import { DEFAULT_TERSER_OPTIONS, MINI_EXCULDE_POSTCSS_PLUGINA_NAME } from '../utils/constants'
+import { DEFAULT_TERSER_OPTIONS, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../utils/constants'
 import { logger } from '../utils/logger'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -154,7 +154,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     config: async () => ({
       mode: getMode(taroConfig),
       build: {
-        outDir: path.join(appPath, taroConfig.outputRoot as string),
+        outDir: path.join(appPath, taroConfig.outputRoot || 'dist'),
         target: 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
@@ -185,8 +185,8 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           plugins: [
             inject(getInjectOption()) as InputPluginOption,
             babel(getBabelOption(
-              taroConfig, 
-              { 
+              taroConfig,
+              {
                 defaultExclude: [/node_modules[/\\](?!@tarojs)/],
                 defaultInclude: [sourceDir, /taro/]
               }
@@ -206,7 +206,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       define: getDefineOption(),
       resolve: {
         mainFields: [...defaultMainFields],
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.vue'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.vue'],
         alias: [
           // 小程序使用 regenerator-runtime@0.11
           { find: 'regenerator-runtime', replacement: require.resolve('regenerator-runtime') },
@@ -220,7 +220,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
       },
       css: {
         postcss: {
-          plugins: getPostcssPlugins(appPath, __postcssOption, MINI_EXCULDE_POSTCSS_PLUGINA_NAME),
+          plugins: getPostcssPlugins(appPath, __postcssOption, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME),
         },
         preprocessorOptions: {
           ...(await getSassOption()),

@@ -104,7 +104,7 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   useDeprecatedAdapterComponent?: boolean
 
   /** 配置 postcss 相关插件 */
-  postcss?: IPostcssOption<'H5'>
+  postcss?: IPostcssOption<'h5'>
 
   /** html-webpack-plugin 的具体配置 */
   htmlPluginOption?: HtmlWebpackPlugin.Options

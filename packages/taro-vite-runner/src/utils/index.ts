@@ -6,19 +6,20 @@ import path from 'path'
 import querystring from 'querystring'
 import { sync as resolveSync } from 'resolve'
 
+import { MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from './constants'
 import createFilter from './createFilter'
 import { logger } from './logger'
 
 import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
-import type { ViteH5BuildConfig, 
-  ViteH5CompilerContext, 
-  ViteMiniBuildConfig, 
-  ViteMiniCompilerContext, 
+import type {
+  ViteH5BuildConfig,
+  ViteH5CompilerContext,
+  ViteMiniBuildConfig,
+  ViteMiniCompilerContext,
   VitePageMeta
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { CSSModulesOptions } from 'vite'
 import type { Target } from 'vite-plugin-static-copy'
-
 
 export function convertCopyOptions (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig) {
   const copy = taroConfig.copy
@@ -67,19 +68,19 @@ export function getComponentName (viteCompilerContext: ViteH5CompilerContext | V
   return componentName.replace(/^(\/|\\)/, '')
 }
 
-const virtaulModulePrefix ='\0'
-const virtaulModulePrefixREG = new RegExp(`^${virtaulModulePrefix}`)
+const virtualModulePrefix ='\0'
+const virtualModulePrefixREG = new RegExp(`^${virtualModulePrefix}`)
 
 export function appendVirtualModulePrefix (id: string): string {
-  return virtaulModulePrefix + id
+  return virtualModulePrefix + id
 }
 
 export function stripVirtualModulePrefix (id: string): string {
-  return id.replace(virtaulModulePrefixREG, '')
+  return id.replace(virtualModulePrefixREG, '')
 }
 
 export function isVirtualModule (id: string): boolean {
-  return virtaulModulePrefixREG.test(id)
+  return virtualModulePrefixREG.test(id)
 }
 
 export function isRelativePath (id: string | undefined): boolean {
@@ -126,9 +127,9 @@ export function generateQueryString (params: { [key: string] : string }): string
   return querystring.stringify(params)
 }
 
-export function getPostcssPlugins (appPath: string, option = {} as IPostcssOption, excludePluginNames: string[]) {
+export function getPostcssPlugins (appPath: string, option = {} as IPostcssOption, excludePluginNames = MINI_EXCLUDE_POSTCSS_PLUGIN_NAME) {
   const plugins: any[] = []
-  
+
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
     if (!pluginOption || excludePluginNames.includes(pluginName)) return
     if (Object.hasOwnProperty.call(pluginOption, 'enable') && !pluginOption.enable) return
@@ -186,7 +187,7 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
 
 
 export function getBabelOption (
-  taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig, 
+  taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig,
   filterConfig: {
     defaultInclude?: (string | RegExp)[]
     defaultExclude?: (string | RegExp)[]
@@ -206,7 +207,7 @@ export function getBabelOption (
   } else {
     let exclude: (string | RegExp)[] = []
     let include: (string | RegExp)[] = []
-  
+
     if (compile.exclude?.length) {
       const list = compile.exclude
       const isNodeModuleReseted = list.find((reg) => reg.toString().includes('node_modules'))

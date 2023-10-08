@@ -4,9 +4,9 @@ import legacy from '@vitejs/plugin-legacy'
 import { build, createServer } from 'vite'
 
 import h5Preset from './h5'
-import { componentConfig } from './template/component'
 import { convertCopyOptions, getMode } from './utils'
 import { TaroCompilerContext } from './utils/compiler/h5'
+import { componentConfig } from './utils/component'
 
 import type { InlineConfig, UserConfig } from 'vite'
 
