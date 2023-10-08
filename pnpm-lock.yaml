@@ -1387,6 +1387,7 @@ importers:
       '@tarojs/cli': workspace:*
       '@tarojs/components': workspace:*
       '@tarojs/helper': workspace:*
+      '@tarojs/runner-utils': workspace:*
       '@tarojs/runtime': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
@@ -1404,6 +1405,7 @@ importers:
       '@tarojs/cli': link:../taro-cli
       '@tarojs/components': link:../taro-components
       '@tarojs/helper': link:../taro-helper
+      '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/runtime': link:../taro-runtime
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared

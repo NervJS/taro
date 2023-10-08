@@ -17,7 +17,7 @@ export function getViteHarmonyCompilerContext<T extends ViteCompilerContext<unkn
   rollupPluginContext: PluginContext
 ): T | void {
   const info = rollupPluginContext.getModuleInfo(VITE_COMPILER_LABEL)
-  const compiler = info?.meta.compiler
+  const compiler = info?.meta.viteCompilerContext
   return compiler
 }
 
