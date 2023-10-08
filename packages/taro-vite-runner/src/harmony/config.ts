@@ -1,17 +1,18 @@
-import { type RollupBabelInputPluginOptions, babel } from '@rollup/plugin-babel'
+import { babel } from '@rollup/plugin-babel'
 import inject, { type RollupInjectOptions } from '@rollup/plugin-inject'
-import { defaultMainFields, fs, NODE_MODULES, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
-import { getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
+import { getBabelOption, getCSSModulesOptions, getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
 import { HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { CSSModulesOptions, PluginOption } from 'vite'
+import type { InputPluginOption } from 'rollup'
+import type { PluginOption } from 'vite'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
   const { taroConfig, cwd: appPath } = viteCompilerContext
@@ -57,44 +58,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
-  }
-
-  function getBabelOption(): RollupBabelInputPluginOptions {
-    const { compile = {} } = taroConfig
-    const babelOptions: RollupBabelInputPluginOptions = {
-      extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
-      babelHelpers: 'runtime',
-      skipPreflightCheck: true,
-    }
-
-    if (compile.exclude?.length) {
-      const list = compile.exclude
-      const isNodeModuleReseted = list.find((reg) => reg.toString().includes(NODE_MODULES))
-      if (!isNodeModuleReseted) list.push(/node_modules[/\\](?!@tarojs)/)
-      babelOptions.exclude = list
-    } else if (compile.include?.length) {
-      const sourceDir = path.join(appPath, taroConfig.sourceRoot || 'src')
-      babelOptions.include = [...compile.include, sourceDir, /taro/]
-    } else {
-      babelOptions.exclude = [/node_modules[/\\](?!@tarojs)/]
-    }
-
-    return babelOptions
-  }
-
-  function getCSSModulesOptions(): false | CSSModulesOptions {
-    if (taroConfig.postcss?.cssModules?.enable !== true) return false
-    const config = recursiveMerge(
-      {},
-      {
-        namingPattern: 'module',
-        generateScopedName: '[name]__[local]___[hash:base64:5]',
-      },
-      taroConfig.postcss.cssModules.config
-    )
-    return {
-      generateScopedName: config.generateScopedName,
-    }
   }
 
   function getInjectOption(): RollupInjectOptions {
@@ -218,9 +181,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
               // const isBabelModule = id.includes('@babel/runtime')
-              const isNodeMoudles = /[\\/]node_modules[\\/]/.test(id)
+              const isNodeModules = /[\\/]node_modules[\\/]/.test(id)
 
-              if (isNodeMoudles || /commonjsHelpers\.js$/.test(id)) {
+              if (isNodeModules || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
               } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
                 return 'vendors'
@@ -228,8 +191,15 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             },
           },
           plugins: [
-            inject(getInjectOption()) as PluginOption,
-            babel(getBabelOption()) as PluginOption,
+            inject(getInjectOption()) as InputPluginOption,
+            babel(getBabelOption(
+              taroConfig,
+              {
+                babelOption: {
+                  extensions: ['.js', '.jsx', '.ts', '.tsx', '.mjs', '.mts', '.es6', '.es', '.ets'],
+                },
+              }
+            )) as InputPluginOption,
           ],
         },
         commonjsOptions: {
@@ -258,7 +228,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         preprocessorOptions: {
           ...(await getSassOption()),
         },
-        modules: getCSSModulesOptions(),
+        modules: getCSSModulesOptions(taroConfig),
       },
     }),
   }

@@ -268,7 +268,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       opts.__vite_skip_esbuild__ = true
       const id = chunk.facadeModuleId || chunk.fileName
       const etsSuffix = /\.ets(\?\S*)?$/
-      if (etsSuffix.test(id) || chunk.moduleIds?.some(id => etsSuffix.test(id))) {
+      if (etsSuffix.test(id) || etsSuffix.test(chunk.fileName) || chunk.moduleIds?.some(id => etsSuffix.test(id))) {
         code = `// @ts-nocheck\n${helper.recoverEtsCode(id, code)}`
       }
 

@@ -189,23 +189,25 @@ export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5Bui
 
 
 export function getBabelOption (
-  taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig,
+  taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig,
   filterConfig: {
+    babelOption?: Partial<RollupBabelInputPluginOptions>
     defaultInclude?: (string | RegExp)[]
     defaultExclude?: (string | RegExp)[]
   } = {}
 ): RollupBabelInputPluginOptions {
   const { compile = {} } = taroConfig
-  const babelOptions: RollupBabelInputPluginOptions = {
-    extensions: ['.js', '.jsx', 'ts', 'tsx', '.es6', '.es', '.mjs'],
+  const { defaultExclude = [], defaultInclude = [], babelOption } = filterConfig
+  const opts: RollupBabelInputPluginOptions = {
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.es6', '.es', '.mjs', '.mts'],
     babelHelpers: 'runtime',
     skipPreflightCheck: true,
     compact: false,
+    ...babelOption,
   }
   const filter = compile.filter
-  const { defaultExclude = [], defaultInclude = [] } = filterConfig
   if (isFunction(filter)) {
-    babelOptions.filter = filter
+    opts.filter = filter
   } else {
     let exclude: (string | RegExp)[] = []
     let include: (string | RegExp)[] = []
@@ -221,9 +223,9 @@ export function getBabelOption (
       exclude = [...defaultExclude]
     }
     const filter = createFilter(include, exclude)
-    babelOptions.filter = filter
+    opts.filter = filter
   }
 
-  return babelOptions
+  return opts
 }
 
