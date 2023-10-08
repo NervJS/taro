@@ -1,6 +1,4 @@
-import { type } from 'os'
 import type { Input } from 'postcss'
-
 import type { Options as PostcssUrlOption } from 'postcss-url'
 
 export type Func = (...args: any[]) => any
