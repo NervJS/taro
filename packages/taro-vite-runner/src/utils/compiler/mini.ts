@@ -17,7 +17,7 @@ import {
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
-import defaultConifg from '../../defaultConfig/defaultConfig.mini'
+import defaultConfig from '../../defaultConfig/defaultConfig.mini'
 import { componentConfig } from '../../template/component'
 import { getComponentName } from '../../utils'
 import { CompilerContext } from './base'
@@ -42,7 +42,7 @@ export class TaroCompilerContext extends CompilerContext<ViteMiniBuildConfig> im
   }
 
   processConfig () {
-    this.taroConfig = recursiveMerge({}, defaultConifg, this.rawTaroConfig)
+    this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
   } 
 
   getCommonChunks () {

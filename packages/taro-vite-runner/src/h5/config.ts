@@ -13,7 +13,6 @@ import { getHtmlScript } from '../utils/html'
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-
 export default function (viteCompilerContext: ViteH5CompilerContext): PluginOption {
   const { taroConfig, cwd: appPath, app, sourceDir } = viteCompilerContext
   const routerMode = taroConfig.router?.mode || 'hash'
@@ -110,7 +109,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       mode,
       build: {
         outDir: path.join(appPath, taroConfig.outputRoot as string),
-        target: 'es6',
+        target:  taroConfig.legacy ? undefined : 'es6',
         cssCodeSplit: true,
         emptyOutDir: false,
         watch: taroConfig.isWatch ? {} : null,
@@ -119,7 +118,10 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         chunkSizeWarningLimit: Number.MAX_SAFE_INTEGER,
         rollupOptions: {
           output: {
-            entryFileNames: 'js/app.[hash].js',
+            entryFileNames: ({ facadeModuleId }) => {
+              if (facadeModuleId?.startsWith(sourceDir)) return 'js/app.[hash].js'
+              return 'js/[name].[hash].js'
+            },
             chunkFileNames: taroConfig.output!.chunkFileNames,
             assetFileNames: taroConfig.output!.assetFileNames,
             manualChunks(id, { getModuleInfo }) {

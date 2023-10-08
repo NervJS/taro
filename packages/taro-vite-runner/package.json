@@ -14,6 +14,7 @@
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "@vitejs/plugin-legacy": "^4.1.1",
     "acorn-walk": "^8.0.0",
     "autoprefixer": "^10.4.0",
     "connect-history-api-fallback": "^2.0.0",
