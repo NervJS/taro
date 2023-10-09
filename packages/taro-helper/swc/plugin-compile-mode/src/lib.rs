@@ -116,6 +116,12 @@ mod tests{
                         "style": "i.st",
                         "class": "i.cl",
                         "bindtap": "eh"
+                    },
+                    "movable-area": {
+                        "scale-area": "xs.b(i.p0,!1)",
+                        "style": "i.st",
+                        "class": "i.cl",
+                        "bindtap": "eh"
                     }
                 },
                 "adapter": {

@@ -35,19 +35,24 @@ impl TransformVisitor {
         let opening_element = &mut el.opening;
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
-                // TODO 内置组件才算
-                // TODO to_lowercase 对吗，SwiperItem 呢
-                let name = ident.sym.to_lowercase();
-                let component = self.config.components.get(&name);
-                let attrs = self.build_xml_attrs(opening_element, component);
-                let children = self.build_xml_children(el);
-                format!("<{}{}>{}</{}>", name, attrs, children, name)
+                let name = utils::to_kebab_case(&ident.sym);
+                match self.config.components.get(&name) {
+                    // 内置组件
+                    Some(attrs_map) => {
+                        let attrs = self.build_xml_attrs(opening_element, attrs_map);
+                        let children = self.build_xml_children(el);
+                        format!("<{}{}>{}</{}>", name, attrs, children, name)
+                    },
+                    // TODO 原生自定义组件
+                    // TODO React 组件
+                    None => String::new()
+                }
             }
             _ => String::new()
         }
     }
 
-    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, component: Option<&HashMap<String, String>>) -> String {
+    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> String {
         let mut props = HashMap::new();
         let mut attrs_string = String::new();
 
@@ -79,12 +84,7 @@ impl TransformVisitor {
                                     }
 
                                     // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
-                                    let value: &str = match component {
-                                        Some(attrs_map) => {
-                                            attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name)
-                                        },
-                                        None => &jsx_attr_name
-                                    };
+                                    let value: &str = attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name);
                                     // 按当前节点在节点树中的位置换算路径
                                     node_path.push('.');
                                     let value = if value.contains("i.") {

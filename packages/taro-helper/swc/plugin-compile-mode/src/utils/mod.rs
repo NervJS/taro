@@ -51,7 +51,7 @@ pub fn is_empty_jsx_text_line (atom: &Atom) -> bool {
     str.is_empty()
 }
 
-fn to_kebab_case (val: &str) -> String {
+pub fn to_kebab_case (val: &str) -> String {
     let mut res = String::new();
     val
         .chars()
