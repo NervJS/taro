@@ -405,7 +405,7 @@ export const createWxmlVistor = (
           // path.traverse({
           //   JSXAttribute: jsxAttrVisitor
           // })
-          const template = parseTemplate(path, dirPath)
+          const template = parseTemplate(path, dirPath, refIds)
           if (template) {
             const funcs: string[] = []
             const { ast: classDecl, name } = template
