@@ -19,5 +19,6 @@ export interface IHarmonyConfig {
   compile?: {
     exclude?: any[]
     include?: any[]
+    filter?: (filename: string) => boolean
   }
 }

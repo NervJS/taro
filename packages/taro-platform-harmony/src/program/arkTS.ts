@@ -1,4 +1,5 @@
 import { defaultMainFields, fs, NODE_MODULES, resolveSync } from '@tarojs/helper'
+import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import * as path from 'path'
 
 import { HARMONY_SCOPES, PACKAGE_NAME, PLATFORM_NAME } from '../utils'
@@ -241,11 +242,10 @@ export default class Harmony extends TaroPlatformHarmony {
         return {
           name: 'taro:vite-h5-loader-meta',
           async buildStart () {
-            await this.load({ id: 'taro:compiler' })
-            const info = this.getModuleInfo('taro:compiler')
-            const compiler = info?.meta.compiler
+            await this.load({ id: VITE_COMPILER_LABEL })
+            const info = this.getModuleInfo(VITE_COMPILER_LABEL)
+            const compiler = info?.meta.viteCompilerContext
             if (compiler) {
-
               switch (that.framework) {
                 // @ts-ignore
                 case 'solid':

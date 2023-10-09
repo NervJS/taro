@@ -32,6 +32,7 @@
     "@tarojs/cli": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",

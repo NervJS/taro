@@ -195,7 +195,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         const scriptSource = configPath.replace(sourceDir, '')
         const htmlScript = getHtmlScript(scriptSource, pxtransformOption)
         return html.replace(/<script><%= htmlWebpackPlugin.options.script %><\/script>/, htmlScript)
-      }
+      },
     },
   }
 }

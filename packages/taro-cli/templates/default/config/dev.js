@@ -7,4 +7,4 @@ export default {
   },<%}%>
   mini: {},
   h5: {}
-}<% if (typescript) {%> satisfies UserConfigExport<%}%>
+}<% if (typescript) {%> satisfies UserConfigExport<'<%= compiler %>'><%}%>
