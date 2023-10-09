@@ -132,6 +132,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         }
 
         return [
+          '// @ts-nocheck',
           setReconciler,
           'import UIAbility from "@ohos.app.ability.UIAbility"',
           'import { window, context } from "@tarojs/runtime"',

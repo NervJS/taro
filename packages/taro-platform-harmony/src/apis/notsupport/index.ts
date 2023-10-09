@@ -10,6 +10,8 @@ export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'rem
 
 /** wx:start **/
 export const login = temporarilyNotSupport('login')
+export const requirePlugin = temporarilyNotSupport('requirePlugin')
+export const getUpdateManager = temporarilyNotSupport('getUpdateManager')
 export const getAccountInfoSync = temporarilyNotSupport('getAccountInfoSync')
 export const navigateToMiniProgram = temporarilyNotSupport('navigateToMiniProgram')
 export const requestSubscribeMessage = temporarilyNotSupport('requestSubscribeMessage')
