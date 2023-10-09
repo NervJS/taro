@@ -114,8 +114,14 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   }
   if (properties.length) {
     properties.forEach((prop) => {
-      const attr = dom.getAttribute(prop)
-      if (attr) res[prop] = attr
+      const lowerProp = prop.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
+      let attr = dom.getAttribute(prop) || dom.getAttribute(lowerProp)
+      if (!attr && (dom.hasAttribute(prop) || dom.hasAttribute(lowerProp))) {
+        attr = 'true'
+      }
+      if (attr) {
+        res[prop] = attr === 'true' ? true : attr
+      }
     })
   }
   if (computedStyle.length) {
