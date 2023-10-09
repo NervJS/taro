@@ -103,6 +103,7 @@ class SelectorQueryTest extends React.Component {
           dataset: true,
           rect: true,
           computedStyle: ['margin'],
+          properties: ['scrollX', 'scrollY'],
           scrollOffset: true,
           size: true,
         },
@@ -131,6 +132,26 @@ class SelectorQueryTest extends React.Component {
           console.log("Taro.createSelectorQuery()->select('#mycanvas').fields(data, callback).exec()")
           Taro.createSelectorQuery()
             .select('#mycanvas')
+            .fields(data, (res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
+            })
+            .exec((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'exec', apiIndex)
+            })
+        },
+      },
+      {
+        id: 'NodesRef.fields2',
+        inputData: {
+          id: true,
+          computedStyle: ['fontSize'],
+          properties: ['loading'],
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('NodesRef.fields')
+          console.log("Taro.createSelectorQuery()->select('#button0').fields(data, callback).exec()")
+          Taro.createSelectorQuery()
+            .select('#button0')
             .fields(data, (res) => {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
             })
@@ -182,7 +203,7 @@ class SelectorQueryTest extends React.Component {
     return (
       <>
         <View style={{ fontSize: '30px', textAlign: 'center' }}>SelectorQuery测试</View>
-        <Button id='button0' className='test-view'>
+        <Button id='button0' loading style={{ fontSize: '20px' }} className='test-view'>
           id: #button0, class: test-view
         </Button>
         <Button id='button1' className='test-view'>
