@@ -18,7 +18,7 @@ mod transform;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
-    pub component_alias: HashMap<String, HashMap<String, String>>,
+    pub components: HashMap<String, HashMap<String, String>>,
     pub adapter: HashMap<String, String>,
 }
 
@@ -71,23 +71,51 @@ mod tests{
             r#"
             {
                 "tmpl_prefix": "f0",
-                "component_alias": {
+                "components": {
                     "image": {
-                        "_num": "1",
-                        "lazyLoad": "p0",
-                        "mode": "p1",
-                        "showMenuByLongpress": "p2",
-                        "src": "p3",
-                        "webp": "p4"
+                        "src": "i.p3",
+                        "mode": "xs.b(i.p1,'scaleToFill')",
+                        "lazy-load": "xs.b(i.p0,!1)",
+                        "binderror": "eh",
+                        "bindload": "eh",
+                        "bindtouchstart": "eh",
+                        "bindtouchmove": "eh",
+                        "bindtouchend": "eh",
+                        "bindtouchcancel": "eh",
+                        "bindlongpress": "eh",
+                        "webp": "xs.b(i.p4,false)",
+                        "show-menu-by-longpress": "xs.b(i.p2,false)",
+                        "style": "i.st",
+                        "class": "i.cl",
+                        "bindtap": "eh"
                     },
-                    "text": { "_num": "6", "decode": "p0", "selectable": "p1", "space": "p2" },
                     "view": {
-                        "_num": "7",
-                        "animation": "p0",
-                        "hoverClass": "p1",
-                        "hoverStartTime": "p2",
-                        "hoverStayTime": "p3",
-                        "hoverStopPropagation": "p4"
+                        "hover-class": "xs.b(i.p1,'none')",
+                        "hover-stop-propagation": "xs.b(i.p4,!1)",
+                        "hover-start-time": "xs.b(i.p2,50)",
+                        "hover-stay-time": "xs.b(i.p3,400)",
+                        "bindtouchstart": "eh",
+                        "bindtouchmove": "eh",
+                        "bindtouchend": "eh",
+                        "bindtouchcancel": "eh",
+                        "bindlongpress": "eh",
+                        "animation": "i.p0",
+                        "bindanimationstart": "eh",
+                        "bindanimationiteration": "eh",
+                        "bindanimationend": "eh",
+                        "bindtransitionend": "eh",
+                        "style": "i.st",
+                        "class": "i.cl",
+                        "bindtap": "eh"
+                    },
+                    "text": {
+                        "selectable": "xs.b(i.p1,!1)",
+                        "space": "i.p2",
+                        "decode": "xs.b(i.p0,!1)",
+                        "user-select": "xs.b(i.p3,false)",
+                        "style": "i.st",
+                        "class": "i.cl",
+                        "bindtap": "eh"
                     }
                 },
                 "adapter": {
@@ -191,7 +219,100 @@ mod tests{
                   </View>
                 </View>
               </View>
-        }      
+        }
+        "#
+    );
+
+    // Todo 补测试用例，整理测试目录结构
+    test!(
+        parser::Syntax::Es(parser::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        |_| tr(),
+        静态属性应该只在模板中保留,
+        r#"
+        function Index () {
+            return (
+              <View compileMode>
+                <Image className="my_img" src="https://taro.com/x.png" lazyLoad />
+              </View>
+            )
+          }
+        "#,
+        r#"
+        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><image class="my_img" lazy-load="true" src="https://taro.com/x.png"></image></view></template>';
+        function Index () {
+            return <View compileMode="f0t0">
+                <Image />
+              </View>
+        }
+        "#
+    );
+
+    test!(
+        parser::Syntax::Es(parser::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        |_| tr(),
+        应该正确处理动态属性,
+        r#"
+        function Index () {
+            return (
+              <View compileMode>
+                <View class={myClass}>
+                  <View style={myStyle} customProp={myCustomProp}></View>
+                  <View hoverStayTime={myTime}>
+                    <View hoverClass={myHoverClass}></View>
+                  </View>
+                </View>
+              </View>
+            )
+          }
+        "#,
+        r#"
+        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><view class="{{i.cn[0].cl}}"><view custom-prop="{{i.cn[0].cn[0].customProp}}" style="{{i.cn[0].cn[0].st}}"></view><view hover-stay-time="{{xs.b(i.cn[0].cn[1].p3,400)}}"><view hover-class="{{xs.b(i.cn[0].cn[1].cn[0].p1,\'none\')}}"></view></view></view></view></template>';
+        function Index () {
+            return <View compileMode="f0t0">
+                <View class={myClass}>
+                  <View style={myStyle} customProp={myCustomProp}></View>
+                  <View hoverStayTime={myTime}>
+                    <View hoverClass={myHoverClass}></View>
+                  </View>
+                </View>
+              </View>
+        }
+        "#
+    );
+
+    test!(
+        parser::Syntax::Es(parser::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        |_| tr(),
+        应该正确处理事件绑定,
+        r#"
+        function Index () {
+            return (
+              <View compileMode>
+                <View onClick={handleViewClick}></View>
+                <View onAnimationStart={() => {}} id={myId}></View>
+                <Image onLoad={() => {}} id="myImg" />
+              </View>
+            )
+          }
+        "#,
+        r#"
+        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><view bindtap="eh" data-sid="{{i.cn[0].sid}}" id="{{i.cn[0].sid}}"></view><view bindanimationstart="eh" data-sid="{{i.cn[1].sid}}" id="{{i.cn[1].id}}"></view><image bindload="eh" data-sid="{{i.cn[2].sid}}" id="myImg"></image></view></template>';
+        function Index () {
+            return <View compileMode="f0t0">
+                <View onClick={handleViewClick}></View>
+                <View onAnimationStart={() => {}} id={myId}></View>
+                <Image onLoad={() => {}} />
+              </View>
+        }
         "#
     );
 }

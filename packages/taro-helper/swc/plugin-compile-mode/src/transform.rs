@@ -36,9 +36,10 @@ impl TransformVisitor {
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
                 // TODO 内置组件才算
+                // TODO to_lowercase 对吗，SwiperItem 呢
                 let name = ident.sym.to_lowercase();
-                let alias_map = self.config.component_alias.get(&name);
-                let attrs = self.build_xml_attrs(opening_element, alias_map);
+                let component = self.config.components.get(&name);
+                let attrs = self.build_xml_attrs(opening_element, component);
                 let children = self.build_xml_children(el);
                 format!("<{}{}>{}</{}>", name, attrs, children, name)
             }
@@ -46,29 +47,29 @@ impl TransformVisitor {
         }
     }
 
-    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, alias_map: Option<&HashMap<String, String>>) -> String {
+    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, component: Option<&HashMap<String, String>>) -> String {
         let mut props = HashMap::new();
         let mut attrs_string = String::new();
 
         opening_element.attrs.retain_mut(|attr| {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
-                    let key = name.to_string();
-                    let event_name = utils::identify_jsx_event_key(&key);
+                    let jsx_attr_name = name.to_string();
+                    let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
+                    let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
                     let is_event = event_name.is_some();
                     match &jsx_attr.value {
                         Some(jsx_attr_value) => {
                             match jsx_attr_value {
                                 JSXAttrValue::Lit(Lit::Str(Str { value, ..  })) => {
                                     // 静态属性在 xml 中保留即可，jsx 中可以删除
-                                    if key != COMPILE_MODE {
-                                        props.insert(key, value.to_string());
+                                    if jsx_attr_name != COMPILE_MODE {
+                                        props.insert(miniapp_attr_name, value.to_string());
                                         return false
                                     }
                                 },
                                 JSXAttrValue::JSXExprContainer(..) => {
-                                    // TODO xs 指令
-                                    let node_path = self.get_current_node_path();
+                                    let mut node_path = self.get_current_node_path();
                                     if is_event {
                                         props.insert(event_name.unwrap(), String::from("eh"));
                                         if props.get("data-sid").is_none() {
@@ -76,28 +77,32 @@ impl TransformVisitor {
                                         }
                                         return true
                                     }
-                                    let attr_alias: &str = match alias_map {
-                                        Some(m) => {
-                                            let alias = m.get(&key).unwrap_or(&key);
-                                            if alias == "className" {
-                                                "cl"
-                                            } else if alias == "style" {
-                                                "st"
-                                            } else {
-                                                alias
-                                            }
+
+                                    // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
+                                    let value: &str = match component {
+                                        Some(attrs_map) => {
+                                            attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name)
                                         },
-                                        None => &key
+                                        None => &jsx_attr_name
                                     };
-                                    let val = format!("{{{{{}.{}}}}}", node_path, attr_alias);
-                                    props.insert(key, val);
+                                    // 按当前节点在节点树中的位置换算路径
+                                    node_path.push('.');
+                                    let value = if value.contains("i.") {
+                                        value.replace("i.", &node_path)
+                                    } else {
+                                        format!("{}{}", node_path, value)
+                                    };
+                                    // 得出最终的模板属性值
+                                    let miniapp_attr_value = format!("{{{{{}}}}}", value);
+
+                                    props.insert(miniapp_attr_name, miniapp_attr_value);
                                 },
                                 _ => ()
                             }
                         },
                         None => {
-                            // 布尔值属在 jsx 中也可以删除了
-                            props.insert(key, String::from("true"));
+                            // 布尔值在 jsx 中也可以删除了
+                            props.insert(miniapp_attr_name, String::from("true"));
                             return false
                         }
                     }
@@ -111,8 +116,11 @@ impl TransformVisitor {
             props.insert(String::from("id"), props.get("data-sid").unwrap().clone());
         }
 
-        for (key, value) in props {
-            let key = utils::convert_jsx_attr_key(&key, &self.config.adapter);
+        // 生成的 template 需要幂等
+        let mut keys: Vec<&String> = props.keys().collect();
+        keys.sort();
+        for key in keys {
+            let value = props.get(key).unwrap();
             attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
         }
 
@@ -174,9 +182,11 @@ impl TransformVisitor {
                                             **jsx_expr = Expr::JSXElement(el.take());
                                         },
                                         Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
-                                            let el = paren_expr.as_mut_jsx_element().unwrap();
-                                            handle_condition_if(el);
-                                            **jsx_expr = Expr::JSXElement(el.take());
+                                            if paren_expr.is_jsx_element() {
+                                                let el = paren_expr.as_mut_jsx_element().unwrap();
+                                                handle_condition_if(el);
+                                                **jsx_expr = Expr::JSXElement(el.take());
+                                            }
                                         },
                                         _ => ()
                                     }
