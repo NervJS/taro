@@ -37,7 +37,7 @@ import {
   incrementId,
   transRelToAbsPath,
 } from './util'
-import { generateMinimalEscapeCode, hasTaroImport, isCommonjsModule } from './util/astConvert'
+import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
 import type { AppConfig, TabBar } from '@tarojs/taro'
@@ -387,13 +387,11 @@ export default class Convertor {
                   scriptComponents.push(componentName)
                 }
                 if (/^\S(\S)*Tmpl$/.test(componentName)) {
-                  const templateImport = imports.find(tmplImport => 
-                    tmplImport.name === `${componentName}`
-                  )
+                  const templateImport = imports.find((tmplImport) => tmplImport.name === `${componentName}`)
                   const templateFuncs = templateImport?.funcs
                   if (templateFuncs && templateFuncs.length > 0) {
                     const attributes: any[] = openingElement.node.attributes
-                    templateFuncs.forEach(templateFunc => {
+                    templateFuncs.forEach((templateFunc) => {
                       const memberExpression = t.memberExpression(t.thisExpression(), t.identifier(templateFunc))
                       const value = t.jsxExpressionContainer(memberExpression)
                       const name = t.jsxIdentifier(templateFunc)
@@ -431,7 +429,7 @@ export default class Convertor {
         },
         exit (astPath) {
           const bodyNode = astPath.get('body') as NodePath<t.Node>[]
-          const lastImport = bodyNode.filter((p) => p.isImportDeclaration()).pop()
+          const lastImport = bodyNode.filter((p) => p.isImportDeclaration() || isCommonjsImport(p)).pop()
           if (needInsertImportTaro && !hasTaroImport(bodyNode)) {
             // 根据模块类型（commonjs/es6) 确定导入taro模块的类型
             if (isCommonjsModule(bodyNode)) {
@@ -482,12 +480,20 @@ export default class Convertor {
           })
           if (lastImport) {
             if (importStylePath) {
-              lastImport.insertAfter(
-                t.importDeclaration(
-                  [],
-                  t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))
+              if (isCommonjsModule(bodyNode)) {
+                lastImport.insertAfter(
+                  t.callExpression(t.identifier('require'), [
+                    t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath))),
+                  ])
                 )
-              )
+              } else {
+                lastImport.insertAfter(
+                  t.importDeclaration(
+                    [],
+                    t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath)))
+                  )
+                )
+              }
             }
             if (imports && imports.length) {
               imports.forEach(({ name, ast, wxs }) => {
