@@ -102,6 +102,7 @@ interface EventDetail {
 function getEventDetail (event: any): EventDetail {
   let detail: EventDetail
   switch (ENV) {
+    case Taro.ENV_TYPE.MPHARMONY:
     case Taro.ENV_TYPE.WEB:
       detail = {
         pageX: event.pageX,
@@ -191,7 +192,7 @@ function isTest (): boolean {
 let scrollTop = 0
 
 function handleTouchScroll (flag: any): void {
-  if (ENV !== Taro.ENV_TYPE.WEB) {
+  if (ENV !== Taro.ENV_TYPE.WEB && ENV !== Taro.ENV_TYPE.MPHARMONY) {
     return
   }
   if (flag) {
