@@ -131,11 +131,14 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
   })
 }
 
-// 对 style 属性值进行解析
-function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) {
-  const styleValue = path.node.value as any
-  const styleAttrs = styleValue.value.split(';')
-  styleAttrs.forEach((attr) => {
+/**
+ * 对 style 中单个属性值进行解析
+ * 
+ * @param { any[] } styleAttrsMap 元素为单个属性值的数组
+ * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组 
+ */
+function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
+  styleAttrsMap.forEach((attr) => {
     if (attr) {
       // 对含三元运算符的写法 style="width:{{ xx ? xx : xx }}" 匹配第一个 : 避免匹配三元表达式中的 : 运算符
       const reg = /([^:]+):\s*([^;]+)/
@@ -143,60 +146,58 @@ function parseStyleAttrs (styleAttrsMap: any[], path: NodePath<t.JSXAttribute>) 
       const attrName = matchs[1]
       const value = matchs[2]
       if (attrName) {
-        styleAttrsMap.push({ attrName, value })
+        attrKeyValueMap.push({ attrName, value })
       }
     }
   })
 }
 
-function convertStyleUnit (path: NodePath<t.JSXAttribute>) {
+function convertStyleUnit (value: string) {
+  let tempValue = value
   // 尺寸单位转换 都转为rem : 1rpx 转为 1/40rem,,1px 转为 1/20rem
-  if (t.isStringLiteral(path.node.value)) {
-    let tempValue = path.node.value.value
-    if (tempValue.indexOf('px') !== -1) {
-      // 把 xxx="...[数字]rpx/px" 的尺寸单位都转为 rem, 转换方法类似postcss-taro-unit-transform
-      try {
-        tempValue = tempValue
-          .replace(/:\s*-?([0-9.]+)(px)\b/gi, function (match, size, unit) {
-            if (Number(size) === 0) {
-              return match.replace(size, '0rem')
-            }
-            // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
-            if (parseInt(size, 10) === 0) {
-              return match.replace(size, '1rem')
-            }
-            return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
-          })
-          .replace(/:\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
-            if (Number(size) === 0) {
-              return match.replace(size, '0rem')
-            }
-            if (parseInt(size, 10) === 0) {
-              return match.replace(size, '1rem')
-            }
-            return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
-          })
-        // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
-        tempValue = tempValue
-          .replace(/\{\{([^{}]*)\}\}(px)/gi, function (match, size, unit) {
-            // 判断{{}}是否包含加减乘除算式和三元表达式, 是的话得加括号
-            if (match.match(/[+\-*/?]/g)) {
-              return match.replace(size, '(' + size + ')/20').replace(unit, 'rem')
-            }
-            return match.replace(size, size + '/20').replace(unit, 'rem')
-          })
-          .replace(/\{\{([^{}]*)\}\}(rpx)/gi, function (match, size, unit) {
-            if (match.match(/[+\-*/?]/g)) {
-              return match.replace(size, '(' + size + ')/40').replace(unit, 'rem')
-            }
-            return match.replace(size, size + '/40').replace(unit, 'rem')
-          })
-      } catch (error) {
-        printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
-      }
-      path.node.value.value = tempValue
+  if (tempValue.indexOf('px') !== -1) {
+    // 把 xxx="...[数字]rpx/px" 的尺寸单位都转为 rem, 转换方法类似postcss-taro-unit-transform
+    try {
+      tempValue = tempValue
+        .replace(/\s*-?([0-9.]+)(px)\b/gi, function (match, size, unit) {
+          if (Number(size) === 0) {
+            return match.replace(size, '0rem')
+          }
+          // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
+          if (parseInt(size, 10) === 0) {
+            return match.replace(size, '1rem')
+          }
+          return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
+        })
+        .replace(/\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
+          if (Number(size) === 0) {
+            return match.replace(size, '0rem')
+          }
+          if (parseInt(size, 10) === 0) {
+            return match.replace(size, '1rem')
+          }
+          return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
+        })
+      // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
+      tempValue = tempValue
+        .replace(/\{\{([^{}]*)\}\}(px)/gi, function (match, size, unit) {
+          // 判断{{}}是否包含加减乘除算式和三元表达式, 是的话得加括号
+          if (match.match(/[+\-*/?]/g)) {
+            return match.replace(size, '(' + size + ')/20').replace(unit, 'rem')
+          }
+          return match.replace(size, size + '/20').replace(unit, 'rem')
+        })
+        .replace(/\{\{([^{}]*)\}\}(rpx)/gi, function (match, size, unit) {
+          if (match.match(/[+\-*/?]/g)) {
+            return match.replace(size, '(' + size + ')/40').replace(unit, 'rem')
+          }
+          return match.replace(size, size + '/40').replace(unit, 'rem')
+        })
+    } catch (error) {
+      printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
     }
   }
+  return tempValue
 }
 
 export const createWxmlVistor = (
@@ -229,57 +230,6 @@ export const createWxmlVistor = (
     if (name.name === 'style' && !path.node.value) {
       path.remove()
       return
-    }
-
-    // 把wxml中的 xx = "...rpx" / xx = "...px" 的单位都转为rem
-    convertStyleUnit(path)
-
-    // 解析标签中 style 属性
-    if (name.name === 'style' && t.isStringLiteral(path.node.value)) {
-      const styleValue = path.node.value.value?.trim()
-      const matchDoubleBraceReg = /^({{)(.*?)(}})$/
-      const matchs = matchDoubleBraceReg.exec(styleValue)
-      // 处理 style="{{ xxx }}" 这种写法
-      if (matchs) {
-        // 获取 {{ }} 中的值
-        const content = matchs?.[2].trim()
-        if (content) {
-          try {
-            const contentAst = parseFile(content).program.body[0] as any
-            if (t.isExpressionStatement(contentAst)) {
-              path.node.value = t.jsxExpressionContainer(contentAst.expression)
-            } else {
-              // style="{{ 'height:100px;width:100px' }}"，在这种场景下使用 exec 方法匹配 matchs 时，会在左右再添加单引号，会导致格式为 ''xxx'' 这种错误。使用 slice 去掉多余单引号
-              path.node.value = t.stringLiteral(content.replace(/^'|'$/g, ''))
-            }
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.log(`style属性解析失败,errorMsg: ${error}`)
-          }
-        } else {
-          path.remove() // 如果 style="{{}}" 存在空值，删除该属性
-          return
-        }
-      }
-      // 处理 style="xxx:xxx" 这种写法
-      else {
-        if (styleValue.replace(/^'|'$/g, '') !== '') {
-          try {
-            const styleAttrsMap: any[] = []
-            parseStyleAttrs(styleAttrsMap, path)
-            convertStyleAttrs(styleAttrsMap)
-            const objectLiteral = t.objectExpression(
-              styleAttrsMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
-            )
-            path.node.value = t.jsxExpressionContainer(objectLiteral)
-          } catch (error) {
-            printLog(processTypeEnum.ERROR, `style属性解析失败:${error}`)
-          }
-        } else {
-          path.remove() // 如果 style="''" 存在空字符串，删除该属性
-          return
-        }
-      }
     }
 
     const valueCopy = cloneDeep(path.get('value').node)
@@ -1068,21 +1018,75 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
   }
 }
 
+/**
+ * 判断 style 中的属性是否都是 attrName: attrValue 格式
+ * 
+ * @param styleAttrsMap 
+ */
+function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
+  // 匹配 attrName: attrValue 格式
+  const isKeyValueFormat = /^(([A-Za-z-]+)\s*):(\s*).*/
+  const filterStyleAttrs = styleAttrsMap.filter((attr) => attr.trim() !== '')
+  const isStringAttr = filterStyleAttrs.every((attr) => isKeyValueFormat.test(attr.trim()))
+  return isStringAttr
+}
+
+/**
+ * 解析内联style属性
+ * 
+ * @param key 内联属性的类型
+ * @param value 内联属性的值
+ * @returns 
+ */
+function parseStyle (key: string, value: string) {
+  const styleAttrs = value.trim().split(';')
+  // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
+  if (isAllKeyValueFormat(styleAttrs)) {
+    const attrKeyValueMap: any[] = []
+    parseStyleAttrs(styleAttrs, attrKeyValueMap)
+    convertStyleAttrs(attrKeyValueMap)
+    const objectLiteral = t.objectExpression(
+      attrKeyValueMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))
+    )
+    return t.jSXAttribute(t.jSXIdentifier(key), t.jsxExpressionContainer(objectLiteral))
+  } else {
+    return parseContent(value)
+  }
+}
+
 function parseAttribute (attr: Attribute) {
   let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
+  let type = ''
+  let content = ''
   if (value) {
     if (key === 'class' && value.startsWith('[') && value.endsWith(']')) {
       value = value.slice(1, value.length - 1).replace(',', '')
       // eslint-disable-next-line no-console
       console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
     }
-
+    
+    value = convertStyleUnit(value)
+    // 判断属性是否为style属性
     if (key === 'style' && value) {
-      return t.jSXAttribute(t.jSXIdentifier(key), t.stringLiteral(value))
+      try {
+        const styleParseReslut = parseStyle(key, value)
+        if (t.isJSXAttribute(styleParseReslut)) {
+          return styleParseReslut
+        } else {
+          content = styleParseReslut.content
+          type = styleParseReslut.type
+        }
+      } catch (error) {
+        const errorMsg = `当前属性: style="${value}" 解析失败，失败原因：${error}`
+        printLog(processTypeEnum.ERROR, errorMsg)
+        throw new Error(errorMsg)
+      }
+    } else {
+      const parseContentResult = parseContent(value)
+      content = parseContentResult.content
+      type = parseContentResult.type
     }
-
-    const { type, content } = parseContent(value)
 
     if (type === 'raw') {
       jsxValue = t.stringLiteral(content.replace(/"/g, "'"))
