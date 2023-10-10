@@ -1,19 +1,19 @@
 import * as t from '@babel/types'
 
 import { parseScript } from '../src/script'
-import { parseWXML , WXS } from '../src/wxml'
+import { parseWXML, WXS } from '../src/wxml'
 
 
 interface Option {
   script: string
-  scriptPath:string
+  scriptPath: string
   wxml: object
   wxses: WXS[]
-  refIds: Set<string> 
+  refIds: Set<string>
   isApp: boolean
 }
 
-const option:Option = {
+const option: Option = {
   script: '',
   scriptPath: '',
   wxml: {},
@@ -21,8 +21,10 @@ const option:Option = {
   refIds: new Set<string>(),
   isApp: false
 }
-describe('parseScript', () => {
 
+describe('parseScript', () => {
+  // 调用 parseWXML 需要用到的参数，因parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
+  let path = ''
   // 解析app.js
   test('app.js', () => {
     option.script = `
@@ -53,17 +55,18 @@ describe('parseScript', () => {
     expect(ast).toMatchSnapshot()
   })
 
-  // 当wxml是纯文本
+  // 当wxml是纯文本 parseWXML的返回值 { wxml } 影响js转换
   test('wxml jsxText', () => {
     option.script = `App({})`
     const wxmlStr = `123`
-    // 调用 parseWXML 会首先获取缓存，所以第一个参数建议保持唯一。以下用例同理
-    const { wxml } = parseWXML('wxml_jsxText', wxmlStr)
+    // 调用 parseWXML 会首先获取缓存，所以第一个参数path建议保持唯一
+    path = 'wxml_jsxText'
+    const { wxml } = parseWXML(path, wxmlStr)
     const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, option.wxses, option.refIds, true)
     expect(ast).toMatchSnapshot()
   })
 
-  // 当wxml存在变量
+  // 当wxml存在变量 parseWXML的返回值 { wxml } 影响js转换
   test('wxml expression', () => {
     option.script = `
       App({
@@ -73,7 +76,9 @@ describe('parseScript', () => {
       })
     `
     const wxmlStr = `<view>{{str}}</view>`
-    const { wxml } = parseWXML('wxml_expression', wxmlStr)
+    // 调用 parseWXML 会首先获取缓存，所以第一个参数path建议保持唯一
+    path = 'wxml_expression'
+    const { wxml } = parseWXML(path, wxmlStr)
     const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, option.wxses, option.refIds, true)
     expect(ast).toMatchSnapshot()
   })

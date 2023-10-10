@@ -22,10 +22,9 @@ const option: Option = {
 }
 
 describe('wxml.ts测试', () => {
-  
   test('当wxml 是 undefined', () => {
     option.wxml = undefined
-    // 存在缓存  需改变path  以下涉及parseWXML测试用例的同理
+    //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
     option.path = 'wxml_undefined'
     const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
     expect(wxml?.type).toBe('NullLiteral')
@@ -36,6 +35,7 @@ describe('wxml.ts测试', () => {
 
   test('wxml 简单应用', () => {
     option.wxml = `<view>Hello Word!</view>`
+    //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
     option.path = 'wxml__'
     const { wxml } = parseWXML(option.path, option.wxml)
     // wxml转为ast
@@ -51,6 +51,7 @@ describe('wxml.ts测试', () => {
                     </wxs>
                     <view>Hello Word!</view>
                     <view>{{wxs_demo.data}}</view>`
+    //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
     option.path = 'wxml_wxs'
     const { wxses, imports } = parseWXML(option.path, option.wxml)
     expect(wxses).toMatchSnapshot()
