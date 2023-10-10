@@ -84,7 +84,7 @@ export function createRouter (
         // NOTE: webpack5 与 prebundle 搭配使用时，开发环境下初次启动时偶发错误，由于 HMR 加载 chunk hash 错误，导致热更新失败
         window.location.reload()
       } else {
-        throw new Error(error)
+        throw error
       }
     }
     if (!element) return
