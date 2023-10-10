@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { getPkgVersion } from '@tarojs/cli/dist/util'
 import { type IFileType, type TConfig, TaroPlatform } from '@tarojs/service'
+import { getPkgVersion } from '@tarojs/service/dist/utils/package'
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
 
 export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends TaroPlatform<T> {

@@ -29,7 +29,6 @@
     "url": "https://gitee.com/openharmony-sig/taro/issues"
   },
   "dependencies": {
-    "@tarojs/cli": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",

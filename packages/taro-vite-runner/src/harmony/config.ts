@@ -79,8 +79,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       getCurrentPages: ['@tarojs/taro', 'getCurrentPages']
     }
 
-    const injectOptions: Record<string, any> = {}
-    // const injectOptions = taroConfig.injectOptions
+    const injectOptions = taroConfig.injectOptions
 
     if (injectOptions?.include) {
       for (const key in injectOptions.include) {
