@@ -1,6 +1,7 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
 import { View, Text, Input } from '@tarojs/components'
+import ButtonList from '@/components/buttonList'
 import { TestConsole } from '@/util/util'
 import './index.scss'
 
@@ -11,68 +12,38 @@ import './index.scss'
 
 export default class Index extends React.Component {
   state = {
-    api: {
-      id: 'makePhoneCall',
-      func: (inputValue) => {
-        TestConsole.consoleTest('makePhoneCall')
-        Taro.makePhoneCall({
-          phoneNumber: inputValue,
-          success: (res) => {
-            TestConsole.consoleSuccess(res)
-          },
-          fail: (res) => {
-            TestConsole.consoleFail(res)
-          },
-          complete: (res) => {
-            TestConsole.consoleComplete(res)
-          },
-        }).then((res) => {
-          TestConsole.consoleReturn(res)
-        })
+    list: [
+      {
+        id: 'makePhoneCall',
+        inputData: {
+          phoneNumber: '13352354363',
+        },
+        func: (apiIndex, data) => {
+          const { phoneNumber } = data
+          TestConsole.consoleTest('makePhoneCall')
+          Taro.makePhoneCall({
+            phoneNumber,
+            success: (res) => {
+              TestConsole.consoleSuccess.call(this, res, apiIndex)
+            },
+            fail: (res) => {
+              TestConsole.consoleFail.call(this, res, apiIndex)
+            },
+            complete: (res) => {
+              TestConsole.consoleComplete.call(this, res, apiIndex)
+            },
+          }).then((res) => {
+            TestConsole.consoleResult.call(this, res, apiIndex)
+          })
+        },
       },
-    },
-    inputValue: '',
-    disabled: true,
-  }
-  changeNumber = (e) => {
-    let inputValue = e.detail.value + ''
-    console.log(this)
-    if (inputValue.length > 0) {
-      this.setState({
-        inputValue,
-        disabled: false,
-      })
-    } else {
-      this.setState({
-        inputValue,
-        disabled: true,
-      })
-    }
+    ],
   }
   render() {
-    const { api, inputValue, disabled } = this.state
+    const { list } = this.state
     return (
       <View className='api-page'>
-        <View>请在下方输入电话号码</View>
-        <Input type='number' name='input' onInput={this.changeNumber} />
-        <View
-          className='api-page-btn'
-          onClick={
-            disabled
-              ? () => {
-                  Taro.showToast({
-                    title: '请输入手机号码',
-                    icon: 'error',
-                  })
-                }
-              : () => {
-                  api.func(inputValue)
-                }
-          }
-        >
-          {api.id}
-          {api.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-        </View>
+        <ButtonList buttonList={list} />
       </View>
     )
   }

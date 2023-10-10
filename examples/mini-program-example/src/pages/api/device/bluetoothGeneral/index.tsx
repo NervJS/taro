@@ -37,7 +37,7 @@ export default class Index extends React.Component {
           //     TestConsole.consoleComplete(res)
           //   },
           // }).then((res) => {
-          //   TestConsole.consoleReturn({ errMsg: res.errMsg })
+          //   TestConsole.consoleResult({ errMsg: res.errMsg })
           // })
         },
       },
@@ -87,7 +87,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete(res)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleResult(res)
           })
         },
       },
@@ -106,7 +106,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete(res)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleResult(res)
           })
         },
       },
@@ -125,7 +125,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete(res)
             },
           }).then((res) => {
-            TestConsole.consoleReturn(res)
+            TestConsole.consoleResult(res)
           })
         },
       },
@@ -144,7 +144,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete(res)
             },
           }).then((res) => {
-            TestConsole.consoleReturn({ errMsg: res.errMsg })
+            TestConsole.consoleResult({ errMsg: res.errMsg })
           })
         },
       },
@@ -269,7 +269,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn({ errMsg: res.errMsg })
+//             TestConsole.consoleResult({ errMsg: res.errMsg })
 //           })
 //         },
 //       },
@@ -296,7 +296,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn({ errMsg: res.errMsg })
+//             TestConsole.consoleResult({ errMsg: res.errMsg })
 //           })
 //         },
 //       },
@@ -315,7 +315,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn({ errMsg: res.errMsg })
+//             TestConsole.consoleResult({ errMsg: res.errMsg })
 //           })
 //         },
 //       },
@@ -377,7 +377,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn(res)
+//             TestConsole.consoleResult(res)
 //           })
 //         },
 //       },
@@ -396,7 +396,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn(res)
+//             TestConsole.consoleResult(res)
 //           })
 //         },
 //       },
@@ -415,7 +415,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn(res)
+//             TestConsole.consoleResult(res)
 //           })
 //         },
 //       },
@@ -434,7 +434,7 @@ export default class Index extends React.Component {
 //               TestConsole.consoleComplete(res)
 //             },
 //           }).then((res) => {
-//             TestConsole.consoleReturn({ errMsg: res.errMsg })
+//             TestConsole.consoleResult({ errMsg: res.errMsg })
 //           })
 //         },
 //       },
