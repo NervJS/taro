@@ -767,7 +767,12 @@ function transformLoop (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodeP
           // 如果同时使用了 wx:if，分离
           const ifBlock = buildBlockElement()
           ifBlock.children = [cloneDeep(jsx.node)]
-          jsx.replaceWith(ifBlock)
+          try {
+            jsx.replaceWith(ifBlock)
+          } catch (error) {
+            // jsx外层是wx:if的转换，替换（replaceWith）时会抛出异常
+            // catch异常后，正常替换
+          }
           p.remove()
         }
       })

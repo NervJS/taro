@@ -10,7 +10,8 @@ export const ENV_TYPE = {
   WEB: 'WEB',
   RN: 'RN',
   HARMONY: 'HARMONY',
-  QUICKAPP: 'QUICKAPP'
+  QUICKAPP: 'QUICKAPP',
+  MPHARMONY: 'MPHARMONY',
 }
 
 const isWeb = isWebPlatform()
@@ -28,6 +29,8 @@ export function getEnv () {
     return ENV_TYPE.JD
   } else if (process.env.TARO_ENV === 'qq') {
     return ENV_TYPE.QQ
+  } else if (process.env.TARO_ENV === 'mpharmony') {
+    return ENV_TYPE.MPHARMONY
   } else if (isWeb) {
     return ENV_TYPE.WEB
   } else if (process.env.TARO_ENV === 'rn') {

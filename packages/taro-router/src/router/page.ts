@@ -101,6 +101,13 @@ export default class PageHandler {
     return style !== 'custom'
   }
 
+  handleNavigationStyle () {
+    const appEl = document.querySelector('.taro_router')
+    this.isDefaultNavigationStyle() ?
+      appEl?.classList.add('taro_navigation') :
+      appEl?.classList.remove('taro_navigation')
+  }
+
   isSamePage (page?: PageInstance | null) {
     const routePath = stripBasename(this.pathname, this.basename)
     const pagePath = stripBasename(page?.path, this.basename)
@@ -212,7 +219,6 @@ export default class PageHandler {
     if (pageEl) {
       setDisplay(pageEl)
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
-      this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
@@ -221,7 +227,6 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
-        this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, true)
         page.onShow?.()
@@ -229,6 +234,7 @@ export default class PageHandler {
         this.triggerRouterChange()
       })
     }
+    this.handleNavigationStyle()
   }
 
   unload (page?: PageInstance | null, delta = 1, top = false) {
@@ -264,6 +270,7 @@ export default class PageHandler {
         eventCenter.trigger('__taroPageOnShowAfterDestroyed')
       }, 0)
     }
+    this.handleNavigationStyle()
     if (delta >= 1) this.unload(stacks.last, delta)
   }
 
