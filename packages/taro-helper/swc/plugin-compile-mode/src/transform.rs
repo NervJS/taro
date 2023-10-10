@@ -262,8 +262,11 @@ impl VisitMut for TransformVisitor {
     fn visit_mut_module_items (&mut self, body_stmts: &mut Vec<ModuleItem>) {
         body_stmts.visit_mut_children_with(self);
 
-        let stmts_being_inserted = self.templates.iter()
-            .map(|(key, value)| {
+        let mut keys: Vec<&String> = self.templates.keys().collect();
+        keys.sort();
+        let stmts_being_inserted = keys.into_iter()
+            .map(|key| {
+                let value = self.templates.get(key).unwrap();
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span,
                     kind: VarDeclKind::Const,

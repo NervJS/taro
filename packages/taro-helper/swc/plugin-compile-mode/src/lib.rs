@@ -236,7 +236,40 @@ mod tests{
             ..Default::default()
         }),
         |_| tr(),
-        静态属性应该只在模板中保留,
+        should_support_multi_compile_mode,
+        r#"
+        function Index () {
+            return (
+              <View>
+                <Image src={mySrc} compileMode />
+                <View compileMode>
+                  <Text>Hello World!</Text>
+                </View>
+              </View>
+            )
+          }
+        "#,
+        r#"
+        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><image src="{{i.p3}}"></image></template>';
+        const TARO_TEMPLATES_f0t1 = '<template name="tmpl_0_f0t1"><view><text>Hello World!</text></view></template>';
+        function Index () {
+            return <View>
+                <Image src={mySrc} compileMode="f0t0" />
+                <View compileMode="f0t1">
+                  <Text>Hello World!</Text>
+                </View>
+              </View>
+        }
+        "#
+    );
+
+    test!(
+        parser::Syntax::Es(parser::EsConfig {
+            jsx: true,
+            ..Default::default()
+        }),
+        |_| tr(),
+        should_keep_static_attrs_only_in_templates,
         r#"
         function Index () {
             return (
@@ -262,7 +295,7 @@ mod tests{
             ..Default::default()
         }),
         |_| tr(),
-        应该正确处理动态属性,
+        should_turn_dynamic_attrs,
         r#"
         function Index () {
             return (
@@ -298,7 +331,7 @@ mod tests{
             ..Default::default()
         }),
         |_| tr(),
-        应该正确处理事件绑定,
+        should_handle_events,
         r#"
         function Index () {
             return (
