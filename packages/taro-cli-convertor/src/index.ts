@@ -104,12 +104,11 @@ interface IConvertConfig {
 }
 
 interface IReportMsg {
-  filePath: string  // 报告信息所在文件路径
-  message: string   // 报告信息
-  type?: string     // 报告信息类型
+  filePath: string // 报告信息所在文件路径
+  message: string // 报告信息
+  type?: string // 报告信息类型
   childReportMsg?: IReportMsg[]
 }
-
 
 function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
   // 获取css中的引用样式文件路径集合
@@ -1243,7 +1242,7 @@ ${code}
   /**
    * generateReport: 为转换后的 taroConvert 工程添加转换报告
    */
-  generateReport (){
+  generateReport () {
     const reportDir = path.join(this.convertRoot, 'report')
     const reportBundleFilePath = path.resolve(__dirname, '../', 'report/bundle.js')
     const reportIndexFilePath = path.resolve(__dirname, '../', 'report/report.html')

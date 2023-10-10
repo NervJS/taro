@@ -17,9 +17,9 @@ import type * as t from '@babel/types'
 const NODE_MODULES = 'node_modules'
 
 interface IReportMsg {
-  filePath: string   // 报告信息文件路径
-  message: string    // 报告信息
-  type?: string      // 报告信息类型
+  filePath: string // 报告信息文件路径
+  message: string // 报告信息
+  type?: string // 报告信息类型
   childReportMsg?: IReportMsg[]
 }
 
@@ -304,14 +304,14 @@ export function getWxssImports (content: string) {
 }
 
 /**
-   * copyFileTo： 将报告模版文件复制到转换后 taroConvert 目录中
-   * 
-   * @param { string } sourceFilePath 源文件路径
-   * @param { string } targeFileDir 转换后文件所在目录
-   * @param { string } targeFileName 转换后文件名
-   * @param { IReportMsg[] } reportErroMsg 报错信息
-   */
-export function generateReportFile (sourceFilePath, targeFileDir, targeFileName, reportErroMsg?: IReportMsg[]){
+ * copyFileTo： 将报告模版文件复制到转换后 taroConvert 目录中
+ *
+ * @param { string } sourceFilePath 源文件路径
+ * @param { string } targeFileDir 转换后文件所在目录
+ * @param { string } targeFileName 转换后文件名
+ * @param { IReportMsg[] } reportErroMsg 报错信息
+ */
+export function generateReportFile (sourceFilePath, targeFileDir, targeFileName, reportErroMsg?: IReportMsg[]) {
   try {
     if (!fs.existsSync(targeFileDir)) {
       fs.mkdirSync(targeFileDir)
