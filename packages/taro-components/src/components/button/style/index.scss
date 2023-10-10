@@ -82,6 +82,8 @@ taro-button-core {
     left: 0;
     top: 0;
     box-sizing: border-box;
+    border: 1px solid rgb(0 0 0 / 20%);
+    border-radius: $weuiBtnBorderRadius * 2;
     width: 200%;
     height: 200%;
     content: " ";
