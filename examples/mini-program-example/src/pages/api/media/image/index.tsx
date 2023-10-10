@@ -29,7 +29,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
+            TestConsole.consoleResult.call(this, res, apiIndex)
           })
         },
       },
@@ -51,7 +51,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
+            TestConsole.consoleResult.call(this, res, apiIndex)
           })
         },
       },
@@ -73,7 +73,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
+            TestConsole.consoleResult.call(this, res, apiIndex)
           })
         },
       },
@@ -95,7 +95,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
+            TestConsole.consoleResult.call(this, res, apiIndex)
           })
         },
       },
@@ -126,7 +126,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
+            TestConsole.consoleResult.call(this, res, apiIndex)
           })
         },
       },
@@ -148,7 +148,7 @@ export default class Index extends React.Component {
                   TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
               }).then((res) => {
-                TestConsole.consoleReturn.call(this, res, apiIndex)
+                TestConsole.consoleResult.call(this, res, apiIndex)
               })
             },
             fail: (err) => {
@@ -181,7 +181,7 @@ export default class Index extends React.Component {
                   TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
               }).then((res) => {
-                TestConsole.consoleReturn.call(this, res, apiIndex)
+                TestConsole.consoleResult.call(this, res, apiIndex)
               })
             },
             fail: (err) => {
@@ -240,7 +240,7 @@ export default class Index extends React.Component {
                   TestConsole.consoleComplete(res1)
                 },
               }).then((ret1) => {
-                TestConsole.consoleReturn(ret1)
+                TestConsole.consoleResult(ret1)
               })
             },
           }).then((res) => {
@@ -276,7 +276,7 @@ export default class Index extends React.Component {
                   TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
               }).then((res) => {
-                TestConsole.consoleReturn.call(this, res, apiIndex)
+                TestConsole.consoleResult.call(this, res, apiIndex)
               })
             },
             fail: (err) => {
@@ -318,7 +318,7 @@ export default class Index extends React.Component {
                   TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
               }).then((res) => {
-                TestConsole.consoleReturn.call(this, res, apiIndex)
+                TestConsole.consoleResult.call(this, res, apiIndex)
               })
             },
             fail: (err) => {
@@ -360,7 +360,7 @@ export default class Index extends React.Component {
                   TestConsole.consoleComplete.call(this, res, apiIndex)
                 },
               }).then((res) => {
-                TestConsole.consoleReturn.call(this, res, apiIndex)
+                TestConsole.consoleResult.call(this, res, apiIndex)
               })
             },
             fail: (err) => {

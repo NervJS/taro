@@ -128,7 +128,7 @@ export default class Index extends React.Component {
               TestConsole.consoleComplete.call(this, res, apiIndex)
             },
           }).then((res) => {
-            TestConsole.consoleReturn.call(this, res, apiIndex)
+            TestConsole.consoleResult.call(this, res, apiIndex)
           })
         },
       },
@@ -164,7 +164,7 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             }).then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
+              TestConsole.consoleResult.call(this, res, apiIndex)
             })
           } catch (err) {
             TestConsole.consoleDebug('chooseLocation', err)
@@ -191,7 +191,7 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             }).then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
+              TestConsole.consoleResult.call(this, res, apiIndex)
             })
           } catch (err) {
             TestConsole.consoleDebug('getFuzzyLocation', err)
@@ -219,7 +219,7 @@ export default class Index extends React.Component {
                 TestConsole.consoleComplete.call(this, res, apiIndex)
               },
             }).then((res) => {
-              TestConsole.consoleReturn.call(this, res, apiIndex)
+              TestConsole.consoleResult.call(this, res, apiIndex)
             })
           } catch (err) {
             TestConsole.consoleDebug('openLocation', err)

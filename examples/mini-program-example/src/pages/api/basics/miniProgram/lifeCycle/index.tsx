@@ -14,10 +14,10 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getLaunchOptionsSync',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getLaunchOptionsSync')
           const options = Taro.getLaunchOptionsSync()
-          TestConsole.consoleNormal('getLaunchOptionsSync', options)
+          TestConsole.consoleResult.call(this, options, apiIndex)
         },
       },
       {

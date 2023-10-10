@@ -30,9 +30,9 @@ export const TestConsole = {
     console.log('%ccomplete:\n', 'color:black;font-weight:bold', res)
     setCallbackRes.call(this, res, 'complete', apiIndex)
   },
-  consoleReturn: function (res, apiIndex = -1) {
-    console.log('%creturn:\n', 'color:blue;font-weight:bold', res)
-    setCallbackRes.call(this, res, 'return', apiIndex)
+  consoleResult: function (res, apiIndex = -1) {
+    console.log('%cresult:\n', 'color:blue;font-weight:bold', res)
+    setCallbackRes.call(this, res, 'result', apiIndex)
   },
   consoleOnCallback: function (res, apiName, apiIndex = -1) {
     console.log(`%c${apiName} callback:\n`, 'color:green;font-weight:bold', res)

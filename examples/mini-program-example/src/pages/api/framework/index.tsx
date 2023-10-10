@@ -31,16 +31,16 @@ export default class Index extends React.Component {
       },
       {
         id: 'getApp',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getApp')
-          TestConsole.consoleNormal('Taro.getApp', Taro.getApp())
+          TestConsole.consoleResult.call(this, Taro.getApp(), apiIndex)
         },
       },
       {
         id: 'getCurrentPages',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getCurrentPages')
-          TestConsole.consoleNormal('Taro.getCurrentPages', Taro.getCurrentPages())
+          TestConsole.consoleResult.call(this, Taro.getCurrentPages(), apiIndex)
         },
       },
       {

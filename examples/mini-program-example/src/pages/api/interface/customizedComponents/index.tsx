@@ -3,6 +3,7 @@ import Taro from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
+import { TestConsole } from '@/util/util'
 
 /**
  * 界面-自定义组件
@@ -14,13 +15,16 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'nextTick',
-        func: (apiIndex) => {
-          let data = 0 // 直接在当前同步流程中执行
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.nextTick')
+          let consoleContext = 'before nextTick'
+          TestConsole.consoleResult.call(this, consoleContext, apiIndex)
           Taro.nextTick(() => {
-            data = 1 // 在当前同步流程结束后，下一个时间片执行
+            consoleContext = 'in nextTick'
+            TestConsole.consoleResult.call(this, consoleContext, apiIndex)
           })
-          data = 2 // 直接在当前同步流程中执行
-          console.log('nextTick success ', data)
+          consoleContext = 'after nextTick'
+          TestConsole.consoleResult.call(this, consoleContext, apiIndex)
         },
       },
     ],
