@@ -21,6 +21,10 @@ function loadNavigationSytle () {
   top: ${naviHeight}px;
 }
 
+.taro-tabbar__container .taro_navigation .taro_page {
+  max-height: calc(100vh - ${naviHeight}px);
+}
+
 .taro-tabbar__container .taro_navigation .taro_page.taro_tabbar_page {
   max-height: calc(100vh - 50px - ${naviHeight}px);
 }`
