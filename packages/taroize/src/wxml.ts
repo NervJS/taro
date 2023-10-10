@@ -808,7 +808,11 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
     return
   }
   // 考虑到wx:if和wx:for的优先级，如果同时使用，先解析wx:for
-  if (jsx.node.openingElement.attributes.some((a) => t.isJSXAttribute(a) && (a.name.name === 'wx:for' || a.name.name === 'wx:for-items'))) {
+  if (
+    jsx.node.openingElement.attributes.some(
+      (a) => t.isJSXAttribute(a) && (a.name.name === 'wx:for' || a.name.name === 'wx:for-items')
+    )
+  ) {
     return
   }
   const conditions: Condition[] = []

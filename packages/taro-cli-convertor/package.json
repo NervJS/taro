@@ -9,7 +9,9 @@
     "prod": "tsc",
     "clean": "rimraf dist",
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix"
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:cov": "jest --coverage && npm run lint"
   },
   "files": [
     "bin",
@@ -29,6 +31,25 @@
   "engines": {
     "node": ">=12"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/taroize/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "utils"
+    ]
+  },
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
@@ -46,6 +67,8 @@
   },
   "devDependencies": {
     "@babel/parser": "^7.14.5",
-    "@tarojs/taro": "workspace:*"
+    "@tarojs/taro": "workspace:*",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.0.5"
   }
 }
