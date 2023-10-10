@@ -262,7 +262,7 @@ export class XMLHttpRequest extends Events {
 
     if (ENABLE_COOKIE) {
       // 处理 set-cookie
-      const setCookieStr = header['Set-Cookie']
+      const setCookieStr = this.getResponseHeader('set-cookie')
 
       if (setCookieStr && typeof setCookieStr === 'string') {
         let start = 0
@@ -297,12 +297,13 @@ export class XMLHttpRequest extends Events {
     // 处理返回数据
     if (data) {
       this.#callReadyStateChange(XMLHttpRequest.LOADING)
-      const loadstartEvent = createXMLHttpRequestEvent('loadstart', this, header['Content-Length'])
+      const contentLength = Number(this.getResponseHeader('content-length') || 0)
+      const loadstartEvent = createXMLHttpRequestEvent('loadstart', this, contentLength)
       this.trigger('loadstart', loadstartEvent)
       isFunction(this.onloadstart) && this.onloadstart(loadstartEvent)
       this.#response = data
 
-      const loadEvent = createXMLHttpRequestEvent('load', this, header['Content-Length'])
+      const loadEvent = createXMLHttpRequestEvent('load', this, contentLength)
       this.trigger('load', loadEvent)
       isFunction(this.onload) && this.onload(loadEvent)
     }
@@ -334,7 +335,7 @@ export class XMLHttpRequest extends Events {
       })
       return
     }
-    this.#status =  0
+    this.#status = 0
     this.#statusText = err.errMsg || err.errorMessage
     const errorEvent = createXMLHttpRequestEvent('error', this, 0)
     this.trigger('error', errorEvent)
@@ -349,7 +350,8 @@ export class XMLHttpRequest extends Events {
     this.#callReadyStateChange(XMLHttpRequest.DONE)
 
     if (this.#status) {
-      const loadendEvent = createXMLHttpRequestEvent('loadend', this, this.#header['Content-Length'])
+      const contentLength = Number(this.getResponseHeader('content-length') || 0)
+      const loadendEvent = createXMLHttpRequestEvent('loadend', this, contentLength)
       this.trigger('loadend', loadendEvent)
       isFunction(this.onloadend) && this.onloadend(loadendEvent)
     }
