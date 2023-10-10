@@ -36,6 +36,7 @@ function hydrateTextNode (node: TaroText): MiniTextData {
 
 function hydrateElementNode (node: TaroElement): MiniElementData {
   const nodeName = node.nodeName
+  let isCompileMode = false
 
   const data: MiniElementData = {
     [Shortcuts.NodeName]: nodeName,
@@ -84,7 +85,7 @@ function hydrateElementNode (node: TaroElement): MiniElementData {
       data[Shortcuts.NodeName] = CATCH_VIEW
     }
     if (propInCamelCase === COMPILE_MODE) {
-      data[Shortcuts.NodeName] = props[prop]
+      isCompileMode = true
     }
   }
 
@@ -105,6 +106,10 @@ function hydrateElementNode (node: TaroElement): MiniElementData {
         delete data[prop]
       }
     }
+  }
+
+  if (isCompileMode) {
+    data[Shortcuts.NodeName] = props[COMPILE_MODE]
   }
 
   return data

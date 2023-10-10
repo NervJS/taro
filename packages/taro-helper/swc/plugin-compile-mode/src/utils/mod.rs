@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 pub mod constants;
 
-pub fn named_iter<'a> (str: &'a str) -> impl FnMut() -> String + 'a {
+pub fn named_iter (str: String) -> impl FnMut() -> String {
     let mut count = -1;
     return move || {
         count += 1;

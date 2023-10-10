@@ -19,15 +19,20 @@ pub struct TransformVisitor {
     pub is_compile_mode: bool,
     pub node_stack: Vec<usize>,
     pub templates: HashMap<String, String>,
+    pub get_tmpl_name: Box<dyn FnMut() -> String>
 }
 
 impl TransformVisitor {
     pub fn new (config: PluginConfig) -> Self {
+        let get_tmpl_name = Box::new(utils::named_iter(
+            format!("{}t", config.tmpl_prefix)
+        ));
         Self {
             config,
             is_compile_mode: false,
             node_stack: vec![],
             templates: HashMap::new(),
+            get_tmpl_name
         }
     }
 
@@ -231,10 +236,7 @@ impl VisitMut for TransformVisitor {
                 if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
                     if &*jsx_attr_name.sym == COMPILE_MODE {
                         self.is_compile_mode = true;
-                        let tmpl_prefix = format!("{}t", self.config.tmpl_prefix);
-                        // TODO 测试同一文件多个编译模式的情况
-                        let mut get_tmpl_name = utils::named_iter(&tmpl_prefix);
-                        tmpl_name = get_tmpl_name();
+                        tmpl_name = (self.get_tmpl_name)();
                         jsx_attr.value = Some(JSXAttrValue::Lit(Lit::Str(Str {
                             span,
                             value: tmpl_name.clone().into(),
