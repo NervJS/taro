@@ -67,6 +67,8 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, re
     if (value === null || !t.isStringLiteral(value)) {
       throw new Error('template 的 `name` 属性只能是字符串')
     }
+    // 收集template原始name, 作为map的key
+    const templateName = value.value
     const className = buildTemplateName(value.value)
 
     path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
@@ -106,6 +108,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, re
     return {
       name: className,
       ast: classDecl,
+      tmplName: templateName,
     }
   } else if (is && t.isJSXAttribute(is.node)) {
     const value = is.node.value
