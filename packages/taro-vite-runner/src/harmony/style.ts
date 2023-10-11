@@ -1,6 +1,6 @@
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
-import { CSS_EXT, fs, resolveSync } from '@tarojs/helper'
+import { CSS_EXT, fs, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
 import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import MagicString from 'magic-string'
 import path from 'path'
@@ -105,70 +105,68 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         SPECIAL_QUERY_RE.test(id) ||
         loadParseImportRE.test(id)
       ) return
-      if (
-        !isStyleRequest(id)
-      ) {
-        if (/pages\/index\/index.tsx/.test(id)) {
-          try {
-            const cssIdSet = new Set<string>()
-            transformSync(raw, {
-              filename: id,
-              parserOpts: {
-                plugins: [
-                  'typescript',
-                ],
-              },
+      if (!isStyleRequest(id)) {
+        if (!REG_SCRIPTS.test(id)) return
+        if (!/pages\/index\/index.tsx/.test(id)) return
+        // console.log('transform', id, typeof raw)
+        try {
+          const cssIdSet = new Set<string>()
+          transformSync(raw, {
+            filename: id,
+            parserOpts: {
               plugins: [
-                [
-                  function importPlugin (): BabelCore.PluginObj<BabelCore.PluginPass> {
-                    return {
-                      name: 'taro-import-plugin',
-                      visitor: {
-                        ImportDeclaration(ats) {
-                          const rawId = ats.node.source.value
-                          const resolveId = resolveSync(rawId, {
-                            basedir: path.dirname(id) || viteCompilerContext.sourceDir,
-                            extensions: CSS_EXT,
-                          })
-
-                          if (resolveId && CSS_LANGS_RE.test(resolveId)) {
-                            // Note: 预加载依赖的 CSS 文件
-                            const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
-                            cssIdSet.add(cssId)
-                          }
-                          // const node = path.node
-                          // if (t.isIdentifier(node) && node.loc) {
-                          //   await that.load.add(node.name)
-                          // }
-                        }
-                      },
-                    }
-                  }
-                ]
+                'typescript',
               ],
-            })
-            // Note: 确保 CSS 文件已经加载
-            await Promise.all(Array.from(cssIdSet).map(async (cssId) => {
-              await this.load({
-                id: cssId,
-                resolveDependencies: true,
-              })
-            }))
+            },
+            plugins: [
+              [
+                function importPlugin (): BabelCore.PluginObj<BabelCore.PluginPass> {
+                  return {
+                    name: 'taro-import-plugin',
+                    visitor: {
+                      ImportDeclaration(ats) {
+                        const rawId = ats.node.source.value
+                        const resolveId = resolveSync(rawId, {
+                          basedir: path.dirname(id) || viteCompilerContext.sourceDir,
+                          extensions: CSS_EXT,
+                        })
 
-            const cssRawArr = Array.from(cssIdSet).map((cssId) => {
-              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
-              return cssCache.get(rawId) || ''
+                        if (resolveId && CSS_LANGS_RE.test(resolveId)) {
+                          // Note: 预加载依赖的 CSS 文件
+                          const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
+                          cssIdSet.add(cssId)
+                        }
+                        // const node = path.node
+                        // if (t.isIdentifier(node) && node.loc) {
+                        //   await that.load.add(node.name)
+                        // }
+                      }
+                    },
+                  }
+                }
+              ]
+            ],
+          })
+          // Note: 确保 CSS 文件已经加载
+          await Promise.all(Array.from(cssIdSet).map(async (cssId) => {
+            await this.load({
+              id: cssId,
+              resolveDependencies: true,
             })
-            const rawCode = parseJSXStyle(raw, cssRawArr)
-            const s = new MagicString(rawCode)
-            return {
-              code: s.toString(),
-              map: s.generateMap({ hires: true }),
-            }
-          } catch (error) {
-            console.error(error)
+          }))
+
+          const cssRawArr = Array.from(cssIdSet).map((cssId) => {
+            const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
+            return cssCache.get(rawId) || ''
+          })
+          const rawCode = parseJSXStyle(raw, cssRawArr)
+          const s = new MagicString(rawCode)
+          return {
+            code: s.toString(),
+            map: s.generateMap({ hires: true }),
           }
-          // console.log('getModuleInfo', id, raw.split('\n').slice(85, 150).join('\n'))
+        } catch (error) {
+          console.error(error)
         }
         return
       }
