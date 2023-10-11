@@ -67,9 +67,67 @@ struct Index {
     this.page?.onUnLoad?.call(this)
   }
 
+
+
+  async showTree() {
+    const taskQueen = []
+
+    function showTree (tree, level = 1) {
+      const res = {}
+      Object.keys(tree).forEach(k => {
+        const item = tree[k]
+        if (k === 'nodeName' && item === 'TEXT') {
+          return
+        }
+        // 匹配的属性
+        if (['nodeName', '_st', '_textContent', '_attrs'].includes(k)) {
+          res[k] = item
+        }
+      })
+      let attr = ''
+      Object.keys(res).forEach(k => {
+        // 过滤空的
+        if (k === 'nodeName') {
+          return
+        } else  if (k === '_textContent' && !res[k]) {
+          return
+        } else if (k === '_st' && !Object.keys(res[k]).length) {
+          return
+        } else if (k === '_attrs' && !Object.keys(res[k]).length) {
+          return
+        }
+        attr += \`\${k}=\${JSON.stringify(res[k])} \`
+      })
+
+      if(tree.childNodes?.length) {
+        taskQueen.push(() => {
+          console.info('fuck-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
+        })
+        tree.childNodes.forEach(child => {
+          showTree(child, level+1)
+        })
+        taskQueen.push(() => {
+          console.info('fuck-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
+        })
+      } else {
+        taskQueen.push(() => {
+          console.info('fuck-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
+        })
+      }
+    }
+
+    showTree(this.node)
+    for (let i = 0; i < taskQueen.length; i++) {
+      taskQueen[i]()
+      await new Promise((resolve) => setTimeout(resolve, 16))
+    }
+  }
+
   build() {
     Scroll(this.scroller) {
       Column() {
+        Button('打印NodeTree')
+          .onClick(this.showTree.bind(this))
         TaroView({ node: this.node })
       }
     }
