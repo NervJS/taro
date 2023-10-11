@@ -6,19 +6,22 @@ import entryPlugin from './entry'
 import etsPlugin from './ets'
 import pagePlugin from './page'
 import pipelinePlugin from './pipeline'
+import { stylePlugin, stylePostPlugin } from './style'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { PluginOption } from 'vite'
+import type { UserConfig } from 'vite'
 
-export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption[] {
+export default function (viteCompilerContext: ViteHarmonyCompilerContext): UserConfig['plugins'] {
   return [
     pipelinePlugin(viteCompilerContext),
     configPlugin(viteCompilerContext),
+    stylePlugin(viteCompilerContext),
     entryPlugin(viteCompilerContext),
     pagePlugin(viteCompilerContext),
     etsPlugin(viteCompilerContext),
     multiPlatformPlugin(viteCompilerContext),
     emitPlugin(viteCompilerContext),
-    importPlugin(viteCompilerContext)
+    importPlugin(viteCompilerContext),
+    stylePostPlugin(viteCompilerContext),
   ]
 }
