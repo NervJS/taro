@@ -1,6 +1,6 @@
 import path from 'path'
 
-import { joinUrlSegments } from './style-utils'
+import { addLeadingSlash, stripTrailingSlash } from '../../utils'
 
 import type { InternalModuleFormat } from 'rollup'
 import type { ResolvedConfig } from 'vite'
@@ -23,6 +23,11 @@ const backSlashRegEx = /\\/g
 function escapeId(id: string): string {
   if (!needsEscapeRegEx.test(id)) return id
   return id.replace(backSlashRegEx, '\\\\').replace(quoteNewlineRegEx, '\\$1')
+}
+
+function joinUrlSegments(a: string, b: string): string {
+  if (!a || !b) return a || b || ''
+  return stripTrailingSlash(a) + addLeadingSlash(b)
 }
 
 const getResolveUrl = (path: string, URL = 'URL') => `new ${URL}(${path}).href`

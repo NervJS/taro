@@ -4,6 +4,7 @@ import * as babelParser from '@babel/parser'
 import babelTraverse from '@babel/traverse'
 import * as t from '@babel/types'
 import * as child_process from 'child_process'
+import { createHash } from 'crypto'
 import * as fs from 'fs-extra'
 import { camelCase, flatMap, isPlainObject, mergeWith } from 'lodash'
 import * as os from 'os'
@@ -178,6 +179,10 @@ export function getConfig(): Record<string, any> {
     return require(configPath)
   }
   return {}
+}
+
+export function getHash(text: Buffer | string): string {
+  return createHash('sha256').update(text).digest('hex').substring(0, 8)
 }
 
 export function getSystemUsername(): string {

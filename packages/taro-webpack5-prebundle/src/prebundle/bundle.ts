@@ -4,6 +4,7 @@ import {
   esbuild,
   externalEsbuildModule,
   fs,
+  getHash,
   REG_SCRIPTS,
   swc,
 } from '@tarojs/helper'
@@ -11,7 +12,7 @@ import { init, parse } from 'es-module-lexer'
 import { defaults } from 'lodash'
 import path from 'path'
 
-import { flattenId, getDefines, getHash, getResolve } from '../utils'
+import { flattenId, getDefines, getResolve } from '../utils'
 import { assetsRE, moduleRE } from '../utils/constant'
 
 import type Chain from 'webpack-chain'

@@ -4,9 +4,8 @@ import { createRequire } from 'module'
 import path from 'path'
 import { type Alias, type ResolvedConfig, type ResolveFn, normalizePath } from 'vite'
 
-import { isExternalUrl, requireResolveFromRootWithFallback } from '../style-utils'
 import { cssDataUriRE, cssUrlRE, importCssRE, PostCssDialectLang, PreprocessLang } from './constants'
-import { cleanScssBugUrl, fixScssBugImportValue, rewriteCssDataUris, rewriteCssUrls, rewriteImportCss } from './utils'
+import { cleanScssBugUrl, fixScssBugImportValue, isExternalUrl, requireResolveFromRootWithFallback, rewriteCssDataUris, rewriteCssUrls, rewriteImportCss } from './utils'
 
 import type Less from 'less'
 import type PostCSS from 'postcss'

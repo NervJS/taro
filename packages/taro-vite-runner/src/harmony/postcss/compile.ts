@@ -1,15 +1,15 @@
-import { chalk } from '@tarojs/helper'
+import { chalk, getHash } from '@tarojs/helper'
 import glob from 'fast-glob'
 import path from 'path'
 import { normalizePath } from 'vite'
 
-import { checkPublicFile } from '../style-asset'
-import { cleanUrl, combineSourcemaps, generateCodeFrame, getHash, removeDirectQuery } from '../style-utils'
+import { checkPublicFile } from './asset'
 import { CSS_LANGS_RE } from './constants'
 import { type CssLang, cssImageSetRE, cssModuleRE, cssUrlRE, PostCssDialectLang, PreprocessLang } from './constants'
 import { resolvePostcssConfig } from './resolve'
 import { configToAtImportResolvers, createCSSResolvers, getCssResolversKeys, less, loadPreprocessor, sass, scss, styl } from './resolvers'
 import { UrlRewritePostcssPlugin } from './url'
+import { cleanUrl, combineSourcemaps, generateCodeFrame, removeDirectQuery } from './utils'
 
 import type { RawSourceMap } from '@ampproject/remapping'
 import type PostCSS from 'postcss'

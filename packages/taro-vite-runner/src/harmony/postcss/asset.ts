@@ -1,4 +1,4 @@
-import { fs } from '@tarojs/helper'
+import { fs, getHash } from '@tarojs/helper'
 import { Buffer } from 'buffer'
 import MagicString from 'magic-string'
 import * as mrmime from 'mrmime'
@@ -6,16 +6,13 @@ import path from 'path'
 import { URL } from 'url'
 import { normalizePath } from 'vite'
 
-import { publicAssetUrlRE } from './postcss/constants'
+import { addTrailingSlash } from '../../utils'
 import {
   createToImportMetaURLBasedRelativeRuntime,
   toOutputFilePathInJS,
-} from './style-build'
-import {
-  cleanUrl,
-  getHash,
-  withTrailingSlash,
-} from './style-utils'
+} from './build'
+import { publicAssetUrlRE } from './constants'
+import { cleanUrl } from './utils'
 
 import type {
   NormalizedOutputOptions,
@@ -128,7 +125,7 @@ export function checkPublicFile(
   const publicFile = path.join(publicDir, cleanUrl(url))
   if (
     !normalizePath(publicFile).startsWith(
-      withTrailingSlash(normalizePath(publicDir)),
+      addTrailingSlash(normalizePath(publicDir)),
     )
   ) {
     // can happen if URL starts with '../'

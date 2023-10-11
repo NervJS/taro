@@ -2,17 +2,13 @@ import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
 import { CSS_EXT, fs, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
 import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
+import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import path from 'path'
 import { normalizePath, resolveConfig } from 'vite'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
 import { compileCSS } from './postcss'
-import { commonjsProxyRE, CSS_LANGS_RE,
-  cssModuleRE, htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE, publicAssetUrlRE, SPECIAL_QUERY_RE,
-  usedRE,
-} from './postcss/constants'
-import { finalizeCss } from './postcss/utils'
 import {
   assetUrlRE,
   checkPublicFile,
@@ -21,12 +17,14 @@ import {
   publicAssetUrlCache,
   publicFileToBuiltUrl,
   renderAssetUrlInJS,
-} from './style-asset'
-import { toOutputFilePathInCss } from './style-build'
+} from './postcss/asset'
+import { toOutputFilePathInCss } from './postcss/build'
 import {
-  arrayEqual,
-  stripBomTag,
-} from './style-utils'
+  commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
+  htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
+  publicAssetUrlRE, SPECIAL_QUERY_RE, usedRE,
+} from './postcss/constants'
+import { finalizeCss, stripBomTag } from './postcss/utils'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -474,7 +472,7 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
             const bundleChunk = bundle[key]
             if (
               bundleChunk.type === 'chunk' &&
-              arrayEqual(bundleChunk.moduleIds, pureCssChunk.moduleIds)
+              isEqual(bundleChunk.moduleIds, pureCssChunk.moduleIds)
             ) {
               pureCssChunkNames.push(key)
               break

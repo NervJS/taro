@@ -99,7 +99,9 @@ export function stripMultiPlatformExt (id: string): string {
   return id.replace(new RegExp(`\\.${process.env.TARO_ENV}$`), '')
 }
 
+export const addLeadingSlash = (url = '') => (url.charAt(0) === '/' ? url : '/' + url)
 export const addTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url : url + '/')
+export const stripTrailingSlash = (url = '') => (url.charAt(url.length - 1) === '/' ? url.substring(0, url.length - 1) : url)
 
 export function getMode (config: ViteH5BuildConfig | ViteHarmonyBuildConfig | ViteMiniBuildConfig) {
   const preMode = config.mode || process.env.NODE_ENV

@@ -1,6 +1,5 @@
-import { asyncReplace, processSrcSet } from '../style-utils'
 import { cssImageSetRE, cssNotProcessedRE, cssUrlRE } from './constants'
-import { doUrlReplace, rewriteCssUrls } from './utils'
+import { asyncReplace, doUrlReplace, processSrcSet, rewriteCssUrls } from './utils'
 
 import type * as PostCSS from 'postcss'
 import type { Logger } from 'vite'
