@@ -79,6 +79,7 @@ export interface Imports {
   wxs?: boolean
   // 模板处理事件的function
   funcs?: string[]
+  tmplName?: string
 }
 
 export interface Wxml {
@@ -133,9 +134,9 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
 
 /**
  * 对 style 中单个属性值进行解析
- * 
+ *
  * @param { any[] } styleAttrsMap 元素为单个属性值的数组
- * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组 
+ * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组
  */
 function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
   styleAttrsMap.forEach((attr) => {
@@ -358,7 +359,7 @@ export const createWxmlVistor = (
           const template = parseTemplate(path, dirPath, refIds)
           if (template) {
             const funcs: string[] = []
-            const { ast: classDecl, name } = template
+            const { ast: classDecl, name, tmplName } = template
             const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
             const reactImport = buildImportStatement('react', [], 'React')
@@ -454,6 +455,7 @@ export const createWxmlVistor = (
               ast,
               name,
               funcs,
+              tmplName,
             })
           }
         }
@@ -1020,8 +1022,8 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
 
 /**
  * 判断 style 中的属性是否都是 attrName: attrValue 格式
- * 
- * @param styleAttrsMap 
+ *
+ * @param styleAttrsMap
  */
 function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
   // 匹配 attrName: attrValue 格式
@@ -1033,10 +1035,10 @@ function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
 
 /**
  * 解析内联style属性
- * 
+ *
  * @param key 内联属性的类型
  * @param value 内联属性的值
- * @returns 
+ * @returns
  */
 function parseStyle (key: string, value: string) {
   const styleAttrs = value.trim().split(';')
@@ -1065,7 +1067,7 @@ function parseAttribute (attr: Attribute) {
       // eslint-disable-next-line no-console
       console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
     }
-    
+
     value = convertStyleUnit(value)
     // 判断属性是否为style属性
     if (key === 'style' && value) {
