@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, toKebabCase } from '@tarojs/shared'
 
 import { findDOM } from '../../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
@@ -114,9 +114,9 @@ function filter (fields, dom?: HTMLElement, selector?: string) {
   }
   if (properties.length) {
     properties.forEach((prop) => {
-      const lowerProp = prop.replace(/([a-zA-Z])([A-Z])/g, '$1-$2').toLowerCase()
-      let attr = dom.getAttribute(prop) || dom.getAttribute(lowerProp)
-      if (!attr && (dom.hasAttribute(prop) || dom.hasAttribute(lowerProp))) {
+      const kebabCaseProp = toKebabCase(prop)
+      let attr = dom.getAttribute(prop) || dom.getAttribute(kebabCaseProp)
+      if (!attr && (dom.hasAttribute(prop) || dom.hasAttribute(kebabCaseProp))) {
         attr = 'true'
       }
       if (attr) {
