@@ -22,8 +22,10 @@ function attrs ({
   fontSize,
   fontWeight,
   fontFamily,
-  textOverflow
-}) {
+  textOverflow,
+  constraintSize
+ }) {
+  .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
   .margin(margin)

@@ -21,7 +21,9 @@ function attrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
-}) {
+  constraintSize
+ }) {
+  .constraintSize(constraintSize)
   .flexGrow(flexSize[0])
   .flexShrink(flexSize[1])
   .flexBasis(flexSize[2])

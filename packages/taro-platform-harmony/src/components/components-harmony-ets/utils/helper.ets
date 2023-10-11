@@ -29,7 +29,13 @@ export function getNormalAttributes (node: TaroElement) {
     opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
     backgroundColor: AttributeManager.getNodeBackGroundData(_st, 'backgroundColor'),
     backgroundImage: AttributeManager.getNodeBackGroundData(_st, 'backgroundImage'),
-    backgroundImageSize: { width: '100%', height: '100%' }
+    backgroundImageSize: { width: '100%', height: '100%' },
+    constraintSize: {
+      minWidth: AttributeManager.getNodeStyle(_st, 'minWidth'),
+      maxWidth: AttributeManager.getNodeStyle(_st, 'maxWidth'),
+      minHeight: AttributeManager.getNodeStyle(_st, 'minHeight'),
+      maxHeight: AttributeManager.getNodeStyle(_st, 'maxHeight'),
+    },
     // Todo: 尚未完成
     // backgroundImageSize: {
     //   width: AttributeManager.getNodeStyle(_st, 'backgroundSize'),

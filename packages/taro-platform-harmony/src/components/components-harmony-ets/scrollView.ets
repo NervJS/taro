@@ -17,7 +17,9 @@ function attrs ({
  backgroundColor,
  backgroundImage,
  backgroundImageSize,
+ constraintSize
 }) {
+  .constraintSize(constraintSize)
   .margin(margin)
   .zIndex(zIndex)
   .padding(padding)

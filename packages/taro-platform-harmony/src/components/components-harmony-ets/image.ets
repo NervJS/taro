@@ -14,7 +14,9 @@ function attrs ({
    padding,
    zIndex,
    backgroundColor,
+   constraintSize
 }) {
+  .constraintSize(constraintSize)
   .size(size)
   .zIndex(zIndex)
   .margin(margin)

@@ -3,7 +3,7 @@ import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
   static getNodeStyle (style = {}, name: string, defaultValue?) {
-    if (!style[name] && style[name] !== 0) return defaultValue // false?
+    if (!style[name] && style[name] !== 0) return defaultValue
 
     let value = style[name]
 
