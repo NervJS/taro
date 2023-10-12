@@ -20,9 +20,13 @@ import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
 
-function readJson5Sync (file: string) {
-  const raw = fs.readFileSync(file, 'utf-8')
-  return JSON5.parse(raw)
+function readJsonSync (file: string) {
+  const ext = path.extname(file)
+  if (ext === '.json5') {
+    const raw = fs.readFileSync(file, 'utf-8')
+    return JSON5.parse(raw)
+  }
+  return fs.readJSONSync(file)
 }
 
 export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig> implements ViteHarmonyCompilerContext {
@@ -94,7 +98,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const targetPath = path.join(path.resolve(outputRoot, '..'), 'resources/base', isProfile ? 'profile' : 'element')
     const fileName = `${isProfile ? value : key}.json`
     const configPath = path.join(targetPath, fileName)
-    const config = readJson5Sync(configPath)
+    const config = readJsonSync(configPath)
     if (isProfile) {
       Object.assign(config, data)
     } else {
@@ -120,7 +124,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const srcPath = `./${hapName}`
     const hapConfigPath = path.join(path.resolve(outputRoot, '..'), `${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)
     try {
-      const profile = readJson5Sync(buildProfilePath)
+      const profile = readJsonSync(buildProfilePath)
       profile.modules ||= []
       const target = profile.modules[0]
       if (target) {
@@ -142,7 +146,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       }
       fs.writeJsonSync(buildProfilePath, profile, { spaces: 2 })
 
-      const hapConfig = readJson5Sync(hapConfigPath)
+      const hapConfig = readJsonSync(hapConfigPath)
       const window = {
         designWidth: (typeof designWidth === 'function' ? designWidth() : designWidth) || 750,
         autoDesignWidth: false
@@ -228,7 +232,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     const isExists = fs.pathExistsSync(packageJsonFile)
     if (!isExists) return
 
-    const pkg = readJson5Sync(packageJsonFile)
+    const pkg = readJsonSync(packageJsonFile)
     pkg.dependencies ||= {}
     for (const dep in hmsDeps) {
       pkg.dependencies[dep] = hmsDeps[dep]
