@@ -104,6 +104,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
     load (id) {
       if (isStyleRequest(id)) {
         const rawId = stripVirtualModulePrefix(id).replace(STYLE_SUFFIX_RE, '')
+        this.addWatchFile(rawId)
         return fs.readFileSync(rawId, 'utf-8')
       }
     },
