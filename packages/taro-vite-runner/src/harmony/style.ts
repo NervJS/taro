@@ -105,9 +105,15 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       ) return
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
-        if (!/pages\/index\/index.tsx/.test(id)) return
+        /** FIXME 临时限制方法，记得删除--------------------- */
+        if (/lottery-canvas/.test(id)) return
+        if (/fullReturn-canvas/.test(id)) return
+        if (/new-price-dialog/.test(id)) return
+        /** --------------------------------------------- */
         // console.log('transform', id, typeof raw)
+        const PARSED_STR = '/** @tarojs/vite-runner harmony-style-parsed */'
         try {
+          if (raw.startsWith(PARSED_STR)) return
           const cssIdSet = new Set<string>()
           transformSync(raw, {
             filename: id,
@@ -157,7 +163,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
             const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
             return cssCache.get(rawId) || ''
           })
-          const rawCode = parseJSXStyle(raw, cssRawArr)
+          const rawCode = `${PARSED_STR}\n` + parseJSXStyle(raw, cssRawArr)
           const s = new MagicString(rawCode)
           return {
             code: s.toString(),
