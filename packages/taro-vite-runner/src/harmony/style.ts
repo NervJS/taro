@@ -117,13 +117,6 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       ) return
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
-        /** FIXME 临时限制方法，记得删除--------------------- */
-        if (/lottery-canvas/.test(id)) return
-        if (/fullReturn-canvas/.test(id)) return
-        if (/new-price-dialog/.test(id)) return
-        if (/coupon\/(static|dynamic)/.test(id)) return
-        /** --------------------------------------------- */
-        // console.log('transform', id, typeof raw)
         try {
           const cssIdSet = new Set<string>()
           transformSync(raw, {
@@ -171,15 +164,17 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
             })
           }))
 
-          const cssRawArr = Array.from(cssIdSet).map((cssId) => {
-            const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
-            return cssCache.get(rawId) || ''
-          })
-          const rawCode = parseJSXStyle(raw, cssRawArr)
-          const s = new MagicString(rawCode)
-          return {
-            code: s.toString(),
-            map: s.generateMap({ hires: true }),
+          if (cssIdSet.size) {
+            const cssRawArr = Array.from(cssIdSet).map((cssId) => {
+              const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
+              return cssCache.get(rawId) || ''
+            })
+            const rawCode = parseJSXStyle(raw, cssRawArr)
+            const s = new MagicString(rawCode)
+            return {
+              code: s.toString(),
+              map: s.generateMap({ hires: true }),
+            }
           }
         } catch (error) {
           console.error(error)
