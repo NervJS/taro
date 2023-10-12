@@ -41,12 +41,14 @@ struct Index {
   scroller: Scroller = new Scroller()\n
   @State node: TaroElement = new TaroElement("Block")
   @State appConfig: AppConfig = window.__taroAppConfig
-  @State tabBar: TabBar = this.appConfig.tabBar || false
+  @State tabBar: TabBar = this.appConfig.tabBar || {}
+  @State tabBarList: TabBarItem[] = this.tabBar.list || []
   @State color: string = this.tabBar.color || '#7A7E83'
   @State selectedColor: string = this.tabBar.selectedColor || '#3CC51F'
   @State backgroundColor: string = this.tabBar.backgroundColor || '#FFFFFF'
   @State borderStyle: 'white' | 'black' = this.tabBar.borderStyle || 'black'
   @State position: 'top' | 'bottom' = this.tabBar.position || 'bottom'
+  @State withImage: boolean = this.tabBarList.every(e => !!e.iconPath)
   @State currentIndex: number = 0
   private controller: TabsController = new TabsController()\n
   aboutToAppear() {
@@ -149,7 +151,7 @@ struct Index {
       ForEach(this.tabBar.list, (item, index) => {
         TabContent() {
           this.renderPage()
-        }.tabBar(new BottomTabBarStyle(this.currentIndex === index ? item.selectedIconPath : item.iconPath, item.text))
+        }.tabBar(this.renderTabBuilder(index, item))
       }, item => item.pagePath)
     }
     .vertical(false)
@@ -161,8 +163,32 @@ struct Index {
     .backgroundColor(this.backgroundColor)
   }
 
+  @Builder renderTabBuilder(index: number, item: TabBarItem) {
+    Column() {
+      if (this.withImage) {
+        Image(this.currentIndex === index && item.selectedIconPath || item.iconPath)
+          .width(24)
+          .height(24)
+          .objectFit(ImageFit.Contain)
+        Text(item.text)
+          .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+          .fontSize(10)
+          .fontWeight(this.currentIndex === index ? 500 : 400)
+          .lineHeight(14)
+          .margin({ top: 7, bottom: 7 })
+      } else {
+        Text(item.text)
+          .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+          .fontSize(16)
+          .fontWeight(this.currentIndex === index ? 500 : 400)
+          .lineHeight(22)
+          .margin({ top: 17, bottom: 7 })
+      }
+    }.width('100%').height('100%').justifyContent(FlexAlign.Center)
+  }
+
   build() {
-    if (this.tabBar) {
+    if (this.appConfig.tabBar) {
       this.renderTabbarPage()
     } else {
       this.renderPage()
