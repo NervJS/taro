@@ -52,6 +52,18 @@ struct Index {
   @State currentIndex: number = 0
   private controller: TabsController = new TabsController()\n
   aboutToAppear() {
+    const app = window.__taroAppConfig || {}
+    const isCustomStyle = app.window?.navigationStyle === 'custom'
+    if ((isCustomStyle && config.navigationStyle !== 'default') || config.navigationStyle === 'custom') {
+      (Current as any).contextPromise
+        .then(context => {
+          const win = window.__ohos.getTopWindow(context)
+          win.then(mainWindow => {
+            mainWindow.setFullScreen(true)
+            mainWindow.setSystemBarEnable(["status", "navigation"])
+          })
+        })
+    }
     const params = router.getParams() || {}
 
     this.page = createPageConfig(component, '${page.name}')
@@ -203,7 +215,7 @@ struct Index {
 
         return [
           'import TaroView from "@tarojs/components/view"',
-          'import { TaroElement, window } from "@tarojs/runtime"',
+          'import { Current, TaroElement, window } from "@tarojs/runtime"',
           'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
           `import component from "${rawId}"`,
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,

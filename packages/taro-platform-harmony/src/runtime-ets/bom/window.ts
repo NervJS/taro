@@ -1,3 +1,4 @@
+import ohosWindow from '@ohos.window'
 import { History, Location } from '@tarojs/runtime/dist/runtime.esm'
 
 import { TaroEventTarget } from '../dom/eventTarget'
@@ -8,6 +9,7 @@ import type { TaroDocument } from '../dom/document'
 class Window extends TaroEventTarget {
   public _doc: TaroDocument
   public __taroAppConfig: any
+  public __ohos = ohosWindow
 
   public location: Location
   public history: History
