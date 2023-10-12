@@ -142,21 +142,11 @@ struct Index {
 
   @Builder renderTabbarPage () {
     Tabs({ barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start, controller: this.controller }) {
-      TabContent() {
-        Column().width('100%').height('100%').backgroundColor('#00CB87')
-      }.tabBar(this.renderTabBuilder(0, 'green'))
-
-      TabContent() {
-        Column().width('100%').height('100%').backgroundColor('#007DFF')
-      }.tabBar(this.renderTabBuilder(1, 'blue'))
-
-      TabContent() {
-        Column().width('100%').height('100%').backgroundColor('#FFBF00')
-      }.tabBar(this.renderTabBuilder(2, 'yellow'))
-
-      TabContent() {
-        Column().width('100%').height('100%').backgroundColor('#E67C92')
-      }.tabBar(this.renderTabBuilder(3, 'pink'))
+      ForEach(this.tabBar.list, (item, index) => {
+        TabContent() {
+          this.renderPage()
+        }.tabBar(new BottomTabBarStyle(this.currentIndex === index ? item.selectedIconPath : item.iconPath, item.text))
+      }, item => item.pagePath)
     }
     .vertical(false)
     .barMode(BarMode.Fixed)
@@ -164,18 +154,13 @@ struct Index {
     .onChange((index: number) => {
       this.currentIndex = index
     })
-    .backgroundColor('#F1F3F5')
+    .backgroundColor(this.backgroundColor)
   }
 
-  @Builder renderTabBuilder(index: number, name: string) {
-    Column() {
-      Text(name)
-        .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
-        .fontSize(16)
-        .fontWeight(this.currentIndex === index ? 500 : 400)
-        .lineHeight(22)
-        .margin({ top: 17, bottom: 7 })
-    }.width('100%')
+  @Builder renderTabBuilder(index: number, item: TabBarItem) {
+    new BottomTabBarStyle(this.currentIndex === index ? item.selectedIconPath : item.iconPath, item.text)
+      .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+      .fontWeight(this.currentIndex === index ? 500 : 400)
   }
 
   build() {
@@ -195,7 +180,7 @@ struct Index {
         return [
           'import TaroView from "@tarojs/components/view"',
           'import { TaroElement, window } from "@tarojs/runtime"',
-          'import { AppConfig, TabBar } from "@tarojs/taro"',
+          'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
           `import component from "${rawId}"`,
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
           "import router from '@ohos.router';",

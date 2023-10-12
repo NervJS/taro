@@ -63,7 +63,7 @@ export class EtsHelper {
     }
     const codeBuffer = codeBufferStr
       .replace('struct', 'class')
-      .replace(/(\n\s*)([A-Z][A-z]+)\s?\(([^)]*)\)\s?\{/g, (_, p1, p2) => `${p1}function ${p2}() {`)
+      .replace(/(\n\s*)([A-Z][A-z]+)\s?\(([^()]*)\)\s?\{/g, (_, p1, p2) => `${p1}function ${p2}() {`)
       .replace(/(}\s*)\./g, '$1')
 
     try {
