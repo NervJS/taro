@@ -444,6 +444,7 @@ export const createWxmlVistor = (
                     body.splice(0, 0, declaration)
                   }
                 }
+                path.stop()
               },
             })
             usedTemplate.forEach((componentName) => {
