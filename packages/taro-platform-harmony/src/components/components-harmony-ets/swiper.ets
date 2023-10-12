@@ -74,7 +74,7 @@ struct TaroSwiper {
       .interval(this.node.getAttribute('interval') || 3000)
       .vertical(this.node.getAttribute('vertical') || false)
       .autoPlay(this.node.getAttribute('autoplay') || false)
-      .indicator(this.node.getAttribute('indicatorDots') || true)
+      .indicator(this.node.getAttribute('indicatorDots') || false)
       .indicatorStyle({
         color: this.node.getAttribute('indicatorColor'),
         selectedColor:  this.node.getAttribute('indicatorActiveColor')
