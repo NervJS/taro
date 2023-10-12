@@ -1,10 +1,11 @@
 import { transformSync } from '@babel/core'
 import path from 'path'
 import ts from 'typescript'
+import { resolveConfig } from 'vite'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyBuildConfig, ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
-import type { PluginOption } from 'vite'
+import type { Plugin, ResolvedConfig } from 'vite'
 
 export class EtsHelper {
   code: string
@@ -217,13 +218,28 @@ export class EtsHelper {
   }
 }
 
-export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
+const etsMapCache = new WeakMap<ResolvedConfig, EtsHelper>()
+export default async function (viteCompilerContext: ViteHarmonyCompilerContext): Promise<Plugin> {
   const { taroConfig, cwd: appPath } = viteCompilerContext
-  const helper = new EtsHelper(appPath, taroConfig)
+  let helper: EtsHelper
+
+  const config = await resolveConfig({}, 'build')
+  let viteConfig: typeof config
 
   return {
     name: 'taro:vite-ets',
     enforce: 'pre',
+    configResolved (config) {
+      viteConfig = config
+    },
+    buildStart () {
+      if (etsMapCache.has(viteConfig)) {
+        helper = etsMapCache.get(viteConfig) as EtsHelper
+      } else {
+        helper = new EtsHelper(appPath, taroConfig)
+        etsMapCache.set(viteConfig, helper)
+      }
+    },
     transform (code, id) {
       if (/\.ets(\?\S*)?$/.test(id)) {
         // FIXME 通过 acornInjectPlugins 注入 struct 语法编译插件
