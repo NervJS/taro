@@ -111,8 +111,13 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       // todo:hack走一遍style处理
       value.split(';').forEach((item) => { 
         const [key, value] = item.split(':') 
-        if (/(px)$/.test(value)) {
-          setStyle(style, key, +value.replace('px', ''))
+        if (/\d+(px)/.test(value)) {
+          const newVal = value.replaceAll('px', '')
+          if (newVal.split(' ').length > 1) {
+            setStyle(style, key, newVal)
+          } else {
+            setStyle(style, key, +newVal)
+          }
         }
       })
     } else {

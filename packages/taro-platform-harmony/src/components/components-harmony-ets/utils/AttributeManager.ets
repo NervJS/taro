@@ -101,7 +101,7 @@ class AttributeManager {
       const isBackGroundPosition = part === 'left' || part === 'center' || part === 'right' ||
         part === 'top' || part === 'bottom'
       const partHasSlash = part.indexOf('/') !== -1 && part.indexOf('url') === -1
-
+      // todo：这里会将linear-gradient的空格也处理了
       if (part.charAt(0) === '#' || part.indexOf('rgb(') !== -1 || part.indexOf('hsl(') !== -1) {
         // 如果以 # 开头或包含 rgb/hsl，则说明是 background-color 属性
         result['backgroundColor'] = part
@@ -146,7 +146,7 @@ class AttributeManager {
     const dataValue = AttributeManager.getNodeStyle(style, name)
 
     if (dataValue) {
-      const values = dataValue.split(/\s+/)
+      const values = dataValue.trim().split(/\s+/)
       switch (values.length) {
         case 1:
           res = { top: values[0], right: values[0], bottom: values[0], left: values[0] }
