@@ -2271,6 +2271,7 @@ importers:
       fast-glob: ^3.3.1
       fs-extra: ^11.1.0
       html-minifier: ^4.0.0
+      json5: ^2.2.3
       less: ^4.2.0
       lodash: ^4.17.21
       magic-string: ^0.30.4
@@ -2307,6 +2308,7 @@ importers:
       connect-history-api-fallback: registry.npmjs.org/connect-history-api-fallback/2.0.0
       fast-glob: registry.npmjs.org/fast-glob/3.3.1
       html-minifier: registry.npmjs.org/html-minifier/4.0.0
+      json5: registry.npmjs.org/json5/2.2.3
       less: registry.npmjs.org/less/4.2.0
       lodash: registry.npmjs.org/lodash/4.17.21
       magic-string: registry.npmjs.org/magic-string/0.30.4
