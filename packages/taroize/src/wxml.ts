@@ -153,7 +153,7 @@ function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
   })
 }
 
-function convertStyleUnit (value: string) {
+export function convertStyleUnit (value: string) {
   let tempValue = value
   // 尺寸单位转换 都转为rem : 1rpx 转为 1/40rem,,1px 转为 1/20rem
   if (tempValue.indexOf('px') !== -1) {
@@ -1041,7 +1041,7 @@ function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
  * @param value 内联属性的值
  * @returns
  */
-function parseStyle (key: string, value: string) {
+export function parseStyle (key: string, value: string) {
   const styleAttrs = value.trim().split(';')
   // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
   if (isAllKeyValueFormat(styleAttrs)) {
