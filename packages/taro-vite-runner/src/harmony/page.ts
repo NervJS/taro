@@ -39,7 +39,16 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 struct Index {
   page\n
   scroller: Scroller = new Scroller()\n
-  @State node: TaroElement = new TaroElement("Block")\n
+  @State node: TaroElement = new TaroElement("Block")
+  @State appConfig: AppConfig = window.__taroAppConfig
+  @State tabBar: TabBar = this.appConfig.tabBar || false
+  @State color: string = this.tabBar.color || '#7A7E83'
+  @State selectedColor: string = this.tabBar.selectedColor || '#3CC51F'
+  @State backgroundColor: string = this.tabBar.backgroundColor || '#FFFFFF'
+  @State borderStyle: 'white' | 'black' = this.tabBar.borderStyle || 'black'
+  @State position: 'top' | 'bottom' = this.tabBar.position || 'bottom'
+  @State currentIndex: number = 0
+  private controller: TabsController = new TabsController()\n
   aboutToAppear() {
     const params = router.getParams() || {}
 
@@ -66,8 +75,6 @@ struct Index {
 
     this.page?.onUnLoad?.call(this)
   }
-
-
 
   async showTree() {
     const taskQueen = []
@@ -123,13 +130,59 @@ struct Index {
     }
   }
 
-  build() {
+  @Builder renderPage () {
     Scroll(this.scroller) {
       Column() {
         Button('打印NodeTree')
           .onClick(this.showTree.bind(this))
         TaroView({ node: this.node })
       }
+    }
+  }
+
+  @Builder renderTabbarPage () {
+    Tabs({ barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start, controller: this.controller }) {
+      TabContent() {
+        Column().width('100%').height('100%').backgroundColor('#00CB87')
+      }.tabBar(this.renderTabBuilder(0, 'green'))
+
+      TabContent() {
+        Column().width('100%').height('100%').backgroundColor('#007DFF')
+      }.tabBar(this.renderTabBuilder(1, 'blue'))
+
+      TabContent() {
+        Column().width('100%').height('100%').backgroundColor('#FFBF00')
+      }.tabBar(this.renderTabBuilder(2, 'yellow'))
+
+      TabContent() {
+        Column().width('100%').height('100%').backgroundColor('#E67C92')
+      }.tabBar(this.renderTabBuilder(3, 'pink'))
+    }
+    .vertical(false)
+    .barMode(BarMode.Fixed)
+    .animationDuration(400)
+    .onChange((index: number) => {
+      this.currentIndex = index
+    })
+    .backgroundColor('#F1F3F5')
+  }
+
+  @Builder renderTabBuilder(index: number, name: string) {
+    Column() {
+      Text(name)
+        .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+        .fontSize(16)
+        .fontWeight(this.currentIndex === index ? 500 : 400)
+        .lineHeight(22)
+        .margin({ top: 17, bottom: 7 })
+    }.width('100%')
+  }
+
+  build() {
+    if (this.tabBar) {
+      this.renderTabbarPage()
+    } else {
+      this.renderPage()
     }
   }
 }`,
@@ -141,7 +194,8 @@ struct Index {
 
         return [
           'import TaroView from "@tarojs/components/view"',
-          'import { TaroElement } from "@tarojs/runtime"',
+          'import { TaroElement, window } from "@tarojs/runtime"',
+          'import { AppConfig, TabBar } from "@tarojs/taro"',
           `import component from "${rawId}"`,
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
           "import router from '@ohos.router';",
