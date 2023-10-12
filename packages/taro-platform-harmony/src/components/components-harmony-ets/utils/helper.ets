@@ -28,8 +28,8 @@ export function getNormalAttributes (node: TaroElement) {
     borderRadius: AttributeManager.getNodeStyle(_st, 'borderRadius'),
     opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
     backgroundColor: AttributeManager.getNodeBackGroundData(_st, 'backgroundColor'),
-    backgroundImage: AttributeManager.getNodeBackGroundData(_st, 'backgroundImage'),
-    backgroundImageSize: { width: '100%', height: '100%' },
+    backgroundImage: parseBackground('backgroundImage', AttributeManager.getNodeBackGroundData(_st, 'backgroundImage')),
+    backgroundImageSize: parseBackground('backgroundSize', AttributeManager.getNodeBackGroundData(_st, 'backgroundSize')),
     constraintSize: {
       minWidth: AttributeManager.getNodeStyle(_st, 'minWidth'),
       maxWidth: AttributeManager.getNodeStyle(_st, 'maxWidth'),
@@ -56,4 +56,42 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
       ...styleObj,
       [style[0]]: style[1],
     }), {})
+}
+
+
+const IMAGE_URL_REGEX = /url\(['"]?([^'"]+)['"]?\)/;
+const parseBackground = (name: string, value: string) => {
+  switch (name) {
+    case 'backgroundImage': {
+      if (!value) return 
+      // 兼容url()
+      const matchs = value.match(IMAGE_URL_REGEX)
+      if (matchs) {
+        return matchs[1]
+      }
+      return value
+    }
+    case 'backgroundSize': {
+      if (!value) return ImageSize.Auto
+      const lower = value.toLowerCase()
+      if (lower === 'cover') return ImageSize.Cover
+      else if (lower === 'contain') return ImageSize.Contain
+      else if (lower === 'auto') return ImageSize.Auto
+      else {
+        const [width, height] = value.split(' ')
+        const res = {
+          width
+        }
+        if (height) {
+          res['height'] = height
+        }
+        return res
+      }
+    }
+  }
+}
+
+function capitalizeFirstLetter(str) {
+  if (str.length === 0) return str; // 处理空字符串
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
