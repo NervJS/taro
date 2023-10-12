@@ -44,6 +44,7 @@ const isStyleRequest = (request: string): boolean =>
   CSS_LANGS_RE.test(request.replace(STYLE_SUFFIX_RE, ''))
 
 const cssModulesCache = new WeakMap<ResolvedConfig, Map<string, Record<string, string>>>()
+const cssMapCache = new WeakMap<ResolvedConfig, Map<string, string>>()
 const removedPureCssFilesCache = new WeakMap<ResolvedConfig, Map<string, RenderedChunk>>()
 
 export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContext): Promise<Plugin> {
@@ -67,9 +68,19 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
     },
     buildStart() {
       // Ensure a new cache for every build (i.e. rebuilding in watch mode)
-      moduleCache = new Map<string, Record<string, string>>()
-      cssCache = new Map<string, string>()
-      cssModulesCache.set(viteConfig, moduleCache)
+      if (cssModulesCache.has(viteConfig)) {
+        moduleCache = cssModulesCache.get(viteConfig)!
+      } else {
+        moduleCache = new Map<string, Record<string, string>>()
+        cssModulesCache.set(viteConfig, moduleCache)
+      }
+
+      if (cssMapCache.has(viteConfig)) {
+        cssCache = cssMapCache.get(viteConfig)!
+      } else {
+        cssCache = new Map<string, string>()
+        cssMapCache.set(viteConfig, cssCache)
+      }
 
       removedPureCssFilesCache.set(viteConfig, new Map<string, RenderedChunk>())
     },
@@ -112,9 +123,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         if (/coupon\/(static|dynamic)/.test(id)) return
         /** --------------------------------------------- */
         // console.log('transform', id, typeof raw)
-        const PARSED_STR = '/** @tarojs/vite-runner harmony-style-parsed */'
         try {
-          if (raw.startsWith(PARSED_STR)) return
           const cssIdSet = new Set<string>()
           transformSync(raw, {
             filename: id,
@@ -165,7 +174,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
             const rawId = stripVirtualModulePrefix(cssId).replace(STYLE_SUFFIX_RE, '')
             return cssCache.get(rawId) || ''
           })
-          const rawCode = `${PARSED_STR}\n` + parseJSXStyle(raw, cssRawArr)
+          const rawCode = parseJSXStyle(raw, cssRawArr)
           const s = new MagicString(rawCode)
           return {
             code: s.toString(),
