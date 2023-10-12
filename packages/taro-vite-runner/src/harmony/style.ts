@@ -109,6 +109,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         if (/lottery-canvas/.test(id)) return
         if (/fullReturn-canvas/.test(id)) return
         if (/new-price-dialog/.test(id)) return
+        if (/coupon\/(static|dynamic)/.test(id)) return
         /** --------------------------------------------- */
         // console.log('transform', id, typeof raw)
         const PARSED_STR = '/** @tarojs/vite-runner harmony-style-parsed */'
@@ -119,6 +120,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
             filename: id,
             parserOpts: {
               plugins: [
+                'jsx',
                 'typescript',
               ],
             },
