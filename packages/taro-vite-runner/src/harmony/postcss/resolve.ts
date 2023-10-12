@@ -1,20 +1,20 @@
 import { isObject } from '@tarojs/shared'
 import postcssRC from 'postcss-load-config'
 
-import type PostCSS from 'postcss'
+import type { AcceptedPlugin, ProcessOptions } from 'postcss'
 import type { ResolvedConfig } from 'vite'
 
 interface PostCSSConfigResult {
-  options: PostCSS.ProcessOptions
-  plugins: PostCSS.AcceptedPlugin[]
+  options: ProcessOptions
+  plugins: AcceptedPlugin[]
 }
 
-const postcssConfigCache: Record<string, WeakMap<ResolvedConfig, PostCSSConfigResult | null>> = {}
+const postcssConfigCache: Record<string, WeakMap<ResolvedConfig, PostCSSConfigResult | null | void>> = {}
 
 export async function resolvePostcssConfig(
   config: ResolvedConfig,
   dialect = 'css',
-): Promise<PostCSSConfigResult | null> {
+): Promise<PostCSSConfigResult | null | void> {
   postcssConfigCache[dialect] ??= new WeakMap<
   ResolvedConfig,
   PostCSSConfigResult | null
@@ -26,7 +26,7 @@ export async function resolvePostcssConfig(
   }
 
   // inline postcss config via vite config
-  const inlineOptions = config.css?.postcss
+  const inlineOptions = config.css?.postcss as ProcessOptions & { plugins?: AcceptedPlugin[] }
   if (isObject<Exclude<typeof inlineOptions, string | undefined>>(inlineOptions)) {
     const options = { ...inlineOptions }
 
