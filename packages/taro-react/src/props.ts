@@ -107,6 +107,14 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
     const style = dom.style
     if (isString(value)) {
       style.cssText = value
+
+      // todo:hack走一遍style处理
+      value.split(';').forEach((item) => { 
+        const [key, value] = item.split(':') 
+        if (/(px)$/.test(value)) {
+          setStyle(style, key, +value.replace('px', ''))
+        }
+      })
     } else {
       if (isString(oldValue)) {
         style.cssText = ''
