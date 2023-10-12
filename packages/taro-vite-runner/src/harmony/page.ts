@@ -131,13 +131,17 @@ struct Index {
   }
 
   @Builder renderPage () {
-    Scroll(this.scroller) {
-      Column() {
-        Button('打印NodeTree')
-          .onClick(this.showTree.bind(this))
-        TaroView({ node: this.node })
+    Stack({ alignContent: Alignment.TopStart }) {
+      Scroll(this.scroller) {
+        Column() {
+          Button('打印NodeTree')
+            .onClick(this.showTree.bind(this))
+          TaroView({ node: this.node })
+        }
       }
     }
+    .width('100%')
+    .height('100%')
   }
 
   @Builder renderTabbarPage () {
@@ -155,12 +159,6 @@ struct Index {
       this.currentIndex = index
     })
     .backgroundColor(this.backgroundColor)
-  }
-
-  @Builder renderTabBuilder(index: number, item: TabBarItem) {
-    new BottomTabBarStyle(this.currentIndex === index ? item.selectedIconPath : item.iconPath, item.text)
-      .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
-      .fontWeight(this.currentIndex === index ? 500 : 400)
   }
 
   build() {
