@@ -141,6 +141,33 @@ class AttributeManager {
     return result[name]
   }
 
+  static getBorderRadiusData (style = {}) {
+    let res: any = {}
+    const dataValue = AttributeManager.getNodeStyle(style, 'borderRadius')
+
+    if (dataValue) {
+      const values = dataValue.trim().split(/\s+/)
+      switch (values.length) {
+        case 1:
+          res = { topLeft: values[0], topRight: values[0], bottomRight: values[0], bottomLeft: values[0] }
+          break
+        case 2:
+          res = { topLeft: values[0], topRight: values[1], bottomRight: values[0], bottomLeft: values[1] }
+          break
+        case 3:
+          res = { topLeft: values[0], topRight: values[1], bottomRight: values[2], bottomLeft: values[1] }
+          break
+        case 4:
+          res = { topLeft: values[0], topRight: values[1], bottomRight: values[2], bottomLeft: values[3] }
+          break
+        default:
+          break
+      }
+    }
+
+    return res
+  }
+
   static getNodeMarginOrPaddingData (style = {}, name: 'margin' | 'padding') {
     let res: any = {}
     const dataValue = AttributeManager.getNodeStyle(style, name)

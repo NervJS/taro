@@ -25,7 +25,7 @@ export function getNormalAttributes (node: TaroElement) {
     padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
     linearGradient: AttributeManager.getNodeLinearGradient(_st),
     zIndex: AttributeManager.getNodeStyle(_st, 'zIndex'),
-    borderRadius: AttributeManager.getNodeStyle(_st, 'borderRadius'),
+    borderRadius: AttributeManager.getBorderRadiusData(_st),
     opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
     backgroundColor: AttributeManager.getNodeBackGroundData(_st, 'backgroundColor'),
     backgroundImage: parseBackground('backgroundImage', AttributeManager.getNodeBackGroundData(_st, 'backgroundImage')),

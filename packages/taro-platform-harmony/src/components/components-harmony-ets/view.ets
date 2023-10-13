@@ -66,6 +66,7 @@ struct TaroView {
       }
       .attrs(getNormalAttributes(this.node))
       .defaultEvent()
+      .clip(true)
     }
   }
 }
