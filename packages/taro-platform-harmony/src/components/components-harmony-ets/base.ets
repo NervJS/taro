@@ -17,7 +17,15 @@ struct TaroComponentWrapper {
         x: $$.left,
         y: $$.top
       })
-    } else if ((AttributeManager.getNodeStyle($$.instance._st, 'position') === 'relative')) {
+    } else if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'fixed') {
+      Stack({ alignContent: Alignment.TopStart }) {
+        this.createElement()
+      }
+      .position({
+        x: $$.left,
+        y: $$.top
+      })
+    } if ((AttributeManager.getNodeStyle($$.instance._st, 'position') === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }

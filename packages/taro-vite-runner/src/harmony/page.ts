@@ -148,14 +148,21 @@ struct Index {
     Stack({ alignContent: Alignment.TopStart }) {
       Scroll(this.scroller) {
         Column() {
-          Button('打印NodeTree')
-            .onClick(this.showTree.bind(this))
           TaroView({ node: this.node })
         }
       }
     }
     .width('100%')
     .height('100%')
+    Button({ type: ButtonType.Circle, stateEffect: true }) {
+      Text('打印 NodeTree')
+        .fontSize(7).fontColor(Color.White)
+        .size({ width: 25, height: 25 })
+        .textAlign(TextAlign.Center)
+    }
+    .width(55).height(55).margin({ left: 20 }).backgroundColor(Color.Blue)
+    .position({ x: '75%', y: '80%' })
+    .onClick(this.showTree.bind(this))
   }
 
   @Builder renderTabbarPage () {
