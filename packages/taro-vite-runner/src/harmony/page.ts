@@ -169,11 +169,7 @@ struct Index {
     Tabs({ barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start, controller: this.controller }) {
       ForEach(this.tabBar.list, (item, index) => {
         TabContent() {
-<<<<<<< HEAD
-          if (this.currentIndex === index) {
-=======
           if (item.pagePath === '${page.name}') {
->>>>>>> c6507d6cb51595bea1f61cb1607902bc07dc615a
             this.renderPage()
           }
         }.tabBar(this.renderTabBuilder(index, item))
