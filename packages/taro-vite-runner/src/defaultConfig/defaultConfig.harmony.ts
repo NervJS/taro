@@ -22,7 +22,7 @@ const defaultConfig: Partial<ViteHarmonyBuildConfig> = {
   },
   postcss: {
     autoprefixer: {
-      enable: true,
+      enable: false,
       config: {
         flexbox: 'no-2009'
       }
