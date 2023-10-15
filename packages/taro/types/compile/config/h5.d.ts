@@ -104,7 +104,7 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   useDeprecatedAdapterComponent?: boolean
 
   /** 配置 postcss 相关插件 */
-  postcss?: IPostcssOption<'H5'>
+  postcss?: IPostcssOption<'h5'>
 
   /** html-webpack-plugin 的具体配置 */
   htmlPluginOption?: HtmlWebpackPlugin.Options
@@ -115,6 +115,6 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
     include?: (string | RegExp)[]
     filter?: (filename: string) => boolean
   }
-  /** 是否把代码转化为 es5，只在 vite 编译模式下有效 */
-  es5?: T extends 'vite' ? boolean : undefined
+  /** 生成的代码是否要兼容旧版浏览器，值为 true 时，会去读取 package.json 的 browserslist 字段。只在 vite 编译模式下有效 */
+  legacy?: T extends 'vite' ? boolean : undefined
 }

@@ -2,8 +2,8 @@ import { fs } from '@tarojs/helper'
 import path from 'path'
 import { normalizePath } from 'vite'
 
-import { componentConfig } from '../template/component'
 import { isRelativePath, isVirtualModule } from '../utils'
+import { componentConfig } from '../utils/component'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginContext } from 'rollup'

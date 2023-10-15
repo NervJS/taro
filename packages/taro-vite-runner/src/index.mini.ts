@@ -3,9 +3,9 @@ import { ViteMiniBuildConfig } from '@tarojs/taro/types/compile/viteCompilerCont
 import { build } from 'vite'
 
 import miniPreset from './mini'
-import { componentConfig } from './template/component'
 import { convertCopyOptions } from './utils'
 import { TaroCompilerContext } from './utils/compiler/mini'
+import { componentConfig } from './utils/component'
 
 import type { UserConfig } from 'vite'
 

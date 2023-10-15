@@ -38,8 +38,6 @@ module.exports = (_, options = {}) => {
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
 
-  if (isVite) plugins.push(require('./modifySourceType'))
-
   if (isNerv) {
     presets.push([require('@babel/preset-react'), {
       pragma: `${moduleName}.createElement`,

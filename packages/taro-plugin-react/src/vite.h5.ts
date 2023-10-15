@@ -62,8 +62,12 @@ function setTaroApi (): PluginOption {
     }),
     async load (id) {
       if (process.env.NODE_ENV === 'production' && REG_TARO_H5_RUNTIME_API.test(id)) {
-        const input = await fs.readFile(id, 'utf8')
-        return apiLoader(input + '\n' + 'const taro = Taro__default\n')
+        try {
+          const input = await fs.readFile(id, 'utf8')
+          return apiLoader(input + '\n' + 'const taro = Taro__default\n')
+        } catch (_) {
+          return null
+        }
       }
     }
   }

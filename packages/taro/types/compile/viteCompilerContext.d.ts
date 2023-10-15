@@ -1,5 +1,5 @@
-import type { AppConfig, PageConfig } from "../index"
-import type { IMiniFilesConfig, IH5Config, IMiniAppConfig } from "./config"
+import type { AppConfig, PageConfig } from '../index'
+import type { IMiniFilesConfig, IH5Config, IMiniAppConfig } from './config'
 import type { IProjectConfig } from './config/project'
 import type { PluginContext } from "rollup"
 import { IComponentConfig } from "./hooks"
@@ -109,10 +109,12 @@ export interface ViteCompilerContext<T> {
 }
 
 export interface ViteH5CompilerContext extends ViteCompilerContext<ViteH5BuildConfig> {
+  getBrowserslist: () => void
   routerMeta: {
     routerCreator: string
     getRoutesConfig: (pageName?: string) => string
   }
+  browserslist: string[]
 }
 
 export interface ViteMiniCompilerContext extends ViteCompilerContext<ViteMiniBuildConfig> {

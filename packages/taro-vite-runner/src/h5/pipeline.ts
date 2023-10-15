@@ -13,10 +13,10 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
       const { taroConfig } = viteCompilerContext
       const isProd = getMode(taroConfig) === 'production'
       // 下面这么写 是因为生产环境不需要异步，开发环境需要异步。是因为插件的执行顺序正确而这么写的
-      isProd 
+      isProd
         ? this.load({ id: VITE_COMPILER_LABEL })
         : await this.load({ id: VITE_COMPILER_LABEL })
-      
+
       const info = this.getModuleInfo(VITE_COMPILER_LABEL)
       if (info) {
         info.meta = { viteCompilerContext }

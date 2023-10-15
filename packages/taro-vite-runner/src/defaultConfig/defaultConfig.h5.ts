@@ -3,7 +3,7 @@ import { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContex
 
 const platform = 'h5'
 
-const defaultConifg: Partial<ViteH5BuildConfig> = {
+const defaultConfig: Partial<ViteH5BuildConfig> = {
   staticDirectory: 'static',
   sourceRoot: 'src',
   outputRoot: 'dist',
@@ -48,4 +48,4 @@ const defaultConifg: Partial<ViteH5BuildConfig> = {
   }
 }
 
-export default defaultConifg
+export default defaultConfig

@@ -1,4 +1,5 @@
 import {
+  fs,
   readConfig,
   recursiveMerge,
   REG_FONT,
@@ -10,7 +11,7 @@ import {
 import { ViteH5BuildConfig, ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import path from 'path'
 
-import defaultConifg from '../../defaultConfig/defaultConfig.h5'
+import defaultConfig from '../../defaultConfig/defaultConfig.h5'
 import { CompilerContext } from './base'
 
 import type { PageConfig } from '@tarojs/taro'
@@ -21,28 +22,31 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
     getRoutesConfig: (pageName?: string) => string
   }
 
+  browserslist: string[]
+
   constructor (appPath: string, taroConfig: ViteH5BuildConfig) {
     super(appPath, taroConfig)
     this.app = this.getApp()
     this.pages = this.getPages()
+    this.browserslist = this.getBrowserslist()
   }
 
   processConfig () {
-    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConifg.staticDirectory as string
-    defaultConifg.imageUrlLoaderOption!.name = 
+    const staticDirectory = this.rawTaroConfig.staticDirectory || defaultConfig.staticDirectory as string
+    defaultConfig.imageUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'images', path.basename(filename))
-    defaultConifg.fontUrlLoaderOption!.name = 
+    defaultConfig.fontUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'fonts', path.basename(filename))
-    defaultConifg.mediaUrlLoaderOption!.name = 
+    defaultConfig.mediaUrlLoaderOption!.name =
       (filename: string) => path.join(staticDirectory, 'media', path.basename(filename))
-    defaultConifg.output!.assetFileNames = ({ name }) => {
+    defaultConfig.output!.assetFileNames = ({ name }) => {
       if (!name) return '[ext]/[name].[hash][extname]'
       if (REG_IMAGE.test(name)) return `${staticDirectory}/images/${name}`
       if (REG_MEDIA.test(name)) return `${staticDirectory}/media/${name}`
       if (REG_FONT.test(name)) return `${staticDirectory}/fonts/${name}`
       return '[ext]/[name].[hash][extname]'
     }
-    this.taroConfig = recursiveMerge({}, defaultConifg, this.rawTaroConfig)
+    this.taroConfig = recursiveMerge({}, defaultConfig, this.rawTaroConfig)
   }
 
   getAppScriptPath (): string {
@@ -72,5 +76,24 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
 
     this.configFileList.push(pageMeta.configPath)
     return pageMeta
+  }
+
+  getBrowserslist () {
+    const packageJsonPath = path.join(this.cwd, 'package.json')
+    if (!fs.existsSync(packageJsonPath)) {
+      this.logger.error('缺少项目配置 package.json 文件，请检查是否是在taro项目中运行')
+      process.exit(1)
+    }
+    let projectConfigString
+    try {
+      projectConfigString = fs.readFileSync(packageJsonPath, { encoding: 'utf-8' })
+    } catch (error) {
+      this.logger.error('解析项目配置文件 package.json 出错')
+      this.logger.error(error)
+      process.exit(1)
+    }
+    
+    const projectConfig = JSON.parse(projectConfigString) || {}
+    return projectConfig?.browserslist || ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
   }
 }
