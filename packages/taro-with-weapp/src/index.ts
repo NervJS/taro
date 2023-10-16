@@ -55,7 +55,7 @@ function propToState (newValue, _oldValue, key: string) {
 
 function isFunction (o): o is Func {
   return typeof o === 'function'
-}
+}    
 
 export default function withWeapp (weappConf: WxOptions, isApp = false) {
   if (typeof weappConf === 'object' && Object.keys(weappConf).length === 0) {
@@ -656,3 +656,5 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
     return BaseComponent
   }
 }
+
+export * from './convert-tools'

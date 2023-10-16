@@ -37,8 +37,8 @@ export function hasTaroImport (bodyNode: NodePath<t.Node>[]) {
 // 根据关键字exports判断是否为commonjs模块
 export function isCommonjsModule (bodyNode: NodePath<t.Node>[]) {
   return bodyNode.some((p) => {
-    if (p.isExpressionStatement() && t.isAssignmentExpression(p.node.expression)) {
-      const expression = p.node.expression
+    if (t.isExpressionStatement(p) && t.isAssignmentExpression(p.expression)) {
+      const expression = p.expression
       // 1、module.exports.num = num 2、module.exports = {}
       const isModuleExports =
         (expression.left.type === 'MemberExpression' &&

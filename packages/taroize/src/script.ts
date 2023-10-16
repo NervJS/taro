@@ -102,16 +102,24 @@ export function parseScript (
     traverse(ast, vistor)
   }
 
+
+  const requirewithWeapp = t.variableDeclaration('const', [
+    t.variableDeclarator(
+      t.objectPattern([
+        t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true),
+      ]),
+      t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
+    ),
+  ])
   if (isCommonjsModule(ast.program.body)) {
     const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents], '', true)
     const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro', true)
     const reactImport = buildImportStatement('react', [], 'React', true)
-    const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp', true)
     ast.program.body.unshift(
       taroComponentsImport,
       reactImport,
       taroImport,
-      withWeappImport,
+      requirewithWeapp,
       ...wxses
         .filter((wxs) => !wxs.src.startsWith('./wxs__'))
         .map((wxs) => buildImportStatement(wxs.src, [], wxs.module, true))
@@ -120,12 +128,11 @@ export function parseScript (
     const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
     const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
     const reactImport = buildImportStatement('react', [], 'React')
-    const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp')
     ast.program.body.unshift(
       taroComponentsImport,
       reactImport,
       taroImport,
-      withWeappImport,
+      requirewithWeapp,
       ...wxses
         .filter((wxs) => !wxs.src.startsWith('./wxs__'))
         .map((wxs) => buildImportStatement(wxs.src, [], wxs.module))
