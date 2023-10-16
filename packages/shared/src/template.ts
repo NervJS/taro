@@ -508,7 +508,7 @@ export class BaseTemplate {
 
     // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
-    ${this.buildXsTemplate()}
+${this.buildXsTemplate()}
 <template is="{{'tmpl_0_' + i.nn}}" data="{{${data}}}" />`
   }
 
