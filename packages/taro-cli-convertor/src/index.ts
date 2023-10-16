@@ -37,12 +37,7 @@ import {
   incrementId,
   transRelToAbsPath,
 } from './util'
-import {
-  generateMinimalEscapeCode,
-  hasTaroImport,
-  isCommonjsImport,
-  isCommonjsModule,
-} from './util/astConvert'
+import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
 import type { AppConfig, TabBar } from '@tarojs/taro'
@@ -100,6 +95,7 @@ interface ITaroizeOptions {
   path?: string
   rootPath?: string
   scriptPath?: string
+  wxmlPath?: string
 }
 
 // convert.config,json配置参数
@@ -424,7 +420,7 @@ export default class Convertor {
                           for (const key in imports[order]) {
                             if (key === 'tmplName') {
                               const tmplName = imports[order][key]
-                              const tmplLastName=imports[order].name
+                              const tmplLastName = imports[order].name
                               // imports去重可能会把map里的去掉, 所以要加回去
                               if (!scriptComponents.includes(tmplLastName)) {
                                 scriptComponents.push(tmplLastName)
@@ -586,7 +582,7 @@ export default class Convertor {
                 )
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
-                  self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
+                  self.writeFileToTaro(importPath, generateMinimalEscapeCode(ast).code)
                 }
                 if (scriptComponents.indexOf(importName) !== -1 || (wxs && wxs === true)) {
                   lastImport.insertAfter(
@@ -785,8 +781,8 @@ export default class Convertor {
             outputFilePath,
             sourceFilePath: file,
           })
-          const jsCode = generateMinimalEscapeCode(ast)
-          this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
+          const generateRes = generateMinimalEscapeCode(ast)
+          this.writeFileToTaro(outputFilePath, generateRes.code)
           printLog(processTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
           this.hadBeenCopyedFiles.add(file)
           this.generateScriptFiles(scriptFiles)
@@ -870,8 +866,8 @@ ${code}
           : null,
         isApp: true,
       })
-      const jsCode = generateMinimalEscapeCode(ast)
-      this.writeFileToTaro(entryDistJSPath, jsCode)
+      const generateRes = generateMinimalEscapeCode(ast)
+      this.writeFileToTaro(entryDistJSPath, generateRes.code)
       this.writeFileToConfig(entryDistJSPath, entryJSON)
       printLog(processTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
@@ -1048,6 +1044,7 @@ ${code}
         if (fs.existsSync(pageTemplPath)) {
           printLog(processTypeEnum.CONVERT, '页面模板', this.generateShowPath(pageTemplPath))
           param.wxml = String(fs.readFileSync(pageTemplPath))
+          param.wxmlPath = pageTemplPath
         }
         let pageStyle: string | null = null
         if (fs.existsSync(pageStylePath)) {
@@ -1068,8 +1065,8 @@ ${code}
           depComponents,
           imports: taroizeResult.imports,
         })
-        const jsCode = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
+        const generateRes = generateMinimalEscapeCode(ast)
+        this.writeFileToTaro(this.getComponentDest(pageDistJSPath), generateRes.code)
         printLog(processTypeEnum.GENERATE, 'writeFileToTaro', this.generateShowPath(pageDistJSPath))
         this.writeFileToConfig(pageDistJSPath, param.json)
         printLog(processTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
@@ -1158,11 +1155,8 @@ ${code}
           imports: taroizeResult.imports,
         })
 
-        const jsCode = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(
-          this.getComponentDest(componentDistJSPath),
-          this.formatFile(jsCode, taroizeResult.template)
-        )
+        const generateRes = generateMinimalEscapeCode(ast)
+        this.writeFileToTaro(this.getComponentDest(componentDistJSPath), generateRes.code)
         printLog(processTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
         if (componentStyle) {
           this.traverseStyle(componentStylePath, componentStyle)
