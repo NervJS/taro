@@ -621,7 +621,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -685,7 +685,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_1_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -749,7 +749,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_2_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -813,7 +813,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_3_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -869,7 +869,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_4_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -925,7 +925,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_5_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -973,7 +973,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_6_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1021,7 +1021,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_7_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1069,7 +1069,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_8_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1117,7 +1117,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_9_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1165,7 +1165,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_10_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1213,7 +1213,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_11_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1261,7 +1261,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_12_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1309,7 +1309,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_13_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1357,7 +1357,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_14_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>

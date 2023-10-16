@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    991: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    970: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -480,13 +480,13 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(184);
-        var taro = __webpack_require__(946);
+        var taro_runtime = __webpack_require__(202);
+        var taro = __webpack_require__(357);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(757);
+        var react = __webpack_require__(800);
         var app_App = function(_React$Component) {
             (0, inherits.Z)(App, _React$Component);
             var _super = (0, createSuper.Z)(App);
@@ -544,7 +544,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(991);
+        return __webpack_exec__(970);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -649,7 +649,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_0_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -713,7 +713,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_1_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -777,7 +777,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_2_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -841,7 +841,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_3_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -897,7 +897,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_4_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -953,7 +953,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_5_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1001,7 +1001,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_6_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1049,7 +1049,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_7_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1097,7 +1097,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_8_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1145,7 +1145,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_9_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1193,7 +1193,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_10_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1241,7 +1241,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_11_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1289,7 +1289,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_12_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1337,7 +1337,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_13_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1385,7 +1385,7 @@ require("./runtime");
 </template>
 
 <template name="tmpl_14_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab bindmyevent="eh" myProperty="{{i.myProperty}}"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>
@@ -1406,7 +1406,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1416,7 +1416,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createPageConfig: function() {
@@ -1446,7 +1446,7 @@ require("./runtime");
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
     },
-    946: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    357: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             J1: function() {
                 return initPxTransform;
@@ -1494,8 +1494,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
+    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -1503,7 +1503,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(823);
+        return __webpack_exec__(685);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1517,7 +1517,7 @@ require("./runtime");
 
 /** filePath: dist/components/tab/tab.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 9 ], {
-    620: function() {
+    388: function() {
         Component({
             behaviors: [],
             properties: {
@@ -1555,7 +1555,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(620);
+    var __webpack_exports__ = __webpack_exec__(388);
 } ]);
 
 /** filePath: dist/components/tab/tab.json **/
@@ -1571,7 +1571,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    574: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    395: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_components_namespaceObject = {};
         __webpack_require__.r(taro_components_namespaceObject);
         __webpack_require__.d(taro_components_namespaceObject, {
@@ -1579,13 +1579,13 @@ require("./runtime");
                 return View;
             }
         });
-        var taro_runtime = __webpack_require__(184);
+        var taro_runtime = __webpack_require__(202);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var taro = __webpack_require__(946);
-        var react = __webpack_require__(757);
+        var taro = __webpack_require__(357);
+        var react = __webpack_require__(800);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -1673,7 +1673,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(574);
+        return __webpack_exec__(395);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1690,8 +1690,8 @@ require("./runtime");
 
 /** filePath: dist/pages/native/native.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 91 ], {
-    368: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-        var _require = __webpack_require__(215), add = _require.add;
+    662: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        var _require = __webpack_require__(344), add = _require.add;
         Page({
             data: {
                 text: "This is page data.",
@@ -1714,7 +1714,7 @@ require("./runtime");
             }
         });
     },
-    215: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    344: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
@@ -1730,7 +1730,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(368);
+    var __webpack_exports__ = __webpack_exec__(662);
 } ]);
 
 /** filePath: dist/pages/native/native.json **/
