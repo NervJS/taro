@@ -1601,7 +1601,7 @@ require("./taro");
 
 /** filePath: dist/comp.qml **/
 <import src="./base.qml" />
-    <wxs module="xs" src="./utils.wxs" />
+<wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
@@ -3839,7 +3839,7 @@ require("./taro");
 
 /** filePath: dist/comp.qml **/
 <import src="./base.qml" />
-    <wxs module="xs" src="./utils.wxs" />
+<wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/

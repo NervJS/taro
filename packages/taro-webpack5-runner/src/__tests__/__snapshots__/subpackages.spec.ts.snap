@@ -1406,7 +1406,7 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-    <wxs module="xs" src="./utils.wxs" />
+<wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/packageA/detail/index.js **/
