@@ -24,7 +24,7 @@ export default class Index extends React.Component {
             .select('#editor')
             .context((res) => {
               editorContext = res.context
-              TestConsole.consoleNormal('success-----', editorContext)
+              TestConsole.consoleResult.call(this, editorContext, apiIndex)
             })
             .exec()
         },
@@ -47,19 +47,21 @@ export default class Index extends React.Component {
         },
       },
       {
-        id: 'format_left',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('EditorContext_format_left')
-          editorContext.format('align', 'left')
-          TestConsole.consoleNormal('editorContext.format success ')
+        id: 'format',
+        inputData: {
+          name: 'align',
+          value: 'left',
         },
-      },
-      {
-        id: 'format_right',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('EditorContext_format_right')
-          editorContext.format('align', 'right')
-          TestConsole.consoleNormal('editorContext.format success ')
+        func: (apiIndex, data) => {
+          const { name, value } = data
+          if (value) {
+            TestConsole.consoleTest(`EditorContext_format(${name}, ${value})`)
+            editorContext.format(name, value)
+          } else {
+            TestConsole.consoleTest(`EditorContext_format(${name})`)
+            editorContext.format(name)
+          }
+          TestConsole.consoleNormal('editorContext.format success')
         },
       },
       {

@@ -58,6 +58,7 @@ export default class Index extends React.Component {
           const base64 = 'CxYh'
           const arrayBuffer = Taro.base64ToArrayBuffer(base64)
           TestConsole.consoleNormal('Taro.base64ToArrayBuffer before: ', base64)
+          TestConsole.consoleNormal('Taro.base64ToArrayBuffer after: ', arrayBuffer)
           const res = {
             Int8Array: new Int8Array(arrayBuffer),
             Uint8Array: new Uint8Array(arrayBuffer),

@@ -65,14 +65,7 @@ export default class Index extends React.Component {
       <View className='api-page'>
         <ButtonList buttonList={list} />
         {<View id='blank-content'>空白视图，用于滚动测试</View>}
-        {listTail.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={listTail} />
       </View>
     )
   }

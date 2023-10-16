@@ -11,23 +11,34 @@ import './index.scss'
  */
 
 class Welcome extends React.Component {
-  handleClickWelcome() {
-    TestConsole.consoleTest('SelectorQuery.in')
-    console.log("Taro.createSelectorQuery().in(this)->select('#welcome').boundingClientRect(callback).exec()")
+  state = {
+    list: [
+      {
+        id: 'createSelectorQuery.in',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('SelectorQuery.in')
+          console.log("Taro.createSelectorQuery().in(this)->select('#welcome').boundingClientRect(callback).exec()")
 
-    Taro.createSelectorQuery()
-      .in(process.env.TARO_ENV === 'weapp' ? Taro.getCurrentInstance().page! : this)
-      .select('#welcome')
-      .boundingClientRect((res) => {
-        console.log('callback boundingClientRect:', res)
-      })
-      .exec()
+          Taro.createSelectorQuery()
+            .in(process.env.TARO_ENV === 'weapp' ? Taro.getCurrentInstance().page! : this)
+            .select('#welcome')
+            .boundingClientRect((res) => {
+              console.log('callback boundingClientRect:', res)
+            })
+            .exec()
+        },
+      },
+    ],
   }
   render() {
+    const { list } = this.state
     return (
-      <Button id='welcome' className='test-style' onClick={this.handleClickWelcome}>
-        自定义组件id: #welcome
-      </Button>
+      <View className='api-page'>
+        <View id='welcome' className='test-style'>
+          自定义组件id: #welcome
+        </View>
+        <ButtonList buttonList={list} />
+      </View>
     )
   }
 }
@@ -37,37 +48,37 @@ class SelectorQueryTest extends React.Component {
     list: [
       {
         id: 'createSelectorQuery',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.createSelectorQuery')
           const query = Taro.createSelectorQuery()
-          console.log('Taro.createSelectorQuery:', query)
+          TestConsole.consoleResult.call(this, query, apiIndex)
         },
       },
       {
         id: 'SelectorQuery.select',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('SelectorQuery.select')
           console.log("Taro.createSelectorQuery()->select('#welcome')")
           const query = Taro.createSelectorQuery().select('#welcome')
-          console.log('SelectorQuery.select:', query)
+          TestConsole.consoleResult.call(this, query, apiIndex)
         },
       },
       {
         id: 'SelectorQuery.selectAll',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('NodesRef.selectAll')
           console.log("Taro.createSelectorQuery()->.selectAll('.test-view')")
           const query = Taro.createSelectorQuery().selectAll('.test-view')
-          console.log('SelectorQuery.selectAll:', query)
+          TestConsole.consoleResult.call(this, query, apiIndex)
         },
       },
       {
         id: 'SelectorQuery.selectViewport',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('SelectorQuery.selectViewport')
           console.log('Taro.createSelectorQuery()->.selectViewport()')
           const query = Taro.createSelectorQuery().selectViewport()
-          console.log('SelectorQuery.selectViewport:', query)
+          TestConsole.consoleResult.call(this, query, apiIndex)
         },
       },
       {
@@ -115,9 +126,7 @@ class SelectorQueryTest extends React.Component {
             .fields(data, (res) => {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
             })
-            .exec((res) => {
-              TestConsole.consoleOnCallback.call(this, res, 'exec', apiIndex)
-            })
+            .exec()
         },
       },
       {
@@ -135,9 +144,7 @@ class SelectorQueryTest extends React.Component {
             .fields(data, (res) => {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
             })
-            .exec((res) => {
-              TestConsole.consoleOnCallback.call(this, res, 'exec', apiIndex)
-            })
+            .exec()
         },
       },
       {
@@ -155,31 +162,35 @@ class SelectorQueryTest extends React.Component {
             .fields(data, (res) => {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.fields', apiIndex)
             })
-            .exec((res) => {
-              TestConsole.consoleOnCallback.call(this, res, 'exec', apiIndex)
-            })
+            .exec()
         },
       },
       {
         id: 'NodesRef.scrollOffset',
-        func: (apiIndex) => {
+        inputData: {
+          selectViewport: true,
+          select: '#scrollview',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('NodesRef.scrollOffset')
-
-          console.log("Taro.createSelectorQuery()->select('#scrollview').scrollOffset(callback).exec()")
-          Taro.createSelectorQuery()
-            .select('#scrollview')
-            .scrollOffset((res) => {
-              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.scrollOffset', apiIndex)
-            })
-            .exec()
-
-          console.log('Taro.createSelectorQuery()->selectViewport().scrollOffset(callback).exec()')
-          Taro.createSelectorQuery()
-            .selectViewport()
-            .scrollOffset((res) => {
-              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.scrollOffset', apiIndex)
-            })
-            .exec()
+          const { selectViewport, select } = data
+          if (selectViewport) {
+            console.log('Taro.createSelectorQuery()->selectViewport().scrollOffset(callback).exec()')
+            Taro.createSelectorQuery()
+              .selectViewport()
+              .scrollOffset((res) => {
+                TestConsole.consoleOnCallback.call(this, res, 'NodesRef.scrollOffset', apiIndex)
+              })
+              .exec()
+          } else {
+            console.log(`Taro.createSelectorQuery()->select('${select}').scrollOffset(callback).exec()`)
+            Taro.createSelectorQuery()
+              .select(select)
+              .scrollOffset((res) => {
+                TestConsole.consoleOnCallback.call(this, res, 'NodesRef.scrollOffset', apiIndex)
+              })
+              .exec()
+          }
         },
       },
       {
@@ -236,14 +247,14 @@ class IntersectionObserverTest extends React.Component {
           observeAll: true,
           thresholds: [],
         },
-        func: (_, data) => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.createIntersectionObserver')
           if (this.observer) {
             this.observer.disconnect()
             this.observer = undefined
           }
           this.observer = this.createIntersectionObserver(data)
-          console.log('Taro.createIntersectionObserver', this.observer)
+          TestConsole.consoleResult.call(this, this.observer, apiIndex)
         },
       },
       {
@@ -251,14 +262,14 @@ class IntersectionObserverTest extends React.Component {
         inputData: {
           left: 0,
         },
-        func: (_, data) => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('IntersectionObserver.relativeTo')
           if (this.observer) {
             this.observer.disconnect()
           }
           this.observer = this.createIntersectionObserver()
           this.observer.relativeTo('.scroll-view', data).observe('.ball', (res) => {
-            console.log('IntersectionObserver.observe:', res)
+            TestConsole.consoleOnCallback.call(this, res, 'IntersectionObserver.observe', apiIndex)
             this.setState({
               appear: res.intersectionRatio > 0,
             })
@@ -270,14 +281,14 @@ class IntersectionObserverTest extends React.Component {
         inputData: {
           left: 0,
         },
-        func: (_, data) => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('IntersectionObserver.relativeTo')
           if (this.observer) {
             this.observer.disconnect()
           }
           this.observer = this.createIntersectionObserver()
           this.observer.relativeToViewport(data).observe('.ball', (res) => {
-            console.log('IntersectionObserver.observe:', res)
+            TestConsole.consoleOnCallback.call(this, res, 'IntersectionObserver.observe', apiIndex)
             this.setState({
               appear: res.intersectionRatio > 0,
             })
