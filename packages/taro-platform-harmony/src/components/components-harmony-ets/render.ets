@@ -9,6 +9,7 @@ import TaroButton from './button'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
 import TaroScrollView from './scrollView'
+import TaroInnerHtml from './innerHtml'
 
 @Builder
 function createNode (node: any) {
@@ -28,6 +29,8 @@ function createNode (node: any) {
     TaroInput({ node })
   } else if (node.tagName === 'SWIPER') {
     TaroSwiper({ node })
+  } else if (node.tagName === 'INNER-HTML') {
+    TaroInnerHtml({ node })
   } else {
     TaroView({ node })
   }

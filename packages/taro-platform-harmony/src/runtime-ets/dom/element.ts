@@ -11,8 +11,8 @@ type NamedNodeMap = ({ name: string, value: string })[]
 @Observed
 class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
+  private _innerHTML = ''
   public readonly tagName: string
-  public innerHTML: string
   // public changeRecord = ''
 
   constructor(tagName: string) {
@@ -80,8 +80,20 @@ class TaroElement extends TaroNode {
 
   // @Todo
   // dataset
-  // innerHTML
+  
+  
+  public set innerHTML (value: string) {
+    if (this.nodeType === NodeType.ELEMENT_NODE) {
+      const ele = this.ownerDocument.createElement('inner-html')
+      ele._innerHTML = value
+      this.childNodes = [ele]
+    }
+  }
 
+  public get innerHTML (): string {
+    return this._innerHTML
+  }
+  
   public _st: Record<string, string | number> = {}
 
   public _style: ICSSStyleDeclaration
