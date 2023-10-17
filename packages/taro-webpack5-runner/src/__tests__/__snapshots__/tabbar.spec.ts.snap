@@ -462,6 +462,7 @@ require("./runtime");
             ChannelVideo: {
                 feedId: _empty,
                 finderUserName: _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
@@ -3777,6 +3778,7 @@ require("./runtime");
             ChannelVideo: {
                 feedId: _empty,
                 finderUserName: _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,

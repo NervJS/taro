@@ -397,6 +397,7 @@ export const components = {
   ChannelVideo: {
     feedId: _empty,
     finderUserName: _empty,
+    'feed-token':_empty,
     autoplay: _false,
     loop: _false,
     muted: _false,
