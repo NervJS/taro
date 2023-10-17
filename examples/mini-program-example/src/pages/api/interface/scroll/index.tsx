@@ -15,12 +15,15 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'pageScrollTo',
-        func: (apiIndex) => {
+        inputData: {
+          duration: 300,
+          selector: '#blank-content',
+          offsetTop: 0,
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('pageScrollTo')
           Taro.pageScrollTo({
-            duration: 300,
-            selector: '#blank-content',
-            offsetTop: 0,
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -37,8 +40,6 @@ export default class Index extends React.Component {
         id: 'ScrollViewContext',
         func: null,
       },
-    ],
-    listTail: [
       {
         id: 'pageScrollTo: 滚到顶部',
         func: (apiIndex) => {
@@ -63,16 +64,8 @@ export default class Index extends React.Component {
     const { list, listTail } = this.state
     return (
       <View className='api-page'>
-        <ButtonList buttonList={list} />
         {<View id='blank-content'>空白视图，用于滚动测试</View>}
-        {listTail.map((item) => {
-          return (
-            <View key={item.id} className='api-page-btn' onClick={item.func == null ? () => {} : item.func}>
-              {item.id}
-              {item.func == null && <Text className='navigator-state tag'>未创建Demo</Text>}
-            </View>
-          )
-        })}
+        <ButtonList buttonList={list} />
       </View>
     )
   }

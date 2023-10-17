@@ -10,6 +10,8 @@ import './index.scss'
  * @returns
  */
 
+let onNetworkStatusChangeCallback = {}
+
 export default class Index extends React.Component {
   state = {
     list: [
@@ -89,7 +91,8 @@ export default class Index extends React.Component {
   }
   // 网络状态的订阅，H5实现，数组存储订阅函数，同一个订阅函数未做去重处理。
   onNetworkStatusChange01 = (res: any) => {
-    TestConsole.consoleOnCallback(res, 'onNetworkStatusChange01')
+    onNetworkStatusChangeCallback['onNetworkStatusChange01'] = res
+    TestConsole.consoleOnCallback.call(this, onNetworkStatusChangeCallback, 'onNetworkStatusChange01', 1)
     this.setState({
       networkState: res.isConnected,
       networkType: res.networkType,
@@ -97,7 +100,8 @@ export default class Index extends React.Component {
   }
 
   onNetworkStatusChange02 = (res: any) => {
-    TestConsole.consoleOnCallback(res, 'onNetworkStatusChange02')
+    onNetworkStatusChangeCallback['onNetworkStatusChange02'] = res
+    TestConsole.consoleOnCallback.call(this, onNetworkStatusChangeCallback, 'onNetworkStatusChange02', 1)
     this.setState({
       networkState: res.isConnected,
       networkType: res.networkType,
