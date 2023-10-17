@@ -90,6 +90,10 @@ struct Index {
     this.page?.onUnLoad?.call(this)
   }
 
+  isTabbarPage () {
+    return this.tabBar.list.some(e => e.pagePath === '${page.name}')
+  }
+
   async showTree() {
     const taskQueen = []
 
@@ -209,7 +213,7 @@ struct Index {
   }
 
   build() {
-    if (this.appConfig.tabBar) {
+    if (this.isTabbarPage()) {
       this.renderTabbarPage()
     } else {
       this.renderPage()
