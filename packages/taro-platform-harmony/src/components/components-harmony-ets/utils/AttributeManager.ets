@@ -24,11 +24,6 @@ class AttributeManager {
     }
   }
 
-  static getNodeHeight (style = {}) {
-    // TODO: 没有办法判断实际高度是否大于 minHeight
-    return AttributeManager.getNodeStyle(style, 'minHeight') || AttributeManager.getNodeStyle(style, 'height')
-  }
-
   static getNodeLinearGradient (style = {}) {
     const str = style.backgroundImage || style.background
 
@@ -45,10 +40,10 @@ class AttributeManager {
 
       const colors = [];
       const percentages = [];
-      const stops = match[2].match(/rgba?\(.+?\)\s*\d*%|#\w+\s*\d*%/gi)
+      const stops = match[2].match(/rgba?\(.+?\)\s*\d*%|#?\w+\s*\d*%/gi)
 
       for (let stop of stops) {
-        const match = stop.match(/(rgba?\(.+?\)|#\w+)\s*(\d*%?)?/i)
+        const match = stop.match(/(rgba?\(.+?\)|#?\w+)\s*(\d*%?)?/i)
         if (match) {
           const color = match[1].trim()
           colors.push(color)

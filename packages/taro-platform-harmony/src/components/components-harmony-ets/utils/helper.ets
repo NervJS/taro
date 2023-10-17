@@ -18,16 +18,16 @@ export function getNormalAttributes (node: TaroElement) {
     alignSelf: ItemAlign.Auto,
     size: {
       width: AttributeManager.getNodeStyle(_st, 'width'),
-      height: AttributeManager.getNodeHeight(_st)
+      height: AttributeManager.getNodeStyle(_st, 'height')
     },
     focus: AttributeManager.getNodeStyle(_attrs, 'focus', false),
     margin: AttributeManager.getNodeMarginOrPaddingData(_st, 'margin'),
     padding: AttributeManager.getNodeMarginOrPaddingData(_st, 'padding'),
     linearGradient: AttributeManager.getNodeLinearGradient(_st),
-    zIndex: AttributeManager.getNodeStyle(_st, 'zIndex'),
+    zIndex: Number(AttributeManager.getNodeStyle(_st, 'zIndex')) || null,
     borderRadius: AttributeManager.getBorderRadiusData(_st),
     opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
-    backgroundColor: AttributeManager.getNodeBackGroundData(_st, 'backgroundColor'),
+    backgroundColor: AttributeManager.getNodeBackGroundData( _st, 'backgroundColor'),
     backgroundImage: parseBackground('backgroundImage', AttributeManager.getNodeBackGroundData(_st, 'backgroundImage')),
     backgroundImageSize: parseBackground('backgroundSize', AttributeManager.getNodeBackGroundData(_st, 'backgroundSize')),
     constraintSize: {
