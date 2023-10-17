@@ -19,13 +19,14 @@ class Welcome extends React.Component {
           TestConsole.consoleTest('SelectorQuery.in')
           console.log("Taro.createSelectorQuery().in(this)->select('#welcome').boundingClientRect(callback).exec()")
 
-          Taro.createSelectorQuery()
+          const query = Taro.createSelectorQuery()
             .in(process.env.TARO_ENV === 'weapp' ? Taro.getCurrentInstance().page! : this)
             .select('#welcome')
             .boundingClientRect((res) => {
               console.log('callback boundingClientRect:', res)
             })
             .exec()
+          TestConsole.consoleResult.call(this, query, apiIndex)
         },
       },
     ],
@@ -92,6 +93,19 @@ class SelectorQueryTest extends React.Component {
               TestConsole.consoleOnCallback.call(this, res, 'NodesRef.boundingClientRect', apiIndex)
             })
             .exec()
+        },
+      },
+      {
+        id: 'NodesRef.exec',
+        func: (apiIndex) => {
+          TestConsole.consoleTest('NodesRef.boundingClientRect')
+          console.log("Taro.createSelectorQuery()->select('#welcome').boundingClientRect().exec(callback)")
+          Taro.createSelectorQuery()
+            .select('#welcome')
+            .boundingClientRect()
+            .exec((res) => {
+              TestConsole.consoleOnCallback.call(this, res, 'NodesRef.exec', apiIndex)
+            })
         },
       },
       {
