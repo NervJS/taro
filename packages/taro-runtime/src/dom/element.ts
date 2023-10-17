@@ -13,7 +13,7 @@ import {
   STYLE,
   VIEW
 } from '../constants'
-import { isBlockElements } from '../dom-external/inner-html/tags'
+import { makeMap } from '../dom-external/inner-html/tags'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { ClassList } from './class-list'
@@ -25,6 +25,9 @@ import { treeToArray } from './tree'
 
 import type { Attributes, Func } from '../interface'
 import type { TaroEvent } from './event'
+
+// tags里导出的isBlockElements方法标签范围与html-plugin里不一致，因此这里重新定义个判断html块级元素方法与html-plugin里面块级范围保持一致
+const isBlockElements = makeMap('body,svg,address,fieldset,li,span,article,figcaption,main,aside,figure,nav,blockquote,footer,ol,details,p,dialog,h1,h2,h3,h4,h5,h6,pre,dd,header,section,div,hgroup,table,dl,hr,ul,dt,view,view-block', true)
 
 export class TaroElement extends TaroNode {
   public ctx?
