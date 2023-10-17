@@ -43,7 +43,7 @@ function attrs ({
 @Component
 struct TaroSwiper {
   private swiperController: SwiperController = new SwiperController()
-  
+
   info: Area = null
 
   @ObjectLink node: TaroViewElement
@@ -68,7 +68,7 @@ struct TaroSwiper {
       }
       .attrs(getNormalAttributes(this.node))
       .defaultEvent()
-      .index(this.node.getAttribute('index') || 0)
+      .index(this.node.getAttribute('current') || 0)
       .loop(this.node.getAttribute('loop') || true)
       .duration(this.node.getAttribute('duration') || 400)
       .interval(this.node.getAttribute('interval') || 3000)
@@ -80,7 +80,7 @@ struct TaroSwiper {
         selectedColor:  this.node.getAttribute('indicatorActiveColor')
       })
       .onChange((index: number) => {
-        const event = createTaroEvent('change', { detail: { index } }, this.node)
+        const event = createTaroEvent('change', { detail: { current: index } }, this.node)
         eventHandler(event, 'change', this.node)
       })
     }
