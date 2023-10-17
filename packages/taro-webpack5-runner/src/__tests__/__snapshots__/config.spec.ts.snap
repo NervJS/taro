@@ -103,6 +103,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -114,6 +115,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -1915,6 +1922,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -1926,6 +1934,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -3838,6 +3852,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -3849,6 +3864,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -5662,6 +5683,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -5673,6 +5695,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
