@@ -259,12 +259,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -2032,12 +2038,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -3841,12 +3853,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -5650,12 +5668,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -7459,12 +7483,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
