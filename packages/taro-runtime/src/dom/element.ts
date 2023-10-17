@@ -139,7 +139,9 @@ export class TaroElement extends TaroNode {
       `元素 ${this.nodeName} 的 ${qualifiedName} 属性值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
     )
 
-    const isPureView = (this.nodeName === VIEW || isBlockElements(this.nodeName)) && !isHasExtractProp(this) && !this.isAnyEventBinded()
+    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
+
+    const isPureView = name === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
     if (qualifiedName !== STYLE) {
       MutationObserver.record({
@@ -203,7 +205,7 @@ export class TaroElement extends TaroNode {
 
     this.enqueueUpdate(payload)
 
-    if (this.nodeName === VIEW || isBlockElements(this.nodeName)) {
+    if (name === VIEW) {
       if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catchMove = true: catch-view
         // catchMove = false: view or static-view
@@ -224,7 +226,8 @@ export class TaroElement extends TaroNode {
   }
 
   public removeAttribute (qualifiedName: string) {
-    const isStaticView = (this.nodeName === VIEW || isBlockElements(this.nodeName)) && isHasExtractProp(this) && !this.isAnyEventBinded()
+    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
+    const isStaticView = name === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
 
     MutationObserver.record({
       target: this,
@@ -274,7 +277,7 @@ export class TaroElement extends TaroNode {
 
     this.enqueueUpdate(payload)
 
-    if (this.nodeName === VIEW || isBlockElements(this.nodeName)) {
+    if (name === VIEW) {
       if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catch-view => view or static-view or pure-view
         this.enqueueUpdate({
@@ -352,7 +355,7 @@ export class TaroElement extends TaroNode {
   }
 
   public addEventListener (type, handler, options) {
-    const name = this.nodeName
+    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
     let sideEffect = true
@@ -361,9 +364,9 @@ export class TaroElement extends TaroNode {
       delete options.sideEffect
     }
 
-    if (sideEffect !== false && !this.isAnyEventBinded() && (SPECIAL_NODES.indexOf(name) > -1 || isBlockElements(name))) {
+    if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
-      const alias = isBlockElements(name) ? componentsAlias[VIEW]._num : componentsAlias[name]._num
+      const alias = componentsAlias[name]._num
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
         value: alias
@@ -376,12 +379,12 @@ export class TaroElement extends TaroNode {
   public removeEventListener (type, handler, sideEffect = true) {
     super.removeEventListener(type, handler)
 
-    const name = this.nodeName
+    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
-    if (sideEffect !== false && !this.isAnyEventBinded() && (SPECIAL_NODES.indexOf(name) > -1 || isBlockElements(name))) {
+    if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
-      const value = isBlockElements(name) ? (isHasExtractProp(this) ? STATIC_VIEW : PURE_VIEW) : (isHasExtractProp(this) ? `static-${name}` : `pure-${name}`)
+      const value = isHasExtractProp(this) ? `static-${name}` : `pure-${name}`
       const valueAlias = componentsAlias[value]._num
       this.enqueueUpdate({
         path: `${this._path}.${Shortcuts.NodeName}`,
