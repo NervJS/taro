@@ -82,9 +82,9 @@ impl TransformVisitor {
                                 JSXAttrValue::JSXExprContainer(..) => {
                                     let mut node_path = self.get_current_node_path();
                                     if is_event {
-                                        props.insert(event_name.unwrap(), String::from("eh"));
-                                        if props.get("data-sid").is_none() {
-                                            props.insert(String::from("data-sid"), format!("{{{{{}.sid}}}}", node_path));
+                                        props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
+                                        if props.get(DATA_SID).is_none() {
+                                            props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
                                         }
                                         return true
                                     }
@@ -93,8 +93,8 @@ impl TransformVisitor {
                                     let value: &str = attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name);
                                     // 按当前节点在节点树中的位置换算路径
                                     node_path.push('.');
-                                    let value = if value.contains("i.") {
-                                        value.replace("i.", &node_path)
+                                    let value = if value.contains(TMPL_DATA_ROOT) {
+                                        value.replace(TMPL_DATA_ROOT, &node_path)
                                     } else {
                                         format!("{}{}", node_path, value)
                                     };
@@ -118,8 +118,8 @@ impl TransformVisitor {
         });
 
         // 组件包含事件，但没有设置自定义 id 的话，把 id 设为 sid
-        if props.get("data-sid").is_some() && props.get("id").is_none() {
-            props.insert(String::from("id"), props.get("data-sid").unwrap().clone());
+        if props.get(DATA_SID).is_some() && props.get(ID).is_none() {
+            props.insert(String::from(ID), props.get(DATA_SID).unwrap().clone());
         }
 
         // 生成的 template 需要幂等

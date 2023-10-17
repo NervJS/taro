@@ -14,6 +14,7 @@ use core::fmt::Debug;
 
 mod utils;
 mod transform;
+mod tests;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
@@ -55,7 +56,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
 // the Visitor's behavior, instead of trying to run `process_transform` with mocks
 // unless explicitly required to do so.
 #[cfg(test)]
-mod tests{
+mod temp_tests {
     use swc_core::ecma::{
         transforms::testing::test,
         parser,
@@ -221,175 +222,6 @@ mod tests{
                       }}></View>
                     </View>
                   </View>
-                </View>
-              </View>
-        }
-        "#
-    );
-
-    // Todo 补测试用例，整理测试目录结构
-    test!(
-        parser::Syntax::Es(parser::EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        |_| tr(),
-        should_support_multi_compile_mode,
-        r#"
-        function Index () {
-            return (
-              <View>
-                <Image src={mySrc} compileMode />
-                <View compileMode>
-                  <Text>Hello World!</Text>
-                </View>
-              </View>
-            )
-          }
-        "#,
-        r#"
-        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><image src="{{i.p3}}"></image></template>';
-        const TARO_TEMPLATES_f0t1 = '<template name="tmpl_0_f0t1"><view><text>Hello World!</text></view></template>';
-        function Index () {
-            return <View>
-                <Image src={mySrc} compileMode="f0t0" />
-                <View compileMode="f0t1">
-                  <Text>Hello World!</Text>
-                </View>
-              </View>
-        }
-        "#
-    );
-
-    test!(
-        parser::Syntax::Es(parser::EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        |_| tr(),
-        should_keep_static_attrs_only_in_templates,
-        r#"
-        function Index () {
-            return (
-              <View compileMode>
-                <Image className="my_img" src="https://taro.com/x.png" lazyLoad />
-              </View>
-            )
-          }
-        "#,
-        r#"
-        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><image class="my_img" lazy-load="true" src="https://taro.com/x.png"></image></view></template>';
-        function Index () {
-            return <View compileMode="f0t0">
-                <Image />
-              </View>
-        }
-        "#
-    );
-
-    test!(
-        parser::Syntax::Es(parser::EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        |_| tr(),
-        should_turn_dynamic_attrs,
-        r#"
-        function Index () {
-            return (
-              <View compileMode>
-                <View class={myClass}>
-                  <View style={myStyle} customProp={myCustomProp}></View>
-                  <View hoverStayTime={myTime}>
-                    <View hoverClass={myHoverClass}></View>
-                  </View>
-                </View>
-              </View>
-            )
-          }
-        "#,
-        r#"
-        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><view class="{{i.cn[0].cl}}"><view custom-prop="{{i.cn[0].cn[0].customProp}}" style="{{i.cn[0].cn[0].st}}"></view><view hover-stay-time="{{xs.b(i.cn[0].cn[1].p3,400)}}"><view hover-class="{{xs.b(i.cn[0].cn[1].cn[0].p1,\'none\')}}"></view></view></view></view></template>';
-        function Index () {
-            return <View compileMode="f0t0">
-                <View class={myClass}>
-                  <View style={myStyle} customProp={myCustomProp}></View>
-                  <View hoverStayTime={myTime}>
-                    <View hoverClass={myHoverClass}></View>
-                  </View>
-                </View>
-              </View>
-        }
-        "#
-    );
-
-    test!(
-        parser::Syntax::Es(parser::EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        |_| tr(),
-        should_handle_events,
-        r#"
-        function Index () {
-            return (
-              <View compileMode>
-                <View onClick={handleViewClick}></View>
-                <View onAnimationStart={() => {}} id={myId}></View>
-                <Image onLoad={() => {}} id="myImg" />
-              </View>
-            )
-          }
-        "#,
-        r#"
-        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><view bindtap="eh" data-sid="{{i.cn[0].sid}}" id="{{i.cn[0].sid}}"></view><view bindanimationstart="eh" data-sid="{{i.cn[1].sid}}" id="{{i.cn[1].id}}"></view><image bindload="eh" data-sid="{{i.cn[2].sid}}" id="myImg"></image></view></template>';
-        function Index () {
-            return <View compileMode="f0t0">
-                <View onClick={handleViewClick}></View>
-                <View onAnimationStart={() => {}} id={myId}></View>
-                <Image onLoad={() => {}} />
-              </View>
-        }
-        "#
-    );
-
-    test!(
-        parser::Syntax::Es(parser::EsConfig {
-            jsx: true,
-            ..Default::default()
-        }),
-        |_| tr(),
-        should_static_jsx_being_shaked,
-        r#"
-        function Index () {
-            return (
-              <View compileMode>
-                <Text>Hello World!</Text>
-                <Text>Hello{T1}World{T2}!</Text>
-                <View>
-                    <Text></Text>
-                </View>
-                <View style="color: red" hoverStopPropagation>
-                    <Text>Hello World!</Text>
-                </View>
-                <View style={myStyle}>
-                    <Text>Hello World!</Text>
-                </View>
-                {t && <View>xxx</View>}
-              </View>
-            )
-        }
-        "#,
-        r#"
-        const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><text>Hello World!</text><text>Hello{{i.cn[0].cn[0].v}}World{{i.cn[0].cn[1].v}}!</text><view><text></text></view><view hover-stop-propagation="true" style="color: red"><text>Hello World!</text></view><view style="{{i.cn[1].st}}"><text>Hello World!</text></view></view></template>';
-        function Index () {
-            return <View compileMode="f0t0">
-                
-                <Text>{T1}{T2}</Text>
-                
-                
-                <View style={myStyle}>
-                    
                 </View>
               </View>
         }
