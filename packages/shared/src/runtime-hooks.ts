@@ -1,3 +1,5 @@
+import { TaroElement, TaroText } from '@tarojs/runtime'
+
 import { Events } from './event-emitter'
 import { isFunction } from './is'
 
@@ -209,7 +211,7 @@ type ITaroHooks = {
    * @todo: multi
    * 修改 Taro DOM 序列化数据
    **/
-  modifyHydrateData:(data: Record<string, any>, node) => void
+  modifyHydrateData:(data: Record<string, any>, node: TaroElement | TaroText) => void
   /**
     * @todo: multi
     * 修改 Taro DOM 序列化数据
