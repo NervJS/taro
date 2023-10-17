@@ -191,7 +191,7 @@ declare module '../../index' {
   interface TaroStatic {
     /** 创建缓存管理器
      * @supported weapp
-     * @see declare https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/wx.createCacheManager.html
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/cachemanager/wx.createCacheManager.html
      */
     createCacheManager(option: createCacheManager.Option): CacheManager
   }
