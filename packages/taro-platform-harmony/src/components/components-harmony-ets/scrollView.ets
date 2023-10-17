@@ -2,12 +2,14 @@ import { eventHandler } from '../runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { createTaroEvent } from './utils/events'
+import { bindInstanceToNode, getNormalAttributes, converVP2PX } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
+ flexSize,
  margin,
  padding,
  linearGradient,
@@ -19,6 +21,34 @@ function attrs ({
  backgroundImageSize,
  constraintSize
 }) {
+  .flexGrow(flexSize[0])
+  .constraintSize(constraintSize)
+  .margin(margin)
+  .zIndex(zIndex)
+  .padding(padding)
+  .opacity(opacity)
+  .borderRadius(borderRadius)
+  .linearGradient(linearGradient)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage)
+  .backgroundImageSize(backgroundImageSize)
+}
+
+@Extend(Column)
+function attrs ({
+ flexSize,
+ margin,
+ padding,
+ linearGradient,
+ zIndex,
+ borderRadius,
+ opacity,
+ backgroundColor,
+ backgroundImage,
+ backgroundImageSize,
+ constraintSize
+}) {
+  .flexGrow(flexSize[0])
   .constraintSize(constraintSize)
   .margin(margin)
   .zIndex(zIndex)
@@ -65,9 +95,20 @@ struct TaroScrollView {
         .width(getNormalAttributes(this.node).size.width)
         .scrollable(ScrollDirection.Horizontal)
         .defaultEvent()
+        .onScroll((xOffset: number, yOffset: number) => {
+          const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
+          const value = {
+            deltaX: converVP2PX(xOffset),
+            deltaY: converVP2PX(yOffset),
+            scrollLeft: converVP2PX(currentXOffset),
+            scrollHeight: converVP2PX(currentYOffset)
+          }
+          const event = createTaroEvent('scroll', { detail: { ...value } }, this.node)
+          eventHandler(event, 'scroll', this.node)
+        })
       } else {
         Scroll(this.scroller) {
-          Row() {
+          Column() {
             ForEach(this.node.childNodes, item => {
               createNode(item)
             }, item => item._nid)
@@ -76,8 +117,19 @@ struct TaroScrollView {
           .attrs(getNormalAttributes(this.node))
         }
         .height(getNormalAttributes(this.node).size.height)
-        .scrollable(ScrollDirection.Horizontal)
+        .scrollable(ScrollDirection.Vertical)
         .defaultEvent()
+        .onScroll((xOffset: number, yOffset: number) => {
+          const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
+          const value = {
+            deltaX: converVP2PX(xOffset),
+            deltaY: converVP2PX(yOffset),
+            scrollLeft: converVP2PX(currentXOffset),
+            scrollHeight: converVP2PX(currentYOffset)
+          }
+          const event = createTaroEvent('scroll', { detail: { ...value } }, this.node)
+          eventHandler(event, 'scroll', this.node)
+        })
       }
     }
   }

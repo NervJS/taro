@@ -91,7 +91,6 @@ const parseBackground = (name: string, value: string) => {
   }
 }
 
-function capitalizeFirstLetter(str) {
-  if (str.length === 0) return str; // 处理空字符串
-  return str.charAt(0).toUpperCase() + str.slice(1);
+export function converVP2PX (value: number) {
+  return Math.ceil(value / 384 * 750)
 }

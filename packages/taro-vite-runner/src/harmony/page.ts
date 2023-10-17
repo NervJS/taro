@@ -209,7 +209,7 @@ struct Index {
   }
 
   build() {
-    if (this.appConfig.tabBar) {
+    if (false) {
       this.renderTabbarPage()
     } else {
       this.renderPage()
