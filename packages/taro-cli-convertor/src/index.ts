@@ -826,23 +826,6 @@ export default class Convertor {
     return filePath.replace(path.join(this.root, '/'), '').split(path.sep).join('/')
   }
 
-  private formatFile (jsCode: string, template = '') {
-    let code = jsCode
-    const config = { ...prettierJSConfig }
-    if (this.framework === 'vue') {
-      code = `
-${template}
-<script>
-${code}
-</script>
-      `
-      config.parser = 'vue'
-      config.semi = false
-      config.htmlWhitespaceSensitivity = 'ignore'
-    }
-    return prettier.format(code, config)
-  }
-
   generateEntry () {
     try {
       const entryJS = String(fs.readFileSync(this.entryJSPath))
