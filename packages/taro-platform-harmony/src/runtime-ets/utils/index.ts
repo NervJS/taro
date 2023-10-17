@@ -1,5 +1,6 @@
 import { NodeType } from '../dom/node'
 
+import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element'
 import type { TaroNode } from '../dom/node'
 
@@ -29,4 +30,17 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
 
 export function convertNumber2PX (value: number) {
   return Math.ceil(value / 750 * 384) + 'vp'
+}
+
+export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {
+  const obj: CSSProperties[] = []
+  const classes = classNames.split(' ')
+  for (let i = 0; i < classes.length; i++) {
+    const className = classes[i]
+    if (styleSheet[className]) {
+      obj.push(styleSheet[className])
+    }
+  }
+  obj.push(style)
+  return Object.assign.apply(null, [{}].concat(obj))
 }

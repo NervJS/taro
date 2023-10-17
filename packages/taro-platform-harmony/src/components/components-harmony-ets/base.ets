@@ -15,7 +15,7 @@ struct TaroComponentWrapper {
       }
       .position({
         x: $$.left,
-        y: $$.top
+        y: $$.top,
       })
       .zIndex(Number(AttributeManager.getNodeStyle($$.instance._st, 'zIndex')) || null)
     } else if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'fixed') {
