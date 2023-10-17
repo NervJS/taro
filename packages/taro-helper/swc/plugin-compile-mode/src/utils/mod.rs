@@ -1,5 +1,8 @@
 use swc_core::{
-    ecma::atoms::Atom,
+    ecma::{
+        atoms::Atom,
+        ast::*
+    },
     common::iter::IdentifyLast,
 };
 use std::collections::HashMap;
@@ -90,6 +93,21 @@ pub fn identify_jsx_event_key (val: &str) -> Option<String> {
     } else {
         return None;
     }
+}
+
+pub fn is_static_jsx (el: &Box<JSXElement>) -> bool {
+    if el.opening.attrs.len() > 0 {
+        return false
+    }
+
+    for child in &el.children {
+        if let JSXElementChild::JSXText(_) = child {
+        } else {
+            return false
+        }
+    }
+
+    true
 }
 
 #[test]

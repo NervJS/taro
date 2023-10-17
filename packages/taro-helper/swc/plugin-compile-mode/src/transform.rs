@@ -7,6 +7,7 @@ use swc_core::{
     ecma::{
         self,
         ast::*,
+        atoms::Atom,
         visit::{VisitMut, VisitMutWith},
     },
 };
@@ -134,25 +135,24 @@ impl TransformVisitor {
 
     fn build_xml_children (&mut self, el: &mut JSXElement) -> String {
         let mut children_string = String::new();
+        let mut retain_child_counter = 0;
 
         el.children
             .iter_mut()
-            .filter(|child| {
-                // 过滤只包含换行、空格、制表符的 JSXText
-                match child {
-                    JSXElementChild::JSXText(JSXText { value, ..}) => {
-                        return !utils::is_empty_jsx_text_line(value);
-                    },
-                    _ => return true
-                }
-            })
-            .enumerate()
-            .for_each(|(idx, child)| {
-                self.node_stack.push(idx);
+            .for_each(|child| {
+                self.node_stack.push(retain_child_counter);
                 match child {
                     JSXElementChild::JSXElement(child_el) => {
                         let child_string = self.build_xml_element(&mut **child_el);
                         children_string.push_str(&child_string);
+
+                        let is_pure = utils::is_static_jsx(child_el);
+                        if is_pure {
+                            let raw: Atom = "To be removed".into();
+                            *child = JSXElementChild::JSXText(JSXText { span, value: raw.clone(), raw });
+                        } else {
+                            retain_child_counter = retain_child_counter + 1;
+                        }
                     },
                     JSXElementChild::JSXExprContainer(JSXExprContainer {
                         expr: JSXExpr::Expr(jsx_expr),
@@ -201,15 +201,27 @@ impl TransformVisitor {
                                 println!("_ expr: {:?} ", jsx_expr);
                             }
                         }
+                        retain_child_counter = retain_child_counter + 1
                     },
                     JSXElementChild::JSXText(jsx_text) => {
-                        // TODO JSX 是否要过滤掉静态文本节点
-                        children_string.push_str(&jsx_text.value);
+                        if !utils::is_empty_jsx_text_line(&jsx_text.value) {
+                            children_string.push_str(&jsx_text.value);
+                        }
                     },
                     _ => ()
                 }
                 self.node_stack.pop();
             });
+
+        el.children.retain_mut(|item| {
+            // JSX 过滤掉静态文本节点，只在模板中保留
+            match item {
+                JSXElementChild::JSXText(jsx_text) => {
+                    utils::is_empty_jsx_text_line(&jsx_text.value)
+                },
+                _ => true
+            }
+        });
 
         children_string
     }
