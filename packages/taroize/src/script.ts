@@ -34,7 +34,6 @@ export function replaceMemberExpression (callee: NodePath<t.Node>) {
 
 export function parseScript (
   script?: string,
-  scriptPath?: string,
   returned?: t.Expression,
   wxses: WXS[] = [],
   refId?: Set<string>,

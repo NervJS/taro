@@ -43,7 +43,7 @@ export function parse (option: Option) {
 
   const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml, false, option.wxmlPath)
   setting.sourceCode = option.script!
-  const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, wxses, refIds, option.isApp)
+  const ast = parseScript(option.script, wxml as t.Expression, wxses, refIds, option.isApp)
 
   return {
     ast,
