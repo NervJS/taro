@@ -82,7 +82,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         // rawfile innerHTML模版，供innerhtml的webview加载
         const { outputRoot = 'dist' } = taroConfig
-        const targetPath = path.join(path.resolve(outputRoot, '..'), 'resources/rawfile/innerHTML.html')
+        const rawFileDir = path.join(path.resolve(outputRoot, '..'), 'resources/rawfile')
+        if (!fs.existsSync(rawFileDir)) {
+          fs.mkdirSync(rawFileDir, { recursive: true })
+        }
+        const targetPath = path.join(rawFileDir, 'innerHTML.html')
         fs.writeFile(targetPath, Buffer.from(`<html><body></body></html>`, 'utf-8'))
 
         // pages
