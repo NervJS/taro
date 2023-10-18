@@ -209,9 +209,27 @@ export default class Convertor {
 
   wxsIncrementId = incrementId()
 
-  // 创建 cacheOptions 文件
-  generateCacheOptionFile (): void {
-    const cacheOptionsTemplate = `
+  /**
+  * 创建转换时用到的工具函数文件
+  */
+  generateConvertToolsFile (): void {
+    const convertToolsTemplate = `
+  import Taro from '@tarojs/taro'
+
+  function toCamelCase (s) {
+    let camel = ''
+    let nextCap = false
+    for (let i = 0; i < s.length; i++) {
+      if (s[i] !== '-') {
+        camel += nextCap ? s[i].toUpperCase() : s[i]
+        nextCap = false
+      } else {
+        nextCap = true
+      }
+    }
+    return camel
+  }
+
   export const cacheOptions = {
     cacheOptions: {},
     setOptionsToCache: function (options) {
@@ -223,15 +241,60 @@ export default class Convertor {
       return this.cacheOptions;
     }
   }      
+  export const getDataset = (target) => {
+    if (Taro.getEnv() === Taro.ENV_TYPE.MPHARMONY || Taro.getEnv() === Taro.ENV_TYPE.WEB) {
+      if (target['fullDataset']) {
+        return { dataset: target['fullDataset'] }
+      }
+      const fullDataset = {}
+      // 获取元素的所有属性
+      const targetAttrKeys = Object.keys(target)
+      // 遍历所有属性
+      for (let i = 0; i < targetAttrKeys.length; i++) {
+        if (targetAttrKeys[i].startsWith("data-")) {
+          fullDataset[toCamelCase(targetAttrKeys[i].replace(/^data-/, '').toLowerCase())] = target[targetAttrKeys[i]]
+        }
+      }
+      target['fullDataset'] = fullDataset
+      return { dataset: fullDataset }
+    }
+    return target
+  }
    `
     const utilsPath = path.join(this.root, 'taroConvert/src/utils/')
     const cacheOptionsPath = path.join(utilsPath, '_cacheOptions.js')
 
     if (!fs.existsSync(cacheOptionsPath)) {
       fs.mkdirSync(utilsPath, { recursive: true })
-      fs.writeFileSync(cacheOptionsPath, cacheOptionsTemplate)
+      fs.writeFileSync(cacheOptionsPath, convertToolsTemplate)
     }
   }
+
+  /**
+   * 创建导入工具函数的 ast 节点
+   * 
+   * @param self convert 实例对象
+   * @param sourceFilePath 解析的文件路径
+   * @returns 
+   */
+  createConvertToolsRequireAst (self: any, sourceFilePath: string) {
+    // 创建导入工具函数的 ast 节点
+    const currentFilePath = sourceFilePath
+    const cacheOptionsPath = path.resolve(self.root, 'utils', '_cacheOptions.js')
+    const importOptionsUrl = promoteRelativePath(path.relative(currentFilePath, cacheOptionsPath))
+    const requireCacheOptionsAst = t.variableDeclaration('const', [
+      t.variableDeclarator(
+        t.objectPattern([
+          t.objectProperty(t.identifier('cacheOptions'), t.identifier('cacheOptions'), false, true),
+        ]),
+        t.callExpression(t.identifier('require'), [t.stringLiteral(importOptionsUrl)])
+      ),
+    ])
+
+    return requireCacheOptionsAst
+  }
+
+
 
   parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }: IParseAstOptions): {
     ast: t.File
@@ -245,6 +308,7 @@ export default class Convertor {
     let componentClassName: string
     let needInsertImportTaro = false
     let hasCacheOptionsRequired = false
+    let hasDatasetRequired = false
     traverse(ast, {
       Program: {
         enter (astPath) {
@@ -348,36 +412,62 @@ export default class Convertor {
                   )
                   astPath.replaceWith(cacheOptionsAstNode)
 
-                  // 创建导入 cacheOptions 对象的 ast 节点
-                  const currentFilePath = sourceFilePath
-                  const cacheOptionsPath = path.resolve(self.root, 'utils', '_cacheOptions.js')
-                  const importOptionsUrl = promoteRelativePath(path.relative(currentFilePath, cacheOptionsPath))
-                  const requireCacheOptionsAst = t.variableDeclaration('const', [
-                    t.variableDeclarator(
-                      t.objectPattern([
-                        t.objectProperty(t.identifier('cacheOptions'), t.identifier('cacheOptions'), false, true),
-                      ]),
-                      t.callExpression(t.identifier('require'), [t.stringLiteral(importOptionsUrl)])
-                    ),
-                  ])
+                  // 创建导入工具函数的 ast 节点
+                  const requireCacheOptionsAst = self.createConvertToolsRequireAst(self, sourceFilePath)
 
                   // 若已经引入过 cacheOptions 则不在引入，防止重复引入问题
                   if (!hasCacheOptionsRequired) {
                     ast.program.body.unshift(requireCacheOptionsAst)
                     hasCacheOptionsRequired = true
                   }
-
-                  self.generateCacheOptionFile()
+                  self.generateConvertToolsFile()
                 }
               }
             },
-
             MemberExpression (astPath) {
               const node = astPath.node
               const object = node.object
+              const prettier = node.property
               if (t.isIdentifier(object) && object.name === 'wx') {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
+              } else if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
+                node.object = t.callExpression(t.identifier('getDataset'),[object])
+                if (hasCacheOptionsRequired) {
+                  traverse(ast,{
+                    VariableDeclaration (astPath) {
+                      const { kind, declarations } = astPath.node
+                      if (kind === 'const') {
+                        declarations.forEach((declaration) => {
+                          const { id, init } = declaration
+                          if ( t.isObjectPattern(id) 
+                            && t.isCallExpression(init) 
+                            && t.isIdentifier(init.callee)
+                            &&init.callee.name === 'require'
+                            &&t.isStringLiteral(init.arguments[0])
+                          ) {
+                            const currentFilePath = sourceFilePath
+                            const cacheOptionsPath = path.resolve(self.root, 'utils', '_cacheOptions.js')
+                            const importOptionsUrl = promoteRelativePath(path.relative(currentFilePath, cacheOptionsPath))
+                            if (init.arguments[0].value === importOptionsUrl && !hasDatasetRequired) {
+                              const datasetVariableDeclarator =t.objectProperty(t.identifier('getDataset'), t.identifier('getDataset'), false, true)
+                              id.properties.push(datasetVariableDeclarator)
+                              hasDatasetRequired = true
+                            }
+                          }
+                        })
+                      }
+                    }
+                  })
+                } else {
+                  const requireCacheOptionsAst = self.createConvertToolsRequireAst(self, sourceFilePath)
+                  // 若已经引入过 cacheOptions 则不在引入，防止重复引入问题
+                  if (!hasCacheOptionsRequired) {
+                    ast.program.body.unshift(requireCacheOptionsAst)
+                    hasCacheOptionsRequired = true
+                  }
+                  self.generateConvertToolsFile()
+                }
               }
             },
 

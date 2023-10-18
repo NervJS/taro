@@ -1126,7 +1126,7 @@ function parseAttribute (attr: Attribute) {
     }
   }
 
-  const jsxKey = handleAttrKey(key)
+  let jsxKey = handleAttrKey(key)
   if (/^on[A-Z]/.test(jsxKey) && !/^catch/.test(key) && jsxValue && t.isStringLiteral(jsxValue)) {
     jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
   }
@@ -1137,6 +1137,13 @@ function parseAttribute (attr: Attribute) {
       globals.hasCatchTrue = true
     } else if (t.isStringLiteral(jsxValue)) {
       jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
+    }
+  }
+  // 如果data-xxx自定义属性名xxx不是以-分隔的写法就要转成全小写属性名
+  if (value && jsxKey.startsWith('data-')) {
+    const realKey = jsxKey.replace(/^data-/, '')
+    if (realKey.indexOf('-') === -1) {
+      jsxKey = `data-${realKey.toLowerCase()}`
     }
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)
