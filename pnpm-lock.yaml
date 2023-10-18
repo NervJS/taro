@@ -1009,9 +1009,6 @@ importers:
       prettier:
         specifier: ^2.7.1
         version: registry.npmjs.org/prettier@2.8.8
-      source-map:
-        specifier: ^0.7.4
-        version: registry.npmjs.org/source-map@0.7.4
     devDependencies:
       '@babel/parser':
         specifier: ^7.14.5
@@ -1708,8 +1705,6 @@ importers:
       react-test-renderer:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
-
-  packages/taro-components/loader: {}
 
   packages/taro-extend:
     devDependencies:
@@ -3697,9 +3692,6 @@ importers:
       babel-plugin-transform-flow-strip-types:
         specifier: ^6.22.0
         version: registry.npmjs.org/babel-plugin-transform-flow-strip-types@6.22.0
-      babylon:
-        specifier: ^6.18.0
-        version: registry.npmjs.org/babylon@6.18.0
       eslint-plugin-react:
         specifier: 7.10.0
         version: registry.npmjs.org/eslint-plugin-react@7.10.0(eslint@5.16.0)
