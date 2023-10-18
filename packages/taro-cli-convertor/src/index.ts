@@ -95,7 +95,6 @@ interface ITaroizeOptions {
   path?: string
   rootPath?: string
   scriptPath?: string
-  wxmlPath?: string
 }
 
 // convert.config,json配置参数
@@ -582,7 +581,7 @@ export default class Convertor {
                 )
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
-                  self.writeFileToTaro(importPath, generateMinimalEscapeCode(ast).code)
+                  self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
                 }
                 if (scriptComponents.indexOf(importName) !== -1 || (wxs && wxs === true)) {
                   lastImport.insertAfter(
@@ -781,8 +780,8 @@ export default class Convertor {
             outputFilePath,
             sourceFilePath: file,
           })
-          const generateRes = generateMinimalEscapeCode(ast)
-          this.writeFileToTaro(outputFilePath, generateRes.code)
+          const jsCode = generateMinimalEscapeCode(ast)
+          this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
           printLog(processTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
           this.hadBeenCopyedFiles.add(file)
           this.generateScriptFiles(scriptFiles)
@@ -826,6 +825,23 @@ export default class Convertor {
     return filePath.replace(path.join(this.root, '/'), '').split(path.sep).join('/')
   }
 
+  private formatFile (jsCode: string, template = '') {
+    let code = jsCode
+    const config = { ...prettierJSConfig }
+    if (this.framework === 'vue') {
+      code = `
+${template}
+<script>
+${code}
+</script>
+      `
+      config.parser = 'vue'
+      config.semi = false
+      config.htmlWhitespaceSensitivity = 'ignore'
+    }
+    return prettier.format(code, config)
+  }
+
   generateEntry () {
     try {
       const entryJS = String(fs.readFileSync(this.entryJSPath))
@@ -849,8 +865,8 @@ export default class Convertor {
           : null,
         isApp: true,
       })
-      const generateRes = generateMinimalEscapeCode(ast)
-      this.writeFileToTaro(entryDistJSPath, generateRes.code)
+      const jsCode = generateMinimalEscapeCode(ast)
+      this.writeFileToTaro(entryDistJSPath, jsCode)
       this.writeFileToConfig(entryDistJSPath, entryJSON)
       printLog(processTypeEnum.GENERATE, '入口文件', this.generateShowPath(entryDistJSPath))
       if (this.entryStyle) {
@@ -1027,7 +1043,6 @@ export default class Convertor {
         if (fs.existsSync(pageTemplPath)) {
           printLog(processTypeEnum.CONVERT, '页面模板', this.generateShowPath(pageTemplPath))
           param.wxml = String(fs.readFileSync(pageTemplPath))
-          param.wxmlPath = pageTemplPath
         }
         let pageStyle: string | null = null
         if (fs.existsSync(pageStylePath)) {
@@ -1048,8 +1063,8 @@ export default class Convertor {
           depComponents,
           imports: taroizeResult.imports,
         })
-        const generateRes = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(this.getComponentDest(pageDistJSPath), generateRes.code)
+        const jsCode = generateMinimalEscapeCode(ast)
+        this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
         printLog(processTypeEnum.GENERATE, 'writeFileToTaro', this.generateShowPath(pageDistJSPath))
         this.writeFileToConfig(pageDistJSPath, param.json)
         printLog(processTypeEnum.GENERATE, '页面文件', this.generateShowPath(pageDistJSPath))
@@ -1138,8 +1153,11 @@ export default class Convertor {
           imports: taroizeResult.imports,
         })
 
-        const generateRes = generateMinimalEscapeCode(ast)
-        this.writeFileToTaro(this.getComponentDest(componentDistJSPath), generateRes.code)
+        const jsCode = generateMinimalEscapeCode(ast)
+        this.writeFileToTaro(
+          this.getComponentDest(componentDistJSPath),
+          this.formatFile(jsCode, taroizeResult.template)
+        )
         printLog(processTypeEnum.GENERATE, '组件文件', this.generateShowPath(componentDistJSPath))
         if (componentStyle) {
           this.traverseStyle(componentStylePath, componentStyle)

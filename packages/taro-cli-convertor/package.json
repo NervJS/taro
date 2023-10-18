@@ -62,8 +62,7 @@
     "@tarojs/transformer-wx": "workspace:*",
     "postcss": "^8.4.18",
     "postcss-taro-unit-transform": "workspace:*",
-    "prettier": "^2.7.1",
-    "source-map": "^0.7.4"
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
     "@babel/parser": "^7.14.5",

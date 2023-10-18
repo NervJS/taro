@@ -276,7 +276,7 @@ export default function transform(options: TransformOptions): TransformResult {
   // 将来升级到 babel@7 可以直接用 parse 而不是 transform
   // const ast = parser.parse(code, buildBabelTransformOptions() as any) as t.File
 
-  const ast = parseCode(code) as t.File
+  const ast = parseCode(code)
 
   // traverse(ast, {
   //   JSXElement (p) {
@@ -309,8 +309,7 @@ export default function transform(options: TransformOptions): TransformResult {
       return traverseWxsFile(ast, defaultResult)
     }
 
-    const generateRes = generate(ast.program as any, { sourceMaps: true })
-    const code = generateRes.code
+    const code = generate(ast.program as any).code
     return {
       ...defaultResult,
       ast,

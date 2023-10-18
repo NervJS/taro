@@ -4,7 +4,7 @@ import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 import { printLog, processTypeEnum } from '@tarojs/helper'
 import { toCamelCase } from '@tarojs/shared'
-import { parse, parseDefaults } from 'himalaya-wxml'
+import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
 
 import { getCacheWxml, saveCacheWxml } from './cache'
@@ -13,17 +13,16 @@ import { specialEvents } from './events'
 import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
 import { parseModule, parseTemplate } from './template'
 import {
-  addLocInfo,
   buildBlockElement,
   buildImportStatement,
   buildTemplate,
   codeFrameError,
   DEFAULT_Component_SET,
-  getLineBreak,
-  isLineBreak,
   isValidVarName,
   parseCode,
 } from './utils'
+
+const { prettyPrint } = require('html')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
@@ -42,7 +41,6 @@ export interface Element {
   tagName: string
   children: AllKindNode[]
   attributes: Attribute[]
-  position?: object
 }
 
 export interface Attribute {
@@ -53,13 +51,11 @@ export interface Attribute {
 export interface Comment {
   type: NodeType.Comment
   content: string
-  position?: object
 }
 
 export interface Text {
   type: NodeType.Text
   content: string
-  position?: object
 }
 
 export interface WXS {
@@ -105,9 +101,6 @@ export const WX_SHOW = 'wx:show'
 export const wxTemplateCommand = [WX_IF, WX_ELSE_IF, WX_FOR, WX_FOR_ITEM, WX_FOR_INDEX, WX_KEY, 'wx:else']
 
 function buildElement (name: string, children: Node[] = [], attributes: Attribute[] = []): Element {
-  const newLine: Text = { type: NodeType.Text, content: getLineBreak() }
-  children.unshift(newLine)
-  children.push(newLine)
   return {
     tagName: name,
     type: NodeType.Element,
@@ -503,10 +496,20 @@ export const createWxmlVistor = (
   } as Visitor
 }
 
-export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean, wxmlPath?: string): Wxml {
+export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
   let parseResult = getCacheWxml(dirPath)
   if (parseResult) {
     return parseResult
+  }
+
+  try {
+    wxml = prettyPrint(wxml, {
+      max_char: 0,
+      indent_char: 0,
+      unformatted: ['text', 'wxs'],
+    })
+  } catch (error) {
+    //
   }
 
   if (!parseImport) {
@@ -526,12 +529,9 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       wxml: t.nullLiteral(),
     }
   }
-  const nodes = parse(wxml.trim(), { ...parseDefaults, includePositions: true })
+  const nodes = removEmptyTextAndComment(parse(wxml.trim()))
   const ast = t.file(
-    t.program(
-      [t.expressionStatement(parseNode(buildElement('block', nodes as Node[]), undefined, wxmlPath) as t.Expression)],
-      []
-    )
+    t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
 
   traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports))
@@ -888,9 +888,9 @@ function findWXIfProps (jsx: NodePath<t.JSXElement>): { reg: RegExpMatchArray, t
   return matches
 }
 
-function parseNode (node: AllKindNode, tagName?: string, wxmlPath?: string) {
+function parseNode (node: AllKindNode, tagName?: string) {
   if (node.type === NodeType.Text) {
-    return parseText(node, tagName, wxmlPath)
+    return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
     const emptyStatement = t.jSXEmptyExpression()
     emptyStatement.innerComments = [
@@ -899,13 +899,12 @@ function parseNode (node: AllKindNode, tagName?: string, wxmlPath?: string) {
         value: ' ' + node.content + ' ',
       },
     ] as any[]
-    const jsxExpressionContainer: t.JSXExpressionContainer = t.jSXExpressionContainer(emptyStatement)
-    return addLocInfo(jsxExpressionContainer, node, wxmlPath)
+    return t.jSXExpressionContainer(emptyStatement)
   }
-  return parseElement(node, wxmlPath)
+  return parseElement(node)
 }
 
-function parseElement (element: Element, wxmlPath?: string): t.JSXElement {
+function parseElement (element: Element): t.JSXElement {
   const tagName = t.jSXIdentifier(
     THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName)
   )
@@ -950,16 +949,12 @@ function parseElement (element: Element, wxmlPath?: string): t.JSXElement {
       })
     }
   }
-  const jsxElement: t.JSXElement = t.jSXElement(
+  return t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    // removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName, wxmlPath)),
-    element.children.map((el) => parseNode(el, element.tagName, wxmlPath)),
+    removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
-
-  // 将原节点的location信息赋给新节点
-  return addLocInfo(jsxElement, element, wxmlPath)
 }
 
 export function removEmptyTextAndComment (nodes: AllKindNode[]) {
@@ -974,25 +969,17 @@ export function removEmptyTextAndComment (nodes: AllKindNode[]) {
     .filter((node, index) => !(index === 0 && node.type === NodeType.Comment))
 }
 
-function parseText (node: Text, tagName?: string, wxmlPath?: string) {
+function parseText (node: Text, tagName?: string) {
   if (tagName === 'wxs') {
-    const jsxText: t.JSXText = t.jSXText(node.content)
-    return addLocInfo(jsxText, node, wxmlPath)
+    return t.jSXText(node.content)
   }
   const { type, content } = parseContent(node.content)
   if (type === 'raw') {
     const text = content.replace(/([{}]+)/g, "{'$1'}")
-    // 如果是wxml ast中的换行，行前缩进6个空格，保持格式对齐
-    if (isLineBreak(text) && node.position) {
-      return t.jSXText(text + '      ')
-    }
-
-    const jsxText: t.JSXText = t.jSXText(text)
-    return addLocInfo(jsxText, node, wxmlPath)
+    return t.jSXText(text)
   }
 
-  const jsxExpressionContainer: t.JSXExpressionContainer = t.jSXExpressionContainer(buildTemplate(content))
-  return addLocInfo(jsxExpressionContainer, node, wxmlPath)
+  return t.jSXExpressionContainer(buildTemplate(content))
 }
 
 // 匹配{{content}}
@@ -1003,6 +990,7 @@ function singleQuote (s: string) {
 }
 
 export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
+  content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
       type: 'raw',
