@@ -86,7 +86,7 @@ class TaroElement extends TaroNode {
     if (this.nodeType === NodeType.ELEMENT_NODE) {
       const ele = this.ownerDocument.createElement('inner-html')
       ele._innerHTML = value
-      this.childNodes = [ele]
+      this.appendChild(ele)
     }
   }
 

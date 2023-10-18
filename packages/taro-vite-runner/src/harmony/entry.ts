@@ -80,6 +80,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           instantiateApp = modifyInstantiate(instantiateApp, 'app')
         }
 
+        // rawfile innerHTML模版，供innerhtml的webview加载
+        const { outputRoot = 'dist' } = taroConfig
+        const targetPath = path.join(path.resolve(outputRoot, '..'), 'resources/rawfile/innerHTML.html')
+        fs.writeFile(targetPath, Buffer.from(`<html><body></body></html>`, 'utf-8'))
+
         // pages
         viteCompilerContext.pages.forEach(page => {
           this.emitFile({
