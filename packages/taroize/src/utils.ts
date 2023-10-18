@@ -9,7 +9,6 @@ import dynamicImport from '@babel/plugin-syntax-dynamic-import'
 import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
 import flowStrip from '@babel/plugin-transform-flow-strip-types'
 import jsxPlugin from '@babel/plugin-transform-react-jsx'
-import presetTypescript from '@babel/preset-typescript'
 import { default as template } from '@babel/template'
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
@@ -42,29 +41,7 @@ export function isValidVarName (str?: string) {
   return true
 }
 
-export function parseCode (code: string, scriptPath?: string) {
-  // 支持TS的解析
-  if (typeof scriptPath !== 'undefined') {
-    return (
-      babel.transformSync(code, {
-        ast: true,
-        sourceType: 'module',
-        filename: scriptPath,
-        presets: [presetTypescript],
-        plugins: [
-          classProperties,
-          jsxPlugin,
-          flowStrip,
-          exponentiationOperator,
-          asyncGenerators,
-          objectRestSpread,
-          [decorators, { legacy: true }],
-          dynamicImport,
-        ],
-      }) as { ast: t.File }
-    ).ast
-  }
-
+export function parseCode (code: string) {
   return (
     babel.transformSync(code, {
       ast: true,
@@ -299,4 +276,68 @@ export function isCommonjsModule (bodyNode) {
     }
     return false
   })
+}
+
+interface Position {
+  line: number
+  column: number
+}
+
+/**
+ * 将oldElement的location信息赋值给newElement的loc属性
+ *
+ * @param newElement 新节点
+ * @param oldElement 旧节点
+ * @returns newElement 添加位置信息的新节点
+ */
+export function addLocInfo (newElement, oldElement, filePath?: string) {
+  if (oldElement && oldElement.position) {
+    const position = oldElement.position
+    const locStart: Position = { line: position.start.line + 1, column: position.start.column }
+    const locEnd: Position = { line: position.end.line + 1, column: position.end.column }
+    newElement.loc = {
+      start: locStart,
+      end: locEnd,
+      filename: filePath,
+    }
+  }
+  return newElement
+}
+
+/**
+ * 判断字符串只包含换行符和空格
+ * 换行符，win: \r\n mac: \r
+ *
+ * @param { string } str
+ * @returns { boolean }
+ */
+export function isLineBreak (str: string) {
+  if (isNullOrUndefined(str)) {
+    return false
+  }
+
+  const regex = /^[\r\n\s]+$/
+  return regex.test(str)
+}
+
+/**
+ * 判断参数是否为null或undefined
+ *
+ * @param param
+ * @returns { boolean }
+ */
+export function isNullOrUndefined (param) {
+  return param === null || param === undefined
+}
+
+/**
+ * 获取不同操作系统下的换行符
+ *
+ * @returns { string } 换行符
+ */
+export function getLineBreak () {
+  if (process.platform === 'win32') {
+    return '\r\n'
+  }
+  return '\n'
 }

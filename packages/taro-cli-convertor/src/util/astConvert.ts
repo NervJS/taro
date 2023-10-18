@@ -8,7 +8,8 @@ export function generateMinimalEscapeCode (ast: t.File) {
     jsescOption: {
       minimal: true,
     },
-  }).code
+    sourceMaps: true,
+  })
 }
 
 // 判断是否已经引入 @tarojs/taro

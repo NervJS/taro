@@ -46,7 +46,7 @@ export function parseScript (
     block.children = [returned as any]
     returned = block
   }
-  let ast = parseCode(script, scriptPath as string)
+  let ast = parseCode(script)
   let classDecl!: t.ClassDeclaration
   let foundWXInstance = false
   const vistor: Visitor = {
