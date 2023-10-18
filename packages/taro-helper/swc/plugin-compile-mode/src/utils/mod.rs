@@ -3,7 +3,10 @@ use swc_core::{
         atoms::Atom,
         ast::*
     },
-    common::iter::IdentifyLast,
+    common::{
+        iter::IdentifyLast,
+        DUMMY_SP as span
+    },
 };
 use std::collections::HashMap;
 
@@ -108,6 +111,21 @@ pub fn is_static_jsx (el: &Box<JSXElement>) -> bool {
     }
 
     true
+}
+
+pub fn create_self_closing_jsx_element_expr (name: JSXElementName) ->  Expr {
+    Expr::JSXElement(Box::new(JSXElement {
+        span,
+        opening: JSXOpeningElement {
+            name,
+            span,
+            attrs: vec![],
+            self_closing: true,
+            type_args: None
+        },
+        children: vec![],
+        closing: None
+    }))
 }
 
 #[test]

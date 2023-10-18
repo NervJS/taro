@@ -158,7 +158,8 @@ impl TransformVisitor {
                         expr: JSXExpr::Expr(jsx_expr),
                         ..
                     }) => {
-                        // TODO 只要表达式不包含 JSX，都可以转为取值？
+                        // Todo 只要表达式不包含 JSX，都可以转为取值？
+                        // Todo o.x.a p0
                         match &mut **jsx_expr {
                             Expr::Ident(_) => {
                                 let node_path = self.get_current_node_path();
@@ -167,14 +168,14 @@ impl TransformVisitor {
                             },
                             Expr::Bin(BinExpr { op, left, right, .. }) => {
                                 if *op == op!("&&") {
-                                    let mut handle_condition_if = |el: &mut Box<JSXElement>| {
+                                    let mut condition_to_attr = |el: &mut Box<JSXElement>| {
                                         let opening = &mut el.opening;
                                         opening.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
                                             span,
                                             name: JSXAttrName::Ident(Ident::new("compileIf".into(), span)),
                                             value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
                                                 span,
-                                                expr: JSXExpr::Expr(left.take())
+                                                expr: JSXExpr::Expr(left.clone())
                                             }))
                                         }));
 
@@ -183,14 +184,26 @@ impl TransformVisitor {
                                     };
                                     match &mut **right {
                                         Expr::JSXElement(el) => {
-                                            handle_condition_if(el);
-                                            **jsx_expr = Expr::JSXElement(el.take());
+                                            let name = el.opening.name.clone();
+                                            condition_to_attr(el);
+                                            **jsx_expr = Expr::Cond(CondExpr {
+                                                span,
+                                                test: left.take(),
+                                                cons: right.take(),
+                                                alt: Box::new(utils::create_self_closing_jsx_element_expr(name))
+                                            })
                                         },
                                         Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
                                             if paren_expr.is_jsx_element() {
                                                 let el = paren_expr.as_mut_jsx_element().unwrap();
-                                                handle_condition_if(el);
-                                                **jsx_expr = Expr::JSXElement(el.take());
+                                                let name = el.opening.name.clone();
+                                                condition_to_attr(el);
+                                                **jsx_expr = Expr::Cond(CondExpr {
+                                                    span,
+                                                    test: left.take(),
+                                                    cons: right.take(),
+                                                    alt: Box::new(utils::create_self_closing_jsx_element_expr(name))
+                                                })
                                             }
                                         },
                                         _ => ()

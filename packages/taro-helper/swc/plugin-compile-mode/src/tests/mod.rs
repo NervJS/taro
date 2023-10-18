@@ -1,6 +1,7 @@
 mod entry;
 mod attributes;
 mod shake;
+mod condition;
 
 use swc_core::ecma::{
     parser,
