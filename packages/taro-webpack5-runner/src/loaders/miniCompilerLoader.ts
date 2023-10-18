@@ -63,9 +63,11 @@ export default async function (source) {
       const [, $0, $1] = res
       const outputPath = path.join(outputDir, 'taro_xmls', `${$0}${fileType.templ}`)
       // 小程序 xml 不支持 unescape，在此处对被 SWC 转义后的字符作还原
-      const content = $1.replace(/\\[xu]([a-fA-F0-9]{2,4})/g, (_, $1) => {
-        const charCode = parseInt($1, 16)
-        return String.fromCharCode(charCode)
+      const content = $1.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
+        const isUnicode = $1 === 'u'
+        const num = isUnicode ? $2 : $2.substring(0,2)
+        const charCode = parseInt(num, 16)
+        return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
       })
       await fs.outputFile(outputPath, content)
     }
