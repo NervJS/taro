@@ -15,10 +15,10 @@ export default class Index extends React.Component {
     list: [
       {
         id: 'getMenuButtonBoundingClientRect',
-        func: () => {
+        func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getMenuButtonBoundingClientRect')
           const rect = Taro.getMenuButtonBoundingClientRect()
-          TestConsole.consoleNormal('getMenuButtonBoundingClientRect', rect)
+          TestConsole.consoleResult.call(this, rect, apiIndex)
         },
       },
     ],

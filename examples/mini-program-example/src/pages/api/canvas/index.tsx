@@ -38,7 +38,7 @@ export default class Index extends React.Component {
             context.arc(120, 80, 5, 0, 2 * Math.PI, true)
             context.stroke()
             await context.draw()
-            TestConsole.consoleNormal('Taro.createCanvasContext success ', context)
+            TestConsole.consoleResult.call(this, context, apiIndex)
           })
         },
       },
@@ -813,6 +813,7 @@ export default class Index extends React.Component {
       canvasId: 'canvas' + (apiIndex + 1),
     })
     Taro.nextTick(() => {
+      TestConsole.consoleTest('createCanvasContext')
       context = Taro.createCanvasContext('canvas' + (apiIndex + 1))
       callback()
     })
