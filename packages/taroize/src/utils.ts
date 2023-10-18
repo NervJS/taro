@@ -1,4 +1,6 @@
 import { codeFrameColumns } from '@babel/code-frame'
+import * as babel from '@babel/core'
+import { parse } from '@babel/parser'
 import classProperties from '@babel/plugin-proposal-class-properties'
 import decorators from '@babel/plugin-proposal-decorators'
 import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
@@ -10,7 +12,6 @@ import jsxPlugin from '@babel/plugin-transform-react-jsx'
 import { default as template } from '@babel/template'
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import { parse } from 'babylon'
 import { camelCase, capitalize } from 'lodash'
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
@@ -40,20 +41,23 @@ export function isValidVarName (str?: string) {
   return true
 }
 
-export function parseCode (code: string, scriptPath?: string) {
-  return parse(code, {
-    plugins: [
-      classProperties,
-      jsxPlugin,
-      flowStrip,
-      exponentiationOperator,
-      asyncGenerators,
-      objectRestSpread,
-      [decorators, { legacy: true }],
-      dynamicImport,
-    ],
-    sourceFilename: scriptPath,
-  }) as t.File
+export function parseCode (code: string) {
+  return (
+    babel.transformSync(code, {
+      ast: true,
+      sourceType: 'module',
+      plugins: [
+        classProperties,
+        jsxPlugin,
+        flowStrip,
+        exponentiationOperator,
+        asyncGenerators,
+        objectRestSpread,
+        [decorators, { legacy: true }],
+        dynamicImport,
+      ],
+    }) as { ast: t.File }
+  ).ast
 }
 
 export const buildTemplate = (str: string) => {
