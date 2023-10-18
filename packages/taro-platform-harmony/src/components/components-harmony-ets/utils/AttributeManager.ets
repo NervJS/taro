@@ -204,7 +204,7 @@ class AttributeManager {
 
   static getNodeBorderData (style = {}) {
     const border = style.border || ''
-    const borderPattern = /^(\d+(px)?)\s*(\w+)\s*(.+)/;
+    const borderPattern = /^(\d+px?)\s*(\w+)\s*(.+)/;
     const matches = border.match(borderPattern);
 
     if (!matches) {

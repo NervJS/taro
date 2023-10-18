@@ -51,6 +51,45 @@ function attrs ({
   .backgroundImageSize(backgroundImageSize)
 }
 
+@Extend(Span)
+function spanAttrs ({
+  zIndex,
+  opacity,
+  margin,
+  padding,
+  decoration,
+  lineHeight,
+  letterSpacing,
+  fontColor,
+  fontSize,
+  fontWeight,
+  fontFamily,
+  constraintSize,
+  border,
+  borderRadius,
+  backgroundColor,
+  backgroundImage,
+  backgroundImageSize
+ }) {
+  .constraintSize(constraintSize)
+  .zIndex(zIndex)
+  .opacity(opacity)
+  .margin(margin)
+  .padding(padding)
+  .decoration(decoration)
+  .lineHeight(lineHeight)
+  .letterSpacing(letterSpacing)
+  .fontColor(fontColor)
+  .fontSize(fontSize)
+  .fontWeight(fontWeight)
+  .fontFamily(fontFamily)
+  .border(border)
+  .borderRadius(borderRadius)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage)
+  .backgroundImageSize(backgroundImageSize)
+}
+
 function getAttributes (node: TaroElement) {
   return {
     ...getNormalAttributes(node),
@@ -79,7 +118,7 @@ struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
 
   build() {
-    Span(this.node.textContent)
+    Span(this.node.textContent).spanAttrs(getAttributes(this.node))
   }
 }
 
