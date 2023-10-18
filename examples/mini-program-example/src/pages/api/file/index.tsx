@@ -180,7 +180,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('getFileSystemManager')
           fileSystemManager = Taro.getFileSystemManager()
-          TestConsole.consoleNormal('getFileSystemManager: ', fileSystemManager)
+          TestConsole.consoleResult.call(this, fileSystemManager, apiIndex)
         },
       },
       {

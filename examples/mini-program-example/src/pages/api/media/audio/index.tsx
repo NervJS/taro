@@ -9,45 +9,6 @@ import { TestConsole } from '@/util/util'
  * 媒体-音频
  * @returns
  */
-const canPlayCallback = () => {
-  TestConsole.consoleNormal('on/offCanplay callback')
-}
-
-const playCallback = () => {
-  TestConsole.consoleNormal('on/offPlay callback')
-}
-
-const pauseCallback = () => {
-  TestConsole.consoleNormal('on/offPause callback')
-}
-
-const stopCallback = () => {
-  TestConsole.consoleNormal('on/offStop callback')
-}
-
-const endedCallback = () => {
-  TestConsole.consoleNormal('on/offEnded callback')
-}
-
-const timeUpdateCallback = () => {
-  TestConsole.consoleNormal('on/offTimeUpdate callback')
-}
-
-const errorCallback = () => {
-  TestConsole.consoleNormal('on/offError callback')
-}
-
-const waitingCallback = () => {
-  TestConsole.consoleNormal('on/offWaiting callback')
-}
-
-const seekingCallback = () => {
-  TestConsole.consoleNormal('on/offseeking callback')
-}
-
-const seekedCallback = () => {
-  TestConsole.consoleNormal('on/offseeked callback')
-}
 let innercontext
 let audioContext
 let currentAudio
@@ -59,7 +20,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext_native')
           innercontext = Taro.createInnerAudioContext()
-          TestConsole.consoleNormal('create innerAudioContext :', innercontext)
+          TestConsole.consoleResult.call(this, innercontext, apiIndex)
         },
       },
       {
@@ -67,7 +28,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext_native')
           innercontext = Taro.createInnerAudioContext({})
-          TestConsole.consoleNormal('create innerAudioContext :', innercontext)
+          TestConsole.consoleResult.call(this, innercontext, apiIndex)
         },
       },
       {
@@ -85,7 +46,7 @@ export default class Index extends React.Component {
             // 每创建一个音频实例，让count自加1
             return { count: preState.count + 1 }
           })
-          TestConsole.consoleNormal('create innerAudioContext :', innercontext)
+          TestConsole.consoleResult.call(this, innercontext, apiIndex)
         },
       },
       {
@@ -244,140 +205,140 @@ export default class Index extends React.Component {
         id: 'onCanplay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onCanplay')
-          innercontext.onCanplay(canPlayCallback)
+          innercontext.onCanplay(this.canPlayCallback)
         },
       },
       {
         id: 'onPlay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onPlay')
-          innercontext.onPlay(playCallback)
+          innercontext.onPlay(this.playCallback)
         },
       },
       {
         id: 'onPause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onPause')
-          innercontext.onPause(pauseCallback)
+          innercontext.onPause(this.pauseCallback)
         },
       },
       {
         id: 'onStop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onStop')
-          innercontext.onStop(stopCallback)
+          innercontext.onStop(this.stopCallback)
         },
       },
       {
         id: 'onEnded',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onEnded')
-          innercontext.onEnded(endedCallback)
+          innercontext.onEnded(this.endedCallback)
         },
       },
       {
         id: 'onTimeUpdate',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onTimeUpdate')
-          innercontext.onTimeUpdate(timeUpdateCallback)
+          innercontext.onTimeUpdate(this.timeUpdateCallback)
         },
       },
       {
         id: 'onError-音频出错才能触发',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onError')
-          innercontext.onError(errorCallback)
+          innercontext.onError(this.errorCallback)
         },
       },
       {
         id: '_onWaiting-音频缓冲不足暂停才能触发',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onWaiting')
-          innercontext.onWaiting(waitingCallback)
+          innercontext.onWaiting(this.waitingCallback)
         },
       },
       {
         id: 'onSeeking',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onSeeking')
-          innercontext.onSeeking(seekingCallback)
+          innercontext.onSeeking(this.seekingCallback)
         },
       },
       {
         id: 'onSeeked',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onSeeked')
-          innercontext.onSeeked(seekedCallback)
+          innercontext.onSeeked(this.seekedCallback)
         },
       },
       {
         id: 'offCanplay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offCanplay')
-          innercontext.offCanplay(canPlayCallback)
+          innercontext.offCanplay(this.canPlayCallback)
         },
       },
       {
         id: 'offPlay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offPlay')
-          innercontext.offPlay(playCallback)
+          innercontext.offPlay(this.playCallback)
         },
       },
       {
         id: 'offPause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offPause')
-          innercontext.offPause(pauseCallback)
+          innercontext.offPause(this.pauseCallback)
         },
       },
       {
         id: 'offStop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offStop')
-          innercontext.offStop(stopCallback)
+          innercontext.offStop(this.stopCallback)
         },
       },
       {
         id: 'offEnded',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offEnded')
-          innercontext.offEnded(endedCallback)
+          innercontext.offEnded(this.endedCallback)
         },
       },
       {
         id: 'offTimeUpdate',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offTimeUpdate')
-          innercontext.offTimeUpdate(timeUpdateCallback)
+          innercontext.offTimeUpdate(this.timeUpdateCallback)
         },
       },
       {
         id: 'offError',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offError')
-          innercontext.offError(errorCallback)
+          innercontext.offError(this.errorCallback)
         },
       },
       {
         id: 'offWaiting',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offWaiting')
-          innercontext.offWaiting(waitingCallback)
+          innercontext.offWaiting(this.waitingCallback)
         },
       },
       {
         id: 'offSeeking',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offSeeking')
-          innercontext.offSeeking(seekingCallback)
+          innercontext.offSeeking(this.seekingCallback)
         },
       },
       {
         id: 'offSeeked',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offSeeked')
-          innercontext.offSeeked(seekedCallback)
+          innercontext.offSeeked(this.seekedCallback)
         },
       },
       {
@@ -386,6 +347,7 @@ export default class Index extends React.Component {
           TestConsole.consoleTest('createAudioContext')
           const str = this.state.IdList[this.state.IdList.length - 1] // 获取IdList数组中的最后一个id
           audioContext = Taro.createAudioContext(str) // 根据id来创建音频实例
+          TestConsole.consoleResult.call(this, audioContext, apiIndex)
           let count = this.setState((preState: any) => {
             // 每创建一个音频实例，让count自加1
             return { count: preState.count + 1 }
@@ -500,6 +462,45 @@ export default class Index extends React.Component {
     count: 0, // 和初始id拼接用来创建新的id
   }
 
+  canPlayCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onCanPlayCallback', 9)
+  }
+
+  playCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onPlayCallback', 10)
+  }
+
+  pauseCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onPauseCallback', 11)
+  }
+
+  stopCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onStopCallback', 12)
+  }
+
+  endedCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onEndedCallback', 13)
+  }
+
+  timeUpdateCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onTimeUpdateCallback', 14)
+  }
+
+  errorCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onErrorCallback', 15)
+  }
+
+  waitingCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onWaitingCallback', 16)
+  }
+
+  seekingCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onSeekingCallback', 17)
+  }
+
+  seekedCallback = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onSeekedCallback', 18)
+  }
   render() {
     const { list } = this.state
     return (

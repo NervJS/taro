@@ -11,6 +11,7 @@ interface Option {
   script?: string
   scriptPath?: string
   wxml?: string
+  wxmlPath?: string
   path: string
   rootPath: string
   framework: 'react' | 'vue'
@@ -40,7 +41,7 @@ export function parse (option: Option) {
     }
   }
 
-  const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
+  const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml, false, option.wxmlPath)
   setting.sourceCode = option.script!
   const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, wxses, refIds, option.isApp)
 
