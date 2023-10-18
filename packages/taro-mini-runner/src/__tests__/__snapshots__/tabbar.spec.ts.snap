@@ -673,7 +673,9 @@ require("./taro");
                 },
                 Video: {
                     "poster-size": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("contain"),
+                    "show-thin-progress-bar": "false",
                     "mobilenet-hint-type": "1",
+                    "floating-mode": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("none"),
                     enableNative: "true",
                     bindLoading: "",
                     bindUserAction: "",
@@ -2634,7 +2636,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/about/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
