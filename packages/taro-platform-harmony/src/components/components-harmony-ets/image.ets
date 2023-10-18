@@ -14,6 +14,7 @@ function attrs ({
    padding,
    zIndex,
    backgroundColor,
+   borderRadius,
    constraintSize
 }) {
   .constraintSize(constraintSize)
@@ -26,13 +27,14 @@ function attrs ({
   .flexShrink(flexSize[1])
   .flexBasis(flexSize[2])
   .backgroundColor(backgroundColor)
+  .borderRadius(borderRadius)
 }
 
 
 @Component
 struct TaroImage {
   info: Area = null
-  
+
   @ObjectLink node: TaroImageElement
 
   aboutToAppear () {
