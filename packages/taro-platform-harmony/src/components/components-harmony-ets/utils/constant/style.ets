@@ -44,3 +44,9 @@ export const CurveMap = {
   easeOutCubic: Curve.EaseOut,
   easeInOutCubic: Curve.EaseInOut,
 }
+
+export const BORDER_STYLE_MAP = {
+  solid: BorderStyle.Solid,
+  dotted: BorderStyle.Dotted,
+  dashed: BorderStyle.Dashed,
+}

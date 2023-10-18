@@ -16,6 +16,7 @@ function attrs ({
   padding,
   linearGradient,
   zIndex,
+  border,
   borderRadius,
   opacity,
   backgroundColor,
@@ -33,6 +34,7 @@ function attrs ({
   .padding(padding)
   .linearGradient(linearGradient)
   .zIndex(zIndex)
+  .border(border)
   .borderRadius(borderRadius)
   .opacity(opacity)
   .backgroundColor(backgroundColor)

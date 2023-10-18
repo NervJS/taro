@@ -107,19 +107,6 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
     const style = dom.style
     if (isString(value)) {
       style.cssText = value
-
-      // todo:hack走一遍style处理
-      value.split(';').forEach((item) => { 
-        const [key, value] = item.split(':') 
-        if (/\d+(px)/.test(value)) {
-          const newVal = value.replaceAll('px', '')
-          if (newVal.split(' ').length > 1) {
-            setStyle(style, key, newVal)
-          } else {
-            setStyle(style, key, +newVal)
-          }
-        }
-      })
     } else {
       if (isString(oldValue)) {
         style.cssText = ''
@@ -137,7 +124,32 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
           if (!oldValue || value[i] !== (oldValue as StyleValue)[i]) {
-            setStyle(style, i, value[i])
+            const isHarmony = process.env.TARO_PLATFORM === 'harmony'
+
+            // TODO: 需要更优雅的方式来实现
+            if (isHarmony) {
+              const data = value[i]
+              if (isNumber(data)) {
+                setStyle(style, i, data)
+              } else {
+                if (/\d+(px)/.test(data)) {
+                  const newVal = data.replaceAll('px', '')
+                  if (newVal.split(' ').length > 1) {
+                    setStyle(style, i, newVal)
+                  } else {
+                    setStyle(style, i, +newVal)
+                  }
+                } else {
+                  if (isNaN(Number(data))) {
+                    setStyle(style, i, data)
+                  } else {
+                    setStyle(style, i, +data)
+                  }
+                }
+              }
+            } else {
+              setStyle(style, i, value[i])
+            }
           }
         }
       }

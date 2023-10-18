@@ -1,4 +1,5 @@
 import { convertNumber2PX } from '@tarojs/runtime'
+import { BORDER_STYLE_MAP } from './constant/style'
 import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
@@ -198,6 +199,25 @@ class AttributeManager {
       bottom: AttributeManager.getNodeStyle(style, `${name}Bottom`) || res.bottom || 0,
       left: AttributeManager.getNodeStyle(style, `${name}Left`) || res.left || 0,
       right: AttributeManager.getNodeStyle(style, `${name}Right`) || res.right || 0,
+    }
+  }
+
+  static getNodeBorderData (style = {}) {
+    const border = style.border || ''
+    const borderPattern = /^(\d+(px)?)\s*(\w+)\s*(.+)/;
+    const matches = border.match(borderPattern);
+
+    if (!matches) {
+      return null;
+    }
+
+    const [, width, borderStyle, color] = matches;
+
+    return {
+      width: width,
+      style: BORDER_STYLE_MAP[borderStyle],
+      radius: AttributeManager.getBorderRadiusData(style),
+      color: color ? color.trim() : (style.color || 'black')
     }
   }
 }
