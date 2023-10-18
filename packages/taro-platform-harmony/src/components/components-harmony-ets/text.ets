@@ -23,7 +23,12 @@ function attrs ({
   fontWeight,
   fontFamily,
   textOverflow,
-  constraintSize
+  constraintSize,
+  border,
+  borderRadius,
+  backgroundColor,
+  backgroundImage,
+  backgroundImageSize
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -39,6 +44,11 @@ function attrs ({
   .fontWeight(fontWeight)
   .fontFamily(fontFamily)
   .textOverflow(textOverflow)
+  .border(border)
+  .borderRadius(borderRadius)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage)
+  .backgroundImageSize(backgroundImageSize)
 }
 
 function getAttributes (node: TaroElement) {
@@ -55,7 +65,7 @@ function getFontAttributes (node: TaroElement) {
     decoration: AttributeManager.getNodeTextDecoration(_st),
     lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
     letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
-    maxLines: +AttributeManager.getNodeStyle(_st, 'maxLines', Infinity),
+    maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
     fontColor: AttributeManager.getNodeStyle(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
     fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
     fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
