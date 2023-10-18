@@ -34,7 +34,7 @@ export function convertNumber2PX (value: number) {
 
 export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {
   const obj: CSSProperties[] = []
-  const classes = classNames.split(' ')
+  const classes = typeof classNames === 'string' ? classNames.split(' ') : []
   for (let i = 0; i < classes.length; i++) {
     const className = classes[i]
     if (styleSheet[className]) {
