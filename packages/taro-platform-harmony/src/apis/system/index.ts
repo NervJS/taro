@@ -1,7 +1,7 @@
 // 设备信息,从 API Version 6 开始支持
 import deviceInfo from '@ohos.deviceInfo'
 // 显示设备属性,从 API Version 7 开始支持
-import display from '@ohos.display'
+import _display from '@ohos.display'
 // 从 API Version 7 开始支持
 import i18n from '@ohos.i18n'
 // 从 API Version 6 开始支持
@@ -23,6 +23,7 @@ import { GetAPIsOptionsSuccessType } from '../utils/types'
 
 import type Taro from '@tarojs/taro'
 
+const display = _display.getDefaultDisplaySync()
 
 type GetNetworkType = typeof Taro.getNetworkType;
 type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange;
