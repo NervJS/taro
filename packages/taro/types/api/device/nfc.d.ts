@@ -741,7 +741,7 @@ declare module '../../index' {
      */
     offDiscovered(
       /** 监听 NFC Tag的回调函数 */
-      callback: NFCAdapter.onDiscovered.Callback,
+      callback?: NFCAdapter.onDiscovered.Callback,
     ): void
     /** 监听 NFC Tag
      * @supported weapp, tt

@@ -442,7 +442,7 @@ declare module '../../index' {
      */
     offBLEMTUChange(
       /** 蓝牙低功耗的最大传输单元变化事件的回调函数 */
-      callback: onBLEMTUChange.Callback,
+      callback?: onBLEMTUChange.Callback,
     ): void
 
     /** 取消监听蓝牙低功耗连接状态的改变事件
@@ -451,7 +451,7 @@ declare module '../../index' {
      */
     offBLEConnectionStateChange(
       /** 蓝牙低功耗连接状态的改变事件的回调函数 */
-      callback: onBLEConnectionStateChange.Callback,
+      callback?: onBLEConnectionStateChange.Callback,
     ): void
 
     /** 取消监听蓝牙低功耗设备的特征值变化事件

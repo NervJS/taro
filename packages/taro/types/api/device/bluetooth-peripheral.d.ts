@@ -53,7 +53,7 @@ declare module '../../index' {
      */
     offCharacteristicReadRequest(
       /** 已连接的设备请求读当前外围设备的特征值事件的回调函数 */
-      callback: BLEPeripheralServer.onCharacteristicReadRequest.Callback,
+      callback?: BLEPeripheralServer.onCharacteristicReadRequest.Callback,
     ): void
     /** 取消监听特征订阅事件
      * @supported weapp, jd
@@ -61,7 +61,7 @@ declare module '../../index' {
      */
     offCharacteristicSubscribed(
       /** 特征订阅事件的回调函数 */
-      callback: BLEPeripheralServer.onCharacteristicSubscribed.Callback,
+      callback?: BLEPeripheralServer.onCharacteristicSubscribed.Callback,
     ): void
     /** 取消监听取消特征订阅事件
      * @supported weapp
@@ -69,7 +69,7 @@ declare module '../../index' {
      */
     offCharacteristicUnsubscribed(
       /** 取消特征订阅事件的回调函数 */
-      callback: BLEPeripheralServer.onCharacteristicUnsubscribed.Callback,
+      callback?: BLEPeripheralServer.onCharacteristicUnsubscribed.Callback,
     ): void
     /** 取消监听已连接的设备请求写当前外围设备的特征值事件
      * @supported weapp, jd
@@ -77,7 +77,7 @@ declare module '../../index' {
      */
     offCharacteristicWriteRequest(
       /** 已连接的设备请求写当前外围设备的特征值事件的回调函数 */
-      callback: BLEPeripheralServer.onCharacteristicWriteRequest.Callback,
+      callback?: BLEPeripheralServer.onCharacteristicWriteRequest.Callback,
     ): void
     /** 监听已连接的设备请求读当前外围设备的特征值事件
      *
@@ -416,7 +416,7 @@ declare module '../../index' {
      */
      offBLEPeripheralConnectionStateChanged(
       /** 当前外围设备被连接或断开连接事件的回调函数 */
-      callback: onBLEPeripheralConnectionStateChanged.Callback,
+      callback?: onBLEPeripheralConnectionStateChanged.Callback,
     ): void
 
     /** 建立本地作为蓝牙低功耗外围设备的服务端，可创建多个

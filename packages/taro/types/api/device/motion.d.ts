@@ -72,7 +72,9 @@ declare module '../../index' {
      * @supported weapp, alipay, swan, jd, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html
      */
-    onDeviceMotionChange (callback: onDeviceMotionChange.Callback): void
+    onDeviceMotionChange(
+      callback: onDeviceMotionChange.Callback
+    ): void
 
     /** 取消监听设备方向变化事件，参数为空，则取消所有的事件监听。
      * @supported weapp, alipay, swan, jd, h5, rn
@@ -80,7 +82,7 @@ declare module '../../index' {
      */
     offDeviceMotionChange(
       /** 设备方向变化事件的回调函数 */
-      callback?: (...args: any[]) => any,
+      callback?: onDeviceMotionChange.Callback
     ): void
   }
 }

@@ -99,7 +99,7 @@ declare module '../../index' {
      */
     offCompassChange(
       /** 罗盘数据变化事件的回调函数 */
-      callback: (...args: any[]) => any,
+      callback?: onCompassChange.Callback,
     ): void
   }
 }

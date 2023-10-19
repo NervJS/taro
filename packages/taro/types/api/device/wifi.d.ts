@@ -244,7 +244,7 @@ declare module '../../index' {
      */
      offWifiConnectedWithPartialInfo(
       /** 连接上 Wi-Fi 的事件的回调函数 */
-      callback: onWifiConnectedWithPartialInfo.Callback,
+      callback?: onWifiConnectedWithPartialInfo.Callback,
     ): void
 
     /**
@@ -254,7 +254,7 @@ declare module '../../index' {
      */
     offWifiConnected(
       /** 连接上 Wi-Fi 的事件的回调函数 */
-      callback: onWifiConnected.Callback,
+      callback?: onWifiConnected.Callback,
     ): void
 
     /**
@@ -264,7 +264,7 @@ declare module '../../index' {
      */
     offGetWifiList(
       /** 获取到 Wi-Fi 列表数据事件的回调函数 */
-      callback: onGetWifiList.Callback,
+      callback?: onGetWifiList.Callback,
     ): void
 
     /** 请求获取 Wi-Fi 列表。在 `onGetWifiList` 注册的回调中返回 `wifiList` 数据。 **Android 调用前需要 [用户授权](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html) scope.userLocation。**
