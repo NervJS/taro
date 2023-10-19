@@ -19,6 +19,10 @@ export default class Index extends React.Component {
         id: 'createInnerAudioContext',
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext_native')
+          if (innercontext !== undefined) {
+            innercontext.destroy()
+            TestConsole.consoleNormal('innerAudioContext destroy:', innercontext)
+          }
           innercontext = Taro.createInnerAudioContext()
           TestConsole.consoleResult.call(this, innercontext, apiIndex)
         },
@@ -27,6 +31,10 @@ export default class Index extends React.Component {
         id: 'createInnerAudioContext_{}',
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext_native')
+          if (innercontext !== undefined) {
+            innercontext.destroy()
+            TestConsole.consoleNormal('innerAudioContext destroy:', innercontext)
+          }
           innercontext = Taro.createInnerAudioContext({})
           TestConsole.consoleResult.call(this, innercontext, apiIndex)
         },
@@ -35,16 +43,12 @@ export default class Index extends React.Component {
         id: 'createInnerAudioContext_',
         func: (apiIndex) => {
           TestConsole.consoleTest('createInnerAudioContext_h5')
+          if (innercontext !== undefined) {
+            innercontext.destroy()
+            TestConsole.consoleNormal('innerAudioContext destroy:', innercontext)
+          }
           innercontext = Taro.createInnerAudioContext({
             useWebAudioImplement: true, // 使用 Web Audio API 实现
-          })
-          this.setState((preState: any) => {
-            // 每创建一个实例，就往innerConTextList数组中添加
-            return (preState.innerConTextList = [...preState.innerConTextList, innercontext])
-          })
-          this.setState((preState: any) => {
-            // 每创建一个音频实例，让count自加1
-            return { count: preState.count + 1 }
           })
           TestConsole.consoleResult.call(this, innercontext, apiIndex)
         },
@@ -52,7 +56,7 @@ export default class Index extends React.Component {
       {
         id: 'set',
         inputData: {
-          src: 'https://storage.360buyimg.com/jdrd-blog/27.mp3', // 音频播放地址
+          src: 'http://img.51miz.com/preview/sound/00/26/73/51miz-S267356-423D33372.mp3', // 音频播放地址
           startTime: 0, // 播放开始位置
           autoplay: true, // 是否自由开始播放
           loop: false, // 是否循环播放
@@ -62,47 +66,69 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('InnerAudioContext_set')
-          innercontext.autoplay = data.autoplay
-          innercontext.src = data.src
-          innercontext.startTime = data.startTime
-          innercontext.loop = data.loop
-          innercontext.volume = data.volume
-          innercontext.playbackRate = data.playbackRate
-          innercontext.referrerPolicy = data.referrerPolicy
-          this.setState({ isPlay: true })
+          if (innercontext !== undefined) {
+            innercontext.src = data.src
+            innercontext.autoplay = data.autoplay
+            innercontext.startTime = data.startTime
+            innercontext.loop = data.loop
+            innercontext.volume = data.volume
+            innercontext.playbackRate = data.playbackRate
+            innercontext.referrerPolicy = data.referrerPolicy
+          } else {
+            TestConsole.consoleNormal('set error')
+          }
+        },
+      },
+      {
+        id: 'set-volume',
+        inputData: {
+          volume: 1, // 音量范围0~1
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('InnerAudioContext_setVolume')
+          if (innercontext !== undefined) {
+            innercontext.volume = data.volume
+          } else {
+            TestConsole.consoleNormal('setVolume error')
+          }
+        },
+      },
+      {
+        id: 'set-playbackRate',
+        inputData: {
+          playbackRate: 1, // 音量范围0.75~2.0
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('InnerAudioContext_setPlaybackRate')
+          if (innercontext !== undefined) {
+            innercontext.playbackRate = data.playbackRate
+          } else {
+            TestConsole.consoleNormal('setPlaybackRate error')
+          }
+        },
+      },
+      {
+        id: 'set-loop',
+        inputData: {
+          loop: true, // 	是否循环播放
+        },
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('InnerAudioContext_setLoops')
+          if (innercontext !== undefined) {
+            innercontext.loop = data.loop
+          } else {
+            TestConsole.consoleNormal('setLoops error')
+          }
         },
       },
       {
         id: 'play',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_play')
-          if (this.state.innerConTextList.length > 1) {
-            // 当AudioList数组中只要有音频实例，便利数组，播放所有音频实例
-            this.state.innerConTextList.map((audio: any) => {
-              audio.play()
-              this.setState({ isPlay: true })
-            })
-          } else if (this.state.innerConTextList.length === 1) {
-            // 当innerConTextList数组只有一个音频实例，使用当前音频实例来播放并修改状态，通过count数值恢复innerConTextList数组
-            if (this.state.count !== 0) {
-              this.setState((preState: any) => {
-                return (preState.innerConTextList = [...preState.innerConTextList, innercontext])
-              })
-              this.setState((preState: any) => {
-                return { count: preState.count - 1 }
-              })
-            }
-            this.state.innerConTextList.map((audio: any) => {
-              audio.play()
-              this.setState({ isPlay: true })
-            })
-          } else {
-            // 当innerConTextList数组中没有音频实例，向右移动一个指针，恢复一个音频实例
-            this.setState((preState: any) => {
-              return (preState.innerConTextList = [...preState.innerConTextList, innercontext])
-            })
+          if (innercontext !== undefined) {
             innercontext.play()
-            this.setState({ isPlay: true })
+          } else {
+            TestConsole.consoleNormal('play error')
           }
         },
       },
@@ -110,30 +136,10 @@ export default class Index extends React.Component {
         id: 'pause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_pause')
-          if (this.state.innerConTextList.length > 1 && this.state.isPlay === true) {
-            // 当innerConTextList数组中只要有多个音频实例并且当前音频实例正在播放，就获取到当前的音频实例，来暂停并修改状态
-            currentAudio = this.state.innerConTextList[this.state.innerConTextList.length - 1]
-            currentAudio.pause()
-            this.setState({ isPlay: false })
-            this.setState((preState: any) => {
-              const newInnerAudioList = [...preState.innerConTextList]
-              newInnerAudioList.length--
-              return { innerConTextList: newInnerAudioList }
-            })
-          } else if (this.state.innerConTextList.length >= 1 && this.state.isPlay === false) {
-            // 当innerConTextList数组中只要有多个音频实例并且当前实例是暂停状态，就获取到前一个的音频实例，来暂停并修改状态
-            currentAudio = this.state.innerConTextList[this.state.innerConTextList.length - 1]
-            currentAudio.pause()
-            this.setState({ isPlay: false })
-            this.setState((preState: any) => {
-              const newInnerAudioList = [...preState.innerConTextList]
-              newInnerAudioList.length--
-              return { innerConTextList: newInnerAudioList }
-            })
-          } else if (this.state.innerConTextList.length === 1) {
-            // 当innerConTextList数组中只要一个音频实例时，直接暂停并修改状态
+          if (innercontext !== undefined) {
             innercontext.pause()
-            this.setState({ isPlay: false })
+          } else {
+            TestConsole.consoleNormal('pause error')
           }
         },
       },
@@ -141,44 +147,24 @@ export default class Index extends React.Component {
         id: 'stop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_stop')
-          if (this.state.innerConTextList.length > 1) {
-            // 当innerConTextList数组中只要有音频实例，获取到当前音频实例，直接调用stop
-            currentAudio = this.state.innerConTextList[this.state.innerConTextList.length - 1]
-            currentAudio.stop()
-            this.setState((preState: any) => {
-              const newInnerAudioList = [...preState.innerConTextList]
-              newInnerAudioList.length--
-              return { innerConTextList: newInnerAudioList }
-            })
-          } else if (this.state.innerConTextList.length === 1) {
-            // 当innerConTextList数组中有一个音频实例，使用当前音频实例停止
+          if (innercontext !== undefined) {
             innercontext.stop()
           } else {
-            // 当innerConTextList数组中没有音频实例，向右移动一个指针，恢复一个音频实例
-            this.setState((preState: any) => {
-              return (preState.innerConTextList = [...preState.innerConTextList, innercontext])
-            })
-            innercontext.stop()
+            TestConsole.consoleNormal('stop error')
           }
         },
       },
       {
         id: 'seek',
-        func: (apiIndex) => {
+        inputData: {
+          seekData: 150
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('InnerAudioContext_seek')
-          if (this.state.innerConTextList.length > 1) {
-            // 当innerConTextList数组中只要有多个音频实例，就先获取当前实例来跳转
-            currentAudio = this.state.innerConTextList[this.state.innerConTextList.length - 1]
-            currentAudio.seek(150)
-          } else if (this.state.innerConTextList.length === 1) {
-            // 当innerConTextList数组只有一个音频实例，直接停止
-            innercontext.seek(150)
+          if (innercontext !== undefined) {
+            innercontext.seek(data.seekData)
           } else {
-            // 当innerConTextList数组不存在音频实例，向右移动一个指针，使用当前音频实例来停止
-            this.setState((preState: any) => {
-              return (preState.innerConTextList = [...preState.innerConTextList, innercontext])
-            })
-            innercontext.seek(150)
+            TestConsole.consoleNormal('seek error')
           }
         },
       },
@@ -186,18 +172,10 @@ export default class Index extends React.Component {
         id: 'destroy',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_destroy')
-          if (this.state.innerConTextList.length > 1) {
-            // 只要innerConTextList数组中有音频实例，直接销毁
-            currentAudio = this.state.innerConTextList[this.state.innerConTextList.length - 1]
-            currentAudio.destroy()
-            this.setState((preState: any) => {
-              const newInnerAudioList = [...preState.innerConTextList]
-              newInnerAudioList.length--
-              return { innerConTextList: newInnerAudioList }
-            })
-          } else if (this.state.innerConTextList.length === 1) {
-            // 当innerConTextList数组恢复一个音频实例，直接销毁
+          if (innercontext !== undefined) {
             innercontext.destroy()
+          } else {
+            TestConsole.consoleNormal('destroy error')
           }
         },
       },
@@ -205,140 +183,220 @@ export default class Index extends React.Component {
         id: 'onCanplay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onCanplay')
-          innercontext.onCanplay(this.canPlayCallback)
+          if (innercontext !== undefined) {
+            innercontext.onCanplay(this.canPlayCallback)
+          } else {
+            TestConsole.consoleNormal('onCanplay error')
+          }
         },
       },
       {
         id: 'onPlay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onPlay')
-          innercontext.onPlay(this.playCallback)
+          if (innercontext !== undefined) {
+            innercontext.onPlay(this.playCallback)
+          } else {
+            TestConsole.consoleNormal('onPlay error')
+          }
         },
       },
       {
         id: 'onPause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onPause')
-          innercontext.onPause(this.pauseCallback)
+          if (innercontext !== undefined) {
+            innercontext.onPause(this.pauseCallback)
+          } else {
+            TestConsole.consoleNormal('onPause error')
+          }
         },
       },
       {
         id: 'onStop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onStop')
-          innercontext.onStop(this.stopCallback)
+          if (innercontext !== undefined) {
+            innercontext.onStop(this.stopCallback)
+          } else {
+            TestConsole.consoleNormal('onStop error')
+          }
         },
       },
       {
         id: 'onEnded',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onEnded')
-          innercontext.onEnded(this.endedCallback)
+          if (innercontext !== undefined) {
+            innercontext.onEnded(this.endedCallback)
+          } else {
+            TestConsole.consoleNormal('onEnded error')
+          }
         },
       },
       {
         id: 'onTimeUpdate',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onTimeUpdate')
-          innercontext.onTimeUpdate(this.timeUpdateCallback)
+          if (innercontext !== undefined) {
+            innercontext.onTimeUpdate(this.timeUpdateCallback)
+          } else {
+            TestConsole.consoleNormal('onTimeUpdate error')
+          }
         },
       },
       {
         id: 'onError-音频出错才能触发',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onError')
-          innercontext.onError(this.errorCallback)
+          if (innercontext !== undefined) {
+            innercontext.onError(this.errorCallback)
+          } else {
+            TestConsole.consoleNormal('onError error')
+          }
         },
       },
       {
-        id: '_onWaiting-音频缓冲不足暂停才能触发',
+        id: 'onWaiting-音频缓冲不足暂停才能触发',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onWaiting')
-          innercontext.onWaiting(this.waitingCallback)
+          if (innercontext !== undefined) {
+            innercontext.onWaiting(this.waitingCallback)
+          } else {
+            TestConsole.consoleNormal('onWaiting error')
+          }
         },
       },
       {
         id: 'onSeeking',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onSeeking')
-          innercontext.onSeeking(this.seekingCallback)
+          if (innercontext !== undefined) {
+            innercontext.onSeeking(this.seekingCallback)
+          } else {
+            TestConsole.consoleNormal('onSeeking error')
+          }
         },
       },
       {
         id: 'onSeeked',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_onSeeked')
-          innercontext.onSeeked(this.seekedCallback)
+          if (innercontext !== undefined) {
+            innercontext.onSeeked(this.seekedCallback)
+          } else {
+            TestConsole.consoleNormal('onSeeked error')
+          }
         },
       },
       {
         id: 'offCanplay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offCanplay')
-          innercontext.offCanplay(this.canPlayCallback)
+          if (innercontext !== undefined) {
+            innercontext.offCanplay(this.canPlayCallback)
+          } else {
+            TestConsole.consoleNormal('offCanplay error')
+          }
         },
       },
       {
         id: 'offPlay',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offPlay')
-          innercontext.offPlay(this.playCallback)
+          if (innercontext !== undefined) {
+            innercontext.offPlay(this.playCallback)
+          } else {
+            TestConsole.consoleNormal('offPlay error')
+          }
         },
       },
       {
         id: 'offPause',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offPause')
-          innercontext.offPause(this.pauseCallback)
+          if (innercontext !== undefined) {
+            innercontext.offPause(this.pauseCallback)
+          } else {
+            TestConsole.consoleNormal('offPause error')
+          }
         },
       },
       {
         id: 'offStop',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offStop')
-          innercontext.offStop(this.stopCallback)
+          if (innercontext !== undefined) {
+            innercontext.offStop(this.stopCallback)
+          } else {
+            TestConsole.consoleNormal('offStop error')
+          }
         },
       },
       {
         id: 'offEnded',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offEnded')
-          innercontext.offEnded(this.endedCallback)
+          if (innercontext !== undefined) {
+            innercontext.offEnded(this.endedCallback)
+          } else {
+            TestConsole.consoleNormal('offEnded error')
+          }
         },
       },
       {
         id: 'offTimeUpdate',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offTimeUpdate')
-          innercontext.offTimeUpdate(this.timeUpdateCallback)
+          if (innercontext !== undefined) {
+            innercontext.offTimeUpdate(this.timeUpdateCallback)
+          } else {
+            TestConsole.consoleNormal('offTimeUpdate error')
+          }
         },
       },
       {
         id: 'offError',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offError')
-          innercontext.offError(this.errorCallback)
+          if (innercontext !== undefined) {
+            innercontext.offError(this.errorCallback)
+          } else {
+            TestConsole.consoleNormal('offError error')
+          }
         },
       },
       {
         id: 'offWaiting',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offWaiting')
-          innercontext.offWaiting(this.waitingCallback)
+          if (innercontext !== undefined) {
+            innercontext.offWaiting(this.waitingCallback)
+          } else {
+            TestConsole.consoleNormal('offWaiting error')
+          }
         },
       },
       {
         id: 'offSeeking',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offSeeking')
-          innercontext.offSeeking(this.seekingCallback)
+          if (innercontext !== undefined) {
+            innercontext.offSeeking(this.seekingCallback)
+          } else {
+            TestConsole.consoleNormal('offSeeking error')
+          }
         },
       },
       {
         id: 'offSeeked',
         func: (apiIndex) => {
           TestConsole.consoleTest('InnerAudioContext_offSeeked')
-          innercontext.offSeeked(this.seekedCallback)
+          if (innercontext !== undefined) {
+            innercontext.offSeeked(this.seekedCallback)
+          } else {
+            TestConsole.consoleNormal('offSeeked error')
+          }
         },
       },
       {
@@ -501,7 +559,7 @@ export default class Index extends React.Component {
   seekedCallback = (res) => {
     TestConsole.consoleOnCallback.call(this, res, 'onSeekedCallback', 18)
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>
