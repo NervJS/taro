@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * 鸿蒙SDK API Version 6
  * 将页面滚动到目标位置
@@ -20,8 +21,6 @@ export const pageScrollTo: pageScrollTo = (options) => {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const scroller = page.scroller
-    const { xOffset, yOffset } = scroller.currentOffset()
     const res = { errMsg: 'pageScrollTo:ok' }
     const error = { errMsg: 'pageScrollTo:fail' }
     const { scrollTop, selector = '', duration, offsetTop = 0 } = options
@@ -30,25 +29,37 @@ export const pageScrollTo: pageScrollTo = (options) => {
       console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
     }
 
+    let scroller = page.scroller
     let scrollValue = -1
     if (scrollTop || typeof scrollTop === 'number') {
       scrollValue = scrollTop
     } else if (selector) {
       const node = findChildNodeWithDFS(page.node, selector)
-      // @ts-ignore
       const info = node?.instance?.info
+      let parent = node?.parentNode
+
+      while (!!parent && parent !== page.node) {
+        if (parent?.instance?.scroller) {
+          scroller = parent.instance.scroller
+          break
+        }
+        parent = parent?.parentNode
+      }
+
+      const { yOffset } = scroller.currentOffset()
 
       if (info) {
         scrollValue = info.globalPosition.y + yOffset + offsetTop
       }
     }
+    const { xOffset } = scroller.currentOffset()
 
     if (scrollValue === -1) {
       return callAsyncFail(reject, { errMsg: 'pageScrollTo:fail, 请检查传入的 scrollTop 或 selector 是否合法' }, options)
     }
 
     try {
-      page.scroller.scrollTo({
+      scroller.scrollTo({
         xOffset,
         yOffset: scrollValue,
         animation: {

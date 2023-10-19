@@ -204,17 +204,17 @@ class AttributeManager {
 
   static getNodeBorderData (style = {}) {
     const border = style.border || ''
-    const borderPattern = /^(\d+px?)\s*(\w+)\s*(.+)/;
+    const borderPattern = /^(\d+(px)?)\s*(\w+)\s*(.+)/;
     const matches = border.match(borderPattern);
 
     if (!matches) {
       return null;
     }
 
-    const [, width, borderStyle, color] = matches;
+    const [, width, , borderStyle, color] = matches;
 
     return {
-      width: width,
+      width: Number(width.replaceAll('px', '')),
       style: BORDER_STYLE_MAP[borderStyle],
       radius: AttributeManager.getBorderRadiusData(style),
       color: color ? color.trim() : (style.color || 'black')
