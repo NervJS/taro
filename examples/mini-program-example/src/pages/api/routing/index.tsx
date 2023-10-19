@@ -35,10 +35,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'reLaunch',
-        func: (apiIndex) => {
+        inputData: {
+          url: '/pages/api/index/index?testParam=1',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('reLaunch')
           Taro.reLaunch({
-            url: '/pages/api/index/index?testParam=1',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -55,10 +58,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'redirectTo',
-        func: (apiIndex) => {
+        inputData: {
+          url: '../routeA/index?testParam01=1&testParam02=2&testParam03=3',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('redirectTo')
           Taro.redirectTo({
-            url: '/pages/api/index/index?testParam01=1&testParam02=2',
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -75,10 +81,13 @@ export default class Index extends React.Component {
       },
       {
         id: 'navigateTo',
-        func: (apiIndex) => {
+        inputData: {
+          url: '/pages/api/routing/routeA/index?testParam01=1&testParam02=2&testParam03=3',
+        },
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('navigateTo')
           Taro.navigateTo({
-            url: '/pages/api/routing/routeA/index?testParam01=1&testParam02=2&testParam03=3',
+            ...data,
             events: {
               data: 'test',
             },

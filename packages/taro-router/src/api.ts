@@ -83,6 +83,16 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
       if ('url' in option) {
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }
+        if (pathPieces.pathname) {
+          const pathname=pathPieces.pathname?.startsWith('/') ? pathPieces.pathname.substring(1) : pathPieces.pathname
+          if (!RouterConfig.pages.includes(pathname)) {
+            const res = { errMsg: `${method}:fail page ${pathname} is not found` }
+            fail?.(res)
+            complete?.(res)
+            reject(res)
+            return
+          }
+        }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {
