@@ -107,8 +107,12 @@ impl TransformVisitor {
                             }
                         },
                         None => {
+                            if jsx_attr_name == COMPILE_ELSE {
+                                props.insert(miniapp_attr_name, String::from(jsx_attr_name));
+                            } else {
+                                props.insert(miniapp_attr_name, String::from("true"));
+                            }
                             // 布尔值在 jsx 中也可以删除了
-                            props.insert(miniapp_attr_name, String::from("true"));
                             return false
                         }
                     }
@@ -127,6 +131,10 @@ impl TransformVisitor {
         keys.sort();
         for key in keys {
             let value = props.get(key).unwrap();
+            if value == COMPILE_ELSE {
+                attrs_string.push_str(format!(" {}", key).as_str());
+                continue;
+            }
             attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
         }
 
@@ -169,16 +177,7 @@ impl TransformVisitor {
                             Expr::Bin(BinExpr { op, left, right, .. }) => {
                                 if *op == op!("&&") {
                                     let mut condition_to_attr = |el: &mut Box<JSXElement>| {
-                                        let opening = &mut el.opening;
-                                        opening.attrs.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
-                                            span,
-                                            name: JSXAttrName::Ident(Ident::new("compileIf".into(), span)),
-                                            value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
-                                                span,
-                                                expr: JSXExpr::Expr(left.clone())
-                                            }))
-                                        }));
-
+                                        el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, left.clone()));
                                         let child_string = self.build_xml_element(el);
                                         children_string.push_str(&child_string);
                                     };
@@ -210,6 +209,23 @@ impl TransformVisitor {
                                     }
                                 }
                             },
+                            Expr::Cond(CondExpr { test, cons, alt,..}) => {
+                                let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
+                                let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
+                                let mut process_condition_expr = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
+                                    match &mut **arm {
+                                        Expr::JSXElement(el) => {
+                                            el.opening.attrs.push(attr);
+                                            let child_string = self.build_xml_element(el);
+                                            children_string.push_str(&child_string);
+                                        },
+                                        _ => ()
+                                    }
+                                };
+                                process_condition_expr(cons, compile_if);
+                                process_condition_expr(alt, compile_else);
+
+                            }
                             _ => {
                                 println!("_ expr: {:?} ", jsx_expr);
                             }

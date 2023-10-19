@@ -10,6 +10,8 @@ use swc_core::{
 };
 use std::collections::HashMap;
 
+use self::constants::{COMPILE_IF, COMPILE_ELSE};
+
 pub mod constants;
 
 pub fn named_iter (str: String) -> impl FnMut() -> String {
@@ -74,9 +76,12 @@ pub fn to_kebab_case (val: &str) -> String {
 pub fn convert_jsx_attr_key (jsx_key: &str, adapter: &HashMap<String, String>) -> String {
     if jsx_key == "className" {
         return String::from("class");
-    } else if jsx_key == "compileIf" {
+    } else if jsx_key == COMPILE_IF {
         let if_adapter = adapter.get("if").expect("[compile mode] 模板 if 语法未配置");
         return if_adapter.clone()
+    } else if jsx_key == COMPILE_ELSE {
+        let else_adapter = adapter.get("else").expect("[compile mode] 模板 else 语法未配置");
+        return else_adapter.clone()
     }
     to_kebab_case(jsx_key)
 }
@@ -126,6 +131,25 @@ pub fn create_self_closing_jsx_element_expr (name: JSXElementName) ->  Expr {
         children: vec![],
         closing: None
     }))
+}
+
+pub fn create_jsx_expr_attr (name: &str, expr: Box<Expr>) -> JSXAttrOrSpread {
+    JSXAttrOrSpread::JSXAttr(JSXAttr {
+        span,
+        name: JSXAttrName::Ident(Ident::new(name.into(), span)),
+        value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer {
+            span,
+            expr: JSXExpr::Expr(expr)
+        }))
+    })
+}
+
+pub fn create_jsx_bool_attr (name: &str) -> JSXAttrOrSpread {
+    JSXAttrOrSpread::JSXAttr(JSXAttr {
+        span,
+        name: JSXAttrName::Ident(Ident::new(name.into(), span)),
+        value: None
+    })
 }
 
 #[test]
