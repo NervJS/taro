@@ -214,7 +214,7 @@ class AttributeManager {
     const [, width, , borderStyle, color] = matches;
 
     return {
-      width: Number(width.replaceAll('px', '')),
+      width,
       style: BORDER_STYLE_MAP[borderStyle],
       radius: AttributeManager.getBorderRadiusData(style),
       color: color ? color.trim() : (style.color || 'black')
