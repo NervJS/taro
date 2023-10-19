@@ -202,6 +202,57 @@ class AttributeManager {
     }
   }
 
+  static getNodeAnimationData (style = {}) {
+    let res: any = {}
+    const dataValue = AttributeManager.getNodeStyle(style, 'animation')
+
+    if (dataValue) {
+      let values = dataValue.trim().split(/,/)[0]
+      values = dataValue.trim().split(/\s+/)
+      switch (values.length) {
+        case 4:
+          res = { duration: values[0], curve: values[1], delay: values[2] }
+          break
+        case 8:
+          res = { duration: values[0], curve: values[1], delay: values[2], iterations: values[3], playMode: values[4] }
+          break
+        default:
+          break
+      }
+
+      Object.keys(res).forEach(key => {
+        if (!isNaN(res[key]) && values.length > 1) {
+          res[key] = convertNumber2PX(res[key])
+        }
+      })
+    }
+
+    let playMode = AttributeManager.getNodeStyle(style, 'animationDirection') || res.playMode
+    switch (playMode) {
+      case 'reverse':
+        playMode = PlayMode.Reverse
+        break
+      case 'alternate':
+        playMode = PlayMode.Alternate
+        break
+      case 'alternate-reverse':
+        playMode = PlayMode.AlternateReverse
+        break
+      case 'normal':
+      default:
+        playMode = PlayMode.Normal
+    }
+    return {
+      duration: this.parseTime2Number(AttributeManager.getNodeStyle(style, 'animationDuration') || res.duration || 1000),
+      tempo: 1,
+      curve: AttributeManager.getNodeStyle(style, 'animationTimingFunction') || res.curve || Curve.EaseInOut,
+      delay: this.parseTime2Number(AttributeManager.getNodeStyle(style, 'animationDelay') || res.delay || 0),
+      iterations: Number(AttributeManager.getNodeStyle(style, 'animationIterationCount') || res.iterations) || 1,
+      playMode,
+      // TODO onFinish
+    }
+  }
+
   static getNodeBorderData (style = {}) {
     const border = style.border || ''
     const borderPattern = /^(\d+(px)?)\s*(\w+)\s*(.+)/;
@@ -219,6 +270,24 @@ class AttributeManager {
       radius: AttributeManager.getBorderRadiusData(style),
       color: color ? color.trim() : (style.color || 'black')
     }
+  }
+
+  static parseTime2Number (time = '') {
+    if (typeof time === 'number') return time
+    if (time === 'infinite') return Infinity
+    if (time === 'auto') return 0
+
+    let [, value, unit] = time.match(/^(\d*)([a-z]*)$/) || []
+    let ms = Number(value)
+    switch (unit) {
+      case 's':
+        ms *= 1000
+        break
+      case 'ms':
+      default:
+        ms *= 1
+    }
+    return ms
   }
 }
 

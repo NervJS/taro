@@ -6,7 +6,7 @@ import type { TaroElement } from '@tarojs/runtime'
 
 export function bindInstanceToNode (node: TaroElement, instance: object) {
   if (!node) return
-  
+
   // @ts-ignore
   node.instance = instance
 }
@@ -37,6 +37,7 @@ export function getNormalAttributes (node: TaroElement) {
       minHeight: AttributeManager.getNodeStyle(_st, 'minHeight'),
       maxHeight: AttributeManager.getNodeStyle(_st, 'maxHeight'),
     },
+    animation: AttributeManager.getNodeAnimationData(_st),
     // Todo: 尚未完成
     // backgroundImageSize: {
     //   width: AttributeManager.getNodeStyle(_st, 'backgroundSize'),
@@ -64,7 +65,7 @@ const IMAGE_URL_REGEX = /url\(['"]?([^'"]+)['"]?\)/;
 const parseBackground = (name: string, value: string) => {
   switch (name) {
     case 'backgroundImage': {
-      if (!value) return 
+      if (!value) return
       // 兼容url()
       const matchs = value.match(IMAGE_URL_REGEX)
       if (matchs) {
