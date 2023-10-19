@@ -34,6 +34,7 @@ export function replaceMemberExpression (callee: NodePath<t.Node>) {
 
 export function parseScript (
   script?: string,
+  scriptPath?: string,
   returned?: t.Expression,
   wxses: WXS[] = [],
   refId?: Set<string>,
@@ -45,7 +46,7 @@ export function parseScript (
     block.children = [returned as any]
     returned = block
   }
-  let ast = parseCode(script)
+  let ast = parseCode(script, scriptPath as string)
   let classDecl!: t.ClassDeclaration
   let foundWXInstance = false
   const vistor: Visitor = {
