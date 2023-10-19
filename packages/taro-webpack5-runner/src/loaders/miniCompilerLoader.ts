@@ -27,7 +27,6 @@ export default async function (source) {
     FILE_COUNTER_MAP.set(resourcePath, FILE_COUNTER++)
   }
 
-  // @TODO 保留 JSX p2
   try {
     const { code } = await swc
       .transform(source, {
@@ -63,12 +62,18 @@ export default async function (source) {
       const [, $0, $1] = res
       const outputPath = path.join(outputDir, 'taro_xmls', `${$0}${fileType.templ}`)
       // 小程序 xml 不支持 unescape，在此处对被 SWC 转义后的字符作还原
-      const content = $1.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
+      let content: string = $1.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
         const isUnicode = $1 === 'u'
         const num = isUnicode ? $2 : $2.substring(0,2)
         const charCode = parseInt(num, 16)
         return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
       })
+
+      const templateImporter = template.buildXsTemplate().replace(/["']([^"]*)utils/g, function (match, $1) {
+        return match.replace($1, '../')
+      })
+      content = templateImporter + content
+
       await fs.outputFile(outputPath, content)
     }
     callback(null, code.replace(regExp, ''))
