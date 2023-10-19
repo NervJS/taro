@@ -166,14 +166,7 @@ impl TransformVisitor {
                         expr: JSXExpr::Expr(jsx_expr),
                         ..
                     }) => {
-                        // Todo 只要表达式不包含 JSX，都可以转为取值？
-                        // Todo o.x.a p0
                         match &mut **jsx_expr {
-                            Expr::Ident(_) => {
-                                let node_path = self.get_current_node_path();
-                                let code = format!("{{{{{}.v}}}}", node_path);
-                                children_string.push_str(&code);
-                            },
                             Expr::Bin(BinExpr { op, left, right, .. }) => {
                                 if *op == op!("&&") {
                                     let mut condition_to_attr = |el: &mut Box<JSXElement>| {
@@ -225,9 +218,14 @@ impl TransformVisitor {
                                 process_condition_expr(cons, compile_if);
                                 process_condition_expr(alt, compile_else);
 
-                            }
+                            },
+                            // Todo 只支持 render 开头的函数调用返回 JSX
+                            // Expr::Call(_)
                             _ => {
-                                println!("_ expr: {:?} ", jsx_expr);
+                                // println!("_ expr: {:?} ", jsx_expr);
+                                let node_path = self.get_current_node_path();
+                                let code = format!("{{{{{}.v}}}}", node_path);
+                                children_string.push_str(&code);
                             }
                         }
                         retain_child_counter = retain_child_counter + 1
