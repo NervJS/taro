@@ -146,7 +146,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           'import UIAbility from "@ohos.app.ability.UIAbility"',
           'import { window, context } from "@tarojs/runtime"',
           `import { ${creator} } from "${creatorLocation}"`,
-          'import { initPxTransform } from "@tarojs/taro"',
+          'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
           setReconcilerPost,
           `import component from "${rawId}"`,
           importFrameworkStatement,
@@ -157,6 +157,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           `designWidth: ${taroConfig.designWidth || 750},`,
           `deviceRatio: ${JSON.stringify(taroConfig.deviceRatio || { 750: 1 })}`,
           '})',
+          'initNativeApi(Taro)',
         ].join('\n')
       }
     }

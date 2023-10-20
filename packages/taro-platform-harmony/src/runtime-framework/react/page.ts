@@ -4,7 +4,7 @@ import { Current, document, window } from '@tarojs/runtime'
 import { CONTEXT_ACTIONS } from '@tarojs/runtime/dist/runtime.esm'
 import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
-import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
+import { ON_HIDE, ON_LOAD, ON_PAGE_SCROLL, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
 import { incrementId } from './utils'
 
 // TODO TYPE
@@ -197,6 +197,9 @@ export function createPageConfig (component: any, pageName?: string) {
       safeExecute(this.$taroPath, ON_HIDE)
       // TODO 通过事件触发子组件的生命周期
       // eventCenter.trigger(getOnHideEventKey(id))
+    },
+    onPageScroll() {
+      safeExecute(this.$taroPath, ON_PAGE_SCROLL)
     }
   }
 

@@ -4,21 +4,20 @@ import * as apis from './apis'
 import { noop } from './utils'
 
 const taro = Object.assign({}, apis)
-if (hooks.isExist('initNativeApi')) {
-  hooks.call('initNativeApi', taro)
-}
 
 export function initNativeApi (taro) {
   (Current as any).taro = taro
   taro.initPxTransform = noop
   taro.getApp = () => Current.app
+
+  if (hooks.isExist('initNativeApi')) {
+    hooks.call('initNativeApi', taro)
+  }
 }
 
 export function initPxTransform (_opts?: any) {
   // noop
 }
-
-initNativeApi(taro)
 
 export * from './apis'
 export default taro
@@ -27,3 +26,5 @@ export default taro
 export const useDidHide = taro.useDidHide
 // @ts-ignore
 export const useDidShow = taro.useDidShow
+// @ts-ignore
+export const usePageScroll = taro.usePageScroll

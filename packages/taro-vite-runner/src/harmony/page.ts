@@ -155,6 +155,11 @@ struct Index {
           TaroView({ node: this.node })
         }
       }
+      .onScroll(() => {
+        if (!this.page) return
+  
+        this.page?.onPageScroll?.call(this)
+      })
     }
     .width('100%')
     .height('100%')
