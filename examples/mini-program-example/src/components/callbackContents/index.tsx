@@ -16,8 +16,12 @@ interface Props {
 export default class Index extends React.Component<Props> {
   state = {}
   stringify = (object) => {
+    // console.log(object)
     const cache = new Map()
     const JSONStr = JSON.stringify(object, (key, value) => {
+      if (value === undefined) {
+        return 'undefined'
+      }
       if (typeof value === 'object' && value !== null) {
         if (cache.has(value)) {
           return

@@ -85,9 +85,6 @@ export default class Index extends React.Component {
         TestConsole.consoleComplete.call(this, res, apiIndex)
       },
     })
-    task.catch(() => {
-      TestConsole.consoleNormal('catch RequestTask error')
-    })
     this.setState({ task })
     TestConsole.consoleNormal('Taro.RequestTask', task)
     task.onHeadersReceived(headersReceived)

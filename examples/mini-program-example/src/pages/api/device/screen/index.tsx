@@ -109,7 +109,7 @@ export default class Index extends React.Component {
   }
 
   userCaptureScreen = (res) => {
-    TestConsole.consoleOnCallback(res, 'onUserCaptureScreen')
+    TestConsole.consoleOnCallback.call(this, res, 'onUserCaptureScreen', 2)
   }
 
   render() {

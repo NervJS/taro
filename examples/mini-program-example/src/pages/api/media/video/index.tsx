@@ -14,51 +14,17 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'saveVideoToPhotosAlbum_album',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('saveVideoToPhotosAlbum')
-          Taro.chooseVideo({
-            sourceType: ['album'],
-            maxDuration: 60,
-            camera: 'back',
-            compressed: false,
-            success: (res) => {
-              TestConsole.consoleNormal('chooseVideo success ', res)
-              Taro.saveVideoToPhotosAlbum({
-                filePath: res.tempFilePath,
-                success: (res) => {
-                  TestConsole.consoleSuccess.call(this, res, apiIndex)
-                },
-                fail: (res) => {
-                  TestConsole.consoleFail.call(this, res, apiIndex)
-                },
-                complete: (res) => {
-                  TestConsole.consoleComplete.call(this, res, apiIndex)
-                },
-              }).then((res) => {
-                TestConsole.consoleResult.call(this, res, apiIndex)
-              })
-            },
-            fail: (err) => {
-              TestConsole.consoleNormal('chooseVideo fail:', err)
-            },
-            complete: (com) => {
-              TestConsole.consoleNormal('chooseVideo complete', com)
-            },
-          }).then((ret) => {
-            TestConsole.consoleNormal('chooseVideo return', ret)
-          })
+        id: 'saveVideoToPhotosAlbum',
+        inputData: {
+          sourceType: ['album'],
+          maxDuration: 60,
+          camera: 'back',
+          compressed: false,
         },
-      },
-      {
-        id: 'saveVideoToPhotosAlbum_camera',
-        func: (apiIndex) => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('saveVideoToPhotosAlbum')
           Taro.chooseVideo({
-            sourceType: ['camera'],
-            maxDuration: 60,
-            camera: 'back',
-            compressed: false,
+            ...data,
             success: (res) => {
               TestConsole.consoleNormal('chooseVideo success ', res)
               Taro.saveVideoToPhotosAlbum({
@@ -259,7 +225,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('createVideoContext')
           videoContext = Taro.createVideoContext('myVideo')
-          TestConsole.consoleNormal('createVideoContext ', videoContext)
+          TestConsole.consoleResult.call(this, videoContext, apiIndex)
         },
       },
       {

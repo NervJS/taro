@@ -162,20 +162,20 @@ export function convertStyleUnit (value: string) {
       tempValue = tempValue
         .replace(/\s*-?([0-9.]+)(px)\b/gi, function (match, size, unit) {
           if (Number(size) === 0) {
-            return match.replace(size, '0rem')
+            return match.replace(size, '0').replace(unit, 'rem')
           }
           // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
           if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1rem')
+            return match.replace(size, '1').replace(unit, 'rem')
           }
           return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
         })
         .replace(/\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
           if (Number(size) === 0) {
-            return match.replace(size, '0rem')
+            return match.replace(size, '0').replace(unit, 'rem')
           }
           if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1rem')
+            return match.replace(size, '1').replace(unit, 'rem')
           }
           return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
         })
@@ -501,6 +501,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   if (parseResult) {
     return parseResult
   }
+
   try {
     wxml = prettyPrint(wxml, {
       max_char: 0,
@@ -510,6 +511,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   } catch (error) {
     //
   }
+
   if (!parseImport) {
     errors.length = 0
     usedComponents.clear()
@@ -976,6 +978,7 @@ function parseText (node: Text, tagName?: string) {
     const text = content.replace(/([{}]+)/g, "{'$1'}")
     return t.jSXText(text)
   }
+
   return t.jSXExpressionContainer(buildTemplate(content))
 }
 
@@ -1126,7 +1129,7 @@ function parseAttribute (attr: Attribute) {
     }
   }
 
-  const jsxKey = handleAttrKey(key)
+  let jsxKey = handleAttrKey(key)
   if (/^on[A-Z]/.test(jsxKey) && !/^catch/.test(key) && jsxValue && t.isStringLiteral(jsxValue)) {
     jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
   }
@@ -1137,6 +1140,13 @@ function parseAttribute (attr: Attribute) {
       globals.hasCatchTrue = true
     } else if (t.isStringLiteral(jsxValue)) {
       jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
+    }
+  }
+  // 如果data-xxx自定义属性名xxx不是以-分隔的写法就要转成全小写属性名
+  if (value && jsxKey.startsWith('data-')) {
+    const realKey = jsxKey.replace(/^data-/, '')
+    if (realKey.indexOf('-') === -1) {
+      jsxKey = `data-${realKey.toLowerCase()}`
     }
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)

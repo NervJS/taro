@@ -37,12 +37,7 @@ import {
   incrementId,
   transRelToAbsPath,
 } from './util'
-import {
-  generateMinimalEscapeCode,
-  hasTaroImport,
-  isCommonjsImport,
-  isCommonjsModule,
-} from './util/astConvert'
+import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
 
 import type { ParserOptions } from '@babel/parser'
 import type { AppConfig, TabBar } from '@tarojs/taro'
@@ -221,6 +216,7 @@ export default class Convertor {
     let componentClassName: string
     let needInsertImportTaro = false
     let hasCacheOptionsRequired = false
+    let hasDatasetRequired = false
     const set = new Set()
     traverse(ast, {
       Program: {
@@ -343,13 +339,28 @@ export default class Convertor {
                 }
               }
             },
-
             MemberExpression (astPath) {
               const node = astPath.node
               const object = node.object
+              const prettier = node.property
               if (t.isIdentifier(object) && object.name === 'wx') {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
+              } else if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
+                node.object = t.callExpression(t.identifier('getTarget'),[object])
+                // 创建导入 cacheOptions 对象的 ast 节点
+                if (!hasDatasetRequired) {
+                  const requireCacheOptionsAst = t.variableDeclaration('const', [
+                    t.variableDeclarator(
+                      t.objectPattern([
+                        t.objectProperty(t.identifier('getTarget'), t.identifier('getTarget'), false, true),
+                      ]),
+                      t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
+                    ),
+                  ])
+                  ast.program.body.unshift(requireCacheOptionsAst)
+                  hasDatasetRequired = true
+                }
               }
             },
 
@@ -396,7 +407,7 @@ export default class Convertor {
                           for (const key in imports[order]) {
                             if (key === 'tmplName') {
                               const tmplName = imports[order][key]
-                              const tmplLastName=imports[order].name
+                              const tmplLastName = imports[order].name
                               // imports去重可能会把map里的去掉, 所以要加回去
                               if (!scriptComponents.includes(tmplLastName)) {
                                 scriptComponents.push(tmplLastName)
