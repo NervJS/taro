@@ -120,7 +120,7 @@ export default class Index extends React.Component {
           id: 'media',
           name: '媒体组件',
           open: false,
-          pages: ['image', 'audio', 'video', 'camera'],
+          pages: ['image', 'audio', 'video', 'camera', 'live-player'],
           target: [
             'audio',
             'camera',

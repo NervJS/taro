@@ -58,6 +58,10 @@ function taroInterceptor (chain) {
 const { Link } = Taro
 const link = new Link(taroInterceptor)
 
-export const request: typeof Taro.request = link.request.bind(link)
+export function request (options) {
+  const result = link.request.bind(link)(options)
+  result.catch(() => {})
+  return result
+}
 export const addInterceptor = link.addInterceptor.bind(link)
 export const cleanInterceptors = link.cleanInterceptors.bind(link)

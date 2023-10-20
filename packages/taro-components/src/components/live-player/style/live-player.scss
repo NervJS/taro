@@ -1,0 +1,12 @@
+.taro-live-player{
+    width: 100%;
+}
+video::-webkit-media-controls-timeline,
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}
+video::-webkit-media-controls-duration-display,
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}

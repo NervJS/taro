@@ -54,6 +54,7 @@
     "@tarojs/router": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
+    "flv.js": "^1.6.2",
     "hls.js": "^1.1.5",
     "intersection-observer": "^0.7.0",
     "resolve-pathname": "^3.0.0",
