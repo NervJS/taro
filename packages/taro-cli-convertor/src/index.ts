@@ -204,93 +204,6 @@ export default class Convertor {
 
   wxsIncrementId = incrementId()
 
-  /**
-  * 创建转换时用到的工具函数文件
-  */
-  generateConvertToolsFile (): void {
-    const convertToolsTemplate = `
-  import Taro from '@tarojs/taro'
-
-  function toCamelCase (s) {
-    let camel = ''
-    let nextCap = false
-    for (let i = 0; i < s.length; i++) {
-      if (s[i] !== '-') {
-        camel += nextCap ? s[i].toUpperCase() : s[i]
-        nextCap = false
-      } else {
-        nextCap = true
-      }
-    }
-    return camel
-  }
-
-  export const cacheOptions = {
-    cacheOptions: {},
-    setOptionsToCache: function (options) {
-      if (Object.keys(options).length !== 0) {
-        this.cacheOptions = options;
-      }
-    },
-    getOptionsFromCache: function () {
-      return this.cacheOptions;
-    }
-  }      
-  export const getDataset = (target) => {
-    if (Taro.getEnv() === Taro.ENV_TYPE.MPHARMONY || Taro.getEnv() === Taro.ENV_TYPE.WEB) {
-      if (target['fullDataset']) {
-        return { dataset: target['fullDataset'] }
-      }
-      const fullDataset = {}
-      // 获取元素的所有属性
-      const targetAttrKeys = Object.keys(target)
-      // 遍历所有属性
-      for (let i = 0; i < targetAttrKeys.length; i++) {
-        if (targetAttrKeys[i].startsWith("data-")) {
-          fullDataset[toCamelCase(targetAttrKeys[i].replace(/^data-/, '').toLowerCase())] = target[targetAttrKeys[i]]
-        }
-      }
-      target['fullDataset'] = fullDataset
-      return { dataset: fullDataset }
-    }
-    return target
-  }
-   `
-    const utilsPath = path.join(this.root, 'taroConvert/src/utils/')
-    const cacheOptionsPath = path.join(utilsPath, '_cacheOptions.js')
-
-    if (!fs.existsSync(cacheOptionsPath)) {
-      fs.mkdirSync(utilsPath, { recursive: true })
-      fs.writeFileSync(cacheOptionsPath, convertToolsTemplate)
-    }
-  }
-
-  /**
-   * 创建导入工具函数的 ast 节点
-   * 
-   * @param self convert 实例对象
-   * @param sourceFilePath 解析的文件路径
-   * @returns 
-   */
-  createConvertToolsRequireAst (self: any, sourceFilePath: string) {
-    // 创建导入工具函数的 ast 节点
-    const currentFilePath = sourceFilePath
-    const cacheOptionsPath = path.resolve(self.root, 'utils', '_cacheOptions.js')
-    const importOptionsUrl = promoteRelativePath(path.relative(currentFilePath, cacheOptionsPath))
-    const requireCacheOptionsAst = t.variableDeclaration('const', [
-      t.variableDeclarator(
-        t.objectPattern([
-          t.objectProperty(t.identifier('cacheOptions'), t.identifier('cacheOptions'), false, true),
-        ]),
-        t.callExpression(t.identifier('require'), [t.stringLiteral(importOptionsUrl)])
-      ),
-    ])
-
-    return requireCacheOptionsAst
-  }
-
-
-
   parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }: IParseAstOptions): {
     ast: t.File
     scriptFiles: Set<string>
@@ -304,6 +217,7 @@ export default class Convertor {
     let needInsertImportTaro = false
     let hasCacheOptionsRequired = false
     let hasDatasetRequired = false
+    const set = new Set()
     traverse(ast, {
       Program: {
         enter (astPath) {
@@ -407,15 +321,21 @@ export default class Convertor {
                   )
                   astPath.replaceWith(cacheOptionsAstNode)
 
-                  // 创建导入工具函数的 ast 节点
-                  const requireCacheOptionsAst = self.createConvertToolsRequireAst(self, sourceFilePath)
+                  // 创建导入 cacheOptions 对象的 ast 节点
+                  const requireCacheOptionsAst = t.variableDeclaration('const', [
+                    t.variableDeclarator(
+                      t.objectPattern([
+                        t.objectProperty(t.identifier('cacheOptions'), t.identifier('cacheOptions'), false, true),
+                      ]),
+                      t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
+                    ),
+                  ])
 
                   // 若已经引入过 cacheOptions 则不在引入，防止重复引入问题
                   if (!hasCacheOptionsRequired) {
                     ast.program.body.unshift(requireCacheOptionsAst)
                     hasCacheOptionsRequired = true
                   }
-                  self.generateConvertToolsFile()
                 }
               }
             },
@@ -427,41 +347,19 @@ export default class Convertor {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
               } else if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
-                node.object = t.callExpression(t.identifier('getDataset'),[object])
-                if (hasCacheOptionsRequired) {
-                  traverse(ast,{
-                    VariableDeclaration (astPath) {
-                      const { kind, declarations } = astPath.node
-                      if (kind === 'const') {
-                        declarations.forEach((declaration) => {
-                          const { id, init } = declaration
-                          if ( t.isObjectPattern(id) 
-                            && t.isCallExpression(init) 
-                            && t.isIdentifier(init.callee)
-                            &&init.callee.name === 'require'
-                            &&t.isStringLiteral(init.arguments[0])
-                          ) {
-                            const currentFilePath = sourceFilePath
-                            const cacheOptionsPath = path.resolve(self.root, 'utils', '_cacheOptions.js')
-                            const importOptionsUrl = promoteRelativePath(path.relative(currentFilePath, cacheOptionsPath))
-                            if (init.arguments[0].value === importOptionsUrl && !hasDatasetRequired) {
-                              const datasetVariableDeclarator =t.objectProperty(t.identifier('getDataset'), t.identifier('getDataset'), false, true)
-                              id.properties.push(datasetVariableDeclarator)
-                              hasDatasetRequired = true
-                            }
-                          }
-                        })
-                      }
-                    }
-                  })
-                } else {
-                  const requireCacheOptionsAst = self.createConvertToolsRequireAst(self, sourceFilePath)
-                  // 若已经引入过 cacheOptions 则不在引入，防止重复引入问题
-                  if (!hasCacheOptionsRequired) {
-                    ast.program.body.unshift(requireCacheOptionsAst)
-                    hasCacheOptionsRequired = true
-                  }
-                  self.generateConvertToolsFile()
+                node.object = t.callExpression(t.identifier('getTarget'),[object])
+                // 创建导入 cacheOptions 对象的 ast 节点
+                if (!hasDatasetRequired) {
+                  const requireCacheOptionsAst = t.variableDeclaration('const', [
+                    t.variableDeclarator(
+                      t.objectPattern([
+                        t.objectProperty(t.identifier('getTarget'), t.identifier('getTarget'), false, true),
+                      ]),
+                      t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
+                    ),
+                  ])
+                  ast.program.body.unshift(requireCacheOptionsAst)
+                  hasDatasetRequired = true
                 }
               }
             },
@@ -596,7 +494,7 @@ export default class Convertor {
           const lastImport = bodyNode.filter((p) => p.isImportDeclaration() || isCommonjsImport(p)).pop()
           if (needInsertImportTaro && !hasTaroImport(bodyNode)) {
             // 根据模块类型（commonjs/es6) 确定导入taro模块的类型
-            if (isCommonjsModule(bodyNode)) {
+            if (isCommonjsModule(ast.program.body as any)) {
               (astPath.node as t.Program).body.unshift(
                 t.variableDeclaration('const', [
                   t.variableDeclarator(
@@ -644,7 +542,7 @@ export default class Convertor {
           })
           if (lastImport) {
             if (importStylePath) {
-              if (isCommonjsModule(bodyNode)) {
+              if (isCommonjsModule(ast.program.body as any)) {
                 lastImport.insertAfter(
                   t.callExpression(t.identifier('require'), [
                     t.stringLiteral(promoteRelativePath(path.relative(sourceFilePath, importStylePath))),
@@ -709,6 +607,76 @@ export default class Convertor {
         },
       },
     })
+    // 遍历 ast ,将多次 const { xxx } = require('@tarojs/with-weapp')  引入压缩为一次引入
+    traverse(ast, {
+      VariableDeclaration (astPath) {
+        const { kind, declarations } = astPath.node
+        let currentAstIsWithWeapp = false
+        if (kind === 'const') {
+          declarations.forEach((declaration) => {
+            const { id, init } = declaration
+            if (
+              t.isObjectPattern(id) 
+              && t.isCallExpression(init) 
+              && t.isIdentifier(init.callee)
+              && t.isStringLiteral(init.arguments[0])
+            ) {
+              const name = init.callee.name
+              const args = init.arguments[0].value
+              if (name === 'require' && args === '@tarojs/with-weapp') {
+                currentAstIsWithWeapp = true
+                id.properties.forEach((propertie) => {
+                  if (t.isObjectProperty(propertie) && t.isIdentifier(propertie.value)) {
+                    set.add(propertie.value.name)
+                  }
+                })
+              }
+            }
+          })
+        }
+        if (currentAstIsWithWeapp) {
+          astPath.remove()
+        }
+      }
+    })
+
+    // 若 set 为空则不引入 @tarojs/with-weapp
+    if (set.size !== 0) {
+      if (isCommonjsModule(ast.program.body as any)) {
+        const objectPropertyArray:(t.ObjectProperty | t.RestElement)[] = []
+        set.forEach((key: string) => {
+          if (key === 'withWeapp') {
+            objectPropertyArray.push(t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true))
+          } else {
+            objectPropertyArray.push(t.objectProperty(t.identifier(key), t.identifier(key), false, true))
+          }
+        })
+        const requireWithWeappAst = t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.objectPattern(objectPropertyArray),
+            t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
+          ),
+        ])
+        ast.program.body.unshift(requireWithWeappAst)
+      } else {
+        const objectPropertyArray: (t.ImportSpecifier | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier)[] = []
+        let hasWithWeapp = false
+        set.forEach((key: string) => {
+          if (key === 'withWeapp') {
+            hasWithWeapp = true
+          } else {
+            objectPropertyArray.push(t.importSpecifier(t.identifier(key), t.identifier(key)))
+          }
+        })
+
+        if (hasWithWeapp) {
+          objectPropertyArray.unshift(t.importDefaultSpecifier(t.identifier('withWeapp')))
+        }
+
+        const importWithWeapp = t.importDeclaration(objectPropertyArray, t.stringLiteral('@tarojs/with-weapp'))
+        ast.program.body.unshift(importWithWeapp)
+      }
+    }
 
     return {
       ast,
