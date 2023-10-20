@@ -46,6 +46,14 @@ function attrs ({
 struct TaroView {
   info: Area = null
 
+  @State thresholds: number[] = []
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
+      this.visableChange(isVisible, currentRatio)
+    })
+  }
+
   @ObjectLink node: TaroViewElement
 
   aboutToAppear () {
@@ -58,17 +66,28 @@ struct TaroView {
       this.info = areaResult
     })
   }
-
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Flex(FlexManager.flexOptions(this.node)) {
-        ForEach(this.node.childNodes, item => {
-          createNode(item)
-        }, item => item._nid)
+      if (!this.thresholds.length) {
+        Flex(FlexManager.flexOptions(this.node)) {
+          ForEach(this.node.childNodes, item => {
+            createNode(item)
+          }, item => item._nid)
+        }
+        .attrs(getNormalAttributes(this.node))
+        .defaultEvent()
+        .clip(true)
+      } else {
+        Flex(FlexManager.flexOptions(this.node)) {
+          ForEach(this.node.childNodes, item => {
+            createNode(item)
+          }, item => item._nid)
+        }
+        .attrs(getNormalAttributes(this.node))
+        .defaultEvent()
+        .clip(true)
+        .visibleChangeEvent()
       }
-      .attrs(getNormalAttributes(this.node))
-      .defaultEvent()
-      .clip(true)
     }
   }
 }

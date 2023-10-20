@@ -135,6 +135,14 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 struct TaroText {
   info: Area = null
 
+  @State thresholds: number[] = []
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
+      this.visableChange(isVisible, currentRatio)
+    })
+  }
+
   @ObjectLink node: TaroTextElement
 
   aboutToAppear () {
@@ -151,19 +159,38 @@ struct TaroText {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
-        // Text 嵌套 Text。受 Span 限制，最多嵌套一层
-        Text() {
-          ForEach(this.node.childNodes, node => {
-            buildSpan(node)
-          }, node => node._nid)
-        }
-        .defaultEvent()
-        .attrs(getAttributes(this.node))
-      } else {
-        Text(this.node.textContent)
+      if (!this.thresholds.length) {
+        if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
+          // Text 嵌套 Text。受 Span 限制，最多嵌套一层
+          Text() {
+            ForEach(this.node.childNodes, node => {
+              buildSpan(node)
+            }, node => node._nid)
+          }
           .defaultEvent()
           .attrs(getAttributes(this.node))
+        } else {
+          Text(this.node.textContent)
+            .defaultEvent()
+            .attrs(getAttributes(this.node))
+        }
+      } else {
+        if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
+          // Text 嵌套 Text。受 Span 限制，最多嵌套一层
+          Text() {
+            ForEach(this.node.childNodes, node => {
+              buildSpan(node)
+            }, node => node._nid)
+          }
+          .defaultEvent()
+          .attrs(getAttributes(this.node))
+          .visibleChangeEvent()
+        } else {
+          Text(this.node.textContent)
+            .defaultEvent()
+            .attrs(getAttributes(this.node))
+            .visibleChangeEvent()
+        }
       }
     }
   }

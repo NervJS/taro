@@ -35,6 +35,14 @@ function attrs ({
 struct TaroImage {
   info: Area = null
 
+  @State thresholds: number[] = []
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
+      this.visableChange(isVisible, currentRatio)
+    })
+  }
+
   @ObjectLink node: TaroImageElement
 
   aboutToAppear () {
@@ -54,11 +62,20 @@ struct TaroImage {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Image(this.node.getAttribute('src'))
-      .defaultEvent()
-      .objectFit(ImageFit.Contain)
-      .attrs(getNormalAttributes(this.node))
-      .onComplete(e => eventHandler(e, 'complete', this.node))
+      if (!this.thresholds.length) {
+        Image(this.node.getAttribute('src'))
+        .defaultEvent()
+        .objectFit(ImageFit.Contain)
+        .attrs(getNormalAttributes(this.node))
+        .onComplete(e => eventHandler(e, 'complete', this.node))
+      } else {
+        Image(this.node.getAttribute('src'))
+        .defaultEvent()
+        .objectFit(ImageFit.Contain)
+        .attrs(getNormalAttributes(this.node))
+        .onComplete(e => eventHandler(e, 'complete', this.node))
+        .visibleChangeEvent()
+      }
     }
   }
 }
