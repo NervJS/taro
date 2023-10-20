@@ -48,7 +48,7 @@ export function convertCopyOptions (taroConfig: ViteMiniBuildConfig | ViteH5Buil
   return copyOptions
 }
 
-export function prettyPrintJson (obj: Record<string, any>) {
+export function prettyPrintJson (obj = {}) {
   return JSON.stringify(obj, null, 2)
 }
 
@@ -71,7 +71,7 @@ export function getComponentName (viteCompilerContext: ViteH5CompilerContext | V
 }
 
 const virtualModulePrefix ='\0'
-const virtualModulePrefixREG = new RegExp(`^${virtualModulePrefix}`)
+export const virtualModulePrefixREG = new RegExp(`^${virtualModulePrefix}`)
 
 export function appendVirtualModulePrefix (id: string): string {
   return virtualModulePrefix + id

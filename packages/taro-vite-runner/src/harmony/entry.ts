@@ -3,6 +3,7 @@ import { isString } from '@tarojs/shared'
 import path from 'path'
 
 import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { PAGE_SUFFIX, TARO_TABBAR_PAGE_PATH } from './page'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
@@ -22,7 +23,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     load (id) {
       if (viteCompilerContext && id.endsWith(ENTRY_SUFFIX)) {
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
-        const { taroConfig, app } = viteCompilerContext
+        const { taroConfig, cwd: appPath, app } = viteCompilerContext
         const appConfig = app.config
         const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : [taroConfig.runtimePath]
         let setReconcilerPost = ''
@@ -40,7 +41,14 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         const appConfigStr = prettyPrintJson(appConfig)
 
-        const { pages = [], entryPagePath = pages[0] } = appConfig
+        let { pages = [], entryPagePath = pages[0], tabBar } = appConfig
+        const tabbarList = tabBar?.list || []
+        const tabbarIndex = tabbarList.findIndex(item => item.pagePath === entryPagePath)
+        if (tabbarIndex >= 0) {
+          entryPagePath = TARO_TABBAR_PAGE_PATH
+          // TODO 寻找其它方案传入 tabbarIndex 用于 switchTab
+          // entryPagePath = `${TARO_TABBAR_PAGE_PATH}?current=${tabbarIndex}`
+        }
         let instantiateApp = `export default class EntryAbility extends UIAbility {
   app
 
@@ -89,19 +97,30 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const targetPath = path.join(rawFileDir, 'innerHTML.html')
         fs.writeFile(targetPath, Buffer.from(`<html><body></body></html>`, 'utf-8'))
 
+        const tabbar = appConfig.tabBar
         // pages
         viteCompilerContext.pages.forEach(page => {
-          this.emitFile({
-            type: 'chunk',
-            id: page.scriptPath,
-            fileName: viteCompilerContext.getScriptPath(page.name),
-            implicitlyLoadedAfterOneOf: [rawId]
-          })
+          if (tabbar?.list.every(item => item.pagePath !== page.name)) {
+            this.emitFile({
+              type: 'chunk',
+              id: page.scriptPath,
+              fileName: viteCompilerContext.getScriptPath(page.name),
+              implicitlyLoadedAfterOneOf: [rawId]
+            })
+          }
         })
 
         // tabbar
-        if (appConfig.tabBar && !isEmptyObject(appConfig.tabBar)) {
-          const list = appConfig.tabBar.list || []
+        if (tabbar && !isEmptyObject(tabbar)) {
+          const tabbarPage = TARO_TABBAR_PAGE_PATH
+          const tabbarPath = path.join(appPath, taroConfig.sourceRoot || 'src', `${tabbarPage}${PAGE_SUFFIX}`)
+          this.emitFile({
+            type: 'chunk',
+            id: tabbarPath,
+            fileName: `${tabbarPage}.ets`,
+            implicitlyLoadedAfterOneOf: [rawId]
+          })
+          const list = tabbar.list || []
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
             const { sourceDir } = viteCompilerContext

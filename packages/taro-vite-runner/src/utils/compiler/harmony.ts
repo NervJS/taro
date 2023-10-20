@@ -16,6 +16,7 @@ import JSON5 from 'json5'
 import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
+import { TARO_TABBAR_PAGE_PATH } from '../../harmony/page'
 import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
@@ -118,7 +119,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
 
   // Note: 修改 harmony Hap 的配置文件，当前仅支持注入路由配置
   modifyHarmonyConfig (config: Partial<AppConfig> = {}) {
-    const { pages = [] } = config
+    const { pages = [], tabBar } = config
     const { projectPath, hapName = 'entry', outputRoot = 'dist', name = 'default', designWidth = 750 } = this.taroConfig
     const buildProfilePath = path.join(projectPath, `build-profile.${this.useJSON5 !== false ? 'json5' : 'json'}`)
     const srcPath = `./${hapName}`
@@ -185,8 +186,18 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
             target.pages = pageMetaId
           }
         }
+
+        const etsPage: string[] = []
+        const tabBarList = tabBar?.list || []
+        const tabBarLength = tabBarList.length || 0
+        if (tabBarLength > 1) {
+          etsPage.push(TARO_TABBAR_PAGE_PATH)
+          etsPage.push(...pages.filter(item => tabBarList.every(tab => tab.pagePath !== item)))
+        } else {
+          etsPage.push(...pages)
+        }
         this.modifyHarmonyResources(pageMetaId, {
-          src: [...pages],
+          src: etsPage,
           window,
         })
         /**
