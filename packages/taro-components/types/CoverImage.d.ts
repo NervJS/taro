@@ -55,14 +55,15 @@ interface CoverImageProps extends StandardProps {
  * class App extends Components {
  *   render () {
  *     return (
- *       <View className='container'>
- *       <Video id='myVideo' src='src'>
- *         <CoverView className='controls'>
- *           <CoverView className='play' onClick='play'>
- *             <CoverImage className='img' src='src' />
- *           </CoverView>
- *         </CoverView>
- *       </Video>
+ *      <View className='container'>
+ *        <Video id='myVideo' src='src'>
+ *          <CoverView className='controls'>
+ *            <CoverView className='play' onClick='play'>
+ *              <CoverImage className='img' src='src' />
+ *            </CoverView>
+ *          </CoverView>
+ *        </Video>
+ *      </View>
  *     )
  *   }
  * }

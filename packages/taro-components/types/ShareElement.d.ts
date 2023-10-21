@@ -7,10 +7,6 @@ interface ShareElementProps extends StandardProps {
    */
   key?: string
   /** 映射标记
-   * @supported weapp
-   */
-  mapkey?: string
-  /** 映射标记
    * @supported alipay
    */
   name?: string

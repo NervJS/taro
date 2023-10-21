@@ -143,25 +143,10 @@ interface ScrollViewProps extends StandardProps {
    * @default false
    */
   reverse?: boolean
-  /** 是否对溢出进行裁剪，默认开启
-   * @supported weapp
-   * @default true
-   */
-  clip?: boolean
   /** 指定视口外渲染区域的距离，默认情况下视口外节点不渲染。指定 cache-extent 可优化滚动体验和加载速度，但会提高内存占用且影响首屏速度，可按需启用。
    * @supported weapp
    */
   cacheExtent?: number
-  /** 指定 scroll-view 触发滚动的最小拖动距离。仅在 scroll-view 和其他组件存在手势冲突时使用，可通过调整该属性使得滚动更加灵敏。
-   * @supported weapp
-   * @default 18
-   */
-  minDragDistance?: number
-  /** 长度为 4 的数组，按 top、right、bottom、left 顺序指定内边距
-   * @supported weapp
-   * @default [0,0,0,0]
-   */
-  padding?: [number, number, number, number]
   /** 只 scroll-into-view 到 cacheExtent 以内的目标节点，性能更佳
    * @supported weapp
    * @default false
@@ -176,41 +161,6 @@ interface ScrollViewProps extends StandardProps {
    * @default 'start'
    */
   scrollIntoViewAlignment?: 'start' | 'center' | 'end' | 'nearest'
-  /** 开启下拉二级能力
-   * @supported weapp
-   * @default false
-   */
-  refresherTwoLevelEnabled?: boolean
-  /** 设置打开/关闭二级
-   * @supported weapp
-   * @default false
-   */
-  refresherTwoLevelTriggered?: boolean
-  /** 下拉二级阈值
-   * @supported weapp
-   * @default 150
-   */
-  refresherTwoLevelThreshold?: number
-  /** 滑动返回时关闭二级的阈值
-   * @supported weapp
-   * @default 80
-   */
-  refresherTwoLevelCloseThreshold?: number
-  /** 处于二级状态时是否可滑动
-   * @supported weapp
-   * @default false
-   */
-  refresherTwoLevelScrollEnabled?: boolean
-  /** 惯性滚动是否触发下拉刷新
-   * @supported weapp
-   * @default false
-   */
-  refresherBallisticRefreshEnabled?: boolean
-  /** 即将打开二级时否定住
-   * @supported weapp
-   * @default false
-   */
-  refresherTwoLevelPinned?: boolean
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -251,10 +201,6 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    */
   onRefresherWillRefresh?: CommonEventFunction
-  /** 下拉刷新状态回调
-   * @supported weapp
-   */
-  onRefresherStatusChange?: CommonEventFunction<ScrollViewProps.RefresherStatusChange>
   /** 滑动开始事件 (同时开启 enhanced 属性后生效)
    * @supported weapp
    */
