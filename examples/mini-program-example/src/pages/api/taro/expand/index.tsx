@@ -19,9 +19,9 @@ export default class Index extends React.Component {
       },
       {
         id: 'getEnv',
-        func: () => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.getEnv')
-          TestConsole.consoleNormal('Taro.getEnv', Taro.getEnv())
+          TestConsole.consoleResult.call(this, Taro.getEnv(), apiIndex)
         },
       },
       {

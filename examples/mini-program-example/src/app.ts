@@ -5,10 +5,20 @@ import './app.scss'
 
 class App extends React.Component {
   onLaunch(res) {
+    if (res) {
+      Taro.setStorageSync('onLaunch', res)
+    } else {
+      Taro.setStorageSync('onLaunch', 'Triggered')
+    }
     TestConsole.consoleNormal('onLaunch', res)
   }
 
   onError(error) {
+    if (error) {
+      Taro.setStorageSync('onError', error)
+    } else {
+      Taro.setStorageSync('onError', 'Triggered')
+    }
     TestConsole.consoleNormal('onError', error)
     Taro.showToast({
       title: 'onError',
@@ -17,16 +27,12 @@ class App extends React.Component {
   }
 
   onPageNotFound(res) {
+    if (res) {
+      Taro.setStorageSync('onPageNotFound', res)
+    } else {
+      Taro.setStorageSync('onPageNotFound', 'Triggered')
+    }
     TestConsole.consoleNormal('onPageNotFound', res)
-    try {
-      Taro.showToast({
-        title: 'PageNotFound',
-        icon: 'error',
-      })
-      Taro.redirectTo({
-        url: '/pages/error/index',
-      })
-    } catch (err) {}
   }
 
   render() {
