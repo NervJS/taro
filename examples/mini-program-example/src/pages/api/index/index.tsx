@@ -418,6 +418,11 @@ export default class Index extends React.Component {
   }
 
   onTabItemTap(res) {
+    if (res) {
+      Taro.setStorageSync('onTabItemTap', res)
+    } else {
+      Taro.setStorageSync('onTabItemTap', 'Triggered')
+    }
     TestConsole.consoleNormal('Page.onTabItemTap', res)
   }
 

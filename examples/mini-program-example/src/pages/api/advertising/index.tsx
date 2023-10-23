@@ -23,10 +23,10 @@ export default class Index extends React.Component {
         inputData: {
           adUnitId: '',
         },
-        func: (_, data) => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.createInterstitialAd')
           const ad = Taro.createInterstitialAd(data)
-          TestConsole.consoleNormal('createInterstitialAd', ad)
+          TestConsole.consoleResult.call(this, ad, apiIndex)
           this.setState({ ad })
           ad.onError((res) => {
             TestConsole.consoleNormal('InterstitialAd.onError', res)
