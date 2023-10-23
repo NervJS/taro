@@ -22,7 +22,7 @@ pub fn named_iter (str: String) -> impl FnMut() -> String {
     };
 }
 
-fn jsx_text_to_string (atom: &Atom) -> String {
+pub fn jsx_text_to_string (atom: &Atom) -> String {
     let content = atom.replace("\t", " ");
     
     let res = content
@@ -118,13 +118,13 @@ pub fn is_static_jsx (el: &Box<JSXElement>) -> bool {
     true
 }
 
-pub fn create_self_closing_jsx_element_expr (name: JSXElementName) ->  Expr {
+pub fn create_self_closing_jsx_element_expr (name: JSXElementName, attrs: Option<Vec<JSXAttrOrSpread>>) ->  Expr {
     Expr::JSXElement(Box::new(JSXElement {
         span,
         opening: JSXOpeningElement {
             name,
             span,
-            attrs: vec![],
+            attrs: attrs.unwrap_or(vec![]),
             self_closing: true,
             type_args: None
         },

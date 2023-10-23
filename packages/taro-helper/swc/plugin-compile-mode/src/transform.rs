@@ -15,6 +15,106 @@ use std::collections::HashMap;
 use crate::PluginConfig;
 use crate::utils::{self, constants::*};
 
+struct PreVisitor {
+    is_in_jsx_expr_container: bool,
+    is_in_and_expr: bool,
+}
+impl PreVisitor {
+    fn new () -> Self {
+        Self {
+            is_in_jsx_expr_container: false,
+            is_in_and_expr: false
+        }
+    }
+}
+impl VisitMut for PreVisitor {
+    fn visit_mut_jsx_expr_container (&mut self, container: &mut JSXExprContainer) {
+        self.is_in_jsx_expr_container = true;
+        // Todo 目前的判断可能误伤函数内的三元表达式、条件表达式
+        container.visit_mut_children_with(self);
+        self.is_in_jsx_expr_container = false;
+    }
+    fn visit_mut_expr (&mut self, expr: &mut Expr) {
+        if !self.is_in_jsx_expr_container { return };
+        let mut is_first_and_expr = false;
+        
+        match expr {
+            Expr::Bin(BinExpr { op, left, right, ..}) => {
+                // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
+                if *op == op!("&&") && !self.is_in_and_expr {
+                    is_first_and_expr = true;
+                    fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
+                        el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
+                    }
+                    fn get_element_double (element_name: JSXElementName, condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
+                        Expr::Cond(CondExpr {
+                            span,
+                            test: condition.take(),
+                            cons: right.take(),
+                            alt: Box::new(utils::create_self_closing_jsx_element_expr(
+                                element_name, // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
+                                Some(vec![utils::create_jsx_bool_attr(COMPILE_IGNORE)]
+                            )))
+                        })
+                    }
+                    match &mut **right {
+                        Expr::JSXElement(el) => {
+                            let element_name = el.opening.name.clone();
+                            inject_compile_if(el, left);
+                            *expr = get_element_double(element_name, left, right);
+                        },
+                        Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
+                            if paren_expr.is_jsx_element() {
+                                let el: &mut Box<JSXElement> = paren_expr.as_mut_jsx_element().unwrap();
+                                let element_name = el.opening.name.clone();
+                                inject_compile_if(el, left);
+                                *expr = get_element_double(element_name, left, paren_expr);
+                            }
+                        },
+                        Expr::Lit(_) => {
+                            *expr = Expr::Cond(CondExpr {
+                                span,
+                                test: left.take(),
+                                cons: right.take(),
+                                alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: COMPILE_IGNORE.into(), raw: None })))
+                            })
+                        },
+                        _ => {
+                            // Todo Unknown fallback to template
+                            println!("unknown expr: {right:?}");
+                        }
+                    }
+                }
+            },
+            Expr::Cond(CondExpr { test, cons, alt,..}) => {
+                let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
+                let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
+                let mut process_condition_expr = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
+                    match &mut **arm {
+                        Expr::JSXElement(el) => {
+                            el.opening.attrs.push(attr);
+                        },
+                        _ => ()
+                    }
+                };
+                process_condition_expr(cons, compile_if);
+                process_condition_expr(alt, compile_else);
+            },
+            _ => (),
+        }
+
+        if is_first_and_expr {
+            self.is_in_and_expr = true;
+        }
+
+        expr.visit_mut_children_with(self);
+
+        if is_first_and_expr {
+            self.is_in_and_expr = false;
+        }
+    }
+}
+
 pub struct TransformVisitor {
     pub config: PluginConfig,
     pub is_compile_mode: bool,
@@ -46,8 +146,9 @@ impl TransformVisitor {
                     // 内置组件
                     Some(attrs_map) => {
                         let attrs = self.build_xml_attrs(opening_element, attrs_map);
+                        if attrs.is_none() { return String::new() };
                         let children = self.build_xml_children(el);
-                        format!("<{}{}>{}</{}>", name, attrs, children, name)
+                        format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
                     },
                     // TODO 原生自定义组件
                     // TODO React 组件
@@ -58,7 +159,7 @@ impl TransformVisitor {
         }
     }
 
-    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> String {
+    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> Option<String> {
         let mut props = HashMap::new();
         let mut attrs_string = String::new();
 
@@ -107,7 +208,7 @@ impl TransformVisitor {
                             }
                         },
                         None => {
-                            if jsx_attr_name == COMPILE_ELSE {
+                            if jsx_attr_name == COMPILE_ELSE || jsx_attr_name == COMPILE_IGNORE {
                                 props.insert(miniapp_attr_name, String::from(jsx_attr_name));
                             } else {
                                 props.insert(miniapp_attr_name, String::from("true"));
@@ -131,14 +232,16 @@ impl TransformVisitor {
         keys.sort();
         for key in keys {
             let value = props.get(key).unwrap();
-            if value == COMPILE_ELSE {
+            if value == COMPILE_IGNORE {
+                return None
+            } else if value == COMPILE_ELSE {
                 attrs_string.push_str(format!(" {}", key).as_str());
-                continue;
+            } else {
+                attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
             }
-            attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
         }
 
-        attrs_string
+        Some(attrs_string)
     }
 
     fn build_xml_children (&mut self, el: &mut JSXElement) -> String {
@@ -167,57 +270,28 @@ impl TransformVisitor {
                         ..
                     }) => {
                         match &mut **jsx_expr {
-                            Expr::Bin(BinExpr { op, left, right, .. }) => {
-                                if *op == op!("&&") {
-                                    let mut condition_to_attr = |el: &mut Box<JSXElement>| {
-                                        el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, left.clone()));
-                                        let child_string = self.build_xml_element(el);
-                                        children_string.push_str(&child_string);
-                                    };
-                                    match &mut **right {
-                                        Expr::JSXElement(el) => {
-                                            let name = el.opening.name.clone();
-                                            condition_to_attr(el);
-                                            **jsx_expr = Expr::Cond(CondExpr {
-                                                span,
-                                                test: left.take(),
-                                                cons: right.take(),
-                                                alt: Box::new(utils::create_self_closing_jsx_element_expr(name))
-                                            })
-                                        },
-                                        Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
-                                            if paren_expr.is_jsx_element() {
-                                                let el = paren_expr.as_mut_jsx_element().unwrap();
-                                                let name = el.opening.name.clone();
-                                                condition_to_attr(el);
-                                                **jsx_expr = Expr::Cond(CondExpr {
-                                                    span,
-                                                    test: left.take(),
-                                                    cons: right.take(),
-                                                    alt: Box::new(utils::create_self_closing_jsx_element_expr(name))
-                                                })
-                                            }
-                                        },
-                                        _ => ()
-                                    }
-                                }
-                            },
                             Expr::Cond(CondExpr { test, cons, alt,..}) => {
-                                let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
-                                let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
-                                let mut process_condition_expr = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
+                                let mut process_condition_expr = |arm: &mut Box<Expr>| {
                                     match &mut **arm {
                                         Expr::JSXElement(el) => {
-                                            el.opening.attrs.push(attr);
                                             let child_string = self.build_xml_element(el);
                                             children_string.push_str(&child_string);
+                                        },
+                                        Expr::Lit(lit) => {
+                                            if let Lit::Str(Str { value, .. }) = lit {
+                                                if &*value == COMPILE_IGNORE {
+                                                    return ();
+                                                }
+                                            }
+                                            let current_path = self.get_current_node_path();
+                                            let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, current_path, COMPILE_IGNORE, current_path);
+                                            children_string.push_str(&str);
                                         },
                                         _ => ()
                                     }
                                 };
-                                process_condition_expr(cons, compile_if);
-                                process_condition_expr(alt, compile_else);
-
+                                process_condition_expr(cons);
+                                process_condition_expr(alt);
                             },
                             // Todo 只支持 render 开头的函数调用返回 JSX
                             // Expr::Call(_)
@@ -231,8 +305,9 @@ impl TransformVisitor {
                         retain_child_counter = retain_child_counter + 1
                     },
                     JSXElementChild::JSXText(jsx_text) => {
-                        if !utils::is_empty_jsx_text_line(&jsx_text.value) {
-                            children_string.push_str(&jsx_text.value);
+                        let content = utils::jsx_text_to_string(&jsx_text.value);
+                        if !content.is_empty() {
+                            children_string.push_str(&content);
                         }
                     },
                     _ => ()
@@ -287,6 +362,7 @@ impl VisitMut for TransformVisitor {
             }
         }
         if self.is_compile_mode {
+            el.visit_mut_children_with(&mut PreVisitor::new());
             let tmpl_contents = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
                 &tmpl_name,
                 self.build_xml_element(el)
