@@ -347,7 +347,7 @@ export default class Convertor {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
               } else if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
-                node.object = t.callExpression(t.identifier('getTarget'),[object])
+                node.object = t.callExpression(t.identifier('getTarget'),[object, t.identifier('Taro')])
                 // 创建导入 cacheOptions 对象的 ast 节点
                 if (!hasDatasetRequired) {
                   const requireCacheOptionsAst = t.variableDeclaration('const', [
@@ -360,6 +360,29 @@ export default class Convertor {
                   ])
                   ast.program.body.unshift(requireCacheOptionsAst)
                   hasDatasetRequired = true
+                  needInsertImportTaro = true
+                }
+              }
+            },
+            OptionalMemberExpression (astPath) {
+              const node = astPath.node
+              const object = node.object
+              const prettier = node.property
+              if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
+                node.object = t.callExpression(t.identifier('getTarget'),[object, t.identifier('Taro')])
+                // 创建导入 getTarget 对象的 ast 节点, 并且防止重复引用
+                if (!hasDatasetRequired) {
+                  const requireCacheOptionsAst = t.variableDeclaration('const', [
+                    t.variableDeclarator(
+                      t.objectPattern([
+                        t.objectProperty(t.identifier('getTarget'), t.identifier('getTarget'), false, true),
+                      ]),
+                      t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
+                    ),
+                  ])
+                  ast.program.body.unshift(requireCacheOptionsAst)
+                  hasDatasetRequired = true
+                  needInsertImportTaro = true
                 }
               }
             },
