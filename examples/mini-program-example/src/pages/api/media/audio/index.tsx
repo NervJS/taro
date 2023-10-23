@@ -157,7 +157,7 @@ export default class Index extends React.Component {
       {
         id: 'seek',
         inputData: {
-          seekData: 150
+          seekData: 150,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('InnerAudioContext_seek')
