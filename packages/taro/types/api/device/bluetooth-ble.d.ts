@@ -340,7 +340,7 @@ declare module '../../index' {
 
     /** 协商设置蓝牙低功耗的最大传输单元 (Maximum Transmission Unit, MTU)
      *
-     * - 需在 wx.createBLEConnection 调用成功后调用
+     * - 需在 Taro.createBLEConnection 调用成功后调用
      * - 仅安卓系统 5.1 以上版本有效，iOS 因系统限制不支持。
      * @supported weapp, alipay, jd
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth-ble/wx.setBLEMTU.html
@@ -411,7 +411,7 @@ declare module '../../index' {
     ): void
 
     /** 监听低功耗蓝牙设备的特征值变化事件。必须先启用 `notifyBLECharacteristicValueChange` 接口才能接收到设备推送的 notification。
-     * @supported weapp, aliay, jd
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * // ArrayBuffer转16进制字符串示例
