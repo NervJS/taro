@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-weapp",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "微信小程序平台插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-weapp#readme",
