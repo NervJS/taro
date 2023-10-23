@@ -20,9 +20,6 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.openSetting')
-          Taro.openSetting(data).then((res) => {
-            TestConsole.consoleNormal('openSetting', res)
-          })
           Taro.openSetting({
             ...data,
             success: (res) => {
@@ -44,9 +41,6 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.getSetting')
-          Taro.getSetting(data).then((res) => {
-            TestConsole.consoleNormal('getSetting', res)
-          })
           Taro.getSetting({
             ...data,
             success: (res) => {
