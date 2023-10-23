@@ -57,6 +57,7 @@ export function loadRouterStyle (usingWindowScroll: boolean) {
     max-height: calc(100vh - var(--taro-tabbar-height) - constant(safe-area-inset-bottom));
     max-height: calc(100vh - var(--taro-tabbar-height) - env(safe-area-inset-bottom));
   }
+
   .taro_page_shade,
   .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
     display: none;
