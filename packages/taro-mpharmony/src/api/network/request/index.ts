@@ -11,7 +11,7 @@ export const _request = (options) => {
     return Promise.reject(res)
   }
 
-  const { url, success, fail, complete, ...otherOptions } = options as Exclude<typeof options, undefined>
+  const { url, success, fail, complete, method, ...otherOptions } = options as Exclude<typeof options, undefined>
   if (typeof url !== 'string') {
     const res = {
       errMsg: getParameterError({
@@ -27,9 +27,11 @@ export const _request = (options) => {
 
   let task!: Taro.RequestTask<any>
   const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
+    const upperMethod = method ? method.toUpperCase() : method
     // @ts-ignore
     task = native.request({
       url,
+      method: upperMethod,
       ...otherOptions,
       success: (res: any) => {
         isFunction(success) && success(res)
