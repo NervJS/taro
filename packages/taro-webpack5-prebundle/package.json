@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-prebundle",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Taro app webpack5 prebundle",
   "main": "dist/index.js",
   "scripts": {
