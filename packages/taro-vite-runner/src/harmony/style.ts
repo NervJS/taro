@@ -324,7 +324,8 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
         map: { mappings: '' },
         // avoid the css module from being tree-shaken so that we can retrieve
         // it in renderChunk()
-        moduleSideEffects: inlined ? false : 'no-treeshake',
+        moduleSideEffects: false,
+        // moduleSideEffects: inlined ? false : 'no-treeshake',
       }
     },
     async renderChunk(code, chunk, opts) {
