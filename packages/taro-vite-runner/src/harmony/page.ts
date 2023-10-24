@@ -63,7 +63,7 @@ const SHOW_TREE_FUNC = `\nasync showTree() {
     await new Promise((resolve) => setTimeout(resolve, 16))
   }
 }`
-const SHOW_TREE_BTN = `Button({ type: ButtonType.Circle, stateEffect: true }) {
+const SHOW_TREE_BTN = `\nButton({ type: ButtonType.Circle, stateEffect: true }) {
   Text('打印 NodeTree')
     .fontSize(7).fontColor(Color.White)
     .size({ width: 25, height: 25 })
@@ -93,12 +93,9 @@ function renderPage (isTabPage: boolean) {
 .width('100%')
 .height('100%')
 `
-  if (SHOW_TREE) {
-    pageStr += SHOW_TREE_BTN
-  }
 
   if (isTabPage) {
-    return `Tabs({
+    pageStr = `Tabs({
   barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start,
   controller: this.controller,
 }) {
@@ -119,6 +116,12 @@ function renderPage (isTabPage: boolean) {
 })
 .backgroundColor(this.backgroundColor)`
   }
+
+
+  if (SHOW_TREE) {
+    pageStr += SHOW_TREE_BTN
+  }
+
   return pageStr
 }
 
@@ -308,7 +311,9 @@ export default { ${
   }
 
   build() {
-    this.renderPage()
+    if (true) {
+      this.renderPage()
+    }
   }`)
 
         structCodeArray.push('}')
