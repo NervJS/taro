@@ -96,3 +96,21 @@ const parseBackground = (name: string, value: string) => {
 export function converVP2PX (value: number) {
   return Math.ceil(value / 384 * 750)
 }
+
+export function getNodeAreaChange (callback: Function, component) {
+  const node = component?.node
+
+  if (!node) return null
+
+  if (component.isAreaChangeTap) {
+    return (_: Area, areaResult: Area) => {
+      if (!component.isAreaChangeTap) return
+
+      callback.call(component, areaResult)
+
+      component?.node?.onAreaChange?.(areaResult)
+    }
+  }
+
+  return null
+}

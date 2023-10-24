@@ -4,7 +4,6 @@ import { Current, TaroElement } from '@tarojs/runtime'
 import { findChildNodeWithDFS, unsupport } from '../utils'
 
 export class IntersectionObserver implements Taro.IntersectionObserver {
-
   // 自定义组件实例
   private _component: any
   // 监听的nodes

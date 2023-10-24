@@ -18,12 +18,13 @@ type pageScrollTo = typeof Taro.pageScrollTo
 export const getCurrentPages = () => []
 
 export const pageScrollTo: pageScrollTo = (options) => {
-  return new Promise((resolve, reject) => {
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
     const res = { errMsg: 'pageScrollTo:ok' }
     const error = { errMsg: 'pageScrollTo:fail' }
-    const { scrollTop, selector = '', duration, offsetTop = 0 } = options
+    const { scrollTop, selector = '', duration = 300, offsetTop = 0 } = options
 
     if (scrollTop && selector) {
       console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
@@ -35,6 +36,27 @@ export const pageScrollTo: pageScrollTo = (options) => {
       scrollValue = scrollTop
     } else if (selector) {
       const node = findChildNodeWithDFS(page.node, selector)
+
+      if (!node || !node.instance) return
+
+      const instance = node.instance
+
+      // 阻塞函数执行，等待监听节点绑定上 onAreaChange 回调函数
+      if (!instance.isAreaChangeTap) {
+        let onAreaChangePromiseResolve
+        const onAreaChangePromise = new Promise(resolve => {
+          onAreaChangePromiseResolve = resolve
+        })
+
+        node.onAreaChange = () => {
+          onAreaChangePromiseResolve()
+        }
+
+        // 触发监听节点的更新
+        instance.isAreaChangeTap = true
+        await onAreaChangePromise
+      }
+
       const info = node?.instance?.info
       let parent = node?.parentNode
 

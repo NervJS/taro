@@ -3,7 +3,7 @@ import { eventHandler } from '@tarojs/runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, getNodeAreaChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -48,6 +48,8 @@ struct TaroView {
 
   @State thresholds: number[] = []
 
+  @State isAreaChangeTap: boolean = false
+
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
       this.visableChange(isVisible, currentRatio)
@@ -62,9 +64,9 @@ struct TaroView {
 
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
   build() {
     TaroComponentWrapper({ node: this.node }) {
