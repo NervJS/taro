@@ -119,10 +119,12 @@ export interface ViteCompilerContext<T> {
 }
 
 export interface ViteH5CompilerContext extends ViteCompilerContext<ViteH5BuildConfig> {
+  getBrowserslist: () => void
   routerMeta: {
     routerCreator: string
     getRoutesConfig: (pageName?: string) => string
   }
+  browserslist: string[]
 }
 
 export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarmonyBuildConfig> {

@@ -1,5 +1,6 @@
 import { isString } from '@tarojs/shared'
 import { ViteH5BuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
+import legacy from '@vitejs/plugin-legacy'
 import { build, createServer } from 'vite'
 
 import h5Preset from './h5'
@@ -15,8 +16,16 @@ export default async function (appPath: string, rawTaroConfig: ViteH5BuildConfig
   const isProd = getMode(taroConfig) === 'production'
 
   const plugins: UserConfig['plugins'] = [
-    h5Preset(viteCompilerContext)
+    h5Preset(viteCompilerContext),
   ]
+
+  // legacy-plugin
+  if (taroConfig.legacy && isProd) {
+    plugins.push(legacy({
+      renderModernChunks: false,
+      targets: viteCompilerContext.browserslist
+    }))
+  }
 
   // copy-plugin
   if (taroConfig.copy?.patterns?.length) {

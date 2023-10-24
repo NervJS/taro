@@ -2,6 +2,7 @@ import { SOURCE_DIR } from '@tarojs/helper'
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
+import * as runnerUtils from '@tarojs/runner-utils'
 import { createFsFromVolume, IFs, Volume } from 'memfs'
 import * as joinPath from 'memory-fs/lib/join'
 import * as path from 'path'
@@ -177,6 +178,7 @@ function frameworkPatch(chain, webpack, config) {
     modifyViteConfig: (cb) => cb({ viteConfig: { plugins: [] }, componentConfig }),
     modifyRunnerOpts: (cb) => cb(config),
     onParseCreateElement: (cb) => cb({ nodeName: '', componentConfig }),
+    runnerUtils
   }
 
   let frameworkPlugin: any = ReactLikePlugin
