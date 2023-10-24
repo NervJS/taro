@@ -415,7 +415,7 @@ export default class Index extends React.Component {
             context.beginPath()
             context.setStrokeStyle('#000000')
             context.moveTo(20, 20)
-            context.quadraticCurveTo(20, 100, 200, 20)
+            context.quadraticCurveTo(...Object.values(data))
             context.stroke()
             await context.draw()
             TestConsole.consoleNormal('CanvasContext-quadraticCurveTo success ', context)
