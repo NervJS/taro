@@ -39,6 +39,7 @@ export function getNormalAttributes (node: TaroElement) {
       maxHeight: AttributeManager.getNodeStyle(_st, 'maxHeight'),
     },
     animation: AttributeManager.getNodeAnimationData(_st),
+    transform: AttributeManager.getTransform(_st)
     // Todo: 尚未完成
     // backgroundImageSize: {
     //   width: AttributeManager.getNodeStyle(_st, 'backgroundSize'),

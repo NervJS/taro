@@ -1,4 +1,5 @@
 import { convertNumber2PX } from '@tarojs/runtime'
+import matrix4 from '@ohos.matrix4'
 import { BORDER_STYLE_MAP } from './constant/style'
 import { capitalize, isString } from '@tarojs/shared'
 
@@ -290,6 +291,143 @@ class AttributeManager {
     }
     return ms
   }
+
+  static getTransform(style = {}) {
+    const transform = style.transform || ''
+    const transformOrigin = AttributeManager.getNodeStyle(style, 'transformOrigin') || '0 0'
+
+    const origin = transformOrigin.split(/\s+/).map(item => item)
+
+    const result = {}
+  
+    const matches = transform.match(/(\w+)\(([^)]+)\)/g) || [];
+  
+    // 处理matrix
+
+    matches.forEach(match => {
+      const [name, ...params] = match.split(/\(|\)/).filter(Boolean);
+  
+      switch (name) {
+        case 'translateX':
+          result.translateX = parseTransformUnit(params[0])
+          break;
+        case 'translateY':
+          result.translateY = parseTransformUnit(params[0])
+          break;
+        case 'translateZ':
+          result.translateZ = parseTransformUnit(params[0])
+          break;
+        case 'scaleX':
+          result.scaleX = parseTransformUnit(params[0])
+          break;
+        case 'scaleY':
+          result.scaleY = parseTransformUnit(params[0])
+          break;
+        case 'scaleZ':
+          result.scaleZ = parseTransformUnit(params[0])
+          break;
+        case 'rotateX':
+          result.rotateX = parseTransformUnit(params[0])
+          break;
+        case 'rotateY':
+          result.rotateY = parseTransformUnit(params[0])
+          break;
+        case 'rotateZ':
+          result.rotateZ = parseTransformUnit(params[0])
+          break;
+        case 'skewX':
+          result.skewX = parseTransformUnit(params[0])
+          break;
+        case 'skewY':
+          result.skewY = parseTransformUnit(params[0])
+          break;
+        case 'translate':
+          const xy = params[0].split(/\s*,\s*/)
+          result.translateX = parseTransformUnit(xy[0])
+          result.translateY = parseTransformUnit(xy[1])
+          break;
+        case 'translate3d':
+          const xyz = params[0].split(/\s*,\s*/)
+          result.translateX = parseTransformUnit(xyz[0])
+          result.translateY = parseTransformUnit(xyz[1])
+          result.translateZ = parseTransformUnit(xyz[2])
+          break;
+        case 'scale':
+          result.scaleX = parseTransformUnit(params[0])
+          result.scaleY = parseTransformUnit(params[1]) || result.scaleX
+          break;
+        case 'scale3d':
+          result.scaleX = parseTransformUnit(params[0])
+          result.scaleY = parseTransformUnit(params[1]) || result.scaleX
+          result.scaleZ = parseTransformUnit(params[2]) || result.scaleX
+          break;
+        case 'rotate':
+          const angle = parseTransformUnit(params[0])
+          const axis = parseTransformUnit(params[1]) || 'z';
+          result[`rotate${axis.toUpperCase()}`] = angle;
+          break;
+        case 'rotate3d':
+          const rotate3DAngle = parseTransformUnit(params[3]) || 0
+          result.rotateX = parseTransformUnit(params[0]) ? rotate3DAngle : 0
+          result.rotateY = parseTransformUnit(params[1]) ? rotate3DAngle : 0
+          result.rotateZ  = parseTransformUnit(params[2]) ? rotate3DAngle : 0
+          break;
+        case 'skew':
+          result.skewX = parseTransformUnit(params[0])
+          result.skewY = parseTransformUnit(params[1]);
+          break;
+        case 'matrix':
+          const matrixArr = params[0].split(',').map(item => parseFloat(item))
+          result.transform = matrix4.init(convertMatrixToMatrix3d(matrixArr))
+          break;
+        case 'matrix3d':
+          const matrix3dArr = params[0].split(',').map(item => parseFloat(item))
+          result.transform = matrix4.init(matrix3dArr)
+          break;
+      }
+    })
+
+    return {
+      rotate: {
+        x: parseFloat(result.rotateX) ? 1 : 0,
+        y: parseFloat(result.rotateY) ? 1 : 0,
+        z: parseFloat(result.rotateZ) ? 1 : 0,
+        angle: parseFloat(result.rotateX || result.rotateY || result.rotateZ) || 0,
+        centerX: origin[0],
+        centerY: origin[1]
+      },
+      translate: {
+         x: result.translateX,
+         y: result.translateY,
+         z: result.translateZ
+      },
+      scale: {
+        x: parseFloat(result.scaleX),
+        y: parseFloat(result.scaleY),
+        z: parseFloat(result.scaleZ),
+        centerX: origin[0],
+        centerY: origin[1]
+      },
+      transform: result.transform
+    };
+  }
+}
+
+
+function parseTransformUnit (val: string) {
+  return parseFloat(val) === 0 ? 0 : val 
+}
+
+// matrix 转 matrix3d
+function convertMatrixToMatrix3d(matrix2d: number[]) {
+  const matrix3d = new Array(16).fill(0);
+  matrix3d[0] = matrix2d[0];
+  matrix3d[5] = matrix2d[3];
+  matrix3d[10] = 1;
+  matrix3d[15] = 1;
+  matrix3d[12] = matrix2d[4];
+  matrix3d[13] = matrix2d[5];
+  return matrix3d;
 }
 
 export { AttributeManager }

@@ -25,7 +25,8 @@ function attrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
-  constraintSize
+  constraintSize,
+  transform
 }) {
   .constraintSize(constraintSize)
   .flexGrow(flexSize[0])
@@ -43,6 +44,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Extend(TextInput)

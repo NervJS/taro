@@ -28,7 +28,8 @@ function attrs ({
   borderRadius,
   backgroundColor,
   backgroundImage,
-  backgroundImageSize
+  backgroundImageSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -49,6 +50,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Extend(Span)
@@ -69,7 +74,8 @@ function spanAttrs ({
   borderRadius,
   backgroundColor,
   backgroundImage,
-  backgroundImageSize
+  backgroundImageSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -88,6 +94,10 @@ function spanAttrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 function getAttributes (node: TaroElement) {

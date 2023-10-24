@@ -19,7 +19,8 @@ function attrs ({
  backgroundColor,
  backgroundImage,
  backgroundImageSize,
- constraintSize
+ constraintSize,
+ transform
 }) {
   .flexGrow(flexSize[0])
   .constraintSize(constraintSize)
@@ -32,6 +33,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Extend(Column)

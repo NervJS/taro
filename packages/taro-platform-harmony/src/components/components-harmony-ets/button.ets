@@ -17,7 +17,8 @@ function attrs ({
    margin,
    padding,
    zIndex,
-   constraintSize
+   constraintSize,
+   transform
 }) {
   .size(size)
   .zIndex(zIndex)
@@ -28,6 +29,10 @@ function attrs ({
   .flexShrink(flexSize[1])
   .flexBasis(flexSize[2])
   .constraintSize(constraintSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Extend(Button)

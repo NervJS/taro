@@ -15,7 +15,8 @@ function attrs ({
    zIndex,
    backgroundColor,
    borderRadius,
-   constraintSize
+   constraintSize,
+   transform
 }) {
   .constraintSize(constraintSize)
   .size(size)
@@ -28,6 +29,10 @@ function attrs ({
   .flexBasis(flexSize[2])
   .backgroundColor(backgroundColor)
   .borderRadius(borderRadius)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 

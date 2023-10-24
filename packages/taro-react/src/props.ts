@@ -128,7 +128,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
 
             // TODO: 需要更优雅的方式来实现
             if (isHarmony) {
-              const data = value[i]
+              let data = value[i]
               if (isNumber(data)) {
                 setStyle(style, i, data)
               } else if (isObject<object>(data)) {
@@ -152,18 +152,12 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
                 }
               } else {
                 if (/\d+(px)/.test(data)) {
-                  const newVal = data.replaceAll('px', '')
-                  if (newVal.split(' ').length > 1) {
-                    setStyle(style, i, newVal)
-                  } else {
-                    setStyle(style, i, +newVal)
-                  }
+                  data = data.replaceAll('px', '')
+                }
+                if (isNaN(Number(data))) {
+                  setStyle(style, i, data)
                 } else {
-                  if (isNaN(Number(data))) {
-                    setStyle(style, i, data)
-                  } else {
-                    setStyle(style, i, +data)
-                  }
+                  setStyle(style, i, +data)
                 }
               }
             } else {

@@ -17,7 +17,8 @@ function attrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
-  constraintSize
+  constraintSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .size(size)
@@ -30,6 +31,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Component
