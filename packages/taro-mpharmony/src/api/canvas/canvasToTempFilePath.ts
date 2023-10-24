@@ -47,6 +47,9 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
   const ctx = outCanvas.getContext('2d') as CanvasRenderingContext2D
   outCanvas.width = destWidth || x
   outCanvas.height = destHeight || y
+  // 设置背景为白色
+  ctx.fillStyle = '#FFFFFF'
+  ctx.fillRect(0, 0, outCanvas.width, outCanvas.height)
   ctx.drawImage(inCanvas, x, y, width, height, DX, DY, destWidth, destHeight)
 
   try {
