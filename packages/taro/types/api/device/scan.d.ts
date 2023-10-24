@@ -7,7 +7,9 @@ declare module '../../index' {
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 是否只能从相机扫码，不允许从相册选择图片 */
+      /** 是否只能从相机扫码，不允许从相册选择图片
+       * @default false
+       */
       onlyFromCamera?: boolean
       /** 扫码类型 */
       scanType?: (keyof ScanType)[]
@@ -85,7 +87,7 @@ declare module '../../index' {
   interface TaroStatic {
     /**
      * 调起客户端扫码界面，扫码成功后返回对应的结果
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, swan, jd, qq, tt, h5, rn
      * @example
      * ```tsx
      * // 允许从相机和相册扫码
@@ -94,7 +96,7 @@ declare module '../../index' {
      *     console.log(res)
      *   }
      * })
-     *       // 只允许从相机扫码
+     * // 只允许从相机扫码
      * Taro.scanCode({
      *   onlyFromCamera: true,
      *   success: (res) => {

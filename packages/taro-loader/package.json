@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-loader",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Taro runner use webpack loader",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-loader#readme",

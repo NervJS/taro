@@ -28,7 +28,7 @@ declare module '../../index' {
       /** 重复周期，默认 month 每月重复
        * @default "month"
        */
-      repeatInterval?: string
+      repeatInterval?: keyof RepeatInterval
       /** 重复周期结束时间的 unix 时间戳，不填表示一直重复 */
       repeatEndTime?: number
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -37,6 +37,16 @@ declare module '../../index' {
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: TaroGeneral.CallbackResult) => void
+    }
+    interface RepeatInterval {
+      /** 每天重复 */
+      day
+      /** 每周重复 */
+      week
+      /** 每月重复。该模式日期不能大于 28 日 */
+      month
+      /** 每年重复 */
+      year
     }
   }
 

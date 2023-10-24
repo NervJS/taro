@@ -43,7 +43,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
-     * @supported weapp, rn, tt
+     * @supported weapp, alipay, swan, jd, tt, rn
      * @example
      * ```tsx
      * Taro.hideKeyboard({
@@ -71,7 +71,7 @@ declare module '../../index' {
     getSelectedTextRange(option?: getSelectedTextRange.Option): Promise<getSelectedTextRange.SuccessCallbackResult>
 
     /** 监听键盘高度变化
-     * @supported weapp, rn
+     * @supported weapp, swan, jd, qq, rn
      * @example
      * ```tsx
      * Taro.onKeyboardHeightChange(res => {
@@ -80,16 +80,18 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.onKeyboardHeightChange.html
      */
-    onKeyboardHeightChange(callback: onKeyboardHeightChange.Callback): void
+    onKeyboardHeightChange(
+      callback: onKeyboardHeightChange.Callback
+    ): void
 
     /**
      * 取消监听键盘高度变化事件。
-     * @supported weapp, rn
+     * @supported weapp, swan, jd, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/keyboard/wx.offKeyboardHeightChange.html
      */
     offKeyboardHeightChange(
       /** 键盘高度变化事件的回调函数 */
-      callback?: (...args: any[]) => any,
+      callback?: onKeyboardHeightChange.Callback
     ): void
   }
 }

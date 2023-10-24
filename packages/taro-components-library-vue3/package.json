@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-vue3",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Taro 组件库 Vue3 版本库",
   "private": true,
   "main": "index.js",
