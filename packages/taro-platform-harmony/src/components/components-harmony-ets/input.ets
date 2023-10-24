@@ -5,7 +5,7 @@ import { eventHandler, Current } from '@tarojs/runtime'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, getNormalAttributes, parseStyles } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -141,7 +141,7 @@ struct TaroInput {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onBlur(() => {
       const event = createTaroEvent('blur', { detail: { value: this.value } }, this.node)
       eventHandler(event, 'blur', this.node)

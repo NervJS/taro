@@ -99,7 +99,7 @@ export function convertVP2PX (value: number) {
 }
 
 export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string[], disabled = false) {
-  if (!node || node._attrs.disabled || disabled) return null
+  if (!node || node._attrs?.disabled || disabled) return null
 
   const listeners = Object.keys(node.__listeners || {})
   if (listeners.every(e => !eventNames.includes(e))) return null

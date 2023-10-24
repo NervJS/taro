@@ -1,6 +1,6 @@
 export const TOUCH_EVENT_MAP = {
-  [TouchType.Up]: 'touchEnd',
-  [TouchType.Move]: 'touchMove',
-  [TouchType.Down]: 'touchStart',
-  [TouchType.Cancel]: 'touchCancel',
+  [TouchType.Up]: 'touchend',
+  [TouchType.Move]: 'touchmove',
+  [TouchType.Down]: 'touchstart',
+  [TouchType.Cancel]: 'touchcancel',
 }

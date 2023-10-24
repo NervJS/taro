@@ -3,7 +3,7 @@ import { eventHandler } from '@tarojs/runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -53,7 +53,7 @@ struct TaroSwiper {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })

@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -50,14 +50,14 @@ struct TaroImage {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
   }
 
   @Styles defaultEvent () {
-    .onClick(e => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
   }
 
   build() {

@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -44,7 +44,7 @@ struct TaroRichText {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
