@@ -12,9 +12,58 @@ export function bindInstanceToNode (node: TaroElement, instance: object) {
   node.instance = instance
 }
 
-export function getNormalAttributes (node: TaroElement) {
+// 动画绑定
+export function bindAnimation (node: TaroElement, animationCb: (val: Record<string, any>) => void) {
+  if (node._attrs.hasOwnProperty('animation')) {
+    node._animationCb = async (animation) => {
+      if (animation) {
+        for (let i = 0; i < animation.actions.length; i++) {
+          const anim = animation.actions[i]
+          // 动画队列
+          await new Promise(resolve => {
+            let timingFunction = anim.timingFunction
+            const animateParams = {
+              duration: anim.duration,
+              delay: anim.delay,
+              tempo: 1,
+              playMode: PlayMode.Normal,
+              iterations: 1,
+              onFinish: resolve
+            }
+            if (timingFunction === 'step-start') {
+              animateParams.tempo = 0
+            } else if (timingFunction === 'step-end') {
+              animateParams.tempo = 0
+              animateParams.delay = anim.duration + anim.delay
+              animateParams.duration = 0
+            }
+            animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
+            animateTo(animateParams, () => {
+              const transformOrigin = anim.transformOrigin
+              if (transformOrigin) {
+                const splitOrigin = transformOrigin.split(' ')
+                Object.keys(anim.rule).forEach(key => {
+                  if (['scale', 'rotate'].includes(key)) {
+                    Object.assign(anim.rule[key], {
+                      centerX: splitOrigin[0],
+                      centerY: splitOrigin[1],
+                    })
+                  }
+                })
+              }
+              animationCb(anim.rule)
+            })
+          })
+        }
+      }
+    }
+  }
+}
+
+export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<string, any>) {
   const { _st, _attrs } = node
-  return {
+  const transformData = AttributeManager.getTransform(_st)
+  const normalAttributes = {
     flexSize: FlexManager.flexSize(_st),
     alignSelf: ItemAlign.Auto,
     size: {
@@ -39,13 +88,20 @@ export function getNormalAttributes (node: TaroElement) {
       maxHeight: AttributeManager.getNodeStyle(_st, 'maxHeight'),
     },
     animation: AttributeManager.getNodeAnimationData(_st),
-    transform: AttributeManager.getTransform(_st)
-    // Todo: 尚未完成
-    // backgroundImageSize: {
-    //   width: AttributeManager.getNodeStyle(_st, 'backgroundSize'),
-    //   height: AttributeManager.getNodeStyle(_st, 'backgroundSize'),
-    // },
+    rotate: transformData.rotate,
+    translate: transformData.translate,
+    scale: transformData.scale,
+    transform: transformData.transform
   }
+  // 处理覆盖属性：如动画的覆盖
+  if (overwriteStyle) {
+    if (overwriteStyle.size) {
+      // 合并尺寸
+      overwriteStyle.size = Object.assign({}, normalAttributes.size, overwriteStyle.size)
+    }
+    Object.assign(normalAttributes, overwriteStyle)
+  }
+  return normalAttributes
 }
 
 export const parseStyles = (styles = ''): { [key: string]: string } => {
@@ -124,4 +180,8 @@ export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string
   if (listeners.every(e => !eventNames.includes(e))) return null
 
   return cb
+}
+
+function convertToCamelCase(str) {
+  return str.replace(/-(.)/g, (_, char) => char.toUpperCase()).replace(/^\w/, firstChar => firstChar.toUpperCase());
 }

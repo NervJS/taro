@@ -4,7 +4,7 @@ import { capitalize } from '@tarojs/shared'
 import TaroComponentWrapper from './base'
 import { AttributeManager } from './utils/AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
-import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -29,6 +29,9 @@ function attrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
+  rotate,
+  scale,
+  translate,
   transform
  }) {
   .constraintSize(constraintSize)
@@ -50,10 +53,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Extend(Span)
@@ -75,6 +78,9 @@ function spanAttrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
+  rotate,
+  scale,
+  translate,
   transform
  }) {
   .constraintSize(constraintSize)
@@ -94,15 +100,15 @@ function spanAttrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
-function getAttributes (node: TaroElement) {
+function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) {
   return {
-    ...getNormalAttributes(node),
+    ...getNormalAttributes(node, overwriteStyle),
     ...getFontAttributes(node)
   }
 }
@@ -127,8 +133,18 @@ function getFontAttributes (node: TaroElement) {
 struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
 
+  @State overwriteStyle: Record<string, any> = {}
+  
+  aboutToAppear () {
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
+  }
+
+
   build() {
-    Span(this.node.textContent).spanAttrs(getAttributes(this.node))
+    Span(this.node.textContent).spanAttrs(getAttributes(this.node, this.overwriteStyle))
   }
 }
 
@@ -147,6 +163,8 @@ struct TaroText {
 
   @State thresholds: number[] = []
 
+  @State overwriteStyle: Record<string, any> = {}
+
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
       this.visableChange(isVisible, currentRatio)
@@ -157,6 +175,10 @@ struct TaroText {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
   }
 
   @Styles defaultEvent () {
@@ -178,11 +200,11 @@ struct TaroText {
             }, node => node._nid)
           }
           .defaultEvent()
-          .attrs(getAttributes(this.node))
+          .attrs(getAttributes(this.node, this.overwriteStyle))
         } else {
           Text(this.node.textContent)
             .defaultEvent()
-            .attrs(getAttributes(this.node))
+            .attrs(getAttributes(this.node, this.overwriteStyle))
         }
       } else {
         if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
@@ -193,12 +215,12 @@ struct TaroText {
             }, node => node._nid)
           }
           .defaultEvent()
-          .attrs(getAttributes(this.node))
+          .attrs(getAttributes(this.node, this.overwriteStyle))
           .visibleChangeEvent()
         } else {
           Text(this.node.textContent)
             .defaultEvent()
-            .attrs(getAttributes(this.node))
+            .attrs(getAttributes(this.node, this.overwriteStyle))
             .visibleChangeEvent()
         }
       }

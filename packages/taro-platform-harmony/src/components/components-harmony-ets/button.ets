@@ -5,7 +5,7 @@ import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
@@ -18,6 +18,9 @@ function attrs ({
    padding,
    zIndex,
    constraintSize,
+   rotate,
+   scale,
+   translate,
    transform
 }) {
   .size(size)
@@ -29,10 +32,10 @@ function attrs ({
   .flexShrink(flexSize[1])
   .flexBasis(flexSize[2])
   .constraintSize(constraintSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Extend(Button)
@@ -71,8 +74,14 @@ struct TaroButton {
 
   @ObjectLink node: TaroButtonElement
 
+  @State overwriteStyle: Record<string, any> = {}
+
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
   }
 
   build() {
@@ -89,7 +98,7 @@ struct TaroButton {
           }, item => item._nid)
         }
       }
-      .attrs(getNormalAttributes(this.node))
+      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
       .themeStyles(getThemeAttributes(this.node))
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
       .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))

@@ -4,7 +4,7 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -24,6 +24,9 @@ function attrs ({
   backgroundImage,
   backgroundImageSize,
   constraintSize,
+  rotate,
+  scale,
+  translate,
   transform
  }) {
   .constraintSize(constraintSize)
@@ -42,10 +45,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Component
@@ -55,6 +58,8 @@ struct TaroView {
   @State thresholds: number[] = []
 
   @State isAreaChangeTap: boolean = false
+  
+  @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
@@ -66,6 +71,10 @@ struct TaroView {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
   }
 
   @Styles defaultEvent () {
@@ -83,7 +92,7 @@ struct TaroView {
             createNode(item)
           }, item => item._nid)
         }
-        .attrs(getNormalAttributes(this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .defaultEvent()
         .clip(true)
       } else {
@@ -92,7 +101,7 @@ struct TaroView {
             createNode(item)
           }, item => item._nid)
         }
-        .attrs(getNormalAttributes(this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .defaultEvent()
         .clip(true)
         .visibleChangeEvent()

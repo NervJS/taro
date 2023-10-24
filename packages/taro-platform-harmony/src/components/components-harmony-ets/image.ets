@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -16,6 +16,9 @@ function attrs ({
    backgroundColor,
    borderRadius,
    constraintSize,
+   rotate,
+   scale,
+   translate,
    transform
 }) {
   .constraintSize(constraintSize)
@@ -29,10 +32,10 @@ function attrs ({
   .flexBasis(flexSize[2])
   .backgroundColor(backgroundColor)
   .borderRadius(borderRadius)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 
@@ -41,6 +44,8 @@ struct TaroImage {
   info: Area = null
 
   @State thresholds: number[] = []
+
+  @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
@@ -52,6 +57,10 @@ struct TaroImage {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
   }
 
   @Styles defaultEvent () {
@@ -71,13 +80,13 @@ struct TaroImage {
         Image(this.node.getAttribute('src'))
         .defaultEvent()
         .objectFit(ImageFit.Contain)
-        .attrs(getNormalAttributes(this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
       } else {
         Image(this.node.getAttribute('src'))
         .defaultEvent()
         .objectFit(ImageFit.Contain)
-        .attrs(getNormalAttributes(this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .visibleChangeEvent()
       }

@@ -397,9 +397,9 @@ class AttributeManager {
         centerY: origin[1]
       },
       translate: {
-         x: result.translateX,
-         y: result.translateY,
-         z: result.translateZ
+         x: result.translateX || 0,
+         y: result.translateY || 0,
+         z: result.translateZ || 0
       },
       scale: {
         x: parseFloat(result.scaleX),

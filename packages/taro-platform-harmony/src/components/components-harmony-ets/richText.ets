@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -18,6 +18,9 @@ function attrs ({
   backgroundImage,
   backgroundImageSize,
   constraintSize,
+  rotate,
+  scale,
+  translate,
   transform
  }) {
   .constraintSize(constraintSize)
@@ -31,10 +34,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Component
@@ -42,10 +45,16 @@ struct TaroRichText {
 
   info: Area = null
 
+  @State overwriteStyle: Record<string, any> = {}
+
   @ObjectLink node: TaroViewElement
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
   }
 
   @Styles defaultEvent () {
@@ -58,7 +67,7 @@ struct TaroRichText {
   build() {
     TaroComponentWrapper({ node: this.node }) {
       RichText(this.node._attrs.nodes) 
-        .attrs(getNormalAttributes(this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .defaultEvent()
     }
   }

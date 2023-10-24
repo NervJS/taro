@@ -5,7 +5,7 @@ import { eventHandler, Current } from '@tarojs/runtime'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -26,6 +26,9 @@ function attrs ({
   backgroundImage,
   backgroundImageSize,
   constraintSize,
+  rotate,
+  scale,
+  translate,
   transform
 }) {
   .constraintSize(constraintSize)
@@ -44,10 +47,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Extend(TextInput)
@@ -83,6 +86,8 @@ struct TaroInput {
 
   @ObjectLink node: TaroViewElement
 
+  @State overwriteStyle: Record<string, any> = {}
+
   controller: TextInputController = new TextInputController()
 
   windowClass: Window = null
@@ -91,6 +96,10 @@ struct TaroInput {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
 
     this.text = this.node._attrs.value || ''
 
@@ -168,7 +177,7 @@ struct TaroInput {
         .placeholderColor(this.getPlaceholderColor(this.node))
         .enterKeyType(INPUT_CONFIRM_MAP[this.node._attrs?.confirmType] || EnterKeyType.Done)
         .defaultEvent()
-        .attrs(getNormalAttributes(this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .textAttrs(getFontAttributes(this.node))
         .onChange((value: string) => {
           const event = createTaroEvent('input', { detail: { value } }, this.node)

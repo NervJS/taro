@@ -13,6 +13,8 @@ class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
   private _innerHTML = ''
   public readonly tagName: string
+  // 动画函数回掉绑定
+  public _animationCb?: (value: Record<string, any>) => void
   // public changeRecord = ''
 
   constructor(tagName: string) {
@@ -57,6 +59,10 @@ class TaroElement extends TaroNode {
 
     this._attrs[name] = value
 
+    // 监听动画设置
+    if (name === 'animation') {
+      typeof this._animationCb === 'function' && this._animationCb(value)
+    }
     // if (!this.changeRecord.includes(`${name}-${value}`)) {
     //   this.changeRecord += `${name}-${value};`
     // }

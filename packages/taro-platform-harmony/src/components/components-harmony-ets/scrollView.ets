@@ -3,7 +3,7 @@ import { eventHandler } from '../runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, convertVP2PX, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -20,6 +20,9 @@ function attrs ({
  backgroundImage,
  backgroundImageSize,
  constraintSize,
+ rotate,
+ scale,
+ translate,
  transform
 }) {
   .flexGrow(flexSize[0])
@@ -33,10 +36,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(transform.rotate)
-  .scale(transform.scale)
-  .translate(transform.translate)
-  .transform(transform.transform)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Extend(Column)
@@ -51,7 +54,11 @@ function attrs ({
  backgroundColor,
  backgroundImage,
  backgroundImageSize,
- constraintSize
+ constraintSize,
+ rotate,
+ scale,
+ translate,
+ transform
 }) {
   .flexGrow(flexSize[0])
   .constraintSize(constraintSize)
@@ -64,6 +71,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
 }
 
 @Component
@@ -71,6 +82,8 @@ struct TaroScrollView {
   info: Area = null
 
   @State thresholds: number[] = []
+
+  @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
@@ -84,6 +97,10 @@ struct TaroScrollView {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+    // 绑定动画
+    bindAnimation(this.node, (rule) => {
+      this.overwriteStyle = rule
+    })
   }
 
   @Styles defaultEvent () {
@@ -104,7 +121,7 @@ struct TaroScrollView {
                 createNode(item)
               }, item => item._nid)
             }
-            .attrs(getNormalAttributes(this.node))
+            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
             .height(getNormalAttributes(this.node).size.height)
           }
           .width(getNormalAttributes(this.node).size.width)
@@ -129,7 +146,7 @@ struct TaroScrollView {
               }, item => item._nid)
             }
             .width(getNormalAttributes(this.node).size.width)
-            .attrs(getNormalAttributes(this.node))
+            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
           }
           .height(getNormalAttributes(this.node).size.height)
           .scrollable(ScrollDirection.Vertical)
@@ -155,7 +172,7 @@ struct TaroScrollView {
                 createNode(item)
               }, item => item._nid)
             }
-            .attrs(getNormalAttributes(this.node))
+            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
             .height(getNormalAttributes(this.node).size.height)
           }
           .width(getNormalAttributes(this.node).size.width)
@@ -181,7 +198,7 @@ struct TaroScrollView {
               }, item => item._nid)
             }
             .width(getNormalAttributes(this.node).size.width)
-            .attrs(getNormalAttributes(this.node))
+            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
           }
           .height(getNormalAttributes(this.node).size.height)
           .scrollable(ScrollDirection.Vertical)
