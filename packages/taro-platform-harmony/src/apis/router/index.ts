@@ -91,7 +91,7 @@ const switchTab: SwitchTab = (options) => {
       const item = pages[i]
       if (item === uri) {
         return router.back({
-          uri: item
+          url: item
         })
       }
     }

@@ -98,6 +98,7 @@ function renderPage (isTabPage: boolean) {
     pageStr = `Tabs({
   barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start,
   controller: this.controller,
+  index: this.currentIndex,
 }) {
   ForEach(this.tabBar.list, (item, index) => {
     TabContent() {
@@ -189,7 +190,6 @@ export default { ${
 
         const structCodeArray: unknown[] = [
           '@Component',
-          '@Entry',
           'struct Index {',
         ]
         const generateState = [
@@ -202,7 +202,13 @@ export default { ${
           '@State appConfig: AppConfig = window.__taroAppConfig || {}',
         ]
         if (isTabbarPage) {
+          structCodeArray.unshift(
+            'const storage = LocalStorage.GetShared()',
+            '',
+            '@Entry(storage)',
+          )
           generateState.push(
+            '@LocalStorageLink("entryPagePath") entryPagePath: string = ""',
             '@State tabBar: TabBar = this.appConfig.tabBar || {}',
             '@State tabBarList: TabBarItem[] = this.tabBar.list || []',
             '@State color: string = this.tabBar.color || "#7A7E83"',
@@ -215,12 +221,17 @@ export default { ${
             'private controller: TabsController = new TabsController()',
             '',
           )
+        } else {
+          structCodeArray.unshift('@Entry')
         }
         structCodeArray.push(
           transArr2Str(generateState, 2),
           `
   aboutToAppear() {
-    this.handlePageAppear()
+    let index = this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
+    index = index >= 0 ? index : 0
+    this.handlePageAppear(index)
+    this.currentIndex = index
   }
 
   onPageShow () {
@@ -242,7 +253,7 @@ export default { ${
   }`,
           SHOW_TREE ? transArr2Str(['', '', ...showTreeFunc(isTabbarPage).split('\n')], 2) : null,
           `
-  handlePageAppear() {
+  handlePageAppear(${isTabbarPage ? 'index = this.currentIndex' : ''}) {
     const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
     if ((isCustomStyle && this.getConfig().navigationStyle !== 'default') || this.getConfig().navigationStyle === 'custom') {
       (Current as any).contextPromise
@@ -259,12 +270,12 @@ export default { ${
     ${isTabbarPage
     ? transArr2Str([
       'this.page ||= []',
-      'if (!this.page[this.currentIndex]) {',
-      '  const pageName = this.tabBarList[this.currentIndex]?.pagePath',
+      'if (!this.page[index]) {',
+      '  const pageName = this.tabBarList[index]?.pagePath',
       '  const page = createPageConfig(component[pageName], pageName)',
-      '  this.page[this.currentIndex] = page',
-      '  this.page[this.currentIndex].onLoad?.call(this, params, (instance) => {',
-      '    this.node[this.currentIndex] = instance',
+      '  this.page[index] = page',
+      '  this.page[index].onLoad?.call(this, params, (instance) => {',
+      '    this.node[index] = instance',
       '  })',
       '}',
     ], 4)

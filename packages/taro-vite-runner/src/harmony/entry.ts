@@ -41,16 +41,21 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
         const appConfigStr = prettyPrintJson(appConfig)
 
-        let { pages = [], entryPagePath = pages[0], tabBar } = appConfig
+        const { pages = [], entryPagePath = pages[0], tabBar } = appConfig
+        let entryPath = entryPagePath
         const tabbarList = tabBar?.list || []
         const tabbarIndex = tabbarList.findIndex(item => item.pagePath === entryPagePath)
         if (tabbarIndex >= 0) {
-          entryPagePath = TARO_TABBAR_PAGE_PATH
+          entryPath = TARO_TABBAR_PAGE_PATH
           // TODO 寻找其它方案传入 tabbarIndex 用于 switchTab
           // entryPagePath = `${TARO_TABBAR_PAGE_PATH}?current=${tabbarIndex}`
         }
         let instantiateApp = `export default class EntryAbility extends UIAbility {
   app
+
+  storage = new LocalStorage({
+    entryPagePath: '${entryPagePath}'
+  })
 
   onCreate(want, launchParam) {
     this.app = ${createApp}
@@ -64,7 +69,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
   onWindowStageCreate(stage) {
     context.resolver(this.context)
-    stage.loadContent("${entryPagePath}", (err, data) => {
+    stage.loadContent('${entryPath}', this.storage, (err, data) => {
       if (err.code) {
         return this.app?.onError?.call(this, err)
       }
@@ -166,6 +171,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           'import { window, context } from "@tarojs/runtime"',
           `import { ${creator} } from "${creatorLocation}"`,
           'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
+          'import router from "@ohos.router"',
           setReconcilerPost,
           `import component from "${rawId}"`,
           importFrameworkStatement,

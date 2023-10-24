@@ -15,7 +15,9 @@ export class EtsHelper {
   REGEX_MODIFIER = /\s((@\S+)\s*\n)+/
   REGEX_STRUCT = /(?<=\s)struct\s*[^{}]+\{/
 
-  structVars = new Set<string>()
+  // Note: 收集暂存代码块中使用到的变量，避免被抖动掉
+  // FIXME: Modifier 中使用到的变量未被记录，暂时需要提前声明
+  structVars = new Set<string>(['storage'])
 
   // eslint-disable-next-line no-useless-constructor
   constructor(protected appPath: string, protected taroConfig: ViteHarmonyBuildConfig) {}
