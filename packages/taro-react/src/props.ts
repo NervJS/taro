@@ -135,6 +135,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
                 for (const key in (data as object)) {
                   const val: string = data[key]
                   if (/\d+(px)/.test(val)) {
+                    setStyle(style, i, data)
                     const newVal = val.replaceAll('px', '')
                     if (newVal.split(' ').length > 1) {
                       setStyle(data, key, newVal)
@@ -149,7 +150,6 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
                     }
                   }
                 }
-                setStyle(style, i, data)
               } else {
                 if (/\d+(px)/.test(data)) {
                   const newVal = data.replaceAll('px', '')

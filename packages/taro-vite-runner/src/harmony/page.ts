@@ -10,7 +10,7 @@ export const PAGE_SUFFIX = '.ets?page-loader=true'
 export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 
 const SHOW_TREE = true
-const SHOW_TREE_FUNC = `\nasync showTree() {
+const showTreeFunc = (isTabbarPage) => `\nasync showTree() {
   const taskQueen = []
 
   function showTree (tree, level = 1) {
@@ -57,7 +57,7 @@ const SHOW_TREE_FUNC = `\nasync showTree() {
     }
   }
 
-  showTree(this.node)
+  showTree(this.node${isTabbarPage ? '[this.currentIndex]' : ''})
   for (let i = 0; i < taskQueen.length; i++) {
     taskQueen[i]()
     await new Promise((resolve) => setTimeout(resolve, 16))
@@ -240,7 +240,7 @@ export default { ${
       item?.onUnLoad?.call(this)
     })` : 'this.page?.onUnLoad?.call(this)'}
   }`,
-          SHOW_TREE ? transArr2Str(['', '', ...SHOW_TREE_FUNC.split('\n')], 2) : null,
+          SHOW_TREE ? transArr2Str(['', '', ...showTreeFunc(isTabbarPage).split('\n')], 2) : null,
           `
   handlePageAppear() {
     const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
