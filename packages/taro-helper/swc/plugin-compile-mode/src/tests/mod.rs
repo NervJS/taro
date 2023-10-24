@@ -18,6 +18,7 @@ pub fn tr () -> impl Fold + VisitMut {
         {
             "tmpl_prefix": "f0",
             "components": {
+                "block": {},
                 "image": {
                     "src": "i.p3",
                     "mode": "xs.b(i.p1,'scaleToFill')",

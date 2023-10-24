@@ -12,30 +12,30 @@ use swc_core::{
     },
 };
 use std::collections::HashMap;
+use std::rc::Rc;
 use crate::PluginConfig;
 use crate::utils::{self, constants::*};
 
 struct PreVisitor {
-    is_in_jsx_expr_container: bool,
+    is_in_jsx_expr_container: Rc<bool>,
     is_in_and_expr: bool,
 }
 impl PreVisitor {
     fn new () -> Self {
         Self {
-            is_in_jsx_expr_container: false,
+            is_in_jsx_expr_container: Rc::new(true),
             is_in_and_expr: false
         }
     }
 }
 impl VisitMut for PreVisitor {
     fn visit_mut_jsx_expr_container (&mut self, container: &mut JSXExprContainer) {
-        self.is_in_jsx_expr_container = true;
+        let _counter = Rc::clone(&self.is_in_jsx_expr_container);
         // Todo 目前的判断可能误伤函数内的三元表达式、条件表达式
         container.visit_mut_children_with(self);
-        self.is_in_jsx_expr_container = false;
     }
     fn visit_mut_expr (&mut self, expr: &mut Expr) {
-        if !self.is_in_jsx_expr_container { return };
+        if Rc::strong_count(&self.is_in_jsx_expr_container) == 1 { return };
         let mut is_first_and_expr = false;
         
         match expr {
@@ -86,19 +86,28 @@ impl VisitMut for PreVisitor {
                     }
                 }
             },
-            Expr::Cond(CondExpr { test, cons, alt,..}) => {
+            Expr::Cond(CondExpr { test, cons, alt, ..}) => {
                 let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
                 let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
-                let mut process_condition_expr = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
+                let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
                     match &mut **arm {
                         Expr::JSXElement(el) => {
                             el.opening.attrs.push(attr);
                         },
-                        _ => ()
+                        _ => {
+                            let temp = arm.take();
+                            let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                            **arm = Expr::JSXElement(Box::new(JSXElement {
+                                span,
+                                opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
+                                children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(temp)})],
+                                closing: Some(JSXClosingElement { span, name: jsx_el_name })
+                            }))
+                        }
                     }
                 };
-                process_condition_expr(cons, compile_if);
-                process_condition_expr(alt, compile_else);
+                process_cond_arm(cons, compile_if);
+                process_cond_arm(alt, compile_else);
             },
             _ => (),
         }
@@ -269,8 +278,11 @@ impl TransformVisitor {
                         expr: JSXExpr::Expr(jsx_expr),
                         ..
                     }) => {
+                        if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
+                            *jsx_expr = expr.take();
+                        }
                         match &mut **jsx_expr {
-                            Expr::Cond(CondExpr { test, cons, alt,..}) => {
+                            Expr::Cond(CondExpr { cons, alt, ..}) => {
                                 let mut process_condition_expr = |arm: &mut Box<Expr>| {
                                     match &mut **arm {
                                         Expr::JSXElement(el) => {
