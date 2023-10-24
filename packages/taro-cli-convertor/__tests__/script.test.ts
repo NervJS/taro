@@ -1,6 +1,7 @@
 import * as taroize from '@tarojs/taroize'
+
 import Convertor from '../src/index'
-import { copyFileToTaro, transRelToAbsPath, getMatchUnconvertDir } from '../src/util'
+import { copyFileToTaro, getMatchUnconvertDir, transRelToAbsPath } from '../src/util'
 
 const fs = require('fs')
 const path = require('path')
@@ -98,9 +99,9 @@ describe('文件转换', () => {
     for (const tempConfig of selfDefinedConfig) {
       const tempConfigPath = path.join(convert.root, tempConfig)
       if (fs.existsSync(tempConfig)) {
-          const outputFilePath = path.join(convert.convertRoot, tempConfig)
-          copyFileToTaro(tempConfigPath, outputFilePath)
-          expect(fs.existsSync(outputFilePath)).toBe(true)
+        const outputFilePath = path.join(convert.convertRoot, tempConfig)
+        copyFileToTaro(tempConfigPath, outputFilePath)
+        expect(fs.existsSync(outputFilePath)).toBe(true)
       }
     }
   })
@@ -111,10 +112,10 @@ describe('文件转换', () => {
     // 处理convert.config.json，并存储到convertConfig中
     const convertJsonPath: string = path.join(root, `convert.config${convert.fileTypes.CONFIG}`)
     const convertJson = { 'external': ['./taroConvert/'] }
-    let convertConfig = { ...convertJson }
+    const convertConfig = { ...convertJson }
     convertConfig.external = transRelToAbsPath(convertJsonPath, convertConfig.external)
     // 处理不转换的目录，可在convert.config.json中external字段配置
-    let filePath = transRelToAbsPath(convertJsonPath, ['./taroConvert/tsconfig.json'])
+    const filePath = transRelToAbsPath(convertJsonPath, ['./taroConvert/tsconfig.json'])
     const matchUnconvertDir: string | null = getMatchUnconvertDir(filePath[0], convertConfig?.external)
     if (matchUnconvertDir !== null) {
       // 支持用户在convert.config.json中配置不转换的目录
