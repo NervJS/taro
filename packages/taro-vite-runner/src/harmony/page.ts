@@ -81,7 +81,7 @@ function renderPage (isTabPage: boolean) {
   let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
   Scroll(this.scroller) {
     Column() {
-      TaroView({ node: ${isTabPage ? 'this.node[this.currentIndex]' : 'this.node'} })
+      TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
     }
   }
   .onScroll(() => {
