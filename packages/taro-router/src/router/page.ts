@@ -270,7 +270,6 @@ export default class PageHandler {
         eventCenter.trigger('__taroPageOnShowAfterDestroyed')
       }, 0)
     }
-    this.handleNavigationStyle()
     if (delta >= 1) this.unload(stacks.last, delta)
   }
 
@@ -295,6 +294,7 @@ export default class PageHandler {
         this.triggerRouterChange()
       })
     }
+    this.handleNavigationStyle()
   }
 
   hide (page?: PageInstance | null) {
