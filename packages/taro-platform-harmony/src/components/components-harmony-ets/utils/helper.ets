@@ -94,12 +94,12 @@ const parseBackground = (name: string, value: string) => {
   }
 }
 
-export function converVP2PX (value: number) {
+export function convertVP2PX (value: number) {
   return Math.ceil(value / 384 * 750)
 }
 
 export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string[], disabled = false) {
-  if (disabled || !node) return null
+  if (!node || node._attrs.disabled || disabled) return null
 
   const listeners = Object.keys(node.__listeners || {})
   if (listeners.every(e => !eventNames.includes(e))) return null
