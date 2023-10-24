@@ -2,8 +2,13 @@ import { eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
+<<<<<<< HEAD
 import { bindInstanceToNode, getNormalAttributes, getNodeAreaChange } from './utils/helper'
+=======
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
+>>>>>>> 5d45b028a84c441ebad4d52d86a135082b7dc9fd
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -22,7 +27,8 @@ function attrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
-  constraintSize
+  constraintSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .flexGrow(flexSize[0])
@@ -40,6 +46,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Component
@@ -63,7 +73,8 @@ struct TaroView {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
     .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
     }, this))

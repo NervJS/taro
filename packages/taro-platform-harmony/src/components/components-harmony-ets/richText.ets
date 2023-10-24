@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -17,7 +17,8 @@ function attrs ({
   backgroundColor,
   backgroundImage,
   backgroundImageSize,
-  constraintSize
+  constraintSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .size(size)
@@ -30,6 +31,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Component
@@ -44,7 +49,7 @@ struct TaroRichText {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })

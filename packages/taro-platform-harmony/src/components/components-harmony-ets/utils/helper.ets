@@ -3,6 +3,7 @@ import { AttributeManager } from './AttributeManager'
 import { FlexManager } from './FlexManager'
 
 import type { TaroElement } from '@tarojs/runtime'
+import type { Func } from '@tarojs/runtime/dist/runtime.esm'
 
 export function bindInstanceToNode (node: TaroElement, instance: object) {
   if (!node) return
@@ -38,6 +39,7 @@ export function getNormalAttributes (node: TaroElement) {
       maxHeight: AttributeManager.getNodeStyle(_st, 'maxHeight'),
     },
     animation: AttributeManager.getNodeAnimationData(_st),
+    transform: AttributeManager.getTransform(_st)
     // Todo: 尚未完成
     // backgroundImageSize: {
     //   width: AttributeManager.getNodeStyle(_st, 'backgroundSize'),
@@ -93,7 +95,7 @@ const parseBackground = (name: string, value: string) => {
   }
 }
 
-export function converVP2PX (value: number) {
+export function convertVP2PX (value: number) {
   return Math.ceil(value / 384 * 750)
 }
 
@@ -113,4 +115,13 @@ export function getNodeAreaChange (callback: Function, component) {
   }
 
   return null
+}
+
+export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string[], disabled = false) {
+  if (!node || node._attrs?.disabled || disabled) return null
+
+  const listeners = Object.keys(node.__listeners || {})
+  if (listeners.every(e => !eventNames.includes(e))) return null
+
+  return cb
 }

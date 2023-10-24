@@ -4,7 +4,7 @@ import { capitalize } from '@tarojs/shared'
 import TaroComponentWrapper from './base'
 import { AttributeManager } from './utils/AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -28,7 +28,8 @@ function attrs ({
   borderRadius,
   backgroundColor,
   backgroundImage,
-  backgroundImageSize
+  backgroundImageSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -49,6 +50,10 @@ function attrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Extend(Span)
@@ -69,7 +74,8 @@ function spanAttrs ({
   borderRadius,
   backgroundColor,
   backgroundImage,
-  backgroundImageSize
+  backgroundImageSize,
+  transform
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -88,6 +94,10 @@ function spanAttrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 function getAttributes (node: TaroElement) {
@@ -150,7 +160,7 @@ struct TaroText {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })

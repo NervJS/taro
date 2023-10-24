@@ -2,7 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -39,7 +39,7 @@ struct TaroSwitch {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => !this.node._attrs.disabled && eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })

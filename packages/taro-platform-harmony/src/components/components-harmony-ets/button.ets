@@ -4,8 +4,8 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
-import { TOUCH_EVENT_MAP } from './utils/constant/event.ets'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
@@ -17,7 +17,8 @@ function attrs ({
    margin,
    padding,
    zIndex,
-   constraintSize
+   constraintSize,
+   transform
 }) {
   .size(size)
   .zIndex(zIndex)
@@ -28,6 +29,10 @@ function attrs ({
   .flexShrink(flexSize[1])
   .flexBasis(flexSize[2])
   .constraintSize(constraintSize)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 @Extend(Button)
@@ -86,8 +91,8 @@ struct TaroButton {
       }
       .attrs(getNormalAttributes(this.node))
       .themeStyles(getThemeAttributes(this.node))
-      .onClick(e => !this.node._attrs.disabled && eventHandler(e, 'click', this.node))
-      .onTouch(e => !this.node._attrs.disabled && eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node))
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
     }
   }
 }

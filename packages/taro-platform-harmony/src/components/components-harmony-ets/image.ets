@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -15,7 +15,8 @@ function attrs ({
    zIndex,
    backgroundColor,
    borderRadius,
-   constraintSize
+   constraintSize,
+   transform
 }) {
   .constraintSize(constraintSize)
   .size(size)
@@ -28,6 +29,10 @@ function attrs ({
   .flexBasis(flexSize[2])
   .backgroundColor(backgroundColor)
   .borderRadius(borderRadius)
+  .rotate(transform.rotate)
+  .scale(transform.scale)
+  .translate(transform.translate)
+  .transform(transform.transform)
 }
 
 
@@ -50,14 +55,14 @@ struct TaroImage {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
   }
 
   @Styles defaultEvent () {
-    .onClick(e => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
   }
 
   build() {
