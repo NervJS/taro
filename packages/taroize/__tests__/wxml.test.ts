@@ -60,7 +60,6 @@ describe('wxml.ts测试', () => {
     expect(imports).toMatchSnapshot()
   })
 
-  // wxml中image的mode=""会转换成mode
   test('wxml中image的mode=""会转换成mode', () => {
     option.wxml = `<image class="img" src="{{imgSrc}}" mode=""></image>`
     option.path = 'wxml_mode'
@@ -68,7 +67,6 @@ describe('wxml.ts测试', () => {
     expect(wxml).toMatchSnapshot()
   })
   
-  // wx:key="index"会转换成key="index"
   test('wx:key="index"会转换成key="index"', () => {
     option.wxml = `<view wx:key="index" wx:for="{{data}}">
                     <text>{{item.name}}</text>
@@ -378,14 +376,12 @@ describe('style属性的解析', () => {
     }
   })
 
-  // px/rpx转换为rem
   test('px/rpx单位转换为rem', () => {
     let contentInput = 'width: 100px;height: 200rpx;padding: {{padCount}}px;margin: {{marCount}}rpx;'
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe('width: 5rem;height: 5rem;padding: {{padCount/20}}rem;margin: {{marCount/40}}rem;')
   })
 
-  // 0px/rpx转换为0rempx/rpx
   test('0px/rpx转换为0rempx/rpx', () => {
     let contentInput = `<swiper-item style="transform: translate(0%, 0px) translateZ(0rpx);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)

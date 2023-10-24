@@ -5,9 +5,8 @@ import { copyFileToTaro, transRelToAbsPath, getMatchUnconvertDir } from '../src/
 const fs = require('fs')
 const path = require('path')
 
-describe('script.test.ts测试', () => {
-  // 组件中this.data.xx赋值代码被合并到this.setData中
-  test('组件中this.data.xx赋值代码被合并到this.setData中', () => {
+describe('语法转换', () => {
+  test('使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换', () => {
     const entryJSON = { 'pages': ['pages/index/index'] }
     // json：index.json的内容  path：index的根目录（文件路径）  rootPath：小程序的根目录（文件路径）   
     // script：index.js的内容   scriptPath：index.js的绝对路径  wxml：index.html的内容
@@ -44,8 +43,7 @@ describe('script.test.ts测试', () => {
     expect(ast).toMatchSnapshot()
   })
 
-  // 组件的动态名称转换不正确
-  test('组件的动态名称转换不正确', () => {
+  test('组件的动态名称转换', () => {
     const entryJSON = { 'pages': ['pages/index/index'] }
     // json：index.json的内容  path：index的根目录（文件路径）  rootPath：小程序的根目录（文件路径）   
     // script：index.js的内容   scriptPath：index.js的绝对路径  wxml：index.html的内容
@@ -84,8 +82,15 @@ describe('script.test.ts测试', () => {
     expect(ast).toMatchSnapshot()
   })
 
-  // taroConvert工程对比Taro-cli里的模板工程，缺少文件
-  test('taroConvert工程对比Taro-cli里的模板工程，缺少文件', () => {
+  test('css中字母+数字+pX会转换成px', async () => {
+    const convert = new Convertor('', false)
+    const { css } = await convert.styleUnitTransform('', 'background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
+    expect(css).toBe('background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
+  })
+})
+
+describe('文件转换', () => {
+  test('拷贝tsconfig.json文件到转换后的工程', () => {
     const convert = new Convertor('', false)
     const selfDefinedConfig: any = []
     // 目前只有tsconfig.json，还有的话继续加到array里
@@ -100,7 +105,6 @@ describe('script.test.ts测试', () => {
     }
   })
 
-  // 适配convert.config.json，对符合json内路径的文件，在其被导入时不做转换
   test('适配convert.config.json，对符合json内路径的文件，在其被导入时不做转换', () => {
     const convert = new Convertor('', false)
     const root = transRelToAbsPath('', ['./taro-cli-convertor'])[0].replace(/\\/g, '/')
@@ -120,12 +124,5 @@ describe('script.test.ts测试', () => {
       }
       expect(fs.existsSync(outputFilePath)).toBe(true)
     }
-  })
-
-  // 个别base64图片显示不全
-  test('个别base64图片显示不全', async () => {
-    const convert = new Convertor('', false)
-    const { css } = await convert.styleUnitTransform('', 'background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
-    expect(css).toBe('background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
   })
 })
