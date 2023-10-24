@@ -263,15 +263,18 @@ export default { ${
       '  const pageName = this.tabBarList[this.currentIndex]?.pagePath',
       '  const page = createPageConfig(component[pageName], pageName)',
       '  this.page[this.currentIndex] = page',
+      '  this.page[this.currentIndex].onLoad?.call(this, params, (instance) => {',
+      '    this.node[this.currentIndex] = instance',
+      '  })',
       '}',
     ], 4)
     : transArr2Str([
       `const page = createPageConfig(component, '${(page as VitePageMeta).name}')`,
       'this.page = page',
+      'this.page.onLoad?.call(this, params, (instance) => {',
+      '  this.node = instance',
+      '})',
     ], 4)}
-    ${isTabbarPage ? 'this.page[this.currentIndex]' : 'this.page'}?.onLoad?.call(this, params, (instance) => {
-      ${isTabbarPage ? 'this.node[this.currentIndex]' : 'this.node'} = instance
-    })
   }
 
   getPage(${isTabbarPage ? 'index = this.currentIndex' : ''}) {
