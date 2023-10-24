@@ -4,7 +4,7 @@ import { Current, TaroElement } from '@tarojs/runtime'
 import { findChildNodeWithDFS, unsupport } from '../utils'
 
 export class IntersectionObserver implements Taro.IntersectionObserver {
-  
+
   // 自定义组件实例
   private _component: any
   // 监听的nodes
@@ -51,7 +51,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
         node.forEach(n => {
           // @ts-ignore
           n.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
-            callback(this.hanleResult(isVisible, currentRatio))
+            callback(this.handleResult(isVisible, currentRatio))
           }
           // @ts-ignore
           n.instance?.thresholds = thresholds
@@ -59,7 +59,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
       } else {
         // @ts-ignore
         node.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
-          callback(this.hanleResult(isVisible, currentRatio))
+          callback(this.handleResult(isVisible, currentRatio))
         }
         // @ts-ignore
         node.instance?.thresholds = thresholds
@@ -71,13 +71,14 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
     process.env.NODE_ENV !== 'production' && unsupport('relativeTo')
     return this
   }
-  
+
   public relativeToViewport (): Taro.IntersectionObserver {
     process.env.NODE_ENV !== 'production' && unsupport('relativeToViewport')
     return this
   }
 
-  private hanleResult (isVisible: boolean, currentRatio: number): Taro.IntersectionObserver.ObserveCallbackResult {
+  // @ts-ignore
+  private handleResult (isVisible: boolean, currentRatio: number): Taro.IntersectionObserver.ObserveCallbackResult {
     const result = {
       intersectionRatio: currentRatio,
       // TODO 未做，等待能拿到element的info信息

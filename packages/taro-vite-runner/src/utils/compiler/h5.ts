@@ -1,4 +1,5 @@
 import {
+  fs,
   readConfig,
   recursiveMerge,
   REG_FONT,
@@ -21,10 +22,13 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
     getRoutesConfig: (pageName?: string) => string
   }
 
+  browserslist: string[]
+
   constructor (appPath: string, taroConfig: ViteH5BuildConfig) {
     super(appPath, taroConfig)
     this.app = this.getApp()
     this.pages = this.getPages()
+    this.browserslist = this.getBrowserslist()
   }
 
   processConfig () {
@@ -72,5 +76,24 @@ export class TaroCompilerContext extends CompilerContext<ViteH5BuildConfig> impl
 
     this.configFileList.push(pageMeta.configPath)
     return pageMeta
+  }
+
+  getBrowserslist () {
+    const packageJsonPath = path.join(this.cwd, 'package.json')
+    if (!fs.existsSync(packageJsonPath)) {
+      this.logger.error('缺少项目配置 package.json 文件，请检查是否是在taro项目中运行')
+      process.exit(1)
+    }
+    let projectConfigString
+    try {
+      projectConfigString = fs.readFileSync(packageJsonPath, { encoding: 'utf-8' })
+    } catch (error) {
+      this.logger.error('解析项目配置文件 package.json 出错')
+      this.logger.error(error)
+      process.exit(1)
+    }
+    
+    const projectConfig = JSON.parse(projectConfigString) || {}
+    return projectConfig?.browserslist || ['last 3 versions', 'Android >= 4.1', 'ios >= 8']
   }
 }

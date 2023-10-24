@@ -53,11 +53,11 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
     },
     h5: {
       publicPath: '/',
-      staticDirectory: 'static',
+      staticDirectory: 'static',<% if (typescript && compiler !== 'vite') {%>
       output: {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[chunkhash:8].js'
-      },
+      },<%}%>
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: 'css/[name].[hash].css',
