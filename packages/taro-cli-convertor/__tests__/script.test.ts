@@ -5,9 +5,9 @@ import { copyFileToTaro, transRelToAbsPath, getMatchUnconvertDir } from '../src/
 const fs = require('fs')
 const path = require('path')
 
-describe('parseAst', () => {
-  // this.data.xx = XXX转为setData问题
-  test('this.data.xx = XXX转为setData问题', () => {
+describe('script.test.ts测试', () => {
+  // 组件中this.data.xx赋值代码被合并到this.setData中
+  test('组件中this.data.xx赋值代码被合并到this.setData中', () => {
     const entryJSON = { 'pages': ['pages/index/index'] }
     // json：index.json的内容  path：index的根目录（文件路径）  rootPath：小程序的根目录（文件路径）   
     // script：index.js的内容   scriptPath：index.js的绝对路径  wxml：index.html的内容
@@ -44,8 +44,8 @@ describe('parseAst', () => {
     expect(ast).toMatchSnapshot()
   })
 
-  // 组件的动态名称转换不正确问题
-  test('组件的动态名称转换不正确问题', () => {
+  // 组件的动态名称转换不正确
+  test('组件的动态名称转换不正确', () => {
     const entryJSON = { 'pages': ['pages/index/index'] }
     // json：index.json的内容  path：index的根目录（文件路径）  rootPath：小程序的根目录（文件路径）   
     // script：index.js的内容   scriptPath：index.js的绝对路径  wxml：index.html的内容
@@ -84,8 +84,8 @@ describe('parseAst', () => {
     expect(ast).toMatchSnapshot()
   })
 
-  // taroConvert工程对比Taro-cli里的模板工程，缺少文件问题
-  test('taroConvert工程对比Taro-cli里的模板工程，缺少文件问题', () => {
+  // taroConvert工程对比Taro-cli里的模板工程，缺少文件
+  test('taroConvert工程对比Taro-cli里的模板工程，缺少文件', () => {
     const convert = new Convertor('', false)
     const selfDefinedConfig: any = []
     // 目前只有tsconfig.json，还有的话继续加到array里
@@ -120,5 +120,12 @@ describe('parseAst', () => {
       }
       expect(fs.existsSync(outputFilePath)).toBe(true)
     }
+  })
+
+  // 个别base64图片显示不全
+  test('个别base64图片显示不全', async () => {
+    const convert = new Convertor('', false)
+    const { css } = await convert.styleUnitTransform('', 'background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
+    expect(css).toBe('background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
   })
 })

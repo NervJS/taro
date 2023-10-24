@@ -83,17 +83,3 @@ describe('parseScript', () => {
     expect(ast).toMatchSnapshot()
   })
 })
-
-
-describe('postcss-unit-transform', () => {
-  // 个别base64图片显示不全问题
-  test('个别base64图片显示不全问题', () => {
-    let value = 'TB0pX'
-    value = value.replace(/\b-?(\d+(\.\d+)?)px\b/ig, function () {
-      return Number(arguments[1]) === 0 ? '0px': parseInt(arguments[1], 10) !== 0? (parseInt(arguments[1], 10) * 2) + 'px': '1px'
-    }).replace(/\b-?(\d+(\.\d+)?)rpx\b/ig, function () {
-      return arguments[1] + 'px'
-    })
-    expect(value).toBe('TB0pX')
-  })
-})

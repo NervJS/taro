@@ -60,16 +60,16 @@ describe('wxml.ts测试', () => {
     expect(imports).toMatchSnapshot()
   })
 
-  // mode=""转换成mode
-  test('mode=""转换成mode问题', () => {
+  // wxml中image的mode=""会转换成mode
+  test('wxml中image的mode=""会转换成mode', () => {
     option.wxml = `<image class="img" src="{{imgSrc}}" mode=""></image>`
     option.path = 'wxml_mode'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml).toMatchSnapshot()
   })
   
-  // wx:key="index"转换成key="index"
-  test('wx:key="index"转换成key="index"问题', () => {
+  // wx:key="index"会转换成key="index"
+  test('wx:key="index"会转换成key="index"', () => {
     option.wxml = `<view wx:key="index" wx:for="{{data}}">
                     <text>{{item.name}}</text>
                   </view>`
@@ -383,10 +383,6 @@ describe('style属性的解析', () => {
     let contentInput = 'width: 100px;height: 200rpx;padding: {{padCount}}px;margin: {{marCount}}rpx;'
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe('width: 5rem;height: 5rem;padding: {{padCount/20}}rem;margin: {{marCount/40}}rem;')
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
-    }
   })
 
   // 0px/rpx转换为0rempx/rpx
@@ -394,9 +390,5 @@ describe('style属性的解析', () => {
     let contentInput = `<swiper-item style="transform: translate(0%, 0px) translateZ(0rpx);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe(`<swiper-item style="transform: translate(0%, 0rem) translateZ(0rem);"></swiper-item>`)
-    const styleParseReslut = parseStyle('style', contentInput)
-    if (t.isJSXAttribute(styleParseReslut)) {
-      expect(styleParseReslut.type).toEqual('JSXAttribute')
-    }
   })
 })
