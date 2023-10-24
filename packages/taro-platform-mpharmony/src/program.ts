@@ -46,6 +46,10 @@ export default class H5 extends TaroPlatformWeb {
     return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
   }
 
+  get libraryDefinition () {
+    return resolveSync('./definition.json')
+  }
+
   /**
    * 修改 Webpack 配置
    */
@@ -62,6 +66,7 @@ export default class H5 extends TaroPlatformWeb {
             {
               packageName: '@tarojs/taro',
               apis: require(resolveSync('./taroApis')),
+              definition: require(this.libraryDefinition),
             },
           ],
         ],

@@ -27,8 +27,14 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           const { apiName } = data
-          TestConsole.consoleTest(`Taro.canIUse: ${apiName}`)
-          TestConsole.consoleSuccess.call(this, Taro.canIUse(apiName), apiIndex)
+          TestConsole.consoleTest(`Taro.canIUse`)
+          // TestConsole.consoleSuccess.call(this, Taro.canIUse(apiName), apiIndex)
+          TestConsole.consoleDebug('字面量：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse('share-element.rect-tween-type.cubic-bezier(x1,'))
+          TestConsole.consoleDebug('字面量：live-pusher.aspect.9:16----', Taro.canIUse("live-pusher.aspect.9:16"))
+          const apiName1 = 'share-element.rect-tween-type.cubic-bezier(x1,'
+          const apiName2 = "live-pusher.aspect.9:16"
+          TestConsole.consoleDebug('变量：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse(apiName1))
+          TestConsole.consoleDebug('变量：live-pusher.aspect.9:16----', Taro.canIUse(apiName2))
           // TestConsole.consoleSuccess('Taro.canIUse getSystemInfoSync.return.screenWidth ' +  Taro.canIUse('getSystemInfoSync.return.screenWidth'));
           // TestConsole.consoleSuccess('Taro.canIUse getSystemInfo.success.screenWidth ' +  Taro.canIUse('getSystemInfo.success.screenWidth'));
           // TestConsole.consoleSuccess('Taro.canIUse showToast.object.image ' +  Taro.canIUse('showToast.object.image'));

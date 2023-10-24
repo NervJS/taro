@@ -1,4 +1,5 @@
 import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 import resolve from '@rollup/plugin-node-resolve'
 import { merge } from 'lodash'
 import * as path from 'path'
@@ -24,6 +25,10 @@ function getPlugins (pre = [], post = []) {
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+    }),
+    json({
+      compact: true,
+      preferConst: true,
     }),
     ts({
       sourcemap: true,

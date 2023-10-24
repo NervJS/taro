@@ -4,7 +4,21 @@
     "baseUrl": ".",
     "declaration": true,
     "module": "ESNext",
-    "sourceMap": true
+    "sourceMap": true,
+    "esModuleInterop": true
   },
-  "include": ["./src", "./types"]
+  "include": ["./src", "./types"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "UMD",
+      "moduleResolution": "Node",
+      "noEmit": true,
+      "resolveJsonModule": false,
+      "rootDir": ".",
+      "target": "ESNext"
+    },
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "require": ["tsconfig-paths/register"]
+  }
 }
