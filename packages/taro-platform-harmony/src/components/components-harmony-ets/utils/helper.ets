@@ -16,7 +16,7 @@ export function bindInstanceToNode (node: TaroElement, instance: object) {
 export function bindAnimation (node: TaroElement, animationCb: (val: Record<string, any>) => void) {
   if (node._attrs.hasOwnProperty('animation')) {
     node._animationCb = async (animation) => {
-      if (animation) {
+      if (animation && animation.actions) {
         for (let i = 0; i < animation.actions.length; i++) {
           const anim = animation.actions[i]
           // 动画队列
