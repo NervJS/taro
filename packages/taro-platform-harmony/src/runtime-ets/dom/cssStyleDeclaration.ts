@@ -1,4 +1,4 @@
-import { toCamelCase, toDashed } from '@tarojs/shared'
+import { isObject, toCamelCase, toDashed } from '@tarojs/shared'
 
 import { TaroElement } from './element'
 
@@ -48,7 +48,7 @@ class CSSStyleDeclaration {
   public setProperty (prop: string, value: any): void {
     const node = this.el
     prop = prop.includes('-') ? toCamelCase(prop) : prop
-    if ((typeof value === 'string' && value.length) || typeof value === 'number') {
+    if ((typeof value === 'string' && value.length) || typeof value === 'number' || isObject(value)) {
       node._st[prop] = value
     } else if (!value) {
       // '' | undefined | null

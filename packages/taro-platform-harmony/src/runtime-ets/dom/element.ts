@@ -54,7 +54,7 @@ class TaroElement extends TaroNode {
       eventSource.delete(this._attrs.id)
       eventSource.set(value, this as any)
     }
-  
+
     this._attrs[name] = value
 
     // if (!this.changeRecord.includes(`${name}-${value}`)) {
@@ -80,8 +80,7 @@ class TaroElement extends TaroNode {
 
   // @Todo
   // dataset
-  
-  
+
   public set innerHTML (value: string) {
     if (this.nodeType === NodeType.ELEMENT_NODE) {
       const ele = this.ownerDocument.createElement('inner-html')
@@ -93,8 +92,8 @@ class TaroElement extends TaroNode {
   public get innerHTML (): string {
     return this._innerHTML
   }
-  
-  public _st: Record<string, string | number> = {}
+
+  public _st: Record<string, string | number | object> = {}
 
   public _style: ICSSStyleDeclaration
 

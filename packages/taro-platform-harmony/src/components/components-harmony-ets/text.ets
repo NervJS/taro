@@ -101,7 +101,7 @@ function getFontAttributes (node: TaroElement) {
   const { _st } = node
 
   return {
-    decoration: AttributeManager.getNodeTextDecoration(_st),
+    decoration: AttributeManager.getNodeStyle(_st, 'textDecoration'),
     lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
     letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
     maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
