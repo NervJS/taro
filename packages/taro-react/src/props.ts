@@ -131,6 +131,25 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
               const data = value[i]
               if (isNumber(data)) {
                 setStyle(style, i, data)
+              } else if (isObject<object>(data)) {
+                for (const key in (data as object)) {
+                  const val: string = data[key]
+                  if (/\d+(px)/.test(val)) {
+                    const newVal = val.replaceAll('px', '')
+                    if (newVal.split(' ').length > 1) {
+                      setStyle(data, key, newVal)
+                    } else {
+                      setStyle(data, key, +newVal)
+                    }
+                  } else {
+                    if (isNaN(Number(val))) {
+                      setStyle(data, key, val)
+                    } else {
+                      setStyle(data, key, +val)
+                    }
+                  }
+                }
+                setStyle(style, i, data)
               } else {
                 if (/\d+(px)/.test(data)) {
                   const newVal = data.replaceAll('px', '')
