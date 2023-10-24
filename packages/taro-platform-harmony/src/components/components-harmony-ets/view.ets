@@ -4,11 +4,7 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-<<<<<<< HEAD
-import { bindInstanceToNode, getNormalAttributes, getNodeAreaChange } from './utils/helper'
-=======
-import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
->>>>>>> 5d45b028a84c441ebad4d52d86a135082b7dc9fd
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
