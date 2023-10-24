@@ -3,7 +3,7 @@ import { eventHandler } from '@tarojs/runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -61,7 +61,19 @@ struct TaroView {
   }
 
   @Styles defaultEvent () {
-    .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => {
+      switch (e.type) {
+        case TouchType.Down:
+          eventHandler(e, 'touchstart', this.node)
+        case TouchType.Move:
+          eventHandler(e, 'touchmove', this.node)
+        case TouchType.Up:
+          eventHandler(e, 'touchend', this.node)
+        case TouchType.Cancel:
+          eventHandler(e, 'touchcancel', this.node)
+      }
+    }, this.node, ['touchstart', 'touchmove', 'touchend', 'touchcancel']))
     .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
     })
