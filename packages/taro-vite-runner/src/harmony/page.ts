@@ -116,12 +116,12 @@ function renderPage (isTabPage: boolean) {
 })
 .backgroundColor(this.backgroundColor)`
   }
-
-
   if (SHOW_TREE) {
-    pageStr += SHOW_TREE_BTN
+    pageStr = `if (true) {
+  ${transArr2Str(pageStr.split('\n'), 2)}
+  ${transArr2Str(SHOW_TREE_BTN.split('\n'), 2)}
+}`
   }
-
   return pageStr
 }
 
@@ -306,14 +306,8 @@ export default { ${
     }.width('100%').height('100%').justifyContent(FlexAlign.Center)
   }`]) : null,
           `
-  @Builder renderPage() {
-    ${transArr2Str(renderPage(isTabbarPage).split('\n'), 4)}
-  }
-
   build() {
-    if (true) {
-      this.renderPage()
-    }
+    ${transArr2Str(renderPage(isTabbarPage).split('\n'), 4)}
   }`)
 
         structCodeArray.push('}')
