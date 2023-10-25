@@ -72,7 +72,7 @@ export default class WeappCI extends BaseCI {
       printLog(processTypeEnum.ERROR, '命令行工具路径不存在', cliPath)
     }
     printLog(processTypeEnum.START, '微信开发者工具...', this.projectPath)
-    
+
     shell.exec(`${cliPath} open --project ${this.projectPath}`)
   }
 
@@ -87,13 +87,14 @@ export default class WeappCI extends BaseCI {
         desc: this.desc,
         onProgressUpdate: undefined,
         robot: this.pluginOpts.weapp!.robot,
+        setting: this.pluginOpts.weapp!.setting,
         qrcodeFormat: 'image',
         qrcodeOutputDest: previewQrcodePath
       })
       if (uploadResult.subPackageInfo) {
         const allPackageInfo = uploadResult.subPackageInfo.find((item) => item.name === '__FULL__')
         const mainPackageInfo = uploadResult.subPackageInfo.find((item) => item.name === '__APP__')
-        const extInfo = `本次上传${allPackageInfo!.size / 1024}kb ${mainPackageInfo ? ',其中主包' + mainPackageInfo.size + 'kb' : ''}`
+        const extInfo = `本次上传${allPackageInfo!.size / 1024}kb ${mainPackageInfo ? ',其中主包' + (mainPackageInfo.size / 1024) + 'kb' : ''}`
         console.log(chalk.green(`开发版上传成功 ${new Date().toLocaleString()} ${extInfo}\n`))
       }
       let qrContent
@@ -104,7 +105,7 @@ export default class WeappCI extends BaseCI {
       } catch (error) {
         printLog(processTypeEnum.ERROR, chalk.red(`获取预览二维码失败：${error.message}`))
       }
-      
+
       this.triggerPreviewHooks({
         success: true,
         data: {
@@ -138,13 +139,14 @@ export default class WeappCI extends BaseCI {
         version: this.version,
         desc: this.desc,
         onProgressUpdate: undefined,
-        robot: this.pluginOpts.weapp!.robot
+        robot: this.pluginOpts.weapp!.robot,
+        setting: this.pluginOpts.weapp!.setting
       })
 
       if (uploadResult.subPackageInfo) {
         const allPackageInfo = uploadResult.subPackageInfo.find((item) => item.name === '__FULL__')
         const mainPackageInfo = uploadResult.subPackageInfo.find((item) => item.name === '__APP__')
-        const extInfo = `本次上传${allPackageInfo!.size / 1024}kb ${mainPackageInfo ? ',其中主包' + mainPackageInfo.size + 'kb' : ''}`
+        const extInfo = `本次上传${allPackageInfo!.size / 1024}kb ${mainPackageInfo ? ',其中主包' + (mainPackageInfo.size / 1024) + 'kb' : ''}`
         console.log(chalk.green(`上传成功 ${new Date().toLocaleString()} ${extInfo}\n`))
       }
 

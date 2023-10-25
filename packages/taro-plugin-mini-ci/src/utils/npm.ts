@@ -2,8 +2,7 @@ const npmCached = {}
 export function resolveNpmSync (pluginName: string, root): string {
   const resolvePath = require('resolve')
   if (!npmCached[pluginName]) {
-    const res = resolvePath.sync(pluginName, { basedir: root })
-    return res
+    npmCached[pluginName] = resolvePath.sync(pluginName, { basedir: root })
   }
   return npmCached[pluginName]
 }

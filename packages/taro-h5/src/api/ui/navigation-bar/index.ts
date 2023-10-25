@@ -5,7 +5,7 @@ import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../
 import { MethodHandler } from '../../../utils/handler'
 
 // 导航栏
-export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
+export const showNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('showNavigationBarLoading')
 
 export function setNavigationBarTitle (options?: Taro.setNavigationBarTitle.Option) {
   // options must be an Object
@@ -47,5 +47,5 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
   return handle.success()
 }
 
-export const hideNavigationBarLoading = temporarilyNotSupport('hideNavigationBarLoading')
-export const hideHomeButton = temporarilyNotSupport('hideHomeButton')
+export const hideNavigationBarLoading = /* @__PURE__ */ temporarilyNotSupport('hideNavigationBarLoading')
+export const hideHomeButton = /* @__PURE__ */ temporarilyNotSupport('hideHomeButton')

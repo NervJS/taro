@@ -7,7 +7,7 @@ import { printUnimplementedWarning } from './utils'
 const logError = jest.fn()
 console.error = logError
 
-describe('Ad', () => {
+describe('FollowSwan', () => {
   let page: SpecPage
 
   it('unimplemented', async () => {

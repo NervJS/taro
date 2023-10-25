@@ -20,28 +20,30 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@tarojs/cli": "3.5.7",
-    "@tarojs/components": "3.5.7",
-    "@tarojs/plugin-framework-react": "3.5.7",
-    "@tarojs/react": "3.5.7",
-    "@tarojs/runtime": "3.5.7",
-    "@tarojs/taro": "3.5.7",
+    "@tarojs/cli": "3.6.7",
+    "@tarojs/components": "3.6.7",
+    "@tarojs/helper": "3.6.7",
+    "@tarojs/plugin-framework-react": "3.6.7",
+    "@tarojs/plugin-platform-weapp": "3.6.7",
+    "@tarojs/react": "3.6.7",
+    "@tarojs/runtime": "3.6.7",
+    "@tarojs/shared": "3.6.7",
+    "@tarojs/taro": "3.6.7",
+    "@tarojs/webpack5-runner": "^3.6.7",
     "react": "^16.10.0",
     "react-dom": "^16.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
-    "@tarojs/mini-runner": "3.5.7",
-    "@tarojs/webpack-runner": "3.5.7",
     "@types/react": "^16.0.0",
     "@types/webpack-env": "^1.13.6",
-    "babel-preset-taro": "3.5.7",
-    "eslint": "^6.8.0",
-    "eslint-config-taro": "3.5.7",
+    "babel-preset-taro": "3.6.7",
+    "eslint": "^8.12.0",
+    "eslint-config-taro": "3.6.7",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-react": "^7.8.2",
-    "eslint-plugin-react-hooks": "^1.6.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "fs-extra": "^9.0.1",
-    "stylelint": "9.3.0"
+    "stylelint": "^14.4.0"
   }
 }

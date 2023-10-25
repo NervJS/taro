@@ -5,53 +5,43 @@ interface PickerViewProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   value?: number[]
-
   /** 设置选择器中间选中框的样式
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   indicatorStyle?: string
-
   /** 设置选择器中间选中框的类名
    * @supported weapp, alipay, swan, tt, qq, jd
    */
   indicatorClass?: string
-
   /** 设置蒙层的样式
    * @supported weapp, alipay, swan, tt, qq, jd
    */
   maskStyle?: string
-
   /** 设置蒙层的类名
    * @supported weapp, alipay, swan, tt, qq, jd
    */
   maskClass?: string
-
   /** 是否在手指松开时立即触发 change 事件。若不开启则会在滚动动画结束后触发 change 事件。
-   * @supported weapp, tt
+   * @supported weapp, alipay, tt
    * @default false
    */
   immediateChange?: boolean
-
   /** 选择器标题，建议标题控制在 12 个中文汉字长度内，避免出现截断现象, 截断部分将以 ... 形式展示
    * @supported swan
    */
   title?: string
-
   /** 无障碍访问，（属性）元素的额外描述
    * @supported qq
    */
   ariaLabel?: string
-
   /** 当滚动选择，value 改变时触发 change 事件，event.detail = {value: value}；value为数组，表示 picker-view 内的 picker-view-column 当前选择的是第几项（下标从 0 开始）
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   onChange?: CommonEventFunction<PickerViewProps.onChangeEventDetail>
-
   /** 当滚动选择开始时候触发事件
    * @supported weapp, alipay, tt, qq
    */
   onPickStart?: CommonEventFunction
-
   /** 当滚动选择结束时候触发事件
    * @supported weapp, alipay, tt, qq
    */
@@ -62,7 +52,6 @@ declare namespace PickerViewProps {
     value: number[]
   }
 }
-
 /** 嵌入页面的滚动选择器
  * 其中只可放置 picker-view-column 组件，其它节点不会显示
  * @classification forms

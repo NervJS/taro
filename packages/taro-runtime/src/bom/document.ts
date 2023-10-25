@@ -1,4 +1,4 @@
-import { TaroDocument } from 'src/dom/document'
+import { isWebPlatform } from '@tarojs/shared'
 
 import {
   APP,
@@ -7,11 +7,12 @@ import {
   HEAD,
   HTML
 } from '../constants'
+import { TaroDocument } from '../dom/document'
 import env from '../env'
 
 let document
 
-if (process.env.TARO_ENV && process.env.TARO_ENV !== 'h5') {
+if (process.env.TARO_ENV && !isWebPlatform()) {
   /* eslint-disable no-inner-declarations */
   function createDocument (): TaroDocument {
     /**

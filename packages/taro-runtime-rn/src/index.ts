@@ -21,10 +21,6 @@ export {
   stopPullDownRefresh
 } from './page'
 export {
-  scalePx2dp,
-  scaleVu2dp
-} from './scale2dp'
-export {
   hideNavigationBarLoading,
   hideTabBar,
   hideTabBarRedDot,
@@ -42,4 +38,8 @@ export {
   showTabBar,
   showTabBarRedDot,
   switchTab
-} from '@tarojs/router-rn'
+} from './router'
+export {
+  scalePx2dp,
+  scaleVu2dp
+} from './scale2dp'

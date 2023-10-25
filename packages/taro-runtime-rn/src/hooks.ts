@@ -1,14 +1,14 @@
 import * as React from 'react'
 
 import { Current } from './current'
-import { PageLifeCycle } from './instance'
+import { AppInstance, PageLifeCycle } from './instance'
 import { getPageInstance, injectPageInstance, PageContext } from './page'
-import { isArray, isFunction } from './utils'
+import { HOOKS_APP_ID, isArray, isFunction } from './utils'
 
-const taroHooks = (lifecycle: keyof PageLifeCycle) => {
+const taroHooks = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
   // eslint-disable-next-line @typescript-eslint/ban-types
   return (fn: Function) => {
-    const id = React.useContext(PageContext)
+    const id = React.useContext(PageContext) || HOOKS_APP_ID
 
     const fnRef = React.useRef(fn)
     if (fnRef.current !== fn) fnRef.current = fn
@@ -69,6 +69,10 @@ export const usePageScroll = taroHooks('onPageScroll')
 export const useResize = taroHooks('onResize')
 
 export const useTabItemTap = taroHooks('onTabItemTap')
+
+export const useLaunch = taroHooks('onLaunch')
+
+export const usePageNotFound= taroHooks('onPageNotFound')
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useRouter = (dynamic = false) => {

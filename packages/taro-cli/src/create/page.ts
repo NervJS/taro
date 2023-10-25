@@ -1,5 +1,5 @@
-import { chalk, DEFAULT_TEMPLATE_SRC, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
-import * as fs from 'fs-extra'
+import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
+import { isNil } from 'lodash'
 import * as path from 'path'
 
 import Creator from './creator'
@@ -13,21 +13,48 @@ export interface IPageConf {
   template: string
   description?: string
   pageName: string
-  css: 'none' | 'sass' | 'stylus' | 'less'
-  typescript?: boolean
   date?: string
   framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  typescript?: boolean
   compiler?: 'webpack4' | 'webpack5' | 'vite'
+  isCustomTemplate?: boolean
+  customTemplatePath?: string
+}
+interface IPageArgs extends IPageConf {
+  modifyCustomTemplateConfig : TGetCustomTemplate
+}
+interface ITemplateInfo {
+  css: 'none' | 'sass' | 'stylus' | 'less'
+  typescript?: boolean
+  compiler?: 'webpack4' | 'webpack5' | 'vite'
+  template?: string
 }
 
+type TCustomTemplateInfo = Omit<ITemplateInfo & {
+  isCustomTemplate?: boolean
+  customTemplatePath?: string
+}, 'template'>
+
+export type TSetCustomTemplateConfig = (customTemplateConfig: TCustomTemplateInfo) => void
+
+type TGetCustomTemplate = (cb: TSetCustomTemplateConfig ) => Promise<void>
+
+const DEFAULT_TEMPLATE_INFO = {
+  name: 'default',
+  css: 'none',
+  typescript: false,
+  compiler: 'webpack5'
+}
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
+  private modifyCustomTemplateConfig: TGetCustomTemplate
 
-  constructor (options: IPageConf) {
+  constructor (args: IPageArgs) {
     super()
     this.rootPath = this._rootPath
-
+    const { modifyCustomTemplateConfig, ...otherOptions } = args
     this.conf = Object.assign(
       {
         projectDir: '',
@@ -35,8 +62,9 @@ export default class Page extends Creator {
         template: '',
         description: ''
       },
-      options
+      otherOptions
     )
+    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
     this.conf.projectName = path.basename(this.conf.projectDir)
   }
 
@@ -54,19 +82,29 @@ export default class Page extends Creator {
     return pkgPath
   }
 
-  getTemplateInfo () {
+  getPkgTemplateInfo () {
     const pkg = fs.readJSONSync(this.getPkgPath())
-    const templateInfo = pkg.templateInfo || {
-      name: 'default',
-      css: 'none',
-      typescript: false,
-      compiler: 'webpack5'
-    }
-
+    const templateInfo = pkg.templateInfo || DEFAULT_TEMPLATE_INFO
     // set template name
     templateInfo.template = templateInfo.name
     delete templateInfo.name
+    return templateInfo
+  }
 
+  setCustomTemplateConfig (customTemplateConfig: TCustomTemplateInfo) {
+    const pkgTemplateInfo = this.getPkgTemplateInfo()
+    const { compiler, css, customTemplatePath, typescript } = customTemplateConfig
+    const conf = {
+      compiler: compiler || pkgTemplateInfo.compiler,
+      css: css || pkgTemplateInfo.css,
+      typescript: !isNil(typescript) ? typescript : pkgTemplateInfo.typescript,
+      customTemplatePath,
+      isCustomTemplate: true,
+    }
+    this.setTemplateConfig(conf)
+  }
+
+  setTemplateConfig (templateInfo: ITemplateInfo) {
     this.conf = Object.assign(this.conf, templateInfo)
   }
 
@@ -93,13 +131,16 @@ export default class Page extends Creator {
 
   async create () {
     const date = new Date()
-    this.getTemplateInfo()
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-
-    if (!fs.existsSync(this.templatePath(this.conf.template))) {
-      await this.fetchTemplates()
+    // apply 插件，由插件设置自定义模版 config
+    await this.modifyCustomTemplateConfig(this.setCustomTemplateConfig.bind(this))
+    if(!this.conf.isCustomTemplate){
+      const pkgTemplateInfo = this.getPkgTemplateInfo()
+      this.setTemplateConfig(pkgTemplateInfo)
+      if (!fs.existsSync(this.templatePath(this.conf.template))) {
+        await this.fetchTemplates()
+      }
     }
-
     this.write()
   }
 

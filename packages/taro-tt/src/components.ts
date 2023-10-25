@@ -11,7 +11,12 @@ export const components = {
   },
   Button: {
     bindGetPhoneNumber: _empty,
-    'data-channel': _empty
+    'data-channel': _empty,
+    'data-aweme-id': _empty,
+    'group-id': _empty,
+    'data-is-half-page': _empty,
+    bindOpenAwemeUserProfile: _empty,
+    bindJoinGroup: _empty,
   },
   Form: {
     'report-submit-timeout': '0'
@@ -60,6 +65,19 @@ export const components = {
     'show-confirm-bar': _true,
     'adjust-position': _true,
     'hold-keyboard': _false
+  },
+  ScrollView: {
+    enhanced: _false,
+    bounces: _true,
+    'refresher-enabled': _false,
+    'refresher-threshold': '55',
+    'refresher-default-style': "'black'",
+    'refresher-background': "'#FFF'",
+    'refresher-triggered': _false,
+    bindRefresherPulling: _empty,
+    bindRefresherRefresh: _empty,
+    bindRefresherRestore: _empty,
+    bindRefresherAbort: _empty,
   },
   Canvas: {
     type: _empty

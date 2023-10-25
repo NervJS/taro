@@ -1,7 +1,7 @@
-import { Component, h, ComponentInterface, Prop, Event, EventEmitter, Watch, Element, Method, Host, Listen } from '@stencil/core'
+import { Component, ComponentInterface, Element, Event, EventEmitter, Host, Listen, Method, Prop, Watch, h } from '@stencil/core'
 import classNames from 'classnames'
 
-import { debounce } from '../../utils'
+import { debounce, handleStencilNodes } from '../../utils'
 
 import type { ScrollViewContext } from '@tarojs/taro'
 
@@ -48,6 +48,7 @@ export class ScrollView implements ComponentInterface {
   @Prop({ attribute: 'scroll-top', reflect: true }) mpScrollTop: number | string
   @Prop({ attribute: 'scroll-left', reflect: true }) mpScrollLeft: number | string
   @Prop({ attribute: 'scroll-into-view', reflect: true }) mpScrollIntoView: string
+  @Prop({ attribute: 'scroll-into-view-alignment' }) mpScrollIntoViewAlignment: 'start' | 'center' | 'end' | 'nearest'
   @Prop({ attribute: 'scroll-with-animation' }) animated = false
 
   @Event({
@@ -93,7 +94,7 @@ export class ScrollView implements ComponentInterface {
     this.mpScrollIntoViewMethod(newVal)
   }
 
-  @Listen('scroll', { capture: true })
+  @Listen('scroll')
   handleScroll (e: Event) {
     if (e instanceof CustomEvent) return
     e.stopPropagation()
@@ -115,6 +116,12 @@ export class ScrollView implements ComponentInterface {
       scrollHeight,
       scrollWidth
     })
+  }
+
+  @Listen('touchmove')
+  handleTouchMove (e: Event) {
+    if (e instanceof CustomEvent) return
+    e.stopPropagation()
   }
 
   @Method()
@@ -144,9 +151,9 @@ export class ScrollView implements ComponentInterface {
   async mpScrollIntoViewMethod(selector: string) {
     if (typeof selector === 'string' && selector) {
       document.querySelector(`#${selector}`)?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'start'
+        behavior: this.animated ? 'smooth' : 'auto',
+        block: this.scrollY ? (this.mpScrollIntoViewAlignment || 'center') : 'center',
+        inline: this.scrollX ? (this.mpScrollIntoViewAlignment || 'start') : 'start'
       })
     }
   }
@@ -194,6 +201,10 @@ export class ScrollView implements ComponentInterface {
       })
     }
   }, 200)
+
+  componentDidRender () {
+    handleStencilNodes(this.el)
+  }
 
   render () {
     const { scrollX, scrollY } = this

@@ -227,6 +227,14 @@ declare module '../../index' {
     toggleTorch(option?: LivePusherContext.ToggleTorchOption): void
   }
   namespace LivePlayerContext {
+    interface ExitCastingOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
     interface ExitFullScreenOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
@@ -266,6 +274,14 @@ declare module '../../index' {
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface ReconnectCastingOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void      
     }
     interface RequestFullScreenOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -316,7 +332,23 @@ declare module '../../index' {
       /** 调用结果 */
       errMsg: string
     }
+    interface StartCastingOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
     interface StopOption {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (res: TaroGeneral.CallbackResult) => void
+    }
+    interface SwitchCastingOption {
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -332,6 +364,11 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.html
    */
   interface LivePlayerContext {
+    /** 退出投屏。仅支持在 tap 事件回调内调用。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitCasting.html
+     */
+    exitCasting(option?: LivePlayerContext.ExitCastingOption): void
     /** 退出全屏
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.exitFullScreen.html
@@ -357,6 +394,11 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.play.html
      */
     play(option?: LivePlayerContext.PlayOption): void
+    /** 重连投屏设备。仅支持在 tap 事件回调内调用。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.reconnectCasting.html
+     */
+    reconnectCasting(option?: LivePlayerContext.ReconnectCastingOption): void
     /** 进入全屏
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.requestFullScreen.html
@@ -381,11 +423,21 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.snapshot.html
      */
     snapshot(option?: LivePlayerContext.SnapshotOption): void
+    /** 开始投屏, 拉起半屏搜索设备。仅支持在 tap 事件回调内调用
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.startCasting.html
+     */
+    startCasting(option?: LivePlayerContext.StartCastingOption): void
     /** 停止
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.stop.html
      */
     stop(option?: LivePlayerContext.StopOption): void
+    /** 切换投屏设备。仅支持在 tap 事件回调内调用。
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/live/LivePlayerContext.switchCasting.html
+     */
+    switchCasting(option?: LivePlayerContext.SwitchCastingOption): void
   }
 
   interface TaroStatic {

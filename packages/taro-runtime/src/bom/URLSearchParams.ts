@@ -38,7 +38,7 @@ export class URLSearchParams {
   #dict = Object.create(null)
 
   constructor (query) {
-    if (!query) return
+    query ??= ''
 
     const dict = this.#dict
 

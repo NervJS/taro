@@ -1,6 +1,6 @@
 import type helper from '@tarojs/helper'
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
-import type { Attrs, Tagname } from '@tarojs/taro/types/compile/hooks'
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
 import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
@@ -68,15 +68,6 @@ export interface IFileType {
 
 export interface IPlatform extends IHook {
   useConfigName?: string
-}
-
-interface IModifyWebpackChain {
-  componentConfig?: {
-    includes: Set<string>
-    exclude: Set<string>
-    thirdPartyComponents: Map<Tagname, Attrs>
-    includeAll: boolean
-  }
 }
 
 export declare interface IPluginContext {
@@ -147,7 +138,7 @@ export declare interface IPluginContext {
   /**
    * 编译中修改 webpack 配置，在这个钩子中，你可以对 webpackChain 作出想要的调整，等同于配置 [`webpackChain`](./config-detail.md#miniwebpackchain)
    */
-  modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyWebpackChain }) => void) => void
+  modifyWebpackChain: (fn: (args: { chain: Chain, webpack: typeof Webpack, data?: IModifyChainData }) => void) => void
   /**
    * 修改编译后的结果
    */

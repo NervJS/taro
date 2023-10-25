@@ -304,7 +304,7 @@ declare module '../../index' {
   namespace NodesRef {
     /** 回调函数，在执行 `SelectorQuery.exec` 方法后，节点信息会在 `callback` 中返回。 */
     type BoundingClientRectCallback = (
-      result: BoundingClientRectCallbackResult,
+      result: BoundingClientRectCallbackResult | BoundingClientRectCallbackResult[],
     ) => void
     interface BoundingClientRectCallbackResult {
       /** 节点的下边界坐标 */

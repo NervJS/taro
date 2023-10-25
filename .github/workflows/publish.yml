@@ -3,6 +3,7 @@ on:
   # When Release Pull Request is merged
   push:
     branches:
+      - 'chore/**'
       - 'feat/**'
   pull_request:
     branches:
@@ -18,13 +19,14 @@ jobs:
       contents: write # to create tags and refs
       actions: write # to cancel running workflow (andymckay/cancel-action)
       issues: write # to create comment
+      pull-requests: write # to create comment and so on
 
     name: Publish
     runs-on: ubuntu-latest
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v3
         with:
@@ -111,14 +113,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
       - name: install
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v2.4.0
         with:
           version: 7
           run_install: |
             - recursive: true
               args: [--frozen-lockfile]
       - name: build
-        run: pnpm run build
+        run: pnpm build
 
       # Git stash
       - name: Drop current changes
@@ -141,7 +143,7 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref }} -r
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
           elif [ '${{ github.event_name }}' == 'push' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
           fi

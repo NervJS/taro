@@ -43,7 +43,7 @@ class Carousel extends React.Component<CarouselProps, CarouselState> {
 
   viewPager = React.createRef<ViewPager>()
 
-  private autoplayTimer: number
+  private autoplayTimer: ReturnType<typeof setTimeout>
   private isScrolling: boolean
   private count: number
 

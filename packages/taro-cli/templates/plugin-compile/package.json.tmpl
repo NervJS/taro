@@ -1,0 +1,44 @@
+{
+  "name": "<%= pluginName %>",
+  "version": "1.0.0",
+  "description": "<%= description %>",
+  "keywords": [
+    "Taro",
+    "Plugin"
+  ],
+  "author": "",
+  "homepage": "",
+  "license": "MIT",
+  "main": "index.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "dist",
+    "index.js",
+    "types"
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "dependencies": {
+    "@tarojs/service": "^<%= version %>"<% if (['plugin-build'].includes(type)) { %>,
+    "webpack-chain": "^6.5.1"<% } %><% if (['plugin-template'].includes(type)) { %>,
+    "download": "^8.0.0",
+    "fs-extra": "^11.1.1",
+    "path": "^0.12.7",
+    "unzip": "^0.1.11"<% } %>
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0"
+  }<% if (['plugin-template'].includes(type)) { %>,
+  "resolutions": {
+    "graceful-fs": "^4.2.10"
+  }<% } %>
+}

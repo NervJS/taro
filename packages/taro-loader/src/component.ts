@@ -25,5 +25,6 @@ if (typeof PRERENDER !== 'undefined') {
 import component from ${stringify(componentPath)}
 var inst = Component(createComponentConfig(component, '${options.name}'))
 ${options.prerender ? prerender : ''}
+export default component
 `
 }

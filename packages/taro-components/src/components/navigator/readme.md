@@ -26,7 +26,7 @@ https://developers.weixin.qq.com/miniprogram/dev/component/navigator.html
 
 | Event      | Description | Type               |
 | ---------- | ----------- | ------------------ |
-| `Complete` |             | `CustomEvent<any>` |
+| `complete` |             | `CustomEvent<any>` |
 | `cuccess`  |             | `CustomEvent<any>` |
 | `fail`     |             | `CustomEvent<any>` |
 

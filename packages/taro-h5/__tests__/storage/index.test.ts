@@ -73,7 +73,7 @@ describe('storage', () => {
           expect(complete.mock.calls.length).toBe(1)
           expect(complete.mock.calls[0][0]).toEqual({ errMsg: expectMsg })
           expect(res.errMsg).toMatch(expectMsg)
-          expect(localStorage.__STORE__[key]).toBe(expectData)
+          expect(localStorage[key]).toBe(expectData)
         })
     })
   })
@@ -92,7 +92,7 @@ describe('storage', () => {
       Taro.setStorageSync(key)
 
       const expectData = JSON.stringify({ data: '' })
-      expect(localStorage.__STORE__[key]).toBe(expectData)
+      expect(localStorage[key]).toBe(expectData)
     })
 
     test('should save to localStorage', () => {
@@ -108,7 +108,7 @@ describe('storage', () => {
       Taro.setStorageSync(key, data)
 
       const expectData = JSON.stringify({ data })
-      expect(localStorage.__STORE__[key]).toBe(expectData)
+      expect(localStorage[key]).toBe(expectData)
     })
   })
 
@@ -371,7 +371,7 @@ describe('storage', () => {
 
       localStorage.setItem(key, data)
 
-      expect.assertions(7)
+      expect.assertions(6)
       return Taro.removeStorage({
         key,
         success,
@@ -379,8 +379,8 @@ describe('storage', () => {
       })
         .then(res => {
           const expectObj = { errMsg: 'removeStorage:ok' }
-          expect(localStorage.removeItem).toHaveBeenLastCalledWith(key)
-          expect(localStorage.__STORE__[key]).toBeUndefined()
+          // expect(localStorage.removeItem).toHaveBeenLastCalledWith(key)
+          expect(localStorage[key]).toBeUndefined()
           expect(success.mock.calls.length).toBe(1)
           expect(success.mock.calls[0][0]).toEqual(expectObj)
           expect(complete.mock.calls.length).toBe(1)
@@ -404,8 +404,8 @@ describe('storage', () => {
 
       localStorage.setItem(key, data)
       Taro.removeStorageSync(key)
-      expect(localStorage.removeItem).toHaveBeenLastCalledWith(key)
-      expect(localStorage.__STORE__[key]).toBeUndefined()
+      // expect(localStorage.removeItem).toHaveBeenLastCalledWith(key)
+      expect(localStorage[key]).toBeUndefined()
     })
   })
 
@@ -415,8 +415,8 @@ describe('storage', () => {
       Taro.setStorageSync('bar', 2)
 
       Taro.clearStorage()
-      expect(localStorage.clear).toHaveBeenCalled()
-      expect(Object.keys(localStorage.__STORE__).length).toBe(0)
+      // expect(localStorage.clear).toHaveBeenCalled()
+      expect(Object.keys(localStorage).length).toBe(0)
     })
   })
 })

@@ -7,12 +7,14 @@ export default class TaroSingleEntryPlugin {
   entry: string
   name: string
   miniType: META_TYPE
+  options: any
 
-  constructor (context, entry, name, miniType) {
+  constructor (context, entry, name, miniType, options = {}) {
     this.context = context
     this.entry = entry
     this.name = name
     this.miniType = miniType
+    this.options = options
   }
 
   apply (compiler) {
@@ -29,15 +31,15 @@ export default class TaroSingleEntryPlugin {
     compiler.hooks.make.tapAsync(
       'SingleEntryPlugin',
       (compilation, callback) => {
-        const { entry, name, context, miniType } = this
+        const { entry, name, context, miniType, options } = this
 
-        const dep = TaroSingleEntryPlugin.createDependency(entry, name, miniType)
+        const dep = TaroSingleEntryPlugin.createDependency(entry, name, miniType, options)
         compilation.addEntry(context, dep, name, callback)
       }
     )
   }
 
-  static createDependency (entry, name, miniType) {
-    return new TaroSingleEntryDependency(entry, name, { name }, miniType)
+  static createDependency (entry, name, miniType, options) {
+    return new TaroSingleEntryDependency(entry, name, { name }, miniType, options)
   }
 }

@@ -30,11 +30,11 @@ function easeOutScroll (from = 0, to = 0, callback) {
   step()
 }
 
-function scrollIntoView (id) {
+function scrollIntoView (id = '', isHorizontal = false, animated = true, scrollIntoViewAlignment?: ScrollLogicalPosition) {
   document.querySelector(`#${id}`)?.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center',
-    inline: 'start'
+    behavior: animated ? 'smooth' : 'auto',
+    block: !isHorizontal ? (scrollIntoViewAlignment || 'center') : 'center',
+    inline: isHorizontal ? (scrollIntoViewAlignment || 'start') : 'start'
   })
 }
 
@@ -68,6 +68,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   scrollTop: number
   scrollLeft: number
   scrollIntoView?: string
+  scrollIntoViewAlignment?: ScrollLogicalPosition
   scrollWithAnimation: boolean
   enableBackToTop?: boolean
   onScrollToUpper: (e: React.SyntheticEvent<HTMLDivElement, Event>) => void
@@ -93,7 +94,7 @@ class ScrollView extends React.Component<IProps> {
     this.handleScroll(nextProps)
   }
 
-  handleScroll (props, isInit = false) {
+  handleScroll (props: IProps, isInit = false) {
     // scrollIntoView
     if (
       props.scrollIntoView &&
@@ -102,10 +103,11 @@ class ScrollView extends React.Component<IProps> {
       document.querySelector &&
       document.querySelector(`#${props.scrollIntoView}`)
     ) {
+      const isHorizontal = props.scrollX && !props.scrollY
       if (isInit) {
-        setTimeout(() => scrollIntoView(props.scrollIntoView), 500)
+        setTimeout(() => scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment), 500)
       } else {
-        scrollIntoView(props.scrollIntoView)
+        scrollIntoView(props.scrollIntoView, props.scrollWithAnimation, isHorizontal, props.scrollIntoViewAlignment)
       }
     } else {
       const isAnimation = !!props.scrollWithAnimation

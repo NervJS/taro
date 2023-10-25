@@ -1,4 +1,4 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // TCP 通信
-export const createTCPSocket = temporarilyNotSupport('createTCPSocket')
+export const createTCPSocket = /* @__PURE__ */ temporarilyNotSupport('createTCPSocket')

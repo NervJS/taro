@@ -17,29 +17,44 @@ export const components = {
     rotate: '0',
     polygons: '[]',
     'include-padding': '',
-    'ground-overlays': '',
+    'ground-overlays': '[]',
     'tile-overlay': '',
     'custom-map-style': '',
+    panels: '[]',
     setting: '{}',
-    optimize: '',
+    optimize: 'false',
+    'show-compass': 'false',
+    'show-scale': 'false',
+    'enable-overlooking': 'false',
+    'enable-zoom': 'true',
+    'enable-scroll': 'true',
+    'enable-rotate': 'false',
+    'enable-traffic': 'false',
+    'enable-poi': 'true',
+    'enable-building': 'true',
+    'enable-satellite': 'false',
     bindRegionChange: '',
-    bindPanelTap: ''
+    bindPanelTap: '',
+    bindInitComplete: ''
   },
   Button: {
     scope: '',
     'public-id': '',
     bindGetAuthorize: '',
-    bindError: ''
+    bindError: '',
+    bindGetUserInfo: '',
+    bindGetPhoneNumber: '',
+    bindFollowLifestyle: ''
   },
   Checkbox: {
     bindChange: ''
   },
   Input: {
-    'always-system':'false',
+    'always-system': 'false',
     'random-number': 'false',
     controlled: 'false',
     enableNative: 'true',
-    name:''
+    name: ''
   },
   Slider: {
     'track-size': '4',
@@ -87,7 +102,9 @@ export const components = {
   },
   Video: {
     'poster-size': singleQuote('contain'),
+    'show-thin-progress-bar': 'false',
     'mobilenet-hint-type': '1',
+    'floating-mode': singleQuote('none'),
     enableNative: 'true',
     bindLoading: '',
     bindUserAction: '',

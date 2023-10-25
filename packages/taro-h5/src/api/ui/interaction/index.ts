@@ -71,10 +71,10 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
   return handle.success({ errMsg })
 }
 
-const hideToast: typeof Taro.hideToast = ({ success, fail, complete } = {}) => {
+const hideToast: typeof Taro.hideToast = ({ noConflict = false, success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'hideToast', success, fail, complete })
   if (!toast.el) return handle.success()
-  toast.hide(0, 'toast')
+  toast.hide(0, noConflict ? 'toast' : '')
   return handle.success()
 }
 
@@ -116,10 +116,10 @@ const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
   return handle.success({ errMsg })
 }
 
-const hideLoading: typeof Taro.hideLoading = ({ success, fail, complete } = {}) => {
+const hideLoading: typeof Taro.hideLoading = ({ noConflict = false, success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'hideLoading', success, fail, complete })
   if (!toast.el) return handle.success()
-  toast.hide(0, 'loading')
+  toast.hide(0, noConflict ? 'loading' : '')
   return handle.success()
 }
 
@@ -227,14 +227,17 @@ function hideModal () {
   modal.hide()
 }
 
-const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList: [] }) => {
+const showActionSheet = async (
+  options: Taro.showActionSheet.Option = { itemList: [] },
+  methodName = 'showActionSheet'
+): Promise<Taro.showActionSheet.SuccessCallbackResult> => {
   init(document)
   options = Object.assign({
     itemColor: '#000000',
     itemList: []
   }, options)
   const { success, fail, complete } = options
-  const handle = new MethodHandler<Taro.showActionSheet.SuccessCallbackResult>({ name: 'showActionSheet', success, fail, complete })
+  const handle = new MethodHandler<Taro.showActionSheet.SuccessCallbackResult>({ name: methodName, success, fail, complete })
 
   // list item String
   if (!Array.isArray(options.itemList)) {
@@ -302,7 +305,7 @@ Taro.eventCenter.on('__afterTaroRouterChange', () => {
   }
 })
 
-const enableAlertBeforeUnload = temporarilyNotSupport('enableAlertBeforeUnload')
-const disableAlertBeforeUnload = temporarilyNotSupport('disableAlertBeforeUnload')
+const enableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('enableAlertBeforeUnload')
+const disableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('disableAlertBeforeUnload')
 
 export { disableAlertBeforeUnload, enableAlertBeforeUnload, hideLoading, hideToast, showActionSheet, showLoading, showModal, showToast }

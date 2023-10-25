@@ -10,7 +10,10 @@ export default {
     'src/components/index.ts',
     'src/components/virtual-list/index.ts',
     'src/components/virtual-list/react/index.ts',
-    'src/components/virtual-list/vue/index.ts'
+    'src/components/virtual-list/vue/index.ts',
+    'src/components/virtual-waterfall/index.ts',
+    'src/components/virtual-waterfall/react/index.ts',
+    'src/components/virtual-waterfall/vue/index.ts',
   ],
   output: {
     dir: 'dist',
@@ -21,7 +24,11 @@ export default {
   },
   treeshake: false,
   plugins: [
-    externals(),
+    externals({
+      deps: true,
+      devDeps: false,
+      include: ['react', 'react-dom', 'vue']
+    }),
     resolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']

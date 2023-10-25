@@ -1,13 +1,15 @@
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import externals from 'rollup-plugin-node-externals'
 
 const baseConfig = {
   input: 'src/index.js',
-  external: d => {
-    return /^@tarojs\/runtime$/.test(d) || d.includes('@babel/runtime')
-  },
   plugins: [
+    externals({
+      deps: true,
+      devDeps: false,
+    }),
     resolve({
       preferBuiltins: false
     }),

@@ -5,7 +5,7 @@ describe('Text e2e', () => {
 
   beforeEach(async () => {
     page = await newE2EPage({
-      html: `<taro-text-core></taro-text-core>`,
+      html: `<taro-text-core user-select=true></taro-text-core>`,
     })
   })
 
@@ -13,15 +13,14 @@ describe('Text e2e', () => {
     await page.waitForChanges()
     const el = await page.find('taro-text-core')
     let style = await el.getComputedStyle()
-    expect(style.userSelect).toEqual('none')
+    expect(style.userSelect).toEqual('text')
 
-    el.toggleAttribute('selectable', true)
+    el.toggleAttribute('user-select', false)
     el.classList.add('foo')
 
     await page.waitForChanges()
     style = await el.getComputedStyle()
-    expect(style.userSelect).toEqual('text')
-    expect(el?.classList.contains('taro-text__selectable')).toEqual(true)
+    expect(style.userSelect).toEqual('none')
     expect(el?.classList.contains('foo')).toEqual(true)
     expect(el?.classList.contains('hydrated')).toEqual(true)
   })

@@ -43,7 +43,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 设置系统剪贴板的内容。调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, swan, jd, qq, h5, rn, tt
      * @h5 部分实现
      * @example
      * ```tsx
@@ -64,7 +64,7 @@ declare module '../../index' {
 
    /**
     * 获取系统剪贴板内容
-    * @supported weapp, h5, rn, tt
+    * @supported weapp, swan, jd, qq, h5, rn, tt
     * @h5 部分实现
     * @example
     * ```tsx

@@ -67,25 +67,19 @@ declare module './index' {
      * 转发事件来源
      * `button`：页面内转发按钮
      * `menu`：右上角转发菜单
-     *
-     * @since 1.2.4
      */
     from?: 'button' | 'menu' | string
     /**
      * 如果 `from` 值是 `button`，则 `target` 是触发这次转发事件的 `button`，否则为 `undefined`
-     *
-     * @since 1.2.4
      */
     target?: object
     /**
      * 页面中包含 `<web-view>` 组件时，返回当前 `<web-view>` 的 url
-     *
-     * @since 1.6.4
      */
     webViewUrl?: string
   }
 
-  interface ShareAppMessageReturn {
+  interface ShareAppMessageReturnObject {
     /**
      * 	转发标题，默认为当前小程序名称
      */
@@ -101,11 +95,43 @@ declare module './index' {
      * 支持PNG及JPG
      * 显示图片长宽比是 5:4
      * 默认使用截图
-     *
-     * @since 1.5.0
      */
     imageUrl?: string
   }
+
+  interface WeappShareAppMessageReturnObject extends ShareAppMessageReturnObject {
+    /**
+     * 如果该参数存在，则以 resolve 结果为准，如果三秒内不 resolve，分享会使用上面传入的默认参数
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html#onShareAppMessage-Object-object
+     * @example
+     * ```tsx
+     * import { ShareAppMessageReturnObject, useShareAppMessage } from "@tarojs/taro";
+     * // ... else code
+     * useShareAppMessage(() => {
+     *   const p = new Promise<ShareAppMessageReturnObject>(resolve => {
+     *     setTimeout(() => {
+     *       resolve({
+     *         title: "",
+     *         imageUrl: "",
+     *         path: ""
+     *       })
+     *     }, 2000)
+     *   })
+     *   return {
+     *     title: "",
+     *     imageUrl: "",
+     *     path: "",
+     *     promise: p
+     *   }
+     * });
+     * ```
+     *
+     */
+    promise: Promise<ShareAppMessageReturnObject>
+  }
+
+  type ShareAppMessageReturn = ShareAppMessageReturnObject | Promise<ShareAppMessageReturnObject> | WeappShareAppMessageReturnObject
 
   interface TabItemTapObject {
     /**

@@ -1,4 +1,4 @@
-import { IPluginContext } from '@tarojs/service'
+import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
   ctx.registerCommand({
@@ -18,7 +18,7 @@ export default (ctx: IPluginContext) => {
       // init project
       const { appPath } = ctx.paths
       const { options } = opts
-      const { projectName, templateSource, clone, template, description, typescript, css, npm } = options
+      const { projectName, templateSource, clone, template, description, typescript, css, npm, framework, compiler } = options
       const Project = require('../../create/project').default
       const project = new Project({
         projectName,
@@ -29,6 +29,8 @@ export default (ctx: IPluginContext) => {
         template,
         description,
         typescript,
+        framework,
+        compiler,
         css
       })
 

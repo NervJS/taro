@@ -22,16 +22,17 @@
 
 ## Properties
 
-| Property           | Attribute               | Description | Type               | Default     |
-| ------------------ | ----------------------- | ----------- | ------------------ | ----------- |
-| `animated`         | `scroll-with-animation` |             | `boolean`          | `false`     |
-| `lowerThreshold`   | `lower-threshold`       |             | `number \| string` | `50`        |
-| `mpScrollIntoView` | `scroll-into-view`      |             | `string`           | `undefined` |
-| `mpScrollLeft`     | `scroll-left`           |             | `number \| string` | `undefined` |
-| `mpScrollTop`      | `scroll-top`            |             | `number \| string` | `undefined` |
-| `scrollX`          | `scroll-x`              |             | `boolean`          | `false`     |
-| `scrollY`          | `scroll-y`              |             | `boolean`          | `false`     |
-| `upperThreshold`   | `upper-threshold`       |             | `number \| string` | `50`        |
+| Property                    | Attribute                    | Description | Type                                        | Default     |
+| --------------------------- | ---------------------------- | ----------- | ------------------------------------------- | ----------- |
+| `animated`                  | `scroll-with-animation`      |             | `boolean`                                   | `false`     |
+| `lowerThreshold`            | `lower-threshold`            |             | `number \| string`                          | `50`        |
+| `mpScrollIntoView`          | `scroll-into-view`           |             | `string`                                    | `undefined` |
+| `mpScrollIntoViewAlignment` | `scroll-into-view-alignment` |             | `"center" \| "end" \| "nearest" \| "start"` | `undefined` |
+| `mpScrollLeft`              | `scroll-left`                |             | `number \| string`                          | `undefined` |
+| `mpScrollTop`               | `scroll-top`                 |             | `number \| string`                          | `undefined` |
+| `scrollX`                   | `scroll-x`                   |             | `boolean`                                   | `false`     |
+| `scrollY`                   | `scroll-y`                   |             | `boolean`                                   | `false`     |
+| `upperThreshold`            | `upper-threshold`            |             | `number \| string`                          | `50`        |
 
 
 ## Events

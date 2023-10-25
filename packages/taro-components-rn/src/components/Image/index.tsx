@@ -20,6 +20,12 @@ import { noop, omit } from '../../utils'
 import ClickableSimplified from '../ClickableSimplified'
 import { ImageProps, ImageState, ResizeModeMap, ResizeMode } from './PropsType'
 
+// fix: https://github.com/facebook/metro/issues/836
+// 保证 react-native-svg 是最后一个依赖
+const omitProp = (props) => {
+  return omit(props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+}
+
 const resizeModeMap: ResizeModeMap = {
   scaleToFill: 'stretch',
   aspectFit: 'contain',
@@ -189,7 +195,7 @@ export class _Image extends React.Component<ImageProps, ImageState> {
         return defaultHeight
       }
     })()
-    const restImageProps = omit(this.props, ['source', 'src', 'resizeMode', 'onLoad', 'onError', 'onLayout', 'style'])
+    const restImageProps = omitProp(this.props)
 
     return (
       <Image

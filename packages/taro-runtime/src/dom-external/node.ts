@@ -2,7 +2,7 @@ import { DATASET, OBJECT, PROPS, STYLE } from '../constants'
 import { NodeType } from '../dom/node_types'
 import { parser } from '../dom-external/inner-html/parser'
 
-import type { TaroNode } from 'src/dom/node'
+import type { TaroNode } from '../dom/node'
 
 export type IPosition = 'beforebegin' | 'afterbegin' | 'beforeend' | 'afterend'
 

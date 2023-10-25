@@ -7,7 +7,7 @@ exports[`Input event 1`] = `
 `;
 
 exports[`Input props 1`] = `
-<taro-input-core focus="" maxlength="4" type="password" value="test">
+<taro-input-core maxlength="4" type="password" value="test">
   <input autofocus="" class="weui-input" maxlength="4" placeholder="placeholder" type="password" value="test">
 </taro-input-core>
 `;

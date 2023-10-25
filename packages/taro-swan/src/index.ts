@@ -7,12 +7,18 @@ import type { IPluginContext } from '@tarojs/service'
 // 让其它平台插件可以继承此平台
 export { Swan }
 
-export default (ctx: IPluginContext) => {
+export interface IOptions {
+  flattenViewLevel?: number
+  flattenCoverLevel?: number
+  flattenTextLevel?: number
+}
+
+export default (ctx: IPluginContext, options: IOptions = {}) => {
   ctx.registerPlatform({
     name: 'swan',
     useConfigName: 'mini',
     async fn ({ config }) {
-      const program = new Swan(ctx, config)
+      const program = new Swan(ctx, config, options)
       await program.start()
     }
   })

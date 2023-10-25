@@ -21,6 +21,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
         }, { resolve, reject })
       }
 
+      const usingWindowScroll = (window as any).__taroAppConfig?.usingWindowScroll
       const id = Current.page?.path?.replace(/([^a-z0-9\u00a0-\uffff_-])/ig, '\\$1')
       const el: HTMLDivElement | null = (id
         ? document.querySelector(`.taro_page#${id}`)
@@ -28,7 +29,7 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({ scrollTop, selector = '
       document.querySelector('.taro_router')) as HTMLDivElement
 
       if (!scrollFunc) {
-        if (!el) {
+        if (usingWindowScroll) {
           scrollFunc = pos => {
             if (pos === undefined) {
               return window.pageYOffset

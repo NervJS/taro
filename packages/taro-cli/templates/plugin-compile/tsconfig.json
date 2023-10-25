@@ -1,0 +1,30 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "target": "ES2017",
+    "module": "commonjs",
+    "preserveConstEnums": true,
+    "outDir": "./dist",
+    "traceResolution": false,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationDir": "types"
+  },
+  "include": ["./src"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,10 +1,11 @@
 import Taro from '@tarojs/api'
 
-import { getParameterError, shouldBeObject } from '../../../utils'
-import { MethodHandler } from '../../../utils/handler'
+import { shouldBeObject } from '../../../utils'
+import { chooseMedia } from '../video/chooseMedia'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
+ * @deprecated 请使用 chooseMedia 接口
  */
 export const chooseImage: typeof Taro.chooseImage = function (options) {
   // options must be an Object
@@ -15,81 +16,46 @@ export const chooseImage: typeof Taro.chooseImage = function (options) {
     return Promise.reject(res)
   }
 
+  let camera = 'back'
   const {
-    count = 1,
+    sourceType = ['album', 'camera'],
     success,
-    fail,
     complete,
-    imageId = 'taroChooseImage',
-    sourceType = ['album', 'camera']
+    fail,
+    ...args
   } = options
-  const handle = new MethodHandler({ name: 'chooseImage', success, fail, complete })
-  const res: Partial<Taro.chooseImage.SuccessCallbackResult> = {
-    tempFilePaths: [],
-    tempFiles: []
-  }
-  const sourceTypeString = sourceType && sourceType.toString()
-  const acceptableSourceType = ['user', 'environment', 'camera']
-
-  if (count && typeof count !== 'number') {
-    res.errMsg = getParameterError({
-      para: 'count',
-      correct: 'Number',
-      wrong: count
-    })
-    return handle.fail(res)
+  if (sourceType.includes('camera') && sourceType.indexOf('user') > -1) {
+    camera = 'front'
   }
 
-  let el = document.getElementById(imageId)
-  if (!el) {
-    const obj = document.createElement('input')
-    obj.setAttribute('type', 'file')
-    obj.setAttribute('id', imageId)
-    if (count > 1) {
-      obj.setAttribute('multiple', 'multiple')
-    }
-    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
-      obj.setAttribute('capture', sourceTypeString)
-    }
-    obj.setAttribute('accept', 'image/*')
-    obj.setAttribute('style', 'position: fixed; top: -4000px; left: -3000px; z-index: -300;')
-    document.body.appendChild(obj)
-    el = document.getElementById(imageId)
-  } else {
-    if (count > 1) {
-      el.setAttribute('multiple', 'multiple')
-    } else {
-      el.removeAttribute('multiple')
-    }
-    if (acceptableSourceType.indexOf(sourceTypeString) > -1) {
-      el.setAttribute('capture', sourceTypeString)
-    } else {
-      el.removeAttribute('capture')
+  function parseRes (res: Taro.chooseMedia.SuccessCallbackResult): Taro.chooseImage.SuccessCallbackResult {
+    const { tempFiles = [], errMsg } = res
+    return {
+      tempFilePaths: tempFiles.map(item => item.tempFilePath),
+      tempFiles: tempFiles.map(item => ({
+        path: item.tempFilePath,
+        size: item.size,
+        type: item.fileType,
+        originalFileObj: item.originalFileObj,
+      })),
+      errMsg,
     }
   }
 
-  return new Promise((resolve, reject) => {
-    const TaroMouseEvents = document.createEvent('MouseEvents')
-    TaroMouseEvents.initEvent('click', true, true)
-    if (el) {
-      el.dispatchEvent(TaroMouseEvents)
-      el.onchange = function (e) {
-        const target = e.target as HTMLInputElement
-        if (target) {
-          const files = target.files || []
-          const arr = [...files]
-          arr && arr.forEach(item => {
-            const blob = new Blob([item], {
-              type: item.type
-            })
-            const url = URL.createObjectURL(blob)
-            res.tempFilePaths?.push(url)
-            res.tempFiles?.push({ path: url, size: item.size, type: item.type, originalFileObj: item })
-          })
-          handle.success(res, { resolve, reject })
-          target.value = ''
-        }
-      }
-    }
-  })
+  return chooseMedia({
+    mediaId: 'taroChooseImage',
+    ...args,
+    sourceType: sourceType as Taro.chooseMedia.Option['sourceType'],
+    mediaType: ['image'],
+    camera,
+    success: (res) => {
+      const param = parseRes(res)
+      success?.(param)
+      complete?.(param)
+    },
+    fail: (err) => {
+      fail?.(err)
+      complete?.(err)
+    },
+  }, 'chooseImage').then(parseRes)
 }

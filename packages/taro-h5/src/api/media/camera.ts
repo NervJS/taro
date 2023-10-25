@@ -1,4 +1,4 @@
 import { temporarilyNotSupport } from '../../utils'
 
 // 相机
-export const createCameraContext = temporarilyNotSupport('createCameraContext')
+export const createCameraContext = /* @__PURE__ */ temporarilyNotSupport('createCameraContext')

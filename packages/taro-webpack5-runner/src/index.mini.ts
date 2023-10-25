@@ -1,11 +1,12 @@
 import { chalk } from '@tarojs/helper'
 import Prebundle from '@tarojs/webpack5-prebundle'
 import { isEmpty } from 'lodash'
-import webpack, { Stats } from 'webpack'
+import webpack from 'webpack'
 
 import { Prerender } from './prerender/prerender'
 import { MiniCombination } from './webpack/MiniCombination'
 
+import type { Stats } from 'webpack'
 import type { MiniBuildConfig } from './utils/types'
 
 export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
@@ -20,7 +21,8 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     enableSourceMap,
     entry,
     isWatch: combination.config.isWatch,
-    runtimePath
+    runtimePath,
+    isBuildPlugin: combination.isBuildPlugin
   })
   try {
     await prebundle.run(combination.getPrebundleOptions())

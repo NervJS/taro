@@ -71,8 +71,8 @@ export class BaseConfig {
               }
             }
           ],
-          basic: config.logger?.quiet === false,
-          fancy: config.logger?.quiet !== false
+          basic: config.logger?.quiet === true,
+          fancy: config.logger?.quiet !== true,
         })
       },
       watchOptions: {

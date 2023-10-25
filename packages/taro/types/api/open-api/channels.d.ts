@@ -68,6 +68,31 @@ declare module '../../index' {
     }
   }
 
+  namespace getChannelsShareKey {
+    interface Option {
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 分享者 openid  */
+      sharerOpenId: string
+      /** 推广员 */
+      promoter: Promoter
+    }
+    interface Promoter {
+      /** 推广员昵称 */
+      finderNickname: string
+      /** 推广员id */
+      promoterId: string
+      /** 推广员openid */
+      promoterOpenId: string
+    }
+  }
+
   namespace getChannelsLiveNoticeInfo {
     interface Option {
       /** 视频号 id，以“sph”开头的id，可在视频号助手获取 */
@@ -164,6 +189,12 @@ declare module '../../index' {
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/channels/wx.openChannelsActivity.html
      */
     openChannelsActivity(option?: openChannelsActivity.Option): Promise<TaroGeneral.CallbackResult>
+    /** 获取视频号直播卡片/视频卡片的分享来源，
+     * 仅当卡片携带了分享信息、同时用户已授权该小程序获取视频号分享信息且启动场景值为 1177、1184、1195、1208 时可用
+     * @supported weapp
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/channels/wx.getChannelsShareKey.html
+     */
+    getChannelsShareKey(option?: getChannelsShareKey.Option): Promise<getChannelsShareKey.SuccessCallbackResult>
     /** 获取视频号直播预告信息
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/channels/wx.getChannelsLiveNoticeInfo.html

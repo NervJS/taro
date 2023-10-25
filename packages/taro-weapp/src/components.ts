@@ -54,10 +54,12 @@ export const components = {
     bindGetUserInfo: _empty,
     bindContact: _empty,
     bindGetPhoneNumber: _empty,
+    bindGetRealTimePhoneNumber: _empty,
     bindChooseAvatar: _empty,
     bindError: _empty,
     bindOpenSetting: _empty,
-    bindLaunchApp: _empty
+    bindLaunchApp: _empty,
+    bindAgreePrivacyAuthorization: _empty
   },
   Form: {
     'report-submit-timeout': _zero
@@ -77,7 +79,8 @@ export const components = {
     bindNicknameReview: _empty
   },
   Picker: {
-    'header-text': _empty
+    'header-text': _empty,
+    'level': 'region'
   },
   PickerView: {
     'immediate-change': _false,
@@ -100,24 +103,57 @@ export const components = {
   ScrollView: {
     'enable-flex': _false,
     'scroll-anchoring': _false,
+    enhanced: _false,
+    'paging-enabled': _false,
+    'enable-passive': _false,
     'refresher-enabled': _false,
     'refresher-threshold': '45',
     'refresher-default-style': "'black'",
     'refresher-background': "'#FFF'",
     'refresher-triggered': _false,
-    enhanced: _false,
     bounces: _true,
     'show-scrollbar': _true,
-    'paging-enabled': _false,
     'fast-deceleration': _false,
+    type: "'list'",
+    reverse: _false,
+    clip: _true,
+    'enable-back-to-top': _false,
+    'cache-extent': _empty,
+    'min-drag-distance': '18',
+    'scroll-into-view-within-extent': _false,
+    'scroll-into-view-alignment': "'start'",
+    padding: '[0,0,0,0]',
+    'refresher-two-level-enabled': _false,
+    'refresher-two-level-triggered': _false,
+    'refresher-two-level-threshold': '150',
+    'refresher-two-level-close-threshold':'80',
+    'refresher-two-level-scroll-enabled': _false,
+    'refresher-ballistic-refresh-enabled': _false,
+    'refresher-two-level-pinned': _false,
     bindDragStart: _empty,
     bindDragging: _empty,
     bindDragEnd: _empty,
     bindRefresherPulling: _empty,
     bindRefresherRefresh: _empty,
     bindRefresherRestore: _empty,
-    bindRefresherAbort: _empty
+    bindRefresherAbort: _empty,
+    bindScrollStart: _empty,
+    bindScrollEnd: _empty,
+    bindRefresherWillRefresh: _empty,
+    bindRefresherStatusChange: _empty
   },
+  StickySection: {
+    'push-pinned-header': _true,
+  },
+  GridView: {
+    type: "'aligned'",
+    'cross-axis-count': '2',
+    'max-cross-axis-extent': _zero,
+    'main-axis-gap': _zero,
+    'cross-axis-gap': _zero,
+  },
+  ListView: {},
+  StickyHeader: {},
   Swiper: {
     'snap-to-edge': _false,
     'easing-function': "'default'"
@@ -164,6 +200,7 @@ export const components = {
     'auto-pause-if-open-native': _true,
     'vslide-gesture': _false,
     'vslide-gesture-in-fullscreen': _true,
+    'show-bottom-progress': _true,
     'ad-unit-id': _empty,
     'poster-for-crawler': _empty,
     'show-casting-button': _false,
@@ -178,12 +215,22 @@ export const components = {
     'show-snapshot-button': _false,
     'show-background-playback-button': _false,
     'background-poster': _empty,
+    'referrer-policy': "'no-referrer'",
+    'is-drm': _false,
+    'is-live': _false,
+    'provision-url': _empty,
+    'certificate-url': _empty,
+    'license-url': _empty,
+    'preferred-peak-bit-rate': _empty,
     bindProgress: _empty,
     bindLoadedMetadata: _empty,
     bindControlsToggle: _empty,
     bindEnterPictureInPicture: _empty,
     bindLeavePictureInPicture: _empty,
     bindSeekComplete: _empty,
+    bindCastingUserSelect: _empty,
+    bindCastingStateChange: _empty,
+    bindCastingInterrupt: _empty,
     bindAdLoad: _empty,
     bindAdError: _empty,
     bindAdClose: _empty,
@@ -263,6 +310,7 @@ export const components = {
     'video-height': '640',
     'beauty-style': "'smooth'",
     filter: "'standard'",
+    'picture-in-picture-mode': '[]',
     animation: _empty,
     bindStateChange: _empty,
     bindNetStatus: _empty,
@@ -345,5 +393,15 @@ export const components = {
   ChannelLive: {
     feedId: _empty,
     finderUserName: _empty
-  }
+  },
+  ChannelVideo: {
+    feedId: _empty,
+    finderUserName: _empty,
+    autoplay: _false,
+    loop: _false,
+    muted: _false,
+    objectFit: "'contain'",
+    bindError: _empty
+  },
+  Snapshot: {}
 }

@@ -42,7 +42,7 @@
 | `password`    | `password`     |             | `boolean` | `false`     |
 | `placeholder` | `placeholder`  |             | `string`  | `undefined` |
 | `type`        | `type`         |             | `string`  | `undefined` |
-| `value`       | `value`        |             | `string`  | `undefined` |
+| `value`       | `value`        |             | `string`  | `''`        |
 
 
 ## Events

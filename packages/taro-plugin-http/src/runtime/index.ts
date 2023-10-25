@@ -1,14 +1,13 @@
 import { document, window } from '@tarojs/runtime'
+import { isWebPlatform } from '@tarojs/shared'
 
 import { Cookie, createCookieInstance } from './Cookie'
-import { XMLHttpRequest } from './XMLHttpRequest'
+import { type XMLHttpRequestEvent, XMLHttpRequest } from './XMLHttpRequest'
 
 declare const ENABLE_COOKIE: boolean
 
-if (process.env.TARO_ENV !== 'h5') {
-
+if (!isWebPlatform()) {
   if (ENABLE_COOKIE) {
-
     const _cookie = createCookieInstance()
   
     Object.defineProperties(document, {
@@ -27,9 +26,16 @@ if (process.env.TARO_ENV !== 'h5') {
           _cookie.setCookie(value, this.URL)
         },
       },
+      /** 获取完整的 cookie，包括 httpOnly 也能获取到 */
+      $$cookie: {
+        get () {
+          return _cookie.getCookie(this.URL, true)
+        },
+      }
     })
   }
 
   window.XMLHttpRequest = XMLHttpRequest
 }
-export { Cookie, document, XMLHttpRequest }
+
+export { Cookie, document, XMLHttpRequest, XMLHttpRequestEvent }

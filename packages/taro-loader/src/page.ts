@@ -55,6 +55,7 @@ ${config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : ''}
 ${instantiatePage}
 ${options.prerender ? prerender : ''}
 ${hmr}
+export default component
 `
 }
 

@@ -64,32 +64,48 @@ describe('websocket', () => {
       })
   })
 
-  test('should not keep more than 2 connection', () => {
+  test('should not keep more than 5 connection', () => {
     const success = jest.fn()
     const fail = jest.fn()
     const complete = jest.fn()
 
-    expect.assertions(7)
+    expect.assertions(10)
+    const successReq = expect.objectContaining({ socketTaskId: expect.any(Number), errMsg: 'connectSocket:ok' })
     return Promise.all([
-      Taro.connectSocket({ url: 'wss://localhost:8080', success })
+      Taro.connectSocket({ url: 'wss://localhost:8081', success })
         .then((task: any) => {
-          expect(success.mock.calls[0][0]).toEqual({ socketTaskId: 1, errMsg: 'connectSocket:ok' })
           task.close()
+          expect(success.mock.calls[0][0]).toEqual(successReq)
         }),
-      Taro.connectSocket({ url: 'wss://localhost:8090', success })
+      Taro.connectSocket({ url: 'wss://localhost:8082', success })
         .then((task: any) => {
           task.close()
-          expect(success.mock.calls[1][0]).toEqual({ socketTaskId: 2, errMsg: 'connectSocket:ok' })
+          expect(success.mock.calls[0][0]).toEqual(successReq)
+        }),
+      Taro.connectSocket({ url: 'wss://localhost:8083', success })
+        .then((task: any) => {
+          task.close()
+          expect(success.mock.calls[0][0]).toEqual(successReq)
+        }),
+      Taro.connectSocket({ url: 'wss://localhost:8084', success })
+        .then((task: any) => {
+          task.close()
+          expect(success.mock.calls[0][0]).toEqual(successReq)
+        }),
+      Taro.connectSocket({ url: 'wss://localhost:8085', success })
+        .then((task: any) => {
+          task.close()
+          expect(success.mock.calls[0][0]).toEqual(successReq)
         }),
       Taro.connectSocket({
-        url: 'wss://localhost:9090',
+        url: 'wss://localhost:8086',
         success,
         fail,
         complete
       })
         .then(() => {
-          const expectErrMsg = 'connectSocket:fail 同时最多发起 2 个 socket 请求，更多请参考文档。'
-          expect(success.mock.calls.length).toBe(2)
+          const expectErrMsg = 'connectSocket:fail 同时最多发起 5 个 socket 请求，更多请参考文档。'
+          expect(success.mock.calls.length).toBe(5)
           expect(fail.mock.calls.length).toBe(1)
           expect(fail.mock.calls[0][0]).toEqual({ errMsg: expectErrMsg })
           expect(complete.mock.calls.length).toBe(1)

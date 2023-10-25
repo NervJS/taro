@@ -1,8 +1,10 @@
 const { mergeConfig } = require('metro-config')
 const { getMetroConfig } = require('@tarojs/rn-supporter')
 
-module.exports = mergeConfig({
+module.exports = (async function (){
+  return mergeConfig({
   // custom your metro config here
   // https://facebook.github.io/metro/docs/configuration
-  resolver: {}
-}, getMetroConfig())
+    resolver: {}
+  }, await getMetroConfig())
+})()

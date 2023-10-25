@@ -7,5 +7,5 @@
     "module": "ESNext",
     "sourceMap": false
   },
-  "include": ["./src", "./types"]
+  "include": ["./src", "./types", "rollup.config.ts"]
 }
