@@ -53,11 +53,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         let instantiateApp = `export default class EntryAbility extends UIAbility {
   app
 
-  storage = new LocalStorage({
-    entryPagePath: '${entryPagePath}'
-  })
-
   onCreate(want, launchParam) {
+    AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
+    AppStorage.SetOrCreate('__TARO_TABBAR_DISPLAY', true)
     this.app = ${createApp}
     this.app.onLaunch({
       ...want,
@@ -69,7 +67,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
   onWindowStageCreate(stage) {
     context.resolver(this.context)
-    stage.loadContent('${entryPath}', this.storage, (err, data) => {
+    stage.loadContent('${entryPath}', (err, data) => {
       if (err.code) {
         return this.app?.onError?.call(this, err)
       }

@@ -1,4 +1,7 @@
+// eslint-disable-next-line import/no-duplicates
 import { Current } from '@tarojs/runtime'
+// eslint-disable-next-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
 import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
 
@@ -24,14 +27,19 @@ const toggleTabBar = function<T extends ToggleAPIs['type']> (type: T): Extract<T
     return new Promise((resolve, reject) => {
       const taro = (Current as any).taro
       const page = taro.getCurrentInstance().page
-      const currentData = page._data.taroTabBar
+      const currentData = page._data?.taroTabBar || page.__tabBar
       const res = { errMsg: `${type}TabBar:ok` }
       const error = { errMsg: `${type}TabBar:fail not TabBar page` }
 
       if (!currentData) {
         callAsyncFail(reject, error, options)
       } else {
-        page.$set('isShowTaroTabBar', type === 'show')
+        const isShow = type === 'show'
+        const event = isShow ? '__taroShowTabBar' : '__taroHideTabBar'
+        eventCenter.trigger(event, {
+          animation: options?.animation,
+        })
+        page.$set('isShowTaroTabBar', isShow)
         callAsyncSuccess(resolve, res, options)
       }
     })
