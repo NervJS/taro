@@ -5,7 +5,7 @@ import { eventHandler, Current } from '@tarojs/runtime'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -86,6 +86,8 @@ struct TaroInput {
 
   @ObjectLink node: TaroViewElement
 
+  @State isAreaChangeTap: boolean = false
+  
   @State overwriteStyle: Record<string, any> = {}
 
   controller: TextInputController = new TextInputController()
@@ -164,9 +166,9 @@ struct TaroInput {
       const event = createTaroEvent('focus', { detail: { value: this.value, height: this.height } }, this.node)
       eventHandler(event, 'focus', this.node)
     })
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
 
   build() {

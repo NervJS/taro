@@ -5,7 +5,7 @@ import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
@@ -74,6 +74,8 @@ struct TaroButton {
 
   @ObjectLink node: TaroButtonElement
 
+  @State isAreaChangeTap: boolean = false
+  
   @State overwriteStyle: Record<string, any> = {}
 
   aboutToAppear () {
@@ -102,6 +104,9 @@ struct TaroButton {
       .themeStyles(getThemeAttributes(this.node))
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
       .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
+      .onAreaChange(getNodeAreaChange((areaResult: Area) => {
+        this.info = areaResult
+      }, this))
     }
   }
 }

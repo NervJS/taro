@@ -2,7 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -42,6 +42,8 @@ struct TaroSlider {
 
   @ObjectLink node: TaroViewElement
 
+  @State isAreaChangeTap: boolean = false
+  
   @State value: number = 0
 
   aboutToAppear () {
@@ -51,9 +53,9 @@ struct TaroSlider {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
 
   @Builder createSlider ($$: { width: string }) {

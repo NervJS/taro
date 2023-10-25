@@ -3,7 +3,7 @@ import { eventHandler } from '../runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -95,6 +95,8 @@ struct TaroScrollView {
 
   @ObjectLink node: TaroViewElement
 
+  @State isAreaChangeTap: boolean = false
+  
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
     // 绑定动画
@@ -105,9 +107,9 @@ struct TaroScrollView {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
 
   build() {

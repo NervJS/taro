@@ -1,6 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
+import { ICON_SVG_MAP } from './utils/constant/icon'
 import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
@@ -40,7 +41,7 @@ function attrs ({
 
 
 @Component
-struct TaroImage {
+struct TaroIcon {
   info: Area = null
 
   @State thresholds: number[] = []
@@ -67,25 +68,33 @@ struct TaroImage {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
+    .onAreaChange((_: Area, areaResult: Area) => {
       this.info = areaResult
-    }, this))
+    })
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
   }
 
+  getIconData () {
+    if (!this.node || !this.node._attrs) return null
+    
+    const type = this.node._attrs.type
+
+    return ICON_SVG_MAP[type] || null
+  }
+
   build() {
     TaroComponentWrapper({ node: this.node }) {
       if (!this.thresholds.length) {
-        Image(this.node.getAttribute('src'))
+        Image(this.getIconData())
         .defaultEvent()
         .objectFit(ImageFit.Contain)
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
       } else {
-        Image(this.node.getAttribute('src'))
+        Image(this.getIconData())
         .defaultEvent()
         .objectFit(ImageFit.Contain)
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
@@ -96,4 +105,4 @@ struct TaroImage {
   }
 }
 
-export default TaroImage
+export default TaroIcon

@@ -4,7 +4,7 @@ import { capitalize } from '@tarojs/shared'
 import TaroComponentWrapper from './base'
 import { AttributeManager } from './utils/AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -163,6 +163,8 @@ struct TaroText {
 
   @State thresholds: number[] = []
 
+  @State isAreaChangeTap: boolean = false
+
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
@@ -183,9 +185,9 @@ struct TaroText {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
 
 

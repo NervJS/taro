@@ -1,5 +1,6 @@
 import { NodeType } from '@tarojs/runtime'
 
+import TaroIcon from './icon'
 import TaroText from './text'
 import TaroView from './view'
 import TaroInput from './input'
@@ -34,6 +35,8 @@ function createNode (node: any) {
     TaroInnerHtml({ node })
   } else if (node.tagName === 'RICH-TEXT') {
     TaroRichText({ node })
+  } else if (node.tagName === 'ICON') {
+    TaroIcon({ node })
   } else {
     TaroView({ node })
   }

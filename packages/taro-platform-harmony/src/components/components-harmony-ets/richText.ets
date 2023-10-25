@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -49,6 +49,8 @@ struct TaroRichText {
 
   @ObjectLink node: TaroViewElement
 
+  @State isAreaChangeTap: boolean = false
+  
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
     // 绑定动画
@@ -59,9 +61,9 @@ struct TaroRichText {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
 
   build() {
