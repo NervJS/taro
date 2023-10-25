@@ -1,8 +1,8 @@
-import { eventHandler } from '@tarojs/runtime'
+import { eventHandler, convertNumber2PX } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeAttributeOrNull } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -10,7 +10,6 @@ import type { TaroImageElement } from '@tarojs/runtime'
 function attrs ({
    flexSize,
    alignSelf,
-   size,
    margin,
    padding,
    zIndex,
@@ -23,7 +22,6 @@ function attrs ({
    transform
 }) {
   .constraintSize(constraintSize)
-  .size(size)
   .zIndex(zIndex)
   .margin(margin)
   .padding(padding)
@@ -68,9 +66,9 @@ struct TaroIcon {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange((_: Area, areaResult: Area) => {
+    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
-    })
+    }, this))
   }
 
   @Styles defaultEvent () {
@@ -82,6 +80,8 @@ struct TaroIcon {
     
     const type = this.node._attrs.type
 
+
+    // TODO：等待鸿蒙支持 base64 格式的 svg 图片，或者工程化支持图片资源的迁移
     return ICON_SVG_MAP[type] || null
   }
 
@@ -89,17 +89,27 @@ struct TaroIcon {
     TaroComponentWrapper({ node: this.node }) {
       if (!this.thresholds.length) {
         Image(this.getIconData())
-        .defaultEvent()
-        .objectFit(ImageFit.Contain)
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .onComplete(e => eventHandler(e, 'complete', this.node))
+          .defaultEvent()
+          .objectFit(ImageFit.Contain)
+          .fillColor(getNodeAttributeOrNull(this.node, 'color'))
+          .onComplete(e => eventHandler(e, 'complete', this.node))
+          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+          .size({
+            width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+            height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+          })
       } else {
         Image(this.getIconData())
-        .defaultEvent()
-        .objectFit(ImageFit.Contain)
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .onComplete(e => eventHandler(e, 'complete', this.node))
-        .visibleChangeEvent()
+          .defaultEvent()
+          .objectFit(ImageFit.Contain)
+          .fillColor(getNodeAttributeOrNull(this.node, 'color'))
+          .onComplete(e => eventHandler(e, 'complete', this.node))
+          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+          .size({
+            width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+            height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+          })
+          .visibleChangeEvent()
       }
     }
   }

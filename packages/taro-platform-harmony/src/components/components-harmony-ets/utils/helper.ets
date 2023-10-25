@@ -1,4 +1,4 @@
-
+import { isUndefined } from '@tarojs/shared'
 import { AttributeManager } from './AttributeManager'
 import { FlexManager } from './FlexManager'
 
@@ -186,4 +186,11 @@ export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string
 
 function convertToCamelCase(str) {
   return str.replace(/-(.)/g, (_, char) => char.toUpperCase()).replace(/^\w/, firstChar => firstChar.toUpperCase());
+}
+
+export function getNodeAttributeOrNull (node: TaroElement, key: string) {
+  const value = node?._attrs?.[key]
+  const isValueExist = !isUndefined(value)
+
+  return isValueExist ? value : null
 }
