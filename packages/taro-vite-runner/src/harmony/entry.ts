@@ -55,7 +55,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
   onCreate(want, launchParam) {
     AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
-    AppStorage.SetOrCreate('__TARO_TABBAR_DISPLAY', true)
+    AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
     this.app = ${createApp}
     this.app.onLaunch({
       ...want,
