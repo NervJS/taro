@@ -109,7 +109,7 @@ function renderPage (isTabPage: boolean) {
 .vertical(false)
 .barMode(BarMode.Fixed)
 .barHeight(this.isTabbarShow ? 56 : 0)
-.animationDuration(400)
+.animationDuration(this.animationDuration)
 .onChange((index: number) => {
   this.getPage(this.currentIndex).onHide?.call(this)
   this.currentIndex = index
@@ -215,6 +215,7 @@ export default { ${
             '@State borderStyle: "white" | "black" = this.tabBar.borderStyle || "black"',
             '@State position: "top" | "bottom" = this.tabBar.position || "bottom"',
             '@State withImage: boolean = this.tabBarList.every(e => !!e.iconPath)',
+            '@State animationDuration: number = 400',
             '@State currentIndex: number = 0',
             'private controller: TabsController = new TabsController()',
           )
@@ -305,12 +306,34 @@ export default { ${
 
   hideTabBarRedDotHandler = () => {}
 
-  showTabBarHandler = () => {
-    this.isTabbarShow = true
+  showTabBarHandler = ({ animation = false }) => {
+    if (animation) {
+      animateTo({
+        duration: this.animationDuration,
+        tempo: 1,
+        playMode: PlayMode.Normal,
+        iterations: 1,
+      }, () => {
+        this.isTabbarShow = true
+      })
+    } else {
+      this.isTabbarShow = true
+    }
   }
 
-  hideTabBarHandler = () => {
-    this.isTabbarShow = false
+  hideTabBarHandler = ({ animation = false }) => {
+    if (animation) {
+      animateTo({
+        duration: this.animationDuration,
+        tempo: 1,
+        playMode: PlayMode.Normal,
+        iterations: 1,
+      }, () => {
+        this.isTabbarShow = false
+      })
+    } else {
+      this.isTabbarShow = false
+    }
   }
 
   setTabBarStyleHandler = () => {}
