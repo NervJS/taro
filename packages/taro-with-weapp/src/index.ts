@@ -10,8 +10,7 @@ type Observer = (newProps, oldProps, changePath: string) => void
 
 interface ObserverProperties {
   name: string
-  observers: (string | Observer)[]
-  // observer: string | Observer
+  observer: string | Observer
 }
 
 interface ComponentClass<P = Record<string, any>, S = Record<string, any>> extends ComponentLifecycle<P, S> {
@@ -40,17 +39,12 @@ function defineGetter (component, key: string, getter: string) {
       if (getter === 'props') {
         return component.props
       }
-      return component.state
-      // return {
-      //   ...component.state,
-      //   ...component.props
-      // }
+      return {
+        ...component.state,
+        ...component.props
+      }
     }
   })
-}
-
-function propToState (newValue, _oldValue, key: string) {
-  this.state[key] = newValue
 }
 
 function isFunction (o): o is Func {
@@ -130,27 +124,19 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       private initProps (props: any) {
-        const properties = {}
         for (const propKey in props) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
             // propValue 可能是 null, 构造函数, 对象
             if (propValue && !isFunction(propValue)) {
-              properties[propKey] = propValue.value
-              const observers = [propToState]
               if (propValue.observer) {
-                observers.push(propValue.observer)
+                this._observeProps.push({
+                  name: propKey,
+                  observer: propValue.observer
+                })
               }
-              this._observeProps.push({
-                name: propKey,
-                observers: observers
-              })
             }
           }
-        }
-        this.state = {
-          ...properties,
-          ...this.state
         }
       }
 
@@ -389,21 +375,19 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       }
 
       private triggerPropertiesObservers (prevProps, nextProps) {
-        this._observeProps.forEach(({ name: key, observers }) => {
+        this._observeProps.forEach(({ name: key, observer }) => {
           const prop = prevProps?.[key]
           const nextProp = nextProps[key]
           // 小程序是深比较不同之后才 trigger observer
           if (!isEqual(prop, nextProp)) {
-            observers.forEach((observer)=>{
-              if (typeof observer === 'string') {
-                const ob = this[observer]
-                if (isFunction(ob)) {
-                  ob.call(this, nextProp, prop, key)
-                }
-              } else if (isFunction(observer)) {
-                observer.call(this, nextProp, prop, key)
+            if (typeof observer === 'string') {
+              const ob = this[observer]
+              if (isFunction(ob)) {
+                ob.call(this, nextProp, prop, key)
               }
-            })
+            } else if (isFunction(observer)) {
+              observer.call(this, nextProp, prop, key)
+            }
           }
         })
       }
