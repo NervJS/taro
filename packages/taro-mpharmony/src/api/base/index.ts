@@ -15,7 +15,6 @@ export function base64ToArrayBuffer (base64: string) {
   return toByteArray(base64).buffer
 }
 
-export * from './caniuse'
 export * from './crypto'
 export * from './debug/index'
 export * from './performance'
