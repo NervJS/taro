@@ -108,7 +108,8 @@ function renderPage (isTabPage: boolean) {
 }
 .vertical(false)
 .barMode(BarMode.Fixed)
-.animationDuration(400)
+.barHeight(this.isTabbarShow ? 56 : 0)
+.animationDuration(this.animationDuration)
 .onChange((index: number) => {
   this.getPage(this.currentIndex).onHide?.call(this)
   this.currentIndex = index
@@ -189,6 +190,7 @@ export default { ${
         }
 
         const structCodeArray: unknown[] = [
+          '@Entry',
           '@Component',
           'struct Index {',
         ]
@@ -202,13 +204,9 @@ export default { ${
           '@State appConfig: AppConfig = window.__taroAppConfig || {}',
         ]
         if (isTabbarPage) {
-          structCodeArray.unshift(
-            'const storage = LocalStorage.GetShared()',
-            '',
-            '@Entry(storage)',
-          )
           generateState.push(
-            '@LocalStorageLink("entryPagePath") entryPagePath: string = ""',
+            '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
+            '@State isTabbarShow: boolean = true',
             '@State tabBar: TabBar = this.appConfig.tabBar || {}',
             '@State tabBarList: TabBarItem[] = this.tabBar.list || []',
             '@State color: string = this.tabBar.color || "#7A7E83"',
@@ -217,21 +215,20 @@ export default { ${
             '@State borderStyle: "white" | "black" = this.tabBar.borderStyle || "black"',
             '@State position: "top" | "bottom" = this.tabBar.position || "bottom"',
             '@State withImage: boolean = this.tabBarList.every(e => !!e.iconPath)',
+            '@State animationDuration: number = 400',
             '@State currentIndex: number = 0',
             'private controller: TabsController = new TabsController()',
-            '',
           )
-        } else {
-          structCodeArray.unshift('@Entry')
         }
         structCodeArray.push(
           transArr2Str(generateState, 2),
           `
   aboutToAppear() {
-    let index = this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
+    ${isTabbarPage ? `let index = this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
     index = index >= 0 ? index : 0
     this.handlePageAppear(index)
     this.currentIndex = index
+    this.bindEvent()` : 'this.handlePageAppear()'}
   }
 
   onPageShow () {
@@ -249,7 +246,8 @@ export default { ${
   aboutToDisappear () {
     ${isTabbarPage ? `this.page?.forEach(item => {
       item?.onUnLoad?.call(this)
-    })` : 'this.page?.onUnLoad?.call(this)'}
+    })
+    this.removeEvent()` : 'this.page?.onUnLoad?.call(this)'}
   }`,
           SHOW_TREE ? transArr2Str(['', '', ...showTreeFunc(isTabbarPage).split('\n')], 2) : null,
           `
@@ -295,7 +293,79 @@ export default { ${
   getConfig(${isTabbarPage ? 'index = this.currentIndex' : ''}) {
     ${isTabbarPage ? `return config[index]` : 'return config'}
   }`,
-          isTabbarPage ? transArr2Str(['', `
+          isTabbarPage ? `
+  routerChangeHandler = () => {}
+
+  switchTabHandler = () => {}
+
+  setTabBarBadgeHandler = () => {}
+
+  removeTabBarBadgeHandler = () => {}
+
+  showTabBarRedDotHandler = () => {}
+
+  hideTabBarRedDotHandler = () => {}
+
+  showTabBarHandler = ({ animation = false }) => {
+    if (animation) {
+      animateTo({
+        duration: this.animationDuration,
+        tempo: 1,
+        playMode: PlayMode.Normal,
+        iterations: 1,
+      }, () => {
+        this.isTabbarShow = true
+      })
+    } else {
+      this.isTabbarShow = true
+    }
+  }
+
+  hideTabBarHandler = ({ animation = false }) => {
+    if (animation) {
+      animateTo({
+        duration: this.animationDuration,
+        tempo: 1,
+        playMode: PlayMode.Normal,
+        iterations: 1,
+      }, () => {
+        this.isTabbarShow = false
+      })
+    } else {
+      this.isTabbarShow = false
+    }
+  }
+
+  setTabBarStyleHandler = () => {}
+
+  setTabBarItemHandler = () => {}
+
+  bindEvent () {
+    eventCenter.on('__taroRouterChange', this.routerChangeHandler)
+    eventCenter.on('__taroSwitchTab', this.switchTabHandler)
+    eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+    eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+    eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+    eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+    eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
+    eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
+    eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+    eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
+  }
+
+  removeEvent () {
+    eventCenter.off('__taroRouterChange', this.routerChangeHandler)
+    eventCenter.off('__taroSwitchTab', this.switchTabHandler)
+    eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+    eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+    eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+    eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+    eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
+    eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
+    eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+    eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
+  }
+
   @Builder renderTabBuilder(index: number, item: TabBarItem) {
     Column() {
       if (this.withImage) {
@@ -318,7 +388,7 @@ export default { ${
           .margin({ top: 17, bottom: 7 })
       }
     }.width('100%').height('100%').justifyContent(FlexAlign.Center)
-  }`]) : null,
+  }` : null,
           `
   build() {
     ${transArr2Str(renderPage(isTabbarPage).split('\n'), 4)}
@@ -334,6 +404,7 @@ export default { ${
           'import TaroView from "@tarojs/components/view"',
           `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
           'import { Current, TaroElement, window } from "@tarojs/runtime"',
+          'import { eventCenter } from "@tarojs/runtime/dist/runtime.esm"',
           'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
           `import component from "${rawId}"`,
           'import router from "@ohos.router"',
