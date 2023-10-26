@@ -5,6 +5,7 @@ export const env = {
   TARO_ENV: process.env.TARO_ENV,
   TARO_PLATFORM: process.env.TARO_PLATFORM,
   TARO_VERSION: process.env.TARO_VERSION,
+  USER_DATA_PATH: 'internal://files',
 }
 
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
