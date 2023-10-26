@@ -5,12 +5,13 @@ use swc_core::{
     },
     common::{
         iter::IdentifyLast,
+        util::take::Take,
         DUMMY_SP as span
     },
 };
 use std::collections::HashMap;
 
-use self::constants::{COMPILE_IF, COMPILE_ELSE};
+use self::constants::*;
 
 pub mod constants;
 
@@ -76,12 +77,21 @@ pub fn to_kebab_case (val: &str) -> String {
 pub fn convert_jsx_attr_key (jsx_key: &str, adapter: &HashMap<String, String>) -> String {
     if jsx_key == "className" {
         return String::from("class");
-    } else if jsx_key == COMPILE_IF {
-        let if_adapter = adapter.get("if").expect("[compile mode] 模板 if 语法未配置");
-        return if_adapter.clone()
-    } else if jsx_key == COMPILE_ELSE {
-        let else_adapter = adapter.get("else").expect("[compile mode] 模板 else 语法未配置");
-        return else_adapter.clone()
+    } else if
+        jsx_key == COMPILE_IF ||
+        jsx_key == COMPILE_ELSE ||
+        jsx_key == COMPILE_FOR ||
+        jsx_key == COMPILE_FOR_KEY
+    {
+        let expr = match jsx_key {
+            COMPILE_IF => "if",
+            COMPILE_ELSE => "else",
+            COMPILE_FOR => "for",
+            COMPILE_FOR_KEY => "key",
+            _ => ""
+        };
+        let adapter = adapter.get(expr).expect(&format!("[compile mode] 模板 {} 语法未配置", expr));
+        return adapter.clone()
     }
     to_kebab_case(jsx_key)
 }
@@ -150,6 +160,70 @@ pub fn create_jsx_bool_attr (name: &str) -> JSXAttrOrSpread {
         name: JSXAttrName::Ident(Ident::new(name.into(), span)),
         value: None
     })
+}
+
+pub fn create_jsx_lit_attr (name: &str, lit: Lit) -> JSXAttrOrSpread {
+    JSXAttrOrSpread::JSXAttr(JSXAttr {
+        span,
+        name: JSXAttrName::Ident(Ident::new(name.into(), span)),
+        value: Some(JSXAttrValue::Lit(lit))
+    })
+}
+
+/**
+ * identify: `xx.map(function () {})` or `xx.map(() => {})`
+ */
+pub fn is_call_expr_of_loop (callee_expr: &mut Box<Expr>, args: &mut Vec<ExprOrSpread>) -> bool {
+    if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &mut **callee_expr {
+        if &**sym == "map" {
+            if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
+                return expr.is_arrow() || expr.is_fn_expr()
+            }
+        }
+    }
+    return false
+}
+
+pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<ExprOrSpread>) -> Option<&'a mut Box<JSXElement>> {
+    if is_call_expr_of_loop(callee_expr, args) {
+        if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
+            fn update_return_el (return_value: &mut Box<Expr>) -> Option<&mut Box<JSXElement>> {
+                if let Expr::Paren(ParenExpr { expr, .. }) = &mut **return_value {
+                    *return_value = expr.take()
+                }
+                if return_value.is_jsx_element() {
+                    let el = return_value.as_mut_jsx_element().unwrap();
+                    el.opening.attrs.push(create_jsx_bool_attr(COMPILE_FOR));
+                    el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(Str { span, value: "sid".into(), raw: None})));
+                    return Some(el)
+                }
+                None
+            }
+            match &mut **expr {
+                Expr::Fn(FnExpr { function, .. }) => {
+                    if let Function { body: Some(BlockStmt { stmts, .. }), .. } = &mut **function {
+                        if let Some(Stmt::Return(ReturnStmt { arg: Some(return_value), .. })) = stmts.last_mut() {
+                            return update_return_el(return_value);
+                        }
+                    }
+                },
+                Expr::Arrow(ArrowExpr { body, .. }) => {
+                    match &mut **body {
+                        BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, .. }) => {
+                            if let Some(Stmt::Return(ReturnStmt { arg: Some(return_value), .. })) = stmts.last_mut() {
+                                return update_return_el(return_value);
+                            }
+                        },
+                        BlockStmtOrExpr::Expr(return_value) => {
+                            return update_return_el(return_value);
+                        }
+                    }
+                },
+                _ => ()
+            }
+        }
+    }
+    None
 }
 
 #[test]

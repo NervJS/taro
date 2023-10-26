@@ -1,6 +1,7 @@
 
 use swc_core::{
     common::{
+        iter::IdentifyLast,
         util::take::Take,
         DUMMY_SP as span
     },
@@ -31,7 +32,7 @@ impl PreVisitor {
 impl VisitMut for PreVisitor {
     fn visit_mut_jsx_expr_container (&mut self, container: &mut JSXExprContainer) {
         let _counter = Rc::clone(&self.is_in_jsx_expr_container);
-        // Todo 目前的判断可能误伤函数内的三元表达式、条件表达式
+        // TODO 目前的判断可能误伤函数内的三元表达式、条件表达式
         container.visit_mut_children_with(self);
     }
     fn visit_mut_expr (&mut self, expr: &mut Expr) {
@@ -80,7 +81,7 @@ impl VisitMut for PreVisitor {
                             })
                         },
                         _ => {
-                            // Todo Unknown fallback to template
+                            // TODO Unknown fallback to template
                             println!("unknown expr: {right:?}");
                         }
                     }
@@ -127,7 +128,7 @@ impl VisitMut for PreVisitor {
 pub struct TransformVisitor {
     pub config: PluginConfig,
     pub is_compile_mode: bool,
-    pub node_stack: Vec<usize>,
+    pub node_stack: Vec<i32>,
     pub templates: HashMap<String, String>,
     pub get_tmpl_name: Box<dyn FnMut() -> String>
 }
@@ -176,6 +177,11 @@ impl TransformVisitor {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
                     let jsx_attr_name = name.to_string();
+                    
+                    if jsx_attr_name == "key" {
+                        return true;
+                    }
+                    
                     let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
                     let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
                     let is_event = event_name.is_some();
@@ -217,8 +223,15 @@ impl TransformVisitor {
                             }
                         },
                         None => {
-                            if jsx_attr_name == COMPILE_ELSE || jsx_attr_name == COMPILE_IGNORE {
+                            if
+                                jsx_attr_name == COMPILE_ELSE ||
+                                jsx_attr_name == COMPILE_IGNORE
+                            {
                                 props.insert(miniapp_attr_name, String::from(jsx_attr_name));
+                            } else if jsx_attr_name == COMPILE_FOR {
+                                let current_path = self.get_current_loop_path();
+                                let miniapp_attr_value = format!("{{{{{}}}}}", current_path);
+                                props.insert(miniapp_attr_name, miniapp_attr_value);
                             } else {
                                 props.insert(miniapp_attr_name, String::from("true"));
                             }
@@ -244,7 +257,7 @@ impl TransformVisitor {
             if value == COMPILE_IGNORE {
                 return None
             } else if value == COMPILE_ELSE {
-                attrs_string.push_str(format!(" {}", key).as_str());
+                attrs_string.push_str(&format!(" {}", key));
             } else {
                 attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
             }
@@ -305,7 +318,20 @@ impl TransformVisitor {
                                 process_condition_expr(cons);
                                 process_condition_expr(alt);
                             },
-                            // Todo 只支持 render 开头的函数调用返回 JSX
+                            Expr::Call(CallExpr {
+                                callee: Callee::Expr(callee_expr),
+                                args,
+                                ..
+                            }) => {
+                                // 处理循环
+                                if let Some(return_value) =  utils::extract_jsx_loop(callee_expr, args) {
+                                    self.node_stack.pop();
+                                    self.node_stack.push(LOOP_WRAPPER_ID);
+                                    let child_string = self.build_xml_element(&mut *return_value);
+                                    children_string.push_str(&child_string);
+                                }
+                            },
+                            // TODO 只支持 render 开头的函数调用返回 JSX
                             // Expr::Call(_)
                             _ => {
                                 // println!("_ expr: {:?} ", jsx_expr);
@@ -345,7 +371,29 @@ impl TransformVisitor {
         self.node_stack
             .iter()
             .fold(String::from("i"), |mut acc, item| {
+                if item == &LOOP_WRAPPER_ID {
+                    return String::from("item")
+                }
                 acc.push_str(&format!(".cn[{}]", item));
+                return acc;
+            })
+    }
+
+    fn get_current_loop_path (&self) -> String {
+        // return: i.cn[0]...cn
+        self.node_stack
+            .iter()
+            .identify_last()
+            .fold(String::from("i"), |mut acc, (is_last, item)| {
+                let str = if is_last {
+                    String::from(".cn")
+                } else {
+                    if item == &LOOP_WRAPPER_ID {
+                        return String::from("item")
+                    }
+                    format!(".cn[{}]", item)
+                };
+                acc.push_str(&str);
                 return acc;
             })
     }
