@@ -127,7 +127,7 @@ describe('文件转换', () => {
     }
   })
 
-  test('project.config.json中添加配置miniprogramRoot后,convert时无法读取app.json', () => {
+  test('project.config.json中添加配置miniprogramRoot后能够读取app.json进行convert', () => {
     // rootPath：小程序的根目录（文件路径）
     const rootPath = 'D:\\WeChatProjects'
     // new Convertor后先直接执行 init()里面的initConvert()和getConvertConfig()
