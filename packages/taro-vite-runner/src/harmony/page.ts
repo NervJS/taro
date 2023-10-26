@@ -111,8 +111,10 @@ function renderPage (isTabPage: boolean) {
 .barHeight(this.isTabbarShow ? 56 : 0)
 .animationDuration(this.animationDuration)
 .onChange((index: number) => {
-  this.getPage(this.currentIndex).onHide?.call(this)
-  this.currentIndex = index
+  if (this.currentIndex !== index) {
+    this.getPage(this.currentIndex).onHide?.call(this)
+    this.currentIndex = index
+  }
   this.handlePageAppear()
   this.getPage()?.onShow?.call(this)
 })
@@ -202,6 +204,7 @@ export default { ${
             tabbarList.map(() => 'new TaroElement("Block")').join(', ')
           }]` : '@State node: TaroElement = new TaroElement("Block")',
           '@State appConfig: AppConfig = window.__taroAppConfig || {}',
+          '@StorageLink("__TARO_PAGE_STACK") pageStack: string[] = []',
         ]
         if (isTabbarPage) {
           generateState.push(
@@ -224,7 +227,16 @@ export default { ${
           transArr2Str(generateState, 2),
           `
   aboutToAppear() {
-    ${isTabbarPage ? `let index = this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
+    const state = router.getState()
+    state.path ||= '${isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
+    if (this.pageStack.length >= state.index) {
+      this.pageStack.length = state.index - 1
+    }
+    this.pageStack.push(state)
+    ${isTabbarPage ? `const params = router.getParams() || {}
+    let index = params.$page
+      ? this.tabBarList.findIndex(e => e.pagePath === params.$page)
+      : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
     index = index >= 0 ? index : 0
     this.handlePageAppear(index)
     this.currentIndex = index
@@ -232,7 +244,14 @@ export default { ${
   }
 
   onPageShow () {
-    ${isTabbarPage ? `this.page?.forEach(item => {
+    const state = router.getState()
+    state.path ||= '${isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
+    if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
+      this.pageStack.length = state.index
+      this.pageStack[state.index - 1] = state
+    }
+    ${isTabbarPage ? `this.switchTabHandler({ url: '${TARO_TABBAR_PAGE_PATH}', params: router.getParams() || {} })
+    this.page?.forEach(item => {
       item?.onShow?.call(this)
     })` : 'this.page?.onShow?.call(this)'}
   }
@@ -296,7 +315,13 @@ export default { ${
           isTabbarPage ? `
   routerChangeHandler = () => {}
 
-  switchTabHandler = () => {}
+  switchTabHandler = ({ params }) => {
+    const index = this.tabBarList.findIndex(e => e.pagePath === params.$page)
+    if (index >= 0 && this.currentIndex !== index) {
+      this.getPage(this.currentIndex).onHide?.call(this)
+      this.currentIndex = index
+    }
+  }
 
   setTabBarBadgeHandler = () => {}
 
