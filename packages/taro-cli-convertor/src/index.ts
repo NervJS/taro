@@ -751,7 +751,7 @@ export default class Convertor {
       console.error('读取 project.config.json 文件失败:', err)
       process.exit(1)
     }
-    // 如果找到 miniprogramRoot 字段，则以对应目录作为小程序逻辑目录
+    // 如果找到 miniprogramRoot字段，则以对应目录作为小程序逻辑目录
     if (this.miniprogramRoot) {
       this.root = path.resolve(this.miniprogramRoot)
     }
