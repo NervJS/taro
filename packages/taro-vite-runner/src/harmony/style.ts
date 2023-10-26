@@ -188,7 +188,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         }
         const resolved = await resolveUrl(url, importer)
         if (resolved) {
-          return fileToUrl(resolved, viteConfig, this)
+          return fileToUrl(resolved, viteConfig, this, viteCompilerContext)
         }
         viteConfig.logger.warnOnce(
           `\n${url} referenced in ${id} didn't resolve at build time, it will remain unchanged to be resolved at runtime`,
