@@ -13,7 +13,8 @@ const defaultRadio = {
 }
 
 export function pxTransform (size: number): number {
-  const deviceWidthDp = Dimensions.get('window').width
+  const { width, height } = Dimensions.get('window')
+  const deviceWidthDp = Math.min(width, height)
   const uiWidthPx = 375
   const config: AppConfig = globalAny.__taroAppConfig?.appConfig || {}
   const deviceRatio = config.deviceRatio || defaultRadio
