@@ -70,9 +70,9 @@ if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
   window.native = logObj(window.native || {})
 }
 
-Taro.eventCenter.on('__taroSetNavigationStyle', (style) => {
+Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
     // @ts-ignore
-    window.native.setNavigationStyle && window.native.setNavigationStyle(style)
+    window.native.setNavigationStyle && window.native.setNavigationStyle(style, textStyle, backgroundColor)
   }
 })
