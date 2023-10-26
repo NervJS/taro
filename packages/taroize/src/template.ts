@@ -31,7 +31,82 @@ export function buildTemplateName (name: string, pascal = true): string {
   return str.join('')
 }
 
-export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, refIdsBack?: Set<string>) {
+/**
+ * @description 预解析template模板
+ * @param path template在AST中的区域
+ * @returns 
+ */
+export function preParseTemplate (path: NodePath<t.JSXElement>) {
+  if (!path.container) {
+    return
+  }
+  const openingElement = path.get('openingElement')
+  const attrs = openingElement.get('attributes')
+  const name = attrs.find((attr) =>
+    t.isJSXAttribute(attr) &&
+    t.isJSXIdentifier(attr.get('name')) &&
+    t.isJSXAttribute(attr.node) &&
+    attr.node.name.name === 'name'
+  )
+  if (!(name && t.isJSXAttribute(name.node))) {
+    return
+  }
+  // 获取template name
+  const value = name.node.value
+  if (value === null || !t.isStringLiteral(value)) {
+    throw new Error('template 的 `name` 属性只能是字符串')
+  }
+  const templateName = buildTemplateName(value.value)
+  const templateFuncs = new Set<string>()
+  const templateApplys = new Set<string>()
+  path.traverse({
+    JSXAttribute (p) {
+      // 获取 template方法
+      const node = p.node
+      if (
+        t.isJSXExpressionContainer(node.value) &&
+        t.isMemberExpression(node.value.expression) &&
+        t.isThisExpression(node.value.expression.object) &&
+        t.isIdentifier(node.value.expression.property)
+      ) {
+        // funcName加入到funcs
+        const funcName = node.value.expression.property.name
+        if (!templateFuncs.has(funcName)) {
+          templateFuncs.add(funcName)
+        }
+      }
+    },
+    JSXOpeningElement (p) {
+      // 获取 template调用的模板
+      const attrs = p.get('attributes')
+      const is = attrs.find((attr) =>
+        t.isJSXAttribute(attr) &&
+        t.isJSXIdentifier(attr.get('name')) &&
+        t.isJSXAttribute(attr.node) &&
+        attr.node.name.name === 'is'
+      )
+      if (!(is && t.isJSXAttribute(is.node))) {
+        return
+      }
+      const value = is.node.value
+      if (!value) {
+        throw new Error('template 的 `is` 属性不能为空')
+      }
+      // is的模板调用形式为 is="xxx", xxx为模板名或表达式
+      if (t.isStringLiteral(value)) {
+        const apply = buildTemplateName(value.value)
+        templateApplys.add(apply)
+      }
+    },
+  })
+  return {
+    name: templateName,
+    funcs: templateFuncs,
+    applys: templateApplys,
+  }
+}
+
+export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   if (!path.container) {
     return
   }
@@ -59,7 +134,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, re
       attr.node.name.name === 'name'
   )
 
-  let refIds = new Set<string>()
+  const refIds = new Set<string>()
   const loopIds = new Set<string>()
   const imports: any[] = []
   if (name && t.isJSXAttribute(name.node)) {
@@ -72,10 +147,6 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, re
     const className = buildTemplateName(value.value)
 
     path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
-    if (refIdsBack) {
-      // 补充没有引入但是要传递的属性
-      refIds = new Set([...refIds, ...refIdsBack])
-    }
     const firstId = Array.from(refIds)[0]
     refIds.forEach((id) => {
       if (loopIds.has(id) && id !== firstId) {

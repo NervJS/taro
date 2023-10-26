@@ -75,7 +75,7 @@ interface IImport {
   name: string
   wxs?: boolean
   // 模板处理事件的function
-  funcs?: string[]
+  funcs?: Set<string>
 }
 
 interface IParseAstOptions {
@@ -347,7 +347,7 @@ export default class Convertor {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
               } else if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
-                node.object = t.callExpression(t.identifier('getTarget'),[object, t.identifier('Taro')])
+                node.object = t.callExpression(t.identifier('getTarget'), [object, t.identifier('Taro')])
                 // 创建导入 cacheOptions 对象的 ast 节点
                 if (!hasDatasetRequired) {
                   const requireCacheOptionsAst = t.variableDeclaration('const', [
@@ -369,7 +369,7 @@ export default class Convertor {
               const object = node.object
               const prettier = node.property
               if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
-                node.object = t.callExpression(t.identifier('getTarget'),[object, t.identifier('Taro')])
+                node.object = t.callExpression(t.identifier('getTarget'), [object, t.identifier('Taro')])
                 // 创建导入 getTarget 对象的 ast 节点, 并且防止重复引用
                 if (!hasDatasetRequired) {
                   const requireCacheOptionsAst = t.variableDeclaration('const', [
@@ -399,7 +399,7 @@ export default class Convertor {
                 if (/^\S(\S)*Tmpl$/.test(componentName)) {
                   const templateImport = imports.find((tmplImport) => tmplImport.name === `${componentName}`)
                   const templateFuncs = templateImport?.funcs
-                  if (templateFuncs && templateFuncs.length > 0) {
+                  if (templateFuncs && templateFuncs.size > 0) {
                     const attributes: any[] = openingElement.node.attributes
                     templateFuncs.forEach((templateFunc) => {
                       const memberExpression = t.memberExpression(t.thisExpression(), t.identifier(templateFunc))
@@ -639,10 +639,10 @@ export default class Convertor {
           declarations.forEach((declaration) => {
             const { id, init } = declaration
             if (
-              t.isObjectPattern(id) 
-              && t.isCallExpression(init) 
-              && t.isIdentifier(init.callee)
-              && t.isStringLiteral(init.arguments[0])
+              t.isObjectPattern(id) &&
+              t.isCallExpression(init) &&
+              t.isIdentifier(init.callee) &&
+              t.isStringLiteral(init.arguments[0])
             ) {
               const name = init.callee.name
               const args = init.arguments[0].value
@@ -660,13 +660,13 @@ export default class Convertor {
         if (currentAstIsWithWeapp) {
           astPath.remove()
         }
-      }
+      },
     })
 
     // 若 set 为空则不引入 @tarojs/with-weapp
     if (set.size !== 0) {
       if (isCommonjsModule(ast.program.body as any)) {
-        const objectPropertyArray:(t.ObjectProperty | t.RestElement)[] = []
+        const objectPropertyArray: (t.ObjectProperty | t.RestElement)[] = []
         set.forEach((key: string) => {
           if (key === 'withWeapp') {
             objectPropertyArray.push(t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true))
@@ -742,11 +742,30 @@ export default class Convertor {
   }
 
   getApp () {
+    try {
+      const projectConfigPath: string = path.join(this.root, `project.config${this.fileTypes.CONFIG}`) // project.config.json 文件路径
+      // 解析 project.config.json 文件，获取 miniprogramRoot 字段的值
+      const projectConfig = JSON.parse(fs.readFileSync(projectConfigPath, 'utf8'))
+      this.miniprogramRoot = projectConfig.miniprogramRoot
+    } catch (err) {
+      console.error('读取 project.config.json 文件失败:', err)
+      process.exit(1)
+    }
+    // 如果找到 miniprogramRoot 字段，则以对应目录作为小程序逻辑目录
+    if (this.miniprogramRoot) {
+      this.root = path.resolve(this.miniprogramRoot)
+    }
     if (this.isTsProject) {
       this.entryJSPath = path.join(this.miniprogramRoot, `app${this.fileTypes.SCRIPT}`)
       this.entryJSONPath = path.join(this.miniprogramRoot, `app${this.fileTypes.CONFIG}`)
       this.entryStylePath = path.join(this.miniprogramRoot, `app${this.fileTypes.STYLE}`)
     } else {
+      this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
+      this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
+      this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
+    }
+    // 如果在 miniprogramRoot 目录下找到 app.json 文件，则将入口文件和配置文件路径修改为对应的路径
+    if (this.miniprogramRoot && fs.existsSync(path.join(this.root, `app${this.fileTypes.CONFIG}`))) {
       this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
       this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
       this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
