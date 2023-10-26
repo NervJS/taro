@@ -70,6 +70,18 @@ class AttributeManager {
     return gradient
   }
 
+  static getTextAlign (style = {}) {
+    const value = style.textAlign
+    switch (value) {
+      case 'right':
+        return TextAlign.End
+      case 'center':
+        return TextAlign.Center
+      default:
+        return TextAlign.Start
+    }
+  }
+
   static getNodeBackGroundData (style = {}, name: string) {
     const background = style.background
     const singleItem = AttributeManager.getNodeStyle(style, name)

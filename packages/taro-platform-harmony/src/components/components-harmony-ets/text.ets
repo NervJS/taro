@@ -1,4 +1,4 @@
-import { eventHandler, isElement } from '@tarojs/runtime'
+import { eventHandler, isElement, convertNumber2PX } from '@tarojs/runtime'
 import { capitalize } from '@tarojs/shared'
 
 import TaroComponentWrapper from './base'
@@ -100,10 +100,6 @@ function spanAttrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
 }
 
 function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) {
@@ -116,16 +112,21 @@ function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) 
 function getFontAttributes (node: TaroElement) {
   const { _st } = node
 
+  let lineHeight = AttributeManager.getNodeStyle(_st, 'lineHeight')
+  if (lineHeight && typeof lineHeight === 'number') {
+    lineHeight = convertNumber2PX(lineHeight)
+  }
   return {
     decoration: AttributeManager.getNodeStyle(_st, 'textDecoration'),
-    lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
+    lineHeight: lineHeight,
     letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
     maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
     fontColor: AttributeManager.getNodeStyle(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
     fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
     fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
     fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
-    textOverflow: { overflow: TextOverflow[capitalize(AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'))] }
+    textOverflow: { overflow: TextOverflow[capitalize(AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'))] },
+    textAlign: AttributeManager.getTextAlign(_st)
   }
 }
 

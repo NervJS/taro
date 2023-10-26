@@ -74,6 +74,7 @@ function getFontAttributes (node: TaroElement) {
     fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
     fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
     fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
+    textAlign: AttributeManager.getTextAlign(_st)
   }
 }
 
@@ -182,6 +183,7 @@ struct TaroInput {
         .enterKeyType(INPUT_CONFIRM_MAP[this.node._attrs?.confirmType] || EnterKeyType.Done)
         .defaultEvent()
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+        .style(TextInputStyle.Inline)
         .textAttrs(getFontAttributes(this.node))
         .onChange((value: string) => {
           const event = createTaroEvent('input', { detail: { value } }, this.node)
