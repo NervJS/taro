@@ -10,6 +10,10 @@ export function bindInstanceToNode (node: TaroElement, instance: object) {
 
   // @ts-ignore
   node.instance = instance
+
+  // 触发appear，让node监听到TaroNode已经和ete自定义组件绑定上
+  // @ts-ignore
+  node.resolveAppear()
 }
 
 export function bindFocus (node: TaroElement) {

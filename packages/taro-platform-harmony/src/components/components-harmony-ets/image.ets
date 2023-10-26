@@ -51,7 +51,7 @@ struct TaroImage {
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange(isVisible, currentRatio)
+      this.visableChange?.(isVisible, currentRatio)
     })
   }
 
@@ -84,6 +84,7 @@ struct TaroImage {
         .objectFit(ImageFit.Contain)
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
+        .alt(this.node.getAttribute('placeholder'))
       } else {
         Image(this.node.getAttribute('src'))
         .defaultEvent()
@@ -91,6 +92,7 @@ struct TaroImage {
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .visibleChangeEvent()
+        .alt(this.node.getAttribute('placeholder'))
       }
     }
   }

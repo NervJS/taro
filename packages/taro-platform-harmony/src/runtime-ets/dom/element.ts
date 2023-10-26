@@ -17,11 +17,19 @@ class TaroElement extends TaroNode {
   public _animationCb?: (value: Record<string, any>) => void
   // 焦点监听回调绑定
   public _focusCb?:() => void
+
+  // 用于标记元素是否已经出现
+  private _appearResolve: (value?: unknown) => void
+  public awaitAppear: Promise<unknown> 
+  public resolveAppear = () => this._appearResolve()
+
   // public changeRecord = ''
 
   constructor(tagName: string) {
     super(tagName.toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
+    
+    this.awaitAppear = new Promise(resolve => { this._appearResolve = resolve })
   }
 
   public set id (value: string) {
@@ -63,7 +71,9 @@ class TaroElement extends TaroNode {
 
     // 监听动画设置
     if (name === 'animation') {
-      typeof this._animationCb === 'function' && this._animationCb(value)
+      this.awaitAppear.then(() => {
+        typeof this._animationCb === 'function' && this._animationCb(value)
+      })
     }
 
 
