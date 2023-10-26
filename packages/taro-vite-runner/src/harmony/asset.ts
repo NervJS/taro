@@ -1,9 +1,9 @@
-import { chalk, fs, getHash } from '@tarojs/helper'
-import { Buffer } from 'buffer'
+import { fs, getHash } from '@tarojs/helper'
 import MagicString from 'magic-string'
 import * as mrmime from 'mrmime'
 import path from 'path'
-import { URL } from 'url'
+// eslint-disable-next-line node/no-deprecated-api
+import { parse as parseUrl } from 'url'
 import { normalizePath } from 'vite'
 
 import { addTrailingSlash, virtualModulePrefixREG } from '../utils'
@@ -223,14 +223,6 @@ export function checkPublicFile(
   }
 }
 
-export async function fileToUrl(
-  id: string,
-  config: ResolvedConfig,
-  ctx: PluginContext,
-): Promise<string> {
-  return fileToBuiltUrl(id, config, ctx)
-}
-
 export function publicFileToBuiltUrl(
   url: string,
   config: ResolvedConfig,
@@ -247,18 +239,7 @@ export function publicFileToBuiltUrl(
   return `__TARO_VITE_PUBLIC_ASSET__${hash}__`
 }
 
-const GIT_LFS_PREFIX = Buffer.from('version https://git-lfs.github.com')
-function isGitLfsPlaceholder(content: Buffer): boolean {
-  if (content.length < GIT_LFS_PREFIX.length) return false
-  // Check whether the content begins with the characteristic string of Git LFS placeholders
-  return GIT_LFS_PREFIX.compare(content, 0, GIT_LFS_PREFIX.length) === 0
-}
-
-/**
- * Register an asset to be emitted as part of the bundle (if necessary)
- * and returns the resolved public URL
- */
-async function fileToBuiltUrl(
+export async function fileToUrl(
   id: string,
   config: ResolvedConfig,
   pluginContext: PluginContext,
@@ -277,40 +258,21 @@ async function fileToBuiltUrl(
   const file = cleanUrl(id)
   const content = await fs.readFile(file)
 
-  let url: string
-  if (
-    config.build.lib ||
-    (!file.endsWith('.svg') &&
-      !file.endsWith('.html') &&
-      content.length < Number(config.build.assetsInlineLimit) &&
-      !isGitLfsPlaceholder(content))
-  ) {
-    if (config.build.lib && isGitLfsPlaceholder(content)) {
-      config.logger.warn(
-        chalk.yellow(`Inlined file ${id} was not downloaded via Git LFS`),
-      )
-    }
+  // emit as asset
+  const { search, hash } = parseUrl(id)
+  const postfix = (search || '') + (hash || '')
 
-    const mimeType = mrmime.lookup(file) ?? 'application/octet-stream'
-    // base64 inlined as a string
-    url = `data:${mimeType};base64,${content.toString('base64')}`
-  } else {
-    // emit as asset
-    const { search, hash } = new URL(id)
-    const postfix = (search || '') + (hash || '')
+  const referenceId = pluginContext.emitFile({
+    // Ignore directory structure for asset file names
+    name: path.basename(file),
+    type: 'asset',
+    source: content,
+  })
 
-    const referenceId = pluginContext.emitFile({
-      // Ignore directory structure for asset file names
-      name: path.basename(file),
-      type: 'asset',
-      source: content,
-    })
+  const originalName = normalizePath(path.relative(config.root, file))
+  generatedAssets.get(config)!.set(referenceId, { originalName })
 
-    const originalName = normalizePath(path.relative(config.root, file))
-    generatedAssets.get(config)!.set(referenceId, { originalName })
-
-    url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
-  }
+  const url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
 
   cache.set(id, url)
   return url
