@@ -12,6 +12,8 @@ import {
 } from '@tarojs/helper'
 import * as path from 'path'
 
+import { globals } from './global'
+
 import type * as t from '@babel/types'
 
 const NODE_MODULES = 'node_modules'
@@ -126,6 +128,8 @@ export function analyzeImportUrl (
   value: string,
   isTsProject?: boolean
 ) {
+  // 将参数记录到log文件
+  printToLogFile(`funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`)
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
@@ -323,6 +327,48 @@ export function generateReportFile (sourceFilePath, targeFileDir, targeFileName,
     fs.writeFileSync(path.join(targeFileDir, targeFileName), data)
   } catch (error) {
     console.log(`文件${sourceFilePath}写入失败，errorMsg：${error}`)
+  }
+}
+
+/**
+ * 创建文件夹
+ *
+ * @param dirPath 文件夹路径
+ */
+export function generateDir (dirPath) {
+  try {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath)
+    }
+  } catch (error) {
+    console.log(`创建文件夹${dirPath}失败`)
+  }
+}
+
+/**
+ * 获取不同操作系统下的换行符
+ *
+ * @returns { string } 换行符
+ */
+export function getLineBreak () {
+  if (process.platform === 'win32') {
+    return '\r\n'
+  }
+  return '\n'
+}
+
+/**
+ * 记录数据到日志文件中
+ *
+ * @param data 日志数据
+ */
+export function printToLogFile (data: string) {
+  try {
+    // 将参数记录到log文件
+    fs.appendFile(globals.logFilePath, data)
+  } catch (error) {
+    console.log('写日志文件异常')
+    throw error
   }
 }
 
