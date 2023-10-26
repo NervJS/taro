@@ -1,15 +1,16 @@
-import * as babel from '@babel/core'
+// import * as babel from '@babel/core'
 import generate from '@babel/generator'
+import { parse } from '@babel/parser'
 // import * as template from '@babel/template'
 // const template = require('babel-template')
-import classProperties from '@babel/plugin-proposal-class-properties'
-import decorators from '@babel/plugin-proposal-decorators'
-import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
-import asyncGenerators from '@babel/plugin-syntax-async-generators'
-import dynamicImport from '@babel/plugin-syntax-dynamic-import'
-import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
-import flowStrip from '@babel/plugin-transform-flow-strip-types'
-import jsxPlugin from '@babel/plugin-transform-react-jsx'
+// import classProperties from '@babel/plugin-proposal-class-properties'
+// import decorators from '@babel/plugin-proposal-decorators'
+// import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
+// import asyncGenerators from '@babel/plugin-syntax-async-generators'
+// import dynamicImport from '@babel/plugin-syntax-dynamic-import'
+// import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
+// import flowStrip from '@babel/plugin-transform-flow-strip-types'
+// import jsxPlugin from '@babel/plugin-transform-react-jsx'
 import traverse, { Binding, NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
 // import * as template from '@babel/template'
@@ -211,23 +212,29 @@ export interface TransformResult extends Result {
 
 export type TransformOptions = Options
 
-function parseCode(code: string) {
-  return (
-    babel.transformSync(code, {
-      ast: true,
-      sourceType: 'module',
-      plugins: [
-        classProperties,
-        jsxPlugin,
-        flowStrip,
-        exponentiationOperator,
-        asyncGenerators,
-        objectRestSpread,
-        [decorators, { legacy: true }],
-        dynamicImport,
-      ],
-    }) as { ast: t.File }
-  ).ast
+function parseCode (code: string) {
+  const ast: any = parse(code, {
+    sourceType: 'module',
+    plugins: [
+      // 'classProperties',   //最新版本已启用
+      'jsx',
+      'flow',
+      // 'asyncGenerators',   //最新版本已启用
+      'decorators-legacy',
+      // 'dynamicImport',     //最新版本已启用
+      // 'objectRestSpread',  //最新版本已启用
+      ['optionalChainingAssign', { version: '2023-07' }],
+      'sourcePhaseImports',
+      'throwExpressions',
+    ],
+  })
+  // 移除Flow类型注释
+  traverse(ast, {
+    TypeAnnotation (path) {
+      path.remove()
+    },
+  })
+  return ast
 }
 
 export default function transform(options: TransformOptions): TransformResult {
