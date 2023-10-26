@@ -8,7 +8,6 @@ import path from 'path'
 import { normalizePath, resolveConfig } from 'vite'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
-import { compileCSS } from './postcss'
 import {
   assetUrlRE,
   checkPublicFile,
@@ -17,7 +16,8 @@ import {
   publicAssetUrlCache,
   publicFileToBuiltUrl,
   renderAssetUrlInJS,
-} from './postcss/asset'
+} from './asset'
+import { compileCSS } from './postcss'
 import { toOutputFilePathInCss } from './postcss/build'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
@@ -51,8 +51,7 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
   let moduleCache: Map<string, Record<string, string>>
   let cssCache: Map<string, string>
 
-  const config = await resolveConfig({}, 'build')
-  let viteConfig: typeof config
+  let viteConfig: ResolvedConfig
   let resolveUrl
 
   return {
@@ -234,14 +233,14 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
   let hasEmitted = false
 
   const config = await resolveConfig({}, 'build')
-  let viteConfig: typeof config
   const rollupOptionsOutput = config.build.rollupOptions.output
+  let viteConfig: ResolvedConfig
   const assetFileNames = (
     Array.isArray(rollupOptionsOutput)
       ? rollupOptionsOutput[0]
       : rollupOptionsOutput
   )?.assetFileNames
-  const getCssAssetDirname = (cssAssetName: string) => {
+  const getCssAssetDirname = (config: ResolvedConfig, cssAssetName: string) => {
     if (!assetFileNames) {
       return config.build.assetsDir
     } else if (typeof assetFileNames === 'string') {
@@ -359,7 +358,7 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
         chunkCSS: string,
         cssAssetName: string,
       ) => {
-        const cssAssetDirname = getCssAssetDirname(cssAssetName)
+        const cssAssetDirname = getCssAssetDirname(viteConfig, cssAssetName)
 
         const toRelative = (filename: string) => {
           // relative base + extracted CSS

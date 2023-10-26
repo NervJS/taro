@@ -1,4 +1,5 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
+import { assetPlugin } from './asset'
 import importPlugin from './babel'
 import configPlugin from './config'
 import emitPlugin from './emit'
@@ -16,6 +17,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): UserC
     pipelinePlugin(viteCompilerContext),
     configPlugin(viteCompilerContext),
     stylePlugin(viteCompilerContext),
+    assetPlugin(viteCompilerContext),
     entryPlugin(viteCompilerContext),
     pagePlugin(viteCompilerContext),
     etsPlugin(viteCompilerContext),

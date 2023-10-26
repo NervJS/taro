@@ -1,4 +1,4 @@
-import { fs, getHash } from '@tarojs/helper'
+import { chalk, fs, getHash } from '@tarojs/helper'
 import { Buffer } from 'buffer'
 import MagicString from 'magic-string'
 import * as mrmime from 'mrmime'
@@ -6,22 +6,27 @@ import path from 'path'
 import { URL } from 'url'
 import { normalizePath } from 'vite'
 
-import { addTrailingSlash } from '../../utils'
+import { addTrailingSlash, virtualModulePrefixREG } from '../utils'
 import {
   createToImportMetaURLBasedRelativeRuntime,
   toOutputFilePathInJS,
-} from './build'
-import { publicAssetUrlRE } from './constants'
-import { cleanUrl } from './utils'
+} from './postcss/build'
+import { publicAssetUrlRE } from './postcss/constants'
+import { cleanUrl } from './postcss/utils'
 
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type {
   NormalizedOutputOptions,
   PluginContext,
   RenderedChunk,
 } from 'rollup'
-import type { ResolvedConfig } from 'vite'
+import type { Plugin, ResolvedConfig } from 'vite'
 
-export const assetUrlRE = /__VITE_ASSET__([a-z\d]+)__(?:\$_(.*?)__)?/g
+export const assetUrlRE = /__TARO_VITE_ASSET__([a-z\d]+)__(?:\$_(.*?)__)?/g
+
+const rawRE = /(?:\?|&)raw(?:&|$)/
+const urlRE = /(\?|&)url(?:&|$)/
+const unnededFinalQueryCharRE = /[?&]$/
 
 const assetCache = new WeakMap<ResolvedConfig, Map<string, string>>()
 
@@ -32,12 +37,30 @@ interface GeneratedAssetMeta {
   originalName: string
   isEntry?: boolean
 }
-const generatedAssets = new WeakMap<
+export const generatedAssets = new WeakMap<
 ResolvedConfig,
 Map<string, GeneratedAssetMeta>
 >()
 
+export const publicAssetUrlCache = new WeakMap<
+ResolvedConfig,
+// hash -> url
+Map<string, string>
+>()
+
 // add own dictionary entry by directly assigning mrmime
+function registerCustomMime(): void {
+  // https://github.com/lukeed/mrmime/issues/3
+  mrmime.mimes.ico = 'image/x-icon'
+  // https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Containers#flac
+  mrmime.mimes.flac = 'audio/flac'
+  // mrmime and mime-db is not released yet: https://github.com/jshttp/mime-db/commit/c9242a9b7d4bb25d7a0c9244adec74aeef08d8a1
+  mrmime.mimes.aac = 'audio/aac'
+  // https://wiki.xiph.org/MIME_Types_and_File_Extensions#.opus_-_audio/ogg
+  mrmime.mimes.opus = 'audio/ogg'
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
+  mrmime.mimes.eot = 'application/vnd.ms-fontobject'
+}
 
 export function renderAssetUrlInJS(
   ctx: PluginContext,
@@ -55,10 +78,10 @@ export function renderAssetUrlInJS(
   let s: MagicString | undefined
 
   // Urls added with JS using e.g.
-  // imgElement.src = "__VITE_ASSET__5aa0ddc0__" are using quotes
+  // imgElement.src = "__TARO_VITE_ASSET__5aa0ddc0__" are using quotes
 
   // Urls added in CSS that is imported in JS end up like
-  // var inlined = ".inlined{color:green;background:url(__VITE_ASSET__5aa0ddc0__)}\n";
+  // var inlined = ".inlined{color:green;background:url(__TARO_VITE_ASSET__5aa0ddc0__)}\n";
 
   // In both cases, the wrapping should already be fine
 
@@ -83,7 +106,7 @@ export function renderAssetUrlInJS(
     s.update(match.index, match.index + full.length, replacementString)
   }
 
-  // Replace __VITE_PUBLIC_ASSET__5aa0ddc0__ with absolute paths
+  // Replace __TARO_VITE_PUBLIC_ASSET__5aa0ddc0__ with absolute paths
 
   const publicAssetUrlMap = publicAssetUrlCache.get(config)!
   publicAssetUrlRE.lastIndex = 0
@@ -109,9 +132,73 @@ export function renderAssetUrlInJS(
   return s
 }
 
-// During build, if we don't use a virtual file for public assets, rollup will
-// watch for these ids resulting in watching the root of the file system in Windows,
+/**
+ * Also supports loading plain strings with import text from './foo.txt?raw'
+ */
+export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): Plugin {
+  registerCustomMime()
+  let viteConfig: ResolvedConfig
 
+  return {
+    name: 'vite:asset',
+    configResolved (config) {
+      viteConfig = config
+    },
+    buildStart() {
+      assetCache.set(viteConfig, new Map())
+      generatedAssets.set(viteConfig, new Map())
+    },
+    resolveId(id) {
+      if (!viteConfig.assetsInclude(cleanUrl(id)) && !urlRE.test(id)) {
+        return
+      }
+      // imports to absolute urls pointing to files in /public
+      // will fail to resolve in the main resolver. handle them here.
+      const publicFile = checkPublicFile(id, viteConfig)
+      if (publicFile) {
+        return id
+      }
+    },
+    async load(id) {
+      if (virtualModulePrefixREG.test(id)) {
+        // Rollup convention, this id should be handled by the
+        // plugin that marked it with \0
+        return
+      }
+
+      // raw requests, read from disk
+      if (rawRE.test(id)) {
+        const file = checkPublicFile(id, viteConfig) || cleanUrl(id)
+        // raw query, read file and return as string
+        return `export default ${JSON.stringify(
+          await fs.readFile(file, 'utf-8'),
+        )}`
+      }
+
+      if (!viteConfig.assetsInclude(cleanUrl(id)) && !urlRE.test(id)) {
+        return
+      }
+
+      id = id.replace(urlRE, '$1').replace(unnededFinalQueryCharRE, '')
+      const url = await fileToUrl(id, viteConfig, this)
+      return `export default ${JSON.stringify(url)}`
+    },
+    renderChunk(code, chunk, opts) {
+      const s = renderAssetUrlInJS(this, viteConfig, chunk, opts as any, code)
+
+      if (s) {
+        return {
+          code: s.toString(),
+          map: viteConfig.build.sourcemap
+            ? s.generateMap({ hires: 'boundary' })
+            : null,
+        }
+      } else {
+        return null
+      }
+    },
+  }
+}
 
 export function checkPublicFile(
   url: string,
@@ -144,12 +231,6 @@ export async function fileToUrl(
   return fileToBuiltUrl(id, config, ctx)
 }
 
-export const publicAssetUrlCache = new WeakMap<
-ResolvedConfig,
-// hash -> url
-Map<string, string>
->()
-
 export function publicFileToBuiltUrl(
   url: string,
   config: ResolvedConfig,
@@ -163,7 +244,7 @@ export function publicFileToBuiltUrl(
   if (!cache.get(hash)) {
     cache.set(hash, url)
   }
-  return `__VITE_PUBLIC_ASSET__${hash}__`
+  return `__TARO_VITE_PUBLIC_ASSET__${hash}__`
 }
 
 const GIT_LFS_PREFIX = Buffer.from('version https://git-lfs.github.com')
@@ -206,7 +287,7 @@ async function fileToBuiltUrl(
   ) {
     if (config.build.lib && isGitLfsPlaceholder(content)) {
       config.logger.warn(
-        `Inlined file ${id} was not downloaded via Git LFS`,
+        chalk.yellow(`Inlined file ${id} was not downloaded via Git LFS`),
       )
     }
 
@@ -228,7 +309,7 @@ async function fileToBuiltUrl(
     const originalName = normalizePath(path.relative(config.root, file))
     generatedAssets.get(config)!.set(referenceId, { originalName })
 
-    url = `__VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
+    url = `__TARO_VITE_ASSET__${referenceId}__${postfix ? `$_${postfix}__` : ``}` // TODO_BASE
   }
 
   cache.set(id, url)

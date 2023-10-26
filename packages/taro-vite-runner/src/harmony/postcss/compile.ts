@@ -3,7 +3,7 @@ import glob from 'fast-glob'
 import path from 'path'
 import { normalizePath } from 'vite'
 
-import { checkPublicFile } from './asset'
+import { checkPublicFile } from '../asset'
 import { CSS_LANGS_RE } from './constants'
 import { type CssLang, cssImageSetRE, cssModuleRE, cssUrlRE, PostCssDialectLang, PreprocessLang } from './constants'
 import { resolvePostcssConfig } from './resolve'
