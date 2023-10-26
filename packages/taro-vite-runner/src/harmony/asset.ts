@@ -140,7 +140,8 @@ export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): P
   let viteConfig: ResolvedConfig
 
   return {
-    name: 'vite:asset',
+    name: 'taro:vite-asset',
+    enforce: 'pre',
     configResolved (config) {
       viteConfig = config
     },
@@ -159,7 +160,7 @@ export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): P
         return id
       }
     },
-    async load(id) {
+    load(id) {
       if (virtualModulePrefixREG.test(id)) {
         // Rollup convention, this id should be handled by the
         // plugin that marked it with \0
@@ -171,7 +172,7 @@ export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): P
         const file = checkPublicFile(id, viteConfig) || cleanUrl(id)
         // raw query, read file and return as string
         return `export default ${JSON.stringify(
-          await fs.readFile(file, 'utf-8'),
+          fs.readFileSync(file, 'utf-8'),
         )}`
       }
 
@@ -180,7 +181,7 @@ export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): P
       }
 
       id = id.replace(urlRE, '$1').replace(unnededFinalQueryCharRE, '')
-      const url = await fileToUrl(id, viteConfig, this)
+      const url = fileToUrl(id, viteConfig, this)
       return `export default ${JSON.stringify(url)}`
     },
     renderChunk(code, chunk, opts) {
@@ -239,12 +240,12 @@ export function publicFileToBuiltUrl(
   return `__TARO_VITE_PUBLIC_ASSET__${hash}__`
 }
 
-export async function fileToUrl(
+export function fileToUrl(
   id: string,
   config: ResolvedConfig,
   pluginContext: PluginContext,
   skipPublicCheck = false,
-): Promise<string> {
+): string {
   if (!skipPublicCheck && checkPublicFile(id, config)) {
     return publicFileToBuiltUrl(id, config)
   }
@@ -256,7 +257,7 @@ export async function fileToUrl(
   }
 
   const file = cleanUrl(id)
-  const content = await fs.readFile(file)
+  const content = fs.readFileSync(file)
 
   // emit as asset
   const { search, hash } = parseUrl(id)
