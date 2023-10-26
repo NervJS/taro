@@ -127,6 +127,7 @@ struct TaroScrollView {
             .height(getNormalAttributes(this.node).size.height)
           }
           .width(getNormalAttributes(this.node).size.width)
+          .flexGrow(getNormalAttributes(this.node).flexSize[0])
           .scrollable(ScrollDirection.Horizontal)
           .defaultEvent()
           .onScroll((xOffset: number, yOffset: number) => {
@@ -151,6 +152,7 @@ struct TaroScrollView {
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
           }
           .height(getNormalAttributes(this.node).size.height)
+          .flexGrow(getNormalAttributes(this.node).flexSize[0])
           .scrollable(ScrollDirection.Vertical)
           .defaultEvent()
           .onScroll((xOffset: number, yOffset: number) => {
