@@ -51,7 +51,7 @@ struct TaroImage {
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange(isVisible, currentRatio)
+      this.visableChange?.(isVisible, currentRatio)
     })
   }
 

@@ -40,4 +40,4 @@ export const usedRE = /(?:\?|&)used\b/
 export const varRE = /^var\(/i
 export const loadParseImportRE = /(?:\?|&)load-parse-import\b/
 
-export const publicAssetUrlRE = /__VITE_PUBLIC_ASSET__([a-z\d]{8})__/g
+export const publicAssetUrlRE = /__TARO_VITE_PUBLIC_ASSET__([a-z\d]{8})__/g

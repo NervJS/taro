@@ -1,7 +1,6 @@
 import { transformSync } from '@babel/core'
 import path from 'path'
 import ts from 'typescript'
-import { resolveConfig } from 'vite'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyBuildConfig, ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -224,8 +223,7 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
   const { taroConfig, cwd: appPath } = viteCompilerContext
   let helper: EtsHelper
 
-  const config = await resolveConfig({}, 'build')
-  let viteConfig: typeof config
+  let viteConfig: ResolvedConfig
 
   return {
     name: 'taro:vite-ets',

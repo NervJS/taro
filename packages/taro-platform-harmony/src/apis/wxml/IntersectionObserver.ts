@@ -18,7 +18,8 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   constructor(component: any, options: Taro.createIntersectionObserver.Option = {}) {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    this._component = component || page.node
+    const currentPage = (page.node instanceof Array) ? page.node[page.__currentIndex?.wrappedValue_] : page.node
+    this._component = component || currentPage
     Object.assign(this._options, options)
   }
 
@@ -27,15 +28,15 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
       if (this._observerNodes instanceof Array) {
         this._observerNodes.forEach(n => {
           // @ts-ignore
-          n.instance?.visableChange = callback
-          // @ts-ignore
-          n.instance?.thresholds = thresholds
+          n.instance?.visableChange = null
+          // TODO：若不清除，则ets其实还是会监听，但是在业务层面，不会触发回调
+          // n.instance?.thresholds = []
         })
       } else {
         // @ts-ignore
-        this._observerNodes.instance?.visableChange = callback
-        // @ts-ignore
-        this._observerNodes.instance?.thresholds = thresholds
+        this._observerNodes.instance?.visableChange = null
+        // TODO：若不清除，则ets其实还是会监听，但是在业务层面，不会触发回调
+        // this._observerNodes.instance?.thresholds = []
       }
     }
   }
@@ -45,23 +46,30 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
     const node = findChildNodeWithDFS(this._component, targetSelector, observeAll)
     this._observerNodes = node
 
+
     if (node) {
       if (node instanceof Array) {
         node.forEach(n => {
           // @ts-ignore
-          n.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
-            callback(this.handleResult(isVisible, currentRatio))
-          }
-          // @ts-ignore
-          n.instance?.thresholds = thresholds
+          n.awaitAppear.then(() => {
+            // @ts-ignore
+            n.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
+              callback(this.handleResult(isVisible, currentRatio))
+            }
+            // @ts-ignore
+            n.instance?.thresholds = thresholds
+          })
         })
       } else {
         // @ts-ignore
-        node.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
-          callback(this.handleResult(isVisible, currentRatio))
-        }
-        // @ts-ignore
-        node.instance?.thresholds = thresholds
+        node.awaitAppear.then(() => {
+          // @ts-ignore
+          node.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
+            callback(this.handleResult(isVisible, currentRatio))
+          }
+          // @ts-ignore
+          node.instance?.thresholds = thresholds
+        })
       }
     }
   }

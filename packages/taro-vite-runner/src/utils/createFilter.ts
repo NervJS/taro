@@ -54,7 +54,7 @@ export default function createFilter(include, exclude, options?) {
     if (typeof id !== 'string')
       return false
     // 因为 vite 的虚拟模块也是 \0 开头的，会导致虚拟模块一直走不到 babel 的逻辑被过滤掉
-    // if (/\0/.test(id))
+    // if (virtualModulePrefixREG.test(id))
     //   return false
     const pathId = normalizePath(id)
     for (let i = 0; i < excludeMatchers.length; ++i) {
