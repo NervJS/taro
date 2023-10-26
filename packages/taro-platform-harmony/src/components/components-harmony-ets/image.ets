@@ -84,7 +84,6 @@ struct TaroImage {
         .objectFit(ImageFit.Contain)
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
-        .alt(this.node.getAttribute('placeholder'))
       } else {
         Image(this.node.getAttribute('src'))
         .defaultEvent()
@@ -92,7 +91,6 @@ struct TaroImage {
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .visibleChangeEvent()
-        .alt(this.node.getAttribute('placeholder'))
       }
     }
   }
