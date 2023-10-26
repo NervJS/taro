@@ -3,7 +3,7 @@ import { Current } from '@tarojs/runtime'
 // eslint-disable-next-line import/no-duplicates
 import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
-import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
+import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/taro'
 
@@ -54,7 +54,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentData = page._data.taroTabBar
+    const currentData = page._data?.taroTabBar || page.__tabBar
     const res = { errMsg: 'setTabBarStyle:ok' }
     const error = { errMsg: 'setTabBarStyle:fail not TabBar page' }
 
@@ -68,6 +68,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
       if (options.backgroundColor) data.backgroundColor = options.backgroundColor
       if (options.borderStyle) data.borderStyle = options.borderStyle
 
+      eventCenter.trigger('__taroSetTabBarStyle', data)
       page.$set('taroTabBar', data)
       callAsyncSuccess(resolve, res, options)
     }
@@ -78,7 +79,7 @@ export const setTabBarItem: SetTabBarItem = function (options) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentData = page._data.taroTabBar
+    const currentData = page._data?.taroTabBar || page.__tabBar
     const res = { errMsg: 'setTabBarItem:ok' }
     const error = { errMsg: 'setTabBarItem:fail not TabBar page' }
 
@@ -99,24 +100,50 @@ export const setTabBarItem: SetTabBarItem = function (options) {
       ]
       const data = Object.assign({}, currentData, { list })
 
+      eventCenter.trigger('__taroSetTabBarItem', data)
       page.$set('taroTabBar', data)
       callAsyncSuccess(resolve, res, options)
     }
   })
 }
 
-export function showTabBarRedDot () {
-  process.env.NODE_ENV !== 'production' && unsupport('showTabBarRedDot')
+export function showTabBarRedDot (options) {
+  const res = { errMsg: 'showTabBarRedDot:ok' }
+  return new Promise((resolve) => {
+    eventCenter.trigger('__taroShowTabBarRedDotHandler', {
+      index: options?.index || 0,
+    })
+    callAsyncSuccess(resolve, res, options)
+  })
 }
 
-export function hidetTabBarRedDot () {
-  process.env.NODE_ENV !== 'production' && unsupport('hidetTabBarRedDot')
+export function hideTabBarRedDot (options) {
+  const res = { errMsg: 'hideTabBarRedDot:ok' }
+  return new Promise((resolve) => {
+    eventCenter.trigger('__taroHideTabBarRedDotHandler', {
+      index: options?.index || 0,
+    })
+    callAsyncSuccess(resolve, res, options)
+  })
 }
 
-export function setTabBarBadge () {
-  process.env.NODE_ENV !== 'production' && unsupport('setTabBarBadge')
+export function setTabBarBadge (options) {
+  const res = { errMsg: 'setTabBarBadge:ok' }
+  return new Promise((resolve) => {
+    eventCenter.trigger('__taroSetTabBarBadge', {
+      index: options?.index || 0,
+      text: options?.text || '',
+    })
+    callAsyncSuccess(resolve, res, options)
+  })
 }
 
-export function removeTabBarBadge () {
-  process.env.NODE_ENV !== 'production' && unsupport('removeTabBarBadge')
+export function removeTabBarBadge (options) {
+  const res = { errMsg: 'removeTabBarBadge:ok' }
+  return new Promise((resolve) => {
+    eventCenter.trigger('__taroRemoveTabBarBadge', {
+      index: options?.index || 0,
+    })
+    callAsyncSuccess(resolve, res, options)
+  })
 }
