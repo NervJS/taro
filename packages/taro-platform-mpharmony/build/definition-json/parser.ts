@@ -1,10 +1,12 @@
 import * as fs from 'fs-extra'
 import * as pathModule from 'path'
 
+import DefinitionObj from '../interface/definitionObj'  
+
 export function parseDefinitionJSON () {
   const componentsPath = require.resolve('@tarojs/components/types/index.d.ts')
   const directoryPath = pathModule.dirname(componentsPath)
-  const definitionObj: object = { apis: {}, components: {} }
+  const definitionObj: DefinitionObj = { apis: {}, components: {} }
 
   function listFilesRecursively (dirPath: string) {
     const absolutePaths: string[] = []
