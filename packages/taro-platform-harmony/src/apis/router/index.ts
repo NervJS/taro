@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import router from '@ohos.router'
 // eslint-disable-next-line import/no-duplicates
 import { window } from '@tarojs/runtime'
