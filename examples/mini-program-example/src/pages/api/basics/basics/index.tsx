@@ -27,22 +27,14 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           const { apiName } = data
-          TestConsole.consoleTest(`Taro.canIUse`)
-          // TestConsole.consoleSuccess.call(this, Taro.canIUse(apiName), apiIndex)
-          TestConsole.consoleDebug('字面量：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse('share-element.rect-tween-type.cubic-bezier(x1,'))
-          TestConsole.consoleDebug('字面量：live-pusher.aspect.9:16----', Taro.canIUse("live-pusher.aspect.9:16"))
+          TestConsole.consoleTest(`Taro.canIUse ${apiName}`)
+          TestConsole.consoleSuccess.call(this, Taro.canIUse(apiName), apiIndex)
+          TestConsole.consoleDebug('字面量示例1：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse('share-element.rect-tween-type.cubic-bezier(x1,'))
+          TestConsole.consoleDebug('字面量示例2：live-pusher.aspect.9:16----', Taro.canIUse("live-pusher.aspect.9:16"))
           const apiName1 = 'share-element.rect-tween-type.cubic-bezier(x1,'
           const apiName2 = "live-pusher.aspect.9:16"
-          TestConsole.consoleDebug('变量：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse(apiName1))
-          TestConsole.consoleDebug('变量：live-pusher.aspect.9:16----', Taro.canIUse(apiName2))
-          // TestConsole.consoleSuccess('Taro.canIUse getSystemInfoSync.return.screenWidth ' +  Taro.canIUse('getSystemInfoSync.return.screenWidth'));
-          // TestConsole.consoleSuccess('Taro.canIUse getSystemInfo.success.screenWidth ' +  Taro.canIUse('getSystemInfo.success.screenWidth'));
-          // TestConsole.consoleSuccess('Taro.canIUse showToast.object.image ' +  Taro.canIUse('showToast.object.image'));
-          // TestConsole.consoleSuccess('Taro.canIUse onCompassChange.callback.direction ' +  Taro.canIUse('onCompassChange.callback.direction'));
-          // TestConsole.consoleSuccess('Taro.canIUse request.object.method.GET ' +  Taro.canIUse('request.object.method.GET'));
-          // TestConsole.consoleSuccess('Taro.canIUse live-player ' +  Taro.canIUse('live-player'));
-          // TestConsole.consoleSuccess('Taro.canIUse text.selectable ' +  Taro.canIUse('text.selectable'));
-          // TestConsole.consoleSuccess('Taro.canIUse button.open-type.contact ' +  Taro.canIUse('button.open-type.contact'));
+          TestConsole.consoleDebug('变量示例1：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse(apiName1))
+          TestConsole.consoleDebug('变量示例2：live-pusher.aspect.9:16----', Taro.canIUse(apiName2))
         },
       },
       {
