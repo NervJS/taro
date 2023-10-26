@@ -12,6 +12,14 @@ export function bindInstanceToNode (node: TaroElement, instance: object) {
   node.instance = instance
 }
 
+export function bindFocus (node: TaroElement) {
+  if (!node) return
+
+  node._focusCb = () => {
+    focusControl.requestFocus(node._nid) 
+  }
+}
+
 // 动画绑定
 export function bindAnimation (node: TaroElement, animationCb: (val: Record<string, any>) => void) {
   if (!node) return

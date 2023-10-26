@@ -13,8 +13,10 @@ class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
   private _innerHTML = ''
   public readonly tagName: string
-  // 动画函数回掉绑定
+  // 动画函数回调绑定
   public _animationCb?: (value: Record<string, any>) => void
+  // 焦点监听回调绑定
+  public _focusCb?:() => void
   // public changeRecord = ''
 
   constructor(tagName: string) {
@@ -62,6 +64,11 @@ class TaroElement extends TaroNode {
     // 监听动画设置
     if (name === 'animation') {
       typeof this._animationCb === 'function' && this._animationCb(value)
+    }
+
+
+    if (name === 'focus' && !!value) {
+      typeof this._focusCb === 'function' && this._focusCb()
     }
     // if (!this.changeRecord.includes(`${name}-${value}`)) {
     //   this.changeRecord += `${name}-${value};`

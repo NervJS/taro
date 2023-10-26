@@ -9,9 +9,10 @@ import TaroSwiper from './swiper'
 import TaroButton from './button'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
-import TaroScrollView from './scrollView'
-import TaroInnerHtml from './innerHtml'
+import TaroTextArea from './textArea'
 import TaroRichText from './richText'
+import TaroInnerHtml from './innerHtml'
+import TaroScrollView from './scrollView'
 
 @Builder
 function createNode (node: any) {
@@ -37,6 +38,8 @@ function createNode (node: any) {
     TaroRichText({ node })
   } else if (node.tagName === 'ICON') {
     TaroIcon({ node })
+  } else if (node.tagName === 'TEXTAREA') {
+    TaroTextArea({ node })
   } else {
     TaroView({ node })
   }
