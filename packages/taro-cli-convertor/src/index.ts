@@ -75,7 +75,7 @@ interface IImport {
   name: string
   wxs?: boolean
   // 模板处理事件的function
-  funcs?: string[]
+  funcs?: Set<string>
 }
 
 interface IParseAstOptions {
@@ -399,7 +399,7 @@ export default class Convertor {
                 if (/^\S(\S)*Tmpl$/.test(componentName)) {
                   const templateImport = imports.find((tmplImport) => tmplImport.name === `${componentName}`)
                   const templateFuncs = templateImport?.funcs
-                  if (templateFuncs && templateFuncs.length > 0) {
+                  if (templateFuncs && templateFuncs.size > 0) {
                     const attributes: any[] = openingElement.node.attributes
                     templateFuncs.forEach((templateFunc) => {
                       const memberExpression = t.memberExpression(t.thisExpression(), t.identifier(templateFunc))
