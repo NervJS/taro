@@ -135,7 +135,7 @@ export function renderAssetUrlInJS(
 /**
  * Also supports loading plain strings with import text from './foo.txt?raw'
  */
-export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): Plugin {
+export function assetPlugin(viteCompilerContext: ViteHarmonyCompilerContext): Plugin {
   registerCustomMime()
   let viteConfig: ResolvedConfig
 
@@ -181,7 +181,7 @@ export function assetPlugin(_viteCompilerContext: ViteHarmonyCompilerContext): P
       }
 
       id = id.replace(urlRE, '$1').replace(unnededFinalQueryCharRE, '')
-      const url = fileToUrl(id, viteConfig, this)
+      const url = fileToUrl(id, viteConfig, this, viteCompilerContext)
       return `export default ${JSON.stringify(url)}`
     },
     renderChunk(code, chunk, opts) {
@@ -244,6 +244,7 @@ export function fileToUrl(
   id: string,
   config: ResolvedConfig,
   pluginContext: PluginContext,
+  viteCompilerContext: ViteHarmonyCompilerContext,
   skipPublicCheck = false,
 ): string {
   if (!skipPublicCheck && checkPublicFile(id, config)) {
@@ -263,8 +264,12 @@ export function fileToUrl(
   const { search, hash } = parseUrl(id)
   const postfix = (search || '') + (hash || '')
 
+  const { cwd: appPath, taroConfig } = viteCompilerContext
+  const { sourceRoot = 'src' } = taroConfig
+  const appRoot = path.resolve(appPath, sourceRoot)
   const referenceId = pluginContext.emitFile({
     // Ignore directory structure for asset file names
+    fileName: path.relative(appRoot, file),
     name: path.basename(file),
     type: 'asset',
     source: content,
