@@ -140,15 +140,15 @@ function filter (fields, dom) {
 
     if (info) {
       if (rect) {
-        res.top = info.globalPosition.y
-        res.left = info.globalPosition.x
-        res.right = info.globalPosition.x + info.width
-        res.bottom = info.globalPosition.y + info.height
+        res.top = convertVP2PX(info.globalPosition.y)
+        res.left = convertVP2PX(info.globalPosition.x)
+        res.right = convertVP2PX(info.globalPosition.x + info.width)
+        res.bottom = convertVP2PX(info.globalPosition.y + info.height)
       }
 
       if (size) {
-        res.width = info.width
-        res.height = info.height
+        res.width = convertVP2PX(info.width)
+        res.height = convertVP2PX(info.height)
       }
     }
   }
@@ -158,8 +158,8 @@ function filter (fields, dom) {
     if (scroller) {
       const { xOffset, yOffset } = scroller.currentOffset()
 
-      res.scrollLeft = xOffset
-      res.scrollTop = yOffset
+      res.scrollLeft = convertVP2PX(xOffset)
+      res.scrollTop = convertVP2PX(yOffset)
     }
   }
   if (properties.length) {
@@ -302,4 +302,8 @@ export class SelectorQuery implements Taro.SelectorQuery {
     })
     this._queueCb.push(callback)
   }
+}
+
+function convertVP2PX (value: number) {
+  return Math.ceil(value / 384 * 750)
 }
