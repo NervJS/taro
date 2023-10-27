@@ -735,6 +735,9 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
               const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes)])
               path.replaceWith(newExpr)
+            } else {
+              const newExpr = t.newExpression(t.identifier('RegExp'), [])
+              path.replaceWith(newExpr)
             }
           }
         }

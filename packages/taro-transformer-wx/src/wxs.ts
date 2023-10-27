@@ -40,6 +40,9 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
               t.stringLiteral(regexWithoutQuotes)
             ])
             path.replaceWith(newExpr)
+          } else {
+            const newExpr = t.newExpression(t.identifier('RegExp'), [])
+            path.replaceWith(newExpr)
           }
         }
       }
