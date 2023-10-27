@@ -1,5 +1,5 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
-import { isFunction } from '@tarojs/shared'
+import { isFunction, isNumber } from '@tarojs/shared'
 
 import { ID } from '../constant'
 import { isElement } from '../utils'
@@ -166,7 +166,7 @@ class TaroScrollViewElement extends TaroElement {
   public setAttribute(name: string, value: any): void {
     super.setAttribute(name, value)
 
-    if (['scrollTop', 'scrollLeft'].includes(name) && !!value) {
+    if (['scrollTop', 'scrollLeft'].includes(name) && isNumber(value)) {
       isFunction(this._scrollToCb) && this._scrollToCb()
     }
   }
