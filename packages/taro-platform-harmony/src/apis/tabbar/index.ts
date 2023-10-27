@@ -27,7 +27,7 @@ const toggleTabBar = function<T extends ToggleAPIs['type']> (type: T): Extract<T
     return new Promise((resolve, reject) => {
       const taro = (Current as any).taro
       const page = taro.getCurrentInstance().page
-      const currentData = page._data?.taroTabBar || page.__tabBar
+      const currentData = page._data?.taroTabBar || page.__tabBar?.wrappedValue_
       const res = { errMsg: `${type}TabBar:ok` }
       const error = { errMsg: `${type}TabBar:fail not TabBar page` }
 
@@ -54,7 +54,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentData = page._data?.taroTabBar || page.__tabBar
+    const currentData = page._data?.taroTabBar || page.__tabBar?.wrappedValue_
     const res = { errMsg: 'setTabBarStyle:ok' }
     const error = { errMsg: 'setTabBarStyle:fail not TabBar page' }
 
@@ -68,7 +68,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
       if (options.backgroundColor) data.backgroundColor = options.backgroundColor
       if (options.borderStyle) data.borderStyle = options.borderStyle
 
-      eventCenter.trigger('__taroSetTabBarStyle', data)
+      eventCenter.trigger('__taroSetTabBarStyle', options)
       page.$set('taroTabBar', data)
       callAsyncSuccess(resolve, res, options)
     }
@@ -79,7 +79,7 @@ export const setTabBarItem: SetTabBarItem = function (options) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentData = page._data?.taroTabBar || page.__tabBar
+    const currentData = page._data?.taroTabBar || page.__tabBar?.wrappedValue_
     const res = { errMsg: 'setTabBarItem:ok' }
     const error = { errMsg: 'setTabBarItem:fail not TabBar page' }
 
@@ -100,7 +100,7 @@ export const setTabBarItem: SetTabBarItem = function (options) {
       ]
       const data = Object.assign({}, currentData, { list })
 
-      eventCenter.trigger('__taroSetTabBarItem', data)
+      eventCenter.trigger('__taroSetTabBarItem', options)
       page.$set('taroTabBar', data)
       callAsyncSuccess(resolve, res, options)
     }
