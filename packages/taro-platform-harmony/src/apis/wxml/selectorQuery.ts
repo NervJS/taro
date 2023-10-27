@@ -73,9 +73,8 @@ function parseHandler (selector, selectAll) {
 }
 
 // 从 TaroNode 里找到对应的 fields 内容
-function filter (fields, dom, selector) {
+function filter (fields, dom) {
   if (!dom) return null
-  const isViewport = selector === '.taro_page'
   const {
     id,
     // dataset,
@@ -98,7 +97,7 @@ function filter (fields, dom, selector) {
     }
     if (/^canvas/i.test(typeName)) {
       // harmony todo canvas attr type
-      const canvasType = dom.attr.type || ''
+      const canvasType = dom._attrs.type || ''
       res.nodeCanvasType = canvasType
       if (/^(2d|webgl)/i.test(canvasType) && dom) {
         res.node = dom
@@ -114,64 +113,63 @@ function filter (fields, dom, selector) {
     return res
   }
   if (context) {
-    const typeName = dom.type
-    if (/^video/i.test(typeName)) {
-      return { context: dom }
-    } else if (/^canvas/i.test(typeName)) {
-      const type = dom.type || '2d'
-      // harmony todo canvas context
-      const ctx = dom?.getContext(type)
-      return { context: ctx }
-    } else if (/^taro-live-player-core/i.test(typeName)) {
-      console.error('暂时不支持通过 NodesRef.context 获取 LivePlayerContext')
-    } else if (/^taro-editor-core/i.test(typeName)) {
-      console.error('暂时不支持通过 NodesRef.context 获取 EditorContext')
-    } else if (/^taro-map-core/i.test(typeName)) {
-      console.error('暂时不支持通过 NodesRef.context 获取 MapContext')
-    }
-    return
+    // TODO: 暂未实现获取 context
+    // const typeName = dom.type
+    // if (/^video/i.test(typeName)) {
+    //   return { context: dom }
+    // } else if (/^canvas/i.test(typeName)) {
+    //   const type = dom.type || '2d'
+    //   // harmony todo canvas context
+    //   const ctx = dom?.getContext(type)
+    //   return { context: ctx }
+    // } else if (/^taro-live-player-core/i.test(typeName)) {
+    //   console.error('暂时不支持通过 NodesRef.context 获取 LivePlayerContext')
+    // } else if (/^taro-editor-core/i.test(typeName)) {
+    //   console.error('暂时不支持通过 NodesRef.context 获取 EditorContext')
+    // } else if (/^taro-map-core/i.test(typeName)) {
+    //   console.error('暂时不支持通过 NodesRef.context 获取 MapContext')
+    // }
   }
   if (id) res.id = dom.id
-  // harmony todo dataset
+
+  // TODO harmony dataset
   // if (dataset) res.dataset = Object.assign({}, dom.dataset)
+
   if (rect || size) {
-    const { width, height, left, top } = dom.getBoundingClientRect()
-    if (rect) {
-      if (!isViewport) {
-        res.left = left
-        res.top = top
-        res.right = left + width
-        res.bottom = top + height
-      } else {
-        res.left = 0
-        res.right = 0
-        res.top = 0
-        res.bottom = 0
+    const info = dom?.instance?.info
+
+    if (info) {
+      if (rect) {
+        res.top = info.globalPosition.y
+        res.left = info.globalPosition.x
+        res.right = info.globalPosition.x + info.width
+        res.bottom = info.globalPosition.y + info.height
       }
-    }
-    if (size) {
-      if (!isViewport) {
-        res.width = width
-        res.height = height
-      } else {
-        res.width = dom.clientWidth
-        res.height = dom.clientHeight
+
+      if (size) {
+        res.width = info.width
+        res.height = info.height
       }
     }
   }
   if (scrollOffset) {
-    const { x, y } = dom.getScrollOffset()
-    res.scrollLeft = x
-    res.scrollTop = y
+    const scroller = dom.instance.scroller
+
+    if (scroller) {
+      const { xOffset, yOffset } = scroller.currentOffset()
+
+      res.scrollLeft = xOffset
+      res.scrollTop = yOffset
+    }
   }
   if (properties.length) {
     properties.forEach(prop => {
-      const attrs = dom.attr
+      const attrs = dom._attrs
       if (attrs[prop]) res[prop] = attrs[prop]
     })
   }
   if (computedStyle.length) {
-    const styles = dom.classStyle
+    const styles = dom._st
     computedStyle.forEach(key => {
       const value = styles[key]
       if (value) res[key] = value
@@ -191,7 +189,7 @@ function queryBat (queue, cb) {
   const result: any = []
   const taro = (Current as any).taro
   const page = taro.getCurrentInstance().page
-  const element = page.node
+  const element = (page.node instanceof Array) ? page.node[page.__currentIndex?.wrappedValue_] : page.node
 
   if (element == null) return null
 
@@ -201,10 +199,39 @@ function queryBat (queue, cb) {
     const { selector, single, fields } = item
 
     const nodeList = querySelector(selector, !single)
-    result.push(nodeList.map(dom => filter(fields, dom, selector)))
+    result.push(nodeList.map(dom => {
+      // eslint-disable-next-line no-async-promise-executor
+      return new Promise(async resolve => {
+        const instance = dom.instance
+
+        if (!instance.isAreaChangeTap) {
+          let onAreaChangePromiseResolve
+          // eslint-disable-next-line promise/param-names
+          const onAreaChangePromise = new Promise(areaResolve => {
+            onAreaChangePromiseResolve = areaResolve
+          })
+  
+          dom.onAreaChange = () => {
+            onAreaChangePromiseResolve()
+          }
+  
+          // 触发监听节点的更新
+          instance.isAreaChangeTap = true
+          instance.areaPromise = onAreaChangePromise
+        }
+
+        await instance.areaPromise
+
+        resolve(filter(fields, dom))
+      })
+    }))
   })
 
-  cb(result)
+  Promise.all(result.map(item => {
+    return Promise.all(item)
+  })).then(data => {
+    cb(data)
+  })
 }
 
 export class SelectorQuery implements Taro.SelectorQuery {
