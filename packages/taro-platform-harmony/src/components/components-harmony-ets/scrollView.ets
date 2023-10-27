@@ -5,7 +5,7 @@ import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
@@ -100,6 +100,17 @@ function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: nu
     eventHandler(event, eventName, this.node)
 }
 
+function bindScrollTo (node: TaroScrollViewElement, instance: object) {
+  if (!node) return
+
+  node._scrollToCb = () => {
+    instance.scroller.scrollTo({
+      xOffset: node._attrs.scrollLeft || 0,
+      yOffset: node._attrs.scrollTop || 0,
+    })
+  }
+}
+
 @Component
 struct TaroScrollView {
   info: Area = null
@@ -127,6 +138,7 @@ struct TaroScrollView {
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
+    bindScrollTo(this.node, this)
   }
 
   @Styles defaultEvent () {

@@ -1,4 +1,5 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { isFunction } from '@tarojs/shared'
 
 import { ID } from '../constant'
 import { isElement } from '../utils'
@@ -26,7 +27,7 @@ class TaroElement extends TaroNode {
   // public changeRecord = ''
 
   constructor(tagName: string) {
-    super(tagName.toUpperCase(), NodeType.ELEMENT_NODE)
+    super(tagName.replace(/(?<=.)([A-Z])/g, '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
     
     this.awaitAppear = new Promise(resolve => { this._appearResolve = resolve })
@@ -72,13 +73,13 @@ class TaroElement extends TaroNode {
     // 监听动画设置
     if (name === 'animation') {
       this.awaitAppear.then(() => {
-        typeof this._animationCb === 'function' && this._animationCb(value)
+        isFunction(this._animationCb) && this._animationCb(value)
       })
     }
 
 
     if (name === 'focus' && !!value) {
-      typeof this._focusCb === 'function' && this._focusCb()
+      isFunction(this._focusCb) && this._focusCb()
     }
     // if (!this.changeRecord.includes(`${name}-${value}`)) {
     //   this.changeRecord += `${name}-${value};`
@@ -154,6 +155,24 @@ class TaroButtonElement extends TaroElement {
 }
 
 @Observed
+class TaroScrollViewElement extends TaroElement {
+  // 滚动监听回调绑定
+  public _scrollToCb?:() => void
+
+  constructor() {
+    super('ScrollView')
+  }
+
+  public setAttribute(name: string, value: any): void {
+    super.setAttribute(name, value)
+
+    if (['scrollTop', 'scrollLeft'].includes(name) && !!value) {
+      isFunction(this._scrollToCb) && this._scrollToCb()
+    }
+  }
+}
+
+@Observed
 export class FormElement extends TaroElement {
   public get type () {
     return this._attrs.type ?? ''
@@ -179,6 +198,7 @@ export {
   TaroButtonElement,
   TaroElement,
   TaroImageElement,
+  TaroScrollViewElement,
   TaroTextElement,
   TaroViewElement
 }
