@@ -144,6 +144,7 @@ struct TaroScrollView {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
     .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
     }, this))
@@ -178,7 +179,6 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
-          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
         } else {
           Scroll(this.scroller) {
             Column() {
@@ -198,7 +198,6 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
-          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
         }
       }
       else {
@@ -220,7 +219,6 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
-          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
           .visibleChangeEvent()
         } else {
           Scroll(this.scroller) {
@@ -240,7 +238,6 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
-          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
           .visibleChangeEvent()
         }
       }
