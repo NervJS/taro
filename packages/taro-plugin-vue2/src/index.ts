@@ -173,6 +173,9 @@ function customVueChain (chain, data) {
     .use('vueLoader')
     .loader(vueLoaderPath)
     .options(vueLoaderOption)
+    .end()
+    .use('conditionCompilerLoader')
+    .loader(require.resolve('./condition-compiler-loader'))
 }
 
 function setLoader (chain) {
