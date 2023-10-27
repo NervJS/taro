@@ -98,6 +98,15 @@ struct TaroInput {
 
   height: number = 0
 
+  heightChange = (height) => {
+    if (isNumber(height)) {
+      if (this.height !== height) {
+        this.onKeyboardHeightChange(height)
+        this.height = height
+      }
+    }
+  }
+
   aboutToAppear () {
     bindFocus(this.node)
     bindInstanceToNode(this.node, this)
@@ -114,14 +123,7 @@ struct TaroInput {
           return window.getTopWindow(context)
         }).then(windowClass => {
           this.windowClass = windowClass
-          windowClass.on('keyboardHeightChange', (height) => {
-            if (isNumber(height)) {
-              if (this.height !== height) {
-                this.onKeyboardHeightChange(height)
-                this.height = height
-              }
-            }
-          })
+          windowClass.on('keyboardHeightChange', this.heightChange)
         }).catch((err)=>{
           console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
         })
@@ -132,9 +134,11 @@ struct TaroInput {
 
   aboutToDisappear () {
     if (this.windowClass) {
-      this.windowClass.then(win => {
-        win.off('keyboardheightchange')
-      })
+      try {
+        this.windowClass.off('keyboardheightchange', this.heightChange)
+      } catch (err) {
+        console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+      }
     }
   }
 

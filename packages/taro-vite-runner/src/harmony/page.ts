@@ -9,7 +9,7 @@ import type { PluginOption } from 'vite'
 export const PAGE_SUFFIX = '.ets?page-loader=true'
 export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 
-const SHOW_TREE = true
+const SHOW_TREE = false
 const showTreeFunc = (isTabbarPage) => `\nasync showTree() {
   const taskQueen = []
 
