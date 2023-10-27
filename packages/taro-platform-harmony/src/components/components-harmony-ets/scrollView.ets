@@ -86,6 +86,18 @@ function getAttributes (node: TaroViewElement) {
   }
 }
 
+function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: number) {
+    const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
+    const value = {
+      deltaX: convertVP2PX(xOffset),
+      deltaY: convertVP2PX(yOffset),
+      scrollLeft: convertVP2PX(currentXOffset),
+      scrollHeight: convertVP2PX(currentYOffset)
+    }
+    const event = createTaroEvent(eventName, { detail: { ...value } }, this.node)
+    eventHandler(event, eventName, this.node)
+}
+
 @Component
 struct TaroScrollView {
   info: Area = null
@@ -140,17 +152,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Horizontal)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll((xOffset: number, yOffset: number) => {
-            const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
-            const value = {
-              deltaX: convertVP2PX(xOffset),
-              deltaY: convertVP2PX(yOffset),
-              scrollLeft: convertVP2PX(currentXOffset),
-              scrollHeight: convertVP2PX(currentYOffset)
-            }
-            const event = createTaroEvent('scroll', { detail: { ...value } }, this.node)
-            eventHandler(event, 'scroll', this.node)
-          })
+          .onScroll(handleScrollEvent.bind(this, 'scroll'))
+          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
+          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
         } else {
           Scroll(this.scroller) {
             Column() {
@@ -166,17 +170,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll((xOffset: number, yOffset: number) => {
-            const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
-            const value = {
-              deltaX: convertVP2PX(xOffset),
-              deltaY: convertVP2PX(yOffset),
-              scrollLeft: convertVP2PX(currentXOffset),
-              scrollHeight: convertVP2PX(currentYOffset)
-            }
-            const event = createTaroEvent('scroll', { detail: { ...value } }, this.node)
-            eventHandler(event, 'scroll', this.node)
-          })
+          .onScroll(handleScrollEvent.bind(this, 'scroll'))
+          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
+          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
         }
       }
       else {
@@ -194,17 +190,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Horizontal)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll((xOffset: number, yOffset: number) => {
-            const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
-            const value = {
-              deltaX: convertVP2PX(xOffset),
-              deltaY: convertVP2PX(yOffset),
-              scrollLeft: convertVP2PX(currentXOffset),
-              scrollHeight: convertVP2PX(currentYOffset)
-            }
-            const event = createTaroEvent('scroll', { detail: { ...value } }, this.node)
-            eventHandler(event, 'scroll', this.node)
-          })
+          .onScroll(handleScrollEvent.bind(this, 'scroll'))
+          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
+          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
           .visibleChangeEvent()
         } else {
           Scroll(this.scroller) {
@@ -220,17 +208,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll((xOffset: number, yOffset: number) => {
-            const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
-            const value = {
-              deltaX: convertVP2PX(xOffset),
-              deltaY: convertVP2PX(yOffset),
-              scrollLeft: convertVP2PX(currentXOffset),
-              scrollHeight: convertVP2PX(currentYOffset)
-            }
-            const event = createTaroEvent('scroll', { detail: { ...value } }, this.node)
-            eventHandler(event, 'scroll', this.node)
-          })
+          .onScroll(handleScrollEvent.bind(this, 'scroll'))
+          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
+          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
           .visibleChangeEvent()
         }
       }
