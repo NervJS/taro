@@ -4,7 +4,7 @@ import * as fs from 'fs'
 import { dirname, extname, relative, resolve } from 'path'
 
 import { errors } from './global'
-import { buildBlockElement, buildRender, pascalName, setting } from './utils'
+import { buildBlockElement, buildRender, getLineBreak, pascalName, printToLogFile, setting } from './utils'
 import { createWxmlVistor, parseWXML } from './wxml'
 
 function isNumeric (n) {
@@ -34,7 +34,7 @@ export function buildTemplateName (name: string, pascal = true): string {
 /**
  * @description 预解析template模板
  * @param path template在AST中的区域
- * @returns 
+ * @returns
  */
 export function preParseTemplate (path: NodePath<t.JSXElement>) {
   if (!path.container) {
@@ -42,11 +42,12 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   }
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
-  const name = attrs.find((attr) =>
-    t.isJSXAttribute(attr) &&
-    t.isJSXIdentifier(attr.get('name')) &&
-    t.isJSXAttribute(attr.node) &&
-    attr.node.name.name === 'name'
+  const name = attrs.find(
+    (attr) =>
+      t.isJSXAttribute(attr) &&
+      t.isJSXIdentifier(attr.get('name')) &&
+      t.isJSXAttribute(attr.node) &&
+      attr.node.name.name === 'name'
   )
   if (!(name && t.isJSXAttribute(name.node))) {
     return
@@ -79,11 +80,12 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
     JSXOpeningElement (p) {
       // 获取 template调用的模板
       const attrs = p.get('attributes')
-      const is = attrs.find((attr) =>
-        t.isJSXAttribute(attr) &&
-        t.isJSXIdentifier(attr.get('name')) &&
-        t.isJSXAttribute(attr.node) &&
-        attr.node.name.name === 'is'
+      const is = attrs.find(
+        (attr) =>
+          t.isJSXAttribute(attr) &&
+          t.isJSXIdentifier(attr.get('name')) &&
+          t.isJSXAttribute(attr.node) &&
+          attr.node.name.name === 'is'
       )
       if (!(is && t.isJSXAttribute(is.node))) {
         return
@@ -110,6 +112,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
   if (!path.container) {
     return
   }
+  printToLogFile(`funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(

@@ -28,16 +28,20 @@ import {
   analyzeImportUrl,
   copyFileToTaro,
   DEFAULT_Component_SET,
+  generateDir,
   generateReportFile,
+  getLineBreak,
   getMatchUnconvertDir,
   getPkgVersion,
   getWxssImports,
   handleThirdPartyLib,
   handleUnconvertDir,
   incrementId,
+  printToLogFile,
   transRelToAbsPath,
 } from './util'
 import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
+import { globals } from './util/global'
 
 import type { ParserOptions } from '@babel/parser'
 import type { AppConfig, TabBar } from '@tarojs/taro'
@@ -200,6 +204,9 @@ export default class Convertor {
       fs.ensureDirSync(this.convertRoot)
     }
     this.convertSelfDefinedConfig()
+    // 创建.convert目录，存放转换中间数据
+    generateDir(path.join(this.convertRoot, '.convert'))
+    globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
   }
 
   wxsIncrementId = incrementId()
@@ -301,6 +308,7 @@ export default class Convertor {
               analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
             CallExpression (astPath) {
+              printToLogFile(`解析CallExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
@@ -1063,6 +1071,7 @@ ${code}
 
   traversePages () {
     this.pages.forEach((page) => {
+      printToLogFile(`开始转换页面 ${page} ${getLineBreak()}`)
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
 
       // 处理不转换的页面，可在convert.config.json中external字段配置
@@ -1176,6 +1185,7 @@ ${code}
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
         console.log(err)
+        printToLogFile(`转换页面异常 ${err.stack} ${getLineBreak()}`)
       }
     })
   }
