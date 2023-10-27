@@ -77,6 +77,15 @@ function attrs ({
   .transform(transform)
 }
 
+function getAttributes (node: TaroViewElement) {
+  const { _attrs = {} } = node
+  return {
+    showScrollbar: typeof _attrs.showScrollbar === 'boolean'
+      ? _attrs.showScrollbar ? BarState.On : BarState.Off
+      : BarState.Auto,
+  }
+}
+
 @Component
 struct TaroScrollView {
   info: Area = null
@@ -96,7 +105,7 @@ struct TaroScrollView {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
-  
+
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
     // 绑定动画
@@ -129,6 +138,7 @@ struct TaroScrollView {
           .width(getNormalAttributes(this.node).size.width)
           .flexGrow(getNormalAttributes(this.node).flexSize[0])
           .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
           .onScroll((xOffset: number, yOffset: number) => {
             const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
@@ -154,6 +164,7 @@ struct TaroScrollView {
           .height(getNormalAttributes(this.node).size.height)
           .flexGrow(getNormalAttributes(this.node).flexSize[0])
           .scrollable(ScrollDirection.Vertical)
+          .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
           .onScroll((xOffset: number, yOffset: number) => {
             const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
@@ -181,6 +192,7 @@ struct TaroScrollView {
           }
           .width(getNormalAttributes(this.node).size.width)
           .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
           .onScroll((xOffset: number, yOffset: number) => {
             const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
@@ -206,6 +218,7 @@ struct TaroScrollView {
           }
           .height(getNormalAttributes(this.node).size.height)
           .scrollable(ScrollDirection.Vertical)
+          .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
           .onScroll((xOffset: number, yOffset: number) => {
             const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()

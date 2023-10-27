@@ -100,11 +100,11 @@ function renderPage (isTabPage: boolean) {
   controller: this.controller,
   index: this.currentIndex,
 }) {
-  ForEach(this.tabBar.list, (item, index) => {
+  ForEach(this.tabBarList, (item, index) => {
     TabContent() {
       ${transArr2Str(pageStr.split('\n'), 6)}
     }.tabBar(this.renderTabBuilder(index, item))
-  }, item => item.pagePath)
+  }, item => JSON.stringify(item)) // TODO：改为生成 key 用于更新 TabBar，每次 TabBarItem 变化时都需要更新 key 避免 TabBar 不更新
 }
 .vertical(false)
 .barMode(BarMode.Fixed)
@@ -268,7 +268,7 @@ export default { ${
     })
     this.removeEvent()` : 'this.page?.onUnLoad?.call(this)'}
   }`,
-          SHOW_TREE ? transArr2Str(['', '', ...showTreeFunc(isTabbarPage).split('\n')], 2) : null,
+          SHOW_TREE ? transArr2Str(showTreeFunc(isTabbarPage).split('\n'), 2) : null,
           `
   handlePageAppear(${isTabbarPage ? 'index = this.currentIndex' : ''}) {
     const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
@@ -323,13 +323,39 @@ export default { ${
     }
   }
 
-  setTabBarBadgeHandler = () => {}
+  setTabBarBadgeHandler = ({ index, text = '' }) => {
+    const list = [...this.tabBarList]
+    if (index in list) {
+      list[index].showRedDot = false
+      list[index].badgeText = text
+    }
+    this.tabBarList = list
+  }
 
-  removeTabBarBadgeHandler = () => {}
+  removeTabBarBadgeHandler = ({ index }) => {
+    const list = [...this.tabBarList]
+    if (index in list) {
+      list[index].badgeText = null
+    }
+    this.tabBarList = list
+  }
 
-  showTabBarRedDotHandler = () => {}
+  showTabBarRedDotHandler = ({ index }) => {
+    const list = [...this.tabBarList]
+    if (index in list) {
+      list[index].badgeText = null
+      list[index].showRedDot = true
+    }
+    this.tabBarList = list
+  }
 
-  hideTabBarRedDotHandler = () => {}
+  hideTabBarRedDotHandler = ({ index }) => {
+    const list = [...this.tabBarList]
+    if (index in list) {
+      list[index].showRedDot = false
+    }
+    this.tabBarList = list
+  }
 
   showTabBarHandler = ({ animation = false }) => {
     if (animation) {
@@ -361,9 +387,22 @@ export default { ${
     }
   }
 
-  setTabBarStyleHandler = () => {}
+  setTabBarStyleHandler = ({ backgroundColor, borderStyle, color, selectedColor }) => {
+    if (backgroundColor) this.backgroundColor = backgroundColor
+    if (borderStyle) this.borderStyle = borderStyle
+    if (color) this.color = color
+    if (selectedColor) this.selectedColor = selectedColor
+  }
 
-  setTabBarItemHandler = () => {}
+  setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text }) => {
+    const list = [...this.tabBarList]
+    if (index in list) {
+      if (iconPath) list[index].iconPath = iconPath
+      if (selectedIconPath) list[index].selectedIconPath = selectedIconPath
+      if (text) list[index].text = text
+    }
+    this.tabBarList = list
+  }
 
   bindEvent () {
     eventCenter.on('__taroRouterChange', this.routerChangeHandler)
@@ -403,6 +442,8 @@ export default { ${
           .fontSize(10)
           .fontWeight(this.currentIndex === index ? 500 : 400)
           .lineHeight(14)
+          .maxLines(1)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
           .margin({ top: 7, bottom: 7 })
       } else {
         Text(item.text)
@@ -410,6 +451,8 @@ export default { ${
           .fontSize(16)
           .fontWeight(this.currentIndex === index ? 500 : 400)
           .lineHeight(22)
+          .maxLines(1)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
           .margin({ top: 17, bottom: 7 })
       }
     }.width('100%').height('100%').justifyContent(FlexAlign.Center)

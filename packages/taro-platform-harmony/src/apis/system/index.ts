@@ -12,7 +12,7 @@ import call from '@ohos.telephony.call'
 // 但是 新接口 @ohos.brightness 没有getValue
 import brightness from '@system.brightness'
 // 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
-import device from '@system.device'
+import deviceMethod from '@system.device'
 // 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
 // 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
 import network from '@system.network'
@@ -24,6 +24,14 @@ import { GetAPIsOptionsSuccessType } from '../utils/types'
 import type Taro from '@tarojs/taro'
 
 const display = _display.getDefaultDisplaySync()
+
+let device
+
+deviceMethod.getInfo({
+  success: data => {
+    device = data
+  }
+})
 
 type GetNetworkType = typeof Taro.getNetworkType;
 type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange;
