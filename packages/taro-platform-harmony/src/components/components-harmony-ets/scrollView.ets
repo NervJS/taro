@@ -93,8 +93,8 @@ function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: nu
       deltaY: convertVP2PX(yOffset),
       scrollLeft: convertVP2PX(currentXOffset),
       scrollTop: convertVP2PX(currentYOffset),
-      scrollWidth: convertVP2PX(this.wrapper.width),
-      scrollHeight: convertVP2PX(this.wrapper.height),
+      scrollWidth: convertVP2PX(this.wrapper?.width),
+      scrollHeight: convertVP2PX(this.wrapper?.height),
     }
     const event = createTaroEvent(eventName, { detail: { ...value } }, this.node)
     eventHandler(event, eventName, this.node)
@@ -111,7 +111,7 @@ struct TaroScrollView {
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange?.(isVisible, currentRatio)
+      this.visibleChange?.(isVisible, currentRatio)
     })
   }
 
