@@ -28,16 +28,20 @@ import {
   analyzeImportUrl,
   copyFileToTaro,
   DEFAULT_Component_SET,
+  generateDir,
   generateReportFile,
+  getLineBreak,
   getMatchUnconvertDir,
   getPkgVersion,
   getWxssImports,
   handleThirdPartyLib,
   handleUnconvertDir,
   incrementId,
+  printToLogFile,
   transRelToAbsPath,
 } from './util'
 import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
+import { globals } from './util/global'
 
 import type { ParserOptions } from '@babel/parser'
 import type { AppConfig, TabBar } from '@tarojs/taro'
@@ -200,6 +204,9 @@ export default class Convertor {
       fs.ensureDirSync(this.convertRoot)
     }
     this.convertSelfDefinedConfig()
+    // 创建.convert目录，存放转换中间数据
+    generateDir(path.join(this.convertRoot, '.convert'))
+    globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
   }
 
   wxsIncrementId = incrementId()
@@ -301,6 +308,7 @@ export default class Convertor {
               analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
             CallExpression (astPath) {
+              printToLogFile(`解析CallExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
@@ -347,7 +355,7 @@ export default class Convertor {
                 node.object = t.identifier('Taro')
                 needInsertImportTaro = true
               } else if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
-                node.object = t.callExpression(t.identifier('getTarget'),[object, t.identifier('Taro')])
+                node.object = t.callExpression(t.identifier('getTarget'), [object, t.identifier('Taro')])
                 // 创建导入 cacheOptions 对象的 ast 节点
                 if (!hasDatasetRequired) {
                   const requireCacheOptionsAst = t.variableDeclaration('const', [
@@ -369,7 +377,7 @@ export default class Convertor {
               const object = node.object
               const prettier = node.property
               if (t.isIdentifier(prettier) && prettier.name === 'dataset') {
-                node.object = t.callExpression(t.identifier('getTarget'),[object, t.identifier('Taro')])
+                node.object = t.callExpression(t.identifier('getTarget'), [object, t.identifier('Taro')])
                 // 创建导入 getTarget 对象的 ast 节点, 并且防止重复引用
                 if (!hasDatasetRequired) {
                   const requireCacheOptionsAst = t.variableDeclaration('const', [
@@ -639,10 +647,10 @@ export default class Convertor {
           declarations.forEach((declaration) => {
             const { id, init } = declaration
             if (
-              t.isObjectPattern(id) 
-              && t.isCallExpression(init) 
-              && t.isIdentifier(init.callee)
-              && t.isStringLiteral(init.arguments[0])
+              t.isObjectPattern(id) &&
+              t.isCallExpression(init) &&
+              t.isIdentifier(init.callee) &&
+              t.isStringLiteral(init.arguments[0])
             ) {
               const name = init.callee.name
               const args = init.arguments[0].value
@@ -660,13 +668,13 @@ export default class Convertor {
         if (currentAstIsWithWeapp) {
           astPath.remove()
         }
-      }
+      },
     })
 
     // 若 set 为空则不引入 @tarojs/with-weapp
     if (set.size !== 0) {
       if (isCommonjsModule(ast.program.body as any)) {
-        const objectPropertyArray:(t.ObjectProperty | t.RestElement)[] = []
+        const objectPropertyArray: (t.ObjectProperty | t.RestElement)[] = []
         set.forEach((key: string) => {
           if (key === 'withWeapp') {
             objectPropertyArray.push(t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true))
@@ -742,11 +750,30 @@ export default class Convertor {
   }
 
   getApp () {
+    try {
+      const projectConfigPath: string = path.join(this.root, `project.config${this.fileTypes.CONFIG}`) // project.config.json 文件路径
+      // 解析 project.config.json 文件，获取 miniprogramRoot 字段的值
+      const projectConfig = JSON.parse(fs.readFileSync(projectConfigPath, 'utf8'))
+      this.miniprogramRoot = projectConfig.miniprogramRoot
+    } catch (err) {
+      console.error('读取 project.config.json 文件失败:', err)
+      process.exit(1)
+    }
+    // 如果找到 miniprogramRoot字段，则以对应目录作为小程序逻辑目录
+    if (this.miniprogramRoot) {
+      this.root = path.resolve(this.miniprogramRoot)
+    }
     if (this.isTsProject) {
       this.entryJSPath = path.join(this.miniprogramRoot, `app${this.fileTypes.SCRIPT}`)
       this.entryJSONPath = path.join(this.miniprogramRoot, `app${this.fileTypes.CONFIG}`)
       this.entryStylePath = path.join(this.miniprogramRoot, `app${this.fileTypes.STYLE}`)
     } else {
+      this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
+      this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
+      this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
+    }
+    // 如果在 miniprogramRoot 目录下找到 app.json 文件，则将入口文件和配置文件路径修改为对应的路径
+    if (this.miniprogramRoot && fs.existsSync(path.join(this.root, `app${this.fileTypes.CONFIG}`))) {
       this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
       this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
       this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
@@ -1044,6 +1071,7 @@ ${code}
 
   traversePages () {
     this.pages.forEach((page) => {
+      printToLogFile(`开始转换页面 ${page} ${getLineBreak()}`)
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
 
       // 处理不转换的页面，可在convert.config.json中external字段配置
@@ -1157,6 +1185,7 @@ ${code}
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
         console.log(err)
+        printToLogFile(`转换页面异常 ${err.stack} ${getLineBreak()}`)
       }
     })
   }

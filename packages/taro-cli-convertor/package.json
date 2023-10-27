@@ -9,7 +9,7 @@
     "prod": "tsc",
     "clean": "rimraf dist",
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
     "test:cov": "jest --coverage && npm run lint"
   },

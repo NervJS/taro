@@ -1,24 +1,9 @@
-// import * as babel from '@babel/core'
 import generate from '@babel/generator'
 import { parse } from '@babel/parser'
-// import * as template from '@babel/template'
-// const template = require('babel-template')
-// import classProperties from '@babel/plugin-proposal-class-properties'
-// import decorators from '@babel/plugin-proposal-decorators'
-// import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
-// import asyncGenerators from '@babel/plugin-syntax-async-generators'
-// import dynamicImport from '@babel/plugin-syntax-dynamic-import'
-// import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
-// import flowStrip from '@babel/plugin-transform-flow-strip-types'
-// import jsxPlugin from '@babel/plugin-transform-react-jsx'
 import traverse, { Binding, NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-// import * as template from '@babel/template'
-// const template = require('babel-template')
 import { prettyPrint } from 'html'
 import { cloneDeep, get as safeGet, isArray, snakeCase } from 'lodash'
-// import { transform as parse } from '@babel/core'
-// import parser from '@babel/parser'
 import * as ts from 'typescript'
 
 import { Adapter, Adapters, setAdapter } from './adapter'
@@ -49,7 +34,6 @@ import {
   THIRD_PARTY_COMPONENTS,
 } from './constant'
 import { isTestEnv } from './env'
-// import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
 import { Options, setTransformOptions } from './options'
 import {
   codeFrameError,
@@ -216,16 +200,14 @@ function parseCode (code: string) {
   const ast: any = parse(code, {
     sourceType: 'module',
     plugins: [
-      // 'classProperties',   //最新版本已启用
       'jsx',
       'flow',
-      // 'asyncGenerators',   //最新版本已启用
       'decorators-legacy',
-      // 'dynamicImport',     //最新版本已启用
-      // 'objectRestSpread',  //最新版本已启用
       ['optionalChainingAssign', { version: '2023-07' }],
       'sourcePhaseImports',
       'throwExpressions',
+      'deferredImportEvaluation',
+      'exportDefaultFrom'
     ],
   })
   // 移除Flow类型注释

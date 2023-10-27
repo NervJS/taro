@@ -18,7 +18,7 @@ interface Option {
 }
 
 export function parse (option: Option) {
-  resetGlobals()
+  resetGlobals(option.rootPath)
   setting.rootPath = option.rootPath
   if (option.json) {
     const config = JSON.parse(option.json)
