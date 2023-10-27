@@ -69,10 +69,11 @@ export default async function (source) {
         return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
       })
 
-      const templateImporter = template.buildXsTemplate().replace(/["']([^"]*)utils/g, function (match, $1) {
+      const xsImporter = template.buildXsTemplate().replace(/["']([^"]*)utils/g, function (match, $1) {
         return match.replace($1, '../')
       })
-      content = templateImporter + content
+      const baseTemplateImporter = '<import src="../base.wxml"/>'
+      content = xsImporter + baseTemplateImporter + content
 
       await fs.outputFile(outputPath, content)
     }

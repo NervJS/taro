@@ -160,9 +160,12 @@ impl TransformVisitor {
                         let children = self.build_xml_children(el);
                         format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
                     },
-                    // TODO 原生自定义组件
-                    // TODO React 组件
-                    None => String::new()
+                    None => {
+                        // React 组件
+                        // 原生自定义组件
+                        let node_path = self.get_current_node_path();
+                        format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                    }
                 }
             }
             _ => String::new()
@@ -181,7 +184,7 @@ impl TransformVisitor {
                     if jsx_attr_name == "key" {
                         return true;
                     }
-                    
+
                     let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
                     let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
                     let is_event = event_name.is_some();
