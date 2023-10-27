@@ -2,6 +2,7 @@ import { eventHandler } from '../runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
@@ -177,6 +178,7 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
         } else {
           Scroll(this.scroller) {
             Column() {
@@ -196,6 +198,7 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
         }
       }
       else {
@@ -217,6 +220,7 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
           .visibleChangeEvent()
         } else {
           Scroll(this.scroller) {
@@ -236,6 +240,7 @@ struct TaroScrollView {
           .onScroll(handleScrollEvent.bind(this, 'scroll'))
           .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
           .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
           .visibleChangeEvent()
         }
       }
