@@ -5,7 +5,7 @@ import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
@@ -92,15 +92,29 @@ function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: nu
       deltaX: convertVP2PX(xOffset),
       deltaY: convertVP2PX(yOffset),
       scrollLeft: convertVP2PX(currentXOffset),
-      scrollHeight: convertVP2PX(currentYOffset)
+      scrollTop: convertVP2PX(currentYOffset),
+      scrollWidth: convertVP2PX(this.wrapper?.width),
+      scrollHeight: convertVP2PX(this.wrapper?.height),
     }
     const event = createTaroEvent(eventName, { detail: { ...value } }, this.node)
     eventHandler(event, eventName, this.node)
 }
 
+function bindScrollTo (node: TaroScrollViewElement, instance: object) {
+  if (!node) return
+
+  node._scrollToCb = () => {
+    instance.scroller.scrollTo({
+      xOffset: node._attrs.scrollLeft || 0,
+      yOffset: node._attrs.scrollTop || 0,
+    })
+  }
+}
+
 @Component
 struct TaroScrollView {
   info: Area = null
+  wrapper: Area = null
 
   @State thresholds: number[] = []
 
@@ -108,7 +122,7 @@ struct TaroScrollView {
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange?.(isVisible, currentRatio)
+      this.visibleChange?.(isVisible, currentRatio)
     })
   }
 
@@ -124,6 +138,7 @@ struct TaroScrollView {
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
+    bindScrollTo(this.node, this)
   }
 
   @Styles defaultEvent () {
@@ -131,6 +146,12 @@ struct TaroScrollView {
     .onAreaChange(getNodeAreaChange((areaResult: Area) => {
       this.info = areaResult
     }, this))
+  }
+
+  @Styles defaultContainerEvent () {
+    .onAreaChange(shouldBindEvent((areaResult: Area) => {
+      this.wrapper = areaResult
+    }, this.node, ['scroll', 'scrollstart', 'scrollend']))
   }
 
   build() {
@@ -146,6 +167,7 @@ struct TaroScrollView {
             }
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
             .height(getNormalAttributes(this.node).size.height)
+            .defaultContainerEvent()
           }
           .width(getNormalAttributes(this.node).size.width)
           .flexGrow(getNormalAttributes(this.node).flexSize[0])
@@ -164,6 +186,7 @@ struct TaroScrollView {
             }
             .width(getNormalAttributes(this.node).size.width)
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+            .defaultContainerEvent()
           }
           .height(getNormalAttributes(this.node).size.height)
           .flexGrow(getNormalAttributes(this.node).flexSize[0])
@@ -185,6 +208,7 @@ struct TaroScrollView {
             }
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
             .height(getNormalAttributes(this.node).size.height)
+            .defaultContainerEvent()
           }
           .width(getNormalAttributes(this.node).size.width)
           .scrollable(ScrollDirection.Horizontal)
@@ -203,6 +227,7 @@ struct TaroScrollView {
             }
             .width(getNormalAttributes(this.node).size.width)
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+            .defaultContainerEvent()
           }
           .height(getNormalAttributes(this.node).size.height)
           .scrollable(ScrollDirection.Vertical)
