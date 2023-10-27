@@ -216,6 +216,8 @@ export class MiniWebpackModule {
 
     rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
       template: this.combination.config.template,
+      outputDir: this.combination.outputDir,
+      fileType: this.combination.fileType,
     })
 
     return rule
