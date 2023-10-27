@@ -57,12 +57,14 @@ function textAttrs ({
   fontColor,
   fontSize,
   fontWeight,
-  fontFamily
+  fontFamily,
+  textAlign
 }) {
   .fontColor(fontColor)
   .fontSize(fontSize)
   .fontWeight(fontWeight)
   .fontFamily(fontFamily)
+  .textAlign(textAlign)
 }
 
 

@@ -10,6 +10,7 @@ import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(Flex)
 function attrs ({
+  clip,
   flexSize,
   alignSelf,
   size,
@@ -49,6 +50,7 @@ function attrs ({
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
 
 @Component
@@ -94,7 +96,6 @@ struct TaroView {
         }
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .defaultEvent()
-        .clip(true)
       } else {
         Flex(FlexManager.flexOptions(this.node)) {
           ForEach(this.node.childNodes, item => {
@@ -103,7 +104,6 @@ struct TaroView {
         }
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .defaultEvent()
-        .clip(true)
         .visibleChangeEvent()
       }
     }

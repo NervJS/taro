@@ -32,7 +32,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
+  transform,
+  size,
+  textAlign
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -57,6 +59,8 @@ function attrs ({
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .size(size)
+  .textAlign(textAlign)
 }
 
 @Extend(Span)
@@ -81,7 +85,9 @@ function spanAttrs ({
   rotate,
   scale,
   translate,
-  transform
+  transform,
+  size,
+  textAlign
  }) {
   .constraintSize(constraintSize)
   .zIndex(zIndex)
@@ -100,6 +106,8 @@ function spanAttrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage)
   .backgroundImageSize(backgroundImageSize)
+  .size(size)
+  .textAlign(textAlign)
 }
 
 function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) {

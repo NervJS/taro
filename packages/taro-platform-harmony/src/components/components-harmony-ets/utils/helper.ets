@@ -105,7 +105,8 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
     rotate: transformData.rotate,
     translate: transformData.translate,
     scale: transformData.scale,
-    transform: transformData.transform
+    transform: transformData.transform,
+    clip: AttributeManager.getNodeStyle(_st, 'overflow') === 'hidden'
   }
   // 处理覆盖属性：如动画的覆盖
   if (overwriteStyle) {
