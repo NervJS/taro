@@ -132,7 +132,7 @@ function patchMappingElements (ctx: IPluginContext, options: IOptions, inlineEle
       }
     })
 
-    const str = generator(ast).code
+    const str = generator(ast as any).code
     helper.fs.writeFileSync(filePath, str)
   }
 }
