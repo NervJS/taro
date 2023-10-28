@@ -427,11 +427,16 @@ export default class Convertor {
                       t.isJSXAttribute(attr.node) &&
                       attr.node.name.name === 'is'
                   )
-                  // 处理<template is=字符串+变量 拼接的情况(组件的动态名称)
+                  // 处理<template is=包含变量的情况(组件的动态名称)
                   if (is && t.isJSXAttribute(is.node)) {
                     const value = is.node.value
                     if (value && t.isJSXExpressionContainer(value)) {
-                      if (t.isBinaryExpression(value.expression) && value.expression.operator === '+') {
+                      const expression = value.expression
+                      // 1、<template is={{var}}> 2、<template is="string{{var}}">
+                      if (
+                        t.isIdentifier(expression) ||
+                        (t.isBinaryExpression(expression) && expression.operator === '+')
+                      ) {
                         // 加上map, template原名和新名字的映射
                         const componentMapList: any[] = []
                         for (const order in imports) {
@@ -463,7 +468,7 @@ export default class Convertor {
                           const ComponentNameVariableDeclaration = t.variableDeclaration('let', [
                             t.variableDeclarator(
                               t.identifier('ComponentName'),
-                              t.memberExpression(t.identifier('ComponentMap'), value.expression, true)
+                              t.memberExpression(t.identifier('ComponentMap'), expression, true)
                             ),
                           ])
                           returnPath.insertBefore(ComponentNameVariableDeclaration)
