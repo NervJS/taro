@@ -90,15 +90,15 @@ declare module '../../index' {
        * @supported alipay
        */
       height: string
-       /** 视频文件的宽度。
+      /** 视频文件的宽度。
        * @supported alipay
        */
       width: string
-       /** 视频文件的尺寸。
+      /** 视频文件的尺寸。
        * @supported alipay
        */
       size: string
-       /** 录制的持续时间。
+      /** 录制的持续时间。
        * @supported alipay
        */
       duration: string
@@ -194,6 +194,10 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建 camera 上下文 CameraContext 对象。
+     *
+     * ****
+     *
+     * 注：支付宝小程序需指定 camera 组件中的 id 属性
      * @supported weapp, rn, tt, alipay
      * @example
      * ```tsx
