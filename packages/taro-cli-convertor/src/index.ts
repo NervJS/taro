@@ -315,6 +315,16 @@ export default class Convertor {
               if (callee.type === 'Identifier') {
                 if (callee.name === 'require') {
                   const args = node.arguments as Array<t.StringLiteral>
+                  if (args.length === 0) {
+                    // require()
+                    return
+                  }
+
+                  if (!t.isStringLiteral(args[0])) {
+                    // require 暂不支持动态导入，如require('aa' + aa)，后续收录到报告中
+                    throw new Error(`require暂不支持动态导入, filePath: ${sourceFilePath}, context: ${astPath}`)
+                  }
+
                   const value = args[0].value
                   analyzeImportUrl(self.root, sourceFilePath, scriptFiles, args[0], value, self.isTsProject)
                 } else if (WX_GLOBAL_FN.has(callee.name)) {
