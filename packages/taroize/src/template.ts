@@ -109,7 +109,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
 }
 
 export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
-  if (!path.container) {
+  if (!path.container || !path.isJSXElement()) {
     return
   }
   printToLogFile(`funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
