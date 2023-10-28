@@ -30,51 +30,38 @@ export class PickerViewColumn {
   @Event({ eventName: 'onselectstart' }) onSelectStart: EventEmitter
   @Event({ eventName: 'onselectend' }) onSelectEnd: EventEmitter
 
-  @Listen('scroll')
-  onScroll(_event: UIEvent) {
-    if (!this.isMove) {
-      this.isMove = true
-      this.onSelectStart.emit()
-    }
-    this.handleSelected()
-  }
-
-  @Listen('mouseup')
-  @Listen('mouseout')
-  @Listen('mouseleave')
-  onMouseEnd() {
-    if (!this.isMove) return
-    this.isMove = false
-    this.handleSelected()
-  }
-
   @Listen('touchend')
   onTouchEnd() {
     this.isMove = false
     this.handleSelected()
   }
 
+  componentDidLoad() {
+    this.handleChange()
+  }
+
   componentDidUpdate() {
-    if (!this.isInit) {
-      this.isInit = true
-      const childList = this.el.childNodes
-      let idx = 0
-      let sum = 0
-      for (const index in childList) {
-        const item = childList[index] as HTMLElement
-        if (this.initialPosition === index || !item || typeof item.offsetHeight !== 'number') {
-          break
-        }
-        sum += item.offsetHeight
-        idx++
+    this.handleChange()
+  }
+
+  handleChange() {
+    const childList = this.el.childNodes
+    let idx = 0
+    let sum = 0
+    for (const index in childList) {
+      const item = childList[index] as HTMLElement
+      if (this.initialPosition === index || !item || typeof item.offsetHeight !== 'number') {
+        break
       }
-      this.el.scrollTo({ top: sum })
-      if (idx >= childList.length) {
-        this.onChange.emit({
-          curIndex: this.col,
-          selectedIndex: idx - 1
-        })
-      }
+      sum += item.offsetHeight
+      idx++
+    }
+    this.el.scrollTo({ top: sum })
+    if (idx >= childList.length) {
+      this.onChange.emit({
+        curIndex: this.col,
+        selectedIndex: idx - 1
+      })
     }
   }
 
