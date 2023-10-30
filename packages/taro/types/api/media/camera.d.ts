@@ -152,6 +152,8 @@ declare module '../../index' {
       normal
       /** 低质量 */
       low
+      /** 原图 */
+      original
     }
   }
 
