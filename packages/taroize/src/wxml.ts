@@ -128,9 +128,9 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
     const attrValueReg = /([^{}]*)\{\{([^{}]*)\}\}([^{}]*)/
     const matchs = attrValueReg.exec(attr.value)
     if (matchs !== null) {
-      const tempLeftValue = matchs[1]?.trim() || ''
-      const tempMidValue = matchs[2]?.trim() || ''
-      const tempRightValue = matchs[3]?.trim() || ''
+      const tempLeftValue = matchs[1] || ''
+      const tempMidValue = matchs[2] || ''
+      const tempRightValue = matchs[3] || ''
       // 将模版中的内容转换为 ast 节点
       const tempMidValueAst = parseFile(tempMidValue).program.body[0] as any
       attr.value = t.templateLiteral(
