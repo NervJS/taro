@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/with-weapp",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "taroize 之后的运行时",
   "main": "index.js",
   "files": [
