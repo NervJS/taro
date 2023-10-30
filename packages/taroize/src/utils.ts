@@ -16,6 +16,19 @@ export function isAliasThis (p: NodePath<t.Node>, name: string) {
   return false
 }
 
+/**
+ * 标准化传入路径
+ * 
+ * @param path 如D:\\admin格式路径
+ * @returns 替换\\返回标准路径
+ */
+export function normalizePath (path) {
+  if (typeof path === 'undefined') {
+    return ''
+  }
+  return path.replace(/\\/g, '/')
+}
+
 export function isValidVarName (str?: string) {
   if (typeof str !== 'string') {
     return false
