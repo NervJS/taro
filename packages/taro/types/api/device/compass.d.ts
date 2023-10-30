@@ -59,7 +59,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 停止监听罗盘数据
-     * @supported weapp, h5, tt
+     * @supported weapp, swan, qq, h5, tt
      * @example
      * ```tsx
      * Taro.stopCompass()
@@ -69,7 +69,7 @@ declare module '../../index' {
     stopCompass(option?: stopCompass.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 开始监听罗盘数据
-     * @supported weapp, h5, tt
+     * @supported weapp, swan, qq, h5, tt
      * @example
      * ```js
      * Taro.startCompass()
@@ -79,7 +79,7 @@ declare module '../../index' {
     startCompass(option?: startCompass.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 监听罗盘数据变化事件。频率：5 次/秒，接口调用后会自动开始监听，可使用 Taro.stopCompass 停止监听。
-     * @supported weapp, h5, tt
+     * @supported weapp, swan, qq, h5, tt
      * @example
      * ```tsx
      * Taro.onCompassChange(function (res) {
@@ -94,12 +94,12 @@ declare module '../../index' {
     ): void
 
     /** 取消监听罗盘数据变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, h5
+     * @supported weapp, swan, qq, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/compass/wx.offCompassChange.html
      */
     offCompassChange(
       /** 罗盘数据变化事件的回调函数 */
-      callback: (...args: any[]) => any,
+      callback?: onCompassChange.Callback,
     ): void
   }
 }

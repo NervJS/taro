@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-mini-ci",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Taro 小程序端构建后支持CI（持续集成）的插件",
   "keywords": [
     "Taro",

@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-react-jsx-to-rn-stylesheet",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Transform stylesheet selector to style in JSX Elements.",
   "license": "MIT",
   "main": "dist/index.js",
