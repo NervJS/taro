@@ -321,7 +321,7 @@ export default { ${
 
   updateTabBarKey = (index = 0, odd = '') => {
     const obj = this.tabBarList[index]
-    if (JSON.stringify(obj) === odd) return
+    if (Object.keys(obj).every(key => odd[key] === obj[key])) return
 
     const idx = obj.key || index
     const len = this.tabBarList.length
@@ -342,7 +342,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       const obj = list[index]
-      const odd = JSON.stringify(obj)
+      const odd = { ... obj }
       obj.showRedDot = false
       obj.badgeText = text
       this.updateTabBarKey(index, odd)
@@ -354,7 +354,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       const obj = list[index]
-      const odd = JSON.stringify(obj)
+      const odd = { ... obj }
       obj.badgeText = null
       this.updateTabBarKey(index, odd)
     }
@@ -365,7 +365,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       const obj = list[index]
-      const odd = JSON.stringify(obj)
+      const odd = { ... obj }
       obj.badgeText = null
       obj.showRedDot = true
       this.updateTabBarKey(index, odd)
@@ -377,7 +377,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       const obj = list[index]
-      const odd = JSON.stringify(obj)
+      const odd = { ... obj }
       obj.showRedDot = false
       this.updateTabBarKey(index, odd)
     }
@@ -425,7 +425,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       const obj = list[index]
-      const odd = JSON.stringify(obj)
+      const odd = { ... obj }
       if (iconPath) {
         obj.iconPath = iconPath
         this.withImage = true
