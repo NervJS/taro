@@ -1370,7 +1370,8 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";
@@ -3189,7 +3190,8 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";

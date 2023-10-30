@@ -20,6 +20,7 @@ export class Swiper implements ComponentInterface {
   @State() swiperWrapper: HTMLElement | null
   @State() private swiper: ISwiper
   @State() isWillLoadCalled = false
+  @State() source = ''
   /**
    * 是否显示面板指示点
    */
@@ -311,10 +312,19 @@ export class Swiper implements ComponentInterface {
           }
           that.onChange.emit({
             current: this.realIndex,
-            source: ''
+            source: that.source
           })
         },
+        touchEnd: () => {
+          that.source = 'touch'
+        },
+        autoplay() {
+          that.source = 'autoplay'
+        },
         transitionEnd () {
+          setTimeout(() => {
+            that.source = ''
+          })
           that.onAnimationFinish.emit({
             current: this.realIndex,
             source: ''

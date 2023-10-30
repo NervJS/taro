@@ -32,19 +32,39 @@ declare module '../../index' {
       interval?: number
       /** 要搜索的蓝牙设备主 service 的 uuid 列表。某些蓝牙设备会广播自己的主 service 的 uuid。如果设置此参数，则只搜索广播包有对应 uuid 的主服务的蓝牙设备。建议主要通过该参数过滤掉周边不需要处理的其他蓝牙设备。 */
       services?: string[]
+      /** 扫描模式，越高扫描越快，也越耗电。仅安卓微信客户端 7.0.12 及以上支持。  */
+      powerLevel?: keyof PowerLevel
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.BluetoothError) => void
+    }
+
+    interface PowerLevel {
+      /** 低 */
+      low,
+      /** 中 */
+      medium,
+      /** 高 */
+      high
     }
   }
 
   namespace openBluetoothAdapter {
     interface Option {
+      /** 蓝牙模式，可作为主/从设备，仅 iOS 需要。 */
+      mode?: keyof Mode;
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.BluetoothError) => void
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.BluetoothError) => void
+    }
+
+    interface Mode {
+      /** 主机模式 */
+      central
+      /** 从机（外围设备）模式 */
+      peripheral
     }
 
     /** object.fail 回调函数返回的 state 参数（仅 iOS） */
@@ -73,7 +93,7 @@ declare module '../../index' {
     }
     /** 新搜索到的设备 */
     interface CallbackResultBlueToothDevice {
-      /** 当前蓝牙设备的信号强度 */
+      /** 当前蓝牙设备的信号强度，单位 dBm */
       RSSI: number
       /** 当前蓝牙设备的广播数据段中的 ManufacturerData 数据段。 */
       advertisData: ArrayBuffer
@@ -87,6 +107,8 @@ declare module '../../index' {
       name: string
       /** 当前蓝牙设备的广播数据段中的 ServiceData 数据段 */
       serviceData: TaroGeneral.IAnyObject
+      /** 当前蓝牙设备是否可连接（ Android 8.0 以下不支持返回该值 ） */
+      connectable?: boolean
     }
   }
 
@@ -193,6 +215,8 @@ declare module '../../index' {
         name: string
         /** 当前蓝牙设备的广播数据段中的 ServiceData 数据段 */
         serviceData: TaroGeneral.IAnyObject
+        /** 当前蓝牙设备是否可连接（ Android 8.0 以下不支持返回该值 ） */
+        connectable?: boolean
     }
   }
 
@@ -229,7 +253,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 停止搜寻附近的蓝牙外围设备。若已经找到需要的蓝牙设备并不需要继续搜索时，建议调用该接口停止蓝牙搜索。
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * Taro.stopBluetoothDevicesDiscovery({
@@ -245,7 +269,7 @@ declare module '../../index' {
     ): Promise<stopBluetoothDevicesDiscovery.Promised>
 
     /** 开始搜寻附近的蓝牙外围设备。**此操作比较耗费系统资源，请在搜索并连接到设备后调用 Taro.stopBluetoothDevicesDiscovery 方法停止搜索。**
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * // 以微信硬件平台的蓝牙智能灯为例，主服务的 UUID 是 FEE7。传入这个参数，只搜索主服务 UUID 为 FEE7 的设备
@@ -267,7 +291,7 @@ declare module '../../index' {
      * **注意**
      * - 其他蓝牙相关 API 必须在 Taro.openBluetoothAdapter 调用之后使用。否则 API 会返回错误（errCode=10000）。
      * - 在用户蓝牙开关未开启或者手机不支持蓝牙功能的情况下，调用 Taro.openBluetoothAdapter 监听手机蓝牙状态的改变，也可以调用蓝牙模块的所有API。
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * Taro.openBluetoothAdapter({
@@ -285,7 +309,7 @@ declare module '../../index' {
      * **注意**
      * - 若在 Taro.onBluetoothDeviceFound 回调了某个设备，则此设备会添加到 Taro.getBluetoothDevices 接口获取到的数组中。
      * - 安卓下部分机型需要有位置权限才能搜索到设备，需留意是否开启了位置权限
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * // ArrayBuffer转16进度字符串示例
@@ -313,7 +337,7 @@ declare module '../../index' {
     ): void
 
     /** 监听蓝牙适配器状态变化事件
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * Taro.onBluetoothAdapterStateChange(function (res) {
@@ -328,7 +352,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听寻找到新设备的事件
-     * @supported weapp
+     * @supported weapp, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.offBluetoothDeviceFound.html
      */
     offBluetoothDeviceFound(
@@ -337,7 +361,7 @@ declare module '../../index' {
     ): void
   
     /** 取消监听蓝牙适配器状态变化事件
-     * @supported weapp
+     * @supported weapp, alipay
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.offBluetoothAdapterStateChange.html
      */
     offBluetoothAdapterStateChange(
@@ -357,10 +381,10 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.isBluetoothDevicePaired.html
      */
-    isBluetoothDevicePaired(option: isBluetoothDevicePaired.Option): boolean
+    isBluetoothDevicePaired(option: isBluetoothDevicePaired.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 根据 uuid 获取处于已连接状态的设备。
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * Taro.getConnectedBluetoothDevices({
@@ -380,7 +404,7 @@ declare module '../../index' {
      * **注意事项**
      * - 该接口获取到的设备列表为**蓝牙模块生效期间所有搜索到的蓝牙设备**，若在蓝牙模块使用流程结束后未及时调用 Taro.closeBluetoothAdapter 释放资源，会存在调用该接口会返回之前的蓝牙使用流程中搜索到的蓝牙设备，可能设备已经不在用户身边，无法连接。
      * - 蓝牙设备在被搜索到时，系统返回的 name 字段一般为广播包中的 LocalName 字段中的设备名称，而如果与蓝牙设备建立连接，系统返回的 name 字段会改为从蓝牙设备上获取到的 `GattName`。若需要动态改变设备名称并展示，建议使用 `localName` 字段。
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * // ArrayBuffer转16进度字符串示例
@@ -407,7 +431,7 @@ declare module '../../index' {
     getBluetoothDevices(option?: getBluetoothDevices.Option): Promise<getBluetoothDevices.SuccessCallbackResult>
 
     /** 获取本机蓝牙适配器状态。
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * Taro.getBluetoothAdapterState({
@@ -423,7 +447,7 @@ declare module '../../index' {
     ): Promise<getBluetoothAdapterState.SuccessCallbackResult>
 
     /** 关闭蓝牙模块。调用该方法将断开所有已建立的连接并释放系统资源。建议在使用蓝牙流程后，与 Taro.openBluetoothAdapter 成对调用。
-     * @supported weapp
+     * @supported weapp, alipay, jd
      * @example
      * ```tsx
      * Taro.closeBluetoothAdapter({

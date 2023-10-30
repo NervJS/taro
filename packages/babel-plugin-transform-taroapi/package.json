@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-taroapi",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
