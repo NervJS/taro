@@ -189,7 +189,7 @@ function queryBat (queue, cb) {
   const result: any = []
   const taro = (Current as any).taro
   const page = taro.getCurrentInstance().page
-  const element = (page.node instanceof Array) ? page.node[page.__currentIndex?.wrappedValue_] : page.node
+  const element = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
 
   if (element == null) return null
 
@@ -210,11 +210,11 @@ function queryBat (queue, cb) {
           const onAreaChangePromise = new Promise(areaResolve => {
             onAreaChangePromiseResolve = areaResolve
           })
-  
+
           dom.onAreaChange = () => {
             onAreaChangePromiseResolve()
           }
-  
+
           // 触发监听节点的更新
           instance.isAreaChangeTap = true
           instance.areaPromise = onAreaChangePromise

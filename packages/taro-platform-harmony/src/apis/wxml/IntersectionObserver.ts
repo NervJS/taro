@@ -18,7 +18,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   constructor(component: any, options: Taro.createIntersectionObserver.Option = {}) {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentPage = (page.node instanceof Array) ? page.node[page.__currentIndex?.wrappedValue_] : page.node
+    const currentPage = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
     this._component = component || currentPage
     Object.assign(this._options, options)
   }
