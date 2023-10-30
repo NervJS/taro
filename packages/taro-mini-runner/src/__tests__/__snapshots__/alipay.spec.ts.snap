@@ -673,7 +673,9 @@ require("./taro");
                 },
                 Video: {
                     "poster-size": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("contain"),
+                    "show-thin-progress-bar": "false",
                     "mobilenet-hint-type": "1",
+                    "floating-mode": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("none"),
                     enableNative: "true",
                     bindLoading: "",
                     bindUserAction: "",

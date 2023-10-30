@@ -642,7 +642,9 @@ require("./runtime");
             },
             Video: {
                 "poster-size": singleQuote("contain"),
+                "show-thin-progress-bar": "false",
                 "mobilenet-hint-type": "1",
+                "floating-mode": singleQuote("none"),
                 enableNative: "true",
                 bindLoading: "",
                 bindUserAction: "",
@@ -4021,7 +4023,8 @@ require("./runtime");
 
 /** filePath: dist/comp.jxml **/
 <import src="./base.jxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<jds src="./utils.jds" module="xs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
