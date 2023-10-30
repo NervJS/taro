@@ -1,0 +1,20 @@
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+[workspace.dependencies]
+napi = { version = "2.13.3", default-features = false, features = ["napi4"] }
+napi-build = { version = "=2.0.1" }
+napi-derive = { version = "=2.13.0" }
+napi-sys = { version = "=2.2.3" }
+
+[profile.dev]
+debug = 2
+incremental = true
+
+[profile.release]
+codegen-units = 1
+debug = false
+lto = false # disabled by now, because it will significantly increase our compile time.
+opt-level = 3
+strip = true

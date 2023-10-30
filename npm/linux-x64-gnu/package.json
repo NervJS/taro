@@ -1,0 +1,26 @@
+{
+  "name": "@tarojs/taro-linux-x64-gnu",
+  "description": "Native binding for taro",
+  "version": "3.6.18",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "taro.linux-x64-gnu.node",
+  "files": [
+    "taro.linux-x64-gnu.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "libc": [
+    "glibc"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/NervJS/taro"
+}
