@@ -104,7 +104,7 @@ function renderPage (isTabPage: boolean) {
     TabContent() {
       ${transArr2Str(pageStr.split('\n'), 6)}
     }.tabBar(this.renderTabBuilder(index, item))
-  }, item => JSON.stringify(item)) // TODO：改为生成 key 用于更新 TabBar，每次 TabBarItem 变化时都需要更新 key 避免 TabBar 不更新
+  }, (item, index) => item.key || index)
 }
 .vertical(false)
 .barMode(BarMode.Fixed)
@@ -313,6 +313,13 @@ export default { ${
     ${isTabbarPage ? `return config[index]` : 'return config'}
   }`,
           isTabbarPage ? `
+  updateTabBarKey = (index = 0) => {
+    const obj = this.tabBarList[index]
+    const idx = obj.key || index
+    const len = this.tabBarList.length
+    obj.key = (Math.floor(idx / len) + 1) * len + index
+  }
+
   routerChangeHandler = () => {}
 
   switchTabHandler = ({ params }) => {
@@ -328,6 +335,7 @@ export default { ${
     if (index in list) {
       list[index].showRedDot = false
       list[index].badgeText = text
+      this.updateTabBarKey(index)
     }
     this.tabBarList = list
   }
@@ -336,6 +344,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       list[index].badgeText = null
+      this.updateTabBarKey(index)
     }
     this.tabBarList = list
   }
@@ -345,6 +354,7 @@ export default { ${
     if (index in list) {
       list[index].badgeText = null
       list[index].showRedDot = true
+      this.updateTabBarKey(index)
     }
     this.tabBarList = list
   }
@@ -353,6 +363,7 @@ export default { ${
     const list = [...this.tabBarList]
     if (index in list) {
       list[index].showRedDot = false
+      this.updateTabBarKey(index)
     }
     this.tabBarList = list
   }
@@ -400,6 +411,7 @@ export default { ${
       if (iconPath) list[index].iconPath = iconPath
       if (selectedIconPath) list[index].selectedIconPath = selectedIconPath
       if (text) list[index].text = text
+      this.updateTabBarKey(index)
     }
     this.tabBarList = list
   }
@@ -488,7 +500,3 @@ export default { ${
     },
   }
 }
-
-/**
- * TODO: currentIndex
- */
