@@ -319,8 +319,10 @@ export default { ${
     this.page = this.pageList[index]
   }
 
-  updateTabBarKey = (index = 0) => {
+  updateTabBarKey = (index = 0, odd = '') => {
     const obj = this.tabBarList[index]
+    if (JSON.stringify(obj) === odd) return
+
     const idx = obj.key || index
     const len = this.tabBarList.length
     obj.key = (Math.floor(idx / len) + 1) * len + index
@@ -339,9 +341,11 @@ export default { ${
   setTabBarBadgeHandler = ({ index, text = '' }) => {
     const list = [...this.tabBarList]
     if (index in list) {
-      list[index].showRedDot = false
-      list[index].badgeText = text
-      this.updateTabBarKey(index)
+      const obj = list[index]
+      const odd = JSON.stringify(obj)
+      obj.showRedDot = false
+      obj.badgeText = text
+      this.updateTabBarKey(index, odd)
     }
     this.tabBarList = list
   }
@@ -349,8 +353,10 @@ export default { ${
   removeTabBarBadgeHandler = ({ index }) => {
     const list = [...this.tabBarList]
     if (index in list) {
-      list[index].badgeText = null
-      this.updateTabBarKey(index)
+      const obj = list[index]
+      const odd = JSON.stringify(obj)
+      obj.badgeText = null
+      this.updateTabBarKey(index, odd)
     }
     this.tabBarList = list
   }
@@ -358,9 +364,11 @@ export default { ${
   showTabBarRedDotHandler = ({ index }) => {
     const list = [...this.tabBarList]
     if (index in list) {
-      list[index].badgeText = null
-      list[index].showRedDot = true
-      this.updateTabBarKey(index)
+      const obj = list[index]
+      const odd = JSON.stringify(obj)
+      obj.badgeText = null
+      obj.showRedDot = true
+      this.updateTabBarKey(index, odd)
     }
     this.tabBarList = list
   }
@@ -368,8 +376,10 @@ export default { ${
   hideTabBarRedDotHandler = ({ index }) => {
     const list = [...this.tabBarList]
     if (index in list) {
-      list[index].showRedDot = false
-      this.updateTabBarKey(index)
+      const obj = list[index]
+      const odd = JSON.stringify(obj)
+      obj.showRedDot = false
+      this.updateTabBarKey(index, odd)
     }
     this.tabBarList = list
   }
@@ -414,10 +424,12 @@ export default { ${
   setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text }) => {
     const list = [...this.tabBarList]
     if (index in list) {
-      if (iconPath) list[index].iconPath = iconPath
-      if (selectedIconPath) list[index].selectedIconPath = selectedIconPath
-      if (text) list[index].text = text
-      this.updateTabBarKey(index)
+      const obj = list[index]
+      const odd = JSON.stringify(obj)
+      if (iconPath) obj.iconPath = iconPath
+      if (selectedIconPath) obj.selectedIconPath = selectedIconPath
+      if (text) obj.text = text
+      this.updateTabBarKey(index, odd)
     }
     this.tabBarList = list
   }
