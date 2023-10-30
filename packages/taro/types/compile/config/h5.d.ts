@@ -44,6 +44,9 @@ export interface IH5Config {
   /** 预览服务的配置，可以更改端口等参数。具体配置参考 [webpack-dev-server](https://webpack.js.org/configuration/dev-server) */
   devServer?: webpackDevServer.Configuration
 
+  /** 用于控制是否生成 js、css 对应的 sourceMap (默认值：watch 模式下为 true，否则为 false) */
+  enableSourceMap?: boolean
+
   /**  具体配置请参考 [Webpack devtool](https://webpack.js.org/configuration/devtool/#devtool) 配置 (默认值：'cheap-module-eval-source-map')*/
   sourceMapType?:
     | 'none'
