@@ -501,12 +501,14 @@ export class BaseTemplate {
 
   public buildBaseComponentTemplate = (ext: string) => {
     const data = !this.isSupportRecursive && this.supportXS
-      ? this.dataKeymap('i:i,c:1,l:l')
+      ? this.dataKeymap(`i:i,c:1,l:xs.f('',i.${Shortcuts.NodeName})`)
       : this.isSupportRecursive
         ? this.dataKeymap('i:i')
         : this.dataKeymap('i:i,c:1')
 
+    // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
+${this.buildXsTemplate()}
 <template is="{{'tmpl_0_' + i.nn}}" data="{{${data}}}" />`
   }
 
@@ -518,7 +520,9 @@ export class BaseTemplate {
         ? this.dataKeymap('i:item')
         : this.dataKeymap('i:item,c:1')
 
+    // 此处需要重新引入 xs 函数，否则会出现 ws.f() 在 comp.wxml 和 custom-wrapper.wxml 中永远返回 undefined 的问题 #14599
     return `<import src="./base${ext}" />
+  ${this.buildXsTemplate()}
   <block ${Adapter.for}="{{i.${Shortcuts.Childnodes}}}" ${Adapter.key}="sid">
     <template is="{{'tmpl_0_' + item.nn}}" data="{{${data}}}" />
   </block>`

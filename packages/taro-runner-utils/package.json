@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runner-utils",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Taro runner utilities.",
   "main": "dist/index.js",
   "types": "types/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-framework-react",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "React/Preact/Nerv 框架插件",
   "author": "drchan",
   "homepage": "https://github.com/nervjs/taro",

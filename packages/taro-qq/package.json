@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-qq",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "QQ 小程序平台插件",
   "author": "Chen-jj",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-qq#readme",

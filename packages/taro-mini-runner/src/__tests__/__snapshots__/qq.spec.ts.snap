@@ -504,16 +504,17 @@ require("./taro");
             KeyboardAccessory: {},
             RootPortal: {},
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
             },
             Snapshot: {}
@@ -1607,7 +1608,8 @@ require("./taro");
 
 /** filePath: dist/comp.qml **/
 <import src="./base.qml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
@@ -2747,16 +2749,17 @@ require("./taro");
             KeyboardAccessory: {},
             RootPortal: {},
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
             },
             Snapshot: {}
@@ -3850,7 +3853,8 @@ require("./taro");
 
 /** filePath: dist/comp.qml **/
 <import src="./base.qml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
