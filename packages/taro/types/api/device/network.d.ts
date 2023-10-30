@@ -41,6 +41,10 @@ declare module '../../index' {
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 网络类型 */
       networkType: keyof NetworkType
+      /** 信号强弱，单位 dbm */
+      signalStrength?: number
+      /** 设备是否使用了网络代理 */
+      hasSystemProxy?: boolean
       /** 调用结果 */
       errMsg: string
     }
@@ -76,6 +80,8 @@ declare module '../../index' {
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 本机局域网IP地址 */
       localip: string
+      /** ，基础库 2.24.0 开始支持 */
+      netmask?: string
       /** 调用结果 */
       errMsg: string
     }
@@ -83,7 +89,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 监听弱网状态变化事件
-     * @supported weapp
+     * @supported weapp, swan, qq, tt
      * @example
      * ```tsx
      * Taro.onNetworkWeakChange(function (res) {
@@ -101,7 +107,7 @@ declare module '../../index' {
     ): void
 
     /** 监听网络状态变化。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, swan, h5, rn, tt
      * @example
      * ```tsx
      * Taro.onNetworkStatusChange(function (res) {
@@ -117,16 +123,16 @@ declare module '../../index' {
     ): void
 
     /** 取消监听弱网状态变化事件
-     * @supported weapp
+     * @supported weapp, swan
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkWeakChange.html
      */
     offNetworkWeakChange(
       /** 弱网状态变化事件的回调函数 */
-      callback: onNetworkWeakChange.Callback,
+      callback?: onNetworkWeakChange.Callback,
     ): void
 
     /** 取消监听网络状态变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, h5, rn
+     * @supported weapp, swan, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/network/wx.offNetworkStatusChange.html
      */
     offNetworkStatusChange(
@@ -135,7 +141,7 @@ declare module '../../index' {
     ): void
 
     /** 获取网络类型。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, swan, qq, h5, rn, tt
      * @example
      * ```tsx
      * Taro.getNetworkType({

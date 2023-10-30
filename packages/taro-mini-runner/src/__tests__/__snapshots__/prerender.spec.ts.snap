@@ -1326,7 +1326,8 @@ require("./taro");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/others/detail/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
@@ -4299,7 +4300,8 @@ require("./taro");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/others/detail/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
@@ -7272,7 +7274,8 @@ require("./taro");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/others/detail/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
