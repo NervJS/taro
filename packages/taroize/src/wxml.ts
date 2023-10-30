@@ -19,10 +19,12 @@ import {
   codeFrameError,
   DEFAULT_Component_SET,
   isValidVarName,
+  normalizePath,
   parseCode,
 } from './utils'
 
 const { prettyPrint } = require('html')
+const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
@@ -246,6 +248,26 @@ export const createPreWxmlVistor = (
   } as Visitor
 }
 
+/**
+ * 根据template中使用的wxs组装需要导入的wxs语句
+ * 如： import xxx from '../xxx.wxs.js'
+ *
+ * @param templateFileName template模版文件名
+ * @param usedWxses template中使用的变量是wxs模块的集合
+ * @param dirPath 当前解析文件的路径
+ * @returns 需要导入的wxs语句集合
+ */
+export function getWxsImports (templateFileName, usedWxses, dirPath) {
+  const templatePath = pathTool.join(globals.rootPath, 'imports', `${templateFileName}.js`)
+  const wxsImports: (t.ImportDeclaration | t.VariableDeclaration)[] = []
+  for (const usedWxs of usedWxses) {
+    const wxsAbsPath = pathTool.resolve(dirPath, `${usedWxs.src}.js`)
+    const wxsRelPath = pathTool.relative(pathTool.dirname(templatePath), wxsAbsPath)
+    wxsImports.push(buildImportStatement(normalizePath(wxsRelPath), [], usedWxs.module))
+  }
+  return wxsImports
+}
+
 export const createWxmlVistor = (
   loopIds: Set<string>,
   refIds: Set<string>,
@@ -401,13 +423,11 @@ export const createWxmlVistor = (
           )
         }
         if (tagName === 'Template') {
-          // path.traverse({
-          //   JSXAttribute: jsxAttrVisitor
-          // })
-          const template = parseTemplate(path, dirPath)
+          const template = parseTemplate(path, dirPath, wxses)
           if (template) {
             let funcs = new Set<string>()
-            const { ast: classDecl, name, tmplName } = template
+            const { ast: classDecl, name, tmplName, usedWxses } = template
+            const wxsImports = getWxsImports(name, usedWxses, dirPath)
             const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
             const reactImport = buildImportStatement('react', [], 'React')
@@ -419,6 +439,7 @@ export const createWxmlVistor = (
               reactImport,
               taroImport,
               withWeappImport,
+              ...wxsImports,
               classDecl,
               t.exportDefaultDeclaration(t.identifier(name))
             )

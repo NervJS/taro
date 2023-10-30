@@ -5,7 +5,7 @@ import { dirname, extname, relative, resolve } from 'path'
 
 import { errors } from './global'
 import { buildBlockElement, buildRender, getLineBreak, pascalName, printToLogFile, setting } from './utils'
-import { createWxmlVistor, parseWXML } from './wxml'
+import { createWxmlVistor, parseWXML, WXS } from './wxml'
 
 function isNumeric (n) {
   return !isNaN(parseFloat(n)) && isFinite(n)
@@ -108,7 +108,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   }
 }
 
-export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
+export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wxses: WXS[]) {
   if (!path.container || !path.isJSXElement()) {
     return
   }
@@ -150,6 +150,19 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
     const className = buildTemplateName(value.value)
 
     path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
+
+    // refIds中可能包含wxs模块，应从refIds中去除并单独以模块的形式导入
+    const usedWxses = new Set<WXS>
+    const refdata = refIds
+    refdata.forEach((refId) => {
+      wxses.forEach((wxsId) => {
+        if (wxsId.module.includes(refId)) {
+          usedWxses.add(wxsId)
+          refIds.delete(refId)
+        }
+      })
+    })
+
     const firstId = Array.from(refIds)[0]
     refIds.forEach((id) => {
       if (loopIds.has(id) && id !== firstId) {
@@ -183,6 +196,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string) {
       name: className,
       ast: classDecl,
       tmplName: templateName,
+      usedWxses: usedWxses,
     }
   } else if (is && t.isJSXAttribute(is.node)) {
     const value = is.node.value
