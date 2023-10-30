@@ -718,7 +718,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
           if (path.node.arguments.length > 1) {
             const regex = path.node.arguments[0]
             const modifier = path.node.arguments[1]
-            if (t.isStringLiteral(regex)) {
+            if (t.isStringLiteral(regex) && t.isStringLiteral(modifier)) {
               const regexStr = regex.extra?.raw as string
               const regexModifier = modifier.extra?.rawValue as string
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
@@ -727,15 +727,26 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
                 t.stringLiteral(regexModifier),
               ])
               path.replaceWith(newExpr)
+            } else if (t.isIdentifier(regex) || t.isIdentifier(modifier)) {
+              throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            } else {
+              throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
             }
-          } else {
+          } else if (path.node.arguments.length === 1) {
             const regex = path.node.arguments[0]
             if (t.isStringLiteral(regex)) {
               const regexStr = regex.extra?.raw as string
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
               const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes)])
               path.replaceWith(newExpr)
+            } else if (t.isIdentifier(regex)) {
+              throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            } else {
+              throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
             }
+          } else {
+            const newExpr = t.newExpression(t.identifier('RegExp'), [])
+            path.replaceWith(newExpr)
           }
         }
       },

@@ -75,6 +75,16 @@ describe('wxml.ts测试', () => {
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml).toMatchSnapshot()
   })
+  
+  test('wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp()', () => {
+    option.wxml = `<wxs module="wxs_regexp">
+                    var regexp = getRegExp()
+                  </wxs>`
+    option.path = 'wxml_wxs_regexp'
+    const { wxses, imports }: any = parseWXML(option.path, option.wxml)
+    expect(wxses).toMatchSnapshot()
+    expect(imports).toMatchSnapshot()
+  })
 })
 
 describe('parseContent', () => {
