@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taro-h5",
-  "version": "3.6.17",
+  "version": "3.6.18",
   "description": "Taro h5 framework",
   "browser": "dist/index.esm.js",
   "main:h5": "dist/index.js",
