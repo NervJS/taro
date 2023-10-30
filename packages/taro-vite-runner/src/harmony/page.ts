@@ -103,7 +103,7 @@ function renderPage (isTabPage: boolean) {
   ForEach(this.tabBarList, (item, index) => {
     TabContent() {
       ${transArr2Str(pageStr.split('\n'), 6)}
-    }.tabBar(this.renderTabBuilder(index, item))
+    }.tabBar(this.renderTabItemBuilder(index, item))
   }, (item, index) => item.key || index)
 }
 .vertical(false)
@@ -426,7 +426,10 @@ export default { ${
     if (index in list) {
       const obj = list[index]
       const odd = JSON.stringify(obj)
-      if (iconPath) obj.iconPath = iconPath
+      if (iconPath) {
+        obj.iconPath = iconPath
+        this.withImage = true
+      }
       if (selectedIconPath) obj.selectedIconPath = selectedIconPath
       if (text) obj.text = text
       this.updateTabBarKey(index, odd)
@@ -460,7 +463,7 @@ export default { ${
     eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
   }
 
-  @Builder renderTabBuilder(index: number, item: TabBarItem) {
+  @Builder renderTabBarInnerBuilder(index: number, item: TabBarItem) {
     Column() {
       if (this.withImage) {
         Image(this.currentIndex === index && item.selectedIconPath || item.iconPath)
@@ -485,7 +488,29 @@ export default { ${
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .margin({ top: 17, bottom: 7 })
       }
-    }.width('100%').height('100%').justifyContent(FlexAlign.Center)
+    }
+  }
+
+  @Builder renderTabItemBuilder(index: number, item: TabBarItem) {
+    Column() {
+      if (!!item.badgeText || item.showRedDot) {
+        Badge({
+          value: item.badgeText || '',
+          position: BadgePosition.RightTop,
+          style: {
+            badgeSize: !!item.badgeText ? 16 : 6,
+            badgeColor: Color.Red,
+          }
+        }) {
+          this.renderTabBarInnerBuilder(index, item)
+        }
+      } else {
+        this.renderTabBarInnerBuilder(index, item)
+      }
+    }
+    .margin({ top: 4 })
+    .width('100%').height('100%')
+    .justifyContent(FlexAlign.SpaceEvenly)
   }` : null,
           `
   build() {
