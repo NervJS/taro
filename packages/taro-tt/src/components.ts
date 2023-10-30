@@ -9,6 +9,12 @@ export const components = {
   Icon: {
     size: '24'
   },
+  Input: {
+    'adjust-position': _true,
+    'hold-keyboard': _false,
+    'clue-type': '0',
+    bindKeyboardHeightChange: _empty,
+  },
   Button: {
     bindGetPhoneNumber: _empty,
     'data-channel': _empty,
