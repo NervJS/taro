@@ -73,3 +73,14 @@ common/autoinstallers/*/.npmrc
 
 # Heft
 .heft
+
+Cargo.lock
+
+target/
+debug/
+
+# Binding artifacts
+artifacts
+
+# Node Addons
+*.node
