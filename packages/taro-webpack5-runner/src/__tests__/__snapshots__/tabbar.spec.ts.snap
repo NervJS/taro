@@ -100,6 +100,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -111,6 +112,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -172,24 +179,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -199,7 +217,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -244,12 +263,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -259,6 +284,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -268,12 +294,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -352,6 +388,7 @@ require("./runtime");
                 "video-height": "640",
                 "beauty-style": "'smooth'",
                 filter: "'standard'",
+                "picture-in-picture-mode": "[]",
                 animation: _empty,
                 bindStateChange: _empty,
                 bindNetStatus: _empty,
@@ -432,18 +469,20 @@ require("./runtime");
             KeyboardAccessory: {},
             RootPortal: {},
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -587,7 +626,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 
@@ -1420,8 +1459,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 </template>
 
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -1560,7 +1599,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/custom-tab-bar/index.js **/
 "use strict";
@@ -1761,6 +1801,9 @@ module.exports = {
         if (u[i] === n) depth++
       }
       l = depth
+    }
+    if (l === 15) {
+      return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
   },
@@ -2582,7 +2625,9 @@ require("./runtime");
             },
             Video: {
                 "poster-size": singleQuote("contain"),
+                "show-thin-progress-bar": "false",
                 "mobilenet-hint-type": "1",
+                "floating-mode": singleQuote("none"),
                 enableNative: "true",
                 bindLoading: "",
                 bindUserAction: "",
@@ -3388,6 +3433,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -3399,6 +3445,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -3460,24 +3512,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -3487,7 +3550,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -3532,12 +3596,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -3547,6 +3617,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -3556,12 +3627,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -3640,6 +3721,7 @@ require("./runtime");
                 "video-height": "640",
                 "beauty-style": "'smooth'",
                 filter: "'standard'",
+                "picture-in-picture-mode": "[]",
                 animation: _empty,
                 bindStateChange: _empty,
                 bindNetStatus: _empty,
@@ -3720,18 +3802,20 @@ require("./runtime");
             KeyboardAccessory: {},
             RootPortal: {},
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -3903,7 +3987,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 
@@ -4608,8 +4692,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 </template>
 
 <template name="tmpl_15_container">
-  <block wx:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block wx:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block wx:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -4700,7 +4784,8 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/about/index.js **/
 "use strict";
@@ -4832,6 +4917,9 @@ module.exports = {
         if (u[i] === n) depth++
       }
       l = depth
+    }
+    if (l === 15) {
+      return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
   },

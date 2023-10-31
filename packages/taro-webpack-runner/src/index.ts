@@ -11,14 +11,19 @@ import baseDevServerOption from './config/devServer.conf'
 import prodConf from './config/prod.conf'
 import { addHtmlSuffix, addLeadingSlash, AppHelper, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import { makeConfig } from './utils/chain'
+import { componentConfig } from './utils/component'
 import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type { BuildConfig } from './utils/types'
 
-export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
+export const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: BuildConfig['webpackChain']) => {
+  const data: IModifyChainData = {
+    componentConfig
+  }
   if (modifyWebpackChainFunc instanceof Function) {
-    await modifyWebpackChainFunc(chain, webpack)
+    await modifyWebpackChainFunc(chain, webpack, data)
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack)

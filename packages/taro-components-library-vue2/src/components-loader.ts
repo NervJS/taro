@@ -9,7 +9,7 @@ export function initVue2Components (components: Record<string, any> = {}) {
 
   Vue.use(Fragment.Plugin)
   Object.entries(components).forEach(([name, definition]) => {
-    if (typeof definition?.render === 'function') {
+    if (typeof definition === 'function') {
       const tagName = 'taro' + name.replace(new RegExp('([A-Z])', 'g'), '-$1').toLowerCase()
       const comp = Vue.extend(definition)
       Vue.component(tagName, comp)

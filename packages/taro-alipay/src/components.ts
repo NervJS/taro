@@ -50,11 +50,11 @@ export const components = {
     bindChange: ''
   },
   Input: {
-    'always-system':'false',
+    'always-system': 'false',
     'random-number': 'false',
     controlled: 'false',
     enableNative: 'true',
-    name:''
+    name: ''
   },
   Slider: {
     'track-size': '4',
@@ -102,7 +102,9 @@ export const components = {
   },
   Video: {
     'poster-size': singleQuote('contain'),
+    'show-thin-progress-bar': 'false',
     'mobilenet-hint-type': '1',
+    'floating-mode': singleQuote('none'),
     enableNative: 'true',
     bindLoading: '',
     bindUserAction: '',

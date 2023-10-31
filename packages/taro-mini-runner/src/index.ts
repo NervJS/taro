@@ -9,13 +9,15 @@ import buildConf from './webpack/build.conf'
 import { makeConfig } from './webpack/chain'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type { IBuildConfig } from './utils/types'
 
-const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: Func) => {
+const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc?: IBuildConfig['webpackChain']) => {
+  const data: IModifyChainData = {
+    componentConfig
+  }
   if (modifyWebpackChainFunc instanceof Function) {
-    await modifyWebpackChainFunc(chain, webpack, {
-      componentConfig
-    })
+    await modifyWebpackChainFunc(chain, webpack, data)
   }
   if (customizeFunc instanceof Function) {
     customizeFunc(chain, webpack, META_TYPE)

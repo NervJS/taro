@@ -130,7 +130,7 @@ export const config: Config = {
     after: [{
       name: 'add-external',
       options: opts => {
-        opts.external = ['@tarojs/taro']
+        opts.external = [/^@tarojs[\\/][a-z]+/]
 
         return opts
       }

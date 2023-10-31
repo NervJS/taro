@@ -157,7 +157,7 @@ require("./taro");
 <jds src="./utils.jds" module="xs" />
 <template name="taro_tmpl">
   <block jd:for="{{root.cn}}" jd:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 
@@ -1094,8 +1094,8 @@ require("./taro");
 </template>
 
 <template name="tmpl_15_container">
-  <block jd:if="{{i.nn === '#text'}}">
-    <template is="tmpl_0_#text" data="{{i:i}}" />
+  <block jd:if="{{i.nn === '8'}}">
+    <template is="tmpl_0_8" data="{{i:i}}" />
   </block>
   <block jd:else>
     <comp i="{{i}}" l="{{l}}" />
@@ -1125,7 +1125,8 @@ require("./taro");
 
 /** filePath: dist/comp.jxml **/
 <import src="./base.jxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<jds src="./utils.jds" module="xs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */
@@ -1592,6 +1593,9 @@ module.exports = {
         if (u[i] === n) depth++
       }
       l = depth
+    }
+    if (l === 15) {
+      return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
   },

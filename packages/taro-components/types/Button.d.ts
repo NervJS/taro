@@ -127,8 +127,10 @@ interface ButtonProps extends StandardProps {
    * @supported swan
    */
   subscribeId?: string
-  /** 打开群资料卡时，传递的群号
-   * @supported qq
+  /** 群聊 id
+   * @qq 打开群资料卡时，传递的群号
+   * @tt 通过创建聊天群、查询群信息获取
+   * @supported qq, tt
    */
   groupId?: string
   /** 打开频道页面时，传递的频道号
@@ -165,6 +167,15 @@ interface ButtonProps extends StandardProps {
    * @supported qq
    */
   shareMessageImg?: string
+  /** 跳转抖音号个人页，只支持小程序绑定的品牌号、员工号、合作号
+   * @supported tt
+   */
+  dataAwemeId?: string
+  /**
+   * 是否开启半屏模式
+   * @supported tt
+   */
+  dataIsHalfPage?: boolean
   /** 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与 Taro.getUserInfo 返回的一致
    *
    * 生效时机: `open-type="getUserInfo"`
@@ -261,6 +272,17 @@ interface ButtonProps extends StandardProps {
    * @supported qq
    */
   onAddGroupApp?: CommonEventFunction
+  /** 监听跳转抖音号个人页的回调
+   *
+   * 生效时机：`open-type="openAwemeUserProfile"`
+   * @supported tt
+   */
+  onOpenAwemeUserProfile?: CommonEventFunction
+  /**
+   * 加群后触发
+   * @supported tt
+   */
+  onJoinGroup?: CommonEventFunction<{ errMsg: string; errNo: number }>
 }
 declare namespace ButtonProps {
   /** size 的合法值 */
@@ -287,7 +309,11 @@ declare namespace ButtonProps {
     reset
   }
   /** open-type 的合法值 */
-  type OpenType = keyof openTypeKeys['weapp'] | keyof openTypeKeys['alipay'] | keyof openTypeKeys['qq']
+  type OpenType =
+    | keyof openTypeKeys['weapp']
+    | keyof openTypeKeys['alipay']
+    | keyof openTypeKeys['qq']
+    | keyof openTypeKeys['tt']
   /** open-type 的合法值 */
   interface openTypeKeys {
     weapp: {
@@ -324,6 +350,21 @@ declare namespace ButtonProps {
        * 用户同意隐私协议按钮。可通过 bindagreeprivacyauthorization 监听用户同意隐私协议事件
        */
       agreePrivacyAuthorization
+      /**
+       * 从基础库 2.32.3 版本起，隐私同意按钮支持与手机号快速验证组件耦合使用，调用方式为：
+       * <button open-type="getPhoneNumber|agreePrivacyAuthorization">
+       */
+      ['getPhoneNumber|agreePrivacyAuthorization']
+      /**
+       * 从基础库 2.32.3 版本起，支持隐私同意按钮与手机号实时验证组件耦合使用，调用方式为：
+       * <button open-type="getRealtimePhoneNumber|agreePrivacyAuthorization">
+       */
+      ['getRealtimePhoneNumber|agreePrivacyAuthorization']
+      /**
+       * 从基础库 2.32.3 版本起，支持隐私同意按钮与获取用户信息组件耦合使用，调用方式为：
+       * <button open-type="getUserInfo|agreePrivacyAuthorization">
+       */
+      ['getUserInfo|agreePrivacyAuthorization']
     }
     /** 支付宝小程序专属的 open-type 合法值
      * @see https://opendocs.alipay.com/mini/component/button
@@ -368,6 +409,35 @@ declare namespace ButtonProps {
       addGroupApp
       /** 在自定义开放数据域组件中,向指定好友发起分享据 */
       shareMessageToFriend
+    }
+    /** TT 小程序专属的 open-type 合法值
+     * @see https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/component/list/button/#open-type-%E7%9A%84%E5%90%88%E6%B3%95%E5%80%BC
+     */
+    tt: {
+      /** 触发用户转发, 可以配合 data-channel 属性来设置分享的 channel，具体请参考 ShareParam */
+      share
+      /** 获取用户手机号，可以从 bindgetphonenumber 回调中获取到用户信息，详情请参见获取手机号 */
+      getPhoneNumber
+      /** 跳转到抖音IM客服，详情请参见抖音IM客服能力 */
+      im
+      /** 跳转到抖音平台客服，详情请参见平台客服能力 */
+      platformIm
+      /** 跳转视频播放页，详情请参见跳转视频播放页 */
+      navigateToVideoView
+      /** 跳转抖音号个人页，详情请参见跳转抖音号个人页 */
+      openAwemeUserProfile
+      /** 跳转抖音直播间，详情请参见跳转抖音直播间 */
+      openWebcastRoom
+      /** 写入系统日历，详情请参见写入系统日历 */
+      addCalendarEvent
+      /** 添加到桌面，详情请参见添加到桌面 */
+      addShortcut
+      /** 加群，详情请参见加群 */
+      joinGroup
+      /** 私信，详情请参见私信 */
+      privateMessage
+      /** 主动授权私信，详情请参见主动授权私信 */
+      authorizePrivateMessage
     }
   }
   /** lang 的合法值 */

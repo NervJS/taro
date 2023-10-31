@@ -88,7 +88,8 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     modifyMiniConfigs,
     modifyBuildAssets,
     onCompilerMake,
-    onParseCreateElement
+    onParseCreateElement,
+    skipProcessUsingComponents
   } = config
 
   config.modifyComponentConfig?.(componentConfig, config)
@@ -156,6 +157,7 @@ export default (appPath: string, mode, config: Partial<IBuildConfig>): any => {
     pluginConfig: entryRes!.pluginConfig,
     pluginMainEntry: entryRes!.pluginMainEntry,
     isBuildPlugin: Boolean(isBuildPlugin),
+    skipProcessUsingComponents,
     commonChunks: customCommonChunks,
     baseLevel,
     framework,

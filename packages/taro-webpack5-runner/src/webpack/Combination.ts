@@ -6,6 +6,7 @@ import webpack from 'webpack'
 
 import { componentConfig } from '../utils/component'
 
+import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type { IPrebundle } from '@tarojs/webpack5-prebundle'
 import type Chain from 'webpack-chain'
 import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
@@ -50,7 +51,7 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
     this.process(this.config)
     await this.post(this.config, this.chain)
   }
-  
+
   process (_config: Partial<T>) {}
 
   async pre (rawConfig: T) {
@@ -69,8 +70,11 @@ export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuild
 
   async post (config: T, chain: Chain) {
     const { modifyWebpackChain, webpackChain, onWebpackChainReady } = config
+    const data: IModifyChainData = {
+      componentConfig
+    }
     if (isFunction(modifyWebpackChain)) {
-      await modifyWebpackChain(chain, webpack, { componentConfig })
+      await modifyWebpackChain(chain, webpack, data)
     }
     if (isFunction(webpackChain)) {
       webpackChain(chain, webpack, META_TYPE)

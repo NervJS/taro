@@ -41,6 +41,9 @@ const CIPluginOpt = {
   swan: {
     token: '鉴权需要的token令牌',
   },
+  jd: {
+    privateKey: '京东小程序秘钥'
+  }
   // 版本号
   version: '1.0.0',
   // 版本发布描述
@@ -81,6 +84,9 @@ const CIPluginFn = async () => {
       swan: {
         token: "鉴权需要的token令牌"
       },
+      jd: {
+        privateKey: '京东小程序秘钥'
+      }
       // 版本号
       version: "1.0.0",
       // 版本发布描述
@@ -320,7 +326,8 @@ module.exports = function (merge) {
 | privateKeyPath      | string | 密钥文件相对项目根目录的相对路径, 私钥可通过[支付宝开放平台开发助手](https://opendocs.alipay.com/common/02kipl)生成 |
 | privateKey          | string | 私钥文本内容, 生成方式同上(privateKeyPath 和 privateKey 之间必须要填写其中一个； 3.6.0 版本开始支持)                |
 | devToolsInstallPath | string | 小程序开发者工具安装路径(选填, 3.6.0 版本开始支持)                                                                  |
-| clientType          | string | 上传的终端,终端类型见下表（选填，默认值 alipay）                                                                    |
+| clientType          | string | 上传的终端,终端类型见下表（选填，默认值 alipay）                                                                    | 
+| deleteVersion       | string | 在上传过程中删除指定的版本，即使该版本正在构建中或不存在。记录已上传的版本并使用这个参数能有效避免上传版本无法超过 20 个的问题（选填，默认自动删除上一个版本。可设置`0.0.0`，关闭自动删除）    |
 
 ```
 终端类型值及其含义：
@@ -376,6 +383,8 @@ health:  阿里医院
 | 参数       | 类型   | 说明       |
 | :--------- | :----- | :--------- |
 | privateKey | string | 秘钥字符串 |
+| robot | number | 指定使用哪一个 ci 机器人，可选值：1 ~ 30 |
+| ignores | string[] | 指定需要排除的规则。无需配置以“.”开头的隐藏文件，它们将默认被忽略，如“.git” |
 
 官方 CI 文档[点这里](https://mp-docs.jd.com/doc/dev/devtools/1597)
 
@@ -399,6 +408,8 @@ export interface CIOptions {
   dd?: DingtalkConfig
   /** 百度小程序配置, 官方文档地址：https://smartprogram.baidu.com/docs/develop/devtools/commandtool/ */
   swan?: SwanConfig
+  /** 京东小程序配置, 官方文档地址：https://mp-docs.jd.com/doc/dev/devtools/1597 */
+  jd?: JdConfig
 }
 
 export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin'
@@ -522,6 +533,11 @@ export interface SwanConfig {
 
 /** 京东小程序配置 */
 export interface JdConfig {
+  /** 秘钥信息 */
   privateKey: string
+  /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
+  robot?: number
+  /** 指定需要排除的规则。无需配置以“.”开头的隐藏文件，它们将默认被忽略，如“.git” */
+  ignores?: string[]
 }
 ```

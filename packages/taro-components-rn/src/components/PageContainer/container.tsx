@@ -10,8 +10,8 @@ const ScreenWidth = Dimensions.get('window').width
 class _Container extends React.Component<PageContainerProps, any> {
   y = 0
   x = 0
-  enterTimer: any
-  leaveTimer: any
+  enterTimer: ReturnType<typeof setTimeout>
+  leaveTimer: ReturnType<typeof setTimeout>
   constructor(props: PageContainerProps) {
     super(props)
     this.state = {

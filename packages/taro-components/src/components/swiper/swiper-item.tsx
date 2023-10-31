@@ -1,35 +1,49 @@
 import { Component, ComponentInterface, Element, Host, h, Prop } from '@stencil/core'
 
-function isEqualTag (a: Element, b: Element) {
-  return typeof a.tagName === 'undefined' ? a.nodeType === b.nodeType : a.tagName === b.tagName
-}
+const nativeCloneNode = Node.prototype.cloneNode
 
-function parseChildNodes (items: NodeListOf<ChildNode>, targets: NodeListOf<ChildNode>, needClean = false) {
-  const list = Array.from(targets.values())
-  for (let i = 0, j = 0; i < list.length; i++) {
-    const target = list[i] as Element
-    if (!target) return
+function cloneNode (node: Node, deep: boolean) {
+  const clonedNode = nativeCloneNode.call(node, false)
+  const srcChildNodes = childNodes(node)
 
-    let item = items.item(j) as Element
-    while (item) {
-      if (!isEqualTag(item, target) || needClean) {
-        item.remove()
-        j++
-        item = items.item(j) as Element
-        continue
+  if (deep) {
+    for (let i = 0; i < srcChildNodes.length; i++) {
+      const srcNode: Node = srcChildNodes[i]
+      let srcDeep: boolean = deep
+      if (srcNode.nodeType !== 2 && srcNode.nodeType !== 8) {
+        // Note: 没有引用节点（s-cr[reference comment]）的情况下，不复制子节点避免冗余（例如：Image 组件）
+        if (!srcNode['s-cr']) {
+          srcDeep = false
+        }
+        const childClone = cloneNode(srcNode, srcDeep)
+        clonedNode.appendChild(childClone)
       }
-      if (target.childNodes.length > 0) {
-        const cleanAll = ['taro-image-core'].includes(target.tagName.toLocaleLowerCase())
-        parseChildNodes(item.childNodes, target.childNodes, cleanAll)
-      }
-      break
-    }
-    while (i === list.length - 1 && j < items.length) {
-      j++
-      item = items.item(j) as Element
-      item?.remove()
     }
   }
+
+  return clonedNode
+}
+
+function childNodes (node: Node) {
+  const childNodes = node.childNodes
+
+  // check if element is stencil element without shadow dom
+  // and then detect elements that were slotted into the element
+  if (node['s-sc']) {
+    const result: any[] = []
+
+    for (let i = 0; i < childNodes.length; i++) {
+      const slot = childNodes[i]['s-nr']
+
+      if (slot) {
+        result.push(slot)
+      }
+    }
+
+    return result
+  }
+
+  return Array.from(childNodes)
 }
 
 @Component({
@@ -41,18 +55,8 @@ export class SwiperItem implements ComponentInterface {
   @Prop() itemId: string
 
   componentDidRender () {
-    const el = this.el
-
-    if (el.classList.contains('swiper-slide-duplicate')) {
-      const list = Array
-        .from(el.parentElement?.childNodes?.values() || [])
-        .filter((e: Element) => e.tagName === 'TARO-SWIPER-ITEM-CORE')
-      if (list.length > 0) {
-        parseChildNodes(
-          el.childNodes,
-          list[list.indexOf(el) === 0 ? list.length - 2 : 1]?.childNodes
-        )
-      }
+    this.el.cloneNode = (deep = false) => {
+      return cloneNode.call(null, this.el, deep)
     }
   }
 
