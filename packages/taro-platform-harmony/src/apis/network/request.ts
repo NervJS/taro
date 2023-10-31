@@ -32,7 +32,7 @@ const requestSchema = {
 }
 
 const request: typeof Taro.request = function (options) {
-  let httpRequestOhos
+  let httpRequestOhos: ReturnType<typeof http.createHttp>
 
   const requestTask: any = new Promise((resolve, reject) => {
     try {
