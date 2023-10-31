@@ -1,4 +1,4 @@
-import * as t from 'babel-types'
+import * as t from '@babel/types'
 
 import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { parseScript } from './script'
@@ -9,6 +9,7 @@ import { parseWXML } from './wxml'
 interface Option {
   json?: string
   script?: string
+  scriptPath?: string
   wxml?: string
   path: string
   rootPath: string
@@ -17,7 +18,7 @@ interface Option {
 }
 
 export function parse (option: Option) {
-  resetGlobals()
+  resetGlobals(option.rootPath)
   setting.rootPath = option.rootPath
   if (option.json) {
     const config = JSON.parse(option.json)
@@ -35,16 +36,17 @@ export function parse (option: Option) {
     const result = parseVue(option.path, option.wxml || '', option.script)
     return {
       ...result,
-      errors
+      errors,
     }
   }
 
   const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
   setting.sourceCode = option.script!
-  const ast = parseScript(option.script, wxml as t.Expression, wxses, refIds, option.isApp)
+  const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, wxses, refIds, option.isApp)
+
   return {
     ast,
     imports,
-    errors
+    errors,
   }
 }
