@@ -3,10 +3,7 @@ import { parse } from '@babel/parser'
 import { default as template } from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import { fs } from '@tarojs/helper'
 import { camelCase, capitalize } from 'lodash'
-
-import { globals } from './global'
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
@@ -305,31 +302,4 @@ export function isCommonjsModule (bodyNode) {
     }
     return false
   })
-}
-
-/**
- * 获取不同操作系统下的换行符
- *
- * @returns { string } 换行符
- */
-export function getLineBreak () {
-  if (process.platform === 'win32') {
-    return '\r\n'
-  }
-  return '\n'
-}
-
-/**
- * 记录数据到日志文件中
- *
- * @param data 日志数据
- */
-export function printToLogFile (data: string) {
-  try {
-    // 将参数记录到log文件
-    fs.appendFile(globals.logFilePath, data)
-  } catch (error) {
-    console.error('写日志文件异常')
-    throw error
-  }
 }
