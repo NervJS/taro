@@ -1,8 +1,8 @@
 import * as babel from '@babel/core'
 import * as t from '@babel/types'
-import * as definition from './__mocks__/harmony-definition.json'
 
 import plugin from '../src'
+import * as definition from './__mocks__/harmony-definition.json'
 
 type ImportType = babel.types.ImportSpecifier | babel.types.ImportDefaultSpecifier | babel.types.ImportNamespaceSpecifier
 
