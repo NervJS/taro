@@ -1,5 +1,4 @@
 import { parseWXML } from '../src/wxml'
-import { generateMinimalEscapeCode } from './util'
 
 jest.mock('fs')
 const fs = require('fs')
@@ -13,7 +12,7 @@ describe('template.ts', () => {
     })
 
     test('import 引入template', () => {
-      const wxmlStr = `
+      const wxml = `
         <import src="../template/template"/>
         <view>
           <template is="template_demo"></template>
@@ -25,17 +24,14 @@ describe('template.ts', () => {
         </template>
       `
       // 将 template.ts 中的 fs.readFileSync 返回值模拟为常量 template
-      jest.spyOn(fs, 'readFileSync').mockReturnValue(template)
+      jest.spyOn(fs,'readFileSync').mockReturnValue(template)
       const dirPath = 'import_normal'
-      const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
-      const wxmlCode = generateMinimalEscapeCode(wxml)
-      const importsCode = generateMinimalEscapeCode(imports[0].ast)
-      expect(wxmlCode).toMatchSnapshot()
-      expect(importsCode).toMatchSnapshot()
+      const paresResult = parseWXML(dirPath, wxml)
+      expect(paresResult).toMatchSnapshot()
     })
 
     test('import src 为绝对路径', () => {
-      const wxmlStr = `
+      const wxml = `
         <import src="/pages/template/template"/>
         <template is="template_demo"></template>
       `
@@ -47,13 +43,10 @@ describe('template.ts', () => {
       jest.spyOn(path, 'resolve').mockReturnValue('E:\\code\\taro_demo\\pages\\template\\template')
       jest.spyOn(path, 'relative').mockReturnValue('../template/template')
       jest.spyOn(fs, 'readFileSync').mockReturnValue(template)
-      jest.spyOn(fs, 'existsSync').mockReturnValue(true)
+      jest.spyOn(fs,'existsSync').mockReturnValue(true)
       const dirPath = 'import_absoulte_path'
-      const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
-      const wxmlCode = generateMinimalEscapeCode(wxml)
-      const importsCode = generateMinimalEscapeCode(imports[0].ast)
-      expect(wxmlCode).toMatchSnapshot()
-      expect(importsCode).toMatchSnapshot()
+      const paresResult = parseWXML(dirPath, wxml)
+      expect(paresResult).toMatchSnapshot()
     })
   })
 
