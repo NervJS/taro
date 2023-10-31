@@ -20,6 +20,7 @@ jobs:
           fetch-depth: 1
           path: .taro-docs
       - run : |
+          cp .taro-docs/packages/taro/types/* packages/taro/types
           cp .taro-docs/packages/taro-components/types/* packages/taro-components/types
           rm -rf .taro-docs
 

@@ -133,7 +133,7 @@ export const components = {
     'refresher-two-level-enabled': _false,
     'refresher-two-level-triggered': _false,
     'refresher-two-level-threshold': '150',
-    'refresher-two-level-close-threshold':'80',
+    'refresher-two-level-close-threshold': '80',
     'refresher-two-level-scroll-enabled': _false,
     'refresher-ballistic-refresh-enabled': _false,
     'refresher-two-level-pinned': _false,
@@ -192,12 +192,18 @@ export const components = {
     'auto-pause-if-navigate': _true,
     'auto-pause-if-open-native': _true,
     'picture-in-picture-mode': '[]',
+    'enable-auto-rotation': _false,
+    'referrer-policy': "'no-referrer'",
+    'enable-casting': _false,
     bindstatechange: _empty,
     bindfullscreenchange: _empty,
     bindnetstatus: _empty,
     bindAudioVolumeNotify: _empty,
     bindEnterPictureInPicture: _empty,
-    bindLeavePictureInPicture: _empty
+    bindLeavePictureInPicture: _empty,
+    bindCastingUserSelect: _empty,
+    bindCastingStateChange: _empty,
+    bindCastingInterrupt: _empty
   },
   Video: {
     title: _empty,
@@ -398,16 +404,17 @@ export const components = {
   KeyboardAccessory: {},
   RootPortal: {},
   ChannelLive: {
-    feedId: _empty,
-    finderUserName: _empty
+    'feed-id': _empty,
+    'finder-user-name': _empty
   },
   ChannelVideo: {
-    feedId: _empty,
-    finderUserName: _empty,
+    'feed-id': _empty,
+    'finder-user-name': _empty,
+    'feed-token':_empty,
     autoplay: _false,
     loop: _false,
     muted: _false,
-    objectFit: "'contain'",
+    'object-fit': "'contain'",
     bindError: _empty
   },
   Snapshot: {}
