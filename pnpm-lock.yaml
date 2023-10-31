@@ -1392,12 +1392,14 @@ importers:
 
   packages/taro-plugin-inject:
     specifiers:
+      '@tarojs/helper': workspace:*
       '@tarojs/service': workspace:*
       '@tarojs/shared': workspace:*
       rollup: ^2.79.0
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
     dependencies:
+      '@tarojs/helper': link:../taro-helper
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
     devDependencies:
