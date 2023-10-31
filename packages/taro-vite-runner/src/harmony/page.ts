@@ -9,7 +9,7 @@ import type { PluginOption } from 'vite'
 export const PAGE_SUFFIX = '.ets?page-loader=true'
 export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 
-const SHOW_TREE = false
+const SHOW_TREE = true
 const showTreeFunc = (isTabbarPage) => `\nasync showTree() {
   const taskQueen = []
 
@@ -42,17 +42,17 @@ const showTreeFunc = (isTabbarPage) => `\nasync showTree() {
 
     if(tree.childNodes?.length) {
       taskQueen.push(() => {
-        console.info('fuck-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
+        console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
       })
       tree.childNodes.forEach(child => {
         showTree(child, level+1)
       })
       taskQueen.push(() => {
-        console.info('fuck-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
+        console.info('taro-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
       })
     } else {
       taskQueen.push(() => {
-        console.info('fuck-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
+        console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
       })
     }
   }
