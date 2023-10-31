@@ -951,7 +951,7 @@ ${code}
     console.log(
       `${chalk.green('✔ ')} 转换成功，请进入 ${chalk.bold(
         'taroConvert'
-      )} 目录下使用 npm 或者 yarn 安装项目依赖后再运行！`
+      )} 目录下使用 npm 或者 yarn 安装项目依赖后再运行！！`
     )
   }
 
