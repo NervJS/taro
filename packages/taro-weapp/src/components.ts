@@ -402,7 +402,9 @@ export const components = {
     'easing-function': "'ease-out'"
   },
   KeyboardAccessory: {},
-  RootPortal: {},
+  RootPortal: {
+    enable: _true
+  },
   ChannelLive: {
     'feed-id': _empty,
     'finder-user-name': _empty
