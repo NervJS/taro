@@ -39,7 +39,7 @@
     ],
     "testPathIgnorePatterns": [
       "node_modules",
-      "/__tests__/utils.ts"
+      "utils"
     ]
   },
   "dependencies": {

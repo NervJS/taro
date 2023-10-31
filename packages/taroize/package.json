@@ -34,8 +34,7 @@
       "node"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/__tests__/util.ts"
+      "node_modules"
     ]
   },
   "author": "yuche",

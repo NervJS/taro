@@ -2,7 +2,6 @@ import * as t from '@babel/types'
 
 import { parseScript } from '../src/script'
 import { parseWXML, WXS } from '../src/wxml'
-import { generateMinimalEscapeCode } from './util'
 
 
 interface Option {
@@ -37,9 +36,8 @@ describe('parseScript', () => {
     `
     option.wxml = { type: 'NullLiteral' }
     const ast = parseScript(option.script, option.scriptPath, option.wxml as t.Expression, option.wxses, option.refIds, true)
-    const code = generateMinimalEscapeCode(ast)
     expect(ast).toBeTruthy()
-    expect(code).toMatchSnapshot()
+    expect(ast).toMatchSnapshot()
   })
 
   // 当存在 getAPP 或 getCurrentPages 方法
@@ -54,8 +52,7 @@ describe('parseScript', () => {
     `
     option.wxml = { type: 'NullLiteral' }
     const ast = parseScript(option.script, option.scriptPath, option.wxml as t.Expression, option.wxses, option.refIds, true)
-    const code = generateMinimalEscapeCode(ast)
-    expect(code).toMatchSnapshot()
+    expect(ast).toMatchSnapshot()
   })
 
   // 当wxml是纯文本 parseWXML的返回值 { wxml } 影响js转换
@@ -66,8 +63,7 @@ describe('parseScript', () => {
     path = 'wxml_jsxText'
     const { wxml } = parseWXML(path, wxmlStr)
     const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, option.wxses, option.refIds, true)
-    const code = generateMinimalEscapeCode(ast)
-    expect(code).toMatchSnapshot()
+    expect(ast).toMatchSnapshot()
   })
 
   // 当wxml存在变量 parseWXML的返回值 { wxml } 影响js转换
@@ -84,7 +80,6 @@ describe('parseScript', () => {
     path = 'wxml_expression'
     const { wxml } = parseWXML(path, wxmlStr)
     const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, option.wxses, option.refIds, true)
-    const code = generateMinimalEscapeCode(ast)
-    expect(code).toMatchSnapshot()
+    expect(ast).toMatchSnapshot()
   })
 })
