@@ -30,17 +30,18 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "xregexp": "^3.2.0"
   },
   "devDependencies": {
     "@tarojs/taro": "workspace:*",
     "@vue/compiler-core": "^3.0.0",
     "@vue/runtime-core": "^3.0.0",
-    "vue": "^3.0.0",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "vue": "^3.0.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

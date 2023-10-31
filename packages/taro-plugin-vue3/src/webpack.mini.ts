@@ -102,6 +102,9 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
     .use('vueLoader')
     .loader(vueLoaderPath)
     .options(vueLoaderOption)
+    .end()
+    .use('conditionCompilerLoader')
+    .loader(require.resolve('./condition-compiler-loader'))
 }
 
 function setLoader (chain) {
