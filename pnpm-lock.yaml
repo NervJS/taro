@@ -936,6 +936,9 @@ importers:
       react-native-svg: registry.npmjs.org/react-native-svg/13.7.0_hitw53fjdtts735uumzgadsnzq
       react-test-renderer: registry.npmjs.org/react-test-renderer/18.1.0_react@18.1.0
 
+  packages/taro-components/loader:
+    specifiers: {}
+
   packages/taro-extend:
     specifiers:
       jest: ^29.3.1
@@ -1546,6 +1549,7 @@ importers:
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^2.7.0
+      xregexp: ^3.2.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
@@ -1553,6 +1557,7 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       lodash: registry.npmjs.org/lodash/4.17.21
+      xregexp: registry.npmjs.org/xregexp/3.2.0
     devDependencies:
       rollup: registry.npmjs.org/rollup/3.21.5
       rollup-plugin-node-externals: registry.npmjs.org/rollup-plugin-node-externals/5.1.3_rollup@3.21.5
@@ -1576,6 +1581,7 @@ importers:
       rollup-plugin-ts: ^3.0.2
       typescript: ^4.7.4
       vue: ^3.0.0
+      xregexp: ^3.2.0
     dependencies:
       '@tarojs/helper': link:../taro-helper
       '@tarojs/runner-utils': link:../taro-runner-utils
@@ -1583,6 +1589,7 @@ importers:
       '@tarojs/service': link:../taro-service
       '@tarojs/shared': link:../shared
       lodash: registry.npmjs.org/lodash/4.17.21
+      xregexp: registry.npmjs.org/xregexp/3.2.0
     devDependencies:
       '@tarojs/taro': link:../taro
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core/3.2.47
@@ -14552,7 +14559,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -30853,19 +30860,6 @@ packages:
       bluebird:
         optional: true
 
-  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
-    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
-    id: registry.npmjs.org/promise-inflight/1.0.1
-    name: promise-inflight
-    version: 1.0.1
-    peerDependencies:
-      bluebird: '*'
-    peerDependenciesMeta:
-      bluebird:
-        optional: true
-    dependencies:
-      bluebird: registry.npmjs.org/bluebird/3.7.2
-
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
     name: promise-polyfill
@@ -38085,6 +38079,12 @@ packages:
     name: xmlhttprequest-ssl
     version: 1.6.3
     engines: {node: '>=0.4.0'}
+    dev: false
+
+  registry.npmjs.org/xregexp/3.2.0:
+    resolution: {integrity: sha512-tWodXkrdYZPGadukpkmhKAbyp37CV5ZiFHacIVPhRZ4/sSt7qtOYHLv2dAqcPN0mBsViY2Qai9JkO7v2TBP6hg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/xregexp/-/xregexp-3.2.0.tgz}
+    name: xregexp
+    version: 3.2.0
     dev: false
 
   registry.npmjs.org/xtend/4.0.2:
