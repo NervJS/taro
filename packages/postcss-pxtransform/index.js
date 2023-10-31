@@ -50,17 +50,22 @@ module.exports = (options = {}) => {
     case 'h5': {
       targetUnit = options.targetUnit ?? 'rem'
 
-      if (targetUnit === 'vw') {
-        options.rootValue = (input) => {
-          return designWidth(input) / 100
-        }
-      } else if (targetUnit === 'px') {
-        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
-      } else {
-        // rem
-        options.rootValue = (input) => {
-          return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
-        }
+      switch (targetUnit) {
+        case 'vw':
+        case 'vmin':
+          options.rootValue = (input) => {
+            return designWidth(input) / 100
+          }
+          break
+        case 'px':
+          options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
+          break
+        default:
+          // rem
+          options.rootValue = (input) => {
+            return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
+          }
+          break
       }
 
       transUnits.push('rpx')
