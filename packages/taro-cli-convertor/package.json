@@ -11,7 +11,7 @@
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
-    "test:cov": "jest --coverage && npm run lint"
+    "test:cov": "jest --coverage"
   },
   "files": [
     "bin",
@@ -36,7 +36,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/taroize/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/taro-cli-convertor/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",

@@ -1,6 +1,7 @@
 import * as t from '@babel/types'
 
 import { convertStyleUnit, parseContent, parseStyle, parseWXML } from '../src/wxml'
+import { generateMinimalEscapeCode } from './util'
 
 interface Option {
   path: string
@@ -55,16 +56,18 @@ describe('wxml.ts测试', () => {
                     <view>{{wxs_demo.data}}</view>`
     //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
     option.path = 'wxml_wxs'
-    const { wxses, imports } = parseWXML(option.path, option.wxml)
+    const { wxses, imports }:any = parseWXML(option.path, option.wxml)
+    const importsCode = generateMinimalEscapeCode(imports[0].ast)
     expect(wxses).toMatchSnapshot()
-    expect(imports).toMatchSnapshot()
+    expect(importsCode).toMatchSnapshot()
   })
 
   test('wxml中image的mode=""会转换成mode', () => {
     option.wxml = `<image class="img" src="{{imgSrc}}" mode=""></image>`
     option.path = 'wxml_mode'
-    const { wxml }: any = parseWXML(option.path, option.wxml)
-    expect(wxml).toMatchSnapshot()
+    const { wxml }:any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
   })
   
   test('wx:key="index"会转换成key="index"', () => {
@@ -73,7 +76,8 @@ describe('wxml.ts测试', () => {
                   </view>`
     option.path = 'wxml_key'
     const { wxml }: any = parseWXML(option.path, option.wxml)
-    expect(wxml).toMatchSnapshot()
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
   })
   
   test('wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp()', () => {
@@ -82,8 +86,9 @@ describe('wxml.ts测试', () => {
                   </wxs>`
     option.path = 'wxml_wxs_regexp'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
+    const importsCode = generateMinimalEscapeCode(imports[0].ast)
     expect(wxses).toMatchSnapshot()
-    expect(imports).toMatchSnapshot()
+    expect(importsCode).toMatchSnapshot()
   })
 })
 
