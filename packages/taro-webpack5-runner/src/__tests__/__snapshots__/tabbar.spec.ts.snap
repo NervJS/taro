@@ -467,7 +467,9 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
                 "feed-id": _empty,
                 "finder-user-name": _empty
@@ -2708,6 +2710,9 @@ require("./runtime");
                 transform: "false",
                 duration: "300",
                 "easing-function": singleQuote("ease-out")
+            },
+            RootPortal: {
+                enable: "true"
             }
         };
         var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
@@ -3797,7 +3802,9 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
                 "feed-id": _empty,
                 "finder-user-name": _empty
