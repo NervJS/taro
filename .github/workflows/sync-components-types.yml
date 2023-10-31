@@ -20,6 +20,7 @@ jobs:
           fetch-depth: 1
           path: .taro-docs
       - run : |
+          cp .taro-docs/packages/taro/types/* packages/taro/types
           cp .taro-docs/packages/taro-components/types/* packages/taro-components/types
           rm -rf .taro-docs
 
@@ -51,7 +52,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          base: master
+          base: next
           body: "sync components types"
           branch: "refactor/sync-types"
           commit-message: "refactor(types): sync components types"
