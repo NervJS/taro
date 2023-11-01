@@ -64,6 +64,7 @@ importers:
       '@types/postcss-import': ^14.0.0
       '@types/postcss-url': ^10.0.0
       '@types/react': ^18.0.0
+      '@types/react-dom': ^18.0.0
       '@types/react-reconciler': 0.28.1
       '@types/request': ^2.48.1
       '@types/resolve': 1.19.0
@@ -185,6 +186,7 @@ importers:
       '@types/postcss-import': registry.npmjs.org/@types/postcss-import/14.0.0
       '@types/postcss-url': registry.npmjs.org/@types/postcss-url/10.0.0
       '@types/react': registry.npmjs.org/@types/react/18.2.6
+      '@types/react-dom': registry.npmjs.org/@types/react-dom/18.2.14
       '@types/react-reconciler': registry.npmjs.org/@types/react-reconciler/0.28.1
       '@types/request': registry.npmjs.org/@types/request/2.48.8
       '@types/resolve': registry.npmjs.org/@types/resolve/1.19.0
@@ -2232,6 +2234,7 @@ importers:
       resolve: ^1.22.0
       rollup: ^3.19.0
       sax: 1.2.4
+      terser: ^5.4.0
       vite: ^4.2.0
       vite-plugin-static-copy: ^0.13.0
     dependencies:
@@ -2240,7 +2243,7 @@ importers:
       '@tarojs/runner-utils': link:../taro-runner-utils
       '@tarojs/shared': link:../shared
       '@tarojs/taro': link:../taro
-      '@vitejs/plugin-legacy': registry.npmjs.org/@vitejs/plugin-legacy/4.1.1_vite@4.4.7
+      '@vitejs/plugin-legacy': registry.npmjs.org/@vitejs/plugin-legacy/4.1.1_terser@5.17.1+vite@4.4.7
       acorn-walk: registry.npmjs.org/acorn-walk/8.2.0
       autoprefixer: registry.npmjs.org/autoprefixer/10.4.14_postcss@8.4.23
       connect-history-api-fallback: registry.npmjs.org/connect-history-api-fallback/2.0.0
@@ -2260,7 +2263,8 @@ importers:
       '@babel/core': registry.npmjs.org/@babel/core/7.21.8
       fs-extra: registry.npmjs.org/fs-extra/11.1.1
       postcss: registry.npmjs.org/postcss/8.4.23
-      vite: registry.npmjs.org/vite/4.4.7
+      terser: registry.npmjs.org/terser/5.17.1
+      vite: registry.npmjs.org/vite/4.4.7_terser@5.17.1
 
   packages/taro-weapp:
     specifiers:
@@ -13793,6 +13797,14 @@ packages:
     name: '@types/range-parser'
     version: 1.2.4
 
+  registry.npmjs.org/@types/react-dom/18.2.14:
+    resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.14.tgz}
+    name: '@types/react-dom'
+    version: 18.2.14
+    dependencies:
+      '@types/react': registry.npmjs.org/@types/react/18.2.6
+    dev: true
+
   registry.npmjs.org/@types/react-native/0.69.20:
     resolution: {integrity: sha512-zIAQb4zBecmJCpmf+FCnZK8IHoRZyDxC/BetiZrJHD4gpiCyhkA68CL25v0Qmq2KRgJWf1MFbRrbtnOSTJVAoA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-native/-/react-native-0.69.20.tgz}
     name: '@types/react-native'
@@ -14249,7 +14261,7 @@ packages:
       graphql: registry.npmjs.org/graphql/15.8.0
       wonka: registry.npmjs.org/wonka/4.0.15
 
-  registry.npmjs.org/@vitejs/plugin-legacy/4.1.1_vite@4.4.7:
+  registry.npmjs.org/@vitejs/plugin-legacy/4.1.1_terser@5.17.1+vite@4.4.7:
     resolution: {integrity: sha512-um3gbVouD2Q/g19C0qpDfHwveXDCAHzs8OC3e9g6aXpKoD1H14himgs7wkMnhAynBJy7QqUoZNAXDuqN8zLR2g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vitejs/plugin-legacy/-/plugin-legacy-4.1.1.tgz}
     id: registry.npmjs.org/@vitejs/plugin-legacy/4.1.1
     name: '@vitejs/plugin-legacy'
@@ -14266,7 +14278,8 @@ packages:
       magic-string: registry.npmjs.org/magic-string/0.30.4
       regenerator-runtime: registry.npmjs.org/regenerator-runtime/0.13.11
       systemjs: registry.npmjs.org/systemjs/6.14.2
-      vite: registry.npmjs.org/vite/4.4.7
+      terser: registry.npmjs.org/terser/5.17.1
+      vite: registry.npmjs.org/vite/4.4.7_terser@5.17.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -18297,7 +18310,7 @@ packages:
       mississippi: registry.npmjs.org/mississippi/3.0.0
       mkdirp: registry.npmjs.org/mkdirp/0.5.6
       move-concurrently: registry.npmjs.org/move-concurrently/1.0.1
-      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1
+      promise-inflight: registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2
       rimraf: registry.npmjs.org/rimraf/2.7.1
       ssri: registry.npmjs.org/ssri/6.0.2
       unique-filename: registry.npmjs.org/unique-filename/1.1.1
@@ -34610,6 +34623,19 @@ packages:
       bluebird:
         optional: true
 
+  registry.npmjs.org/promise-inflight/1.0.1_bluebird@3.7.2:
+    resolution: {integrity: sha512-6zWPyEOFaQBJYcGMHBKTKJ3u6TBsnMFOIZSa6ce1e/ZrrsOlnHRHbabMjLiBYKp+n44X9eUI6VUPaukCXHuG4g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-inflight/-/promise-inflight-1.0.1.tgz}
+    id: registry.npmjs.org/promise-inflight/1.0.1
+    name: promise-inflight
+    version: 1.0.1
+    peerDependencies:
+      bluebird: '*'
+    peerDependenciesMeta:
+      bluebird:
+        optional: true
+    dependencies:
+      bluebird: registry.npmjs.org/bluebird/3.7.2
+
   registry.npmjs.org/promise-polyfill/7.1.2:
     resolution: {integrity: sha512-FuEc12/eKqqoRYIGBrUptCBRhobL19PS2U31vMNTfyck1FxPyMfgsXyW4Mav85y/ZN1hop3hOwRlUDok23oYfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/promise-polyfill/-/promise-polyfill-7.1.2.tgz}
     name: promise-polyfill
@@ -40870,7 +40896,7 @@ packages:
       fast-glob: registry.npmjs.org/fast-glob/3.2.12
       fs-extra: registry.npmjs.org/fs-extra/11.1.1
       picocolors: registry.npmjs.org/picocolors/1.0.0
-      vite: registry.npmjs.org/vite/4.4.7
+      vite: registry.npmjs.org/vite/4.4.7_terser@5.17.1
     dev: false
 
   registry.npmjs.org/vite/4.4.7:
@@ -40906,6 +40932,45 @@ packages:
       esbuild: registry.npmjs.org/esbuild/0.18.17
       postcss: registry.npmjs.org/postcss/8.4.27
       rollup: registry.npmjs.org/rollup/3.27.0
+    optionalDependencies:
+      fsevents: registry.npmjs.org/fsevents/2.3.2
+    dev: true
+
+  registry.npmjs.org/vite/4.4.7_terser@5.17.1:
+    resolution: {integrity: sha512-6pYf9QJ1mHylfVh39HpuSfMPojPSKVxZvnclX1K1FyZ1PXDOcLBibdq5t1qxJSnL63ca8Wf4zts6mD8u8oc9Fw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/vite/-/vite-4.4.7.tgz}
+    id: registry.npmjs.org/vite/4.4.7
+    name: vite
+    version: 4.4.7
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: registry.npmjs.org/esbuild/0.18.17
+      postcss: registry.npmjs.org/postcss/8.4.27
+      rollup: registry.npmjs.org/rollup/3.27.0
+      terser: registry.npmjs.org/terser/5.17.1
     optionalDependencies:
       fsevents: registry.npmjs.org/fsevents/2.3.2
 
