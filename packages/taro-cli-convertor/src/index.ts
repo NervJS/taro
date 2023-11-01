@@ -99,6 +99,7 @@ interface ITaroizeOptions {
   path?: string
   rootPath?: string
   scriptPath?: string
+  logFilePath?: string
 }
 
 // convert.config,json配置参数
@@ -978,6 +979,7 @@ ${code}
         rootPath: this.root,
         framework: this.framework,
         isApp: true,
+        logFilePath: globals.logFilePath,
       })
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
@@ -1175,6 +1177,7 @@ ${code}
         }
         param.path = path.dirname(pageJSPath)
         param.rootPath = this.root
+        param.logFilePath = globals.logFilePath
         const taroizeResult = taroize({
           ...param,
           framework: this.framework,
@@ -1263,6 +1266,7 @@ ${code}
         }
         param.path = path.dirname(componentJSPath)
         param.rootPath = this.root
+        param.logFilePath = globals.logFilePath
         const taroizeResult = taroize({
           ...param,
           framework: this.framework,
