@@ -1,0 +1,2955 @@
+{
+  "apis": {
+    "Behavior": "*",
+    "getEnv": "*",
+    "ENV_TYPE": "*",
+    "Link": "*",
+    "interceptors": "*",
+    "interceptorify": "*",
+    "Current": "*",
+    "options": "*",
+    "eventCenter": "*",
+    "Events": "*",
+    "preload": "*",
+    "taro": "*",
+    "requirePlugin": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "initPxTransform": {
+      "object": "{ designWidth?: number; deviceRatio?: TDeviceRatio; baseFontSize?: number; unitPrecision?: number; targetUnit?: string; }",
+      "success": "void"
+    },
+    "pxTransform": {
+      "object": "number",
+      "success": "void",
+      "return": "*"
+    },
+    "canIUseWebp": {
+      "object": "void",
+      "success": "void",
+      "return": "boolean"
+    },
+    "getAppInfo": {
+      "object": "void",
+      "success": "void",
+      "return": "{ platform: string; taroVersion: string; designWidth: any; }"
+    },
+    "createRewardedVideoAd": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createInterstitialAd": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopFaceDetect": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "initFaceDetect": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "faceDetect": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getInferenceEnvInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createInferenceSession": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "isVKSupport": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createVKSession": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getOpenUserInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "tradePay": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "env": {},
+    "arrayBufferToBase64": "*",
+    "base64ToArrayBuffer": "*",
+    "getUserCryptoManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setEnableDebug": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getRealtimeLogManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getLogManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "reportPerformance": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getPerformance": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "preloadWebview": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "preloadSkylineView": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "preloadAssets": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openSystemBluetoothSetting": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openAppAuthorizeSetting": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getWindowInfo": {
+      "object": "void",
+      "success": "void",
+      "return": "Result"
+    },
+    "getSystemSetting": {
+      "object": "void",
+      "success": "void",
+      "return": "Result"
+    },
+    "getDeviceInfo": {
+      "object": "void",
+      "success": "void",
+      "return": "Result"
+    },
+    "getAppBaseInfo": {
+      "object": "void",
+      "success": "void",
+      "return": "Result"
+    },
+    "getAppAuthorizeSetting": {
+      "object": "void",
+      "success": "void",
+      "return": "Result"
+    },
+    "getSystemInfoSync": {
+      "object": "void",
+      "success": "void",
+      "return": "Result"
+    },
+    "getSystemInfoAsync": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<Result>"
+    },
+    "getSystemInfo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<Result>"
+    },
+    "getSkylineInfoSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getSkylineInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getRendererUserAgent": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "updateWeChatApp": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getUpdateManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onUnhandledRejection": {
+      "callback": "Result<T>"
+    },
+    "onThemeChange": {
+      "callback": "Result"
+    },
+    "onPageNotFound": {
+      "callback": "Result"
+    },
+    "onLazyLoadError": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onError": {
+      "callback": "string | ErrorEvent | Error"
+    },
+    "onAudioInterruptionEnd": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onAudioInterruptionBegin": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onAppShow": {
+      "callback": "CallbackResult"
+    },
+    "onAppHide": {
+      "callback": "CallbackResult"
+    },
+    "offUnhandledRejection": {
+      "callback": "Result<T>"
+    },
+    "offThemeChange": {
+      "callback": "Result"
+    },
+    "offPageNotFound": {
+      "callback": "Result"
+    },
+    "offLazyLoadError": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offError": {
+      "callback": "string | ErrorEvent | Error"
+    },
+    "offAudioInterruptionEnd": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offAudioInterruptionBegin": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offAppShow": {
+      "callback": "CallbackResult"
+    },
+    "offAppHide": {
+      "callback": "CallbackResult"
+    },
+    "getLaunchOptionsSync": {
+      "object": "void",
+      "success": "void",
+      "return": "LaunchOptions"
+    },
+    "getEnterOptionsSync": {
+      "object": "void",
+      "success": "void",
+      "return": "EnterOptions"
+    },
+    "createOffscreenCanvas": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createCanvasContext": {
+      "object": "string",
+      "success": "void",
+      "return": "CanvasContext"
+    },
+    "canvasToTempFilePath": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "canvasPutImageData": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "canvasGetImageData": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "reportMonitor": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "reportAnalytics": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "reportEvent": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getExptInfoSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopAccelerometer": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "startAccelerometer": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "onAccelerometerChange": {
+      "callback": "Result"
+    },
+    "offAccelerometerChange": {
+      "callback": "Result"
+    },
+    "checkIsOpenAccessibility": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBatteryInfoSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBatteryInfo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "stopBluetoothDevicesDiscovery": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startBluetoothDevicesDiscovery": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openBluetoothAdapter": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBluetoothDeviceFound": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBluetoothAdapterStateChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBluetoothDeviceFound": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBluetoothAdapterStateChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "makeBluetoothPair": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "isBluetoothDevicePaired": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getConnectedBluetoothDevices": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBluetoothDevices": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBluetoothAdapterState": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "closeBluetoothAdapter": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "writeBLECharacteristicValue": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setBLEMTU": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "readBLECharacteristicValue": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBLEMTUChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBLEConnectionStateChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBLECharacteristicValueChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBLEMTUChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBLEConnectionStateChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBLECharacteristicValueChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "notifyBLECharacteristicValueChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBLEMTU": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBLEDeviceServices": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBLEDeviceRSSI": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBLEDeviceCharacteristics": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createBLEConnection": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "closeBLEConnection": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBLEPeripheralConnectionStateChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBLEPeripheralConnectionStateChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createBLEPeripheralServer": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "addPhoneRepeatCalendar": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "addPhoneCalendar": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "setClipboardData": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<Promised>"
+    },
+    "getClipboardData": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<Promised>"
+    },
+    "stopCompass": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "startCompass": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "onCompassChange": {
+      "callback": "OnCompassChangeCallbackResult"
+    },
+    "offCompassChange": {
+      "callback": "OnCompassChangeCallbackResult"
+    },
+    "chooseContact": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "addPhoneContact": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getRandomValues": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopGyroscope": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startGyroscope": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onGyroscopeChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offGyroscopeChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopBeaconDiscovery": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startBeaconDiscovery": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBeaconUpdate": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBeaconServiceChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBeaconUpdate": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offBeaconServiceChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBeacons": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onKeyboardHeightChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offKeyboardHeightChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "hideKeyboard": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getSelectedTextRange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onMemoryWarning": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offMemoryWarning": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopDeviceMotionListening": {
+      "object": "Option",
+      "success": "void"
+    },
+    "startDeviceMotionListening": {
+      "object": "Option",
+      "success": "void"
+    },
+    "onDeviceMotionChange": {
+      "callback": "CallbackResult"
+    },
+    "offDeviceMotionChange": {
+      "callback": "CallbackResult"
+    },
+    "getNetworkType": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "onNetworkWeakChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onNetworkStatusChange": {
+      "callback": "CallbackResult"
+    },
+    "offNetworkWeakChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offNetworkStatusChange": {
+      "callback": "CallbackResult"
+    },
+    "getLocalIPAddress": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopHCE": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startHCE": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "sendHCEMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onHCEMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offHCEMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getNFCAdapter": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getHCEState": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "makePhoneCall": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "scanCode": {
+      "object": "Partial<{ needResult: number; }>",
+      "success": "void",
+      "return": "Promise<any>"
+    },
+    "setVisualEffectOnCapture": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setScreenBrightness": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setKeepScreenOn": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onUserCaptureScreen": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offUserCaptureScreen": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getScreenBrightness": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onScreenRecordingStateChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offScreenRecordingStateChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getScreenRecordingState": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "sendSms": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "vibrateShort": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "vibrateLong": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "stopWifi": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startWifi": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setWifiList": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onWifiConnectedWithPartialInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onWifiConnected": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onGetWifiList": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offWifiConnectedWithPartialInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offWifiConnected": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offGetWifiList": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getWifiList": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getConnectedWifi": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "connectWifi": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getExtConfigSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getExtConfig": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "saveFileToDisk": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "saveFile": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "removeSavedFile": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openDocument": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getSavedFileList": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getSavedFileInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getFileSystemManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getFileInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getApp": {
+      "object": "*",
+      "success": "void",
+      "return": "Instance<T>"
+    },
+    "getCurrentInstance": {
+      "object": "void",
+      "success": "void",
+      "return": "Current"
+    },
+    "stopLocationUpdate": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startLocationUpdateBackground": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startLocationUpdate": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openLocation": {
+      "object": "Partial<{ scale: number; }>",
+      "success": "void",
+      "return": "Promise<any>"
+    },
+    "onLocationChangeError": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onLocationChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offLocationChangeError": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offLocationChange": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getLocation": {
+      "object": "Partial<Option>",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "choosePoi": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getFuzzyLocation": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseLocation": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "stopVoice": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setInnerAudioOption": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "playVoice": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "pauseVoice": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getAvailableAudioSources": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createWebAudioContext": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createMediaAudioPlayer": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createInnerAudioContext": {
+      "object": "void",
+      "success": "void",
+      "return": "InnerAudioContext"
+    },
+    "createAudioContext": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopBackgroundAudio": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "seekBackgroundAudio": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "playBackgroundAudio": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "pauseBackgroundAudio": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBackgroundAudioStop": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBackgroundAudioPlay": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBackgroundAudioPause": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBackgroundAudioPlayerState": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBackgroundAudioManager": {
+      "object": "void",
+      "success": "void",
+      "return": "BackgroundAudioManager"
+    },
+    "createCameraContext": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "saveImageToPhotosAlbum": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "previewMedia": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "getImageInfo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "previewImage": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "compressImage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseMessageFile": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseImage": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "editImage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "cropImage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createLivePusherContext": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createLivePlayerContext": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createMapContext": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createMediaRecorder": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "stopRecord": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startRecord": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getRecorderManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "saveVideoToPhotosAlbum": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "openVideoEditor": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getVideoInfo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "createVideoContext": {
+      "object": "string",
+      "success": "void",
+      "return": "VideoContext"
+    },
+    "compressVideo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseMedia": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "chooseVideo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "createVideoDecoder": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createMediaContainer": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "updateVoIPChatMuteConfig": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "subscribeVoIPVideoMembers": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setEnable1v1Chat": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onVoIPVideoMembersChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onVoIPChatStateChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onVoIPChatSpeakersChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onVoIPChatMembersChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onVoIPChatInterrupted": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offVoIPChatSpeakersChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offVoIPVideoMembersChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offVoIPChatStateChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offVoIPChatMembersChanged": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offVoIPChatInterrupted": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "joinVoIPChat": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "join1v1Chat": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "exitVoIPChat": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openEmbeddedMiniProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "navigateToMiniProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "navigateBackMiniProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "exitMiniProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openBusinessView": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "downloadFile": {
+      "object": "Option",
+      "success": "void",
+      "return": "DownloadTaskPromise"
+    },
+    "stopLocalServiceDiscovery": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startLocalServiceDiscovery": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onLocalServiceResolveFail": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onLocalServiceLost": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onLocalServiceFound": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onLocalServiceDiscoveryStop": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offLocalServiceResolveFail": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offLocalServiceLost": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offLocalServiceFound": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offLocalServiceDiscoveryStop": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "request": {
+      "object": "*",
+      "success": "void",
+      "return": "RequestTask<T>"
+    },
+    "addInterceptor": "*",
+    "cleanInterceptors": "*",
+    "createTCPSocket": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createUDPSocket": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "uploadFile": {
+      "object": "Option",
+      "success": "void",
+      "return": "UploadTaskPromise"
+    },
+    "sendSocketMessage": "*",
+    "onSocketOpen": "*",
+    "onSocketMessage": "*",
+    "onSocketError": "*",
+    "onSocketClose": "*",
+    "connectSocket": "*",
+    "closeSocket": "*",
+    "getAccountInfoSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseAddress": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "authorizeForMiniProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "authorize": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openCard": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "addCard": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "reserveChannelsLive": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openChannelsUserProfile": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openChannelsLive": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openChannelsEvent": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openChannelsActivity": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getChannelsShareKey": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getChannelsLiveNoticeInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getChannelsLiveInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openCustomerServiceChat": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestDeviceVoIP": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getDeviceVoIPList": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "checkIsSupportFacialRecognition": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startFacialRecognitionVerify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startFacialRecognitionVerifyAndUploadVideo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "faceVerifyForPay": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "addVideoToFavorites": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "addFileToFavorites": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getGroupEnterInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseInvoiceTitle": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseInvoice": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "chooseLicensePlate": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "pluginLogin": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "login": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "checkSession": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "checkIsAddedToMyMiniProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requirePrivacyAuthorize": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openPrivacyContract": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onNeedPrivacyAuthorization": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getPrivacySetting": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "showRedPackage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openSetting": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getSetting": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startSoterAuthentication": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "checkIsSupportSoterAuthentication": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "checkIsSoterEnrolledInDevice": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestSubscribeMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestSubscribeDeviceMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getUserProfile": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getUserInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "shareToWeRun": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getWeRunData": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestPayment": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestPluginPayment": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestOrderPayment": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "openQzonePublish": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "updateShareMenu": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "showShareMenu": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "showShareImageMenu": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "shareVideoMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "shareFileMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onCopyUrl": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "offCopyUrl": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "hideShareMenu": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getShareInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "authPrivateMessage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setStorageSync": {
+      "object": "string",
+      "success": "void"
+    },
+    "setStorage": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "revokeBufferURL": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "removeStorageSync": {
+      "object": "string",
+      "success": "void"
+    },
+    "removeStorage": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "getStorageSync": {
+      "object": "*",
+      "success": "void",
+      "return": "*"
+    },
+    "getStorageInfoSync": {
+      "object": "void",
+      "success": "void",
+      "return": "Option"
+    },
+    "getStorageInfo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "getStorage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult<T>>"
+    },
+    "createBufferURL": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "clearStorageSync": {
+      "object": "void",
+      "success": "void"
+    },
+    "clearStorage": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "batchSetStorageSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "batchSetStorage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "batchGetStorageSync": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "batchGetStorage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setBackgroundFetchToken": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onBackgroundFetchData": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBackgroundFetchToken": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getBackgroundFetchData": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createCacheManager": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setPageInfo": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "ocrIdCard": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "ocrBankCard": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "ocrDrivingLicense": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "ocrVehicleLicense": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "textReview": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "textToAudio": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "imageAudit": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "advancedGeneralIdentify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "objectDetectIdentify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "carClassify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "dishClassify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "logoClassify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "animalClassify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "plantClassify": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getSwanId": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "requestPolymerPayment": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "navigateToSmartGameProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "navigateToSmartProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "navigateBackSmartProgram": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "preloadSubPackage": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createAnimation": {
+      "object": "Option",
+      "success": "void",
+      "return": "Animation"
+    },
+    "setBackgroundTextStyle": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setBackgroundColor": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "nextTick": {
+      "callback": "any[]"
+    },
+    "loadFontFace": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "showToast": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "hideToast": {
+      "object": "Option",
+      "success": "void"
+    },
+    "showLoading": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "hideLoading": {
+      "object": "Option",
+      "success": "void"
+    },
+    "showModal": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "showActionSheet": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<SuccessCallbackResult>"
+    },
+    "enableAlertBeforeUnload": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "disableAlertBeforeUnload": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "getMenuButtonBoundingClientRect": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "showNavigationBarLoading": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "setNavigationBarTitle": "*",
+    "setNavigationBarColor": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "hideNavigationBarLoading": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "hideHomeButton": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "startPullDownRefresh": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "stopPullDownRefresh": {
+      "object": "Option",
+      "success": "void"
+    },
+    "pageScrollTo": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "setTopBarText": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "initTabBarApis": "*",
+    "showTabBarRedDot": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "showTabBar": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "setTabBarStyle": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "setTabBarItem": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "setTabBarBadge": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "removeTabBarBadge": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "hideTabBarRedDot": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "hideTabBar": {
+      "object": "Option",
+      "success": "void",
+      "return": "Promise<CallbackResult>"
+    },
+    "setWindowSize": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "onWindowResize": {
+      "callback": "CallbackResult"
+    },
+    "offWindowResize": {
+      "callback": "CallbackResult"
+    },
+    "checkIsPictureInPictureActive": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createWorker": {
+      "object": "*",
+      "success": "void",
+      "return": "Promise<Partial<CallbackResult> & Record<string, unknown> & CallbackResult>"
+    },
+    "createSelectorQuery": {
+      "object": "void",
+      "success": "void",
+      "return": "SelectorQuery"
+    },
+    "createIntersectionObserver": {
+      "object": "*",
+      "success": "void",
+      "return": "IntersectionObserver"
+    },
+    "createMediaQueryObserver": {
+      "object": "void",
+      "success": "void",
+      "return": "MediaQueryObserver"
+    }
+  },
+  "components": {
+    "ad": {
+      "unit-id": "",
+      "ad-intervals": "",
+      "ad-type": {
+        "banner": "",
+        "video": "",
+        "grid": ""
+      },
+      "ad-theme": {
+        "white": "",
+        "black": ""
+      }
+    },
+    "ad-custom": {
+      "unit-id": "",
+      "ad-intervals": ""
+    },
+    "animation-video": "",
+    "animation-view": "",
+    "ar-camera": "",
+    "audio": {
+      "id": "",
+      "src": "",
+      "loop": "",
+      "controls": "",
+      "poster": "",
+      "name": "",
+      "author": ""
+    },
+    "aweme-data": "",
+    "block": "",
+    "button": {
+      "size": {
+        "default": "",
+        "mini": ""
+      },
+      "type": {
+        "primary": "",
+        "default": "",
+        "warn": ""
+      },
+      "plain": "",
+      "disabled": "",
+      "loading": "",
+      "form-type": {
+        "submit": "",
+        "reset": ""
+      },
+      "open-type": {
+        "contact": "",
+        "share": "",
+        "getPhoneNumber": "",
+        "getRealtimePhoneNumber": "",
+        "getUserInfo": "",
+        "launchApp": "",
+        "openSetting": "",
+        "feedback": "",
+        "chooseAvatar": "",
+        "agreePrivacyAuthorization": ""
+      },
+      "hover-class": "",
+      "hover-stop-propagation": "",
+      "hover-start-time": "",
+      "hover-stay-time": "",
+      "lang": {
+        "en": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      },
+      "session-from": "",
+      "send-message-title": "",
+      "send-message-path": "",
+      "send-message-img": "",
+      "app-parameter": "",
+      "show-message-card": ""
+    },
+    "camera": {
+      "mode": {
+        "normal": "",
+        "scanCode": ""
+      },
+      "resolution": {
+        "low": "",
+        "medium": "",
+        "high": ""
+      },
+      "device-position": {
+        "front": "",
+        "back": ""
+      },
+      "flash": {
+        "auto": "",
+        "on": "",
+        "off": "",
+        "torch": ""
+      },
+      "frame-size": {
+        "small": "",
+        "medium": "",
+        "large": ""
+      }
+    },
+    "canvas": {
+      "type": "",
+      "canvas-id": "",
+      "disable-scroll": ""
+    },
+    "channel-live": {
+      "feed-id": ""
+    },
+    "channel-video": {
+      "feed-id": "",
+      "finder-user-name": "",
+      "loop": "",
+      "muted": "",
+      "object-fit": {
+        "fill": "",
+        "contain": "",
+        "cover": ""
+      },
+      "autoplay": "",
+      "feed-token": ""
+    },
+    "checkbox": {
+      "value": "",
+      "disabled": "",
+      "checked": "",
+      "color": ""
+    },
+    "checkbox-group": "",
+    "comment-detail": "",
+    "comment-list": "",
+    "contact-button": "",
+    "cover-image": {
+      "src": "",
+      "referrer-policy": {
+        "origin": "",
+        "no-referrer": ""
+      }
+    },
+    "cover-view": {
+      "scroll-top": ""
+    },
+    "custom-wrapper": "",
+    "editor": {
+      "read-only": "",
+      "placeholder": "",
+      "show-img-size": "",
+      "show-img-toolbar": "",
+      "show-img-resize": ""
+    },
+    "follow-swan": "",
+    "form": {
+      "report-submit": "",
+      "report-submit-timeout": ""
+    },
+    "functional-page-navigator": {
+      "version": {
+        "develop": "",
+        "trial": "",
+        "release": ""
+      },
+      "name": {
+        "loginAndGetUserInfo": "",
+        "requestPayment": "",
+        "chooseAddress": ""
+      },
+      "args": ""
+    },
+    "grid-view": {
+      "type": "",
+      "cross-axis-count": "",
+      "main-axis-gap": "",
+      "cross-axis-gap": ""
+    },
+    "icon": {
+      "type": {
+        "success": "",
+        "success_no_circle": "",
+        "info": "",
+        "warn": "",
+        "waiting": "",
+        "cancel": "",
+        "download": "",
+        "search": "",
+        "clear": "",
+        "circle": "",
+        "info_circle": ""
+      },
+      "size": "",
+      "color": ""
+    },
+    "image": {
+      "src": "",
+      "mode": {
+        "scaleToFill": "",
+        "aspectFit": "",
+        "aspectFill": "",
+        "widthFix": "",
+        "heightFix": "",
+        "top": "",
+        "bottom": "",
+        "center": "",
+        "left": "",
+        "right": ""
+      },
+      "webp": "",
+      "lazy-load": "",
+      "show-menu-by-longpress": "",
+      "fade-in": ""
+    },
+    "inline-payment-panel": "",
+    "input": {
+      "value": "",
+      "type": {
+        "text": "",
+        "number": "",
+        "idcard": "",
+        "digit": "",
+        "safe-password": "",
+        "nickname": "",
+        "numberpad": "",
+        "digitpad": "",
+        "idcardpad": ""
+      },
+      "password": "",
+      "placeholder": "",
+      "placeholder-style": "",
+      "placeholder-class": "",
+      "disabled": "",
+      "maxlength": "",
+      "cursor-spacing": "",
+      "auto-focus": "",
+      "focus": "",
+      "confirm-type": {
+        "send": "",
+        "search": "",
+        "next": "",
+        "go": "",
+        "done": ""
+      },
+      "confirm-hold": "",
+      "cursor": "",
+      "selection-start": "",
+      "selection-end": "",
+      "adjust-position": "",
+      "hold-keyboard": "",
+      "always-embed": "",
+      "safe-password-cert-path": "",
+      "safe-password-length": "",
+      "safe-password-time-stamp": "",
+      "safe-password-nonce": "",
+      "safe-password-salt": "",
+      "safe-password-custom-hash": ""
+    },
+    "keyboard-accessory": "",
+    "label": "",
+    "lifestyle": "",
+    "like": "",
+    "list-view": "",
+    "live-player": {
+      "src": "",
+      "mode": {
+        "live": "",
+        "RTC": ""
+      },
+      "autoplay": "",
+      "muted": "",
+      "orientation": {
+        "vertical": "",
+        "horizontal": ""
+      },
+      "object-fit": {
+        "contain": "",
+        "fillCrop": ""
+      },
+      "background-mute": "",
+      "min-cache": "",
+      "max-cache": "",
+      "sound-mode": {
+        "speaker": "",
+        "ear": ""
+      },
+      "auto-pause-if-navigate": "",
+      "picture-in-picture-mode": {
+        "push": "",
+        "pop": ""
+      },
+      "auto-pause-if-open-native": "",
+      "referrer-policy": {
+        "origin": "",
+        "no-referrer": ""
+      },
+      "enable-auto-rotation": "",
+      "enable-casting": ""
+    },
+    "live-pusher": {
+      "url": "",
+      "mode": {
+        "SD": "",
+        "HD": "",
+        "FHD": "",
+        "RTC": ""
+      },
+      "autopush": "",
+      "enable-video-custom-render": "",
+      "muted": "",
+      "enable-camera": "",
+      "auto-focus": "",
+      "orientation": {
+        "vertical": "",
+        "horizontal": ""
+      },
+      "beauty": "",
+      "whiteness": "",
+      "aspect": {
+        "9:16": "",
+        "3:4": ""
+      },
+      "min-bitrate": "",
+      "max-bitrate": "",
+      "audio-quality": "",
+      "waiting-image": "",
+      "waiting-image-hash": "",
+      "zoom": "",
+      "device-position": "",
+      "background-mute": "",
+      "mirror": "",
+      "remote-mirror": "",
+      "local-mirror": {
+        "auto": "",
+        "enable": "",
+        "disable": ""
+      },
+      "audio-reverb-type": {
+        "0": "",
+        "1": "",
+        "2": "",
+        "3": "",
+        "4": "",
+        "5": "",
+        "6": "",
+        "7": ""
+      },
+      "enable-mic": "",
+      "enable-agc": "",
+      "enable-ans": "",
+      "audio-volume-type": {
+        "auto": "",
+        "media": "",
+        "voicecall": ""
+      },
+      "video-width": "",
+      "video-height": "",
+      "beauty-style": {
+        "smooth": "",
+        "nature": ""
+      },
+      "filter": {
+        "standard": "",
+        "pink": "",
+        "nostalgia": "",
+        "blues": "",
+        "romantic": "",
+        "cool": "",
+        "fresher": "",
+        "solor": "",
+        "aestheticism": "",
+        "whitening": "",
+        "cerisered": ""
+      },
+      "picture-in-picture-mode": "",
+      "custom-effect": "",
+      "skin-whiteness": "",
+      "skin-smoothness": "",
+      "face-thinness": "",
+      "eye-bigness": "",
+      "voice-changer-type": "",
+      "fps": ""
+    },
+    "login": "",
+    "lottie": "",
+    "map": {
+      "longitude": "",
+      "latitude": "",
+      "scale": "",
+      "min-scale": "",
+      "max-scale": "",
+      "markers": "",
+      "covers": "",
+      "polyline": "",
+      "circles": "",
+      "controls": "",
+      "include-points": "",
+      "show-location": "",
+      "polygons": "",
+      "subkey": "",
+      "layer-style": "",
+      "rotate": "",
+      "skew": "",
+      "show-compass": "",
+      "show-scale": "",
+      "enable-overlooking": "",
+      "enable-zoom": "",
+      "enable-scroll": "",
+      "enable-rotate": "",
+      "enable-satellite": "",
+      "enable-traffic": "",
+      "setting": "",
+      "enable-poi": "",
+      "enable-building": "",
+      "enable-auto-max-overlooking": "",
+      "enable3d": ""
+    },
+    "match-media": {
+      "min-width": "",
+      "max-width": "",
+      "width": "",
+      "min-height": "",
+      "max-height": "",
+      "height": ""
+    },
+    "movable-area": "",
+    "movable-view": {
+      "direction": {
+        "all": "",
+        "vertical": "",
+        "horizontal": "",
+        "none": ""
+      },
+      "inertia": "",
+      "out-of-bounds": "",
+      "x": "",
+      "y": "",
+      "damping": "",
+      "friction": "",
+      "disabled": "",
+      "scale": "",
+      "scale-min": "",
+      "scale-max": "",
+      "scale-value": "",
+      "animation": ""
+    },
+    "native-slot": "",
+    "navigation-bar": {
+      "title": "",
+      "loading": "",
+      "front-color": "",
+      "background-color": "",
+      "color-animation-duration": ""
+    },
+    "navigator": {
+      "target": {
+        "self": "",
+        "miniProgram": ""
+      },
+      "url": "",
+      "open-type": {
+        "navigate": "",
+        "redirect": "",
+        "switchTab": "",
+        "reLaunch": "",
+        "navigateBack": "",
+        "exit": ""
+      },
+      "delta": "",
+      "app-id": "",
+      "path": "",
+      "extra-data": "",
+      "version": {
+        "develop": "",
+        "trial": "",
+        "release": ""
+      },
+      "hover-class": "",
+      "hover-stop-propagation": "",
+      "hover-start-time": "",
+      "hover-stay-time": "",
+      "short-link": ""
+    },
+    "official-account": "",
+    "open-data": {
+      "type": {
+        "groupName": "",
+        "userNickName": "",
+        "userAvatarUrl": "",
+        "userGender": "",
+        "userCity": "",
+        "userProvince": "",
+        "userCountry": "",
+        "userLanguage": ""
+      },
+      "open-gid": "",
+      "lang": {
+        "en": "",
+        "zh_CN": "",
+        "zh_TW": ""
+      },
+      "default-text": "",
+      "default-avatar": ""
+    },
+    "page-container": {
+      "show": "",
+      "duration": "",
+      "z-index": "",
+      "overlay": "",
+      "position": {
+        "top": "",
+        "bottom": "",
+        "right": "",
+        "center": ""
+      },
+      "round": "",
+      "overlay-style": "",
+      "custom-style": "",
+      "close-on-slide-down": ""
+    },
+    "page-meta": {
+      "background-text-style": "",
+      "background-color": "",
+      "background-color-top": "",
+      "background-color-bottom": "",
+      "scroll-top": "",
+      "scroll-duration": "",
+      "page-style": "",
+      "root-font-size": "",
+      "root-background-color": "",
+      "page-font-size": "",
+      "page-orientation": ""
+    },
+    "picker": {
+      "mode": {
+        "selector": {
+          "range": "",
+          "range-key": "",
+          "value": ""
+        },
+        "multiSelector": {
+          "range": "",
+          "range-key": "",
+          "value": ""
+        },
+        "time": {
+          "value": "",
+          "start": "",
+          "end": ""
+        },
+        "date": {
+          "value": "",
+          "start": "",
+          "end": "",
+          "fields": {
+            "year": "",
+            "month": "",
+            "day": ""
+          }
+        },
+        "region": {
+          "value": "",
+          "custom-item": "",
+          "level": {
+            "province": "",
+            "city": "",
+            "region": "",
+            "sub-district": ""
+          }
+        }
+      },
+      "disabled": ""
+    },
+    "picker-view": {
+      "value": "",
+      "indicator-style": "",
+      "indicator-class": "",
+      "mask-style": "",
+      "mask-class": "",
+      "immediate-change": ""
+    },
+    "picker-view-column": "",
+    "progress": {
+      "percent": "",
+      "show-info": "",
+      "border-radius": "",
+      "font-size": "",
+      "stroke-width": "",
+      "color": "",
+      "active-color": "",
+      "background-color": "",
+      "active": "",
+      "active-mode": {
+        "backwards": "",
+        "forwards": ""
+      },
+      "duration": ""
+    },
+    "radio": {
+      "value": "",
+      "checked": "",
+      "disabled": "",
+      "color": ""
+    },
+    "radio-group": "",
+    "rich-text": {
+      "user-select": "",
+      "nodes": "",
+      "space": {
+        "ensp": "",
+        "emsp": "",
+        "nbsp": ""
+      }
+    },
+    "root-portal": "",
+    "rtc-room": "",
+    "rtc-room-item": "",
+    "scroll-view": {
+      "scroll-x": "",
+      "scroll-y": "",
+      "upper-threshold": "",
+      "lower-threshold": "",
+      "scroll-top": "",
+      "scroll-left": "",
+      "scroll-into-view": "",
+      "scroll-with-animation": "",
+      "enable-back-to-top": "",
+      "enable-flex": "",
+      "scroll-anchoring": "",
+      "refresher-enabled": "",
+      "refresher-threshold": "",
+      "refresher-default-style": "",
+      "refresher-background": "",
+      "refresher-triggered": "",
+      "enhanced": "",
+      "bounces": "",
+      "show-scrollbar": "",
+      "paging-enabled": "",
+      "fast-deceleration": "",
+      "enable-passive": "",
+      "type": {
+        "list": "",
+        "custom": ""
+      },
+      "reverse": "",
+      "cache-extent": "",
+      "scroll-into-view-within-extent": "",
+      "scroll-into-view-alignment": {
+        "start": "",
+        "center": "",
+        "end": "",
+        "nearest": ""
+      }
+    },
+    "share-element": {
+      "key": "",
+      "mapkey": "",
+      "transform": "",
+      "duration": "",
+      "easing-function": "",
+      "transition-on-gesture": "",
+      "shuttle-on-push": {
+        "from": "",
+        "to": ""
+      },
+      "shuttle-on-pop": "",
+      "rect-tween-type": {
+        "materialRectArc": "",
+        "materialRectCenterArc": "",
+        "linear": "",
+        "elasticIn": "",
+        "elasticOut": "",
+        "elasticInOut": "",
+        "bounceIn": "",
+        "bounceOut": "",
+        "bounceInOut": "",
+        "cubic-bezier(x1,": ""
+      }
+    },
+    "slider": {
+      "min": "",
+      "max": "",
+      "step": "",
+      "disabled": "",
+      "value": "",
+      "color": "",
+      "selected-color": "",
+      "active-color": "",
+      "background-color": "",
+      "block-size": "",
+      "block-color": "",
+      "show-value": ""
+    },
+    "slot": {
+      "name": ""
+    },
+    "sticky-header": "",
+    "sticky-section": "",
+    "swiper": {
+      "indicator-dots": "",
+      "indicator-color": "",
+      "indicator-active-color": "",
+      "autoplay": "",
+      "current": "",
+      "interval": "",
+      "duration": "",
+      "circular": "",
+      "vertical": "",
+      "previous-margin": "",
+      "next-margin": "",
+      "snap-to-edge": "",
+      "display-multiple-items": "",
+      "easing-function": {
+        "default": "",
+        "linear": "",
+        "easeInCubic": "",
+        "easeOutCubic": "",
+        "easeInOutCubic": ""
+      },
+      "scroll-with-animation": "",
+      "cache-extent": ""
+    },
+    "swiper-item": {
+      "item-id": ""
+    },
+    "switch": {
+      "checked": "",
+      "disabled": "",
+      "type": {
+        "switch": "",
+        "checkbox": ""
+      },
+      "color": ""
+    },
+    "tab-item": "",
+    "tabs": "",
+    "text": {
+      "selectable": "",
+      "user-select": "",
+      "space": {
+        "ensp": "",
+        "emsp": "",
+        "nbsp": ""
+      },
+      "decode": ""
+    },
+    "textarea": {
+      "value": "",
+      "placeholder": "",
+      "placeholder-style": "",
+      "placeholder-class": "",
+      "disabled": "",
+      "maxlength": "",
+      "auto-focus": "",
+      "focus": "",
+      "auto-height": "",
+      "fixed": "",
+      "cursor-spacing": "",
+      "cursor": "",
+      "show-confirm-bar": "",
+      "selection-start": "",
+      "selection-end": "",
+      "adjust-position": "",
+      "hold-keyboard": "",
+      "disable-default-padding": "",
+      "confirm-type": {
+        "send": "",
+        "search": "",
+        "next": "",
+        "go": "",
+        "done": "",
+        "return": ""
+      },
+      "confirm-hold": "",
+      "adjust-keyboard-to": ""
+    },
+    "video": {
+      "src": "",
+      "duration": "",
+      "controls": "",
+      "danmu-list": "",
+      "danmu-btn": "",
+      "enable-danmu": "",
+      "autoplay": "",
+      "loop": "",
+      "muted": "",
+      "initial-time": "",
+      "page-gesture": "",
+      "direction": "",
+      "show-progress": "",
+      "show-fullscreen-btn": "",
+      "show-play-btn": "",
+      "show-center-play-btn": "",
+      "enable-progress-gesture": "",
+      "object-fit": {
+        "contain": "",
+        "fill": "",
+        "cover": ""
+      },
+      "poster": "",
+      "show-mute-btn": "",
+      "title": "",
+      "play-btn-position": {
+        "bottom": "",
+        "center": ""
+      },
+      "enable-play-gesture": "",
+      "auto-pause-if-navigate": "",
+      "auto-pause-if-open-native": "",
+      "vslide-gesture": "",
+      "vslide-gesture-in-fullscreen": "",
+      "ad-unit-id": "",
+      "poster-for-crawler": "",
+      "show-casting-button": "",
+      "picture-in-picture-mode": {
+        "push": "",
+        "pop": ""
+      },
+      "enable-auto-rotation": "",
+      "show-screen-lock-button": "",
+      "show-snapshot-button": "",
+      "show-background-playback-button": "",
+      "background-poster": "",
+      "show-bottom-progress": "",
+      "picture-in-picture-show-progress": "",
+      "referrer-policy": {
+        "origin": "",
+        "no-referrer": ""
+      },
+      "is-drm": "",
+      "provision-url": "",
+      "certificate-url": "",
+      "license-url": "",
+      "preferred-peak-bit-rate": "",
+      "is-live": ""
+    },
+    "view": {
+      "hover-class": "",
+      "hover-stop-propagation": "",
+      "hover-start-time": "",
+      "hover-stay-time": ""
+    },
+    "voip-room": {
+      "mode": {
+        "camera": "",
+        "video": ""
+      },
+      "device-position": {
+        "front": "",
+        "back": ""
+      },
+      "open-id": "",
+      "object-fit": {
+        "fill": "",
+        "contain": "",
+        "cover": ""
+      }
+    },
+    "web-view": {
+      "src": ""
+    }
+  }
+}
