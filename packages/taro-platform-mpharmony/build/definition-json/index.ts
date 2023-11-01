@@ -1,3 +1,3 @@
-import { parseDefinitionJSON } from './parser'
+import { generateDefinitionJSON } from './parser'
 
-parseDefinitionJSON()
+generateDefinitionJSON()

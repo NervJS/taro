@@ -1,12 +1,14 @@
+import propsConfig from '@tarojs/plugin-platform-mpharmony/build/config/harmony-definition.json'
 import * as fs from 'fs-extra'
 import * as pathModule from 'path'
 
-import DefinitionObj from '../interface/definitionObj'  
+import DefinitionObj from '../interface/definitionObj'
 
-export function parseDefinitionJSON () {
+export function generateDefinitionJSON () {
   const componentsPath = require.resolve('@tarojs/components/types/index.d.ts')
   const directoryPath = pathModule.dirname(componentsPath)
   const definitionObj: DefinitionObj = { apis: {}, components: {} }
+  const finalDefinitionObj: DefinitionObj = { apis: {}, components: {} }
 
   function listFilesRecursively (dirPath: string) {
     const absolutePaths: string[] = []
@@ -250,7 +252,69 @@ export function parseDefinitionJSON () {
 
   // 遍历组件声明文件并获取组件的属性对象
   absolutePaths.forEach(getComponentProps)
-  // Note: 写入文件
+
+  // 获取组件支持的属性
+  function getComponentsDefinition (componentProps: object, componentsConfig: object) {
+    const componentDefinition: object = {}
+
+    for (const key in componentsConfig) {
+      if (componentProps.hasOwnProperty(key)) {
+        if (typeof componentsConfig[key] === 'object' && typeof componentProps[key] === 'object') {
+          const ret = getComponentsDefinition(componentProps[key], componentsConfig[key])
+          if (Object.keys(ret).length > 0) {
+            componentDefinition[key] = ret
+          }
+        } else if (typeof componentsConfig[key] === 'boolean' && componentProps[key] === '') {
+          if (componentsConfig[key]) { componentDefinition[key] = componentProps[key] }
+        } else {
+          delete componentsConfig[key]
+        }
+      } else {
+        // 如果原始配置中的某个属性不在从声明文件提取的属性中，则将这个属性从原始配置中删除
+        delete componentsConfig[key]
+      }
+    }
+
+    return componentDefinition
+  }
+
+  // 获取API支持的属性
+  function getApisDefinition () {
+    return {}
+  }
+
+  // 更新组件属性配置
+  function updatePropsConfig (componentProps: object, componentsConfig: object) {
+    const newComponentsConfig: object = componentsConfig
+    // 遍历声明文件提取的属性，如果原始配置中不存在该属性，则添加到配置中，并赋值默认值false
+    for (const key in componentProps) {
+      if (!componentsConfig.hasOwnProperty(key)) {
+        if (typeof componentProps[key] === 'object') {
+          newComponentsConfig[key] = updatePropsConfig(componentProps[key], {})
+        } else {
+          newComponentsConfig[key] = false
+        }
+      } else {
+        if (typeof componentProps[key] === 'object' && typeof componentsConfig[key] === 'object') {
+          newComponentsConfig[key] = updatePropsConfig(componentProps[key], componentsConfig[key])
+        }
+      }
+    }
+    return newComponentsConfig
+  }
+
+  // 获取最终的组件和API属性配置表同时更新原始属性配置文件
+  function getFinalDefinitionObj (componentProps: object, componentsConfig: any) {
+    finalDefinitionObj.components = getComponentsDefinition(componentProps, componentsConfig)
+    finalDefinitionObj.apis = getApisDefinition()
+    // 更新组件属性配置文件
+    const newComponentsConfig = updatePropsConfig(componentProps, componentsConfig)
+    fs.writeJSONSync('build/config/harmony-definition.json', { 'apis': propsConfig.apis, 'components': newComponentsConfig }, { spaces: 2 })
+  }
+
+  getFinalDefinitionObj(definitionObj.components, propsConfig.components)
+
+  // 写入文件
   fs.ensureDirSync('dist')
-  fs.writeJSONSync('dist/definition.json', definitionObj, { spaces: 2 })
+  fs.writeJSONSync('dist/definition.json', finalDefinitionObj, { spaces: 2 })
 }
