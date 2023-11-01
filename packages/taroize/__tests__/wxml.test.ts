@@ -3,6 +3,11 @@ import * as t from '@babel/types'
 import { convertStyleUnit, parseContent, parseStyle, parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode } from './util'
 
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
+
 interface Option {
   path: string
   rootPath: string

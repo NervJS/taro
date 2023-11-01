@@ -3,11 +3,6 @@ import * as taroize from '@tarojs/taroize'
 import Convertor from '../src/index'
 import { generateMinimalEscapeCode } from './util'
 
-jest.mock('../src/util/index.ts', () => ({
-  ...jest.requireActual('../src/util/index.ts'), // 保留原始的其他函数
-  printToLogFile: jest.fn(),
-}))
-
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
   appendFile: jest.fn(),

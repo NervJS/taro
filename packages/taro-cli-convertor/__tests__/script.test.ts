@@ -7,11 +7,6 @@ import { generateMinimalEscapeCode } from './util'
 const fs = require('fs')
 const path = require('path')
 
-jest.mock('../src/util/index.ts', () => ({
-  ...jest.requireActual('../src/util/index.ts'), // 保留原始的其他函数
-  printToLogFile: jest.fn(),
-}))
-
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
   appendFile: jest.fn(),
