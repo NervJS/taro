@@ -37,4 +37,17 @@ const runtimeConfig = {
   ...base
 }
 
-module.exports = [compileConfig, runtimeConfig]
+
+// loader 入口
+const loaderConfig = {
+  input: path.join(cwd, 'src/condition-compiler-loader.ts'),
+  output: {
+    exports: 'auto',
+    file: path.join(cwd, 'dist/condition-compiler-loader.js'),
+    format: 'cjs',
+    sourcemap: true
+  },
+  ...base
+}
+
+module.exports = [compileConfig, runtimeConfig, loaderConfig]

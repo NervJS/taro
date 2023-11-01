@@ -30,7 +30,8 @@
     "@tarojs/runtime": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "xregexp": "^3.2.0"
   },
   "devDependencies": {
     "vue": "^2.7.0",
