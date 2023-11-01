@@ -31,3 +31,24 @@ class TemplateDemoTmpl extends React.Component {
 }
 export default TemplateDemoTmpl;"
 `;
+
+exports[`template.ts template使用外部wxs工具类 当template同时使用外部工具类和data传递数据 1`] = `
+"import { Block, Text, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+import myFunc from \\"../components/LunaComponent/utils/myFunc.wxs.js\\";
+import Tim from \\"../components/LunaComponent/utils/timFunc.wxs.js\\";
+@withWeapp({})
+class HuangyeTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        info
+      }
+    } = this.props;
+    return <Block><Text>{myFunc.getMsg}</Text><View>{Tim.getMsg}</View><View>{'姓名：' + info.name + '年龄：' + info.age}</View></Block>;
+  }
+}
+export default HuangyeTmpl;"
+`;

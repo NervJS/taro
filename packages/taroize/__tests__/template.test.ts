@@ -1,3 +1,4 @@
+import { globals } from '../src/global'
 import { parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode } from './util'
 
@@ -68,6 +69,38 @@ describe('template.ts', () => {
       `
       const dirPath = 'import_no_src'
       expect(() => parseWXML(dirPath, wxml)).toThrowError('import 标签必须包含 `src` 属性')
+    })
+  })
+
+  describe('template使用外部wxs工具类', () => {
+    test('当template同时使用外部工具类和data传递数据', () => {
+      const wxml = `
+      <wxs src="../utils/myFunc.wxs" module="myFunc"/>
+      <wxs src="../utils/timFunc.wxs" module="Tim"/>
+      <wxs src="../utils/timFunc.wxs" module="utils"/>
+      <template name="huangye">
+        <text>{{ myFunc.getMsg }}</text>
+        <view>{{ Tim.getMsg }}</view>
+        <view>{{ '姓名：' + info.name + '年龄：' + info.age }}</view>
+      </template>
+      <template is="huangye" data="{{ info }}"/>
+      `
+      // 确定解析wxml文件的绝对路径
+      const dirPath = 'D:\\wechatTest\\template_test\\components\\LunaComponent\\ListHuangye'
+      // 模拟全局对象下的文件路径
+      const rootPath = globals.rootPath
+      Object.defineProperty(globals, 'rootPath', {
+        get: jest.fn().mockReturnValue('D:\\wechatTest\\template_test')
+      })
+
+      const { imports } = parseWXML(dirPath, wxml)
+      const importsCode = generateMinimalEscapeCode(imports[0].ast)
+      expect(importsCode).toMatchSnapshot()
+
+      // 还原全局对象下的属性
+      Object.defineProperty(globals, 'rootPath', {
+        get: () => rootPath
+      })
     })
   })
 })
