@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "@tarojs/service": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/helper": "workspace:*"
   },
   "devDependencies": {
     "rollup": "^2.79.0",

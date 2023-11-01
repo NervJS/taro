@@ -187,7 +187,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -298,7 +298,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -409,7 +409,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -521,11 +521,11 @@ declare module '../../index' {
     namespace writeNdefMessage {
       interface Option {
         /** uri 数组 */
-        uris: string[]
+        uris?: string[]
         /** text 数组 */
-        texts: string[]
+        texts?: string[]
         /** 二进制对象数组, 需要指明 id, type 以及 payload (均为 ArrayBuffer 类型) */
-        records: record[]
+        records?: record[]
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -676,7 +676,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -741,7 +741,7 @@ declare module '../../index' {
      */
     offDiscovered(
       /** 监听 NFC Tag的回调函数 */
-      callback: NFCAdapter.onDiscovered.Callback,
+      callback?: NFCAdapter.onDiscovered.Callback,
     ): void
     /** 监听 NFC Tag
      * @supported weapp, tt
@@ -778,7 +778,7 @@ declare module '../../index' {
         /** NFC标签的UID
          * @supported tt
          */
-        uid?: ArrayBuffer
+        id?: ArrayBuffer
       }
 
       interface NdefMessage {
@@ -906,7 +906,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -1017,7 +1017,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -1128,7 +1128,7 @@ declare module '../../index' {
     namespace transceive {
       interface Option {
         /** 需要传递的二进制数据 */
-        transceive: ArrayBuffer
+        data: ArrayBuffer
         /** 接口调用结束的回调函数（调用成功、失败都会执行） */
         complete?: (res: TaroGeneral.NFCError) => void
         /** 接口调用失败的回调函数 */
@@ -1212,7 +1212,7 @@ declare module '../../index' {
      */
     offHCEMessage(
       /** 接收 NFC 设备消息事件的回调函数 */
-      callback: (...args: any[]) => any,
+      callback: onHCEMessage.Callback,
     ): void
 
     /** 获取 NFC 实例
