@@ -176,9 +176,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Horizontal)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll(handleScrollEvent.bind(this, 'scroll'))
-          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
-          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
+          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
+          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
         } else {
           Scroll(this.scroller) {
             Column() {
@@ -195,9 +195,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll(handleScrollEvent.bind(this, 'scroll'))
-          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
-          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
+          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
+          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
         }
       }
       else {
@@ -216,9 +216,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Horizontal)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll(handleScrollEvent.bind(this, 'scroll'))
-          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
-          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
+          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
+          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
           .visibleChangeEvent()
         } else {
           Scroll(this.scroller) {
@@ -235,9 +235,9 @@ struct TaroScrollView {
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
-          .onScroll(handleScrollEvent.bind(this, 'scroll'))
-          .onScrollStart(handleScrollEvent.bind(this, 'scrollStart'))
-          .onScrollStop(handleScrollEvent.bind(this, 'scrollEnd'))
+          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
+          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
+          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
           .visibleChangeEvent()
         }
       }
