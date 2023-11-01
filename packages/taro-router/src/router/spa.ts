@@ -91,6 +91,8 @@ export function createRouter (
     const pageConfig = handler.pageConfig
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
     let navigationStyle = config?.window?.navigationStyle || 'default'
+    let navigationBarTextStyle = config?.window?.navigationBarTextStyle || 'white'
+    let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
 
     if (pageConfig) {
       setTitle(pageConfig.navigationBarTitleText ?? document.title)
@@ -100,8 +102,14 @@ export function createRouter (
       if (typeof pageConfig.navigationStyle === 'string') {
         navigationStyle = pageConfig.navigationStyle
       }
+      if (typeof pageConfig.navigationBarTextStyle === 'string') {
+        navigationBarTextStyle = pageConfig.navigationBarTextStyle
+      }
+      if (typeof pageConfig.navigationBarBackgroundColor === 'string') {
+        navigationBarBackgroundColor = pageConfig.navigationBarBackgroundColor
+      }
     }
-    eventCenter.trigger('__taroSetNavigationStyle', navigationStyle)
+    eventCenter.trigger('__taroSetNavigationStyle', navigationStyle, navigationBarTextStyle, navigationBarBackgroundColor)
 
     const currentPage = Current.page
     const pathname = handler.pathname
