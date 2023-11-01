@@ -360,36 +360,31 @@ export function createRecursiveComponentConfig (componentName?: string) {
             el.ctx = null
           }
         }
-      },
-      // 支付宝渲染问题, 当页面复杂，CustomWrapper和page都有数据更新时，CustomWrapper的UI有几率出现不更新的情况
-      deriveDataFromProps (nextProps) {
-        if (this.data.i !== undefined && this.props.i !== nextProps.i) {
-          this.setData({ i: nextProps.i })
-        }
       }
     }
     : EMPTY_OBJ
 
-  return {
-    properties: {
-      i: {
-        type: Object,
-        value: {
-          [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
+  return hooks.call('modifyMiniLifecycle', 
+    { 
+      properties: {
+        i: {
+          type: Object,
+          value: {
+            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
+          }
+        },
+        l: {
+          type: String,
+          value: ''
         }
       },
-      l: {
-        type: String,
-        value: ''
-      }
-    },
-    options: {
-      addGlobalClass: true,
-      virtualHost: !isCustomWrapper
-    },
-    methods: {
-      eh: eventHandler
-    },
-    ...lifeCycles
-  }
+      options: {
+        addGlobalClass: true,
+        virtualHost: !isCustomWrapper
+      },
+      methods: {
+        eh: eventHandler
+      },
+      ...lifeCycles }, { isCustomWrapper })
 }
+
