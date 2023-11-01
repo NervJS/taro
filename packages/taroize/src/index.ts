@@ -15,10 +15,11 @@ interface Option {
   rootPath: string
   framework: 'react' | 'vue'
   isApp?: boolean
+  logFilePath: string
 }
 
 export function parse (option: Option) {
-  resetGlobals(option.rootPath)
+  resetGlobals(option.logFilePath)
   setting.rootPath = option.rootPath
   if (option.json) {
     const config = JSON.parse(option.json)

@@ -1,20 +1,16 @@
-import * as path from 'path'
-
 export const usedComponents = new Set<string>()
 
 export const errors: string[] = []
 
 export const globals = {
-  rootPath: '',
   hasCatchTrue: false,
   logFilePath: '',
 }
 
 export const THIRD_PARTY_COMPONENTS = new Set<string>()
 
-export const resetGlobals = (rootPath) => {
-  globals.rootPath = rootPath
+export const resetGlobals = (logFilePath) => {
   globals.hasCatchTrue = false
-  globals.logFilePath = path.join(rootPath, 'taroConvert', '.convert', 'convert.log')
+  globals.logFilePath = logFilePath
   THIRD_PARTY_COMPONENTS.clear()
 }

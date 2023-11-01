@@ -3,6 +3,16 @@ import * as taroize from '@tarojs/taroize'
 import Convertor from '../src/index'
 import { generateMinimalEscapeCode } from './util'
 
+jest.mock('../src/util/index.ts', () => ({
+  ...jest.requireActual('../src/util/index.ts'), // 保留原始的其他函数
+  printToLogFile: jest.fn(),
+}))
+
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
+
 interface ITaroizeOptions {
   json?: string
   script?: string
@@ -10,6 +20,7 @@ interface ITaroizeOptions {
   path?: string
   rootPath?: string
   scriptPath?: string
+  logFilePath?: string
 }
 
 describe('parseAst', () => {
@@ -24,6 +35,7 @@ describe('parseAst', () => {
      * script：index.js的内容
      * scriptPath：index.js的绝对路径
      * wxml：index.html的内容
+     * logFilePath：convert.log的文件路径
      */
     param = {
       json: '{}',
@@ -32,8 +44,11 @@ describe('parseAst', () => {
       script: '',
       scriptPath: '',
       wxml: '',
+      logFilePath: ''
     }
 
+    jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
+    
     // new Convertot后会直接执行 init()，为确保 init() 在测试中通过采用 spyOn 去模拟
     jest.spyOn(Convertor.prototype, 'getApp').mockImplementation(() => {
       Convertor.prototype.entryJSON = entryJSON
@@ -97,7 +112,10 @@ describe('parseAst', () => {
       depComponents: new Set(),
       imports: [],
     })
-    expect(ast).toMatchSnapshot()
+    
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
   })
 
   // 测试require
