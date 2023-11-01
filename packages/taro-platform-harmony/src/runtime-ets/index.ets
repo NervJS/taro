@@ -1,5 +1,6 @@
 export * from './bom/document'
 export { nav as navigator } from './bom/navigator'
+export { caf as cancelAnimationFrame, now, raf as requestAnimationFrame } from './bom/raf'
 export * from './bom/window'
 export * from './current'
 export * from './dom/element'
