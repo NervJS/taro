@@ -193,7 +193,7 @@ export default defineComponent({
             const [startIndex, stopIndex] = this._getRangeToRender(column)
             for (let row = startIndex; row <= stopIndex; row++) {
               const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
-              if (itemIndex >= 0 && itemIndex < this.props.itemCount) {
+              if (itemIndex >= 0 && itemIndex < this.$props.itemCount) {
                 const times = this.itemMap.compareSizeByPosition(column, row) ? 3 : 0
                 getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
                   if (typeof height === 'number' && height > 0 && !this.itemMap.compareSizeByPosition(column, row, height)) {
