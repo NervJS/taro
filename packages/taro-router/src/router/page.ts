@@ -101,11 +101,16 @@ export default class PageHandler {
     return style !== 'custom'
   }
 
-  handleNavigationStyle () {
-    const appEl = document.querySelector('.taro_router')
-    this.isDefaultNavigationStyle() ?
-      appEl?.classList.add('taro_navigation') :
-      appEl?.classList.remove('taro_navigation')
+  addBlankNavigationBar (pageEl: HTMLElement | null) {
+    if (this.isDefaultNavigationStyle() && pageEl && !pageEl.querySelector('.taro_navigation')) {
+      const firstChild = pageEl.firstElementChild
+      if (firstChild) {
+        const navigation = document.createElement('div')
+        navigation.classList.add('taro_navigation')
+        firstChild.classList.add('taro_navi_page')
+        pageEl.insertBefore(navigation, firstChild)
+      }
+    }
   }
 
   isSamePage (page?: PageInstance | null) {
@@ -218,6 +223,7 @@ export default class PageHandler {
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
+      this.addBlankNavigationBar(pageEl)
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
@@ -226,6 +232,7 @@ export default class PageHandler {
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
+        this.addBlankNavigationBar(pageEl)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
         this.addAnimation(pageEl, pageNo === 0)
         this.onReady(page, true)
@@ -234,7 +241,6 @@ export default class PageHandler {
         this.triggerRouterChange()
       })
     }
-    this.handleNavigationStyle()
   }
 
   unload (page?: PageInstance | null, delta = 1, top = false) {
@@ -294,7 +300,6 @@ export default class PageHandler {
         this.triggerRouterChange()
       })
     }
-    this.handleNavigationStyle()
   }
 
   hide (page?: PageInstance | null) {

@@ -1,19 +1,12 @@
 import { codeFrameColumns } from '@babel/code-frame'
-import * as babel from '@babel/core'
 import { parse } from '@babel/parser'
-import classProperties from '@babel/plugin-proposal-class-properties'
-import decorators from '@babel/plugin-proposal-decorators'
-import objectRestSpread from '@babel/plugin-proposal-object-rest-spread'
-import asyncGenerators from '@babel/plugin-syntax-async-generators'
-import dynamicImport from '@babel/plugin-syntax-dynamic-import'
-import exponentiationOperator from '@babel/plugin-transform-exponentiation-operator'
-import flowStrip from '@babel/plugin-transform-flow-strip-types'
-import jsxPlugin from '@babel/plugin-transform-react-jsx'
-import presetTypescript from '@babel/preset-typescript'
 import { default as template } from '@babel/template'
-import { NodePath } from '@babel/traverse'
+import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
+import { fs } from '@tarojs/helper'
 import { camelCase, capitalize } from 'lodash'
+
+import { globals } from './global'
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
@@ -21,6 +14,19 @@ export function isAliasThis (p: NodePath<t.Node>, name: string) {
     return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init'))
   }
   return false
+}
+
+/**
+ * 标准化传入路径
+ * 
+ * @param path 如D:\\admin格式路径
+ * @returns 替换\\返回标准路径
+ */
+export function normalizePath (path) {
+  if (typeof path === 'undefined') {
+    return ''
+  }
+  return path.replace(/\\/g, '/')
 }
 
 export function isValidVarName (str?: string) {
@@ -43,44 +49,44 @@ export function isValidVarName (str?: string) {
 }
 
 export function parseCode (code: string, scriptPath?: string) {
-  // 支持TS的解析
+  let ast: any = {}
   if (typeof scriptPath !== 'undefined') {
-    return (
-      babel.transformSync(code, {
-        ast: true,
-        sourceType: 'module',
-        filename: scriptPath,
-        presets: [presetTypescript],
-        plugins: [
-          classProperties,
-          jsxPlugin,
-          flowStrip,
-          exponentiationOperator,
-          asyncGenerators,
-          objectRestSpread,
-          [decorators, { legacy: true }],
-          dynamicImport,
-        ],
-      }) as { ast: t.File }
-    ).ast
-  }
-
-  return (
-    babel.transformSync(code, {
-      ast: true,
+    ast = parse(code, {
+      sourceFilename: scriptPath,
       sourceType: 'module',
       plugins: [
-        classProperties,
-        jsxPlugin,
-        flowStrip,
-        exponentiationOperator,
-        asyncGenerators,
-        objectRestSpread,
-        [decorators, { legacy: true }],
-        dynamicImport,
+        'jsx',
+        'flow',
+        'decorators-legacy',
+        ['optionalChainingAssign', { version: '2023-07' }],
+        'sourcePhaseImports',
+        'throwExpressions',
+        'deferredImportEvaluation',
+        'exportDefaultFrom'
       ],
-    }) as { ast: t.File }
-  ).ast
+    })
+  } else {
+    ast = parse(code, {
+      sourceType: 'module',
+      plugins: [
+        'jsx',
+        'flow',
+        'decorators-legacy',
+        ['optionalChainingAssign', { version: '2023-07' }],
+        'sourcePhaseImports',
+        'throwExpressions',
+        'deferredImportEvaluation',
+        'exportDefaultFrom'
+      ],
+    })
+  }
+  // 移除Flow类型注释
+  traverse(ast, {
+    TypeAnnotation (path) {
+      path.remove()
+    },
+  })
+  return ast
 }
 
 export const buildTemplate = (str: string) => {
@@ -299,4 +305,31 @@ export function isCommonjsModule (bodyNode) {
     }
     return false
   })
+}
+
+/**
+ * 获取不同操作系统下的换行符
+ *
+ * @returns { string } 换行符
+ */
+export function getLineBreak () {
+  if (process.platform === 'win32') {
+    return '\r\n'
+  }
+  return '\n'
+}
+
+/**
+ * 记录数据到日志文件中
+ *
+ * @param data 日志数据
+ */
+export function printToLogFile (data: string) {
+  try {
+    // 将参数记录到log文件
+    fs.appendFile(globals.logFilePath, data)
+  } catch (error) {
+    console.error('写日志文件异常')
+    throw error
+  }
 }

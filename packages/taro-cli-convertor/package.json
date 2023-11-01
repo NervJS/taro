@@ -9,9 +9,9 @@
     "prod": "tsc",
     "clean": "rimraf dist",
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
-    "test:cov": "jest --coverage && npm run lint"
+    "test:cov": "jest --coverage"
   },
   "files": [
     "bin",
@@ -36,7 +36,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/taroize/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testRegex": "(/taro-cli-convertor/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -46,7 +46,8 @@
       "node"
     ],
     "testPathIgnorePatterns": [
-      "node_modules"
+      "node_modules",
+      "/__tests__/util.ts"
     ]
   },
   "author": "O2Team",
