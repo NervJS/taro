@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import traverse, { Visitor } from 'babel-traverse'
-import * as t from 'babel-types'
+import traverse, { NodePath, Visitor } from '@babel/traverse'
+import * as t from '@babel/types'
 import * as fs from 'fs'
 import { parse, stringify } from 'himalaya-wxml'
 import { kebabCase } from 'lodash'
@@ -9,7 +9,21 @@ import { relative, resolve } from 'path'
 import { replaceIdentifier, replaceMemberExpression } from './script'
 import { buildTemplateName, getWXMLsource } from './template'
 import { buildImportStatement, codeFrameError, parseCode, setting } from './utils'
-import { AllKindNode, Attribute, Element, NodeType, parseContent, Text, WX_ELSE, WX_ELSE_IF, WX_FOR, WX_FOR_INDEX, WX_FOR_ITEM, WX_IF, WX_KEY } from './wxml'
+import {
+  AllKindNode,
+  Attribute,
+  Element,
+  NodeType,
+  parseContent,
+  Text,
+  WX_ELSE,
+  WX_ELSE_IF,
+  WX_FOR,
+  WX_FOR_INDEX,
+  WX_FOR_ITEM,
+  WX_IF,
+  WX_KEY,
+} from './wxml'
 
 const { prettyPrint } = require('html')
 
@@ -33,8 +47,8 @@ export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
     },
     CallExpression (path) {
       const callee = path.get('callee')
-      replaceIdentifier(callee)
-      replaceMemberExpression(callee)
+      replaceIdentifier(callee as NodePath<t.Node>)
+      replaceMemberExpression(callee as NodePath<t.Node>)
       if (
         callee.isIdentifier({ name: 'Page' }) ||
         callee.isIdentifier({ name: 'Component' }) ||
@@ -43,15 +57,14 @@ export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
         foundWXInstance = true
         const componentType = callee.node.name
         ast.program.body.push(
-          t.exportDefaultDeclaration(t.callExpression(
-            t.identifier('withWeapp'),
-            [path.node.arguments[0], t.stringLiteral(componentType)]
-          ))
+          t.exportDefaultDeclaration(
+            t.callExpression(t.identifier('withWeapp'), [path.node.arguments[0], t.stringLiteral(componentType)])
+          )
         )
         // path.insertAfter(t.exportDefaultDeclaration(t.identifier(defaultClassName)))
         path.remove()
       }
-    }
+    },
   }
 
   traverse(ast, vistor)
@@ -63,11 +76,7 @@ export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
 
   const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
 
-  const withWeappImport = buildImportStatement(
-    '@tarojs/with-weapp',
-    [],
-    'withWeapp'
-  )
+  const withWeappImport = buildImportStatement('@tarojs/with-weapp', [], 'withWeapp')
 
   ast.program.body.unshift(
     taroImport,
@@ -80,7 +89,7 @@ export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
   return {
     ast,
     imports,
-    template
+    template,
   }
 }
 
@@ -94,18 +103,18 @@ export function parseWXML (dirPath: string, wxml: string, imports: VueImport[]) 
     wxml = prettyPrint(wxml, {
       max_char: 0,
       indent_char: 0,
-      unformatted: ['text', 'wxs']
+      unformatted: ['text', 'wxs'],
     })
   } catch (error) {
     //
   }
 
-  const nodes: AllKindNode[] = parse(wxml.trim()).map(node => parseNode(node, dirPath, imports))
+  const nodes: AllKindNode[] = parse(wxml.trim()).map((node) => parseNode(node, dirPath, imports))
   const template = generateVueFile(nodes)
   return {
     nodes,
     template,
-    imports
+    imports,
   }
 }
 
@@ -125,7 +134,7 @@ function parseElement (element: Element, dirPath: string, imports: VueImport[]):
       parseModule(element, dirPath, imports)
       return {
         type: NodeType.Text,
-        content: ''
+        content: '',
       }
     default:
       break
@@ -134,9 +143,9 @@ function parseElement (element: Element, dirPath: string, imports: VueImport[]):
   return {
     tagName: element.tagName,
     type: element.type,
-    children: element.children.map(child => parseNode(child, dirPath, imports)),
+    children: element.children.map((child) => parseNode(child, dirPath, imports)),
     attributes: element.attributes
-      .filter(a => {
+      .filter((a) => {
         let match = true
         if (a.key === WX_FOR_ITEM) {
           match = false
@@ -147,9 +156,10 @@ function parseElement (element: Element, dirPath: string, imports: VueImport[]):
           forIndex = a.value || forIndex
         }
         return match
-      }).map(a => {
-        return parseAttribute(a, forItem, forIndex)
       })
+      .map((a) => {
+        return parseAttribute(a, forItem, forIndex)
+      }),
   }
 }
 
@@ -261,7 +271,7 @@ function parseAttribute (attr: Attribute, forItem: string, forIndex: string): At
 
   return {
     key,
-    value
+    value,
   }
 }
 
@@ -270,7 +280,7 @@ function createElement (tagName: string): Element {
     tagName,
     type: NodeType.Element,
     children: [],
-    attributes: []
+    attributes: [],
   }
 }
 
@@ -292,9 +302,9 @@ interface VueImport {
 
 export function parseTemplate (element: Element, imports: VueImport[]) {
   const { attributes, children } = element
-  const is = attributes.find(a => a.key === 'is')
-  const data = attributes.find(a => a.key === 'data')
-  const name = attributes.find(a => a.key === 'name')
+  const is = attributes.find((a) => a.key === 'is')
+  const data = attributes.find((a) => a.key === 'data')
+  const name = attributes.find((a) => a.key === 'name')
 
   if (name) {
     const value = name.value
@@ -307,7 +317,7 @@ export function parseTemplate (element: Element, imports: VueImport[]) {
     const component = parseWXML('', stringify(children), imports)!
     imports.push({
       name: componentName,
-      template: component.template
+      template: component.template,
     })
   } else if (is) {
     const value = is.value
@@ -325,7 +335,7 @@ export function parseTemplate (element: Element, imports: VueImport[]) {
     if (data) {
       element.attributes.push({
         key: 'data',
-        value: data.value
+        value: data.value,
       })
     }
   } else {
@@ -337,7 +347,7 @@ export function parseTemplate (element: Element, imports: VueImport[]) {
 
 export function parseModule (element: Element, dirPath: string, imports: VueImport[]) {
   const { attributes, tagName } = element
-  const src = attributes.find(a => a.key === 'src')
+  const src = attributes.find((a) => a.key === 'src')
 
   if (!src) {
     throw new Error(`${tagName} 标签必须包含 \`src\` 属性` + '\n' + stringify(element))
@@ -402,13 +412,13 @@ function parseWXS (element: Element, imports: VueImport[]) {
         if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
           console.warn(codeFrameError(path.node, '请使用 JavaScript 标准正则表达式把这个 getRegExp 函数重构。'))
         }
-      }
+      },
     })
 
     imports.push({
       ast,
       name: moduleName as string,
-      wxs: true
+      wxs: true,
     } as any)
   }
 
