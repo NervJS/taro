@@ -725,6 +725,9 @@ require("./runtime");
                 transform: "false",
                 duration: "300",
                 "easing-function": singleQuote("ease-out")
+            },
+            RootPortal: {
+                enable: "true"
             }
         };
         var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
@@ -1773,6 +1776,12 @@ require("./runtime");
         var components = {
             Icon: {
                 size: "24"
+            },
+            Input: {
+                "adjust-position": _true,
+                "hold-keyboard": _false,
+                "clue-type": "0",
+                bindKeyboardHeightChange: _empty
             },
             Button: {
                 bindGetPhoneNumber: _empty,
