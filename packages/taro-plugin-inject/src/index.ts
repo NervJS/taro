@@ -1,4 +1,5 @@
 
+import { esbuild } from '@tarojs/helper'
 import { isArray, isFunction, isObject, isString } from '@tarojs/shared'
 import * as path from 'path'
 
@@ -20,12 +21,6 @@ export interface IOptions {
 export default (ctx: IPluginContext, options: IOptions) => {
   const fs = ctx.helper.fs
 
-  ctx.modifyWebpackChain(({ chain }) => {
-    if(options.componentsMap){
-      chain.optimization.providedExports(false)
-    }
-  })
-
   ctx.registerMethod({
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
@@ -41,7 +36,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
 
       const template = platform.template
       if(!template) return
-      
+
       if (isArray(voidComponents)) {
         voidComponents.forEach(el => template.voidElements.add(el))
       } else if (isFunction(voidComponents)) {
@@ -89,10 +84,19 @@ function injectRuntimePath (platform: TaroPlatformBase) {
 }
 
 function injectComponentsReact (fs, taroComponentsPath, componentsMap) {
-  fs.writeFileSync(path.resolve(__dirname, '../dist/components-react.js'), `
+  const filePath = path.resolve(__dirname, '../dist/components-react.js')
+  fs.writeFileSync(filePath, `
 export * from '${taroComponentsPath}'
 ${Object.keys(componentsMap).map((key) => `export const ${key} = '${componentsMap[key]}'`).join('\n')}
 `)
+  // 提前使用 esbuild 进行 bundle，避免 Webpack 分析过程中的错误，#13299 #14520
+  const result = esbuild.buildSync({
+    entryPoints: [filePath],
+    bundle: true,
+    write: false,
+    format: 'esm',
+  })
+  fs.writeFileSync(filePath, result.outputFiles[0].text)
 }
 
 function injectComponents (fs, components) {

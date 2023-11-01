@@ -756,6 +756,9 @@ require("./taro");
                     transform: "false",
                     duration: "300",
                     "easing-function": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("ease-out")
+                },
+                RootPortal: {
+                    enable: "true"
                 }
             };
             var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
