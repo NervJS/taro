@@ -4,6 +4,10 @@ import { parseScript } from '../src/script'
 import { parseWXML, WXS } from '../src/wxml'
 import { generateMinimalEscapeCode } from './util'
 
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
 
 interface Option {
   script: string

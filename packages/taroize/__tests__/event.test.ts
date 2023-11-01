@@ -6,6 +6,11 @@ interface Option {
   path: string
 }
 
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
+
 describe('event convertor', () => {
   const option: Option = {
     path: '',

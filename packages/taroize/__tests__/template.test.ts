@@ -1,9 +1,13 @@
 import { parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode } from './util'
 
-jest.mock('fs')
 const fs = require('fs')
 const path = require('path')
+
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
 
 describe('template.ts', () => {
   describe('import 正常情况', () => {
