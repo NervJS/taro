@@ -29,6 +29,7 @@ export const components = {
     'show-compass': _false,
     'show-scale': _false,
     'enable-overlooking': _false,
+    'enable-auto-max-overlooking': _false,
     'enable-zoom': _true,
     'enable-scroll': _true,
     'enable-rotate': _false,
@@ -40,6 +41,12 @@ export const components = {
     bindLabelTap: _empty,
     bindRegionChange: _empty,
     bindPoiTap: _empty,
+    bindPolylineTap: _empty,
+    bindAbilitySuccess: _empty,
+    bindAbilityFailed: _empty,
+    bindAuthSuccess: _empty,
+    bindInterpolatePoint: _empty,
+    bindError: _empty,
     bindAnchorPointTap: _empty
   },
   Button: {
@@ -395,7 +402,9 @@ export const components = {
     'easing-function': "'ease-out'"
   },
   KeyboardAccessory: {},
-  RootPortal: {},
+  RootPortal: {
+    enable: _true
+  },
   ChannelLive: {
     'feed-id': _empty,
     'finder-user-name': _empty
