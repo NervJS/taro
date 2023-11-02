@@ -103,7 +103,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const tabbar = appConfig.tabBar
         // pages
         viteCompilerContext.pages.forEach(page => {
-          if (tabbar?.list.every(item => item.pagePath !== page.name)) {
+          const list = tabbar?.list || []
+          if (list.every(item => item.pagePath !== page.name)) {
             this.emitFile({
               type: 'chunk',
               id: page.scriptPath,
