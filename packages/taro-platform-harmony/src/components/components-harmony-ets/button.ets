@@ -11,31 +11,56 @@ import type { TaroButtonElement } from '../runtime'
 
 @Extend(Button)
 function attrs ({
-   flexSize,
-   alignSelf,
-   size,
-   margin,
-   padding,
-   zIndex,
-   constraintSize,
-   rotate,
-   scale,
-   translate,
-   transform
-}) {
-  .size(size)
-  .zIndex(zIndex)
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform
+ }) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
+  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
-  .alignSelf(alignSelf)
-  .flexGrow(flexSize[0])
-  .flexShrink(flexSize[1])
-  .flexBasis(flexSize[2])
-  .constraintSize(constraintSize)
+  .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage, backgroundRepeat)
+  .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
 
 @Extend(Button)
@@ -63,7 +88,7 @@ function getThemeAttributes (node: TaroButtonElement) {
   return {
     isPlain,
     isDisabled,
-    backgroundColor: _st.backgroundColor || BUTTON_THEME_COLOR[type].background,
+    backgroundColor: AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR[type].background,
     fontColor: AttributeManager.getNodeStyle(_st, 'color', BUTTON_THEME_COLOR[type].text),
   }
 }

@@ -10,72 +10,109 @@ import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
- flexSize,
- margin,
- padding,
- linearGradient,
- zIndex,
- borderRadius,
- opacity,
- backgroundColor,
- backgroundImage,
- backgroundImageSize,
- constraintSize,
- rotate,
- scale,
- translate,
- transform
-}) {
-  .flexGrow(flexSize[0])
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform
+ }) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
   .constraintSize(constraintSize)
   .margin(margin)
-  .zIndex(zIndex)
   .padding(padding)
-  .opacity(opacity)
-  .borderRadius(borderRadius)
   .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
-
 @Extend(Column)
 function attrs ({
- flexSize,
- margin,
- padding,
- linearGradient,
- zIndex,
- borderRadius,
- opacity,
- backgroundColor,
- backgroundImage,
- backgroundImageSize,
- constraintSize,
- rotate,
- scale,
- translate,
- transform
-}) {
-  .flexGrow(flexSize[0])
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform
+ }) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
   .constraintSize(constraintSize)
   .margin(margin)
-  .zIndex(zIndex)
   .padding(padding)
-  .opacity(opacity)
-  .borderRadius(borderRadius)
   .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
 
 function getAttributes (node: TaroViewElement) {
@@ -168,11 +205,10 @@ struct TaroScrollView {
               }, item => item._nid)
             }
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-            .height(getNormalAttributes(this.node).size.height)
+            .width(null)
             .defaultContainerEvent()
           }
-          .width(getNormalAttributes(this.node).size.width)
-          .flexGrow(getNormalAttributes(this.node).flexSize[0])
+          .flexGrow(getNormalAttributes(this.node).flexGrow)
           .scrollable(ScrollDirection.Horizontal)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
@@ -186,12 +222,11 @@ struct TaroScrollView {
                 createNode(item)
               }, item => item._nid)
             }
-            .width(getNormalAttributes(this.node).size.width)
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+            .height(null)
             .defaultContainerEvent()
           }
-          .height(getNormalAttributes(this.node).size.height)
-          .flexGrow(getNormalAttributes(this.node).flexSize[0])
+          .flexGrow(getNormalAttributes(this.node).flexGrow)
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
@@ -209,10 +244,10 @@ struct TaroScrollView {
               }, item => item._nid)
             }
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-            .height(getNormalAttributes(this.node).size.height)
+            .width(null)
             .defaultContainerEvent()
           }
-          .width(getNormalAttributes(this.node).size.width)
+          .flexGrow(getNormalAttributes(this.node).flexGrow)
           .scrollable(ScrollDirection.Horizontal)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()
@@ -227,11 +262,11 @@ struct TaroScrollView {
                 createNode(item)
               }, item => item._nid)
             }
-            .width(getNormalAttributes(this.node).size.width)
             .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+            .height(null)
             .defaultContainerEvent()
           }
-          .height(getNormalAttributes(this.node).size.height)
+          .flexGrow(getNormalAttributes(this.node).flexGrow)
           .scrollable(ScrollDirection.Vertical)
           .scrollBar(getAttributes(this.node).showScrollbar)
           .defaultEvent()

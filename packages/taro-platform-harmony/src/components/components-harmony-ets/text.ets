@@ -2,6 +2,7 @@ import { eventHandler, isElement, convertNumber2PX } from '@tarojs/runtime'
 import { capitalize } from '@tarojs/shared'
 
 import TaroComponentWrapper from './base'
+import { w3cToHarmonyStyle } from './utils/dynamicConvert'
 import { AttributeManager } from './utils/AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
@@ -28,6 +29,7 @@ function attrs ({
   borderRadius,
   backgroundColor,
   backgroundImage,
+  backgroundRepeat,
   backgroundImageSize,
   rotate,
   scale,
@@ -53,7 +55,7 @@ function attrs ({
   .border(border)
   .borderRadius(borderRadius)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
@@ -81,6 +83,7 @@ function spanAttrs ({
   borderRadius,
   backgroundColor,
   backgroundImage,
+  backgroundRepeat,
   backgroundImageSize,
   rotate,
   scale,
@@ -104,17 +107,24 @@ function spanAttrs ({
   .border(border)
   .borderRadius(borderRadius)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .size(size)
   .textAlign(textAlign)
 }
 
 function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) {
-  return {
+  const attrs = {
     ...getNormalAttributes(node, overwriteStyle),
     ...getFontAttributes(node)
   }
+  // 处理style属性，运行时转换成鸿蒙样式
+  Object.keys(node._st).forEach((key) => {
+    if (!key.startsWith('_')) {
+      w3cToHarmonyStyle(attrs, key, node._st[key])
+    }
+  })
+  return attrs
 }
 
 function getFontAttributes (node: TaroElement) {

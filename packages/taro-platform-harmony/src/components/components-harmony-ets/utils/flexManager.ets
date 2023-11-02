@@ -1,8 +1,37 @@
+import { AttributeManager } from './AttributeManager' 
+import { w3cToHarmonyStyle } from './dynamicConvert'
+
 import type { TaroElement } from '@tarojs/runtime'
 
 class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
     const { _st = {} } = node
+
+    let flexOptions = AttributeManager.getNodeStyle(_st, 'flexOptions')
+    if (flexOptions) {
+      if (AttributeManager.getNodeStyle(_st, 'display') === 'flex') {
+        flexOptions.direction ||= FlexDirection.Row
+      } else {
+        flexOptions.direction ||= FlexDirection.Column
+      }
+    } else {
+      flexOptions = {
+        direction: FlexDirection.Column
+      }
+    }
+
+    if (_st.flexDirection !== undefined) {
+      w3cToHarmonyStyle(flexOptions, 'flexDirection', _st.flexDirection)
+    }
+    if (_st.justifyContent !== undefined) {
+      w3cToHarmonyStyle(flexOptions, 'justifyContent', _st.justifyContent)
+    }
+    if (_st.alignItems !== undefined) {
+      w3cToHarmonyStyle(flexOptions, 'alignItems', _st.alignItems)
+    }
+
+    return flexOptions
+
     const flexAttrs: FlexOptions = {
       direction: FlexManager.flexDirection(_st),
     }

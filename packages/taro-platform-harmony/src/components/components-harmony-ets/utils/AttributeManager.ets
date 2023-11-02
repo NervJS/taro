@@ -5,15 +5,9 @@ import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
   static getNodeStyle (style = {}, name: string, defaultValue?) {
+    name = '_' + name
     if (!style[name] && style[name] !== 0) return defaultValue
-
-    let value = style[name]
-
-    if (!!value && isString(value) && value.indexOf('url') === -1) {
-      value = value.replace('px', '')
-    }
-
-    return value
+    return style[name]
   }
 
   // static getNodeTextDecoration (style): { type: TextDecorationType; color?: ResourceColor } {

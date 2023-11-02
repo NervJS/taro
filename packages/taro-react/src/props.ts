@@ -74,9 +74,14 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
   }
 }
 
-function setStyle (style: Style, key: string, value: string | number) {
+function setStyle (style: Style, key: string, value: unknown) {
   if (key[0] === '-') {
-    style.setProperty(key, value.toString())
+    // 适配鸿蒙
+    if (process.env.TARO_PLATFORM === 'harmony') {
+      style.setProperty(key, value as string)
+    } else {
+      style.setProperty(key, (value as string).toString())
+    }
     // css variables need not further judgment
     return
   }
@@ -127,39 +132,8 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
             const isHarmony = process.env.TARO_PLATFORM === 'harmony'
 
             // TODO: 需要更优雅的方式来实现
-            if (isHarmony) {
-              let data = value[i]
-              if (isNumber(data)) {
-                setStyle(style, i, data)
-              } else if (isObject<object>(data)) {
-                for (const key in (data as object)) {
-                  const val: string = data[key]
-                  if (/\d+(px)/.test(val)) {
-                    setStyle(style, i, data)
-                    const newVal = val.replaceAll('px', '')
-                    if (newVal.split(' ').length > 1) {
-                      setStyle(data, key, newVal)
-                    } else {
-                      setStyle(data, key, +newVal)
-                    }
-                  } else {
-                    if (isNaN(Number(val))) {
-                      setStyle(data, key, val)
-                    } else {
-                      setStyle(data, key, +val)
-                    }
-                  }
-                }
-              } else {
-                if (/\d+(px)/.test(data)) {
-                  data = data.replaceAll('px', '')
-                }
-                if (isNaN(Number(data))) {
-                  setStyle(style, i, data)
-                } else {
-                  setStyle(style, i, +data)
-                }
-              }
+            if (isHarmony && i.startsWith('_')) {
+              setStyle(style, i, checkStyleValue(value[i]))
             } else {
               setStyle(style, i, value[i])
             }
@@ -184,4 +158,22 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       dom.setAttribute(name, value as string)
     }
   }
+}
+
+// 鸿蒙单位转换，递归处理style的内容，将px单位转换成鸿蒙适配的vp单位
+function checkStyleValue (value: unknown) {
+  if (isNumber(value)) {
+    return value
+  } else if (isString(value)) {
+    return /\d+(px$)/.test(value) ? convertNumber2PX(parseFloat(value)) : value
+  } else if (value instanceof Array) {
+    value.forEach(i => {
+      value[i] = checkStyleValue(value[i])
+    })
+  } else if (isObject<object>(value)) {
+    for (const key in value) {
+      value[key] = checkStyleValue(value[key])
+    }
+  }
+  return value
 }

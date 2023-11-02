@@ -8,33 +8,56 @@ import type { TaroImageElement } from '@tarojs/runtime'
 
 @Extend(Image)
 function attrs ({
-   flexSize,
-   alignSelf,
-   margin,
-   padding,
-   zIndex,
-   backgroundColor,
-   borderRadius,
-   constraintSize,
-   rotate,
-   scale,
-   translate,
-   transform
-}) {
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform
+ }) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
   .constraintSize(constraintSize)
-  .zIndex(zIndex)
   .margin(margin)
   .padding(padding)
-  .alignSelf(alignSelf)
-  .flexGrow(flexSize[0])
-  .flexShrink(flexSize[1])
-  .flexBasis(flexSize[2])
-  .backgroundColor(backgroundColor)
+  .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
   .borderRadius(borderRadius)
+  .opacity(opacity)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage, backgroundRepeat)
+  .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
 
 

@@ -7,15 +7,25 @@ import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(RichText)
 function attrs ({
-  size,
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
   margin,
   padding,
   linearGradient,
   zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
   borderRadius,
   opacity,
   backgroundColor,
   backgroundImage,
+  backgroundRepeat,
   backgroundImageSize,
   constraintSize,
   rotate,
@@ -23,21 +33,30 @@ function attrs ({
   translate,
   transform
  }) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
   .constraintSize(constraintSize)
-  .size(size)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)
   .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
   .borderRadius(borderRadius)
   .opacity(opacity)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
 
 @Component

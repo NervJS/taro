@@ -24,6 +24,7 @@ function attrs ({
   opacity,
   backgroundColor,
   backgroundImage,
+  backgroundRepeat,
   backgroundImageSize,
   constraintSize,
   rotate,
@@ -44,7 +45,7 @@ function attrs ({
   .borderRadius(borderRadius)
   .opacity(opacity)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)

@@ -9,17 +9,25 @@ import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(Swiper)
 function attrs ({
-  flexSize,
+  flexBasis,
+  flexGrow,
+  flexShrink,
   alignSelf,
-  size,
+  clip,
+  width,
+  height,
   margin,
   padding,
   linearGradient,
   zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
   borderRadius,
   opacity,
   backgroundColor,
   backgroundImage,
+  backgroundRepeat,
   backgroundImageSize,
   constraintSize,
   rotate,
@@ -27,25 +35,30 @@ function attrs ({
   translate,
   transform
  }) {
-  .constraintSize(constraintSize)
-  .flexGrow(flexSize[0])
-  .flexShrink(flexSize[1])
-  .flexBasis(flexSize[2])
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
   .alignSelf(alignSelf)
-  .size(size)
+  .width(width)
+  .height(height)
+  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)
   .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
   .borderRadius(borderRadius)
   .opacity(opacity)
   .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage)
+  .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
   .rotate(rotate)
   .scale(scale)
   .translate(translate)
   .transform(transform)
+  .clip(clip)
 }
 
 @Component

@@ -1,6 +1,7 @@
 import { isUndefined } from '@tarojs/shared'
 import { AttributeManager } from './AttributeManager'
-import { FlexManager } from './FlexManager'
+import { FlexManager } from './flexManager'
+import { w3cToHarmonyStyle } from './dynamicConvert'
 
 import type { TaroElement } from '@tarojs/runtime'
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
@@ -74,46 +75,78 @@ export function bindAnimation (node: TaroElement, animationCb: (val: Record<stri
   }
 }
 
+
 export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<string, any>) {
   const { _st, _attrs } = node
-  const transformData = AttributeManager.getTransform(_st)
+
+  // const transformData = AttributeManager.getTransform(_st)
+
+  const linearGradient = AttributeManager.getNodeStyle(_st, 'linearGradient')
+
+  const background = AttributeManager.getNodeStyle(_st, 'background')
+  const _backgroundImage = background?.image?.[0]
+  let backgroundImage, backgroundRepeat
+  if (_backgroundImage) {
+    backgroundImage = _backgroundImage.src
+    backgroundRepeat = _backgroundImage.src
+  }
+  const backgroundSize = background?.size?.[0]
+  const backgroundColor = backgroundImage ? null : background?.color
+
+
+
+  const transform = AttributeManager.getNodeStyle(_st, 'transform')
+  const transformRotate = transform?.rotate?.[0]
+  const transformTranslate = transform?.translate?.[0]
+  const transformScale = transform?.scale?.[0]
+  const transformTransform = transform?.transform?.[0]
+
   const normalAttributes = {
-    flexSize: FlexManager.flexSize(_st),
-    alignSelf: ItemAlign.Auto,
-    size: {
-      width: AttributeManager.getNodeStyle(_st, 'width'),
-      height: AttributeManager.getNodeStyle(_st, 'height')
-    },
-    focus: AttributeManager.getNodeStyle(_attrs, 'focus', false),
+    // Flex相关
+    flexBasis: AttributeManager.getNodeStyle(_st, 'flexBasis'),
+    flexGrow: AttributeManager.getNodeStyle(_st, 'flexGrow'),
+    flexShrink: AttributeManager.getNodeStyle(_st, 'flexShrink'),
+    alignSelf: AttributeManager.getNodeStyle(_st, 'alignSelf'),
+    // 尺寸相关
+    width: AttributeManager.getNodeStyle(_st, 'width'),
+    height: AttributeManager.getNodeStyle(_st, 'height'),
+    constraintSize: AttributeManager.getNodeStyle(_st, 'constraintSize'),
     margin: AttributeManager.getNodeStyle(_st, 'margin'),
     padding: AttributeManager.getNodeStyle(_st, 'padding'),
-    linearGradient: AttributeManager.getNodeLinearGradient(_st),
-    zIndex: Number(AttributeManager.getNodeStyle(_st, 'zIndex')) || null,
-    border: AttributeManager.getNodeBorderData(_st),
+    // 边框相关
+    borderStyle: AttributeManager.getNodeStyle(_st, 'borderStyle'),
+    borderWidth: AttributeManager.getNodeStyle(_st, 'borderWidth'),
+    borderColor: AttributeManager.getNodeStyle(_st, 'borderColor'),
     borderRadius: AttributeManager.getNodeStyle(_st, 'borderRadius'),
+    // 背景相关
+    backgroundColor: backgroundColor,
+    backgroundImage: backgroundImage,
+    backgroundImageSize: backgroundSize,
+    backgroundRepeat: backgroundRepeat,
+    linearGradient: linearGradient?.[0],
+    // 变换相关
+    rotate: transformRotate,
+    translate: transformTranslate,
+    scale: transformScale,
+    transform: transformTransform,
+    // 其他
+    zIndex: Number(AttributeManager.getNodeStyle(_st, 'zIndex')) || null,
     opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
-    backgroundColor: AttributeManager.getNodeBackGroundData( _st, 'backgroundColor'),
-    backgroundImage: parseBackground('backgroundImage', AttributeManager.getNodeBackGroundData(_st, 'backgroundImage')),
-    backgroundImageSize: parseBackground('backgroundSize', AttributeManager.getNodeBackGroundData(_st, 'backgroundSize')),
-    constraintSize: {
-      minWidth: AttributeManager.getNodeStyle(_st, 'minWidth'),
-      maxWidth: AttributeManager.getNodeStyle(_st, 'maxWidth'),
-      minHeight: AttributeManager.getNodeStyle(_st, 'minHeight'),
-      maxHeight: AttributeManager.getNodeStyle(_st, 'maxHeight'),
-    },
-    animation: AttributeManager.getNodeAnimationData(_st),
-    rotate: transformData.rotate,
-    translate: transformData.translate,
-    scale: transformData.scale,
-    transform: transformData.transform,
-    clip: AttributeManager.getNodeStyle(_st, 'overflow') === 'hidden'
+    // animation: AttributeManager.getNodeAnimationData(_st),
+    clip: AttributeManager.getNodeStyle(_st, 'overflow') === 'hidden',
+    focus: AttributeManager.getNodeStyle(_attrs, 'focus', false),
   }
+
+  // TODO: 需要遍历一遍，存在性能问题
+  // 处理style属性，运行时转换成鸿蒙样式
+  Object.keys(_st).forEach((key) => {
+    if (!key.startsWith('_')) {
+      w3cToHarmonyStyle(normalAttributes, key, _st[key])
+    }
+  })
+
   // 处理覆盖属性：如动画的覆盖
   if (overwriteStyle) {
-    if (overwriteStyle.size) {
-      // 合并尺寸
-      overwriteStyle.size = Object.assign({}, normalAttributes.size, overwriteStyle.size)
-    }
     Object.assign(normalAttributes, overwriteStyle)
   }
   return normalAttributes
@@ -133,38 +166,6 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
     }), {})
 }
 
-
-const IMAGE_URL_REGEX = /url\(['"]?([^'"]+)['"]?\)/;
-const parseBackground = (name: string, value: string) => {
-  switch (name) {
-    case 'backgroundImage': {
-      if (!value) return
-      // 兼容url()
-      const matchs = value.match(IMAGE_URL_REGEX)
-      if (matchs) {
-        return matchs[1]
-      }
-      return value
-    }
-    case 'backgroundSize': {
-      if (!value) return ImageSize.Auto
-      const lower = value.toLowerCase()
-      if (lower === 'cover') return ImageSize.Cover
-      else if (lower === 'contain') return ImageSize.Contain
-      else if (lower === 'auto') return ImageSize.Auto
-      else {
-        const [width, height] = value.split(' ')
-        const res = {
-          width
-        }
-        if (height) {
-          res['height'] = height
-        }
-        return res
-      }
-    }
-  }
-}
 
 export function convertVP2PX (value: number) {
   return Math.ceil(value / 384 * 750)
