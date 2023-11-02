@@ -119,7 +119,7 @@ export function generateDefinitionJSON () {
     return str.charAt(0).toUpperCase() + str.slice(1)
   }
 
-  // 遍历属性的类型，若可继续解析出属性则返回对象，否则返回‘*’
+  // 遍历属性的类型，若可继续解析出属性则返回对象，否则返回‘''’
   function handlePropsType (propType: string, declareFileContent: string) {
     const propObj: object = {}
     const propTypeText = propType.trim()
@@ -154,7 +154,7 @@ export function generateDefinitionJSON () {
   // 根据组件的属性interface内容生成对象
   function getPropsObject (popsContent: string, declareFileContent: string) {
     // 匹配组件的某条属性，包括它的注释
-    const propsPattern = /(\/\*\*[\s\S]*?\*\/[\s\S]*?)(?=\/\*\*)/g
+    const propsPattern = /(\/\*\*[\s\S]*?\*\/[\s\S]*?)(?=\/\*\*|}$)/g
     // 匹配组件的某条属性上方注释中是否包含@supported ...weapp
     const isSupportedPattern = /@supported[^*]*?weapp/g
     const allMatches: string[] = []
@@ -303,13 +303,23 @@ export function generateDefinitionJSON () {
     return newComponentsConfig
   }
 
+  // keys按字母顺序排序
+  function sortKeys (obj: object) {
+    const sortedKeys = Object.keys(obj).sort()
+    const sortedObj = sortedKeys.reduce((acc, key) => {
+      acc[key] = obj[key]
+      return acc
+    }, {})
+    return sortedObj
+  }
+
   // 获取最终的组件和API属性配置表同时更新原始属性配置文件
   function getFinalDefinitionObj (componentProps: object, componentsConfig: any) {
     finalDefinitionObj.components = getComponentsDefinition(componentProps, componentsConfig)
     finalDefinitionObj.apis = getApisDefinition()
     // 更新组件属性配置文件
     const newComponentsConfig = updatePropsConfig(componentProps, componentsConfig)
-    fs.writeJSONSync('build/config/harmony-definition.json', { 'apis': propsConfig.apis, 'components': newComponentsConfig }, { spaces: 2 })
+    fs.writeJSONSync('build/config/harmony-definition.json', { 'apis': sortKeys(propsConfig.apis), 'components': sortKeys(newComponentsConfig) }, { spaces: 2 })
   }
 
   getFinalDefinitionObj(definitionObj.components, propsConfig.components)

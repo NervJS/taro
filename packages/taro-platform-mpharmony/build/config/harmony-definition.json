@@ -25,15 +25,15 @@
     "ar-camera": false,
     "audio": {
       "id": false,
-      "src": false,
-      "loop": false,
-      "controls": false,
+      "src": true,
+      "loop": true,
+      "controls": true,
       "poster": false,
       "name": false,
       "author": false
     },
     "aweme-data": false,
-    "block": false,
+    "block": true,
     "button": {
       "size": {
         "default": true,
@@ -107,11 +107,12 @@
     },
     "canvas": {
       "type": false,
-      "canvas-id": false,
+      "canvas-id": true,
       "disable-scroll": false
     },
     "channel-live": {
-      "feed-id": false
+      "feed-id": false,
+      "finder-user-name": false
     },
     "channel-video": {
       "feed-id": false,
@@ -127,17 +128,17 @@
       "feed-token": false
     },
     "checkbox": {
-      "value": false,
-      "disabled": false,
-      "checked": false,
-      "color": false
+      "value": true,
+      "disabled": true,
+      "checked": true,
+      "color": true
     },
-    "checkbox-group": false,
+    "checkbox-group": true,
     "comment-detail": false,
     "comment-list": false,
     "contact-button": false,
     "cover-image": {
-      "src": false,
+      "src": true,
       "referrer-policy": {
         "origin": false,
         "no-referrer": false
@@ -146,7 +147,7 @@
     "cover-view": {
       "scroll-top": false
     },
-    "custom-wrapper": false,
+    "custom-wrapper": true,
     "editor": {
       "read-only": false,
       "placeholder": false,
@@ -176,73 +177,74 @@
       "type": false,
       "cross-axis-count": false,
       "main-axis-gap": false,
-      "cross-axis-gap": false
+      "cross-axis-gap": false,
+      "max-cross-axis-extent": false
     },
     "icon": {
       "type": {
-        "success": false,
-        "success_no_circle": false,
-        "info": false,
-        "warn": false,
-        "waiting": false,
-        "cancel": false,
-        "download": false,
-        "search": false,
-        "clear": false,
+        "success": true,
+        "success_no_circle": true,
+        "info": true,
+        "warn": true,
+        "waiting": true,
+        "cancel": true,
+        "download": true,
+        "search": true,
+        "clear": true,
         "circle": false,
         "info_circle": false
       },
-      "size": false,
-      "color": false
+      "size": true,
+      "color": true
     },
     "image": {
-      "src": false,
+      "src": true,
       "mode": {
-        "scaleToFill": false,
-        "aspectFit": false,
-        "aspectFill": false,
-        "widthFix": false,
-        "heightFix": false,
-        "top": false,
-        "bottom": false,
-        "center": false,
-        "left": false,
-        "right": false
+        "scaleToFill": true,
+        "aspectFit": true,
+        "aspectFill": true,
+        "widthFix": true,
+        "heightFix": true,
+        "top": true,
+        "bottom": true,
+        "center": true,
+        "left": true,
+        "right": true
       },
       "webp": false,
-      "lazy-load": false,
+      "lazy-load": true,
       "show-menu-by-longpress": false,
       "fade-in": false
     },
     "inline-payment-panel": false,
     "input": {
-      "value": false,
+      "value": true,
       "type": {
-        "text": false,
-        "number": false,
+        "text": true,
+        "number": true,
         "idcard": false,
-        "digit": false,
+        "digit": true,
         "safe-password": false,
         "nickname": false,
         "numberpad": false,
         "digitpad": false,
         "idcardpad": false
       },
-      "password": false,
-      "placeholder": false,
+      "password": true,
+      "placeholder": true,
       "placeholder-style": false,
       "placeholder-class": false,
-      "disabled": false,
-      "maxlength": false,
+      "disabled": true,
+      "maxlength": true,
       "cursor-spacing": false,
-      "auto-focus": false,
-      "focus": false,
+      "auto-focus": true,
+      "focus": true,
       "confirm-type": {
         "send": false,
-        "search": false,
+        "search": true,
         "next": false,
         "go": false,
-        "done": false
+        "done": true
       },
       "confirm-hold": false,
       "cursor": false,
@@ -259,34 +261,36 @@
       "safe-password-custom-hash": false
     },
     "keyboard-accessory": false,
-    "label": false,
+    "label": {
+      "for": true
+    },
     "lifestyle": false,
     "like": false,
     "list-view": false,
     "live-player": {
-      "src": false,
+      "src": true,
       "mode": {
-        "live": false,
-        "RTC": false
+        "live": true,
+        "RTC": true
       },
-      "autoplay": false,
-      "muted": false,
+      "autoplay": true,
+      "muted": true,
       "orientation": {
-        "vertical": false,
-        "horizontal": false
+        "vertical": true,
+        "horizontal": true
       },
       "object-fit": {
-        "contain": false,
-        "fillCrop": false
+        "contain": true,
+        "fillCrop": true
       },
       "background-mute": false,
-      "min-cache": false,
-      "max-cache": false,
+      "min-cache": true,
+      "max-cache": true,
       "sound-mode": {
-        "speaker": false,
-        "ear": false
+        "speaker": true,
+        "ear": true
       },
-      "auto-pause-if-navigate": false,
+      "auto-pause-if-navigate": true,
       "picture-in-picture-mode": {
         "push": false,
         "pop": false
@@ -411,11 +415,11 @@
       "enable-rotate": false,
       "enable-satellite": false,
       "enable-traffic": false,
-      "setting": false,
       "enable-poi": false,
       "enable-building": false,
       "enable-auto-max-overlooking": false,
-      "enable3d": false
+      "enable3d": false,
+      "setting": false
     },
     "match-media": {
       "min-width": false,
@@ -423,52 +427,63 @@
       "width": false,
       "min-height": false,
       "max-height": false,
-      "height": false
+      "height": false,
+      "orientation": false
     },
-    "movable-area": false,
+    "movable-area": {
+      "scale-area": true
+    },
     "movable-view": {
       "direction": {
-        "all": false,
-        "vertical": false,
-        "horizontal": false,
-        "none": false
+        "all": true,
+        "vertical": true,
+        "horizontal": true,
+        "none": true
       },
-      "inertia": false,
-      "out-of-bounds": false,
-      "x": false,
-      "y": false,
+      "inertia": true,
+      "out-of-bounds": true,
+      "x": true,
+      "y": true,
       "damping": false,
-      "friction": false,
-      "disabled": false,
-      "scale": false,
-      "scale-min": false,
-      "scale-max": false,
-      "scale-value": false,
-      "animation": false
+      "friction": true,
+      "disabled": true,
+      "scale": true,
+      "scale-min": true,
+      "scale-max": true,
+      "scale-value": true,
+      "animation": true
     },
-    "native-slot": false,
+    "native-slot": {
+      "name": false
+    },
     "navigation-bar": {
       "title": false,
       "loading": false,
       "front-color": false,
       "background-color": false,
-      "color-animation-duration": false
+      "color-animation-duration": false,
+      "color-animation-timing-func": {
+        "linear": false,
+        "easeIn": false,
+        "easeOut": false,
+        "easeInOut": false
+      }
     },
     "navigator": {
       "target": {
         "self": false,
         "miniProgram": false
       },
-      "url": false,
+      "url": true,
       "open-type": {
-        "navigate": false,
-        "redirect": false,
-        "switchTab": false,
-        "reLaunch": false,
-        "navigateBack": false,
-        "exit": false
+        "navigate": true,
+        "redirect": true,
+        "switchTab": true,
+        "reLaunch": true,
+        "navigateBack": true,
+        "exit": true
       },
-      "delta": false,
+      "delta": true,
       "app-id": false,
       "path": false,
       "extra-data": false,
@@ -477,7 +492,7 @@
         "trial": false,
         "release": false
       },
-      "hover-class": false,
+      "hover-class": true,
       "hover-stop-propagation": false,
       "hover-start-time": false,
       "hover-stay-time": false,
@@ -536,28 +551,28 @@
     "picker": {
       "mode": {
         "selector": {
-          "range": false,
-          "range-key": false,
-          "value": false
+          "range": true,
+          "range-key": true,
+          "value": true
         },
         "multiSelector": {
-          "range": false,
-          "range-key": false,
-          "value": false
+          "range": true,
+          "range-key": true,
+          "value": true
         },
         "time": {
-          "value": false,
-          "start": false,
-          "end": false
+          "value": true,
+          "start": true,
+          "end": true
         },
         "date": {
-          "value": false,
-          "start": false,
-          "end": false,
+          "value": true,
+          "start": true,
+          "end": true,
           "fields": {
-            "year": false,
-            "month": false,
-            "day": false
+            "year": true,
+            "month": true,
+            "day": true
           }
         },
         "region": {
@@ -571,27 +586,27 @@
           }
         }
       },
-      "disabled": false
+      "disabled": true
     },
     "picker-view": {
-      "value": false,
-      "indicator-style": false,
-      "indicator-class": false,
-      "mask-style": false,
-      "mask-class": false,
+      "value": true,
+      "indicator-style": true,
+      "indicator-class": true,
+      "mask-style": true,
+      "mask-class": true,
       "immediate-change": false
     },
     "picker-view-column": false,
     "progress": {
-      "percent": false,
-      "show-info": false,
-      "border-radius": false,
-      "font-size": false,
-      "stroke-width": false,
+      "percent": true,
+      "show-info": true,
+      "border-radius": true,
+      "font-size": true,
+      "stroke-width": true,
       "color": false,
-      "active-color": false,
-      "background-color": false,
-      "active": false,
+      "active-color": true,
+      "background-color": true,
+      "active": true,
       "active-mode": {
         "backwards": false,
         "forwards": false
@@ -599,33 +614,35 @@
       "duration": false
     },
     "radio": {
-      "value": false,
-      "checked": false,
-      "disabled": false,
+      "value": true,
+      "checked": true,
+      "disabled": true,
       "color": false
     },
-    "radio-group": false,
+    "radio-group": true,
     "rich-text": {
-      "user-select": false,
-      "nodes": false,
+      "user-select": true,
+      "nodes": true,
       "space": {
         "ensp": false,
         "emsp": false,
         "nbsp": false
       }
     },
-    "root-portal": false,
+    "root-portal": {
+      "enable": false
+    },
     "rtc-room": false,
     "rtc-room-item": false,
     "scroll-view": {
-      "scroll-x": false,
-      "scroll-y": false,
-      "upper-threshold": false,
-      "lower-threshold": false,
-      "scroll-top": false,
-      "scroll-left": false,
-      "scroll-into-view": false,
-      "scroll-with-animation": false,
+      "scroll-x": true,
+      "scroll-y": true,
+      "upper-threshold": true,
+      "lower-threshold": true,
+      "scroll-top": true,
+      "scroll-left": true,
+      "scroll-into-view": true,
+      "scroll-with-animation": true,
       "enable-back-to-top": false,
       "enable-flex": false,
       "scroll-anchoring": false,
@@ -648,10 +665,10 @@
       "cache-extent": false,
       "scroll-into-view-within-extent": false,
       "scroll-into-view-alignment": {
-        "start": false,
-        "center": false,
-        "end": false,
-        "nearest": false
+        "start": true,
+        "center": true,
+        "end": true,
+        "nearest": true
       }
     },
     "share-element": {
@@ -680,38 +697,40 @@
       }
     },
     "slider": {
-      "min": false,
-      "max": false,
-      "step": false,
-      "disabled": false,
-      "value": false,
+      "min": true,
+      "max": true,
+      "step": true,
+      "disabled": true,
+      "value": true,
       "color": false,
       "selected-color": false,
-      "active-color": false,
-      "background-color": false,
-      "block-size": false,
-      "block-color": false,
-      "show-value": false
+      "active-color": true,
+      "background-color": true,
+      "block-size": true,
+      "block-color": true,
+      "show-value": true
     },
     "slot": {
       "name": false
     },
     "sticky-header": false,
-    "sticky-section": false,
+    "sticky-section": {
+      "push-pinned-header": false
+    },
     "swiper": {
-      "indicator-dots": false,
-      "indicator-color": false,
-      "indicator-active-color": false,
-      "autoplay": false,
-      "current": false,
-      "interval": false,
-      "duration": false,
-      "circular": false,
-      "vertical": false,
-      "previous-margin": false,
-      "next-margin": false,
+      "indicator-dots": true,
+      "indicator-color": true,
+      "indicator-active-color": true,
+      "autoplay": true,
+      "current": true,
+      "interval": true,
+      "duration": true,
+      "circular": true,
+      "vertical": true,
+      "previous-margin": true,
+      "next-margin": true,
       "snap-to-edge": false,
-      "display-multiple-items": false,
+      "display-multiple-items": true,
       "easing-function": {
         "default": false,
         "linear": false,
@@ -723,16 +742,17 @@
       "cache-extent": false
     },
     "swiper-item": {
-      "item-id": false
+      "item-id": true,
+      "skip-hidden-item-layout": false
     },
     "switch": {
-      "checked": false,
-      "disabled": false,
+      "checked": true,
+      "disabled": true,
       "type": {
-        "switch": false,
-        "checkbox": false
+        "switch": true,
+        "checkbox": true
       },
-      "color": false
+      "color": true
     },
     "tab-item": false,
     "tabs": false,
@@ -744,18 +764,19 @@
         "emsp": false,
         "nbsp": false
       },
-      "decode": false
+      "decode": false,
+      "max-lines": false
     },
     "textarea": {
-      "value": false,
-      "placeholder": false,
+      "value": true,
+      "placeholder": true,
       "placeholder-style": false,
       "placeholder-class": false,
-      "disabled": false,
-      "maxlength": false,
-      "auto-focus": false,
-      "focus": false,
-      "auto-height": false,
+      "disabled": true,
+      "maxlength": true,
+      "auto-focus": true,
+      "focus": true,
+      "auto-height": true,
       "fixed": false,
       "cursor-spacing": false,
       "cursor": false,
@@ -777,40 +798,40 @@
       "adjust-keyboard-to": false
     },
     "video": {
-      "src": false,
-      "duration": false,
-      "controls": false,
-      "danmu-list": false,
-      "danmu-btn": false,
-      "enable-danmu": false,
-      "autoplay": false,
-      "loop": false,
-      "muted": false,
-      "initial-time": false,
+      "src": true,
+      "duration": true,
+      "controls": true,
+      "danmu-list": true,
+      "danmu-btn": true,
+      "enable-danmu": true,
+      "autoplay": true,
+      "loop": true,
+      "muted": true,
+      "initial-time": true,
       "page-gesture": false,
       "direction": false,
-      "show-progress": false,
-      "show-fullscreen-btn": false,
-      "show-play-btn": false,
-      "show-center-play-btn": false,
-      "enable-progress-gesture": false,
+      "show-progress": true,
+      "show-fullscreen-btn": true,
+      "show-play-btn": true,
+      "show-center-play-btn": true,
+      "enable-progress-gesture": true,
       "object-fit": {
-        "contain": false,
-        "fill": false,
-        "cover": false
+        "contain": true,
+        "fill": true,
+        "cover": true
       },
-      "poster": false,
-      "show-mute-btn": false,
+      "poster": true,
+      "show-mute-btn": true,
       "title": false,
       "play-btn-position": {
         "bottom": false,
         "center": false
       },
-      "enable-play-gesture": false,
+      "enable-play-gesture": true,
       "auto-pause-if-navigate": false,
       "auto-pause-if-open-native": false,
-      "vslide-gesture": false,
-      "vslide-gesture-in-fullscreen": false,
+      "vslide-gesture": true,
+      "vslide-gesture-in-fullscreen": true,
       "ad-unit-id": false,
       "poster-for-crawler": false,
       "show-casting-button": false,
@@ -837,10 +858,11 @@
       "is-live": false
     },
     "view": {
-      "hover-class": false,
+      "hover-class": true,
       "hover-stop-propagation": false,
-      "hover-start-time": false,
-      "hover-stay-time": false
+      "hover-start-time": true,
+      "hover-stay-time": true,
+      "catch-move": false
     },
     "voip-room": {
       "mode": {
@@ -859,7 +881,7 @@
       }
     },
     "web-view": {
-      "src": false
+      "src": true
     }
   }
 }
