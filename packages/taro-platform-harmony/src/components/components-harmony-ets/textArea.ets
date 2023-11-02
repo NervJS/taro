@@ -5,7 +5,7 @@ import { eventHandler, Current } from '@tarojs/runtime'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getNodeAreaChange, bindFocus } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getNodeAreaChange, bindFocus, getNodeVisibleChange } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -97,6 +97,12 @@ struct TaroTextArea {
   windowClass: Window = null
 
   height: number = 0
+  
+  @State thresholds: number[] | null = null
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+  }
 
   aboutToAppear () {
     bindFocus(this.node)
@@ -182,6 +188,7 @@ struct TaroTextArea {
           eventHandler(event, 'input', this.node)
           this.text = value
         })
+        .visibleChangeEvent()
     }
   }
 }

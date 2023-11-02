@@ -3,7 +3,7 @@ import { eventHandler } from '@tarojs/runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -75,6 +75,12 @@ struct TaroSwiper {
   
   @ObjectLink node: TaroViewElement
 
+  @State thresholds: number[] | null = null
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+  }
+
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
     // 绑定动画
@@ -114,6 +120,7 @@ struct TaroSwiper {
         const event = createTaroEvent('change', { detail: { current: index } }, this.node)
         eventHandler(event, 'change', this.node)
       })
+      .visibleChangeEvent()
     }
   }
 }

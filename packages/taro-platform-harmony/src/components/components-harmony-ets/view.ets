@@ -4,7 +4,7 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -68,16 +68,14 @@ function attrs ({
 struct TaroView {
   info: Area = null
 
-  @State thresholds: number[] = []
-
   @State isAreaChangeTap: boolean = false
 
   @State overwriteStyle: Record<string, any> = {}
 
+  @State thresholds: number[] | null = null
+
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visibleChange?.(isVisible, currentRatio)
-    })
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
   }
 
   @ObjectLink node: TaroViewElement
@@ -99,24 +97,14 @@ struct TaroView {
   }
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (!this.thresholds.length) {
-        Flex(FlexManager.flexOptions(this.node)) {
-          ForEach(this.node.childNodes, item => {
-            createNode(item)
-          }, item => item._nid)
-        }
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .defaultEvent()
-      } else {
-        Flex(FlexManager.flexOptions(this.node)) {
-          ForEach(this.node.childNodes, item => {
-            createNode(item)
-          }, item => item._nid)
-        }
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .defaultEvent()
-        .visibleChangeEvent()
+      Flex(FlexManager.flexOptions(this.node)) {
+        ForEach(this.node.childNodes, item => {
+          createNode(item)
+        }, item => item._nid)
       }
+      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .defaultEvent()
+      .visibleChangeEvent()
     }
   }
 }

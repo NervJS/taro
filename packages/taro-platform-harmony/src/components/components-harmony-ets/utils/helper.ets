@@ -188,6 +188,21 @@ export function getNodeAreaChange (callback: Function, component) {
   return null
 }
 
+
+export function getNodeVisibleChange (component) {
+  const node = component?.node
+
+  if (!node) return null
+
+  if (component.thresholds?.length) {
+    return (isVisible: boolean, currentRatio: number) => {
+      if (!component.thresholds) return
+      component?.node?.visibleChange?.(isVisible, currentRatio)
+    }
+  }
+  return null
+}
+
 export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string[], disabled = false) {
   if (!node || node._attrs?.disabled || disabled) return null
 
