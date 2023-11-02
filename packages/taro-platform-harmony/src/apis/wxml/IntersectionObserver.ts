@@ -26,15 +26,20 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   public disconnect (): void {
     if (this._observerNodes) {
       if (this._observerNodes instanceof Array) {
-        this._observerNodes.forEach(n => {
-          // @ts-ignore
+        this._observerNodes.forEach((n: TaroElement & any) => {
           n.visibleChange = null
-          n.instance?.thresholds = null
+          if (n.instance) {
+            n.instance.thresholds = null
+          }
         })
       } else {
         // @ts-ignore
         this._observerNodes.visibleChange = null
-        this._observerNodes.instance?.thresholds = null
+        // @ts-ignore
+        if (this._observerNodes.instance) {
+          // @ts-ignore
+          this._observerNodes.instance.thresholds = null
+        }
       }
     }
   }
