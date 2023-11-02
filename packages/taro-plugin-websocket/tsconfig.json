@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ESNext",
+    "target": "ES2017",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./dist"
+  },
+  "include": ["./src"],
+  "exclude": ["./src/__tests__"]
+}
