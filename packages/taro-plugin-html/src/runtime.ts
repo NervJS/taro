@@ -1,6 +1,7 @@
-import { TaroElement } from '@tarojs/runtime'
+import { isHasExtractProp, TaroElement } from '@tarojs/runtime'
 import { hooks, Shortcuts, toCamelCase, warn } from '@tarojs/shared'
 
+import { blockElements } from './constant'
 import {
   defineMappedProp,
   ensureHtmlClass,
@@ -46,7 +47,7 @@ hooks.tap('modifyHydrateData', (data, node) => {
   data[Shortcuts.Style] = ensureRect(data, data[Shortcuts.Style])
 })
 
-hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
+hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias, isPureView) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
@@ -73,9 +74,27 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
   }
+
+  if (blockElements.has(element.nodeName)) {
+    const viewAlias = componentsAlias.view._num
+    const staticViewAlias = componentsAlias['static-view']._num
+    const catchViewAlias = componentsAlias['catch-view']._num
+    const qualifiedNameInCamelCase = toCamelCase(key)
+    payload.path = `${_path}.${Shortcuts.NodeName}`
+    if (qualifiedNameInCamelCase === 'catchMove') {
+      // catchMove = true: catch-view
+      // catchMove = false: view or static-view
+      payload.value = payload.value ? catchViewAlias : (
+        element.isAnyEventBinded() ? viewAlias : staticViewAlias
+      )
+    } else if (isPureView && isHasExtractProp(element)) {
+      // pure-view => static-view
+      payload.value = staticViewAlias
+    }
+  }
 })
 
-hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
+hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias, isStaticView) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
@@ -100,6 +119,21 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
   } else if (key === Shortcuts.Style || key === 'width' || key === 'height') {
     payload.path = `${_path}.${Shortcuts.Style}`
     payload.value = ensureRect(props, element.style.cssText)
+  }
+
+  if (blockElements.has(element.nodeName)) {
+    const viewAlias = componentsAlias.view._num
+    const staticViewAlias = componentsAlias['static-view']._num
+    const pureViewAlias = componentsAlias['pure-view']._num
+    const qualifiedNameInCamelCase = toCamelCase(key)
+    payload.path = `${_path}.${Shortcuts.NodeName}`
+    if (qualifiedNameInCamelCase === 'catchMove') {
+      // catch-view => view or static-view or pure-view
+      payload.value = element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias)
+    } else if (isStaticView && !isHasExtractProp(element)) {
+      // static-view => pure-view
+      payload.value = pureViewAlias
+    }
   }
 })
 
@@ -136,5 +170,30 @@ hooks.tap('modifyTaroEvent', (event, element) => {
         target.checked = props.checked
       }
     }
+  }
+})
+
+hooks.tap('modifyAddEventListener', (element, sideEffect, getComponentsAlias) => {
+  // 如果是从没有事件绑定到有事件绑定，且是 block 元素，则转换为 view
+  if (sideEffect !== false && !element.isAnyEventBinded() && blockElements.has(element.nodeName)) {
+    const componentsAlias = getComponentsAlias()
+    const alias = componentsAlias.view._num
+    element.enqueueUpdate({
+      path: `${element._path}.${Shortcuts.NodeName}`,
+      value: alias
+    })
+  }
+})
+
+hooks.tap('modifyRemoveEventListener', (element, sideEffect, getComponentsAlias) => {
+  // 如果已没有绑定事件，且是 block 元素，则转换为 static-view 或 pure-view
+  if (sideEffect !== false && !element.isAnyEventBinded() && blockElements.has(element.nodeName)) {
+    const componentsAlias = getComponentsAlias()
+    const value = isHasExtractProp(element) ? 'static-view' : 'pure-view'
+    const valueAlias = componentsAlias[value]._num
+    element.enqueueUpdate({
+      path: `${element._path}.${Shortcuts.NodeName}`,
+      value: valueAlias
+    })
   }
 })

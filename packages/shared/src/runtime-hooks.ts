@@ -214,12 +214,12 @@ type ITaroHooks = {
     * @todo: multi
     * 修改 Taro DOM 序列化数据
     **/
-  modifySetAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>) => void
+  modifySetAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>, isPureView: boolean) => void
   /**
     * @todo: multi
     * 修改 Taro DOM 序列化数据
     **/
-  modifyRmAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>) => void
+  modifyRmAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>, isStaticView: boolean) => void
   /**
     * @todo: multi
     * 调用 addEventListener 时触发
@@ -241,6 +241,10 @@ type ITaroHooks = {
 
   /** 解 Proxy */
   proxyToRaw: (proxyObj) => Record<any, any>
+  /** 元素增加事件监听钩子 */
+  modifyAddEventListener: (element, sideEffect: boolean, getComponentsAlias: () => Record<string, any>) => void
+  /** 元素删除事件监听钩子 */
+  modifyRemoveEventListener: (element, sideEffect: boolean, getComponentsAlias: () => Record<string, any>) => void
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
@@ -330,5 +334,9 @@ export const hooks = new TaroHooks<ITaroHooks>({
 
   initNativeApi: TaroHook(HOOK_TYPE.MULTI),
 
-  patchElement: TaroHook(HOOK_TYPE.MULTI)
+  patchElement: TaroHook(HOOK_TYPE.MULTI),
+
+  modifyAddEventListener: TaroHook(HOOK_TYPE.SINGLE),
+
+  modifyRemoveEventListener: TaroHook(HOOK_TYPE.SINGLE),
 })

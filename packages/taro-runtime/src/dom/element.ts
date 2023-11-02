@@ -13,7 +13,6 @@ import {
   STYLE,
   VIEW
 } from '../constants'
-import { makeMap } from '../dom-external/inner-html/tags'
 import { MutationObserver, MutationRecordType } from '../dom-external/mutation-observer'
 import { extend, getComponentsAlias, isElement, isHasExtractProp, shortcutAttr } from '../utils'
 import { ClassList } from './class-list'
@@ -25,9 +24,6 @@ import { treeToArray } from './tree'
 
 import type { Attributes, Func } from '../interface'
 import type { TaroEvent } from './event'
-
-// tags里导出的isBlockElements方法标签范围与html-plugin里不一致，因此这里重新定义个判断html块级元素方法与html-plugin里面块级范围保持一致
-const isBlockElements = makeMap('body,svg,address,fieldset,li,span,article,figcaption,main,aside,figure,nav,blockquote,footer,ol,details,p,dialog,h1,h2,h3,h4,h5,h6,pre,dd,header,section,div,hgroup,table,dl,hr,ul,dt,view,view-block', true)
 
 export class TaroElement extends TaroNode {
   public ctx?
@@ -142,9 +138,7 @@ export class TaroElement extends TaroNode {
       `元素 ${this.nodeName} 的 ${qualifiedName} 属性值数据量过大，可能会影响渲染性能。考虑降低图片转为 base64 的阈值或在 CSS 中使用 base64。`
     )
 
-    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
-
-    const isPureView = name === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
+    const isPureView = this.nodeName === VIEW && !isHasExtractProp(this) && !this.isAnyEventBinded()
 
     if (qualifiedName !== STYLE) {
       MutationObserver.record({
@@ -199,7 +193,7 @@ export class TaroElement extends TaroNode {
       value: isFunction(value) ? () => value : value
     }
 
-    hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias)
+    hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias, isPureView)
 
     if (_alias) {
       const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
@@ -208,7 +202,7 @@ export class TaroElement extends TaroNode {
 
     this.enqueueUpdate(payload)
 
-    if (name === VIEW) {
+    if (this.nodeName === VIEW) {
       if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catchMove = true: catch-view
         // catchMove = false: view or static-view
@@ -229,8 +223,7 @@ export class TaroElement extends TaroNode {
   }
 
   public removeAttribute (qualifiedName: string) {
-    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
-    const isStaticView = name === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
+    const isStaticView = this.nodeName === VIEW && isHasExtractProp(this) && !this.isAnyEventBinded()
 
     MutationObserver.record({
       target: this,
@@ -271,7 +264,7 @@ export class TaroElement extends TaroNode {
       value: ''
     }
 
-    hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias)
+    hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias, isStaticView)
 
     if (_alias) {
       const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
@@ -280,7 +273,7 @@ export class TaroElement extends TaroNode {
 
     this.enqueueUpdate(payload)
 
-    if (name === VIEW) {
+    if (this.nodeName === VIEW) {
       if (qualifiedNameInCamelCase === CATCHMOVE) {
         // catch-view => view or static-view or pure-view
         this.enqueueUpdate({
@@ -358,7 +351,7 @@ export class TaroElement extends TaroNode {
   }
 
   public addEventListener (type, handler, options) {
-    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
+    const name = this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
 
     let sideEffect = true
@@ -366,6 +359,8 @@ export class TaroElement extends TaroNode {
       sideEffect = false
       delete options.sideEffect
     }
+
+    hooks.call('modifyAddEventListener', this, sideEffect, getComponentsAlias)
 
     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
@@ -382,8 +377,10 @@ export class TaroElement extends TaroNode {
   public removeEventListener (type, handler, sideEffect = true) {
     super.removeEventListener(type, handler)
 
-    const name = isBlockElements(this.nodeName) ? VIEW : this.nodeName
+    const name = this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
+
+    hooks.call('modifyRemoveEventListener', this, sideEffect, getComponentsAlias)
 
     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()

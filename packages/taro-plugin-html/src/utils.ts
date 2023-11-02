@@ -1,5 +1,5 @@
-import { isHasExtractProp, TaroElement } from '@tarojs/runtime'
-import { isFunction, isString, Shortcuts } from '@tarojs/shared'
+import { isHasExtractProp } from '@tarojs/runtime'
+import { isFunction, isString, Shortcuts, toCamelCase } from '@tarojs/shared'
 
 import {
   blockElements,
@@ -8,11 +8,7 @@ import {
   SpecialMaps
 } from './constant'
 
-export function isAnyEventBinded (node: TaroElement): boolean {
-  const handlers = node.__handlers
-  const isAnyEventBinded = Object.keys(handlers).find(key => handlers[key].length)
-  return Boolean(isAnyEventBinded)
-}
+import type { TaroElement } from '@tarojs/runtime'
 
 export function isHtmlTags (nodeName: string): boolean {
   if (inlineElements.has(nodeName) || blockElements.has(nodeName) || specialElements.has(nodeName)) {
@@ -31,12 +27,23 @@ export function getMappedType (nodeName: string, rawProps: Record<string, any>, 
     }
     const { mapName } = mapping
     return isFunction(mapName) ? mapName(rawProps) : mapName
-  } else if (!node || isAnyEventBinded(node)) {
-    return 'view'
-  } else if (isHasExtractProp(node)) {
-    return 'static-view'
   } else {
-    return 'pure-view'
+    if (node) {
+      const { props } = node
+      for (const prop in props) {
+        const propInCamelCase = toCamelCase(prop)
+        if (propInCamelCase === 'catchMove' && props[prop] !== false) {
+          return 'catch-view'
+        }
+      }
+    }
+    if (!node || node.isAnyEventBinded()) {
+      return 'view'
+    } else if (isHasExtractProp(node)) {
+      return 'static-view'
+    } else {
+      return 'pure-view'
+    }
   }
 }
 
