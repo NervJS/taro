@@ -1,7 +1,8 @@
 import { convertNumber2PX } from "@tarojs/runtime"
+import { capitalize, isNumber } from "@tarojs/shared"
+
 import { FlexManager } from "./flexManager"
 import { AttributeManager } from './AttributeManager'
-import { capitalize } from "@tarojs/shared"
 
 // w3c样式转鸿蒙样式
 export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value: any) {
@@ -189,8 +190,10 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
 function getUnit (val) {
   if (/\d+(vp)$/.test(val)) {
     return val
+  } else if (isNumber(val) || /\d+px$/.test(val)) {
+    return convertNumber2PX(parseFloat(val))
   }
-  return convertNumber2PX(+val)
+  return val
 }
 
 function getNodeMarginOrPaddingData (dataValue: string) {
