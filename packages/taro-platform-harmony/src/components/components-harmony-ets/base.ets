@@ -4,7 +4,7 @@ import { AttributeManager } from './utils/AttributeManager'
 
 @Component
 struct TaroComponentWrapper {
-  @Link node: TaroElement
+  node: TaroElement
 
   @BuilderParam createElement: () => void
 
