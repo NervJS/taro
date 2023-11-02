@@ -79,7 +79,9 @@ function modifyPageTemplate (ctx: IPluginContext) {
         return ''
       })
       const main = baseXml.replace(/<import-sjs name="xs" from="(.*)utils.sjs" \/>/, function () {
-        return `<import-sjs name="xs" from="${relativePath}utils.sjs" />`
+        return src.includes('<import-sjs name="xs"')
+          ? ''
+          : `<import-sjs name="xs" from="${relativePath}utils.sjs" />`
       })
 
       const res = `${templateCaller}

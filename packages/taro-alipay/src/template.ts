@@ -124,4 +124,28 @@ export class Template extends RecursiveTemplate {
     return l.filter(function (i) {return i.nn === '${swiperItemAlias}'})
   }`
   }
+
+  buildPageTemplate = (baseTempPath: string, page) => {
+    let pageMetaTemplate = ''
+    const pageConfig = page?.content
+
+    if (pageConfig?.enablePageMeta) {
+      const getComponentAttrs = (componentName: string, dataPath: string) => {
+        return Object.entries(this.miniComponents[componentName]).reduce((sum, [key, value]) => {
+          sum +=`${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
+          return sum
+        }, '')
+      }
+      const pageMetaAttrs = getComponentAttrs('page-meta', 'pageMeta.')
+
+      pageMetaTemplate = `
+<import-sjs name="xs" from="${baseTempPath.replace('base.axml', 'utils.sjs')}" />
+<page-meta data-sid="{{pageMeta.sid}}" ${pageMetaAttrs}></page-meta>`
+    }
+
+    const template = `<import src="${baseTempPath}"/>${pageMetaTemplate}
+<template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
+
+    return template
+  }
 }
