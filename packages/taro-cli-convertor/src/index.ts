@@ -205,6 +205,7 @@ export default class Convertor {
       fs.ensureDirSync(this.convertRoot)
     }
     this.convertSelfDefinedConfig()
+    
     // 创建.convert目录，存放转换中间数据
     generateDir(path.join(this.convertRoot, '.convert'))
     globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
