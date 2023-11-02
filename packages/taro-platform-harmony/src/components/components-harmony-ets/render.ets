@@ -13,6 +13,8 @@ import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
+import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
+import { TaroRadio, TaroRadioGroup } from './radio'
 
 @Builder
 function createNode (node: any) {
@@ -40,6 +42,14 @@ function createNode (node: any) {
     TaroIcon({ node })
   } else if (node.tagName === 'TEXTAREA') {
     TaroTextArea({ node })
+  } else if (node.tagName === 'CHECKBOX-GROUP') {
+    TaroCheckboxGroup({ node })
+  } else if (node.tagName === 'CHECKBOX') {
+    TaroCheckbox({ node })
+  } else if (node.tagName === 'RADIO-GROUP') {
+    TaroRadioGroup({ node })
+  } else if (node.tagName === 'RADIO') {
+    TaroRadio({ node })
   } else {
     TaroView({ node })
   }
