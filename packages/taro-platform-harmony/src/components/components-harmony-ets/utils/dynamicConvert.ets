@@ -1,6 +1,7 @@
 import { convertNumber2PX } from "@tarojs/runtime"
 import { capitalize, isNumber } from "@tarojs/shared"
 
+import { BORDER_STYLE_MAP } from './constant/style'
 import { FlexManager } from "./flexManager"
 import { AttributeManager } from './AttributeManager'
 
@@ -128,6 +129,27 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       }
       break
     }
+    case 'border': {
+      const data = getNodeBorderData(value)
+      if (data) {
+        obj['borderWidth'] = data.width
+        obj['borderColor'] = data.color
+        obj['borderStyle'] = data.style
+      }
+      break
+    }
+    case 'borderWidth': {
+      obj['borderWidth'] = getUnit(value)
+      break
+    }
+    case 'borderColor': {
+      obj['borderColor'] = value
+      break
+    }
+    case 'borderStyle': {
+      obj['borderStyle'] = BORDER_STYLE_MAP[value]
+      break
+    }
     case 'transform': {
       // TODO
       break
@@ -224,4 +246,23 @@ function getNodeMarginOrPaddingData (dataValue: string) {
     })
   }
   return res
+}
+
+
+function getNodeBorderData (border: string) {
+  if (!border) return null
+  const borderPattern = /^(\d+(px)?)\s*(\w+)\s*(.+)/;
+  const matches = border.match(borderPattern);
+
+  if (!matches) {
+    return null;
+  }
+
+  const [, width, , borderStyle, color] = matches;
+
+  return {
+    width: convertNumber2PX(parseFloat(width)),
+    style: BORDER_STYLE_MAP[borderStyle],
+    color: color ? color.trim() : 'black'
+  }
 }
