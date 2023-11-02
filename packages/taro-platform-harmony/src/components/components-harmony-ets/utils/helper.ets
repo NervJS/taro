@@ -138,7 +138,7 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
 
   // TODO: 需要遍历一遍，存在性能问题
   // 处理style属性，运行时转换成鸿蒙样式
-  Object.keys(_st).forEach((key) => {
+  _st && Object.keys(_st).forEach((key) => {
     if (!key.startsWith('_')) {
       w3cToHarmonyStyle(normalAttributes, key, _st[key])
     }
