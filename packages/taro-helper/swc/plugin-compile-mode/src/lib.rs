@@ -17,6 +17,7 @@ mod transform;
 #[cfg(test)]
 mod tests;
 
+
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
