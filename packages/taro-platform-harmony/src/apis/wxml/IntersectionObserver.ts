@@ -26,17 +26,20 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   public disconnect (): void {
     if (this._observerNodes) {
       if (this._observerNodes instanceof Array) {
-        this._observerNodes.forEach(n => {
-          // @ts-ignore
-          n.instance?.visableChange = null
-          // TODO：若不清除，则ets其实还是会监听，但是在业务层面，不会触发回调
-          // n.instance?.thresholds = []
+        this._observerNodes.forEach((n: TaroElement & any) => {
+          n.visibleChange = null
+          if (n.instance) {
+            n.instance.thresholds = null
+          }
         })
       } else {
         // @ts-ignore
-        this._observerNodes.instance?.visableChange = null
-        // TODO：若不清除，则ets其实还是会监听，但是在业务层面，不会触发回调
-        // this._observerNodes.instance?.thresholds = []
+        this._observerNodes.visibleChange = null
+        // @ts-ignore
+        if (this._observerNodes.instance) {
+          // @ts-ignore
+          this._observerNodes.instance.thresholds = null
+        }
       }
     }
   }
@@ -53,7 +56,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
           // @ts-ignore
           n.awaitAppear.then(() => {
             // @ts-ignore
-            n.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
+            n.visibleChange = (isVisible: boolean, currentRatio: number) => {
               callback(this.handleResult(isVisible, currentRatio))
             }
             // @ts-ignore
@@ -64,7 +67,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
         // @ts-ignore
         node.awaitAppear.then(() => {
           // @ts-ignore
-          node.instance?.visableChange = (isVisible: boolean, currentRatio: number) => {
+          node.visibleChange = (isVisible: boolean, currentRatio: number) => {
             callback(this.handleResult(isVisible, currentRatio))
           }
           // @ts-ignore

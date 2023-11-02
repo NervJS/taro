@@ -1,12 +1,13 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
 @Extend(Image)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -31,8 +32,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -64,16 +66,14 @@ function attrs ({
 struct TaroImage {
   info: Area = null
 
-  @State thresholds: number[] = []
+  @State thresholds: number[] | null = null
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange?.(isVisible, currentRatio)
-    })
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
   }
 
   @ObjectLink node: TaroImageElement
@@ -99,20 +99,12 @@ struct TaroImage {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (!this.thresholds.length) {
-        Image(this.node.getAttribute('src'))
-        .defaultEvent()
-        .objectFit(ImageFit.Contain)
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .onComplete(e => eventHandler(e, 'complete', this.node))
-      } else {
-        Image(this.node.getAttribute('src'))
-        .defaultEvent()
-        .objectFit(ImageFit.Contain)
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .onComplete(e => eventHandler(e, 'complete', this.node))
-        .visibleChangeEvent()
-      }
+      Image(this.node.getAttribute('src'))
+      .defaultEvent()
+      .objectFit(ImageFit.Contain)
+      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .onComplete(e => eventHandler(e, 'complete', this.node))
+      .visibleChangeEvent()
     }
   }
 }

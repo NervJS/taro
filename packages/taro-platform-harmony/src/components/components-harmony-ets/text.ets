@@ -5,12 +5,13 @@ import TaroComponentWrapper from './base'
 import { w3cToHarmonyStyle } from './utils/dynamicConvert'
 import { AttributeManager } from './utils/AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
 @Extend(Text)
 function attrs ({
+  id,
   zIndex,
   opacity,
   margin,
@@ -36,8 +37,9 @@ function attrs ({
   translate,
   transform,
   size,
-  textAlign
+  textAlign,
  }) {
+  .id(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
@@ -67,6 +69,7 @@ function attrs ({
 
 @Extend(Span)
 function spanAttrs ({
+  id,
   zIndex,
   opacity,
   margin,
@@ -90,8 +93,9 @@ function spanAttrs ({
   translate,
   transform,
   size,
-  textAlign
+  textAlign,
  }) {
+  .id(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
@@ -119,7 +123,7 @@ function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) 
     ...getFontAttributes(node)
   }
   // 处理style属性，运行时转换成鸿蒙样式
-  Object.keys(node._st).forEach((key) => {
+  node._st && Object.keys(node._st).forEach((key) => {
     if (!key.startsWith('_')) {
       w3cToHarmonyStyle(attrs, key, node._st[key])
     }
@@ -153,7 +157,7 @@ struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
 
   @State overwriteStyle: Record<string, any> = {}
-  
+
   aboutToAppear () {
     // 绑定动画
     bindAnimation(this.node, (rule) => {
@@ -180,16 +184,14 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 struct TaroText {
   info: Area = null
 
-  @State thresholds: number[] = []
+  @State thresholds: number[] | null = null
 
   @State isAreaChangeTap: boolean = false
 
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange?.(isVisible, currentRatio)
-    })
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
   }
 
   @ObjectLink node: TaroTextElement
@@ -212,38 +214,21 @@ struct TaroText {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (!this.thresholds.length) {
-        if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
-          // Text 嵌套 Text。受 Span 限制，最多嵌套一层
-          Text() {
-            ForEach(this.node.childNodes, node => {
-              buildSpan(node)
-            }, node => node._nid)
-          }
-          .defaultEvent()
-          .attrs(getAttributes(this.node, this.overwriteStyle))
-        } else {
-          Text(this.node.textContent)
-            .defaultEvent()
-            .attrs(getAttributes(this.node, this.overwriteStyle))
+      if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
+        // Text 嵌套 Text。受 Span 限制，最多嵌套一层
+        Text() {
+          ForEach(this.node.childNodes, node => {
+            buildSpan(node)
+          }, node => node._nid)
         }
+        .defaultEvent()
+        .attrs(getAttributes(this.node, this.overwriteStyle))
+        .visibleChangeEvent()
       } else {
-        if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
-          // Text 嵌套 Text。受 Span 限制，最多嵌套一层
-          Text() {
-            ForEach(this.node.childNodes, node => {
-              buildSpan(node)
-            }, node => node._nid)
-          }
+        Text(this.node.textContent)
           .defaultEvent()
           .attrs(getAttributes(this.node, this.overwriteStyle))
           .visibleChangeEvent()
-        } else {
-          Text(this.node.textContent)
-            .defaultEvent()
-            .attrs(getAttributes(this.node, this.overwriteStyle))
-            .visibleChangeEvent()
-        }
       }
     }
   }

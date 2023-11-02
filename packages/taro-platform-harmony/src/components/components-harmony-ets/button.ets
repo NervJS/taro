@@ -5,12 +5,13 @@ import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
 @Extend(Button)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -35,8 +36,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -100,8 +102,14 @@ struct TaroButton {
   @ObjectLink node: TaroButtonElement
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State overwriteStyle: Record<string, any> = {}
+
+  @State thresholds: number[] | null = null
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+  }
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
@@ -132,6 +140,7 @@ struct TaroButton {
       .onAreaChange(getNodeAreaChange((areaResult: Area) => {
         this.info = areaResult
       }, this))
+      .visibleChangeEvent()
     }
   }
 }

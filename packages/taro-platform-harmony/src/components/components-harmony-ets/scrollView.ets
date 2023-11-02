@@ -4,12 +4,13 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -34,8 +35,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -63,6 +65,7 @@ function attrs ({
 }
 @Extend(Column)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -87,8 +90,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -154,14 +158,12 @@ struct TaroScrollView {
   info: Area = null
   wrapper: Area = null
 
-  @State thresholds: number[] = []
+  @State thresholds: number[] | null = null
 
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visibleChange?.(isVisible, currentRatio)
-    })
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
   }
 
   scroller: Scroller = new Scroller()
@@ -196,85 +198,44 @@ struct TaroScrollView {
   build() {
     TaroComponentWrapper({ node: this.node }) {
       // Copy 额外增加visibleChangeEvent
-      if (!this.thresholds.length) {
-        if (this.node._attrs.scrollX) {
-          Scroll(this.scroller) {
-            Row() {
-              ForEach(this.node.childNodes, item => {
-                createNode(item)
-              }, item => item._nid)
-            }
-            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-            .width(null)
-            .defaultContainerEvent()
+      if (this.node._attrs.scrollX) {
+        Scroll(this.scroller) {
+          Row() {
+            ForEach(this.node.childNodes, item => {
+              createNode(item)
+            }, item => item._nid)
           }
-          .flexGrow(getNormalAttributes(this.node).flexGrow)
-          .scrollable(ScrollDirection.Horizontal)
-          .scrollBar(getAttributes(this.node).showScrollbar)
-          .defaultEvent()
-          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
-          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
-          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
-        } else {
-          Scroll(this.scroller) {
-            Column() {
-              ForEach(this.node.childNodes, item => {
-                createNode(item)
-              }, item => item._nid)
-            }
-            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-            .height(null)
-            .defaultContainerEvent()
-          }
-          .flexGrow(getNormalAttributes(this.node).flexGrow)
-          .scrollable(ScrollDirection.Vertical)
-          .scrollBar(getAttributes(this.node).showScrollbar)
-          .defaultEvent()
-          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
-          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
-          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
+          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+          .width(null)
+          .defaultContainerEvent()
         }
-      }
-      else {
-        if (this.node._attrs.scrollX) {
-          Scroll(this.scroller) {
-            Row() {
-              ForEach(this.node.childNodes, item => {
-                createNode(item)
-              }, item => item._nid)
-            }
-            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-            .width(null)
-            .defaultContainerEvent()
+        .flexGrow(getNormalAttributes(this.node).flexGrow)
+        .scrollable(ScrollDirection.Horizontal)
+        .scrollBar(getAttributes(this.node).showScrollbar)
+        .defaultEvent()
+        .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
+        .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
+        .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
+        .visibleChangeEvent()
+      } else {
+        Scroll(this.scroller) {
+          Column() {
+            ForEach(this.node.childNodes, item => {
+              createNode(item)
+            }, item => item._nid)
           }
-          .flexGrow(getNormalAttributes(this.node).flexGrow)
-          .scrollable(ScrollDirection.Horizontal)
-          .scrollBar(getAttributes(this.node).showScrollbar)
-          .defaultEvent()
-          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
-          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
-          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
-          .visibleChangeEvent()
-        } else {
-          Scroll(this.scroller) {
-            Column() {
-              ForEach(this.node.childNodes, item => {
-                createNode(item)
-              }, item => item._nid)
-            }
-            .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-            .height(null)
-            .defaultContainerEvent()
-          }
-          .flexGrow(getNormalAttributes(this.node).flexGrow)
-          .scrollable(ScrollDirection.Vertical)
-          .scrollBar(getAttributes(this.node).showScrollbar)
-          .defaultEvent()
-          .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
-          .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
-          .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
-          .visibleChangeEvent()
+          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+          .height(null)
+          .defaultContainerEvent()
         }
+        .flexGrow(getNormalAttributes(this.node).flexGrow)
+        .scrollable(ScrollDirection.Vertical)
+        .scrollBar(getAttributes(this.node).showScrollbar)
+        .defaultEvent()
+        .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
+        .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
+        .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
+        .visibleChangeEvent()
       }
     }
   }

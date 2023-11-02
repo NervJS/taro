@@ -2,7 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -34,6 +34,12 @@ struct TaroSwitch {
   @State isAreaChangeTap: boolean = false
   
   @State value: boolean = false
+
+  @State thresholds: number[] | null = null
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+  }
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
@@ -67,6 +73,7 @@ struct TaroSwitch {
             this.value = !this.value
           }
         })
+        .visibleChangeEvent()
     }
   }
 }

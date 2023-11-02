@@ -4,7 +4,7 @@ export function getRectSize (id: string, success?: TFunc, fail?: TFunc, retryMs 
   const query = createSelectorQuery()
   try {
     query.select(id).boundingClientRect((res) => {
-      if (res) {
+      if (res instanceof Array ? res.length > 0 : res) {
         success?.(res)
       } else {
         fail?.()

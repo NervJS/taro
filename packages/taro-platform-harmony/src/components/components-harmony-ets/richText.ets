@@ -1,12 +1,13 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(RichText)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -31,8 +32,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
+  transform,
  }) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -69,6 +71,12 @@ struct TaroRichText {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
+
+  @State thresholds: number[] | null = null
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+  }
   
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
@@ -90,6 +98,7 @@ struct TaroRichText {
       RichText(this.node._attrs.nodes) 
         .attrs(getNormalAttributes(this.node, this.overwriteStyle))
         .defaultEvent()
+        .visibleChangeEvent()
     }
   }
 }

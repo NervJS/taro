@@ -79,7 +79,7 @@ export function bindAnimation (node: TaroElement, animationCb: (val: Record<stri
 
 
 export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<string, any>) {
-  const { _st, _attrs } = node
+  const { _nid, _st, _attrs } = node
 
   // const transformData = AttributeManager.getTransform(_st)
 
@@ -95,8 +95,6 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
   const backgroundSize = background?.size?.[0]
   const backgroundColor = backgroundImage ? null : background?.color
 
-
-
   const transform = AttributeManager.getNodeStyle(_st, 'transform')
   const transformRotate = transform?.rotate?.[0]
   const transformTranslate = transform?.translate?.[0]
@@ -104,6 +102,7 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
   const transformTransform = transform?.transform?.[0]
 
   const normalAttributes = {
+    id: AttributeManager.getNodeStyle(_attrs, 'id', _nid),
     // Flex相关
     flexBasis: AttributeManager.getNodeStyle(_st, 'flexBasis'),
     flexGrow: AttributeManager.getNodeStyle(_st, 'flexGrow'),
@@ -141,7 +140,7 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
 
   // TODO: 需要遍历一遍，存在性能问题
   // 处理style属性，运行时转换成鸿蒙样式
-  Object.keys(_st).forEach((key) => {
+  _st && Object.keys(_st).forEach((key) => {
     if (!key.startsWith('_')) {
       w3cToHarmonyStyle(normalAttributes, key, _st[key])
     }
@@ -188,6 +187,21 @@ export function getNodeAreaChange (callback: Function, component) {
     }
   }
 
+  return null
+}
+
+
+export function getNodeVisibleChange (component) {
+  const node = component?.node
+
+  if (!node) return null
+
+  if (component.thresholds?.length) {
+    return (isVisible: boolean, currentRatio: number) => {
+      if (!component.thresholds) return
+      component?.node?.visibleChange?.(isVisible, currentRatio)
+    }
+  }
   return null
 }
 

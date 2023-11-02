@@ -17,11 +17,9 @@ let arr: any = []
 // 深度搜索 rootDom 下的所有节点，存放在 arr 中
 function traversalDFSDom (rootDom) {
   if (!rootDom) return
-  if (rootDom.childNodes.length === 0) {
-    arr.push(rootDom)
-    return
-  }
   arr.push(rootDom)
+
+  if (rootDom.childNodes.length === 0) return
   for (let i = 0; i < rootDom.childNodes.length; i++) {
     traversalDFSDom(rootDom.childNodes[i])
   }
@@ -29,7 +27,7 @@ function traversalDFSDom (rootDom) {
 
 // 从 arr 中寻找所有符合 selector 的节点
 function parseHandler (selector, selectAll) {
-  const domList:any = []
+  const domList: any = []
   if (arr.length === 0) return null
 
   let selectedId, clsList

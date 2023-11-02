@@ -5,13 +5,14 @@ import { eventHandler, Current } from '@tarojs/runtime'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getNodeAreaChange, bindFocus } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getNodeAreaChange, bindFocus, getNodeVisibleChange } from './utils/helper'
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
 
 @Extend(TextInput)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -36,15 +37,16 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
+  .constraintSize(constraintSize)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
   .alignSelf(alignSelf)
   .width(width)
   .height(height)
-  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)
@@ -109,6 +111,12 @@ struct TaroInput {
   windowClass: Window = null
 
   height: number = 0
+
+  @State thresholds: number[] | null = null
+
+  @Styles visibleChangeEvent () {
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+  }
 
   heightChange = (height) => {
     if (isNumber(height)) {
@@ -212,6 +220,7 @@ struct TaroInput {
           const event = createTaroEvent('confirm', { detail: { value } }, this.node)
           eventHandler(event, 'confirm', this.node)
         })
+        .visibleChangeEvent()
     }
   }
 }

@@ -2,12 +2,13 @@ import { eventHandler, convertNumber2PX } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeAttributeOrNull } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange, getNodeAttributeOrNull } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
 @Extend(Image)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -32,15 +33,16 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
+  .constraintSize(constraintSize)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
   .alignSelf(alignSelf)
   .width(width)
   .height(height)
-  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)
@@ -65,16 +67,14 @@ function attrs ({
 struct TaroIcon {
   info: Area = null
 
-  @State thresholds: number[] = []
+  @State thresholds: number[] | null = null
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange(isVisible, currentRatio)
-    })
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
   }
 
   @ObjectLink node: TaroImageElement
@@ -100,7 +100,7 @@ struct TaroIcon {
 
   getIconData () {
     if (!this.node || !this.node._attrs) return null
-    
+
     const type = this.node._attrs.type
 
 
@@ -110,30 +110,17 @@ struct TaroIcon {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      if (!this.thresholds.length) {
-        Image(this.getIconData())
-          .defaultEvent()
-          .objectFit(ImageFit.Contain)
-          .fillColor(getNodeAttributeOrNull(this.node, 'color'))
-          .onComplete(e => eventHandler(e, 'complete', this.node))
-          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-          .size({
-            width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
-            height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
-          })
-      } else {
-        Image(this.getIconData())
-          .defaultEvent()
-          .objectFit(ImageFit.Contain)
-          .fillColor(getNodeAttributeOrNull(this.node, 'color'))
-          .onComplete(e => eventHandler(e, 'complete', this.node))
-          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-          .size({
-            width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
-            height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
-          })
-          .visibleChangeEvent()
-      }
+      Image(this.getIconData())
+        .defaultEvent()
+        .objectFit(ImageFit.Contain)
+        .fillColor(getNodeAttributeOrNull(this.node, 'color'))
+        .onComplete(e => eventHandler(e, 'complete', this.node))
+        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+        .size({
+          width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+          height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+        })
+        .visibleChangeEvent()
     }
   }
 }
