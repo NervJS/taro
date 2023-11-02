@@ -4216,13 +4216,13 @@ require("./runtime");
 
 
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 .body{background-color:blue}.body{background-color:red}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -8592,7 +8592,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
