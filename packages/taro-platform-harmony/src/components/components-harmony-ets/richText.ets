@@ -7,6 +7,7 @@ import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(RichText)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -31,8 +32,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
+  transform,
  }) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)

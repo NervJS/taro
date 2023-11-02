@@ -10,6 +10,7 @@ import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(Flex)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -34,15 +35,16 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
+  transform,
  }) {
+  .id(id)
+  .constraintSize(constraintSize)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
   .alignSelf(alignSelf)
   .width(width)
   .height(height)
-  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)
@@ -69,12 +71,12 @@ struct TaroView {
   @State thresholds: number[] = []
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange?.(isVisible, currentRatio)
+      this.visibleChange?.(isVisible, currentRatio)
     })
   }
 

@@ -11,6 +11,7 @@ import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
 @Extend(Text)
 function attrs ({
+  id,
   zIndex,
   opacity,
   margin,
@@ -36,8 +37,9 @@ function attrs ({
   translate,
   transform,
   size,
-  textAlign
+  textAlign,
  }) {
+  .id(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
@@ -67,6 +69,7 @@ function attrs ({
 
 @Extend(Span)
 function spanAttrs ({
+  id,
   zIndex,
   opacity,
   margin,
@@ -90,8 +93,9 @@ function spanAttrs ({
   translate,
   transform,
   size,
-  textAlign
+  textAlign,
  }) {
+  .id(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
@@ -153,7 +157,7 @@ struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
 
   @State overwriteStyle: Record<string, any> = {}
-  
+
   aboutToAppear () {
     // 绑定动画
     bindAnimation(this.node, (rule) => {
@@ -188,7 +192,7 @@ struct TaroText {
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], (isVisible: boolean, currentRatio: number) => {
-      this.visableChange?.(isVisible, currentRatio)
+      this.visibleChange?.(isVisible, currentRatio)
     })
   }
 

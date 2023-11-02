@@ -11,6 +11,7 @@ import type { TaroButtonElement } from '../runtime'
 
 @Extend(Button)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -35,8 +36,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -100,7 +102,7 @@ struct TaroButton {
   @ObjectLink node: TaroButtonElement
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State overwriteStyle: Record<string, any> = {}
 
   aboutToAppear () {

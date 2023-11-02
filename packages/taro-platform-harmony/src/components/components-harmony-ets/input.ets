@@ -12,6 +12,7 @@ import type { TaroViewElement } from '../runtime'
 
 @Extend(TextInput)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -36,15 +37,16 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
+  .constraintSize(constraintSize)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
   .alignSelf(alignSelf)
   .width(width)
   .height(height)
-  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)

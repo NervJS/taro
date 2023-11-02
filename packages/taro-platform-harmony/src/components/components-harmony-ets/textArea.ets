@@ -12,6 +12,7 @@ import type { TaroViewElement } from '../runtime'
 
 @Extend(TextArea)
 function attrs ({
+  id,
   flexSize,
   alignSelf,
   size,
@@ -30,8 +31,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
+  transform,
 }) {
+  .id(id)
   .constraintSize(constraintSize)
   .flexGrow(flexSize[0])
   .flexShrink(flexSize[1])

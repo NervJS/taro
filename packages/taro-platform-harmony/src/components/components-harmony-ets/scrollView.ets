@@ -10,6 +10,7 @@ import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -34,8 +35,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -63,6 +65,7 @@ function attrs ({
 }
 @Extend(Column)
 function attrs ({
+  id,
   flexBasis,
   flexGrow,
   flexShrink,
@@ -87,8 +90,9 @@ function attrs ({
   rotate,
   scale,
   translate,
-  transform
- }) {
+  transform,
+}) {
+  .id(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
