@@ -155,6 +155,15 @@ class TaroButtonElement extends TaroElement {
 }
 
 @Observed
+class TaroIgnoreElement extends TaroElement {
+  isIgnore = true
+
+  constructor() {
+    super('Ignore')
+  }
+}
+
+@Observed
 class TaroScrollViewElement extends TaroElement {
   // 滚动监听回调绑定
   public _scrollToCb?:() => void
@@ -197,6 +206,7 @@ export class FormElement extends TaroElement {
 export {
   TaroButtonElement,
   TaroElement,
+  TaroIgnoreElement,
   TaroImageElement,
   TaroScrollViewElement,
   TaroTextElement,

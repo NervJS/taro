@@ -13,10 +13,14 @@ import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
+import TaroFeedsItem from './static'
 
 @Builder
 function createNode (node: any) {
-  if (node.tagName === 'IMAGE') {
+  // TODO: 后续需要根据半编译生成对应的控制流语句
+  if (!!node._attrs.compileMode) {
+    TaroFeedsItem({ node })
+  } else if (node.tagName === 'IMAGE') {
     TaroImage({ node })
   } else if (node.tagName === 'TEXT' || node.nodeType === NodeType.TEXT_NODE) {
     TaroText({ node })
@@ -40,7 +44,7 @@ function createNode (node: any) {
     TaroIcon({ node })
   } else if (node.tagName === 'TEXTAREA') {
     TaroTextArea({ node })
-  } else {
+  } else if (node.tagName === 'VIEW') {
     TaroView({ node })
   }
 }

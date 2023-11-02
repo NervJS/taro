@@ -1,7 +1,9 @@
-import { isUndefined } from '@tarojs/shared'
+import { convertNumber2PX } from '@tarojs/runtime'
+import { isUndefined, capitalize } from '@tarojs/shared'
+
 import { AttributeManager } from './AttributeManager'
-import { FlexManager } from './flexManager'
 import { w3cToHarmonyStyle } from './dynamicConvert'
+import { TEXT_DEFAULT_STYLE } from './constant/style'
 
 import type { TaroElement } from '@tarojs/runtime'
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
@@ -207,4 +209,25 @@ export function getNodeAttributeOrNull (node: TaroElement, key: string) {
   const isValueExist = !isUndefined(value)
 
   return isValueExist ? value : null
+}
+
+export function getFontAttributes (node: TaroElement) {
+  const { _st } = node
+
+  let lineHeight = AttributeManager.getNodeStyle(_st, 'lineHeight')
+  if (lineHeight && typeof lineHeight === 'number') {
+    lineHeight = convertNumber2PX(lineHeight)
+  }
+  return {
+    decoration: AttributeManager.getNodeStyle(_st, 'textDecoration'),
+    lineHeight: lineHeight,
+    letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
+    maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
+    fontColor: AttributeManager.getNodeStyle(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
+    fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
+    fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
+    fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
+    textOverflow: { overflow: TextOverflow[capitalize(AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'))] },
+    textAlign: AttributeManager.getTextAlign(_st)
+  }
 }
