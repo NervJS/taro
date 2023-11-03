@@ -30,6 +30,6 @@ module.exports = {
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
   coveragePathIgnorePatterns:[
-    '/__tests__/util.js'
+    '/__tests__/*'
   ]
 }

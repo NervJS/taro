@@ -14,8 +14,7 @@ exports[`utils.ts @babel/parser flow插件支持flow类型转换 1`] = `
 function square(num) {
   return num * num;
 }
-const result = square(5);
-console.log(result);"
+const result = square(5);"
 `;
 
 exports[`utils.ts @babel/parser jsx插件支持jsx转换 1`] = `

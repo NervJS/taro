@@ -38,7 +38,7 @@
       "/__tests__/util.ts"
     ],
     "coveragePathIgnorePatterns": [
-      "/__tests__/util.ts"
+      "/__tests__/*"
     ]
   },
   "author": "yuche",
