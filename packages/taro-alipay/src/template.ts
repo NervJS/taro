@@ -16,6 +16,8 @@ export class Template extends RecursiveTemplate {
     type: 'alipay'
   }
 
+  transferComponents: Record<string, Record<string, string>> = {}
+
   buildXsTemplate () {
     return '<import-sjs name="xs" from="./utils.sjs" />'
   }
@@ -64,6 +66,10 @@ export class Template extends RecursiveTemplate {
     delete result.slot
     delete result['slot-view']
     delete result['native-slot']
+
+    // PageMeta & NavigationBar
+    this.transferComponents['page-meta'] = result['page-meta']
+    delete result['page-meta']
 
     return result
   }
@@ -131,7 +137,7 @@ export class Template extends RecursiveTemplate {
 
     if (pageConfig?.enablePageMeta) {
       const getComponentAttrs = (componentName: string, dataPath: string) => {
-        return Object.entries(this.miniComponents[componentName]).reduce((sum, [key, value]) => {
+        return Object.entries(this.transferComponents[componentName]).reduce((sum, [key, value]) => {
           sum +=`${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
           return sum
         }, '')
