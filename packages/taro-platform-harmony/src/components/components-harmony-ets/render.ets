@@ -9,11 +9,13 @@ import TaroSwiper from './swiper'
 import TaroButton from './button'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
+import TaroFeedsItem from './static'
 import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
-import TaroFeedsItem from './static'
+import { TaroRadio, TaroRadioGroup } from './radio'
+import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 
 @Builder
 function createNode (node: any) {
@@ -44,6 +46,14 @@ function createNode (node: any) {
     TaroIcon({ node })
   } else if (node.tagName === 'TEXTAREA') {
     TaroTextArea({ node })
+  } else if (node.tagName === 'CHECKBOX-GROUP') {
+    TaroCheckboxGroup({ node })
+  } else if (node.tagName === 'CHECKBOX') {
+    TaroCheckbox({ node })
+  } else if (node.tagName === 'RADIO-GROUP') {
+    TaroRadioGroup({ node })
+  } else if (node.tagName === 'RADIO') {
+    TaroRadio({ node })
   } else if (node.tagName === 'VIEW') {
     TaroView({ node })
   }
