@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseAst require引用为空 1`] = `
+"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
+import { Block } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const aa = require();
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;"
+`;
+
+exports[`parseAst 当使用e.target.dataset时引入工具函数 getTarget 1`] = `
+"import withWeapp, { cacheOptions, getTarget } from \\"@tarojs/with-weapp\\";
+import { Block, View, Button } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+app.createPage({
+  data: {
+    tagInfo: {
+      id: 123456,
+      data: '茅台'
+    },
+    msg: '',
+    tagName: {}
+  },
+  getMsg(e) {
+    const detail = e.currentTarget;
+    //变量赋值
+    const tagName_ = getTarget(e.currentTarget, Taro).dataset.tagName;
+    const tagData_ = getTarget(e.currentTarget, Taro).dataset.tagData;
+    //结构赋值
+    const {
+      tagName
+    } = getTarget(e?.target, Taro)?.dataset;
+    const {
+      tagData
+    } = getTarget(e?.target, Taro)?.dataset;
+  },
+  getMsg02(e) {
+    const detail = e.currentTarget;
+    const tagname_ = getTarget(e.currentTarget, Taro).dataset.tagname;
+    const tagdata_ = getTarget(e.currentTarget, Taro).dataset.tagdata;
+    const {
+      tagname
+    } = getTarget(detail, Taro)?.dataset;
+    const {
+      tagdata
+    } = getTarget(detail, Taro)?.dataset;
+  }
+});
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const {
+      tagInfo
+    } = this.data;
+    return <Block><View>测试data-xxx-xxx写法</View><Button data-tag-name=\\"WX1314\\" data-tag-data={tagInfo} onClick={this.getMsg}>获取</Button><View>测试data-xxxXxxx 驼峰写法</View><Button data-tagname=\\"WX1314\\" data-tagdata={tagInfo} onClick={this.getMsg02}>获取</Button></Block>;
+  }
+}
+export default _C;"
+`;
