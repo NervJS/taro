@@ -1,9 +1,10 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 import './index.scss'
+import definition from '@tarojs/plugin-platform-mpharmony/build/config/harmony-definition.json'
 
 /**
  * 基础
@@ -26,17 +27,50 @@ export default class Index extends React.Component {
           apiName: 'openBluetoothAdapter',
         },
         func: (apiIndex, data) => {
+          const strPathArr: string[] = []
+          function getStrPathArr(obj: Object, str?: string) {
+            if (str) {
+              for (const [key, value] of Object.entries(obj)) {
+                if (typeof value === 'boolean') {
+                  strPathArr.push(str + '.' + key)
+                } else {
+                  getStrPathArr(value, str + '.' + key)
+                }
+              }
+            } else {
+              for (const [key, value] of Object.entries(obj)) {
+                if (typeof value === 'boolean') {
+                  strPathArr.push(key)
+                } else {
+                  getStrPathArr(value, key)
+                }
+              }
+            }
+          }
+          getStrPathArr(definition.apis)
+          getStrPathArr(definition.components)
+          let result = ''
+          strPathArr.forEach(strPath => {
+            try {
+              result = result + strPath + ' ' + Taro.canIUse(strPath) + '\n'
+            } catch (error) {
+              result = result + strPath + ' ' + error + '\n'
+            }
+          })
+          TestConsole.consoleSuccess.call(this, result, apiIndex)
+
           const { apiName } = data
-          TestConsole.consoleTest(`Taro.canIUse: ${apiName}`)
+          TestConsole.consoleTest(`Taro.canIUse ${apiName}`)
           TestConsole.consoleSuccess.call(this, Taro.canIUse(apiName), apiIndex)
-          // TestConsole.consoleSuccess('Taro.canIUse getSystemInfoSync.return.screenWidth ' +  Taro.canIUse('getSystemInfoSync.return.screenWidth'));
-          // TestConsole.consoleSuccess('Taro.canIUse getSystemInfo.success.screenWidth ' +  Taro.canIUse('getSystemInfo.success.screenWidth'));
-          // TestConsole.consoleSuccess('Taro.canIUse showToast.object.image ' +  Taro.canIUse('showToast.object.image'));
-          // TestConsole.consoleSuccess('Taro.canIUse onCompassChange.callback.direction ' +  Taro.canIUse('onCompassChange.callback.direction'));
-          // TestConsole.consoleSuccess('Taro.canIUse request.object.method.GET ' +  Taro.canIUse('request.object.method.GET'));
-          // TestConsole.consoleSuccess('Taro.canIUse live-player ' +  Taro.canIUse('live-player'));
-          // TestConsole.consoleSuccess('Taro.canIUse text.selectable ' +  Taro.canIUse('text.selectable'));
-          // TestConsole.consoleSuccess('Taro.canIUse button.open-type.contact ' +  Taro.canIUse('button.open-type.contact'));
+          TestConsole.consoleDebug('字面量示例1：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse('share-element.rect-tween-type.cubic-bezier(x1,'))
+          TestConsole.consoleDebug('字面量示例2：live-pusher.aspect.9:16----', Taro.canIUse("live-pusher.aspect.9:16"))
+          TestConsole.consoleDebug('字面量示例3：live-pusher.audio-reverb-type.4----', Taro.canIUse("live-pusher.audio-reverb-type.4"))
+          const apiName1 = 'share-element.rect-tween-type.cubic-bezier(x1,'
+          const apiName2 = "live-pusher.aspect.9:16"
+          const apiName3 = "live-pusher.audio-reverb-type.4"
+          TestConsole.consoleDebug('变量示例1：share-element.rect-tween-type.cubic-bezier(x1,----', Taro.canIUse(apiName1))
+          TestConsole.consoleDebug('变量示例2：live-pusher.aspect.9:16----', Taro.canIUse(apiName2))
+          TestConsole.consoleDebug('变量示例3：live-pusher.audio-reverb-type.4----', Taro.canIUse(apiName3))
         },
       },
       {

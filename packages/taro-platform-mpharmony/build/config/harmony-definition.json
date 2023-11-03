@@ -1,0 +1,887 @@
+{
+  "apis": {
+    "openBluetoothAdapter": false
+  },
+  "components": {
+    "ad": {
+      "unit-id": false,
+      "ad-intervals": false,
+      "ad-theme": {
+        "white": false,
+        "black": false
+      },
+      "ad-type": {
+        "banner": false,
+        "video": false,
+        "grid": false
+      }
+    },
+    "ad-custom": {
+      "unit-id": false,
+      "ad-intervals": false
+    },
+    "animation-video": false,
+    "animation-view": false,
+    "ar-camera": false,
+    "audio": {
+      "id": false,
+      "src": true,
+      "loop": true,
+      "controls": true,
+      "poster": false,
+      "name": false,
+      "author": false
+    },
+    "aweme-data": false,
+    "block": true,
+    "button": {
+      "size": {
+        "default": true,
+        "mini": true
+      },
+      "type": {
+        "primary": true,
+        "default": true,
+        "warn": true
+      },
+      "plain": true,
+      "disabled": true,
+      "loading": true,
+      "form-type": {
+        "submit": true,
+        "reset": true
+      },
+      "open-type": {
+        "contact": false,
+        "share": false,
+        "getPhoneNumber": false,
+        "getRealtimePhoneNumber": false,
+        "getUserInfo": false,
+        "launchApp": false,
+        "openSetting": false,
+        "feedback": false,
+        "chooseAvatar": false,
+        "agreePrivacyAuthorization": false
+      },
+      "hover-class": true,
+      "hover-stop-propagation": false,
+      "hover-start-time": true,
+      "hover-stay-time": true,
+      "lang": {
+        "en": false,
+        "zh_CN": false,
+        "zh_TW": false
+      },
+      "session-from": false,
+      "send-message-title": false,
+      "send-message-path": false,
+      "send-message-img": false,
+      "app-parameter": false,
+      "show-message-card": false
+    },
+    "camera": {
+      "mode": {
+        "normal": false,
+        "scanCode": false
+      },
+      "resolution": {
+        "low": false,
+        "medium": false,
+        "high": false
+      },
+      "device-position": {
+        "front": false,
+        "back": false
+      },
+      "flash": {
+        "auto": false,
+        "on": false,
+        "off": false,
+        "torch": false
+      },
+      "frame-size": {
+        "small": false,
+        "medium": false,
+        "large": false
+      }
+    },
+    "canvas": {
+      "type": false,
+      "canvas-id": true,
+      "disable-scroll": false
+    },
+    "channel-live": {
+      "feed-id": false,
+      "finder-user-name": false
+    },
+    "channel-video": {
+      "feed-id": false,
+      "finder-user-name": false,
+      "loop": false,
+      "muted": false,
+      "object-fit": {
+        "fill": false,
+        "contain": false,
+        "cover": false
+      },
+      "autoplay": false,
+      "feed-token": false
+    },
+    "checkbox": {
+      "value": true,
+      "disabled": true,
+      "checked": true,
+      "color": true
+    },
+    "checkbox-group": true,
+    "comment-detail": false,
+    "comment-list": false,
+    "contact-button": false,
+    "cover-image": {
+      "src": true,
+      "referrer-policy": {
+        "origin": false,
+        "no-referrer": false
+      }
+    },
+    "cover-view": {
+      "scroll-top": false
+    },
+    "custom-wrapper": true,
+    "editor": {
+      "read-only": false,
+      "placeholder": false,
+      "show-img-size": false,
+      "show-img-toolbar": false,
+      "show-img-resize": false
+    },
+    "follow-swan": false,
+    "form": {
+      "report-submit": false,
+      "report-submit-timeout": false
+    },
+    "functional-page-navigator": {
+      "version": {
+        "develop": false,
+        "trial": false,
+        "release": false
+      },
+      "name": {
+        "loginAndGetUserInfo": false,
+        "requestPayment": false,
+        "chooseAddress": false
+      },
+      "args": false
+    },
+    "grid-view": {
+      "type": false,
+      "cross-axis-count": false,
+      "main-axis-gap": false,
+      "cross-axis-gap": false,
+      "max-cross-axis-extent": false
+    },
+    "icon": {
+      "type": {
+        "success": true,
+        "success_no_circle": true,
+        "info": true,
+        "warn": true,
+        "waiting": true,
+        "cancel": true,
+        "download": true,
+        "search": true,
+        "clear": true,
+        "circle": false,
+        "info_circle": false
+      },
+      "size": true,
+      "color": true
+    },
+    "image": {
+      "src": true,
+      "mode": {
+        "scaleToFill": true,
+        "aspectFit": true,
+        "aspectFill": true,
+        "widthFix": true,
+        "heightFix": true,
+        "top": true,
+        "bottom": true,
+        "center": true,
+        "left": true,
+        "right": true
+      },
+      "webp": false,
+      "lazy-load": true,
+      "show-menu-by-longpress": false,
+      "fade-in": false
+    },
+    "inline-payment-panel": false,
+    "input": {
+      "value": true,
+      "type": {
+        "text": true,
+        "number": true,
+        "idcard": false,
+        "digit": true,
+        "safe-password": false,
+        "nickname": false,
+        "numberpad": false,
+        "digitpad": false,
+        "idcardpad": false
+      },
+      "password": true,
+      "placeholder": true,
+      "placeholder-style": false,
+      "placeholder-class": false,
+      "disabled": true,
+      "maxlength": true,
+      "cursor-spacing": false,
+      "auto-focus": true,
+      "focus": true,
+      "confirm-type": {
+        "send": false,
+        "search": true,
+        "next": false,
+        "go": false,
+        "done": true
+      },
+      "confirm-hold": false,
+      "cursor": false,
+      "selection-start": false,
+      "selection-end": false,
+      "adjust-position": false,
+      "hold-keyboard": false,
+      "always-embed": false,
+      "safe-password-cert-path": false,
+      "safe-password-length": false,
+      "safe-password-time-stamp": false,
+      "safe-password-nonce": false,
+      "safe-password-salt": false,
+      "safe-password-custom-hash": false
+    },
+    "keyboard-accessory": false,
+    "label": {
+      "for": true
+    },
+    "lifestyle": false,
+    "like": false,
+    "list-view": false,
+    "live-player": {
+      "src": true,
+      "mode": {
+        "live": true,
+        "RTC": true
+      },
+      "autoplay": true,
+      "muted": true,
+      "orientation": {
+        "vertical": true,
+        "horizontal": true
+      },
+      "object-fit": {
+        "contain": true,
+        "fillCrop": true
+      },
+      "background-mute": false,
+      "min-cache": true,
+      "max-cache": true,
+      "sound-mode": {
+        "speaker": true,
+        "ear": true
+      },
+      "auto-pause-if-navigate": true,
+      "picture-in-picture-mode": {
+        "push": false,
+        "pop": false
+      },
+      "auto-pause-if-open-native": false,
+      "referrer-policy": {
+        "origin": false,
+        "no-referrer": false
+      },
+      "enable-auto-rotation": false,
+      "enable-casting": false
+    },
+    "live-pusher": {
+      "url": false,
+      "mode": {
+        "SD": false,
+        "HD": false,
+        "FHD": false,
+        "RTC": false
+      },
+      "autopush": false,
+      "enable-video-custom-render": false,
+      "muted": false,
+      "enable-camera": false,
+      "auto-focus": false,
+      "orientation": {
+        "vertical": false,
+        "horizontal": false
+      },
+      "beauty": false,
+      "whiteness": false,
+      "aspect": {
+        "9:16": false,
+        "3:4": false
+      },
+      "min-bitrate": false,
+      "max-bitrate": false,
+      "audio-quality": false,
+      "waiting-image": false,
+      "waiting-image-hash": false,
+      "zoom": false,
+      "device-position": false,
+      "background-mute": false,
+      "mirror": false,
+      "remote-mirror": false,
+      "local-mirror": {
+        "auto": false,
+        "enable": false,
+        "disable": false
+      },
+      "audio-reverb-type": {
+        "0": false,
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false,
+        "6": false,
+        "7": false
+      },
+      "enable-mic": false,
+      "enable-agc": false,
+      "enable-ans": false,
+      "audio-volume-type": {
+        "auto": false,
+        "media": false,
+        "voicecall": false
+      },
+      "video-width": false,
+      "video-height": false,
+      "beauty-style": {
+        "smooth": false,
+        "nature": false
+      },
+      "filter": {
+        "standard": false,
+        "pink": false,
+        "nostalgia": false,
+        "blues": false,
+        "romantic": false,
+        "cool": false,
+        "fresher": false,
+        "solor": false,
+        "aestheticism": false,
+        "whitening": false,
+        "cerisered": false
+      },
+      "picture-in-picture-mode": false,
+      "custom-effect": false,
+      "skin-whiteness": false,
+      "skin-smoothness": false,
+      "face-thinness": false,
+      "eye-bigness": false,
+      "voice-changer-type": false,
+      "fps": false
+    },
+    "login": false,
+    "lottie": false,
+    "map": {
+      "longitude": false,
+      "latitude": false,
+      "scale": false,
+      "min-scale": false,
+      "max-scale": false,
+      "markers": false,
+      "covers": false,
+      "polyline": false,
+      "circles": false,
+      "controls": false,
+      "include-points": false,
+      "show-location": false,
+      "polygons": false,
+      "subkey": false,
+      "layer-style": false,
+      "rotate": false,
+      "skew": false,
+      "show-compass": false,
+      "show-scale": false,
+      "enable-overlooking": false,
+      "enable-zoom": false,
+      "enable-scroll": false,
+      "enable-rotate": false,
+      "enable-satellite": false,
+      "enable-traffic": false,
+      "enable-poi": false,
+      "enable-building": false,
+      "enable-auto-max-overlooking": false,
+      "enable3d": false,
+      "setting": false
+    },
+    "match-media": {
+      "min-width": false,
+      "max-width": false,
+      "width": false,
+      "min-height": false,
+      "max-height": false,
+      "height": false,
+      "orientation": false
+    },
+    "movable-area": {
+      "scale-area": true
+    },
+    "movable-view": {
+      "direction": {
+        "all": true,
+        "vertical": true,
+        "horizontal": true,
+        "none": true
+      },
+      "inertia": true,
+      "out-of-bounds": true,
+      "x": true,
+      "y": true,
+      "damping": false,
+      "friction": true,
+      "disabled": true,
+      "scale": true,
+      "scale-min": true,
+      "scale-max": true,
+      "scale-value": true,
+      "animation": true
+    },
+    "native-slot": {
+      "name": false
+    },
+    "navigation-bar": {
+      "title": false,
+      "loading": false,
+      "front-color": false,
+      "background-color": false,
+      "color-animation-duration": false,
+      "color-animation-timing-func": {
+        "linear": false,
+        "easeIn": false,
+        "easeOut": false,
+        "easeInOut": false
+      }
+    },
+    "navigator": {
+      "target": {
+        "self": false,
+        "miniProgram": false
+      },
+      "url": true,
+      "open-type": {
+        "navigate": true,
+        "redirect": true,
+        "switchTab": true,
+        "reLaunch": true,
+        "navigateBack": true,
+        "exit": true
+      },
+      "delta": true,
+      "app-id": false,
+      "path": false,
+      "extra-data": false,
+      "version": {
+        "develop": false,
+        "trial": false,
+        "release": false
+      },
+      "hover-class": true,
+      "hover-stop-propagation": false,
+      "hover-start-time": false,
+      "hover-stay-time": false,
+      "short-link": false
+    },
+    "official-account": false,
+    "open-data": {
+      "type": {
+        "groupName": false,
+        "userNickName": false,
+        "userAvatarUrl": false,
+        "userGender": false,
+        "userCity": false,
+        "userProvince": false,
+        "userCountry": false,
+        "userLanguage": false
+      },
+      "open-gid": false,
+      "lang": {
+        "en": false,
+        "zh_CN": false,
+        "zh_TW": false
+      },
+      "default-text": false,
+      "default-avatar": false
+    },
+    "page-container": {
+      "show": false,
+      "duration": false,
+      "z-index": false,
+      "overlay": false,
+      "position": {
+        "top": false,
+        "bottom": false,
+        "right": false,
+        "center": false
+      },
+      "round": false,
+      "overlay-style": false,
+      "custom-style": false,
+      "close-on-slide-down": false
+    },
+    "page-meta": {
+      "background-text-style": false,
+      "background-color": false,
+      "background-color-top": false,
+      "background-color-bottom": false,
+      "scroll-top": false,
+      "scroll-duration": false,
+      "page-style": false,
+      "root-font-size": false,
+      "root-background-color": false,
+      "page-font-size": false,
+      "page-orientation": false
+    },
+    "picker": {
+      "mode": {
+        "selector": {
+          "range": true,
+          "range-key": true,
+          "value": true
+        },
+        "multiSelector": {
+          "range": true,
+          "range-key": true,
+          "value": true
+        },
+        "time": {
+          "value": true,
+          "start": true,
+          "end": true
+        },
+        "date": {
+          "value": true,
+          "start": true,
+          "end": true,
+          "fields": {
+            "year": true,
+            "month": true,
+            "day": true
+          }
+        },
+        "region": {
+          "value": false,
+          "custom-item": false,
+          "level": {
+            "province": false,
+            "city": false,
+            "region": false,
+            "sub-district": false
+          }
+        }
+      },
+      "disabled": true
+    },
+    "picker-view": {
+      "value": true,
+      "indicator-style": true,
+      "indicator-class": true,
+      "mask-style": true,
+      "mask-class": true,
+      "immediate-change": false
+    },
+    "picker-view-column": false,
+    "progress": {
+      "percent": true,
+      "show-info": true,
+      "border-radius": true,
+      "font-size": true,
+      "stroke-width": true,
+      "color": false,
+      "active-color": true,
+      "background-color": true,
+      "active": true,
+      "active-mode": {
+        "backwards": false,
+        "forwards": false
+      },
+      "duration": false
+    },
+    "radio": {
+      "value": true,
+      "checked": true,
+      "disabled": true,
+      "color": false
+    },
+    "radio-group": true,
+    "rich-text": {
+      "user-select": true,
+      "nodes": true,
+      "space": {
+        "ensp": false,
+        "emsp": false,
+        "nbsp": false
+      }
+    },
+    "root-portal": {
+      "enable": false
+    },
+    "rtc-room": false,
+    "rtc-room-item": false,
+    "scroll-view": {
+      "scroll-x": true,
+      "scroll-y": true,
+      "upper-threshold": true,
+      "lower-threshold": true,
+      "scroll-top": true,
+      "scroll-left": true,
+      "scroll-into-view": true,
+      "scroll-with-animation": true,
+      "enable-back-to-top": false,
+      "enable-flex": false,
+      "scroll-anchoring": false,
+      "refresher-enabled": false,
+      "refresher-threshold": false,
+      "refresher-default-style": false,
+      "refresher-background": false,
+      "refresher-triggered": false,
+      "enhanced": false,
+      "bounces": false,
+      "show-scrollbar": false,
+      "paging-enabled": false,
+      "fast-deceleration": false,
+      "enable-passive": false,
+      "type": {
+        "list": false,
+        "custom": false
+      },
+      "reverse": false,
+      "cache-extent": false,
+      "scroll-into-view-within-extent": false,
+      "scroll-into-view-alignment": {
+        "start": true,
+        "center": true,
+        "end": true,
+        "nearest": true
+      }
+    },
+    "share-element": {
+      "key": false,
+      "mapkey": false,
+      "transform": false,
+      "duration": false,
+      "easing-function": false,
+      "transition-on-gesture": false,
+      "shuttle-on-push": {
+        "from": false,
+        "to": false
+      },
+      "shuttle-on-pop": false,
+      "rect-tween-type": {
+        "materialRectArc": false,
+        "materialRectCenterArc": false,
+        "linear": false,
+        "elasticIn": false,
+        "elasticOut": false,
+        "elasticInOut": false,
+        "bounceIn": false,
+        "bounceOut": false,
+        "bounceInOut": false,
+        "cubic-bezier(x1,": false
+      }
+    },
+    "slider": {
+      "min": true,
+      "max": true,
+      "step": true,
+      "disabled": true,
+      "value": true,
+      "color": false,
+      "selected-color": false,
+      "active-color": true,
+      "background-color": true,
+      "block-size": true,
+      "block-color": true,
+      "show-value": true
+    },
+    "slot": {
+      "name": false
+    },
+    "sticky-header": false,
+    "sticky-section": {
+      "push-pinned-header": false
+    },
+    "swiper": {
+      "indicator-dots": true,
+      "indicator-color": true,
+      "indicator-active-color": true,
+      "autoplay": true,
+      "current": true,
+      "interval": true,
+      "duration": true,
+      "circular": true,
+      "vertical": true,
+      "previous-margin": true,
+      "next-margin": true,
+      "snap-to-edge": false,
+      "display-multiple-items": true,
+      "easing-function": {
+        "default": false,
+        "linear": false,
+        "easeInCubic": false,
+        "easeOutCubic": false,
+        "easeInOutCubic": false
+      },
+      "scroll-with-animation": false,
+      "cache-extent": false
+    },
+    "swiper-item": {
+      "item-id": true,
+      "skip-hidden-item-layout": false
+    },
+    "switch": {
+      "checked": true,
+      "disabled": true,
+      "type": {
+        "switch": true,
+        "checkbox": true
+      },
+      "color": true
+    },
+    "tab-item": false,
+    "tabs": false,
+    "text": {
+      "selectable": false,
+      "user-select": false,
+      "space": {
+        "ensp": false,
+        "emsp": false,
+        "nbsp": false
+      },
+      "decode": false,
+      "max-lines": false
+    },
+    "textarea": {
+      "value": true,
+      "placeholder": true,
+      "placeholder-style": false,
+      "placeholder-class": false,
+      "disabled": true,
+      "maxlength": true,
+      "auto-focus": true,
+      "focus": true,
+      "auto-height": true,
+      "fixed": false,
+      "cursor-spacing": false,
+      "cursor": false,
+      "show-confirm-bar": false,
+      "selection-start": false,
+      "selection-end": false,
+      "adjust-position": false,
+      "hold-keyboard": false,
+      "disable-default-padding": false,
+      "confirm-type": {
+        "send": false,
+        "search": false,
+        "next": false,
+        "go": false,
+        "done": false,
+        "return": false
+      },
+      "confirm-hold": false,
+      "adjust-keyboard-to": false
+    },
+    "video": {
+      "src": true,
+      "duration": true,
+      "controls": true,
+      "danmu-list": true,
+      "danmu-btn": true,
+      "enable-danmu": true,
+      "autoplay": true,
+      "loop": true,
+      "muted": true,
+      "initial-time": true,
+      "page-gesture": false,
+      "direction": false,
+      "show-progress": true,
+      "show-fullscreen-btn": true,
+      "show-play-btn": true,
+      "show-center-play-btn": true,
+      "enable-progress-gesture": true,
+      "object-fit": {
+        "contain": true,
+        "fill": true,
+        "cover": true
+      },
+      "poster": true,
+      "show-mute-btn": true,
+      "title": false,
+      "play-btn-position": {
+        "bottom": false,
+        "center": false
+      },
+      "enable-play-gesture": true,
+      "auto-pause-if-navigate": false,
+      "auto-pause-if-open-native": false,
+      "vslide-gesture": true,
+      "vslide-gesture-in-fullscreen": true,
+      "ad-unit-id": false,
+      "poster-for-crawler": false,
+      "show-casting-button": false,
+      "picture-in-picture-mode": {
+        "push": false,
+        "pop": false
+      },
+      "enable-auto-rotation": false,
+      "show-screen-lock-button": false,
+      "show-snapshot-button": false,
+      "show-background-playback-button": false,
+      "background-poster": false,
+      "show-bottom-progress": false,
+      "picture-in-picture-show-progress": false,
+      "referrer-policy": {
+        "origin": false,
+        "no-referrer": false
+      },
+      "is-drm": false,
+      "provision-url": false,
+      "certificate-url": false,
+      "license-url": false,
+      "preferred-peak-bit-rate": false,
+      "is-live": false
+    },
+    "view": {
+      "hover-class": true,
+      "hover-stop-propagation": false,
+      "hover-start-time": true,
+      "hover-stay-time": true,
+      "catch-move": false
+    },
+    "voip-room": {
+      "mode": {
+        "camera": false,
+        "video": false
+      },
+      "device-position": {
+        "front": false,
+        "back": false
+      },
+      "open-id": false,
+      "object-fit": {
+        "fill": false,
+        "contain": false,
+        "cover": false
+      }
+    },
+    "web-view": {
+      "src": true
+    }
+  }
+}
