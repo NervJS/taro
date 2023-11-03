@@ -39,7 +39,7 @@ struct TaroRadio {
 
   @State isAreaChangeTap: boolean = false
 
-  @State value: boolean = false
+  @State checked: boolean = false
 
   @State thresholds: number[] | null = null
 
@@ -49,7 +49,7 @@ struct TaroRadio {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
-    this.value = !!this.node._attrs.checked
+    this.checked = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
@@ -64,20 +64,23 @@ struct TaroRadio {
       Row() {
         Radio({
           group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
-          value: this.value,
+          value: this.node._attrs.value,
         })
+          .checked(this.checked)
           .defaultEvent()
           .attrs(getAttributes(this.node))
           .themeStyles(!!this.node._attrs.disabled)
           .onChange((value: boolean) => {
             if (!!this.node._attrs.disabled) {
               // FIXME 找下文档是否有强制刷新方法
-              this.value = !this.value
-              this.value = !this.value
+              this.checked = !this.checked
+              this.checked = !this.checked
             } else {
-              this.value = value
-              const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
-              eventHandler(event, 'change', this.node)
+              this.checked = value
+              if (this.checked) {
+                const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
+                eventHandler(event, 'change', this.node)
+              }
             }
           })
           .visibleChangeEvent()
