@@ -129,7 +129,9 @@ export function analyzeImportUrl (
   isTsProject?: boolean
 ) {
   // 将参数记录到log文件
-  printToLogFile(`funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`)
+  printToLogFile(
+    `package: taro-cli-convertor, funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`
+  )
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {

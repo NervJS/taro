@@ -112,7 +112,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   if (!path.container || !path.isJSXElement()) {
     return
   }
-  printToLogFile(`funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
+  printToLogFile(`package: taroize, funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(
@@ -291,6 +291,7 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
 }
 
 export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type: 'include' | 'import') {
+  printToLogFile(`package: taroize, funName: parseModule, jsx: ${jsx}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = jsx.get('openingElement')
   const attrs = openingElement.get('attributes')
   // const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
