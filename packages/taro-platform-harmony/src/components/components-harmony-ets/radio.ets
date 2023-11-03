@@ -2,6 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
+import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
@@ -62,7 +63,7 @@ struct TaroRadio {
     TaroComponentWrapper({ node: this.node }) {
       Row() {
         Radio({
-          // group: '',
+          group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
           value: this.value,
         })
           .defaultEvent()

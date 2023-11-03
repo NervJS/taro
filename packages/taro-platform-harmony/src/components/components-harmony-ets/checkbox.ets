@@ -2,6 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
+import { AttributeManager } from './utils/AttributeManager'
 import { bindInstanceToNode, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
@@ -17,7 +18,8 @@ function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
     color: _attrs.color || '#1aad19',
-    disabled: !!_attrs.disabled,
+    name: _attrs.name || _attrs.value || node.textContent,
+    group: _attrs.name || AttributeManager.getNodeStyle(node.parentNode._attrs, 'id', node.parentNode._nid),
   }
 }
 
@@ -57,10 +59,7 @@ struct TaroCheckbox {
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Row() {
-        Checkbox({
-          name: '',
-          group: '',
-        })
+        Checkbox(getAttributes(this.node))
           .defaultEvent()
           .attrs(getAttributes(this.node))
           .themeStyles(!!this.node._attrs.disabled)
