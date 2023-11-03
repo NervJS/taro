@@ -73,6 +73,42 @@ declare module '../../index' {
       speed: number
       /** 垂直精度，单位 m（Android 无法获取，返回 0） */
       verticalAccuracy: number
+      /** 城市名称
+       * @supported swan
+       */
+      street: string
+      /** 国家代码
+       * @supported swan
+       */
+      cityCode: string
+      /** 城市名称
+       * @supported swan, tt
+       */
+      city: string
+      /** 国家
+       * @supported swan
+       */
+      country: string
+      /** 国家代码
+       * @supported swan
+       */
+      countryCode: string
+      /** 省份
+       * @supported swan
+       */
+      province: string
+      /** 街道号码
+       * @supported swan
+       */
+      streetNumber: string
+      /** 区
+       * @supported swan
+       */
+      district: string
+      /** 是不是精确定位信息
+       * @supported swan
+       */
+      isFullAccuracy: boolean
       /** 调用结果 */
       errMsg: string
     }
@@ -139,6 +175,30 @@ declare module '../../index' {
       longitude: number
       /** 位置名称 */
       name: string
+      /** 区县代码
+       * @supported alipay
+       */
+      adCode: number
+      /** 区县名称
+       * @supported alipay
+       */
+      adName: string
+      /** 城市代码
+       * @supported alipay
+       */
+      cityCode: string
+      /** 城市名称
+       * @supported alipay
+       */
+      cityName: string
+      /** 省份代码
+       * @supported alipay
+       */
+      provinceCode: number
+      /** 省份名称
+       * @supported alipay
+       */
+      provinceName: string
       /** 调用结果 */
       errMsg: string
     }
@@ -320,7 +380,7 @@ declare module '../../index' {
      *
      * **注意**
      * - 获取位置信息需配置[地理位置用途说明](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission)。
-     * @supported weapp, wan, tt, rn
+     * @supported weapp, swan, tt, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.startLocationUpdate.html
      */
     startLocationUpdate(option?: startLocationUpdate.Option): void
@@ -382,7 +442,7 @@ declare module '../../index' {
     ): void
 
     /** 取消监听实时地理位置变化事件
-     * @supported weapp, rn, tt
+     * @supported weapp, swan, tt, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChange.html
      */
     offLocationChange(
