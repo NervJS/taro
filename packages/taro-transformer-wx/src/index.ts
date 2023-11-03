@@ -34,6 +34,7 @@ import {
   THIRD_PARTY_COMPONENTS,
 } from './constant'
 import { isTestEnv } from './env'
+import { resetGlobals } from './global'
 import { Options, setTransformOptions } from './options'
 import {
   codeFrameError,
@@ -47,7 +48,6 @@ import {
   setting,
 } from './utils'
 import { traverseWxsFile } from './wxs'
-import { resetGlobals } from './global'
 
 const template = require('@babel/template')
 

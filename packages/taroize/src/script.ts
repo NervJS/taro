@@ -2,7 +2,15 @@ import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { usedComponents } from './global'
-import { buildBlockElement, buildImportStatement, buildRender, isCommonjsModule, getLineBreak, parseCode, printToLogFile } from './utils'
+import {
+  buildBlockElement,
+  buildImportStatement,
+  buildRender,
+  getLineBreak,
+  isCommonjsModule,
+  parseCode,
+  printToLogFile,
+} from './utils'
 import { WXS } from './wxml'
 
 const defaultClassName = '_C'
@@ -103,12 +111,9 @@ export function parseScript (
     traverse(ast, vistor)
   }
 
-
   const requirewithWeapp = t.variableDeclaration('const', [
     t.variableDeclarator(
-      t.objectPattern([
-        t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true),
-      ]),
+      t.objectPattern([t.objectProperty(t.identifier('default'), t.identifier('withWeapp'), false, true)]),
       t.callExpression(t.identifier('require'), [t.stringLiteral('@tarojs/with-weapp')])
     ),
   ])

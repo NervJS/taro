@@ -88,7 +88,7 @@ export interface Imports {
 
 /**
  * wxml界面下的template模板信息
- * 
+ *
  * @param { any[] } funcs 模板所用方法集
  * @param { any[] } applyTemplates 套用模板集
  */
@@ -221,13 +221,11 @@ export function convertStyleUnit (value: string) {
 
 /**
  * 预解析，收集wxml所有的模板信息
- * 
+ *
  * @param { any[] } templates wxml页面下的模板信息
  * @returns Visitor
  */
-export const createPreWxmlVistor = (
-  templates: Map<string, Templates>
-) => {
+export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
   // const Applys = new Map<string, string[]>()
   return {
     JSXElement: {
@@ -248,8 +246,8 @@ export const createPreWxmlVistor = (
             applyTemplates: templateInfo.applys,
           })
         }
-      }
-    }
+      },
+    },
   } as Visitor
 }
 
@@ -279,7 +277,7 @@ export const createWxmlVistor = (
   dirPath: string,
   wxses: WXS[] = [],
   imports: Imports[] = [],
-  templates?: Map<string, Templates>,
+  templates?: Map<string, Templates>
 ) => {
   printToLogFile(`package: taroize, funName: createWxmlVistor, dirPath: ${dirPath} ${getLineBreak()}`)
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
@@ -355,7 +353,7 @@ export const createWxmlVistor = (
         if (isValidVarName(path.node.name)) {
           refIds.add(path.node.name)
         }
-      }
+      },
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
@@ -636,7 +634,9 @@ function templateBfs (templates: Map<string, Templates>) {
 }
 
 export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
-  printToLogFile(`package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`)
+  printToLogFile(
+    `package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`
+  )
   let parseResult = getCacheWxml(dirPath)
   if (parseResult) {
     return parseResult
@@ -1213,7 +1213,7 @@ export function parseStyle (key: string, value: string) {
   // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
   if (isAllKeyValueFormat(styleAttrs)) {
     const attrKeyValueMap: any[] = []
-    parseStyleAttrs(styleAttrs, attrKeyValueMap)  
+    parseStyleAttrs(styleAttrs, attrKeyValueMap)
     convertStyleAttrs(attrKeyValueMap)
     const objectLiteral = t.objectExpression(
       attrKeyValueMap.map((attr) => t.objectProperty(t.identifier(attr.attrName), attr.value))

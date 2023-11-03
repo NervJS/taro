@@ -8,9 +8,9 @@ import * as path from 'path'
 
 import { Adapter, Adapters } from './adapter'
 import { IS_TARO_READY, LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
+import { globals } from './global'
 import { buildBlockElement } from './jsx'
 import { transformOptions } from './options'
-import { globals } from './global'
 // const template = require('babel-template')
 const template = require('@babel/template')
 
