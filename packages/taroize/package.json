@@ -36,6 +36,9 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/__tests__/util.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__tests__/*"
     ]
   },
   "author": "yuche",

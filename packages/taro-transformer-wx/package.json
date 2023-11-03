@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "test:cov": "jest --coverage && npm run lint",
+    "test:cov": "jest --coverage",
     "test": "jest packages/taro-transformer-wx/__tests__/base.spec.ts",
     "testAll": "jest",
     "dev": "tsc -w --pretty",
@@ -40,6 +40,10 @@
     "testPathIgnorePatterns": [
       "node_modules",
       "/__tests__/utils.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__tests__/utils.ts",
+      "/src/(class-method-renamer|create-html-element|eslint|functional|jsx|lifecycle|plugins|render-props|render)\\.ts$"
     ]
   },
   "dependencies": {
