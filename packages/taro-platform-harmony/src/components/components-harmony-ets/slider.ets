@@ -26,7 +26,6 @@ function getAttributes (node: TaroViewElement) {
     backgroundColor: _attrs.backgroundColor || _attrs.color || '#e9e9e9',
     blockSize: _attrs.blockSize,
     blockColor: _attrs.blockColor || '#ffffff',
-    disabled: !!_attrs.disabled,
     showValue: !!_attrs.showValue,
   }
 }
@@ -43,7 +42,7 @@ struct TaroSlider {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State value: number = 0
 
   @State thresholds: number[] | null = null

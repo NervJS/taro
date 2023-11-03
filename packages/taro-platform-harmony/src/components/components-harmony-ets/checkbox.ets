@@ -61,6 +61,7 @@ struct TaroCheckbox {
         group: '',
       })
         .defaultEvent()
+        .attrs(getAttributes(this.node))
         .themeStyles(!!this.node._attrs.disabled)
         .select(this.value)
         .onChange((value: boolean) => {
@@ -77,6 +78,25 @@ struct TaroCheckbox {
         .visibleChangeEvent()
     }
   }
+}
+
+@Extend(CheckboxGroup)
+function attrs ({
+  color,
+}) {
+  .selectedColor(color)
+}
+
+function getAttributesGroup (node: TaroViewElement) {
+  const { _attrs = {} } = node
+  return {
+    color: _attrs.color || '#1aad19',
+  }
+}
+
+@Extend(CheckboxGroup)
+function themeStyles(isDisabled: boolean) {
+  .opacity(isDisabled ? 0.4 : 1)
 }
 
 @Component
@@ -112,6 +132,8 @@ struct TaroCheckboxGroup {
         .onChange(({ name, status }) => {
         })
         .defaultEvent()
+        .attrs(getAttributesGroup(this.node))
+        .themeStyles(!!this.node._attrs.disabled)
         .visibleChangeEvent()
     }
   }

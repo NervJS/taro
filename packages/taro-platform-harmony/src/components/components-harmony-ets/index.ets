@@ -46,4 +46,5 @@ export const TaroTabContentTagName = 'tab-content'
 export const TaroListTagName = 'list'
 export const TaroListItemTagName = 'list-item'
 export const TaroOpenDataTagName = 'open-data'
-export const TaroTaroIgnoreTagName = 'ignore'
+
+export const TaroIgnoreTagName = 'ignore'
