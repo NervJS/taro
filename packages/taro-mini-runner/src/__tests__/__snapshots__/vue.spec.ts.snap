@@ -11,9 +11,45 @@ require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 2 ], {
     3: function(module, exports, __webpack_require__) {},
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    6: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        function _typeof(obj) {
+            "@babel/helpers - typeof";
+            return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+                return typeof obj;
+            } : function(obj) {
+                return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+            }, _typeof(obj);
+        }
+        function _toPrimitive(input, hint) {
+            if (_typeof(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if (_typeof(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return _typeof(key) === "symbol" ? key : String(key);
+        }
+        function _defineProperty(obj, key, value) {
+            key = _toPropertyKey(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -425,7 +461,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -435,10 +471,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -507,6 +545,19 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
@@ -544,7 +595,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 7, 0, 1 ] ] ]);
+}, [ [ 6, 0, 1 ] ] ]);
 
 
 
@@ -1292,7 +1343,7 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    6: function(module, __webpack_exports__, __webpack_require__) {
+    7: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
@@ -1375,7 +1426,7 @@ require("./taro");
         }, config || {}));
         var pages_index = __webpack_exports__["default"] = index;
     }
-}, [ [ 6, 0, 1 ] ] ]);
+}, [ [ 7, 0, 1 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}

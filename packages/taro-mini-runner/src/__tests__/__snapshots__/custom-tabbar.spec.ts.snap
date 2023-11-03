@@ -14,11 +14,26 @@ require("./vendors");
 require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
-    14: function(module, exports, __webpack_require__) {},
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, exports, __webpack_require__) {},
+    19: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var mocks_taro = __webpack_require__(3);
+        var toPropertyKey = __webpack_require__(9);
+        function _defineProperty(obj, key, value) {
+            key = Object(toPropertyKey["a"])(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
+        var mocks_taro = __webpack_require__(2);
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             Object(mocks_taro["f"])(taro, wx, {
@@ -392,7 +407,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -402,10 +417,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -474,17 +491,30 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, Object(mocks_taro["toCamelCase"])(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         Object(mocks_taro["e"])(hostConfig);
         Object(mocks_taro["d"])(components);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
-        var app = __webpack_require__(14);
+        var app = __webpack_require__(15);
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
             var _super = Object(createSuper["a"])(App);
@@ -510,7 +540,7 @@ require("./taro");
             return App;
         }(react["Component"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(9);
+        var taro_react = __webpack_require__(10);
         var config = {
             pages: [ "pages/index/index", "pages/detail/index" ],
             window: {
@@ -552,7 +582,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+}, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1447,7 +1477,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_exports__["default"] = "react-mock";
-}, , , function(module, __webpack_exports__, __webpack_require__) {
+}, , function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "e", (function() {
         return mergeReconciler;
@@ -1503,13 +1533,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/comp.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
     }
-}, [ [ 15, 0, 1 ] ] ]);
+}, [ [ 16, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -1521,19 +1551,19 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/custom-tab-bar/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 7 ], {
-    17: function(module, exports, __webpack_require__) {},
-    21: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, exports, __webpack_require__) {},
+    22: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(2);
-        var taro = __webpack_require__(3);
-        var custom_tab_bar = __webpack_require__(17);
+        var taro_components = __webpack_require__(3);
+        var taro = __webpack_require__(2);
+        var custom_tab_bar = __webpack_require__(18);
         var custom_tab_bar_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1570,7 +1600,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         var inst = Component(Object(taro_runtime["createComponentConfig"])(custom_tab_bar_Index, "custom-tab-bar/index"));
         var src_custom_tab_bar = __webpack_exports__["default"] = custom_tab_bar_Index;
     }
-}, [ [ 21, 0, 1, 3, 2 ] ] ]);
+}, [ [ 22, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/custom-tab-bar/index.json **/
 {}
@@ -1584,16 +1614,16 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/detail/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 10 ], {
-    20: function(module, __webpack_exports__, __webpack_require__) {
+    21: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(2);
+        var taro_components = __webpack_require__(3);
         var detail_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1621,7 +1651,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }, config || {}));
         var detail = __webpack_exports__["default"] = detail_Index;
     }
-}, [ [ 20, 0, 1, 3, 2 ] ] ]);
+}, [ [ 21, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/detail/index.json **/
 {"navigationBarTitleText":"详情页","usingComponents":{"comp":"../../comp"}}
@@ -1632,16 +1662,16 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 12 ], {
-    19: function(module, __webpack_exports__, __webpack_require__) {
+    20: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
-        var taro_components = __webpack_require__(2);
+        var taro_components = __webpack_require__(3);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1669,7 +1699,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }, config || {}));
         var index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 19, 0, 1, 3, 2 ] ] ]);
+}, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -1687,13 +1717,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         "use strict";
         var _unused_webpack_default_export = "taro-runtime-mock";
     },
-    2: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        var _unused_webpack_default_export = "taro-components-mock";
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_exports__["a"] = "taro-react-mock";
+    },
+    3: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        var _unused_webpack_default_export = "taro-components-mock";
     }
 } ]);
 
@@ -1752,6 +1782,29 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -1802,43 +1855,6 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(8);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -1876,6 +1892,26 @@ module.exports = {
         } : function(obj) {
             return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
         }, _typeof(obj);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _toPropertyKey;
+    }));
+    var esm_typeof = __webpack_require__(8);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
     }
 } ] ]);
 "
