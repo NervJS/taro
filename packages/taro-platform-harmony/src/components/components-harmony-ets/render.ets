@@ -20,7 +20,7 @@ import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 @Builder
 function createNode (node: any) {
   // TODO: 后续需要根据半编译生成对应的控制流语句
-  if (!!node._attrs.compileMode) {
+  if (!!node._attrs?.compileMode) {
     TaroFeedsItem({ node })
   } else if (node.tagName === 'IMAGE') {
     TaroImage({ node })
