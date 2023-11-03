@@ -56,26 +56,31 @@ struct TaroCheckbox {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Checkbox({
-        name: '',
-        group: '',
-      })
-        .defaultEvent()
-        .attrs(getAttributes(this.node))
-        .themeStyles(!!this.node._attrs.disabled)
-        .select(this.value)
-        .onChange((value: boolean) => {
-          if (!!this.node._attrs.disabled) {
-            // FIXME 找下文档是否有强制刷新方法
-            this.value = !this.value
-            this.value = !this.value
-          } else {
-            this.value = value
-            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
-            eventHandler(event, 'change', this.node)
-          }
+      Row() {
+        Checkbox({
+          name: '',
+          group: '',
         })
-        .visibleChangeEvent()
+          .defaultEvent()
+          .attrs(getAttributes(this.node))
+          .themeStyles(!!this.node._attrs.disabled)
+          .select(this.value)
+          .onChange((value: boolean) => {
+            if (!!this.node._attrs.disabled) {
+              // FIXME 找下文档是否有强制刷新方法
+              this.value = !this.value
+              this.value = !this.value
+            } else {
+              this.value = value
+              const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
+              eventHandler(event, 'change', this.node)
+            }
+          })
+          .visibleChangeEvent()
+        Text(this.node.textContent)
+          .textAlign(TextAlign.Center)
+          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+      }
     }
   }
 }

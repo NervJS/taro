@@ -38,7 +38,7 @@ struct TaroRadio {
 
   @State isAreaChangeTap: boolean = false
 
-  @State value: number = 0
+  @State value: boolean = false
 
   @State thresholds: number[] | null = null
 
@@ -60,25 +60,30 @@ struct TaroRadio {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Radio({
-        // group: '',
-        value: this.value,
-      })
-        .defaultEvent()
-        .attrs(getAttributes(this.node))
-        .themeStyles(!!this.node._attrs.disabled)
-        .onChange((value: boolean) => {
-          if (!!this.node._attrs.disabled) {
-            // FIXME 找下文档是否有强制刷新方法
-            this.value = !this.value
-            this.value = !this.value
-          } else {
-            this.value = value
-            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
-            eventHandler(event, 'change', this.node)
-          }
+      Row() {
+        Radio({
+          // group: '',
+          value: this.value,
         })
-        .visibleChangeEvent()
+          .defaultEvent()
+          .attrs(getAttributes(this.node))
+          .themeStyles(!!this.node._attrs.disabled)
+          .onChange((value: boolean) => {
+            if (!!this.node._attrs.disabled) {
+              // FIXME 找下文档是否有强制刷新方法
+              this.value = !this.value
+              this.value = !this.value
+            } else {
+              this.value = value
+              const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
+              eventHandler(event, 'change', this.node)
+            }
+          })
+          .visibleChangeEvent()
+        Text(this.node.textContent)
+          .textAlign(TextAlign.Center)
+          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+      }
     }
   }
 }
