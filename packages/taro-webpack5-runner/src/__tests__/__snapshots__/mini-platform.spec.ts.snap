@@ -17,7 +17,22 @@ require("./vendors");
 require("./runtime");
 
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 143 ], {
-    162: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    271: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var toPropertyKey = __webpack_require__(25);
+        function _defineProperty(obj, key, value) {
+            key = (0, toPropertyKey.Z)(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -728,6 +743,18 @@ require("./runtime");
             },
             RootPortal: {
                 enable: "true"
+            },
+            PageMeta: {
+                "background-color": "",
+                "background-color-top": "",
+                "background-color-bottom": "",
+                "root-background-color": "",
+                "scroll-top": "''",
+                "scroll-duration": "300",
+                "page-style": "''",
+                "root-font-size": "''",
+                "page-font-size": "''",
+                bindScroll: ""
             }
         };
         var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
@@ -751,6 +778,19 @@ require("./runtime");
             },
             isBubbleEvents: function isBubbleEvents(eventName) {
                 return BUBBLE_EVENTS.has(eventName);
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         var _navigator = runtime_navigator, userAgent = _navigator.userAgent;
@@ -797,7 +837,7 @@ require("./runtime");
         function initPxTransform() {}
         var taro = "taro";
         var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
+        var createClass = __webpack_require__(599);
         var inherits = __webpack_require__(730);
         var createSuper = __webpack_require__(605);
         var react = __webpack_require__(757);
@@ -855,7 +895,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(162);
+        return __webpack_exec__(271);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1406,7 +1446,7 @@ require("./runtime");
             };
         }
         var classCallCheck = __webpack_require__(113);
-        var createClass = __webpack_require__(815);
+        var createClass = __webpack_require__(599);
         var inherits = __webpack_require__(730);
         var createSuper = __webpack_require__(605);
         var react = __webpack_require__(757);
@@ -1543,34 +1583,20 @@ export default {
             }
         }
     },
-    815: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    599: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(671);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -1662,6 +1688,28 @@ export default {
                 writable: false
             });
             if (superClass) _setPrototypeOf(subClass, superClass);
+        }
+    },
+    25: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
+                return _toPropertyKey;
+            }
+        });
+        var esm_typeof = __webpack_require__(671);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
         }
     },
     671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {

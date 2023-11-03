@@ -1,4 +1,4 @@
-import { controlledComponent, isUndefined } from '@tarojs/shared'
+import { controlledComponent, isUndefined, toCamelCase } from '@tarojs/shared'
 
 import {
   A,
@@ -15,6 +15,7 @@ import { TaroRootElement } from '../dom/root'
 import { TaroText } from '../dom/text'
 import env from '../env'
 import { AnchorElement } from './anchor-element'
+import { TransferElement } from './transfer'
 
 export class TaroDocument extends TaroElement {
   public documentElement: TaroElement
@@ -41,6 +42,10 @@ export class TaroDocument extends TaroElement {
         break
       case nodeName === A:
         element = new AnchorElement()
+        break
+      case nodeName === 'page-meta':
+      case nodeName === 'navigation-bar':
+        element = new TransferElement(toCamelCase(nodeName))
         break
       default:
         element = new TaroElement()
