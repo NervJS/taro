@@ -32,7 +32,7 @@ struct TaroSwitch {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State value: boolean = false
 
   @State thresholds: number[] | null = null
