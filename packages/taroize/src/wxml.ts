@@ -86,7 +86,7 @@ export interface Imports {
 
 /**
  * wxml界面下的template模板信息
- * 
+ *
  * @param { any[] } funcs 模板所用方法集
  * @param { any[] } applyTemplates 套用模板集
  */
@@ -216,13 +216,11 @@ export function convertStyleUnit (value: string) {
 
 /**
  * 预解析，收集wxml所有的模板信息
- * 
+ *
  * @param { any[] } templates wxml页面下的模板信息
  * @returns Visitor
  */
-export const createPreWxmlVistor = (
-  templates: Map<string, Templates>
-) => {
+export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
   // const Applys = new Map<string, string[]>()
   return {
     JSXElement: {
@@ -243,8 +241,8 @@ export const createPreWxmlVistor = (
             applyTemplates: templateInfo.applys,
           })
         }
-      }
-    }
+      },
+    },
   } as Visitor
 }
 
@@ -274,7 +272,7 @@ export const createWxmlVistor = (
   dirPath: string,
   wxses: WXS[] = [],
   imports: Imports[] = [],
-  templates?: Map<string, Templates>,
+  templates?: Map<string, Templates>
 ) => {
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
     const name = path.node.name as t.JSXIdentifier
@@ -349,7 +347,7 @@ export const createWxmlVistor = (
         if (isValidVarName(path.node.name)) {
           refIds.add(path.node.name)
         }
-      }
+      },
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
@@ -769,6 +767,23 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
             const newExpr = t.newExpression(t.identifier('RegExp'), [])
             path.replaceWith(newExpr)
           }
+        }
+
+        // wxs标签中getDate()转换为new Date()
+        if (t.isIdentifier(path.node.callee, { name: 'getDate' })) {
+          let argument: any = []
+          let newDate: t.NewExpression
+          const date = path.node.arguments[0]
+          if (t.isStringLiteral(date)) {
+            argument = path.node.arguments.map((item) => t.stringLiteral(item.extra?.rawValue as string))
+            newDate = t.newExpression(t.identifier('Date'), [...argument])
+          } else if (t.isNumericLiteral(date)) {
+            argument = path.node.arguments.map((item) => t.numericLiteral(item.extra?.rawValue as number))
+            newDate = t.newExpression(t.identifier('Date'), [...argument])
+          } else {
+            newDate = t.newExpression(t.identifier('Date'), [])
+          }
+          path.replaceWith(newDate)
         }
       },
     })

@@ -54,6 +54,22 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
           path.replaceWith(newExpr)
         }
       }
+      // wxs文件中getDate()转换为new Date()
+      if (t.isIdentifier(path.node.callee, { name: 'getDate' })) {
+        let argument: any = []
+        let newDate: t.NewExpression
+        const date = path.node.arguments[0]
+        if (t.isStringLiteral(date)) {
+          argument = path.node.arguments.map((item) => t.stringLiteral(item.extra?.rawValue as string))
+          newDate = t.newExpression(t.identifier('Date'), [...argument])
+        } else if (t.isNumericLiteral(date)) {
+          argument = path.node.arguments.map((item) => t.numericLiteral(item.extra?.rawValue as number))
+          newDate = t.newExpression(t.identifier('Date'), [...argument])
+        } else {
+          newDate = t.newExpression(t.identifier('Date'), [])
+        }
+        path.replaceWith(newDate)
+      }
     },
   }
 
