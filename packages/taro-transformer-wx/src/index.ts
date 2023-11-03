@@ -38,13 +38,16 @@ import { Options, setTransformOptions } from './options'
 import {
   codeFrameError,
   findFirstIdentifierFromMemberExpression,
+  getLineBreak,
   getSuperClassCode,
   isArrayMapCallExpression,
   isContainJSXElement,
+  printToLogFile,
   replaceJSXTextWithTextComponent,
   setting,
 } from './utils'
 import { traverseWxsFile } from './wxs'
+import { resetGlobals } from './global'
 
 const template = require('@babel/template')
 
@@ -197,6 +200,7 @@ export interface TransformResult extends Result {
 export type TransformOptions = Options
 
 function parseCode (code: string) {
+  printToLogFile(`package: taro-transformer-wx, funName: parseCode ${getLineBreak()}`)
   const ast: any = parse(code, {
     sourceType: 'module',
     plugins: [
@@ -220,6 +224,7 @@ function parseCode (code: string) {
 }
 
 export default function transform(options: TransformOptions): TransformResult {
+  resetGlobals(options)
   if (options.adapter) {
     setAdapter(options.adapter)
     if (Adapter.type === Adapters.quickapp) {

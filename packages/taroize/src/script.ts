@@ -2,7 +2,7 @@ import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { usedComponents } from './global'
-import { buildBlockElement, buildImportStatement, buildRender, isCommonjsModule, parseCode } from './utils'
+import { buildBlockElement, buildImportStatement, buildRender, isCommonjsModule, getLineBreak, parseCode, printToLogFile } from './utils'
 import { WXS } from './wxml'
 
 const defaultClassName = '_C'
@@ -40,6 +40,7 @@ export function parseScript (
   refId?: Set<string>,
   isApp = false
 ) {
+  printToLogFile(`package: taroize, funName: parseScript, scriptPath: ${scriptPath} ${getLineBreak()}`)
   script = script || 'Page({})'
   if (t.isJSXText(returned as any)) {
     const block = buildBlockElement()
@@ -150,6 +151,7 @@ function parsePage (
   wxses?: WXS[],
   isApp = false
 ) {
+  printToLogFile(`package: taroize, funName: parsePage, pagePath: ${pagePath} ${getLineBreak()}`)
   const stateKeys: string[] = []
   pagePath.traverse({
     CallExpression (path) {

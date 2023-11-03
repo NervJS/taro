@@ -2,9 +2,11 @@ import generate from '@babel/generator'
 import traverse, { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
+import { getLineBreak, printToLogFile } from './utils'
 import { TransformResult } from './index'
 
 export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
+  printToLogFile(`package: taro-transformer-wx, funName: traverseWxsFile ${getLineBreak()}`)
   const vistor: Visitor = {
     BlockStatement(path) {
       path.scope.rename('wx', 'Taro')

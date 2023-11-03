@@ -252,6 +252,7 @@ export default class Convertor {
             },
 
             ClassExpression (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析ClassExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               if (node.superClass) {
                 let isTaroComponent = false
@@ -309,7 +310,7 @@ export default class Convertor {
               analyzeImportUrl(self.root, sourceFilePath, scriptFiles, source, value, self.isTsProject)
             },
             CallExpression (astPath) {
-              printToLogFile(`解析CallExpression: ${astPath} ${getLineBreak()}`)
+              printToLogFile(`package: taro-cli-convertor, 解析CallExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
@@ -384,6 +385,7 @@ export default class Convertor {
               }
             },
             OptionalMemberExpression (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析OptionalMemberExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const object = node.object
               const prettier = node.property
@@ -898,6 +900,7 @@ export default class Convertor {
             sourcePath: file,
             isNormal: true,
             isTyped: REG_TYPESCRIPT.test(file),
+            logFilePath: globals.logFilePath,
           })
           const { ast, scriptFiles } = this.parseAst({
             ast: transformResult.ast,
@@ -1088,7 +1091,7 @@ ${code}
 
   traversePages () {
     this.pages.forEach((page) => {
-      printToLogFile(`开始转换页面 ${page} ${getLineBreak()}`)
+      printToLogFile(`package: taro-cli-convertor, 开始转换页面 ${page} ${getLineBreak()}`)
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
 
       // 处理不转换的页面，可在convert.config.json中external字段配置
@@ -1203,7 +1206,7 @@ ${code}
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
         console.log(err)
-        printToLogFile(`转换页面异常 ${err.stack} ${getLineBreak()}`)
+        printToLogFile(`package: taro-cli-convertor, 转换页面异常 ${err.stack} ${getLineBreak()}`)
       }
     })
   }
@@ -1213,6 +1216,7 @@ ${code}
       return
     }
     components.forEach((componentObj) => {
+      printToLogFile(`package: taro-cli-convertor, 开始转换组件 ${componentObj.path} ${getLineBreak()}`)
       const component = componentObj.path
       if (this.hadBeenBuiltComponents.has(component)) return
       this.hadBeenBuiltComponents.add(component)
@@ -1296,6 +1300,7 @@ ${code}
       } catch (err) {
         printLog(processTypeEnum.ERROR, '组件转换', this.generateShowPath(componentJSPath))
         console.log(err)
+        printToLogFile(`package: taro-cli-convertor, 转换组件异常 ${err.stack} ${getLineBreak()}`)
       }
     })
   }
@@ -1340,6 +1345,7 @@ ${code}
   }
 
   async traverseStyle (filePath: string, style: string) {
+    printToLogFile(`package: taro-cli-convertor, 开始转换样式 ${filePath} ${getLineBreak()}`)
     const { imports, content } = processStyleImports(style, (str, stylePath) => {
       let relativePath = stylePath
       if (path.isAbsolute(relativePath)) {
