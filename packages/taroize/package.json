@@ -9,16 +9,48 @@
   ],
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w --pretty"
+    "dev": "tsc -w --pretty",
+    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/NervJS/taro/tree/master/packages/taroize"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/taroize/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/util.ts"
+    ]
+  },
   "author": "yuche",
   "license": "MIT",
   "dependencies": {
-    "@babel/code-frame": "^7.14.5",
+    "@babel/code-frame": "^7.21.4",
+    "@babel/generator": "^7.21.4",
+    "@babel/parser": "^7.23.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/plugin-syntax-flow": "^7.22.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/template": "7.21.9",
+    "@babel/traverse": "^7.21.4",
+    "@babel/types": "^7.21.4",
     "babel-core": "^6.26.3",
     "babel-generator": "^6.26.1",
     "babel-template": "^6.26.0",
@@ -31,6 +63,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/babel-traverse": "6.25.6"
+    "@types/babel-traverse": "6.25.6",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.0.5"
   }
 }

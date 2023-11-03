@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    970: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    991: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -410,7 +410,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -420,10 +420,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -492,17 +494,32 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    const page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData({
+                        [toCamelCase(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
-        var taro = __webpack_require__(357);
+        var taro_runtime = __webpack_require__(184);
+        var taro = __webpack_require__(946);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(800);
+        var react = __webpack_require__(757);
         var app_App = function(_React$Component) {
             (0, inherits.Z)(App, _React$Component);
             var _super = (0, createSuper.Z)(App);
@@ -560,7 +577,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(970);
+        return __webpack_exec__(991);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1423,7 +1440,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1433,7 +1450,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -1455,7 +1472,7 @@ require("./runtime");
         function createVueApp() {}
         function createVue3App() {}
     },
-    357: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    946: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             J1: function() {
                 return initPxTransform;
@@ -1503,8 +1520,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -1512,7 +1529,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1527,7 +1544,7 @@ require("./runtime");
 
 /** filePath: dist/components/tab/tab.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 9 ], {
-    388: function() {
+    620: function() {
         Component({
             behaviors: [],
             properties: {
@@ -1565,7 +1582,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(388);
+    var __webpack_exports__ = __webpack_exec__(620);
 } ]);
 
 /** filePath: dist/components/tab/tab.json **/
@@ -1581,7 +1598,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    395: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    574: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_components_namespaceObject = {};
         __webpack_require__.r(taro_components_namespaceObject);
         __webpack_require__.d(taro_components_namespaceObject, {
@@ -1589,13 +1606,13 @@ require("./runtime");
                 return View;
             }
         });
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var taro = __webpack_require__(357);
-        var react = __webpack_require__(800);
+        var taro = __webpack_require__(946);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -1683,7 +1700,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(395);
+        return __webpack_exec__(574);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1700,8 +1717,8 @@ require("./runtime");
 
 /** filePath: dist/pages/native/native.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 91 ], {
-    662: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-        var _require = __webpack_require__(344), add = _require.add;
+    368: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        var _require = __webpack_require__(215), add = _require.add;
         Page({
             data: {
                 text: "This is page data.",
@@ -1724,7 +1741,7 @@ require("./runtime");
             }
         });
     },
-    344: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    215: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
@@ -1740,7 +1757,7 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(662);
+    var __webpack_exports__ = __webpack_exec__(368);
 } ]);
 
 /** filePath: dist/pages/native/native.json **/
