@@ -28,13 +28,13 @@ export default class Index extends React.Component {
         },
         func: (apiIndex, data) => {
           const strPathArr: string[] = []
-          function getstrPathArr(obj: Object, str?: string) {
+          function getStrPathArr(obj: Object, str?: string) {
             if (str) {
               for (const [key, value] of Object.entries(obj)) {
                 if (typeof value === 'boolean') {
                   strPathArr.push(str + '.' + key)
                 } else {
-                  getstrPathArr(value, str + '.' + key)
+                  getStrPathArr(value, str + '.' + key)
                 }
               }
             } else {
@@ -42,13 +42,13 @@ export default class Index extends React.Component {
                 if (typeof value === 'boolean') {
                   strPathArr.push(key)
                 } else {
-                  getstrPathArr(value, key)
+                  getStrPathArr(value, key)
                 }
               }
             }
           }
-          getstrPathArr(definition.apis)
-          getstrPathArr(definition.components)
+          getStrPathArr(definition.apis)
+          getStrPathArr(definition.components)
           let result = ''
           strPathArr.forEach(strPath => {
             try {
@@ -58,7 +58,7 @@ export default class Index extends React.Component {
             }
           })
           TestConsole.consoleSuccess.call(this, result, apiIndex)
-          
+
           const { apiName } = data
           TestConsole.consoleTest(`Taro.canIUse ${apiName}`)
           TestConsole.consoleSuccess.call(this, Taro.canIUse(apiName), apiIndex)
