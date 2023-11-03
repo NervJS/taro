@@ -89,7 +89,9 @@ struct TaroRadio {
           .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
       }
       .onClick(() => {
-        this.checked = !this.checked
+        if (!this.checked) {
+          this.checked = !this.checked
+        }
       })
     }
   }
