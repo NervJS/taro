@@ -1,11 +1,11 @@
 // TODO: 后续这个文件通过半编译逻辑生成
-import { TaroElement } from '@tarojs/runtime'
+import { TaroElement, eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
 
 import { w3cToHarmonyStyle } from './utils/dynamicConvert'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, getNodeAreaChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -246,6 +246,7 @@ struct TaroFeedItem {
       Flex(FlexManager.flexOptions(this.node2)) {
         Image(this.node3.getAttribute('src'))
           .attrsImage(getNormalAttributes(this.node3, this.overwriteStyle))
+          .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node3), this.node3, ['click']))
         if (!this.node4.isIgnore) {
           Image(this.node4.getAttribute('src'))
             .attrsImage(getNormalAttributes(this.node4, this.overwriteStyle))
@@ -309,6 +310,7 @@ struct TaroFeedItem {
       .attrs(getNormalAttributes(this.node6))
     }
     .attrs(getNormalAttributes(this.node1))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node1), this.node1, ['click']))
   }
 }
 
