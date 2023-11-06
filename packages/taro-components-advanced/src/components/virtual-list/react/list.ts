@@ -1,3 +1,4 @@
+import { isNumber } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 import React from 'react'
 
@@ -159,6 +160,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollTop,
       scrollLeft,
     } = event.currentTarget
+    if (!isNumber(scrollHeight) || !isNumber(scrollWidth)) return
     const clientWidth = this.itemList.wrapperSize
     this.preset.field = {
       scrollHeight,
@@ -214,6 +216,7 @@ export default class List extends React.PureComponent<IProps, IState> {
       scrollTop,
       scrollLeft
     } = event.currentTarget
+    if (!isNumber(scrollHeight) || !isNumber(scrollWidth)) return
     const clientHeight = this.itemList.wrapperSize
     this.setState((prevState: IState) => {
       const diffOffset = this.preset.field.scrollTop - scrollTop
