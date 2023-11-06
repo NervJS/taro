@@ -65,7 +65,11 @@ declare module '../../index' {
 
   namespace getBackgroundFetchData {
     interface Option {
-      /** 取值为 periodic */
+      /** 缓存数据类别
+       * @weapp 取值为 periodic
+       * @qq 取值为 periodic
+       * @alipay 取值为 pre: 数据预拉取; jsapiPre: API 预调用（目前仅支持地理位置预拉取）
+       */
       fetchType: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
@@ -75,8 +79,10 @@ declare module '../../index' {
       success?: (res: SuccessCallbackResult) => void
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
-      /** 缓存数据 */
-      fetchedData: string
+      /** 缓存数据
+       *  @alipay Object
+       */
+      fetchedData: string | Object
       /** 客户端拿到缓存数据的时间戳 ms。(iOS 时间戳存在异常，8.0.27 修复) */
       timeStamp: number
       /** 小程序页面路径 */
@@ -85,6 +91,14 @@ declare module '../../index' {
       query: string
       /** 进入小程序的场景值 */
       scene: number
+      /** 缓存数据类型，与入参 fetchType 一致
+       * @supported alipay
+       */
+      fetchType?: string
+      /** 缓存数据的时间戳。单位：ms。
+       * @supported alipay
+       */
+      timestamp?: number
     }
   }
 
@@ -117,7 +131,7 @@ declare module '../../index' {
     getBackgroundFetchToken(option?: getBackgroundFetchToken.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 拉取 backgroundFetch 客户端缓存数据
-     * @supported weapp, qq
+     * @supported weapp, alipay, qq
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/background-fetch/wx.getBackgroundFetchData.html
      */
     getBackgroundFetchData(option: getBackgroundFetchData.Option): Promise<getBackgroundFetchData.SuccessCallbackResult>
