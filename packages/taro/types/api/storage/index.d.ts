@@ -52,7 +52,7 @@ declare module '../../index' {
       /** 是否执行成功
        * @supported alipay
        */
-      success: boolean
+      success?: boolean
     }
   }
 

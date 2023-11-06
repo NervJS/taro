@@ -103,7 +103,7 @@ declare module '../../index' {
       /** 收到 backgroundFetch 数据事件的监听函数
        * @supported qq
        */
-      option?: onBackgroundFetchData.Option
+      option?: onBackgroundFetchData.Option,
       /** 收到 backgroundFetch 数据事件的监听函数
        * @supported weapp
        */
