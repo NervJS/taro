@@ -830,6 +830,18 @@ require("./taro");
                         Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["a"])(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
                         _ref;
                     }
+                },
+                modifyMiniLifecycle: function modifyMiniLifecycle(componentConfig, _ref2) {
+                    var isCustomWrapper = _ref2.isCustomWrapper;
+                    return isCustomWrapper ? Object.assign(Object.assign({}, componentConfig), {
+                        deriveDataFromProps: function deriveDataFromProps(nextProps) {
+                            if (this.data.i !== undefined && this.props.i !== nextProps.i) {
+                                this.setData({
+                                    i: nextProps.i
+                                });
+                            }
+                        }
+                    }) : componentConfig;
                 }
             };
             var _navigator = navigator, userAgent = _navigator.userAgent;
