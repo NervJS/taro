@@ -12,6 +12,8 @@ import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 @Extend(Text)
 function attrs ({
   id,
+  width,
+  height,
   zIndex,
   opacity,
   margin,
@@ -36,7 +38,6 @@ function attrs ({
   scale,
   translate,
   transform,
-  size,
   textAlign,
  }) {
   .id(id)
@@ -63,8 +64,9 @@ function attrs ({
   .scale(scale)
   .translate(translate)
   .transform(transform)
-  .size(size)
   .textAlign(textAlign)
+  .width(width)
+  .height(height)
 }
 
 @Extend(Span)
@@ -92,8 +94,9 @@ function spanAttrs ({
   scale,
   translate,
   transform,
-  size,
   textAlign,
+  width,
+  height,
  }) {
   .id(id)
   .constraintSize(constraintSize)
@@ -113,8 +116,9 @@ function spanAttrs ({
   .backgroundColor(backgroundColor)
   .backgroundImage(backgroundImage, backgroundRepeat)
   .backgroundImageSize(backgroundImageSize)
-  .size(size)
   .textAlign(textAlign)
+  .width(width)
+  .height(height)
 }
 
 function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) {
@@ -134,21 +138,17 @@ function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) 
 function getFontAttributes (node: TaroElement) {
   const { _st } = node
 
-  let lineHeight = AttributeManager.getNodeStyle(_st, 'lineHeight')
-  if (lineHeight && typeof lineHeight === 'number') {
-    lineHeight = convertNumber2PX(lineHeight)
-  }
   return {
     decoration: AttributeManager.getNodeStyle(_st, 'textDecoration'),
-    lineHeight: lineHeight,
+    lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
     letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
     maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
     fontColor: AttributeManager.getNodeStyle(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
     fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
     fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
     fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
-    textOverflow: { overflow: TextOverflow[capitalize(AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'))] },
-    textAlign: AttributeManager.getTextAlign(_st)
+    textOverflow:  AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'),
+    textAlign: AttributeManager.getNodeStyle(_st, 'textAlign', 'none'),
   }
 }
 

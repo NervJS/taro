@@ -17,8 +17,8 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       obj['padding'] = Object.assign({}, obj['padding'], { top: getUnit(value) })
       break
     }
-    case 'paddingRight':  {
-      obj['padding'] = Object.assign({}, obj['padding'], { right: getUnit(value) })
+    case 'paddingLeft':  {
+      obj['padding'] = Object.assign({}, obj['padding'], { left: getUnit(value) })
       break
     }
     case 'paddingBottom':  {
@@ -37,8 +37,8 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       obj['margin'] = Object.assign({}, obj['margin'], { top: getUnit(value) })
       break
     }
-    case 'marginRight':  {
-      obj['margin'] = Object.assign({}, obj['margin'], { right: getUnit(value) })
+    case 'marginLeft':  {
+      obj['margin'] = Object.assign({}, obj['margin'], { left: getUnit(value) })
       break
     }
     case 'marginBottom':  {
@@ -123,9 +123,9 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       break
     }
     case 'backgroundSize': {
-      const [x, y = x] = value.split(/\s+/)
+      const [width, height = width] = value.split(/\s+/)
       obj['backgroundImageSize'] = {
-        x, y
+        width, height
       }
       break
     }
@@ -198,7 +198,7 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
     }
     case 'textOverflow': {
       // @ts-ignore
-      obj['textOverflow'] = TextOverflow[capitalize(value || 'none')] 
+      obj['textOverflow'] = { overflow: TextOverflow[capitalize(value || 'none')] }
       break
     }
     case 'WebkitLineClamp': {
