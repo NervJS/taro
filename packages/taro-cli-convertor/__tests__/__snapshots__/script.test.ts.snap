@@ -1,5 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`page页面转换 template组件名转换 1`] = `
+"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
+import { Block } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import AnFishTmpl from 'taroConvert/src/imports/AnFishTmpl.js';
+import ATmpl from 'taroConvert/src/imports/ATmpl.js';
+import AshMerTmpl from 'taroConvert/src/imports/AshMerTmpl.js';
+import AolTmpl from 'taroConvert/src/imports/AolTmpl.js';
+import AshTmpl from 'taroConvert/src/imports/AshTmpl.js';
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Block><AshTmpl></AshTmpl>{
+        /*  template的name值为首字母大写且单个单词  */
+      }<AolTmpl></AolTmpl>{
+        /*  template的name值为首字母大写且多个单词  */
+      }<AshMerTmpl></AshMerTmpl>{
+        /*  template的name值为单字母  */
+      }<ATmpl></ATmpl>{
+        /*  template的name值为小驼峰  */
+      }<AnFishTmpl></AnFishTmpl></Block>;
+  }
+}
+export default _C;"
+`;
+
 exports[`文件转换 project.config.json中添加配置miniprogramRoot后能够读取app.json进行convert 1`] = `
 Convertor {
   "components": Set {},

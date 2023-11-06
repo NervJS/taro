@@ -608,22 +608,21 @@ export default class Convertor {
             }
             if (imports && imports.length) {
               imports.forEach(({ name, ast, wxs }) => {
-                const importName = wxs ? name : pascalCase(name)
-                if (componentClassName === importName) {
+                if (componentClassName === name) {
                   return
                 }
                 const importPath = path.join(
                   self.importsDir,
-                  importName + (wxs ? self.wxsIncrementId() : '') + (self.isTsProject ? '.ts' : '.js')
+                  name + (wxs ? self.wxsIncrementId() : '') + (self.isTsProject ? '.ts' : '.js')
                 )
                 if (!self.hadBeenBuiltImports.has(importPath)) {
                   self.hadBeenBuiltImports.add(importPath)
                   self.writeFileToTaro(importPath, prettier.format(generateMinimalEscapeCode(ast), prettierJSConfig))
                 }
-                if (scriptComponents.indexOf(importName) !== -1 || (wxs && wxs === true)) {
+                if (scriptComponents.indexOf(name) !== -1 || (wxs && wxs === true)) {
                   lastImport.insertAfter(
                     template(
-                      `import ${importName} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
+                      `import ${name} from '${promoteRelativePath(path.relative(outputFilePath, importPath))}'`,
                       babylonConfig
                     )() as t.Statement
                   )
