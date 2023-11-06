@@ -3,8 +3,9 @@
 exports[`wxs.ts测试 wxs标签中的getDate()转换为new Date() 1`] = `
 "module.exports = {
   date1: new Date(),
-  date2: new Date(1500000000000),
   //参数为数字
-  date3: new Date("2017-7-14") //参数为字符串
+  date2: new Date(1500000000000),
+  //参数为字符串
+  date3: new Date("2017-7-14")
 };"
 `;

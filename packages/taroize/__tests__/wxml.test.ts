@@ -101,8 +101,10 @@ describe('wxml.ts测试', () => {
       <wxs module="wxs_getDate">
         module.exports = {
           date1:getDate(),
-          date2:getDate(1500000000000), //参数为数字
-          date3:getDate('2017-7-14')    //参数为字符串
+          //参数为数字
+          date2:getDate(1500000000000),
+          //参数为字符串
+          date3:getDate('2017-7-14') 
         }
       </wxs>
     `
