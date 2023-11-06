@@ -450,7 +450,7 @@ declare module '../../index' {
      */
     truncateSync(option: FileSystemManager.TruncateSyncOption): void
     /** 删除文件
-     * @supported weapp,  weapp, alipay, swan, jd, qq, tt
+     * @supported weapp, alipay, swan, jd, qq, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.unlink.html
      */
     unlink(option: FileSystemManager.UnlinkOption): void
