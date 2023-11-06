@@ -54,6 +54,18 @@ Convertor {
       \\"miniprogramRoot\\": \\"miniprogram\\\\\\",
     \\\\miniprogram",
   "pages": Set {},
+  "pluginInfo": Object {
+    "entryFilePath": "",
+    "pages": Set {},
+    "pagesMap": Map {},
+    "pluginName": "",
+    "pluginRoot": "",
+    "publicComponents": Set {},
+  },
+  "projectConfig": Object {
+    "compileType": "",
+    "pluginRoot": "",
+  },
   "reportErroMsg": Array [],
   "root": "
       \\"miniprogramRoot\\": \\"miniprogram/\\",

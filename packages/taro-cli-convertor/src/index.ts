@@ -8,6 +8,7 @@ import {
   CSS_IMPORT_REG,
   emptyDirectory,
   fs,
+  normalizePath,
   pascalCase,
   printLog,
   processTypeEnum,
@@ -17,6 +18,7 @@ import {
   REG_URL,
   resolveScriptPath,
 } from '@tarojs/helper'
+import { isNull, isUndefined } from '@tarojs/shared'
 import * as taroize from '@tarojs/taroize'
 import wxTransformer from '@tarojs/transformer-wx'
 import * as path from 'path'
@@ -38,9 +40,11 @@ import {
   handleUnconvertDir,
   incrementId,
   printToLogFile,
+  replacePluginComponentUrl,
   transRelToAbsPath,
 } from './util'
 import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
+import { Constants } from './util/constants'
 import { globals } from './util/global'
 
 import type { ParserOptions } from '@babel/parser'
@@ -67,7 +71,7 @@ const babylonConfig: ParserOptions = {
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
 
-const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'requirePlugin', 'Behavior'])
+const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'Behavior'])
 
 interface IComponent {
   name: string
@@ -90,6 +94,7 @@ interface IParseAstOptions {
   depComponents?: Set<IComponent>
   imports?: IImport[]
   isApp?: boolean
+  pluginComponents?: Set<IComponent>
 }
 
 interface ITaroizeOptions {
@@ -100,6 +105,7 @@ interface ITaroizeOptions {
   rootPath?: string
   scriptPath?: string
   logFilePath?: string
+  pluginInfo?: IPluginInfo
 }
 
 // convert.config,json配置参数
@@ -113,6 +119,20 @@ interface IReportMsg {
   message: string // 报告信息
   type?: string // 报告信息类型
   childReportMsg?: IReportMsg[]
+}
+
+interface IProjectConfig {
+  pluginRoot: string
+  compileType: string
+}
+
+interface IPluginInfo {
+  pluginRoot: string // projectRoot + pluginRoot(project.config.json)
+  pluginName: string
+  pages: Set<string>
+  pagesMap: Map<string, string> // 插件名和路径的映射
+  publicComponents: Set<IComponent>
+  entryFilePath: string
 }
 
 function processStyleImports (content: string, processFn: (a: string, b: string) => string) {
@@ -163,6 +183,9 @@ export default class Convertor {
   convertConfig: IConvertConfig
   external: string[]
   reportErroMsg: IReportMsg[]
+  projectConfig: IProjectConfig
+  pluginInfo: IPluginInfo
+  isTraversePlugin: boolean
 
   constructor (root, isTsProject) {
     this.root = root
@@ -185,13 +208,21 @@ export default class Convertor {
     this.hadBeenBuiltComponents = new Set<string>()
     this.hadBeenBuiltImports = new Set<string>()
     this.reportErroMsg = []
+    this.projectConfig = { pluginRoot: '', compileType: '' }
+    this.pluginInfo = {
+      pluginRoot: '',
+      pluginName: '',
+      pages: new Set<string>(),
+      pagesMap: new Map(),
+      publicComponents: new Set<IComponent>(),
+      entryFilePath: '',
+    }
     this.init()
   }
 
   init () {
     console.log(chalk.green('开始代码转换...'))
     this.initConvert()
-    this.getConvertConfig()
     this.getApp()
     this.getPages()
     this.getSitemapLocation()
@@ -199,15 +230,30 @@ export default class Convertor {
   }
 
   initConvert () {
+    // 清空taroConvert目录，保留taroConvert下node_modules目录
     if (fs.existsSync(this.convertRoot)) {
       emptyDirectory(this.convertRoot, { excludes: ['node_modules'] })
     } else {
       fs.ensureDirSync(this.convertRoot)
     }
+
+    // 转换自定义配置文件，如：tsconfig.json
     this.convertSelfDefinedConfig()
-    // 创建.convert目录，存放转换中间数据
+
+    // 创建.convert目录，存放转换中间数据，如日志数据
     generateDir(path.join(this.convertRoot, '.convert'))
     globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
+
+    // 读取convert.config.json配置文件
+    this.getConvertConfig()
+
+    // 读取project.config.json文件
+    this.parseProjectConfig()
+
+    // 解析插件的配置信息
+    if (this.projectConfig.compileType === Constants.PLUGIN) {
+      this.parsePluginConfig(this.pluginInfo)
+    }
   }
 
   wxsIncrementId = incrementId()
@@ -323,10 +369,18 @@ export default class Convertor {
     })
   }
 
-  parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }: IParseAstOptions): {
-    ast: t.File
-    scriptFiles: Set<string>
-  } {
+  parseAst ({
+    ast,
+    sourceFilePath,
+    outputFilePath,
+    importStylePath,
+    depComponents,
+    imports = [],
+    pluginComponents,
+  }: IParseAstOptions): {
+      ast: t.File
+      scriptFiles: Set<string>
+    } {
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
@@ -425,6 +479,7 @@ export default class Convertor {
               const node = astPath.node
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
+              const args = astPath.get('arguments')
               if (callee.type === 'Identifier') {
                 if (callee.name === 'require') {
                   const args = node.arguments as Array<t.StringLiteral>
@@ -466,6 +521,21 @@ export default class Convertor {
                   if (!hasCacheOptionsRequired) {
                     ast.program.body.unshift(requireCacheOptionsAst)
                     hasCacheOptionsRequired = true
+                  }
+                } else if (callee.name === 'requirePlugin') {
+                  if (args.length === 1 && args[0].isStringLiteral()) {
+                    // 在小程序中调用plugin中模块，相对路径需要使用转换后的
+                    const pluginEntryFilePathTrans = self.pluginInfo.entryFilePath.replace(
+                      self.pluginInfo.pluginRoot,
+                      path.join(self.convertDir, self.pluginInfo.pluginName)
+                    )
+                    const sourceFilePathTarns = self.getDistFilePath(sourceFilePath)
+                    const newRequire = t.callExpression(t.identifier('require'), [
+                      t.stringLiteral(
+                        normalizePath(path.relative(path.dirname(sourceFilePathTarns), pluginEntryFilePathTrans))
+                      ),
+                    ])
+                    astPath.replaceWith(newRequire)
                   }
                 }
               }
@@ -751,12 +821,44 @@ export default class Convertor {
                 const index = scriptComponents.indexOf(name)
                 scriptComponents.splice(index, 1)
                 let componentPath = componentObj.path
-                if (componentPath.indexOf(self.root) !== -1) {
-                  componentPath = path.relative(sourceFilePath, componentPath)
+                if (!componentPath.startsWith(self.root) && !componentPath.startsWith(self.pluginInfo.pluginRoot)) {
+                  console.error(
+                    `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`
+                  )
+                  return
                 }
+                componentPath = path.relative(sourceFilePath, componentPath)
                 lastImport.insertAfter(
                   template(
                     `import ${name} from '${promoteRelativePath(componentPath)}'`,
+                    babylonConfig
+                  )() as t.Statement
+                )
+              })
+            }
+
+            // 页面中引用的插件组件增加引用信息
+            if (pluginComponents && pluginComponents.size) {
+              pluginComponents.forEach((pluginComponent) => {
+                const componentName = pascalCase(pluginComponent.name.toLowerCase())
+                const componentPath = pluginComponent.path
+                if (!componentPath.startsWith(self.pluginInfo.pluginRoot)) {
+                  console.error(
+                    `exception: 在页面${sourceFilePath}引用了无效的插件组件路径${componentPath}, 请在${outputFilePath}中手动引入`
+                  )
+                  return
+                }
+                // 插件组件转换后的绝对路径
+                const conponentTransPath = componentPath.replace(
+                  self.pluginInfo.pluginRoot,
+                  path.join(self.convertDir, self.pluginInfo.pluginName)
+                )
+
+                // 由于插件转换后路径的变化，此处需根据转换后的路径获取相对路径
+                const componentRelPath = path.relative(self.getDistFilePath(sourceFilePath), conponentTransPath)
+                lastImport.insertAfter(
+                  template(
+                    `import ${componentName} from '${promoteRelativePath(componentRelPath)}'`,
                     babylonConfig
                   )() as t.Statement
                 )
@@ -880,6 +982,32 @@ export default class Convertor {
     }
   }
 
+  /**
+   * 解析project.config.json配置文件
+   *
+   */
+  parseProjectConfig () {
+    // 处理project.config.json，并存储到projectConfig中
+    const projectConfigFilePath: string = path.join(this.root, `project.config${this.fileTypes.CONFIG}`)
+    if (fs.existsSync(projectConfigFilePath)) {
+      try {
+        const projectConfigJson = JSON.parse(String(fs.readFileSync(projectConfigFilePath)))
+        if (projectConfigJson && projectConfigJson.compileType === Constants.PLUGIN) {
+          const pluginRoot = projectConfigJson.pluginRoot
+          if (pluginRoot === '' || isNull(pluginRoot) || isUndefined(pluginRoot)) {
+            console.log('project.config,json中pluginRoot为空或未配置，请确认配置是否正确')
+            process.exit(1)
+          }
+          this.projectConfig = { ...projectConfigJson }
+          this.pluginInfo.pluginRoot = path.join(this.root, projectConfigJson.pluginRoot.replace(/\/+$/, ''))
+        }
+      } catch (err) {
+        console.log(chalk.red(`project.config${this.fileTypes.CONFIG} 解析失败，请检查！`))
+        process.exit(1)
+      }
+    }
+  }
+
   getApp () {
     try {
       const projectConfigPath: string = path.join(this.root, `project.config${this.fileTypes.CONFIG}`) // project.config.json 文件路径
@@ -927,6 +1055,11 @@ export default class Convertor {
         delete this.entryJSON.usingComponents
       }
 
+      // 当小程序中包含plugin时，从app.json中解析pluginName，当前只支持一个plugin
+      if (this.projectConfig && this.projectConfig.compileType === Constants.PLUGIN) {
+        this.parsePluginName(this.entryJSON)
+      }
+
       printLog(processTypeEnum.CONVERT, '入口文件', this.generateShowPath(this.entryJSPath))
       printLog(processTypeEnum.CONVERT, '入口配置', this.generateShowPath(this.entryJSONPath))
       if (fs.existsSync(this.entryStylePath)) {
@@ -936,6 +1069,21 @@ export default class Convertor {
     } catch (err) {
       this.entryJSON = {}
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
+      process.exit(1)
+    }
+  }
+
+  /**
+   * 从app.json中解析pluginName，当前只支持一个plugin
+   *
+   * @param app.json
+   */
+  parsePluginName (entryJSON) {
+    const plugins = entryJSON.plugins
+    if (plugins && Object.keys(plugins).length) {
+      this.pluginInfo.pluginName = Object.keys(plugins)[0]
+    } else {
+      console.log('当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确')
       process.exit(1)
     }
   }
@@ -1003,7 +1151,7 @@ export default class Convertor {
 
         try {
           const code = fs.readFileSync(file).toString()
-          let outputFilePath = file.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
+          let outputFilePath = this.getDistFilePath(file)
           const extname = path.extname(outputFilePath)
           if (/\.wxs/.test(extname)) {
             outputFilePath += '.js'
@@ -1043,11 +1191,22 @@ export default class Convertor {
     else return component + '/index' + extname
   }
 
+  /**
+   * 根据源文件路径获取转换后文件路径
+   *
+   * @param { string } src 源文件路径
+   * @param { 文件后缀 } extname
+   * @returns { string } 转换后文件路径
+   */
   getDistFilePath (src: string, extname?: string): string {
-    if (!extname) return src.replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
-    return src
-      .replace(this.isTsProject ? this.miniprogramRoot : this.root, this.convertDir)
-      .replace(path.extname(src), extname)
+    let filePath
+    if (this.isTraversePlugin) {
+      filePath = src.replace(this.pluginInfo.pluginRoot, path.join(this.convertDir, this.pluginInfo.pluginName))
+    } else {
+      filePath = src.replace(this.root, this.convertDir)
+    }
+
+    return extname ? filePath.replace(path.extname(src), extname) : filePath
   }
 
   getConfigFilePath (src: string) {
@@ -1085,7 +1244,7 @@ ${code}
   generateEntry () {
     try {
       const entryJS = String(fs.readFileSync(this.entryJSPath))
-      const entryJSON = JSON.stringify(this.entryJSON)
+      let entryJSON = JSON.stringify(this.entryJSON)
       const entryDistJSPath = this.getDistFilePath(this.entryJSPath)
       const taroizeResult = taroize({
         json: entryJSON,
@@ -1106,6 +1265,12 @@ ${code}
           : null,
         isApp: true,
       })
+
+      // 将插件信息转换为子包信息添加到入口配置文件中
+      if (this.projectConfig.compileType === Constants.PLUGIN) {
+        entryJSON = this.addSubpackages(this.entryJSON)
+      }
+
       const jsCode = generateMinimalEscapeCode(ast)
       this.writeFileToTaro(entryDistJSPath, jsCode)
       this.writeFileToConfig(entryDistJSPath, entryJSON)
@@ -1121,6 +1286,34 @@ ${code}
     } catch (err) {
       console.log(err)
     }
+  }
+
+  /**
+   * 将plugin信息转换为subpackage并添加到入口配置文件中
+   *
+   * @param entryJSON
+   * @returns
+   */
+  addSubpackages (entryJSON) {
+    // 删除plugins字段
+    if (entryJSON && entryJSON.plugins) {
+      delete entryJSON.plugins
+    }
+
+    const subPackageInfo = {
+      root: `${this.pluginInfo.pluginName}/`,
+      pages: [...this.pluginInfo.pages],
+    }
+
+    // 子包的字段可以为subpackages 或 subPackages
+    if (entryJSON.subpackages) {
+      entryJSON.subpackages.push(subPackageInfo)
+    } else if (entryJSON.subPackages) {
+      entryJSON.subPackages.push(subPackageInfo)
+    } else {
+      entryJSON.subPackages = [subPackageInfo]
+    }
+    return JSON.stringify(entryJSON)
   }
 
   generateTabBarIcon (tabBar: TabBar) {
@@ -1202,15 +1395,15 @@ ${code}
     return true
   }
 
-  traversePages () {
-    this.pages.forEach((page) => {
-      printToLogFile(`package: taro-cli-convertor, 开始转换页面 ${page} ${getLineBreak()}`)
-      const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(this.root, page)
+  traversePages (root: string, pages: Set<string>) {
+    pages.forEach((page) => {
+      printToLogFile(`开始转换页面 ${page} ${getLineBreak()}`)
+      const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(root, page)
 
       // 处理不转换的页面，可在convert.config.json中external字段配置
       const matchUnconvertDir: string | null = getMatchUnconvertDir(pagePath, this.convertConfig?.external)
       if (matchUnconvertDir !== null) {
-        handleUnconvertDir(matchUnconvertDir, this.root, this.convertDir)
+        handleUnconvertDir(matchUnconvertDir, root, this.convertDir)
         return
       }
 
@@ -1221,7 +1414,6 @@ ${code}
       const pageTemplPath = pagePath + this.fileTypes.TEMPL
 
       try {
-        const depComponents = new Set<IComponent>()
         if (!fs.existsSync(pageJSPath)) {
           throw new Error(`页面 ${page} 没有 JS 文件！`)
         }
@@ -1236,8 +1428,12 @@ ${code}
         } else if (this.entryUsingComponents) {
           pageConfig = {}
         }
+
+        const depComponents = new Set<IComponent>()
+        const pluginComponents = new Set<IComponent>()
         if (pageConfig) {
-          if (this.entryUsingComponents) {
+          // app.json中注册的组件为公共组件
+          if (this.entryUsingComponents && !this.isTraversePlugin) {
             pageConfig.usingComponents = {
               ...pageConfig.usingComponents,
               ...this.entryUsingComponents,
@@ -1249,22 +1445,25 @@ ${code}
             const usingComponents = {}
             Object.keys(pageUsingComponents).forEach((component) => {
               const unResolveComponentPath: string = pageUsingComponents[component]
+              let componentPath
               if (unResolveComponentPath.startsWith('plugin://')) {
-                usingComponents[component] = unResolveComponentPath
+                componentPath = replacePluginComponentUrl(unResolveComponentPath, this.pluginInfo)
+                pluginComponents.add({
+                  name: component,
+                  path: componentPath,
+                })
               } else if (this.isThirdPartyLib(unResolveComponentPath, path.resolve(pagePath, '..'))) {
-                handleThirdPartyLib(unResolveComponentPath, this.convertConfig?.nodePath, this.root, this.convertRoot)
+                handleThirdPartyLib(unResolveComponentPath, this.convertConfig?.nodePath, root, this.convertRoot)
               } else {
-                let componentPath
-                if (unResolveComponentPath.startsWith(this.root)) {
+                if (unResolveComponentPath.startsWith(root)) {
                   componentPath = unResolveComponentPath
                 } else {
                   componentPath = path.resolve(pageConfigPath, '..', pageUsingComponents[component])
                   // 支持将组件库放在工程根目录下
                   if (!fs.existsSync(resolveScriptPath(componentPath))) {
-                    componentPath = path.join(this.root, pageUsingComponents[component])
+                    componentPath = path.join(root, pageUsingComponents[component])
                   }
                 }
-
                 depComponents.add({
                   name: component,
                   path: componentPath,
@@ -1292,7 +1491,8 @@ ${code}
           pageStyle = String(fs.readFileSync(pageStylePath))
         }
         param.path = path.dirname(pageJSPath)
-        param.rootPath = this.root
+        param.rootPath = root
+        param.pluginInfo = this.pluginInfo
         param.logFilePath = globals.logFilePath
         const taroizeResult = taroize({
           ...param,
@@ -1303,8 +1503,9 @@ ${code}
           sourceFilePath: pageJSPath,
           outputFilePath: pageDistJSPath,
           importStylePath: pageStyle ? pageStylePath.replace(path.extname(pageStylePath), OUTPUT_STYLE_EXTNAME) : null,
-          depComponents,
+          depComponents: depComponents,
           imports: taroizeResult.imports,
+          pluginComponents: pluginComponents,
         })
         const jsCode = generateMinimalEscapeCode(ast)
         this.writeFileToTaro(this.getComponentDest(pageDistJSPath), this.formatFile(jsCode, taroizeResult.template))
@@ -1484,6 +1685,75 @@ ${code}
     }
   }
 
+  /**
+   * 转换插件
+   */
+  traversePlugin () {
+    if (this.projectConfig.compileType !== Constants.PLUGIN) {
+      return
+    }
+
+    this.isTraversePlugin = true
+
+    // 转换插件plugin.json中导出的页面
+    this.traversePages(this.pluginInfo.pluginRoot, this.pluginInfo.pages)
+
+    // 转换插件plugin.json中导出的组件
+    this.traverseComponents(this.pluginInfo.publicComponents)
+
+    // 转换插件的工具文件
+    this.generateScriptFiles(new Set([this.pluginInfo.entryFilePath]))
+  }
+
+  /**
+   * 解析插件配置信息
+   *
+   * @param pluginInfo
+   */
+  parsePluginConfig (pluginInfo: IPluginInfo) {
+    // 处理plugin.json，并存储到pluginInfo中
+    const pluginConfigPath = path.join(pluginInfo.pluginRoot, Constants.PLUGIN_JSON)
+    if (fs.existsSync(pluginConfigPath)) {
+      try {
+        const pluginConfigJson = JSON.parse(String(fs.readFileSync(pluginConfigPath)))
+        if (!pluginConfigJson) {
+          console.log('插件配置信息为空，请检查！')
+          return
+        }
+
+        // 解析publicComponents信息
+        const publicComponents = pluginConfigJson.publicComponents
+        if (publicComponents && Object.keys(publicComponents).length) {
+          for (const key in publicComponents) {
+            pluginInfo.publicComponents.add({
+              name: key,
+              path: path.join(pluginInfo.pluginRoot, publicComponents[key]),
+            })
+          }
+        }
+
+        // 解析pages信息
+        const pages = pluginConfigJson.pages
+        if (pages && Object.keys(pages).length) {
+          for (const pageName in pages) {
+            const pagePath = pages[pageName]
+            pluginInfo.pages.add(pagePath)
+            pluginInfo.pagesMap.set(pageName, pagePath)
+          }
+        }
+
+        // 解析入口文件信息
+        const entryFilePath = pluginConfigJson.main
+        if (entryFilePath) {
+          pluginInfo.entryFilePath = path.resolve(pluginInfo.pluginRoot, entryFilePath)
+        }
+      } catch (err) {
+        console.log('解析plugin.json失败，请检查！')
+        process.exit(1)
+      }
+    }
+  }
+
   generateConfigFiles () {
     const creator = new Creator()
     const templateName = 'default'
@@ -1587,7 +1857,8 @@ ${code}
   run () {
     this.framework = 'react'
     this.generateEntry()
-    this.traversePages()
+    this.traversePages(this.root, this.pages)
+    this.traversePlugin()
     this.generateConfigFiles()
     this.generateReport()
   }

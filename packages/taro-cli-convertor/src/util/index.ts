@@ -374,6 +374,41 @@ export function printToLogFile (data: string) {
   }
 }
 
+/**
+ * 将引用插件的路径替换为引用子包插件的路径
+ *
+ * @param pluginComponentPath 小程序中引用的插件路径
+ * @param pluginInfo 插件信息
+ * @returns
+ */
+export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
+  // 捕获跳转路径中的插件名和页面名，替换为子包路径
+  const regexPluginUrl = /plugin:\/\/([^/]+)\/([^/?]+)/
+  const matchPluginUrl = pluginComponentPath.match(regexPluginUrl)
+  if (!matchPluginUrl) {
+    // 后续添加到转换报告中，不使用throw，不阻塞转换
+    throw new Error(`引用插件路径格式异常，插件路径：${pluginComponentPath}`)
+  }
+
+  // 捕获页面名
+  const componentName = matchPluginUrl[2]
+
+  // 通过引用的插件组件名在注册的插件组件信息中查找组件路径
+  let componentPath = null
+  pluginInfo.publicComponents.forEach((publicComponent) => {
+    if (publicComponent.name === componentName) {
+      componentPath = publicComponent.path
+    }
+  })
+
+  if (!componentPath) {
+    // 后续添加到转换报告中，不使用throw，不阻塞转换
+    throw new Error(`引用了未注册的插件组件，插件路径： ${pluginComponentPath}`)
+  }
+
+  return componentPath
+}
+
 // eslint-disable-next-line camelcase
 export const DEFAULT_Component_SET = new Set<string>([
   'View',

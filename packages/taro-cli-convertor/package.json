@@ -62,6 +62,7 @@
     "@babel/types": "^7.20.0",
     "@tarojs/cli": "workspace:*",
     "@tarojs/helper": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "@tarojs/taroize": "workspace:*",
     "@tarojs/transformer-wx": "workspace:*",
     "postcss": "^8.4.18",
