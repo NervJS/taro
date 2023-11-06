@@ -1449,7 +1449,7 @@ declare module '../../index' {
 
     /**
      * 获取该小程序下的 本地临时文件 或 本地缓存文件 信息
-     * @supported weapp, weapp, alipay, swan, jd, qq, tt, rn
+     * @supported weapp, alipay, swan, jd, qq, tt, rn
      * @example
      * ```tsx
      * Taro.getFileInfo({

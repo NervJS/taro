@@ -76,39 +76,39 @@ declare module '../../index' {
       /** 城市名称
        * @supported swan
        */
-      street: string
+      street?: string
       /** 国家代码
        * @supported swan
        */
-      cityCode: string
+      cityCode?: string
       /** 城市名称
        * @supported swan, tt
        */
-      city: string
+      city?: string
       /** 国家
        * @supported swan
        */
-      country: string
+      country?: string
       /** 国家代码
        * @supported swan
        */
-      countryCode: string
+      countryCode?: string
       /** 省份
        * @supported swan
        */
-      province: string
+      province?: string
       /** 街道号码
        * @supported swan
        */
-      streetNumber: string
+      streetNumber?: string
       /** 区
        * @supported swan
        */
-      district: string
+      district?: string
       /** 是不是精确定位信息
        * @supported swan
        */
-      isFullAccuracy: boolean
+      isFullAccuracy?: boolean
       /** 调用结果 */
       errMsg: string
     }
@@ -178,27 +178,27 @@ declare module '../../index' {
       /** 区县代码
        * @supported alipay
        */
-      adCode: number
+      adCode?: number
       /** 区县名称
        * @supported alipay
        */
-      adName: string
+      adName?: string
       /** 城市代码
        * @supported alipay
        */
-      cityCode: string
+      cityCode?: string
       /** 城市名称
        * @supported alipay
        */
-      cityName: string
+      cityName?: string
       /** 省份代码
        * @supported alipay
        */
-      provinceCode: number
+      provinceCode?: number
       /** 省份名称
        * @supported alipay
        */
-      provinceName: string
+      provinceName?: string
       /** 调用结果 */
       errMsg: string
     }
