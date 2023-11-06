@@ -1,6 +1,10 @@
 import transform from '../src/index'
 import { baseOptions , generateMinimalEscapeCode } from './utils'
 
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
 
 describe('utils.ts', () => {
   describe('@babel/parser', () => {

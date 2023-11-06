@@ -95,6 +95,23 @@ describe('wxml.ts测试', () => {
     expect(wxses).toMatchSnapshot()
     expect(importsCode).toMatchSnapshot()
   })
+
+  test('wxs标签中的getDate()转换为new Date()',() => {
+    option.wxml = `
+      <wxs module="wxs_getDate">
+        module.exports = {
+          date1:getDate(),
+          date2:getDate(1500000000000), //参数为数字
+          date3:getDate('2017-7-14')    //参数为字符串
+        }
+      </wxs>
+    `
+    option.path = 'wxml_wxs_getDate'
+    const { wxses, imports }: any = parseWXML(option.path, option.wxml)
+    const importsCode = generateMinimalEscapeCode(imports[0].ast)
+    expect(wxses).toMatchSnapshot()
+    expect(importsCode).toMatchSnapshot()
+  })
 })
 
 describe('parseContent', () => {
