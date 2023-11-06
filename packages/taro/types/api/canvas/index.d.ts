@@ -35,6 +35,10 @@ declare module '../../index' {
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 生成文件的临时路径 */
       tempFilePath: string
+      /** 图片路径(本地临时文件)。
+       * @supported alipay
+       */
+      apFilePath?: string
       /** 调用结果 */
       errMsg: string
     }
@@ -137,7 +141,46 @@ declare module '../../index' {
       /** 画布宽度 */
       width?: number
       /** 在自定义组件下，当前组件实例的 this，以操作组件内 [canvas](/docs/components/canvas) 组件 */
-      component?: TaroGeneral.IAnyObject,
+      compInst?: TaroGeneral.IAnyObject,
+    }
+  }
+
+  namespace toTempFilePath {
+    interface Option {
+      /** 指定的画布区域的左上角横坐标 */
+      x?: number
+      /** 指定的画布区域的左上角纵坐标 */
+      y?: number
+      /** 指定的画布区域的宽度 */
+      width?: number
+      /** 指定的画布区域的高度 */
+      height?: number
+      /** 输出的图片的高度 */
+      destHeight?: number
+      /** 输出的图片的宽度 */
+      destWidth?: number
+      /** 目标文件的类型
+       * @default "png"
+       */
+      fileType?: keyof FileType
+      /** 图片的质量，目前仅对 jpg 有效。取值范围为 (0, 1]，不在范围内时当作 1.0 处理。 */
+      quality?: number
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: SuccessCallbackResult) => void
+    }
+    interface FileType {
+      /** jpg 图片 */
+      jpg
+      /** png 图片 */
+      png
+    }
+    interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
+      /** 生成文件的临时路径 */
+      tempFilePath: string
     }
   }
 
@@ -150,7 +193,7 @@ declare module '../../index' {
     /** 画布宽度 */
     width: number
     /** 取消由 requestAnimationFrame 添加到计划中的动画帧请求。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
-     * @supported weapp
+     * @supported weapp, alipay, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.cancelAnimationFrame.html
      */
     cancelAnimationFrame(requestID: number): void
@@ -160,7 +203,7 @@ declare module '../../index' {
      */
     createImageData(): ImageData
     /** 创建一个图片对象。 支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法。
-     * @supported weapp
+     * @supported weapp, alipay, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.createImage.html
      */
     createImage(): Image
@@ -172,7 +215,7 @@ declare module '../../index' {
       path: Path2D
     ): Path2D
     /** 支持获取 2D 和 WebGL 绘图上下文
-     * @supported weapp
+     * @supported weapp, alipay, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Canvas.getContext.html
      */
     getContext(contextType: string): RenderingContext
@@ -194,6 +237,11 @@ declare module '../../index' {
       /** 在指定图片格式为 image/jpeg 或 image/webp的情况下，可以从 0 到 1 的区间内选择图片的质量。如果超出取值范围，将会使用默认值 0.92。其他参数会被忽略。 */
       encoderOptions: number
     ): string
+    /** 把当前画布指定区域保存为图片
+     * @supported alipay
+     * @see https://opendocs.alipay.com/mini/api/toTempFilePath?pathHash=e79fe218
+     */
+    toTempFilePath(oprion: toTempFilePath.Option): void
   }
 
   /** canvas 组件的绘图上下文
@@ -1670,6 +1718,7 @@ declare module '../../index' {
     /** origin: 发送完整的referrer; no-referrer: 不发送。
      *
      * 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本
+     * @supported weapp
      */
     referrerPolicy: string
     /** 图片加载发生错误后触发的回调函数 */
@@ -1706,17 +1755,143 @@ declare module '../../index' {
     /** 该方法返回 OffscreenCanvas 的绘图上下文
      *
      * > 当前仅支持获取 WebGL 绘图上下文
-     * @supported weapp
+     * @supported weapp, tt
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.getContext.html
      */
-    getContext(contextType: string): RenderingContext
+    getContext(contextType: 'webgl' | '2d'): RenderingContext
   }
 
   /** Canvas 2D API 的接口 Path2D 用来声明路径，此路径稍后会被CanvasRenderingContext2D 对象使用。CanvasRenderingContext2D 接口的 路径方法 也存在于 Path2D 这个接口中，允许你在 canvas 中根据需要创建可以保留并重用的路径。
    * @supported weapp
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/Path2D.html
    */
-  interface Path2D {}
+  interface Path2D {
+    /** 添加路径到当前路径。
+     * @supported weapp
+     */
+    addPath(
+      /** 添加的 Path2D 路径 */
+      path: Path2D
+    ): void
+    /** 添加一段圆弧路径
+     * @supported weapp
+     */
+    arc(
+      /** 圆心横坐标 */
+      x: number,
+      /** 圆心纵坐标 */
+      y: number,
+      /** 圆形半径，必须为正数 */
+      radius: number,
+      /** 圆弧开始角度 */
+      startAngle: number,
+      /** 圆弧结束角度 */
+      endAngle: number,
+      /** 是否逆时针绘制。如果传 true, 则会从 endAngle 开始绘制到 startAngle */
+      counterclockwise: boolean
+    ): void
+    /** 通过给定控制点添加一段圆弧路径
+     * @supported weapp
+     */
+    arcTo(
+      /** 第一个控制点横坐标 */
+      x1: number,
+      /** 第一个控制点纵坐标 */
+      y1: number,
+      /** 第二个控制点横坐标 */
+      x2: number,
+      /** 第二个控制点纵坐标 */
+      y2: number,
+      /** 圆形半径，必须为非负数 */
+      radius: number
+    ): void
+    /** 添加三次贝塞尔曲线路径
+     * @supported weapp
+     */
+    bezierCurveTo(
+      /** 第一个控制点横坐标 */
+      cp1x: number,
+      /** 第一个控制点纵坐标 */
+      cp1y: number,
+      /** 第二个控制点横坐标 */
+      cp2x: number,
+      /** 第二个控制点纵坐标 */
+      cp2y: number,
+      /** 结束点横坐标 */
+      x: number,
+      /** 结束点纵坐标 */
+      y: number
+    ): void
+    /** 闭合路径到起点
+     * @supported weapp
+     */
+    closePath(): void
+    /** 添加椭圆弧路径
+     * @supported weapp
+     */
+    ellipse(
+      /** 椭圆圆心横坐标 */
+      x: number,
+      /** 椭圆圆心纵坐标 */
+      y: number,
+      /** 椭圆长轴半径，必须为非负数 */
+      radiusX: number,
+      /** 椭圆短轴半径，必须为非负数 */
+      radiusY: number,
+      /** 椭圆旋转角度 */
+      rotation: number,
+      /** 圆弧开始角度 */
+      startAngle: number,
+      /** 圆弧结束角度 */
+      endAngle: number,
+      /** 是否逆时针绘制。如果传 true, 则会从 endAngle 开始绘制到 startAngle */
+      counterclockwise: boolean
+    ): void
+    /** 添加直线路径
+     * @supported weapp
+     */
+    lineTo(
+      /** 结束点横坐标 */
+      x: number,
+      /** 结束点纵坐标 */
+      y: number
+    ): void
+    /** 移动路径开始点
+     * @supported weapp
+     */
+    moveTo(
+      /** 横坐标 */
+      x: number,
+      /** 纵坐标 */
+      y: number
+    ): void
+    /** 添加二次贝塞尔曲线路径
+     * @supported weapp
+     */
+    quadraticCurveTo(
+      /** 控制点横坐标 */
+      cpx: number,
+      /** 控制点纵坐标 */
+      cpy: number,
+      /** 结束点横坐标 */
+      x: number,
+      /** 结束点纵坐标 */
+      y: number
+    ): void
+    /** 添加方形路径
+     * @supported weapp 
+     */
+    rect(
+      /** 开始点横坐标 */
+      x: number,
+      /** 开始点纵坐标 */
+      y: number,
+      /** 方形宽度，正数向右，负数向左 */
+      width: number,
+      /** 方形高度，正数向下，负数向上 */
+      height: number
+    ): void
+  }
 
   /** Canvas 绘图上下文。
    *
@@ -1724,14 +1899,37 @@ declare module '../../index' {
    *
    * - 通过 Canvas.getContext('2d') 接口可以获取 CanvasRenderingContext2D 对象，实现了 [HTML Canvas 2D Context](https://www.w3.org/TR/2dcontext/) 定义的属性、方法。
    * - 通过 Canvas.getContext('webgl') 或 OffscreenCanvas.getContext('webgl') 接口可以获取 WebGLRenderingContext 对象，实现了 [WebGL 1.0](https://www.khronos.org/registry/webgl/specs/latest/1.0/) 定义的所有属性、方法、常量。
-   * @supported weapp
+   * - CanvasRenderingContext2D 的 drawImage 方法 2.10.0 起支持传入通过 SelectorQuery 获取的 video 对象，2.29.0 起支持传入开启了自定义渲染的 LivePusherContext 对象。
+   * @supported weapp, alipay, tt
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/RenderingContext.html
    */
   interface RenderingContext {}
 
   interface TaroStatic {
     /** 创建离屏 canvas 实例
-     * @supported weapp
+     * @supported weapp, tt
+     * @example
+     * ```tsx
+     * // 创建离屏 2D canvas 实例
+     * const canvas = Taro.createOffscreenCanvas({type: '2d', width: 300, height: 150})
+     * // 获取 context。注意这里必须要与创建时的 type 一致
+     * const context = canvas.getContext('2d')
+     *
+     * // 创建一个图片
+     * const image = canvas.createImage()
+     * // 等待图片加载
+     * await new Promise(resolve => {
+     *   image.onload = resolve
+     *   image.src = IMAGE_URL // 要加载的图片 url
+     * })
+     *
+     * // 把图片画到离屏 canvas 上
+     * context.clearRect(0, 0, 300, 150)
+     * context.drawImage(image, 0, 0, 300, 150)
+     *
+     * // 获取画完后的数据
+     * const imgData = context.getImageData(0, 0, 300, 150)
+     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.createOffscreenCanvas.html
      *
      * 有两个版本的写法：
@@ -1744,7 +1942,7 @@ declare module '../../index' {
     /** 创建 canvas 的绘图上下文 [CanvasContext](/docs/apis/canvas/CanvasContext) 对象
      *
      * **Tip**: 需要指定 canvasId，该绘图上下文只作用于对应的 `<canvas/>`；另外，Web 端需要在 `useReady` 回调中执行它，否则会因为底层 canvas 渲染出来之前而去获取 CanvasContext，导致其底层的 context 为 `undefined`，从而不能正常绘图。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * import { useReady } from '@tarojs/taro'
@@ -1798,7 +1996,7 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/wx.canvasToTempFilePath.html
      */
     canvasToTempFilePath(
@@ -1808,7 +2006,7 @@ declare module '../../index' {
     ): Promise<canvasToTempFilePath.SuccessCallbackResult>
 
     /** 将像素数据绘制到画布。在自定义组件下，第二个参数传入自定义组件实例 this，以操作组件内 `<canvas>` 组件
-     * @supported weapp, h5
+     * @supported weapp, swan, jd, qq, h5
      * @example
      * ```tsx
      * const data = new Uint8ClampedArray([255, 0, 0, 1])
@@ -1830,7 +2028,7 @@ declare module '../../index' {
     ): Promise<TaroGeneral.CallbackResult>
 
     /** 获取 canvas 区域隐含的像素数据。
-     * @supported weapp, h5
+     * @supported weapp, swan, jd, qq, h5
      * @example
      * ```tsx
      * Taro.canvasGetImageData({
