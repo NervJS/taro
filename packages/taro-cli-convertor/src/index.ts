@@ -212,6 +212,117 @@ export default class Convertor {
 
   wxsIncrementId = incrementId()
 
+  /**
+   * 遍历AST，为元素或方法可能为undefined的数据添加可选链操作符
+   * @param ast
+   */
+  convertToOptional (ast: t.File) {
+    // 需要添加可选链运算符的数据
+    const optionalData = new Set<string>()
+    const thisData = new Set<string>()
+    traverse(ast, {
+      ObjectProperty (astPath) {
+        // xxx({ data: {...} })，获取data属性中符合的数据
+        const node = astPath.node
+        const key = node.key
+        if (!t.isIdentifier(key) || key.name !== 'data') {
+          return
+        }
+        const value = node.value
+        if (!t.isObjectExpression(value)) {
+          return
+        }
+        const properties = value.properties
+        properties.forEach((property) => {
+          if (!t.isObjectProperty(property)) {
+            return
+          }
+          const key = property.key
+          if (!t.isIdentifier(key)) {
+            return
+          }
+          const data = key.name
+          thisData.add(data)
+          // 数据初始化为undefined、空字符串''、空数组[]，收集
+          const assign = property.value
+          const isUndefined = t.isIdentifier(assign) && assign.name === 'undefined'
+          const isEmptyString = t.isStringLiteral(assign) && assign.value === ''
+          const isEmptyArray = t.isArrayExpression(assign) && assign.elements.length === 0
+          if (isUndefined || isEmptyString || isEmptyArray) {
+            optionalData.add(data)
+          }
+        })
+      },
+      CallExpression (astPath) {
+        // 用setData进行初始化的数据
+        const node = astPath.node
+        const callee = node.callee
+        if (!t.isMemberExpression(callee)) {
+          return
+        }
+        const property = callee.property
+        if (!t.isIdentifier(property) || property.name !== 'setData') {
+          return
+        }
+        if (node.arguments.length === 0) {
+          return
+        }
+        const arg = node.arguments[0]
+        // 除去data中的数据，setData中其余全部的数据都收集
+        if (arg.type === 'ObjectExpression') {
+          arg.properties.forEach((property) => {
+            if (!t.isObjectProperty(property)) {
+              return
+            }
+            const key = property.key
+            if (!t.isIdentifier(key)) {
+              return
+            }
+            const data = key.name
+            if (thisData.has(data)) {
+              return
+            }
+            optionalData.add(data)
+          })
+        }
+      },
+      ClassBody (astPath) {
+        astPath.traverse({
+          MemberExpression (path) {
+            // 遇到成员表达式，抽取表达式的来源数据
+            const code = path.toString()
+            const optionMatch = code.match(/^(.*?)\./)?.[1]
+            let data: string
+            if (optionMatch) {
+              const computedMatch = optionMatch.match(/^(.*?)\[/)?.[1]
+              data = computedMatch || optionMatch
+            } else {
+              const computedMatch = code.match(/^(.*?)\[/)?.[1]
+              if (!computedMatch) {
+                return
+              }
+              data = computedMatch
+            }
+            // 如果数据不需要添加可选链操作符，返回
+            if (!optionalData.has(data)) {
+              return
+            }
+            // 利用正则表达式匹配，添加可选链操作符
+            const parentPath = path.parentPath
+            if (parentPath.isCallExpression()) {
+              path.replaceWithSourceString(code.replace(/\./g, '?.').replace(/\[/g, '?.['))
+              const callee = parentPath.node.callee as t.Expression
+              const args = parentPath.node.arguments
+              parentPath.replaceWith(t.optionalCallExpression(callee, args, false))
+            } else {
+              path.replaceWithSourceString(code.replace(/\./g, '?.').replace(/\[/g, '?.['))
+            }
+          },
+        })
+      },
+    })
+  }
+
   parseAst ({ ast, sourceFilePath, outputFilePath, importStylePath, depComponents, imports = [] }: IParseAstOptions): {
     ast: t.File
     scriptFiles: Set<string>
@@ -656,6 +767,9 @@ export default class Convertor {
         },
       },
     })
+
+    this.convertToOptional(ast)
+
     // 遍历 ast ,将多次 const { xxx } = require('@tarojs/with-weapp')  引入压缩为一次引入
     traverse(ast, {
       VariableDeclaration (astPath) {
