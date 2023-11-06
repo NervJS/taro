@@ -2,6 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
+import { AttributeManager } from './utils/AttributeManager'
 import { bindInstanceToNode, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
@@ -17,7 +18,8 @@ function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
     color: _attrs.color || '#1aad19',
-    disabled: !!_attrs.disabled,
+    name: _attrs.name || _attrs.value || node.textContent,
+    group: _attrs.name || AttributeManager.getNodeStyle(node.parentNode._attrs, 'id', node.parentNode._nid),
   }
 }
 
@@ -34,7 +36,7 @@ struct TaroCheckbox {
 
   @State isAreaChangeTap: boolean = false
 
-  @State value: boolean = false
+  @State checked: boolean = false
 
   @State thresholds: number[] | null = null
 
@@ -44,7 +46,7 @@ struct TaroCheckbox {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
-    this.value = !!this.node._attrs.checked
+    this.checked = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
@@ -56,26 +58,33 @@ struct TaroCheckbox {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Checkbox({
-        name: '',
-        group: '',
+      Row() {
+        Checkbox(getAttributes(this.node))
+          .defaultEvent()
+          .attrs(getAttributes(this.node))
+          .themeStyles(!!this.node._attrs.disabled)
+          .select(this.checked)
+          .onChange((value: boolean) => {
+            if (!!this.node._attrs.disabled) {
+              // FIXME 找下文档是否有强制刷新方法
+              this.checked = !this.checked
+              this.checked = !this.checked
+            } else {
+              this.checked = value
+              if (this.checked) {
+                const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
+                eventHandler(event, 'change', this.node)
+              }
+            }
+          })
+          .visibleChangeEvent()
+        Text(this.node.textContent)
+          .textAlign(TextAlign.Center)
+          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+      }
+      .onClick(() => {
+        this.checked = !this.checked
       })
-        .defaultEvent()
-        .attrs(getAttributes(this.node))
-        .themeStyles(!!this.node._attrs.disabled)
-        .select(this.value)
-        .onChange((value: boolean) => {
-          if (!!this.node._attrs.disabled) {
-            // FIXME 找下文档是否有强制刷新方法
-            this.value = !this.value
-            this.value = !this.value
-          } else {
-            this.value = value
-            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
-            eventHandler(event, 'change', this.node)
-          }
-        })
-        .visibleChangeEvent()
     }
   }
 }

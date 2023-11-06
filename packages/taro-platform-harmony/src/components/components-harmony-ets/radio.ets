@@ -2,6 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
+import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
@@ -38,7 +39,7 @@ struct TaroRadio {
 
   @State isAreaChangeTap: boolean = false
 
-  @State value: number = 0
+  @State checked: boolean = false
 
   @State thresholds: number[] | null = null
 
@@ -48,7 +49,7 @@ struct TaroRadio {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
-    this.value = !!this.node._attrs.checked
+    this.checked = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
@@ -60,25 +61,38 @@ struct TaroRadio {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Radio({
-        // group: '',
-        value: this.value,
-      })
-        .defaultEvent()
-        .attrs(getAttributes(this.node))
-        .themeStyles(!!this.node._attrs.disabled)
-        .onChange((value: boolean) => {
-          if (!!this.node._attrs.disabled) {
-            // FIXME 找下文档是否有强制刷新方法
-            this.value = !this.value
-            this.value = !this.value
-          } else {
-            this.value = value
-            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
-            eventHandler(event, 'change', this.node)
-          }
+      Row() {
+        Radio({
+          group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
+          value: this.node._attrs.value,
         })
-        .visibleChangeEvent()
+          .checked(this.checked)
+          .defaultEvent()
+          .attrs(getAttributes(this.node))
+          .themeStyles(!!this.node._attrs.disabled)
+          .onChange((value: boolean) => {
+            if (!!this.node._attrs.disabled) {
+              // FIXME 找下文档是否有强制刷新方法
+              this.checked = !this.checked
+              this.checked = !this.checked
+            } else {
+              this.checked = value
+              if (this.checked) {
+                const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
+                eventHandler(event, 'change', this.node)
+              }
+            }
+          })
+          .visibleChangeEvent()
+        Text(this.node.textContent)
+          .textAlign(TextAlign.Center)
+          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+      }
+      .onClick(() => {
+        if (!this.checked) {
+          this.checked = !this.checked
+        }
+      })
     }
   }
 }
