@@ -127,11 +127,16 @@ interface LivePlayerProps extends StandardProps {
   /** 用户选择投屏设备时触发 detail = { state: "success"/"fail" }
    * @supported weapp
    */
-  onCastingUserSelect?: CommonEventFunction<{ state: 'success' | 'fail' }>
+  onCastingUserSelect?: CommonEventFunction<{
+    state: 'success' | 'fail'
+  }>
   /** 投屏成功/失败时触发 detail = { type, state: "success"/"fail" }
    * @supported weapp
    */
-  onCastingStateChange?: CommonEventFunction<{ type: any, state: 'success' | 'fail' }>
+  onCastingStateChange?: CommonEventFunction<{
+    type: any
+    state: 'success' | 'fail'
+  }>
   /** 投屏被中断时触发
    * @supported weapp
    */
