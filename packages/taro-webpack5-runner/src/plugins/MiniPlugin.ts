@@ -969,7 +969,7 @@ export default class TaroMiniPlugin {
         // 添加 comp 和 custom-wrapper 组件
         new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/comp'), `${name}/comp`, META_TYPE.STATIC).apply(childCompiler)
         new TaroSingleEntryPlugin(compiler.context, path.resolve(__dirname, '..', 'template/custom-wrapper'), `${name}/custom-wrapper`, META_TYPE.STATIC).apply(childCompiler)
-        
+
         // 给每个子编译器标记上名称和 tag
         // tag 用于生成模板和 config 时区别于主编译器走不同的方法
         // 名称用于在生成资源时判断是否为当前子编译器的资源
@@ -977,7 +977,7 @@ export default class TaroMiniPlugin {
           compilation.__name = name
           compilation.__tag = CHILD_COMPILER_TAG
         })
-        
+
         promises.push(new Promise((resolve, reject) => {
           childCompiler.runAsChild(err => {
             if (err) {
@@ -1105,6 +1105,11 @@ export default class TaroMiniPlugin {
 
       if (!isIndependent) return
 
+      // 生成页面模板需要在生成页面配置之前，因为会依赖到页面配置的部分内容
+      if (!page.isNative) {
+        this.generateTemplateFile(compilation, compiler, page.path, template.buildPageTemplate, importBaseTemplatePath, config)
+      }
+
       if (config) {
         const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
         const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, independentName, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
@@ -1119,9 +1124,6 @@ export default class TaroMiniPlugin {
           config.content.usingComponents[baseCompName] = importBaseCompPath
         }
         this.generateConfigFile(compilation, compiler, page.path, config.content)
-      }
-      if (!page.isNative) {
-        this.generateTemplateFile(compilation, compiler, page.path, template.buildPageTemplate, importBaseTemplatePath)
       }
     })
   }
@@ -1210,6 +1212,11 @@ export default class TaroMiniPlugin {
 
       if (isIndependent) return
 
+      // 生成页面模板需要在生成页面配置之前，因为会依赖到页面配置的部分内容
+      if (!page.isNative) {
+        this.generateTemplateFile(compilation, compiler, page.path, template.buildPageTemplate, importBaseTemplatePath, config)
+      }
+
       if (config) {
         const importBaseCompPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(baseCompName, isBuildPlugin), ''))))
         const importCustomWrapperPath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTargetFilePath(this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), ''))))
@@ -1224,9 +1231,6 @@ export default class TaroMiniPlugin {
           config.content.usingComponents[baseCompName] = importBaseCompPath
         }
         this.generateConfigFile(compilation, compiler, page.path, config.content)
-      }
-      if (!page.isNative) {
-        this.generateTemplateFile(compilation, compiler, page.path, template.buildPageTemplate, importBaseTemplatePath)
       }
     })
     this.generateTabBarFiles(compilation, compiler)
@@ -1268,7 +1272,7 @@ export default class TaroMiniPlugin {
   generateConfigFile (compilation: Compilation, compiler: Compiler, filePath: string, config: Config & { component?: boolean }) {
     const { RawSource } = compiler.webpack.sources
     const fileConfigName = this.getConfigPath(this.getComponentName(filePath))
-    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'components']
+    const unofficialConfigs = ['enableShareAppMessage', 'enableShareTimeline', 'enablePageMeta', 'components']
     unofficialConfigs.forEach(item => {
       delete config[item]
     })
@@ -1399,9 +1403,9 @@ export default class TaroMiniPlugin {
     const commons = new ConcatSource('')
     const componentCommons: string[] = []
     const independentPackageNames: string[] = []
-    
+
     this.independentPackages.forEach((_, name) => { independentPackageNames.push(name) })
-    
+
     Object.keys(assets).forEach(assetName => {
       const fileName = path.basename(assetName, path.extname(assetName))
       if (
