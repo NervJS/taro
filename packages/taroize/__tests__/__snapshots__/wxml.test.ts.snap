@@ -23,6 +23,25 @@ exports[`wxml.ts测试 wxml 中存在 wxs 2`] = `
 
 exports[`wxml.ts测试 wxml中image的mode=""会转换成mode 1`] = `"<Image className=\\"img\\" src={imgSrc} mode=\\"scaleToFill\\"></Image>"`;
 
+exports[`wxml.ts测试 wxs标签中的getDate()转换为new Date() 1`] = `
+Array [
+  Object {
+    "module": "wxs_getDate",
+    "src": "./wxs__wxs_getDate",
+  },
+]
+`;
+
+exports[`wxml.ts测试 wxs标签中的getDate()转换为new Date() 2`] = `
+"module.exports = {
+  date1: new Date(),
+  //参数为数字
+  date2: new Date(1500000000000),
+  //参数为字符串
+  date3: new Date(\\"2017-7-14\\")
+};"
+`;
+
 exports[`wxml.ts测试 wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp() 1`] = `
 Array [
   Object {

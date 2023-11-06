@@ -1,6 +1,11 @@
 import transform from '../src'
 import { baseOptions, removeFrontBlank } from './utils'
 
+jest.mock('fs', () => ({
+  ...jest.requireActual('fs'), // 保留原始的其他函数
+  appendFile: jest.fn(),
+}))
+
 describe('base', () => {
   // 测试async、await转换后是否保持为async、await
   test('asyncTrans', () => {
