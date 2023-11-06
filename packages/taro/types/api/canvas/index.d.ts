@@ -1511,7 +1511,7 @@ declare module '../../index' {
    */
   interface CanvasGradient {
     /** 添加颜色的渐变点。小于最小 stop 的部分会按最小 stop 的 color 来渲染，大于最大 stop 的部分会按最大 stop 的 color 来渲染
-     * @supported weapp
+     * @supported weapp, alipay, swan, jd, qq, tt
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
