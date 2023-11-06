@@ -183,8 +183,14 @@ export function generateDefinitionJSON () {
       .map(item => item.replace(/\r\s*/g, ' ')) // 有些属性的类型值可能会跨行，将回车加可能的多个空格替换为单个空格
       .map(item => item.replace(/([^:]+):\s?(.*)/g, '"$1":"$2"')) // 冒号前后的内容用双引号括起来以便进行JSON字符串转换
       .join(',') // 将转换后的数组元素用逗号拼接起来
-
-    const propsObject = JSON.parse(`{${JSONStr}}`)
+    
+    let propsObject: object
+    try {
+      propsObject = JSON.parse(`{${JSONStr}}`)
+    } catch (error) {
+      propsObject = {}
+    }
+    
     const result: object = {}
     for (const [key, value] of Object.entries(propsObject)) {
       const newKey = convertCamelToDash(key)
