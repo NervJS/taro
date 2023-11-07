@@ -128,7 +128,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: TaroGeneral.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
     interface kv {
       /** key 本地缓存中指定的 key */
@@ -147,7 +147,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: TaroGeneral.CallbackResult) => void
+      success?: (res: TaroGeneral.CallbackResult) => void
     }
   }
 
