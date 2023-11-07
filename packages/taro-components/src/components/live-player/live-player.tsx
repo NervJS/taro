@@ -198,8 +198,14 @@ export class LivePlayer implements ComponentInterface {
       } else {
         modeType = 1024 * 512
       }
+      if (this.minCache <= 0) {
+        this.minCache = 1
+      } 
+      if (this.maxCache <= 0) {
+        this.maxCache = 3
+      } 
       this.minCache = Math.floor((this.minCache * modeType) / 8)
-      this.maxCache = Math.floor((this.minCache * modeType) / 8)
+      this.maxCache = Math.floor((this.maxCache * modeType) / 8)
       this.videoElement = this.el.querySelector('video')
       this.livePlayerRef.addEventListener('volumechange', () => {
         this.onAudioVolumeNotify.emit({})
@@ -279,7 +285,7 @@ export class LivePlayer implements ComponentInterface {
     }
     this.player = flvjs.createPlayer(config)
     // 创建异常监听
-    this.player.on(flvjs.ErrorDetails.NETWORK_EXCEPTION, function (type, message, data) {
+    this.player.on(flvjs.ErrorDetails.NETWORK_EXCEPTION,  (type, message, data) =>{
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.ERROR)
       // 处理网络异常的逻辑
       if (type === flvjs.Events.ERROR && data === flvjs.ErrorDetails.NETWORK_EXCEPTION) {
@@ -304,7 +310,7 @@ export class LivePlayer implements ComponentInterface {
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.PLAYING)
     }
     // 创建错误监听
-    this.player.on(flvjs.Events.ERROR, function (message) {
+    this.player.on(flvjs.Events.ERROR,  (message) => {
       if (message.type === flvjs.ErrorTypes.NETWORK_ERROR) {
         this.onError.emit({
           detail:this.ONERRORCODEMSSAGE.NOTGET,
