@@ -9,7 +9,7 @@ struct TaroComponentWrapper {
   @BuilderParam createElement: () => void
 
   @Builder createFlexElementWithPosition ($$: { instance: TaroElement, top: number, left: number }) {
-    if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'absolute') {
+    if ($$.instance._st?.position === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
@@ -17,9 +17,9 @@ struct TaroComponentWrapper {
         x: $$.left,
         y: $$.top,
       })
-      .id(AttributeManager.getNodeStyle($$.instance._attrs, 'id', $$.instance._nid))
-      .zIndex(Number(AttributeManager.getNodeStyle($$.instance._st, 'zIndex')) || null)
-    } else if (AttributeManager.getNodeStyle($$.instance._st, 'position') === 'fixed') {
+      .id($$.instance._attrs?.id || $$.instance._nid)
+      .zIndex(Number($$.instance._st?.zIndex) || null)
+    } else if ($$.instance._st?.position === 'fixed') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
@@ -27,9 +27,9 @@ struct TaroComponentWrapper {
         x: $$.left,
         y: $$.top
       })
-      .id(AttributeManager.getNodeStyle($$.instance._attrs, 'id', $$.instance._nid))
-      .zIndex(Number(AttributeManager.getNodeStyle($$.instance._st, 'zIndex')) || null)
-    } else if ((AttributeManager.getNodeStyle($$.instance._st, 'position') === 'relative')) {
+      .id($$.instance._attrs?.id || $$.instance._nid)
+      .zIndex(Number($$.instance._st?.zIndex) || null)
+    } else if (($$.instance._st?.position === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
@@ -37,8 +37,8 @@ struct TaroComponentWrapper {
         x: $$.left,
         y: $$.top
       })
-      .id(AttributeManager.getNodeStyle($$.instance._attrs, 'id', $$.instance._nid))
-      .zIndex(Number(AttributeManager.getNodeStyle($$.instance._st, 'zIndex')) || null)
+      .id($$.instance._attrs?.id || $$.instance._nid)
+      .zIndex(Number($$.instance._st?.zIndex) || null)
     } else {
       this.createElement()
     }
@@ -47,8 +47,8 @@ struct TaroComponentWrapper {
   build () {
     this.createFlexElementWithPosition({
       instance: this.node,
-      top: AttributeManager.getNodeStyle(this.node._st, 'top', 0),
-      left: AttributeManager.getNodeStyle(this.node._st, 'left', 0),
+      top: this.node._st?.top || 0,
+      left: this.node._st?.left || 0,
     })
   }
 }
