@@ -7,16 +7,23 @@ declare module '../../index' {
       latitude: number
       /** 经度，范围为-180~180，负数表示西经。使用 gcj02 国测局坐标系 */
       longitude: number
+      /** 缩放比例
+       * @weapp 范围 5~18，默认值18
+       * @alipay 范围 3~19，默认值15
+       */
+      scale?: number
+      /** 位置名 */
+      name?: string
       /** 地址的详细说明 */
       address?: string
+      /** 定义在拉起的地图 App 面板中需要被屏蔽的地图类 App
+       * @supported swan
+       */
+      ignoredApps?: Array<any>
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 位置名 */
-      name?: string
-      /** 缩放比例，范围5~18 */
-      scale?: number
       /** 接口调用成功的回调函数 */
       success?: (res: TaroGeneral.CallbackResult) => void
     }
@@ -24,20 +31,32 @@ declare module '../../index' {
 
   namespace getLocation {
     interface Option {
-      /** 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度 */
-      altitude?: string
+      /** 传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
+       * @default false
+       */
+      altitude?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 高精度定位超时时间(ms)，指定时间内返回最高精度，该值3000ms以上高精度定位才有效果 */
       highAccuracyExpireTime?: number
-      /** 开启高精度定位 */
+      /** 开启高精度定位
+       * @default false
+       */
       isHighAccuracy?: boolean
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
-      /** wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标 */
+      /** wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标
+       * @default "wgs84"
+       */
       type?: string
+      /** 针对 iOS14/Android12 及以上的新特性，其他情况本参数忽略。默认情况宿主是精确定位就返回精确定位信息。
+       * 传入 true 会强制使用精确定位信息，iOS14/Android12 及以上如果没有精确定位权限，会弹出精确定位授权弹框
+       * @supported swan
+       * @default false
+       */
+      needFullAccuracy?: boolean
     }
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 位置的精确度 */
@@ -54,6 +73,42 @@ declare module '../../index' {
       speed: number
       /** 垂直精度，单位 m（Android 无法获取，返回 0） */
       verticalAccuracy: number
+      /** 城市名称
+       * @supported swan
+       */
+      street?: string
+      /** 国家代码
+       * @supported swan
+       */
+      cityCode?: string
+      /** 城市名称
+       * @supported swan, tt
+       */
+      city?: string
+      /** 国家
+       * @supported swan
+       */
+      country?: string
+      /** 国家代码
+       * @supported swan
+       */
+      countryCode?: string
+      /** 省份
+       * @supported swan
+       */
+      province?: string
+      /** 街道号码
+       * @supported swan
+       */
+      streetNumber?: string
+      /** 区
+       * @supported swan
+       */
+      district?: string
+      /** 是不是精确定位信息
+       * @supported swan
+       */
+      isFullAccuracy?: boolean
       /** 调用结果 */
       errMsg: string
     }
@@ -97,6 +152,12 @@ declare module '../../index' {
        * @see https://lbs.qq.com/webApi/component/componentGuide/componentPicker
        */
       mapOpts?: Record<string, unknown>
+      /** 页面显示标题
+       * @supported alipay
+       * @alipay 安卓默认值为 位置，iOS、IDE 默认值为 你在哪里?
+       * @see https://opendocs.alipay.com/mini/api/location?pathHash=951b46a1
+       */
+      title?: string
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -114,6 +175,30 @@ declare module '../../index' {
       longitude: number
       /** 位置名称 */
       name: string
+      /** 区县代码
+       * @supported alipay
+       */
+      adCode?: number
+      /** 区县名称
+       * @supported alipay
+       */
+      adName?: string
+      /** 城市代码
+       * @supported alipay
+       */
+      cityCode?: string
+      /** 城市名称
+       * @supported alipay
+       */
+      cityName?: string
+      /** 省份代码
+       * @supported alipay
+       */
+      provinceCode?: number
+      /** 省份名称
+       * @supported alipay
+       */
+      provinceName?: string
       /** 调用结果 */
       errMsg: string
     }
@@ -132,6 +217,10 @@ declare module '../../index' {
 
   namespace startLocationUpdateBackground {
     interface Option {
+      /** wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+       * @default "gcj02"
+       */
+      type?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -143,6 +232,16 @@ declare module '../../index' {
 
   namespace startLocationUpdate {
     interface Option {
+      /** wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+       * @default "gcj02"
+       */
+      type?: string
+      /** 针对 iOS14/Android12 及以上的新特性，其他情况本参数忽略。默认情况宿主是精确定位就返回精确定位信息。
+       * 传入 true 会强制使用精确定位信息，iOS14/Android12 及以上如果没有精确定位权限，会弹出精确定位授权弹框
+       * @supported swan
+       * @default false
+       */
+      needFullAccuracy?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -161,6 +260,11 @@ declare module '../../index' {
     interface CallbackResult {
       /** 错误码 */
       errCode: number
+      /** 错误信息
+       * @supported tt
+       * @tt 最低支持版本 2.48.0
+       */
+      errMsg?: string
     }
   }
 
@@ -185,19 +289,63 @@ declare module '../../index' {
       speed: number
       /** 垂直精度，单位 m（Android 无法获取，返回 0） */
       verticalAccuracy: number
+      /** 街道名称
+       * @supported swan
+       */
+      street?: string
+      /** 城市编码
+       * @supported swan
+       */
+      cityCode?: string
+      /** 城市名称
+       * @supported swan, tt
+       * @tt iOS 不支持
+       */
+      city?: string
+      /** 国家
+       * @supported swan
+       */
+      country?: string
+      /** 国家代码
+       * @supported swan
+       */
+      countryCode?: string
+      /** 省份
+       * @supported swan
+       */
+      province?: string
+      /** 街道号码
+       * @supported swan
+       */
+      streetNumber?: string
+      /** 区
+       * @supported swan
+       */
+      district?: string
+      /** 是不是精确定位信息
+       * @supported swan
+       */
+      isFullAccuracy?: boolean
     }
   }
 
   namespace getFuzzyLocation {
     interface Option {
       /** wgs84 返回 gps 坐标，gcj02 返回可用于 Taro.openLocation 的坐标 */
-      type?: 'wgs84' | 'gcj02'
+      type?: keyof Type
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
+    }
+
+    interface Type {
+      /** 返回 gps 坐标 */
+      wgs84
+      /** 返回 gcj02 坐标*/
+      gcj02
     }
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
@@ -210,7 +358,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 关闭监听实时位置变化，前后台都停止消息接收
-     * @supported weapp, rn, tt
+     * @supported weapp, swan, tt, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.stopLocationUpdate.html
      */
     stopLocationUpdate(option?: stopLocationUpdate.Option): void
@@ -232,13 +380,13 @@ declare module '../../index' {
      *
      * **注意**
      * - 获取位置信息需配置[地理位置用途说明](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html#permission)。
-     * @supported weapp, rn, tt
+     * @supported weapp, swan, tt, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.startLocationUpdate.html
      */
     startLocationUpdate(option?: startLocationUpdate.Option): void
 
     /** 使用微信内置地图查看位置
-     * @supported weapp, h5, tt
+     * @supported weapp, alipay, swan, jd, tt, h5
      * @example
      * ```tsx
      * Taro.getLocation({
@@ -268,7 +416,7 @@ declare module '../../index' {
     ): void
 
     /** 监听实时地理位置变化事件，需结合 Taro.startLocationUpdateBackground、Taro.startLocationUpdate 使用。
-     * @supported weapp, rn, tt
+     * @supported weapp, swan, tt, rn
      * @example
      * ```tsx
      * const _locationChangeFn = function (res) {
@@ -290,16 +438,16 @@ declare module '../../index' {
      */
     offLocationChangeError(
       /** 监听持续定位接口返回失败时触发的回调函数 */
-      callback: onLocationChangeError.Callback,
+      callback?: onLocationChangeError.Callback,
     ): void
 
     /** 取消监听实时地理位置变化事件
-     * @supported weapp, rn, tt
+     * @supported weapp, swan, tt, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.offLocationChange.html
      */
     offLocationChange(
       /** 实时地理位置变化事件的回调函数 */
-      callback: (res: TaroGeneral.CallbackResult) => void,
+      callback?: onLocationChange.Callback,
     ): void
 
     /** 获取当前的地理位置、速度。当用户离开小程序后，此接口无法调用。开启高精度定位，接口耗时会增加，可指定 highAccuracyExpireTime 作为超时时间。
@@ -307,7 +455,7 @@ declare module '../../index' {
      * **注意**
      * - 工具中定位模拟使用IP定位，可能会有一定误差。且工具目前仅支持 gcj02 坐标。
      * - 使用第三方服务进行逆地址解析时，请确认第三方服务默认的坐标系，正确进行坐标转换。
-     * @supported weapp, rn, tt
+     * @supported weapp, swan, jd, qq, tt, rn
      * @example
      *  ```tsx
      * Taro.getLocation({
@@ -333,7 +481,7 @@ declare module '../../index' {
     /** 打开地图选择位置。
      *
      * `chooseLocation` api功能是依赖于腾讯位置服务，所以需要使用 api 密钥。如果您没有，可以前往腾讯位置服务[开发者控制台](https://lbs.qq.com/console/mykey.html?console=mykey)进行申请。
-     * @supported weapp, h5, tt
+     * @supported weapp, alipay, swan, jd, tt, h5
      * @example
      * ```tsx
      * // config/index.js
