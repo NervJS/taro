@@ -37,8 +37,8 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^2.79.0",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-postcss": "^3.1.8",
