@@ -23,9 +23,7 @@ declare module '../../index' {
       conf_type: number
       /** 根据conf_type来确定conf内容, conf_type为1时conf是一个json数组, 类似"[{xxx},{xxx}]", 每一项对应表类型每一行配置内容, 其中conf_type为2时conf是一个json对象，类似"{xxxx}" */
       conf: string
-      /**
-       * 过期时间,单位秒. 0表示当次有效
-       */
+      /** 过期时间,单位秒. 0表示当次有效 */
       expire_sec: number
     }
   }
