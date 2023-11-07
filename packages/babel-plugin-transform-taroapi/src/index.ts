@@ -1,4 +1,4 @@
-import { isMatchWith, set } from 'lodash'
+import { isMatchWith, setWith } from 'lodash'
 
 import type * as BabelCore from '@babel/core'
 
@@ -22,7 +22,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
   function canIUse (definition, scheme = '') {
     if (!scheme) return false
-    const o = set({}, scheme, true)
+    const o = setWith({}, scheme, true, Object)
     return isMatchWith(definition, o, (a, b) => {
       if (a === '*' || b === true) return true
     })

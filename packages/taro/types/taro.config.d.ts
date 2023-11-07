@@ -175,6 +175,12 @@ declare module './index' {
      * @default false
      */
     enableShareTimeline?: boolean
+    /**
+     * 页面是否需要使用 \<page-meta\> 和 \<navigation-bar\> 组件
+     * @default false
+     * @support weapp, alipay
+     */
+    enablePageMeta?: boolean
     /** 页面自定义组件配置
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/
      */

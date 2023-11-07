@@ -98,7 +98,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     data[Shortcuts.Style] = cssText
   }
 
-  hooks.call('modifyHydrateData', data)
+  hooks.call('modifyHydrateData', data, node)
 
   const nn = data[Shortcuts.NodeName]
   const componentAlias = componentsAlias[nn]
@@ -112,5 +112,7 @@ export function hydrate (node: TaroElement | TaroText): MiniData {
     }
   }
 
-  return data
+  const resData = hooks.call('transferHydrateData', data, node, componentAlias)
+
+  return resData || data
 }
