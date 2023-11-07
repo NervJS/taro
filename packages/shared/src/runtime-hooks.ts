@@ -218,12 +218,12 @@ type ITaroHooks = {
     * @todo: multi
     * 修改 Taro DOM 序列化数据
     **/
-  modifySetAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>, isPureView: boolean) => void
+  modifySetAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>) => void
   /**
     * @todo: multi
     * 修改 Taro DOM 序列化数据
     **/
-  modifyRmAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>, isStaticView: boolean) => void
+  modifyRmAttrPayload: (element, key: string, payload: UpdatePayload, componentsAlias: Record<string, any>) => void
   /**
     * @todo: multi
     * 调用 addEventListener 时触发

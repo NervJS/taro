@@ -47,7 +47,7 @@ hooks.tap('modifyHydrateData', (data, node) => {
   data[Shortcuts.Style] = ensureRect(data, data[Shortcuts.Style])
 })
 
-hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias, isPureView) => {
+hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
@@ -80,21 +80,28 @@ hooks.tap('modifySetAttrPayload', (element, key, payload, componentsAlias, isPur
     const staticViewAlias = componentsAlias['static-view']._num
     const catchViewAlias = componentsAlias['catch-view']._num
     const qualifiedNameInCamelCase = toCamelCase(key)
-    payload.path = `${_path}.${Shortcuts.NodeName}`
+    const dataPath = `${_path}.${Shortcuts.NodeName}`
     if (qualifiedNameInCamelCase === 'catchMove') {
       // catchMove = true: catch-view
       // catchMove = false: view or static-view
-      payload.value = payload.value ? catchViewAlias : (
-        element.isAnyEventBinded() ? viewAlias : staticViewAlias
-      )
-    } else if (isPureView && isHasExtractProp(element)) {
+      element.enqueueUpdate({
+        path: dataPath,
+        value: payload.value ? catchViewAlias : (
+          element.isAnyEventBinded() ? viewAlias : staticViewAlias
+        )
+      })
+    } else if (isHasExtractProp(element) && !element.isAnyEventBinded()) {
       // pure-view => static-view
-      payload.value = staticViewAlias
+      // static-view => static-view 因为没有办法分辨之前是不是 pure，所以就算之前是 static 也需要 setData
+      element.enqueueUpdate({
+        path: dataPath,
+        value: staticViewAlias
+      })
     }
   }
 })
 
-hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias, isStaticView) => {
+hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias) => {
   const { nodeName, _path, props } = element
   if (!isHtmlTags(nodeName)) return
 
@@ -126,13 +133,20 @@ hooks.tap('modifyRmAttrPayload', (element, key, payload, componentsAlias, isStat
     const staticViewAlias = componentsAlias['static-view']._num
     const pureViewAlias = componentsAlias['pure-view']._num
     const qualifiedNameInCamelCase = toCamelCase(key)
-    payload.path = `${_path}.${Shortcuts.NodeName}`
+    const dataPath = `${_path}.${Shortcuts.NodeName}`
     if (qualifiedNameInCamelCase === 'catchMove') {
       // catch-view => view or static-view or pure-view
-      payload.value = element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias)
-    } else if (isStaticView && !isHasExtractProp(element)) {
+      element.enqueueUpdate({
+        path: dataPath,
+        value: element.isAnyEventBinded() ? viewAlias : (isHasExtractProp(element) ? staticViewAlias : pureViewAlias)
+      })
+    } else if (!isHasExtractProp(element)) {
       // static-view => pure-view
-      payload.value = pureViewAlias
+      // pure-view => pure-view 因为没有办法分辨之前是不是 pure，所以就算之前是 pure 也需要 setData
+      element.enqueueUpdate({
+        path: dataPath,
+        value: pureViewAlias
+      })
     }
   }
 })
@@ -175,7 +189,7 @@ hooks.tap('modifyTaroEvent', (event, element) => {
 
 hooks.tap('modifyAddEventListener', (element, sideEffect, getComponentsAlias) => {
   // 如果是从没有事件绑定到有事件绑定，且是 block 元素，则转换为 view
-  if (sideEffect !== false && !element.isAnyEventBinded() && blockElements.has(element.nodeName)) {
+  if (blockElements.has(element.nodeName) && sideEffect !== false && !element.isAnyEventBinded()) {
     const componentsAlias = getComponentsAlias()
     const alias = componentsAlias.view._num
     element.enqueueUpdate({
@@ -187,7 +201,7 @@ hooks.tap('modifyAddEventListener', (element, sideEffect, getComponentsAlias) =>
 
 hooks.tap('modifyRemoveEventListener', (element, sideEffect, getComponentsAlias) => {
   // 如果已没有绑定事件，且是 block 元素，则转换为 static-view 或 pure-view
-  if (sideEffect !== false && !element.isAnyEventBinded() && blockElements.has(element.nodeName)) {
+  if (blockElements.has(element.nodeName) && sideEffect !== false && !element.isAnyEventBinded()) {
     const componentsAlias = getComponentsAlias()
     const value = isHasExtractProp(element) ? 'static-view' : 'pure-view'
     const valueAlias = componentsAlias[value]._num

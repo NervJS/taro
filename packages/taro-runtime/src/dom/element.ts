@@ -193,7 +193,7 @@ export class TaroElement extends TaroNode {
       value: isFunction(value) ? () => value : value
     }
 
-    hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias, isPureView)
+    hooks.call('modifySetAttrPayload', this, qualifiedName, payload, componentsAlias)
 
     if (_alias) {
       const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
@@ -264,7 +264,7 @@ export class TaroElement extends TaroNode {
       value: ''
     }
 
-    hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias, isStaticView)
+    hooks.call('modifyRmAttrPayload', this, qualifiedName, payload, componentsAlias)
 
     if (_alias) {
       const qualifiedNameAlias = _alias[qualifiedNameInCamelCase] || qualifiedName
@@ -303,7 +303,7 @@ export class TaroElement extends TaroNode {
 
   public getElementsByClassName (className: string): TaroElement[] {
     const classNames = className.trim().split(/\s+/)
-  
+
     return treeToArray(this, (el) => {
       const classList = el.classList
       return classNames.every(c => classList.contains(c))
