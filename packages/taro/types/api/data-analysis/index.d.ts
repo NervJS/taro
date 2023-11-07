@@ -1,7 +1,6 @@
 import Taro from '../../index'
 
 declare module '../../index' {
-
   namespace getCommonConfig {
     interface Option {
       /** 需要获取的数据指标的对象数组，每个string的格式约定：配置类型_分表key */
@@ -30,6 +29,7 @@ declare module '../../index' {
       expire_sec: number
     }
   }
+
   interface TaroStatic {
     /** 自定义业务数据监控上报接口。
      *
@@ -115,6 +115,7 @@ declare module '../../index' {
      *   }
      * })
      * ```
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/data-analysis/wx.getCommonConfig.html
      */
     getCommonConfig(
       option: getCommonConfig.Option

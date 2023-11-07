@@ -78,6 +78,7 @@ declare module '../../index' {
       /** 接口调用成功的回调函数 */
       success?: (res: SuccessCallbackResult) => void
     }
+
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
       /** 缓存数据
        *  @alipay Object
