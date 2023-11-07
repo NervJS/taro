@@ -55,7 +55,7 @@ function propToState (newValue, _oldValue, key: string) {
 
 function isFunction (o): o is Func {
   return typeof o === 'function'
-}    
+}
 
 export default function withWeapp (weappConf: WxOptions, isApp = false) {
   if (typeof weappConf === 'object' && Object.keys(weappConf).length === 0) {
@@ -135,11 +135,23 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
             // propValue 可能是 null, 构造函数, 对象
-            if (propValue && !isFunction(propValue)) {
-              properties[propKey] = propValue.value
+            if (propValue) {
               const observers = [propToState]
-              if (propValue.observer) {
-                observers.push(propValue.observer)
+              if(!isFunction(propValue)){
+                properties[propKey] = propValue.value
+                if (propValue.observer) {
+                  observers.push(propValue.observer)
+                }
+              } else if (propValue.name === 'Array') {
+                properties[propKey] = []
+              } else if(propValue.name === 'String'){
+                properties[propKey] = ''
+              } else if(propValue.name === 'Boolean'){
+                properties[propKey] = false
+              } else if(propValue.name === 'Number'){
+                properties[propKey] = 0
+              } else {
+                properties[propKey] = null
               }
               this._observeProps.push({
                 name: propKey,
