@@ -114,16 +114,7 @@ declare module '../../index' {
      * @supported weapp, qq
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/storage/background-fetch/wx.onBackgroundFetchData.html
      */
-    onBackgroundFetchData(
-      /** 收到 backgroundFetch 数据事件的监听函数
-       * @supported qq
-       */
-      option?: onBackgroundFetchData.Option,
-      /** 收到 backgroundFetch 数据事件的监听函数
-       * @supported weapp
-       */
-      callback: onBackgroundFetchData.Callback,
-    ): void
+    onBackgroundFetchData(option?: onBackgroundFetchData.Option | onBackgroundFetchData.Callback): void
 
     /** 获取设置过的自定义登录态。若无，则返回 fail。
      * @supported weapp, qq
