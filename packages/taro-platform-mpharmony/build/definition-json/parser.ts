@@ -65,7 +65,7 @@ export function generateDefinitionJSON () {
     return removeComments(content)
       .replace(/^\s+|\s+$/g, '') // 删除获取到的interface内容字符串的前后空格换行回车制表
       .replace(/^\s*\r?\n?/gm, '') // 删除多余空行
-      .split(/\r\n?/) // 分割属性
+      .split(/\r?\n|\r/) // 分割属性,兼容所有系统
       .map(prop => prop.trim()) // 删除元素左右可能的空白
       .filter(prop => !prop.includes(' ')) // 属性是类似'top left'包含空格的字面量剔除掉
   }
@@ -180,7 +180,8 @@ export function generateDefinitionJSON () {
     }
     const JSONStr = allMatches
       .map(item => item.replace('?:', ':')) // 将?:替换为:
-      .map(item => item.replace(/\r\s*/g, ' ')) // 有些属性的类型值可能会跨行，将回车加可能的多个空格替换为单个空格
+      .map(item => item.replace(/\r?\n|\r/g, ' ')) // 有些属性的类型值可能会跨行，将回车加可能的多个空格替换为单个空格,兼容所有系统
+      .map(item => item.replace(/ +/g, ' '))
       .map(item => item.replace(/([^:]+):\s?(.*)/g, '"$1":"$2"')) // 冒号前后的内容用双引号括起来以便进行JSON字符串转换
       .join(',') // 将转换后的数组元素用逗号拼接起来
     
