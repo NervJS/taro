@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`文件转换 project.config.json中添加配置miniprogramRoot后能够读取app.json进行convert 1`] = `
+Convertor {
+  "components": Set {},
+  "convertDir": "
+      \\"miniprogramRoot\\": \\"miniprogram\\\\\\",
+    \\\\taroConvert\\\\src",
+  "convertRoot": "
+      \\"miniprogramRoot\\": \\"miniprogram\\\\\\",
+    \\\\taroConvert",
+  "fileTypes": Object {
+    "CONFIG": ".json",
+    "SCRIPT": ".ts",
+    "STYLE": ".wxss",
+    "TEMPL": ".wxml",
+  },
+  "hadBeenBuiltComponents": Set {},
+  "hadBeenBuiltImports": Set {},
+  "hadBeenCopyedFiles": Set {},
+  "importsDir": "
+      \\"miniprogramRoot\\": \\"miniprogram\\\\\\",
+    \\\\taroConvert\\\\src\\\\imports",
+  "isTsProject": "./miniprogram",
+  "miniprogramRoot": "
+      \\"miniprogramRoot\\": \\"miniprogram\\\\\\",
+    \\\\miniprogram",
+  "pages": Set {},
+  "reportErroMsg": Array [],
+  "root": "
+      \\"miniprogramRoot\\": \\"miniprogram/\\",
+    ",
+  "wxsIncrementId": [Function],
+}
+`;
+
+exports[`语法转换 使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换 1`] = `
+"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
+import { Block } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+this.setData({
+  intData: 1024
+});
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;"
+`;
+
+exports[`语法转换 组件的动态名称转换 1`] = `
+"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
+import { Block, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+this.setData({
+  intData: 1024
+});
+cacheOptions.setOptionsToCache({});
+const ComponentMap = {};
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const {
+      infoList
+    } = this.data;
+    return infoList.map((item, index) => {
+      let ComponentName = ComponentMap[\\"info-\\" + item.tempName];
+      return <View key={item.infoId}><ComponentName data={{
+          item: item
+        }}></ComponentName></View>;
+    });
+  }
+}
+export default _C;"
+`;
