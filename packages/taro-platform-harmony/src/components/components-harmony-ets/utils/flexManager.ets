@@ -7,7 +7,7 @@ class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
     const { _st = {} } = node
 
-    let flexOptions = AttributeManager.getNodeStyle(_st, 'flexOptions')
+    let flexOptions = AttributeManager.getStyleAfterConvert(_st, 'flexOptions')
     if (flexOptions) {
       const isDirectionExist = flexOptions.direction !== undefined
       if (!isDirectionExist) {

@@ -91,7 +91,7 @@ function getThemeAttributes (node: TaroButtonElement) {
     isPlain,
     isDisabled,
     backgroundColor: AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR[type].background,
-    fontColor: AttributeManager.getNodeStyle(_st, 'color', BUTTON_THEME_COLOR[type].text),
+    fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR[type].text),
   }
 }
 

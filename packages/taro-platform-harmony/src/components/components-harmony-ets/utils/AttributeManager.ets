@@ -4,21 +4,21 @@ import { BORDER_STYLE_MAP } from './constant/style'
 import { capitalize, isString } from '@tarojs/shared'
 
 class AttributeManager {
-  static getNodeStyle (style = {}, name: string, defaultValue?) {
+  static getStyleAfterConvert (style = {}, name: string, defaultValue?) {
     name = '_' + name
+
     if (!style[name] && style[name] !== 0) return defaultValue
+
     return style[name]
   }
 
-  // static getNodeTextDecoration (style): { type: TextDecorationType; color?: ResourceColor } {
-  //   const value = AttributeManager.getNodeStyle(style, 'textDecoration', 'none')
-  //   const type = value.split('-').map(item => capitalize(item)).join('')
+  static getNodeStyle (style = {}, name: string, defaultValue?) {
+    const res = style[name]
 
-  //   return {
-  //     type: TextDecorationType[type] as any,
-  //     color: AttributeManager.getNodeStyle(style, 'color', 'black')
-  //   }
-  // }
+    if (res === undefined) return defaultValue
+
+    return res
+  }
 
   static getNodeLinearGradient (style = {}) {
     const str = style.backgroundImage || style.background
@@ -150,65 +150,10 @@ class AttributeManager {
 
     if (dataValue) {
       res = dataValue
-      // const values = dataValue.trim().split(/\s+/)
-      // switch (values.length) {
-      //   case 1:
-      //     res = { topLeft: values[0], topRight: values[0], bottomRight: values[0], bottomLeft: values[0] }
-      //     break
-      //   case 2:
-      //     res = { topLeft: values[0], topRight: values[1], bottomRight: values[0], bottomLeft: values[1] }
-      //     break
-      //   case 3:
-      //     res = { topLeft: values[0], topRight: values[1], bottomRight: values[2], bottomLeft: values[1] }
-      //     break
-      //   case 4:
-      //     res = { topLeft: values[0], topRight: values[1], bottomRight: values[2], bottomLeft: values[3] }
-      //     break
-      //   default:
-      //     break
-      // }
     }
 
     return res
   }
-
-  // static getNodeMarginOrPaddingData (style = {}, name: 'margin' | 'padding') {
-  //   let res: any = {}
-  //   const dataValue = AttributeManager.getNodeStyle(style, name)
-
-  //   if (dataValue) {
-  //     const values = dataValue.trim().split(/\s+/)
-  //     switch (values.length) {
-  //       case 1:
-  //         res = { top: values[0], right: values[0], bottom: values[0], left: values[0] }
-  //         break
-  //       case 2:
-  //         res = { top: values[0], right: values[1], bottom: values[0], left: values[1] }
-  //         break
-  //       case 3:
-  //         res = { top: values[0], right: values[1], bottom: values[2], left: values[1] }
-  //         break
-  //       case 4:
-  //         res = { top: values[0], right: values[1], bottom: values[2], left: values[3] }
-  //         break
-  //       default:
-  //         break
-  //     }
-
-  //     Object.keys(res).forEach(key => {
-  //       if (!isNaN(res[key]) && values.length > 1) {
-  //         res[key] = convertNumber2PX(res[key])
-  //       }
-  //     })
-  //   }
-
-  //   return {
-  //     top: AttributeManager.getNodeStyle(style, `${name}Top`) || res.top || 0,
-  //     bottom: AttributeManager.getNodeStyle(style, `${name}Bottom`) || res.bottom || 0,
-  //     left: AttributeManager.getNodeStyle(style, `${name}Left`) || res.left || 0,
-  //     right: AttributeManager.getNodeStyle(style, `${name}Right`) || res.right || 0,
-  //   }
-  // }
 
   static getNodeAnimationData (style = {}) {
     let res: any = {}

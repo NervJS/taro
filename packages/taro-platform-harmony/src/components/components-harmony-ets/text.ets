@@ -1,11 +1,8 @@
-import { eventHandler, isElement, convertNumber2PX } from '@tarojs/runtime'
-import { capitalize } from '@tarojs/shared'
+import { eventHandler, isElement } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { w3cToHarmonyStyle } from './utils/dynamicConvert'
-import { AttributeManager } from './utils/AttributeManager'
-import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -133,23 +130,6 @@ function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) 
     }
   })
   return attrs
-}
-
-function getFontAttributes (node: TaroElement) {
-  const { _st } = node
-
-  return {
-    decoration: AttributeManager.getNodeStyle(_st, 'textDecoration'),
-    lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
-    letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
-    maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
-    fontColor: AttributeManager.getNodeStyle(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
-    fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
-    fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
-    fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
-    textOverflow:  AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'),
-    textAlign: AttributeManager.getNodeStyle(_st, 'textAlign', 'none'),
-  }
 }
 
 @Component

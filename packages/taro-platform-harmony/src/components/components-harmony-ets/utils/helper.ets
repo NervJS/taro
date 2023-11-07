@@ -83,9 +83,9 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
 
   // const transformData = AttributeManager.getTransform(_st)
 
-  const linearGradient = AttributeManager.getNodeStyle(_st, 'linearGradient')
+  const linearGradient = AttributeManager.getStyleAfterConvert(_st, 'linearGradient')
 
-  const background = AttributeManager.getNodeStyle(_st, 'background')
+  const background = AttributeManager.getStyleAfterConvert(_st, 'background')
   const _backgroundImage = background?.image?.[0]
   let backgroundImage, backgroundRepeat
   if (_backgroundImage) {
@@ -95,7 +95,7 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
   const backgroundSize = background?.size?.[0]
   const backgroundColor = backgroundImage ? null : background?.color
 
-  const transform = AttributeManager.getNodeStyle(_st, 'transform')
+  const transform = AttributeManager.getStyleAfterConvert(_st, 'transform')
   const transformRotate = transform?.rotate?.[0]
   const transformTranslate = transform?.translate?.[0]
   const transformScale = transform?.scale?.[0]
@@ -104,21 +104,21 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
   const normalAttributes = {
     id: AttributeManager.getNodeStyle(_attrs, 'id', _nid),
     // Flex相关
-    flexBasis: AttributeManager.getNodeStyle(_st, 'flexBasis'),
-    flexGrow: AttributeManager.getNodeStyle(_st, 'flexGrow'),
-    flexShrink: AttributeManager.getNodeStyle(_st, 'flexShrink'),
-    alignSelf: AttributeManager.getNodeStyle(_st, 'alignSelf'),
+    flexBasis: AttributeManager.getStyleAfterConvert(_st, 'flexBasis'),
+    flexGrow: AttributeManager.getStyleAfterConvert(_st, 'flexGrow'),
+    flexShrink: AttributeManager.getStyleAfterConvert(_st, 'flexShrink'),
+    alignSelf: AttributeManager.getStyleAfterConvert(_st, 'alignSelf'),
     // 尺寸相关
-    width: AttributeManager.getNodeStyle(_st, 'width'),
-    height: AttributeManager.getNodeStyle(_st, 'height'),
-    constraintSize: AttributeManager.getNodeStyle(_st, 'constraintSize'),
-    margin: AttributeManager.getNodeStyle(_st, 'margin'),
-    padding: AttributeManager.getNodeStyle(_st, 'padding'),
+    width: AttributeManager.getStyleAfterConvert(_st, 'width'),
+    height: AttributeManager.getStyleAfterConvert(_st, 'height'),
+    constraintSize: AttributeManager.getStyleAfterConvert(_st, 'constraintSize'),
+    margin: AttributeManager.getStyleAfterConvert(_st, 'margin'),
+    padding: AttributeManager.getStyleAfterConvert(_st, 'padding'),
     // 边框相关
-    borderStyle: AttributeManager.getNodeStyle(_st, 'borderStyle'),
-    borderWidth: AttributeManager.getNodeStyle(_st, 'borderWidth'),
-    borderColor: AttributeManager.getNodeStyle(_st, 'borderColor'),
-    borderRadius: AttributeManager.getNodeStyle(_st, 'borderRadius'),
+    borderStyle: AttributeManager.getStyleAfterConvert(_st, 'borderStyle'),
+    borderWidth: AttributeManager.getStyleAfterConvert(_st, 'borderWidth'),
+    borderColor: AttributeManager.getStyleAfterConvert(_st, 'borderColor'),
+    borderRadius: AttributeManager.getStyleAfterConvert(_st, 'borderRadius'),
     // 背景相关
     backgroundColor: backgroundColor,
     backgroundImage: backgroundImage,
@@ -228,20 +228,17 @@ export function getNodeAttributeOrNull (node: TaroElement, key: string) {
 export function getFontAttributes (node: TaroElement) {
   const { _st } = node
 
-  let lineHeight = AttributeManager.getNodeStyle(_st, 'lineHeight')
-  if (lineHeight && typeof lineHeight === 'number') {
-    lineHeight = convertNumber2PX(lineHeight)
-  }
   return {
-    decoration: AttributeManager.getNodeStyle(_st, 'textDecoration'),
-    lineHeight: lineHeight,
+    lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
     letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
+    textAlign: AttributeManager.getNodeStyle(_st, 'textAlign', 'none'),
+    textOverflow:  AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'),
     maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
-    fontColor: AttributeManager.getNodeStyle(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
-    fontSize: AttributeManager.getNodeStyle(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
     fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
     fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
-    textOverflow: { overflow: TextOverflow[capitalize(AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'))] },
-    textAlign: AttributeManager.getTextAlign(_st)
+    // 已做处理的属性
+    decoration: AttributeManager.getStyleAfterConvert(_st, 'textDecoration'),
+    fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
+    fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
   }
 }
