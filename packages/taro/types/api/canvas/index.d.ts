@@ -290,7 +290,7 @@ declare module '../../index' {
      * - 绿色: 圆心 (100, 75)
      * - 红色: 起始弧度 (0)
      * - 蓝色: 终止弧度 (1.5 * Math.PI)
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -346,9 +346,13 @@ declare module '../../index' {
       eAngle: number,
       /** 弧度的方向是否是逆时针 */
       counterclockwise?: boolean,
+      /** 弧度的方向是否是逆时针
+       * @supported tt
+       */
+      anticlockwise?: boolean
     ): void
     /** 根据控制点和半径绘制圆弧路径。
-     * @supported weapp, h5
+     * @supported weapp, alipay, jd, qq, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.arcTo.html
      */
     arcTo(
@@ -367,7 +371,7 @@ declare module '../../index' {
      *
      *   - 在最开始的时候相当于调用了一次 `beginPath`。
      *   - 同一个路径内的多次 `setFillStyle`、`setStrokeStyle`、`setLineWidth`等设置，以最后一次设置为准。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -397,7 +401,7 @@ declare module '../../index' {
      * - 红色：起始点(20, 20)
      * - 蓝色：两个控制点(20, 100) (200, 100)
      * - 绿色：终止点(200, 20)
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -452,7 +456,7 @@ declare module '../../index' {
       y: number,
     ): void
     /** 清除画布上在该矩形区域内的内容
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * clearRect 并非画一个白色的矩形在地址区域，而是清空，为了有直观感受，对 canvas 加了一层背景色。
      * ```html
@@ -480,7 +484,7 @@ declare module '../../index' {
       height: number,
     ): void
     /** 从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。可以在使用 `clip` 方法前通过使用 `save` 方法对当前画布区域进行保存，并在以后的任意时间通过`restore`方法对其进行恢复。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -501,7 +505,7 @@ declare module '../../index' {
      */
     clip(): void
     /** 关闭一个路径。会连接起点和终点。如果关闭路径后没有调用 `fill` 或者 `stroke` 并开启了新的路径，那之前的路径将不会被渲染。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -534,7 +538,7 @@ declare module '../../index' {
      */
     closePath(): void
     /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -558,7 +562,7 @@ declare module '../../index' {
       r: number,
     ): CanvasGradient
     /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -584,7 +588,7 @@ declare module '../../index' {
       y1: number,
     ): CanvasGradient
     /** 对指定的图像创建模式的方法，可在指定的方向上重复元图像
-     * @supported weapp, h5
+     * @supported weapp, alipay, jd, qq, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createPattern.html
      */
     createPattern(
@@ -594,7 +598,7 @@ declare module '../../index' {
       repetition: keyof CanvasContext.Repetition,
     ): CanvasPattern | null | Promise<CanvasPattern | null>
     /** 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @h5 第二次调用 draw 前需要等待上一次 draw 调用结束后再调用，否则新的一次 draw 调用栈不会清空而导致结果异常。
      * @example
      * 第二次 draw() reserve 为 true。所以保留了上一次的绘制结果，在上下文设置的 fillStyle 'red' 也变成了默认的 'black'。
@@ -627,6 +631,10 @@ declare module '../../index' {
       reserve?: boolean,
       /** 绘制完成后执行的回调函数 */
       callback?: (...args: any[]) => any,
+      /** 是否使用硬件加速
+       * @supported jd
+       */
+      useHardwareAccelerate?: boolean
     ): void | Promise<void>
     /** 绘制图像到画布
      * @supported weapp, h5
@@ -657,7 +665,7 @@ declare module '../../index' {
       dy: number,
     ): void
     /** 绘制图像到画布
-     * @supported weapp, h5
+     * @supported weapp, alipay, h5
      * @example
      * 有三个版本的写法：
      *
@@ -689,7 +697,7 @@ declare module '../../index' {
       dHeight: number,
     ): void
     /** 绘制图像到画布
-     * @supported weapp, h5
+     * @supported weapp, swan, jd, qq, tt, h5
      * @example
      * 有三个版本的写法：
      *
@@ -729,7 +737,7 @@ declare module '../../index' {
       dHeight: number,
     ): void
     /** 对当前路径中的内容进行填充。默认的填充色为黑色。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * 如果当前路径没有闭合，fill() 方法会将起点和终点进行连接，然后填充。
      *
@@ -766,7 +774,7 @@ declare module '../../index' {
      */
     fill(): void
     /** 填充一个矩形。用 [`setFillStyle`](/docs/apis/canvas/CanvasContext#setfillstyle) 设置矩形的填充色，如果没设置默认是黑色。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -787,7 +795,7 @@ declare module '../../index' {
       height: number,
     ): void
     /** 在画布上绘制被填充的文本
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -809,7 +817,7 @@ declare module '../../index' {
       maxWidth?: number,
     ): void
     /** 增加一个新点，然后创建一条从上次指定点到目标点的线。用 `stroke` 方法来画线条
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -827,8 +835,8 @@ declare module '../../index' {
       /** 目标位置的 y 坐标 */
       y: number,
     ): void
-    /** 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
-     * @supported weapp, h5
+    /** 测量文本尺寸信息。目前仅返回文本宽度(width)。同步接口。
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html
      */
     measureText(
@@ -836,7 +844,7 @@ declare module '../../index' {
       text: string,
     ): TextMetrics
     /** 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -862,7 +870,7 @@ declare module '../../index' {
      * - 红色：起始点(20, 20)
      * - 蓝色：控制点(20, 100)
      * - 绿色：终止点(200, 20)
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -909,7 +917,7 @@ declare module '../../index' {
       y: number,
     ): void
     /** 创建一个矩形路径。需要用 [`fill`](/docs/apis/canvas/CanvasContext#fill) 或者 [`stroke`](/docs/apis/canvas/CanvasContext#stroke) 方法将矩形真正的画到 `canvas` 中
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -936,7 +944,7 @@ declare module '../../index' {
      */
     reset(): void
     /** 恢复之前保存的绘图上下文
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -953,7 +961,7 @@ declare module '../../index' {
      */
     restore(): void
     /** 以原点为中心顺时针旋转当前坐标轴。多次调用旋转的角度会叠加。原点可以用 `translate` 方法修改。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -971,7 +979,7 @@ declare module '../../index' {
       rotate: number,
     ): void
     /** 保存绘图上下文。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -988,7 +996,7 @@ declare module '../../index' {
      */
     save(): void
     /** 在调用后，之后创建的路径其横纵坐标会被缩放。多次调用倍数会相乘。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1008,7 +1016,7 @@ declare module '../../index' {
       scaleHeight: number,
     ): void
     /** 设置填充色。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1023,7 +1031,7 @@ declare module '../../index' {
       color: string | CanvasGradient,
     ): void
     /** 设置字体的字号
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1044,7 +1052,7 @@ declare module '../../index' {
       fontSize: number,
     ): void
     /** 设置全局画笔透明度。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1064,7 +1072,7 @@ declare module '../../index' {
       alpha: number,
     ): void
     /** 设置线条的端点样式
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1099,7 +1107,7 @@ declare module '../../index' {
       lineCap: keyof CanvasContext.LineCap,
     ): void
     /** 设置虚线样式。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1119,7 +1127,7 @@ declare module '../../index' {
       offset: number,
     ): void
     /** 设置线条的交点样式
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1158,7 +1166,7 @@ declare module '../../index' {
       lineJoin: keyof CanvasContext.LineJoin,
     ): void
     /** 设置线条的宽度
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1190,7 +1198,7 @@ declare module '../../index' {
       lineWidth: number,
     ): void
     /** 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()](/docs/apis/canvas/CanvasContext#setlinejoin) 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1235,7 +1243,7 @@ declare module '../../index' {
       miterLimit: number,
     ): void
     /** 设定阴影样式。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1257,7 +1265,7 @@ declare module '../../index' {
       color: string,
     ): void
     /** 设置描边颜色。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1272,7 +1280,7 @@ declare module '../../index' {
       color: string | CanvasGradient,
     ): void
     /** 设置文字的对齐
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1298,7 +1306,7 @@ declare module '../../index' {
       align: keyof CanvasContext.Align,
     ): void
     /** 设置文字的竖直对齐
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1327,10 +1335,46 @@ declare module '../../index' {
       textBaseline: keyof CanvasContext.TextBaseline,
     ): void
     /** 使用矩阵重新设置（覆盖）当前变换的方法
-     * @supported weapp, h5
+     * @supported weapp, swan, jd, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTransform.html
      */
     setTransform(
+      /** 水平缩放 */
+      scaleX: number,
+      /** 水平倾斜 */
+      skewX: number,
+      /** 垂直倾斜 */
+      skewY: number,
+      /** 垂直缩放 */
+      scaleY: number,
+      /** 水平移动 */
+      translateX: number,
+      /** 垂直移动 */
+      translateY: number,
+    ): void
+    /** 使用矩阵重新设置（覆盖）当前变换的方法
+     * @supported alipay
+     * @see https://opendocs.alipay.com/mini/api/wt6glg?pathHash=1d428fc1
+     */
+    setTransform(
+      /** 水平缩放 */
+      scaleX: number,
+      /** 垂直倾斜 */
+      skewY: number,
+      /** 水平倾斜 */
+      skewX: number,
+      /** 垂直缩放 */
+      scaleY: number,
+      /** 水平移动 */
+      translateX: number,
+      /** 垂直移动 */
+      translateY: number,
+    ): void
+     /** 使用矩阵重新设置（覆盖）当前变换的方法
+     * @supported qq
+     * @see https://q.qq.com/wiki/develop/miniprogram/API/canvas/canvasContext.html#settransform
+     */
+     setTransform(
       /** 水平缩放 */
       scaleX: number,
       /** 垂直缩放 */
@@ -1345,7 +1389,7 @@ declare module '../../index' {
       translateY: number,
     ): void
     /** 画出当前路径的边框。默认颜色色为黑色。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1380,7 +1424,7 @@ declare module '../../index' {
      */
     stroke(): void
     /** 画一个矩形(非填充)。 用 [`setStrokeStyle`](/docs/apis/canvas/CanvasContext#setstrokestyle) 设置矩形线条的颜色，如果没设置默认是黑色。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1401,7 +1445,7 @@ declare module '../../index' {
       height: number,
     ): void
     /** 给定的 (x, y) 位置绘制文本描边的方法
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.strokeText.html
      */
     strokeText(
@@ -1415,8 +1459,44 @@ declare module '../../index' {
       maxWidth?: number,
     ): void
     /** 使用矩阵多次叠加当前变换的方法
-     * @supported weapp, h5
+     * @supported weapp, jd, tt, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.transform.html
+     */
+    transform(
+      /** 水平缩放 */
+      scaleX: number,
+      /** 水平倾斜 */
+      skewX: number,
+      /** 垂直倾斜 */
+      skewY: number,
+      /** 垂直缩放 */
+      scaleY: number,
+      /** 水平移动 */
+      translateX: number,
+      /** 垂直移动 */
+      translateY: number,
+    ): void
+    /** 使用矩阵叠加当前变换。矩阵由方法的参数进行描述，可以缩放、旋转、移动和倾斜上下文
+     * @supported alipay
+     * @see https://opendocs.alipay.com/mini/api/fv97do?pathHash=42ccd479
+     */
+    transform(
+      /** 水平缩放 */
+      scaleX: number,
+      /** 垂直倾斜 */
+      skewY: number,
+      /** 水平倾斜 */
+      skewX: number,
+      /** 垂直缩放 */
+      scaleY: number,
+      /** 水平移动 */
+      translateX: number,
+      /** 垂直移动 */
+      translateY: number,
+    ): void
+    /** 使用矩阵多次叠加当前变换的方法
+     * @supported qq
+     * @see https://q.qq.com/wiki/develop/miniprogram/API/canvas/canvasContext.html#transform
      */
     transform(
       /** 水平缩放 */
@@ -1433,7 +1513,7 @@ declare module '../../index' {
       translateY: number,
     ): void
     /** 对当前坐标系的原点 (0, 0) 进行变换。默认的坐标系原点为页面左上角。
-     * @supported weapp, h5
+     * @supported weapp, alipay, swan, jd, qq, tt, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1495,13 +1575,34 @@ declare module '../../index' {
     }
       /** 参数 textBaseline 可选值 */
     interface TextBaseline {
-      /** 顶部对齐 */
+      /** 顶部对齐
+       * @supported weapp, alipay, swan, jd, qq, tt
+       */
       top
-      /** 底部对齐 */
+      /** 底部对齐
+       * @supported weapp, alipay, swan, jd, qq, tt
+       */
       bottom
-      /** 居中对齐 */
+      /** 居中对齐
+       * @supported weapp, alipay, swan, jd, qq, tt
+       */
       middle
+      /**
+       * @supported weapp, alipay, swan, jd, qq, tt
+       */
       normal
+      /** 文本基线为悬挂基线。
+       * @supported alipay, tt
+       */
+      hanging
+      /** 文本基线是标准的字母基线
+       * @supported alipay, tt
+       */
+      alphabetic
+      /** 文字基线是表意字基线。如果字符本身超出了alphabetic 基线，那么ideograhpic基线位置在字符本身的底部。
+       *  @supported alipay, tt
+       */
+      ideographic
     }
   }
 
@@ -1745,6 +1846,10 @@ declare module '../../index' {
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/OffscreenCanvas.html
    */
   interface OffscreenCanvas {
+    /** 画布宽度  */
+    width: number
+    /** 画布高度 */
+    height: number
     /** 创建一个图片对象。支持在 2D Canvas 和 WebGL Canvas 下使用, 但不支持混用 2D 和 WebGL 的方法
      *
      * > 注意不允许混用 webgl 和 2d 画布创建的图片对象，使用时请注意尽量使用 canvas 自身的 createImage 创建图片对象。
