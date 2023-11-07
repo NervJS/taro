@@ -110,12 +110,6 @@ declare module '../../index' {
     interface Option {
       /** [{ key, value }] */
       kvList: kv[]
-      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
-      complete?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用失败的回调函数 */
-      fail?: (res: TaroGeneral.CallbackResult) => void
-      /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallbackResult<T>) => void
     }
     interface kv {
       /** key 本地缓存中指定的 key */
@@ -127,7 +121,14 @@ declare module '../../index' {
 
   namespace batchSetStorage {
     interface Option {
+      /** [{ key, value }] */
       kvList: kv[]
+      /** 接口调用结束的回调函数（调用成功、失败都会执行） */
+      complete?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用失败的回调函数 */
+      fail?: (res: TaroGeneral.CallbackResult) => void
+      /** 接口调用成功的回调函数 */
+      success?: (result: TaroGeneral.CallbackResult) => void
     }
     interface kv {
       /** key 本地缓存中指定的 key */
@@ -146,7 +147,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (result: SuccessCallbackResult<T>) => void
+      success?: (result: TaroGeneral.CallbackResult) => void
     }
   }
 
