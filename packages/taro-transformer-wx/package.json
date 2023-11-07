@@ -14,12 +14,11 @@
     "dist"
   ],
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w --pretty",
     "test:cov": "jest --coverage && npm run lint",
     "test": "jest packages/taro-transformer-wx/__tests__/base.spec.ts",
-    "testAll": "jest",
-    "dev": "tsc -w --pretty",
-    "lint": "tslint",
-    "build": "tsc"
+    "testAll": "jest"
   },
   "author": "O2Team",
   "license": "MIT",
@@ -96,9 +95,6 @@
     "nervjs": "^1.5.0",
     "ts-jest": "^29.0.5",
     "ts-node": "^10.9.1",
-    "tslint": "^5.10.0",
-    "tslint-config-prettier": "^1.10.0",
-    "tslint-config-standard": "^7.0.0",
     "typescript": "^5.1.6"
   },
   "publishConfig": {

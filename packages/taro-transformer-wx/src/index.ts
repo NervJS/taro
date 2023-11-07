@@ -554,7 +554,6 @@ export default function transform(options: TransformOptions): TransformResult {
             if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
               throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
             }
-            // tslint:disable-next-line: strict-type-predicates
             const test =
               Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant as any, Case.test as any)
             return { block, test }
@@ -669,7 +668,6 @@ export default function transform(options: TransformOptions): TransformResult {
         }
       }
 
-      // tslint:disable-next-line: strict-type-predicates
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }

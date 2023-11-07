@@ -94,7 +94,6 @@ export const functionalComponent: () => {
           }
           let { id, body, params } = functionDecl.node
           let arg: null | t.LVal = null
-          // tslint:disable-next-line: strict-type-predicates
           if (id === null) {
             functionDecl.node.id = t.identifier('YourShouldGiveTheComponentAName')
             id = functionDecl.node.id

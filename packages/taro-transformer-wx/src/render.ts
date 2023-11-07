@@ -69,7 +69,6 @@ type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 function findParents<T>(path: NodePath<t.Node>, predicates: (p: NodePath<t.Node>) => boolean) {
   const parents: NodePath<T>[] = []
-  // tslint:disable-next-line:no-conditional-assignment
   while (path.parentPath) {
     if (path.parentPath != null) {
       path = path.parentPath as any
@@ -569,7 +568,6 @@ export class RenderParser {
                         indexName = index.name
                       }
                       this.loopScopes.add(index.name)
-                      // tslint:disable-next-line: strict-type-predicates
                     } else if (index === undefined) {
                       if (process.env.NODE_ENV !== 'test') {
                         const uid = this.renderScope.generateUid('anonIdx')
@@ -799,7 +797,6 @@ export class RenderParser {
             .get('body').scope
           : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node as any
-        // tslint:disable-next-line
         const parallelIfStems = this.findParallelIfStem(ifStatement as any)
         const parentIfStatement = ifStatement?.findParent(
           (p) => p.isIfStatement() && !parallelIfStems.has(p as any)
@@ -1052,7 +1049,6 @@ export class RenderParser {
           !t.isJSXElement(value) &&
           !name.name.includes('-')
         ) {
-          // tslint:disable-next-line: strict-type-predicates
           const v: t.StringLiteral | t.Expression | t.BooleanLiteral =
             value === null
               ? t.booleanLiteral(true)
@@ -1527,7 +1523,6 @@ export class RenderParser {
           } else if (t.isMemberExpression(p)) {
             id = findFirstIdentifierFromMemberExpression(p)
           }
-          // tslint:disable-next-line: no-console
           console.warn(
             codeFrameError(
               path.parentPath.node,
@@ -1541,7 +1536,6 @@ export class RenderParser {
       const init = path.get('init')
       const id = path.get('id')
       const ifStem = init.findParent((p) => p.isIfStatement())
-      // tslint:disable-next-line: strict-type-predicates
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
       }
@@ -1565,7 +1559,6 @@ export class RenderParser {
         if (id.isIdentifier()) {
           const name = id.node.name
           if (this.initState.has(name)) {
-            // tslint:disable-next-line
             console.log(codeFrameError(id.node, errMsg).message)
           }
         }
@@ -1575,7 +1568,6 @@ export class RenderParser {
             if (t.isIdentifier(p)) {
               // @ts-ignore
               if (this.initState.has(p.name)) {
-                // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
               }
             }
@@ -1583,7 +1575,6 @@ export class RenderParser {
             if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
               // @ts-ignore
               if (this.initState.has(p.argument.name)) {
-                // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
               }
             }
@@ -2064,7 +2055,6 @@ export class RenderParser {
           const properties = Array.from(stateToBeAssign).map((state) =>
             t.objectProperty(t.identifier(state), t.identifier(state))
           )
-          // tslint:disable-next-line:no-inner-declarations
           function replaceOriginal(path, parent, name) {
             if (
               (path.isReferencedIdentifier() || t.isAssignmentExpression(parent)) &&
@@ -2102,7 +2092,6 @@ export class RenderParser {
                 ) {
                   if (process.env.TERM_PROGRAM || isTestEnv) {
                     // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
-                    // tslint:disable-next-line:no-console
                     console.log(
                       codeFrameError(
                         value.expression,
@@ -2164,7 +2153,6 @@ export class RenderParser {
                   path.parentPath.isMemberExpression() &&
                   path.parentPath.parentPath.isMemberExpression()
                 ) {
-                  // tslint:disable-next-line
                   console.warn(
                     codeFrameError(
                       path.parentPath.parentPath.node,
@@ -2504,7 +2492,6 @@ export class RenderParser {
           this.renderPath.scope.getBinding(s)!.path.node,
           '此变量声明与循环变量冲突，可能会造成问题。'
         )
-        // tslint:disable-next-line: no-console
         console.warn('Warning: ', err.message)
         this.loopScopes.delete(s)
       }

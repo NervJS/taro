@@ -17,7 +17,6 @@ export function templateLiterals(path, state) {
 
     const expr = expressions.shift()
     if (expr) {
-      // tslint:disable-next-line:no-multi-spaces
       if (state.opts.spec && !expr.isBaseType('string') && !expr.isBaseType('number')) {
         nodes.push(t.callExpression(t.identifier('String'), [expr.node]))
       } else {

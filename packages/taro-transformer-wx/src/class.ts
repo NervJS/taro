@@ -246,10 +246,8 @@ class Transformer {
       }
       classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
       const indexKey = (stemParent as any).scope.generateUid('$indexKey')
-      // tslint:disable-next-line: no-inner-declarations
       function findParentLoopCallExprIndices(callExpr: NodePath<t.CallExpression>) {
         const indices: Set<t.Identifier> = new Set([])
-        // tslint:disable-next-line: no-conditional-assignment
         while (
           (callExpr = callExpr.findParent(
             (p) => isArrayMapCallExpression(p as any) && p !== callExpr
@@ -525,7 +523,6 @@ class Transformer {
               ReturnStatement(returnPath) {
                 const arg = returnPath.node.argument
                 const ifStem = returnPath.findParent((p) => p.isIfStatement())
-                // tslint:disable-next-line: strict-type-predicates
                 if (
                   ifStem &&
                   classMethodPath.node.body.body.some((s) => s === ifStem.node) &&

@@ -56,7 +56,6 @@ export const eslintValidation: () => {
                 },
                 msg.message
               )
-              // tslint:disable-next-line
               console.warn(
                 '\n' +
                   `ESLint(${msg.ruleId}) 错误：` +

@@ -62,7 +62,6 @@ export const incrementId = () => {
   return () => id++
 }
 
-// tslint:disable-next-line:no-empty
 export const noop = function () {}
 
 export function getSuperClassCode(path: NodePath<t.ClassDeclaration>) {
@@ -135,7 +134,6 @@ export function isVarName(str: string | unknown) {
   }
 
   try {
-    // tslint:disable-next-line:no-unused-expression
     new Function(str, 'var ' + str)
   } catch (e) {
     return false
@@ -287,7 +285,6 @@ export function generateAnonymousState(
           if (isArrowFunctionInJSX) {
             return
           }
-          // tslint:disable-next-line: strict-type-predicates
           if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$') && init != null) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
@@ -626,7 +623,6 @@ export function reverseBoolean(expression: t.Expression) {
 export function isEmptyDeclarator(node: t.Node) {
   if (
     t.isVariableDeclarator(node) &&
-    // tslint:disable-next-line: strict-type-predicates
     (node.init === null || t.isNullLiteral(node.init))
   ) {
     return true

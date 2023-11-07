@@ -3284,15 +3284,6 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: registry.npmjs.org/ts-node@10.9.1(@types/node@9.6.61)(typescript@4.9.5)
-      tslint:
-        specifier: ^5.10.0
-        version: registry.npmjs.org/tslint@5.20.1(typescript@4.9.5)
-      tslint-config-prettier:
-        specifier: ^1.10.0
-        version: registry.npmjs.org/tslint-config-prettier@1.18.0
-      tslint-config-standard:
-        specifier: ^7.0.0
-        version: registry.npmjs.org/tslint-config-standard@7.1.0(tslint@5.20.1)(typescript@4.9.5)
 
   packages/taro-tt:
     dependencies:
@@ -19115,13 +19106,6 @@ packages:
       base64-js: registry.npmjs.org/base64-js@1.5.1
       ieee754: registry.npmjs.org/ieee754@1.2.1
 
-  registry.npmjs.org/builtin-modules@1.1.1:
-    resolution: {integrity: sha512-wxXCdllwGhI2kCC0MnvTGYTMvnVZTvqgypkiTI8Pa5tcz2i6VqsqwYGgqwXji+4RgCzms6EajE4IxiUH6HH8nQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/builtin-modules/-/builtin-modules-1.1.1.tgz}
-    name: builtin-modules
-    version: 1.1.1
-    engines: {node: '>=0.10.0'}
-    dev: true
-
   registry.npmjs.org/builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/builtin-modules/-/builtin-modules-3.3.0.tgz}
     name: builtin-modules
@@ -22499,16 +22483,6 @@ packages:
       buffer-indexof: registry.npmjs.org/buffer-indexof@1.1.1
     dev: false
 
-  registry.npmjs.org/doctrine@0.7.2:
-    resolution: {integrity: sha512-qiB/Rir6Un6Ad/TIgTRzsremsTGWzs8j7woXvp14jgq00676uBiBT5eUOi+FgRywZFVy5Us/c04ISRpZhRbS6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/doctrine/-/doctrine-0.7.2.tgz}
-    name: doctrine
-    version: 0.7.2
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      esutils: registry.npmjs.org/esutils@1.1.6
-      isarray: registry.npmjs.org/isarray@0.0.1
-    dev: true
-
   registry.npmjs.org/doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/doctrine/-/doctrine-2.1.0.tgz}
     name: doctrine
@@ -24204,13 +24178,6 @@ packages:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/estree-walker/-/estree-walker-2.0.2.tgz}
     name: estree-walker
     version: 2.0.2
-
-  registry.npmjs.org/esutils@1.1.6:
-    resolution: {integrity: sha512-RG1ZkUT7iFJG9LSHr7KDuuMSlujfeTtMNIcInURxKAxhMtwQhI3NrQhz26gZQYlsYZQKzsnwtpKrFKj9K9Qu1A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esutils/-/esutils-1.1.6.tgz}
-    name: esutils
-    version: 1.1.6
-    engines: {node: '>=0.10.0'}
-    dev: true
 
   registry.npmjs.org/esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esutils/-/esutils-2.0.3.tgz}
@@ -41569,91 +41536,10 @@ packages:
     name: tslib
     version: 1.10.0
 
-  registry.npmjs.org/tslib@1.9.0:
-    resolution: {integrity: sha512-f/qGG2tUkrISBlQZEjEqoZ3B2+npJjIf04H1wuAv9iA8i04Icp+61KRXxFdha22670NJopsZCIjhC3SnjPRKrQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-1.9.0.tgz}
-    name: tslib
-    version: 1.9.0
-    dev: true
-
   registry.npmjs.org/tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslib/-/tslib-2.5.0.tgz}
     name: tslib
     version: 2.5.0
-
-  registry.npmjs.org/tslint-config-prettier@1.18.0:
-    resolution: {integrity: sha512-xPw9PgNPLG3iKRxmK7DWr+Ea/SzrvfHtjFt5LBl61gk2UBG/DB9kCXRjv+xyIU1rUtnayLeMUVJBcMX8Z17nDg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslint-config-prettier/-/tslint-config-prettier-1.18.0.tgz}
-    name: tslint-config-prettier
-    version: 1.18.0
-    engines: {node: '>=4.0.0'}
-    hasBin: true
-    dev: true
-
-  registry.npmjs.org/tslint-config-standard@7.1.0(tslint@5.20.1)(typescript@4.9.5):
-    resolution: {integrity: sha512-cETzxZcEQ1RKjwtEScGryAtqwiRFc55xBxhZP6bePyOfXmo6i1/QKQrTgFKBiM4FjCvcqTjJq20/KGrh+TzTfQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslint-config-standard/-/tslint-config-standard-7.1.0.tgz}
-    id: registry.npmjs.org/tslint-config-standard/7.1.0
-    name: tslint-config-standard
-    version: 7.1.0
-    deprecated: 'TSLint is deprecated, please move to ESLint: https://github.com/blakeembrey/tslint-config-standard/issues/61'
-    dependencies:
-      tslint-eslint-rules: registry.npmjs.org/tslint-eslint-rules@5.4.0(tslint@5.20.1)(typescript@4.9.5)
-    transitivePeerDependencies:
-      - tslint
-      - typescript
-    dev: true
-
-  registry.npmjs.org/tslint-eslint-rules@5.4.0(tslint@5.20.1)(typescript@4.9.5):
-    resolution: {integrity: sha512-WlSXE+J2vY/VPgIcqQuijMQiel+UtmXS+4nvK4ZzlDiqBfXse8FAvkNnTcYhnQyOTW5KFM+uRRGXxYhFpuBc6w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslint-eslint-rules/-/tslint-eslint-rules-5.4.0.tgz}
-    id: registry.npmjs.org/tslint-eslint-rules/5.4.0
-    name: tslint-eslint-rules
-    version: 5.4.0
-    peerDependencies:
-      tslint: ^5.0.0
-      typescript: ^2.2.0 || ^3.0.0
-    dependencies:
-      doctrine: registry.npmjs.org/doctrine@0.7.2
-      tslib: registry.npmjs.org/tslib@1.9.0
-      tslint: registry.npmjs.org/tslint@5.20.1(typescript@4.9.5)
-      tsutils: registry.npmjs.org/tsutils@3.21.0(typescript@4.9.5)
-      typescript: registry.npmjs.org/typescript@4.9.5
-    dev: true
-
-  registry.npmjs.org/tslint@5.20.1(typescript@4.9.5):
-    resolution: {integrity: sha512-EcMxhzCFt8k+/UP5r8waCf/lzmeSyVlqxqMEDQE7rWYiQky8KpIBz1JAoYXfROHrPZ1XXd43q8yQnULOLiBRQg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tslint/-/tslint-5.20.1.tgz}
-    id: registry.npmjs.org/tslint/5.20.1
-    name: tslint
-    version: 5.20.1
-    engines: {node: '>=4.8.0'}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >=3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev'
-    dependencies:
-      '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.21.4
-      builtin-modules: registry.npmjs.org/builtin-modules@1.1.1
-      chalk: registry.npmjs.org/chalk@2.4.2
-      commander: registry.npmjs.org/commander@2.20.3
-      diff: registry.npmjs.org/diff@4.0.2
-      glob: registry.npmjs.org/glob@7.2.3
-      js-yaml: registry.npmjs.org/js-yaml@3.14.1
-      minimatch: registry.npmjs.org/minimatch@3.1.2
-      mkdirp: registry.npmjs.org/mkdirp@0.5.6
-      resolve: registry.npmjs.org/resolve@1.22.2
-      semver: registry.npmjs.org/semver@5.7.1
-      tslib: registry.npmjs.org/tslib@1.10.0
-      tsutils: registry.npmjs.org/tsutils@2.29.0(typescript@4.9.5)
-      typescript: registry.npmjs.org/typescript@4.9.5
-    dev: true
-
-  registry.npmjs.org/tsutils@2.29.0(typescript@4.9.5):
-    resolution: {integrity: sha512-g5JVHCIJwzfISaXpXE1qvNalca5Jwob6FjI4AoPlqMusJ6ftFE7IkkFoMhVLRgK+4Kx3gkzb8UZK5t5yTTvEmA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tsutils/-/tsutils-2.29.0.tgz}
-    id: registry.npmjs.org/tsutils/2.29.0
-    name: tsutils
-    version: 2.29.0
-    peerDependencies:
-      typescript: '>=2.1.0 || >=2.1.0-dev || >=2.2.0-dev || >=2.3.0-dev || >=2.4.0-dev || >=2.5.0-dev || >=2.6.0-dev || >=2.7.0-dev || >=2.8.0-dev || >=2.9.0-dev || >= 3.0.0-dev || >= 3.1.0-dev'
-    dependencies:
-      tslib: registry.npmjs.org/tslib@1.10.0
-      typescript: registry.npmjs.org/typescript@4.9.5
-    dev: true
 
   registry.npmjs.org/tsutils@3.21.0(typescript@4.9.5):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/tsutils/-/tsutils-3.21.0.tgz}
