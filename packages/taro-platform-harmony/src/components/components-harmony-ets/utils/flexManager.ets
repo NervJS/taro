@@ -31,29 +31,15 @@ class FlexManager {
       w3cToHarmonyStyle(flexOptions, 'alignItems', _st.alignItems)
     }
 
+    // TODO:
+    // if (_st.wrap !== undefined) {
+    //   w3cToHarmonyStyle(flexOptions, 'wrap', _st.wrap)
+    // }
+    // if (_st.alignContent !== undefined) {
+    //   w3cToHarmonyStyle(flexOptions, 'alignContent', _st.alignContent)
+    // }
+
     return flexOptions
-
-    const flexAttrs: FlexOptions = {
-      direction: FlexManager.flexDirection(_st),
-    }
-
-    if (_st.justifyContent !== undefined) {
-      flexAttrs.justifyContent = FlexManager.justifyContent(_st)
-    }
-
-    if (_st.alignItems !== undefined) {
-      flexAttrs.alignItems = FlexManager.alignItems(_st)
-    }
-
-    if (_st.wrap !== undefined) {
-      flexAttrs.wrap = FlexManager.flexWrap(_st)
-    }
-
-    if (_st.alignContent !== undefined) {
-      flexAttrs.alignContent = FlexManager.alignContent(_st)
-    }
-
-    return flexAttrs
   }
 
   static flexAlign (value: string | number | undefined): FlexAlign {

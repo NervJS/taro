@@ -155,7 +155,7 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       break
     }
     case 'zIndex': {
-      obj['zIndex'] = +value
+      obj['zIndex'] = +value || null
       break
     }
     case 'overflow': {
@@ -203,6 +203,10 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
     }
     case 'WebkitLineClamp': {
       obj['maxLines'] = +value 
+    }
+    case 'opacity': {
+      obj['opacity'] = +value
+      break
     }
   }
 

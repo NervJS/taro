@@ -81,8 +81,6 @@ export function bindAnimation (node: TaroElement, animationCb: (val: Record<stri
 export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<string, any>) {
   const { _nid, _st, _attrs } = node
 
-  // const transformData = AttributeManager.getTransform(_st)
-
   const linearGradient = AttributeManager.getStyleAfterConvert(_st, 'linearGradient')
 
   const background = AttributeManager.getStyleAfterConvert(_st, 'background')
@@ -102,7 +100,6 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
   const transformTransform = transform?.transform?.[0]
 
   const normalAttributes = {
-    id: AttributeManager.getNodeStyle(_attrs, 'id', _nid),
     // Flex相关
     flexBasis: AttributeManager.getStyleAfterConvert(_st, 'flexBasis'),
     flexGrow: AttributeManager.getStyleAfterConvert(_st, 'flexGrow'),
@@ -131,26 +128,31 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
     scale: transformScale,
     transform: transformTransform,
     // 其他
-    zIndex: Number(AttributeManager.getNodeStyle(_st, 'zIndex')) || null,
-    opacity: AttributeManager.getNodeStyle(_st, 'opacity'),
+    id: AttributeManager.getNodeStyle(_attrs, 'id', _nid),
     // animation: AttributeManager.getNodeAnimationData(_st),
-    clip: AttributeManager.getNodeStyle(_st, 'overflow') === 'hidden',
     focus: AttributeManager.getNodeStyle(_attrs, 'focus', false),
+    clip: AttributeManager.getNodeStyle(_st, 'overflow') === 'hidden',
   }
 
-  // TODO: 需要遍历一遍，存在性能问题
-  // 处理style属性，运行时转换成鸿蒙样式
-  _st && Object.keys(_st).forEach((key) => {
-    if (!key.startsWith('_')) {
-      w3cToHarmonyStyle(normalAttributes, key, _st[key])
-    }
-  })
+  transformW3CToHarmonyInStyle(_st, normalAttributes)
 
   // 处理覆盖属性：如动画的覆盖
   if (overwriteStyle) {
     Object.assign(normalAttributes, overwriteStyle)
   }
   return normalAttributes
+}
+
+// TODO: 需要遍历一遍，存在性能问题
+// 处理style属性，运行时转换成鸿蒙样式
+export const transformW3CToHarmonyInStyle = (styles: any, stylesAfterConvert: any) => {
+  if (!styles) return
+
+  Object.keys(styles).forEach((key) => {
+    if (key.startsWith('_')) return 
+
+    w3cToHarmonyStyle(stylesAfterConvert, key, styles[key])
+  })
 }
 
 export const parseStyles = (styles = ''): { [key: string]: string } => {

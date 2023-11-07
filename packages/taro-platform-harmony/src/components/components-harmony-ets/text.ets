@@ -1,8 +1,7 @@
 import { eventHandler, isElement } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { w3cToHarmonyStyle } from './utils/dynamicConvert'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
+import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -124,11 +123,8 @@ function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) 
     ...getFontAttributes(node)
   }
   // 处理style属性，运行时转换成鸿蒙样式
-  node._st && Object.keys(node._st).forEach((key) => {
-    if (!key.startsWith('_')) {
-      w3cToHarmonyStyle(attrs, key, node._st[key])
-    }
-  })
+  transformW3CToHarmonyInStyle(node._st, attrs)
+
   return attrs
 }
 
