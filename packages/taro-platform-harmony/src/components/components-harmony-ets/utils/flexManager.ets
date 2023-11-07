@@ -9,10 +9,11 @@ class FlexManager {
 
     let flexOptions = AttributeManager.getNodeStyle(_st, 'flexOptions')
     if (flexOptions) {
-      if (AttributeManager.getNodeStyle(_st, 'display') === 'flex') {
-        flexOptions.direction ||= FlexDirection.Row
-      } else {
-        flexOptions.direction ||= FlexDirection.Column
+      const isDirectionExist = flexOptions.direction !== undefined
+      if (!isDirectionExist) {
+        const isFlexDisplay = _st.display === 'flex'
+
+        flexOptions.direction = isFlexDisplay ? FlexDirection.Row : FlexDirection.Column
       }
     } else {
       flexOptions = {
