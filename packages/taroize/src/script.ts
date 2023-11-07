@@ -64,14 +64,18 @@ function replacePluginUrl (node, pluginInfo) {
         // 捕获跳转路径中的插件名和页面名，替换为子包路径
         const regexPluginUrl = /plugin:\/\/([^/]+)\/([^/?]+)/
         const matchPluginUrl = urlValue.match(regexPluginUrl)
-        if (matchPluginUrl) {
-          // 捕获插件名
-          const pluginName = matchPluginUrl[1]
-          // 捕获页面名
-          const pageName = matchPluginUrl[2]
-
-          url = `/${pluginName}/${pluginInfo.pagesMap.get(pageName)}`
+        if (!matchPluginUrl) {
+          // 非插件路径，不做处理
+          return
         }
+
+        // 将跳转的插件页面url替换为子包的url
+        // 捕获插件名
+        const pluginName = matchPluginUrl[1]
+        // 捕获页面名
+        const pageName = matchPluginUrl[2]
+
+        url = `/${pluginName}/${pluginInfo.pagesMap.get(pageName)}`
 
         // 捕获跳转路径中的参数
         const regexParams = /\?(.+)/
