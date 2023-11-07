@@ -209,7 +209,7 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       break
     }
   }
-
+  
   return obj
 }
 
