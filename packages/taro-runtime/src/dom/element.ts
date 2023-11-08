@@ -303,7 +303,7 @@ export class TaroElement extends TaroNode {
 
   public getElementsByClassName (className: string): TaroElement[] {
     const classNames = className.trim().split(/\s+/)
-  
+
     return treeToArray(this, (el) => {
       const classList = el.classList
       return classNames.every(c => classList.contains(c))
@@ -360,6 +360,8 @@ export class TaroElement extends TaroNode {
       delete options.sideEffect
     }
 
+    hooks.call('modifyAddEventListener', this, sideEffect, getComponentsAlias)
+
     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
       const alias = componentsAlias[name]._num
@@ -377,6 +379,8 @@ export class TaroElement extends TaroNode {
 
     const name = this.nodeName
     const SPECIAL_NODES = hooks.call('getSpecialNodes')!
+
+    hooks.call('modifyRemoveEventListener', this, sideEffect, getComponentsAlias)
 
     if (sideEffect !== false && !this.isAnyEventBinded() && SPECIAL_NODES.indexOf(name) > -1) {
       const componentsAlias = getComponentsAlias()
