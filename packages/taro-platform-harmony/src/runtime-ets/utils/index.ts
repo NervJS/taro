@@ -44,3 +44,61 @@ export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, cla
   obj.push(style)
   return Object.assign.apply(null, [{}].concat(obj))
 }
+
+export function bindInstanceToNode (node: TaroElement, component: object) {
+  if (!node) return
+
+  node._instance = component
+
+  // 触发appear，让node监听到TaroNode已经和ete自定义组件绑定上
+  // @ts-ignore
+  node.resolveAppear?.() // #text node节点没有实现该方法
+}
+
+export class DynamicCenter {
+  static checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
+    if (!parentNode._isCompileMode) return
+
+    parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
+  }
+
+  static checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
+    if (!node._isCompileMode) return
+
+    node._instance?.dynamicCenter?.uninstall?.(node)
+  }
+
+  install (node: TaroElement, parnetNode: TaroElement) {
+    if (!parnetNode._isCompileMode) return
+
+    const component = parnetNode._instance
+
+    this.bindComponentToNodeWithDFS(node, component)
+  }
+
+  uninstall (node: TaroElement) {
+    if (!node._isCompileMode || !node._instance) return
+
+    node._instance[node._attrs?._dynamicID] = null
+    node._instance = null
+  }
+
+  bindComponentToNodeWithDFS (node: TaroElement, component, path = '') {
+    if (!node) return
+
+    const dynamicID = node._attrs?._dynamicID
+  
+    if (dynamicID) {
+      node._isCompileMode = true
+      component[dynamicID] = node
+      bindInstanceToNode(node, component)
+    }
+  
+    if (!node.childNodes || !node.childNodes.length) return
+  
+    for (let i = 0; i < node.childNodes.length; i++) {
+      // @ts-ignore
+      this.bindComponentToNodeWithDFS(node.childNodes[i], component, path + i.toString())
+    }
+  }
+}

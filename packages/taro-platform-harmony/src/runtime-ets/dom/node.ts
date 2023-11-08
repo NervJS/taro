@@ -1,5 +1,6 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
+import { DynamicCenter } from '../utils'
 import { TaroEventTarget } from './eventTarget'
 
 import type { TaroDocument } from './document'
@@ -31,6 +32,8 @@ export class TaroNode extends TaroEventTarget {
   public _nid: string = genId()
 
   public _doc: TaroDocument
+  public _isCompileMode = false
+  public _instance: any
 
   private _textContent = ''
 
@@ -133,6 +136,8 @@ export class TaroNode extends TaroEventTarget {
     child.parentNode = this
     // this.childNodes.push(child)
     this.childNodes = [...this.childNodes, child]
+
+    DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(child, this)
     return child
   }
 
@@ -150,6 +155,8 @@ export class TaroNode extends TaroEventTarget {
       ]
     }
 
+    DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(newNode, this)
+
     return newNode
   }
 
@@ -166,6 +173,8 @@ export class TaroNode extends TaroEventTarget {
       ...this.childNodes.slice(idxOfRef + 1)
     ]
 
+    DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
+    
     return oldChild
   }
 
@@ -176,6 +185,8 @@ export class TaroNode extends TaroEventTarget {
     if (idx < 0) throw new Error('TaroNode:removeChild NotFoundError')
 
     this.childNodes = this.childNodes.filter((_, index) => index !== idx)
+
+    DynamicCenter.checkIsCompileModeAndUninstallAfterDOMAction(child)
 
     return child
   }

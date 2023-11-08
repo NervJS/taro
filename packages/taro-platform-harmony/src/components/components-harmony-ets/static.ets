@@ -1,5 +1,5 @@
 // TODO: 后续这个文件通过半编译逻辑生成
-import { TaroElement, eventHandler } from '@tarojs/runtime'
+import { TaroElement, eventHandler, DynamicCenter } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
@@ -120,6 +120,9 @@ function attrs ({
 
 @Extend(Text)
 function attrsText ({
+  id,
+  width,
+  height,
   zIndex,
   opacity,
   margin,
@@ -144,9 +147,9 @@ function attrsText ({
   scale,
   translate,
   transform,
-  size,
-  textAlign
-}) {
+  textAlign,
+ }) {
+  .id(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
@@ -170,10 +173,10 @@ function attrsText ({
   .scale(scale)
   .translate(translate)
   .transform(transform)
-  .size(size)
   .textAlign(textAlign)
+  .width(width)
+  .height(height)
 }
-
 
 function getTextAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
   const attrs = {
@@ -185,7 +188,6 @@ function getTextAttributes (node: TaroViewElement, overwriteStyle: Record<string
 
   return attrs
 }
-
 
 @Component
 struct TaroFeedItem {
@@ -212,25 +214,20 @@ struct TaroFeedItem {
   @State node10: TaroViewElement = new TaroElement('Block')
 
   @State node11: TaroViewElement = new TaroElement('Block')
+  
+  @State node12: TaroViewElement = new TaroElement('Block')
 
   dynamicCount = 11
+
+  dynamicCenter: DynamicCenter
 
   @State overwriteStyle: Record<string, any> = {}
 
   aboutToAppear () {
-    this.node1 = this.node
-    this.node2 = this.node.childNodes[0]
-    this.node3 = this.node.childNodes[0].childNodes[0]
-    this.node4 = this.node.childNodes[0].childNodes[1]
-    this.node5 = this.node.childNodes[1]
-    this.node6 = this.node.childNodes[2]
-    this.node7 = this.node.childNodes[2].childNodes[0]
-    this.node8 = this.node.childNodes[2].childNodes[1]
-    this.node9 = this.node.childNodes[2].childNodes[3].childNodes[0]
-    this.node10 = this.node.childNodes[2].childNodes[3].childNodes[0].childNodes[0].childNodes[1]
-    this.node11 = this.node.childNodes[2].childNodes[3].childNodes[0].childNodes[1]
+    this.dynamicCenter = new DynamicCenter()
+    
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
 
-    bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
@@ -250,11 +247,11 @@ struct TaroFeedItem {
       }
       .attrs(getNormalAttributes(this.node2))
       if (!this.node.childNodes[1].isIgnore) {
-        Flex(FlexManager.flexOptions(this.node5)) {
-          Text(this.node5.childNodes[0].textContent)
-            .attrsText(getTextAttributes(this.node5.childNodes[0], this.overwriteStyle))
+        Flex(FlexManager.flexOptions(this.node.childNodes[1])) {
+          Text(this.node5.textContent)
+            .attrsText(getTextAttributes(this.node5, this.overwriteStyle))
         }
-        .attrs(getNormalAttributes(this.node5))
+        .attrs(getNormalAttributes(this.node.childNodes[1]))
       }
       Flex(FlexManager.flexOptions(this.node6)) {
         Text(this.node7.textContent)
@@ -267,33 +264,33 @@ struct TaroFeedItem {
         }
         .attrs(getNormalAttributes(this.node8))
 
-        if (!this.node6.childNodes[2].isIgnore) {
-          Image(this.node6.childNodes[2].getAttribute('src'))
-            .attrsImage(getNormalAttributes(this.node6.childNodes[2], this.overwriteStyle))
+        if (!this.node9.isIgnore) {
+          Image(this.node9.getAttribute('src'))
+            .attrsImage(getNormalAttributes(this.node9, this.overwriteStyle))
         }
 
 
         Flex(FlexManager.flexOptions(this.node6.childNodes[3])) {
-          Flex(FlexManager.flexOptions(this.node9)) {
-            Flex(FlexManager.flexOptions(this.node9.childNodes[0])) {
-              Text(this.node9.childNodes[0].childNodes[0].textContent)
-                .attrsText(getTextAttributes(this.node9.childNodes[0].childNodes[0], this.overwriteStyle))
-              Text(this.node10.textContent)
-                .attrsText(getTextAttributes(this.node10, this.overwriteStyle))
+          Flex(FlexManager.flexOptions(this.node10)) {
+            Flex(FlexManager.flexOptions(this.node10.childNodes[0])) {
+              Text(this.node10.childNodes[0].childNodes[0].textContent)
+                .attrsText(getTextAttributes(this.node10.childNodes[0].childNodes[0], this.overwriteStyle))
+              Text(this.node11.textContent)
+                .attrsText(getTextAttributes(this.node11, this.overwriteStyle))
             }
-            .attrs(getNormalAttributes(this.node9.childNodes[0]))
+            .attrs(getNormalAttributes(this.node10.childNodes[0]))
 
-            if (!this.node11.isIgnore) {
-              Flex(FlexManager.flexOptions(this.node11)) {
-                Text(this.node11.childNodes[0].textContent)
-                  .attrsText(getTextAttributes(this.node11.childNodes[0], this.overwriteStyle))
-                Text(this.node11.childNodes[1].textContent)
-                  .attrsText(getTextAttributes(this.node11.childNodes[1], this.overwriteStyle))
+            if (!this.node10.childNodes[1].isIgnore) {
+              Flex(FlexManager.flexOptions(this.node10.childNodes[1])) {
+                Text(this.node10.childNodes[1].childNodes[0].textContent)
+                  .attrsText(getTextAttributes(this.node10.childNodes[1].childNodes[0], this.overwriteStyle))
+                Text(this.node12.textContent)
+                  .attrsText(getTextAttributes(this.node12, this.overwriteStyle))
               }
-              .attrs(getNormalAttributes(this.node11))
+              .attrs(getNormalAttributes(this.node10.childNodes[1]))
             }
           }
-          .attrs(getNormalAttributes(this.node9))
+          .attrs(getNormalAttributes(this.node10))
 
           Flex(FlexManager.flexOptions(this.node6.childNodes[3].childNodes[1])) {
             Text(this.node6.childNodes[3].childNodes[1].childNodes[0].textContent)

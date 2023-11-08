@@ -148,8 +148,10 @@ export function eventHandler (event, type: string, node: TaroElement) {
     // hooks.call('dispatchTaroEventFinish', e, node)
   }
 
+  dispatch()
+  
   if (isBatchUpdates) {
-    collectBatchFunction(type, dispatch)
+    // collectBatchFunction(type, dispatch)
 
     // 如果需要触发冒泡，则执行 stopOrTriggerPropagation
     if (BUBBLE_EVENTS.has(type)) {
@@ -162,7 +164,5 @@ export function eventHandler (event, type: string, node: TaroElement) {
         delete eventsBatch[type]
       }
     })
-  } else {
-    dispatch()
   }
 }
