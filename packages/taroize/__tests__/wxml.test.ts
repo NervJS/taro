@@ -433,3 +433,65 @@ describe('style属性的解析', () => {
     expect(contentInput).toBe('<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>')
   })
 })
+
+describe('wx作用域属性解析', () => {
+  test('wx不支持的属性scope-data', () => {
+    option.wxml = `<view wx:scope-data="{{...myData}}">
+                      {{id}}
+                    </view>`
+    option.path = 'wx_unknown'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual('<View>{id}</View>')
+  })
+
+  test('wx:if', () => {
+    option.wxml = `<view wx:if="{{xx}}">
+                      {{xxx}}
+                    </view>`
+    option.path = 'wx_if'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual(`xx && <View>{xxx}</View>`)
+  })
+
+  test('wx:for', () => {
+    option.wxml = `<view wx:for="{{list}}">
+                      {{item}}
+                    </view>`
+    option.path = 'wx_for'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual(`list.map((item, index) => {\n  return <View>{item}</View>;\n})`)
+  })
+
+  test('wx:for & wx:for-xxx', () => {
+    option.wxml = `<view wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName">
+                      {{idx}}: {{itemName.message}}
+                    </view>`
+    option.path = 'wx_for_xxx'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
+  })
+
+  test('wx:if & wx:for', () => {
+    option.wxml = `<view wx:if="{{item.key}}" wx:for="{{modalKey}}">
+                      the value is : {{item.value}}
+                    </view>`
+    option.path = 'wx_if_for'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
+  })
+
+  test('wx:for & wx:if', () => {
+    option.wxml = `<view wx:for="{{modalKey}}" wx:if="{{item.key}}">
+                      the value is : {{item.value}}
+                    </view>`
+    option.path = 'wx_for_if'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
+  })
+})

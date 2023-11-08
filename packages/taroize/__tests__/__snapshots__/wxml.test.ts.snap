@@ -52,3 +52,21 @@ Array [
 `;
 
 exports[`wxml.ts测试 wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp() 2`] = `"var regexp = new RegExp();"`;
+
+exports[`wx作用域属性解析 wx:for & wx:for-xxx 1`] = `
+"array.map((itemName, idx) => {
+  return <View>{idx + \\": \\" + itemName.message}</View>;
+})"
+`;
+
+exports[`wx作用域属性解析 wx:for & wx:if 1`] = `
+"modalKey.map((item, index) => {
+  return <Block>{item.key && <View>{\\"the value is : \\" + item.value}</View>}</Block>;
+})"
+`;
+
+exports[`wx作用域属性解析 wx:if & wx:for 1`] = `
+"modalKey.map((item, index) => {
+  return <Block>{item.key && <View>{\\"the value is : \\" + item.value}</View>}</Block>;
+})"
+`;
