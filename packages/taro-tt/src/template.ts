@@ -1,7 +1,7 @@
 import { RecursiveTemplate } from '@tarojs/shared/dist/template'
 
 export class Template extends RecursiveTemplate {
-  supportXS = false
+  supportXS = true
   Adapter = {
     if: 'tt:if',
     else: 'tt:else',
@@ -10,6 +10,7 @@ export class Template extends RecursiveTemplate {
     forItem: 'tt:for-item',
     forIndex: 'tt:for-index',
     key: 'tt:key',
+    xs: 'sjs',
     type: 'tt'
   }
 
@@ -20,5 +21,9 @@ export class Template extends RecursiveTemplate {
       return nameLowerCase
     }
     return name
+  }
+
+  buildXsTemplate () {
+    return '<sjs module="xs" src="./utils.sjs" />'
   }
 }

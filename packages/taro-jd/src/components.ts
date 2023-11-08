@@ -16,5 +16,12 @@ export const components = {
   },
   WebView: {
     height: ''
-  }
+  },
+  Input: {
+    'adjust-position': 'true',
+  },
+  Textarea: {
+    'show-confirm-bar': 'true',
+    'adjust-position': 'true',
+  },
 }
