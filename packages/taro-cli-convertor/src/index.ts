@@ -222,37 +222,45 @@ export default class Convertor {
 
   init () {
     console.log(chalk.green('开始代码转换...'))
-    this.initConvert()
-    this.getApp()
-    this.getPages()
-    this.getSitemapLocation()
-    this.getSubPackages()
+    try {
+      this.initConvert()
+      this.getApp()
+      this.getPages()
+      this.getSitemapLocation()
+      this.getSubPackages()
+    } catch (error) {
+      throw new Error(`初始化失败 ${getLineBreak()} ${error.stack}`)
+    }
   }
 
   initConvert () {
-    // 清空taroConvert目录，保留taroConvert下node_modules目录
-    if (fs.existsSync(this.convertRoot)) {
-      emptyDirectory(this.convertRoot, { excludes: ['node_modules'] })
-    } else {
-      fs.ensureDirSync(this.convertRoot)
-    }
+    try {
+      // 清空taroConvert目录，保留taroConvert下node_modules目录
+      if (fs.existsSync(this.convertRoot)) {
+        emptyDirectory(this.convertRoot, { excludes: ['node_modules'] })
+      } else {
+        fs.ensureDirSync(this.convertRoot)
+      }
 
-    // 转换自定义配置文件，如：tsconfig.json
-    this.convertSelfDefinedConfig()
+      // 转换自定义配置文件，如：tsconfig.json
+      this.convertSelfDefinedConfig()
 
-    // 创建.convert目录，存放转换中间数据，如日志数据
-    generateDir(path.join(this.convertRoot, '.convert'))
-    globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
+      // 创建.convert目录，存放转换中间数据，如日志数据
+      generateDir(path.join(this.convertRoot, '.convert'))
+      globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
 
-    // 读取convert.config.json配置文件
-    this.getConvertConfig()
+      // 读取convert.config.json配置文件
+      this.getConvertConfig()
 
-    // 读取project.config.json文件
-    this.parseProjectConfig()
+      // 读取project.config.json文件
+      this.parseProjectConfig()
 
-    // 解析插件的配置信息
-    if (this.projectConfig.compileType === Constants.PLUGIN) {
-      this.parsePluginConfig(this.pluginInfo)
+      // 解析插件的配置信息
+      if (this.projectConfig.compileType === Constants.PLUGIN) {
+        this.parsePluginConfig(this.pluginInfo)
+      }
+    } catch (error) {
+      throw new Error(`初始化convert失败 ${getLineBreak()} ${error.message}`)
     }
   }
 
@@ -1002,8 +1010,7 @@ export default class Convertor {
           this.pluginInfo.pluginRoot = path.join(this.root, projectConfigJson.pluginRoot.replace(/\/+$/, ''))
         }
       } catch (err) {
-        console.log(chalk.red(`project.config${this.fileTypes.CONFIG} 解析失败，请检查！`))
-        process.exit(1)
+        throw new Error(`project.config${this.fileTypes.CONFIG} 解析失败，请检查！`)
       }
     }
   }
@@ -1020,7 +1027,7 @@ export default class Convertor {
     }
     // 如果找到 miniprogramRoot字段，则以对应目录作为小程序逻辑目录
     if (this.miniprogramRoot) {
-      this.root = path.resolve(this.miniprogramRoot)
+      this.root = path.join(this.root, this.miniprogramRoot.replace(/\/+$/, ''))
     }
     if (this.isTsProject) {
       this.entryJSPath = path.join(this.miniprogramRoot, `app${this.fileTypes.SCRIPT}`)
