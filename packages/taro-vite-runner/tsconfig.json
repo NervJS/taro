@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "module": "commonjs",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "preserveConstEnums": true
+  },
+  "include": ["./src"],
+  "exclude": ["./src/__tests__", "./src/template/comp.ts", "./src/template/custom-wrapper.ts"]
+}

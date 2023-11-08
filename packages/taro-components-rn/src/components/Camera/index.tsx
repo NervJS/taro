@@ -17,9 +17,9 @@ export class _Camera extends Component<CameraProps, CameraState> {
   expoCameraRef = React.createRef<Camera>()
 
   async componentDidMount(): Promise<void> {
-    const { status } = await Camera.requestCameraPermissionsAsync()
+    const permission = await Camera.requestCameraPermissionsAsync()
     this.setState({
-      hasPermission: status === PermissionStatus.GRANTED
+      hasPermission: permission?.status === PermissionStatus.GRANTED
     })
   }
 

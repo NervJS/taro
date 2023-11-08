@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { RenderAdditionalResult, RenderResult, SassConfig, SassGlobalConfig,TransformOptions } from '../types'
+import { RenderAdditionalResult, RenderResult, SassConfig, SassGlobalConfig, TransformOptions } from '../types'
 import { getAdditionalData, insertAfter, insertBefore, resolveStyle } from '../utils'
 
 /**

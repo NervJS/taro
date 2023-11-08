@@ -70,8 +70,6 @@ Taro 1/2 迁移至 Taro 3，请阅读[《Taro 版本升级权威指南》](https
 
 [awesome-taro](https://github.com/NervJS/awesome-taro)
 
-掘金小册：[Taro 多端开发实现原理与实战](https://juejin.im/book/5b73a131f265da28065fb1cd?referrer=5ba228f16fb9a05d3251492d)
-
 ## 社区共享
 
 [Taro 物料市场——让每一个轮子产生价值](http://taro-ext.jd.com/)

@@ -211,6 +211,10 @@ type ITaroHooks = {
    **/
   modifyHydrateData:(data: Record<string, any>) => void
   /**
+   * 自定义处理 Taro DOM 序列化数据，如使其脱离 data 树
+   */
+  transferHydrateData: (data: Record<string, any>, element, componentsAlias: Record<string, any>) => void
+  /**
     * @todo: multi
     * 修改 Taro DOM 序列化数据
     **/
@@ -294,6 +298,8 @@ export const hooks = new TaroHooks<ITaroHooks>({
   getDOMNode: TaroHook(HOOK_TYPE.SINGLE),
 
   modifyHydrateData: TaroHook(HOOK_TYPE.SINGLE),
+
+  transferHydrateData: TaroHook(HOOK_TYPE.SINGLE),
 
   modifySetAttrPayload: TaroHook(HOOK_TYPE.SINGLE),
 

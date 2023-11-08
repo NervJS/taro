@@ -14,7 +14,22 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    925: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    560: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var toPropertyKey = __webpack_require__(25);
+        function _defineProperty(obj, key, value) {
+            key = (0, toPropertyKey.Z)(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -103,6 +118,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -114,6 +130,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -175,24 +197,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -202,7 +235,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -247,12 +281,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -262,6 +302,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -271,12 +312,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -379,7 +430,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -389,10 +440,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -434,20 +487,24 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -457,11 +514,24 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -494,11 +564,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -544,7 +614,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(925);
+        return __webpack_exec__(560);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1276,7 +1346,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1286,11 +1356,17 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
+            createPageConfig: function() {
+                return createPageConfig;
+            },
             createReactApp: function() {
                 return createReactApp;
+            },
+            createRecursiveComponentConfig: function() {
+                return createRecursiveComponentConfig;
             },
             createVue3App: function() {
                 return createVue3App;
@@ -1307,6 +1383,8 @@ require("./runtime");
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
+        function createRecursiveComponentConfig() {}
+        function createPageConfig() {}
     }
 } ]);
 
@@ -1314,8 +1392,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -1323,7 +1401,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1333,19 +1411,20 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    890: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+    996: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -1390,7 +1469,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(890);
+        return __webpack_exec__(996);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1452,7 +1531,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -1464,34 +1543,20 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    599: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -1503,7 +1568,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -1526,7 +1591,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -1555,7 +1620,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -1585,7 +1650,29 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    25: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
+                return _toPropertyKey;
+            }
+        });
+        var esm_typeof = __webpack_require__(671);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
+    },
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -1762,7 +1849,22 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    415: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    442: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var toPropertyKey = __webpack_require__(25);
+        function _defineProperty(obj, key, value) {
+            key = (0, toPropertyKey.Z)(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -1851,6 +1953,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -1862,6 +1965,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -1923,24 +2032,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -1950,7 +2070,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -1995,12 +2116,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -2010,6 +2137,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -2019,12 +2147,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -2127,7 +2265,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -2137,10 +2275,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -2182,20 +2322,24 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -2205,11 +2349,24 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -2242,11 +2399,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -2301,7 +2458,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(415);
+        return __webpack_exec__(442);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3035,7 +3192,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -3045,11 +3202,17 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
+            createPageConfig: function() {
+                return createPageConfig;
+            },
             createReactApp: function() {
                 return createReactApp;
+            },
+            createRecursiveComponentConfig: function() {
+                return createRecursiveComponentConfig;
             },
             createVue3App: function() {
                 return createVue3App;
@@ -3066,6 +3229,8 @@ require("./runtime");
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
+        function createRecursiveComponentConfig() {}
+        function createPageConfig() {}
     }
 } ]);
 
@@ -3073,8 +3238,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -3082,7 +3247,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3092,19 +3257,20 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    667: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+    934: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -3161,7 +3327,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(667);
+        return __webpack_exec__(934);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3223,7 +3389,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -3235,34 +3401,20 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    599: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -3274,7 +3426,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -3297,7 +3449,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -3326,7 +3478,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -3356,7 +3508,29 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    25: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
+                return _toPropertyKey;
+            }
+        });
+        var esm_typeof = __webpack_require__(671);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
+    },
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -3544,7 +3718,22 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    415: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    442: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var toPropertyKey = __webpack_require__(25);
+        function _defineProperty(obj, key, value) {
+            key = (0, toPropertyKey.Z)(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -3633,6 +3822,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -3644,6 +3834,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -3705,24 +3901,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -3732,7 +3939,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -3777,12 +3985,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -3792,6 +4006,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -3801,12 +4016,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -3909,7 +4134,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -3919,10 +4144,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -3964,20 +4191,24 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -3987,11 +4218,24 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -4024,11 +4268,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -4083,7 +4327,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(415);
+        return __webpack_exec__(442);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4818,7 +5062,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -4828,11 +5072,17 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
+            createPageConfig: function() {
+                return createPageConfig;
+            },
             createReactApp: function() {
                 return createReactApp;
+            },
+            createRecursiveComponentConfig: function() {
+                return createRecursiveComponentConfig;
             },
             createVue3App: function() {
                 return createVue3App;
@@ -4849,6 +5099,8 @@ require("./runtime");
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
+        function createRecursiveComponentConfig() {}
+        function createPageConfig() {}
     }
 } ]);
 
@@ -4856,8 +5108,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -4865,7 +5117,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -4875,19 +5127,20 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    667: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+    934: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -4944,7 +5197,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(667);
+        return __webpack_exec__(934);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -5006,7 +5259,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -5018,34 +5271,20 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    599: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -5057,7 +5296,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -5080,7 +5319,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -5109,7 +5348,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -5139,7 +5378,29 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    25: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
+                return _toPropertyKey;
+            }
+        });
+        var esm_typeof = __webpack_require__(671);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
+    },
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -5328,7 +5589,22 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    415: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    442: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var toPropertyKey = __webpack_require__(25);
+        function _defineProperty(obj, key, value) {
+            key = (0, toPropertyKey.Z)(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -5417,6 +5693,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -5428,6 +5705,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -5489,24 +5772,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -5516,7 +5810,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -5561,12 +5856,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -5576,6 +5877,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -5585,12 +5887,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -5693,7 +6005,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -5703,10 +6015,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -5748,20 +6062,24 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -5771,11 +6089,24 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -5808,11 +6139,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -5867,7 +6198,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(415);
+        return __webpack_exec__(442);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6602,7 +6933,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -6612,11 +6943,17 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
+            createPageConfig: function() {
+                return createPageConfig;
+            },
             createReactApp: function() {
                 return createReactApp;
+            },
+            createRecursiveComponentConfig: function() {
+                return createRecursiveComponentConfig;
             },
             createVue3App: function() {
                 return createVue3App;
@@ -6633,6 +6970,8 @@ require("./runtime");
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
+        function createRecursiveComponentConfig() {}
+        function createPageConfig() {}
     }
 } ]);
 
@@ -6640,8 +6979,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -6649,7 +6988,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6659,19 +6998,20 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    667: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+    934: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -6728,7 +7068,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(667);
+        return __webpack_exec__(934);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6790,7 +7130,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -6802,34 +7142,20 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    599: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -6841,7 +7167,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -6864,7 +7190,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -6893,7 +7219,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -6923,7 +7249,29 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    25: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
+                return _toPropertyKey;
+            }
+        });
+        var esm_typeof = __webpack_require__(671);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
+    },
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -7112,7 +7460,22 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    415: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    442: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var toPropertyKey = __webpack_require__(25);
+        function _defineProperty(obj, key, value) {
+            key = (0, toPropertyKey.Z)(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -7201,6 +7564,7 @@ require("./runtime");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -7212,6 +7576,12 @@ require("./runtime");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -7273,24 +7643,35 @@ require("./runtime");
                 bindKeyboardHeightChange: _empty
             },
             ScrollView: {
-                type: "'list'",
-                "event-passive": _false,
                 "enable-flex": _false,
                 "scroll-anchoring": _false,
+                enhanced: _false,
+                "paging-enabled": _false,
+                "enable-passive": _false,
                 "refresher-enabled": _false,
                 "refresher-threshold": "45",
                 "refresher-default-style": "'black'",
                 "refresher-background": "'#FFF'",
                 "refresher-triggered": _false,
-                enhanced: _false,
                 bounces: _true,
                 "show-scrollbar": _true,
-                "paging-enabled": _false,
                 "fast-deceleration": _false,
+                type: "'list'",
                 reverse: _false,
-                "cache-extent": _zero,
+                clip: _true,
+                "enable-back-to-top": _false,
+                "cache-extent": _empty,
+                "min-drag-distance": "18",
                 "scroll-into-view-within-extent": _false,
                 "scroll-into-view-alignment": "'start'",
+                padding: "[0,0,0,0]",
+                "refresher-two-level-enabled": _false,
+                "refresher-two-level-triggered": _false,
+                "refresher-two-level-threshold": "150",
+                "refresher-two-level-close-threshold": "80",
+                "refresher-two-level-scroll-enabled": _false,
+                "refresher-ballistic-refresh-enabled": _false,
+                "refresher-two-level-pinned": _false,
                 bindDragStart: _empty,
                 bindDragging: _empty,
                 bindDragEnd: _empty,
@@ -7300,7 +7681,8 @@ require("./runtime");
                 bindRefresherAbort: _empty,
                 bindScrollStart: _empty,
                 bindScrollEnd: _empty,
-                bindRefresherWillRefresh: _empty
+                bindRefresherWillRefresh: _empty,
+                bindRefresherStatusChange: _empty
             },
             StickySection: {
                 "push-pinned-header": _true
@@ -7345,12 +7727,18 @@ require("./runtime");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -7360,6 +7748,7 @@ require("./runtime");
                 "auto-pause-if-open-native": _true,
                 "vslide-gesture": _false,
                 "vslide-gesture-in-fullscreen": _true,
+                "show-bottom-progress": _true,
                 "ad-unit-id": _empty,
                 "poster-for-crawler": _empty,
                 "show-casting-button": _false,
@@ -7369,12 +7758,22 @@ require("./runtime");
                 "show-snapshot-button": _false,
                 "show-background-playback-button": _false,
                 "background-poster": _empty,
+                "referrer-policy": "'no-referrer'",
+                "is-drm": _false,
+                "is-live": _false,
+                "provision-url": _empty,
+                "certificate-url": _empty,
+                "license-url": _empty,
+                "preferred-peak-bit-rate": _empty,
                 bindProgress: _empty,
                 bindLoadedMetadata: _empty,
                 bindControlsToggle: _empty,
                 bindEnterPictureInPicture: _empty,
                 bindLeavePictureInPicture: _empty,
                 bindSeekComplete: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty,
                 bindAdLoad: _empty,
                 bindAdError: _empty,
                 bindAdClose: _empty,
@@ -7477,7 +7876,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -7487,10 +7886,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -7532,20 +7933,24 @@ require("./runtime");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
-            }
+            },
+            Snapshot: {}
         };
         var hostConfig = {
             initNativeApi: initNativeApi,
@@ -7555,11 +7960,24 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -7592,11 +8010,11 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var app_App = function(_Component) {
             (0, inherits.Z)(App, _Component);
             var _super = (0, createSuper.Z)(App);
@@ -7651,7 +8069,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(415);
+        return __webpack_exec__(442);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8386,7 +8804,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -8396,11 +8814,17 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
+            createPageConfig: function() {
+                return createPageConfig;
+            },
             createReactApp: function() {
                 return createReactApp;
+            },
+            createRecursiveComponentConfig: function() {
+                return createRecursiveComponentConfig;
             },
             createVue3App: function() {
                 return createVue3App;
@@ -8417,6 +8841,8 @@ require("./runtime");
         function createReactApp() {}
         function createVueApp() {}
         function createVue3App() {}
+        function createRecursiveComponentConfig() {}
+        function createPageConfig() {}
     }
 } ]);
 
@@ -8424,8 +8850,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -8433,7 +8859,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8443,19 +8869,20 @@ require("./runtime");
 
 /** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<wxs module="xs" src="./utils.wxs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    667: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(202);
-        var classCallCheck = __webpack_require__(177);
-        var createClass = __webpack_require__(347);
-        var inherits = __webpack_require__(521);
-        var createSuper = __webpack_require__(777);
-        var react = __webpack_require__(800);
+    934: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(184);
+        var classCallCheck = __webpack_require__(113);
+        var createClass = __webpack_require__(599);
+        var inherits = __webpack_require__(730);
+        var createSuper = __webpack_require__(605);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -8512,7 +8939,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(667);
+        return __webpack_exec__(934);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8574,7 +9001,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    177: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    113: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -8586,34 +9013,20 @@ module.exports = {
             }
         }
     },
-    347: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    599: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var esm_typeof = __webpack_require__(361);
-        function _toPrimitive(input, hint) {
-            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
-            var prim = input[Symbol.toPrimitive];
-            if (prim !== undefined) {
-                var res = prim.call(input, hint || "default");
-                if ((0, esm_typeof.Z)(res) !== "object") return res;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return (hint === "string" ? String : Number)(input);
-        }
-        function _toPropertyKey(arg) {
-            var key = _toPrimitive(arg, "string");
-            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
-        }
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -8625,7 +9038,7 @@ module.exports = {
             return Constructor;
         }
     },
-    777: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    605: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -8648,7 +9061,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(361);
+        var esm_typeof = __webpack_require__(671);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -8677,7 +9090,7 @@ module.exports = {
             };
         }
     },
-    521: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    730: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -8707,7 +9120,29 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    361: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    25: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            Z: function() {
+                return _toPropertyKey;
+            }
+        });
+        var esm_typeof = __webpack_require__(671);
+        function _toPrimitive(input, hint) {
+            if ((0, esm_typeof.Z)(input) !== "object" || input === null) return input;
+            var prim = input[Symbol.toPrimitive];
+            if (prim !== undefined) {
+                var res = prim.call(input, hint || "default");
+                if ((0, esm_typeof.Z)(res) !== "object") return res;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return (hint === "string" ? String : Number)(input);
+        }
+        function _toPropertyKey(arg) {
+            var key = _toPrimitive(arg, "string");
+            return (0, esm_typeof.Z)(key) === "symbol" ? key : String(key);
+        }
+    },
+    671: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;

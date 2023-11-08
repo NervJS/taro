@@ -8,17 +8,17 @@ jest.mock('envinfo', () => {
   const envinfo = jest.requireActual('envinfo')
   return {
     __esModule: true,
-    async run (data, options) {
+    async run(data, options) {
       const res = await envinfo.run(data, { ...options, json: true })
       return JSON.parse(res)
-    }
+    },
   }
 })
 
 const runInfo = run('info', ['commands/info'])
 
 describe('info', () => {
-  it('should exit because there isn\'t a Taro project', async () => {
+  it("should exit because there isn't a Taro project", async () => {
     const exitSpy = jest.spyOn(process, 'exit') as jest.SpyInstance<void, any>
     const logSpy = jest.spyOn(console, 'log')
 

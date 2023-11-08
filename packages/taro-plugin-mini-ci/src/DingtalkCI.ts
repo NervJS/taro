@@ -45,7 +45,7 @@ export default class DingtalkCI extends BaseCI {
 
   //  和支付宝小程序共用ide
   async open () {
-    const {  devToolsInstallPath, projectType = 'dingtalk-biz' } = this.pluginOpts.dd!
+    const { devToolsInstallPath, projectType = 'dingtalk-biz' } = this.pluginOpts.dd!
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     let minidev: AlipayInstance
     try {
@@ -73,7 +73,7 @@ export default class DingtalkCI extends BaseCI {
   //  特性： CI 内部会自己打印二维码； 预览版不会上传到后台，只有预览码作为入口访问
   async preview () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const { appid,   } = this.pluginOpts.dd!
+    const { appid, } = this.pluginOpts.dd!
     
 
     try {
@@ -128,7 +128,7 @@ export default class DingtalkCI extends BaseCI {
   // 特性： CI内部暂时未支持上传后返回体验码,等待官方支持： https://github.com/open-dingtalk/dingtalk-design-cli/issues/34
   async upload () {
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
-    const {  appid } = this.pluginOpts.dd!
+    const { appid } = this.pluginOpts.dd!
     printLog(processTypeEnum.START, '上传代码到钉钉小程序后台')
 
     let hasDone = false

@@ -98,6 +98,7 @@ export class ScrollView implements ComponentInterface {
   handleScroll (e: Event) {
     if (e instanceof CustomEvent) return
     e.stopPropagation()
+    e.stopImmediatePropagation?.()
 
     const {
       scrollLeft,

@@ -1,11 +1,11 @@
 import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from '@tarojs/cli'
-<% if (typescript) {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
+<% if (typescript && compiler !== 'vite') {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
 import devConfig from './dev'
 import prodConfig from './prod'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig(async (merge, { command, mode }) => {
-  const baseConfig<% if (typescript) {%>: UserConfigExport<%}%> = {
+export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async (merge, { command, mode }) => {
+  const baseConfig<% if (typescript) {%>: UserConfigExport<'<%= compiler %>'><%}%> = {
     projectName: '<%= projectName %>',
     date: '<%= date %>',
     designWidth: 750,
@@ -39,12 +39,6 @@ export default defineConfig(async (merge, { command, mode }) => {
 
           }
         },
-        url: {
-          enable: true,
-          config: {
-            limit: 1024 // 设定转换尺寸上限
-          }
-        },
         cssModules: {
           enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
           config: {
@@ -52,18 +46,18 @@ export default defineConfig(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }<% if (typescript) {%>,
+      }<% if (typescript && compiler !== 'vite') {%>,
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }<%}%>
     },
     h5: {
       publicPath: '/',
-      staticDirectory: 'static',
+      staticDirectory: 'static',<% if (typescript && compiler !== 'vite') {%>
       output: {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[chunkhash:8].js'
-      },
+      },<%}%>
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: 'css/[name].[hash].css',
@@ -81,7 +75,7 @@ export default defineConfig(async (merge, { command, mode }) => {
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }<% if (typescript) {%>,
+      }<% if (typescript && compiler !== 'vite') {%>,
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }<%}%>

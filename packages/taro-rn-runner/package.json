@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-runner",
-  "version": "3.6.16",
+  "version": "3.7.0-beta.3",
   "description": "ReactNative build tool for taro",
   "main": "index.js",
   "repository": {
@@ -14,7 +14,8 @@
     "test": "jest --silent",
     "test:ci": "jest --ci --silent --coverage false",
     "test:coverage": "jest --coverage",
-    "test:dev": "jest --watch"
+    "test:dev": "jest --watch",
+    "updateSnapshot": "jest --updateSnapshot"
   },
   "keywords": [
     "taro"
@@ -30,7 +31,7 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
@@ -51,16 +52,16 @@
     "babel-plugin-global-define": "1.0.3",
     "babel-plugin-jsx-attributes-array-to-object": "0.3.0",
     "babel-plugin-transform-react-jsx-to-rn-stylesheet": "workspace:*",
-    "expo": "~47.0.3",
-    "expo-file-system": "~15.1.1",
+    "expo": "~48.0.0",
+    "expo-file-system": "~15.2.2",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
-    "react": "18.1.0",
+    "react": "18.2.0",
     "react-is": "^16.13.0",
-    "react-native": "^0.70.5",
+    "react-native": "^0.71.3",
     "react-native-root-siblings": "^4.1.1",
-    "react-test-renderer": "18.1.0",
+    "react-test-renderer": "18.2.0",
     "rollup": "^2.79.0",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"

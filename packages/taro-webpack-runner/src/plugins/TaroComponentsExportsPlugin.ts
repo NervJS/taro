@@ -17,7 +17,7 @@ interface IOptions {
   onParseCreateElement?: Func
 }
 
-function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
+export function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
   let renderFn
   const hasRenderMethod = ancestors.some((ancestor) => {
     if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
@@ -45,7 +45,7 @@ export default class TaroComponentsExportsPlugin {
       // react 的第三方组件支持
       normalModuleFactory.hooks.parser.for('javascript/auto').tap(PLUGIN_NAME, (parser) => {
         parser.hooks.program.tap(PLUGIN_NAME, (program) => {
-          walk.simple(program, {
+          walk.ancestor(program, {
             CallExpression: (node, ancestors) => {
               // @ts-ignore
               const callee = node.callee

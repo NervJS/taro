@@ -41,6 +41,13 @@ export default (ctx: IPluginContext) => {
       prebundleOptions.exclude.push('@tarojs/plugin-platform-alipay/dist/runtime')
       prebundleOptions.include ||= []
       prebundleOptions.include.push('@tarojs/shared')
+    } else if (compiler.type === 'vite') {
+      opts.injectOptions = {
+        exclude: ['navigator']
+      }
+      opts.compile ||= {}
+      opts.compile.exclude ||= []
+      opts.compile.exclude.push(/node_modules[/\\](?!@tarojs|@vue\/shared)/)
     }
   })
 }
@@ -79,7 +86,9 @@ function modifyPageTemplate (ctx: IPluginContext) {
         return ''
       })
       const main = baseXml.replace(/<import-sjs name="xs" from="(.*)utils.sjs" \/>/, function () {
-        return `<import-sjs name="xs" from="${relativePath}utils.sjs" />`
+        return src.includes('<import-sjs name="xs"')
+          ? ''
+          : `<import-sjs name="xs" from="${relativePath}utils.sjs" />`
       })
 
       const res = `${templateCaller}

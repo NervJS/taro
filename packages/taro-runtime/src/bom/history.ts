@@ -1,4 +1,4 @@
-import { isNumber,isString } from '@tarojs/shared'
+import { isNumber, isString } from '@tarojs/shared'
 
 import { CONTEXT_ACTIONS } from '../constants'
 import { Events } from '../emitter/emitter'

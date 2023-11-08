@@ -38,9 +38,9 @@ const defaultHtmltransformOption: IHtmlTransformOption = {
 const defaultUrlOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
-    url: 'inline'
+    url: 'rebase'
   }
 }
 
@@ -49,7 +49,7 @@ const plugins: any[] = []
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  option = {} as IPostcssOption
+  option = {} as IPostcssOption<'h5'>
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option
   if (designWidth) {

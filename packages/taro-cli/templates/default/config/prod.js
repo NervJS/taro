@@ -30,4 +30,4 @@ export default {
     //     }))
     // }
   }
-}<% if (typescript) {%> satisfies UserConfigExport<%}%>
+}<% if (typescript) {%> satisfies UserConfigExport<'<%= compiler %>'><%}%>

@@ -56,7 +56,7 @@ declare module '../../index' {
      * ```tsx
      * Taro.startAccelerometer({ interval: 'game' })
      * ```
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.startAccelerometer.html
      */
     startAccelerometer (res?: startAccelerometer.Option): Promise<TaroGeneral.CallbackResult>
@@ -67,14 +67,14 @@ declare module '../../index' {
      * ```tsx
      * Taro.stopAccelerometer()
      * ```
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.stopAccelerometer.html
      */
     stopAccelerometer (res?: stopAccelerometer.Option): Promise<TaroGeneral.CallbackResult>
 
     /**
      * 监听加速度数据，频率：5次/秒，接口调用后会自动开始监听，可使用 `Taro.stopAccelerometer` 停止监听。
-     * @supported weapp, h5, rn, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, h5, rn
      * @example
      * ```tsx
      * Taro.onAccelerometerChange(res => {
@@ -85,16 +85,18 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.onAccelerometerChange.html
      */
-    onAccelerometerChange (callback: onAccelerometerChange.Callback): void
+    onAccelerometerChange(
+      callback: onAccelerometerChange.Callback
+    ): void
 
     /**
      * 取消监听加速度数据事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, h5, rn
+     * @supported weapp, alipay, swan, jd, tt, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/accelerometer/wx.offAccelerometerChange.html
      */
     offAccelerometerChange(
       /** 加速度数据事件的回调函数 */
-      callback?: (...args: any[]) => any,
+      callback?: onAccelerometerChange.Callback
     ): void
   }
 }

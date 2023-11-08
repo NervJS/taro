@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wxml.ts测试 wx:key="index"会转换成key="index" 1`] = `
+"data.map((item, index) => {
+  return <View key={index}><Text>{item.name}</Text></View>;
+})"
+`;
+
+exports[`wxml.ts测试 wxml 中存在 wxs 1`] = `
+Array [
+  Object {
+    "module": "wxs_demo",
+    "src": "./wxs__wxs_demo",
+  },
+]
+`;
+
+exports[`wxml.ts测试 wxml 中存在 wxs 2`] = `
+"module.exports = {
+  data: 'wxs demo'
+};"
+`;
+
+exports[`wxml.ts测试 wxml中image的mode=""会转换成mode 1`] = `"<Image className=\\"img\\" src={imgSrc} mode=\\"scaleToFill\\"></Image>"`;
+
+exports[`wxml.ts测试 wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp() 1`] = `
+Array [
+  Object {
+    "module": "wxs_regexp",
+    "src": "./wxs__wxs_regexp",
+  },
+]
+`;
+
+exports[`wxml.ts测试 wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp() 2`] = `"var regexp = new RegExp();"`;

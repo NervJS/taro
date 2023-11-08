@@ -17,15 +17,15 @@ function getApi (key){
   return routerObj?.[key]
 }
 
-export const rnNavigationRef = routerObj?.navigationRef  ?? null
-export const PageProvider = routerObj?.PageProvider  ?? null
+export const rnNavigationRef = routerObj?.navigationRef ?? null
+export const PageProvider = routerObj?.PageProvider ?? null
 
-export const getRouteEventChannel =  getApi('getRouteEventChannel')
+export const getRouteEventChannel = getApi('getRouteEventChannel')
 export const getCurrentRoute = getApi('getCurrentRoute')
 export const isTabPage = getApi('isTabPage')
 
 export const createRouter = getApi('createRouter')
-export const getInitOptions =  getApi('getInitOptions')
+export const getInitOptions = getApi('getInitOptions')
 
 export const hideNavigationBarLoading = getApi('hideNavigationBarLoading')
 export const hideTabBar = getApi('hideTabBar')

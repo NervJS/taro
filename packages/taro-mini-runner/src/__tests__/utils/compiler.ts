@@ -16,10 +16,10 @@ import baseConfig from './config'
 //   join: () => string
 // }
 
-export function readDir (fs: IFs, dir: string) {
+export function readDir(fs: IFs, dir: string) {
   let files: string[] = []
   const list = fs.readdirSync(dir)
-  list.forEach(item => {
+  list.forEach((item) => {
     const filePath = path.join(dir, item)
     const stat = fs.statSync(filePath)
     if (stat.isDirectory()) {
@@ -31,7 +31,7 @@ export function readDir (fs: IFs, dir: string) {
   return files
 }
 
-export function getOutput (stats, config: Partial<IBuildConfig> & { fs?: any }) {
+export function getOutput(stats, config: Partial<IBuildConfig> & { fs?: any }) {
   const fs: IFs = config.fs ?? stats.compilation.compiler.outputFileSystem
 
   const files = readDir(fs, config.outputRoot || '')
@@ -45,7 +45,7 @@ ${file === 'dist/runtime.js' ? '' : fs.readFileSync(file)}
   return output
 }
 
-export async function compile (app: string, customConfig: Partial<IBuildConfig> = {}) {
+export async function compile(app: string, customConfig: Partial<IBuildConfig> = {}) {
   const appPath = path.resolve(__dirname, '../fixtures', app)
   const entryFilePath = helper.resolveMainFilePath(path.join(appPath, customConfig.sourceRoot || 'src', 'app'))
 
@@ -71,22 +71,22 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
           '@tarojs/plugin-framework-vue3/dist/runtime': path.resolve(__dirname, '../mocks/taro'),
           react$: path.resolve(__dirname, '../mocks/react'),
           vue: path.resolve(__dirname, '../mocks/vue'),
-          nervjs: path.resolve(__dirname, '../mocks/nerv')
-        }
+          nervjs: path.resolve(__dirname, '../mocks/nerv'),
+        },
       },
       optimization: {
         splitChunks: {
           cacheGroups: {
             taro: {
               name: 'taro',
-              test: module => {
+              test: (module) => {
                 return /taro-(components|runtime|react)/.test(module.request)
               },
-              priority: 100
-            }
-          }
-        }
-      }
+              priority: 100,
+            },
+          },
+        },
+      },
     })
 
     if (typeof customChain === 'function') {
@@ -102,27 +102,31 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
     customConfig.runtimePath = program.runtimePath
   }
 
-  const config: IBuildConfig = merge(baseConfig, {
-    mode: 'production',
-    enableSourceMap: false,
-    entry: {
-      app: [entryFilePath]
+  const config: IBuildConfig = merge(
+    baseConfig,
+    {
+      mode: 'production',
+      enableSourceMap: false,
+      entry: {
+        app: [entryFilePath],
+      },
+      framework: 'react',
+      terser: {
+        enable: true,
+        config: {
+          compress: false,
+          mangle: false,
+          extractComments: false,
+          output: {
+            comments: false,
+            beautify: true,
+          },
+        },
+      },
+      buildAdapter: 'weapp',
     },
-    framework: 'react',
-    terser: {
-      enable: true,
-      config: {
-        compress: false,
-        mangle: false,
-        extractComments: false,
-        output: {
-          comments: false,
-          beautify: true
-        }
-      }
-    },
-    buildAdapter: 'weapp'
-  }, customConfig)
+    customConfig
+  )
 
   const stats = await build(appPath, config)
 
@@ -133,14 +137,15 @@ export async function compile (app: string, customConfig: Partial<IBuildConfig> 
  * 处理不同框架的自定义逻辑
  * @param chain webpack-chain
  */
-function frameworkPatch (chain, webpack, config) {
+function frameworkPatch(chain, webpack, config) {
   const mockCtx = {
     initialConfig: {
-      framework: config.framework || 'react'
+      framework: config.framework || 'react',
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } }),
-    modifyRunnerOpts: cb => cb(config),
-    onParseCreateElement: cb => cb({ nodeName: '', componentConfig })
+    modifyWebpackChain: (cb) => cb({ chain, webpack, data: { componentConfig } }),
+    modifyViteConfig: (cb) => cb({ viteConfig: { plugins: [] }, componentConfig }),
+    modifyRunnerOpts: (cb) => cb(config),
+    onParseCreateElement: (cb) => cb({ nodeName: '', componentConfig }),
   }
 
   let frameworkPlugin: any = ReactLikePlugin

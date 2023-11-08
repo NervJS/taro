@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.16",
+  "version": "3.7.0-beta.3",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -37,6 +37,7 @@
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
+    "@tarojs/runner-utils": "workspace:*",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
     "resolve": "^1.22.0",
@@ -45,6 +46,7 @@
     "ora": "^5.0.0"
   },
   "devDependencies": {
+    "vite": "^4.2.0",
     "webpack": "5.78.0"
   }
 }

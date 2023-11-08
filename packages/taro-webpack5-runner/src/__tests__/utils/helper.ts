@@ -1,6 +1,7 @@
 import ReactLikePlugin from '@tarojs/plugin-framework-react'
 import Vue2Plugin from '@tarojs/plugin-framework-vue2'
 import Vue3Plugin from '@tarojs/plugin-framework-vue3'
+import * as runnerUtils from '@tarojs/runner-utils'
 import * as joinPath from 'memory-fs/lib/join'
 import * as path from 'path'
 
@@ -13,17 +14,17 @@ interface EnsuredFs extends IFs {
   join: () => string
 }
 
-export function ensureWebpackMemoryFs (fs: IFs): EnsuredFs {
+export function ensureWebpackMemoryFs(fs: IFs): EnsuredFs {
   const newFs: EnsuredFs = Object.create(fs)
   newFs.join = joinPath
 
   return newFs
 }
 
-export function readDir (fs: IFs, dir: string) {
+export function readDir(fs: IFs, dir: string) {
   let files: string[] = []
   const list = fs.readdirSync(dir)
-  list.forEach(item => {
+  list.forEach((item) => {
     const filePath = path.join(dir, item)
     const stat = fs.statSync(filePath)
     if (stat.isDirectory()) {
@@ -35,7 +36,7 @@ export function readDir (fs: IFs, dir: string) {
   return files
 }
 
-export function getOutput<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> (stats, config: Partial<T>) {
+export function getOutput<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig>(stats, config: Partial<T>) {
   // @ts-ignore
   const fs: IFs = config.fs ?? stats.compilation.compiler.outputFileSystem
 
@@ -51,17 +52,19 @@ ${file === 'dist/runtime.js' ? '' : fs.readFileSync(file)}
 }
 
 /**
-* 处理不同框架的自定义逻辑
-* @param chain webpack-chain
-*/
-export function frameworkPatch (chain, webpack, config) {
+ * 处理不同框架的自定义逻辑
+ * @param chain webpack-chain
+ */
+export function frameworkPatch(chain, webpack, config) {
   const mockCtx = {
     initialConfig: {
-      framework: config.framework || 'react'
+      framework: config.framework || 'react',
     },
-    modifyWebpackChain: cb => cb({ chain, webpack, data: { componentConfig } }),
-    modifyRunnerOpts: cb => cb(config),
-    onParseCreateElement: cb => cb({ nodeName: '', componentConfig })
+    modifyWebpackChain: (cb) => cb({ chain, webpack, data: { componentConfig } }),
+    modifyViteConfig: (cb) => cb({ viteConfig: { plugins: [] }, componentConfig }),
+    modifyRunnerOpts: (cb) => cb(config),
+    onParseCreateElement: (cb) => cb({ nodeName: '', componentConfig }),
+    runnerUtils,
   }
 
   let frameworkPlugin: any = ReactLikePlugin

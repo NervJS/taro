@@ -1,7 +1,17 @@
-import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
+import {
+  babelKit,
+  chalk,
+  DEFAULT_TEMPLATE_SRC,
+  fs,
+  getUserHomeDir,
+  resolveScriptPath,
+  TARO_BASE_CONFIG,
+  TARO_CONFIG_FOLDER
+} from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
 
+import { modifyPagesOrSubPackages } from '../util/createPage'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 import { createPage } from './init'
@@ -9,6 +19,7 @@ import { createPage } from './init'
 export interface IPageConf {
   projectDir: string
   projectName: string
+  pageDir: string
   npm: string
   template: string
   description?: string
@@ -20,6 +31,7 @@ export interface IPageConf {
   compiler?: 'webpack4' | 'webpack5' | 'vite'
   isCustomTemplate?: boolean
   customTemplatePath?: string
+  subPkg?: string
 }
 interface IPageArgs extends IPageConf {
   modifyCustomTemplateConfig : TGetCustomTemplate
@@ -46,10 +58,20 @@ const DEFAULT_TEMPLATE_INFO = {
   typescript: false,
   compiler: 'webpack5'
 }
+
+export enum ConfigModificationState {
+  Success,
+  Fail,
+  NeedLess
+}
+
+export type ModifyCallback = (state: ConfigModificationState) => void
+
 export default class Page extends Creator {
   public rootPath: string
   public conf: IPageConf
   private modifyCustomTemplateConfig: TGetCustomTemplate
+  private pageEntryPath: string
 
   constructor (args: IPageArgs) {
     super()
@@ -60,12 +82,25 @@ export default class Page extends Creator {
         projectDir: '',
         projectName: '',
         template: '',
-        description: ''
+        description: '',
+        pageDir: ''
       },
       otherOptions
     )
-    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+
     this.conf.projectName = path.basename(this.conf.projectDir)
+    this.modifyCustomTemplateConfig = modifyCustomTemplateConfig
+    this.processPageName()
+  }
+
+  processPageName () {
+    const { pageName } = this.conf
+    // todo 目前还没有对 subPkg 和 pageName 这两个字段做 格式验证或者处理
+    const lastDirSplitSymbolIndex = pageName.lastIndexOf('/')
+    if (lastDirSplitSymbolIndex !== -1) {
+      this.conf.pageDir = pageName.substring(0, lastDirSplitSymbolIndex)
+      this.conf.pageName = pageName.substring(lastDirSplitSymbolIndex + 1)
+    }
   }
 
   getPkgPath () {
@@ -89,6 +124,10 @@ export default class Page extends Creator {
     templateInfo.template = templateInfo.name
     delete templateInfo.name
     return templateInfo
+  }
+
+  setPageEntryPath (pageEntryPath: string) {
+    this.pageEntryPath = pageEntryPath
   }
 
   setCustomTemplateConfig (customTemplateConfig: TCustomTemplateInfo) {
@@ -134,7 +173,7 @@ export default class Page extends Creator {
     this.conf.date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     // apply 插件，由插件设置自定义模版 config
     await this.modifyCustomTemplateConfig(this.setCustomTemplateConfig.bind(this))
-    if(!this.conf.isCustomTemplate){
+    if (!this.conf.isCustomTemplate){
       const pkgTemplateInfo = this.getPkgTemplateInfo()
       this.setTemplateConfig(pkgTemplateInfo)
       if (!fs.existsSync(this.templatePath(this.conf.template))) {
@@ -144,9 +183,60 @@ export default class Page extends Creator {
     this.write()
   }
 
+  updateAppConfig () {
+    const { parse, generate, traverse } = babelKit
+
+    let modifyState: ConfigModificationState = ConfigModificationState.Fail
+    const { subPkg, projectDir, typescript } = this.conf
+    const [sourceString, pageString] = this.pageEntryPath.split('/src/')
+    const appConfigPath = resolveScriptPath(path.join(projectDir, sourceString, 'src', 'app.config'))
+    if (!fs.existsSync(appConfigPath)) return console.log(
+      `${chalk.red('x ')}${chalk.grey(`无法获取 ${appConfigPath} 配置文件，请手动到配置文件中补全新页面信息`)}`
+    )
+    const configFileContent = fs.readFileSync(appConfigPath, 'utf-8')
+    const ast = parse(configFileContent, {
+      sourceType: 'module',
+      plugins: typescript ? ['typescript'] : []
+    })
+
+    const callback = (state: ConfigModificationState) =>{
+      modifyState = state
+    }
+
+    traverse(ast, {
+      ExportDefaultDeclaration (path) {
+        modifyPagesOrSubPackages({
+          path,
+          fullPagePath: pageString,
+          subPkgRootPath: subPkg,
+          callback
+        })
+      },
+    })
+
+    switch (modifyState as ConfigModificationState) {
+      case ConfigModificationState.Fail:
+        console.log(`${chalk.red('x ')}${chalk.grey(`自动补全新页面信息失败， 请手动到 ${appConfigPath} 文件中补全新页面信息`)}`)
+        break
+      case ConfigModificationState.Success:
+      {
+        const newCode = generate(ast, { retainLines: true })
+        fs.writeFileSync(appConfigPath, newCode.code)
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已在 ${appConfigPath} 文件中自动补全`)}`)
+        break
+      }
+      case ConfigModificationState.NeedLess:
+        console.log(`${chalk.green('✔ ')}${chalk.grey(`新页面信息已存在在 ${appConfigPath} 文件中，不需要补全`)}`)
+        break
+    }
+  }
+
   write () {
     createPage(this, this.conf, () => {
       console.log(`${chalk.green('✔ ')}${chalk.grey(`创建页面 ${this.conf.pageName} 成功！`)}`)
+      this.updateAppConfig()
     }).catch(err => console.log(err))
   }
 }
+
+export type { Page as PageCreator }

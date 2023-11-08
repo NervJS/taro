@@ -23,18 +23,14 @@ export function loadAnimateStyle (ms = 300) {
 .taro_router > .taro_page.taro_page_show {
   transform: translate(0, 0);
 }
-
-.taro_page_shade,
-.taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
-  display: none;
-}`
+`
   addStyle(css)
 }
 
 /**
  * 插入路由相关样式
  */
-export function loadRouterStyle (usingWindowScroll) {
+export function loadRouterStyle (usingWindowScroll: boolean) {
   const css = `
   .taro_router {
     position: relative;
@@ -53,10 +49,18 @@ export function loadRouterStyle (usingWindowScroll) {
   `}
   }
 
-  .taro-tabbar__container .taro-tabbar__panel {
+  .taro-tabbar__container > .taro-tabbar__panel {
     overflow: hidden;
+  }
+
+  .taro-tabbar__container > .taro-tabbar__panel > .taro_page.taro_tabbar_page {
     max-height: calc(100vh - var(--taro-tabbar-height) - constant(safe-area-inset-bottom));
     max-height: calc(100vh - var(--taro-tabbar-height) - env(safe-area-inset-bottom));
+  }
+
+  .taro_page_shade,
+  .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
+    display: none;
   }
 `
   addStyle(css)

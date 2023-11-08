@@ -12,25 +12,25 @@ export default {
     externals({
       deps: true,
       devDeps: false,
-      include: [/^react$/]
+      include: [/^react$/],
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
     postcss({
-      inject: { insertAt: 'top' }
+      inject: { insertAt: 'top' },
     }),
     ts({
-      sourceMap: true
+      sourceMap: true,
     }),
     commonjs({
-      include: '../../node_modules/**'
+      include: '../../node_modules/**',
     }),
     babel({
       extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
-      babelHelpers: 'runtime'
-    })
+      babelHelpers: 'runtime',
+    }),
   ],
   output: {
     chunkFileNames: '[name].js',
@@ -39,6 +39,6 @@ export default {
     format: 'es',
     preserveModules: true,
     preserveModulesRoot: 'src',
-    sourcemap: true
-  }
+    sourcemap: true,
+  },
 }

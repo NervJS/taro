@@ -5,7 +5,7 @@ import { AppConfig, initTabBarApis } from '@tarojs/taro'
 import { history } from './history'
 
 export function initTabbar (config: AppConfig) {
-  if (config.tabBar == null) {
+  if (config.tabBar == null || config.tabBar.custom) {
     return
   }
 

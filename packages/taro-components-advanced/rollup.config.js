@@ -20,25 +20,25 @@ export default {
     exports: 'named',
     preserveModules: true,
     preserveModulesRoot: 'src',
-    sourcemap: true
+    sourcemap: true,
   },
   treeshake: false,
   plugins: [
     externals({
       deps: true,
       devDeps: false,
-      include: ['react', 'react-dom', 'vue']
+      include: ['react', 'react-dom', 'vue'],
     }),
     resolve({
       preferBuiltins: false,
-      mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
+      mainFields: ['browser', 'module', 'jsnext:main', 'main'],
     }),
     ts({
       sourceMap: true,
     }),
     commonjs(),
     postcss({
-      inject: { insertAt: 'top' }
-    })
-  ]
+      inject: { insertAt: 'top' },
+    }),
+  ],
 }

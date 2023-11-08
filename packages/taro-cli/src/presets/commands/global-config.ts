@@ -47,7 +47,7 @@ export default (ctx: IPluginContext) => {
       const rootPath = getRootPath()
       const templatePath = path.join(rootPath, 'templates', 'global-config')
       function makeSureConfigExists () {
-        if(!fs.existsSync(globalPluginConfigDir)){
+        if (!fs.existsSync(globalPluginConfigDir)){
           const spinner = ora(`目录不存在，全局配置初始化`).start()
           try {
             fs.copySync(templatePath, globalPluginConfigDir)
@@ -70,7 +70,7 @@ export default (ctx: IPluginContext) => {
 
         const spinner = ora(`开始${chineseCommand}${presetOrPluginChineseName} ${pluginName}`).start()
         const pluginWithoutVersionName = getPkgNameByFilterVersion(pluginName)
-        if(!validatePkgName(pluginWithoutVersionName).validForNewPackages) {
+        if (!validatePkgName(pluginWithoutVersionName).validForNewPackages) {
           spinner.fail('安装的插件名不合规！')
           process.exit(1)
         }
@@ -89,11 +89,11 @@ export default (ctx: IPluginContext) => {
             const configKey = PLUGIN_TYPE_TO_CONFIG_KEY[pluginType]
             const configItem = globalConfig[configKey] || []
             const pluginIndex = configItem.findIndex((item)=>{
-              if(typeof item === 'string') return item === pluginWithoutVersionName
-              if( item instanceof Array) return item?.[0] === pluginWithoutVersionName
+              if (typeof item === 'string') return item === pluginWithoutVersionName
+              if ( item instanceof Array) return item?.[0] === pluginWithoutVersionName
             })
             const shouldChangeFile = !(Number(pluginIndex !== -1) ^ Number(actionType === 'uninstall'))
-            if(shouldChangeFile){
+            if (shouldChangeFile){
               actionType === 'install' ? configItem.push(pluginWithoutVersionName) : configItem.splice(pluginIndex, 1)
               try {
                 fs.writeJSONSync(configFilePath, {
@@ -125,7 +125,7 @@ export default (ctx: IPluginContext) => {
           addOrRemovePresetOrPlugin('uninstall', 'preset')
           break
         case 'reset':
-          if(fs.existsSync(globalPluginConfigDir)) fs.removeSync(globalPluginConfigDir)
+          if (fs.existsSync(globalPluginConfigDir)) fs.removeSync(globalPluginConfigDir)
           fs.copySync(templatePath, globalPluginConfigDir)
           break
         default:

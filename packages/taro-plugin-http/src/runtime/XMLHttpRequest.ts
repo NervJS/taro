@@ -334,7 +334,7 @@ export class XMLHttpRequest extends Events {
       })
       return
     }
-    this.#status =  0
+    this.#status = 0
     this.#statusText = err.errMsg || err.errorMessage
     const errorEvent = createXMLHttpRequestEvent('error', this, 0)
     this.trigger('error', errorEvent)

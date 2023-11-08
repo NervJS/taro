@@ -1,7 +1,8 @@
 import {
   Platform,
   Dimensions,
-  PixelRatio
+  PixelRatio,
+  StatusBar
 } from 'react-native'
 import { initialWindowMetrics } from 'react-native-safe-area-context'
 import DeviceInfo from 'react-native-device-info'
@@ -24,7 +25,11 @@ export function getSystemInfoSync(): Taro.getSystemInfoSync.Result {
 
   // NOTE：在竖屏正方向下的安全区域
   let safeArea = {}
-  const { top = 0, bottom = 0 } = initialWindowMetrics?.insets || {}
+  let { top = 0, bottom = 0 } = initialWindowMetrics?.insets || {}
+  // NOTE：android 在沉浸式切换时，有几率top值为0。
+  // https://github.com/th3rdwave/react-native-safe-area-context/issues/364
+  if(Platform.OS === 'android') { top = StatusBar.currentHeight || 0; }
+
   try {
     const W = Math.min(screenWidth, screenHeight)
     const H = Math.max(screenWidth, screenHeight)

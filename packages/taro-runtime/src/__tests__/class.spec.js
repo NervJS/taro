@@ -23,7 +23,7 @@ describe('Class', () => {
   })
 
   describe('classList', () => {
-    it('get value', ()  => {
+    it('get value', () => {
       const div = document.createElement('div')
       expect(div.classList.value).toBe('')
       div.classList.add('test1')
@@ -38,7 +38,7 @@ describe('Class', () => {
       expect(div.classList.value).toBe('test1 test2')
     })
 
-    it('get length', ()  => {
+    it('get length', () => {
       const div = document.createElement('div')
       div.classList.add('test1')
       expect(div.classList.length).toBe(1)

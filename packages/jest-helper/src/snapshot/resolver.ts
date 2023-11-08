@@ -11,14 +11,10 @@ export const resolveTestPath = (snapshotPath: string, snapshotExtension: string)
   return snapshotPath.replace(snapshotExtension, '').replace(SNAPSHOT_DIR, TEST_DIR)
 }
 
-export const testPathForConsistencyCheck = path.posix.join(
-  'consistency_check',
-  TEST_DIR,
-  'example.test.js'
-)
+export const testPathForConsistencyCheck = path.posix.join('consistency_check', TEST_DIR, 'example.test.js')
 
 export default {
   resolveSnapshotPath,
   resolveTestPath,
-  testPathForConsistencyCheck
+  testPathForConsistencyCheck,
 }

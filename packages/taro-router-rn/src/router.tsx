@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import { BackBehavior } from '@react-navigation/routers/src/TabRouter'
 import { CardStyleInterpolators, createStackNavigator, StackNavigationOptions } from '@react-navigation/stack'
-import { StackHeaderMode, StackHeaderOptions } from '@react-navigation/stack/src/types'
 import { camelCase } from 'lodash'
 import React from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
@@ -65,7 +64,7 @@ interface RNConfig {
   }
   stackProps?: {
     keyboardHandlingEnabled?:boolean
-    headerMode?: StackHeaderMode
+    headerMode?: 'float' | 'screen'
     detachInactiveScreens?:boolean
   }
   useNativeStack?: boolean
@@ -89,9 +88,9 @@ export interface RouterOption{
 
 export function createRouter (config: RouterConfig, options:RouterOption) {
   if (config?.tabBar?.list?.length) {
-    return createTabNavigate(config,options)
+    return createTabNavigate(config, options)
   } else {
-    return createStackNavigate(config,options)
+    return createStackNavigate(config, options)
   }
 }
 
@@ -145,7 +144,7 @@ function getStackOptions (config: RouterConfig) {
   const title = ''
   const headColor = windowOptions.navigationBarTextStyle || 'white'
   const bgColor = windowOptions.navigationBarBackgroundColor || '#000000'
-  const headerTitleAlign: StackHeaderOptions['headerTitleAlign'] = 'center'
+  const headerTitleAlign: 'left' | 'center' = 'center'
   const defaultOptions = {
     title: title,
     headerShown: windowOptions.navigationStyle !== 'custom',
@@ -381,8 +380,8 @@ function defaultOnUnhandledAction (action){
 }
 
 function handlePageNotFound (action, options){
-  const routeObj:Record<string,any> = action?.payload  ?? {}
-  if(routeObj?.name){
+  const routeObj:Record<string, any> = action?.payload ?? {}
+  if (routeObj?.name){
     options?.onUnhandledAction && options?.onUnhandledAction({
       path: getCurrentJumpUrl() ?? routeObj?.name,
       query: routeObj?.params ?? {}

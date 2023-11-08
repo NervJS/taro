@@ -1,28 +1,29 @@
-import { type esbuild, fs } from '@tarojs/helper'
+import { type esbuild, fs, REG_TARO_H5 } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 
+import { h5iVitePlugin } from './vite.h5'
+import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
+import type { PluginOption } from 'vite'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
 
 export default (ctx: IPluginContext) => {
   const { framework } = ctx.initialConfig
-
+  
   if (framework !== 'react' && framework !== 'nerv' && framework !== 'preact') return
 
   ctx.modifyWebpackChain(({ chain }) => {
     // 通用
     setAlias(framework, chain)
-    chain
-      .plugin('definePlugin')
-      .tap(args => {
-        const config = args[0]
-        config.__TARO_FRAMEWORK__ = `"${framework}"`
-        return args
-      })
+    chain.plugin('definePlugin').tap((args) => {
+      const config = args[0]
+      config.__TARO_FRAMEWORK__ = `"${framework}"`
+      return args
+    })
 
     if (isWebPlatform()) {
       // H5
@@ -38,19 +39,14 @@ export default (ctx: IPluginContext) => {
 
     if (isString(opts.compiler)) {
       opts.compiler = {
-        type: opts.compiler
+        type: opts.compiler,
       }
     }
 
     const { compiler } = opts
     if (compiler.type === 'webpack5') {
       // 提供给 webpack5 依赖预编译收集器的第三方依赖
-      const deps = [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        '@tarojs/plugin-framework-react/dist/runtime'
-      ]
+      const deps = ['react', 'react-dom', 'react/jsx-runtime', '@tarojs/plugin-framework-react/dist/runtime']
       compiler.prebundle ||= {}
       const prebundleOptions = compiler.prebundle
       prebundleOptions.include ||= []
@@ -61,25 +57,36 @@ export default (ctx: IPluginContext) => {
 
       const taroReactPlugin: esbuild.Plugin = {
         name: 'taroReactPlugin',
-        setup (build) {
-          build.onLoad({ filter: /taro-h5[\\/]dist[\\/]api[\\/]taro/ }, ({ path }) => {
+        setup(build) {
+          build.onLoad({ filter: REG_TARO_H5 }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
-              contents: require('./api-loader')(content)
+              contents: require('./api-loader')(content),
             }
           })
-        }
+        },
       }
 
       prebundleOptions.esbuild ||= {}
       const esbuildConfig = prebundleOptions.esbuild
       esbuildConfig.plugins ||= []
       esbuildConfig.plugins.push(taroReactPlugin)
+    } else if (compiler.type === 'vite') {
+      compiler.vitePlugins ||= []
+      compiler.vitePlugins.push(viteCommonPlugin(framework))
+      compiler.vitePlugins.push(VitePresetPlugin(framework))
+      if (isWebPlatform()) {
+        // H5
+        compiler.vitePlugins.push(h5iVitePlugin(ctx, framework))
+      } else {
+        // 小程序
+        compiler.vitePlugins.push(miniVitePlugin(ctx, framework))
+      }
     }
   })
 }
 
-function setAlias (framework: Frameworks, chain) {
+function setAlias(framework: Frameworks, chain) {
   const alias = chain.resolve.alias
 
   switch (framework) {
@@ -93,5 +100,44 @@ function setAlias (framework: Frameworks, chain) {
       alias.set('react$', 'nervjs')
       alias.set('react-dom$', 'nervjs')
       break
+  }
+}
+
+function VitePresetPlugin (framework: Frameworks): PluginOption {
+  return framework === 'preact'
+    ? require('@preact/preset-vite').preact()
+    : require('@vitejs/plugin-react').default()
+}
+
+function viteCommonPlugin(framework: Frameworks): PluginOption {
+  return {
+    name: 'taro-react:common',
+    config() {
+      const alias =
+        framework === 'preact'
+          ? [
+            { find: 'react', replacement: 'preact/compat' },
+            { find: 'react-dom/test-utils', replacement: 'preact/test-utils' },
+            { find: 'react-dom', replacement: 'preact/compat' },
+            { find: 'react/jsx-runtime', replacement: 'preact/jsx-runtime' },
+          ]
+          : []
+
+      return {
+        optimizeDeps:{
+          esbuildOptions:{
+            define: {
+              __TARO_FRAMEWORK__: `"${framework}"`
+            }
+          }
+        },
+        define: {
+          __TARO_FRAMEWORK__: `"${framework}"`,
+        },
+        resolve: {
+          alias,
+        },
+      }
+    },
   }
 }
