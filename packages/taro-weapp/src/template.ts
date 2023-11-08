@@ -17,6 +17,8 @@ export class Template extends UnRecursiveTemplate {
     type: 'weapp'
   }
 
+  transferComponents: Record<string, Record<string, string>> = {}
+
   constructor (pluginOptions?: IOptions) {
     super()
     this.pluginOptions = pluginOptions || {}
@@ -24,6 +26,18 @@ export class Template extends UnRecursiveTemplate {
 
   buildXsTemplate () {
     return '<wxs module="xs" src="./utils.wxs" />'
+  }
+
+  createMiniComponents (components): any {
+    const result = super.createMiniComponents(components)
+
+    // PageMeta & NavigationBar
+    this.transferComponents['page-meta'] = result['page-meta']
+    this.transferComponents['navigation-bar'] = result['navigation-bar']
+    delete result['page-meta']
+    delete result['navigation-bar']
+
+    return result
   }
 
   replacePropName (name: string, value: string, componentName: string, componentAlias) {
@@ -87,5 +101,32 @@ export class Template extends UnRecursiveTemplate {
     }
 
     return res
+  }
+
+  buildPageTemplate = (baseTempPath: string, page) => {
+    let pageMetaTemplate = ''
+    const pageConfig = page?.content
+
+    if (pageConfig?.enablePageMeta) {
+      const getComponentAttrs = (componentName: string, dataPath: string) => {
+        return Object.entries(this.transferComponents[componentName]).reduce((sum, [key, value]) => {
+          sum +=`${key}="${value === 'eh' ? value : `{{${value.replace('i.', dataPath)}}}`}" `
+          return sum
+        }, '')
+      }
+      const pageMetaAttrs = getComponentAttrs('page-meta', 'pageMeta.')
+      const navigationBarAttrs = getComponentAttrs('navigation-bar', 'navigationBar.')
+
+      pageMetaTemplate = `
+<wxs module="xs" src="${baseTempPath.replace('base.wxml', 'utils.wxs')}" />
+<page-meta data-sid="{{pageMeta.sid}}" ${pageMetaAttrs}>
+  <navigation-bar ${navigationBarAttrs}/>
+</page-meta>`
+    }
+
+    const template = `<import src="${baseTempPath}"/>${pageMetaTemplate}
+<template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
+
+    return template
   }
 }
