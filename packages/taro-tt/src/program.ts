@@ -15,7 +15,8 @@ export default class TT extends TaroPlatformBase {
     templ: '.ttml',
     style: '.ttss',
     config: '.json',
-    script: '.js'
+    script: '.js',
+    xs: '.sjs'
   }
 
   template = new Template()
