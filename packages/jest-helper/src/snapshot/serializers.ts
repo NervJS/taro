@@ -33,7 +33,7 @@ export const snapshotObject2String = (val: Record<string, string>) => {
 }
 
 export const serialize = (
-  val: any
+  val: any,
   // config: Config,
   // indentation: string,
   // depth: number,
