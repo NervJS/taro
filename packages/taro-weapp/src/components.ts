@@ -347,7 +347,7 @@ export const components = {
   NavigationBar: {
     title: _empty,
     loading: _false,
-    'front-color': _empty,
+    'front-color': "'#000000'",
     'background-color': _empty,
     'color-animation-duration': _zero,
     'color-animation-timing-func': "'linear'"
@@ -357,10 +357,12 @@ export const components = {
     'background-color': _empty,
     'background-color-top': _empty,
     'background-color-bottom': _empty,
+    'root-background-color': _empty,
     'scroll-top': "''",
     'scroll-duration': '300',
     'page-style': "''",
     'root-font-size': "''",
+    'page-orientation': "''",
     bindResize: _empty,
     bindScroll: _empty,
     bindScrollDone: _empty

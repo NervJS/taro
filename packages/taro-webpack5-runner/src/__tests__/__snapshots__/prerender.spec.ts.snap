@@ -15,6 +15,7 @@ require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     707: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var defineProperty = __webpack_require__(365);
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -412,7 +413,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -422,10 +423,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -494,6 +497,19 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData((0, defineProperty.Z)({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, (0, defineProperty.Z)(_ref, "v", ""), (0, defineProperty.Z)(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
@@ -3109,6 +3125,7 @@ require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     707: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var defineProperty = __webpack_require__(365);
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -3506,7 +3523,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -3516,10 +3533,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -3588,6 +3607,19 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData((0, defineProperty.Z)({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, (0, defineProperty.Z)(_ref, "v", ""), (0, defineProperty.Z)(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
@@ -6203,6 +6235,7 @@ require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
     707: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var defineProperty = __webpack_require__(365);
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -6600,7 +6633,7 @@ require("./runtime");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -6610,10 +6643,12 @@ require("./runtime");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -6682,6 +6717,19 @@ require("./runtime");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData((0, defineProperty.Z)({}, toCamelCase(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, (0, defineProperty.Z)(_ref, "v", ""), (0, defineProperty.Z)(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);

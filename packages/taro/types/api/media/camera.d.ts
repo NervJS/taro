@@ -194,10 +194,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 创建 camera 上下文 CameraContext 对象。
-     *
-     * ****
-     *
-     * 注：支付宝小程序需指定 camera 组件中的 id 属性
+     * @alipay 支付宝小程序需指定 camera 组件中的 id 属性
      * @supported weapp, rn, tt, alipay
      * @example
      * ```tsx

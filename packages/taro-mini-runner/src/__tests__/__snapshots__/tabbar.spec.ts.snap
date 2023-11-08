@@ -70,10 +70,32 @@ require("./taro");
         function useTabItemTap() {}
         function useScope() {}
     },
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    10: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.d(__webpack_exports__, "a", (function() {
+            return _defineProperty;
+        }));
+        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+        function _defineProperty(obj, key, value) {
+            key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
+    },
+    15: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         (function(navigator) {
-            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
+            var _babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+            var _tarojs_shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
             var needPromiseApis = new Set([ "addCardAuth", "getOpenUserInfo", "chooseAlipayContact", "chooseCity", "chooseContact", "choosePhoneContact", "datePicker", "getAddress", "getAuthCode", "getPhoneNumber", "getRunData", "getRunScene", "getServerTime", "getTitleColor", "rsa", "paySignCenter", "tradePay", "isCollected", "multiLevelSelect", "onLocatedComplete", "optionsSelect", "prompt", "regionPicker", "setLocatedCity", "showAuthGuide", "textRiskIdentification", "vibrate", "watchShake", "connectBLEDevice", "disconnectBLEDevice", "makeBluetoothPair", "writeBLECharacteristicValue", "readBLECharacteristicValue", "notifyBLECharacteristicValueChange", "getBLEDeviceServices", "getBLEDeviceCharacteristics", "openBluetoothAdapter", "closeBluetoothAdapter", "getBluetoothAdapterState", "startBluetoothDevicesDiscovery", "stopBluetoothDevicesDiscovery", "getBluetoothDevices", "getConnectedBluetoothDevices" ]);
             var apiDiff = {
                 login: {
@@ -563,7 +585,7 @@ require("./taro");
                 }));
             }
             function initNativeApi(taro) {
-                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["e"])(taro, my, {
+                Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["e"])(taro, my, {
                     needPromiseApis: needPromiseApis,
                     handleSyncApis: handleSyncApis,
                     transformMeta: transformMeta,
@@ -630,7 +652,7 @@ require("./taro");
                 Slider: {
                     "track-size": "4",
                     "handle-size": "22",
-                    "handle-color": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("#ffffff")
+                    "handle-color": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("#ffffff")
                 },
                 Switch: {
                     controlled: "false"
@@ -659,23 +681,23 @@ require("./taro");
                     "default-source": ""
                 },
                 Camera: {
-                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("normal"),
-                    "output-dimension": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("720P"),
-                    "frame-size": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("medium"),
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("normal"),
+                    "output-dimension": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("720P"),
+                    "frame-size": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("medium"),
                     bindScanCode: "",
                     bindReady: ""
                 },
                 Canvas: {
                     type: "",
-                    width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("300px"),
-                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("225px"),
+                    width: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("300px"),
+                    height: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("225px"),
                     bindReady: ""
                 },
                 Video: {
-                    "poster-size": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("contain"),
+                    "poster-size": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("contain"),
                     "show-thin-progress-bar": "false",
                     "mobilenet-hint-type": "1",
-                    "floating-mode": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("none"),
+                    "floating-mode": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("none"),
                     enableNative: "true",
                     bindLoading: "",
                     bindUserAction: "",
@@ -716,15 +738,15 @@ require("./taro");
                     "tnt-inst-id": "",
                     scene: "",
                     size: "25",
-                    color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("#00A3FF"),
+                    color: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("#00A3FF"),
                     icon: "",
                     "alipay-card-no": "",
                     "ext-info": ""
                 },
                 ArCamera: {
-                    devicePosition: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("back"),
+                    devicePosition: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("back"),
                     marker: "",
-                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("imageTracking"),
+                    mode: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("imageTracking"),
                     useCapturedImage: "false",
                     bindInit: "",
                     bindStop: "",
@@ -736,7 +758,7 @@ require("./taro");
                     duration: "300",
                     "z-index": "100",
                     overlay: "true",
-                    position: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("bottom"),
+                    position: Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("bottom"),
                     round: "false",
                     "close-on-slide-down": "false",
                     "overlay-style": "",
@@ -755,10 +777,22 @@ require("./taro");
                     name: "",
                     transform: "false",
                     duration: "300",
-                    "easing-function": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["singleQuote"])("ease-out")
+                    "easing-function": Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["singleQuote"])("ease-out")
                 },
                 RootPortal: {
                     enable: "true"
+                },
+                PageMeta: {
+                    "background-color": "",
+                    "background-color-top": "",
+                    "background-color-bottom": "",
+                    "root-background-color": "",
+                    "scroll-top": "''",
+                    "scroll-duration": "300",
+                    "page-style": "''",
+                    "root-font-size": "''",
+                    "page-font-size": "''",
+                    bindScroll: ""
                 }
             };
             var BUBBLE_EVENTS = new Set([ "touchStart", "touchMove", "touchEnd", "touchCancel", "tap", "longTap" ]);
@@ -782,6 +816,20 @@ require("./taro");
                 },
                 isBubbleEvents: function isBubbleEvents(eventName) {
                     return BUBBLE_EVENTS.has(eventName);
+                },
+                transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                    var _a;
+                    if (element.isTransferElement) {
+                        var _ref;
+                        var page = getCurrentPages()[0];
+                        data["nn"] = element.dataName;
+                        page.setData(Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["a"])({}, Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["toCamelCase"])(data.nn), data));
+                        return _ref = {
+                            sid: element.sid
+                        }, Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["a"])(_ref, "v", ""), 
+                        Object(_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_0__["a"])(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                        _ref;
+                    }
                 }
             };
             var _navigator = navigator, userAgent = _navigator.userAgent;
@@ -792,23 +840,23 @@ require("./taro");
                     return userAgent || navigator.swuserAgent || "";
                 }
             });
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["d"])(hostConfig);
-            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_0__["c"])(components);
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["d"])(hostConfig);
+            Object(_tarojs_shared__WEBPACK_IMPORTED_MODULE_1__["c"])(components);
         }).call(this, __webpack_require__(2)["navigator"]);
     },
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    16: function(module, exports, __webpack_require__) {},
+    18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
-        var runtime = __webpack_require__(13);
+        var runtime = __webpack_require__(15);
         var taro_runtime = __webpack_require__(2);
         var taro = __webpack_require__(0);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(1);
-        var app = __webpack_require__(14);
+        var app = __webpack_require__(16);
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
             var _super = Object(createSuper["a"])(App);
@@ -834,7 +882,7 @@ require("./taro");
             return App;
         }(react["Component"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(9);
+        var taro_react = __webpack_require__(11);
         var config = {
             pages: [ "pages/index/index", "pages/about/index" ],
             window: {
@@ -873,7 +921,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1012,14 +1060,14 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/about/index.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 7 ], {
-    18: function(module, __webpack_exports__, __webpack_require__) {
+    20: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(1);
         var taro_components = __webpack_require__(8);
         var about_Index = function(_Component) {
@@ -1049,7 +1097,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }, config || {}));
         var about = __webpack_exports__["default"] = about_Index;
     }
-}, [ [ 18, 0, 1, 3, 2 ] ] ]);
+}, [ [ 20, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
 {"navigationBarTitleText":"关于","usingComponents":{}}
@@ -1060,14 +1108,14 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/index/index.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 9 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    19: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
         var classCallCheck = __webpack_require__(4);
-        var createClass = __webpack_require__(6);
+        var createClass = __webpack_require__(5);
         var inherits = __webpack_require__(7);
-        var createSuper = __webpack_require__(5);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(1);
         var taro_components = __webpack_require__(8);
         var index_Index = function(_Component) {
@@ -1097,7 +1145,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }, config || {}));
         var index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 19, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{}}
@@ -1107,6 +1155,10 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/taro.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 1 ], {
+    11: function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_exports__["a"] = "taro-react-mock";
+    },
     2: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
@@ -1115,10 +1167,6 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
     8: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
-    },
-    9: function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_exports__["a"] = "taro-react-mock";
     }
 } ]);
 
@@ -1165,6 +1213,29 @@ export default {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -1219,43 +1290,6 @@ export default {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(3);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -1281,6 +1315,26 @@ export default {
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _toPropertyKey;
+    }));
+    var esm_typeof = __webpack_require__(3);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
 } ] ]);
 "
 `;
@@ -1299,10 +1353,25 @@ require("./vendors");
 require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
-    12: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var toPropertyKey = __webpack_require__(8);
+        function _defineProperty(obj, key, value) {
+            key = Object(toPropertyKey["a"])(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -1714,7 +1783,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -1724,10 +1793,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -1796,17 +1867,30 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
-        var app = __webpack_require__(12);
+        var app = __webpack_require__(13);
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
             var _super = Object(createSuper["a"])(App);
@@ -1832,7 +1916,7 @@ require("./taro");
             return App;
         }(react["Component"]);
         var lib_src_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var taro_react = __webpack_require__(9);
         var config = {
             pages: [ "pages/index/index", "pages/about/index" ],
             window: {
@@ -1871,7 +1955,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -2642,13 +2726,13 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/comp.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    13: function(module, __webpack_exports__, __webpack_require__) {
+    14: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
     }
-}, [ [ 13, 0, 1 ] ] ]);
+}, [ [ 14, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -2660,14 +2744,14 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/about/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
-    17: function(module, __webpack_exports__, __webpack_require__) {
+    18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(7);
         var about_Index = function(_Component) {
@@ -2697,7 +2781,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }, config || {}));
         var about = __webpack_exports__["default"] = about_Index;
     }
-}, [ [ 17, 0, 1, 3, 2 ] ] ]);
+}, [ [ 18, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/about/index.json **/
 {"navigationBarTitleText":"关于","usingComponents":{"comp":"../../comp"}}
@@ -2708,14 +2792,14 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 10 ], {
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    17: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(1);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(7);
         var index_Index = function(_Component) {
@@ -2745,7 +2829,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         }, config || {}));
         var index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -2767,7 +2851,7 @@ h�hځ� �r������Nb2��х��K~��>;;ːL�1�
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_exports__["a"] = "taro-react-mock";
     }
@@ -2841,6 +2925,29 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -2891,43 +2998,6 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -2952,6 +3022,26 @@ module.exports = {
             writable: false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+}, , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _toPropertyKey;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
     }
 } ] ]);
 "
