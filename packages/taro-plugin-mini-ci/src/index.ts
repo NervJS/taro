@@ -68,13 +68,15 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
               appid: joi.string().required(),
               toolId: joi.string().required(),
               privateKeyPath: joi.string().required(),
-              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth'),
+              deleteVersion: joi.string().regex(/^\d+\.\d+\.\d+$/)
             }),
             joi.object({
               appid: joi.string().required(),
               toolId: joi.string().required(),
               privateKey: joi.string().required(),
-              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth')
+              clientType: joi.string().valid('alipay', 'ampe', 'amap', 'genie', 'alios', 'uc', 'quark', 'health', 'koubei', 'alipayiot', 'cainiao', 'alihealth'),
+              deleteVersion: joi.string().regex(/^\d+\.\d+\.\d+$/)
             }),
 
           ),
@@ -97,6 +99,8 @@ export default (ctx: IPluginContext, _pluginOpts: CIOptions | (() => CIOptions))
           }),
           jd: joi.object({
             privateKey: joi.string().required(),
+            robot: joi.number(),
+            ignores: joi.array().items(joi.string()),
           }),
           version: joi.string(),
           desc: joi.string(),

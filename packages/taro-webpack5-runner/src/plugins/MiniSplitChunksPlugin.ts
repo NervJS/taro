@@ -326,10 +326,13 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
     const { ConcatSource, RawSource } = sources
 
     this.context = context
-    this.subPackages = this.getSubpackageConfig(compiler).map((subPackage: SubPackage) => ({
-      ...subPackage,
-      root: this.formatSubRoot(subPackage.root)
-    }))
+    this.subPackages = this.getSubpackageConfig(compiler)
+      // 过滤掉独立分包
+      .filter((subPackage: SubPackage) => !subPackage.independent)
+      .map((subPackage: SubPackage) => ({
+        ...subPackage,
+        root: this.formatSubRoot(subPackage.root)
+      }))
     if (this.subPackages.length === 0) {
       return
     }
@@ -470,6 +473,9 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       }, this.tryAsync((assets: { [pathname: string]: sources.Source }) => {
         for (const entryName of compilation.entries.keys()) {
           if (this.isSubEntry(entryName)) {
+            // 一些已经存在拓展名的 entry，不做处理，否则当分包是原生小程序时会出现 index.wxss.wxss 等情况
+            if (path.extname(entryName)) continue
+
             const subRoot = this.subRoots.find(subRoot => new RegExp(`^${subRoot}\\/`).test(entryName)) as string
             const subCommon = [...(this.subCommonChunks.get(entryName) || [])]
             for (const key in FileExtsMap) {

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`template.ts import 正常情况 import src 为绝对路径 1`] = `"<TemplateDemoTmpl></TemplateDemoTmpl>"`;
+
+exports[`template.ts import 正常情况 import src 为绝对路径 2`] = `
+"import { Block, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class TemplateDemoTmpl extends React.Component {
+  render() {
+    return <Block><View>模版DEMO</View></Block>;
+  }
+}
+export default TemplateDemoTmpl;"
+`;
+
+exports[`template.ts import 正常情况 import 引入template 1`] = `"<View><TemplateDemoTmpl></TemplateDemoTmpl></View>"`;
+
+exports[`template.ts import 正常情况 import 引入template 2`] = `
+"import { Block, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class TemplateDemoTmpl extends React.Component {
+  render() {
+    return <Block><View>模版DEMO</View></Block>;
+  }
+}
+export default TemplateDemoTmpl;"
+`;
+
+exports[`template.ts template使用外部wxs工具类 当template同时使用外部工具类和data传递数据 1`] = `
+"import { Block, Text, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+import myFunc from \\"../components/LunaComponent/utils/myFunc.wxs.js\\";
+import Tim from \\"../components/LunaComponent/utils/timFunc.wxs.js\\";
+@withWeapp({})
+class HuangyeTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        info
+      }
+    } = this.props;
+    return <Block><Text>{myFunc.getMsg}</Text><View>{Tim.getMsg}</View><View>{'姓名：' + info.name + '年龄：' + info.age}</View></Block>;
+  }
+}
+export default HuangyeTmpl;"
+`;

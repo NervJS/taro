@@ -5,13 +5,13 @@ import { componentConfig } from '../template/component'
 import TaroNormalModule from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type AcornWalk from 'acorn-walk'
 
-const walk = require('acorn-walk')
+const walk = require('acorn-walk') as typeof AcornWalk
 
 const PLUGIN_NAME = 'TaroNormalModulesPlugin'
 
-
-function isRenderNode (node, ancestors): boolean {
+function isRenderNode (node: acorn.Node, ancestors: any = []): boolean {
   let renderFn
   const hasRenderMethod = ancestors.some((ancestor) => {
     if (ancestor.type === 'FunctionExpression' && ancestor?.id?.name === 'render') {
@@ -21,6 +21,7 @@ function isRenderNode (node, ancestors): boolean {
       return false
     }
   })
+  // @ts-ignore
   return hasRenderMethod && node.callee.name === renderFn
 }
 
@@ -45,6 +46,7 @@ export default class TaroNormalModulesPlugin {
         parser.hooks.program.tap(PLUGIN_NAME, (ast) => {
           walk.ancestor(ast, {
             CallExpression: (node, ancestors) => {
+              // @ts-ignore
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
                 if (callee.property.name !== 'createElement') {
@@ -53,7 +55,7 @@ export default class TaroNormalModulesPlugin {
               } else {
                 const nameOfCallee = callee.name
                 if (
-                  // 兼容 react17 new jsx transtrom
+                  // 兼容 react17 new jsx transform
                   nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
                   // 兼容 Vue 3.0 渲染函数及 JSX
                   !(nameOfCallee && nameOfCallee.includes('createVNode')) &&
@@ -61,14 +63,14 @@ export default class TaroNormalModulesPlugin {
                   !(nameOfCallee && nameOfCallee.includes('createElementVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createElementBlock')) &&
                   !(nameOfCallee && nameOfCallee.includes('resolveComponent')) && // 收集使用解析函数的组件名称
+                  // 兼容 Vue 2.0 渲染函数及 JSX
                   !isRenderNode(node, ancestors)
-                  // TODO: 兼容 vue 2.0 渲染函数及 JSX，函数名 h 与 _c 在压缩后太常见，需要做更多限制后才能兼容
-                  // nameOfCallee !== 'h' && nameOfCallee !== '_c'
                 ) {
                   return
                 }
               }
 
+              // @ts-ignore
               const [type, prop] = node.arguments
               const componentName = type.name
 

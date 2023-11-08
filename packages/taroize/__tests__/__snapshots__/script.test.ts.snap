@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseScript app.js 1`] = `
+"import \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const {
+  default: withWeapp
+} = require(\\"@tarojs/with-weapp\\");
+App({
+  onLaunch() {
+    console.log('onLaunch');
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;"
+`;
+
+exports[`parseScript getAPP || getCurrentPages 1`] = `
+"import \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const {
+  default: withWeapp
+} = require(\\"@tarojs/with-weapp\\");
+App({
+  onLaunch() {
+    const appInstance = Taro.getApp();
+    console.log('页面栈信息：', Taro.getCurrentPages());
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;"
+`;
+
+exports[`parseScript wxml expression 1`] = `
+"import { Block, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const {
+  default: withWeapp
+} = require(\\"@tarojs/with-weapp\\");
+App({
+  data: {
+    srt: 'Hello Word!'
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;"
+`;
+
+exports[`parseScript wxml jsxText 1`] = `
+"import { Block } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const {
+  default: withWeapp
+} = require(\\"@tarojs/with-weapp\\");
+App({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;"
+`;

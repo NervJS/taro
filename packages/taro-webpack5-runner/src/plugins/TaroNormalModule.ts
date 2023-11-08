@@ -69,16 +69,21 @@ export class TaroBaseNormalModule extends webpack.NormalModule {
 export default class TaroNormalModule extends TaroBaseNormalModule {
   name: string
   miniType: META_TYPE
+  // 在 TaroLoadChunksPlugin 用于判断是否为独立分包，来添加 common、runtime 和 vendor 头部引用
+  isNativePage?: boolean
+
   constructor (data) {
     super(data)
     this.name = data.name
     this.miniType = data.miniType
+    this.isNativePage = data.isNativePage || false
   }
 
   serialize (context) {
     const { write } = context
     write(this.name)
     write(this.miniType)
+    write(this.isNativePage)
     super.serialize(context)
   }
 
@@ -86,6 +91,7 @@ export default class TaroNormalModule extends TaroBaseNormalModule {
     const { read } = context
     this.name = read()
     this.miniType = read()
+    this.isNativePage = read()
     super.deserialize(context)
   }
 }

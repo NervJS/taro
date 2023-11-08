@@ -8,7 +8,7 @@ declare module '../../index' {
       /** 接口调用失败的回调函数 */
       fail?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用成功的回调函数 */
-      success?: (res: TaroGeneral.CallbackResult) => void
+      success?: (res: SuccessCallbackResult) => void
     }
 
     interface SuccessCallbackResult extends TaroGeneral.CallbackResult {
@@ -23,6 +23,6 @@ declare module '../../index' {
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/my-miniprogram/wx.checkIsAddedToMyMiniProgram.html
      */
-    checkIsAddedToMyMiniProgram(option?: checkIsAddedToMyMiniProgram.Option):Promise<checkIsAddedToMyMiniProgram.SuccessCallbackResult>
+    checkIsAddedToMyMiniProgram(option?: checkIsAddedToMyMiniProgram.Option): void
   }
 }

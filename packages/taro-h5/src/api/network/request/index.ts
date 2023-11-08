@@ -33,7 +33,7 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     mode,
     responseType,
     signal,
-    timeout = 2000,
+    timeout = 60000,
     url = '',
     ...opts
   } = options

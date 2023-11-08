@@ -3,21 +3,27 @@ import type Chain from 'webpack-chain'
 import type { IOption, IPostcssOption } from './util'
 
 interface Runtime {
-  enableInnerHTML: boolean
-  enableSizeAPIs: boolean
-  enableAdjacentHTML: boolean
-  enableTemplateContent: boolean
-  enableCloneNode: boolean
-  enableContains: boolean
-  enableMutationObserver: boolean
+  enableInnerHTML?: boolean
+  enableSizeAPIs?: boolean
+  enableAdjacentHTML?: boolean
+  enableTemplateContent?: boolean
+  enableCloneNode?: boolean
+  enableContains?: boolean
+  enableMutationObserver?: boolean
 }
 
 export interface IMiniAppConfig {
+  /** 用于控制是否生成 js、css 对应的 sourceMap (默认值：watch 模式下为 true，否则为 false) */
+  enableSourceMap?: boolean
+
   /** 默认值：'cheap-module-source-map'， 具体参考[Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool) */
   sourceMapType?: string
 
   /** 指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码 */
   debugReact?: boolean
+
+  /** 是否跳过第三方依赖 usingComponent 的处理，默认为自动处理第三方依赖的自定义组件 */
+  skipProcessUsingComponents?: boolean
 
   /** 压缩小程序 xml 文件的相关配置 */
   minifyXML?: {
@@ -39,7 +45,7 @@ export interface IMiniAppConfig {
     /**
      * 编译前清空输出目录
      * @since Taro v3.6.9
-     * @description 
+     * @description
      * - 默认清空输出目录，可设置 clean: false 不清空
      * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
      * - 注意 clean.keep 不支持函数
