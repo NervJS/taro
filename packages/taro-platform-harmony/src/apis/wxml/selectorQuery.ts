@@ -213,7 +213,7 @@ function queryBat (queue, cb) {
             onAreaChangePromiseResolve()
           }
 
-          // 触发监听节点的更新
+          // 触发监听节点的更新 
           instance.isAreaChangeTap = true
           instance.areaPromise = onAreaChangePromise
         }

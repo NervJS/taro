@@ -1,7 +1,5 @@
 import type { TaroElement } from 'tarojs/runtime'
 
-import { AttributeManager } from './utils/AttributeManager'
-
 @Component
 struct TaroComponentWrapper {
   node: TaroElement
@@ -47,8 +45,8 @@ struct TaroComponentWrapper {
   build () {
     this.createFlexElementWithPosition({
       instance: this.node,
-      top: this.node._st?.top || 0,
-      left: this.node._st?.left || 0,
+      top: this.node._st?.top || this.node._st?._top || 0,
+      left: this.node._st?.left || this.node._st?._left || 0,
     })
   }
 }

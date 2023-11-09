@@ -91,6 +91,7 @@ export class DynamicCenter {
     if (dynamicID) {
       node._isCompileMode = true
       component[dynamicID] = node
+      
       bindInstanceToNode(node, component)
     }
   
