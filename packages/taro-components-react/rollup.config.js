@@ -32,6 +32,7 @@ export default {
       babelHelpers: 'runtime'
     })
   ],
+  treeshake: false,
   output: {
     chunkFileNames: '[name].js',
     dir: 'dist',

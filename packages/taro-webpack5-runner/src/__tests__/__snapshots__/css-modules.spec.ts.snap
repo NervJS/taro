@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    816: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    547: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var toPropertyKey = __webpack_require__(25);
         function _defineProperty(obj, key, value) {
             key = (0, toPropertyKey.Z)(key);
@@ -594,7 +594,7 @@ require("./runtime");
             } ]);
             return App;
         }(react.Component);
-        var lib_ruleSet_1_rules_5_use_0_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = "taro-react-mock";
         var config = {
             pages: [ "pages/index/index" ],
@@ -606,7 +606,7 @@ require("./runtime");
             }
         };
         taro_runtime.window.__taroAppConfig = config;
-        var inst = App(createReactApp(lib_ruleSet_1_rules_5_use_0_src_app, react, taro_react, config));
+        var inst = App(createReactApp(entry_cachename_app_src_app, react, taro_react, config));
         initPxTransform({
             designWidth: 750,
             deviceRatio: {
@@ -624,7 +624,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(816);
+        return __webpack_exec__(547);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1423,7 +1423,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    483: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    214: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_runtime = __webpack_require__(184);
         var classCallCheck = __webpack_require__(113);
         var createClass = __webpack_require__(599);
@@ -1495,7 +1495,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(483);
+        return __webpack_exec__(214);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -1889,7 +1889,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    442: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    660: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var toPropertyKey = __webpack_require__(25);
         function _defineProperty(obj, key, value) {
             key = (0, toPropertyKey.Z)(key);
@@ -2498,7 +2498,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(442);
+        return __webpack_exec__(660);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -3297,7 +3297,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    679: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    6: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var index_namespaceObject = {};
         __webpack_require__.r(index_namespaceObject);
         var taro_runtime = __webpack_require__(184);
@@ -3368,7 +3368,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(679);
+        return __webpack_exec__(6);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
