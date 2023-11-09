@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build binding debug",
+      "type": "npm",
+      "script": "build:binding:debug",
+      "group": "build",
+      "problemMatcher": [],
+      "detail": "pnpm --filter @tarojs/binding run build:debug"
+    }
+  ]
+}

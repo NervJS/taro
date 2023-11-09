@@ -5,18 +5,12 @@
   "main": "binding.js",
   "typings": "binding.d.ts",
   "napi": {
-    "name": "taro",
-    "triples": {
-      "additional": [
-        "aarch64-apple-darwin",
-        "aarch64-pc-windows-msvc"
-      ]
-    }
+    "binaryName": "taro"
   },
   "scripts": {
     "artifacts": "napi artifacts --dist ../../npm",
-    "build": "napi build --platform --release --dts binding.d.ts",
-    "build:debug": "napi build --platform --dts binding.d.ts",
+    "build": "napi build --platform --release --no-js --dts binding.d.ts",
+    "build:debug": "napi build --platform --no-js --dts binding.d.ts",
     "prepublishOnly": "napi prepublish -t npm",
     "format": "run-p format:source format:rs",
     "format:rs": "cargo fmt",

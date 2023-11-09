@@ -1,4 +1,4 @@
-<% if (['react', 'preact'].includes(framework)) {%>import TestUtils from '@tarojs/test-utils-react'<%}%><% if (framework === 'vue3') {%>import TestUtils from '@tarojs/test-utils-vue3'<%}%><% if (framework === 'vue') {%>import TestUtils from '@tarojs/test-utils-vue'<%}%>
+{{#if (includes "React" "Preact" s=framework)}}import TestUtils from '@tarojs/test-utils-react'{{/if}}{{#if (eq framework "Vue3") }}import TestUtils from '@tarojs/test-utils-vue3'{{/if}}{{#if (eq framework "Vue") }}import TestUtils from '@tarojs/test-utils-vue'{{/if}}
 
 describe('Testing', () => {
 
