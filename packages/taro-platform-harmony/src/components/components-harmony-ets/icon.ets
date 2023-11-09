@@ -94,10 +94,6 @@ struct TaroIcon {
     }, this))
   }
 
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-  }
-
   getIconData () {
     if (!this.node || !this.node._attrs) return null
 

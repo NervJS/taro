@@ -30,12 +30,14 @@ export const pageScrollTo: pageScrollTo = (options) => {
       console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
     }
 
-    let scroller = page.scroller
     let scrollValue = -1
+    let scroller = page.scroller
+    const currentPageNode = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+
     if (scrollTop || typeof scrollTop === 'number') {
       scrollValue = scrollTop
     } else if (selector) {
-      const node = findChildNodeWithDFS(page.node, selector)
+      const node = findChildNodeWithDFS(currentPageNode, selector)
 
       if (!node || !node.instance) return
 
@@ -60,7 +62,7 @@ export const pageScrollTo: pageScrollTo = (options) => {
       const info = node?.instance?.info
       let parent = node?.parentNode
 
-      while (!!parent && parent !== page.node) {
+      while (!!parent && parent !== currentPageNode) {
         if (parent?.instance?.scroller) {
           scroller = parent.instance.scroller
           break

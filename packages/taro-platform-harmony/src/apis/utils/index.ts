@@ -64,7 +64,8 @@ export function findChildNodeWithDFS (node: TaroElement, selector: string, selec
           if (!selectAll) break
         }
       }
-      if (currentNode.childNodes) {
+      
+      if (currentNode.childNodes && currentNode.childNodes.length) {
         // @ts-ignore
         queue.push(...currentNode.childNodes)
       }

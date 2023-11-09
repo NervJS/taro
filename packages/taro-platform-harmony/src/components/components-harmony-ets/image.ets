@@ -93,10 +93,6 @@ struct TaroImage {
     }, this))
   }
 
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-  }
-
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Image(this.node.getAttribute('src'))
