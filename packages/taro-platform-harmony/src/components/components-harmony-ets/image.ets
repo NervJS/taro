@@ -1,7 +1,7 @@
 import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -64,7 +64,9 @@ function attrs ({
 
 @Component
 struct TaroImage {
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @State thresholds: number[] | null = null
 
@@ -84,12 +86,16 @@ struct TaroImage {
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
+    
+    this.nodeInfoMap[this.node._nid] = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
 

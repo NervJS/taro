@@ -1,7 +1,7 @@
 import { eventHandler, isElement } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
+import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -158,7 +158,9 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 
 @Component
 struct TaroText {
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @State thresholds: number[] | null = null
 
@@ -178,12 +180,16 @@ struct TaroText {
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
+
+    this.nodeInfoMap[this.node._nid] = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+      
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
 

@@ -5,7 +5,7 @@ import { eventHandler, Current } from '@tarojs/runtime'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getNodeAreaChange, bindFocus, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getComponentEventCallback, bindFocus, getNodeVisibleChange } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -82,7 +82,9 @@ function getFontAttributes (node: TaroElement) {
 
 @Component
 struct TaroTextArea {
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @State text: string = ''
 
@@ -112,6 +114,7 @@ struct TaroTextArea {
       this.overwriteStyle = rule
     })
 
+    this.nodeInfoMap[this.node._nid] = {}
     this.text = this.node._attrs.value || ''
 
     try {
@@ -169,8 +172,10 @@ struct TaroTextArea {
       const event = createTaroEvent('focus', { detail: { value: this.value, height: this.height } }, this.node)
       eventHandler(event, 'focus', this.node)
     })
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+      
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
 

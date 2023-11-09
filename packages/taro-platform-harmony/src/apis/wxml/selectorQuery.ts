@@ -134,19 +134,20 @@ function filter (fields, dom) {
   // if (dataset) res.dataset = Object.assign({}, dom.dataset)
 
   if (rect || size) {
-    const info = dom?.instance?.info
+    const id = dom?._nid
+    const { areaInfo } = dom?.instance?.nodeInfoMap?.[id] || {}
 
-    if (info) {
+    if (areaInfo) {
       if (rect) {
-        res.top = convertVP2PX(info.globalPosition.y)
-        res.left = convertVP2PX(info.globalPosition.x)
-        res.right = convertVP2PX(info.globalPosition.x + info.width)
-        res.bottom = convertVP2PX(info.globalPosition.y + info.height)
+        res.top = convertVP2PX(areaInfo.globalPosition.y)
+        res.left = convertVP2PX(areaInfo.globalPosition.x)
+        res.right = convertVP2PX(areaInfo.globalPosition.x + areaInfo.width)
+        res.bottom = convertVP2PX(areaInfo.globalPosition.y + areaInfo.height)
       }
 
       if (size) {
-        res.width = convertVP2PX(info.width)
-        res.height = convertVP2PX(info.height)
+        res.width = convertVP2PX(areaInfo.width)
+        res.height = convertVP2PX(areaInfo.height)
       }
     }
   }
@@ -215,6 +216,7 @@ function queryBat (queue, cb) {
 
           // 触发监听节点的更新 
           instance.isAreaChangeTap = true
+          instance.eventMap.isAreaChangeTap = true
           instance.areaPromise = onAreaChangePromise
         }
 

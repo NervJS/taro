@@ -3,7 +3,7 @@ import { eventHandler } from '@tarojs/runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -67,7 +67,9 @@ function attrs ({
 struct TaroSwiper {
   private swiperController: SwiperController = new SwiperController()
 
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @State overwriteStyle: Record<string, any> = {}
 
@@ -87,12 +89,16 @@ struct TaroSwiper {
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
+
+    this.nodeInfoMap[this.node._nid] = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+      
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
 

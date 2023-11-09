@@ -2,7 +2,7 @@ import { eventHandler } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -27,7 +27,9 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 struct TaroSwitch {
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @ObjectLink node: TaroViewElement
 
@@ -43,13 +45,17 @@ struct TaroSwitch {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+
+    this.nodeInfoMap[this.node._nid] = {}
     this.value = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+      
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
 

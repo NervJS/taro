@@ -94,23 +94,36 @@ export function convertVP2PX (value: number) {
   return Math.ceil(value / 384 * 750)
 }
 
-export function getNodeAreaChange (callback: Function, component) {
+
+/** 这部分逻辑后续抽离到 runtime 中: start **/
+export function capitalize (s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+export function getComponentEventCallback (eventName: string, callback: Function, component) {
   const node = component?.node
 
   if (!node) return null
 
-  if (component.isAreaChangeTap) {
-    return (_: Area, areaResult: Area) => {
-      if (!component.isAreaChangeTap) return
+  const eventCapitalizeName = capitalize(eventName)
+  if (component?.eventMap?.[`is${eventCapitalizeName}Tap`]) {
+    return (...eventResult: any[]) => {
+      if (!component?.eventMap?.[`is${eventCapitalizeName}Tap`]) return
 
-      callback.call(component, areaResult)
+      const res = {
+        component,
+        eventResult
+      }
 
-      component?.node?.onAreaChange?.(areaResult)
+      callback.call(component, res)
+
+      component?.node?.[`on${eventCapitalizeName}`]?.(res)
     }
   }
 
   return null
 }
+/** 这部分逻辑后续抽离到 runtime 中: end **/
 
 
 export function getNodeVisibleChange (component) {

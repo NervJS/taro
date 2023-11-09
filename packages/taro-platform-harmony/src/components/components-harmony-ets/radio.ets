@@ -6,7 +6,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { bindAnimation, bindInstanceToNode, shouldBindEvent, getNodeAreaChange, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
+import { bindAnimation, bindInstanceToNode, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -33,7 +33,9 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 struct TaroRadio {
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @ObjectLink node: TaroViewElement
 
@@ -49,13 +51,17 @@ struct TaroRadio {
 
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
+
+    this.nodeInfoMap[this.node._nid] = {}
     this.checked = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+      
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
 
@@ -155,7 +161,9 @@ function attrs ({
 
 @Component
 struct TaroRadioGroup {
-  info: Area = null
+  nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @State isAreaChangeTap: boolean = false
 
@@ -180,8 +188,10 @@ struct TaroRadioGroup {
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getNodeAreaChange((areaResult: Area) => {
-      this.info = areaResult
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      const [_, areaResult] = eventResult
+      
+      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
   }
   build() {

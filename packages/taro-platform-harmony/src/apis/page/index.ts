@@ -44,7 +44,7 @@ export const pageScrollTo: pageScrollTo = (options) => {
       const instance = node.instance
 
       // 阻塞函数执行，等待监听节点绑定上 onAreaChange 回调函数
-      if (!instance.isAreaChangeTap) {
+      if (!node.isAreaChangeTap) {
         let onAreaChangePromiseResolve
         const onAreaChangePromise = new Promise(resolve => {
           onAreaChangePromiseResolve = resolve
@@ -54,14 +54,18 @@ export const pageScrollTo: pageScrollTo = (options) => {
           onAreaChangePromiseResolve()
         }
 
+        // TODO: 触发器统一调整
         // 触发监听节点的更新
-        instance.isAreaChangeTap = true
+        node.isAreaChangeTap = true
+        instance.eventMap.isAreaChangeTap = true
+        
         await onAreaChangePromise
       }
 
-      const info = node?.instance?.info
-      let parent = node?.parentNode
+      const id = node?._nid
+      const { areaInfo } = instance?.nodeInfoMap?.[id] || {}
 
+      let parent = node?.parentNode
       while (!!parent && parent !== currentPageNode) {
         if (parent?.instance?.scroller) {
           scroller = parent.instance.scroller
@@ -72,8 +76,8 @@ export const pageScrollTo: pageScrollTo = (options) => {
 
       const { yOffset } = scroller.currentOffset()
 
-      if (info) {
-        scrollValue = info.globalPosition.y + yOffset + offsetTop
+      if (areaInfo) {
+        scrollValue = areaInfo.globalPosition.y + yOffset + offsetTop
       }
     }
     const { xOffset } = scroller.currentOffset()
