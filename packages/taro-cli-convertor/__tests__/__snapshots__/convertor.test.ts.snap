@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`微信小程序转换 小程序demo转换 1`] = `
+Map {
+  "/wxProject/app.js" => "import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
+import { Block } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;",
+  "/wxProject/app.config.js" => "export default { pages: ['pages/index/index'] }
+",
+  "/wxProject/pages/index/index.js" => "import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    motto: 'Hello World',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { motto } = this.data
+    return (
+      <View>
+        <Text>{motto}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+",
+  "/wxProject/pages/index/index.config.js" => "export default {}
+",
+}
+`;
+
+exports[`微信小程序转换 配置miniprogramRoot的demo小程序转换 1`] = `
+Map {
+  "/wxProject/taroConvert/src/app.js" => "import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
+import { Block } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class App extends React.Component {
+  render() {
+    return this.props.children;
+  }
+}
+export default App;",
+  "/wxProject/taroConvert/src/app.config.js" => "export default { pages: ['pages/index/index'] }
+",
+  "/wxProject/taroConvert/src/pages/index/index.js" => "import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    motto: 'Hello World',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { motto } = this.data
+    return (
+      <View>
+        <Text>{motto}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+",
+  "/wxProject/taroConvert/src/pages/index/index.config.js" => "export default {}
+",
+}
+`;
