@@ -5,6 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "lldb",
+      "request": "launch",
+      "name": "debug-init",
+      "sourceLanguages": ["rust"],
+      "program": "node",
+      "args": ["${workspaceFolder}/packages/taro-cli/bin/taro", "init"],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build binding debug"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "CLI debug",

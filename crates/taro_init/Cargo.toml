@@ -6,4 +6,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
+napi = { workspace = true, features = ["napi4", "tokio_rt"]}
+napi-derive = { workspace = true }
+once_cell = { workspace = true }
+tokio = { workspace = true, features = ["fs"] }
+futures = { workspace = true }
+serde_json = { workspace = true }
+serde = { workspace = true, features = ["serde_derive"] }
+handlebars = { workspace = true }
+handlebars_misc_helpers = { workspace = true }
+anyhow = { workspace = true }
+console = { workspace = true }

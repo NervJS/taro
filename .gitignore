@@ -74,8 +74,6 @@ common/autoinstallers/*/.npmrc
 # Heft
 .heft
 
-Cargo.lock
-
 target/
 debug/
 
