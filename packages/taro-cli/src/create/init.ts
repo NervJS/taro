@@ -1,10 +1,13 @@
-import { chalk, fs } from '@tarojs/helper'
 import { exec } from 'child_process'
 import * as ora from 'ora'
 import * as path from 'path'
 
+import { NpmType, createProject } from '@tarojs/binding'
+import { chalk, fs } from '@tarojs/helper'
+
+
 import packagesManagement from '../config/packagesManagement'
-import { getAllFilesInFolder, getPkgVersion } from '../util'
+import { getAllFilesInFolder, getPkgVersion, getRootPath } from '../util'
 import Creator from './creator'
 import { changeDefaultNameInTemplate } from './editTemplate'
 
@@ -71,7 +74,6 @@ function createFiles (
     if (!isVueFramework && file.endsWith('.vue')) {
       return
     }
-
     // 跑自定义逻辑，确定是否创建此文件
     if (handler && typeof handler[fileRePath] === 'function') {
       externalConfig = handler[fileRePath](options)
@@ -176,97 +178,118 @@ export async function createPage (creator: Creator, params: IPageConf, cb) {
 
 export async function createApp (creator: Creator, params: IProjectConf, cb) {
   const { projectName, projectDir, template, autoInstall = true, framework, npm } = params
-  const logs: string[] = []
-  // path
-  const projectPath = path.join(projectDir, projectName)
-  const templatePath = creator.templatePath(template)
-
-  // npm & yarn
-  const version = getPkgVersion()
-
-  // 遍历出模板中所有文件
-  const files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
 
   // 引入模板编写者的自定义逻辑
+  const templatePath = creator.templatePath(template)
   const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
-  const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
+  const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
 
-  // 为所有文件进行创建
-  logs.push(
-    ...createFiles(creator, files, handler, {
-      ...params,
-      framework,
-      version,
-      templatePath,
-      projectPath,
-      pageName: 'index',
-      period: 'createApp'
-    })
-  )
+  createProject({
+    name: projectName,
+    dir: projectDir,
+    template,
+    npm: npm,
+    framework,
+    css: params.css,
+    autoInstall: autoInstall,
+    templateRoot: getRootPath(),
+    version: getPkgVersion(),
+    typescript: params.typescript,
+    date: params.date,
+    description: params.description,
+    compiler: params.compiler,
+  }, handler)
+  // const logs: string[] = []
+  // // path
+  // const projectPath = path.join(projectDir, projectName)
+  // const templatePath = creator.templatePath(template)
 
-  // fs commit
-  creator.fs.commit(async () => {
-    // logs
-    console.log()
-    console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
-    logs.forEach(log => console.log(log))
+  // // npm & yarn
+  // const version = getPkgVersion()
 
-    // 当选择 rn 模板时，替换默认项目名
-    if (template === TemplateType.rn) {
-      await changeDefaultNameInTemplate({ projectName, templatePath, projectPath })
-    }
-    console.log()
+  // // 遍历出模板中所有文件
+  // const files = await getAllFilesInFolder(templatePath, doNotCopyFiles)
 
-    // git init
-    const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
-    process.chdir(projectPath)
-    const gitInit = exec('git init')
-    gitInit.on('close', code => {
-      if (code === 0) {
-        gitInitSpinner.color = 'green'
-        gitInitSpinner.succeed(gitInit.stdout!.read())
-      } else {
-        gitInitSpinner.color = 'red'
-        gitInitSpinner.fail(gitInit.stderr!.read())
-      }
-    })
+  // // 引入模板编写者的自定义逻辑
+  // const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
+  // const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : null
 
-    const callSuccess = () => {
-      console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
-      console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
-      if (typeof cb === 'function') {
-        cb()
-      }
-    }
+  // // 为所有文件进行创建
+  // logs.push(
+  //   ...createFiles(creator, files, handler, {
+  //     ...params,
+  //     framework,
+  //     version,
+  //     templatePath,
+  //     projectPath,
+  //     pageName: 'index',
+  //     period: 'createApp'
+  //   })
+  // )
 
-    if (autoInstall) {
-      // packages install
-      const command: string = packagesManagement[npm].command
+  // // fs commit
+  // creator.fs.commit(async () => {
+  //   // logs
+  //   console.log()
+  //   console.log(`${chalk.green('✔ ')}${chalk.grey(`创建项目: ${chalk.grey.bold(projectName)}`)}`)
+  //   logs.forEach(log => console.log(log))
 
-      const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
-      const child = exec(command, (error) => {
-        if (error) {
-          installSpinner.color = 'red'
-          installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
-          console.log(error)
-        } else {
-          installSpinner.color = 'green'
-          installSpinner.succeed('安装成功')
-        }
-        callSuccess()
-      })
+  //   // 当选择 rn 模板时，替换默认项目名
+  //   if (template === TemplateType.rn) {
+  //     await changeDefaultNameInTemplate({ projectName, templatePath, projectPath })
+  //   }
+  //   console.log()
 
-      child.stdout!.on('data', function (data) {
-        installSpinner.stop()
-        console.log(data.replace(/\n$/, ''))
-        installSpinner.start()
-      })
-      child.stderr!.on('data', function (data) {
-        installSpinner.warn(data.replace(/\n$/, ''))
-        installSpinner.start()
-      })
-    } else {
-      callSuccess()
-    }
-  })
+  //   // git init
+  //   const gitInitSpinner = ora(`cd ${chalk.cyan.bold(projectName)}, 执行 ${chalk.cyan.bold('git init')}`).start()
+  //   process.chdir(projectPath)
+  //   const gitInit = exec('git init')
+  //   gitInit.on('close', code => {
+  //     if (code === 0) {
+  //       gitInitSpinner.color = 'green'
+  //       gitInitSpinner.succeed(gitInit.stdout!.read())
+  //     } else {
+  //       gitInitSpinner.color = 'red'
+  //       gitInitSpinner.fail(gitInit.stderr!.read())
+  //     }
+  //   })
+
+  //   const callSuccess = () => {
+  //     console.log(chalk.green(`创建项目 ${chalk.green.bold(projectName)} 成功！`))
+  //     console.log(chalk.green(`请进入项目目录 ${chalk.green.bold(projectName)} 开始工作吧！😝`))
+  //     if (typeof cb === 'function') {
+  //       cb()
+  //     }
+  //   }
+
+  //   if (autoInstall) {
+  //     // packages install
+  //     const command: string = packagesManagement[npm].command
+
+  //     const installSpinner = ora(`执行安装项目依赖 ${chalk.cyan.bold(command)}, 需要一会儿...`).start()
+  //     const child = exec(command, (error) => {
+  //       if (error) {
+  //         installSpinner.color = 'red'
+  //         installSpinner.fail(chalk.red('安装项目依赖失败，请自行重新安装！'))
+  //         console.log(error)
+  //       } else {
+  //         installSpinner.color = 'green'
+  //         installSpinner.succeed('安装成功')
+  //       }
+  //       callSuccess()
+  //     })
+
+  //     child.stdout!.on('data', function (data) {
+  //       installSpinner.stop()
+  //       console.log(data.replace(/\n$/, ''))
+  //       installSpinner.start()
+  //     })
+  //     child.stderr!.on('data', function (data) {
+  //       installSpinner.warn(data.replace(/\n$/, ''))
+  //       installSpinner.start()
+  //     })
+  //   } else {
+  //     callSuccess()
+  //   }
+  // })
 }
