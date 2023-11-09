@@ -92,7 +92,7 @@ class _C extends React.Component {
 export default _C;"
 `;
 
-exports[`语法转换 组件的动态名称转换 1`] = `
+exports[`语法转换 模版的动态名称转换 1`] = `
 "import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
 import { Block, View } from \\"@tarojs/components\\";
 import React from \\"react\\";
