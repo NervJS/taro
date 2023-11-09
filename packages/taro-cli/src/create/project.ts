@@ -1,3 +1,5 @@
+import * as path from 'path'
+
 import {
   chalk,
   DEFAULT_TEMPLATE_SRC,
@@ -9,9 +11,9 @@ import {
   TARO_CONFIG_FOLDER
 } from '@tarojs/helper'
 import { isArray } from '@tarojs/shared'
+import { CompilerType, CSSType, FrameworkType, NpmType } from '@tarojs/binding'
 import * as inquirer from 'inquirer'
 import * as ora from 'ora'
-import * as path from 'path'
 import * as request from 'request'
 import * as semver from 'semver'
 
@@ -25,20 +27,20 @@ import type { ITemplates } from './fetchTemplate'
 export interface IProjectConf {
   projectName: string
   projectDir: string
-  npm: string
+  npm: NpmType
   templateSource: string
   clone?: boolean
   template: string
   description?: string
   typescript?: boolean
-  css: 'none' | 'sass' | 'stylus' | 'less'
+  css: CSSType
   date?: string
   src?: string
   sourceRoot?: string
   env?: string
   autoInstall?: boolean
-  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
-  compiler?: 'webpack4' | 'webpack5' | 'vite'
+  framework: FrameworkType
+  compiler?: CompilerType
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -178,19 +180,19 @@ export default class Project extends Creator {
     const cssChoices = [
       {
         name: 'Sass',
-        value: 'sass'
+        value: CSSType.Sass
       },
       {
         name: 'Less',
-        value: 'less'
+        value: CSSType.Less
       },
       {
         name: 'Stylus',
-        value: 'stylus'
+        value: CSSType.Stylus
       },
       {
         name: '无',
-        value: 'none'
+        value: CSSType.None
       }
     ]
 
@@ -208,11 +210,11 @@ export default class Project extends Creator {
     const compilerChoices = [
       {
         name: 'Webpack5',
-        value: 'webpack5'
+        value: CompilerType.Webpack5
       },
       {
         name: 'Webpack4',
-        value: 'webpack4'
+        value: CompilerType.Webpack4
       }
     ]
 
@@ -230,11 +232,11 @@ export default class Project extends Creator {
     const frameworks = [
       {
         name: 'React',
-        value: 'react'
+        value: FrameworkType.React
       },
       {
         name: 'PReact',
-        value: 'preact'
+        value: FrameworkType.Preact
       },
       // {
       //   name: 'Nerv',
@@ -242,11 +244,11 @@ export default class Project extends Creator {
       // },
       {
         name: 'Vue',
-        value: 'vue'
+        value: FrameworkType.Vue
       },
       {
         name: 'Vue3',
-        value: 'vue3'
+        value: FrameworkType.Vue3
       }
     ]
 
@@ -365,19 +367,19 @@ export default class Project extends Creator {
     const packages = [
       {
         name: 'yarn',
-        value: 'yarn'
+        value: NpmType.Yarn
       },
       {
         name: 'pnpm',
-        value: 'pnpm'
+        value: NpmType.Pnpm
       },
       {
         name: 'npm',
-        value: 'npm'
+        value: NpmType.Npm
       },
       {
         name: 'cnpm',
-        value: 'cnpm'
+        value: NpmType.Cnpm
       }
     ]
 
