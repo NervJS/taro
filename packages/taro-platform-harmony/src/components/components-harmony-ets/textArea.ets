@@ -34,6 +34,7 @@ function attrs ({
   transform,
 }) {
   .id(id)
+  .key(id)
   .constraintSize(constraintSize)
   .flexGrow(flexSize[0])
   .flexShrink(flexSize[1])

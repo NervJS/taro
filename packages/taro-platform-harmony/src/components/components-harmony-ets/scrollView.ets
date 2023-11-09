@@ -38,6 +38,7 @@ function attrs ({
   transform,
 }) {
   .id(id)
+  .key(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
@@ -93,6 +94,7 @@ function attrs ({
   transform,
 }) {
   .id(id)
+  .key(id)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)

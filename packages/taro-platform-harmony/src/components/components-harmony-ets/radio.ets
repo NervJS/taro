@@ -6,22 +6,26 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { bindAnimation, bindInstanceToNode, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
+import { bindAnimation, bindInstanceToNode, shouldBindEvent, getComponentEventCallback, getNormalAttributes, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
 @Extend(Radio)
 function attrs ({
+  id,
   color,
 }) {
+  .id(id)
+  .key(id)
   .radioStyle({
     checkedBackgroundColor: color,
   })
 }
 
-function getAttributes (node: TaroViewElement) {
+function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
   const { _attrs = {} } = node
   return {
+    ...getNormalAttributes(node, overwriteStyle),
     color: _attrs.color || '#1aad19',
   }
 }
@@ -40,6 +44,8 @@ struct TaroRadio {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
+
+  @State overwriteStyle: Record<string, any> = {}
 
   @State checked: boolean = false
 
@@ -67,38 +73,40 @@ struct TaroRadio {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Row() {
-        Radio({
-          group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
-          value: this.node._attrs.value,
-        })
-          .checked(this.checked)
-          .defaultEvent()
-          .attrs(getAttributes(this.node))
-          .themeStyles(!!this.node._attrs.disabled)
-          .onChange((value: boolean) => {
-            if (!!this.node._attrs.disabled) {
-              // FIXME 找下文档是否有强制刷新方法
-              this.checked = !this.checked
-              this.checked = !this.checked
-            } else {
-              this.checked = value
-              if (this.checked) {
-                const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
-                eventHandler(event, 'change', this.node)
-              }
-            }
+      Stack() {
+        Row() {
+          Radio({
+            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
+            value: this.node._attrs.value,
           })
-          .visibleChangeEvent()
-        Text(this.node.textContent)
-          .textAlign(TextAlign.Center)
-          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
-      }
-      .onClick(() => {
-        if (!this.checked) {
-          this.checked = !this.checked
+            .checked(this.checked)
+            .defaultEvent()
+            .attrs(getAttributes(this.node, this.overwriteStyle))
+            .themeStyles(!!this.node._attrs.disabled)
+            .onChange((value: boolean) => {
+              if (!!this.node._attrs.disabled) {
+                // FIXME 找下文档是否有强制刷新方法
+                this.checked = !this.checked
+                this.checked = !this.checked
+              } else {
+                this.checked = value
+                if (this.checked) {
+                  const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
+                  eventHandler(event, 'change', this.node)
+                }
+              }
+            })
+            .visibleChangeEvent()
+          Text(this.node.textContent)
+            .textAlign(TextAlign.Center)
+            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
         }
-      })
+        .onClick(() => {
+          if (!this.checked) {
+            this.checked = !this.checked
+          }
+        })
+      }
     }
   }
 }
@@ -133,6 +141,7 @@ function attrs ({
   transform,
  }) {
   .id(id)
+  .key(id)
   .constraintSize(constraintSize)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)

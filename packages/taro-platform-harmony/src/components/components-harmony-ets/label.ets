@@ -1,11 +1,14 @@
 import { eventHandler } from '@tarojs/runtime'
 
+import { createNode } from './render'
 import TaroComponentWrapper from './base'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
+import { FlexManager } from './utils/FlexManager'
+import { bindInstanceToNode, bindAnimation, getComponentEventCallback, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
-@Extend(RichText)
+@Extend(Flex)
 function attrs ({
   id,
   flexBasis,
@@ -36,13 +39,13 @@ function attrs ({
  }) {
   .id(id)
   .key(id)
+  .constraintSize(constraintSize)
   .flexGrow(flexGrow)
   .flexShrink(flexShrink)
   .flexBasis(flexBasis)
   .alignSelf(alignSelf)
   .width(width)
   .height(height)
-  .constraintSize(constraintSize)
   .margin(margin)
   .padding(padding)
   .linearGradient(linearGradient)
@@ -63,24 +66,23 @@ function attrs ({
 }
 
 @Component
-struct TaroRichText {
-
+struct TaroLabel {
   nodeInfoMap: any = {}
 
   eventMap: any = {}
 
-  @State overwriteStyle: Record<string, any> = {}
-
-  @ObjectLink node: TaroViewElement
-
   @State isAreaChangeTap: boolean = false
+
+  @State overwriteStyle: Record<string, any> = {}
 
   @State thresholds: number[] | null = null
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
   }
-  
+
+  @ObjectLink node: TaroViewElement
+
   aboutToAppear () {
     bindInstanceToNode(this.node, this)
     // 绑定动画
@@ -92,7 +94,14 @@ struct TaroRichText {
   }
 
   @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onClick((e: ClickEvent) => {
+      const firstChild = this.node.childNodes[0]
+      const id = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid
+      focusControl.requestFocus(id)
+      // TODO 通过 eventCenter 调用对应表单组件 change 事件
+      eventHandler(e, 'click', this.node)
+    })
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
     .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
@@ -102,12 +111,16 @@ struct TaroRichText {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      RichText(this.node._attrs.nodes) 
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
-        .defaultEvent()
-        .visibleChangeEvent()
+      Flex(FlexManager.flexOptions(this.node)) {
+        ForEach(this.node.childNodes, item => {
+          createNode(item)
+        }, item => item._nid)
+      }
+      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .defaultEvent()
+      .visibleChangeEvent()
     }
   }
 }
 
-export default TaroRichText
+export default TaroLabel

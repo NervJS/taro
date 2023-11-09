@@ -37,6 +37,7 @@ function attrs ({
   textAlign,
  }) {
   .id(id)
+  .key(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
@@ -95,6 +96,7 @@ function spanAttrs ({
   height,
  }) {
   .id(id)
+  .key(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)
