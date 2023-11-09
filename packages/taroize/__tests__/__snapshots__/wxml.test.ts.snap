@@ -1,30 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`slot插槽 具名插槽 1`] = `"<View><SlotComponent renderBefore={<Block><View>这里是插入到组件slot name=\\"before\\"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件slot name=\\"after\\"中的内容</View></Block>}></SlotComponent></View>"`;
-
 exports[`wxml语法 wx:key="index"会转换成key="index" 1`] = `
 "data.map((item, index) => {
   return <View key={index}><Text>{item.name}</Text></View>;
 })"
 `;
 
-exports[`wxml语法 wxml数据绑定 1`] = `"<View>{data}</View>"`;
-
-exports[`wxml语法 三元运算 1`] = `"!(flag ? true : false) && <View>Hidden</View>"`;
-
-exports[`wxml语法 关键字 1`] = `"<Checkbox checked={checked}></Checkbox>"`;
-
 exports[`wxml语法 列表渲染 1`] = `
 "array.map((item, index) => {
   return <View>{index + \\": \\" + item.message}</View>;
 })"
 `;
-
-exports[`wxml语法 字符串运算 1`] = `"<View>{\\"hello\\" + name}</View>"`;
-
-exports[`wxml语法 条件渲染 1`] = `"length > 5 ? <View>1</View> : length > 2 ? <View>2</View> : <View>3</View>"`;
-
-exports[`wxml语法 组件属性 1`] = `"<View id={\\"item-\\" + id}></View>"`;
 
 exports[`wxs wxs 多行注释 1`] = `
 "module.exports = {
@@ -71,31 +57,7 @@ Array [
 ]
 `;
 
-exports[`wxs wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp() 2`] = `"var regexp = new RegExp();"`;
-
-exports[`wxs 在页面中引入外部wxs 1`] = `"<Block><View>{wxs_test.foo}</View><View>{wxs_test.bar('nihao')}</View></Block>"`;
-
-exports[`wxs 在页面中引入外部wxs 2`] = `
-Array [
-  Object {
-    "module": "wxs_test",
-    "src": ".././../utils/test.wxs",
-  },
-]
-`;
-
-exports[`wxs 页面中使用wxs 1`] = `"<Block><View>Hello Word!</View><View>{wxs_demo.data}</View></Block>"`;
-
-exports[`wxs 页面中使用wxs 2`] = `
-Array [
-  Object {
-    "module": "wxs_demo",
-    "src": "./wxs__wxs_demo",
-  },
-]
-`;
-
-exports[`wxs 页面中使用wxs 3`] = `
+exports[`wxs 页面中使用wxs 1`] = `
 "module.exports = {
   data: 'wxs demo'
 };"
@@ -118,5 +80,3 @@ exports[`wx作用域属性解析 wx:if & wx:for 1`] = `
   return <Block>{item.key && <View>{\\"the value is : \\" + item.value}</View>}</Block>;
 })"
 `;
-
-exports[`组件 wxml中image的mode=""会转换成mode 1`] = `"<Image className=\\"img\\" src={imgSrc} mode=\\"scaleToFill\\"></Image>"`;

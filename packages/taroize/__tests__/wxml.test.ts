@@ -26,7 +26,7 @@ const option: Option = {
   rootPath: '',
   script: '',
   scriptPath: '',
-  wxml: ''
+  wxml: '',
 }
 
 describe('wxml语法', () => {
@@ -56,39 +56,48 @@ describe('wxml语法', () => {
     option.path = 'wxml_message'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe('<View>{data}</View>')
   })
 
-  test('组件属性', () => {
-    option.wxml = `<view id="item-{{id}}"> </view>`
-    option.path = 'wxml_component_properties'
+  test('组件属性值为字符串', () => {
+    option.wxml = `<view id="item-view1"> </view>`
+    option.path = 'wxml_component_properties_string'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe(`<View id="item-view1"></View>`)
   })
 
-  test('关键字', () => {
-    option.wxml = `<checkbox checked="{{checked}}"></checkbox>`
+  test('组件属性值为变量', () => {
+    option.wxml = `<view id="item-{{id}}"> </view>`
+    option.path = 'wxml_component_properties_variable'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toBe(`<View id={"item-" + id}></View>`)
+  })
+
+  test('属性值为关键字(需要在双引号之内)', () => {
+    // false关键字为 boolean
+    option.wxml = `<checkbox checked="{{false}}"></checkbox>`
     option.path = 'wxml_keywords'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe('<Checkbox checked={false}></Checkbox>')
   })
 
-  test('三元运算', () => {
+  test('属性值为三元运算', () => {
     option.wxml = `<view hidden="{{flag ? true : false}}"> Hidden </view>`
     option.path = 'wxml_ternary_operations'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe('!(flag ? true : false) && <View>Hidden</View>')
   })
 
-  test('字符串运算', () => {
+  test('渲染数据为字符串和变量拼接', () => {
     option.wxml = `<view>{{"hello" + name}}</view>`
     option.path = 'wxml_string_operations'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe(`<View>{"hello" + name}</View>`)
   })
 
   test('列表渲染', () => {
@@ -122,12 +131,32 @@ describe('wxml语法', () => {
     option.path = 'wxml_if'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe(
+      `length > 5 ? <View>1</View> : length > 2 ? <View>2</View> : <View>3</View>`
+    )
   })
 })
 
 describe('slot插槽', () => {
-  test('匿名插槽',() => {
+  test('匿名插槽', () => {
+    /**
+     * 插槽模板
+     */
+    option.wxml = `
+      <view class="wrapper">
+        <view>这里是组件的内部节点</view>
+        <slot></slot>
+      </view>
+    `
+    option.path = `anonymity_slot`
+    const { wxml: slotWxml }: any = parseWXML(option.path, option.wxml)
+    const slotWxmlCode = generateMinimalEscapeCode(slotWxml)
+    expect(slotWxmlCode).toBe(`<View className="wrapper"><View>这里是组件的内部节点</View>{this.props.children}</View>`)
+
+    /**
+     * wxml页面内容
+     * 检测插槽组件是否引入需在 taro-cli-convertor 中
+     */
     option.wxml = `
       <view>
         <slot-component>
@@ -135,13 +164,34 @@ describe('slot插槽', () => {
         </slot-component>
       </view>
     `
-    option.path = 'anonymity_slot'
+    option.path = 'anonymity_wxml_slot'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
     expect(wxmlCode).toBe('<View><SlotComponent><View>插入slot的内容</View></SlotComponent></View>')
   })
 
-  test('具名插槽',() => {
+  test('具名插槽', () => {
+    /**
+     * 插槽模板
+     */
+    option.wxml = `
+      <view class="wrapper">
+        <slot name="before"></slot>
+        <view>这里是组件的内部细节</view>
+        <slot name="after"></slot>
+      </view>
+    `
+    option.path = 'named_slot'
+    const { wxml: slotWxml }: any = parseWXML(option.path, option.wxml)
+    const slotWxmlCode = generateMinimalEscapeCode(slotWxml)
+    expect(slotWxmlCode).toBe(
+      `<View className="wrapper">{this.props.renderBefore}<View>这里是组件的内部细节</View>{this.props.renderAfter}</View>`
+    )
+
+    /**
+     * wxml页面内容
+     * 检测插槽组件是否引入需在 taro-cli-convertor 中
+     */
     option.wxml = `
       <view>
         <slot-component>
@@ -150,16 +200,18 @@ describe('slot插槽', () => {
         </slot-component>
       </view>
     `
-    option.path = 'named_slot'
+    option.path = 'named_wxml_slot'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe(`<View><SlotComponent renderBefore={<Block><View>这里是插入到组件slot name="before"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}></SlotComponent></View>`)
   })
 })
 
 describe('wxs', () => {
-  // 测试是否引入以及转换后生成的wxs在taro-cli-convertor中
-  test('在页面中引入外部wxs', () => {
+  /**
+   *  关于外部wxs文件的转换以及wxs的引入在taro-cli-convertor包中
+   */
+  test('在页面中引入外部wxs后，wxml转换情况，wxs引入地址是否解析', () => {
     /**
      const wxs = `
         var foo = "'hello world' from comm.wxs";
@@ -180,25 +232,27 @@ describe('wxs', () => {
     option.path = 'wxs_src'
     const { wxml, wxses }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
-    expect(wxses).toMatchSnapshot()
+    expect(wxmlCode).toBe("<Block><View>{wxs_test.foo}</View><View>{wxs_test.bar('nihao')}</View></Block>")
+    expect(wxses[0].src).toBe('.././../utils/test.wxs')
   })
 
   test('页面中使用wxs', () => {
-    option.wxml = `<wxs module="wxs_demo">
-                        module.exports = {
-                            data: 'wxs demo'
-                        }
-                    </wxs>
-                    <view>Hello Word!</view>
-                    <view>{{wxs_demo.data}}</view>`
+    option.wxml = `
+      <wxs module="wxs_demo">
+        module.exports = {
+          data: 'wxs demo'
+        }
+      </wxs>
+      <view>Hello Word!</view>
+      <view>{{wxs_demo.data}}</view>
+    `
     //  parseWXML会先获取缓存，所有每个用例的path需要保持其唯一性
     option.path = 'wxml_wxs'
     const { wxml, wxses, imports }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxmlCode).toMatchSnapshot()
-    expect(wxses).toMatchSnapshot()
+    expect(wxmlCode).toBe('<Block><View>Hello Word!</View><View>{wxs_demo.data}</View></Block>')
+    expect(wxses[0]).toEqual({ module: 'wxs_demo',src: './wxs__wxs_demo' })
     expect(importsCode).toMatchSnapshot()
   })
 
@@ -255,14 +309,16 @@ describe('wxs', () => {
   })
 
   test('wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp()', () => {
-    option.wxml = `<wxs module="wxs_regexp">
-                    var regexp = getRegExp()
-                  </wxs>`
+    option.wxml = `
+      <wxs module="wxs_regexp">
+        var regexp = getRegExp()
+      </wxs>
+    `
     option.path = 'wxml_wxs_regexp'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
     expect(wxses).toMatchSnapshot()
-    expect(importsCode).toMatchSnapshot()
+    expect(importsCode).toBe('var regexp = new RegExp();')
   })
 
   test('wxs标签中的getDate()转换为new Date()', () => {
@@ -291,7 +347,7 @@ describe('组件', () => {
     option.path = 'wxml_mode'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toMatchSnapshot()
+    expect(wxmlCode).toBe(`<Image className="img" src={imgSrc} mode="scaleToFill"></Image>`)
   })
 })
 
@@ -395,7 +451,9 @@ describe('style属性的解析', () => {
     } else {
       const { type, content } = styleParseReslut
       expect(type).toBe('expression')
-      expect(content).toBe('(height: {{ height }}px;width: {{ width }}px;background-color: {{ false ? color : "blue" }};)')
+      expect(content).toBe(
+        '(height: {{ height }}px;width: {{ width }}px;background-color: {{ false ? color : "blue" }};)'
+      )
     }
   })
 
@@ -615,9 +673,11 @@ describe('style属性的解析', () => {
 
 describe('wx作用域属性解析', () => {
   test('wx不支持的属性scope-data', () => {
-    option.wxml = `<view wx:scope-data="{{...myData}}">
-                      {{id}}
-                    </view>`
+    option.wxml = `
+      <view wx:scope-data="{{...myData}}">
+        {{id}}
+      </view>
+    `
     option.path = 'wx_unknown'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
@@ -625,9 +685,11 @@ describe('wx作用域属性解析', () => {
   })
 
   test('wx:if', () => {
-    option.wxml = `<view wx:if="{{xx}}">
-                      {{xxx}}
-                    </view>`
+    option.wxml = `
+      <view wx:if="{{xx}}">
+        {{xxx}}
+      </view>
+    `
     option.path = 'wx_if'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
@@ -635,9 +697,11 @@ describe('wx作用域属性解析', () => {
   })
 
   test('wx:for', () => {
-    option.wxml = `<view wx:for="{{list}}">
-                      {{item}}
-                    </view>`
+    option.wxml = `
+      <view wx:for="{{list}}">
+        {{item}}
+      </view>
+    `
     option.path = 'wx_for'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
@@ -645,9 +709,11 @@ describe('wx作用域属性解析', () => {
   })
 
   test('wx:for & wx:for-xxx', () => {
-    option.wxml = `<view wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName">
-                      {{idx}}: {{itemName.message}}
-                    </view>`
+    option.wxml = `
+      <view wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName">
+        {{idx}}: {{itemName.message}}
+      </view>
+    `
     option.path = 'wx_for_xxx'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
@@ -655,9 +721,11 @@ describe('wx作用域属性解析', () => {
   })
 
   test('wx:if & wx:for', () => {
-    option.wxml = `<view wx:if="{{item.key}}" wx:for="{{modalKey}}">
-                      the value is : {{item.value}}
-                    </view>`
+    option.wxml = `
+      <view wx:if="{{item.key}}" wx:for="{{modalKey}}">
+        the value is : {{item.value}}
+      </view>
+    `
     option.path = 'wx_if_for'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
@@ -665,9 +733,11 @@ describe('wx作用域属性解析', () => {
   })
 
   test('wx:for & wx:if', () => {
-    option.wxml = `<view wx:for="{{modalKey}}" wx:if="{{item.key}}">
-                      the value is : {{item.value}}
-                    </view>`
+    option.wxml = `
+      <view wx:for="{{modalKey}}" wx:if="{{item.key}}">
+        the value is : {{item.value}}
+      </view>
+    `
     option.path = 'wx_for_if'
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)

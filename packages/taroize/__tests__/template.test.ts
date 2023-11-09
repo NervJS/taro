@@ -74,14 +74,14 @@ describe('template.ts', () => {
       `
       // 确定解析wxml文件的绝对路径
       const dirPath = '\\wechatTest\\template_test\\components\\LunaComponent\\ListHuangye'
-      
+
       /**
        *  模拟全局对象下的文件路径
        */
       // 保存原始的属性描述符
       const originalDescriptor = Object.getOwnPropertyDescriptor(globals, 'rootPath')
       Object.defineProperty(globals, 'rootPath', {
-        get: jest.fn().mockReturnValue('\\wechatTest\\template_test')
+        get: jest.fn().mockReturnValue('\\wechatTest\\template_test'),
       })
 
       const { imports } = parseWXML(dirPath, wxml)
@@ -120,7 +120,7 @@ describe('template.ts', () => {
         const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
         const wxmlCode = generateMinimalEscapeCode(wxml)
         const importsCode = generateMinimalEscapeCode(imports[0].ast)
-        expect(wxmlCode).toMatchSnapshot()
+        expect(wxmlCode).toBe(`<View><TemplateDemoTmpl></TemplateDemoTmpl></View>`)
         expect(importsCode).toMatchSnapshot()
       })
 
@@ -142,7 +142,7 @@ describe('template.ts', () => {
         const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
         const wxmlCode = generateMinimalEscapeCode(wxml)
         const importsCode = generateMinimalEscapeCode(imports[0].ast)
-        expect(wxmlCode).toMatchSnapshot()
+        expect(wxmlCode).toBe('<TemplateDemoTmpl></TemplateDemoTmpl>')
         expect(importsCode).toMatchSnapshot()
       })
     })
@@ -165,7 +165,7 @@ describe('template.ts', () => {
       afterEach(() => {
         jest.restoreAllMocks()
       })
-            
+
       test('include 引入 header文件', () => {
         const header = '<text>header.wxml</text>'
         option.wxml = `<include src="../header/header"></include>`
@@ -176,7 +176,6 @@ describe('template.ts', () => {
         const wxmlCode = generateMinimalEscapeCode(ast)
         expect(wxmlCode).toMatchSnapshot()
       })
-
     })
 
     describe('include 异常情况', () => {
@@ -184,12 +183,12 @@ describe('template.ts', () => {
       afterEach(() => {
         jest.restoreAllMocks()
       })
-  
-      test('include 没有src',() => {
+
+      test('include 没有src', () => {
         const wxml = `<include/>`
         const dirPath = 'include_no_src'
         expect(() => parseWXML(dirPath, wxml)).toThrowError('include 标签必须包含 `src` 属性')
       })
     })
   })
-}) 
+})
