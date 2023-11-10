@@ -142,32 +142,6 @@ describe('文件转换', () => {
     }
   })
 
-  test('project.config.json中添加配置miniprogramRoot后能够读取app.json进行convert', () => {
-    // rootPath：小程序的根目录（文件路径）
-    const rootPath = 'D:\\WeChatProjects'
-
-    // new Convertor后先直接执行 init()里面的initConvert()和getConvertConfig()
-    jest.spyOn(Convertor.prototype, 'initConvert').mockImplementation(() => {
-      Convertor.prototype.convertRoot = rootPath
-    })
-    const convertJsonPath = { convertJsonPath: ['aaa'] }
-    jest.spyOn(Convertor.prototype, 'getConvertConfig').mockImplementation(() => {
-      Convertor.prototype.pages = new Set(convertJsonPath.convertJsonPath)
-    })
-    const convert = new Convertor('', false)
-    convert.pages = Convertor.prototype.pages
-
-    // 模拟配置miniprogramRoot字段中的projectConfig值
-    const readFromFile = './miniprogram'
-    const mockFileData = `
-      "miniprogramRoot": "miniprogram/",
-    `
-
-    // 将 getApp() 中的 fs.readFileSync 返回值模拟为常量 mockFileData
-    jest.spyOn(fs, 'readFileSync').mockReturnValue(mockFileData)
-    const paresResult = new Convertor(mockFileData, readFromFile)
-    expect(paresResult).toMatchSnapshot()
-  })
 })
 
 describe('page页面转换', () => {

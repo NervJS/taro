@@ -12,7 +12,6 @@ jest.mock('path')
 
 describe('convert.config.json配置转换', () => {
   let convert
-
   beforeEach(() => {
     // 清空文件信息
     clearMockFiles()
