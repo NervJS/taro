@@ -1,2 +1,5 @@
 export * from './battery'
+export * from './clipboard'
 export * from './keyboard'
+export * from './phone'
+export * from './screen'

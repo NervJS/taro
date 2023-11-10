@@ -10,5 +10,3 @@ export interface IAsyncParams<T extends FunctionType = GeneralCallback> {
   /** 接口调用成功的回调函数 */
   success?: T
 }
-
-export type GetAPIsOptionsSuccessType<T extends FunctionType> = Required<Exclude<Parameters<T>[0], undefined>>['success']

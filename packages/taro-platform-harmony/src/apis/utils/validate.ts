@@ -11,6 +11,30 @@ interface ValidateParams {
   <T>(name: string, params: any, schema: Schema): asserts params is T
 }
 
+export function shouldBeObject (target: unknown) {
+  if (target && typeof target === 'object') return { flag: true }
+  return {
+    flag: false,
+    msg: getParameterError({
+      correct: 'Object',
+      wrong: target
+    })
+  }
+}
+
+interface IParameterErrorParam {
+  name?: string
+  para?: string
+  correct?: string
+  wrong?: unknown
+  level?: 'warn' | 'error' | 'log' | 'info' | 'debug'
+}
+export function getParameterError ({ name = '', para, correct, wrong, level = 'error' }: IParameterErrorParam) {
+  const parameter = para ? `parameter.${para}` : 'parameter'
+  const errorType = upperCaseFirstLetter(wrong === null ? 'Null' : typeof wrong)
+  return `${name ? `${name}:fail ` : ''}parameter ${level}: ${parameter} should be ${correct} instead of ${errorType}`
+}
+
 export function upperCaseFirstLetter (string: string): string {
   if (!isString(string)) return string
   string = string.replace(/^./, match => match.toUpperCase())

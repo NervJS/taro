@@ -4,22 +4,13 @@ import deviceInfo from '@ohos.deviceInfo'
 import _display from '@ohos.display'
 // 从 API Version 7 开始支持
 import i18n from '@ohos.i18n'
-// 从 API Version 6 开始支持
-import pasteboard from '@ohos.pasteboard'
-// 从 API Version 7 开始支持。
-import call from '@ohos.telephony.call'
-// 从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.brightness'
-// 但是 新接口 @ohos.brightness 没有getValue
-import brightness from '@system.brightness'
 // 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
 import deviceMethod from '@system.device'
 // 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
 // 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
 import network from '@system.network'
-import { isNull, isNumber, isString, isUndefined } from '@tarojs/shared'
 
 import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
-import { GetAPIsOptionsSuccessType } from '../utils/types'
 
 import type Taro from '@tarojs/taro'
 
@@ -33,19 +24,14 @@ deviceMethod.getInfo({
   }
 })
 
-type GetNetworkType = typeof Taro.getNetworkType;
-type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange;
-type OffNetworkStatusChange = typeof Taro.offNetworkStatusChange;
-type GetSystemInfo = typeof Taro.getSystemInfo;
-type GetSystemInfoSync = typeof Taro.getSystemInfoSync;
-type GetScreenBrightness = typeof Taro.getScreenBrightness;
-type SetScreenBrightness = typeof Taro.setScreenBrightness;
+type GetNetworkType = typeof Taro.getNetworkType
+type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange
+type OffNetworkStatusChange = typeof Taro.offNetworkStatusChange
+type GetSystemInfo = typeof Taro.getSystemInfo
+type GetSystemInfoSync = typeof Taro.getSystemInfoSync
 //  OnMemoryWarning,OffMemoryWarningun are unsupported temporarily
-//  type OnMemoryWarning = typeof Taro.onMemoryWarning;
-//  type OffMemoryWarning = typeof Taro.offMemoryWarning;
-type MakePhoneCall = typeof Taro.makePhoneCall;
-type SetClipboardData = typeof Taro.setClipboardData;
-type GetClipboardData = typeof Taro.getClipboardData;
+//  type OnMemoryWarning = typeof Taro.onMemoryWarning
+//  type OffMemoryWarning = typeof Taro.offMemoryWarning
 
 /*  Obtains the network type  */
 const getNetworkType: GetNetworkType = function (options) {
@@ -149,59 +135,6 @@ const getSystemInfo: GetSystemInfo = function (options) {
   })
 }
 
-/* 获得屏幕亮度 */
-const getScreenBrightness: GetScreenBrightness = function (options) {
-  let res = {}
-  return new Promise((resolve, reject) => {
-    brightness.getValue({
-      success: function (data) {
-        res = {
-          errMsg: 'getScreenBrightness:ok',
-          value: data.value
-        }
-        callAsyncSuccess<GetAPIsOptionsSuccessType<GetScreenBrightness>>(resolve, res, options)
-      },
-      fail: function (data, code) {
-        res = {
-          errMsg: `getScreenBrightness:fail ${data || ''}`,
-          code: code
-        }
-        callAsyncFail(reject, res, options)
-      }
-    })
-  })
-}
-/* 设置屏幕亮度 */
-const setScreenBrightness: SetScreenBrightness = function (options) {
-  const { value } = options
-  let res = {}
-  return new Promise((resolve, reject) => {
-    if (!isNumber(value)) {
-      res = {
-        errMsg: 'the parameter:value invalid'
-      }
-      callAsyncFail(reject, res, options)
-    } else {
-      brightness.setValue({
-        value: value,
-        success: function () {
-          res = {
-            errMsg: 'setScreenBrightness:ok'
-          }
-          callAsyncSuccess(resolve, res, options)
-        },
-        fail: function (data, code) {
-          res = {
-            errMsg: `setScreenBrightness:fail ${data || ''}`,
-            code: code
-          }
-          callAsyncFail(reject, res, options)
-        }
-      })
-    }
-  })
-}
-
 const onMemoryWarning = function (cb) {
   unsupport('onMemoryWarning')
   cb?.({ errMsg: '暂不支持 Taro.onMemoryWarning' })
@@ -212,108 +145,14 @@ const offMemoryWarning = function (cb) {
   cb?.({ errMsg: '暂不支持 Taro.offMemoryWarning' })
 }
 
-const makePhoneCall: MakePhoneCall = function (options) {
-  const { phoneNumber } = options
-  return new Promise((resolve, reject) => {
-    let res = {}
-    if (!isString(phoneNumber)) {
-      res = {
-        errMsg: 'the parameter:phoneNumber invalid'
-      }
-      callAsyncFail(reject, res, options)
-    } else {
-      call.makeCall(phoneNumber, err => {
-        if (err) {
-          console.error('Failed to makePhoneCall. Cause: ' + JSON.stringify(err))
-          res = {
-            errMsg: 'makePhoneCall:fail,err: ' + object2String(err)
-          }
-          callAsyncFail(reject, res, options)
-        } else {
-          callAsyncSuccess(resolve, res, options)
-        }
-      })
-    }
-  })
-}
-
-const setClipboardData: SetClipboardData = function (options) {
-  const { data } = options
-  let res = {}
-
-  return new Promise((resolve, reject) => {
-    const systemPasteboard = pasteboard.getSystemPasteboard()
-    const pasteData = pasteboard.createPlainTextData(data)
-
-    if (!isString(data) || isUndefined(data) || isNull(data)) {
-      res = {
-        errMsg: 'the parameter:data invalid'
-      }
-      callAsyncFail(reject, res, options)
-    } else {
-      systemPasteboard.setPasteData(pasteData, (error, data) => { // callback形式调用异步接口
-        if (error) {
-          console.error('Failed to set PasteData. Cause: ' + JSON.stringify(error))
-          res = {
-            errMsg: 'setClipboardData:fail,error: ' + object2String(error),
-            error: error
-          }
-          callAsyncFail(reject, res, options)
-        } else {
-          res = {
-            errMsg: 'setClipboardData:ok',
-            data: data
-          }
-          callAsyncSuccess(resolve, res, options)
-        }
-      })
-    }
-  })
-}
-
-const getClipboardData:GetClipboardData = function (options) {
-  return new Promise((resolve, reject) => {
-    let res = {}
-    const systemPasteboard = pasteboard.getSystemPasteboard()
-    systemPasteboard.getPasteData((error, pasteData) => { // callback形式调用异步接口
-      if (error) {
-        console.error('Failed to obtain PasteData. Cause: ' + JSON.stringify(error))
-        res = {
-          errMsg: 'getClipboardData:fail,error: ' + object2String(error),
-          error: error
-        }
-        callAsyncFail(reject, res, options)
-      } else {
-        const text = pasteData.getPrimaryText()
-        res = {
-          data: text
-        }
-        callAsyncSuccess(resolve, res, options)
-      }
-    })
-  })
-}
-
-function object2String (obj) {
-  let str = ''
-  for (const item in obj) {
-    str = str + item + ':' + obj[item] + ' \n'
-  }
-  return str
-}
 export {
-  getClipboardData,
   getNetworkType,
-  getScreenBrightness,
   getSystemInfo,
   getSystemInfoSync,
-  makePhoneCall,
   offMemoryWarning,
   offNetworkStatusChange,
   onMemoryWarning,
   onNetworkStatusChange,
-  setClipboardData,
-  setScreenBrightness
 }
 
 globalThis.getSystemInfoSync = getSystemInfoSync

@@ -1,18 +1,24 @@
 import { isFunction } from '@tarojs/shared'
 
-type TCallback<T = Partial<TaroGeneral.CallbackResult>> = (res: T) => Promise<void> | void
-interface IMethodParam<T = Partial<TaroGeneral.CallbackResult>> {
+interface ICallbackResult {
+  /** 错误信息 */
+  errMsg: string
+}
+type TFunc = (...args: any[]) => any
+
+type TCallback<T = Partial<ICallbackResult>> = (res: T) => Promise<void> | void
+interface IMethodParam<T = Partial<ICallbackResult>> {
   name: string
-  success?: TCallback<T & TaroGeneral.CallbackResult>
+  success?: TCallback<T & ICallbackResult>
   fail?: TCallback
   complete?: TCallback
 }
 interface IMockPromise {
-  resolve?: typeof Promise.resolve | TaroGeneral.TFunc
-  reject?: typeof Promise.reject | TaroGeneral.TFunc
+  resolve?: typeof Promise.resolve | TFunc
+  reject?: typeof Promise.reject | TFunc
 }
 
-export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
+export class MethodHandler<T = Partial<ICallbackResult>> {
   methodName: string
 
   protected __success?: TCallback<T>
@@ -30,7 +36,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     this.isHandlerError = isFunction(this.__complete) || isFunction(this.__fail)
   }
 
-  success<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, promise: IMockPromise = {}): Promise<T & U & TaroGeneral.CallbackResult> {
+  success<U = Record<string, unknown>> (res: Partial<T> & Partial<ICallbackResult> = {}, promise: IMockPromise = {}): Promise<T & U & ICallbackResult> {
     if (!res.errMsg) {
       res.errMsg = `${this.methodName}:ok`
     }
@@ -38,10 +44,10 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
     isFunction(this.__complete) && this.__complete(res)
 
     const { resolve = Promise.resolve.bind(Promise) } = promise
-    return resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
+    return resolve(res as Required<T & U & ICallbackResult>)
   }
 
-  fail<U = Record<string, unknown>> (res: Partial<T> & Partial<TaroGeneral.CallbackResult> = {}, promise: IMockPromise = {}): Promise<T & U & TaroGeneral.CallbackResult> {
+  fail<U = Record<string, unknown>> (res: Partial<T> & Partial<ICallbackResult> = {}, promise: IMockPromise = {}): Promise<T & U & ICallbackResult> {
     if (!res.errMsg) {
       res.errMsg = `${this.methodName}:fail`
     } else {
@@ -55,7 +61,7 @@ export class MethodHandler<T = Partial<TaroGeneral.CallbackResult>> {
       reject = Promise.reject.bind(Promise)
     } = promise
     return this.isHandlerError
-      ? resolve(res as Required<T & U & TaroGeneral.CallbackResult>)
+      ? resolve(res as Required<T & U & ICallbackResult>)
       : reject(res)
   }
 }

@@ -12,6 +12,14 @@ export function unsupport (str: string) {
   }
 }
 
+export function object2String (obj) {
+  let str = ''
+  for (const item in obj) {
+    str = str + item + ':' + obj[item] + ' \n'
+  }
+  return str
+}
+
 export function temporarilyNotSupport (apiName: string, recommended?: string, isSync = true) {
   return () => {
     let errMsg = `暂不支持 API ${apiName}`
