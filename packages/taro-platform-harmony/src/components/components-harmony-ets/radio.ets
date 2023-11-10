@@ -1,4 +1,4 @@
-import { eventHandler } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -6,7 +6,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { bindAnimation, bindInstanceToNode, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
+import { bindAnimation, bindInstanceToNode, shouldBindEvent, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -35,8 +35,6 @@ function themeStyles(isDisabled: boolean) {
 struct TaroRadio {
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
-
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
@@ -53,16 +51,18 @@ struct TaroRadio {
     bindInstanceToNode(this.node, this)
 
     this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
     this.checked = !!this.node._attrs.checked
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }, this))
+    }))
   }
 
   build() {
@@ -163,8 +163,6 @@ function attrs ({
 struct TaroRadioGroup {
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
-
   @State isAreaChangeTap: boolean = false
 
   @State overwriteStyle: Record<string, any> = {}
@@ -183,16 +181,20 @@ struct TaroRadioGroup {
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
+    
+    this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }, this))
+    }))
   }
   build() {
     TaroComponentWrapper({ node: this.node }) {

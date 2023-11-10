@@ -1,10 +1,10 @@
-import { eventHandler } from '../runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
 
@@ -157,7 +157,6 @@ function bindScrollTo (node: TaroScrollViewElement, instance: object) {
 struct TaroScrollView {
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
   wrapper: Area = null
 
   @State thresholds: number[] | null = null
@@ -183,16 +182,18 @@ struct TaroScrollView {
     bindScrollTo(this.node, this)
 
     this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }, this))
+    }))
   }
 
   @Styles defaultContainerEvent () {

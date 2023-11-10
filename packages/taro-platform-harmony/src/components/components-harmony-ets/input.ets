@@ -1,11 +1,11 @@
 import window from '@ohos.window'
 import { isNumber, isUndefined } from '@tarojs/shared'
-import { eventHandler, Current } from '@tarojs/runtime'
+import { eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, getComponentEventCallback, bindFocus, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, bindFocus, getNodeVisibleChange } from './utils/helper'
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -98,8 +98,6 @@ function getFontAttributes (node: TaroElement) {
 struct TaroInput {
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
-
   @State text: string = ''
 
   @ObjectLink node: TaroViewElement
@@ -138,6 +136,8 @@ struct TaroInput {
     })
 
     this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
     this.text = this.node._attrs.value || ''
 
     try {
@@ -196,11 +196,11 @@ struct TaroInput {
       const event = createTaroEvent('focus', { detail: { value: this.value, height: this.height } }, this.node)
       eventHandler(event, 'focus', this.node)
     })
-    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }, this))
+    }))
   }
 
   build() {

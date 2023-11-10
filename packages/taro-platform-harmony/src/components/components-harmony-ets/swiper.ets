@@ -1,9 +1,9 @@
-import { eventHandler } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -69,8 +69,6 @@ struct TaroSwiper {
 
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
-
   @State overwriteStyle: Record<string, any> = {}
 
   @State isAreaChangeTap: boolean = false
@@ -91,15 +89,17 @@ struct TaroSwiper {
     })
 
     this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }, this))
+    }))
   }
 
   build() {

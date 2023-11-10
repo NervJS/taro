@@ -1,8 +1,8 @@
-import { eventHandler, convertNumber2PX } from '@tarojs/runtime'
+import { eventHandler, convertNumber2PX, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange, getNodeAttributeOrNull } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeVisibleChange, getNodeAttributeOrNull } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -67,8 +67,6 @@ function attrs ({
 struct TaroIcon {
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
-
   @State thresholds: number[] | null = null
 
   @State isAreaChangeTap: boolean = false
@@ -89,15 +87,17 @@ struct TaroIcon {
     })
     
     this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }, this))
+    }))
   }
 
   getIconData () {

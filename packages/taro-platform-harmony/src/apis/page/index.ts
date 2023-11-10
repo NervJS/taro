@@ -6,7 +6,7 @@
  * - 滚动距离
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-framework-syntax-js-0000000000611432
  */
-import { Current } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, Current, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess, findChildNodeWithDFS } from '../utils'
 
@@ -39,36 +39,20 @@ export const pageScrollTo: pageScrollTo = (options) => {
     } else if (selector) {
       const node = findChildNodeWithDFS(currentPageNode, selector)
 
-      if (!node || !node.instance) return
+      if (!node || !node._instance) return
 
-      const instance = node.instance
-
-      // 阻塞函数执行，等待监听节点绑定上 onAreaChange 回调函数
-      if (!node.isAreaChangeTap) {
-        let onAreaChangePromiseResolve
-        const onAreaChangePromise = new Promise(resolve => {
-          onAreaChangePromiseResolve = resolve
-        })
-
-        node.onAreaChange = () => {
-          onAreaChangePromiseResolve()
-        }
-
-        // TODO: 触发器统一调整
-        // 触发监听节点的更新
-        node.isAreaChangeTap = true
-        instance.eventMap.isAreaChangeTap = true
-        
-        await onAreaChangePromise
-      }
-
+      const instance = node._instance
       const id = node?._nid
+
+      // 获取 areaInfo，需要先调用 setNodeEventCallbackAndTriggerComponentUpdate 更新一次组件并获取组件信息
+      await setNodeEventCallbackAndTriggerComponentUpdate(node, AREA_CHANGE_EVENT_NAME, null, true)
+
       const { areaInfo } = instance?.nodeInfoMap?.[id] || {}
 
       let parent = node?.parentNode
       while (!!parent && parent !== currentPageNode) {
-        if (parent?.instance?.scroller) {
-          scroller = parent.instance.scroller
+        if (parent?._instance?.scroller) {
+          scroller = parent._instance.scroller
           break
         }
         parent = parent?.parentNode

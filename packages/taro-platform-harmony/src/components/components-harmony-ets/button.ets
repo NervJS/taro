@@ -1,11 +1,11 @@
-import { eventHandler } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getComponentEventCallback, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
@@ -99,8 +99,6 @@ function getThemeAttributes (node: TaroButtonElement) {
 struct TaroButton {
   nodeInfoMap: any = {}
 
-  eventMap: any = {}
-
   @ObjectLink node: TaroButtonElement
 
   @State isAreaChangeTap: boolean = false
@@ -121,6 +119,8 @@ struct TaroButton {
     })
     
     this.nodeInfoMap[this.node._nid] = {}
+    this.nodeInfoMap[this.node._nid].eventMap = {}
+    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   build() {
@@ -141,7 +141,7 @@ struct TaroButton {
       .themeStyles(getThemeAttributes(this.node))
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
       .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-      .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
+      .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
         this.nodeInfoMap[this.node._nid].areaInfo = eventResult
       }, this))
       .visibleChangeEvent()

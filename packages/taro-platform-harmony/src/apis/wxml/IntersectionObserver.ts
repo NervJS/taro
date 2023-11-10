@@ -28,17 +28,17 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
       if (this._observerNodes instanceof Array) {
         this._observerNodes.forEach((n: TaroElement & any) => {
           n.visibleChange = null
-          if (n.instance) {
-            n.instance.thresholds = null
+          if (n._instance) {
+            n._instance.thresholds = null
           }
         })
       } else {
         // @ts-ignore
         this._observerNodes.visibleChange = null
         // @ts-ignore
-        if (this._observerNodes.instance) {
+        if (this._observerNodes._instance) {
           // @ts-ignore
-          this._observerNodes.instance.thresholds = null
+          this._observerNodes._instance.thresholds = null
         }
       }
     }
@@ -60,7 +60,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
               callback(this.handleResult(isVisible, currentRatio))
             }
             // @ts-ignore
-            n.instance?.thresholds = thresholds
+            n._instance?.thresholds = thresholds
           })
         })
       } else {
@@ -71,7 +71,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
             callback(this.handleResult(isVisible, currentRatio))
           }
           // @ts-ignore
-          node.instance?.thresholds = thresholds
+          node._instance?.thresholds = thresholds
         })
       }
     }

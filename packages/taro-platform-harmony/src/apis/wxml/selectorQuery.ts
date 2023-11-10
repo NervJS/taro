@@ -1,5 +1,7 @@
+// @ts-nocheck
+
 import Taro from '@tarojs/api'
-import { Current } from '@tarojs/runtime'
+import { Current, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { NodesRef } from './nodesRef.js'
 
@@ -135,7 +137,7 @@ function filter (fields, dom) {
 
   if (rect || size) {
     const id = dom?._nid
-    const { areaInfo } = dom?.instance?.nodeInfoMap?.[id] || {}
+    const { areaInfo } = dom?._instance?.nodeInfoMap?.[id] || {}
 
     if (areaInfo) {
       if (rect) {
@@ -152,7 +154,7 @@ function filter (fields, dom) {
     }
   }
   if (scrollOffset) {
-    const scroller = dom.instance.scroller
+    const scroller = dom._instance.scroller
 
     if (scroller) {
       const { xOffset, yOffset } = scroller.currentOffset()
@@ -196,31 +198,12 @@ function queryBat (queue, cb) {
   traversalDFSDom(element)
   queue.forEach(item => {
     const { selector, single, fields } = item
-
     const nodeList = querySelector(selector, !single)
+
     result.push(nodeList.map(dom => {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async resolve => {
-        const instance = dom.instance
-
-        if (!instance.isAreaChangeTap) {
-          let onAreaChangePromiseResolve
-          // eslint-disable-next-line promise/param-names
-          const onAreaChangePromise = new Promise(areaResolve => {
-            onAreaChangePromiseResolve = areaResolve
-          })
-
-          dom.onAreaChange = () => {
-            onAreaChangePromiseResolve()
-          }
-
-          // 触发监听节点的更新 
-          instance.isAreaChangeTap = true
-          instance.eventMap.isAreaChangeTap = true
-          instance.areaPromise = onAreaChangePromise
-        }
-
-        await instance.areaPromise
+        await setNodeEventCallbackAndTriggerComponentUpdate(dom, VISIBLE_CHANGE_EVENT_NAME, null, true)
 
         resolve(filter(fields, dom))
       })

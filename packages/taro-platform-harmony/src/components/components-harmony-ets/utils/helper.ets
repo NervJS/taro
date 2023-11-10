@@ -7,7 +7,7 @@ export function bindInstanceToNode (node: TaroElement, instance: object) {
   if (!node) return
 
   // @ts-ignore
-  node.instance = instance
+  node._instance = instance
 
   // 触发appear，让node监听到TaroNode已经和ete自定义组件绑定上
   // @ts-ignore
@@ -93,37 +93,6 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
 export function convertVP2PX (value: number) {
   return Math.ceil(value / 384 * 750)
 }
-
-
-/** 这部分逻辑后续抽离到 runtime 中: start **/
-export function capitalize (s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1)
-}
-
-export function getComponentEventCallback (eventName: string, callback: Function, component) {
-  const node = component?.node
-
-  if (!node) return null
-
-  const eventCapitalizeName = capitalize(eventName)
-  if (component?.eventMap?.[`is${eventCapitalizeName}Tap`]) {
-    return (...eventResult: any[]) => {
-      if (!component?.eventMap?.[`is${eventCapitalizeName}Tap`]) return
-
-      const res = {
-        component,
-        eventResult
-      }
-
-      callback.call(component, res)
-
-      component?.node?.[`on${eventCapitalizeName}`]?.(res)
-    }
-  }
-
-  return null
-}
-/** 这部分逻辑后续抽离到 runtime 中: end **/
 
 
 export function getNodeVisibleChange (component) {
