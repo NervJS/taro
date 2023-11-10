@@ -1,8 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`template.ts import 正常情况 import src 为绝对路径 1`] = `"<TemplateDemoTmpl></TemplateDemoTmpl>"`;
-
-exports[`template.ts import 正常情况 import src 为绝对路径 2`] = `
+exports[`template.ts 引入 import 正常情况 import src 为绝对路径 1`] = `
 "import { Block, View } from \\"@tarojs/components\\";
 import React from \\"react\\";
 import Taro from \\"@tarojs/taro\\";
@@ -16,9 +14,7 @@ class TemplateDemoTmpl extends React.Component {
 export default TemplateDemoTmpl;"
 `;
 
-exports[`template.ts import 正常情况 import 引入template 1`] = `"<View><TemplateDemoTmpl></TemplateDemoTmpl></View>"`;
-
-exports[`template.ts import 正常情况 import 引入template 2`] = `
+exports[`template.ts 引入 import 正常情况 import 引入template 1`] = `
 "import { Block, View } from \\"@tarojs/components\\";
 import React from \\"react\\";
 import Taro from \\"@tarojs/taro\\";
@@ -32,7 +28,24 @@ class TemplateDemoTmpl extends React.Component {
 export default TemplateDemoTmpl;"
 `;
 
-exports[`template.ts template使用外部wxs工具类 当template同时使用外部工具类和data传递数据 1`] = `
+exports[`template.ts 引入 include 正常情况 include 引入 header文件 1`] = `
+"import { Block, Text } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const {
+  default: withWeapp
+} = require(\\"@tarojs/with-weapp\\");
+Page({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>header.wxml</Text>;
+  }
+}
+export default _C;"
+`;
+
+exports[`template.ts 模板 当template同时使用外部工具类和data传递数据 1`] = `
 "import { Block, Text, View } from \\"@tarojs/components\\";
 import React from \\"react\\";
 import Taro from \\"@tarojs/taro\\";
@@ -51,4 +64,53 @@ class HuangyeTmpl extends React.Component {
   }
 }
 export default HuangyeTmpl;"
+`;
+
+exports[`template.ts 模板 直接使用页面中的模板，转换后会创建模板文件 1`] = `
+"import { Block, View, Text } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+const {
+  default: withWeapp
+} = require(\\"@tarojs/with-weapp\\");
+Page({
+  data: {
+    item: {
+      index: 0,
+      msg: 'this is a template',
+      time: '2016-09-15'
+    }
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const {
+      item
+    } = this.data;
+    return <MsgItemTmpl data={item}></MsgItemTmpl>;
+  }
+}
+export default _C;"
+`;
+
+exports[`template.ts 模板 直接使用页面中的模板，转换后会创建模板文件 2`] = `
+"import { Block, View, Text } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class MsgItemTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        index,
+        msg,
+        time
+      }
+    } = this.props;
+    return <Block><View><Text>{index + \\": \\" + msg}</Text><Text>{\\"Time: \\" + time}</Text></View></Block>;
+  }
+}
+export default MsgItemTmpl;"
 `;
