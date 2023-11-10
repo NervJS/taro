@@ -1,0 +1,9 @@
+{
+  "rules": {
+    "arrow-spacing": "error",
+    "key-spacing": "error",
+    "keyword-spacing": "error",
+    "space-before-blocks": "error",
+    "space-infix-ops": "error"
+  }
+}

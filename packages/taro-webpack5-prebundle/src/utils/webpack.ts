@@ -12,7 +12,7 @@ const { ConcatSource } = sources
 export function addRequireToSource (id: string, modules: sources.Source, commonChunks: (Chunk | { name: string })[]) {
   const source = new ConcatSource()
   commonChunks.forEach(chunkItem => {
-    source.add(`require(${JSON.stringify(promoteRelativePath(path.posix.relative(id, chunkItem.name)))});\n`)
+    source.add(`require(${JSON.stringify(promoteRelativePath(path.relative(id, chunkItem.name)))});\n`)
   })
   source.add('\n')
   source.add(modules)

@@ -14,10 +14,25 @@ require("./vendors");
 require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var toPropertyKey = __webpack_require__(7);
+        function _defineProperty(obj, key, value) {
+            key = Object(toPropertyKey["a"])(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -117,6 +132,7 @@ require("./taro");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -128,6 +144,12 @@ require("./taro");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -273,12 +295,18 @@ require("./taro");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -416,7 +444,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -426,10 +454,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -471,18 +501,21 @@ require("./taro");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
             },
             Snapshot: {}
@@ -495,17 +528,30 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(1);
-        var app = __webpack_require__(11);
+        var app = __webpack_require__(12);
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
             var _super = Object(createSuper["a"])(App);
@@ -530,8 +576,8 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_origin_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var entry_cachename_app_origin_app = app_App;
+        var taro_react = __webpack_require__(9);
         var config = {
             pages: [ "pages/index/index" ],
             window: {
@@ -542,7 +588,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_origin_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_origin_app, react, taro_react["a"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -555,7 +601,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -1452,13 +1498,13 @@ require("./taro");
 
 /** filePath: dist/comp.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
     }
-}, [ [ 12, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -1470,24 +1516,24 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, exports, __webpack_require__) {},
+    17: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(7);
+        var taro_components = __webpack_require__(8);
         function say() {
             console.log("little cat");
         }
         function miao() {
             console.log("say: ", say());
         }
-        var index = __webpack_require__(14);
+        var index = __webpack_require__(15);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1520,7 +1566,7 @@ require("./taro");
         }, config || {}));
         var pages_index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -1541,11 +1587,11 @@ require("./taro");
         "use strict";
         var _unused_webpack_default_export = "taro-runtime-mock";
     },
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_exports__["a"] = "taro-react-mock";
     }
@@ -1619,6 +1665,29 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -1669,43 +1738,6 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -1731,6 +1763,26 @@ module.exports = {
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _toPropertyKey;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
 } ] ]);
 "
 `;
@@ -1749,10 +1801,25 @@ require("./vendors");
 require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var toPropertyKey = __webpack_require__(7);
+        function _defineProperty(obj, key, value) {
+            key = Object(toPropertyKey["a"])(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -1852,6 +1919,7 @@ require("./taro");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -1863,6 +1931,12 @@ require("./taro");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -2008,12 +2082,18 @@ require("./taro");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -2151,7 +2231,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -2161,10 +2241,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -2206,18 +2288,21 @@ require("./taro");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
             },
             Snapshot: {}
@@ -2230,17 +2315,30 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(1);
-        var app = __webpack_require__(11);
+        var app = __webpack_require__(12);
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
             var _super = Object(createSuper["a"])(App);
@@ -2265,8 +2363,8 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_origin_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var entry_cachename_app_origin_app = app_App;
+        var taro_react = __webpack_require__(9);
         var config = {
             pages: [ "pages/index/index" ],
             window: {
@@ -2277,7 +2375,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_origin_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_origin_app, react, taro_react["a"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -2290,7 +2388,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -3027,13 +3125,13 @@ require("./taro");
 
 /** filePath: output/comp.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
     }
-}, [ [ 12, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: output/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -3045,24 +3143,24 @@ require("./taro");
 
 /** filePath: output/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, exports, __webpack_require__) {},
+    17: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(7);
+        var taro_components = __webpack_require__(8);
         function say() {
             console.log("little cat");
         }
         function miao() {
             console.log("say: ", say());
         }
-        var index = __webpack_require__(14);
+        var index = __webpack_require__(15);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -3095,7 +3193,7 @@ require("./taro");
         }, config || {}));
         var pages_index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: output/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -3230,11 +3328,11 @@ require("./taro");
         "use strict";
         var _unused_webpack_default_export = "taro-runtime-mock";
     },
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_exports__["a"] = "taro-react-mock";
     }
@@ -3308,6 +3406,29 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -3358,43 +3479,6 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -3420,6 +3504,26 @@ module.exports = {
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
     }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _toPropertyKey;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    }
 } ] ]);
 "
 `;
@@ -3438,10 +3542,25 @@ require("./vendors");
 require("./taro");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 4 ], {
-    11: function(module, exports, __webpack_require__) {},
-    15: function(module, __webpack_exports__, __webpack_require__) {
+    12: function(module, exports, __webpack_require__) {},
+    16: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var toPropertyKey = __webpack_require__(7);
+        function _defineProperty(obj, key, value) {
+            key = Object(toPropertyKey["a"])(key);
+            if (key in obj) {
+                Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                obj[key] = value;
+            }
+            return obj;
+        }
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -3541,6 +3660,7 @@ require("./taro");
                 "show-compass": _false,
                 "show-scale": _false,
                 "enable-overlooking": _false,
+                "enable-auto-max-overlooking": _false,
                 "enable-zoom": _true,
                 "enable-scroll": _true,
                 "enable-rotate": _false,
@@ -3552,6 +3672,12 @@ require("./taro");
                 bindLabelTap: _empty,
                 bindRegionChange: _empty,
                 bindPoiTap: _empty,
+                bindPolylineTap: _empty,
+                bindAbilitySuccess: _empty,
+                bindAbilityFailed: _empty,
+                bindAuthSuccess: _empty,
+                bindInterpolatePoint: _empty,
+                bindError: _empty,
                 bindAnchorPointTap: _empty
             },
             Button: {
@@ -3697,12 +3823,18 @@ require("./taro");
                 "auto-pause-if-navigate": _true,
                 "auto-pause-if-open-native": _true,
                 "picture-in-picture-mode": "[]",
+                "enable-auto-rotation": _false,
+                "referrer-policy": "'no-referrer'",
+                "enable-casting": _false,
                 bindstatechange: _empty,
                 bindfullscreenchange: _empty,
                 bindnetstatus: _empty,
                 bindAudioVolumeNotify: _empty,
                 bindEnterPictureInPicture: _empty,
-                bindLeavePictureInPicture: _empty
+                bindLeavePictureInPicture: _empty,
+                bindCastingUserSelect: _empty,
+                bindCastingStateChange: _empty,
+                bindCastingInterrupt: _empty
             },
             Video: {
                 title: _empty,
@@ -3840,7 +3972,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -3850,10 +3982,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -3895,18 +4029,21 @@ require("./taro");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
-                feedId: _empty,
-                finderUserName: _empty
+                "feed-id": _empty,
+                "finder-user-name": _empty
             },
             ChannelVideo: {
-                feedId: _empty,
-                finderUserName: _empty,
+                "feed-id": _empty,
+                "finder-user-name": _empty,
+                "feed-token": _empty,
                 autoplay: _false,
                 loop: _false,
                 muted: _false,
-                objectFit: "'contain'",
+                "object-fit": "'contain'",
                 bindError: _empty
             },
             Snapshot: {}
@@ -3919,17 +4056,30 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(_defineProperty({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(1);
-        var app = __webpack_require__(11);
+        var app = __webpack_require__(12);
         var app_App = function(_Component) {
             Object(inherits["a"])(App, _Component);
             var _super = Object(createSuper["a"])(App);
@@ -3954,8 +4104,8 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_origin_app = app_App;
-        var taro_react = __webpack_require__(8);
+        var entry_cachename_app_origin_app = app_App;
+        var taro_react = __webpack_require__(9);
         var config = {
             pages: [ "pages/index/index" ],
             window: {
@@ -3966,7 +4116,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_origin_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_origin_app, react, taro_react["a"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -3979,7 +4129,7 @@ require("./taro");
             targetUnit: undefined
         });
     }
-}, [ [ 15, 0, 1, 3, 2 ] ] ]);
+}, [ [ 16, 0, 1, 3, 2 ] ] ]);
 
 
 
@@ -4716,13 +4866,13 @@ require("./taro");
 
 /** filePath: dist/comp.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 6 ], {
-    12: function(module, __webpack_exports__, __webpack_require__) {
+    13: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(0);
         Component(Object(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__["createRecursiveComponentConfig"])());
     }
-}, [ [ 12, 0, 1 ] ] ]);
+}, [ [ 13, 0, 1 ] ] ]);
 
 /** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
@@ -4738,24 +4888,24 @@ I m irrelevant.
 
 /** filePath: dist/pages/index/index.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 8 ], {
-    14: function(module, exports, __webpack_require__) {},
-    16: function(module, __webpack_exports__, __webpack_require__) {
+    15: function(module, exports, __webpack_require__) {},
+    17: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(0);
         var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(5);
+        var createClass = __webpack_require__(4);
         var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(4);
+        var createSuper = __webpack_require__(5);
         var react = __webpack_require__(1);
-        var taro_components = __webpack_require__(7);
+        var taro_components = __webpack_require__(8);
         function say() {
             console.log("little cat");
         }
         function miao() {
             console.log("say: ", say());
         }
-        var index = __webpack_require__(14);
+        var index = __webpack_require__(15);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -4788,7 +4938,7 @@ I m irrelevant.
         }, config || {}));
         var pages_index = __webpack_exports__["default"] = index_Index;
     }
-}, [ [ 16, 0, 1, 3, 2 ] ] ]);
+}, [ [ 17, 0, 1, 3, 2 ] ] ]);
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
@@ -4809,11 +4959,11 @@ I m irrelevant.
         "use strict";
         var _unused_webpack_default_export = "taro-runtime-mock";
     },
-    7: function(module, __webpack_exports__, __webpack_require__) {
+    8: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         var _unused_webpack_default_export = "taro-components-mock";
     },
-    8: function(module, __webpack_exports__, __webpack_require__) {
+    9: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_exports__["a"] = "taro-react-mock";
     }
@@ -4887,6 +5037,29 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7);
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            writable: false
+        });
+        return Constructor;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _createSuper;
     }));
     function _getPrototypeOf(o) {
@@ -4937,43 +5110,6 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            writable: false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -4998,6 +5134,26 @@ module.exports = {
             writable: false
         });
         if (superClass) _setPrototypeOf(subClass, superClass);
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _toPropertyKey;
+    }));
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
     }
 } ] ]);
 
