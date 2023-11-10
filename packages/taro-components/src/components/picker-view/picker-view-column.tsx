@@ -22,17 +22,18 @@ export class PickerViewColumn {
   @State()
   isInit: boolean = false
 
-  @State()
-  isMove: boolean = false
-
   // 选中后的结果回调
   @Event({ eventName: 'onselect' }) onChange: EventEmitter
   @Event({ eventName: 'onselectstart' }) onSelectStart: EventEmitter
   @Event({ eventName: 'onselectend' }) onSelectEnd: EventEmitter
 
+  @Listen('touchstart')
+  onTouchStart() {
+    this.onSelectStart.emit()
+  }
+
   @Listen('touchend')
   onTouchEnd() {
-    this.isMove = false
     this.handleSelected()
   }
 
