@@ -1,11 +1,11 @@
-import { Current, eventHandler } from '@tarojs/runtime'
+import { Current, eventHandler, getComponentEventCallback } from '@tarojs/runtime'
 import { findChildNodeWithDFS } from '@tarojs/taro/utils'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, bindAnimation, getComponentEventCallback, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
