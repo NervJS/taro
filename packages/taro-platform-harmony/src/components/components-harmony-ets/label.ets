@@ -1,10 +1,11 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { Current, eventHandler } from '@tarojs/runtime'
+import { findChildNodeWithDFS } from '@tarojs/taro/utils'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getComponentEventCallback, getNormalAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -66,8 +67,10 @@ function attrs ({
 }
 
 @Component
-struct TaroView {
+struct TaroLabel {
   nodeInfoMap: any = {}
+
+  eventMap: any = {}
 
   @State isAreaChangeTap: boolean = false
 
@@ -89,19 +92,48 @@ struct TaroView {
     })
 
     this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+    .onClick((e: ClickEvent) => {
+      const firstChild = this.node.childNodes[0]
+      const id = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid
+      this.handleTargetChange(id)
+      eventHandler(e, 'click', this.node)
+    })
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
+
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
-    }))
+    }, this))
   }
+
+  handleTargetChange (id: string) {
+    const taro = (Current as any).taro
+    const page = taro.getCurrentInstance().page
+    const currentPageNode = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+    const node = findChildNodeWithDFS(currentPageNode, `#${id}`)
+
+    if (!node || !node.instance) return
+
+    if (['BUTTON', 'CHECKBOX', 'RADIO', 'SWITCH', 'INPUT'].includes(node.tagName)) {
+      const instance = node.instance
+      switch (node.tagName) {
+        case 'RADIO':
+          if (!instance.checked) {
+            instance.checked = !instance.checked
+          }
+          break
+        case 'CHECKBOX':
+          instance.checked = !instance.checked
+          break
+        default:
+          focusControl.requestFocus(id)
+      }
+    }
+  }
+
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Flex(FlexManager.flexOptions(this.node)) {
@@ -116,4 +148,4 @@ struct TaroView {
   }
 }
 
-export default TaroView
+export default TaroLabel

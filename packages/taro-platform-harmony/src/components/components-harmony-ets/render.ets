@@ -3,6 +3,7 @@ import { NodeType } from '@tarojs/runtime'
 import TaroIcon from './icon'
 import TaroText from './text'
 import TaroView from './view'
+import TaroLabel from './label'
 import TaroInput from './input'
 import TaroImage from './image'
 import TaroSwiper from './swiper'
@@ -54,6 +55,8 @@ function createNode (node: any) {
     TaroRadioGroup({ node })
   } else if (node.tagName === 'RADIO') {
     TaroRadio({ node })
+  } else if (node.tagName === 'LABEL') {
+    TaroLabel({ node })
   } else if (node.tagName === 'VIEW') {
     TaroView({ node })
   }

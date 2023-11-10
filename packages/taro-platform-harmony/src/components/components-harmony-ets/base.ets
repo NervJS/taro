@@ -16,6 +16,7 @@ struct TaroComponentWrapper {
         y: $$.top,
       })
       .id($$.instance._attrs?.id || $$.instance._nid)
+      .key($$.instance._attrs?.id || $$.instance._nid)
       .zIndex(Number($$.instance._st?.zIndex) || null)
     } else if ($$.instance._st?.position === 'fixed') {
       Stack({ alignContent: Alignment.TopStart }) {
@@ -26,6 +27,7 @@ struct TaroComponentWrapper {
         y: $$.top
       })
       .id($$.instance._attrs?.id || $$.instance._nid)
+      .key($$.instance._attrs?.id || $$.instance._nid)
       .zIndex(Number($$.instance._st?.zIndex) || null)
     } else if (($$.instance._st?.position === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
@@ -36,6 +38,7 @@ struct TaroComponentWrapper {
         y: $$.top
       })
       .id($$.instance._attrs?.id || $$.instance._nid)
+      .key($$.instance._attrs?.id || $$.instance._nid)
       .zIndex(Number($$.instance._st?.zIndex) || null)
     } else {
       this.createElement()

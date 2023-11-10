@@ -2,20 +2,24 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from 
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
 @Extend(Toggle)
 function attrs ({
- color,
+  id,
+  color,
 }) {
+  .id(id)
+  .key(id)
   .selectedColor(color)
 }
 
-function getAttributes (node: TaroViewElement) {
+function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
   const { _attrs = {} } = node
   return {
+    ...getNormalAttributes(node, overwriteStyle),
     color: _attrs.color || '#04BE02',
   }
 }
@@ -32,6 +36,8 @@ struct TaroSwitch {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
+
+  @State overwriteStyle: Record<string, any> = {}
 
   @State value: boolean = false
 
@@ -66,7 +72,7 @@ struct TaroSwitch {
         isOn: this.value,
       })
         .defaultEvent()
-        .attrs(getAttributes(this.node))
+        .attrs(getAttributes(this.node, this.overwriteStyle))
         .themeStyles(!!this.node._attrs.disabled)
         .onChange((isOn: boolean) => {
           if (!this.node._attrs.disabled) {

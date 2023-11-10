@@ -150,6 +150,7 @@ function attrsText ({
   textAlign,
  }) {
   .id(id)
+  .key(id)
   .constraintSize(constraintSize)
   .zIndex(zIndex)
   .opacity(opacity)

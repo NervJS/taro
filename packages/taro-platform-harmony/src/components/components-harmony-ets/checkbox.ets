@@ -3,20 +3,24 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
 @Extend(Checkbox)
 function attrs ({
+  id,
   color,
 }) {
+  .id(id)
+  .key(id)
   .selectedColor(color)
 }
 
-function getAttributes (node: TaroViewElement) {
+function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
   const { _attrs = {} } = node
   return {
+    ...getNormalAttributes(node, overwriteStyle),
     color: _attrs.color || '#1aad19',
     name: _attrs.name || _attrs.value || node.textContent,
     group: _attrs.name || AttributeManager.getNodeStyle(node.parentNode._attrs, 'id', node.parentNode._nid),
@@ -35,6 +39,8 @@ struct TaroCheckbox {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
+
+  @State overwriteStyle: Record<string, any> = {}
 
   @State checked: boolean = false
 
@@ -64,47 +70,53 @@ struct TaroCheckbox {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      Row() {
-        Checkbox(getAttributes(this.node))
-          .defaultEvent()
-          .attrs(getAttributes(this.node))
-          .themeStyles(!!this.node._attrs.disabled)
-          .select(this.checked)
-          .onChange((value: boolean) => {
-            if (!!this.node._attrs.disabled) {
-              // FIXME 找下文档是否有强制刷新方法
-              this.checked = !this.checked
-              this.checked = !this.checked
-            } else {
-              this.checked = value
-              if (this.checked) {
-                const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
-                eventHandler(event, 'change', this.node)
+      Stack() {
+        Row() {
+          Checkbox(getAttributes(this.node))
+            .defaultEvent()
+            .attrs(getAttributes(this.node, this.overwriteStyle))
+            .themeStyles(!!this.node._attrs.disabled)
+            .select(this.checked)
+            .onChange((value: boolean) => {
+              if (!!this.node._attrs.disabled) {
+                // FIXME 找下文档是否有强制刷新方法
+                this.checked = !this.checked
+                this.checked = !this.checked
+              } else {
+                this.checked = value
+                if (this.checked) {
+                  const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
+                  eventHandler(event, 'change', this.node)
+                }
               }
-            }
-          })
-          .visibleChangeEvent()
-        Text(this.node.textContent)
-          .textAlign(TextAlign.Center)
-          .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+            })
+            .visibleChangeEvent()
+          Text(this.node.textContent)
+            .textAlign(TextAlign.Center)
+            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+        }
+        .onClick(() => {
+          this.checked = !this.checked
+        })
       }
-      .onClick(() => {
-        this.checked = !this.checked
-      })
     }
   }
 }
 
 @Extend(CheckboxGroup)
 function attrs ({
+  id,
   color,
 }) {
+  .id(id)
+  .key(id)
   .selectedColor(color)
 }
 
-function getAttributesGroup (node: TaroViewElement) {
+function getAttributesGroup (node: TaroViewElement, overwriteStyle: Record<string, any>) {
   const { _attrs = {} } = node
   return {
+    ...getNormalAttributes(node, overwriteStyle),
     color: _attrs.color || '#1aad19',
   }
 }
@@ -153,7 +165,7 @@ struct TaroCheckboxGroup {
         .onChange(({ name, status }) => {
         })
         .defaultEvent()
-        .attrs(getAttributesGroup(this.node))
+        .attrs(getAttributesGroup(this.node, this.overwriteStyle))
         .themeStyles(!!this.node._attrs.disabled)
         .visibleChangeEvent()
     }
