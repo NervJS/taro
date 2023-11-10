@@ -48,13 +48,14 @@ export function findChildNodeWithDFS(node: TaroElement, selector: string, select
 export function findChildNodeWithDFS (node: TaroElement, selector: string, selectAll: boolean): TaroElement[] | TaroElement | null;
 export function findChildNodeWithDFS (node: TaroElement, selector: string, selectAll): TaroElement[] | TaroElement | null {
   const queue = [node]
-  
+
   const nodeList: TaroElement[] = []
   while (queue.length) {
     const currentNode = queue.shift()
     if (currentNode) {
       if (selector.startsWith('#')) {
-        if (currentNode.id === selector.slice(1)) {
+        const id = currentNode.id || currentNode._nid
+        if (id === selector.slice(1)) {
           nodeList.push(currentNode)
           if (!selectAll) break
         }
@@ -64,14 +65,14 @@ export function findChildNodeWithDFS (node: TaroElement, selector: string, selec
           if (!selectAll) break
         }
       }
-      
+
       if (currentNode.childNodes && currentNode.childNodes.length) {
         // @ts-ignore
         queue.push(...currentNode.childNodes)
       }
     }
   }
-  
+
   if (nodeList.length) {
     return selectAll ? nodeList : nodeList[0]
   }

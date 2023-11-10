@@ -1,4 +1,5 @@
-import { eventHandler } from '@tarojs/runtime'
+import { Current, eventHandler } from '@tarojs/runtime'
+import { findChildNodeWithDFS } from '@tarojs/taro/utils'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -97,16 +98,40 @@ struct TaroLabel {
     .onClick((e: ClickEvent) => {
       const firstChild = this.node.childNodes[0]
       const id = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid
-      focusControl.requestFocus(id)
-      // TODO 通过 eventCenter 调用对应表单组件 change 事件
+      this.handleTargetChange(id)
       eventHandler(e, 'click', this.node)
     })
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
     .onAreaChange(getComponentEventCallback('areaChange', ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
+
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }, this))
+  }
+
+  handleTargetChange (id: string) {
+    const taro = (Current as any).taro
+    const page = taro.getCurrentInstance().page
+    const currentPageNode = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+    const node = findChildNodeWithDFS(currentPageNode, `#${id}`)
+
+    if (!node || !node.instance) return
+
+    if (['BUTTON', 'CHECKBOX', 'RADIO', 'SWITCH', 'INPUT'].includes(node.tagName)) {
+      const instance = node.instance
+      switch (node.tagName) {
+        case 'RADIO':
+          if (!instance.checked) {
+            instance.checked = !instance.checked
+          }
+          break
+        case 'CHECKBOX':
+          instance.checked = !instance.checked
+          break
+        default:
+          focusControl.requestFocus(id)
+      }
+    }
   }
 
   build() {
