@@ -54,6 +54,7 @@ export function findChildNodeWithDFS (node: TaroElement, selector: string, selec
     const currentNode = queue.shift()
     if (currentNode) {
       if (selector.startsWith('#')) {
+        // @ts-ignore
         const id = currentNode.id || currentNode._nid
         if (id === selector.slice(1)) {
           nodeList.push(currentNode)
