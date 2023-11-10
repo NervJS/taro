@@ -1,7 +1,7 @@
 import batteryInfo, { BatteryChargeState } from '@ohos.batteryInfo'
 import Taro from '@tarojs/api'
 
-import { callAsyncSuccess } from '../utils'
+import { MethodHandler } from '../utils/handler'
 
 // 电量
 
@@ -11,9 +11,13 @@ export const getBatteryInfoSync: typeof Taro.getBatteryInfoSync = () => ({
   level: batteryInfo.batterySOC
 })
 
-export const getBatteryInfo: typeof Taro.getBatteryInfo = function (options) {
-  return new Promise(resolve => {
-    const res = getBatteryInfoSync()
-    callAsyncSuccess(resolve, res, options)
-  })
+export const getBatteryInfo: typeof Taro.getBatteryInfo = async ({ success, fail, complete } = {}) => {
+  const handle = new MethodHandler({ name: 'getBatteryInfo', success, fail, complete })
+  try {
+    return handle.success(getBatteryInfoSync())
+  } catch (error) {
+    return handle.fail({
+      errMsg: error?.message || error
+    })
+  }
 }
