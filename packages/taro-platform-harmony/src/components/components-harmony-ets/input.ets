@@ -104,7 +104,7 @@ struct TaroInput {
   @ObjectLink node: TaroViewElement
 
   @State isAreaChangeTap: boolean = false
-  
+
   @State overwriteStyle: Record<string, any> = {}
 
   controller: TextInputController = new TextInputController()
@@ -199,7 +199,7 @@ struct TaroInput {
     })
     .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
+
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }))
   }
@@ -207,7 +207,7 @@ struct TaroInput {
   build() {
     TaroComponentWrapper({ node: this.node }) {
       TextInput({ text: this.getText(), placeholder: this.node._attrs?.placeholder || '', controller: this.controller })
-        .focusable(true)  
+        .focusable(true)
         .key(this.node._nid)
         .type(this.getInputType(this.node))
         .maxLength(Number(this.node._attrs?.maxlength) || null)
@@ -223,7 +223,7 @@ struct TaroInput {
           this.text = value
         })
         .onSubmit(() => {
-          const event = createTaroEvent('confirm', { detail: { value } }, this.node)
+          const event = createTaroEvent('confirm', { detail: { value: this.value } }, this.node)
           eventHandler(event, 'confirm', this.node)
         })
         .visibleChangeEvent()
