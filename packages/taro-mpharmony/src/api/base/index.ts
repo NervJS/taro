@@ -5,6 +5,7 @@ export const env = {
   TARO_ENV: process.env.TARO_ENV,
   TARO_PLATFORM: process.env.TARO_PLATFORM,
   TARO_VERSION: process.env.TARO_VERSION,
+  USER_DATA_PATH: 'internal://files',
 }
 
 export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
@@ -15,7 +16,6 @@ export function base64ToArrayBuffer (base64: string) {
   return toByteArray(base64).buffer
 }
 
-export * from './caniuse'
 export * from './crypto'
 export * from './debug/index'
 export * from './performance'

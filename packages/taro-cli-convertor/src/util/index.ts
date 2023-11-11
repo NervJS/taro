@@ -12,6 +12,8 @@ import {
 } from '@tarojs/helper'
 import * as path from 'path'
 
+import { globals } from './global'
+
 import type * as t from '@babel/types'
 
 const NODE_MODULES = 'node_modules'
@@ -126,6 +128,10 @@ export function analyzeImportUrl (
   value: string,
   isTsProject?: boolean
 ) {
+  // 将参数记录到log文件
+  printToLogFile(
+    `package: taro-cli-convertor, funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`
+  )
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
@@ -324,6 +330,83 @@ export function generateReportFile (sourceFilePath, targeFileDir, targeFileName,
   } catch (error) {
     console.log(`文件${sourceFilePath}写入失败，errorMsg：${error}`)
   }
+}
+
+/**
+ * 创建文件夹
+ *
+ * @param dirPath 文件夹路径
+ */
+export function generateDir (dirPath) {
+  try {
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath)
+    }
+  } catch (error) {
+    console.log(`创建文件夹${dirPath}失败`)
+  }
+}
+
+/**
+ * 获取不同操作系统下的换行符
+ *
+ * @returns { string } 换行符
+ */
+export function getLineBreak () {
+  if (process.platform === 'win32') {
+    return '\r\n'
+  }
+  return '\n'
+}
+
+/**
+ * 记录数据到日志文件中
+ *
+ * @param data 日志数据
+ */
+export function printToLogFile (data: string) {
+  try {
+    // 将参数记录到log文件
+    fs.appendFile(globals.logFilePath, data)
+  } catch (error) {
+    console.log('写日志文件异常')
+    throw error
+  }
+}
+
+/**
+ * 将引用插件的路径替换为引用子包插件的路径
+ *
+ * @param pluginComponentPath 小程序中引用的插件路径
+ * @param pluginInfo 插件信息
+ * @returns
+ */
+export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
+  // 捕获跳转路径中的插件名和页面名，替换为子包路径
+  const regexPluginUrl = /plugin:\/\/([^/]+)\/([^/?]+)/
+  const matchPluginUrl = pluginComponentPath.match(regexPluginUrl)
+  if (!matchPluginUrl) {
+    // 后续添加到转换报告中，不使用throw，不阻塞转换
+    throw new Error(`引用插件路径格式异常，插件路径：${pluginComponentPath}`)
+  }
+
+  // 捕获页面名
+  const componentName = matchPluginUrl[2]
+
+  // 通过引用的插件组件名在注册的插件组件信息中查找组件路径
+  let componentPath = null
+  pluginInfo.publicComponents.forEach((publicComponent) => {
+    if (publicComponent.name === componentName) {
+      componentPath = publicComponent.path
+    }
+  })
+
+  if (!componentPath) {
+    // 后续添加到转换报告中，不使用throw，不阻塞转换
+    throw new Error(`引用了未注册的插件组件，插件路径： ${pluginComponentPath}`)
+  }
+
+  return componentPath
 }
 
 // eslint-disable-next-line camelcase

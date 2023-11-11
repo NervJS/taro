@@ -1,4 +1,4 @@
-import { isMatchWith, set } from 'lodash'
+import { isMatchWith, setWith } from 'lodash'
 
 import type * as BabelCore from '@babel/core'
 
@@ -22,7 +22,7 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
   function canIUse (definition, scheme = '') {
     if (!scheme) return false
-    const o = set({}, scheme, true)
+    const o = setWith({}, scheme, true, Object)
     return isMatchWith(definition, o, (a, b) => {
       if (a === '*' || b === true) return true
     })
@@ -35,10 +35,8 @@ const plugin = function (babel: typeof BabelCore): BabelCore.PluginObj<IState> {
 
     // Note: 暂不考虑其他类型的参数映射
     if (t.isStringLiteral(args[0])) {
-      // const isSupported = canIUse(definition, args[0].value)
-      // ast.replaceInline(t.booleanLiteral(isSupported))
-      // Note: 暂不处理canIUse字符串字面量传参
-      canIUse(definition, args[0].value)
+      const isSupported = canIUse(definition, args[0].value)
+      ast.replaceInline(t.booleanLiteral(isSupported))
     }
   }
 

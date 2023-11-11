@@ -1,6 +1,7 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
+    'pages/error/index',
     'pages/component/index/index',
     'pages/component/cover-image/cover-image',
     'pages/component/cover-view/cover-view',
@@ -25,6 +26,7 @@ export default defineAppConfig({
     'pages/component/camera/camera',
     'pages/component/image/image',
     'pages/component/video/video',
+    'pages/component/live-player/live-player',
     'pages/component/map/map',
     'pages/component/canvas/canvas',
     'pages/component/slider/slider',

@@ -11,7 +11,7 @@ export const _request = (options) => {
     return Promise.reject(res)
   }
 
-  const { url, success, fail, complete, ...otherOptions } = options as Exclude<typeof options, undefined>
+  const { url, success, fail, complete, method, ...otherOptions } = options as Exclude<typeof options, undefined>
   if (typeof url !== 'string') {
     const res = {
       errMsg: getParameterError({
@@ -27,9 +27,11 @@ export const _request = (options) => {
 
   let task!: Taro.RequestTask<any>
   const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
+    const upperMethod = method ? method.toUpperCase() : method
     // @ts-ignore
     task = native.request({
       url,
+      method: upperMethod,
       ...otherOptions,
       success: (res: any) => {
         isFunction(success) && success(res)
@@ -58,6 +60,10 @@ function taroInterceptor (chain) {
 const { Link } = Taro
 const link = new Link(taroInterceptor)
 
-export const request: typeof Taro.request = link.request.bind(link)
+export function request (options) {
+  const result = link.request.bind(link)(options)
+  result.catch(() => {})
+  return result
+}
 export const addInterceptor = link.addInterceptor.bind(link)
 export const cleanInterceptors = link.cleanInterceptors.bind(link)

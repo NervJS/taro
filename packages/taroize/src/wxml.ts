@@ -11,18 +11,22 @@ import { getCacheWxml, saveCacheWxml } from './cache'
 import { reserveKeyWords } from './constant'
 import { specialEvents } from './events'
 import { errors, globals, THIRD_PARTY_COMPONENTS, usedComponents } from './global'
-import { parseModule, parseTemplate } from './template'
+import { parseModule, parseTemplate, preParseTemplate } from './template'
 import {
   buildBlockElement,
   buildImportStatement,
   buildTemplate,
   codeFrameError,
   DEFAULT_Component_SET,
+  getLineBreak,
   isValidVarName,
+  normalizePath,
   parseCode,
+  printToLogFile,
 } from './utils'
 
 const { prettyPrint } = require('html')
+const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
@@ -78,7 +82,19 @@ export interface Imports {
   name: string
   wxs?: boolean
   // 模板处理事件的function
-  funcs?: string[]
+  funcs?: Set<string>
+  tmplName?: string
+}
+
+/**
+ * wxml界面下的template模板信息
+ *
+ * @param { any[] } funcs 模板所用方法集
+ * @param { any[] } applyTemplates 套用模板集
+ */
+interface Templates {
+  funcs: Set<string>
+  applyTemplates: Set<string>
 }
 
 export interface Wxml {
@@ -110,15 +126,16 @@ function buildElement (name: string, children: Node[] = [], attributes: Attribut
 
 // 将 style 属性中属性名转小驼峰格式 并且将 {{}} 转为 ${}格式生成对应ast节点
 function convertStyleAttrs (styleAttrsMap: any[]) {
+  printToLogFile(`package: taroize, funName: convertStyleAttrs ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     attr.attrName = toCamelCase(attr.attrName.trim())
     // 匹配 {{}} 内部以及左右两边值
     const attrValueReg = /([^{}]*)\{\{([^{}]*)\}\}([^{}]*)/
     const matchs = attrValueReg.exec(attr.value)
     if (matchs !== null) {
-      const tempLeftValue = matchs[1]?.trim() || ''
-      const tempMidValue = matchs[2]?.trim() || ''
-      const tempRightValue = matchs[3]?.trim() || ''
+      const tempLeftValue = matchs[1] || ''
+      const tempMidValue = matchs[2] || ''
+      const tempRightValue = matchs[3] || ''
       // 将模版中的内容转换为 ast 节点
       const tempMidValueAst = parseFile(tempMidValue).program.body[0] as any
       attr.value = t.templateLiteral(
@@ -133,11 +150,12 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
 
 /**
  * 对 style 中单个属性值进行解析
- * 
+ *
  * @param { any[] } styleAttrsMap 元素为单个属性值的数组
- * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组 
+ * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组
  */
 function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
+  printToLogFile(`package: taroize, funName: parseStyleAttrs ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     if (attr) {
       // 对含三元运算符的写法 style="width:{{ xx ? xx : xx }}" 匹配第一个 : 避免匹配三元表达式中的 : 运算符
@@ -152,7 +170,7 @@ function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
   })
 }
 
-function convertStyleUnit (value: string) {
+export function convertStyleUnit (value: string) {
   let tempValue = value
   // 尺寸单位转换 都转为rem : 1rpx 转为 1/40rem,,1px 转为 1/20rem
   if (tempValue.indexOf('px') !== -1) {
@@ -161,20 +179,20 @@ function convertStyleUnit (value: string) {
       tempValue = tempValue
         .replace(/\s*-?([0-9.]+)(px)\b/gi, function (match, size, unit) {
           if (Number(size) === 0) {
-            return match.replace(size, '0rem')
+            return match.replace(size, '0').replace(unit, 'rem')
           }
           // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
           if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1rem')
+            return match.replace(size, '1').replace(unit, 'rem')
           }
           return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
         })
         .replace(/\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
           if (Number(size) === 0) {
-            return match.replace(size, '0rem')
+            return match.replace(size, '0').replace(unit, 'rem')
           }
           if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1rem')
+            return match.replace(size, '1').replace(unit, 'rem')
           }
           return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
         })
@@ -195,9 +213,62 @@ function convertStyleUnit (value: string) {
         })
     } catch (error) {
       printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
+      printToLogFile(`package: taroize, wxml内px/rpx单位转换异常 ${getLineBreak()}`)
     }
   }
   return tempValue
+}
+
+/**
+ * 预解析，收集wxml所有的模板信息
+ *
+ * @param { any[] } templates wxml页面下的模板信息
+ * @returns Visitor
+ */
+export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
+  // const Applys = new Map<string, string[]>()
+  return {
+    JSXElement: {
+      enter (path: NodePath<t.JSXElement>) {
+        const openingElement = path.get('openingElement')
+        const jsxName = openingElement.get('name')
+        if (!jsxName.isJSXIdentifier()) {
+          return
+        }
+        const tagName = jsxName.node.name
+        if (tagName !== 'Template') {
+          return
+        }
+        const templateInfo = preParseTemplate(path)
+        if (templateInfo) {
+          templates.set(templateInfo.name, {
+            funcs: templateInfo.funcs,
+            applyTemplates: templateInfo.applys,
+          })
+        }
+      },
+    },
+  } as Visitor
+}
+
+/**
+ * 根据template中使用的wxs组装需要导入的wxs语句
+ * 如： import xxx from '../xxx.wxs.js'
+ *
+ * @param templateFileName template模版文件名
+ * @param usedWxses template中使用的变量是wxs模块的集合
+ * @param dirPath 当前解析文件的路径
+ * @returns 需要导入的wxs语句集合
+ */
+export function getWxsImports (templateFileName, usedWxses, dirPath) {
+  const templatePath = pathTool.join(globals.rootPath, 'imports', `${templateFileName}.js`)
+  const wxsImports: (t.ImportDeclaration | t.VariableDeclaration)[] = []
+  for (const usedWxs of usedWxses) {
+    const wxsAbsPath = pathTool.resolve(dirPath, `${usedWxs.src}.js`)
+    const wxsRelPath = pathTool.relative(pathTool.dirname(templatePath), wxsAbsPath)
+    wxsImports.push(buildImportStatement(normalizePath(wxsRelPath), [], usedWxs.module))
+  }
+  return wxsImports
 }
 
 export const createWxmlVistor = (
@@ -205,8 +276,10 @@ export const createWxmlVistor = (
   refIds: Set<string>,
   dirPath: string,
   wxses: WXS[] = [],
-  imports: Imports[] = []
+  imports: Imports[] = [],
+  templates?: Map<string, Templates>
 ) => {
+  printToLogFile(`package: taroize, funName: createWxmlVistor, dirPath: ${dirPath} ${getLineBreak()}`)
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
     const name = path.node.name as t.JSXIdentifier
     const jsx = path.findParent((p) => p.isJSXElement()) as NodePath<t.JSXElement>
@@ -268,6 +341,20 @@ export const createWxmlVistor = (
   return {
     JSXAttribute: jsxAttrVisitor,
     JSXIdentifier: renameJSXKey,
+    Identifier: {
+      enter (path: NodePath<t.Identifier>) {
+        if (!path.isReferencedIdentifier()) {
+          return
+        }
+        const jsxExprContainer = path.findParent((p) => p.isJSXExpressionContainer())
+        if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
+          return
+        }
+        if (isValidVarName(path.node.name)) {
+          refIds.add(path.node.name)
+        }
+      },
+    },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
         const openingElement = path.get('openingElement')
@@ -277,18 +364,6 @@ export const createWxmlVistor = (
           return
         }
         path.traverse({
-          Identifier (p) {
-            if (!p.isReferencedIdentifier()) {
-              return
-            }
-            const jsxExprContainer = p.findParent((p) => p.isJSXExpressionContainer())
-            if (!jsxExprContainer || !jsxExprContainer.isJSXExpressionContainer()) {
-              return
-            }
-            if (isValidVarName(p.node.name)) {
-              refIds.add(p.node.name)
-            }
-          },
           JSXAttribute: jsxAttrVisitor,
           JSXIdentifier: renameJSXKey,
         })
@@ -352,13 +427,11 @@ export const createWxmlVistor = (
           )
         }
         if (tagName === 'Template') {
-          // path.traverse({
-          //   JSXAttribute: jsxAttrVisitor
-          // })
-          const template = parseTemplate(path, dirPath, refIds)
+          const template = parseTemplate(path, dirPath, wxses)
           if (template) {
-            const funcs: string[] = []
-            const { ast: classDecl, name } = template
+            let funcs = new Set<string>()
+            const { ast: classDecl, name, tmplName, usedWxses } = template
+            const wxsImports = getWxsImports(name, usedWxses, dirPath)
             const taroComponentsImport = buildImportStatement('@tarojs/components', [...usedComponents])
             const taroImport = buildImportStatement('@tarojs/taro', [], 'Taro')
             const reactImport = buildImportStatement('react', [], 'React')
@@ -370,20 +443,36 @@ export const createWxmlVistor = (
               reactImport,
               taroImport,
               withWeappImport,
+              ...wxsImports,
               classDecl,
               t.exportDefaultDeclaration(t.identifier(name))
             )
             const usedTemplate = new Set<string>()
+            // funcs的值首先来源于预解析结果
+            if (templates) {
+              const applyFuncs = templates.get(name)?.funcs
+              if (applyFuncs) {
+                funcs = applyFuncs
+              }
+            }
 
             traverse(ast, {
               JSXIdentifier (path) {
                 const node = path.node
                 if (node.name.endsWith('Tmpl') && node.name.length > 4 && path.parentPath.isJSXOpeningElement()) {
                   usedTemplate.add(node.name)
-                  // 将要传递的方法插入到被引用的template中
+                  // 传递的方法有两处来源
                   const templateImport = imports.find((tmplImport) => tmplImport.name === `${node.name}`)
-                  const templateFuncs = templateImport?.funcs
-                  if (templateFuncs && templateFuncs.length > 0) {
+                  const templateInfo = templates?.get(node.name)
+                  let templateFuncs = templateImport?.funcs
+                  if (templateInfo?.funcs) {
+                    if (templateFuncs) {
+                      templateFuncs = new Set([...templateFuncs, ...templateInfo.funcs])
+                    } else {
+                      templateFuncs = templateInfo.funcs
+                    }
+                  }
+                  if (templateFuncs && templateFuncs.size > 0) {
                     const openingElement = path.parentPath.node
                     const attributes: any[] = openingElement.attributes
                     templateFuncs.forEach((templateFunc) => {
@@ -391,13 +480,15 @@ export const createWxmlVistor = (
                       const name = t.jsxIdentifier(templateFunc)
                       // 传递的方法插入到Tmpl标签属性中
                       attributes.push(t.jsxAttribute(name, value))
-                      funcs.push(templateFunc)
+                      if (!funcs.has(templateFunc)) {
+                        funcs.add(templateFunc)
+                      }
                     })
                   }
                 }
               },
               JSXAttribute (path) {
-                // 识别并获取template使用到的处理事件的func
+                // 识别template使用到的处理事件的func
                 const node = path.node
                 if (
                   t.isJSXExpressionContainer(node.value) &&
@@ -405,11 +496,7 @@ export const createWxmlVistor = (
                   t.isThisExpression(node.value.expression.object) &&
                   t.isIdentifier(node.value.expression.property)
                 ) {
-                  // funcName加入到funcs
                   const funcName = node.value.expression.property.name
-                  if (funcs.indexOf(funcName) === -1) {
-                    funcs.push(funcName)
-                  }
                   // func的调用形式 this.func --> func
                   path.replaceWith(t.jsxAttribute(node.name, t.jsxExpressionContainer(t.identifier(funcName))))
                 }
@@ -419,7 +506,7 @@ export const createWxmlVistor = (
             traverse(ast, {
               // 将使用到的处理事件的func写入到props
               BlockStatement (path) {
-                if (funcs.length > 0) {
+                if (funcs.size > 0) {
                   const body = path.node.body
                   if (t.isVariableDeclaration(body[0])) {
                     // 如果已经定义了props
@@ -443,6 +530,7 @@ export const createWxmlVistor = (
                     body.splice(0, 0, declaration)
                   }
                 }
+                path.stop()
               },
             })
             usedTemplate.forEach((componentName) => {
@@ -454,6 +542,7 @@ export const createWxmlVistor = (
               ast,
               name,
               funcs,
+              tmplName,
             })
           }
         }
@@ -493,11 +582,66 @@ export const createWxmlVistor = (
   } as Visitor
 }
 
+/**
+ * @description 根据模板信息中的直接调用，遍历获取完整的调用
+ * @param templates 模板信息
+ */
+function templateBfs (templates: Map<string, Templates>) {
+  printToLogFile(`package: taroize, funName: templateBfs ${getLineBreak()}`)
+  const names: string[] = []
+  const applys = new Map<string, Set<string>>()
+  for (const key of templates.keys()) {
+    names.push(key)
+    const templateInfo = templates.get(key)
+    if (templateInfo) {
+      applys.set(key, templateInfo.applyTemplates)
+    }
+  }
+  for (const name of names) {
+    const templateInfo = templates.get(name)
+    if (!templateInfo || templateInfo.applyTemplates.size === 0) {
+      continue
+    }
+    const visited = new Set<string>()
+    const queue = [name]
+    while (queue.length > 0) {
+      const template = queue.shift() as string
+      if (visited.has(template)) {
+        continue
+      }
+      visited.add(template)
+      const templateApplys = applys.get(template)
+      if (!templateApplys || templateApplys.size === 0) {
+        continue
+      }
+      templateApplys.forEach((item) => {
+        if (names.includes(item)) {
+          queue.push(item)
+        }
+      })
+    }
+    visited.delete(name)
+    templateInfo.applyTemplates = visited
+    for (const item of visited) {
+      const applyFuncs = templates.get(item)?.funcs
+      if (applyFuncs) {
+        const funcs = templateInfo.funcs
+        templateInfo.funcs = new Set([...funcs, ...applyFuncs])
+      }
+    }
+    templates.set(name, templateInfo)
+  }
+}
+
 export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
+  printToLogFile(
+    `package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`
+  )
   let parseResult = getCacheWxml(dirPath)
   if (parseResult) {
     return parseResult
   }
+
   try {
     wxml = prettyPrint(wxml, {
       max_char: 0,
@@ -507,6 +651,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   } catch (error) {
     //
   }
+
   if (!parseImport) {
     errors.length = 0
     usedComponents.clear()
@@ -516,6 +661,8 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   const imports: Imports[] = []
   const refIds = new Set<string>()
   const loopIds = new Set<string>()
+  // 模板信息
+  const templates = new Map<string, Templates>()
   if (!wxml) {
     return {
       wxses,
@@ -528,8 +675,13 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
+  // 在解析wxml页面前，先进行预解析
+  // 当前预解析主要为了抽取页面下的模板信息
+  traverse(ast, createPreWxmlVistor(templates))
+  // 获取template调用后，需要通过遍历，获取某个模板完整的调用关系
+  templateBfs(templates)
 
-  traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports))
+  traverse(ast, createWxmlVistor(loopIds, refIds, dirPath, wxses, imports, templates))
 
   refIds.forEach((id) => {
     if (
@@ -595,7 +747,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
           if (path.node.arguments.length > 1) {
             const regex = path.node.arguments[0]
             const modifier = path.node.arguments[1]
-            if (t.isStringLiteral(regex)) {
+            if (t.isStringLiteral(regex) && t.isStringLiteral(modifier)) {
               const regexStr = regex.extra?.raw as string
               const regexModifier = modifier.extra?.rawValue as string
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
@@ -604,16 +756,44 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
                 t.stringLiteral(regexModifier),
               ])
               path.replaceWith(newExpr)
+            } else if (t.isIdentifier(regex) || t.isIdentifier(modifier)) {
+              throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            } else {
+              throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
             }
-          } else {
+          } else if (path.node.arguments.length === 1) {
             const regex = path.node.arguments[0]
             if (t.isStringLiteral(regex)) {
               const regexStr = regex.extra?.raw as string
               const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
               const newExpr = t.newExpression(t.identifier('RegExp'), [t.stringLiteral(regexWithoutQuotes)])
               path.replaceWith(newExpr)
+            } else if (t.isIdentifier(regex)) {
+              throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            } else {
+              throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
             }
+          } else {
+            const newExpr = t.newExpression(t.identifier('RegExp'), [])
+            path.replaceWith(newExpr)
           }
+        }
+
+        // wxs标签中getDate()转换为new Date()
+        if (t.isIdentifier(path.node.callee, { name: 'getDate' })) {
+          let argument: any = []
+          let newDate: t.NewExpression
+          const date = path.node.arguments[0]
+          if (t.isStringLiteral(date)) {
+            argument = path.node.arguments.map((item) => t.stringLiteral(item.extra?.rawValue as string))
+            newDate = t.newExpression(t.identifier('Date'), [...argument])
+          } else if (t.isNumericLiteral(date)) {
+            argument = path.node.arguments.map((item) => t.numericLiteral(item.extra?.rawValue as number))
+            newDate = t.newExpression(t.identifier('Date'), [...argument])
+          } else {
+            newDate = t.newExpression(t.identifier('Date'), [])
+          }
+          path.replaceWith(newDate)
         }
       },
     })
@@ -849,6 +1029,7 @@ function handleConditions (conditions: Condition[]) {
       }
     } catch (error) {
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
+      printToLogFile(`package: taro-transformer-wx, wx:elif 转换异常 ${getLineBreak()}`)
     }
   }
 }
@@ -884,6 +1065,7 @@ function findWXIfProps (jsx: NodePath<t.JSXElement>): { reg: RegExpMatchArray, t
 }
 
 function parseNode (node: AllKindNode, tagName?: string) {
+  printToLogFile(`package: taroize, funName: parseNode, tagName: ${tagName} ${getLineBreak()}`)
   if (node.type === NodeType.Text) {
     return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
@@ -900,6 +1082,7 @@ function parseNode (node: AllKindNode, tagName?: string) {
 }
 
 function parseElement (element: Element): t.JSXElement {
+  printToLogFile(`package: taroize, funName: parseElement ${getLineBreak()}`)
   const tagName = t.jSXIdentifier(
     THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName)
   )
@@ -923,7 +1106,7 @@ function parseElement (element: Element): t.JSXElement {
             if (str.includes('...')) {
               // (...a) => {{a}}
               attr.value = `{{${str.slice(4, strLastIndex)}}}`
-            } else if (/^\(([A-Za-z]+)\)$/.test(str)) {
+            } else if (/^\(([A-Za-z,]+)\)$/.test(str)) {
               // (a) => {{a:a}}
               attr.value = `{{${str.replace(/^\(([A-Za-z]+)\)$/, '$1:$1')}}}`
             } else {
@@ -965,6 +1148,7 @@ export function removEmptyTextAndComment (nodes: AllKindNode[]) {
 }
 
 function parseText (node: Text, tagName?: string) {
+  printToLogFile(`package: taroize, funName: parseText ${getLineBreak()}`)
   if (tagName === 'wxs') {
     return t.jSXText(node.content)
   }
@@ -973,6 +1157,7 @@ function parseText (node: Text, tagName?: string) {
     const text = content.replace(/([{}]+)/g, "{'$1'}")
     return t.jSXText(text)
   }
+
   return t.jSXExpressionContainer(buildTemplate(content))
 }
 
@@ -984,6 +1169,7 @@ function singleQuote (s: string) {
 }
 
 export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
+  printToLogFile(`package: taroize, funName: parseContent ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
@@ -1020,8 +1206,8 @@ export function parseContent (content: string, single = false): { type: 'raw' | 
 
 /**
  * 判断 style 中的属性是否都是 attrName: attrValue 格式
- * 
- * @param styleAttrsMap 
+ *
+ * @param styleAttrsMap
  */
 function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
   // 匹配 attrName: attrValue 格式
@@ -1033,12 +1219,13 @@ function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
 
 /**
  * 解析内联style属性
- * 
+ *
  * @param key 内联属性的类型
  * @param value 内联属性的值
- * @returns 
+ * @returns
  */
-function parseStyle (key: string, value: string) {
+export function parseStyle (key: string, value: string) {
+  printToLogFile(`package: taroize, funName: parseStyle, key: ${key}, value: ${value} ${getLineBreak()}`)
   const styleAttrs = value.trim().split(';')
   // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
   if (isAllKeyValueFormat(styleAttrs)) {
@@ -1055,6 +1242,7 @@ function parseStyle (key: string, value: string) {
 }
 
 function parseAttribute (attr: Attribute) {
+  printToLogFile(`package: taroize, funName: parseAttribute, attr: ${JSON.stringify(attr)} ${getLineBreak()}`)
   let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
   let type = ''
@@ -1065,7 +1253,7 @@ function parseAttribute (attr: Attribute) {
       // eslint-disable-next-line no-console
       console.log(codeFrameError(attr, 'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class'))
     }
-    
+
     value = convertStyleUnit(value)
     // 判断属性是否为style属性
     if (key === 'style' && value) {
@@ -1080,6 +1268,7 @@ function parseAttribute (attr: Attribute) {
       } catch (error) {
         const errorMsg = `当前属性: style="${value}" 解析失败，失败原因：${error}`
         printLog(processTypeEnum.ERROR, errorMsg)
+        printToLogFile(`package: taroize, style="${value}" 解析异常 ${getLineBreak()}`)
         throw new Error(errorMsg)
       }
     } else {
@@ -1123,7 +1312,7 @@ function parseAttribute (attr: Attribute) {
     }
   }
 
-  const jsxKey = handleAttrKey(key)
+  let jsxKey = handleAttrKey(key)
   if (/^on[A-Z]/.test(jsxKey) && !/^catch/.test(key) && jsxValue && t.isStringLiteral(jsxValue)) {
     jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
   }
@@ -1134,6 +1323,13 @@ function parseAttribute (attr: Attribute) {
       globals.hasCatchTrue = true
     } else if (t.isStringLiteral(jsxValue)) {
       jsxValue = t.jSXExpressionContainer(t.memberExpression(t.thisExpression(), t.identifier(jsxValue.value)))
+    }
+  }
+  // 如果data-xxx自定义属性名xxx不是以-分隔的写法就要转成全小写属性名
+  if (value && jsxKey.startsWith('data-')) {
+    const realKey = jsxKey.replace(/^data-/, '')
+    if (realKey.indexOf('-') === -1) {
+      jsxKey = `data-${realKey.toLowerCase()}`
     }
   }
   return t.jSXAttribute(t.jSXIdentifier(jsxKey), jsxValue)

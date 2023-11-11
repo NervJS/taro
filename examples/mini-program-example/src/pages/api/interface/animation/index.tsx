@@ -35,11 +35,11 @@ export default class Index extends React.Component {
         inputData: {
           ...initOption,
         },
-        func: (_, data) => {
+        func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.createAnimation')
           const animation = Taro.createAnimation(data)
           this.setState({ animation })
-          console.log('Animation:', animation)
+          TestConsole.consoleResult.call(this, animation, apiIndex)
           Taro.showToast({
             title: '创建动画成功',
             duration: 2000,

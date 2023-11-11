@@ -91,6 +91,9 @@ importers:
       '@tarojs/plugin-platform-jd':
         specifier: workspace:*
         version: link:packages/taro-jd
+      '@tarojs/plugin-platform-mpharmony':
+        specifier: workspace:*
+        version: link:packages/taro-platform-mpharmony
       '@tarojs/plugin-platform-qq':
         specifier: workspace:*
         version: link:packages/taro-qq
@@ -994,12 +997,18 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taroize':
         specifier: workspace:*
         version: link:../taroize
       '@tarojs/transformer-wx':
         specifier: workspace:*
         version: link:../taro-transformer-wx
+      fs-extra:
+        specifier: ^8.0.1
+        version: registry.npmjs.org/fs-extra@8.1.0
       postcss:
         specifier: ^8.4.18
         version: registry.npmjs.org/postcss@8.4.23
@@ -1040,6 +1049,9 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
+      flv.js:
+        specifier: ^1.6.2
+        version: registry.npmjs.org/flv.js@1.6.2
       hls.js:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
@@ -2459,6 +2471,9 @@ importers:
       babel-plugin-transform-taroapi:
         specifier: workspace:*
         version: link:../babel-plugin-transform-taroapi
+      lodash-es:
+        specifier: 4.17.21
+        version: registry.npmjs.org/lodash-es@4.17.21
       resolve:
         specifier: ^1.22.0
         version: registry.npmjs.org/resolve@1.22.2
@@ -2481,6 +2496,12 @@ importers:
       rollup-plugin-ts:
         specifier: ^3.0.2
         version: registry.npmjs.org/rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@4.9.5)
+      ts-node:
+        specifier: ^10.9.1
+        version: registry.npmjs.org/ts-node@10.9.1(@types/node@14.18.45)(typescript@4.9.5)
+      tsconfig-paths:
+        specifier: ^3.14.1
+        version: registry.npmjs.org/tsconfig-paths@3.14.2
       typescript:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.9.5
@@ -3610,33 +3631,12 @@ importers:
       '@babel/helper-plugin-utils':
         specifier: ^7.22.5
         version: registry.npmjs.org/@babel/helper-plugin-utils@7.22.5
-      '@babel/plugin-proposal-class-properties':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.21.8)
-      '@babel/plugin-proposal-decorators':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-proposal-decorators@7.21.0(@babel/core@7.21.8)
-      '@babel/plugin-proposal-object-rest-spread':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.21.8)
+      '@babel/parser':
+        specifier: ^7.23.0
+        version: registry.npmjs.org/@babel/parser@7.23.0
       '@babel/plugin-proposal-optional-chaining':
         specifier: ^7.21.0
         version: registry.npmjs.org/@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.21.8)
-      '@babel/plugin-syntax-async-generators':
-        specifier: ^7.8.4
-        version: registry.npmjs.org/@babel/plugin-syntax-async-generators@7.8.4(@babel/core@7.21.8)
-      '@babel/plugin-syntax-dynamic-import':
-        specifier: 7.8.3
-        version: registry.npmjs.org/@babel/plugin-syntax-dynamic-import@7.8.3(@babel/core@7.21.8)
-      '@babel/plugin-transform-exponentiation-operator':
-        specifier: ^7.22.5
-        version: registry.npmjs.org/@babel/plugin-transform-exponentiation-operator@7.22.5(@babel/core@7.21.8)
-      '@babel/plugin-transform-flow-strip-types':
-        specifier: ^7.22.5
-        version: registry.npmjs.org/@babel/plugin-transform-flow-strip-types@7.22.5(@babel/core@7.21.8)
-      '@babel/plugin-transform-react-jsx':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-transform-react-jsx@7.21.5(@babel/core@7.21.8)
       '@babel/preset-env':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
@@ -3741,8 +3741,8 @@ importers:
         specifier: ^7.14.3
         version: registry.npmjs.org/@types/eslint@7.28.0
       '@types/jest':
-        specifier: ^22.2.3
-        version: registry.npmjs.org/@types/jest@22.2.3
+        specifier: ^29.5.1
+        version: registry.npmjs.org/@types/jest@29.5.1
       '@types/lodash':
         specifier: ^4.14.105
         version: registry.npmjs.org/@types/lodash@4.14.194
@@ -4337,42 +4337,18 @@ importers:
       '@babel/code-frame':
         specifier: ^7.21.4
         version: registry.npmjs.org/@babel/code-frame@7.21.4
-      '@babel/core':
-        specifier: ^7.21.4
-        version: registry.npmjs.org/@babel/core@7.21.8
       '@babel/generator':
         specifier: ^7.21.4
         version: registry.npmjs.org/@babel/generator@7.21.5
-      '@babel/plugin-proposal-class-properties':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.21.8)
-      '@babel/plugin-proposal-decorators':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-proposal-decorators@7.21.0(@babel/core@7.21.8)
-      '@babel/plugin-proposal-object-rest-spread':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.21.8)
+      '@babel/parser':
+        specifier: ^7.23.0
+        version: registry.npmjs.org/@babel/parser@7.23.0
       '@babel/plugin-proposal-optional-chaining':
         specifier: ^7.21.0
         version: registry.npmjs.org/@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.21.8)
-      '@babel/plugin-syntax-async-generators':
-        specifier: ^7.8.4
-        version: registry.npmjs.org/@babel/plugin-syntax-async-generators@7.8.4(@babel/core@7.21.8)
-      '@babel/plugin-syntax-dynamic-import':
-        specifier: 7.8.3
-        version: registry.npmjs.org/@babel/plugin-syntax-dynamic-import@7.8.3(@babel/core@7.21.8)
       '@babel/plugin-syntax-flow':
         specifier: ^7.22.5
         version: registry.npmjs.org/@babel/plugin-syntax-flow@7.22.5(@babel/core@7.21.8)
-      '@babel/plugin-transform-exponentiation-operator':
-        specifier: ^7.22.5
-        version: registry.npmjs.org/@babel/plugin-transform-exponentiation-operator@7.22.5(@babel/core@7.21.8)
-      '@babel/plugin-transform-flow-strip-types':
-        specifier: ^7.22.5
-        version: registry.npmjs.org/@babel/plugin-transform-flow-strip-types@7.22.5(@babel/core@7.21.8)
-      '@babel/plugin-transform-react-jsx':
-        specifier: ^7.14.5
-        version: registry.npmjs.org/@babel/plugin-transform-react-jsx@7.21.5(@babel/core@7.21.8)
       '@babel/preset-react':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/preset-react@7.18.6(@babel/core@7.21.8)
@@ -4562,7 +4538,7 @@ packages:
       '@babel/generator': registry.npmjs.org/@babel/generator@7.21.5
       '@babel/helper-module-transforms': registry.npmjs.org/@babel/helper-module-transforms@7.21.5
       '@babel/helpers': registry.npmjs.org/@babel/helpers@7.21.5
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/template': registry.npmjs.org/@babel/template@7.21.9
       '@babel/traverse': registry.npmjs.org/@babel/traverse@7.21.5
       '@babel/types': registry.npmjs.org/@babel/types@7.22.11
@@ -4590,7 +4566,7 @@ packages:
       '@babel/helper-compilation-targets': registry.npmjs.org/@babel/helper-compilation-targets@7.21.5(@babel/core@7.21.8)
       '@babel/helper-module-transforms': registry.npmjs.org/@babel/helper-module-transforms@7.21.5
       '@babel/helpers': registry.npmjs.org/@babel/helpers@7.21.5
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/template': registry.npmjs.org/@babel/template@7.21.9
       '@babel/traverse': registry.npmjs.org/@babel/traverse@7.21.5
       '@babel/types': registry.npmjs.org/@babel/types@7.22.11
@@ -5093,14 +5069,14 @@ packages:
     dependencies:
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
 
-  registry.npmjs.org/@babel/parser@7.22.14:
-    resolution: {integrity: sha512-1KucTHgOvaw/LzCVrEOAyXkr9rQlp0A1HiHRYnSUE9dmb8PvPW7o5sscg+5169r54n3vGlbx6GevTE/Iw/P3AQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/parser/-/parser-7.22.14.tgz}
+  registry.npmjs.org/@babel/parser@7.23.0:
+    resolution: {integrity: sha512-vvPKKdMemU85V9WE/l5wZEmImpCtLqbnTvqDS2U1fJ96KrxoW7KrXhNsNCblQlg8Ck4b85yxdTyelsMUgFUXiw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/parser/-/parser-7.23.0.tgz}
     name: '@babel/parser'
-    version: 7.22.14
+    version: 7.23.0
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': registry.npmjs.org/@babel/types@7.21.5
+      '@babel/types': registry.npmjs.org/@babel/types@7.22.11
 
   registry.npmjs.org/@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression@7.18.6(@babel/core@7.21.8):
     resolution: {integrity: sha512-Dgxsyg54Fx1d4Nge8UnvTrED63vrwOdPmyvPzlNN/boaliRP54pm3pGzZD1SJUwrBA+Cs/xdG8kXX6Mn/RfISQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression/-/plugin-bugfix-safari-id-destructuring-collision-in-function-expression-7.18.6.tgz}
@@ -6518,20 +6494,6 @@ packages:
       '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils@7.22.5
     dev: false
 
-  registry.npmjs.org/@babel/plugin-transform-exponentiation-operator@7.22.5(@babel/core@7.21.8):
-    resolution: {integrity: sha512-vIpJFNM/FjZ4rh1myqIya9jXwrwwgFRHPjT3DkUA9ZLHuzox8jiXkOLvwm1H+PQIP3CqfC++WPKeuDi0Sjdj1g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-exponentiation-operator/-/plugin-transform-exponentiation-operator-7.22.5.tgz}
-    id: registry.npmjs.org/@babel/plugin-transform-exponentiation-operator/7.22.5
-    name: '@babel/plugin-transform-exponentiation-operator'
-    version: 7.22.5
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/helper-builder-binary-assignment-operator-visitor': registry.npmjs.org/@babel/helper-builder-binary-assignment-operator-visitor@7.22.10
-      '@babel/helper-plugin-utils': registry.npmjs.org/@babel/helper-plugin-utils@7.22.5
-    dev: false
-
   registry.npmjs.org/@babel/plugin-transform-flow-strip-types@7.21.0(@babel/core@7.21.8):
     resolution: {integrity: sha512-FlFA2Mj87a6sDkW4gfGrQQqwY/dLlBAyJa2dJEZ+FHXUVHBflO2wyKvg+OOEzXfrKYIa4HWl0mgmbCzt0cMb7w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@babel/plugin-transform-flow-strip-types/-/plugin-transform-flow-strip-types-7.21.0.tgz}
     id: registry.npmjs.org/@babel/plugin-transform-flow-strip-types/7.21.0
@@ -7615,7 +7577,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.21.4
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.22.11
     dev: false
 
@@ -7626,7 +7588,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.21.4
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.21.8
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
 
   registry.npmjs.org/@babel/template@7.21.9:
@@ -7636,7 +7598,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.21.4
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
 
   registry.npmjs.org/@babel/traverse@7.0.0-beta.44:
@@ -7670,7 +7632,7 @@ packages:
       '@babel/helper-function-name': registry.npmjs.org/@babel/helper-function-name@7.21.0
       '@babel/helper-hoist-variables': registry.npmjs.org/@babel/helper-hoist-variables@7.18.6
       '@babel/helper-split-export-declaration': registry.npmjs.org/@babel/helper-split-export-declaration@7.18.6
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.22.11
       debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       globals: registry.npmjs.org/globals@11.12.0
@@ -7690,7 +7652,7 @@ packages:
       '@babel/helper-function-name': registry.npmjs.org/@babel/helper-function-name@7.21.0
       '@babel/helper-hoist-variables': registry.npmjs.org/@babel/helper-hoist-variables@7.18.6
       '@babel/helper-split-export-declaration': registry.npmjs.org/@babel/helper-split-export-declaration@7.18.6
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.21.8
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
       debug: registry.npmjs.org/debug@4.3.4(supports-color@6.1.0)
       globals: registry.npmjs.org/globals@11.12.0
@@ -12228,7 +12190,7 @@ packages:
     version: 3.6.7
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators@7.21.0(@babel/core@7.21.8)
       '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.21.8)
       '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime@7.21.4(@babel/core@7.21.8)
@@ -12262,7 +12224,7 @@ packages:
     version: 3.6.8
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/plugin-proposal-decorators': registry.npmjs.org/@babel/plugin-proposal-decorators@7.21.0(@babel/core@7.21.8)
       '@babel/plugin-proposal-object-rest-spread': registry.npmjs.org/@babel/plugin-proposal-object-rest-spread@7.20.7(@babel/core@7.21.8)
       '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime@7.21.4(@babel/core@7.21.8)
@@ -13037,7 +12999,7 @@ packages:
     name: '@types/babel__core'
     version: 7.20.0
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
       '@types/babel__generator': registry.npmjs.org/@types/babel__generator@7.6.4
       '@types/babel__template': registry.npmjs.org/@types/babel__template@7.4.1
@@ -13048,7 +13010,7 @@ packages:
     name: '@types/babel__core'
     version: 7.20.1
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.21.8
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
       '@types/babel__generator': registry.npmjs.org/@types/babel__generator@7.6.4
       '@types/babel__template': registry.npmjs.org/@types/babel__template@7.4.1
@@ -13067,7 +13029,7 @@ packages:
     name: '@types/babel__template'
     version: 7.4.1
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.22.11
 
   registry.npmjs.org/@types/babel__traverse@7.18.5:
@@ -13293,12 +13255,6 @@ packages:
     dependencies:
       '@types/istanbul-lib-report': registry.npmjs.org/@types/istanbul-lib-report@3.0.0
 
-  registry.npmjs.org/@types/jest@22.2.3:
-    resolution: {integrity: sha512-e74sM9W/4qqWB6D4TWV9FQk0WoHtX1X4FJpbjxucMSVJHtFjbQOH3H6yp+xno4br0AKG0wz/kPtaN599GUOvAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/jest/-/jest-22.2.3.tgz}
-    name: '@types/jest'
-    version: 22.2.3
-    dev: true
-
   registry.npmjs.org/@types/jest@27.5.2:
     resolution: {integrity: sha512-mpT8LJJ4CMeeahobofYWIjFo0xonRS/HfxnVEPMPFSQdGUt1uHCnoPT7Zhb+sjDU2wz0oKV0OLUR0WzrHNgfeA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/jest/-/jest-27.5.2.tgz}
     name: '@types/jest'
@@ -13434,6 +13390,7 @@ packages:
     resolution: {integrity: sha512-E5Kwq2n4SbMzQOn6wnmBjuK9ouqlURrcZDVfbo9ftDDTFt3nk7ZKK4GMOzoYgnpQJKcxwQw+lGaBvvlMo0qN/Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/node/-/node-18.15.11.tgz}
     name: '@types/node'
     version: 18.15.11
+    requiresBuild: true
 
   registry.npmjs.org/@types/node@9.6.2:
     resolution: {integrity: sha512-UWkRY9X7RQHp5OhhRIIka58/gVVycL1zHZu0OTsT5LI86ABaMOSbUjAl+b0FeDhQcxclrkyft3kW5QWdMRs8wQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/node/-/node-9.6.2.tgz}
@@ -14114,7 +14071,7 @@ packages:
     name: '@vue/compiler-core'
     version: 3.2.47
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@vue/shared': registry.npmjs.org/@vue/shared@3.2.47
       estree-walker: registry.npmjs.org/estree-walker@2.0.2
       source-map: registry.npmjs.org/source-map@0.6.1
@@ -14132,7 +14089,7 @@ packages:
     name: '@vue/compiler-sfc'
     version: 2.7.14
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       postcss: registry.npmjs.org/postcss@8.4.23
       source-map: registry.npmjs.org/source-map@0.6.1
 
@@ -14141,7 +14098,7 @@ packages:
     name: '@vue/compiler-sfc'
     version: 3.2.47
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core@3.2.47
       '@vue/compiler-dom': registry.npmjs.org/@vue/compiler-dom@3.2.47
       '@vue/compiler-ssr': registry.npmjs.org/@vue/compiler-ssr@3.2.47
@@ -14253,7 +14210,7 @@ packages:
     name: '@vue/reactivity-transform'
     version: 3.2.47
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@vue/compiler-core': registry.npmjs.org/@vue/compiler-core@3.2.47
       '@vue/shared': registry.npmjs.org/@vue/shared@3.2.47
       estree-walker: registry.npmjs.org/estree-walker@2.0.2
@@ -16157,7 +16114,7 @@ packages:
     version: 3.0.1
     dependencies:
       '@babel/generator': registry.npmjs.org/@babel/generator@7.21.5
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       call-matcher: registry.npmjs.org/call-matcher@1.1.0
       core-js: registry.npmjs.org/core-js@2.6.12
       espower-location-detector: registry.npmjs.org/espower-location-detector@1.0.0
@@ -21605,6 +21562,12 @@ packages:
       es6-symbol: registry.npmjs.org/es6-symbol@3.1.3
     dev: false
 
+  registry.npmjs.org/es6-promise@4.2.8:
+    resolution: {integrity: sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/es6-promise/-/es6-promise-4.2.8.tgz}
+    name: es6-promise
+    version: 4.2.8
+    dev: false
+
   registry.npmjs.org/es6-symbol@3.1.3:
     resolution: {integrity: sha512-NJ6Yn3FuDinBaBRWl/q5X/s4koRHBrgKAu+yGI6JCBeiu3qrcbJhwT2GeR/EXVfylRk8dpQVJoLEFhK+Mu31NA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/es6-symbol/-/es6-symbol-3.1.3.tgz}
     name: es6-symbol
@@ -23699,6 +23662,15 @@ packages:
     dependencies:
       inherits: registry.npmjs.org/inherits@2.0.4
       readable-stream: registry.npmjs.org/readable-stream@2.3.8
+
+  registry.npmjs.org/flv.js@1.6.2:
+    resolution: {integrity: sha512-xre4gUbX1MPtgQRKj2pxJENp/RnaHaxYvy3YToVVCrSmAWUu85b9mug6pTXF6zakUjNP2lFWZ1rkSX7gxhB/2A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/flv.js/-/flv.js-1.6.2.tgz}
+    name: flv.js
+    version: 1.6.2
+    dependencies:
+      es6-promise: registry.npmjs.org/es6-promise@4.2.8
+      webworkify-webpack: registry.npmjs.org/webworkify-webpack@2.1.5
+    dev: false
 
   registry.npmjs.org/follow-redirects@1.15.2(debug@4.3.4):
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.2.tgz}
@@ -26541,7 +26513,7 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@istanbuljs/schema': registry.npmjs.org/@istanbuljs/schema@0.1.3
       istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage@3.2.0
       semver: registry.npmjs.org/semver@6.3.0
@@ -26556,7 +26528,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@istanbuljs/schema': registry.npmjs.org/@istanbuljs/schema@0.1.3
       istanbul-lib-coverage: registry.npmjs.org/istanbul-lib-coverage@3.2.0
       semver: registry.npmjs.org/semver@7.5.4
@@ -29022,7 +28994,7 @@ packages:
       '@babel/preset-env': ^7.1.6
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.21.8)
       '@babel/plugin-proposal-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.21.8)
       '@babel/plugin-proposal-optional-chaining': registry.npmjs.org/@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.21.8)
@@ -29055,7 +29027,7 @@ packages:
       '@babel/preset-env': ^7.1.6
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/plugin-proposal-class-properties': registry.npmjs.org/@babel/plugin-proposal-class-properties@7.18.6(@babel/core@7.21.8)
       '@babel/plugin-proposal-nullish-coalescing-operator': registry.npmjs.org/@babel/plugin-proposal-nullish-coalescing-operator@7.18.6(@babel/core@7.21.8)
       '@babel/plugin-proposal-optional-chaining': registry.npmjs.org/@babel/plugin-proposal-optional-chaining@7.21.0(@babel/core@7.21.8)
@@ -30842,7 +30814,7 @@ packages:
     dependencies:
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
       '@babel/generator': registry.npmjs.org/@babel/generator@7.21.5
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/types': registry.npmjs.org/@babel/types@7.22.11
       babel-preset-fbjs: registry.npmjs.org/babel-preset-fbjs@3.4.0(@babel/core@7.21.8)
       metro: registry.npmjs.org/metro@0.72.3
@@ -30868,7 +30840,7 @@ packages:
       '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.21.4
       '@babel/core': registry.npmjs.org/@babel/core@7.21.8
       '@babel/generator': registry.npmjs.org/@babel/generator@7.21.5
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       '@babel/template': registry.npmjs.org/@babel/template@7.20.7
       '@babel/traverse': registry.npmjs.org/@babel/traverse@7.21.5
       '@babel/types': registry.npmjs.org/@babel/types@7.21.5
@@ -35110,7 +35082,7 @@ packages:
     name: react-native-codegen
     version: 0.70.6
     dependencies:
-      '@babel/parser': registry.npmjs.org/@babel/parser@7.22.14
+      '@babel/parser': registry.npmjs.org/@babel/parser@7.23.0
       flow-parser: registry.npmjs.org/flow-parser@0.121.0
       jscodeshift: registry.npmjs.org/jscodeshift@0.13.1(@babel/preset-env@7.21.5)
       nullthrows: registry.npmjs.org/nullthrows@1.1.1
@@ -41269,7 +41241,7 @@ packages:
       mime-types: registry.npmjs.org/mime-types@2.1.35
       range-parser: registry.npmjs.org/range-parser@1.2.1
       schema-utils: registry.npmjs.org/schema-utils@4.0.1
-      webpack: registry.npmjs.org/webpack@5.78.0
+      webpack: registry.npmjs.org/webpack@5.78.0(@swc/core@1.3.42)(webpack-cli@5.0.1)
 
   registry.npmjs.org/webpack-dev-server@3.11.3(webpack@4.46.0):
     resolution: {integrity: sha512-3x31rjbEQWKMNzacUZRE6wXvUFuGpH7vr0lIEbYpMAG9BOxi0928QU1BBswOAP3kg3H1O4hiS+sq4YyAn6ANnA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webpack-dev-server/-/webpack-dev-server-3.11.3.tgz}
@@ -41691,6 +41663,12 @@ packages:
     name: websocket-extensions
     version: 0.1.4
     engines: {node: '>=0.8.0'}
+
+  registry.npmjs.org/webworkify-webpack@2.1.5:
+    resolution: {integrity: sha512-2akF8FIyUvbiBBdD+RoHpoTbHMQF2HwjcxfDvgztAX5YwbZNyrtfUMgvfgFVsgDhDPVTlkbb5vyasqDHfIDPQw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/webworkify-webpack/-/webworkify-webpack-2.1.5.tgz}
+    name: webworkify-webpack
+    version: 2.1.5
+    dev: false
 
   registry.npmjs.org/weui@1.1.3:
     resolution: {integrity: sha512-vC6eWUvG1MYoE8yLsvBBmLB2+4DZWynQOL47MUscHMwPVltOZPGsiRb2PE7y3z+w3ElF1SsmJsyhr40wiXgP5A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/weui/-/weui-1.1.3.tgz}

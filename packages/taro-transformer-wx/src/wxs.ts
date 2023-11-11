@@ -3,8 +3,10 @@ import traverse, { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { TransformResult } from './index'
+import { getLineBreak, printToLogFile } from './utils'
 
 export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
+  printToLogFile(`package: taro-transformer-wx, funName: traverseWxsFile ${getLineBreak()}`)
   const vistor: Visitor = {
     BlockStatement(path) {
       path.scope.rename('wx', 'Taro')
@@ -21,7 +23,7 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
         if (path.node.arguments.length > 1) {
           const regex = path.node.arguments[0]
           const modifier = path.node.arguments[1]
-          if (t.isStringLiteral(regex)) {
+          if (t.isStringLiteral(regex) && t.isStringLiteral(modifier)) {
             const regexStr = regex.extra?.raw as string
             const regexModifier = modifier.extra?.rawValue as string
             const regexWithoutQuotes = regexStr.replace(/^['"](.*)['"]$/, '$1')
@@ -30,8 +32,12 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
               t.stringLiteral(regexModifier),
             ])
             path.replaceWith(newExpr)
+          } else if (t.isIdentifier(regex) || t.isIdentifier(modifier)) {
+            throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+          } else {
+            throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
           }
-        }else {
+        } else if (path.node.arguments.length === 1) {
           const regex = path.node.arguments[0]
           if (t.isStringLiteral(regex)) {
             const regexStr = regex.extra?.raw as string
@@ -40,8 +46,31 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
               t.stringLiteral(regexWithoutQuotes)
             ])
             path.replaceWith(newExpr)
+          } else if (t.isIdentifier(regex)) {
+            throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+          } else {
+            throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
           }
+        } else {
+          const newExpr = t.newExpression(t.identifier('RegExp'), [])
+          path.replaceWith(newExpr)
         }
+      }
+      // wxs文件中getDate()转换为new Date()
+      if (t.isIdentifier(path.node.callee, { name: 'getDate' })) {
+        let argument: any = []
+        let newDate: t.NewExpression
+        const date = path.node.arguments[0]
+        if (t.isStringLiteral(date)) {
+          argument = path.node.arguments.map((item) => t.stringLiteral(item.extra?.rawValue as string))
+          newDate = t.newExpression(t.identifier('Date'), [...argument])
+        } else if (t.isNumericLiteral(date)) {
+          argument = path.node.arguments.map((item) => t.numericLiteral(item.extra?.rawValue as number))
+          newDate = t.newExpression(t.identifier('Date'), [...argument])
+        } else {
+          newDate = t.newExpression(t.identifier('Date'), [])
+        }
+        path.replaceWith(newDate)
       }
     },
   }

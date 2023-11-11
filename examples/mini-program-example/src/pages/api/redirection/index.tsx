@@ -24,9 +24,12 @@ export default class Index extends React.Component {
       {
         id: 'navigateToMiniProgram',
         inputData: {
-          appId: 'com.example.myapplication',
-          path: 'EntryAbility',
-          extraData: {},
+          appId: 'com.advanced.temp1',
+          path: 'EntryAbility:///pages/api/framework/index?paramA=good',
+          extraData: {
+            paramB: 'morning',
+            paramC: 'erveryone',
+          },
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.navigateToMiniProgram')

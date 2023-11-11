@@ -38,7 +38,7 @@ export default class Index extends React.Component {
             context.arc(120, 80, 5, 0, 2 * Math.PI, true)
             context.stroke()
             await context.draw()
-            TestConsole.consoleNormal('Taro.createCanvasContext success ', context)
+            TestConsole.consoleResult.call(this, context, apiIndex)
           })
         },
       },
@@ -343,9 +343,18 @@ export default class Index extends React.Component {
         id: 'CanvasContext-fill',
         func: (apiIndex, data) => {
           this.initCanvas(apiIndex, async () => {
+            // 场景1
             context.beginPath()
             context.rect(20, 20, 150, 100)
             context.fillStyle = 'red'
+            context.fill()
+            // 场景2
+            context.beginPath()
+            context.rect(20, 130, 100, 30)
+            context.setFillStyle('blue')
+            context.fillRect(20, 160, 100, 30)
+            context.rect(20, 190, 100, 30)
+            context.setFillStyle('red')
             context.fill()
             await context.draw()
             TestConsole.consoleNormal('CanvasContext-fill success ', context)
@@ -377,7 +386,17 @@ export default class Index extends React.Component {
           text: 'hello word',
         },
         func: (apiIndex, data) => {
-          this.initCanvas(apiIndex, () => {
+          this.initCanvas(apiIndex, async () => {
+            context.beginPath()
+            context.setFillStyle('#000000')
+            context.font = '30px Georgia'
+            context.fillText(
+              ...Object.values(data),
+              10,
+              50,
+              200
+            )
+            await context.draw()
             const metrics = context.measureText(...Object.values(data))
             TestConsole.consoleNormal('CanvasContext-measureText', metrics)
           })
@@ -396,7 +415,7 @@ export default class Index extends React.Component {
             context.beginPath()
             context.setStrokeStyle('#000000')
             context.moveTo(20, 20)
-            context.quadraticCurveTo(20, 100, 200, 20)
+            context.quadraticCurveTo(...Object.values(data))
             context.stroke()
             await context.draw()
             TestConsole.consoleNormal('CanvasContext-quadraticCurveTo success ', context)
@@ -813,6 +832,7 @@ export default class Index extends React.Component {
       canvasId: 'canvas' + (apiIndex + 1),
     })
     Taro.nextTick(() => {
+      TestConsole.consoleTest('createCanvasContext')
       context = Taro.createCanvasContext('canvas' + (apiIndex + 1))
       callback()
     })

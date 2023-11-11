@@ -10,10 +10,6 @@ import './index.scss'
  * @returns
  */
 
-function progressUpdate(res) {
-  TestConsole.consoleNormal('onProgressUpdate', res)
-}
-
 export default class Index extends React.Component {
   state = {
     task: null,
@@ -21,7 +17,7 @@ export default class Index extends React.Component {
       {
         id: 'downloadFile',
         inputData: {
-          url: 'http://192.168.217.245:3000/test.jpg',
+          url: 'http://172.20.10.11:3000/static/test.jpg',
           withCredentials: false,
         },
         func: (apiIndex, data) => {
@@ -31,7 +27,7 @@ export default class Index extends React.Component {
       {
         id: 'DownloadTask',
         inputData: {
-          url: 'http://192.168.217.245:3000/test.zip',
+          url: 'http://172.20.10.11:3000/static/test.jpg',
           withCredentials: false,
         },
         func: (apiIndex, data) => {
@@ -52,7 +48,7 @@ export default class Index extends React.Component {
         func: () => {
           TestConsole.consoleTest('DownloadTask.onProgressUpdate')
           if (this.state.task) {
-            ;(this.state.task as Taro.DownloadTask).onProgressUpdate(progressUpdate)
+            ;(this.state.task as Taro.DownloadTask).onProgressUpdate(this.progressUpdate)
           }
         },
       },
@@ -61,7 +57,7 @@ export default class Index extends React.Component {
         func: () => {
           TestConsole.consoleTest('DownloadTask.offProgressUpdate')
           if (this.state.task) {
-            ;(this.state.task as Taro.DownloadTask).offProgressUpdate(progressUpdate)
+            ;(this.state.task as Taro.DownloadTask).offProgressUpdate(this.progressUpdate)
           }
         },
       },
@@ -74,6 +70,9 @@ export default class Index extends React.Component {
         func: null,
       },
     ],
+  }
+  progressUpdate = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onProgressUpdate', 3)
   }
 
   startDownloadFile(apiIndex, data, testTitle) {
@@ -95,7 +94,7 @@ export default class Index extends React.Component {
     })
     TestConsole.consoleNormal('DownloadTask', task)
     this.setState({ task })
-    task.onProgressUpdate(progressUpdate)
+    task.onProgressUpdate(this.progressUpdate)
   }
 
   render() {

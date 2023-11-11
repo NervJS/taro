@@ -83,6 +83,16 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
       if ('url' in option) {
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }
+        if (pathPieces.pathname) {
+          const pathname=pathPieces.pathname?.startsWith('/') ? pathPieces.pathname.substring(1) : pathPieces.pathname
+          if (!RouterConfig.pages.includes(pathname)) {
+            const res = { errMsg: `${method}:fail page ${pathname} is not found` }
+            fail?.(res)
+            complete?.(res)
+            reject(res)
+            return
+          }
+        }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {
@@ -93,7 +103,11 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
         }
       } else if (method === 'navigateBack') {
         stacks.delta = option.delta
-        history.go(-option.delta)
+        if (stacks.length > option.delta) {
+          history.go(-option.delta)
+        } else {
+          history.go(1 - stacks.length)
+        }
       }
     } catch (error) {
       const res = { errMsg: `${method}:fail ${error.message || error}` }

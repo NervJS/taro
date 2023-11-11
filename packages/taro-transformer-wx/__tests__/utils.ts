@@ -1,3 +1,6 @@
+import generate from '@babel/generator'
+import * as t from '@babel/types'
+
 export const baseOptions = {
   isRoot: false,
   isApp: false,
@@ -15,4 +18,13 @@ export function removeFrontBlank(str: string | undefined) {
     return ''
   }
   return str.replace(/^\s+/gm, '')
+}
+
+// 最低限度的转义： https://github.com/mathiasbynens/jsesc#minimal
+export function generateMinimalEscapeCode (ast: t.File) {
+  return generate(ast as any, {
+    jsescOption: {
+      minimal: true,
+    },
+  }).code
 }

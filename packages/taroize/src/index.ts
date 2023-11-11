@@ -6,6 +6,20 @@ import { setting } from './utils'
 import { parseVue } from './vue'
 import { parseWXML } from './wxml'
 
+interface IPluginInfo {
+  pluginRoot: string // projectRoot + pluginRoot(project.config.json)
+  pluginName: string
+  pages: Set<string>
+  pagesMap: Map<string, string> // 插件名和路径的映射
+  publicComponents: Set<IComponent>
+  entryFilePath: string
+}
+
+interface IComponent {
+  name: string
+  path: string
+}
+
 interface Option {
   json?: string
   script?: string
@@ -15,10 +29,12 @@ interface Option {
   rootPath: string
   framework: 'react' | 'vue'
   isApp?: boolean
+  logFilePath: string
+  pluginInfo: IPluginInfo
 }
 
 export function parse (option: Option) {
-  resetGlobals()
+  resetGlobals(option.rootPath, option.logFilePath)
   setting.rootPath = option.rootPath
   if (option.json) {
     const config = JSON.parse(option.json)
@@ -42,7 +58,15 @@ export function parse (option: Option) {
 
   const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
   setting.sourceCode = option.script!
-  const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, wxses, refIds, option.isApp)
+  const ast = parseScript(
+    option.script,
+    option.scriptPath,
+    wxml as t.Expression,
+    wxses,
+    refIds,
+    option.isApp,
+    option.pluginInfo
+  )
 
   return {
     ast,
