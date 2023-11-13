@@ -43,3 +43,19 @@ pub fn read<P: AsRef<Path>>(file: P) -> BoxFuture<'static, Result<Vec<u8>>> {
   let fut = async move { tokio::fs::read(file).await.map_err(Error::from) };
   Box::pin(fut)
 }
+
+pub fn metadata<P: AsRef<Path>>(file: P) -> BoxFuture<'static, Result<std::fs::Metadata>> {
+  let file = file.as_ref().to_string_lossy().to_string();
+  let fut = async move { tokio::fs::metadata(file).await.map_err(Error::from) };
+  Box::pin(fut)
+}
+
+pub fn rename<P: AsRef<Path>, Q: AsRef<Path>>(
+  from: P,
+  to: Q,
+) -> BoxFuture<'static, Result<()>> {
+  let from = from.as_ref().to_string_lossy().to_string();
+  let to = to.as_ref().to_string_lossy().to_string();
+  let fut = async move { tokio::fs::rename(from, to).await.map_err(Error::from) };
+  Box::pin(fut)
+}

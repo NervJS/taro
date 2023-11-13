@@ -22,10 +22,49 @@ pub static FRAMEWORK_TYPE_MAP: Lazy<HashMap<&FrameworkType, &str>> = Lazy::new(|
   map
 });
 
+pub static PACKAGES_MANAGEMENT: Lazy<HashMap<&NpmType, PackageCommand>> = Lazy::new(|| {
+  let mut map = HashMap::new();
+  map.insert(
+    &NpmType::Yarn,
+    PackageCommand {
+      command: "yarn",
+      global_command: "yarn global add @tarojs/cli",
+    },
+  );
+  map.insert(
+    &NpmType::Cnpm,
+    PackageCommand {
+      command: "cnpm",
+      global_command: "cnpm install -g @tarojs/cli",
+    },
+  );
+  map.insert(
+    &NpmType::Pnpm,
+    PackageCommand {
+      command: "pnpm",
+      global_command: "pnpm install -g @tarojs/cli",
+    },
+  );
+  map.insert(
+    &NpmType::Npm,
+    PackageCommand {
+      command: "npm",
+      global_command: "npm install -g @tarojs/cli",
+    },
+  );
+  map
+});
+
 pub static TEMPLATE_CREATOR: &str = "template_creator.js";
 
 pub static FILE_FILTER: Lazy<Vec<&str>> =
   Lazy::new(|| vec![TEMPLATE_CREATOR, ".DS_Store", ".npmrc"]);
+
+#[derive(Debug)]
+pub struct PackageCommand<'a> {
+  pub command: &'a str,
+  pub global_command: &'a str,
+}
 
 #[derive(Debug, PartialEq, Eq, Hash, Serialize)]
 #[napi(string_enum)]
