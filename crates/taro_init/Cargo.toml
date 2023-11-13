@@ -9,7 +9,8 @@ edition = "2021"
 napi = { workspace = true, features = ["napi4", "tokio_rt"]}
 napi-derive = { workspace = true }
 once_cell = { workspace = true }
-tokio = { workspace = true, features = ["fs"] }
+tokio = { workspace = true, features = ["fs", "macros", "io-util", "process"] }
+tokio-util = { workspace = true, features = ["io"] }
 futures = { workspace = true }
 serde_json = { workspace = true }
 serde = { workspace = true, features = ["serde_derive"] }
@@ -17,3 +18,5 @@ handlebars = { workspace = true }
 handlebars_misc_helpers = { workspace = true }
 anyhow = { workspace = true }
 console = { workspace = true }
+spinners = { workspace = true }
+regex = { workspace = true }
