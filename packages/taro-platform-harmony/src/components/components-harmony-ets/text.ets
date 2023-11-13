@@ -1,7 +1,7 @@
-import { eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, getNodeVisibleChange } from './utils/helper'
+import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -162,14 +162,14 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 struct TaroText {
   nodeInfoMap: any = {}
 
-  @State thresholds: number[] | null = null
+  thresholds: number[] | null = null
 
   @State isAreaChangeTap: boolean = false
 
   @State overwriteStyle: Record<string, any> = {}
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   @ObjectLink node: TaroTextElement
@@ -188,7 +188,7 @@ struct TaroText {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult

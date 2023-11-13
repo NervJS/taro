@@ -1,11 +1,11 @@
 import window from '@ohos.window'
 import { isNumber, isUndefined } from '@tarojs/shared'
-import { eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, bindFocus, getNodeVisibleChange } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, bindFocus } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -99,10 +99,10 @@ struct TaroTextArea {
 
   height: number = 0
   
-  @State thresholds: number[] | null = null
+  thresholds: number[] | null = null
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -173,7 +173,7 @@ struct TaroTextArea {
       const event = createTaroEvent('focus', { detail: { value: this.value, height: this.height } }, this.node)
       eventHandler(event, 'focus', this.node)
     })
-    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult

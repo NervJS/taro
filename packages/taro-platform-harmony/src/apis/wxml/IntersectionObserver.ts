@@ -1,5 +1,6 @@
+// @ts-nocheck
 import Taro from '@tarojs/api'
-import { Current, TaroElement } from '@tarojs/runtime'
+import { Current, disconnectEvent, setNodeEventCallbackAndTriggerComponentUpdate, TaroElement, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { findChildNodeWithDFS, unsupport } from '../utils'
 
@@ -27,14 +28,13 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
     if (this._observerNodes) {
       if (this._observerNodes instanceof Array) {
         this._observerNodes.forEach((n: TaroElement & any) => {
-          n.visibleChange = null
+          disconnectEvent(n, VISIBLE_CHANGE_EVENT_NAME)
           if (n._instance) {
             n._instance.thresholds = null
           }
         })
       } else {
-        // @ts-ignore
-        this._observerNodes.visibleChange = null
+        disconnectEvent(this._observerNodes, VISIBLE_CHANGE_EVENT_NAME)
         // @ts-ignore
         if (this._observerNodes._instance) {
           // @ts-ignore
@@ -56,22 +56,22 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
           // @ts-ignore
           n.awaitAppear.then(() => {
             // @ts-ignore
-            n.visibleChange = (isVisible: boolean, currentRatio: number) => {
-              callback(this.handleResult(isVisible, currentRatio))
-            }
-            // @ts-ignore
             n._instance?.thresholds = thresholds
+
+            setNodeEventCallbackAndTriggerComponentUpdate(n, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
+              callback(this.handleResult(isVisible, currentRatio))
+            })
           })
         })
       } else {
         // @ts-ignore
         node.awaitAppear.then(() => {
           // @ts-ignore
-          node.visibleChange = (isVisible: boolean, currentRatio: number) => {
-            callback(this.handleResult(isVisible, currentRatio))
-          }
-          // @ts-ignore
           node._instance?.thresholds = thresholds
+
+          setNodeEventCallbackAndTriggerComponentUpdate(node, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
+            callback(this.handleResult(isVisible, currentRatio))
+          })
         })
       }
     }

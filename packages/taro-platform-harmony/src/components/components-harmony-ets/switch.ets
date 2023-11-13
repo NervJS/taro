@@ -1,8 +1,8 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, shouldBindEvent, getNodeVisibleChange, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -41,10 +41,10 @@ struct TaroSwitch {
 
   @State value: boolean = false
 
-  @State thresholds: number[] | null = null
+  thresholds: number[] | null = null
 
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getNodeVisibleChange(this))
+    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -58,7 +58,7 @@ struct TaroSwitch {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, this, ({ eventResult }) => {
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
       
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult

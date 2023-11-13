@@ -34,7 +34,6 @@ export class TaroNode extends TaroEventTarget {
   public _doc: TaroDocument
   public _isCompileMode = false
   public _instance: any
-  public _updateTrigger = 0
 
   private _textContent = ''
 
