@@ -1,4 +1,4 @@
-import { Current, eventHandler, getComponentEventCallback } from '@tarojs/runtime'
+import { Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 import { findChildNodeWithDFS } from '@tarojs/taro/utils'
 
 import { createNode } from './render'
@@ -115,10 +115,10 @@ struct TaroLabel {
     const currentPageNode = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
     const node = findChildNodeWithDFS(currentPageNode, `#${id}`)
 
-    if (!node || !node.instance) return
+    if (!node || !node._instance) return
 
     if (['BUTTON', 'CHECKBOX', 'RADIO', 'SWITCH', 'INPUT'].includes(node.tagName)) {
-      const instance = node.instance
+      const instance = node._instance
       switch (node.tagName) {
         case 'RADIO':
           if (!instance.checked) {
