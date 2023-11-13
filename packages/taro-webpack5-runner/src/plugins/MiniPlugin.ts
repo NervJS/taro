@@ -765,7 +765,7 @@ export default class TaroMiniPlugin {
   compileFile (file: IComponent) {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
-    const fileConfig = readConfig(fileConfigPath)
+    const fileConfig = readConfig(fileConfigPath, this.options.combination.config)
     const { componentGenerics } = fileConfig
     const usingComponents = fileConfig.usingComponents
 

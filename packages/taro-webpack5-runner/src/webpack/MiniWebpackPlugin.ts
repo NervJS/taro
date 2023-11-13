@@ -124,7 +124,8 @@ export class MiniWebpackPlugin {
     if (optimizeMainPackage?.enable) {
       miniSplitChunksPlugin = WebpackPlugin.getPlugin(MiniSplitChunksPlugin, [{
         exclude: optimizeMainPackage.exclude,
-        fileType
+        fileType,
+        combination: this.combination
       }])
     }
 
