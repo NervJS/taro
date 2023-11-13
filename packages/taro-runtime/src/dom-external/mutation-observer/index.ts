@@ -16,7 +16,7 @@ export class MutationObserver {
       this.core = new MutationObserverImpl(callback)
     } else {
       if (process.env.NODE_ENV !== 'production') {
-        console.warn('[Taro Warning] 若要使用 MutationObserver，请在 Taro 编译配置中设置 \'mini.enableMutationObserver: true\'')
+        console.warn('[Taro Warning] 若要使用 MutationObserver，请在 Taro 编译配置中设置 \'mini.runtime.enableMutationObserver: true\'')
       }
       this.core = {
         observe: noop,

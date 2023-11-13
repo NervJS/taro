@@ -1,6 +1,6 @@
 {
   "name": "postcss-taro-unit-transform",
-  "version": "3.6.8",
+  "version": "3.6.19",
   "description": "小程序单位转换",
   "main": "index.js",
   "scripts": {

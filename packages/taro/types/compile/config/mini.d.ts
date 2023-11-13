@@ -5,13 +5,13 @@ import type { OutputOptions as RollupOutputOptions } from 'rollup'
 import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
 
 interface Runtime {
-  enableInnerHTML: boolean
-  enableSizeAPIs: boolean
-  enableAdjacentHTML: boolean
-  enableTemplateContent: boolean
-  enableCloneNode: boolean
-  enableContains: boolean
-  enableMutationObserver: boolean
+  enableInnerHTML?: boolean
+  enableSizeAPIs?: boolean
+  enableAdjacentHTML?: boolean
+  enableTemplateContent?: boolean
+  enableCloneNode?: boolean
+  enableContains?: boolean
+  enableMutationObserver?: boolean
 }
 
 interface OutputExt {
