@@ -33,6 +33,9 @@ class App extends React.Component {
       Taro.setStorageSync('onPageNotFound', 'Triggered')
     }
     TestConsole.consoleNormal('onPageNotFound', res)
+    Taro.navigateTo({
+      url: 'pages/error/index',
+    })
   }
 
   render() {

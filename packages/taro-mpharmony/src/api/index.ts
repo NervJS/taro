@@ -29,6 +29,6 @@ export * from './wxml'
 Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
     // @ts-ignore
-    window.native.setNavigationStyle && window.native.setNavigationStyle(style, textStyle, backgroundColor)
+    window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
   }
 })
