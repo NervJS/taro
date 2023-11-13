@@ -5,7 +5,7 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, initComponentNodeInfo } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -85,13 +85,12 @@ struct TaroLabel {
   @ObjectLink node: TaroViewElement
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
-
-    this.nodeInfoMap[this.node._nid] = {}
   }
 
   @Styles defaultEvent () {

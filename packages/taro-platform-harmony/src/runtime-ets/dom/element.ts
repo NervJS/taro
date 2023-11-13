@@ -1,8 +1,8 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
-import { isFunction, isNumber } from '@tarojs/shared'
 
-import { ID } from '../constant'
+import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
 import { isElement } from '../utils'
+import { triggerAttributesCallback } from '../utils/info'
 import { NodeType, TaroNode } from './node'
 
 import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
@@ -14,10 +14,6 @@ class TaroElement extends TaroNode {
   public _attrs: Record<string, string> = {}
   private _innerHTML = ''
   public readonly tagName: string
-  // 动画函数回调绑定
-  public _animationCb?: (value: Record<string, any>) => void
-  // 焦点监听回调绑定
-  public _focusCb?:() => void
 
   // 用于标记元素是否已经出现
   private _appearResolve: (value?: unknown) => void
@@ -70,20 +66,14 @@ class TaroElement extends TaroNode {
 
     this._attrs[name] = value
 
-    // 监听动画设置
-    if (name === 'animation') {
-      this.awaitAppear.then(() => {
-        isFunction(this._animationCb) && this._animationCb(value)
-      })
-    }
+    const attributeTriggerValue = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
+    if (attributeTriggerValue) {
+      const { triggerName, valueInspect, isAfterNodeMounted } = attributeTriggerValue
 
+      if (valueInspect && !valueInspect(value)) return
 
-    if (name === 'focus' && !!value) {
-      isFunction(this._focusCb) && this._focusCb()
+      triggerAttributesCallback(this, triggerName, isAfterNodeMounted)
     }
-    // if (!this.changeRecord.includes(`${name}-${value}`)) {
-    //   this.changeRecord += `${name}-${value};`
-    // }
   }
 
   public getAttribute (name: string): string | null {
@@ -164,24 +154,6 @@ class TaroIgnoreElement extends TaroElement {
 }
 
 @Observed
-class TaroScrollViewElement extends TaroElement {
-  // 滚动监听回调绑定
-  public _scrollToCb?:() => void
-
-  constructor() {
-    super('ScrollView')
-  }
-
-  public setAttribute(name: string, value: any): void {
-    super.setAttribute(name, value)
-
-    if (['scrollTop', 'scrollLeft'].includes(name) && isNumber(value)) {
-      isFunction(this._scrollToCb) && this._scrollToCb()
-    }
-  }
-}
-
-@Observed
 export class FormElement extends TaroElement {
   public get type () {
     return this._attrs.type ?? ''
@@ -208,7 +180,6 @@ export {
   TaroElement,
   TaroIgnoreElement,
   TaroImageElement,
-  TaroScrollViewElement,
   TaroTextElement,
   TaroViewElement
 }

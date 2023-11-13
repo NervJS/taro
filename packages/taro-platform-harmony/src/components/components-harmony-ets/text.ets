@@ -1,7 +1,7 @@
 import { eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
+import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent, initComponentNodeInfo } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -175,15 +175,12 @@ struct TaroText {
   @ObjectLink node: TaroTextElement
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
-
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {

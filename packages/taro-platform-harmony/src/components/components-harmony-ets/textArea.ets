@@ -5,7 +5,7 @@ import { eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAM
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, bindFocus } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, parseStyles, shouldBindEvent, bindFocus, initComponentNodeInfo } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -106,6 +106,7 @@ struct TaroTextArea {
   }
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindFocus(this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
@@ -113,9 +114,6 @@ struct TaroTextArea {
       this.overwriteStyle = rule
     })
 
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
     this.text = this.node._attrs.value || ''
 
     try {

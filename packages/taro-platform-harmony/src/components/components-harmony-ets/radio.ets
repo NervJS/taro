@@ -6,7 +6,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { bindAnimation, bindInstanceToNode, shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { bindAnimation, bindInstanceToNode, shouldBindEvent, getNormalAttributes, initComponentNodeInfo } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -54,11 +54,9 @@ struct TaroRadio {
   }
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
 
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
     this.checked = !!this.node._attrs.checked
   }
 
@@ -185,15 +183,12 @@ struct TaroRadioGroup {
   @ObjectLink node: TaroViewElement
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
-    
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {

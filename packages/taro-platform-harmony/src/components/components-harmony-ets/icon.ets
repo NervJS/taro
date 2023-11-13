@@ -2,7 +2,7 @@ import { eventHandler, convertNumber2PX, getComponentEventCallback, AREA_CHANGE_
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAttributeOrNull } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, getNodeAttributeOrNull, initComponentNodeInfo } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -81,15 +81,12 @@ struct TaroIcon {
   @ObjectLink node: TaroImageElement
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
-    
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {
@@ -105,7 +102,6 @@ struct TaroIcon {
     if (!this.node || !this.node._attrs) return null
 
     const type = this.node._attrs.type
-
 
     // TODO：等待鸿蒙支持 base64 格式的 svg 图片，或者工程化支持图片资源的迁移
     return ICON_SVG_MAP[type] || null

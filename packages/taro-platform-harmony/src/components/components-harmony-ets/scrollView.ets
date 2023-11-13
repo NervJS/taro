@@ -4,9 +4,9 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, initComponentNodeInfo, bindScrollTo } from './utils/helper'
 
-import type { TaroScrollViewElement, TaroViewElement } from '../runtime'
+import type { TaroViewElement } from '../runtime'
 
 @Extend(Row)
 function attrs ({
@@ -144,17 +144,6 @@ function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: nu
     eventHandler(event, eventName, this.node)
 }
 
-function bindScrollTo (node: TaroScrollViewElement, instance: object) {
-  if (!node) return
-
-  node._scrollToCb = () => {
-    instance.scroller.scrollTo({
-      xOffset: node._attrs.scrollLeft || 0,
-      yOffset: node._attrs.scrollTop || 0,
-    })
-  }
-}
-
 @Component
 struct TaroScrollView {
   nodeInfoMap: any = {}
@@ -176,16 +165,13 @@ struct TaroScrollView {
   @State isAreaChangeTap: boolean = false
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule
     })
     bindScrollTo(this.node, this)
-
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
   }
 
   @Styles defaultEvent () {

@@ -1,3 +1,5 @@
+import { isFunction } from '@tarojs/shared'
+
 import type { TaroElement } from '../dom/element'
 
 export const AREA_CHANGE_EVENT_NAME = 'areaChange'
@@ -87,5 +89,34 @@ export async function setNodeEventCallbackAndTriggerComponentUpdate (node: TaroE
     await instance.nodeInfoMap[id].promiseMap[eventName]
   } else {
     tapCallbackToNodeAndUpdate(node, eventName, callback)
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function bindAttributesCallback (node: TaroElement, attributeName: string, callback: Function) {
+  if (!node) return
+
+  const id = node._nid
+  const component = node._instance
+
+  component.nodeInfoMap[id].attributeCallback[attributeName] = callback
+}
+
+export function triggerAttributesCallback (node, attributeName, isAfterNodeMounted?) {
+  if (!node) return
+
+  const id = node._nid
+  const value = node._attrs[attributeName]
+  const triggerFn = () => {
+    const component = node._instance
+    const cb = component.nodeInfoMap[id].attributeCallback[attributeName]
+    
+    isFunction(cb) && cb(value)
+  }
+
+  if (isAfterNodeMounted) {
+    node.awaitAppear.then(triggerFn)
+  } else {
+    triggerFn()
   }
 }

@@ -2,7 +2,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { bindInstanceToNode, shouldBindEvent, getNormalAttributes, initComponentNodeInfo } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -58,11 +58,9 @@ struct TaroSlider {
   }
 
   aboutToAppear () {
+    initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
 
-    this.nodeInfoMap[this.node._nid] = {}
-    this.nodeInfoMap[this.node._nid].eventMap = {}
-    this.nodeInfoMap[this.node._nid].promiseMap = {}
     this.value = Number(this.node._attrs.value || 0)
   }
 
