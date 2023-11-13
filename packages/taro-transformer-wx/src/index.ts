@@ -132,8 +132,8 @@ function buildFullPathThisPropsRef(id: t.Identifier, memberIds: string[], path: 
   if (binding) {
     const bindingPath = binding.path
     if (bindingPath.isVariableDeclarator()) {
-      const dclId = bindingPath.get('id')
-      const dclInit = bindingPath.get('init')
+      const dclId = bindingPath.get('id') as any
+      const dclInit = bindingPath.get('init') as any
       let dclInitIds: string[] = []
       if (t.isMemberExpression(dclInit)) {
         dclInitIds = getIdsFromMemberProps((dclInit as any).node)
@@ -675,7 +675,7 @@ export default function transform(options: TransformOptions): TransformResult {
       const expr = (value as t.JSXExpressionContainer)?.expression as any
       const exprPath = path.get('value.expression')
       const classDecl = path.findParent((p) => p.isClassDeclaration())
-      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '')
+      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '') as any
       let isConverted = false
       if (classDeclName) {
         isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')

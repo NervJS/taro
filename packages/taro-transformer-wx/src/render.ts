@@ -263,7 +263,7 @@ export class RenderParser {
       const test = testExpression.node
       if (t.isJSXElement(consequent) && this.isLiteralOrUndefined(alternate)) {
         const { value, confident } = (parentPath.get('alternate') as NodePath<t.Node>).evaluate()
-        if ((confident && !value) || t.isIdentifier({ name: 'undefined' })) {
+        if ((confident && !value) || (t as any).isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, test)
           block.children = [jsxElementPath.node]
           // newJSXIfAttr(jsxElementPath.node, test)
@@ -285,7 +285,7 @@ export class RenderParser {
         }
       } else if (this.isLiteralOrUndefined(consequent) && t.isJSXElement(alternate)) {
         const { value, confident } = (parentPath.get('consequent') as NodePath<t.Node>).evaluate()
-        if ((confident && !value) || t.isIdentifier({ name: 'undefined' })) {
+        if ((confident && !value) || (t as any).isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, reverseBoolean(test))
           block.children = [jsxElementPath.node]
           // newJSXIfAttr(jsxElementPath.node, test)
@@ -630,7 +630,7 @@ export class RenderParser {
       VariableDeclarator: (path) => {
         const { id, init } = path.node
         const ifStem = path.parentPath.parentPath?.parentPath
-        if (!t.isIfStatement(ifStem) || isContainJSXElement(path as any)) {
+        if (!t.isIfStatement(ifStem as any) || isContainJSXElement(path as any)) {
           return
         }
         if (t.isIdentifier(id)) {
@@ -659,10 +659,10 @@ export class RenderParser {
 
   findParallelIfStem = (p: NodePath<t.Node>) => {
     const exprs: Set<NodePath<t.IfStatement>> = new Set()
-    let expr = p.parentPath
-    while (t.isIfStatement(expr)) {
+    let expr = p.parentPath as any
+    while (t.isIfStatement(expr as any)) {
       exprs.add(expr as any)
-      expr = expr.parentPath
+      expr = expr!.parentPath
     }
     return exprs
   }
@@ -1541,7 +1541,7 @@ export class RenderParser {
       }
       let isDerivedFromState = false
       if (init.isMemberExpression()) {
-        const object = init.get('object')
+        const object = init.get('object') as any
         if (
           t.isMemberExpression(object) &&
           t.isThisExpression(object.object) &&
@@ -1549,7 +1549,7 @@ export class RenderParser {
         ) {
           isDerivedFromState = true
         }
-        if (t.isThisExpression(object) && t.isIdentifier(init.get('property'), { name: 'state' })) {
+        if (t.isThisExpression(object) && t.isIdentifier(init.get('property') as any, { name: 'state' })) {
           isDerivedFromState = true
         }
       }
@@ -1637,7 +1637,7 @@ export class RenderParser {
           path.replaceWith(t.identifier(snakeCase(path.node.name)))
         }
 
-        const sibling = path.getSibling('object')
+        const sibling = path.getSibling('object') as any
         if (
           sibling &&
           sibling.isMemberExpression() &&
@@ -2254,7 +2254,7 @@ export class RenderParser {
             const ifStem = callee.findParent((p) => p.isIfStatement())
             // @TEST
             if (ifStem && ifStem.isIfStatement()) {
-              const consequent = ifStem.get('consequent')
+              const consequent = ifStem.get('consequent') as any
               if (t.isBlockStatement(consequent)) {
                 const assignment = t.expressionStatement(
                   t.assignmentExpression(
@@ -2264,10 +2264,10 @@ export class RenderParser {
                   )
                 )
                 returnBody.unshift(t.variableDeclaration('let', [t.variableDeclarator(t.identifier(stateName))]))
-                if (callee.findParent((p) => p === consequent)) {
+                if (callee.findParent((p: any) => p === consequent)) {
                   (consequent as any).node.body.push(assignment)
                 } else {
-                  const alternate = ifStem.get('alternate')
+                  const alternate = ifStem.get('alternate') as any
                   if (t.isBlockStatement(alternate)) {
                     (alternate as any).node.body.push(assignment)
                   } else {
@@ -2366,7 +2366,7 @@ export class RenderParser {
     if (binding) {
       const path = binding.path
       const id = path.get('id') as NodePath<t.Node>
-      const init = path.get('init')
+      const init = path.get('init') as any
       if (t.isThisExpression(init)) {
         return hasStateId
       }

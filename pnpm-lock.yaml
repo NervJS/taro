@@ -941,8 +941,8 @@ importers:
         specifier: ^7.4.2
         version: registry.npmjs.org/@types/babel__template@7.4.3
       '@types/babel__traverse':
-        specifier: ^7.20.2
-        version: registry.npmjs.org/@types/babel__traverse@7.20.3
+        specifier: ~7.18.3
+        version: registry.npmjs.org/@types/babel__traverse@7.18.5
       jest:
         specifier: ^29.7.0
         version: registry.npmjs.org/jest@29.7.0
@@ -3158,8 +3158,8 @@ importers:
         specifier: ^7.21.4
         version: registry.npmjs.org/@babel/traverse@7.21.5
       '@babel/types':
-        specifier: ^7.21.4
-        version: registry.npmjs.org/@babel/types@7.21.5
+        specifier: ^7.23.0
+        version: registry.npmjs.org/@babel/types@7.23.0
       babel-eslint:
         specifier: ^8.2.3
         version: registry.npmjs.org/babel-eslint@8.2.6
@@ -3239,15 +3239,15 @@ importers:
       '@types/babel-template':
         specifier: 6.25.2
         version: registry.npmjs.org/@types/babel-template@6.25.2
-      '@types/babel-traverse':
-        specifier: 6.25.3
-        version: registry.npmjs.org/@types/babel-traverse@6.25.3
       '@types/babel-types':
         specifier: 7.0.8
         version: registry.npmjs.org/@types/babel-types@7.0.8
       '@types/babel__core':
         specifier: ^7.20.1
         version: registry.npmjs.org/@types/babel__core@7.20.3
+      '@types/babel__traverse':
+        specifier: ~7.18.3
+        version: registry.npmjs.org/@types/babel__traverse@7.18.5
       '@types/eslint':
         specifier: ^7.14.3
         version: registry.npmjs.org/@types/eslint@7.29.0
@@ -3952,8 +3952,8 @@ importers:
         specifier: ^7.21.4
         version: registry.npmjs.org/@babel/traverse@7.21.5
       '@babel/types':
-        specifier: ^7.21.4
-        version: registry.npmjs.org/@babel/types@7.21.5
+        specifier: ^7.23.0
+        version: registry.npmjs.org/@babel/types@7.23.0
       babel-core:
         specifier: ^6.26.3
         version: registry.npmjs.org/babel-core@6.26.3
@@ -3989,8 +3989,11 @@ importers:
         specifier: ^7.21.8
         version: registry.npmjs.org/@babel/core@7.23.2
       '@types/babel-traverse':
-        specifier: 6.25.6
-        version: registry.npmjs.org/@types/babel-traverse@6.25.6
+        specifier: 6.25.10
+        version: registry.npmjs.org/@types/babel-traverse@6.25.10
+      '@types/babel__traverse':
+        specifier: ^7.18.3
+        version: registry.npmjs.org/@types/babel__traverse@7.20.3
       jest:
         specifier: ^29.7.0
         version: registry.npmjs.org/jest@29.7.0
@@ -13986,10 +13989,10 @@ packages:
       '@types/babylon': registry.npmjs.org/@types/babylon@6.16.8
     dev: true
 
-  registry.npmjs.org/@types/babel-traverse@6.25.3:
-    resolution: {integrity: sha512-4FaulWyA7nrXPkzoukL2VmSpxCnBZwc+MgwZqO30gtHCrtaUXnoxymdYfxzf3CZN80zjtrVzKfLlZ7FPYvrhQQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/babel-traverse/-/babel-traverse-6.25.3.tgz}
+  registry.npmjs.org/@types/babel-traverse@6.25.10:
+    resolution: {integrity: sha512-B3XitTFG8YeXb5lr7Nj62t1DikCDuAJ/4BDeK6GCuWREEmdunI9DWnv+81oHl2yQBQPWY/C1PmV3vaRZB4LQmw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/babel-traverse/-/babel-traverse-6.25.10.tgz}
     name: '@types/babel-traverse'
-    version: 6.25.3
+    version: 6.25.10
     dependencies:
       '@types/babel-types': registry.npmjs.org/@types/babel-types@7.0.8
     dev: true

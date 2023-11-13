@@ -49,7 +49,7 @@ export function isDerivedFromProps(scope: Scope, bindingName: string) {
 export function isDerivedFromThis(scope: Scope, bindingName: string) {
   const binding = scope.getBinding(bindingName)
   if (binding && binding.path.isVariableDeclarator()) {
-    const init = binding.path.get('init')
+    const init = binding.path.get('init') as any
     if (t.isThisExpression(init)) {
       return true
     }
@@ -84,8 +84,8 @@ export function getSuperClassPath(path: NodePath<t.ClassDeclaration>) {
     const binding = path.scope.getBinding(superClass.name)
     if (binding && binding.kind === 'module') {
       const bindingPath = binding.path.parentPath
-      if (t.isImportDeclaration(bindingPath)) {
-        const source = (bindingPath.node as any).source
+      if (t.isImportDeclaration(bindingPath as any)) {
+        const source = (bindingPath!.node as any).source
         if (source.value === TARO_PACKAGE_NAME) {
           return
         }
@@ -315,7 +315,7 @@ export function generateAnonymousState(
         if (ifExpr && ifExpr.isIfStatement() && ifExpr.findParent((p) => p === callExpr)) {
           const consequent = ifExpr.get('consequent') as NodePath<t.Node>
           const test = ifExpr.get('test')
-          if (t.isBlockStatement(consequent)) {
+          if (t.isBlockStatement(consequent as any)) {
             if ((jsx != null && jsx === test) || jsx?.findParent((p) => p === test)) {
               func.body.body.unshift(buildConstVariableDeclaration(variableName, expr))
             } else {

@@ -283,7 +283,7 @@ export const createWxmlVistor = (
     // 把 hidden 转换为 wxif
     if (name.name === 'hidden') {
       const value = path.get('value') as NodePath<t.JSXExpressionContainer>
-      if (t.isJSXExpressionContainer(value) && !t.isJSXEmptyExpression(value.node.expression)) {
+      if (t.isJSXExpressionContainer(value as any) && !t.isJSXEmptyExpression(value.node.expression)) {
         const exclamation = t.unaryExpression('!', value.node.expression)
         path.set('value', t.jSXExpressionContainer(exclamation))
         path.set('name', t.jSXIdentifier(WX_IF))
@@ -530,7 +530,7 @@ export const createWxmlVistor = (
               },
             })
             usedTemplate.forEach((componentName) => {
-              if (componentName !== classDecl.id.name) {
+              if (componentName !== classDecl!.id!.name) {
                 ast.program.body.unshift(buildImportStatement(`./${componentName}`, [], componentName))
               }
             })
@@ -930,7 +930,7 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
   try {
     siblings = jsx
       .getAllNextSiblings()
-      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression')))) as any
+      .filter((s) => !(s.isJSXExpressionContainer() && t.isJSXEmptyExpression(s.get('expression') as any))) as any
   } catch (error) {
     return
   }
@@ -1226,7 +1226,7 @@ function parseAttribute (attr: Attribute) {
     // 判断属性是否为style属性
     if (key === 'style' && value) {
       try {
-        const styleParseReslut = parseStyle(key, value)
+        const styleParseReslut = parseStyle(key, value) as any
         if (t.isJSXAttribute(styleParseReslut)) {
           return styleParseReslut
         } else {

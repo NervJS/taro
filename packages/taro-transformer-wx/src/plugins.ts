@@ -26,7 +26,7 @@ export function templateLiterals(path, state) {
   }
 
   // filter out empty string literals
-  nodes = nodes.filter((n) => !t.isLiteral(n, { value: '' }))
+  nodes = nodes.filter((n: any) => !t.isLiteral(n, { value: '' }))
 
   // since `+` is left-to-right associative
   // ensure the first node is a string if first/second isn't
