@@ -1,3 +1,5 @@
+import Taro from '@tarojs/api'
+
 export * from './ad'
 export * from './ai'
 export * from './alipay'
@@ -23,3 +25,10 @@ export * from './swan'
 export * from './ui'
 export * from './worker'
 export * from './wxml'
+
+Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.native.setNavigationStyle && window.native.setNavigationStyle(style, textStyle, backgroundColor)
+  }
+})

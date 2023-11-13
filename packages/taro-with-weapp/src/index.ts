@@ -135,29 +135,36 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           if (props.hasOwnProperty(propKey)) {
             const propValue = props[propKey]
             // propValue 可能是 null, 构造函数, 对象
-            if (propValue) {
-              const observers = [propToState]
-              if(!isFunction(propValue)){
-                properties[propKey] = propValue.value
-                if (propValue.observer) {
-                  observers.push(propValue.observer)
-                }
-              } else if (propValue.name === 'Array') {
+            const observers = [propToState]
+            if(propValue === null || propValue === undefined){ // propValue为null、undefined情况
+              properties[propKey] = null
+            }
+            else if(isFunction(propValue)) { // propValue为Function，即Array、String、Boolean等情况时
+              if (propValue.name === 'Array') {
                 properties[propKey] = []
               } else if(propValue.name === 'String'){
                 properties[propKey] = ''
               } else if(propValue.name === 'Boolean'){
                 properties[propKey] = false
-              } else if(propValue.name === 'Number'){
+              } else if(propValue.name === 'Number') {
                 properties[propKey] = 0
               } else {
                 properties[propKey] = null
               }
-              this._observeProps.push({
-                name: propKey,
-                observers: observers
-              })
             }
+            else if(typeof propValue === 'object') { // propValue为对象时
+              properties[propKey] = propValue.value
+              if (propValue.observer) {
+                observers.push(propValue.observer)
+              }
+            }
+            else {
+              properties[propKey] = null
+            }
+            this._observeProps.push({
+              name: propKey,
+              observers: observers
+            })
           }
         }
         this.state = {

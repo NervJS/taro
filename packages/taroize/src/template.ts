@@ -1,7 +1,7 @@
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
-import { dirname, extname, join,relative, resolve } from 'path'
+import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
 import { buildBlockElement, buildRender, getLineBreak, pascalName, printToLogFile, setting } from './utils'

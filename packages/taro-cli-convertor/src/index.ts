@@ -1015,7 +1015,7 @@ export default class Convertor {
     const projectConfigFilePath: string = path.join(this.root, `project.config${this.fileTypes.CONFIG}`)
     if (fs.existsSync(projectConfigFilePath)) {
       try {
-        const projectConfigJson = JSON.parse(String(fs.readFileSync(projectConfigFilePath)))
+        const projectConfigJson = JSON.parse(String(fs.readFileSync(projectConfigFilePath, 'utf8')))
         if (projectConfigJson && projectConfigJson.compileType === Constants.PLUGIN) {
           const pluginRoot = projectConfigJson.pluginRoot
           if (pluginRoot === '' || isNull(pluginRoot) || isUndefined(pluginRoot)) {
@@ -1025,6 +1025,10 @@ export default class Convertor {
           this.projectConfig = { ...projectConfigJson }
           this.pluginInfo.pluginRoot = path.join(this.root, projectConfigJson.pluginRoot.replace(/\/+$/, ''))
         }
+        // 解析miniprogramRoot字段，如果存在则更新小程序root
+        if (projectConfigJson.miniprogramRoot) {
+          this.root = path.join(this.root, projectConfigJson.miniprogramRoot.replace(/\/+$/, ''))
+        }
       } catch (err) {
         throw new Error(`project.config${this.fileTypes.CONFIG} 解析失败，请检查！`)
       }
@@ -1032,19 +1036,6 @@ export default class Convertor {
   }
 
   getApp () {
-    try {
-      const projectConfigPath: string = path.join(this.root, `project.config${this.fileTypes.CONFIG}`) // project.config.json 文件路径
-      // 解析 project.config.json 文件，获取 miniprogramRoot 字段的值
-      const projectConfig = JSON.parse(fs.readFileSync(projectConfigPath, 'utf8'))
-      this.miniprogramRoot = projectConfig.miniprogramRoot
-    } catch (err) {
-      console.error('读取 project.config.json 文件失败:', err)
-      process.exit(1)
-    }
-    // 如果找到 miniprogramRoot字段，则以对应目录作为小程序逻辑目录
-    if (this.miniprogramRoot) {
-      this.root = path.join(this.root, this.miniprogramRoot.replace(/\/+$/, ''))
-    }
     if (this.isTsProject) {
       this.entryJSPath = path.join(this.miniprogramRoot, `app${this.fileTypes.SCRIPT}`)
       this.entryJSONPath = path.join(this.miniprogramRoot, `app${this.fileTypes.CONFIG}`)
@@ -1054,13 +1045,6 @@ export default class Convertor {
       this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
       this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
     }
-    // 如果在 miniprogramRoot 目录下找到 app.json 文件，则将入口文件和配置文件路径修改为对应的路径
-    if (this.miniprogramRoot && fs.existsSync(path.join(this.root, `app${this.fileTypes.CONFIG}`))) {
-      this.entryJSPath = path.join(this.root, `app${this.fileTypes.SCRIPT}`)
-      this.entryJSONPath = path.join(this.root, `app${this.fileTypes.CONFIG}`)
-      this.entryStylePath = path.join(this.root, `app${this.fileTypes.STYLE}`)
-    }
-
     try {
       this.entryJSON = JSON.parse(String(fs.readFileSync(this.entryJSONPath)))
 
