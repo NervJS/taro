@@ -10,9 +10,10 @@
       "name": "debug-init",
       "sourceLanguages": ["rust"],
       "program": "node",
-      "args": ["${workspaceFolder}/packages/taro-cli/bin/taro", "init"],
+      "args": ["${workspaceFolder}/packages/taro-cli/bin/taro", "init", "test_pro", "--template", "default"],
       "cwd": "${workspaceFolder}",
-      "preLaunchTask": "build binding debug"
+      "preLaunchTask": "build binding debug",
+      "postDebugTask": "remove test_pro"
     },
     {
       "type": "node",

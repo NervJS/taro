@@ -160,13 +160,14 @@ impl Creator {
       .await
       .with_context(|| format!("文件读取失败: {}", from_path))?;
     let from_template = String::from_utf8(form_template)?;
-    if from_template == "" {
-      return Ok(());
-    }
-    let template = self
-      .handlebars
-      .render_template(&from_template, options)
-      .with_context(|| format!("模板渲染失败: {}", from_path))?;
+    let template = if from_template == "" {
+      "".to_string()
+    } else {
+      self
+        .handlebars
+        .render_template(&from_template, options)
+        .with_context(|| format!("模板渲染失败: {}", from_path))?
+    };
     let dir_name = PathBuf::from(dest_path)
       .parent()
       .unwrap()
@@ -188,7 +189,7 @@ impl Creator {
     options: &mut CreateOptions,
     js_handlers: &HashMap<String, ThreadsafeFunction<CreateOptions>>,
   ) -> anyhow::Result<()> {
-    let current_style_ext = STYLE_EXT_MAP.get(&options.css).unwrap();
+    let current_style_ext = STYLE_EXT_MAP.get(&options.css).unwrap_or(&"css");
     options.css_ext = Some(current_style_ext.to_string());
     for file in files {
       let file_relative_path = normalize_path_str(file.replace(template_path, "").as_str());
@@ -240,7 +241,7 @@ impl Creator {
           dest_re_path = dest_re_path.replace(".js", ".ts");
         }
         if change_ext && dest_re_path.ends_with(".css") {
-          dest_re_path = dest_re_path.replace(".css", current_style_ext);
+          dest_re_path = dest_re_path.replace(".css", format!(".{}", current_style_ext).as_str());
         }
         let file_relative_path = format!("{}{}", template_path, file_relative_path);
         // if is_custom_template {
