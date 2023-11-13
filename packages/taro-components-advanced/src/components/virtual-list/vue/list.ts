@@ -1,4 +1,4 @@
-import { isWebPlatform } from '@tarojs/shared'
+import { isNumber, isWebPlatform } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 import { defineComponent } from 'vue'
 
@@ -237,6 +237,7 @@ export default defineComponent({
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      if (!isNumber(scrollHeight) || !isNumber(scrollWidth)) return
       const clientWidth = this.itemList.wrapperSize
       this.preset.field = {
         scrollHeight,
@@ -292,6 +293,7 @@ export default defineComponent({
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      if (!isNumber(scrollHeight) || !isNumber(scrollWidth)) return
       const clientHeight = this.itemList.wrapperSize
       if (this.$props.onScrollNative) {
         this.$props.onScrollNative(event)
