@@ -1,6 +1,6 @@
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import { fs } from '@tarojs/helper'
+import * as fs from 'fs-extra'
 import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'

@@ -1,9 +1,10 @@
+import * as fs from 'fs-extra'
+
 import { globals } from '../src/global'
 import { parse } from '../src/index'
 import { parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode } from './util'
 
-const fs = require('fs')
 const path = require('path')
 
 const option: any = {
