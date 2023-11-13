@@ -1,7 +1,7 @@
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import * as fs from 'fs'
-import { dirname, extname, relative, resolve } from 'path'
+import { fs } from '@tarojs/helper'
+import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
 import { buildBlockElement, buildRender, getLineBreak, pascalName, printToLogFile, setting } from './utils'
@@ -152,7 +152,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
     path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
 
     // refIds中可能包含wxs模块，应从refIds中去除并单独以模块的形式导入
-    const usedWxses = new Set<WXS>
+    const usedWxses = new Set<WXS>()
     const refdata = refIds
     refdata.forEach((refId) => {
       wxses.forEach((wxsId) => {
@@ -278,7 +278,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
 
 export function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
-    let filePath = resolve(dirPath, src)
+    let filePath = join(dirPath, src)
     if (!extname(filePath)) {
       filePath = filePath + '.wxml'
     }

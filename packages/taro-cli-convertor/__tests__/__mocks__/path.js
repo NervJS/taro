@@ -1,83 +1,51 @@
 /**
- * mock resolve方法
+ * mock join方法
  * 
- * @param  {...any} pathArray 
+ * @param  {...string} pathSegments 
  * @returns 
  */
-function resolveMock (...pathArray) {
-  if (pathArray === undefined) {
-    return ''
+function joinMock (...pathSegments) {
+  // 定义一个函数来处理路径段
+  const processPathSegment = (segment) => {
+    // 去掉两头的/和./
+    if (segment === '.' || segment === '') {
+      return false
+    }
+    return true
   }
 
-  if (pathArray.length === 0) {
-    return ''
-  } else if (pathArray.length === 1) {
-    pathArray[0] = normalizePath(pathArray[0])
-    return `/${pathArray[0]}`
-  } else if (pathArray.length === 2) {
-    pathArray[0] = normalizePath(pathArray[0])
-    pathArray[1] = normalizePath(pathArray[1])
-    if (pathArray[1].startsWith('./')) {
-      pathArray[1] = pathArray[1].replace('./', '')
-    }
-    return `/${pathArray.join('/')}`
-  } else if (pathArray.length === 3) {
-    pathArray[0] = normalizePath(pathArray[0])
-    pathArray[1] = normalizePath(pathArray[1])
-    pathArray[2] = normalizePath(pathArray[2])
-    const newPathArray = []
-    pathArray.forEach(path => {
-      if (path.startsWith('./')) {
-        newPathArray.push(path.replace('./', ''))
-        return
+  // 初始化一个数组用于保存最终路径的各个部分
+  const finalPathSegments = []
+
+  for (const segment of pathSegments) {
+    // 去掉路径段两端的斜杠并分割路径
+    const segments = segment.split('/').filter(processPathSegment)
+
+    // 处理路径段中的 `..`
+    for (const subSegment of segments) {
+      if (subSegment === '..') {
+        // 如果是 `..`，则回退一层
+        finalPathSegments.pop()
+      } else {
+        // 否则，添加到最终路径中
+        finalPathSegments.push(subSegment)
       }
-      newPathArray.push(path)
-    })
-    if (newPathArray[1].includes('..')) {
-      return `${dirnameMock(newPathArray[0])}/${newPathArray[2]}`
     }
   }
-  return `/${pathArray.join('/')}`
-}
 
-/**
- * mock dirname 方法
- * 
- * @param { string } filePath 
- * @returns 
- */
-function dirnameMock (filePath) {
-  // 使用正则表达式匹配路径中的最后一个目录分隔符或斜杠
-  const regex = /[\\/]/g
-  const matches = []
-  let match
+  // 根据是否为绝对路径返回最终路径
+  const isAbsolutePath = pathSegments[0].startsWith('/')
 
-  while ((match = regex.exec(filePath)) !== null) {
-    matches.push(match.index)
+  const joinedPath = finalPathSegments.join('/')
+
+  if (isAbsolutePath) {
+    return '/' + joinedPath
+  } else {
+    return joinedPath
   }
-
-  if (matches.length === 0) {
-    // 如果没有匹配到目录分隔符，则返回空字符串
-    return ''
-  }
-
-  // 截取路径中的目录部分
-  const lastIndex = matches[matches.length - 1]
-  return filePath.slice(0, lastIndex)
-}
-
-/**
- * 路径格式化
- * 
- * @param { string } path 
- * @returns 
- */
-function normalizePath (path) {
-  return path.replace(/\\/g, '/').replace(/\/{2,}/g, '/')
 }
 
 module.exports = {
   ...jest.requireActual('path'),
-  resolve: jest.fn((...pathArray) => resolveMock(...pathArray)),
-  dirname: jest.fn((path) => dirnameMock(path)),
+  join: jest.fn((...pathArray) => joinMock(...pathArray)),
 }

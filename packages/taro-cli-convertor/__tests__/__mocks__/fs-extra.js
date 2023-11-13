@@ -238,13 +238,22 @@ function statSyncMock (path) {
   path = normalizePath(path)
   // 返回包含状态信息的对象
   return {
-    isFile: () => customIsFile(path)
+    isFile: () => customIsFile(path),
+    isDirectory: () => customIsDirectory(path)
   }
 }
 
 // 自定义的 isFile 函数
 function customIsFile (path) {
   return oriFileMap.get(path)
+}
+
+// 自定义的 isDirectory 函数
+function customIsDirectory (path) {
+  if (typeof path !== 'string' || path === '') {
+    return false
+  }
+  return true
 }
 
 /**
