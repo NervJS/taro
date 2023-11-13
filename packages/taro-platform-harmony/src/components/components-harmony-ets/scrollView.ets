@@ -1,10 +1,11 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+// @ts-nocheck
+import { eventHandler, convertVP2PX, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
-import { bindInstanceToNode, bindAnimation, convertVP2PX, getNormalAttributes, shouldBindEvent, initComponentNodeInfo, bindScrollTo } from './utils/helper'
+import { bindInstanceToNode, bindAnimation, getNormalAttributes, shouldBindEvent, initComponentNodeInfo, bindScrollTo } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 

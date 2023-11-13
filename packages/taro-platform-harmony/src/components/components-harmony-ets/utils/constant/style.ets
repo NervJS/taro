@@ -4,7 +4,9 @@ export const TEXT_DEFAULT_STYLE = {
   COLOR: 'black',
   FONT_SIZE: '24',
   FONT_WEIGHT: FontWeight.Normal,
-  FONT_FAMILY: 'HarmonyOS Sans'
+  FONT_FAMILY: 'HarmonyOS Sans',
+  TEXT_ALIGN: TextAlign.Start,
+  TEXT_OVERFLOW: TextOverflow.Clip
 }
 
 export const BUTTON_THEME_COLOR = {

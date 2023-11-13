@@ -3,7 +3,9 @@ import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
 import { isElement } from '../utils'
 import { triggerAttributesCallback } from '../utils/info'
+import { ClassList } from './class-list'
 import { NodeType, TaroNode } from './node'
+import { treeToArray } from './tree'
 
 import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
@@ -43,6 +45,10 @@ class TaroElement extends TaroNode {
 
   public get className (): string {
     return this.getAttribute('class') || ''
+  }
+
+  public get classList (): ClassList {
+    return new ClassList(this.className, this)
   }
 
   public get attributes (): NamedNodeMap {
@@ -90,6 +96,22 @@ class TaroElement extends TaroNode {
 
   public hasAttributes (): boolean {
     return Object.keys(this._attrs).length > 0
+  }
+
+
+  public getElementsByTagName (tagName: string): TaroElement[] {
+    return treeToArray(this, (el) => {
+      return el.nodeName === tagName || (tagName === '*' && this !== el)
+    })
+  }
+
+  public getElementsByClassName (className: string): TaroElement[] {
+    const classNames = className.trim().split(/\s+/)
+
+    return treeToArray(this, (el) => {
+      const classList = el.classList
+      return classNames.every(c => classList.contains(c))
+    })
   }
 
   // @Todo

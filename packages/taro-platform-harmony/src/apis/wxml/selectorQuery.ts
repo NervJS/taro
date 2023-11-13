@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import Taro from '@tarojs/api'
-import { Current, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { convertVP2PX, Current, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { NodesRef } from './nodesRef.js'
 
@@ -285,8 +285,4 @@ export class SelectorQuery implements Taro.SelectorQuery {
     })
     this._queueCb.push(callback)
   }
-}
-
-function convertVP2PX (value: number) {
-  return Math.ceil(value / 384 * 750)
 }

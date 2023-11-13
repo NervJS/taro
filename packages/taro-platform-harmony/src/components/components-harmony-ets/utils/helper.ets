@@ -90,9 +90,6 @@ export const parseStyles = (styles = ''): { [key: string]: string } => {
     }), {})
 }
 
-export function convertVP2PX (value: number) {
-  return Math.ceil(value / 384 * 750)
-}
 
 export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string[], disabled = false) {
   if (!node || node._attrs?.disabled || disabled) return null

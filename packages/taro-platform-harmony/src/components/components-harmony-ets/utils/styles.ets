@@ -8,14 +8,14 @@ export function getFontAttributes (node: TaroElement) {
   const { _st } = node
 
   return {
-    lineHeight: AttributeManager.getNodeStyle(_st, 'lineHeight'),
-    letterSpacing: AttributeManager.getNodeStyle(_st, 'letterSpacing'),
-    textAlign: AttributeManager.getNodeStyle(_st, 'textAlign', 'none'),
-    textOverflow:  AttributeManager.getNodeStyle(_st, 'textOverflow', 'none'),
     maxLines: +AttributeManager.getNodeStyle(_st, 'WebkitLineClamp', Infinity),
-    fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
     fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
     // 已做处理的属性
+    lineHeight: AttributeManager.getStyleAfterConvert(_st, 'lineHeight'),
+    letterSpacing: AttributeManager.getStyleAfterConvert(_st, 'letterSpacing'),
+    textAlign: AttributeManager.getStyleAfterConvert(_st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
+    textOverflow:  AttributeManager.getStyleAfterConvert(_st, 'textOverflow', TEXT_DEFAULT_STYLE.TEXT_OVERFLOW),
+    fontWeight: AttributeManager.getStyleAfterConvert(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
     decoration: AttributeManager.getStyleAfterConvert(_st, 'textDecoration'),
     fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
     fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
@@ -32,7 +32,7 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
   let backgroundImage, backgroundRepeat
   if (_backgroundImage) {
     backgroundImage = _backgroundImage.src
-    backgroundRepeat = _backgroundImage.src
+    backgroundRepeat = _backgroundImage.repeat
   }
   const backgroundSize = background?.size?.[0]
   const backgroundColor = backgroundImage ? null : background?.color

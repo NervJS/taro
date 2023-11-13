@@ -1,3 +1,5 @@
+import _display from '@ohos.display'
+
 import { NodeType } from '../dom/node'
 
 import type { CSSProperties } from 'react'
@@ -28,8 +30,15 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
   return res
 }
 
+
+const display = _display.getDefaultDisplaySync()
+
 export function convertNumber2PX (value: number) {
-  return Math.ceil(value / 750 * 384) + 'vp'
+  return Math.ceil(value / 750 * px2vp(display.width)) + 'vp'
+}
+
+export function convertVP2PX (value: number) {
+  return Math.ceil(value / px2vp(display.width) * 750)
 }
 
 export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {

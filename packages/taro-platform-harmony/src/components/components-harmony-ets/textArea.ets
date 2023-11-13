@@ -107,8 +107,8 @@ struct TaroTextArea {
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
-    bindFocus(this.node)
     bindInstanceToNode(this.node, this)
+    bindFocus(this.node)
     // 绑定动画
     bindAnimation(this.node, (rule) => {
       this.overwriteStyle = rule

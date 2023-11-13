@@ -9,6 +9,8 @@ import deviceMethod from '@system.device'
 // 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
 // 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
 import network from '@system.network'
+// @ts-ignore
+import { convertVP2PX } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
 
@@ -106,8 +108,8 @@ const getSystemInfoSync: GetSystemInfoSync = function () {
   res.pixelRatio = null // 设备像素比,number
   res.platform = 'android' // 客户端平台 string
   res.safeArea = null // 在竖屏正方向下的安全区域 General.SafeAreaResult
-  res.screenHeight = display && display.height // 屏幕高度，单位px number
-  res.screenWidth = display && display.width // 屏幕宽度，单位px number
+  res.screenHeight = display && convertVP2PX(px2vp(display.height)) // 屏幕高度，单位px number
+  res.screenWidth = display && convertVP2PX(px2vp(display.width)) // 屏幕宽度，单位px number
   res.statusBarHeight = null // 状态栏的高度，单位px number
   res.system = deviceInfo && deviceInfo.osFullName // 操作系统及版本 string
   res.theme = null // 系统当前主题，取值为light或dark 'light' | 'dark'

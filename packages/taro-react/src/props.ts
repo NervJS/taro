@@ -86,12 +86,17 @@ function setStyle (style: Style, key: string, value: unknown) {
     return
   }
 
-  style[key] =
-    isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
-      ? convertNumber2PX(value)
-      : value == null
-        ? ''
-        : value
+  if (process.env.TARO_PLATFORM === 'harmony' && key.startsWith('_')) {
+    // harmony样式已处理
+    style[key] = value == null ? '' : value
+  } else {
+    style[key] =
+      isNumber(value) && IS_NON_DIMENSIONAL.test(key) === false
+        ? convertNumber2PX(value)
+        : value == null
+          ? ''
+          : value
+  }
 }
 
 type StyleValue = Record<string, string | number>
@@ -129,14 +134,7 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
           if (!oldValue || value[i] !== (oldValue as StyleValue)[i]) {
-            const isHarmony = process.env.TARO_PLATFORM === 'harmony'
-
-            // TODO: 需要更优雅的方式来实现
-            if (isHarmony && i.startsWith('_')) {
-              setStyle(style, i, checkStyleValue(value[i]))
-            } else {
-              setStyle(style, i, value[i])
-            }
+            setStyle(style, i, value[i])
           }
         }
       }
@@ -158,22 +156,4 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
       dom.setAttribute(name, value as string)
     }
   }
-}
-
-// 鸿蒙单位转换，递归处理style的内容，将px单位转换成鸿蒙适配的vp单位
-function checkStyleValue (value: unknown) {
-  if (isNumber(value)) {
-    return value
-  } else if (isString(value)) {
-    return /\d+(px$)/.test(value) ? convertNumber2PX(parseFloat(value)) : value
-  } else if (value instanceof Array) {
-    value.forEach(i => {
-      value[i] = checkStyleValue(value[i])
-    })
-  } else if (isObject<object>(value)) {
-    for (const key in value) {
-      value[key] = checkStyleValue(value[key])
-    }
-  }
-  return value
 }
