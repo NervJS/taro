@@ -1,3 +1,4 @@
+export * from './accelerometer'
 export * from './battery'
 export * from './clipboard'
 export * from './keyboard'
