@@ -80,3 +80,35 @@ exports[`wx作用域属性解析 wx:if & wx:for 1`] = `
   return <Block>{item.key && <View>{\\"the value is : \\" + item.value}</View>}</Block>;
 })"
 `;
+
+exports[`解析wxs中创建正则表达式方法的转换 定义了正则表达式的修饰符,则使用自定义修饰符 1`] = `
+Array [
+  Object {
+    "module": "xxxfile",
+    "src": "./wxs__xxxfile",
+  },
+]
+`;
+
+exports[`解析wxs中创建正则表达式方法的转换 定义了正则表达式的修饰符,则使用自定义修饰符 2`] = `
+"var a = new RegExp(\\"jzy123\\", \\"img\\");
+module.exports = {
+  reg: a
+};"
+`;
+
+exports[`解析wxs中创建正则表达式方法的转换 没有定义了正则表达式的修饰符,就不添加修饰符使用默认 1`] = `
+Array [
+  Object {
+    "module": "xxxfile",
+    "src": "./wxs__xxxfile",
+  },
+]
+`;
+
+exports[`解析wxs中创建正则表达式方法的转换 没有定义了正则表达式的修饰符,就不添加修饰符使用默认 2`] = `
+"var a = new RegExp(\\"jzy123\\");
+module.exports = {
+  reg: a
+};"
+`;
