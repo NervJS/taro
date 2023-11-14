@@ -2,13 +2,17 @@ use std::path::PathBuf;
 
 use anyhow::Ok;
 use console::style;
+use once_cell::sync::Lazy;
 use regex::Regex;
 
-use crate::{async_fs, utils::get_all_files_in_folder};
+use crate::{async_fs, utils::get_all_files_in_folder, constants::MEDIA_REGEX};
 
 use super::validate::validate_project_name;
 
 static DEFAULT_RN_PROJECT_NAME: &str = "taroDemo";
+static PROJECT_NAME_REGEX: Lazy<Regex> = Lazy::new(|| {
+  Regex::new(r#"target '(.*)' do"#).unwrap()
+});
 
 static UNDERSCORED_DOTFILES: [&str; 13] = [
   "buckconfig",
@@ -29,9 +33,8 @@ static UNDERSCORED_DOTFILES: [&str; 13] = [
 async fn get_template_name(cwd: &str) -> anyhow::Result<String> {
   let file_path = PathBuf::from(cwd).join("./ios/Podfile");
   let result = async_fs::read(file_path).await?;
-  let result_str = String::from_utf8(result)?;
-  let regex = Regex::new(r#"target '(.*)' do"#).unwrap();
-  let name = regex.captures(result_str.as_str()).unwrap();
+  let result_str = String::from_utf8_lossy(&result);
+  let name = PROJECT_NAME_REGEX.captures(&result_str).unwrap();
   let name = if let Some(name) = name.get(1) {
     name.as_str()
   } else {
@@ -41,8 +44,11 @@ async fn get_template_name(cwd: &str) -> anyhow::Result<String> {
 }
 
 async fn replace_name_in_utf8_file(file_path: &str, project_name: &str, default_name: &str) -> anyhow::Result<()> {
+  if MEDIA_REGEX.is_match(file_path) {
+    return Ok(());
+  }
   let file_content = async_fs::read(file_path).await?;
-  let file_content_str = String::from_utf8(file_content)?;
+  let file_content_str = String::from_utf8_lossy(&file_content).to_string();
   let regex = Regex::new(&format!("r{}{}", default_name, "g")).unwrap();
   let new_file_content_str = regex.replace_all(file_content_str.as_str(), project_name).to_string();
   let regex = Regex::new(&format!("r{}{}", default_name.to_lowercase(), "g")).unwrap();
