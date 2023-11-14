@@ -82,11 +82,15 @@ export function getNormalAttributes (node: TaroElement) {
 
   const id = node._nid
   const component = node._instance
-  const overwriteStyle = component.nodeInfoMap[id].overwriteStyle
+
+  // taro_page 等写死在运行时里的节点，没有 _instance
+  if (component) {
+    const overwriteStyle = component.nodeInfoMap[id].overwriteStyle
   
-  // 处理覆盖属性：如动画的覆盖
-  if (overwriteStyle) {
-    Object.assign(normalAttributes, overwriteStyle)
+    // 处理覆盖属性：如动画的覆盖
+    if (overwriteStyle) {
+      Object.assign(normalAttributes, overwriteStyle)
+    }
   }
   return normalAttributes
 }
