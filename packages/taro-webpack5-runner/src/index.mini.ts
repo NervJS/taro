@@ -22,7 +22,9 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     entry,
     isWatch: combination.config.isWatch,
     runtimePath,
-    isBuildPlugin: combination.isBuildPlugin
+    isBuildPlugin: combination.isBuildPlugin,
+    alias: combination.config.alias,
+    defineConstants: combination.config.defineConstants,
   })
   try {
     await prebundle.run(combination.getPrebundleOptions())
