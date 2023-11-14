@@ -1,5 +1,111 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`template.ts template套用 同界面template套用 1`] = `
+"<FirstTagTmpl data={{
+  tagListFirst: tagListFirst,
+  tagListSecond: tagListSecond
+}}></FirstTagTmpl>"
+`;
+
+exports[`template.ts template套用 同界面template套用 2`] = `
+"import SecondTagTmpl from \\"./SecondTagTmpl\\";
+import { Block, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class FirstTagTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        tagListFirst,
+        index,
+        item,
+        tagListSecond
+      },
+      onClickFirstTag,
+      onClickSecndTag
+    } = this.props;
+    return <Block>{tagListFirst.map((item, index) => {
+        return <Block key={index}><View onClick={onClickFirstTag}>{item}</View></Block>;
+      })}<SecondTagTmpl data={{
+        tagListSecond: tagListSecond
+      }} onClickSecndTag={onClickSecndTag}></SecondTagTmpl></Block>;
+  }
+}
+export default FirstTagTmpl;"
+`;
+
+exports[`template.ts template套用 同界面template套用 3`] = `
+"import { Block, View } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class SecondTagTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        tagListSecond,
+        index,
+        item
+      },
+      onClickSecndTag
+    } = this.props;
+    return <Block>{tagListSecond.map((item, index) => {
+        return <Block key={index}><View onClick={onClickSecndTag}>{item}</View></Block>;
+      })}</Block>;
+  }
+}
+export default SecondTagTmpl;"
+`;
+
+exports[`template.ts template套用 通过import的套用 1`] = `
+"<TmplATmpl data={{
+  motto: motto,
+  mott: mott
+}}></TmplATmpl>"
+`;
+
+exports[`template.ts template套用 通过import的套用 2`] = `
+"import { Block, View, Button } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class TmplBTmpl extends React.Component {
+  render() {
+    const {
+      onClickC
+    } = this.props;
+    return <Block><View>this is template B</View><Button onClick={onClickC}>模板C的按钮</Button></Block>;
+  }
+}
+export default TmplBTmpl;"
+`;
+
+exports[`template.ts template套用 通过import的套用 3`] = `
+"import TmplBTmpl from \\"./TmplBTmpl\\";
+import { Block, View, Button } from \\"@tarojs/components\\";
+import React from \\"react\\";
+import Taro from \\"@tarojs/taro\\";
+import withWeapp from \\"@tarojs/with-weapp\\";
+@withWeapp({})
+class TmplATmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        motto,
+        mott
+      },
+      onClickC
+    } = this.props;
+    return <Block><View>this is template A</View>{motto && <View>{mott}</View>}<TmplBTmpl onClickC={onClickC}></TmplBTmpl></Block>;
+  }
+}
+export default TmplATmpl;"
+`;
+
 exports[`template.ts 引入 import 正常情况 import src 为绝对路径 1`] = `
 "import { Block, View } from \\"@tarojs/components\\";
 import React from \\"react\\";

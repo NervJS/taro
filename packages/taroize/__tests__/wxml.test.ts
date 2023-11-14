@@ -744,3 +744,21 @@ describe('wx作用域属性解析', () => {
     expect(wxmlCode).toMatchSnapshot()
   })
 })
+
+describe('hidden属性解析', () => {
+  test('一般组件的hidden属性解析', () => {
+    option.wxml = `<view hidden="{{xx}}">{{xxx}}</view>`
+    option.path = 'hidden'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual(`!xx && <View>{xxx}</View>`)
+  })
+
+  test('template的hidden属性解析', () => {
+    option.wxml = `<template is="{{name}}" hidden="{{xx}}" />`
+    option.path = 'hidden_template'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual(`!xx && <Template is={name}></Template>`)
+  })
+})
