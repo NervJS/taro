@@ -1,3 +1,4 @@
+import { isNumber } from '@tarojs/shared'
 import classNames from 'classnames'
 import memoizeOne from 'memoize-one'
 import React from 'react'
@@ -176,6 +177,7 @@ export default class Waterfall extends React.PureComponent<IProps, IState> {
       scrollTop,
       scrollLeft
     } = event.currentTarget
+    if (!isNumber(scrollHeight) || !isNumber(scrollWidth)) return
     const clientHeight = this.itemMap.wrapperHeight
     const clientWidth = this.itemMap.wrapperWidth
     this.setState((prevState: IState) => {
