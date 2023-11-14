@@ -1,8 +1,8 @@
 use anyhow::{Error, Ok};
 use futures::FutureExt;
+use std::{fs, path::Path, process::Stdio};
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
-use std::{fs, path::Path, process::Stdio};
 
 pub fn get_all_files_in_folder(folder: String, filter: &[&str]) -> Result<Vec<String>, Error> {
   let mut files = Vec::new();
@@ -39,7 +39,10 @@ pub async fn execute_command(cmd: &str, args: &[&str]) -> anyhow::Result<()> {
   let mut command = Command::new(cmd);
   command.args(args);
 
-  let mut child = command.stdout(Stdio::piped()).stderr(Stdio::piped()).spawn()?;
+  let mut child = command
+    .stdout(Stdio::piped())
+    .stderr(Stdio::piped())
+    .spawn()?;
   let stdout_handle = child.stdout.take().unwrap();
   let stderr_handle = child.stderr.take().unwrap();
 
@@ -54,13 +57,16 @@ pub async fn execute_command(cmd: &str, args: &[&str]) -> anyhow::Result<()> {
   if status.success() {
     Ok(())
   } else {
-    Err(Error::msg(format!("Command failed with exit code: {}", status)))
+    Err(Error::msg(format!(
+      "Command failed with exit code: {}",
+      status
+    )))
   }
 }
 
 async fn process_lines<R>(reader: R)
 where
-    R: tokio::io::AsyncRead + Unpin,
+  R: tokio::io::AsyncRead + Unpin,
 {
   let mut lines = BufReader::new(reader).lines();
 
