@@ -506,7 +506,12 @@ export default class Index extends React.Component {
                 tempFilePath: tempFilePaths[0],
                 success: (sucRes) => {
                   TestConsole.consoleNormal('saveFile success ', sucRes)
-                  const fileContent = fileSystemManager.readFileSync(sucRes.savedFilePath, data.encoding, data.position, data.length)
+                  const fileContent = fileSystemManager.readFileSync(
+                    sucRes.savedFilePath,
+                    data.encoding,
+                    data.position,
+                    data.length
+                  )
                   TestConsole.consoleResult.call(this, fileContent, apiIndex)
                 },
                 fail: (failRes) => {

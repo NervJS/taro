@@ -390,12 +390,7 @@ export default class Index extends React.Component {
             context.beginPath()
             context.setFillStyle('#000000')
             context.font = '30px Georgia'
-            context.fillText(
-              ...Object.values(data),
-              10,
-              50,
-              200
-            )
+            context.fillText(...Object.values(data), 10, 50, 200)
             await context.draw()
             const metrics = context.measureText(...Object.values(data))
             TestConsole.consoleNormal('CanvasContext-measureText', metrics)

@@ -559,7 +559,7 @@ export default class Index extends React.Component {
   seekedCallback = (res) => {
     TestConsole.consoleOnCallback.call(this, res, 'onSeekedCallback', 18)
   }
-  render () {
+  render() {
     const { list } = this.state
     return (
       <View className='api-page'>

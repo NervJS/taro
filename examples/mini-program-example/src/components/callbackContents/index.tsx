@@ -31,7 +31,7 @@ export default class Index extends React.Component<Props> {
         return 'undefined'
       }
       if (typeof value == 'function') {
-        return 'function';
+        return 'function'
       }
       if (typeof value === 'object' && value !== null) {
         if (cache.has(value)) {
