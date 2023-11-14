@@ -55,6 +55,9 @@ pub static PACKAGES_MANAGEMENT: Lazy<HashMap<&NpmType, PackageCommand>> = Lazy::
   map
 });
 
+pub static MEDIA_REGEX: Lazy<regex::Regex> =
+  Lazy::new(|| regex::Regex::new(r"\.(png|jpe?g|gif|svg|webp)$").unwrap());
+
 pub static TEMPLATE_CREATOR: &str = "template_creator.js";
 
 pub static FILE_FILTER: Lazy<Vec<&str>> =
