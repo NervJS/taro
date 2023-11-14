@@ -68,7 +68,7 @@ struct TaroRadio {
       Stack() {
         Row() {
           Radio({
-            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
+            group: this.node._attrs.groupName || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
             value: this.node._attrs.value,
           })
             .checked(this.checked)
@@ -175,6 +175,12 @@ struct TaroRadioGroup {
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node)
+    const childList = this.node.getElementsByTagName('RADIO')
+    childList.forEach(element => {
+      element._attrs.groupName = this.node._attrs.name
+    })
+    // 阻止事件冒泡传递上去
+    this.node.addEventListener('change', e => e.stopPropagation())
   }
 
   @Styles defaultEvent () {

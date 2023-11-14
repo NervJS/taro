@@ -1,4 +1,5 @@
 import { Events } from '@tarojs/runtime/dist/runtime.esm'
+import { isArray } from '@tarojs/shared'
 
 import { TaroEvent } from './event'
 
@@ -67,7 +68,30 @@ class TaroEventTarget extends Events {
       }
     }
 
+
+    if (event._stop) {
+      this._stopPropagation(event)
+    }
+
+
     return listeners != null
+  }
+
+  private _stopPropagation (event: TaroEvent) {
+    let target = this
+    // @ts-ignore
+    while ((target = target.parentNode as this)) {
+      const listeners = target.__listeners[event.type]
+
+      if (!isArray(listeners)) {
+        continue
+      }
+
+      for (let i = listeners.length; i--;) {
+        const l = listeners[i]
+        l._stop = true
+      }
+    }
   }
 }
 

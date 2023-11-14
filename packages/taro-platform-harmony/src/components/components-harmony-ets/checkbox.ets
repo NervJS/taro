@@ -1,7 +1,9 @@
 import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
+import { createNode } from './render'
 import { createTaroEvent } from './utils/events'
+import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
@@ -55,7 +57,6 @@ struct TaroCheckbox {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }))
   }
@@ -95,14 +96,62 @@ struct TaroCheckbox {
   }
 }
 
-@Extend(CheckboxGroup)
+
+@Extend(Flex)
 function attrs ({
   id,
-  color,
-}) {
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform,
+ }) {
   .id(id)
   .key(id)
-  .selectedColor(color)
+  .constraintSize(constraintSize)
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
+  .margin(margin)
+  .padding(padding)
+  .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage, backgroundRepeat)
+  .backgroundImageSize(backgroundImageSize)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
+  .clip(clip)
 }
 
 function getAttributesGroup (node: TaroViewElement) {
@@ -131,6 +180,19 @@ struct TaroCheckboxGroup {
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
+
+    // 阻止事件冒泡传递上去
+    this.node.addEventListener('change', (e) => {
+      e.stopPropagation()
+      const childList = this.node.getElementsByTagName('CHECKBOX')
+      const result = []
+      childList.forEach(element => {
+        if (element._instance.checked) {
+          result.push(element._attrs.value)
+        }
+      })
+      e.detail.value = result
+    })
   }
 
   @Styles defaultEvent () {
@@ -144,15 +206,14 @@ struct TaroCheckboxGroup {
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      CheckboxGroup({
-        group: '',
-      })
-        .onChange(({ name, status }) => {
-        })
-        .defaultEvent()
-        .attrs(getAttributesGroup(this.node))
-        .themeStyles(!!this.node._attrs.disabled)
-        .visibleChangeEvent()
+      Flex(FlexManager.flexOptions(this.node)) {
+        ForEach(this.node.childNodes, item => {
+          createNode(item)
+        }, item => item._nid)
+      }
+      .attrs(getNormalAttributes(this.node))
+      .defaultEvent()
+      .visibleChangeEvent()
     }
   }
 }

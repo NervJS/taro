@@ -81,7 +81,6 @@ export function createEvent (event: BaseEvent | string, type?: string, node?: Ta
 
 function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
   let target = node
-  const isStop = event._stop
 
   // eslint-disable-next-line no-unmodified-loop-condition
   while ((target = target.parentNode as TaroElement)) {
@@ -92,16 +91,10 @@ function stopOrTriggerPropagation (event: TaroEvent, node: TaroElement) {
       continue
     }
 
-    for (let i = listeners.length; i--;) {
-      const listener = listeners[i]
-
-      if (!isStop) {
-        // 由于冒泡也是模拟的，因此需要收集父节点事件，进行 batched 操作
-        collectBatchFunction(event.type, listener.bind(node, event))
-      }
-
-      listener._stop = true
-    }
+    const _target = target
+    collectBatchFunction(event.type, () => {
+      hooks.call('dispatchTaroEvent', event, _target)
+    })
   }
 }
 
@@ -143,14 +136,10 @@ export function eventHandler (event, type: string, node: TaroElement) {
       stopOrTriggerPropagation(e, node)
     }
 
-    if (!e._stop) {
-      e._stop = true
-    }
     // hooks.call('dispatchTaroEventFinish', e, node)
   }
-
-  dispatch()
   
+  dispatch()
   if (isBatchUpdates) {
     // collectBatchFunction(type, dispatch)
 
