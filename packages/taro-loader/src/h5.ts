@@ -113,8 +113,18 @@ if (config.tabBar) {
 }
 ${routesConfig}
 ${options.loaderMeta.execBeforeCreateWebApp || ''}
-var inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
-${routerCreator}(inst, config, ${options.loaderMeta.importFrameworkName})
+
+async function init() {
+  if(component.execBeforeRender) {
+    await component.execBeforeRender();
+  }
+
+  var inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
+  ${routerCreator}(inst, config, ${options.loaderMeta.importFrameworkName})
+}
+
+init();
+
 initPxTransform({
   designWidth: ${pxTransformConfig.designWidth},
   deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},
