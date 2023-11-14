@@ -343,8 +343,6 @@ export class TaroElement extends TaroNode {
 
     if (event._stop) {
       this._stopPropagation(event)
-    } else {
-      event._stop = true
     }
 
     return listeners != null
