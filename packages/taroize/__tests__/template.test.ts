@@ -192,4 +192,66 @@ describe('template.ts', () => {
       })
     })
   })
+
+  // 主要测试template相关信息（所需变量、要传递的方法）的抽取
+  describe('template套用', () => {
+    test('同界面template套用', () => {
+      const wxmlStr = `
+        <template is="firstTag" data='{{ tagListFirst, tagListSecond}}'>顶层</template>
+
+        <template name="firstTag">                   
+          <block wx:for="{{tagListFirst}}" wx:key="index">
+            <view catchtap="onClickFirstTag">{{item}}</view>
+          </block>
+          <template is="secondTag" data="{{tagListSecond}}"></template>
+        </template>
+
+        <template name="secondTag">
+          <block wx:for="{{tagListSecond}}" wx:key="index">
+            <view catchtap="onClickSecndTag">{{item}}</view>
+          </block>
+        </template>
+      `
+      const dirPath = 'template_apply'
+      const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+      imports.forEach((importWxml) => {
+        const importCode = generateMinimalEscapeCode(importWxml.ast)
+        expect(importCode).toMatchSnapshot()
+      })
+    })
+
+    test('通过import的套用', () => {
+      const wxmlStr = `
+        <import src="/template/tmplA/index"></import>
+        <template is="tmplA" data="{{motto, mott}}"></template>
+      `
+      const tmplA = `
+        <import src="/template/tmplB/index"></import>
+        <template name="tmplA">
+          <view>this is template A</view>
+          <view wx:if="{{motto}}">{{mott}}</view>
+          <template is="tmplB"></template>
+        </template>
+      `
+      const tmplB = `
+        <template name="tmplB">
+          <view>this is template B</view>
+          <button bind:tap="onClickC">模板C的按钮</button>
+        </template>
+      `
+      
+      jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(tmplA).mockReturnValueOnce(tmplB)
+      jest.spyOn(fs, 'existsSync').mockReturnValue(true)
+      const dirPath = 'template_import_apply'
+      const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+      imports.forEach((importWxml) => {
+        const importCode = generateMinimalEscapeCode(importWxml.ast)
+        expect(importCode).toMatchSnapshot()
+      })
+    })
+  })
 })
