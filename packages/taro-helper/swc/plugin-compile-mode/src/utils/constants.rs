@@ -9,3 +9,182 @@ pub const DATA_SID: &str = "data-sid";
 pub const TMPL_DATA_ROOT: &str = "i.";
 pub const ID: &str = "id";
 pub const LOOP_WRAPPER_ID: i32 = -1;
+
+pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Flex)
+function attrs ({
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform
+}) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
+  .constraintSize(constraintSize)
+  .margin(margin)
+  .padding(padding)
+  .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage, backgroundRepeat)
+  .backgroundImageSize(backgroundImageSize)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
+  .clip(clip)
+}"#;
+pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
+function attrsText ({
+  id,
+  width,
+  height,
+  zIndex,
+  opacity,
+  margin,
+  padding,
+  decoration,
+  lineHeight,
+  letterSpacing,
+  maxLines,
+  fontColor,
+  fontSize,
+  fontWeight,
+  fontFamily,
+  textOverflow,
+  constraintSize,
+  border,
+  borderRadius,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  rotate,
+  scale,
+  translate,
+  transform,
+  textAlign,
+ }) {
+  .id(id)
+  .key(id)
+  .constraintSize(constraintSize)
+  .zIndex(zIndex)
+  .opacity(opacity)
+  .margin(margin)
+  .padding(padding)
+  .decoration(decoration)
+  .lineHeight(lineHeight)
+  .letterSpacing(letterSpacing)
+  .maxLines(maxLines)
+  .fontColor(fontColor)
+  .fontSize(fontSize)
+  .fontWeight(fontWeight)
+  .fontFamily(fontFamily)
+  .textOverflow(textOverflow)
+  .border(border)
+  .borderRadius(borderRadius)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage, backgroundRepeat)
+  .backgroundImageSize(backgroundImageSize)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
+  .textAlign(textAlign)
+  .width(width)
+  .height(height)
+}
+
+function getTextAttributes (node: TaroViewElement) {
+  const attrs = {
+    ...getNormalAttributes(node),
+    ...getFontAttributes(node)
+  }
+
+  transformW3CToHarmonyInStyle(node._st, attrs)
+
+  return attrs
+}"#;
+pub const HARMONY_IMAGE_STYLE_BIND: &str = r#"@Extend(Image)
+function attrsImage ({
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  alignSelf,
+  clip,
+  width,
+  height,
+  margin,
+  padding,
+  linearGradient,
+  zIndex,
+  borderStyle,
+  borderWidth,
+  borderColor,
+  borderRadius,
+  opacity,
+  backgroundColor,
+  backgroundImage,
+  backgroundRepeat,
+  backgroundImageSize,
+  constraintSize,
+  rotate,
+  scale,
+  translate,
+  transform
+}) {
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
+  .width(width)
+  .height(height)
+  .constraintSize(constraintSize)
+  .margin(margin)
+  .padding(padding)
+  .linearGradient(linearGradient)
+  .zIndex(zIndex)
+  .borderStyle(borderStyle)
+  .borderWidth(borderWidth)
+  .borderColor(borderColor)
+  .borderRadius(borderRadius)
+  .opacity(opacity)
+  .backgroundColor(backgroundColor)
+  .backgroundImage(backgroundImage, backgroundRepeat)
+  .backgroundImageSize(backgroundImageSize)
+  .rotate(rotate)
+  .scale(scale)
+  .translate(translate)
+  .transform(transform)
+  .clip(clip)
+  .objectFit(ImageFit.Contain)
+}"#;
