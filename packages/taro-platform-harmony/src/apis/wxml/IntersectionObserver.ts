@@ -1,6 +1,6 @@
 // @ts-nocheck
 import Taro from '@tarojs/api'
-import { Current, disconnectEvent, setNodeEventCallbackAndTriggerComponentUpdate, TaroElement, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { Current, disconnectEvent, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, TaroElement, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { findChildNodeWithDFS, unsupport } from '../utils'
 
@@ -19,7 +19,7 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   constructor(component: any, options: Taro.createIntersectionObserver.Option = {}) {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentPage = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+    const currentPage = getPageScrollerOrNode(page.node, page)
     this._component = component || currentPage
     Object.assign(this._options, options)
   }

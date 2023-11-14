@@ -54,6 +54,21 @@ export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, cla
   obj.push(style)
   return Object.assign.apply(null, [{}].concat(obj))
 }
+
+export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
+  if (!page) return scrollerOrNode
+
+  const isArrayData = scrollerOrNode instanceof Array
+
+  if (isArrayData) {
+    const index = page.currentIndex || 0
+    
+    return scrollerOrNode[index]
+  }
+
+  return scrollerOrNode
+}
+
 export class DynamicCenter {
   static checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
     if (!parentNode._isCompileMode) return

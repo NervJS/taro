@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import Taro from '@tarojs/api'
-import { convertVP2PX, Current, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { convertVP2PX, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { NodesRef } from './nodesRef.js'
 
@@ -190,7 +190,7 @@ function queryBat (queue, cb) {
   const result: any = []
   const taro = (Current as any).taro
   const page = taro.getCurrentInstance().page
-  const element = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+  const element = getPageScrollerOrNode(page.node, page)
 
   if (element == null) return null
 

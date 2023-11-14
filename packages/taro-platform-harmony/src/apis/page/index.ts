@@ -6,7 +6,7 @@
  * - 滚动距离
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-framework-syntax-js-0000000000611432
  */
-import { AREA_CHANGE_EVENT_NAME, Current, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess, findChildNodeWithDFS } from '../utils'
 
@@ -32,7 +32,7 @@ export const pageScrollTo: pageScrollTo = (options) => {
 
     let scrollValue = -1
     let scroller = page.scroller
-    const currentPageNode = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+    const currentPageNode = getPageScrollerOrNode(page.node, page)
 
     if (scrollTop || typeof scrollTop === 'number') {
       scrollValue = scrollTop
@@ -57,6 +57,8 @@ export const pageScrollTo: pageScrollTo = (options) => {
         }
         parent = parent?.parentNode
       }
+
+      scroller = getPageScrollerOrNode(scroller, page)
 
       const { yOffset } = scroller.currentOffset()
 

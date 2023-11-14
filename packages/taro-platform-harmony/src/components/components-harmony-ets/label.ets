@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode } from '@tarojs/runtime'
 import { findChildNodeWithDFS } from '@tarojs/taro/utils'
 
 import { createNode } from './render'
@@ -111,7 +111,7 @@ struct TaroLabel {
   handleTargetChange (id: string) {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
-    const currentPageNode = (page.node instanceof Array) ? page.node[page.currentIndex] : page.node
+    const currentPageNode = getPageScrollerOrNode(page.node, page)
     const node = findChildNodeWithDFS(currentPageNode, `#${id}`)
 
     if (!node || !node._instance) return
