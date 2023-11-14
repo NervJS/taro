@@ -79,7 +79,7 @@ function transArr2Str (array: unknown[], prefixSpace = 0) {
 
 function renderPage (isTabPage: boolean) {
   let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
-  Scroll(this.scroller) {
+  Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
       TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
     }
@@ -197,18 +197,21 @@ export default { ${
           'struct Index {',
         ]
         const generateState = [
-          '',
           'page: PageInstance',
-          'scroller: Scroller = new Scroller()',
-          '',
           isTabbarPage
             ? [
+              `scroller: Scroller[] = [${
+                tabbarList.map(() => 'new Scroller()').join(', ')
+              }]`,
               `@State node: TaroElement[] = [${
                 tabbarList.map(() => 'new TaroElement("Block")').join(', ')
               }]`,
               `@State pageList: PageInstance[] = []`,
             ]
-            : '@State node: TaroElement = new TaroElement("Block")',
+            : [
+              'scroller: Scroller = new Scroller()',
+              '@State node: TaroElement = new TaroElement("Block")',
+            ],
           '@State appConfig: AppConfig = window.__taroAppConfig || {}',
           '@StorageLink("__TARO_PAGE_STACK") pageStack: string[] = []',
         ].flat()
