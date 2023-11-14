@@ -1,6 +1,7 @@
 use std::{collections::HashMap, path::PathBuf};
 
 use anyhow::Context;
+use console::style;
 use handlebars::{handlebars_helper, Handlebars, JsonRender};
 use handlebars_misc_helpers::{new_hbs, register};
 use napi::{
@@ -12,11 +13,10 @@ use napi::{
 };
 use napi_derive::napi;
 use serde::Serialize;
-use console::style;
 
 use crate::{
   async_fs,
-  constants::{CSSType, CompilerType, FrameworkType, STYLE_EXT_MAP, MEDIA_REGEX},
+  constants::{CSSType, CompilerType, FrameworkType, MEDIA_REGEX, STYLE_EXT_MAP},
   utils::normalize_path_str,
 };
 
@@ -265,8 +265,14 @@ impl Creator {
         let from_path: String = PathBuf::from(file_relative_path)
           .to_string_lossy()
           .to_string();
-        self.tempate(from_path.as_str(), dest_path.as_str(), &options.clone()).await?;
-        println!("{} {}", style("✔").green(), style("创建文件: ".to_owned() + dest_path.as_str()).color256(238));
+        self
+          .tempate(from_path.as_str(), dest_path.as_str(), &options.clone())
+          .await?;
+        println!(
+          "{} {}",
+          style("✔").green(),
+          style("创建文件: ".to_owned() + dest_path.as_str()).color256(238)
+        );
       }
     }
     Ok(())
