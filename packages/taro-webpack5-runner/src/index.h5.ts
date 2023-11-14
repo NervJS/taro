@@ -32,7 +32,9 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
       entryFileName,
       entry,
       isWatch: combination.config.isWatch,
-      publicPath
+      publicPath,
+      alias: combination.config.alias,
+      defineConstants: combination.config.defineConstants,
     })
     try {
       await prebundle.run(combination.getPrebundleOptions())
@@ -159,7 +161,9 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
     const app = new AppHelper(config.entry as EntryNormalized, {
       sourceDir: path.join(appPath, config.sourceRoot || SOURCE_DIR),
       frameworkExts: config.frameworkExts,
-      entryFileName: config.entryFileName
+      entryFileName: config.entryFileName,
+      alias: config.alias,
+      defineConstants: config.defineConstants,
     })
     const appConfig = app.appConfig
     const customRoutes = routerConfig.customRoutes || {}

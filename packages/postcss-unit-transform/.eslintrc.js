@@ -1,5 +1,7 @@
+const config = require('../../.eslintrc.js')
+
 module.exports = {
-  parser: '@typescript-eslint/parser',
+  parser: config.parser,
   plugins: [
     '@typescript-eslint'
   ],

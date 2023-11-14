@@ -7,6 +7,7 @@ import SplitChunksPlugin from 'webpack/lib/optimize/SplitChunksPlugin'
 
 import type { Chunk, ChunkGraph, Compilation, Compiler, Module, sources } from 'webpack'
 import type { IFileType } from '../utils/types'
+import type { MiniCombination } from '../webpack/MiniCombination'
 
 const PLUGIN_NAME = 'MiniSplitChunkPlugin' // 插件名
 const SUB_COMMON_DIR = 'sub-common' // 分包公共依赖目录
@@ -22,6 +23,7 @@ const FileExtsMap = {
 interface MiniSplitChunksPluginOption {
   exclude?: (string | ExcludeFunctionItem)[]
   fileType: IFileType
+  combination: MiniCombination
 }
 
 // 排除函数
@@ -291,6 +293,7 @@ const normalizeCacheGroups = (cacheGroups, defaultSizeTypes: string[]) => {
  */
 export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   options: any
+  combination: MiniCombination
   subCommonDeps: Map<string, DepInfo>
   subCommonChunks: Map<string, Set<string>>
   subPackagesVendors: Map<string, Chunk>
@@ -317,6 +320,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
       templ: '.wxml',
       xs: '.wxs'
     }
+    this.combination = options.combination
     FileExtsMap.STYLE = this.fileType.style
   }
 
@@ -608,7 +612,7 @@ export default class MiniSplitChunksPlugin extends SplitChunksPlugin {
   getSubpackageConfig (compiler: Compiler): SubPackage[] {
     const appEntry = this.getAppEntry(compiler)
     const appConfigPath = this.getConfigFilePath(appEntry)
-    const appConfig: AppConfig = readConfig(appConfigPath)
+    const appConfig: AppConfig = readConfig(appConfigPath, this.combination.config)
 
     return appConfig.subPackages || appConfig.subpackages || []
   }

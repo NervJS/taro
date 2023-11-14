@@ -1,101 +1,66 @@
-use swc_core::ecma::{
-    ast::*,
-    transforms::testing::test,
-    visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
+use swc_core::{
+    ecma::{
+        ast::*,
+        transforms::testing::test,
+        visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
+        utils::{quote_ident, FunctionFactory, prepend_stmt},
+    },
+    common::{DUMMY_SP as span, SyntaxContext },
+    plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
 };
-use swc_core::common::{DUMMY_SP, SyntaxContext};
-use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
 
-struct DefineConfig {
-    found: bool,
-    fn_name: String,
-    ctxt: SyntaxContext
+struct DefineConfigVisitor {
+    fn_name: Option<Ident>
 }
 
-impl DefineConfig {
-    fn new() -> Self {
-        Self {
-            found: false,
-            fn_name: String::from(""),
-            ctxt: SyntaxContext::empty()
+impl VisitMut for DefineConfigVisitor {
+    fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
+        expr.visit_mut_children_with(self);
+        if let Callee::Expr(expr) = &expr.callee {
+            if let Expr::Ident(ident) = &**expr {
+                if ident.sym == "defineAppConfig" || ident.sym == "definePageConfig" {
+                    self.fn_name = Some(ident.clone());
+                }
+            }
         }
     }
-}
-
-impl VisitMut for DefineConfig {
-  fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-    node.visit_mut_children_with(self);
-
-    let callee = &node.callee;
-    if let Some(expr_box) = callee.as_expr() {
-      if let Expr::Ident(ident) = &**expr_box {
-        if &ident.sym == "defineAppConfig" || &ident.sym == "definePageConfig" {
-          self.found = true;
-          self.fn_name = String::from(&*ident.sym);
-          self.ctxt = ident.span.ctxt;
-        }
-      }
-    }
-  }
 }
 
 pub struct TransformVisitor;
 
 impl VisitMut for TransformVisitor {
-    fn visit_mut_module_items(&mut self, module_item: &mut Vec<ModuleItem>) {
-      module_item.visit_mut_children_with(self);
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        let mut folder = DefineConfigVisitor { fn_name: None };
 
-      let mut define_config = DefineConfig::new();
-      let mut line_to_be_insert: usize = 0;
+        let is_found = items.iter_mut().any(|item| {
+            item.visit_mut_with(&mut folder);
+            folder.fn_name.is_some()
+        });
 
-      for (idx, item) in module_item.iter_mut().enumerate() {
-        match item {
-          ModuleItem::Stmt(stmt) => {
-            stmt.visit_mut_with(&mut define_config);
-            if define_config.found {
-              line_to_be_insert = idx;
-              break;
-            }
-          }
-          ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(expr)) => {
-            expr.visit_mut_with(&mut define_config);
-            if define_config.found {
-              line_to_be_insert = idx;
-              break;
-            }
-          }
-          _ => ()
+        if is_found {
+            let fn_name = folder.fn_name.take().unwrap();
+            let func = Function {
+                span,
+                decorators: Default::default(),
+                params: vec![Param {
+                    span,
+                    decorators: Default::default(),
+                    pat: Pat::Ident(quote_ident!("config").into()),
+                }],
+                body: Some(BlockStmt {
+                    span,
+                    stmts: vec![Stmt::Return(ReturnStmt {
+                      span,
+                      arg: Some(Box::new(quote_ident!("config").into())),
+                    })],
+                  }),
+                is_async: false,
+                is_generator: false,
+                type_params: None,
+                return_type: None,
+            };
+            prepend_stmt(items, ModuleItem::Stmt(Stmt::Decl(Decl::Fn(func.into_fn_decl(fn_name)))));
         }
-      }
-
-      if define_config.found {
-        let func = Stmt::Decl(Decl::Fn(FnDecl {
-          ident: Ident::new(define_config.fn_name.into(), DUMMY_SP.with_ctxt(define_config.ctxt)),
-          declare: false,
-          function: Box::new(Function {
-            span: DUMMY_SP,
-            params: vec![Param {
-              span: DUMMY_SP,
-              decorators: Default::default(),
-              pat: Pat::Ident(BindingIdent::from(Ident::new("config".into(), DUMMY_SP))),
-            }],
-            body: Some(BlockStmt {
-              span: DUMMY_SP,
-              stmts: vec![Stmt::Return(ReturnStmt {
-                span: DUMMY_SP,
-                arg: Some(Box::new(Expr::Ident(Ident::new("config".into(), DUMMY_SP)))),
-              })],
-            }),
-            is_generator: false,
-            is_async: false,
-            type_params: Default::default(),
-            decorators: Default::default(),
-            return_type: Default::default(),
-          }),
-        }));
-
-        module_item.insert(line_to_be_insert, ModuleItem::Stmt(func));
-      }
     }
 }
 
@@ -127,62 +92,50 @@ test!(
     Default::default(),
     |_| as_folder(TransformVisitor),
     module_decl_default_app,
-    // Input codes
-    r#"
-    export default defineAppConfig({})
-    "#,
-    // Output codes after transformed with plugin
-    r#"
-    function defineAppConfig(config) {return config}
-    export default defineAppConfig({})
-    "#
+    r#"export default defineAppConfig({})"#
 );
 
 test!(
     Default::default(),
     |_| as_folder(TransformVisitor),
     module_decl_default_page,
-    // Input codes
+    r#"export default definePageConfig({})"#
+);
+
+test!(
+    Default::default(),
+    |_| as_folder(TransformVisitor),
+    var_decl_app,
     r#"
-    export default definePageConfig({})
-    "#,
-    // Output codes after transformed with plugin
-    r#"
-    function definePageConfig(config) {return config}
-    export default definePageConfig({})
+    const config = defineAppConfig({})
+    export default config
     "#
 );
 
 test!(
-  Default::default(),
-  |_| as_folder(TransformVisitor),
-  var_decl_app,
-  // Input codes
-  r#"
-  const config = defineAppConfig({})
-  export default config
-  "#,
-  // Output codes after transformed with plugin
-  r#"
-  function defineAppConfig(config) {return config}
-  const config = defineAppConfig({})
-  export default config
-  "#
+    Default::default(),
+    |_| as_folder(TransformVisitor),
+    var_decl_page,
+    r#"
+    const config = definePageConfig({})
+    export default config
+    "#
 );
 
 test!(
-  Default::default(),
-  |_| as_folder(TransformVisitor),
-  var_decl_page,
-  // Input codes
-  r#"
-  const config = definePageConfig({})
-  export default config
-  "#,
-  // Output codes after transformed with plugin
-  r#"
-  function definePageConfig(config) {return config}
-  const config = definePageConfig({})
-  export default config
-  "#
+    Default::default(),
+    |_| as_folder(TransformVisitor),
+    module_exports,
+    r#"
+    var require_index_config = __commonJS({
+        "src/pages/index/index.config.ts": function(exports1, module) {
+            var config = definePageConfig({
+                navigationBarTitleText: "首页",
+                usingComponents: {}
+            });
+            module.exports = config;
+        }
+    });
+    var _default = require_index_config();
+    "#
 );
