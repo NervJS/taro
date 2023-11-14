@@ -352,7 +352,14 @@ class _C extends React.Component {
   render() {
     const { templateName, name, age } = this.data
     let ComponentName = ComponentMap[templateName]
-    return <ComponentName data={(name, age)}></ComponentName>
+    return (
+      <ComponentName
+        data={{
+          name: name,
+          age: age,
+        }}
+      ></ComponentName>
+    )
   }
 }
 export default _C
@@ -416,7 +423,14 @@ class _C extends React.Component {
   render() {
     const { lateName, name, age } = this.data
     let ComponentName = ComponentMap['temp' + lateName]
-    return <ComponentName data={(name, age)}></ComponentName>
+    return (
+      <ComponentName
+        data={{
+          name: name,
+          age: age,
+        }}
+      ></ComponentName>
+    )
   }
 }
 export default _C
@@ -505,7 +519,14 @@ cacheOptions.setOptionsToCache({
 class _C extends React.Component {
   render() {
     const { name, age } = this.data
-    return <HuangyeTmpl data={(name, age)}></HuangyeTmpl>
+    return (
+      <HuangyeTmpl
+        data={{
+          name: name,
+          age: age,
+        }}
+      ></HuangyeTmpl>
+    )
   }
 }
 export default _C
