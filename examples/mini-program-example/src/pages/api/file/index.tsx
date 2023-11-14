@@ -504,15 +504,20 @@ export default class Index extends React.Component {
               var tempFilePaths = res.tempFilePaths
               Taro.saveFile({
                 tempFilePath: tempFilePaths[0],
-                success: function (sucRes) {
+                success: (sucRes) => {
                   TestConsole.consoleNormal('saveFile success ', sucRes)
-                  fileSystemManager.readFileSync(sucRes.savedFilePath, data.encoding, data.position, data.length)
-                  TestConsole.consoleNormal('readFileSync success ')
+                  const fileContent = fileSystemManager.readFileSync(
+                    sucRes.savedFilePath,
+                    data.encoding,
+                    data.position,
+                    data.length
+                  )
+                  TestConsole.consoleResult.call(this, fileContent, apiIndex)
                 },
-                fail: function (failRes) {
+                fail: (failRes) => {
                   TestConsole.consoleNormal('saveFile fail ', failRes.errMsg)
                 },
-                complete: function (comRes) {
+                complete: (comRes) => {
                   TestConsole.consoleNormal('saveFile complete ', comRes)
                 },
               })
