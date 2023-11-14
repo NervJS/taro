@@ -2,7 +2,7 @@ import _display from '@ohos.display'
 
 import { NodeType } from '../dom/node'
 import { initComponentNodeInfo } from '../utils/info'
-import { bindFocus, bindInstanceToNode, bindScrollTo } from './bind'
+import { bindAnimation, bindFocus, bindInstanceToNode, bindScrollTo } from './bind'
 
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element'
@@ -97,7 +97,7 @@ export class DynamicCenter {
     node._instance = null
   }
 
-  bindComponentToNodeWithDFS (node: TaroElement, component, path = '') {
+  bindComponentToNodeWithDFS (node: TaroElement, component) {
     if (!node) return
 
     const dynamicID = node._attrs?._dynamicID
@@ -107,6 +107,7 @@ export class DynamicCenter {
     initComponentNodeInfo(component, node)
     bindInstanceToNode(node, component)
     bindFocus(node)
+    bindAnimation(node)
     bindScrollTo(node, component)
     
     node._isCompileMode = true
@@ -120,7 +121,7 @@ export class DynamicCenter {
   
     for (let i = 0; i < node.childNodes.length; i++) {
       // @ts-ignore
-      this.bindComponentToNodeWithDFS(node.childNodes[i], component, path + i.toString())
+      this.bindComponentToNodeWithDFS(node.childNodes[i], component)
     }
   }
 }
