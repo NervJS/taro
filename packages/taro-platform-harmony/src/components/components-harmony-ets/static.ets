@@ -305,6 +305,11 @@ struct TaroFeedItem {
               .attrsText(getTextAttributes(this.node6.childNodes[3].childNodes[1].childNodes[0], this.overwriteStyle))
           }
           .attrs(getNormalAttributes(this.node6.childNodes[3].childNodes[1]))
+          .onAreaChange(getComponentEventCallback(this.node6.childNodes[3].childNodes[1], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+            const [_, areaResult] = eventResult
+            
+            this.nodeInfoMap[this.node6.childNodes[3].childNodes[1]._nid].areaInfo = areaResult
+          }))
         }
         .attrs(getNormalAttributes(this.node6.childNodes[3]))
       }
