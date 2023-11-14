@@ -1,4 +1,4 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -6,7 +6,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { bindAnimation, bindInstanceToNode, shouldBindEvent, getNormalAttributes, initComponentNodeInfo } from './utils/helper'
+import { shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 

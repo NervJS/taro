@@ -1,10 +1,10 @@
 // TODO: 后续这个文件通过半编译逻辑生成
-import { TaroElement, eventHandler, DynamicCenter } from '@tarojs/runtime'
+import { TaroElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
 
-import { transformW3CToHarmonyInStyle, bindInstanceToNode, bindAnimation, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
+import { transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -222,6 +222,8 @@ struct TaroFeedItem {
 
   dynamicCenter: DynamicCenter
 
+  nodeInfoMap: any = {}
+
   @State overwriteStyle: Record<string, any> = {}
 
   aboutToAppear () {
@@ -230,9 +232,9 @@ struct TaroFeedItem {
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
 
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    // bindAnimation(this.node, (rule) => {
+    //   this.overwriteStyle = rule
+    // })
   }
 
   build() {
@@ -244,6 +246,11 @@ struct TaroFeedItem {
         if (!this.node4.isIgnore) {
           Image(this.node4.getAttribute('src'))
             .attrsImage(getNormalAttributes(this.node4, this.overwriteStyle))
+            .onAreaChange(getComponentEventCallback(this.node4, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+              const [_, areaResult] = eventResult
+              
+              this.nodeInfoMap[this.node4._nid].areaInfo = areaResult
+            }))
         }
       }
       .attrs(getNormalAttributes(this.node2))

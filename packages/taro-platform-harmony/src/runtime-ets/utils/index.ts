@@ -1,6 +1,8 @@
 import _display from '@ohos.display'
 
 import { NodeType } from '../dom/node'
+import { initComponentNodeInfo } from '../utils/info'
+import { bindFocus, bindInstanceToNode, bindScrollTo } from './bind.ets'
 
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element'
@@ -30,7 +32,6 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
   return res
 }
 
-
 const display = _display.getDefaultDisplaySync()
 
 export function convertNumber2PX (value: number) {
@@ -53,17 +54,6 @@ export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, cla
   obj.push(style)
   return Object.assign.apply(null, [{}].concat(obj))
 }
-
-export function bindInstanceToNode (node: TaroElement, component: object) {
-  if (!node) return
-
-  node._instance = component
-
-  // 触发appear，让node监听到TaroNode已经和ete自定义组件绑定上
-  // @ts-ignore
-  node.resolveAppear?.() // #text node节点没有实现该方法
-}
-
 export class DynamicCenter {
   static checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
     if (!parentNode._isCompileMode) return
@@ -97,11 +87,18 @@ export class DynamicCenter {
 
     const dynamicID = node._attrs?._dynamicID
   
+    // dynamicID 只是为了更新到精准的 node
+    // 而为了让半编译模板中每个 node 都能响应 api 的调用，因此 initComponentNodeInfo、bindInstanceToNode 和各种 bindAttribute 都需要执行
+    initComponentNodeInfo(component, node)
+    bindInstanceToNode(node, component)
+    bindFocus(node)
+    bindScrollTo(node, component)
+    
+    node._isCompileMode = true
+  
     if (dynamicID) {
-      node._isCompileMode = true
+      node._isDynamicNode = true
       component[dynamicID] = node
-      
-      bindInstanceToNode(node, component)
     }
   
     if (!node.childNodes || !node.childNodes.length) return

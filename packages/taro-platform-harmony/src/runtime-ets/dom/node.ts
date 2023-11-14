@@ -32,9 +32,13 @@ export class TaroNode extends TaroEventTarget {
   public _nid: string = genId()
 
   public _doc: TaroDocument
+  // 是否为半编译模板下的节点
   public _isCompileMode = false
+  // 是否为半编译模板下拥有自主更新权的节点
+  public _isDynamicNode = false
   public _instance: any
 
+  private _updateTrigger = 0
   private _textContent = ''
 
   constructor(nodeName, nodeType = NodeType.ELEMENT_NODE) {
@@ -47,6 +51,17 @@ export class TaroNode extends TaroEventTarget {
   protected findIndex (refChild: TaroNode): number {
     // @Observe 会影响 === 判断，只能比较 _nid
     return this.childNodes.findIndex(node => node._nid === refChild._nid)
+  }
+
+  // 更新对应的 ArkUI 组件
+  public updateComponent () {
+    if (!this._isCompileMode) return
+
+    if (this._isDynamicNode) {
+      this._updateTrigger += 1
+    } else {
+      this.parentNode?.updateComponent()
+    }
   }
 
   public get firstChild (): TaroNode | null{

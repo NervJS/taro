@@ -48,7 +48,7 @@ export function getComponentEventCallback (node: TaroElement, eventName: string,
 
       callback && callback.call(component, res)
 
-      component?.node?.[createEventOnName(eventName)]?.(res)
+      node?.[createEventOnName(eventName)]?.(res)
     }
   }
 
@@ -62,6 +62,11 @@ function tapCallbackToNodeAndUpdate (node: TaroElement, eventName: string, callb
   node._instance.nodeInfoMap[id].eventMap[createEventTapName(eventName)] = true
   node[createEventOnName(eventName)] = ({ eventResult }) => {
     callback && callback(...eventResult)
+  }
+
+  // 是半编译模式的节点但没有自主更新权，需要父节点触发更新
+  if (!node._isDynamicNode && node._isCompileMode) {
+    node.updateComponent()
   }
 }
 
@@ -114,4 +119,11 @@ export function triggerAttributesCallback (node, attributeName) {
     
     isFunction(cb) && cb(value)
   })
+}
+
+export function initComponentNodeInfo (component: any, node: TaroElement) {
+  component.nodeInfoMap[node._nid] = {}
+  component.nodeInfoMap[node._nid].eventMap = {}
+  component.nodeInfoMap[node._nid].promiseMap = {}
+  component.nodeInfoMap[node._nid].attributeCallback = {}
 }
