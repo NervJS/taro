@@ -15,18 +15,15 @@ export const ATTRIBUTES_CALLBACK_TRIGGER_MAP = {
   scrollTop: {
     triggerName: 'scrollTo',
     valueInspect: (value) => isNumber(value),
-    isAfterNodeMounted: true
   },
   scrollLeft: {
     triggerName: 'scrollTo',
     valueInspect: (value) => isNumber(value),
-    isAfterNodeMounted: true
   },
   focus: {
     triggerName: 'focus',
   },
   animation: {
     triggerName: 'animation',
-    isAfterNodeMounted: true
   }
 }

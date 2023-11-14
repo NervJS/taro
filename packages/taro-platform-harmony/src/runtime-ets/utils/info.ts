@@ -102,21 +102,16 @@ export function bindAttributesCallback (node: TaroElement, attributeName: string
   component.nodeInfoMap[id].attributeCallback[attributeName] = callback
 }
 
-export function triggerAttributesCallback (node, attributeName, isAfterNodeMounted?) {
+export function triggerAttributesCallback (node, attributeName) {
   if (!node) return
 
   const id = node._nid
   const value = node._attrs[attributeName]
-  const triggerFn = () => {
+
+  return node.awaitAppear.then(() => {
     const component = node._instance
     const cb = component.nodeInfoMap[id].attributeCallback[attributeName]
     
     isFunction(cb) && cb(value)
-  }
-
-  if (isAfterNodeMounted) {
-    node.awaitAppear.then(triggerFn)
-  } else {
-    triggerFn()
-  }
+  })
 }

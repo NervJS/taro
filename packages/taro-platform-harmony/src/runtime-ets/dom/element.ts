@@ -74,11 +74,11 @@ class TaroElement extends TaroNode {
 
     const attributeTriggerValue = ATTRIBUTES_CALLBACK_TRIGGER_MAP[name]
     if (attributeTriggerValue) {
-      const { triggerName, valueInspect, isAfterNodeMounted } = attributeTriggerValue
+      const { triggerName, valueInspect } = attributeTriggerValue
 
       if (valueInspect && !valueInspect(value)) return
 
-      triggerAttributesCallback(this, triggerName, isAfterNodeMounted)
+      triggerAttributesCallback(this, triggerName)
     }
   }
 
