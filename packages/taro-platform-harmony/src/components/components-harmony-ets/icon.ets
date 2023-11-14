@@ -2,7 +2,7 @@ import { bindInstanceToNode, bindAnimation, eventHandler, convertNumber2PX, getC
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { getNormalAttributes, shouldBindEvent, getNodeAttributeOrNull } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeAttributeOrNull, getNodeThresholds } from './utils/helper'
 
 import type { TaroImageElement } from '@tarojs/runtime'
 
@@ -68,14 +68,8 @@ function attrs ({
 struct TaroIcon {
   nodeInfoMap: any = {}
 
-  thresholds: number[] | null = null
-
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   @ObjectLink node: TaroImageElement
@@ -84,9 +78,7 @@ struct TaroIcon {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   @Styles defaultEvent () {
@@ -114,7 +106,7 @@ struct TaroIcon {
         .objectFit(ImageFit.Contain)
         .fillColor(getNodeAttributeOrNull(this.node, 'color'))
         .onComplete(e => eventHandler(e, 'complete', this.node))
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+        .attrs(getNormalAttributes(this.node))
         .size({
           width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
           height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),

@@ -33,7 +33,7 @@ export function bindFocus (node: TaroElement) {
 }
 
 // 动画绑定
-export function bindAnimation (node: TaroElement, animationCb: (val: Record<string, any>) => void) {
+export function bindAnimation (node: TaroElement) {
   bindAttributesCallback(node, 'animation', async (animation) => {
     if (animation && animation.actions) {
       for (let i = 0; i < animation.actions.length; i++) {
@@ -58,7 +58,9 @@ export function bindAnimation (node: TaroElement, animationCb: (val: Record<stri
           }
           animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
           animateTo(animateParams, () => {
+            const component = node._instance
             const transformOrigin = anim.transformOrigin
+
             if (transformOrigin) {
               const splitOrigin = transformOrigin.split(' ')
               Object.keys(anim.rule).forEach(key => {
@@ -70,7 +72,9 @@ export function bindAnimation (node: TaroElement, animationCb: (val: Record<stri
                 }
               })
             }
-            animationCb(anim.rule)
+
+            component.nodeInfoMap[node._nid].overwriteStyle = anim.rule
+            node.updateComponent()
           })
         })
       }

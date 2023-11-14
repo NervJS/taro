@@ -1,7 +1,7 @@
 import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -66,25 +66,17 @@ function attrs ({
 struct TaroRichText {
   nodeInfoMap: any = {}
 
-  @State overwriteStyle: Record<string, any> = {}
-
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
   
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   @Styles defaultEvent () {
@@ -99,7 +91,7 @@ struct TaroRichText {
   build() {
     TaroComponentWrapper({ node: this.node }) {
       RichText(this.node._attrs.nodes) 
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+        .attrs(getNormalAttributes(this.node))
         .defaultEvent()
         .visibleChangeEvent()
     }

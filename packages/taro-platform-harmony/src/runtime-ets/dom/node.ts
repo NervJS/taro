@@ -55,9 +55,7 @@ export class TaroNode extends TaroEventTarget {
 
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (!this._isCompileMode) return
-
-    if (this._isDynamicNode) {
+    if (this._isDynamicNode || !this._isCompileMode) {
       this._updateTrigger += 1
     } else {
       this.parentNode?.updateComponent()

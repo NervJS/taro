@@ -5,7 +5,7 @@ import TaroComponentWrapper from './base'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroButtonElement } from '../runtime'
 
@@ -102,23 +102,15 @@ struct TaroButton {
 
   @ObjectLink node: TaroButtonElement
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   build() {
@@ -135,7 +127,7 @@ struct TaroButton {
           }, item => item._nid)
         }
       }
-      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .attrs(getNormalAttributes(this.node))
       .themeStyles(getThemeAttributes(this.node))
       .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
       .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))

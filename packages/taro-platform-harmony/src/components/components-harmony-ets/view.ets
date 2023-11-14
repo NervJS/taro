@@ -4,7 +4,7 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -69,14 +69,8 @@ function attrs ({
 struct TaroView {
   nodeInfoMap: any = {}
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   @ObjectLink node: TaroViewElement
@@ -85,9 +79,7 @@ struct TaroView {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   @Styles defaultEvent () {
@@ -106,7 +98,7 @@ struct TaroView {
           createNode(item)
         }, item => item._nid)
       }
-      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .attrs(getNormalAttributes(this.node))
       .defaultEvent()
       .visibleChangeEvent()
     }

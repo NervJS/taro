@@ -34,4 +34,13 @@ export function getNodeAttributeOrNull (node: TaroElement, key: string) {
   return isValueExist ? value : null
 }
 
+export function getNodeThresholds (node: TaroElement) {
+  if (!node) return
+
+  const id = node._nid
+  const component = node._instance
+
+  return component?.nodeInfoMap?.[id]?.thresholds || null
+}
+
 export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'

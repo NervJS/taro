@@ -3,7 +3,7 @@ import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANG
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -17,10 +17,10 @@ function attrs ({
   .selectedColor(color)
 }
 
-function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
+function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     color: _attrs.color || '#1aad19',
     name: _attrs.name || _attrs.value || node.textContent,
     group: _attrs.name || AttributeManager.getNodeStyle(node.parentNode._attrs, 'id', node.parentNode._nid),
@@ -38,16 +38,10 @@ struct TaroCheckbox {
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @State checked: boolean = false
 
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -72,7 +66,7 @@ struct TaroCheckbox {
         Row() {
           Checkbox(getAttributes(this.node))
             .defaultEvent()
-            .attrs(getAttributes(this.node, this.overwriteStyle))
+            .attrs(getAttributes(this.node))
             .themeStyles(!!this.node._attrs.disabled)
             .select(this.checked)
             .onChange((value: boolean) => {
@@ -111,10 +105,10 @@ function attrs ({
   .selectedColor(color)
 }
 
-function getAttributesGroup (node: TaroViewElement, overwriteStyle: Record<string, any>) {
+function getAttributesGroup (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     color: _attrs.color || '#1aad19',
   }
 }
@@ -130,12 +124,8 @@ struct TaroCheckboxGroup {
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -160,7 +150,7 @@ struct TaroCheckboxGroup {
         .onChange(({ name, status }) => {
         })
         .defaultEvent()
-        .attrs(getAttributesGroup(this.node, this.overwriteStyle))
+        .attrs(getAttributesGroup(this.node))
         .themeStyles(!!this.node._attrs.disabled)
         .visibleChangeEvent()
     }

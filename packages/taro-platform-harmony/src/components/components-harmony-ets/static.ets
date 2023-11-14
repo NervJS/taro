@@ -1,5 +1,5 @@
 // TODO: 后续这个文件通过半编译逻辑生成
-import { TaroElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import { FlexManager } from './utils/FlexManager'
@@ -179,9 +179,9 @@ function attrsText ({
   .height(height)
 }
 
-function getTextAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
+function getTextAttributes (node: TaroViewElement) {
   const attrs = {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     ...getFontAttributes(node)
   }
 
@@ -194,29 +194,29 @@ function getTextAttributes (node: TaroViewElement, overwriteStyle: Record<string
 struct TaroFeedItem {
   @ObjectLink node: TaroViewElement
 
-  @State node1: TaroViewElement = new TaroElement('Block')
+  @State node1: TaroViewElement = new TaroIgnoreElement()
 
-  @State node2: TaroViewElement = new TaroElement('Block')
+  @State node2: TaroViewElement = new TaroIgnoreElement()
 
-  @State node3: TaroViewElement = new TaroElement('Block')
+  @State node3: TaroViewElement = new TaroIgnoreElement()
 
-  @State node4: TaroViewElement = new TaroElement('Block')
+  @State node4: TaroViewElement = new TaroIgnoreElement()
 
-  @State node5: TaroViewElement = new TaroElement('Block')
+  @State node5: TaroViewElement = new TaroIgnoreElement()
 
-  @State node6: TaroViewElement = new TaroElement('Block')
+  @State node6: TaroViewElement = new TaroIgnoreElement()
 
-  @State node7: TaroViewElement = new TaroElement('Block')
+  @State node7: TaroViewElement = new TaroIgnoreElement()
 
-  @State node8: TaroViewElement = new TaroElement('Block')
+  @State node8: TaroViewElement = new TaroIgnoreElement()
 
-  @State node9: TaroViewElement = new TaroElement('Block')
+  @State node9: TaroViewElement = new TaroIgnoreElement()
 
-  @State node10: TaroViewElement = new TaroElement('Block')
+  @State node10: TaroViewElement = new TaroIgnoreElement()
 
-  @State node11: TaroViewElement = new TaroElement('Block')
+  @State node11: TaroViewElement = new TaroIgnoreElement()
   
-  @State node12: TaroViewElement = new TaroElement('Block')
+  @State node12: TaroViewElement = new TaroIgnoreElement()
 
   dynamicCount = 11
 
@@ -224,28 +224,22 @@ struct TaroFeedItem {
 
   nodeInfoMap: any = {}
 
-  @State overwriteStyle: Record<string, any> = {}
 
   aboutToAppear () {
     this.dynamicCenter = new DynamicCenter()
     
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
-
-    // 绑定动画
-    // bindAnimation(this.node, (rule) => {
-    //   this.overwriteStyle = rule
-    // })
   }
 
   build() {
     Flex(FlexManager.flexOptions(this.node1)) {
       Flex(FlexManager.flexOptions(this.node2)) {
         Image(this.node3.getAttribute('src'))
-          .attrsImage(getNormalAttributes(this.node3, this.overwriteStyle))
+          .attrsImage(getNormalAttributes(this.node3))
           .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node3), this.node3, ['click']))
         if (!this.node4.isIgnore) {
           Image(this.node4.getAttribute('src'))
-            .attrsImage(getNormalAttributes(this.node4, this.overwriteStyle))
+            .attrsImage(getNormalAttributes(this.node4))
             .onAreaChange(getComponentEventCallback(this.node4, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
               const [_, areaResult] = eventResult
               
@@ -257,13 +251,13 @@ struct TaroFeedItem {
       if (!this.node.childNodes[1].isIgnore) {
         Flex(FlexManager.flexOptions(this.node.childNodes[1])) {
           Text(this.node5.textContent)
-            .attrsText(getTextAttributes(this.node5, this.overwriteStyle))
+            .attrsText(getTextAttributes(this.node5))
         }
         .attrs(getNormalAttributes(this.node.childNodes[1]))
       }
       Flex(FlexManager.flexOptions(this.node6)) {
         Text(this.node7.textContent)
-          .attrsText(getTextAttributes(this.node7, this.overwriteStyle))
+          .attrsText(getTextAttributes(this.node7))
 
         Flex(FlexManager.flexOptions(this.node8)) {
           ForEach(this.node8.childNodes, item => {
@@ -274,7 +268,7 @@ struct TaroFeedItem {
 
         if (!this.node9.isIgnore) {
           Image(this.node9.getAttribute('src'))
-            .attrsImage(getNormalAttributes(this.node9, this.overwriteStyle))
+            .attrsImage(getNormalAttributes(this.node9))
         }
 
 
@@ -282,18 +276,18 @@ struct TaroFeedItem {
           Flex(FlexManager.flexOptions(this.node10)) {
             Flex(FlexManager.flexOptions(this.node10.childNodes[0])) {
               Text(this.node10.childNodes[0].childNodes[0].textContent)
-                .attrsText(getTextAttributes(this.node10.childNodes[0].childNodes[0], this.overwriteStyle))
+                .attrsText(getTextAttributes(this.node10.childNodes[0].childNodes[0]))
               Text(this.node11.textContent)
-                .attrsText(getTextAttributes(this.node11, this.overwriteStyle))
+                .attrsText(getTextAttributes(this.node11))
             }
             .attrs(getNormalAttributes(this.node10.childNodes[0]))
 
             if (!this.node10.childNodes[1].isIgnore) {
               Flex(FlexManager.flexOptions(this.node10.childNodes[1])) {
                 Text(this.node10.childNodes[1].childNodes[0].textContent)
-                  .attrsText(getTextAttributes(this.node10.childNodes[1].childNodes[0], this.overwriteStyle))
+                  .attrsText(getTextAttributes(this.node10.childNodes[1].childNodes[0]))
                 Text(this.node12.textContent)
-                  .attrsText(getTextAttributes(this.node12, this.overwriteStyle))
+                  .attrsText(getTextAttributes(this.node12))
               }
               .attrs(getNormalAttributes(this.node10.childNodes[1]))
             }
@@ -302,7 +296,7 @@ struct TaroFeedItem {
 
           Flex(FlexManager.flexOptions(this.node6.childNodes[3].childNodes[1])) {
             Text(this.node6.childNodes[3].childNodes[1].childNodes[0].textContent)
-              .attrsText(getTextAttributes(this.node6.childNodes[3].childNodes[1].childNodes[0], this.overwriteStyle))
+              .attrsText(getTextAttributes(this.node6.childNodes[3].childNodes[1].childNodes[0]))
           }
           .attrs(getNormalAttributes(this.node6.childNodes[3].childNodes[1]))
           .onAreaChange(getComponentEventCallback(this.node6.childNodes[3].childNodes[1], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {

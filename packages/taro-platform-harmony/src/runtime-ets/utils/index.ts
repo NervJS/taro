@@ -2,7 +2,7 @@ import _display from '@ohos.display'
 
 import { NodeType } from '../dom/node'
 import { initComponentNodeInfo } from '../utils/info'
-import { bindFocus, bindInstanceToNode, bindScrollTo } from './bind.ets'
+import { bindFocus, bindInstanceToNode, bindScrollTo } from './bind'
 
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element'

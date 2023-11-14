@@ -3,7 +3,7 @@ import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallb
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
@@ -69,26 +69,18 @@ struct TaroSwiper {
   private swiperController: SwiperController = new SwiperController()
 
   nodeInfoMap: any = {}
-
-  @State overwriteStyle: Record<string, any> = {}
-
-  @State isAreaChangeTap: boolean = false
   
   @ObjectLink node: TaroViewElement
 
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   @Styles defaultEvent () {
@@ -107,7 +99,7 @@ struct TaroSwiper {
           createNode(item)
         }, item => item._nid)
       }
-      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .attrs(getNormalAttributes(this.node))
       .defaultEvent()
       .index(this.node.getAttribute('current') || 0)
       .loop(this.node.getAttribute('loop') || true)

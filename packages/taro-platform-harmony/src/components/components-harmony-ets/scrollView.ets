@@ -5,7 +5,7 @@ import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
-import { getNormalAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -151,27 +151,19 @@ struct TaroScrollView {
 
   wrapper: Area = null
 
-  thresholds: number[] | null = null
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   scroller: Scroller = new Scroller()
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
     bindScrollTo(this.node, this)
   }
 
@@ -201,7 +193,7 @@ struct TaroScrollView {
               createNode(item)
             }, item => item._nid)
           }
-          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+          .attrs(getNormalAttributes(this.node))
           .width(null)
           .defaultContainerEvent()
         }
@@ -220,7 +212,7 @@ struct TaroScrollView {
               createNode(item)
             }, item => item._nid)
           }
-          .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+          .attrs(getNormalAttributes(this.node))
           .height(null)
           .defaultContainerEvent()
         }

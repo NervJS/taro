@@ -2,7 +2,7 @@ import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANG
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -22,10 +22,10 @@ function attrs ({
   .blockColor(blockColor)
 }
 
-function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
+function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     activeColor: _attrs.activeColor || _attrs.selectedColor || '#1aad19',
     backgroundColor: _attrs.backgroundColor || _attrs.color || '#e9e9e9',
     blockSize: _attrs.blockSize,
@@ -45,16 +45,10 @@ struct TaroSlider {
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @State value: number = 0
 
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -83,7 +77,7 @@ struct TaroSlider {
       direction: Axis.Horizontal
     })
       .defaultEvent()
-      .attrs(getAttributes(this.node, this.overwriteStyle))
+      .attrs(getAttributes(this.node))
       .width($$.width)
       .themeStyles(!!this.node._attrs.disabled)
       .onChange((value: number, mode: SliderChangeMode) => {

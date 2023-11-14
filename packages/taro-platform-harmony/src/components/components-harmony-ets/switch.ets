@@ -2,7 +2,7 @@ import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANG
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -16,10 +16,10 @@ function attrs ({
   .selectedColor(color)
 }
 
-function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
+function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     color: _attrs.color || '#04BE02',
   }
 }
@@ -35,16 +35,10 @@ struct TaroSwitch {
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @State value: boolean = false
 
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -70,7 +64,7 @@ struct TaroSwitch {
         isOn: this.value,
       })
         .defaultEvent()
-        .attrs(getAttributes(this.node, this.overwriteStyle))
+        .attrs(getAttributes(this.node))
         .themeStyles(!!this.node._attrs.disabled)
         .onChange((isOn: boolean) => {
           if (!this.node._attrs.disabled) {

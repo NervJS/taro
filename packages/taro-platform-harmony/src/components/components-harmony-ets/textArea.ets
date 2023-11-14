@@ -5,7 +5,7 @@ import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, ge
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
 import type { TaroViewElement } from '../runtime'
@@ -89,20 +89,14 @@ struct TaroTextArea {
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-  
-  @State overwriteStyle: Record<string, any> = {}
-
   controller: TextAreaController = new TextAreaController()
 
   windowClass: Window = null
 
   height: number = 0
   
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -110,9 +104,7 @@ struct TaroTextArea {
     bindInstanceToNode(this.node, this)
     bindFocus(this.node)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
 
     this.text = this.node._attrs.value || ''
 
@@ -185,7 +177,7 @@ struct TaroTextArea {
         .key(this.node._nid)
         .placeholderColor(this.getPlaceholderColor(this.node))
         .defaultEvent()
-        .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+        .attrs(getNormalAttributes(this.node))
         .textAttrs(getFontAttributes(this.node))
         .onChange((value: string) => {
           const event = createTaroEvent('input', { detail: { value } }, this.node)

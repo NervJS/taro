@@ -1,7 +1,7 @@
 import { bindInstanceToNode, bindAnimation, eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -119,9 +119,9 @@ function spanAttrs ({
   .height(height)
 }
 
-function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) {
+function getAttributes (node: TaroElement) {
   const attrs = {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     ...getFontAttributes(node)
   }
   // 处理style属性，运行时转换成鸿蒙样式
@@ -134,18 +134,15 @@ function getAttributes (node: TaroElement, overwriteStyle: Record<string, any>) 
 struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
 
-  @State overwriteStyle: Record<string, any> = {}
 
   aboutToAppear () {
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
 
   build() {
-    Span(this.node.textContent).spanAttrs(getAttributes(this.node, this.overwriteStyle))
+    Span(this.node.textContent).spanAttrs(getAttributes(this.node))
   }
 }
 
@@ -162,14 +159,8 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 struct TaroText {
   nodeInfoMap: any = {}
 
-  thresholds: number[] | null = null
-
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   @ObjectLink node: TaroTextElement
@@ -178,9 +169,7 @@ struct TaroText {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   @Styles defaultEvent () {
@@ -203,12 +192,12 @@ struct TaroText {
           }, node => node._nid)
         }
         .defaultEvent()
-        .attrs(getAttributes(this.node, this.overwriteStyle))
+        .attrs(getAttributes(this.node))
         .visibleChangeEvent()
       } else {
         Text(this.node.textContent)
           .defaultEvent()
-          .attrs(getAttributes(this.node, this.overwriteStyle))
+          .attrs(getAttributes(this.node))
           .visibleChangeEvent()
       }
     }

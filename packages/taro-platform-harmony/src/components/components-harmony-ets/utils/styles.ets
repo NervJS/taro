@@ -22,7 +22,7 @@ export function getFontAttributes (node: TaroElement) {
   }
 }
 
-export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<string, any>) {
+export function getNormalAttributes (node: TaroElement) {
   const { _nid, _st, _attrs } = node
 
   const linearGradient = AttributeManager.getStyleAfterConvert(_st, 'linearGradient')
@@ -80,6 +80,10 @@ export function getNormalAttributes (node: TaroElement, overwriteStyle?: Record<
 
   transformW3CToHarmonyInStyle(_st, normalAttributes)
 
+  const id = node._nid
+  const component = node._instance
+  const overwriteStyle = component.nodeInfoMap[id].overwriteStyle
+  
   // 处理覆盖属性：如动画的覆盖
   if (overwriteStyle) {
     Object.assign(normalAttributes, overwriteStyle)

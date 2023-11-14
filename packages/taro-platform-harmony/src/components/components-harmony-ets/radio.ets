@@ -6,7 +6,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { shouldBindEvent, getNormalAttributes } from './utils/helper'
+import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
 import type { TaroViewElement } from '../runtime'
 
@@ -22,10 +22,10 @@ function attrs ({
   })
 }
 
-function getAttributes (node: TaroViewElement, overwriteStyle: Record<string, any>) {
+function getAttributes (node: TaroViewElement) {
   const { _attrs = {} } = node
   return {
-    ...getNormalAttributes(node, overwriteStyle),
+    ...getNormalAttributes(node),
     color: _attrs.color || '#1aad19',
   }
 }
@@ -41,16 +41,10 @@ struct TaroRadio {
 
   @ObjectLink node: TaroViewElement
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
   @State checked: boolean = false
 
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
@@ -79,7 +73,7 @@ struct TaroRadio {
           })
             .checked(this.checked)
             .defaultEvent()
-            .attrs(getAttributes(this.node, this.overwriteStyle))
+            .attrs(getAttributes(this.node))
             .themeStyles(!!this.node._attrs.disabled)
             .onChange((value: boolean) => {
               if (!!this.node._attrs.disabled) {
@@ -170,14 +164,8 @@ function attrs ({
 struct TaroRadioGroup {
   nodeInfoMap: any = {}
 
-  @State isAreaChangeTap: boolean = false
-
-  @State overwriteStyle: Record<string, any> = {}
-
-  thresholds: number[] | null = null
-
   @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(this.thresholds || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   @ObjectLink node: TaroViewElement
@@ -186,9 +174,7 @@ struct TaroRadioGroup {
     initComponentNodeInfo(this, this.node)
     bindInstanceToNode(this.node, this)
     // 绑定动画
-    bindAnimation(this.node, (rule) => {
-      this.overwriteStyle = rule
-    })
+    bindAnimation(this.node)
   }
 
   @Styles defaultEvent () {
@@ -207,7 +193,7 @@ struct TaroRadioGroup {
           createNode(item)
         }, item => item._nid)
       }
-      .attrs(getNormalAttributes(this.node, this.overwriteStyle))
+      .attrs(getNormalAttributes(this.node))
       .defaultEvent()
       .visibleChangeEvent()
     }
