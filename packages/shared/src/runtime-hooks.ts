@@ -211,7 +211,7 @@ type ITaroHooks = {
    * @todo: multi
    * 修改 Taro DOM 序列化数据
    **/
-  modifyHydrateData:(data: Record<string, any>) => void
+  modifyHydrateData:(data: Record<string, any>, node) => void
   /**
    * 自定义处理 Taro DOM 序列化数据，如使其脱离 data 树
    */
@@ -247,6 +247,10 @@ type ITaroHooks = {
 
   /** 解 Proxy */
   proxyToRaw: (proxyObj) => Record<any, any>
+  /** 元素增加事件监听钩子 */
+  modifyAddEventListener: (element, sideEffect: boolean, getComponentsAlias: () => Record<string, any>) => void
+  /** 元素删除事件监听钩子 */
+  modifyRemoveEventListener: (element, sideEffect: boolean, getComponentsAlias: () => Record<string, any>) => void
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
@@ -340,5 +344,9 @@ export const hooks = new TaroHooks<ITaroHooks>({
 
   initNativeApi: TaroHook(HOOK_TYPE.MULTI),
 
-  patchElement: TaroHook(HOOK_TYPE.MULTI)
+  patchElement: TaroHook(HOOK_TYPE.MULTI),
+
+  modifyAddEventListener: TaroHook(HOOK_TYPE.SINGLE),
+
+  modifyRemoveEventListener: TaroHook(HOOK_TYPE.SINGLE),
 })

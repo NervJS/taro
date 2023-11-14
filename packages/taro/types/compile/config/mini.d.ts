@@ -3,13 +3,13 @@ import type Chain from 'webpack-chain'
 import type { IOption, IPostcssOption } from './util'
 
 interface Runtime {
-  enableInnerHTML: boolean
-  enableSizeAPIs: boolean
-  enableAdjacentHTML: boolean
-  enableTemplateContent: boolean
-  enableCloneNode: boolean
-  enableContains: boolean
-  enableMutationObserver: boolean
+  enableInnerHTML?: boolean
+  enableSizeAPIs?: boolean
+  enableAdjacentHTML?: boolean
+  enableTemplateContent?: boolean
+  enableCloneNode?: boolean
+  enableContains?: boolean
+  enableMutationObserver?: boolean
 }
 
 export interface IMiniAppConfig {
@@ -45,7 +45,7 @@ export interface IMiniAppConfig {
     /**
      * 编译前清空输出目录
      * @since Taro v3.6.9
-     * @description 
+     * @description
      * - 默认清空输出目录，可设置 clean: false 不清空
      * - 可设置 clean: { keep: ['project.config.json'] } 保留指定文件
      * - 注意 clean.keep 不支持函数

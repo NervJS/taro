@@ -571,7 +571,7 @@ require("./taro");
                 return h("block", this.$slots.default);
             }
         });
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var config = {
             pages: [ "pages/index/index" ],
             window: {
@@ -582,7 +582,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createVueApp(lib_src_app, vue, config));
+        var inst = App(createVueApp(entry_cachename_app_src_app, vue, config));
         undefined({
             designWidth: 750,
             deviceRatio: {
