@@ -2,6 +2,7 @@ import * as fs from 'fs-extra'
 
 import { globals } from '../src/global'
 import { parse } from '../src/index'
+import { getSrcRelPath } from '../src/template'
 import { parseWXML } from '../src/wxml'
 import { generateMinimalEscapeCode } from './util'
 
@@ -125,7 +126,7 @@ describe('template.ts', () => {
         expect(importsCode).toMatchSnapshot()
       })
 
-      test('import src 为绝对路径', () => {
+      test('import src 为绝对路径且导入文件不存在', () => {
         const wxmlStr = `
           <import src="/pages/template/template"/>
           <template is="template_demo"></template>
@@ -135,7 +136,7 @@ describe('template.ts', () => {
             <view>模版DEMO</view>
           </template>
         `
-        jest.spyOn(path, 'resolve').mockReturnValue('\\code\\taro_demo\\pages\\template\\template')
+        jest.spyOn(path, 'join').mockReturnValue('\\code\\taro_demo\\pages\\template\\template')
         jest.spyOn(path, 'relative').mockReturnValue('../template/template')
         jest.spyOn(fs, 'readFileSync').mockReturnValue(template)
         jest.spyOn(fs, 'existsSync').mockReturnValue(true)
@@ -145,6 +146,15 @@ describe('template.ts', () => {
         const importsCode = generateMinimalEscapeCode(imports[0].ast)
         expect(wxmlCode).toBe('<TemplateDemoTmpl></TemplateDemoTmpl>')
         expect(importsCode).toMatchSnapshot()
+      })
+
+      test('import src 为绝对路径但导入文件不存在', () => {
+    
+        jest.spyOn(path, 'join').mockReturnValue('\\code\\taro_demo\\pages\\template\\myTmpl')
+    
+        const dirPath = 'import_absoulte_path'
+        const srcValue = '/pages/template/myTmpl'
+        expect(() => getSrcRelPath(dirPath, srcValue)).toThrowError(`import/include 的 src 请填入正确路径再进行转换：src="${srcValue}"`)
       })
     })
 
@@ -189,6 +199,68 @@ describe('template.ts', () => {
         const wxml = `<include/>`
         const dirPath = 'include_no_src'
         expect(() => parseWXML(dirPath, wxml)).toThrowError('include 标签必须包含 `src` 属性')
+      })
+    })
+  })
+
+  // 主要测试template相关信息（所需变量、要传递的方法）的抽取
+  describe('template套用', () => {
+    test('同界面template套用', () => {
+      const wxmlStr = `
+        <template is="firstTag" data='{{ tagListFirst, tagListSecond}}'>顶层</template>
+
+        <template name="firstTag">                   
+          <block wx:for="{{tagListFirst}}" wx:key="index">
+            <view catchtap="onClickFirstTag">{{item}}</view>
+          </block>
+          <template is="secondTag" data="{{tagListSecond}}"></template>
+        </template>
+
+        <template name="secondTag">
+          <block wx:for="{{tagListSecond}}" wx:key="index">
+            <view catchtap="onClickSecndTag">{{item}}</view>
+          </block>
+        </template>
+      `
+      const dirPath = 'template_apply'
+      const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+      imports.forEach((importWxml) => {
+        const importCode = generateMinimalEscapeCode(importWxml.ast)
+        expect(importCode).toMatchSnapshot()
+      })
+    })
+
+    test('通过import的套用', () => {
+      const wxmlStr = `
+        <import src="/template/tmplA/index"></import>
+        <template is="tmplA" data="{{motto, mott}}"></template>
+      `
+      const tmplA = `
+        <import src="/template/tmplB/index"></import>
+        <template name="tmplA">
+          <view>this is template A</view>
+          <view wx:if="{{motto}}">{{mott}}</view>
+          <template is="tmplB"></template>
+        </template>
+      `
+      const tmplB = `
+        <template name="tmplB">
+          <view>this is template B</view>
+          <button bind:tap="onClickC">模板C的按钮</button>
+        </template>
+      `
+      
+      jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(tmplA).mockReturnValueOnce(tmplB)
+      jest.spyOn(fs, 'existsSync').mockReturnValue(true)
+      const dirPath = 'template_import_apply'
+      const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+      imports.forEach((importWxml) => {
+        const importCode = generateMinimalEscapeCode(importWxml.ast)
+        expect(importCode).toMatchSnapshot()
       })
     })
   })

@@ -341,6 +341,41 @@ describe('wxs', () => {
   })
 })
 
+describe('解析wxs中创建正则表达式方法的转换', () => {
+
+  test('定义了正则表达式的修饰符,则使用自定义修饰符', () => {
+    option.wxml = `
+    <wxs module="xxxfile">
+      var a = getRegExp('jzy123','img')
+      module.exports = {
+        reg: a
+      }
+    </wxs>
+    `
+    option.path = 'wxml_wxs_reg1'
+    const { wxses, imports }: any = parseWXML(option.path, option.wxml)
+    const importsCode = generateMinimalEscapeCode(imports[0].ast)
+    expect(wxses).toMatchSnapshot()
+    expect(importsCode).toMatchSnapshot()
+  })
+
+  test('没有定义了正则表达式的修饰符,就不添加修饰符使用默认', () => {
+    option.wxml = `
+    <wxs module="xxxfile">
+      var a = getRegExp('jzy123')
+      module.exports = {
+        reg: a
+      }
+    </wxs>
+    `
+    option.path = 'wxml_wxs_reg2'
+    const { wxses, imports }: any = parseWXML(option.path, option.wxml)
+    const importsCode = generateMinimalEscapeCode(imports[0].ast)
+    expect(wxses).toMatchSnapshot()
+    expect(importsCode).toMatchSnapshot()
+  })
+})
+
 describe('组件', () => {
   test('wxml中image的mode=""会转换成mode', () => {
     option.wxml = `<image class="img" src="{{imgSrc}}" mode=""></image>`
@@ -664,6 +699,12 @@ describe('style属性的解析', () => {
     expect(contentInput).toBe(`<swiper-item style="transform: translate(0%, 0rem) translateZ(0rem);"></swiper-item>`)
   })
 
+  test('绝对值小于1的px转换成1rem', () => {
+    let contentInput = `<swiper-item style="margin-left: 0.5px;margin-right: -0.5rpx;"></swiper-item>`
+    contentInput = convertStyleUnit(contentInput)
+    expect(contentInput).toBe(`<swiper-item style="margin-left: 1rem;margin-right: -1rem;"></swiper-item>`)
+  })
+
   test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用calc计算，包含变量，变量前有空格，转换后空格保留', () => {
     let contentInput = `<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
@@ -742,5 +783,23 @@ describe('wx作用域属性解析', () => {
     const { wxml }: any = parseWXML(option.path, option.wxml)
     const wxmlCode = generateMinimalEscapeCode(wxml)
     expect(wxmlCode).toMatchSnapshot()
+  })
+})
+
+describe('hidden属性解析', () => {
+  test('一般组件的hidden属性解析', () => {
+    option.wxml = `<view hidden="{{xx}}">{{xxx}}</view>`
+    option.path = 'hidden'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual(`!xx && <View>{xxx}</View>`)
+  })
+
+  test('template的hidden属性解析', () => {
+    option.wxml = `<template is="{{name}}" hidden="{{xx}}" />`
+    option.path = 'hidden_template'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toEqual(`!xx && <Template is={name}></Template>`)
   })
 })

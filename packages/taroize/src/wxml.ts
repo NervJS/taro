@@ -1106,9 +1106,9 @@ function parseElement (element: Element): t.JSXElement {
             if (str.includes('...')) {
               // (...a) => {{a}}
               attr.value = `{{${str.slice(4, strLastIndex)}}}`
-            } else if (/^\(([A-Za-z,]+)\)$/.test(str)) {
+            } else if (/^\(([A-Za-z,\s]+)\)$/.test(str)) {
               // (a) => {{a:a}}
-              attr.value = `{{${str.replace(/^\(([A-Za-z]+)\)$/, '$1:$1')}}}`
+              attr.value = `{{${str.slice(1, strLastIndex).replace(/([A-Za-z]+)/g, '$1:$1')}}}`
             } else {
               // (a:'a') => {{a:'a'}}
               attr.value = `{{${str.slice(1, strLastIndex)}}}`
