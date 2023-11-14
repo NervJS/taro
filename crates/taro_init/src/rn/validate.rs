@@ -51,12 +51,10 @@ static JAVA_KEYWORDS: [&str; 50] = [
   "float",
   "native",
   "super",
-  "while"
+  "while",
 ];
 
-static NAME_REGEX: Lazy<Regex> = Lazy::new(|| {
-  Regex::new(r"^(?i)[$A-Z_][0-9A-Z_$]*$").unwrap()
-});
+static NAME_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"^(?i)[$A-Z_][0-9A-Z_$]*$").unwrap());
 
 static RESERVED_NAMES: Lazy<Vec<&str>> = Lazy::new(|| {
   let mut names = Vec::new();
