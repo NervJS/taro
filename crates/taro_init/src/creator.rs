@@ -16,7 +16,7 @@ use console::style;
 
 use crate::{
   async_fs,
-  constants::{CSSType, CompilerType, FrameworkType, STYLE_EXT_MAP},
+  constants::{CSSType, CompilerType, FrameworkType, STYLE_EXT_MAP, MEDIA_REGEX},
   utils::normalize_path_str,
 };
 
@@ -156,10 +156,24 @@ impl Creator {
     dest_path: &str,
     options: &CreateOptions,
   ) -> anyhow::Result<()> {
+    if MEDIA_REGEX.is_match(from_path) {
+      let dir_name = PathBuf::from(dest_path)
+        .parent()
+        .unwrap()
+        .to_string_lossy()
+        .to_string();
+      async_fs::create_dir_all(&dir_name)
+        .await
+        .with_context(|| format!("文件夹创建失败: {}", dir_name))?;
+      async_fs::copy(from_path, dest_path)
+        .await
+        .with_context(|| format!("文件复制失败: {}", from_path))?;
+      return Ok(());
+    }
     let form_template = async_fs::read(from_path)
       .await
       .with_context(|| format!("文件读取失败: {}", from_path))?;
-    let from_template = String::from_utf8(form_template)?;
+    let from_template = String::from_utf8_lossy(&form_template);
     let template = if from_template == "" {
       "".to_string()
     } else {

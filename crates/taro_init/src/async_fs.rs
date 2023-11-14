@@ -59,3 +59,13 @@ pub fn rename<P: AsRef<Path>, Q: AsRef<Path>>(
   let fut = async move { tokio::fs::rename(from, to).await.map_err(Error::from) };
   Box::pin(fut)
 }
+
+pub fn copy<P: AsRef<Path>, Q: AsRef<Path>>(
+  from: P,
+  to: Q,
+) -> BoxFuture<'static, Result<u64>> {
+  let from = from.as_ref().to_string_lossy().to_string();
+  let to = to.as_ref().to_string_lossy().to_string();
+  let fut = async move { tokio::fs::copy(from, to).await.map_err(Error::from) };
+  Box::pin(fut)
+}
