@@ -267,15 +267,15 @@ describe('parseAst', () => {
     const depComponents = new Set([
       {
         name: 'component-a',
-        path: '/components/a'
+        path: '/project/components/a'
       },
       {
         name: 'component-b',
-        path: '/components/b'
+        path: '/project/components/b'
       },
       {
         name: 'component-c',
-        path: '/components/c'
+        path: '/project/components/c'
       }
     ])
     param.script = ``
@@ -293,7 +293,7 @@ describe('parseAst', () => {
 
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
-      sourceFilePath: '',
+      sourceFilePath: '/project/pages/index',
       outputFilePath: '',
       importStylePath: '',
       depComponents,
