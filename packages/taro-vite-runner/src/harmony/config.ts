@@ -1,13 +1,13 @@
 import { babel } from '@rollup/plugin-babel'
 import inject, { type RollupInjectOptions } from '@rollup/plugin-inject'
-import { defaultMainFields, fs, PLATFORMS } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
-import { getBabelOption, getCSSModulesOptions, getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
-import { HARMONY_SCOPES } from '../utils/constants'
+import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
+import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -207,6 +207,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           extensions: ['.js', '.ts'],
           transformMixedEsModules: true,
         },
+        minify: getMinify(taroConfig),
+        terserOptions:
+          getMinify(taroConfig) === 'terser'
+            ? recursiveMerge({}, DEFAULT_TERSER_OPTIONS, taroConfig.terser?.config || {})
+            : undefined,
       },
       define: getDefineOption(),
       resolve: {
