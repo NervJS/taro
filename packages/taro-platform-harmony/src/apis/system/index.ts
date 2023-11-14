@@ -6,9 +6,6 @@ import _display from '@ohos.display'
 import i18n from '@ohos.i18n'
 // 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
 import deviceMethod from '@system.device'
-// 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
-// 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
-import network from '@system.network'
 // @ts-ignore
 import { convertVP2PX } from '@tarojs/runtime'
 
@@ -26,65 +23,8 @@ deviceMethod.getInfo({
   }
 })
 
-type GetNetworkType = typeof Taro.getNetworkType
-type OnNetworkStatusChange = typeof Taro.onNetworkStatusChange
-type OffNetworkStatusChange = typeof Taro.offNetworkStatusChange
-type GetSystemInfo = typeof Taro.getSystemInfo
-type GetSystemInfoSync = typeof Taro.getSystemInfoSync
-//  OnMemoryWarning,OffMemoryWarningun are unsupported temporarily
-//  type OnMemoryWarning = typeof Taro.onMemoryWarning
-//  type OffMemoryWarning = typeof Taro.offMemoryWarning
-
-/*  Obtains the network type  */
-const getNetworkType: GetNetworkType = function (options) {
-  let res: any = {}
-  return new Promise((resolve, reject) => {
-    network.getType({
-      success: function (data) {
-        res = {
-          errMsg: 'getNetworkType:ok',
-          networkType: data.type,
-          metered: data.metered
-        }
-        callAsyncSuccess(resolve, res, options)
-      },
-      fail: function (data, code) {
-        res = {
-          errMsg: `getNetworkType:fail ${data || ''}`,
-          code: code
-        }
-        callAsyncFail(reject, res, options)
-      }
-    })
-  })
-}
-
-const onNetworkStatusChange: OnNetworkStatusChange = function (cb) {
-  network.subscribe({
-    success: function (data) {
-      // metered返回值，boolean类型，表示是否按照流量计费
-      // type返回值，string类型，表示网络类型，可能的值为2g，3g，4g，5g，wifi，none
-      const res = {
-        networkType: data.type,
-        isConnected: data.type !== 'none'
-      }
-      cb?.(res)
-    },
-    fail: function (data, code) {
-      const res: any = {}
-      res.errMsg = `onNetworkStatusChange:fail ${data || ''}`
-      res.code = code
-      cb?.(res)
-    }
-  })
-}
-
-const offNetworkStatusChange: OffNetworkStatusChange = function () {
-  network.unsubscribe()
-}
-
 /* 同步版本 */
-const getSystemInfoSync: GetSystemInfoSync = function () {
+const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
   const res: any = {}
   res.SDKVersion = deviceInfo && deviceInfo.sdkApiVersion // 客户端基础库版本 string
   res.albumAuthorized = false // 允许使用相册的开关（仅 iOS 有效） boolean
@@ -116,12 +56,11 @@ const getSystemInfoSync: GetSystemInfoSync = function () {
   res.windowWidth = device && device.windowWidth // 可使用窗口宽度，单位px number
   res.windowHeight = device && device.windowHeight // 可使用窗口高度，单位px number
   res.version = deviceInfo && deviceInfo.displayVersion // 版本号 string
-  res.getNetworkType = getNetworkType
 
   return res
 }
 /* 异步版本 */
-const getSystemInfo: GetSystemInfo = function (options) {
+const getSystemInfo: typeof Taro.getSystemInfo = function (options) {
   let res = {}
   return new Promise((resolve, reject) => {
     try {
@@ -148,13 +87,10 @@ const offMemoryWarning = function (cb) {
 }
 
 export {
-  getNetworkType,
   getSystemInfo,
   getSystemInfoSync,
   offMemoryWarning,
-  offNetworkStatusChange,
   onMemoryWarning,
-  onNetworkStatusChange,
 }
 
 globalThis.getSystemInfoSync = getSystemInfoSync
