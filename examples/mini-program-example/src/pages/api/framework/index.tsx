@@ -97,21 +97,21 @@ export default class Index extends React.Component {
     lifeCycleCallback: {},
   }
 
-  onLoad(res) {
-    const onLaunchCallback = Taro.getStorageSync('onLaunch')
-    const onTabItemTapCallback = Taro.getStorageSync('onTabItemTap')
-    const { lifeCycleCallback } = this.state
-    if (onLaunchCallback) {
-      lifeCycleCallback['onLaunch'] = { onLaunch: onLaunchCallback }
-    }
-    if (onTabItemTapCallback) {
-      lifeCycleCallback['onTabItemTap'] = { onTabItemTap: onTabItemTapCallback }
-    }
-    this.setState({
-      lifeCycleCallback,
-    })
-    this.lifeCycleTrigger('onLoad', res)
-  }
+  // onLoad(res) {
+  //   const onLaunchCallback = Taro.getStorageSync('onLaunch')
+  //   const onTabItemTapCallback = Taro.getStorageSync('onTabItemTap')
+  //   const { lifeCycleCallback } = this.state
+  //   if (onLaunchCallback) {
+  //     lifeCycleCallback['onLaunch'] = { onLaunch: onLaunchCallback }
+  //   }
+  //   if (onTabItemTapCallback) {
+  //     lifeCycleCallback['onTabItemTap'] = { onTabItemTap: onTabItemTapCallback }
+  //   }
+  //   this.setState({
+  //     lifeCycleCallback,
+  //   })
+  //   this.lifeCycleTrigger('onLoad', res)
+  // }
 
   onUnload(res) {
     this.lifeCycleTrigger('onUnload', res)

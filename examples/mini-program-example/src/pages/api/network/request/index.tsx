@@ -10,10 +10,6 @@ import './index.scss'
  * @returns
  */
 
-function headersReceived(res) {
-  TestConsole.consoleNormal('onHeadersReceived', res)
-}
-
 export default class Index extends React.Component {
   state = {
     task: null,
@@ -47,7 +43,7 @@ export default class Index extends React.Component {
         func: () => {
           TestConsole.consoleTest('RequestTask.onHeadersReceived')
           if (this.state.task) {
-            ;(this.state.task as Taro.RequestTask<any>).onHeadersReceived(headersReceived)
+            ;(this.state.task as Taro.RequestTask<any>).onHeadersReceived(this.headersReceived)
           }
         },
       },
@@ -56,7 +52,7 @@ export default class Index extends React.Component {
         func: () => {
           TestConsole.consoleTest('RequestTask.offHeadersReceived')
           if (this.state.task) {
-            ;(this.state.task as Taro.RequestTask<any>).offHeadersReceived(headersReceived)
+            ;(this.state.task as Taro.RequestTask<any>).offHeadersReceived(this.headersReceived)
           }
         },
       },
@@ -69,6 +65,10 @@ export default class Index extends React.Component {
         func: null,
       },
     ],
+  }
+
+  headersReceived = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onHeadersReceived', 2)
   }
 
   startRequest(apiIndex, data, testTitle) {
