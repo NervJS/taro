@@ -12,6 +12,7 @@ use swc_core::{
 use std::collections::HashMap;
 
 use self::constants::*;
+use crate::transform_harmony::TransformVisitor;
 
 pub mod constants;
 
@@ -168,6 +169,10 @@ pub fn create_jsx_lit_attr (name: &str, lit: Lit) -> JSXAttrOrSpread {
         name: JSXAttrName::Ident(Ident::new(name.into(), span)),
         value: Some(JSXAttrValue::Lit(lit))
     })
+}
+
+pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisitor) {
+    el.opening.attrs.push(create_jsx_lit_attr(DYNAMIC_ID,  (visitor.get_node_name)().into()));
 }
 
 /**

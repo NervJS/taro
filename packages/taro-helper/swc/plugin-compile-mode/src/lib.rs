@@ -13,13 +13,16 @@ use std::collections::HashMap;
 use core::fmt::Debug;
 
 mod utils;
-mod transform;
+// mod transform;
+mod transform_harmony;
+use transform_harmony as transform;
 #[cfg(test)]
 mod tests;
 
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
+    pub is_harmony: Option<bool>,
     pub tmpl_prefix: String,
     pub components: HashMap<String, HashMap<String, String>>,
     pub adapter: HashMap<String, String>,
@@ -42,7 +45,7 @@ pub struct PluginConfig {
 /// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
 pub fn process_transform(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
-    let config = serde_json::from_str::<PluginConfig>(
+    let config: PluginConfig = serde_json::from_str::<PluginConfig>(
         &metadata
             .get_transform_plugin_config()
             .unwrap()
