@@ -857,6 +857,9 @@ importers:
       '@babel/types':
         specifier: ^7.20.0
         version: registry.npmjs.org/@babel/types@7.21.5
+      '@tarojs/binding':
+        specifier: workspace:*
+        version: link:../../crates/native_binding
       '@tarojs/cli':
         specifier: workspace:*
         version: link:../taro-cli

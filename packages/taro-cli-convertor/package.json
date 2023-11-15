@@ -35,6 +35,7 @@
     "@babel/types": "^7.20.0",
     "@tarojs/helper": "workspace:*",
     "@tarojs/taroize": "workspace:*",
+    "@tarojs/binding": "workspace:*",
     "@tarojs/cli": "workspace:*",
     "@tarojs/transformer-wx": "^2.2.10",
     "postcss-taro-unit-transform": "^2.2.10",
