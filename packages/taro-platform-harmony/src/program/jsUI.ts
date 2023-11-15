@@ -257,6 +257,7 @@ export default class Harmony extends TaroPlatformBase {
   }
 
   modifyHarmonyConfig (pages, { projectPath, hapName, name }) {
+    const designWidth = this.config.designWidth || this.config.postcss.pxtransform?.config?.designWidth || 750
     const hapConfigPath = path.join(projectPath, hapName, 'src/main/config.json')
     fs.readJson(hapConfigPath)
       .then(config => {
@@ -267,7 +268,7 @@ export default class Harmony extends TaroPlatformBase {
           if (JSON.stringify(target.pages) === JSON.stringify(pages)) return
           target.pages = pages
           target.window = {
-            designWidth: 750,
+            designWidth,
             autoDesignWidth: false
           }
         } else {
@@ -275,7 +276,7 @@ export default class Harmony extends TaroPlatformBase {
             pages,
             name,
             window: {
-              designWidth: 750,
+              designWidth,
               autoDesignWidth: false
             }
           })

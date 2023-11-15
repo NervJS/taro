@@ -1,13 +1,12 @@
 import { Current, hooks } from '@tarojs/runtime'
 
 import * as apis from './apis'
-import { noop } from './utils'
 
 const taro = Object.assign({}, apis)
 
 export function initNativeApi (taro) {
   (Current as any).taro = taro
-  taro.initPxTransform = noop
+  taro.initPxTransform = initPxTransform.bind(this)
   taro.getApp = () => Current.app
 
   if (hooks.isExist('initNativeApi')) {
@@ -15,8 +14,39 @@ export function initNativeApi (taro) {
   }
 }
 
-export function initPxTransform (_opts?: any) {
-  // noop
+const defaultDesignWidth = 750
+const defaultDesignRatio = {
+  640: 2.34 / 2,
+  750: 1,
+  828: 1.81 / 2
+}
+const defaultBaseFontSize = 20
+const defaultUnitPrecision = 5
+const defaultTargetUnit = 'vp'
+
+export function initPxTransform ({
+  designWidth = defaultDesignWidth,
+  deviceRatio = defaultDesignRatio,
+  baseFontSize = defaultBaseFontSize,
+  unitPrecision = defaultUnitPrecision,
+  targetUnit = defaultTargetUnit
+}) {
+  const taro = (Current as any).taro
+
+  if (taro) {
+    taro.pxTransformConfig ||= taro.pxTransformConfig || {}
+    const config = taro.pxTransformConfig
+    config.designWidth = designWidth
+    config.deviceRatio = deviceRatio
+    config.baseFontSize = baseFontSize
+    config.targetUnit = targetUnit
+    config.unitPrecision = unitPrecision
+  }
+}
+
+export function pxTransform (size: unknown) {
+  // Note: 鸿蒙样式会自动处理，不需要转换（这里补充方法仅避免多端使用情况下报错）
+  return size
 }
 
 export * from './apis'

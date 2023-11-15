@@ -163,6 +163,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           this.addWatchFile(themePath)
         }
 
+        const pxTransformOption = taroConfig.postcss?.pxtransform || {}
+        const pxTransformConfig = pxTransformOption.config || {}
+        pxTransformConfig.designWidth = taroConfig.designWidth
+        pxTransformConfig.deviceRatio = taroConfig.deviceRatio
+
         return [
           '// @ts-nocheck',
           setReconciler,
@@ -177,11 +182,14 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           `var config = ${appConfigStr};`,
           'window.__taroAppConfig = config',
           instantiateApp,
-          'initPxTransform({',
-          `designWidth: ${taroConfig.designWidth || 750},`,
-          `deviceRatio: ${JSON.stringify(taroConfig.deviceRatio || { 750: 1 })}`,
-          '})',
           'initNativeApi(Taro)',
+          'initPxTransform({',
+          `designWidth: ${pxTransformConfig.designWidth},`,
+          `deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},`,
+          `baseFontSize: ${pxTransformConfig.baseFontSize},`,
+          `unitPrecision: ${pxTransformConfig.unitPrecision},`,
+          `targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)},`,
+          '})',
         ].join('\n')
       }
     }
