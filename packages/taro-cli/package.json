@@ -57,8 +57,6 @@
     "joi": "^17.6.0",
     "latest-version": "^5.1.0",
     "lodash": "^4.17.21",
-    "mem-fs": "^2.3.0",
-    "mem-fs-editor": "^9.6.0",
     "minimist": "^1.2.8",
     "npm-check": "^6.0.1",
     "ora": "^5.0.0",

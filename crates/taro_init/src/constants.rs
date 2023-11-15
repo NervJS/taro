@@ -103,3 +103,10 @@ pub enum CompilerType {
   Webpack5,
   Vite,
 }
+
+#[derive(Debug, PartialEq, Eq, Hash, Serialize)]
+#[napi(string_enum)]
+pub enum PeriodType {
+  CreateAPP,
+  CreatePage,
+}
