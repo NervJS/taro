@@ -80,7 +80,7 @@ export function isHasExtractProp (el: TaroElement): boolean {
  */
 export function isParentBinded (node: TaroElement | null, type: string): boolean {
   let res = false
-  while (node?.parentElement && node.parentElement._path !== ROOT_STR) {
+  while (node?.parentElement && node.parentElement._path !== ROOT_STR && node.parentElement.nodeName !== 'root-portal') {
     if (node.parentElement.__handlers[type]?.length) {
       res = true
       break
