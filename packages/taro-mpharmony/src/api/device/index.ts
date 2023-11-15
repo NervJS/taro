@@ -1,3 +1,12 @@
+import { temporarilyNotSupport } from '../../utils'
+
+/**
+ * 拉起手机发送短信界面
+ * 
+ * @canNotUse sendSms
+ */
+export const sendSms = /* @__PURE__ */ temporarilyNotSupport('sendSms')
+
 export * from './accelerometer'
 export * from './accessibility'
 export * from './battery'

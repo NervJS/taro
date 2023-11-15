@@ -11,6 +11,12 @@ type TListener = {
   callback: Taro.IntersectionObserver.ObserveCallback
 }
 
+/**
+ * IntersectionObserver 对象，用于推断某些节点是否可以被用户看见、有多大比例可以被用户看见
+ * 
+ * @canUse IntersectionObserver
+ * @__class [disconnect, observe, relativeTo, relativeToViewport]
+ */
 export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
   // 自定义组件实例
   private _component: TaroGeneral.IAnyObject

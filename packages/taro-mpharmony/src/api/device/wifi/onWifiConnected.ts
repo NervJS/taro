@@ -1,6 +1,12 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 监听连接上 Wi-Fi 的事件
+ * 
+ * @canUse onWifiConnected
+ * @__callback [wifi]
+ */
 export const onWifiConnected: typeof Taro.onWifiConnected = (callback) => {
   const name = 'onWifiConnected'
 

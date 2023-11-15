@@ -1,6 +1,12 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 监听连接上 Wi-Fi 的事件
+ * 
+ * @canUse onWifiConnectedWithPartialInfo
+ * @__callback [wifi]
+ */
 export const onWifiConnectedWithPartialInfo: typeof Taro.onWifiConnectedWithPartialInfo = (callback) => {
   const name = 'onBLECharacteristicValueChange'
 

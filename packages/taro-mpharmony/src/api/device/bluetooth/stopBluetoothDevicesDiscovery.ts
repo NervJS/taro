@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 停止搜寻附近的蓝牙外围设备
+ * 
+ * @canUse stopBluetoothDevicesDiscovery
+ */
 export const stopBluetoothDevicesDiscovery: typeof Taro.stopBluetoothDevicesDiscovery = (options) => {
   const name = 'stopBluetoothDevicesDiscovery'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

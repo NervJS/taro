@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 开始监听陀螺仪数据
+ * 
+ * @canUse startGyroscope
+ * @__object [interval[game, ui, normal]]
+ */
 export const startGyroscope: typeof Taro.startGyroscope = (options) => {
   const name = 'startGyroscope'
 

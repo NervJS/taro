@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 停止监听陀螺仪数据
+ * 
+ * @canUse stopGyroscope
+ */
 export const stopGyroscope: typeof Taro.stopGyroscope = (options) => {
   const name = 'stopGyroscope'
 

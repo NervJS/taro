@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 设置屏幕亮度
+ * 
+ * @canUse setScreenBrightness
+ * @__object [value]
+ */
 export const setScreenBrightness: typeof Taro.setScreenBrightness = (options) => {
   const name = 'setScreenBrightness'
 

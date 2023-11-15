@@ -1,5 +1,10 @@
 import { temporarilyNotSupport } from '../../../utils'
 
+/**
+ * 设置 wifiList 中 AP 的相关信息
+ * 
+ * @canNotUse setWifiList
+ */
 export const setWifiList = /* @__PURE__ */ temporarilyNotSupport('setWifiList')
 
 export * from './connectWifi'
@@ -13,3 +18,10 @@ export * from './onWifiConnected'
 export * from './onWifiConnectedWithPartialInfo'
 export * from './startWifi'
 export * from './stopWifi'
+
+/**
+ * Wifi 信息(native 返回)
+ * 
+ * @canUse WifiInfo
+ * @__class [SSID, BSSID, secure, signalStrength, frequency]
+ */
