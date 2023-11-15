@@ -628,7 +628,7 @@ export default class Convertor {
               if (jsxName.isJSXIdentifier()) {
                 const componentName = jsxName.node.name
                 if (!DEFAULT_Component_SET.has(componentName) && scriptComponents.indexOf(componentName) === -1) {
-                  // 比较引入组件名和和标签名是否同名，若同名，则在组件名上加入后缀Component
+                  // 比较引入组件名和标签名是否同名，若同名，则在组件名上加入后缀Component
                   if (scriptImports.includes(componentName)) {
                     jsxName.node.name = `${componentName}Component`
                   }

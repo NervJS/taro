@@ -157,8 +157,8 @@ exports[`parseAst 自定义组件按需导入 1`] = `
 import { Block } from \\"@tarojs/components\\";
 import React from \\"react\\";
 import Taro from \\"@tarojs/taro\\";
-import ComponentB from '../../../components/b';
-import ComponentA from '../../../components/a';
+import ComponentB from '../components/b';
+import ComponentA from '../components/a';
 cacheOptions.setOptionsToCache({});
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
