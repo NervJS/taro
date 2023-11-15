@@ -52,17 +52,8 @@ function getRatio (value: number) {
 }
 
 export function convertNumber2PX (value: number) {
-  return convertPX2VP(value) + 'vp'
-}
-
-export function convertPX2VP (value: number) {
   const ratio = getRatio(value)
-  return px2vp(Math.ceil(value * ratio))
-}
-
-export function convertVP2PX (value: number) {
-  const ratio = getRatio(value)
-  return vp2px(Math.ceil(value * ratio))
+  return px2vp(Math.ceil(value * ratio)) + 'vp'
 }
 
 export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {

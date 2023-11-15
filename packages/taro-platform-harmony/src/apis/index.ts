@@ -55,9 +55,19 @@ export function initPxTransform ({
   }
 }
 
-export function pxTransform (size: unknown) {
-  // Note: 鸿蒙样式会自动处理，不需要转换（这里补充方法仅避免多端使用情况下报错）
-  return size
+export function pxTransform (size: number): number {
+  const config = (Current as any).taro?.config || {}
+  const targetUnit = config.targetUnit || defaultTargetUnit
+
+  let val = size
+  switch (targetUnit) {
+    case 'vp':
+      val = px2vp(size)
+      break
+    default:
+      // NOTE: 鸿蒙环境下 style 会自动完成设计稿转换，无需在方法内二次调整
+  }
+  return val + config.targetUnit
 }
 
 export function canIUseWebp () {

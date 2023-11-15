@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { bindScrollTo, bindInstanceToNode, bindAnimation, eventHandler, convertVP2PX, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindScrollTo, bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -134,12 +133,12 @@ function getAttributes (node: TaroViewElement) {
 function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: number) {
     const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
     const value = {
-      deltaX: convertVP2PX(xOffset),
-      deltaY: convertVP2PX(yOffset),
-      scrollLeft: convertVP2PX(currentXOffset),
-      scrollTop: convertVP2PX(currentYOffset),
-      scrollWidth: convertVP2PX(this.wrapper?.width),
-      scrollHeight: convertVP2PX(this.wrapper?.height),
+      deltaX: vp2px(xOffset),
+      deltaY: vp2px(yOffset),
+      scrollLeft: vp2px(currentXOffset),
+      scrollTop: vp2px(currentYOffset),
+      scrollWidth: vp2px(this.wrapper?.width),
+      scrollHeight: vp2px(this.wrapper?.height),
     }
     const event = createTaroEvent(eventName, { detail: { ...value } }, this.node)
     eventHandler(event, eventName, this.node)

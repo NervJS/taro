@@ -1,7 +1,5 @@
-// @ts-nocheck
-
 import Taro from '@tarojs/api'
-import { convertVP2PX, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { NodesRef } from './nodesRef.js'
 
@@ -141,15 +139,15 @@ function filter (fields, dom) {
 
     if (areaInfo) {
       if (rect) {
-        res.top = convertVP2PX(areaInfo.globalPosition.y)
-        res.left = convertVP2PX(areaInfo.globalPosition.x)
-        res.right = convertVP2PX(areaInfo.globalPosition.x + areaInfo.width)
-        res.bottom = convertVP2PX(areaInfo.globalPosition.y + areaInfo.height)
+        res.top = vp2px(areaInfo.globalPosition.y)
+        res.left = vp2px(areaInfo.globalPosition.x)
+        res.right = vp2px(areaInfo.globalPosition.x + areaInfo.width)
+        res.bottom = vp2px(areaInfo.globalPosition.y + areaInfo.height)
       }
 
       if (size) {
-        res.width = convertVP2PX(areaInfo.width)
-        res.height = convertVP2PX(areaInfo.height)
+        res.width = vp2px(areaInfo.width)
+        res.height = vp2px(areaInfo.height)
       }
     }
   }
@@ -159,8 +157,8 @@ function filter (fields, dom) {
     if (scroller) {
       const { xOffset, yOffset } = scroller.currentOffset()
 
-      res.scrollLeft = convertVP2PX(xOffset)
-      res.scrollTop = convertVP2PX(yOffset)
+      res.scrollLeft = vp2px(xOffset)
+      res.scrollTop = vp2px(yOffset)
     }
   }
   if (properties.length) {
