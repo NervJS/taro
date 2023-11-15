@@ -2,13 +2,19 @@ import { Current, hooks } from '@tarojs/runtime'
 import { PLATFORM_TYPE } from '@tarojs/shared'
 
 import * as apis from './apis'
+import { permanentlyNotSupport } from './utils'
 
 const taro = Object.assign({}, apis)
 
+const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')
 export function initNativeApi (taro) {
   (Current as any).taro = taro
-  taro.initPxTransform = initPxTransform.bind(this)
-  taro.getApp = () => Current.app
+  taro.requirePlugin = requirePlugin
+  taro.getApp = getApp
+  taro.pxTransform = pxTransform
+  taro.initPxTransform = initPxTransform
+  taro.canIUseWebp = canIUseWebp
+  taro.getAppInfo = getAppInfo
 
   if (hooks.isExist('initNativeApi')) {
     hooks.call('initNativeApi', taro)

@@ -1,5 +1,6 @@
 import _display from '@ohos.display'
 import { Current } from '@tarojs/runtime'
+import { isFunction } from '@tarojs/shared'
 
 import { NodeType } from '../dom/node'
 import { initComponentNodeInfo } from '../utils/info'
@@ -35,16 +36,33 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
 
 const display = _display.getDefaultDisplaySync()
 
-export function convertNumber2PX (value: number) {
+let designWidthFunc: (input: number) => number
+function getRatio (value: number) {
   const config = (Current as any).taro?.config || {}
-  const designWidth = config.designWidth || 750
-  return Math.ceil(value / designWidth * px2vp(display.width)) + 'vp'
+  if (!isFunction(designWidthFunc)) {
+    designWidthFunc = isFunction(config.designWidth)
+      ? config.designWidth
+      : () => config.designWidth
+  }
+  const designWidth = designWidthFunc(value)
+  if (!(designWidth in config.deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  return Math.min(display.width, display.height) / designWidth / config.deviceRatio[designWidth]
+}
+
+export function convertNumber2PX (value: number) {
+  return convertPX2VP(value) + 'vp'
+}
+
+export function convertPX2VP (value: number) {
+  const ratio = getRatio(value)
+  return px2vp(Math.ceil(value * ratio))
 }
 
 export function convertVP2PX (value: number) {
-  const config = (Current as any).taro?.config || {}
-  const designWidth = config.designWidth || 750
-  return Math.ceil(value / px2vp(display.width) * designWidth)
+  const ratio = getRatio(value)
+  return vp2px(Math.ceil(value * ratio))
 }
 
 export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {

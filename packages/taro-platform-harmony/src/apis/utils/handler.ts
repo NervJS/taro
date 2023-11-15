@@ -1,6 +1,6 @@
 import { isFunction } from '@tarojs/shared'
 
-interface ICallbackResult {
+export interface ICallbackResult {
   /** 错误信息 */
   errMsg: string
 }

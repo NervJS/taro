@@ -1,6 +1,11 @@
+// eslint-disable-next-line import/no-duplicates
 import { TaroElement } from '@tarojs/runtime'
+// eslint-disable-next-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
-import { FunctionType, IAsyncParams } from './types'
+import { ICallbackResult, MethodHandler } from './handler'
+
+import type { FunctionType, IAsyncParams } from './types'
 
 export * from './validate'
 
@@ -33,6 +38,26 @@ export function temporarilyNotSupport (apiName: string, recommended?: string, is
       return Promise.reject(error)
     } else {
       return error
+    }
+  }
+}
+
+export function permanentlyNotSupport (name = '') {
+  return (option = {}, ...args: any[]) => {
+    const { success, fail, complete } = option as any
+    const handle = new MethodHandler<ICallbackResult>({ name, success, fail, complete })
+    const errMsg = '不支持 API'
+    eventCenter.trigger('__taroNotSupport', {
+      name,
+      args: [option, ...args],
+      type: 'method',
+      category: 'permanently',
+    })
+    if (process.env.NODE_ENV === 'production') {
+      console.warn(errMsg)
+      return handle.success({ errMsg })
+    } else {
+      return handle.fail({ errMsg })
     }
   }
 }
