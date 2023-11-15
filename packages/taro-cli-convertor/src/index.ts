@@ -2,6 +2,7 @@
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
+import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import { Creator } from '@tarojs/cli'
 import {
   chalk,
@@ -157,7 +158,7 @@ export default class Convertor {
   entryJSON: AppConfig & { usingComponents?: Record<string, string> }
   entryStyle: string
   entryUsingComponents: Record<string, string>
-  framework: 'react' | 'vue'
+  framework: FrameworkType
   isTsProject: boolean
   miniprogramRoot: string
   convertConfig: IConvertConfig
@@ -953,7 +954,7 @@ export default class Convertor {
   private formatFile (jsCode: string, template = '') {
     let code = jsCode
     const config = { ...prettierJSConfig }
-    if (this.framework === 'vue') {
+    if (this.framework === FrameworkType.Vue) {
       code = `
 ${template}
 <script>
@@ -1040,7 +1041,7 @@ ${code}
   }
 
   private getComponentDest (file: string) {
-    if (this.framework === 'react') {
+    if (this.framework === FrameworkType.React) {
       return file
     }
 
@@ -1368,78 +1369,27 @@ ${code}
 
   generateConfigFiles () {
     const creator = new Creator()
-    const templateName = 'default'
-    const configDir = path.join(this.convertRoot, 'config')
-    const pkgPath = path.join(this.convertRoot, 'package.json')
-    const projectName = 'taroConvert'
-    const description = ''
-    const version = getPkgVersion()
+    const template = 'default'
+    const templatePath = creator.templatePath(template)
+    const handlerPath = path.join(templatePath, 'template_creator.js')
+    const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
     const dateObj = new Date()
-    const date = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`
-    creator.template(templateName, 'package.json.tmpl', pkgPath, {
-      description,
-      projectName,
-      version,
-      css: 'sass',
+    createProject({
+      projectRoot: this.convertRoot,
+      projectName: 'taroConvert',
+      template,
+      npm: NpmType.Pnpm,
+      framework: this.framework,
+      css: CSSType.Sass,
+      autoInstall: false,
+      templateRoot: creator.rootPath,
+      version: getPkgVersion(),
       typescript: false,
-      template: templateName,
-      framework: this.framework,
-      compiler: 'webpack5',
-    })
-    creator.template(templateName, path.join('config', 'index.js'), path.join(configDir, 'index.js'), {
-      date,
-      projectName,
-      framework: this.framework,
-      compiler: 'webpack5',
-      typescript: false,
-    })
-    creator.template(templateName, path.join('config', 'dev.js'), path.join(configDir, 'dev.js'), {
-      framework: this.framework,
-      compiler: 'webpack5',
-      typescript: false,
-    })
-    creator.template(templateName, path.join('config', 'prod.js'), path.join(configDir, 'prod.js'), {
-      framework: this.framework,
-      typescript: false,
-    })
-    creator.template(templateName, 'project.config.json', path.join(this.convertRoot, 'project.config.json'), {
-      description,
-      projectName,
-      framework: this.framework,
-    })
-    creator.template(templateName, '.gitignore', path.join(this.convertRoot, '.gitignore'))
-    creator.template(templateName, '.editorconfig', path.join(this.convertRoot, '.editorconfig'))
-    creator.template(templateName, '.eslintrc.js', path.join(this.convertRoot, '.eslintrc.js'), {
-      typescript: false,
-      framework: this.framework,
-    })
-    creator.template(templateName, 'babel.config.js', path.join(this.convertRoot, 'babel.config.js'), {
-      typescript: false,
-      framework: this.framework,
-    })
-    creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'), {
-      projectName,
-    })
-    creator.fs.commit(() => {
-      const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
-      pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
-      fs.writeJSONSync(pkgPath, pkgObj, {
-        spaces: 2,
-        EOL: '\n',
-      })
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(configDir, 'index.js')))
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(configDir, 'dev.js')))
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(configDir, 'prod.js')))
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(pkgPath))
-      printLog(
-        processTypeEnum.GENERATE,
-        '文件',
-        this.generateShowPath(path.join(this.convertRoot, 'project.config.json'))
-      )
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.gitignore')))
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.editorconfig')))
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.eslintrc')))
-      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertDir, 'index.html')))
+      date: `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`,
+      description: '',
+      compiler: CompilerType.Webpack5,
+      period: PeriodType.CreateAPP,
+    }, handler).then(() => {
       this.showLog()
     })
   }
@@ -1467,7 +1417,7 @@ ${code}
   }
 
   run () {
-    this.framework = 'react'
+    this.framework = FrameworkType.React
     this.generateEntry()
     this.traversePages()
     this.generateConfigFiles()
