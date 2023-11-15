@@ -548,9 +548,9 @@ export class Video implements ComponentInterface {
         this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
     } else if (!fromBrowser) {
+      // 全屏后，"退出全屏"是浏览器按钮是浏览器内部按钮，非html按钮，点击"退出全屏"按钮是浏览器内部实现功能。此时再次调用exitFullscreen反而会报错，因此不再调用
       document[screenFn.exitFullscreen]()
     }
-    // 全屏后，"退出全屏"是浏览器按钮是浏览器内部按钮，非html按钮，点击"退出全屏"按钮是浏览器内部实现功能。此时再次调用exitFullscreen反而会报错，因此不再调用
   }
 
   toggleMute = (e: MouseEvent) => {
