@@ -64,25 +64,25 @@ export function parseApis () {
     if (comment.includes('@__object')) {
       const ret = getObj('@__object', comment)
       if (Object.keys(ret).length !== 0) {
-        apiInfo.object = ret
+        apiInfo = { ...apiInfo, object: ret }
       }
     }
     if (comment.includes('@__return')) {
       const ret = getObj('@__return', comment)
       if (Object.keys(ret).length !== 0) {
-        apiInfo.return = ret
+        apiInfo = { ...apiInfo, return: ret }
       }
     }
     if (comment.includes('@__success')) {
       const ret = getObj('@__success', comment)
       if (Object.keys(ret).length !== 0) {
-        apiInfo.success = ret
+        apiInfo = { ...apiInfo, success: ret }
       }
     }
     if (comment.includes('@__callback')) {
       const ret = getObj('@__callback', comment)
       if (Object.keys(ret).length !== 0) {
-        apiInfo.callback = ret
+        apiInfo = { ...apiInfo, callback: ret }
       }
     }
     if (comment.includes('@__class')) {
