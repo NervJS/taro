@@ -12,6 +12,7 @@ use napi::{
   JsBoolean, JsObject, Result, Status, ValueType,
 };
 use napi_derive::napi;
+use once_cell::sync::Lazy;
 use serde::Serialize;
 
 use crate::{
@@ -94,30 +95,29 @@ impl FromNapiValue for JSReturn {
 }
 
 handlebars_helper!(includes: |{ s: str = "" }, *args| args.iter().map(|a| a.render()).any(|arg| arg == s));
-handlebars_helper!(eq: |x: str, y: str| x == y);
+// handlebars_helper!(eq: |x: str, y: str| x == y);
+
+static HANDLEBARS: Lazy<Handlebars<'static>> = Lazy::new(|| {
+  let mut hbs = new_hbs();
+  register(&mut hbs);
+  hbs.register_helper("includes", Box::new(includes));
+  hbs
+});
 
 #[derive(Debug, Clone)]
+#[napi(constructor)]
 pub struct Creator {
   pub template_root: String,
   pub destination_root: String,
-  pub handlebars: Handlebars<'static>,
 }
 
+#[napi]
 impl Creator {
   pub fn new(template_root: String, destination_root: String) -> Self {
-    let handlebars = Self::init_handlebars();
     Creator {
       template_root,
       destination_root,
-      handlebars,
     }
-  }
-
-  fn init_handlebars() -> Handlebars<'static> {
-    let mut handlebars = new_hbs();
-    register(&mut handlebars);
-    handlebars.register_helper("includes", Box::new(includes));
-    handlebars
   }
 
   pub fn get_template_path(&self, args: &[&str]) -> String {
@@ -151,6 +151,7 @@ impl Creator {
     file_path.to_string_lossy().to_string()
   }
 
+  #[napi]
   pub async fn tempate(
     &self,
     from_path: &str,
@@ -178,8 +179,7 @@ impl Creator {
     let template = if from_template == "" {
       "".to_string()
     } else {
-      self
-        .handlebars
+      HANDLEBARS
         .render_template(&from_template, options)
         .with_context(|| format!("模板渲染失败: {}", from_path))?
     };
