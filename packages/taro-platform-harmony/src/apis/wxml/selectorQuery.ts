@@ -1,5 +1,6 @@
 import Taro from '@tarojs/api'
-import { Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+// @ts-ignore
+import { AREA_CHANGE_EVENT_NAME, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 
 import { NodesRef } from './nodesRef.js'
 
@@ -201,7 +202,7 @@ function queryBat (queue, cb) {
     result.push(nodeList.map(dom => {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async resolve => {
-        await setNodeEventCallbackAndTriggerComponentUpdate(dom, VISIBLE_CHANGE_EVENT_NAME, null, true)
+        await setNodeEventCallbackAndTriggerComponentUpdate(dom, AREA_CHANGE_EVENT_NAME, null, true)
 
         resolve(filter(fields, dom))
       })
