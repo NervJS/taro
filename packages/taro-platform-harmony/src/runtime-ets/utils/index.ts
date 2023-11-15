@@ -36,13 +36,13 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
 const display = _display.getDefaultDisplaySync()
 
 export function convertNumber2PX (value: number) {
-  const config = (Current as any).taro?.pxTransformConfig || {}
+  const config = (Current as any).taro?.config || {}
   const designWidth = config.designWidth || 750
   return Math.ceil(value / designWidth * px2vp(display.width)) + 'vp'
 }
 
 export function convertVP2PX (value: number) {
-  const config = (Current as any).taro?.pxTransformConfig || {}
+  const config = (Current as any).taro?.config || {}
   const designWidth = config.designWidth || 750
   return Math.ceil(value / px2vp(display.width) * designWidth)
 }

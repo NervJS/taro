@@ -1,4 +1,4 @@
-import { defaultMainFields, fs, NODE_MODULES, resolveSync } from '@tarojs/helper'
+import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import * as path from 'path'
 
@@ -27,6 +27,8 @@ export default class Harmony extends TaroPlatformHarmony {
   useJSON5 = true
   runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime-ets`
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-harmony-ets`
+
+  #defineConstants: Record<string, string> = {}
 
   constructor(ctx: IPluginContext, config: TConfig) {
     super(ctx, config)
@@ -59,6 +61,36 @@ export default class Harmony extends TaroPlatformHarmony {
 
   get runtimeFrameworkLibrary() {
     return path.resolve(__dirname, `./runtime-framework/${this.aliasFramework}`)
+  }
+
+  get defineConstants() {
+    if (!isEmptyObject(this.#defineConstants)) {
+      return this.#defineConstants
+    }
+
+    const { config } = this.ctx.runOpts
+    const runtime = config.runtime || {}
+    // FIXME 小程序运行时包含的变量，后续需要从鸿蒙运行时中排除
+    const runtimeConstants = {
+      ENABLE_INNER_HTML: runtime.enableInnerHTML ?? true,
+      ENABLE_ADJACENT_HTML: runtime.enableAdjacentHTML ?? false,
+      ENABLE_SIZE_APIS: runtime.enableSizeAPIs ?? false,
+      ENABLE_TEMPLATE_CONTENT: runtime.enableTemplateContent ?? false,
+      ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
+      ENABLE_CONTAINS: runtime.enableContains ?? false,
+      ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
+    }
+
+    this.config.env ||= {}
+    this.config.defineConstants ||= {}
+    this.#defineConstants = {
+      ...runtimeConstants,
+      ...this.config.defineConstants,
+    }
+    const env = [...Object.entries(this.config.env), ...Object.entries(process.env)]
+    env.forEach(([key, value]) => {
+      this.#defineConstants[`process.env.${key}`] = JSON.stringify(value)
+    })
   }
 
   externalDeps: [string, RegExp, string?][] = [
@@ -152,28 +184,12 @@ export default class Harmony extends TaroPlatformHarmony {
         return src
       })
 
-      const { config } = this.ctx.runOpts
-      const runtime = config.runtime || {}
-      // FIXME 小程序运行时包含的变量，后续需要从鸿蒙运行时中排除
-      const runtimeConstants = {
-        ENABLE_INNER_HTML: runtime.enableInnerHTML ?? true,
-        ENABLE_ADJACENT_HTML: runtime.enableAdjacentHTML ?? false,
-        ENABLE_SIZE_APIS: runtime.enableSizeAPIs ?? false,
-        ENABLE_TEMPLATE_CONTENT: runtime.enableTemplateContent ?? false,
-        ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
-        ENABLE_CONTAINS: runtime.enableContains ?? false,
-        ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
-      }
-      const define: { [name: string]: any } = {
-        ...runtimeConstants,
+      const define = {
+        ...this.defineConstants
       }
       if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
         define.global = 'globalThis'
       }
-      // FIXME 临时方案，后续考虑获取配置 define、env 配置
-      Object.keys(process.env).forEach(key => {
-        define[`process.env.${key}`] = JSON.stringify(process.env[key])
-      })
       code = this.replaceDefineValue(code, define)
       const ext = path.extname(target)
       if (['.ts', '.ets'].includes(ext)) {

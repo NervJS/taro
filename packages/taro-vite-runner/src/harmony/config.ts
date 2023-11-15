@@ -28,8 +28,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
     env.FRAMEWORK = JSON.stringify(framework)
     env.TARO_ENV = JSON.stringify(buildAdapter)
-    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.HARMONY)
-    env.NODE_ENV = JSON.stringify(process.env.NODE_ENV || 'development')
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || env.TARO_PLATFORM || PLATFORM_TYPE.HARMONY)
+    env.TARO_VERSION = JSON.stringify(process.env.TARO_VERSION || env.TARO_VERSION)
+    env.NODE_ENV = JSON.stringify(process.env.NODE_ENV || env.NODE_ENV || 'development')
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target

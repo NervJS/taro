@@ -1,4 +1,5 @@
 import { Current, hooks } from '@tarojs/runtime'
+import { PLATFORM_TYPE } from '@tarojs/shared'
 
 import * as apis from './apis'
 
@@ -24,6 +25,10 @@ const defaultBaseFontSize = 20
 const defaultUnitPrecision = 5
 const defaultTargetUnit = 'vp'
 
+export function getApp () {
+  return Current.app
+}
+
 export function initPxTransform ({
   designWidth = defaultDesignWidth,
   deviceRatio = defaultDesignRatio,
@@ -34,8 +39,8 @@ export function initPxTransform ({
   const taro = (Current as any).taro
 
   if (taro) {
-    taro.pxTransformConfig ||= taro.pxTransformConfig || {}
-    const config = taro.pxTransformConfig
+    taro.config ||= {}
+    const config = taro.config
     config.designWidth = designWidth
     config.deviceRatio = deviceRatio
     config.baseFontSize = baseFontSize
@@ -47,6 +52,19 @@ export function initPxTransform ({
 export function pxTransform (size: unknown) {
   // Note: 鸿蒙样式会自动处理，不需要转换（这里补充方法仅避免多端使用情况下报错）
   return size
+}
+
+export function canIUseWebp () {
+  return true
+}
+
+export function getAppInfo () {
+  const config = (Current as any).taro?.config
+  return {
+    platform: process.env.TARO_PLATFORM || PLATFORM_TYPE.HARMONY,
+    taroVersion: process.env.TARO_VERSION || 'unknown',
+    designWidth: config?.designWidth,
+  }
 }
 
 export * from './apis'
