@@ -1,5 +1,4 @@
-import * as path from 'path'
-
+import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import {
   chalk,
   DEFAULT_TEMPLATE_SRC,
@@ -11,16 +10,16 @@ import {
   TARO_CONFIG_FOLDER
 } from '@tarojs/helper'
 import { isArray } from '@tarojs/shared'
-import { CompilerType, CSSType, FrameworkType, NpmType } from '@tarojs/binding'
 import * as inquirer from 'inquirer'
 import * as ora from 'ora'
+import * as path from 'path'
 import * as request from 'request'
 import * as semver from 'semver'
 
-import { clearConsole } from '../util'
+import { clearConsole, getPkgVersion, getRootPath } from '../util'
+import { TEMPLATE_CREATOR } from './constants'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
-import { createApp } from './init'
 
 import type { ITemplates } from './fetchTemplate'
 
@@ -426,7 +425,29 @@ export default class Project extends Creator {
 
   write (cb?: () => void) {
     this.conf.src = SOURCE_DIR
-    createApp(this, this.conf as IProjectConf, cb).catch(err => console.log(err))
+    const { projectName, projectDir, template, autoInstall = true, framework, npm } = this.conf as IProjectConf
+    // 引入模板编写者的自定义逻辑
+    const templatePath = this.templatePath(template)
+    const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
+    const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
+    createProject({
+      projectRoot: projectDir,
+      projectName,
+      template,
+      npm,
+      framework,
+      css: this.conf.css || CSSType.None,
+      autoInstall: autoInstall,
+      templateRoot: getRootPath(),
+      version: getPkgVersion(),
+      typescript: this.conf.typescript,
+      date: this.conf.date,
+      description: this.conf.description,
+      compiler: this.conf.compiler,
+      period: PeriodType.CreateAPP,
+    }, handler).then(() => {
+      cb && cb()
+    })
   }
 }
 

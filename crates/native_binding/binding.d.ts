@@ -8,21 +8,26 @@ export const enum CompilerType {
 }
 
 export interface CreateOptions {
-  css: CSSType
+  css?: CSSType
   cssExt?: string
-  framework: FrameworkType
+  framework?: FrameworkType
   description?: string
   projectName: string
   version?: string
   date?: string
   typescript?: boolean
   template: string
-  pageName: string
+  pageName?: string
   compiler?: CompilerType
   setPageName?: string
   changeExt?: boolean
   isCustomTemplate?: boolean
+  pluginType?: string
 }
+
+export function createPage(conf: Page, handlers: Record<string, (err: Error | null, value: CreateOptions) => any>): Promise<void>
+
+export function createPlugin(conf: Plugin): Promise<void>
 
 export function createProject(conf: Project, handlers: Record<string, (err: Error | null, value: CreateOptions) => any>): Promise<void>
 
@@ -47,9 +52,43 @@ export const enum NpmType {
   Npm = 'Npm'
 }
 
+export interface Page {
+  projectDir: string
+  projectName: string
+  template: string
+  templateRoot: string
+  description?: string
+  pageName: string
+  date?: string
+  framework: FrameworkType
+  css: CSSType
+  typescript?: boolean
+  compiler?: CompilerType
+  version?: string
+  isCustomTemplate?: boolean
+  customTemplatePath?: string
+  basePageFiles: Array<string>
+  period: PeriodType
+}
+
+export const enum PeriodType {
+  CreateAPP = 'CreateAPP',
+  CreatePage = 'CreatePage'
+}
+
+export interface Plugin {
+  projectRoot: string
+  projectName: string
+  description?: string
+  pluginType: string
+  templateRoot: string
+  version: string
+  template: string
+}
+
 export interface Project {
-  name: string
-  dir: string
+  projectRoot: string
+  projectName: string
   npm: NpmType
   description?: string
   typescript?: boolean
@@ -61,5 +100,6 @@ export interface Project {
   version: string
   date?: string
   compiler?: CompilerType
+  period: PeriodType
 }
 

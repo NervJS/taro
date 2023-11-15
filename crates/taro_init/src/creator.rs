@@ -24,20 +24,21 @@ use crate::{
 #[napi(object)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateOptions {
-  pub css: CSSType,
+  pub css: Option<CSSType>,
   pub css_ext: Option<String>,
-  pub framework: FrameworkType,
+  pub framework: Option<FrameworkType>,
   pub description: Option<String>,
   pub project_name: String,
   pub version: Option<String>,
   pub date: Option<String>,
   pub typescript: Option<bool>,
   pub template: String,
-  pub page_name: String,
+  pub page_name: Option<String>,
   pub compiler: Option<CompilerType>,
   pub set_page_name: Option<String>,
   pub change_ext: Option<bool>,
   pub is_custom_template: Option<bool>,
+  pub plugin_type: Option<String>,
 }
 
 #[derive(Debug)]
@@ -203,12 +204,18 @@ impl Creator {
     options: &mut CreateOptions,
     js_handlers: &HashMap<String, ThreadsafeFunction<CreateOptions>>,
   ) -> anyhow::Result<()> {
-    let current_style_ext = STYLE_EXT_MAP.get(&options.css).unwrap_or(&"css");
+    let current_style_ext = STYLE_EXT_MAP
+      .get(&options.css.unwrap_or(CSSType::None))
+      .unwrap_or(&"css");
     options.css_ext = Some(current_style_ext.to_string());
     for file in files {
       let file_relative_path = normalize_path_str(file.replace(template_path, "").as_str());
       let framework = options.framework;
-      let is_vue_framework = framework == FrameworkType::Vue || framework == FrameworkType::Vue3;
+      let is_vue_framework = if let Some(framework) = framework {
+        framework == FrameworkType::Vue || framework == FrameworkType::Vue3
+      } else {
+        false
+      };
       if is_vue_framework && file_relative_path.ends_with(".jsx") {
         continue;
       }

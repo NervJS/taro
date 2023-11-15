@@ -19,6 +19,24 @@ const handler = {
   },
   '/src/pages/index/index.config.js' (err, { pageName }) {
     return { setPageName: `/src/pages/${pageName}/index.config.js` }
+  },
+  '/_editorconfig' () {
+    return { setPageName: `/.editorconfig` }
+  },
+  '/_env.dev' () {
+    return { setPageName: `/.env.dev` }
+  },
+  '/_env.prod' () {
+    return { setPageName: `/.env.prod` }
+  },
+  '/_env.test' () {
+    return { setPageName: `/.env.test` }
+  },
+  '/_eslintrc' () {
+    return { setPageName: `/.eslintrc` }
+  },
+  '/_gitignore' () {
+    return { setPageName: `/.gitignore` }
   }
 }
 
