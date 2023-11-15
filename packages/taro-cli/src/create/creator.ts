@@ -5,9 +5,10 @@ import { getRootPath } from '../util'
 
 export default class Creator {
   protected _rootPath: string
+  public rootPath: string
 
   constructor (sourceRoot?: string) {
-    this.sourceRoot(sourceRoot || path.join(getRootPath()))
+    this.rootPath = this.sourceRoot(sourceRoot || path.join(getRootPath()))
     this.init()
   }
 
