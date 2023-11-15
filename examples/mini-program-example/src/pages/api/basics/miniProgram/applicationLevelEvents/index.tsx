@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
 import { TestConsole } from '@/util/util'
 import ButtonList from '@/components/buttonList'
 
@@ -84,20 +84,16 @@ export default class Index extends React.Component {
       },
       {
         id: 'onAppShow',
-        func: (apiIndex) => {
+        func: () => {
           TestConsole.consoleTest('Taro.onAppShow')
-          Taro.onAppShow((res) => {
-            TestConsole.consoleOnCallback.call(this, res, 'onAppShow', apiIndex)
-          })
+          Taro.onAppShow(this.appShow)
         },
       },
       {
         id: 'onAppHide',
-        func: (apiIndex) => {
+        func: () => {
           TestConsole.consoleTest('Taro.onAppHide')
-          Taro.onAppHide((res) => {
-            TestConsole.consoleOnCallback.call(this, res, 'onAppHide', apiIndex)
-          })
+          Taro.onAppHide(this.appHide)
         },
       },
       {
@@ -150,23 +146,27 @@ export default class Index extends React.Component {
       },
       {
         id: 'offAppShow',
-        func: (apiIndex) => {
+        func: () => {
           TestConsole.consoleTest('Taro.offAppShow')
-          Taro.offAppShow((res) => {
-            TestConsole.consoleOnCallback.call(this, res, 'offAppShow', apiIndex)
-          })
+          Taro.offAppShow(this.appShow)
         },
       },
       {
         id: 'offAppHide',
-        func: (apiIndex) => {
+        func: () => {
           TestConsole.consoleTest('Taro.offAppHide')
-          Taro.offAppHide((res) => {
-            TestConsole.consoleOnCallback.call(this, res, 'offAppHide', apiIndex)
-          })
+          Taro.offAppHide(this.appHide)
         },
       },
     ],
+  }
+
+  appShow(res) {
+    TestConsole.consoleOnCallback(res, 'onAppShow')
+  }
+
+  appHide(res) {
+    TestConsole.consoleOnCallback(res, 'onAppHide')
   }
 
   render() {
