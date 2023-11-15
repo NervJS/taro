@@ -831,7 +831,7 @@ require("./taro");
                         _ref;
                     }
                 },
-                modifyMiniLifecycle: function modifyMiniLifecycle(componentConfig, _ref2) {
+                modifyRecursiveComponentConfig: function modifyRecursiveComponentConfig(componentConfig, _ref2) {
                     var isCustomWrapper = _ref2.isCustomWrapper;
                     return isCustomWrapper ? Object.assign(Object.assign({}, componentConfig), {
                         deriveDataFromProps: function deriveDataFromProps(nextProps) {

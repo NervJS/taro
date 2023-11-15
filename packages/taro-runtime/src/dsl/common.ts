@@ -364,7 +364,7 @@ export function createRecursiveComponentConfig (componentName?: string) {
     }
     : EMPTY_OBJ
 
-  return hooks.call('modifyMiniLifecycle', 
+  return hooks.call('modifyRecursiveComponentConfig', 
     { 
       properties: {
         i: {

@@ -66,7 +66,7 @@ export const hostConfig = {
       }
     }
   },
-  modifyMiniLifecycle (componentConfig, { isCustomWrapper }) {
+  modifyRecursiveComponentConfig (componentConfig, { isCustomWrapper }) {
     // 修改组件的生命周期配置
     return isCustomWrapper
       ? {
