@@ -240,11 +240,11 @@ struct PickerView {
         justifyContent: FlexAlign.SpaceBetween,
         alignItems: ItemAlign.Center
       }) {
-        Text(this.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
+        Text(this.node._attrs.textProps?.cancelText || '取消').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
           this.emitEvent('cancel')
           this.controller.close()
         })
-        Text(this.node._attrs.textProps?.cancelText || '取消').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
+        Text(this.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
           this.emitEvent('change', this.nodeInfoMap[this.node._nid].select)
           this.controller.close()
         })
