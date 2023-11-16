@@ -17,6 +17,7 @@ import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
+import TaroPicker from './picker'
 
 @Builder
 function createNode (node: any) {
@@ -57,6 +58,8 @@ function createNode (node: any) {
     TaroRadio({ node })
   } else if (node.tagName === 'LABEL') {
     TaroLabel({ node })
+  } else if (node.tagName === 'PICKER') {
+    TaroPicker({ node })
   } else if (node.tagName === 'VIEW') {
     TaroView({ node })
   }
