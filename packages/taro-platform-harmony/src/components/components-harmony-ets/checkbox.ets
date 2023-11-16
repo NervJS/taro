@@ -184,14 +184,26 @@ struct TaroCheckboxGroup {
     // 阻止事件冒泡传递上去
     this.node.addEventListener('change', (e) => {
       e.stopPropagation()
-      const childList = this.node.getElementsByTagName('CHECKBOX')
-      const result = []
-      childList.forEach(element => {
-        if (element._instance.checked) {
-          result.push(element._attrs.value)
-        }
-      })
-      e.detail.value = result
+      e.detail.value = this.getValues()
+    })
+  }
+
+  // Element使用的获取值方法
+  getValues () {
+    const childList = this.node.getElementsByTagName('CHECKBOX')
+    const result = []
+    childList.forEach(element => {
+      if (element._instance.checked) {
+        result.push(element._attrs.value)
+      }
+    })
+    return result
+  }
+
+  // Element使用的重置方法
+  reset () {
+    this.node.getElementsByTagName('CHECKBOX').forEach(element => {
+      element._instance.checked = element._attrs.checked
     })
   }
 

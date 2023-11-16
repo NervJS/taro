@@ -68,7 +68,7 @@ struct TaroRadio {
       Stack() {
         Row() {
           Radio({
-            group: this.node._attrs.groupName || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
+            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
             value: this.node._attrs.value,
           })
             .checked(this.checked)
@@ -177,10 +177,27 @@ struct TaroRadioGroup {
     bindAnimation(this.node)
     const childList = this.node.getElementsByTagName('RADIO')
     childList.forEach(element => {
-      element._attrs.groupName = this.node._attrs.name
+      element._attrs.name = this.node._attrs.name
     })
     // 阻止事件冒泡传递上去
     this.node.addEventListener('change', e => e.stopPropagation())
+  }
+
+  // Element使用的获取器
+  getValue () {
+    const childList = this.node.getElementsByTagName('RADIO')
+    for (let i = 0; i < childList.length; i++) {
+      if (childList[i]._instance.checked) {
+        return childList[i]._attrs.value
+      }
+    }
+  }
+
+  // Element使用的重置方法
+  reset () {
+    this.node.getElementsByTagName('RADIO').forEach(element => {
+      element._instance.checked = element._attrs.checked
+    })
   }
 
   @Styles defaultEvent () {
@@ -192,6 +209,7 @@ struct TaroRadioGroup {
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }))
   }
+
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Flex(FlexManager.flexOptions(this.node)) {

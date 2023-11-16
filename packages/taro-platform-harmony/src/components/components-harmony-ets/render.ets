@@ -19,6 +19,7 @@ import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPicker from './picker'
 import TaroVideo from './video'
+import TaroForm from './form'
 
 @Builder
 function createNode (node: any) {
@@ -63,6 +64,8 @@ function createNode (node: any) {
     TaroLabel({ node })
   } else if (node.tagName === 'PICKER') {
     TaroPicker({ node })
+  } else if (node.tagName === 'FORM') {
+    TaroForm({ node })
   } else if (node.tagName === 'VIDEO') {
     TaroVideo({ node })
   }

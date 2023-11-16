@@ -106,7 +106,10 @@ const BUBBLE_EVENTS = new Set([
   'touchCancel',
   'click',
   'longTap',
-  'change'
+  'change',
+  'submit',
+  'submit-btn', 
+  'reset-btn'
 ])
 
 function collectBatchFunction (type: string, dispatch: () => void) {

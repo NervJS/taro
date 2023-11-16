@@ -3,7 +3,7 @@ import { isUndefined } from '@tarojs/shared'
 
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
-import { TaroButtonElement, TaroElement, TaroIgnoreElement, TaroImageElement, TaroTextElement, TaroVideoElement, TaroViewElement } from './element'
+import { TaroButtonElement, TaroCheckboxGroupElement, TaroElement, TaroIgnoreElement, TaroImageElement, TaroInputElement, TaroPickerElement, TaroRadioGroupElement, TaroSliderElement, TaroSwitchElement, TaroTextElement, TaroVideoElement, TaroViewElement } from './element'
 import { NodeType, TaroNode } from './node'
 import { TaroTextNode } from './text'
 
@@ -44,6 +44,24 @@ class TaroDocument extends TaroNode {
         break
       case 'video':
         node = new TaroVideoElement()
+        break
+      case 'input': 
+        node = new TaroInputElement()
+        break
+      case 'switch': 
+        node = new TaroSwitchElement()
+        break
+      case 'slider': 
+        node = new TaroSliderElement()
+        break
+      case 'checkbox-group':
+        node = new TaroCheckboxGroupElement()
+        break
+      case 'radio-group':
+        node = new TaroRadioGroupElement()
+        break
+      case 'picker':
+        node = new TaroPickerElement()
         break
       case 'ignore':
         node = new TaroIgnoreElement()

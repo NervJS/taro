@@ -166,6 +166,133 @@ class TaroButtonElement extends TaroElement {
   }
 }
 
+
+@Observed
+class TaroFormWidgetElement extends TaroElement {
+  
+  public get name () {
+    return this._attrs.name
+  }
+  
+  public set name (val) {
+    this._attrs.name = val
+  }
+}
+
+@Observed
+class TaroInputElement extends TaroFormWidgetElement {
+  constructor() {
+    super('Input')
+  }
+
+  public get value () {
+    if (this._instance) {
+      return this._instance.text
+    } else {
+      return this._attrs.value || ''
+    }
+  }
+
+  public set value (val) {
+    if (this._instance) {
+      this._instance.text = val
+    }
+    this._attrs.value = val
+  }
+}
+
+@Observed
+class TaroSliderElement extends TaroFormWidgetElement {
+  constructor() {
+    super('Slider')
+  }
+
+  public get value () {
+    if (this._instance) {
+      return this._instance.value
+    } else {
+      return this._attrs.value || ''
+    }
+  }
+
+  public set value (val) {
+    if (this._instance) {
+      this._instance.value = val
+    }
+  }
+}
+
+@Observed
+class TaroSwitchElement extends TaroFormWidgetElement {
+  constructor() {
+    super('Switch')
+  }
+
+  public get value () {
+    if (this._instance) {
+      return this._instance.value
+    } else {
+      return this._attrs.checked || ''
+    }
+  }
+
+  public set value (val) {
+    if (this._instance) {
+      this._instance.value = val
+    }
+  }
+}
+
+@Observed
+class TaroCheckboxGroupElement extends TaroFormWidgetElement {
+  constructor() {
+    super('CheckboxGroup')
+  }
+
+  public get value () {
+    if (this._instance) {
+      return this._instance.getValues()
+    }
+  }
+}
+
+
+@Observed
+class TaroRadioGroupElement extends TaroFormWidgetElement {
+  constructor() {
+    super('RadioGroup')
+  }
+
+  public get value () {
+    if (this._instance) {
+      return this._instance.getValue()
+    }
+  }
+
+}
+
+@Observed
+class TaroPickerElement extends TaroFormWidgetElement {
+  constructor() {
+    super('Picker')
+  }
+
+  public get value () {
+    if (this._instance) {
+      if (this._instance.select instanceof Array) {
+        return this._instance.select.join(',')
+      }
+      return this._instance.select
+    }
+  }
+
+  public set value (val) {
+    if (this._instance) {
+      this._instance.select = val
+    }
+  }
+}
+
 @Observed
 class TaroVideoElement extends TaroElement {
   constructor() {
@@ -242,9 +369,15 @@ export class FormElement extends TaroElement {
 
 export {
   TaroButtonElement,
+  TaroCheckboxGroupElement,
   TaroElement,
   TaroIgnoreElement,
   TaroImageElement,
+  TaroInputElement,
+  TaroPickerElement,
+  TaroRadioGroupElement,
+  TaroSliderElement,
+  TaroSwitchElement,
   TaroTextElement,
   TaroVideoElement,
   TaroViewElement

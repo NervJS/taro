@@ -2,6 +2,7 @@ import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallb
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
+import { createTaroEvent } from './utils/events'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
@@ -129,7 +130,14 @@ struct TaroButton {
       }
       .attrs(getNormalAttributes(this.node))
       .themeStyles(getThemeAttributes(this.node))
-      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onClick((e: ClickEvent) => {
+        if (['submit', 'reset'].includes(this.node._attrs.formType)) {
+          const eventName = this.node._attrs.formType + '-btn'
+          const event = createTaroEvent(eventName, { detail: {} }, this.node)
+          eventHandler(event, eventName, this.node)
+        }
+        eventHandler(e, 'click', this.node)
+      })
       .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
       .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
         this.nodeInfoMap[this.node._nid].areaInfo = eventResult

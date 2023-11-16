@@ -127,14 +127,21 @@ struct PickerView {
 
   @ObjectLink node: TaroViewElement
 
-  @Prop nodeInfoMap: Record<string, any>
-
-  @State select: number[] | string[] | null = null
+  @Link select: string
 
   controller?: CustomDialogController
 
+  showSelector: number[] = []
+
   getPickerConstruct () {
-    const { mode, value } = this.node._attrs
+    let { mode } = this.node._attrs
+    const { value, range } = this.node._attrs
+    if (!mode) {
+      if (range && range.length && range[0] instanceof Array) {
+        mode = 'multiSelector'
+      }
+      mode = 'selector'
+    }
     switch (mode) {
       case 'selector': {
         const { range, rangeKey } = this.node._attrs
@@ -150,11 +157,11 @@ struct PickerView {
       case 'multiSelector': {
         const { range, rangeKey } = this.node._attrs
         let showRange = range
-        this.nodeInfoMap[this.node._nid].showSelector = value
+        this.showSelector = value
         showRange = range.map((arr, arrIndex) => arr.map((data, i) => {
           let columnValue = value[arrIndex]
           if (columnValue === data) {
-            this.nodeInfoMap[this.node._nid].showSelector[arrIndex] = i
+            this.showSelector[arrIndex] = i
           }
           if (rangeKey && typeof range[0][0] === 'object') {
             return data[rangeKey]
@@ -203,10 +210,6 @@ struct PickerView {
       }
     }
   }
-
-  aboutToAppear () {
-    this.nodeInfoMap[this.node._nid].select = { value: this.node._attrs.value }
-  }
   
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -245,7 +248,7 @@ struct PickerView {
           this.controller.close()
         })
         Text(this.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
-          this.emitEvent('change', this.nodeInfoMap[this.node._nid].select)
+          this.emitEvent('change', { value: this.select})
           this.controller.close()
         })
       }
@@ -265,7 +268,7 @@ struct PickerView {
           .defaultEvent()
           .visibleChangeEvent()
           .onChange((value, index) => {
-            this.nodeInfoMap[this.node._nid].select = { value: index }
+            this.select = index
           })
       } else if (mode === 'multiSelector') {
         TextPicker(this.getPickerConstruct())
@@ -279,8 +282,8 @@ struct PickerView {
           .onChange((value, index) => {
             this.select = index
             // 计算几列发生了变化
-            const originIndexs = this.nodeInfoMap[this.node._nid].multiColumnIndex || this.nodeInfoMap[this.node._nid].showSelector
-            this.nodeInfoMap[this.node._nid].multiColumnIndex = index
+            const originIndexs = this.multiColumnIndex || this.showSelector
+            this.multiColumnIndex = index
             let changeValue
             const changeIndex = index.findIndex((item, i) => {
               const originIndex = originIndexs[i]
@@ -292,7 +295,7 @@ struct PickerView {
             if (changeIndex < 0) {
               return
             }
-            this.nodeInfoMap[this.node._nid].select = { value: index }
+            this.select = index
             this.emitEvent('columnChange', { column: changeIndex, value: changeValue })
           })
       } else if (mode === 'date') {
@@ -304,7 +307,7 @@ struct PickerView {
           .defaultEvent()
           .visibleChangeEvent()
           .onChange(value => {
-            this.nodeInfoMap[this.node._nid].select = { value: `${value.year}-${value.month}-${value.day}` }
+            this.select = `${value.year}-${value.month}-${value.day}`
           })
       } else if (mode === 'time') {
         TextPicker(this.getPickerConstruct())
@@ -316,7 +319,7 @@ struct PickerView {
           .defaultEvent()
           .visibleChangeEvent()
           .onChange((value) => {
-            this.nodeInfoMap[this.node._nid].select = { value: `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}}` }
+            this.select = `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}}`
           })
       }
     }
@@ -333,6 +336,10 @@ struct TaroPicker {
 
   eventMap: any = {}
 
+  multiColumnIndex: number[] = []
+
+  @State select: string = ''
+
   @ObjectLink node: TaroViewElement
 
   aboutToAppear () {
@@ -340,12 +347,20 @@ struct TaroPicker {
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node)
+
+    this.select = this.node._attrs.value
+
+    this.node.addEventListener('click', () => {
+      if (this.dialogController != null) {
+        this.dialogController.open()
+      }
+    })
   }
 
   dialogController: CustomDialogController | null = new CustomDialogController({
     builder: PickerView({
       node: this.node,
-      nodeInfoMap: this.nodeInfoMap
+      select: this.select
     }),
     customStyle: true,
     cornerRadius: '0vp',
@@ -366,9 +381,6 @@ struct TaroPicker {
 
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => {
-      if (this.dialogController != null) {
-        this.dialogController.open()
-      }
       eventHandler(e, 'click', this.node)
     })
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
@@ -386,7 +398,7 @@ struct TaroPicker {
           createNode(item)
         }, item => item._nid)
       }
-      .defaultEvent()
+        .defaultEvent()
     }
   }
 }
