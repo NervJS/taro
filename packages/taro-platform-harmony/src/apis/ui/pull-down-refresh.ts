@@ -4,10 +4,7 @@ import { callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/api'
 
-type StartPullDownRefresh = typeof Taro.startPullDownRefresh
-type StopPullDownRefresh = typeof Taro.stopPullDownRefresh
-
-export const startPullDownRefresh: StartPullDownRefresh = function (options) {
+export const startPullDownRefresh: typeof Taro.startPullDownRefresh = function (options) {
   return new Promise(resolve => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
@@ -18,7 +15,7 @@ export const startPullDownRefresh: StartPullDownRefresh = function (options) {
   })
 }
 
-export const stopPullDownRefresh: StopPullDownRefresh = function (options) {
+export const stopPullDownRefresh: typeof Taro.stopPullDownRefresh = function (options) {
   return new Promise(resolve => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
