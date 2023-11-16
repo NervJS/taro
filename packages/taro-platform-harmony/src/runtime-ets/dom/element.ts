@@ -167,6 +167,49 @@ class TaroButtonElement extends TaroElement {
 }
 
 @Observed
+class TaroVideoElement extends TaroElement {
+  constructor() {
+    super('Video')
+  }
+
+  async play() {
+    try {
+      this._instance.controller.start()
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+
+  pause() {
+    try {
+      this._instance.controller.pause()
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+
+  stop() {
+    try {
+      this._instance.controller.stop()
+      return Promise.resolve()
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+
+  get currentTime() {
+    return this._instance.nodeInfoMap[this._nid].currentTime || 0
+  }
+
+  set currentTime(val: number) {
+    this._instance.nodeInfoMap[this._nid].currentTime = val
+    this._instance.controller.setCurrentTime(val)
+  }
+}
+
+@Observed
 class TaroIgnoreElement extends TaroElement {
   isIgnore = true
 
@@ -203,5 +246,6 @@ export {
   TaroIgnoreElement,
   TaroImageElement,
   TaroTextElement,
+  TaroVideoElement,
   TaroViewElement
 }

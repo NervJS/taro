@@ -18,12 +18,15 @@ import TaroScrollView from './scrollView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPicker from './picker'
+import TaroVideo from './video'
 
 @Builder
 function createNode (node: any) {
   // TODO: 后续需要根据半编译生成对应的控制流语句
   if (!!node._attrs?.compileMode) {
     TaroFeedsItem({ node })
+  } else if (node.tagName === 'VIEW') {
+    TaroView({ node })
   } else if (node.tagName === 'IMAGE') {
     TaroImage({ node })
   } else if (node.tagName === 'TEXT' || node.nodeType === NodeType.TEXT_NODE) {
@@ -60,8 +63,8 @@ function createNode (node: any) {
     TaroLabel({ node })
   } else if (node.tagName === 'PICKER') {
     TaroPicker({ node })
-  } else if (node.tagName === 'VIEW') {
-    TaroView({ node })
+  } else if (node.tagName === 'VIDEO') {
+    TaroVideo({ node })
   }
 }
 
