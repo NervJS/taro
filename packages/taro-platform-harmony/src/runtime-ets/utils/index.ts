@@ -1,6 +1,4 @@
-import _display from '@ohos.display'
-import { Current } from '@tarojs/runtime'
-import { isFunction } from '@tarojs/shared'
+import { pxTransformHelper } from '@tarojs/taro'
 
 import { NodeType } from '../dom/node'
 import { initComponentNodeInfo } from '../utils/info'
@@ -34,26 +32,13 @@ export function isParentBinded (node: TaroElement | null, type: string): boolean
   return res
 }
 
-const display = _display.getDefaultDisplaySync()
-
-let designWidthFunc: (input: number) => number
-function getRatio (value: number) {
-  const config = (Current as any).taro?.config || {}
-  if (!isFunction(designWidthFunc)) {
-    designWidthFunc = isFunction(config.designWidth)
-      ? config.designWidth
-      : () => config.designWidth
-  }
-  const designWidth = designWidthFunc(value)
-  if (!(designWidth in config.deviceRatio)) {
-    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
-  }
-  return Math.min(display.width, display.height) / designWidth / config.deviceRatio[designWidth]
+// FIXME 当前样式转换、@tarojs/runtime 中尺寸使用该方法，暂不修复
+export function convertNumber2PX (value: number) {
+  return pxTransformHelper(value, 'vp')
 }
 
-export function convertNumber2PX (value: number) {
-  const ratio = getRatio(value)
-  return px2vp(Math.ceil(value * ratio)) + 'vp'
+export function convertNumber2VP (value: number) {
+  return pxTransformHelper(value, 'vp')
 }
 
 export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, classNames: string, style: CSSProperties): CSSProperties {
@@ -96,10 +81,10 @@ export class DynamicCenter {
     node._instance?.dynamicCenter?.uninstall?.(node)
   }
 
-  install (node: TaroElement, parnetNode: TaroElement) {
-    if (!parnetNode._isCompileMode) return
+  install (node: TaroElement, parentNode: TaroElement) {
+    if (!parentNode._isCompileMode) return
 
-    const component = parnetNode._instance
+    const component = parentNode._instance
 
     this.bindComponentToNodeWithDFS(node, component)
   }

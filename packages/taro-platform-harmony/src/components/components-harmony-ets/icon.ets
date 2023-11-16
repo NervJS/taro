@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, convertNumber2PX, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
@@ -108,8 +108,8 @@ struct TaroIcon {
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .attrs(getNormalAttributes(this.node))
         .size({
-          width: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
-          height: convertNumber2PX(getNodeAttributeOrNull(this.node, 'size') || 23),
+          width: convertNumber2VP(getNodeAttributeOrNull(this.node, 'size') || 23),
+          height: convertNumber2VP(getNodeAttributeOrNull(this.node, 'size') || 23),
         })
         .visibleChangeEvent()
     }

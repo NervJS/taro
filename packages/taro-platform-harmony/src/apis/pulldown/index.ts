@@ -2,7 +2,7 @@ import { Current } from '@tarojs/runtime'
 
 import { callAsyncSuccess } from '../utils'
 
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/api'
 
 type StartPullDownRefresh = typeof Taro.startPullDownRefresh
 type StopPullDownRefresh = typeof Taro.stopPullDownRefresh

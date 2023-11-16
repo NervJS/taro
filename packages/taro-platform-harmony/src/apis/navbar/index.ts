@@ -2,7 +2,7 @@ import { Current } from '@tarojs/runtime'
 
 import { callAsyncSuccess, unsupport } from '../utils'
 
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/api'
 
 type SetNavigationBarTitle = typeof Taro.setNavigationBarTitle
 type SetNavigationBarColor = typeof Taro.setNavigationBarColor

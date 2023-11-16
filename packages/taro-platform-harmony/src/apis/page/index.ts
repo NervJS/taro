@@ -7,10 +7,11 @@
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-framework-syntax-js-0000000000611432
  */
 import { AREA_CHANGE_EVENT_NAME, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
+import { pxTransformHelper } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, findChildNodeWithDFS } from '../utils'
 
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/api'
 
 type pageScrollTo = typeof Taro.pageScrollTo
 
@@ -63,7 +64,7 @@ export const pageScrollTo: pageScrollTo = (options) => {
       const { yOffset } = scroller.currentOffset()
 
       if (areaInfo) {
-        scrollValue = areaInfo.globalPosition.y + yOffset + offsetTop
+        scrollValue = areaInfo.globalPosition.y + yOffset + pxTransformHelper(offsetTop, 'px', true)
       }
     }
     const { xOffset } = scroller.currentOffset()

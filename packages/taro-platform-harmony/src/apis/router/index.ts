@@ -10,7 +10,7 @@ import { queryToJson } from '@tarojs/shared'
 import { callAsyncFail, callAsyncSuccess } from '../utils'
 import { IAsyncParams } from '../utils/types'
 
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/api'
 
 type ReLaunch = typeof Taro.reLaunch
 type SwitchTab = typeof Taro.switchTab

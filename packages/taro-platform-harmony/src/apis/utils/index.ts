@@ -1,10 +1,8 @@
-// eslint-disable-next-line import/no-duplicates
-import { TaroElement } from '@tarojs/runtime'
-// eslint-disable-next-line import/no-duplicates
 import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
 import { ICallbackResult, MethodHandler } from './handler'
 
+import type { TaroElement } from '@tarojs/runtime'
 import type { FunctionType, IAsyncParams } from './types'
 
 export * from './validate'

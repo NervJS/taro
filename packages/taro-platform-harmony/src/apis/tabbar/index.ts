@@ -5,7 +5,7 @@ import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
 
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/api'
 
 type SetTabBarStyle = typeof Taro.setTabBarStyle
 type SetTabBarItem = typeof Taro.setTabBarItem

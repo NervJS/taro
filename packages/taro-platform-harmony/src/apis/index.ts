@@ -1,5 +1,6 @@
+import _display from '@ohos.display'
 import { Current, hooks } from '@tarojs/runtime'
-import { PLATFORM_TYPE } from '@tarojs/shared'
+import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 
 import * as apis from './apis'
 import { permanentlyNotSupport } from './utils'
@@ -53,6 +54,40 @@ export function initPxTransform ({
     config.targetUnit = targetUnit
     config.unitPrecision = unitPrecision
   }
+}
+
+const display = _display.getDefaultDisplaySync()
+
+let designWidthFunc: (input: number) => number
+function getRatio (value: number) {
+  const config = (Current as any).taro?.config || {}
+  if (!isFunction(designWidthFunc)) {
+    designWidthFunc = isFunction(config.designWidth)
+      ? config.designWidth
+      : () => config.designWidth
+  }
+  const designWidth = designWidthFunc(value)
+  if (!(designWidth in config.deviceRatio)) {
+    throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
+  }
+  return Math.min(display.width, display.height) / designWidth / config.deviceRatio[designWidth]
+}
+
+// Note: 设置为 style 单位时会自动完成设计稿转换，设计开发者调用 API 时也许抹平差异，例如 pageScrollTo[option.offsetTop]
+export function pxTransformHelper (size: number, unit?: string, isNumber = false): number | string {
+  const config = (Current as any).taro?.config || {}
+  const targetUnit = unit || config.targetUnit || defaultTargetUnit
+
+  const ratio = getRatio(size)
+  let val = size * ratio
+
+  switch (targetUnit) {
+    case 'vp':
+      val = px2vp(val)
+      break
+    default:
+  }
+  return isNumber ? val : val + targetUnit
 }
 
 export function pxTransform (size: number): number {

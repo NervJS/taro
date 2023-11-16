@@ -1,7 +1,8 @@
 import matrix4 from '@ohos.matrix4'
-import Taro from '@tarojs/api'
 
 import { unsupport } from '../utils'
+
+import type Taro from '@tarojs/api'
 
 interface IAnimationAttr {
   duration: number
@@ -218,5 +219,4 @@ export class Animation implements Taro.Animation {
     unsupport('animation.bottom:' + value)
     return this
   }
-
 }

@@ -1,4 +1,4 @@
-import { convertNumber2PX } from '@tarojs/runtime'
+import { convertNumber2VP } from '@tarojs/runtime'
 import matrix4 from '@ohos.matrix4'
 import { BORDER_STYLE_MAP } from './constant/style'
 import { capitalize, isString } from '@tarojs/shared'
@@ -175,7 +175,7 @@ class AttributeManager {
 
       Object.keys(res).forEach(key => {
         if (!isNaN(res[key]) && values.length > 1) {
-          res[key] = convertNumber2PX(res[key])
+          res[key] = convertNumber2VP(res[key])
         }
       })
     }
@@ -250,14 +250,14 @@ class AttributeManager {
     const origin = transformOrigin.split(/\s+/).map(item => item)
 
     const result = {}
-  
+
     const matches = transform.match(/(\w+)\(([^)]+)\)/g) || [];
-  
+
     // 处理matrix
 
     matches.forEach(match => {
       const [name, ...params] = match.split(/\(|\)/).filter(Boolean);
-  
+
       switch (name) {
         case 'translateX':
           result.translateX = parseTransformUnit(params[0])
@@ -366,7 +366,7 @@ class AttributeManager {
 
 
 function parseTransformUnit (val: string) {
-  return parseFloat(val) === 0 ? 0 : val 
+  return parseFloat(val) === 0 ? 0 : val
 }
 
 // matrix 转 matrix3d

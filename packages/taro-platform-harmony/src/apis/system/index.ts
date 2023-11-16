@@ -9,7 +9,7 @@ import deviceMethod from '@system.device'
 
 import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
 
-import type Taro from '@tarojs/taro'
+import type Taro from '@tarojs/api'
 
 const display = _display.getDefaultDisplaySync()
 

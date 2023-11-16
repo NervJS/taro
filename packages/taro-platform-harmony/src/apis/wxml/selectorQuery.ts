@@ -1,8 +1,8 @@
-import Taro from '@tarojs/api'
-// @ts-ignore
 import { AREA_CHANGE_EVENT_NAME, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 
-import { NodesRef } from './nodesRef.js'
+import { NodesRef } from './nodesRef'
+
+import type Taro from '@tarojs/api'
 
 interface ISelectorQueryQueue {
   component: any

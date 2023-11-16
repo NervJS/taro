@@ -1,4 +1,4 @@
-import { convertNumber2PX } from "@tarojs/runtime"
+import { convertNumber2VP } from "@tarojs/runtime"
 import { capitalize, isNumber } from "@tarojs/shared"
 
 import { BORDER_STYLE_MAP } from './constant/style'
@@ -217,7 +217,7 @@ function getUnit (val) {
   if (/\d+(vp)$/.test(val)) {
     return val
   } else if (isNumber(val) || /\d+px$/.test(val)) {
-    return convertNumber2PX(parseFloat(val))
+    return convertNumber2VP(parseFloat(val))
   }
   return val
 }
@@ -265,7 +265,7 @@ function getNodeBorderData (border: string) {
   const [, width, , borderStyle, color] = matches;
 
   return {
-    width: convertNumber2PX(parseFloat(width)),
+    width: convertNumber2VP(parseFloat(width)),
     style: BORDER_STYLE_MAP[borderStyle],
     color: color ? color.trim() : 'black'
   }

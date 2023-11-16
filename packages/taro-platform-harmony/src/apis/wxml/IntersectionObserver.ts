@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Taro from '@tarojs/api'
 import { Current, disconnectEvent, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, TaroElement, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
