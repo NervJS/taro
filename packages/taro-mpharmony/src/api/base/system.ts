@@ -61,17 +61,23 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
   return windowInfo
 }
 
+const lastSystemSettingResult : Taro.getSystemSetting.Result = {}
+let lastGetSystemSettingTime = 0
+
 /** 获取设备设置 */
 export const getSystemSetting: typeof Taro.getSystemSetting = () => {
+  const currentTime = Date.now()
+  if (currentTime - lastGetSystemSettingTime < 500) {
+    return lastSystemSettingResult
+  }
   // @ts-ignore
   const info = native.getSystemSetting()
-  const systemSetting: Taro.getSystemSetting.Result = {
-    bluetoothEnabled: info.bluetoothEnabled,
-    locationEnabled: info.locationEnabled,
-    wifiEnabled: info.wifiEnabled,
-    deviceOrientation: info.deviceOrientation,
-  }
-  return systemSetting
+  lastSystemSettingResult.bluetoothEnabled = info.bluetoothEnabled
+  lastSystemSettingResult.locationEnabled = info.locationEnabled
+  lastSystemSettingResult.wifiEnabled = info.wifiEnabled
+  lastSystemSettingResult.deviceOrientation = info.deviceOrientation
+  lastGetSystemSettingTime = currentTime
+  return lastSystemSettingResult
 }
 
 /** 获取设备信息 */
