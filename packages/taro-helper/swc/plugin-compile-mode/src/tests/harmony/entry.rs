@@ -14,7 +14,7 @@ test!(
   }
   ",
   &(
-"            const TARO_TEMPLATES_f0t0 = `".to_owned() + HARMONY_IMPORTER + HARMONY_FLEX_STYLE_BIND + r#"
+"const TARO_TEMPLATES_f0t0 = `".to_owned() + HARMONY_IMPORTER + HARMONY_FLEX_STYLE_BIND + r#"
 @Component
 struct TARO_TEMPLATES_f0t0 {
   nodeInfoMap: any = {}

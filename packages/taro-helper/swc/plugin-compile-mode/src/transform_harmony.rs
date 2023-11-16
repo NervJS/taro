@@ -38,8 +38,10 @@ impl VisitMut for PreVisitor {
   fn visit_mut_expr (&mut self, expr: &mut Expr) {
       if Rc::strong_count(&self.is_in_jsx_expr_container) == 1 { return };
       let mut is_first_and_expr = false;
-      
+
+      // is_in_and_expr 为 false 时，表示为当前 expr 的第一个 && 表达式，即当出现 aa && bb && <View /> 这种表达式时，只会处理最右侧的 && 表达式    
       match expr {
+          // 将 aa && <B /> 转换为 aa ? <B /> : <B compileIgnore />
           Expr::Bin(BinExpr { op, left, right, ..}) => {
               // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
               if *op == op!("&&") && !self.is_in_and_expr {
@@ -139,7 +141,9 @@ impl TransformVisitor {
       let get_tmpl_name = Box::new(utils::named_iter(
           format!("{}t", config.tmpl_prefix)
       ));
-      let get_node_name = Box::new(utils::named_iter(String::from("node")));
+      let get_node_name = Box::new(utils::named_iter(
+        String::from("node"))
+      );
       Self {
           config,
           is_compile_mode: false,
@@ -409,6 +413,7 @@ impl VisitMut for TransformVisitor {
   // Implement necessary visit_mut_* methods for actual custom transform.
   // A comprehensive list of possible visitor methods can be found here:
   // https://rustdoc.swc.rs/swc_ecma_visit/trait.VisitMut.html
+  // 半编译模式入口，遍历 jsx 语法树，寻找拥有 COMPILE_MODE 属性节点，预处理节点所在的子树，并根据子树信息生成 tmpl_contents
   fn visit_mut_jsx_element (&mut self, el: &mut JSXElement) {
       let mut tmpl_name = String::new();
       for attr in &mut el.opening.attrs {
@@ -429,10 +434,21 @@ impl VisitMut for TransformVisitor {
       }
       if self.is_compile_mode {
           el.visit_mut_children_with(&mut PreVisitor::new());
-          let tmpl_contents = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
-              &tmpl_name,
-              self.build_xml_element(el)
-          );
+          let tmpl_contents = format!("`{}`",
+            HARMONY_IMPORTER.to_owned() +
+            // TODO: 此处应该收集需要 Extend 的组件，而不是直接写死
+            HARMONY_FLEX_STYLE_BIND +
+            format!(r#"
+@Component
+struct TARO_TEMPLATES_{} {{
+{} 
+}}
+export default TARO_TEMPLATES_{}
+"#,
+                &tmpl_name,
+                self.build_xml_element(el),
+                &tmpl_name
+            ).as_str());
           self.templates.insert(tmpl_name, tmpl_contents);
           self.is_compile_mode = false;
           // 第一层 jsx 节点添加动态 id
@@ -442,6 +458,7 @@ impl VisitMut for TransformVisitor {
       }
   }
 
+  // 将生成的模板字符串以变量的形式插入在文件最上面，等待后续编译抽离
   fn visit_mut_module_items (&mut self, body_stmts: &mut Vec<ModuleItem>) {
       body_stmts.visit_mut_children_with(self);
 
@@ -460,7 +477,7 @@ impl VisitMut for TransformVisitor {
                       init: Some(Box::new(Expr::Lit(Lit::Str(Str {
                           span,
                           value: value.as_str().into(),
-                          raw: None
+                          raw: Some(Atom::new(value.as_str()))
                       })))),
                       definite: false,
                   }],
