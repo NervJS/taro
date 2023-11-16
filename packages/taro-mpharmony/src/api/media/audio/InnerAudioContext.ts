@@ -3,6 +3,15 @@ import Taro from '@tarojs/api'
 import { permanentlyNotSupport } from '../../../utils'
 import { CallbackManager } from '../../../utils/handler'
 
+/**
+ * InnerAudioContext 实例
+ * 
+ * @canUse InnerAudioContext
+ * @__class 
+ * [play, pause, stop, seek, destroy, onCanplay, onPlay, onPause, onStop, onEnded,\
+ * onTimeUpdate, onError, onWaiting, onSeeking, onSeeked, offCanplay, offPlay, offPause, offStop, offEnded,\
+ * offTimeUpdate, offError, offWaiting, offSeeking, offSeeked]
+ */
 export class InnerAudioContext implements Taro.InnerAudioContext {
   Instance?: HTMLAudioElement
   errorStack: CallbackManager
