@@ -13,7 +13,7 @@ export const setNavigationBarTitle: SetNavigationBarTitle = function (options) {
     const page = taro.getCurrentInstance().page
     const res = { errMsg: 'setNavigationBarTitle:ok' }
 
-    page.$set('taroNavBar.title', options.title)
+    page.$set?.('taroNavBar.title', options.title)
     callAsyncSuccess(resolve, res, options)
   })
 }
@@ -25,8 +25,8 @@ export const setNavigationBarColor: SetNavigationBarColor = function (options) {
     const { frontColor, backgroundColor } = options
     const res = { errMsg: 'setNavigationBarColor:ok' }
 
-    page.$set('taroNavBar.textStyle', frontColor)
-    page.$set('taroNavBar.background', backgroundColor)
+    page.$set?.('taroNavBar.textStyle', frontColor)
+    page.$set?.('taroNavBar.background', backgroundColor)
     callAsyncSuccess(resolve, res, options)
   })
 }

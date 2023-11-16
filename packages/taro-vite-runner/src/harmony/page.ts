@@ -9,6 +9,14 @@ import type { PluginOption } from 'vite'
 export const PAGE_SUFFIX = '.ets?page-loader=true'
 export const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 
+function isEnable (app?: boolean, page?: boolean) {
+  if (app && page !== false) {
+    return true
+  } else if (page) {
+    return true
+  }
+}
+
 const SHOW_TREE = true
 const showTreeFunc = (isTabbarPage) => `\nasync showTree() {
   const taskQueen = []
@@ -77,7 +85,7 @@ function transArr2Str (array: unknown[], prefixSpace = 0) {
   return array.filter(e => typeof e === 'string').join(`\n${' '.repeat(prefixSpace)}`)
 }
 
-function renderPage (isTabPage: boolean) {
+function renderPage (isTabPage: boolean, enableRefresh = false) {
   let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
@@ -93,6 +101,22 @@ function renderPage (isTabPage: boolean) {
 .width('100%')
 .height('100%')
 `
+
+  if (enableRefresh) {
+    pageStr = `Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
+  ${transArr2Str(pageStr.split('\n'), 2)}
+}
+.onStateChange((state) => {
+  if (state === RefreshStatus.Refresh) {
+    ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
+  } else if (state === RefreshStatus.Done) {
+    ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
+    this.page?.onPullDownRefresh?.call(this)
+  } else if (state === RefreshStatus.Drag) {
+    this.page?.onPullIntercept?.call(this)
+  }
+})`
+  }
 
   if (isTabPage) {
     pageStr = `Tabs({
@@ -152,7 +176,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     load (id) {
       if (!viteCompilerContext) return
       const { taroConfig, cwd: appPath } = viteCompilerContext
-      const tabbarList = viteCompilerContext.app.config.tabBar?.list || []
+      const appConfig = viteCompilerContext.app.config
+      const tabbarList = appConfig.tabBar?.list || []
       const pages = viteCompilerContext.getPages()
       if (id === appendVirtualModulePrefix(path.join(appPath, taroConfig.sourceRoot || 'src', `${TARO_TABBAR_PAGE_PATH}`))) {
         return transArr2Str([
@@ -190,6 +215,9 @@ export default { ${
           viteCompilerContext.logger.warn(`编译页面 ${rawId} 失败!`)
           process.exit(1)
         }
+        const enableRefresh = isTabbarPage
+          ? (page as VitePageMeta[]).some(e => isEnable(appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
+          : isEnable(appConfig.window?.enablePullDownRefresh, (viteCompilerContext.getPageById(rawId) as VitePageMeta)?.config.enablePullDownRefresh)
 
         const structCodeArray: unknown[] = [
           '@Entry',
@@ -206,11 +234,19 @@ export default { ${
               `@State node: TaroElement[] = [${
                 tabbarList.map(() => 'new TaroElement("Block")').join(', ')
               }]`,
+              enableRefresh
+                ? `@State isRefreshing: boolean[] = [${
+                  tabbarList.map(() => 'false').join(', ')
+                }]`
+                : null,
               `@State pageList: PageInstance[] = []`,
             ]
             : [
               'scroller: Scroller = new Scroller()',
               '@State node: TaroElement = new TaroElement("Block")',
+              enableRefresh
+                ? '@State isRefreshing: boolean = false'
+                : null,
             ],
           '@State appConfig: AppConfig = window.__taroAppConfig || {}',
           '@StorageLink("__TARO_PAGE_STACK") pageStack: string[] = []',
@@ -517,7 +553,7 @@ export default { ${
   }` : null,
           `
   build() {
-    ${transArr2Str(renderPage(isTabbarPage).split('\n'), 4)}
+    ${transArr2Str(renderPage(isTabbarPage, enableRefresh).split('\n'), 4)}
   }`)
 
         structCodeArray.push('}')

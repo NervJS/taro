@@ -39,7 +39,7 @@ const toggleTabBar = function<T extends ToggleAPIs['type']> (type: T): Extract<T
         eventCenter.trigger(event, {
           animation: options?.animation,
         })
-        page.$set('isShowTaroTabBar', isShow)
+        page.$set?.('isShowTaroTabBar', isShow)
         callAsyncSuccess(resolve, res, options)
       }
     })
@@ -69,7 +69,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
       if (options.borderStyle) data.borderStyle = options.borderStyle
 
       eventCenter.trigger('__taroSetTabBarStyle', options)
-      page.$set('taroTabBar', data)
+      page.$set?.('taroTabBar', data)
       callAsyncSuccess(resolve, res, options)
     }
   })
@@ -101,7 +101,7 @@ export const setTabBarItem: SetTabBarItem = function (options) {
       const data = Object.assign({}, currentData, { list })
 
       eventCenter.trigger('__taroSetTabBarItem', options)
-      page.$set('taroTabBar', data)
+      page.$set?.('taroTabBar', data)
       callAsyncSuccess(resolve, res, options)
     }
   })
