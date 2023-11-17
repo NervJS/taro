@@ -47,7 +47,10 @@ export default class Index extends React.Component {
         id: 'getSystemSetting',
         func: (apiIndex) => {
           TestConsole.consoleTest('Taro.getSystemSetting')
+          const currentTime = Date.now()
           const res = Taro.getSystemSetting()
+          const took = Date.now() - currentTime
+          console.log("getSystemSetting took: ", took)
           TestConsole.consoleSuccess.call(this, res, apiIndex)
         },
       },
