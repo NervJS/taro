@@ -15,6 +15,12 @@ function generateMediaQueryStr (descriptor: Taro.MediaQueryObserver.descriptor) 
   return mediaQueryArr.join(' and ')
 }
 
+/**
+ * MediaQueryObserver 对象，用于监听页面 media query 状态的变化，如界面的长宽是不是在某个指定的范围内
+ * 
+ * @canUse MediaQueryObserver
+ * @__class [observe, disconnect]
+ */
 export class MediaQueryObserver implements Taro.MediaQueryObserver {
   private _mediaQueryObserver: MediaQueryList
   private _listener: (ev: MediaQueryListEvent) => void

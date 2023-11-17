@@ -2,6 +2,17 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 添加手机通讯录联系人
+ * 
+ * @canUse addPhoneContact
+ * @__object [firstName, photoFilePath, nickName, middleName, lastName, remark, mobilePhoneNumber,\
+ * weChatNumber, addressCountry, addressState, addressCity, addressStreet, addressPostalCode,\
+ * organization, title, workFaxNumber, workPhoneNumber, hostNumber, email, url, workAddressCountry,\
+ * workAddressState, workAddressCity, workAddressStreet, workAddressPostalCode, homeFaxNumber,\
+ * homePhoneNumber, homeAddressCountry, homeAddressState, homeAddressCity, homeAddressStreet,\
+ * homeAddressPostalCode]
+ */
 export const addPhoneContact: typeof Taro.addPhoneContact = (options) => {
   const name = 'addPhoneContact'
 

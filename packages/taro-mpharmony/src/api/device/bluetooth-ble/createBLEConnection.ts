@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 连接低功耗蓝牙设备
+ * 
+ * @canUse createBLEConnection
+ * @__object [deviceId, timeout]
+ */
 export const createBLEConnection: typeof Taro.createBLEConnection = (options) => {
   const name = 'createBLEConnection'
 

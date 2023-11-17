@@ -2,7 +2,12 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
-// null-implementation
+/**
+ * 设置是否打开调试开关
+ * 
+ * @canUse setEnableDebug
+ * @null_implementation
+ */
 export const setEnableDebug: typeof Taro.setEnableDebug = (options) => {
   const name = 'setEnableDebug'
 

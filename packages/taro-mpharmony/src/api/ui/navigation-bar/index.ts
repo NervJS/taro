@@ -32,6 +32,8 @@ loadNavigationSytle()
 
 /**
  * 显示页面导航条加载图标
+ * 
+ * @canUse showNavigationBarLoading
  */
 export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (options?) => {
   const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
@@ -44,6 +46,8 @@ export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (o
 
 /**
  * 隐藏页面导航条加载图标
+ * 
+ * @canUse hideNavigationBarLoading
  */
 export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (options?) => {
   const { success, fail, complete } = (options || {}) as Exclude<typeof options, undefined>
@@ -56,6 +60,9 @@ export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (o
 
 /**
  * 设置页面导航条标题
+ * 
+ * @canUse setNavigationBarTitle
+ * @__object [title]
  */
 export const setNavigationBarTitle: typeof Taro.hideNavigationBarLoading = (
   options?: Taro.setNavigationBarTitle.Option
@@ -85,9 +92,11 @@ export const setNavigationBarTitle: typeof Taro.hideNavigationBarLoading = (
 
   return handle.success()
 }
-
 /**
  * 设置页面导航条颜色
+ * 
+ * @canUse setNavigationBarColor
+ * @__object [backgroundColor, frontColor, animation]
  */
 export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options) => {
   const apiName = 'setNavigationBarColor'
@@ -134,5 +143,10 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
   return handle.success()
 }
 
-// null-implementation
+/**
+ * 隐藏返回首页按钮
+ * 
+ * @canUse hideHomeButton
+ * @null_implementation
+ */
 export const hideHomeButton = () => Promise.resolve()

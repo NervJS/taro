@@ -3,6 +3,14 @@ import Taro from '@tarojs/api'
 import { permanentlyNotSupport } from '../../../utils'
 import { CallbackManager } from '../../../utils/handler'
 
+/**
+ * BackgroundAudioManager 实例
+ * 
+ * @canUse BackgroundAudioManager
+ * @__class 
+ * [play, pause, seek, stop, onCanplay, onWaiting, onError, onPlay, onPause, onSeeking,\
+ * onSeeked, onEnded, onStop, onTimeUpdate]
+ */
 export class BackgroundAudioManager implements Taro.BackgroundAudioManager {
   Instance?: HTMLAudioElement
   errorStack: CallbackManager

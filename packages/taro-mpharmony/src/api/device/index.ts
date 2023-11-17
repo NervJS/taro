@@ -1,3 +1,12 @@
+import { temporarilyNotSupport } from '../../utils'
+
+/**
+ * 拉起手机发送短信界面
+ * 
+ * @canNotUse sendSms
+ */
+export const sendSms = /* @__PURE__ */ temporarilyNotSupport('sendSms')
+
 export * from './accelerometer'
 export * from './accessibility'
 export * from './battery'
@@ -11,7 +20,7 @@ export * from './contact'
 export * from './crypto'
 export * from './gyroscope'
 export * from './iBeacon'
-export * from './keyboard'
+export * from './keyBoard'
 export * from './memory'
 export * from './motion'
 export * from './network'

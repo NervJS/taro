@@ -4,6 +4,8 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 开始监听罗盘数据
+ * 
+ * @canUse startCompass
  */
 export const startCompass: typeof Taro.startCompass = (options) => {
   const name = 'startCompass'

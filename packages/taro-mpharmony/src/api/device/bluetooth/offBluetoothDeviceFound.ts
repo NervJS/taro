@@ -1,6 +1,11 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 取消监听寻找到新设备的事件
+ * 
+ * @canUse offBluetoothDeviceFound
+ */
 export const offBluetoothDeviceFound: typeof Taro.offBluetoothDeviceFound = (callback) => {
   const name = 'offBluetoothDeviceFound'
 

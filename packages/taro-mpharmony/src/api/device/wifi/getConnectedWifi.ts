@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取已连接中的 Wi-Fi 信息
+ * 
+ * @canUse getConnectedWifi
+ * @__success [wifi]
+ */
 export const getConnectedWifi: typeof Taro.getConnectedWifi = (options) => {
   const name = 'getConnectedWifi'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

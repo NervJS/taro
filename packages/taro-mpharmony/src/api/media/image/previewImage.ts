@@ -12,8 +12,12 @@ import { MethodHandler } from '../../../utils/handler'
 import { downloadFile } from '../../network/download'
 import { showActionSheet, showToast } from '../../ui/interaction/index'
 import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
+
 /**
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
+ * 
+ * @canUse previewImage
+ * @__object [urls, current, showmenu]
  */
 export const previewImage: typeof Taro.previewImage = async (options) => {
   // TODO 改为通过 window.__taroAppConfig 获取配置的 Swiper 插件创建节点

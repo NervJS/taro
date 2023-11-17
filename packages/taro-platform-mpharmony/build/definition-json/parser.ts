@@ -3,6 +3,7 @@ import * as fs from 'fs-extra'
 import * as pathModule from 'path'
 
 import DefinitionObj from '../interface/definitionObj'
+import { parseApis, removeFalseProperties } from './parseApis'
 
 export function generateDefinitionJSON () {
   const componentsPath = require.resolve('@tarojs/components/types/index.d.ts')
@@ -285,9 +286,10 @@ export function generateDefinitionJSON () {
     return componentDefinition
   }
 
-  // 获取API支持的属性
-  function getApisDefinition () {
-    return {}
+  // 获取API的描述信息
+  function getApisDefinition (apisConfig: object) {
+    removeFalseProperties(apisConfig)
+    return apisConfig
   }
 
   // 更新组件属性配置
@@ -322,11 +324,14 @@ export function generateDefinitionJSON () {
 
   // 获取最终的组件和API属性配置表同时更新原始属性配置文件
   function getFinalDefinitionObj (componentProps: object, componentsConfig: any) {
+    const apisConfig = parseApis()
     finalDefinitionObj.components = getComponentsDefinition(componentProps, componentsConfig)
-    finalDefinitionObj.apis = getApisDefinition()
+    
     // 更新组件属性配置文件
     const newComponentsConfig = updatePropsConfig(componentProps, componentsConfig)
-    fs.writeJSONSync('build/config/harmony-definition.json', { 'apis': sortKeys(propsConfig.apis), 'components': sortKeys(newComponentsConfig) }, { spaces: 2 })
+
+    fs.writeJSONSync('build/config/harmony-definition.json', { 'apis': sortKeys(apisConfig), 'components': sortKeys(newComponentsConfig) }, { spaces: 2 })
+    finalDefinitionObj.apis = getApisDefinition(apisConfig)
   }
 
   getFinalDefinitionObj(definitionObj.components, propsConfig.components)

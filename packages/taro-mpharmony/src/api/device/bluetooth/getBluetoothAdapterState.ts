@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取本机蓝牙适配器状态
+ * 
+ * @canUse getBluetoothAdapterState
+ * @__success [available, discovering]
+ */
 export const getBluetoothAdapterState: typeof Taro.getBluetoothAdapterState = (options) => {
   const name = 'getBluetoothAdapterState'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

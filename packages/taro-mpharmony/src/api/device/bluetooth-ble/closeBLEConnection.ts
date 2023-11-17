@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 断开与低功耗蓝牙设备的连接
+ * 
+ * @canUse closeBLEConnection
+ * @__object [deviceId]
+ */
 export const closeBLEConnection: typeof Taro.closeBLEConnection = (options) => {
   const name = 'closeBLEConnection'
 

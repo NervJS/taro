@@ -9,6 +9,9 @@ const FRAME_DURATION = 17
 
 /**
  * 将页面滚动到目标位置
+ * 
+ * @canUse pageScrollTo
+ * @__object [duration, scrollTop, selector, offsetTop]
  */
 export const pageScrollTo: typeof Taro.pageScrollTo = ({
   scrollTop,
@@ -98,3 +101,10 @@ export const pageScrollTo: typeof Taro.pageScrollTo = ({
     }
   })
 }
+
+/**
+ * 增强 ScrollView 实例
+ * 
+ * @canUse ScrollView
+ * @__class [scrollTo, scrollIntoView]
+ */
