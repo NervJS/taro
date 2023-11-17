@@ -7,7 +7,6 @@ import * as pathModule from 'path'
  * @returns { object } apisDefinition - 返回api支持情况对象
  */
 export function parseApis () {
-
   const entryPath = require.resolve('@tarojs/taro-mpharmony/src/index.ts')
   const apisDir = pathModule.dirname(entryPath)
   const commentArray: string[] = []
@@ -35,7 +34,7 @@ export function parseApis () {
   }
 
   readFilesRecursively(apisDir)
-  
+
   // 获取调用方式标签后的内容，返回一个属性的对象
   function getObj (callMethod: string, comment: string) {
     let propObj: object = {}
