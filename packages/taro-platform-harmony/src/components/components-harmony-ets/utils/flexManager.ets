@@ -16,8 +16,10 @@ class FlexManager {
         flexOptions.direction = isFlexDisplay ? FlexDirection.Row : FlexDirection.Column
       }
     } else {
+      const isFlexDisplay = _st.display === 'flex'
+
       flexOptions = {
-        direction: FlexDirection.Column
+        direction: isFlexDisplay ? FlexDirection.Row : FlexDirection.Column
       }
     }
 
