@@ -2,7 +2,13 @@ import Taro from '@tarojs/api'
 
 import { MethodHandler } from '../../utils/handler'
 
-// 字体
+/**
+ * 动态加载网络字体
+ * 
+ * @canUse loadFontFace 
+ * @__object [global, family, source, desc[style, variant, weight]] 
+ * @__success [status]
+*/
 export const loadFontFace: typeof Taro.loadFontFace = async (options) => {
   options = Object.assign({ global: false }, options)
   const { success, fail, complete, family, source, desc = {} } = options

@@ -5,6 +5,12 @@ import { MethodHandler } from '../../../utils/handler'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
+ * 
+ * @canUse getImageInfo
+ * @__object [src]
+ * @__success 
+ * [height, orientation[up, up-mirrored, down, down-mirrored, left-mirrored, right, right-mirrored, left],\ 
+ * path, type, width]
  */
 export const getImageInfo: typeof Taro.getImageInfo = function (options) {
   const name = 'getImageInfo'

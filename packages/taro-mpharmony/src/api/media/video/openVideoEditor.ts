@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 打开视频编辑器
+ * 
+ * @canUse openVideoEditor 
+ * @__object [filePath]
+ * @__success [duration, size, tempFilePath, tempThumbPath]
+ */
 export const openVideoEditor: typeof Taro.openVideoEditor = (options) => {
   const name = 'openVideoEditor'
 

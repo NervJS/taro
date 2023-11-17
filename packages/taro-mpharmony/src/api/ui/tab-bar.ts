@@ -11,6 +11,9 @@ export function initTabBarApis (config: AppConfig = {}) {
 
 /**
  * 显示 tabBar 某一项的右上角的红点
+ * 
+ * @canUse showTabBarRedDot
+ * @__object [index]
  */
 export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
   // options must be an Object
@@ -45,6 +48,9 @@ export const showTabBarRedDot: typeof Taro.showTabBarRedDot = (options) => {
 
 /**
  * 显示 tabBar
+ * 
+ * @canUse showTabBar
+ * @__object [animation]
  */
 export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
   // options must be an Object
@@ -79,6 +85,9 @@ export const showTabBar: typeof Taro.showTabBar = (options = {}) => {
 
 /**
  * 动态设置 tabBar 的整体样式
+ * 
+ * @canUse setTabBarStyle
+ * @__object [backgroundColor, borderStyle, color, selectedColor]
  */
 export const setTabBarStyle: typeof Taro.setTabBarStyle = (options = {}) => {
   // options must be an Object
@@ -131,6 +140,9 @@ export const setTabBarStyle: typeof Taro.setTabBarStyle = (options = {}) => {
 
 /**
  * 动态设置 tabBar 某一项的内容
+ * 
+ * @canUse setTabBarItem
+ * @__object [index, iconPath, selectedIconPath, text]
  */
 export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
   // options must be an Object
@@ -168,6 +180,9 @@ export const setTabBarItem: typeof Taro.setTabBarItem = (options) => {
 
 /**
  * 为 tabBar 某一项的右上角添加文本
+ * 
+ * @canUse setTabBarBadge
+ * @__object [index, text]
  */
 export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
   // options must be an Object
@@ -213,6 +228,9 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
 
 /**
  * 移除 tabBar 某一项右上角的文本
+ * 
+ * @canUse removeTabBarBadge
+ * @__object [index]
  */
 export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
   // options must be an Object
@@ -247,6 +265,9 @@ export const removeTabBarBadge: typeof Taro.removeTabBarBadge = (options) => {
 
 /**
  * 隐藏 tabBar 某一项的右上角的红点
+ * 
+ * @canUse hideTabBarRedDot
+ * @__object [index]
  */
 export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
   // options must be an Object
@@ -281,6 +302,9 @@ export const hideTabBarRedDot: typeof Taro.hideTabBarRedDot = (options) => {
 
 /**
  * 隐藏 tabBar
+ * 
+ * @canUse hideTabBar
+ * @__object [animation]
  */
 export const hideTabBar: typeof Taro.hideTabBar = (options = {}) => {
   // options must be an Object
