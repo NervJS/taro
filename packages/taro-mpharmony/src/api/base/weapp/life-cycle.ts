@@ -46,6 +46,18 @@ function initLaunchOptions (options = {}) {
 
 Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)
 
-// 生命周期
+/**
+ * 获取程序启动时的参数
+ * 
+ * @canUse getLaunchOptionsSync
+ * @__return [path, query, scene, shareTicket, referrerInfo, apiCategory]
+ */
 export const getLaunchOptionsSync: typeof Taro.getLaunchOptionsSync = () => launchOptions
+
+/**
+ * 获取本次程序启动时的参数
+ * 
+ * @canUse getEnterOptionsSync
+ * @__return [path, query, scene, shareTicket, referrerInfo, apiCategory]
+ */
 export const getEnterOptionsSync: typeof Taro.getEnterOptionsSync = () => launchOptions

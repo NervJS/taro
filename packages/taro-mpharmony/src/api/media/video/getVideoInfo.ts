@@ -2,6 +2,15 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取视频详细信息
+ * 
+ * @canUse getVideoInfo 
+ * @__object [src] 
+ * @__success 
+ * [orientation[up, down, left, right, up-mirrored, down-mirrored, left-mirrored, right-mirrored],\ 
+ * type, duration, size, height, width, fps, bitrate]
+ */
 export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
   const name = 'getVideoInfo'
   const FPS_NUM = 30

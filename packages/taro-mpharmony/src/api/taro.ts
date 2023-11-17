@@ -113,6 +113,11 @@ const pxTransform = function (size = 0) {
   return val + config?.targetUnit
 }
 
+/**
+ * 判断能否使用WebP格式
+ * 
+ * @canUse canIUseWebp
+ */
 const canIUseWebp = function () {
   const canvas = document.createElement('canvas')
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
@@ -134,6 +139,12 @@ taro.initPxTransform = initPxTransform
 taro.canIUseWebp = canIUseWebp
 
 export default taro
+
+/**
+ * 跳转预加载 API
+ * 
+ * @canUse preload
+ */
 
 export {
   Behavior,

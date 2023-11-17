@@ -14,11 +14,15 @@ const resizeListener = () => {
 
 /**
  * 设置窗口大小，该接口仅适用于 PC 平台，使用细则请参见指南
+ * 
+ * @canNotUse setWindowSize
  */
 export const setWindowSize = /* @__PURE__ */ temporarilyNotSupport('setWindowSize')
 
 /**
  * 监听窗口尺寸变化事件
+ * 
+ * @canUse onWindowResize
  */
 export const onWindowResize: typeof Taro.onWindowResize = (callback) => {
   callbackManager.add(callback)
@@ -29,6 +33,8 @@ export const onWindowResize: typeof Taro.onWindowResize = (callback) => {
 
 /**
  * 取消监听窗口尺寸变化事件
+ * 
+ * @canUse offWindowResize
  */
 export const offWindowResize: typeof Taro.offWindowResize = (callback) => {
   callbackManager.remove(callback)
@@ -37,4 +43,9 @@ export const offWindowResize: typeof Taro.offWindowResize = (callback) => {
   }
 }
 
+/**
+ * 返回当前是否存在小窗播放
+ * 
+ * @canNotUse checkIsPictureInPictureActive
+ */
 export const checkIsPictureInPictureActive = /* @__PURE__ */ temporarilyNotSupport('checkIsPictureInPictureActive')

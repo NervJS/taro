@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取蓝牙设备所有服务(service)
+ * 
+ * @canUse getBLEDeviceServices
+ * @__object [deviceId]
+ * @__success [services]
+ */
 export const getBLEDeviceServices: typeof Taro.getBLEDeviceServices = (options) => {
   const name = 'getBLEDeviceServices'
 

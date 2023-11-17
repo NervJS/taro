@@ -16,7 +16,7 @@ export function canIUse (scheme = '') {
     list = {
       ...definition.apis,
       ...definition.components,
-      canIUse: '*'
+      // canIUse: '*'
     } as Exclude<typeof list, null>
   }
   if (!scheme) return false

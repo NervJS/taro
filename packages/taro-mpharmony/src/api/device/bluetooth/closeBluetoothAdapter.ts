@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 关闭蓝牙模块
+ * 
+ * @canUse closeBluetoothAdapter
+ */
 export const closeBluetoothAdapter: typeof Taro.closeBluetoothAdapter = (options) => {
   const name = 'closeBluetoothAdapter'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

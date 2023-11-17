@@ -27,6 +27,12 @@ const toast = new Toast()
 const modal = new Modal()
 const actionSheet = new ActionSheet()
 
+/**
+ * 显示消息提示框
+ * 
+ * @canUse showToast 
+ * @__object [title, duration, icon[success, error, loading, none], image, mask]
+ */
 const showToast: typeof Taro.showToast = (options = { title: '' }) => {
   init(document)
   options = Object.assign(
@@ -75,6 +81,12 @@ const showToast: typeof Taro.showToast = (options = { title: '' }) => {
   return handle.success({ errMsg })
 }
 
+/**
+ * 隐藏消息提示框
+ * 
+ * @canUse hideToast 
+ * @__object [noConflict]
+ */
 const hideToast: typeof Taro.hideToast = ({ noConflict = false, success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'hideToast', success, fail, complete })
   if (!toast.el) return handle.success()
@@ -82,6 +94,12 @@ const hideToast: typeof Taro.hideToast = ({ noConflict = false, success, fail, c
   return handle.success()
 }
 
+/**
+ * 显示 loading 提示框
+ * 
+ * @canUse showLoading
+ * @__object [title, mask]
+ */
 const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
   init(document)
   options = Object.assign(
@@ -123,6 +141,12 @@ const showLoading: typeof Taro.showLoading = (options = { title: '' }) => {
   return handle.success({ errMsg })
 }
 
+/**
+ * 隐藏 loading 提示框
+ * 
+ * @canUse hideLoading 
+ * @__object [noConflict] 
+ */
 const hideLoading: typeof Taro.hideLoading = ({ noConflict = false, success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'hideLoading', success, fail, complete })
   if (!toast.el) return handle.success()
@@ -130,6 +154,13 @@ const hideLoading: typeof Taro.hideLoading = ({ noConflict = false, success, fai
   return handle.success()
 }
 
+/**
+ * 显示模态对话框
+ * 
+ * @canUse showModal
+ * @__object [cancelColor, cancelText, confirmColor, confirmText, content, showCancel, title] 
+ * @__success [cancel, confirm]
+*/
 const showModal: typeof Taro.showModal = async (options = {}) => {
   init(document)
   options = Object.assign(
@@ -237,6 +268,13 @@ function hideModal () {
   modal.hide()
 }
 
+/**
+ * 显示操作菜单
+ * 
+ * @canUse showActionSheet 
+ * @__object [alertText, itemList, itemColor] 
+ * @__success [tapIndex]
+ */
 const showActionSheet: typeof Taro.showActionSheet = async (options = { itemList: [] }) => {
   init(document)
   options = Object.assign(
@@ -319,10 +357,20 @@ Taro.eventCenter.on('__afterTaroRouterChange', () => {
   }
 })
 
-// null-implementation
+/**
+ * 开启小程序页面返回询问对话框
+ * 
+ * @canUse enableAlertBeforeUnload
+ * @null_implementation 
+ */
 const enableAlertBeforeUnload = () => {}
 
-// null-implementation
+/**
+ * 关闭小程序页面返回询问对话框
+ * 
+ * @canUse enableAlertBeforeUnload
+ * @null_implementation 
+ */
 const disableAlertBeforeUnload = () => {}
 
 export {

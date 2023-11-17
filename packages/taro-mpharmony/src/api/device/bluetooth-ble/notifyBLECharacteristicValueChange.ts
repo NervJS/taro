@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 启用低功耗蓝牙设备特征值变化时的 notify 功能，订阅特征值
+ * 
+ * @canUse notifyBLECharacteristicValueChange
+ * @__object [characteristicId, deviceId, serviceId, state]
+ */
 export const notifyBLECharacteristicValueChange: typeof Taro.notifyBLECharacteristicValueChange = (options) => {
   const name = 'notifyBLECharacteristicValueChange'
 

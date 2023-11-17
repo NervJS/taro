@@ -3,6 +3,12 @@ import Taro from '@tarojs/api'
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
+/**
+ * 保存视频到系统相册
+ * 
+ * @canUse saveVideoToPhotosAlbum 
+ * @__object [filePath] 
+ */
 export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = (options) => {
   const methodName = 'saveVideoToPhotosAlbum'
   // options must be an Object

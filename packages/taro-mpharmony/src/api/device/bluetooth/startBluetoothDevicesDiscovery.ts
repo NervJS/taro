@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 开始搜寻附近的蓝牙外围设备
+ * 
+ * @canUse startBluetoothDevicesDiscovery
+ * @__object [allowDuplicatesKey, interval, services]
+ */
 export const startBluetoothDevicesDiscovery: typeof Taro.startBluetoothDevicesDiscovery = (options) => {
   const name = 'startBluetoothDevicesDiscovery'
 

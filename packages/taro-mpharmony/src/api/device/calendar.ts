@@ -6,7 +6,12 @@ import { MethodHandler } from '../../utils/handler'
 
 import type { DateArray } from 'ics'
 
-// 日历
+/**
+ * 向系统日历添加重复事件
+ * 
+ * @canUse addPhoneRepeatCalendar
+ * @__object [title, startTime, allDay, description, location, endTime, alarm, alarmOffset, repeatInterval, repeatEndTime]
+ */
 export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (options) => {
   const methodName = 'addPhoneRepeatCalendar'
   // options must be an Object
@@ -106,6 +111,12 @@ export const addPhoneRepeatCalendar: typeof Taro.addPhoneRepeatCalendar = (optio
   return handle.success()
 }
 
+/**
+ * 向系统日历添加事件
+ * 
+ * @canUse addPhoneCalendar
+ * @__object [title, startTime, allDay, description, location, endTime, alarm, alarmOffset]
+ */
 export const addPhoneCalendar: typeof Taro.addPhoneCalendar = (options) => {
   const methodName = 'addPhoneCalendar'
   // options must be an Object

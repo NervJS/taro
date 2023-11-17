@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 请求获取 Wi-Fi 列表
+ * 
+ * @canUse getWifiList
+ */
 export const getWifiList: typeof Taro.getWifiList = (options) => {
   const name = 'getWifiList'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

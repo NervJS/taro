@@ -2,12 +2,52 @@ import Taro from '@tarojs/taro'
 
 import { temporarilyNotSupport } from '../../utils'
 
-// 性能
+/**
+ * 程序测速上报
+ * 
+ * @canNotUse reportPerformance
+ */
 export const reportPerformance = /* @__PURE__ */ temporarilyNotSupport('reportPerformance')
 
-// null-implementation
+/**
+ * 预加载下个页面的 WebView
+ * 
+ * @canNotUse preloadWebview
+ */
+export const preloadWebview = /* @__PURE__ */ temporarilyNotSupport('preloadWebview')
+
+/**
+ * 预加载下个页面所需要的 Skyline 运行环境
+ * 
+ * @canNotUse preloadSkylineView
+ */
+export const preloadSkylineView = /* @__PURE__ */ temporarilyNotSupport('preloadSkylineView')
+
+/**
+ * 为视图层预加载媒体资源文件
+ * 
+ * @canNotUse preloadAssets
+ */
+export const preloadAssets = /* @__PURE__ */ temporarilyNotSupport('preloadAssets')
+
+/**
+ * 程序测速上报
+ * 
+ * @canUse getPerformance
+ * @null_implementation
+ */
 export const getPerformance: typeof Taro.getPerformance = () => {
-  const res = {
+  return new Performance()
+}
+
+/**
+ * 获取性能数据及创建性能监听器
+ * 
+ * @canUse Performance
+ * @null_implementation
+ */
+class Performance implements Taro.Performance {
+  _res = {
     /** 开始时间，不同指标的具体含义会有差异 */ 
     startTime: 0,
     /** 耗时 ms。仅对于表示阶段的指标有效。 */
@@ -34,7 +74,7 @@ export const getPerformance: typeof Taro.getPerformance = () => {
     viewLayerRenderEndTime: 0,
   }
 
-  const createObserver = (callback) => {
+  createObserver (callback): Taro.PerformanceObserver {
     if (typeof callback === 'function') {
       // do nothing 
     }
@@ -43,7 +83,7 @@ export const getPerformance: typeof Taro.getPerformance = () => {
       entryType: 'navigation',
       /** 指标名称 */
       name: 'appLaunch',
-      ...res,
+      ...this._res,
     }
     const disconnect = () => {}
     const observe = (option: Taro.PerformanceObserver.observe.Option) => { 
@@ -59,51 +99,60 @@ export const getPerformance: typeof Taro.getPerformance = () => {
     return performanceObserver
   }
 
-  const getEntries = () => {
+  getEntries (): Taro.PerformanceEntry[] {
     const result: Taro.PerformanceEntry = {
       /** 指标类型 */
       entryType: 'navigation',
       /** 指标名称 */
       name: 'appLaunch',
-      ...res,
+      ...this._res,
     }
     return [result]
   }
 
-  const getEntriesByName = (name: string, entryType: string) => {
+  getEntriesByName (name: string, entryType: string): Taro.PerformanceEntry[] {
     const result: Taro.PerformanceEntry = {
       /** 指标类型 */
       entryType: entryType as keyof Taro.PerformanceEntry.EntryType,
       /** 指标名称 */
       name: name as keyof Taro.PerformanceEntry.EntryName,
-      ...res,
+      ...this._res,
     }
     return [result]
   }
 
-  const getEntriesByType = (entryType: string) => {
+  getEntriesByType (entryType: string): Taro.PerformanceEntry[] {
     const result: Taro.PerformanceEntry = {
       /** 指标类型 */
       entryType: entryType as keyof Taro.PerformanceEntry.EntryType,
       /** 指标名称 */
       name: 'appLaunch',
-      ...res,
+      ...this._res,
     }
     return [result]
   }
 
-  const setBufferSize = (size: number) => { 
+  setBufferSize (size: number): void { 
     if (typeof size === 'number') {
       // do nothing 
     } 
   }
-
-  const performance: Taro.Performance = {
-    createObserver,
-    getEntries,
-    getEntriesByName,
-    getEntriesByType,
-    setBufferSize
-  }
-  return performance
 }
+
+/**
+ * EntryList 对象
+ * 
+ * @canNotUse EntryList
+ */
+
+/**
+ * 单条性能数据
+ * 
+ * @canNotUse PerformanceEntry
+ */
+
+/**
+ * PerformanceObserver 对象，用于监听性能相关事件
+ * 
+ * @canNotUse PerformanceObserver
+ */
