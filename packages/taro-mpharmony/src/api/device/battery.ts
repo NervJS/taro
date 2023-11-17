@@ -3,11 +3,19 @@ import Taro from '@tarojs/api'
 import { permanentlyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
-// 电量
-
-// Note: 浏览器标准下不支持，其他实现方案不准确，不建议开发者使用
+/**
+ * Taro.getBatteryInfo 的同步版本 Note: 浏览器标准下不支持，其他实现方案不准确，不建议开发者使用
+ * 
+ * @canNotUse getBatteryInfoSync
+ */
 export const getBatteryInfoSync = /* @__PURE__ */ permanentlyNotSupport('getBatteryInfoSync')
 
+/**
+ * 获取设备电量
+ * 
+ * @canUse getBatteryInfo
+ * @__success [isCharging, level]
+ */
 export const getBatteryInfo: typeof Taro.getBatteryInfo = async ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler({ name: 'getBatteryInfo', success, fail, complete })
   try {

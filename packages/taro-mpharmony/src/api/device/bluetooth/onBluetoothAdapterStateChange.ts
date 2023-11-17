@@ -1,6 +1,12 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 监听蓝牙适配器状态变化事件
+ * 
+ * @canUse onBluetoothAdapterStateChange
+ * @__callback [available, discovering]
+ */
 export const onBluetoothAdapterStateChange: typeof Taro.onBluetoothAdapterStateChange = (callback) => {
   const name = 'onBluetoothAdapterStateChange'
 

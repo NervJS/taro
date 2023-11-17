@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 在input、textarea等focus拉起键盘之后，手动调用此接口收起键盘
+ * 
+ * @canUse hideKeyboard
+ */
 export const hideKeyboard: typeof Taro.hideKeyboard = (options) => {
   const name = 'hideKeyboard'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

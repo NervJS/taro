@@ -1,6 +1,12 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 监听寻找到新设备的事件
+ * 
+ * @canUse onBluetoothDeviceFound
+ * @__callback [devices]
+ */
 export const onBluetoothDeviceFound: typeof Taro.onBluetoothDeviceFound = (callback) => {
   const name = 'onBluetoothDeviceFound'
 

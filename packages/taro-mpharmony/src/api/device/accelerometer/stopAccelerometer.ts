@@ -4,6 +4,8 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 停止监听加速度数据。
+ * 
+ * @canUse stopAccelerometer
  */
 export const stopAccelerometer: typeof Taro.stopAccelerometer = (options) => {
   const name = 'stopAccelerometer'

@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取蓝牙低功耗设备的信号强度
+ * 
+ * @canUse getBLEDeviceRSSI
+ * @__object [deviceId]
+ * @__success [RSSI]
+ */
 export const getBLEDeviceRSSI: typeof Taro.getBLEDeviceRSSI = (options) => {
   const name = 'getBLEDeviceRSSI'
 

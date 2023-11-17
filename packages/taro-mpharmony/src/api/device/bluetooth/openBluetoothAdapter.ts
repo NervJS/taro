@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 初始化蓝牙模块
+ * 
+ * @canUse openBluetoothAdapter
+ */
 export const openBluetoothAdapter: typeof Taro.openBluetoothAdapter = (options) => {
   const name = 'openBluetoothAdapter'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'
