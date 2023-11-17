@@ -1,7 +1,9 @@
 import * as taroize from '@tarojs/taroize'
 
 import Convertor from '../src/index'
-import { generateMinimalEscapeCode } from './util'
+import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数

@@ -15,7 +15,8 @@
     "test": "jest",
     "test:clear": "jest --clearCache",
     "test:cov": "jest --coverage",
-    "test:updateSnapshot": "jest --updateSnapshot"
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i"
   },
   "repository": {
     "type": "git",

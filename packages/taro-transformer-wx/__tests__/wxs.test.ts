@@ -1,5 +1,7 @@
 import transform from '../src'
-import { baseOptions } from './utils'
+import { baseOptions, removeBackslashesSerializer } from './utils'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数

@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parseScript app.js 1`] = `
-"import \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 const {
   default: withWeapp
-} = require(\\"@tarojs/with-weapp\\");
+} = require("@tarojs/with-weapp");
 App({
   onLaunch() {
     console.log('onLaunch');
@@ -18,16 +18,16 @@ class App extends React.Component {
     return this.props.children;
   }
 }
-export default App;"
+export default App;
 `;
 
 exports[`parseScript getAPP || getCurrentPages 1`] = `
-"import \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 const {
   default: withWeapp
-} = require(\\"@tarojs/with-weapp\\");
+} = require("@tarojs/with-weapp");
 App({
   onLaunch() {
     const appInstance = Taro.getApp();
@@ -40,16 +40,16 @@ class App extends React.Component {
     return this.props.children;
   }
 }
-export default App;"
+export default App;
 `;
 
 exports[`parseScript wxml expression 1`] = `
-"import { Block, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 const {
   default: withWeapp
-} = require(\\"@tarojs/with-weapp\\");
+} = require("@tarojs/with-weapp");
 App({
   data: {
     srt: 'Hello Word!'
@@ -61,16 +61,16 @@ class App extends React.Component {
     return this.props.children;
   }
 }
-export default App;"
+export default App;
 `;
 
 exports[`parseScript wxml jsxText 1`] = `
-"import { Block } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 const {
   default: withWeapp
-} = require(\\"@tarojs/with-weapp\\");
+} = require("@tarojs/with-weapp");
 App({});
 @withWeapp(cacheOptions.getOptionsFromCache(), true)
 class App extends React.Component {
@@ -78,5 +78,5 @@ class App extends React.Component {
     return this.props.children;
   }
 }
-export default App;"
+export default App;
 `;

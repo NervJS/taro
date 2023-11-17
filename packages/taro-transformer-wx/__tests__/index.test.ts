@@ -1,5 +1,7 @@
 import transform from '../src/index'
-import { baseOptions , generateMinimalEscapeCode } from './utils'
+import { baseOptions , generateMinimalEscapeCode, removeBackslashesSerializer } from './utils'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数

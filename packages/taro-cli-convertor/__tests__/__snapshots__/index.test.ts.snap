@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`parseAst require引用为空 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 const aa = require();
 cacheOptions.setOptionsToCache({});
 @withWeapp(cacheOptions.getOptionsFromCache())
@@ -13,14 +13,14 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 为data数据添加可选链操作符 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 cacheOptions.setOptionsToCache({
   data: {
     testString: '',
@@ -43,14 +43,14 @@ class _C extends React.Component {
       })}</Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 为setData数据添加可选链操作符 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 cacheOptions.setOptionsToCache({
   onLoad() {
     let list = [];
@@ -81,14 +81,14 @@ class _C extends React.Component {
       })}</Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 当使用e.target.dataset时引入工具函数 getTarget 1`] = `
-"import withWeapp, { cacheOptions, getTarget } from \\"@tarojs/with-weapp\\";
-import { Block, View, Button } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions, getTarget } from "@tarojs/with-weapp";
+import { Block, View, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 app.createPage({
   data: {
     tagInfo: {
@@ -130,17 +130,17 @@ class _C extends React.Component {
     const {
       tagInfo
     } = this.data;
-    return <Block><View>测试data-xxx-xxx写法</View><Button data-tag-name=\\"WX1314\\" data-tag-data={tagInfo} onClick={this.getMsg}>获取</Button><View>测试data-xxxXxxx 驼峰写法</View><Button data-tagname=\\"WX1314\\" data-tagdata={tagInfo} onClick={this.getMsg02}>获取</Button></Block>;
+    return <Block><View>测试data-xxx-xxx写法</View><Button data-tag-name="WX1314" data-tag-data={tagInfo} onClick={this.getMsg}>获取</Button><View>测试data-xxxXxxx 驼峰写法</View><Button data-tagname="WX1314" data-tagdata={tagInfo} onClick={this.getMsg02}>获取</Button></Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 模板按需导入 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 import TemplateATmpl from 'taroConvert/src/imports/TemplateATmpl.js';
 cacheOptions.setOptionsToCache({});
 @withWeapp(cacheOptions.getOptionsFromCache())
@@ -149,24 +149,24 @@ class _C extends React.Component {
     return <TemplateATmpl></TemplateATmpl>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`parseAst 自定义组件按需导入 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 import ComponentB from '../components/b';
 import ComponentA from '../components/a';
 cacheOptions.setOptionsToCache({});
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
-    return <Block><ComponentA name=\\"a\\"></ComponentA><ComponentB name=\\"b\\"></ComponentB>{
-        /*  <component-c name=\\"c\\" /> */
+    return <Block><ComponentA name="a"></ComponentA><ComponentB name="b"></ComponentB>{
+        /*  <component-c name="c" /> */
       }</Block>;
   }
 }
-export default _C;"
+export default _C;
 `;

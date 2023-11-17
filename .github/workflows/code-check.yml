@@ -32,3 +32,9 @@ jobs:
                
       - name: lint
         run: pnpm lint
+      
+      - name: build
+        run: pnpm build
+
+      - name: test:convertor
+        run: pnpm test:convertor

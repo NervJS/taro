@@ -30,7 +30,8 @@
     "version": "run-s version:*",
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
-    "version:changelog": "conventional-changelog -p angular"
+    "version:changelog": "conventional-changelog -p angular",
+    "test:convertor": "pnpm --if-present -r --aggregate-output --filter=./packages/{taroize,taro-transformer-wx,taro-cli-convertor} test:ci"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
