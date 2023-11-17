@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, treeToArray } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -87,61 +87,56 @@ struct TaroForm {
     // 绑定动画
     bindAnimation(this.node)
 
-    // 监听submit
+    // 监听submit冒泡
     this.node.addEventListener('submit-btn', (e: any) => {
       e.stopPropagation()
-
-      // TODO： 💩减少获取dom的次数，增加querySelector一次过拿很多个
       const formResult = {}
-      // input
-      this.node.getElementsByTagName('INPUT').forEach((item: any) => {
-        formResult[item.name] = item.value
+      treeToArray(this.node, (item) => {
+        switch (item.nodeName) {
+          case 'INPUT':
+          case 'SLIDER': 
+          case 'SWITCH': 
+          case 'RADIO-GROUP':
+          case 'CHECKBOX-GROUP': 
+          case 'PICKER': {
+            formResult[item.name] = item.value
+            break
+          }
+        }
       })
-      // slider
-      this.node.getElementsByTagName('SLIDER').forEach((item: any) => {
-        formResult[item.name] = item.value
-      })
-      // switch
-      this.node.getElementsByTagName('SWITCH').forEach((item: any) => {
-        formResult[item.name] = item.value
-      })
-      // radio
-      this.node.getElementsByTagName('RADIO-GROUP').forEach((item: any) => {
-        formResult[item.name] = item.value
-      })
-      // checkbox
-      this.node.getElementsByTagName('CHECKBOX-GROUP').forEach((item: any) => {
-        formResult[item.name] = item.value
-      })
-      // picker
-      this.node.getElementsByTagName('PICKER').forEach((item: any) => {
-        formResult[item.name] = item.value
-      })
-
       const event = createTaroEvent('submit', { detail: { value: formResult } }, this.node)
       eventHandler(event, 'submit', this.node)
     })
-
+    // 监听reset冒泡
     this.node.addEventListener('reset-btn', (e) => {
-      // TODO： 减少获取dom的次数，增加querySelector一次过拿很多个
-      e.stopPropagation()
-      this.node.getElementsByTagName('INPUT').forEach((item: any) => {
-        item.value = item._attrs.value
-      })
-      this.node.getElementsByTagName('SLIDER').forEach((item: any) => {
-        item.value = item._attrs.value
-      })
-      this.node.getElementsByTagName('SWITCH').forEach((item: any) => {
-        item.value = item._attrs.checked
-      })
-      this.node.getElementsByTagName('RADIO-GROUP').forEach((item: any) => {
-        item._instance.reset()
-      })
-      this.node.getElementsByTagName('CHECKBOX-GROUP').forEach((item: any) => {
-        item._instance.reset()
-      })
-      this.node.getElementsByTagName('PICKER').forEach((item: any) => {
-        item.value = item._attrs.value
+      treeToArray(this.node, (item) => {
+        e.stopPropagation()
+        switch (item.nodeName) {
+          case 'INPUT': {
+            item.value = item._attrs.value
+            break
+          }
+          case 'SLIDER': {
+            item.value = item._attrs.value
+            break
+          }
+          case 'SWITCH': {
+            item.value = item._attrs.checked
+            break
+          }
+          case 'RADIO-GROUP': {
+            item._instance.reset()
+            break
+          }
+          case 'CHECKBOX-GROUP': {
+            item._instance.reset()
+            break
+          }
+          case 'PICKER': {
+            item.value = item._attrs.value
+            break
+          }
+        }
       })
     })
   }
