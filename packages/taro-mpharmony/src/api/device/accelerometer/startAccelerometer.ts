@@ -4,6 +4,9 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 开始监听加速度数据。
+ * 
+ * @canUse startAccelerometer
+ * @__object [interval[game, ui, normal]]
  */
 export const startAccelerometer: typeof Taro.startAccelerometer = (options) => {
   const name = 'startAccelerometer'

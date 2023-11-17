@@ -25,6 +25,9 @@ document.addEventListener('copy', () => {
 
 /**
  * 设置系统剪贴板的内容
+ * 
+ * @canUse setClipboardData
+ * @__object [data]
  */
 export const setClipboardData: typeof Taro.setClipboardData = async ({ data, success, fail, complete }) => {
   const handle = new MethodHandler({ name: 'setClipboardData', success, fail, complete })
@@ -63,6 +66,9 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
 
 /**
  * 获取系统剪贴板的内容
+ * 
+ * @canUse getClipboardData
+ * @__success [data]
  */
 export const getClipboardData: typeof Taro.getClipboardData = async ({ success, fail, complete } = {}) => {
   const handle = new MethodHandler<Taro.getClipboardData.SuccessCallbackOption>({

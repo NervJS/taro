@@ -60,7 +60,12 @@ const appHideListener = () => {
   }
 }
 
-// 应用级事件
+/**
+ * 监听未处理的Promise拒绝事件
+ * 
+ * @canUse onUnhandledRejection
+ * @__callback [reason, promise]
+ */
 export const onUnhandledRejection: typeof Taro.onUnhandledRejection = (callback) => {
   unhandledRejectionCallbackManager.add(callback)
   if (unhandledRejectionCallbackManager.count() === 1) {
@@ -68,6 +73,12 @@ export const onUnhandledRejection: typeof Taro.onUnhandledRejection = (callback)
   }
 }
 
+/**
+ * 监听系统主题改变事件
+ * 
+ * @canUse onThemeChange
+ * @__callback [theme[light, dark]]
+ */
 export const onThemeChange: typeof Taro.onThemeChange = (callback) => {
   themeChangeCallbackManager.add(callback)
   if (themeChangeCallbackManager.count() === 1) {
@@ -78,6 +89,12 @@ export const onThemeChange: typeof Taro.onThemeChange = (callback) => {
   }
 }
 
+/**
+ * 监听程序要打开的页面不存在事件
+ * 
+ * @canUse onPageNotFound
+ * @__callback [isEntryPage, path, query]
+ */
 export const onPageNotFound: typeof Taro.onPageNotFound = (callback) => {
   pageNotFoundCallbackManager.add(callback)
   if (pageNotFoundCallbackManager.count() === 1) {
@@ -85,6 +102,11 @@ export const onPageNotFound: typeof Taro.onPageNotFound = (callback) => {
   }
 }
 
+/**
+ * 监听小程序错误事件
+ * 
+ * @canUse onError
+ */
 export const onError: typeof Taro.onError = (callback) => {
   errorCallbackManager.add(callback)
   if (errorCallbackManager.count() === 1) {
@@ -92,9 +114,26 @@ export const onError: typeof Taro.onError = (callback) => {
   }
 }
 
+/**
+ * 监听音频中断结束事件
+ * 
+ * @canNotUse onAudioInterruptionEnd
+ */
 export const onAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionEnd')
+
+/**
+ * 监听音频因为受到系统占用而被中断开始事件
+ * 
+ * @canNotUse onAudioInterruptionBegin
+ */
 export const onAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionBegin')
 
+/**
+ * 监听小程序切前台事件
+ * 
+ * @canUse onAppShow
+ * @__callback [path, query, scene, shareTicket, referrerInfo]
+ */
 export const onAppShow: typeof Taro.onAppShow = (callback) => {
   appShowCallbackManager.add(callback)
   if (appShowCallbackManager.count() === 1) {
@@ -102,6 +141,11 @@ export const onAppShow: typeof Taro.onAppShow = (callback) => {
   }
 }
 
+/**
+ * 监听小程序切后台事件
+ * 
+ * @canUse onAppHide
+ */
 export const onAppHide: typeof Taro.onAppHide = (callback) => {
   appHideCallbackManager.add(callback)
   if (appHideCallbackManager.count() === 1) {
@@ -109,6 +153,11 @@ export const onAppHide: typeof Taro.onAppHide = (callback) => {
   }
 }
 
+/**
+ * 取消监听未处理的 Promise 拒绝事件
+ * 
+ * @canUse offUnhandledRejection
+ */
 export const offUnhandledRejection: typeof Taro.offUnhandledRejection = (callback) => {
   unhandledRejectionCallbackManager.remove(callback)
   if (unhandledRejectionCallbackManager.count() === 0) {
@@ -116,6 +165,11 @@ export const offUnhandledRejection: typeof Taro.offUnhandledRejection = (callbac
   }
 }
 
+/**
+ * 取消监听系统主题改变事件
+ * 
+ * @canUse offThemeChange
+ */
 export const offThemeChange: typeof Taro.offThemeChange = (callback) => {
   themeChangeCallbackManager.remove(callback)
   if (themeChangeCallbackManager.count() === 0) {
@@ -127,6 +181,11 @@ export const offThemeChange: typeof Taro.offThemeChange = (callback) => {
   }
 }
 
+/**
+ * 取消监听小程序要打开的页面不存在事件
+ * 
+ * @canUse offPageNotFound
+ */
 export const offPageNotFound: typeof Taro.offPageNotFound = (callback) => {
   pageNotFoundCallbackManager.remove(callback)
   if (pageNotFoundCallbackManager.count() === 0) {
@@ -134,6 +193,11 @@ export const offPageNotFound: typeof Taro.offPageNotFound = (callback) => {
   }
 }
 
+/**
+ * 取消监听音频播放错误事件
+ * 
+ * @canUse offError
+ */
 export const offError: typeof Taro.offError = (callback) => {
   errorCallbackManager.remove(callback)
   if (errorCallbackManager.count() === 0) {
@@ -141,9 +205,25 @@ export const offError: typeof Taro.offError = (callback) => {
   }
 }
 
+/**
+ * 取消监听音频中断结束事件
+ * 
+ * @canNotUse offAudioInterruptionEnd
+ */
 export const offAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionEnd')
+
+/**
+ * 取消监听音频因为受到系统占用而被中断开始事件
+ * 
+ * @canNotUse offAudioInterruptionBegin
+ */
 export const offAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionBegin')
 
+/**
+ * 取消监听小程序切前台事件
+ * 
+ * @canUse offAppShow
+ */
 export const offAppShow: typeof Taro.offAppShow = (callback) => {
   appShowCallbackManager.remove(callback)
   if (appShowCallbackManager.count() === 0) {
@@ -151,6 +231,11 @@ export const offAppShow: typeof Taro.offAppShow = (callback) => {
   }
 }
 
+/**
+ * 取消监听小程序切后台事件
+ * 
+ * @canUse offAppHide
+ */
 export const offAppHide: typeof Taro.offAppHide = (callback) => {
   appHideCallbackManager.remove(callback)
   if (appHideCallbackManager.count() === 0) {

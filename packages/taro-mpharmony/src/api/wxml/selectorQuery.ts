@@ -179,6 +179,12 @@ function queryBat (queue: ISelectorQueryQueue[], cb: (...args: any[]) => any): v
   cb(result)
 }
 
+/**
+ * 查询节点信息
+ * 
+ * @canUse SelectorQuery
+ * @__class [in, select, selectAll, selectViewport, exec]
+ */
 export class SelectorQuery implements Taro.SelectorQuery {
   _defaultWebviewId: string | null
   _webviewId: string | null

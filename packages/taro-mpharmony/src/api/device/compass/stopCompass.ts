@@ -4,6 +4,8 @@ import { MethodHandler } from 'src/utils/handler'
 
 /**
  * 停止监听罗盘数据
+ * 
+ * @canUse stopCompass
  */
 export const stopCompass: typeof Taro.stopCompass = (options) => {
   const name = 'stopCompass'

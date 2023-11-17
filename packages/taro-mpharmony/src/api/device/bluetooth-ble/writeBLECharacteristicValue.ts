@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 向低功耗蓝牙设备特征值中写入二进制数据
+ * 
+ * @canUse writeBLECharacteristicValue
+ * @__object [characteristicId, deviceId, serviceId, value]
+ */
 export const writeBLECharacteristicValue: typeof Taro.writeBLECharacteristicValue = (options) => {
   const name = 'writeBLECharacteristicValue'
 

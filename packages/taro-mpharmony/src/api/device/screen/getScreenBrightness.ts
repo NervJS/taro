@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取屏幕亮度
+ * 
+ * @canUse getScreenBrightness
+ * @__success [value]
+ */
 export const getScreenBrightness: typeof Taro.getScreenBrightness = (options) => {
   const name = 'getScreenBrightness'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

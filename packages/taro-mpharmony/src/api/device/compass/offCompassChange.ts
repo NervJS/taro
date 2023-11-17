@@ -4,6 +4,8 @@ import { taroCallbackMap } from 'src/utils/callbakMap'
 
 /**
  * 取消监听罗盘数据变化事件，参数为空，则取消所有的事件监听。
+ * 
+ * @canUse offCompassChange
  */
 export const offCompassChange: typeof Taro.offCompassChange = (callback) => {
   const name = 'offCompassChange'

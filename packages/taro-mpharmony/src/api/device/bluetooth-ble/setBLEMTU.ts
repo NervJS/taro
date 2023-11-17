@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 协商设置蓝牙低功耗的最大传输单元
+ * 
+ * @canUse setBLEMTU
+ * @__object [deviceId, mtu]
+ * @__success [mtu]
+ */
 export const setBLEMTU: typeof Taro.setBLEMTU = (options) => {
   const name = 'setBLEMTU'
 

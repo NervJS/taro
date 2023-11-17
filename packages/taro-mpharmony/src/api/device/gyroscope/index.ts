@@ -1,6 +1,10 @@
 import { temporarilyNotSupport } from '../../../utils'
 
-// 陀螺仪
+/**
+ * 取消监听陀螺仪数据变化事件。
+ * 
+ * @canUse offGyroscopeChange
+ */
 export const offGyroscopeChange = /* @__PURE__ */ temporarilyNotSupport('offGyroscopeChange')
 
 export * from './onGyroscopeChange'

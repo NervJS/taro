@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取蓝牙设备某个服务中所有特征值
+ * 
+ * @canUse getBLEDeviceCharacteristics
+ * @__object [deviceId, serviceId]
+ * @__success [characteristics]
+ */
 export const getBLEDeviceCharacteristics: typeof Taro.getBLEDeviceCharacteristics = (options) => {
   const name = 'getBLEDeviceCharacteristics'
 
