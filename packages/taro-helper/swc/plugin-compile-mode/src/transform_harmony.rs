@@ -15,9 +15,9 @@ use swc_core::{
 use std::collections::HashMap;
 use std::rc::Rc;
 use crate::PluginConfig;
-use crate::utils::{self, constants::*};
+use crate::utils::{self, constants::*, harmony::components::*};
 
-struct PreVisitor {
+pub struct PreVisitor {
   is_in_jsx_expr_container: Rc<bool>,
   is_in_and_expr: bool,
 }
@@ -25,7 +25,7 @@ impl PreVisitor {
   fn new () -> Self {
       Self {
           is_in_jsx_expr_container: Rc::new(true),
-          is_in_and_expr: false
+          is_in_and_expr: false,
       }
   }
 }
@@ -133,6 +133,7 @@ pub struct TransformVisitor {
   pub node_stack: Vec<i32>,
   pub templates: HashMap<String, String>,
   pub get_tmpl_name: Box<dyn FnMut() -> String>,
+  pub node_name_vec: Vec<String>,
   pub get_node_name: Box<dyn FnMut() -> String>
 }
 
@@ -150,28 +151,43 @@ impl TransformVisitor {
           node_stack: vec![],
           templates: HashMap::new(),
           get_tmpl_name,
+          node_name_vec: vec![],
           get_node_name
       }
   }
 
-  fn build_xml_element (&mut self, el: &mut JSXElement) -> String {
+  fn build_ets_element (&mut self, el: &mut JSXElement) -> String {
       let opening_element = &mut el.opening;
       match &opening_element.name {
           JSXElementName::Ident(ident) => {
               let name = utils::to_kebab_case(&ident.sym);
+
+              // TODO 先全部都添加
+              // jsx 节点添加动态 id，需要判断是否存在静态节点
+              let mut dynmaic_node_name = String::from("static_node");
+              if !self.check_jsx_is_static(opening_element) {
+                dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
+              }
               match self.config.components.get(&name) {
                   // 内置组件
                   Some(attrs_map) => {
-                      let attrs = self.build_xml_attrs(opening_element, attrs_map);
-                      if attrs.is_none() { return String::new() };
-                      let children = self.build_xml_children(el);
-                      format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
+                    //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
+                    //   if attrs.is_none() { return String::new() };
+                    //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
+                    let children = self.build_ets_children(el);
+                    match name.as_str() {
+                        VIEW_TAG => utils::add_spaces_to_lines(&get_view_component_str(&dynmaic_node_name, &children),  2),
+                        TEXT_TAG => utils::add_spaces_to_lines(&get_text_component_str(&dynmaic_node_name), 2),
+                        IMAGE_TAG => utils::add_spaces_to_lines(&get_image_component_str(&dynmaic_node_name), 2),
+                        _ => String::new()
+                    }
                   },
                   None => {
                       // React 组件
                       // 原生自定义组件
-                      let node_path = self.get_current_node_path();
-                      format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                    //   let node_path = self.get_current_node_path();
+                    //   format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                      String::new()
                   }
               }
           }
@@ -179,234 +195,242 @@ impl TransformVisitor {
       }
   }
 
-  fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> Option<String> {
-      let mut props = HashMap::new();
-      let mut attrs_string = String::new();
-
-      opening_element.attrs.retain_mut(|attr| {
-          if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
-              if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
-                  let jsx_attr_name = name.to_string();
-                  
-                  if jsx_attr_name == "key" {
-                      return true;
-                  }
-
-                  let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
-                  let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
-                  let is_event = event_name.is_some();
-                  match &jsx_attr.value {
-                      Some(jsx_attr_value) => {
-                          match jsx_attr_value {
-                              JSXAttrValue::Lit(Lit::Str(Str { value, ..  })) => {
-                                  // 静态属性在 xml 中保留即可，jsx 中可以删除
-                                  if jsx_attr_name != COMPILE_MODE {
-                                      props.insert(miniapp_attr_name, value.to_string());
-                                      return false
-                                  }
-                              },
-                              JSXAttrValue::JSXExprContainer(..) => {
-                                  let mut node_path = self.get_current_node_path();
-                                  if is_event {
-                                      props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
-                                      if props.get(DATA_SID).is_none() {
-                                          props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
-                                      }
-                                      return true
-                                  }
-
-                                  // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
-                                  let value: &str = attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name);
-                                  // 按当前节点在节点树中的位置换算路径
-                                  node_path.push('.');
-                                  let value = if value.contains(TMPL_DATA_ROOT) {
-                                      value.replace(TMPL_DATA_ROOT, &node_path)
-                                  } else {
-                                      format!("{}{}", node_path, value)
-                                  };
-                                  // 得出最终的模板属性值
-                                  let miniapp_attr_value = format!("{{{{{}}}}}", value);
-
-                                  props.insert(miniapp_attr_name, miniapp_attr_value);
-                              },
-                              _ => ()
-                          }
-                      },
-                      None => {
-                          if
-                              jsx_attr_name == COMPILE_ELSE ||
-                              jsx_attr_name == COMPILE_IGNORE
-                          {
-                              props.insert(miniapp_attr_name, String::from(jsx_attr_name));
-                          } else if jsx_attr_name == COMPILE_FOR {
-                              let current_path = self.get_current_loop_path();
-                              let miniapp_attr_value = format!("{{{{{}}}}}", current_path);
-                              props.insert(miniapp_attr_name, miniapp_attr_value);
-                          } else {
-                              props.insert(miniapp_attr_name, String::from("true"));
-                          }
-                          // 布尔值在 jsx 中也可以删除了
-                          return false
-                      }
-                  }
-              }
-          }
-          return true
-      });
-
-      // 组件包含事件，但没有设置自定义 id 的话，把 id 设为 sid
-      if props.get(DATA_SID).is_some() && props.get(ID).is_none() {
-          props.insert(String::from(ID), props.get(DATA_SID).unwrap().clone());
-      }
-
-      // 生成的 template 需要幂等
-      let mut keys: Vec<&String> = props.keys().collect();
-      keys.sort();
-      for key in keys {
-          let value = props.get(key).unwrap();
-          if value == COMPILE_IGNORE {
-              return None
-          } else if value == COMPILE_ELSE {
-              attrs_string.push_str(&format!(" {}", key));
-          } else {
-              attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
-          }
-      }
-
-      Some(attrs_string)
-  }
-
-  fn build_xml_children (&mut self, el: &mut JSXElement) -> String {
+  fn build_ets_children (&mut self, el: &mut JSXElement) -> String {
       let mut children_string = String::new();
-      let mut retain_child_counter = 0;
 
       el.children
           .iter_mut()
           .for_each(|child| {
-              self.node_stack.push(retain_child_counter);
               match child {
                   JSXElementChild::JSXElement(child_el) => {
-                      let child_string = self.build_xml_element(&mut **child_el);
+                      let child_string = self.build_ets_element(&mut **child_el);
                       children_string.push_str(&child_string);
-
-                      let is_pure = utils::is_static_jsx(child_el);
-                      if is_pure {
-                          let raw: Atom = "To be removed".into();
-                          *child = JSXElementChild::JSXText(JSXText { span, value: raw.clone(), raw });
-                      } else {
-                          retain_child_counter = retain_child_counter + 1;
-                      }
                   },
-                  JSXElementChild::JSXExprContainer(JSXExprContainer {
-                      expr: JSXExpr::Expr(jsx_expr),
-                      ..
-                  }) => {
-                      if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
-                          *jsx_expr = expr.take();
-                      }
-                      match &mut **jsx_expr {
-                          Expr::Cond(CondExpr { cons, alt, ..}) => {
-                              let mut process_condition_expr = |arm: &mut Box<Expr>| {
-                                  match &mut **arm {
-                                      Expr::JSXElement(el) => {
-                                          let child_string = self.build_xml_element(el);
-                                          children_string.push_str(&child_string);
-                                      },
-                                      Expr::Lit(lit) => {
-                                          if let Lit::Str(Str { value, .. }) = lit {
-                                              if &*value == COMPILE_IGNORE {
-                                                  return ();
-                                              }
-                                          }
-                                          let current_path = self.get_current_node_path();
-                                          let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, current_path, COMPILE_IGNORE, current_path);
-                                          children_string.push_str(&str);
-                                      },
-                                      _ => ()
-                                  }
-                              };
-                              process_condition_expr(cons);
-                              process_condition_expr(alt);
-                          },
-                          Expr::Call(CallExpr {
-                              callee: Callee::Expr(callee_expr),
-                              args,
-                              ..
-                          }) => {
-                              // 处理循环
-                              if let Some(return_value) =  utils::extract_jsx_loop(callee_expr, args) {
-                                  self.node_stack.pop();
-                                  self.node_stack.push(LOOP_WRAPPER_ID);
-                                  let child_string = self.build_xml_element(&mut *return_value);
-                                  children_string.push_str(&child_string);
-                              }
-                          },
-                          // TODO 只支持 render 开头的函数调用返回 JSX
-                          // Expr::Call(_)
-                          _ => {
-                              // println!("_ expr: {:?} ", jsx_expr);
-                              let node_path = self.get_current_node_path();
-                              let code = format!("{{{{{}.v}}}}", node_path);
-                              children_string.push_str(&code);
-                          }
-                      }
-                      retain_child_counter = retain_child_counter + 1
-                  },
-                  JSXElementChild::JSXText(jsx_text) => {
-                      let content = utils::jsx_text_to_string(&jsx_text.value);
-                      if !content.is_empty() {
-                          children_string.push_str(&content);
-                      }
-                  },
+                //   JSXElementChild::JSXExprContainer(JSXExprContainer {
+                //       expr: JSXExpr::Expr(jsx_expr),
+                //       ..
+                //   }) => {
+                //       if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
+                //           *jsx_expr = expr.take();
+                //       }
+                //       match &mut **jsx_expr {
+                //           // 处理子元素中的三元表达式
+                //           Expr::Cond(CondExpr { cons, alt, ..}) => {
+                //               let mut process_condition_expr = |arm: &mut Box<Expr>| {
+                //                   match &mut **arm {
+                //                       Expr::JSXElement(el) => {
+                //                           let child_string = self.build_ets_element(el);
+                //                           children_string.push_str(&child_string);
+                //                       },
+                //                       Expr::Lit(lit) => {
+                //                           if let Lit::Str(Str { value, .. }) = lit {
+                //                               if &*value == COMPILE_IGNORE {
+                //                                   return ();
+                //                               }
+                //                           }
+                //                           let current_path = self.get_current_node_path();
+                //                           let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, current_path, COMPILE_IGNORE, current_path);
+                //                           children_string.push_str(&str);
+                //                       },
+                //                       _ => ()
+                //                   }
+                //               };
+                //               process_condition_expr(cons);
+                //               process_condition_expr(alt);
+                //           },
+                //           Expr::Call(CallExpr {
+                //               callee: Callee::Expr(callee_expr),
+                //               args,
+                //               ..
+                //           }) => {
+                //               // 处理循环
+                //               if let Some(return_value) =  utils::extract_jsx_loop(callee_expr, args) {
+                //                   self.node_stack.pop();
+                //                   self.node_stack.push(LOOP_WRAPPER_ID);
+                //                   let child_string = self.build_ets_element(&mut *return_value);
+                //                   children_string.push_str(&child_string);
+                //               }
+                //           },
+                //           // TODO 只支持 render 开头的函数调用返回 JSX
+                //           // Expr::Call(_)
+                //           _ => {
+                //               // println!("_ expr: {:?} ", jsx_expr);
+                //               let node_path = self.get_current_node_path();
+                //               let code = format!("{{{{{}.v}}}}", node_path);
+                //               children_string.push_str(&code);
+                //           }
+                //       }
+                //       retain_child_counter = retain_child_counter + 1
+                //   },
+                //   JSXElementChild::JSXText(jsx_text) => {
+                //       let content = utils::jsx_text_to_string(&jsx_text.value);
+                //       if !content.is_empty() {
+                //           children_string.push_str(&content);
+                //       }
+                //   },
                   _ => ()
               }
               self.node_stack.pop();
           });
 
-      el.children.retain_mut(|item| {
-          // JSX 过滤掉静态文本节点，只在模板中保留
-          match item {
-              JSXElementChild::JSXText(jsx_text) => {
-                  utils::is_empty_jsx_text_line(&jsx_text.value)
-              },
-              _ => true
-          }
-      });
-
       children_string
   }
 
-  fn get_current_node_path (&self) -> String {
-      // return: i.cn[0].cn[0]....
-      self.node_stack
-          .iter()
-          .fold(String::from("i"), |mut acc, item| {
-              if item == &LOOP_WRAPPER_ID {
-                  return String::from("item")
-              }
-              acc.push_str(&format!(".cn[{}]", item));
-              return acc;
-          })
+  fn check_jsx_is_static (&self, opening_element: &mut JSXOpeningElement) -> bool {
+    for attr in opening_element.attrs.iter_mut() {
+        if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+            if let JSXAttrName::Ident(..) = &jsx_attr.name {
+                if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
+                    let jsx_attr_name = name.to_string();
+                    let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
+                    let is_event = event_name.is_some();
+                    if let Some(value) = &jsx_attr.value {
+                        match value {
+                            JSXAttrValue::Lit(..) => (),
+                            JSXAttrValue::JSXExprContainer(JSXExprContainer{ expr, .. }) => {
+                                // jsx_attr 是事件，而且事件的 value 不是一个变量，那么当作静态属性，否则 JSXExprContainer 情况下都当作非静态属性
+                                if is_event {
+                                    if let JSXExpr::Expr(expr) = &expr {
+                                        if let Expr::Ident(..) = &**expr {
+                                            return false
+                                        }
+                                    }
+                                } else {
+                                    return false
+                                }
+                                
+                            },
+                            _ => return false
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return true;
   }
 
-  fn get_current_loop_path (&self) -> String {
-      // return: i.cn[0]...cn
-      self.node_stack
-          .iter()
-          .identify_last()
-          .fold(String::from("i"), |mut acc, (is_last, item)| {
-              let str = if is_last {
-                  String::from(".cn")
-              } else {
-                  if item == &LOOP_WRAPPER_ID {
-                      return String::from("item")
-                  }
-                  format!(".cn[{}]", item)
-              };
-              acc.push_str(&str);
-              return acc;
-          })
-  }
+//   fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> Option<String> {
+//       let mut props = HashMap::new();
+//       let mut attrs_string = String::new();
+
+//       // 在 transform 中使用的是 retain_mut 方法，在 retain_mut 中，如果 return false，就代表该属性不需要保留，在小程序中主要用于剪枝静态属性，鸿蒙这里不需要处理
+//       for attr in opening_element.attrs.iter_mut() {
+//         if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+//             if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
+//                 let jsx_attr_name = name.to_string();
+
+//                 let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
+//                 let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
+//                 let is_event = event_name.is_some();
+//                 match &jsx_attr.value {
+//                     Some(jsx_attr_value) => {
+//                         match jsx_attr_value {
+//                             JSXAttrValue::Lit(Lit::Str(Str { value, ..  })) => {
+//                                 // 静态属性在 xml 中保留即可，jsx 中可以删除
+//                                 if jsx_attr_name != COMPILE_MODE {
+//                                     props.insert(miniapp_attr_name, value.to_string());
+//                                 }
+//                             },
+//                             JSXAttrValue::JSXExprContainer(..) => {
+//                                 let mut node_path = self.get_current_node_path();
+//                                 if is_event {
+//                                     props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
+//                                     if props.get(DATA_SID).is_none() {
+//                                         props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
+//                                     }
+//                                 }
+
+//                                 // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
+//                                 let value: &str = attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name);
+//                                 // 按当前节点在节点树中的位置换算路径
+//                                 node_path.push('.');
+//                                 let value = if value.contains(TMPL_DATA_ROOT) {
+//                                     value.replace(TMPL_DATA_ROOT, &node_path)
+//                                 } else {
+//                                     format!("{}{}", node_path, value)
+//                                 };
+//                                 // 得出最终的模板属性值
+//                                 let miniapp_attr_value = format!("{{{{{}}}}}", value);
+
+//                                 props.insert(miniapp_attr_name, miniapp_attr_value);
+//                             },
+//                             _ => ()
+//                         }
+//                     },
+//                     None => {
+//                         if
+//                             jsx_attr_name == COMPILE_ELSE ||
+//                             jsx_attr_name == COMPILE_IGNORE
+//                         {
+//                             props.insert(miniapp_attr_name, String::from(jsx_attr_name));
+//                         } else if jsx_attr_name == COMPILE_FOR {
+//                             let current_path = self.get_current_loop_path();
+//                             let miniapp_attr_value = format!("{{{{{}}}}}", current_path);
+//                             props.insert(miniapp_attr_name, miniapp_attr_value);
+//                         } else {
+//                             props.insert(miniapp_attr_name, String::from("true"));
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//       }
+
+//       // 组件包含事件，但没有设置自定义 id 的话，把 id 设为 sid
+//       if props.get(DATA_SID).is_some() && props.get(ID).is_none() {
+//           props.insert(String::from(ID), props.get(DATA_SID).unwrap().clone());
+//       }
+
+//       // 生成的 template 需要幂等
+//       let mut keys: Vec<&String> = props.keys().collect();
+//       keys.sort();
+//       for key in keys {
+//           let value = props.get(key).unwrap();
+//           if value == COMPILE_IGNORE {
+//               return None
+//           } else if value == COMPILE_ELSE {
+//               attrs_string.push_str(&format!(" {}", key));
+//           } else {
+//               attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
+//           }
+//       }
+
+//       Some(attrs_string)
+//   }
+
+//   fn get_current_node_path (&self) -> String {
+//       // return: i.cn[0].cn[0]....
+//       self.node_stack
+//           .iter()
+//           .fold(String::from("i"), |mut acc, item| {
+//               if item == &LOOP_WRAPPER_ID {
+//                   return String::from("item")
+//               }
+//               acc.push_str(&format!(".cn[{}]", item));
+//               return acc;
+//           })
+//   }
+
+//   fn get_current_loop_path (&self) -> String {
+//       // return: i.cn[0]...cn
+//       self.node_stack
+//           .iter()
+//           .identify_last()
+//           .fold(String::from("i"), |mut acc, (is_last, item)| {
+//               let str = if is_last {
+//                   String::from(".cn")
+//               } else {
+//                   if item == &LOOP_WRAPPER_ID {
+//                       return String::from("item")
+//                   }
+//                   format!(".cn[{}]", item)
+//               };
+//               acc.push_str(&str);
+//               return acc;
+//           })
+//   }
 }
 
 impl VisitMut for TransformVisitor {
@@ -434,25 +458,38 @@ impl VisitMut for TransformVisitor {
       }
       if self.is_compile_mode {
           el.visit_mut_children_with(&mut PreVisitor::new());
+
+          let tmpl_build_contents = format!("build() {{\n{content}}}", content = self.build_ets_element(el));
+          let tmpl_node_declare_contents = self.node_name_vec.iter().fold(String::new(), |mut acc, item| {
+              acc.push_str(&format!("@State {}: TaroElement = new TaroIgnoreElement()\n", item));
+              return acc;
+          });
+          let tmpl_main_contents = utils::add_spaces_to_lines(&format!("{}\n{}", tmpl_node_declare_contents, tmpl_build_contents), 2);
           let tmpl_contents = format!("`{}`",
             HARMONY_IMPORTER.to_owned() +
             // TODO: 此处应该收集需要 Extend 的组件，而不是直接写死
             HARMONY_FLEX_STYLE_BIND +
-            format!(r#"
-@Component
-struct TARO_TEMPLATES_{} {{
-{} 
-}}
-export default TARO_TEMPLATES_{}
+            format!(
+r#"@Component
+struct TARO_TEMPLATES_{name} {{
+  nodeInfoMap: any = {{}}
+  dynamicCenter: DynamicCenter
+  @ObjectLink node: TaroElement
+
+  aboutToAppear () {{
+    this.dynamicCenter = new DynamicCenter()
+    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
+  }}
+
+{content}}}
+export default TARO_TEMPLATES_{name}
 "#,
-                &tmpl_name,
-                self.build_xml_element(el),
-                &tmpl_name
+                name = &tmpl_name,
+                content = tmpl_main_contents
             ).as_str());
+
           self.templates.insert(tmpl_name, tmpl_contents);
           self.is_compile_mode = false;
-          // 第一层 jsx 节点添加动态 id
-          utils::create_jsx_dynamic_id(el, self);
       } else {
           el.visit_mut_children_with(self)
       }

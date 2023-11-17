@@ -11,6 +11,10 @@ pub const ID: &str = "id";
 pub const LOOP_WRAPPER_ID: i32 = -1;
 pub const DYNAMIC_ID: &str = "_dynamicID";
 
+pub const VIEW_TAG: &str = "view";
+pub const TEXT_TAG: &str = "text";
+pub const IMAGE_TAG: &str = "image";
+
 pub const HARMONY_IMPORTER: &str = "import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
 import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
@@ -69,7 +73,8 @@ function attrs ({
   .translate(translate)
   .transform(transform)
   .clip(clip)
-}"#;
+}
+"#;
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
 function attrsText ({
   id,
@@ -140,7 +145,8 @@ function getTextAttributes (node: TaroViewElement) {
   transformW3CToHarmonyInStyle(node._st, attrs)
 
   return attrs
-}"#;
+}
+"#;
 pub const HARMONY_IMAGE_STYLE_BIND: &str = r#"@Extend(Image)
 function attrsImage ({
   flexBasis,
@@ -194,4 +200,5 @@ function attrsImage ({
   .transform(transform)
   .clip(clip)
   .objectFit(ImageFit.Contain)
-}"#;
+}
+"#;

@@ -14,6 +14,7 @@ use std::collections::HashMap;
 use self::constants::*;
 use crate::transform_harmony::TransformVisitor;
 
+pub mod harmony;
 pub mod constants;
 
 pub fn named_iter (str: String) -> impl FnMut() -> String {
@@ -61,6 +62,7 @@ pub fn is_empty_jsx_text_line (atom: &Atom) -> bool {
     str.is_empty()
 }
 
+// 将驼峰写法转换为 kebab-case，即 aBcD -> a-bc-d
 pub fn to_kebab_case (val: &str) -> String {
     let mut res = String::new();
     val
@@ -171,8 +173,23 @@ pub fn create_jsx_lit_attr (name: &str, lit: Lit) -> JSXAttrOrSpread {
     })
 }
 
-pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisitor) {
-    el.opening.attrs.push(create_jsx_lit_attr(DYNAMIC_ID,  (visitor.get_node_name)().into()));
+pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisitor) -> String {
+    let node_name = (visitor.get_node_name)();
+    
+    visitor.node_name_vec.push(node_name.clone());
+    el.opening.attrs.push(create_jsx_lit_attr(DYNAMIC_ID, node_name.clone().into()));
+    node_name
+}
+
+pub fn add_spaces_to_lines(input: &str, count: usize) -> String {
+    let mut result = String::new();
+
+    for line in input.lines() {
+        let spaces = " ".repeat(count);
+        result.push_str(&format!("{}{}\n", spaces, line));
+    }
+
+    result
 }
 
 /**

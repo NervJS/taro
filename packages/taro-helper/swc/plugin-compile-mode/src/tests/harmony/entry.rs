@@ -1,49 +1,35 @@
 use swc_core::ecma::transforms::testing::test;
 use super::{tr, get_syntax_config};
-use crate::utils::constants::*;
 
 test!(
   get_syntax_config(),
   |_| tr(),
   should_support_single_compile_mode,
-  "
+  r#"
   function Index () {
     return (
       <View compileMode></View>
     )
   }
-  ",
-  &(
-"const TARO_TEMPLATES_f0t0 = `".to_owned() + HARMONY_IMPORTER + HARMONY_FLEX_STYLE_BIND + r#"
-@Component
-struct TARO_TEMPLATES_f0t0 {
-  nodeInfoMap: any = {}
-  dynamicCenter: DynamicCenter
-  @ObjectLink node: TaroElement
-  
-  aboutToAppear () {
-    this.dynamicCenter = new DynamicCenter()
-    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
-  }
+  "#
+);
 
-  @State node0: TaroElement = new TaroIgnoreElement()
-
-  build() {
-    Flex(FlexManager.flexOptions(this.node0)) {}
-    .attrs(getNormalAttributes(this.node0))
-    .onVisibleAreaChange(getNodeThresholds(this.node0) || [0.0, 1.0], getComponentEventCallback(this.node0, VISIBLE_CHANGE_EVENT_NAME))
-    .onAreaChange(getComponentEventCallback(this.node0, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      this.nodeInfoMap[this.node0._nid].areaInfo = areaResult
-    }))
-  }
-}
-export default TARO_TEMPLATES_f0t0
-`
+test!(
+  get_syntax_config(),
+  |_| tr(),
+  should_support_compile_child_node,
+  r#"
   function Index () {
-    return <View compileMode="f0t0" _dynamicID="node0"></View>
+    return (
+      <View compileMode>
+        <View />
+        <View>
+          <Image />
+        </View>
+      </View>
+    )
   }
-  "#)
+  "#
 );
 
 // test!(
