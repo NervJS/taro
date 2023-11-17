@@ -42,6 +42,7 @@ export function safeExecute (path: string, lifecycle: string, ...args: unknown[]
     return
   }
 
+  lifecycle = lifecycle.replace(/^on(Show|Hide)$/, 'componentDid$1')
   const func = instance[lifecycle]
 
   if (isArray(func)) {
