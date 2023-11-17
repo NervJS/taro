@@ -92,10 +92,13 @@ function renderPage (isTabPage: boolean, enableRefresh = false) {
       TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
     }
   }
-  .onScroll(() => {
+  .onScroll((xOffset, yOffset) => {
     if (!this.page) return
 
-    this.page?.onPageScroll?.call(this)
+    this.page?.onPageScroll?.call(this, {
+      scrollTop: yOffset || 0,
+      scrollLeft: xOffset || 0,
+    })
   })
 }
 .width('100%')
@@ -109,9 +112,9 @@ function renderPage (isTabPage: boolean, enableRefresh = false) {
 .onStateChange((state) => {
   if (state === RefreshStatus.Refresh) {
     ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
+    this.page?.onPullDownRefresh?.call(this)
   } else if (state === RefreshStatus.Done) {
     ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
-    this.page?.onPullDownRefresh?.call(this)
   } else if (state === RefreshStatus.Drag) {
     this.page?.onPullIntercept?.call(this)
   }
@@ -334,7 +337,7 @@ export default { ${
       'this.page ||= []',
       'if (!this.pageList[index]) {',
       '  const pageName = this.tabBarList[index]?.pagePath',
-      '  this.pageList[index] = createPageConfig(component[pageName], pageName)',
+      '  this.pageList[index] = createPageConfig(component[pageName], pageName, config[index])',
       '  this.page = this.pageList[index]',
       '  this.page.onLoad?.call(this, params, (instance) => {',
       '    this.node[index] = instance',
@@ -342,7 +345,7 @@ export default { ${
       '}',
     ], 4)
     : transArr2Str([
-      `this.page = createPageConfig(component, '${(page as VitePageMeta).name}')`,
+      `this.page = createPageConfig(component, '${(page as VitePageMeta).name}', config)`,
       'this.page.onLoad?.call(this, params, (instance) => {',
       '  this.node = instance',
       '})',

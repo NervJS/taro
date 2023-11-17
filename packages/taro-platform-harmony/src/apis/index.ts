@@ -120,10 +120,3 @@ export function getAppInfo () {
 
 export * from './apis'
 export default taro
-
-// @ts-ignore
-export const useDidHide = taro.useDidHide
-// @ts-ignore
-export const useDidShow = taro.useDidShow
-// @ts-ignore
-export const usePageScroll = taro.usePageScroll

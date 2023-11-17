@@ -12,4 +12,5 @@ hooks.tap('initNativeApi', function (taro) {
 
 export * from './app'
 export * from './connect'
+export * from './hooks'
 export * from './page'
