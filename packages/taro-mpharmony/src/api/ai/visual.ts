@@ -15,7 +15,7 @@ export const isVKSupport = /* @__PURE__ */ temporarilyNotSupport('isVKSupport')
 export const createVKSession = /* @__PURE__ */ temporarilyNotSupport('createVKSession')
 
 /**
- * @canNotUse VKAnchor
+ * @canNotUse VKBodyAnchor
  */
 
 /**
@@ -23,7 +23,35 @@ export const createVKSession = /* @__PURE__ */ temporarilyNotSupport('createVKSe
  */
 
 /**
+ * @canNotUse VKDepthAnchor
+ */
+
+/**
+ * @canNotUse VKFaceAnchor
+ */
+
+/**
  * @canNotUse VKFrame
+ */
+
+/**
+ * @canNotUse VKHandAnchor
+ */
+
+/**
+ * @canNotUse VKMarkerAnchor
+ */
+
+/**
+ * @canNotUse VKOCRAnchor
+ */
+
+/**
+ * @canNotUse VKOSDAnchor
+ */
+
+/**
+ * @canNotUse VKPlaneAnchor
  */
 
 /**

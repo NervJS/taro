@@ -22,10 +22,3 @@ export const startFacialRecognitionVerify = /* @__PURE__ */ temporarilyNotSuppor
 export const startFacialRecognitionVerifyAndUploadVideo = /* @__PURE__ */ temporarilyNotSupport(
   'startFacialRecognitionVerifyAndUploadVideo'
 )
-
-/**
- * 支付各个安全场景验证人脸
- * 
- * @canNotUse faceVerifyForPay
- */
-export const faceVerifyForPay = /* @__PURE__ */ temporarilyNotSupport('faceVerifyForPay')

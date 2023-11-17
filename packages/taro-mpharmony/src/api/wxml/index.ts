@@ -30,3 +30,9 @@ export const createIntersectionObserver: typeof Taro.createIntersectionObserver 
 export const createMediaQueryObserver: typeof Taro.createMediaQueryObserver = () => {
   return new MediaQueryObserver()
 }
+
+/**
+ * Snapshot 实例，可通过 SelectorQuery 获取。
+ * 
+ * @canNotUse Snapshot
+ */
