@@ -140,6 +140,8 @@ export class LivePlayer implements ComponentInterface {
   @State() fullScreenTimestamp = new Date().getTime()
   // 全屏状态
   @State() isFullScreen = false
+  // 停止状态
+  @State() isStop = false
 
   @Event({
     eventName: 'onStateChange',
@@ -205,7 +207,6 @@ export class LivePlayer implements ComponentInterface {
         this.maxCache = 3
       } 
       this.minCache = Math.floor((this.minCache * modeType) / 8)
-      this.maxCache = Math.floor((this.maxCache * modeType) / 8)
       this.videoElement = this.el.querySelector('video')
       this.livePlayerRef.addEventListener('volumechange', () => {
         this.onAudioVolumeNotify.emit({})
@@ -216,8 +217,7 @@ export class LivePlayer implements ComponentInterface {
       })
       // 静音属性
       if (this.muted && this.videoElement) {
-        this.videoElement.muted = this.muted
-        this.videoElement.volume = 0
+        this.livePlayerRef.muted = this.muted
       }
       // 画面方向
       if (this.orientation === 'vertical' && this.videoElement) {
@@ -246,16 +246,24 @@ export class LivePlayer implements ComponentInterface {
       } else {
         this.switchToHeadphones()
       }
-      this.videoElement.addEventListener('fullscreenchange', (event) => {
+      this.livePlayerRef.addEventListener('fullscreenchange', (event) => {
         event.stopPropagation()
         const fullScreenTimestamp = new Date().getTime()
         if (fullScreenTimestamp - this.fullScreenTimestamp < 100) {
           return
         }
-        this.onFullScreenChange.emit({
-          fullScreen: this.isFullScreen,
-          direction: 0,
-        })
+        this.isFullScreen =! this.isFullScreen
+        if (this.isFullScreen) {
+          this.onFullScreenChange.emit({
+            fullScreen: this.isFullScreen,
+            direction: 0,
+          })
+        } else {
+          this.onFullScreenChange.emit({
+            fullScreen: this.isFullScreen,
+            direction: 0,
+          })
+        }
       })
     }
   }
@@ -279,9 +287,12 @@ export class LivePlayer implements ComponentInterface {
     const config = {
       type: this.type,
       url: this.src,
+      isLive: true,
       enableStashBuffer: true,
       stashInitialSize: this.minCache,
-      stashBufferSize: this.maxCache,
+      stashInitialTime:0,
+      lazyLoad:true,
+      lazyLoadMaxDuration:this.maxCache,
     }
     this.player = flvjs.createPlayer(config)
     // 创建异常监听
@@ -418,6 +429,7 @@ export class LivePlayer implements ComponentInterface {
       this.player.unload()
       this.player.detachMediaElement()
       this.player.destroy()
+      this.isStop = true
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.ENDED)
       return { errMsg: `stop:ok` }
     } catch (e) {
@@ -428,7 +440,13 @@ export class LivePlayer implements ComponentInterface {
   /** 恢复视频 */
   _resume = () => {
     try {
+      if (!this.isStop) { 
+        this.player.unload()
+        this.player.detachMediaElement()
+        this.player.destroy()
+      }
       this.createPlayers()
+      this.isStop = false
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.ENDED)
       return { errMsg: `resume:ok` }
     } catch (e) {
@@ -484,11 +502,9 @@ export class LivePlayer implements ComponentInterface {
       const context = canvasElement.getContext('2d')
       context?.drawImage(this.livePlayerRef, 0, 0, imgwidth, imgheight)
       try {
-        const dataURL = canvasElement.toDataURL()
-        const Path = this.dataURLtoBlob(dataURL)
-        const tempPath = URL.createObjectURL(Path)
+        const dataURL = canvasElement.toDataURL(`image/${'png'}`, 1)
         const result = {
-          tempImagePath: tempPath,
+          tempImagePath: dataURL,
           width: imgwidth,
           height: imgheight,
         }

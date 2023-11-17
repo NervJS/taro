@@ -172,6 +172,20 @@ export default class Index extends React.Component {
               ...data,
               success: (res) => {
                 TestConsole.consoleSuccess.call(this, res, apiIndex)
+                Taro.saveImageToPhotosAlbum({
+                  filePath: res.tempImagePath,
+                  success: (res) => {
+                    TestConsole.consoleSuccess.call(this, res, apiIndex)
+                  },
+                  fail: (res) => {
+                    TestConsole.consoleFail.call(this, res, apiIndex)
+                  },
+                  complete: (res) => {
+                    TestConsole.consoleComplete.call(this, res, apiIndex)
+                  },
+                }).then((res) => {
+                  TestConsole.consoleResult.call(this, res, apiIndex)
+                })
               },
               fail: (res) => {
                 TestConsole.consoleFail.call(this, res, apiIndex)
@@ -232,6 +246,28 @@ export default class Index extends React.Component {
         func: null,
       },
     ],
+    src: '',
+    srcurl: 'https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-480p.flv',
+    isShow: true,
+  }
+  handleInputChangeSrc = (e) => {
+    this.setState({
+      src: e.target.value,
+    })
+  }
+  handleClickSrc = async () => {
+    let srcurl = this.state.src
+    await this.setState(
+      {
+        srcurl,
+        isShow: false,
+      },
+      () => {
+        this.setState({
+          isShow: true,
+        })
+      }
+    )
   }
   render() {
     const { list } = this.state
@@ -239,14 +275,16 @@ export default class Index extends React.Component {
       //@ts-ignore
       <View className='api-page'>
         <ButtonList buttonList={list} />
+        {this.state.isShow && (
         <LivePlayer
           id='LivePlayer'
-          src='https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-480p.flv'
-          isLive
-          cors
+          src={this.state.srcurl}
           soundMode='ear'
           type='flv'
         ></LivePlayer>
+        )}
+          src: <input type='text' name='username' onChange={this.handleInputChangeSrc} />{' '}
+            <Button onClick={this.handleClickSrc}>确定</Button>
       </View>
     )
   }
