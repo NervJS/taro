@@ -92,12 +92,13 @@ function renderPage (isTabPage: boolean, enableRefresh = false) {
       TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
     }
   }
-  .onScroll((xOffset, yOffset) => {
+  .onScroll(() => {
     if (!this.page) return
 
+    const { xOffset: currentXOffset, yOffset: currentYOffset } = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
     this.page?.onPageScroll?.call(this, {
-      scrollTop: yOffset || 0,
-      scrollLeft: xOffset || 0,
+      scrollTop: currentYOffset || 0,
+      scrollLeft: currentXOffset || 0,
     })
   })
 }
