@@ -1,6 +1,12 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 监听实时地理位置变化事件
+ * 
+ * @canUse onLocationChange
+ * @__callback [accuracy, altitude, horizontalAccuracy, atitude, longitude, speed, verticalAccuracy]
+ */
 export const onLocationChange: typeof Taro.onLocationChange = (callback) => {
   const name = 'onLocationChange'
   // callback must be an Function

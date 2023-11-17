@@ -3,6 +3,12 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
+/**
+ * 获取本机支持的 SOTER 生物认证方式
+ * 
+ * @canUse checkIsSupportSoterAuthentication
+ * @__success [supportMode]
+ */
 export const checkIsSupportSoterAuthentication: typeof Taro.checkIsSupportSoterAuthentication = (options) => {
   const name = 'checkIsSupportSoterAuthentication'
 

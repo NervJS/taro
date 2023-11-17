@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 调用接口获取登录凭证（code）
+ *  
+ * @canUse login
+ * @__object [timeout] 
+ * @__success [code]
+ */
 export const login: typeof Taro.login = (options) => {
   const name = 'login'
 

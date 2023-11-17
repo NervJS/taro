@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 开启小程序进入前后台时均接收位置消息
+ * 
+ * @canUse startLocationUpdateBackground
+ */
 export const startLocationUpdateBackground: typeof Taro.startLocationUpdateBackground = (options) => {
   const name = 'startLocationUpdateBackground'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

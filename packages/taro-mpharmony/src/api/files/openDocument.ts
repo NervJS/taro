@@ -2,7 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
-// null-implementation
+/**
+ * 新开页面打开文档，支持格式
+ * 
+ * @canUse openDocument
+ * @null_implementation
+ */
 export const openDocument: typeof Taro.openDocument = (options) => {
   const name = 'openDocument'
 

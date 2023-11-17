@@ -2,6 +2,13 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 调起客户端小程序设置界面，返回用户设置的操作结果
+ * 
+ * @canUse openSetting
+ * @__object [withSubscriptions]
+ * @__success [authSetting, subscriptionsSetting]
+ */
 export const openSetting: typeof Taro.openSetting = function (options) {
   const name = 'openSetting'
   // options must be an Object

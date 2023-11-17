@@ -3,6 +3,13 @@ import Taro from '@tarojs/api'
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
+/**
+ * 开始 SOTER 生物认证。
+ * 
+ * @canUse startSoterAuthentication
+ * @__object [challenge, requestAuthModes, authContent]
+ * @__success [authMode, errCode, resultJSON, resultJSONSignature]
+ */
 export const startSoterAuthentication: typeof Taro.startSoterAuthentication = (options) => {
   const name = 'startSoterAuthentication'
 
