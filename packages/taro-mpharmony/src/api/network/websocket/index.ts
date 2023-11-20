@@ -5,26 +5,57 @@ import { SocketTask } from './socketTask'
 let socketTasks: SocketTask[] = []
 let socketsCounter = 1
 
+/**
+ * 通过 WebSocket 连接发送数据
+ * 
+ * @canNotUse sendSocketMessage
+ */
 export function sendSocketMessage () {
   console.warn('Deprecated.Please use socketTask.send instead.')
 }
 
+/**
+ * 监听 WebSocket 连接打开事件
+ * 
+ * @canNotUse onSocketOpen
+ */
 export function onSocketOpen () {
   console.warn('Deprecated.Please use socketTask.onOpen instead.')
 }
 
+/**
+ * 监听 WebSocket 接受到服务器的消息事件
+ * 
+ * @canNotUse onSocketMessage
+ */
 export function onSocketMessage () {
   console.warn('Deprecated.Please use socketTask.onMessage instead.')
 }
 
+/**
+ * 监听 WebSocket 错误事件
+ * 
+ * @canNotUse onSocketError
+ */
 export function onSocketError () {
   console.warn('Deprecated.Please use socketTask.onError instead.')
 }
 
+/**
+ * 监听 WebSocket 连接关闭事件
+ * 
+ * @canNotUse onSocketClose
+ */
 export function onSocketClose () {
   console.warn('Deprecated.Please use socketTask.onClose instead.')
 }
 
+/**
+ * 创建一个 WebSocket 连接
+ * 
+ * @canUse connectSocket
+ * @__object [url, header, protocols, tcpNoDelay]
+ */
 export function connectSocket (options?: Taro.connectSocket.Option) {
   const name = 'connectSocket'
 
@@ -92,6 +123,12 @@ export function connectSocket (options?: Taro.connectSocket.Option) {
   })
 }
 
+/**
+ * 关闭 WebSocket 连接
+ * 
+ * @canNotUse closeSocket
+ */
 export function closeSocket () {
   console.warn('Deprecated.Please use socketTask.close instead.')
 }
+

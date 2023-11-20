@@ -1,6 +1,12 @@
 import Taro from '@tarojs/api'
 import { isFunction } from '@tarojs/shared'
 
+/**
+ * WebSocket 任务
+ * 
+ * @canUse SocketTask
+ * @__class [send, close, onOpen, onClose, onError, onMessage]
+ */
 export class SocketTask {
   ws: WebSocket
   CONNECTING: number
