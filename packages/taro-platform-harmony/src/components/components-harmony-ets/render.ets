@@ -6,7 +6,7 @@ import TaroView from './view'
 import TaroLabel from './label'
 import TaroInput from './input'
 import TaroImage from './image'
-import TaroSwiper from './swiper'
+import { TaroSwiper, TaroSwiperItem } from './swiper'
 import TaroButton from './button'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
@@ -44,6 +44,8 @@ function createNode (node: any) {
     TaroInput({ node })
   } else if (node.tagName === 'SWIPER') {
     TaroSwiper({ node })
+  } else if (node.tagName === 'SWIPER-ITEM') {
+    TaroSwiperItem({ node })
   } else if (node.tagName === 'INNER-HTML') {
     TaroInnerHtml({ node })
   } else if (node.tagName === 'RICH-TEXT') {
