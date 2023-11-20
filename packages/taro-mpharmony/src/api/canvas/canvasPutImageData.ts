@@ -7,7 +7,7 @@ import { MethodHandler } from '../../utils/handler'
  * 将像素数据绘制到画布
  * 
  * @canUse canvasPutImageData
- * @__object [canvasld, data, height, width]
+ * @__object [canvasId, data, height, width]
  */
 export const canvasPutImageData: typeof Taro.canvasPutImageData = (
   { canvasId, data, x, y, success, fail, complete },

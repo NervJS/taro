@@ -45,7 +45,7 @@ export function parseApis () {
       const jsonStr = str
         .replace(/\[/g, '{')
         .replace(/\]/g, '}')
-        .replace(/\b(\w+)\b/g, '"$1":')
+        .replace(/\b([\w.]+)\b/g, '"$1":')
         .replace(/(:)(?=[^{])/g, '$1true')
       try {
         propObj = JSON.parse(jsonStr)

@@ -19,7 +19,7 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
  * @__class 
  * [arc, arcTo, beginPath, bezierCurveTo, clearRect, clip, closePath, createCircularGradient, createLinearGradient, createPattern,\
  * draw, drawImage, fill, fillRect, fillText, lineTo, measureText, moveTo, quadraticCurveTo, rect,\
- * reset, restore, rotate, save, scale, setFillStyle, setFontSize, setGlobalAlpha, setLineCap, setLineDash,\
+ * restore, rotate, save, scale, setFillStyle, setFontSize, setGlobalAlpha, setLineCap, setLineDash,\
  * setLineJoin, setLineWidth, setMiterLimit, setShadow, setStrokeStyle, setTextAlign, setTextBaseline, setTransform, stroke, strokeRect,\
  * strokeText, transform, translate]
  */

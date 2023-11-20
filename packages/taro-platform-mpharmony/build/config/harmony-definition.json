@@ -39,7 +39,20 @@
       "seek": true,
       "setSrc": true
     },
-    "AuthSetting": true,
+    "AuthSetting": {
+      "scope": {
+        "userInfo": true,
+        "userLocation": true,
+        "address": true,
+        "invoiceTitle": true,
+        "invoice": true,
+        "werun": true,
+        "record": true,
+        "writePhotosAlbum": true,
+        "camera": true,
+        "bluetoothBackground": true
+      }
+    },
     "BLEPeripheralServer": false,
     "BackgroundAudioManager": {
       "play": true,
@@ -94,7 +107,6 @@
       "moveTo": true,
       "quadraticCurveTo": true,
       "rect": true,
-      "reset": true,
       "restore": true,
       "rotate": true,
       "save": true,
@@ -279,7 +291,7 @@
       "arrayBuffer": true
     },
     "RealtimeLogManager": true,
-    "RealtimeTagLogManager": false,
+    "RealtimeTagLogManager": true,
     "RecorderManager": {
       "onError": true,
       "onFrameRecorded": true,
@@ -298,9 +310,7 @@
     "RequestTask": {
       "abort": true,
       "onHeadersReceived": true,
-      "offHeadersReceived": true,
-      "onChunkReceived": true,
-      "offChunkReceived": true
+      "offHeadersReceived": true
     },
     "RewardedVideoAd": false,
     "ScrollView": {
@@ -341,20 +351,7 @@
     "UserCryptoManager": false,
     "UserInfo": {
       "nickName": true,
-      "avatarUrl": true,
-      "gender": {
-        "0": true,
-        "1": true,
-        "2": true
-      },
-      "country": true,
-      "province": true,
-      "city": true,
-      "language": {
-        "en": true,
-        "zh_CN": true,
-        "zh_TW": true
-      }
+      "avatarUrl": true
     },
     "VKBodyAnchor": false,
     "VKCamera": false,
@@ -460,7 +457,7 @@
     "canIUseWebp": true,
     "canvasGetImageData": {
       "object": {
-        "canvasld": true,
+        "canvasId": true,
         "data": true,
         "height": true,
         "width": true
@@ -473,7 +470,7 @@
     },
     "canvasPutImageData": {
       "object": {
-        "canvasld": true,
+        "canvasId": true,
         "data": true,
         "height": true,
         "width": true
@@ -482,7 +479,7 @@
     "canvasToTempFilePath": {
       "object": {
         "canvas": true,
-        "canvasld": true,
+        "canvasId": true,
         "quality": true,
         "destHeight": true,
         "destWidth": true,
@@ -1175,11 +1172,6 @@
         "withCredentials": true
       },
       "success": {
-        "cloudID": true,
-        "encryptedData": true,
-        "iv": true,
-        "rawData": true,
-        "signature": true,
         "userInfo": true
       }
     },
@@ -1283,13 +1275,7 @@
       "object": {
         "appId": true,
         "path": true,
-        "extraData": true,
-        "envVersion": {
-          "develop": true,
-          "trial": true,
-          "release": true
-        },
-        "shortLink": true
+        "extraData": true
       }
     },
     "nextTick": true,

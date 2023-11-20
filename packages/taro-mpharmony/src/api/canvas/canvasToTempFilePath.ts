@@ -14,7 +14,7 @@ const DY = 0 // imageResource的左上角在目标 canvas 上 y 轴的位置
  * 把当前画布指定区域的内容导出生成指定大小的图片
  * 
  * @canUse canvasToTempFilePath
- * @__object [canvas, canvasld, quality, destHeight, destWidth, fileType[jpg, png], height, width, x, y]
+ * @__object [canvas, canvasId, quality, destHeight, destWidth, fileType[jpg, png], height, width, x, y]
  * @__success [tempFilePath]
 */
 export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, inst) => {

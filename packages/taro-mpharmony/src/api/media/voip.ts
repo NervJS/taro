@@ -99,6 +99,14 @@ export const offVoIPChatInterrupted = /* @__PURE__ */ temporarilyNotSupport('off
 export const joinVoIPChat = /* @__PURE__ */ temporarilyNotSupport('joinVoIPChat')
 
 /**
+ * 加入（创建）双人通话
+ * 
+ * @canNotUse join1v1Chat
+ */
+
+export const join1v1Chat = /* @__PURE__ */ temporarilyNotSupport('join1v1Chat')
+
+/**
  * 退出（销毁）实时语音通话
  * 
  * @canNotUse exitVoIPChat
