@@ -127,118 +127,104 @@ impl VisitMut for PreVisitor {
     }
 }
 
-struct TempString {
-    pub dynamic_node_name: String,
-    pub children: String
-}
-
 pub struct TransformVisitor {
     pub config: PluginConfig,
     pub is_compile_mode: bool,
-    pub node_stack: Rc<RefCell<HashMap<String, Vec<i32>>>>,
-    pub node_name: Rc<RefCell<Vec<String>>>,
+    pub node_stack: HashMap<String, Vec<i32>>,
+    pub node_name: Vec<String>,
     pub templates: HashMap<String, String>,
     pub get_tmpl_name: Box<dyn FnMut() -> String>,
-    pub node_name_vec: Rc<RefCell<Vec<String>>>,
-    pub get_node_name: Rc<RefCell<utils::NodeNameIter>>
+    pub node_name_vec: Vec<String>,
+    pub get_node_name: Box<dyn FnMut() -> String>
 }
 
 impl TransformVisitor {
     pub fn new (config: PluginConfig) -> Self {
-        let get_node_name = Rc::new(RefCell::new(utils::NodeNameIter::new(String::from("node"))));
-        let get_tmpl_name = Box::new(utils::named_iter(format!("{}t", config.tmpl_prefix)));
-        
+        let get_tmpl_name = Box::new(utils::named_iter(
+            format!("{}t", config.tmpl_prefix)
+        ));
+        let get_node_name = Box::new(utils::named_iter(
+        String::from("node"))
+        );
         Self {
             config,
             is_compile_mode: false,
-            node_name: Rc::new(RefCell::new(vec![])),
-            node_stack: Rc::new(RefCell::new(HashMap::new())),
+            node_name: vec![],
+            node_stack: HashMap::new(),
             templates: HashMap::new(),
             get_tmpl_name,
-            node_name_vec: Rc::new(RefCell::new(vec![])),
+            node_name_vec: vec![],
             get_node_name
         }
     }
 
-    fn build_ets_element (&self, el: &mut JSXElement) -> TempString {
+    fn build_ets_element (&mut self, el: &mut JSXElement) -> String {
         let opening_element = &mut el.opening;
-        let mut dynmaic_node_name = String::new();
-        match &opening_element.name {
+
+        let child_string = match &opening_element.name {
             JSXElementName::Ident(ident) => {
                 let name = utils::to_kebab_case(&ident.sym);
 
                 // TODO 先全部都添加
                 // jsx 节点添加动态 id，需要判断是否存在静态节点
+                let dynmaic_node_name: String;
+
                 // 如果是半编译状态下碰到的第一个 jsx，或者 jsx 含有动态属性，则创建新的 node_name
-                if !self.check_jsx_is_static(opening_element) || self.node_stack.borrow().is_empty() {
+                if !self.check_jsx_is_static(opening_element) || self.node_stack.is_empty() {
                     dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
-                    // self.node_name.borrow_mut().push(dynmaic_node_name.clone());
+                    self.node_name.push(dynmaic_node_name.clone());
                 } else {
-                    dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
-                    // self.node_name.borrow_mut().push(dynmaic_node_name.clone());
+                    dynmaic_node_name = String::from("static_node");
                 }
 
                 match self.config.components.get(&name) {
                     // 内置组件
                     Some(attrs_map) => {
-                        //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
-                        //   if attrs.is_none() { return String::new() };
-                        //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
-                        let children = self.build_ets_children(el);
-                        match name.as_str() {
-                            VIEW_TAG => TempString { dynamic_node_name: dynmaic_node_name.clone(), children: utils::add_spaces_to_lines(&get_view_component_str(&dynmaic_node_name, &children)) },
-                            TEXT_TAG => TempString { dynamic_node_name: dynmaic_node_name.clone(), children: utils::add_spaces_to_lines(&get_text_component_str(&dynmaic_node_name)) },
-                            IMAGE_TAG => TempString { dynamic_node_name: dynmaic_node_name.clone(), children: utils::add_spaces_to_lines(&get_image_component_str(&dynmaic_node_name)) },
-                            _ => TempString { dynamic_node_name: dynmaic_node_name.clone(), children: String::default() }
-                        }
+                    //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
+                    //   if attrs.is_none() { return String::new() };
+                    //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
+                    let children = self.build_ets_children(el);
+                    match name.as_str() {
+                        VIEW_TAG => utils::add_spaces_to_lines(&get_view_component_str(&dynmaic_node_name, &children)),
+                        TEXT_TAG => utils::add_spaces_to_lines(&get_text_component_str(&dynmaic_node_name)),
+                        IMAGE_TAG => utils::add_spaces_to_lines(&get_image_component_str(&dynmaic_node_name)),
+                        _ => String::new()
+                    }
                     },
                     None => {
                         // React 组件
                         // 原生自定义组件
                     //   let node_path = self.get_current_node_path();
                     //   format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
-                        TempString { dynamic_node_name: dynmaic_node_name.clone(), children: String::default() }
+                        String::new()
                     }
                 }
             }
-            _ => TempString { dynamic_node_name: dynmaic_node_name.clone(), children: String::default() }
-        }
-    }
-
-    fn build_ets_children (&self, el: &mut JSXElement) -> String {
-        let mut children_string = String::new();
-        let mut retain_child_counter = 0;
-        let mut current_node_stack;
-        let node_name = self.node_name.borrow();
-        let node_stack = self.node_stack.borrow();
-        let xx = &String::from("");
-        let current_node_name = node_name.last().unwrap_or(xx);
-        current_node_stack = if let Some(stack) = node_stack.get(current_node_name) {
-            stack.clone()
-        } else {
-            vec![]
+            _ => String::new()
         };
 
+        child_string
+    }
+
+    fn build_ets_children (&mut self, el: &mut JSXElement) -> String {
+        let mut children_string = String::new();
+        let mut retain_child_counter = 0;
+
         // 迭代 el.children
-        for child in el.children.iter_mut() {
-            current_node_stack.push(retain_child_counter);
+        el.children.iter_mut().for_each(|child| {
+            self.node_stack.entry(self.node_name.last().unwrap().clone()).or_insert(vec![]).push(retain_child_counter);
+
             match child {
                 JSXElementChild::JSXElement(child_el) => {
-                    let temp_string = self.build_ets_element(&mut **child_el);
-                    if !temp_string.dynamic_node_name.is_empty() {
-                        self.node_name.borrow_mut().push(temp_string.dynamic_node_name.clone());
-                    }
-                    children_string.push_str(&temp_string.children);
+                    let child_string = self.build_ets_element(&mut **child_el);
+                    children_string.push_str(&child_string);
                     retain_child_counter += 1;
                 }
                 _ => (),
             }
-            // 弹出元素
-            current_node_stack.pop();
-        }
-        {
-            self.node_stack.borrow_mut().insert(current_node_name.clone(), current_node_stack);
-        }
+            
+            self.node_stack.entry(self.node_name.last().unwrap().clone()).or_insert(vec![]).pop();
+        });
 
         children_string
     }
@@ -425,12 +411,9 @@ impl VisitMut for TransformVisitor {
       }
       if self.is_compile_mode {
           el.visit_mut_children_with(&mut PreVisitor::new());
-          let temp_string = self.build_ets_element(el);
-          if !temp_string.dynamic_node_name.is_empty() {
-            self.node_name_vec.borrow_mut().push(temp_string.dynamic_node_name.clone());
-          }
-          let tmpl_build_contents = format!("build() {{\n{content}}}", content = temp_string.children);
-          let tmpl_node_declare_contents = self.node_name_vec.borrow().iter().fold(String::new(), |mut acc, item| {
+
+          let tmpl_build_contents = format!("build() {{\n{content}}}", content = self.build_ets_element(el));
+          let tmpl_node_declare_contents = self.node_name_vec.iter().fold(String::new(), |mut acc, item| {
               acc.push_str(&format!("@State {}: TaroElement = new TaroIgnoreElement()\n", item));
               return acc;
           });

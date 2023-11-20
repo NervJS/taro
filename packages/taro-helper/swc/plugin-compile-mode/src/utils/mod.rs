@@ -17,25 +17,6 @@ use crate::transform_harmony::TransformVisitor;
 pub mod harmony;
 pub mod constants;
 
-pub struct NodeNameIter {
-    count: i32,
-    prefix: String
-}
-
-impl NodeNameIter {
-    pub fn new (prefix: String) -> Self {
-        Self {
-            count: -1,
-            prefix
-        }
-    }
-
-    pub fn next (&mut self) -> String {
-        self.count += 1;
-        format!("{}{}", self.prefix, self.count)
-    }
-}
-
 pub fn named_iter (str: String) -> impl FnMut() -> String {
     let mut count = -1;
     return move || {
@@ -192,10 +173,10 @@ pub fn create_jsx_lit_attr (name: &str, lit: Lit) -> JSXAttrOrSpread {
     })
 }
 
-pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &TransformVisitor) -> String {
-    let node_name = visitor.get_node_name.borrow_mut().next();
+pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisitor) -> String {
+    let node_name = (visitor.get_node_name)();
     
-    visitor.node_name_vec.borrow_mut().push(node_name.clone());
+    visitor.node_name_vec.push(node_name.clone());
     el.opening.attrs.push(create_jsx_lit_attr(DYNAMIC_ID, node_name.clone().into()));
     node_name
 }
