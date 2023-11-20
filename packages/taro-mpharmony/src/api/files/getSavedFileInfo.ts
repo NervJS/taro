@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取本地文件的文件信息
+ * 
+ * @canUse getSavedFileInfo
+ * @__object [filePath]
+ * @__success [createTime, size]
+ */
 export const getSavedFileInfo: typeof Taro.getSavedFileInfo = (options) => {
   const name = 'getSavedFileInfo'
 

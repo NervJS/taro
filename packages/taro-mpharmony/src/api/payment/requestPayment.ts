@@ -1,6 +1,11 @@
 import Taro from '@tarojs/taro'
 
-// null-implementation
+/**
+ * 发送微信支付
+ * 
+ * @canUse requestPayment
+ * @null_implementation
+ */
 export const requestPayment: typeof Taro.requestPayment = function (option) {
   const name = 'requestPayment'
   return new Promise<TaroGeneral.CallbackResult>(() => {

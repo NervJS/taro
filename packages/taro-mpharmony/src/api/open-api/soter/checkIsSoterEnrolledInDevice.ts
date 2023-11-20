@@ -3,6 +3,13 @@ import Taro from '@tarojs/api'
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
 
+/**
+ * 获取设备内是否录入如指纹等生物信息的接口
+ * 
+ * @canUse checkIsSoterEnrolledInDevice
+ * @__object [checkAuthMode]
+ * @__success [isEnrolled, errMsg]
+ */
 export const checkIsSoterEnrolledInDevice: typeof Taro.checkIsSoterEnrolledInDevice = (options) => {
   const name = 'checkIsSoterEnrolledInDevice'
 

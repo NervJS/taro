@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 保存文件到本地
+ * 
+ * @canUse saveFile
+ * @__object [tempFilePath, filePath]
+ * @__success [savedFilePath]
+ */
 export const saveFile: typeof Taro.saveFile = (options) => {
   const name = 'saveFile'
 

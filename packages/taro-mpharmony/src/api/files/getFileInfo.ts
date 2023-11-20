@@ -2,6 +2,13 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 关闭监听实时位置变化，前后台都停止消息接收
+ * 
+ * @canUse getFileInfo
+ * @__object [filePath, digestAlgorithm]
+ * @__success [size, digest]
+ */
 export const getFileInfo: typeof Taro.getFileInfo = (options) => {
   const name = 'getFileInfo'
 

@@ -12,6 +12,17 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
   normal: 'alphabetic',
 }
 
+/**
+ * canvas 组件的绘图上下文
+ * 
+ * @canUse CanvasContext
+ * @__class 
+ * [arc, arcTo, beginPath, bezierCurveTo, clearRect, clip, closePath, createCircularGradient, createLinearGradient, createPattern,\
+ * draw, drawImage, fill, fillRect, fillText, lineTo, measureText, moveTo, quadraticCurveTo, rect,\
+ * reset, restore, rotate, save, scale, setFillStyle, setFontSize, setGlobalAlpha, setLineCap, setLineDash,\
+ * setLineJoin, setLineWidth, setMiterLimit, setShadow, setStrokeStyle, setTextAlign, setTextBaseline, setTransform, stroke, strokeRect,\
+ * strokeText, transform, translate]
+ */
 export class CanvasContext implements Taro.CanvasContext {
   __raw__: CanvasRenderingContext2D
   actions: IAction[] = []

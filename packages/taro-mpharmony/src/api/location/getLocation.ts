@@ -5,6 +5,14 @@ import { wgs84Togcj02 } from 'src/utils/coordinateConvert'
 import { MethodHandler } from '../../utils/handler'
 
 const HIGH_ACCURACY_TIMEOUT = 10000
+
+/**
+ * 获取当前的地理位置、速度
+ * 
+ * @canUse getLocation
+ * @__object [altitude, highAccuracyExpireTime, isHighAccuracy, type]
+ * @__success [accuracy, altitude, horizontalAccuracy, latitude, longitude, speed, verticalAccuracy]
+ */
 export const getLocation: typeof Taro.getLocation = (options) => {
   const name = 'getLocation'
   // options must be an Object
