@@ -3,6 +3,18 @@ use std::collections::HashMap;
 use napi_derive::napi;
 use once_cell::sync::Lazy;
 use serde::Serialize;
+use handlebars::{handlebars_helper, Handlebars, JsonRender};
+use handlebars_misc_helpers::{new_hbs, register};
+
+handlebars_helper!(includes: |{ s: str = "" }, *args| args.iter().map(|a| a.render()).any(|arg| arg == s));
+// handlebars_helper!(eq: |x: str, y: str| x == y);
+
+pub static HANDLEBARS: Lazy<Handlebars<'static>> = Lazy::new(|| {
+  let mut hbs = new_hbs();
+  register(&mut hbs);
+  hbs.register_helper("includes", Box::new(includes));
+  hbs
+});
 
 pub static STYLE_EXT_MAP: Lazy<HashMap<&CSSType, &str>> = Lazy::new(|| {
   let mut map = HashMap::new();
