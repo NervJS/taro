@@ -73,6 +73,13 @@ export const offVoIPChatStateChanged = /* @__PURE__ */ temporarilyNotSupport('of
 /**
  * 取消监听实时语音通话成员通话状态变化事件
  * 
+ * @canNotUse offVoIPChatSpeakersChanged
+ */
+export const offVoIPChatSpeakersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatSpeakersChanged')
+
+/**
+ * 取消监听实时语音通话成员在线状态变化事件
+ * 
  * @canNotUse offVoIPChatMembersChanged
  */
 export const offVoIPChatMembersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatMembersChanged')
@@ -90,6 +97,14 @@ export const offVoIPChatInterrupted = /* @__PURE__ */ temporarilyNotSupport('off
  * @canNotUse joinVoIPChat
  */
 export const joinVoIPChat = /* @__PURE__ */ temporarilyNotSupport('joinVoIPChat')
+
+/**
+ * 加入（创建）双人通话
+ * 
+ * @canNotUse join1v1Chat
+ */
+
+export const join1v1Chat = /* @__PURE__ */ temporarilyNotSupport('join1v1Chat')
 
 /**
  * 退出（销毁）实时语音通话

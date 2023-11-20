@@ -13,14 +13,6 @@ export const createLivePusherContext = /* @__PURE__ */ temporarilyNotSupport('cr
  * @canNotUse LivePusherContext 
  */
 
-/**
- * 加入（创建）双人通话
- * 
- * @canNotUse join1v1Chat
- */
-
-export const join1v1Chat = /* @__PURE__ */ temporarilyNotSupport('join1v1Chat')
-
 export * from './audio'
 export * from './background-audio'
 export * from './camera'

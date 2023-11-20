@@ -7,7 +7,7 @@ import { MethodHandler } from 'src/utils/handler'
  * 
  * @canUse getUserInfo
  * @__object [lang, withCredentials]
- * @__success [cloudID, encryptedData, iv, rawData, signature, userInfo]
+ * @__success [userInfo]
  */
 export const getUserInfo: typeof Taro.getUserInfo = (options) => {
   const name = 'getUserInfo'
@@ -42,5 +42,5 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
  * 用户信息
  * 
  * @canUse UserInfo
- * @__class [nickName, avatarUrl, gender[0, 1, 2], country, province, city, language[en, zh_CN, zh_TW]]
+ * @__class [nickName, avatarUrl]
  */

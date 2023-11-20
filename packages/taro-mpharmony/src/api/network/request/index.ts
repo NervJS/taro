@@ -82,7 +82,7 @@ export function request (options) {
  * 网络请求任务对象
  * 
  * @canUse RequestTask
- * @__class [abort, onHeadersReceived, offHeadersReceived, onChunkReceived, offChunkReceived]
+ * @__class [abort, onHeadersReceived, offHeadersReceived]
  */
 
 /**

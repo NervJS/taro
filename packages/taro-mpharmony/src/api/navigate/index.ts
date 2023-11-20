@@ -36,7 +36,7 @@ export const openBusinessView = /* @__PURE__ */ temporarilyNotSupport('openBusin
 * 打开另一个小程序
 * 
 * @canUse navigateToMiniProgram
-* @__object [appId, path, extraData, envVersion[develop, trial, release], shortLink]
+* @__object [appId, path, extraData]
 */
 export const navigateToMiniProgram: typeof Taro.navigateToMiniProgram = (options) => {
   const apiName = 'navigateToMiniProgram'

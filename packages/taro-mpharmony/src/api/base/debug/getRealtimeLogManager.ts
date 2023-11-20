@@ -50,7 +50,7 @@ class RealtimeLogManager implements Taro.RealtimeLogManager {
 /**
  * 给定标签的实时日志管理器
  * 
- * @canNotUse RealtimeTagLogManager
+ * @canUse RealtimeTagLogManager
  * @null_implementation
  */
 class RealtimeTagLogManager implements Taro.RealtimeTagLogManager {
