@@ -1,6 +1,13 @@
 import { isFunction } from '@tarojs/shared'
 import { getParameterError, shouldBeObject } from 'src/utils'
 
+/**
+ * 将本地资源上传到服务器
+ * 
+ * @canUse uploadFile
+ * @__object [url, filePath, name, header, formData, timeout, fileName, withCredentials]
+ * @__success [data, statusCode, header, cookies]
+ */
 export const uploadFile = (options) => {
   const apiName = 'uploadFile'
 
@@ -46,6 +53,13 @@ export const uploadFile = (options) => {
       isFunction(complete) && complete(res)
     },
   })
+
+  /**
+   * 一个可以监听上传进度变化事件，以及取消上传任务的对象
+   * 
+   * @canUse UploadTask
+   * @__class [abort, onProgressUpdate, offProgressUpdate, onHeadersReceived, offHeadersReceived]
+   */
   const promise = Promise.resolve(task)
   const taskMethods = ['abort', 'onHeadersReceived', 'offHeadersReceived', 'onProgressUpdate', 'offProgressUpdate']
   task &&
@@ -56,3 +70,4 @@ export const uploadFile = (options) => {
     })
   return promise
 }
+

@@ -1,6 +1,14 @@
 import { isFunction } from '@tarojs/shared'
 import { getParameterError, shouldBeObject } from 'src/utils'
 
+/**
+ * 下载文件资源到本地
+ * 
+ * @canUse downloadFile
+ * @__object [url, filePath, header, timeout, withCredentials]
+ * @__success [filePath, statusCode, tempFilePath, header, dataLength, cookies, profile]
+ */
+
 export const downloadFile = (options) => {
   const name = 'downloadFile'
 
@@ -37,6 +45,13 @@ export const downloadFile = (options) => {
       isFunction(complete) && complete(res)
     },
   })
+
+  /**
+   * 一个可以监听下载进度变化事件，以及取消下载任务的对象
+   * 
+   * @canUse DownloadTask
+   * @__class [abort, onProgressUpdate, offProgressUpdate, onHeadersReceived, offHeadersReceived]
+   */
   const promise = Promise.resolve(task)
   const taskMethods = ['abort', 'onHeadersReceived', 'offHeadersReceived', 'onProgressUpdate', 'offProgressUpdate']
   task &&
