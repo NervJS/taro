@@ -368,7 +368,7 @@ const enableAlertBeforeUnload = () => {}
 /**
  * 关闭小程序页面返回询问对话框
  * 
- * @canUse enableAlertBeforeUnload
+ * @canUse disableAlertBeforeUnload
  * @null_implementation 
  */
 const disableAlertBeforeUnload = () => {}

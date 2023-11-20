@@ -73,6 +73,13 @@ export const offVoIPChatStateChanged = /* @__PURE__ */ temporarilyNotSupport('of
 /**
  * 取消监听实时语音通话成员通话状态变化事件
  * 
+ * @canNotUse offVoIPChatSpeakersChanged
+ */
+export const offVoIPChatSpeakersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatSpeakersChanged')
+
+/**
+ * 取消监听实时语音通话成员在线状态变化事件
+ * 
  * @canNotUse offVoIPChatMembersChanged
  */
 export const offVoIPChatMembersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatMembersChanged')
