@@ -1,6 +1,5 @@
 import { temporarilyNotSupport } from '../../utils/index'
 
-// 位置
 export * from './chooseLocation'
 export * from './getFuzzyLocation'
 export * from './getLocation'
@@ -13,4 +12,9 @@ export * from './startLocationUpdate'
 export * from './startLocationUpdateBackground'
 export * from './stopLocationUpdate'
 
+/**
+ * 打开POI列表选择位置
+ * 
+ * @canNotUse choosePoi
+ */
 export const choosePoi = /* @__PURE__ */ temporarilyNotSupport('choosePoi')

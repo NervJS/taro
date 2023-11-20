@@ -5,6 +5,10 @@ import { MethodHandler } from '../../utils/handler'
 
 /**
  * 获取 canvas 区域隐含的像素数据。
+ * 
+ * @canUse canvasGetImageData
+ * @__object [canvasld, data, height, width]
+ * @__success [data, height, width]
  */
 export const canvasGetImageData: typeof Taro.canvasGetImageData = (
   { canvasId, success, fail, complete, x, y, width, height },

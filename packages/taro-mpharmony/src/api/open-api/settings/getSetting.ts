@@ -2,6 +2,13 @@ import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 获取用户的当前设置
+ * 
+ * @canUse getSetting
+ * @__object [withSubscriptions]
+ * @__success [authSetting, subscriptionsSetting, miniprogramAuthSetting]
+ */
 export const getSetting: typeof Taro.getSetting = function (options) {
   const name = 'getSetting'
 

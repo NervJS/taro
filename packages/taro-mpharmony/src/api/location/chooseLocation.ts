@@ -70,6 +70,10 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
 
 /**
  * 打开地图选择位置。
+ * 
+ * @canUse chooseLocation
+ * @__object [mapOpts]
+ * @__success [address, latitude, longitude, name]
  */
 export const chooseLocation: typeof Taro.chooseLocation = ({ success, fail, complete, mapOpts } = {}) => {
   const handle = new MethodHandler({ name: 'chooseLocation', success, fail, complete })

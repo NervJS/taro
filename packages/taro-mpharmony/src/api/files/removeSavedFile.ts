@@ -2,6 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 新开页面打开文档，支持格式
+ * 
+ * @canUse removeSavedFile
+ * @__object [filePath]
+ */
 export const removeSavedFile: typeof Taro.removeSavedFile = (options) => {
   const name = 'removeSavedFile'
 

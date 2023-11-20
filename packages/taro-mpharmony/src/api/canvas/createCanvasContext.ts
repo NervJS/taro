@@ -5,6 +5,9 @@ import { CanvasContext } from './CanvasContext'
 
 /**
  * 创建 canvas 的绘图上下文 CanvasContext 对象
+ * 
+ * @canUse createCanvasContext
+ * @__object [canvasId, inst]
  */
 export const createCanvasContext: typeof Taro.createCanvasContext = (canvasId, inst) => {
   const el = findDOM(inst) as HTMLElement

@@ -48,7 +48,10 @@ function createContainer (options: Taro.openLocation.Option) {
 }
 
 /**
- * 打开位置。
+ * 使用微信内置地图查看位置(暂不支持scale入参)
+ * 
+ * @canUse openLocation
+ * @__object [latitude, longitude, address, name]
  */
 export const openLocation: typeof Taro.openLocation = (options) => {
   const name = 'openLocation'

@@ -2,7 +2,12 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
-// null-implementation
+/**
+ * 拉取 backgroundFetch 客户端缓存数据
+ * 
+ * @canUse setBackgroundFetchToken
+ * @null_implementation
+ */
 export const setBackgroundFetchToken: typeof Taro.setBackgroundFetchToken = function (options) {
   const name = 'setBackgroundFetchToken'
 

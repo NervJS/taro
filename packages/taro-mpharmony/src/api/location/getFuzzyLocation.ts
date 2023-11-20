@@ -4,6 +4,13 @@ import { wgs84Togcj02 } from 'src/utils/coordinateConvert'
 
 import { MethodHandler } from '../../utils/handler'
 
+/**
+ * 获取当前的模糊地理位置
+ *  
+ * @canUse getFuzzyLocation
+ * @__object [type]
+ * @__success [latitude, longitude]
+ */
 export const getFuzzyLocation: typeof Taro.getFuzzyLocation = (options) => {
   const name = 'getFuzzyLocation'
   // options must be an Object

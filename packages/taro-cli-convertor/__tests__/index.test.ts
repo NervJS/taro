@@ -354,8 +354,8 @@ describe('parseAst', () => {
   test('转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分',() =>{
     const COMPONENT_IMPORT = {
       '/pages/index/index.js':`
-        import Jstest from '../../components/test'
-        import {Mymodule, Mymodules} from '../../components/test'
+        import Jstest from '../../components/test.js'
+        import {Mymodule, Mymodules} from '../../components/test.js'
         Page({})
       `,
       '/pages/index/index.json':`
