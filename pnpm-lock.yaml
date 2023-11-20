@@ -1049,9 +1049,15 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
+      coordtransform:
+        specifier: ^2.1.2
+        version: registry.npmjs.org/coordtransform@2.1.2
       flv.js:
         specifier: ^1.6.2
         version: registry.npmjs.org/flv.js@1.6.2
+      hammerjs:
+        specifier: ^2.0.8
+        version: registry.npmjs.org/hammerjs@2.0.8
       hls.js:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
@@ -19246,6 +19252,12 @@ packages:
     version: 0.5.0
     engines: {node: '>= 0.6'}
 
+  registry.npmjs.org/coordtransform@2.1.2:
+    resolution: {integrity: sha512-0xLJApBlrUP+clyLJWIaqg4GXE5JTbAJb5d/CDMqebIksAMMze8eAyO6YfHEIxWJ+c42mXoMHBzWTeUrG7RFhw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/coordtransform/-/coordtransform-2.1.2.tgz}
+    name: coordtransform
+    version: 2.1.2
+    dev: false
+
   registry.npmjs.org/copy-anything@2.0.6:
     resolution: {integrity: sha512-1j20GZTsvKNkc4BY3NpMOM8tt///wY3FpIzozTOFO2ffuZcV61nojHXVKIy3WM+7ADCy5FVhdZYHYDdgTU0yJw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/copy-anything/-/copy-anything-2.0.6.tgz}
     name: copy-anything
@@ -24611,6 +24623,13 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  registry.npmjs.org/hammerjs@2.0.8:
+    resolution: {integrity: sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz}
+    name: hammerjs
+    version: 2.0.8
+    engines: {node: '>=0.8.0'}
+    dev: false
 
   registry.npmjs.org/handle-thing@2.0.1:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/handle-thing/-/handle-thing-2.0.1.tgz}
