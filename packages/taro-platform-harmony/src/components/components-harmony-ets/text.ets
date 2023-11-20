@@ -35,10 +35,18 @@ function attrs ({
   translate,
   transform,
   textAlign,
+  flexGrow,
+  flexShrink,
+  flexBasis,
+  alignSelf
  }) {
   .id(id)
   .key(id)
   .constraintSize(constraintSize)
+  .flexGrow(flexGrow)
+  .flexShrink(flexShrink)
+  .flexBasis(flexBasis)
+  .alignSelf(alignSelf)
   .zIndex(zIndex)
   .opacity(opacity)
   .margin(margin)
