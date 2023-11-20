@@ -151,7 +151,7 @@ export function analyzeImportUrl (
   }
   if (value.indexOf('.') === 0) {
     if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
-      const vpath = path.resolve(sourceFilePath, '..', value)
+      const vpath = path.join(sourceFilePath, '..', value)
       let fPath = value
       if (fs.existsSync(vpath)) {
         fPath = vpath
@@ -160,7 +160,7 @@ export function analyzeImportUrl (
       }
       scriptFiles.add(fPath)
     } else {
-      let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+      let vpath = resolveScriptPath(path.join(sourceFilePath, '..', value))
       if (vpath) {
         if (!fs.existsSync(vpath)) {
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)

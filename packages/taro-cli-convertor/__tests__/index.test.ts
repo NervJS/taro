@@ -1,6 +1,9 @@
 import * as taroize from '@tarojs/taroize'
+import * as path from 'path'
 
 import Convertor from '../src/index'
+import { setMockFiles } from './__mocks__/fs-extra'
+import { root } from './data/fileData'
 import { generateMinimalEscapeCode } from './util'
 
 jest.mock('fs', () => ({
@@ -343,6 +346,78 @@ describe('parseAst', () => {
       imports,
     })
 
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分',() =>{
+    const COMPONENT_IMPORT = {
+      '/pages/index/index.js':`
+        import Jstest from '../../components/test.js'
+        import {Mymodule, Mymodules} from '../../components/test.js'
+        Page({})
+      `,
+      '/pages/index/index.json':`
+        {
+          "usingComponents": {
+            "jstest": "../../components/my-component",
+            "mymodule": "../../components/my-component",
+            "mymodule1": "../../components/my-component"
+          }
+        }
+      `,
+      '/components/my-component':`
+        <view class="container">
+          <text>{{text}}</text>
+          <button class="btn" bindtap="handleClick">{{buttonText}}</button>
+        </view>
+      `,
+      '/components/test.js':``
+    }
+    setMockFiles(root,COMPONENT_IMPORT)
+
+    param.path = path.join(root, '/pages/index/index')
+    param.script = `
+      import Jstest from '../../components/test.js'
+      import {Mymodule, Mymodules} from '../../components/test.js'
+      Page({})
+    `
+    param.scriptPath = path.join(root,'/pages/index/index.js')
+    param.wxml = `
+      <Jstest></Jstest>
+      <Mymodule></Mymodule>
+      <Mymodules></Mymodules>
+    `
+    // 转换页面js脚本
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+    const depComponents = new Set([
+      {
+        name:'jstest',
+        path:path.join(root,'/components/my-component')
+      },
+      {
+        name:'mymodule',
+        path:path.join(root,'/components/my-component')
+      },
+      {
+        name:'mymodules',
+        path:path.join(root,'/components/my-component')
+      },
+    ])
+    
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: param.scriptPath,
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents,
+      imports: [],
+    })
+  
     // 将ast转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
