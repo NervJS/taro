@@ -1,4 +1,4 @@
-use anyhow::{Error, Ok};
+use anyhow::{Error, Ok, Context};
 use console::style;
 use futures::FutureExt;
 use spinners::{Spinner, Spinners};
@@ -7,7 +7,8 @@ use std::{fs, path::Path, process::Stdio};
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
 
-use crate::constants::{NpmType, PACKAGES_MANAGEMENT};
+use crate::async_fs;
+use crate::constants::{NpmType, PACKAGES_MANAGEMENT, HANDLEBARS};
 
 pub fn get_all_files_in_folder(folder: String, filter: &[&str]) -> Result<Vec<String>, Error> {
   let mut files = Vec::new();
@@ -25,6 +26,20 @@ pub fn get_all_files_in_folder(folder: String, filter: &[&str]) -> Result<Vec<St
     }
   }
   Ok(files)
+}
+
+pub async fn generate_with_template(from_path: &str, dest_path: &str, data: &impl serde::Serialize) -> anyhow::Result<()> {
+  let form_template = async_fs::read(from_path).await.with_context(|| format!("文件读取失败: {}", from_path))?;
+  let from_template = String::from_utf8_lossy(&form_template);
+  let template = if from_template == "" {
+    "".to_string()
+  } else {
+    HANDLEBARS.render_template(&from_template, data).with_context(|| format!("模板渲染失败: {}", from_path))?
+  };
+  let dir_name = Path::new(dest_path).parent().unwrap().to_string_lossy().to_string();
+  async_fs::create_dir_all(&dir_name).await.with_context(|| format!("文件夹创建失败: {}", dir_name))?;
+  async_fs::write(dest_path, template).await.with_context(|| format!("文件写入失败: {}", dest_path))?;
+  Ok(())
 }
 
 pub fn normalize_path_str(path: &str) -> String {

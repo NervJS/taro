@@ -2,8 +2,8 @@
 import template from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
-import { Creator } from '@tarojs/cli'
+import { CompilerType, Creator, CSSType, FrameworkType } from '@tarojs/binding'
+import { getRootPath } from '@tarojs/cli'
 import {
   chalk,
   CSS_IMPORT_REG,
@@ -1368,28 +1368,56 @@ ${code}
   }
 
   generateConfigFiles () {
-    const creator = new Creator()
-    const template = 'default'
-    const templatePath = creator.templatePath(template)
-    const handlerPath = path.join(templatePath, 'template_creator.js')
-    const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
+    const creator = new Creator(getRootPath(), this.convertRoot)
     const dateObj = new Date()
-    createProject({
-      projectRoot: this.convertRoot,
-      projectName: 'taroConvert',
-      template,
-      npm: NpmType.Pnpm,
-      framework: this.framework,
+    const date = `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`
+    const templateName = 'default'
+    const projectName = 'taroConvert'
+    const version = getPkgVersion()
+    const description = ''
+    const ps: Promise<void>[] = []
+    const createOpts = {
       css: CSSType.Sass,
-      autoInstall: false,
-      templateRoot: creator.rootPath,
-      version: getPkgVersion(),
+      cssExt: '.scss',
+      framework: this.framework,
+      description,
+      projectName,
+      version,
+      date,
       typescript: false,
-      date: `${dateObj.getFullYear()}-${dateObj.getMonth() + 1}-${dateObj.getDate()}`,
-      description: '',
+      template: templateName,
       compiler: CompilerType.Webpack5,
-      period: PeriodType.CreateAPP,
-    }, handler).then(() => {
+    }
+    ps.push(creator.createFileFromTemplate(templateName, 'package.json.tmpl', 'package.json', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, 'config/index.js', 'config/index.js', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, 'config/dev.js', 'config/dev.js', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, 'config/prod.js', 'config/prod.js', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, 'project.config.json', 'project.config.json', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, '.gitignore', '.gitignore', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, '.editorconfig', '.editorconfig', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, '.eslintrc.js', '.eslintrc.js', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, 'babel.config.js', 'babel.config.js', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, 'src/index.html', 'src/index.html', createOpts))
+    Promise.all(ps).then(() => {
+      const pkgObj = JSON.parse(fs.readFileSync(path.join(this.convertRoot, 'package.json')).toString())
+      pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
+      fs.writeJSONSync(path.join(this.convertRoot, 'package.json'), pkgObj, {
+        spaces: 2,
+        EOL: '\n'
+      })
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'package.json')))
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'config/index.js')))
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'config/dev.js')))
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, 'config/prod')))
+      printLog(
+        processTypeEnum.GENERATE,
+        '文件',
+        this.generateShowPath(path.join(this.convertRoot, 'project.config.json'))
+      )
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.gitignore')))
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.editorconfig')))
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertRoot, '.eslintrc')))
+      printLog(processTypeEnum.GENERATE, '文件', this.generateShowPath(path.join(this.convertDir, 'index.html')))
       this.showLog()
     })
   }

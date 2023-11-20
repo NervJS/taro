@@ -2,8 +2,6 @@ use std::{collections::HashMap, path::PathBuf};
 
 use anyhow::Context;
 use console::style;
-use handlebars::{handlebars_helper, Handlebars, JsonRender};
-use handlebars_misc_helpers::{new_hbs, register};
 use napi::{
   assert_type_of,
   bindgen_prelude::FromNapiValue,
@@ -12,13 +10,12 @@ use napi::{
   JsBoolean, JsObject, Result, Status, ValueType,
 };
 use napi_derive::napi;
-use once_cell::sync::Lazy;
 use serde::Serialize;
 
 use crate::{
   async_fs,
   constants::{CSSType, CompilerType, FrameworkType, MEDIA_REGEX, STYLE_EXT_MAP},
-  utils::normalize_path_str,
+  utils::{normalize_path_str, generate_with_template},
 };
 
 #[derive(Debug, Clone, Serialize)]
@@ -94,16 +91,6 @@ impl FromNapiValue for JSReturn {
   }
 }
 
-handlebars_helper!(includes: |{ s: str = "" }, *args| args.iter().map(|a| a.render()).any(|arg| arg == s));
-// handlebars_helper!(eq: |x: str, y: str| x == y);
-
-static HANDLEBARS: Lazy<Handlebars<'static>> = Lazy::new(|| {
-  let mut hbs = new_hbs();
-  register(&mut hbs);
-  hbs.register_helper("includes", Box::new(includes));
-  hbs
-});
-
 #[derive(Debug, Clone)]
 #[napi(constructor)]
 pub struct Creator {
@@ -152,6 +139,26 @@ impl Creator {
   }
 
   #[napi]
+  pub async fn create_file_from_template(
+    &self,
+    template_name: String,
+    template_path: String,
+    dest_path: String,
+    options: CreateOptions,
+  ) -> napi::Result<()> {
+    let from_path = normalize_path_str(template_path.as_str());
+    let dest_path = normalize_path_str(dest_path.as_str());
+    let from_path = self.get_template_path(&[&template_name, &from_path]);
+    let dest_path = self.get_destination_path(&[&dest_path]);
+    let result = generate_with_template(&from_path, &dest_path, &options).await;
+    if let Err(e) = result {
+      println!("创建文件错误，原因如下：");
+      println!("{}", e);
+      return Err(napi::Error::from_reason(format!("{:?}", e)));
+    }
+    Ok(())
+  }
+
   pub async fn tempate(
     &self,
     from_path: &str,
@@ -172,28 +179,7 @@ impl Creator {
         .with_context(|| format!("文件复制失败: {}", from_path))?;
       return Ok(());
     }
-    let form_template = async_fs::read(from_path)
-      .await
-      .with_context(|| format!("文件读取失败: {}", from_path))?;
-    let from_template = String::from_utf8_lossy(&form_template);
-    let template = if from_template == "" {
-      "".to_string()
-    } else {
-      HANDLEBARS
-        .render_template(&from_template, options)
-        .with_context(|| format!("模板渲染失败: {}", from_path))?
-    };
-    let dir_name = PathBuf::from(dest_path)
-      .parent()
-      .unwrap()
-      .to_string_lossy()
-      .to_string();
-    async_fs::create_dir_all(&dir_name)
-      .await
-      .with_context(|| format!("文件夹创建失败: {}", dir_name))?;
-    async_fs::write(dest_path, template)
-      .await
-      .with_context(|| format!("文件写入失败: {}", dest_path))?;
+    generate_with_template(from_path, dest_path, options).await?;
     Ok(())
   }
 
