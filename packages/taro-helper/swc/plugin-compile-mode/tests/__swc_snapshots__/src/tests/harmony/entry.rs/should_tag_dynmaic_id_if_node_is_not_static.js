@@ -138,7 +138,7 @@ struct TARO_TEMPLATES_f0t0 {
       }))
       Flex(FlexManager.flexOptions(this.node0.childNodes[1])) {
         Image(this.node1.getAttribute('src'))
-        .attrs(getNormalAttributes(this.node1))
+        .attrsImage(getNormalAttributes(this.node1))
         .onVisibleAreaChange(getNodeThresholds(this.node1) || [0.0, 1.0], getComponentEventCallback(this.node1, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node1, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
           const [_, areaResult] = eventResult
@@ -179,7 +179,7 @@ struct TARO_TEMPLATES_f0t0 {
           }))
         } else {
           Image(this.node4.getAttribute('src'))
-          .attrs(getNormalAttributes(this.node4))
+          .attrsImage(getNormalAttributes(this.node4))
           .onVisibleAreaChange(getNodeThresholds(this.node4) || [0.0, 1.0], getComponentEventCallback(this.node4, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node4, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
             const [_, areaResult] = eventResult

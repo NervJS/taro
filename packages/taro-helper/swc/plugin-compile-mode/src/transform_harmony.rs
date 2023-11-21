@@ -140,12 +140,9 @@ pub struct TransformVisitor {
 
 impl TransformVisitor {
     pub fn new (config: PluginConfig) -> Self {
-        let get_tmpl_name = Box::new(utils::named_iter(
-            format!("{}t", config.tmpl_prefix)
-        ));
-        let get_node_name = Box::new(utils::named_iter(
-        String::from("node"))
-        );
+        let get_node_name = Box::new(utils::named_iter(String::from("node")));
+        let get_tmpl_name = Box::new(utils::named_iter(format!("{}t", config.tmpl_prefix)));
+        
         Self {
             config,
             is_compile_mode: false,
@@ -524,7 +521,14 @@ export default TARO_TEMPLATES_{name}
             ).as_str();
 
           self.templates.insert(tmpl_name, format!("`{}`", tmpl_contents));
+
+          // 数据清理
+          self.node_stack.clear();
+          self.node_name.clear();
+          self.node_name_vec.clear();
+          self.component_set.clear();
           self.is_compile_mode = false;
+          self.get_node_name = Box::new(utils::named_iter(String::from("node")));
       } else {
           el.visit_mut_children_with(self)
       }

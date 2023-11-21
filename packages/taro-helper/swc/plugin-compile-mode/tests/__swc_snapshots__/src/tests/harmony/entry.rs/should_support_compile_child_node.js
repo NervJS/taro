@@ -133,7 +133,7 @@ struct TARO_TEMPLATES_f0t0 {
       }))
       Flex(FlexManager.flexOptions(this.node0.childNodes[1])) {
         Image(this.node0.childNodes[1].childNodes[0].getAttribute('src'))
-        .attrs(getNormalAttributes(this.node0.childNodes[1].childNodes[0]))
+        .attrsImage(getNormalAttributes(this.node0.childNodes[1].childNodes[0]))
         .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1].childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1].childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node0.childNodes[1].childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
           const [_, areaResult] = eventResult
