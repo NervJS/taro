@@ -80,7 +80,7 @@ impl VisitMut for PreVisitor {
                                 span,
                                 test: left.take(),
                                 cons: right.take(),
-                                alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: COMPILE_IGNORE.into(), raw: None })))
+                                alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: String::new().into(), raw: None })))
                             })
                         },
                         _ => {
@@ -92,7 +92,6 @@ impl VisitMut for PreVisitor {
             },
             Expr::Cond(CondExpr { test, cons, alt, ..}) => {
                 let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
-                let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
                 let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
                     match &mut **arm {
                         Expr::JSXElement(el) => {
@@ -111,7 +110,6 @@ impl VisitMut for PreVisitor {
                     }
                 };
                 process_cond_arm(cons, compile_if);
-                process_cond_arm(alt, compile_else);
             },
             _ => (),
         }
@@ -168,7 +166,6 @@ impl TransformVisitor {
             JSXElementName::Ident(ident) => {
                 let name = utils::to_kebab_case(&ident.sym);
 
-                // TODO 先全部都添加
                 // jsx 节点添加动态 id，需要判断是否存在静态节点
                 let dynmaic_node_name: String;
                 let mut is_node_name_created = false;
@@ -188,7 +185,14 @@ impl TransformVisitor {
                         //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
                         //   if attrs.is_none() { return String::new() };
                         //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
-                        let children = self.build_ets_children(el);
+
+                        // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createNode 来生成后续子节点
+                        let is_only_loop = utils::check_jsx_element_children_is_only_loop(el);
+                        let mut children = utils::create_original_node_renderer(self);
+                        
+                        if !is_only_loop {
+                            children = self.build_ets_children(el);
+                        }
 
                         // 当前 node_name 节点树已全部递归完毕
                         if is_node_name_created {
@@ -214,8 +218,8 @@ impl TransformVisitor {
                     None => {
                         // React 组件
                         // 原生自定义组件
-                        // TODO: 路径需要调整
-                        format!("ForEach(this.node.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)")
+                        // 半编译暂未支持的组件
+                        utils::create_original_node_renderer(self)
                     }
                 }
             }
@@ -237,8 +241,61 @@ impl TransformVisitor {
                 JSXElementChild::JSXElement(child_el) => {
                     let child_string = self.build_ets_element(&mut **child_el);
                     children_string.push_str(&child_string);
-                    retain_child_counter += 1;
-                }
+                    retain_child_counter = retain_child_counter + 1;
+                },
+                JSXElementChild::JSXExprContainer(JSXExprContainer {
+                    expr: JSXExpr::Expr(jsx_expr),
+                    ..
+                }) => {
+                    // 如果套着 ()，则获取括号里面的内容
+                    if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
+                        *jsx_expr = expr.take();
+                    }
+                    match &mut **jsx_expr {
+                        Expr::Cond(CondExpr { cons, alt, ..}) => {
+                            let mut process_condition_expr = |arm: &mut Box<Expr>| {
+                                match &mut **arm {
+                                    Expr::JSXElement(el) => {
+                                        // 判断 el 的属性中是否存在 COMPILE_IGNORE，如果存在则返回空字符串
+                                        if utils::check_jsx_element_has_compile_ignore(el) {
+                                            String::new()
+                                        } else {
+                                            self.build_ets_element(el)
+                                        }
+                                    },
+                                    Expr::Lit(lit) => {
+                                        // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
+                                        // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
+                                        // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
+                                        let current_path = self.get_current_node_path();
+                                        let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, current_path, COMPILE_IGNORE, current_path);
+                                        str
+                                    },
+                                    _ => String::new()
+                                }
+                            };
+                            let mut temp_children_string = String::new();
+                            let alt_children_string = process_condition_expr(alt);
+                            let cons_children_string = process_condition_expr(cons);
+
+                            temp_children_string.push_str(format!("if (this.{}._attrs.compileIf) {{\n{}}}", self.get_current_node_path(), cons_children_string).as_str());
+                            if (!alt_children_string.is_empty()) {
+                                temp_children_string.push_str(format!(" else {{\n{}}}", alt_children_string).as_str());
+                            }
+
+                            children_string.push_str(&utils::add_spaces_to_lines(&temp_children_string));
+                        },
+                        // TODO 只支持 render 开头的函数调用返回 JSX
+                        // Expr::Call(_)
+                        _ => {
+                            // println!("_ expr: {:?} ", jsx_expr);
+                            let node_path = self.get_current_node_path();
+                            let code = format!("{{{{{}.v}}}}", node_path);
+                            children_string.push_str(&code);
+                        }
+                    };
+                    retain_child_counter = retain_child_counter + 1;
+                },
                 _ => (),
             }
             
@@ -258,6 +315,8 @@ impl TransformVisitor {
                         let jsx_attr_name = name.to_string();
                         let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
                         let is_event = event_name.is_some();
+                        let is_condition = jsx_attr_name == COMPILE_IF;
+
                         if let Some(value) = &jsx_attr.value {
                             match value {
                                 JSXAttrValue::Lit(..) => (),
@@ -269,7 +328,7 @@ impl TransformVisitor {
                                                 return false
                                             }
                                         }
-                                    } else {
+                                    } else if !is_condition {
                                         return false
                                     }
                                     
@@ -283,12 +342,8 @@ impl TransformVisitor {
         }
         // 判断当前 el 的 children 是否是表达式，表达式的话父节点需要标注为非静态
         for child in el.children.iter_mut() {
-            if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr, .. }) = child {
-                if let JSXExpr::Expr(expr) = &expr {
-                    if let Expr::Ident(..) = &**expr {
-                        return false
-                    }
-                }
+            if let JSXElementChild::JSXExprContainer(JSXExprContainer { .. }) = child {
+                return false
             }
         }
 
@@ -394,9 +449,6 @@ impl TransformVisitor {
 
 //       Some(attrs_string)
 //   }
-
-
-
 //   fn get_current_loop_path (&self) -> String {
 //       // return: i.cn[0]...cn
 //       self.node_stack

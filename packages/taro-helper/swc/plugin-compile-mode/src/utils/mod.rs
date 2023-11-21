@@ -210,6 +210,19 @@ pub fn get_harmony_component_style (visitor: &mut TransformVisitor) -> String {
     harmony_component_style
 }
 
+pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
+    for attr in &el.opening.attrs {
+        if let JSXAttrOrSpread::JSXAttr(JSXAttr { name, .. }) = attr {
+            if let JSXAttrName::Ident(Ident { sym, .. }) = name {
+                if &**sym == COMPILE_IGNORE {
+                    return true
+                }
+            }
+        }
+    }
+    false
+}
+
 /**
  * identify: `xx.map(function () {})` or `xx.map(() => {})`
  */
@@ -264,6 +277,24 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
         }
     }
     None
+}
+
+pub fn check_jsx_element_children_is_only_loop (el: &mut JSXElement) -> bool {
+    if el.children.len() == 1 {
+        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = &mut el.children[0] {
+            if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &mut **expr {
+                if is_call_expr_of_loop(callee_expr, args) {
+                    return true
+                }
+            }
+        }
+    }
+
+    false
+}
+
+pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
+    add_spaces_to_lines(format!("ForEach(this.{}.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)", visitor.node_name.last().unwrap().clone()).as_str())
 }
 
 #[test]
