@@ -1,7 +1,6 @@
 
 use swc_core::{
   common::{
-      iter::IdentifyLast,
       util::take::Take,
       DUMMY_SP as span
   },
@@ -12,7 +11,7 @@ use swc_core::{
       visit::{VisitMut, VisitMutWith},
   },
 };
-use std::{collections::HashMap, cell::RefCell};
+use std::collections::HashMap;
 use std::rc::Rc;
 use std::collections::HashSet;
 use crate::PluginConfig;
@@ -90,7 +89,7 @@ impl VisitMut for PreVisitor {
                     }
                 }
             },
-            Expr::Cond(CondExpr { test, cons, alt, ..}) => {
+            Expr::Cond(CondExpr { test, cons, ..}) => {
                 let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
                 let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
                     match &mut **arm {
@@ -142,7 +141,7 @@ impl TransformVisitor {
     pub fn new (config: PluginConfig) -> Self {
         let get_node_name = Box::new(utils::named_iter(String::from("node")));
         let get_tmpl_name = Box::new(utils::named_iter(format!("{}t", config.tmpl_prefix)));
-        
+
         Self {
             config,
             is_compile_mode: false,
@@ -179,6 +178,7 @@ impl TransformVisitor {
                 match self.config.components.get(&name) {
                     // 内置组件
                     Some(attrs_map) => {
+                        // TODO: 此处需要加上事件的处理，根据事件添加对应的 ets 事件处理函数
                         //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
                         //   if attrs.is_none() { return String::new() };
                         //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
@@ -261,6 +261,7 @@ impl TransformVisitor {
                                         }
                                     },
                                     Expr::Lit(lit) => {
+                                        // TODO: 处理静态文本
                                         // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
                                         // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
                                         // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
@@ -276,7 +277,7 @@ impl TransformVisitor {
                             let cons_children_string = process_condition_expr(cons);
 
                             temp_children_string.push_str(format!("if (this.{}._attrs.compileIf) {{\n{}}}", self.get_current_node_path(), cons_children_string).as_str());
-                            if (!alt_children_string.is_empty()) {
+                            if !alt_children_string.is_empty() {
                                 temp_children_string.push_str(format!(" else {{\n{}}}", alt_children_string).as_str());
                             }
 
@@ -285,6 +286,7 @@ impl TransformVisitor {
                         // TODO 只支持 render 开头的函数调用返回 JSX
                         // Expr::Call(_)
                         _ => {
+                            // TODO: 处理静态文本
                             // println!("_ expr: {:?} ", jsx_expr);
                             let node_path = self.get_current_node_path();
                             let code = format!("{{{{{}.v}}}}", node_path);
@@ -445,24 +447,6 @@ impl TransformVisitor {
 //       }
 
 //       Some(attrs_string)
-//   }
-//   fn get_current_loop_path (&self) -> String {
-//       // return: i.cn[0]...cn
-//       self.node_stack
-//           .iter()
-//           .identify_last()
-//           .fold(String::from("i"), |mut acc, (is_last, item)| {
-//               let str = if is_last {
-//                   String::from(".cn")
-//               } else {
-//                   if item == &LOOP_WRAPPER_ID {
-//                       return String::from("item")
-//                   }
-//                   format!(".cn[{}]", item)
-//               };
-//               acc.push_str(&str);
-//               return acc;
-//           })
 //   }
 }
 
