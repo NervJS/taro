@@ -13,12 +13,6 @@ import stacks from './stack'
 import type { PageConfig, RouterAnimate } from '@tarojs/taro'
 import type { Route, SpaRouterConfig } from '../../types/router'
 
-function setDisplay (el?: HTMLElement | null, type = '') {
-  if (el) {
-    el.style.display = type
-  }
-}
-
 export default class PageHandler {
   protected config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
@@ -202,7 +196,7 @@ export default class PageHandler {
     const param = this.getQuery(stampId, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
-      setDisplay(pageEl)
+      pageEl.classList.remove('taro_page_shade')
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
@@ -263,7 +257,7 @@ export default class PageHandler {
     const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
-      setDisplay(pageEl)
+      pageEl.classList.remove('taro_page_shade')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
@@ -289,12 +283,12 @@ export default class PageHandler {
       if (this.hideTimer) {
         clearTimeout(this.hideTimer)
         this.hideTimer = null
-        setDisplay(this.lastHidePage, 'none')
+        pageEl.classList.add('taro_page_shade')
       }
       this.lastHidePage = pageEl
       this.hideTimer = setTimeout(() => {
         this.hideTimer = null
-        setDisplay(this.lastHidePage, 'none')
+        pageEl.classList.add('taro_page_shade')
       }, this.animationDuration + this.animationDelay)
       page.onHide?.()
     } else {

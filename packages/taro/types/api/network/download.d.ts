@@ -58,14 +58,6 @@ declare module '../../index' {
 
   namespace DownloadTask {
     /** HTTP Response Header 事件的回调函数 */
-    type OffHeadersReceivedCallback = (
-      res: TaroGeneral.CallbackResult,
-    ) => void
-    /** 下载进度变化事件的回调函数 */
-    type OffProgressUpdateCallback = (
-        res: TaroGeneral.CallbackResult,
-    ) => void
-    /** HTTP Response Header 事件的回调函数 */
     type OnHeadersReceivedCallback = (
         result: OnHeadersReceivedCallbackResult,
     ) => void
@@ -135,7 +127,7 @@ declare module '../../index' {
      */
     offProgressUpdate(
       /** 下载进度变化事件的回调函数 */
-      callback: DownloadTask.OffProgressUpdateCallback,
+      callback: DownloadTask.OnProgressUpdateCallback,
     ): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
      * @supported weapp, h5
@@ -151,7 +143,7 @@ declare module '../../index' {
      */
     offHeadersReceived(
       /** HTTP Response Header 事件的回调函数 */
-      callback: DownloadTask.OffHeadersReceivedCallback,
+      callback: DownloadTask.OnHeadersReceivedCallback,
     ): void
   }
 

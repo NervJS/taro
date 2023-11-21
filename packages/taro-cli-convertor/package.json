@@ -7,7 +7,11 @@
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "files": [
     "bin",
@@ -27,22 +31,44 @@
   "engines": {
     "node": ">=12"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/taro-cli-convertor/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "node_modules",
+      "/__tests__/util.ts"
+    ]
+  },
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@babel/generator": "^7.20.0",
     "@babel/template": "^7.20.0",
     "@babel/traverse": "^7.20.0",
     "@babel/types": "^7.20.0",
+    "@tarojs/cli": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/taroize": "workspace:*",
-    "@tarojs/cli": "workspace:*",
-    "@tarojs/transformer-wx": "^2.2.10",
-    "postcss-taro-unit-transform": "^2.2.10",
-    "prettier": "^2.7.1",
-    "postcss": "^8.4.18"
+    "@tarojs/transformer-wx": "workspace:*",
+    "postcss": "^8.4.18",
+    "postcss-taro-unit-transform": "workspace:*",
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
     "@babel/parser": "^7.14.5",
-    "@tarojs/taro": "workspace:*"
+    "@tarojs/taro": "workspace:*",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.0.5"
   }
 }

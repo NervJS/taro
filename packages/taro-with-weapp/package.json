@@ -18,7 +18,11 @@
   "scripts": {
     "build": "rollup -c rollup.config.js",
     "dev": "rollup -c -w rollup.config.js",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.5",
@@ -41,5 +45,8 @@
     "sinon": "^7.5.0",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"
+  },
+  "exports": {
+    ".": "./dist/index.esm.js"
   }
 }

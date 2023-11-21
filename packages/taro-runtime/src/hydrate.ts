@@ -14,36 +14,43 @@ import { getComponentsAlias, isComment, isHasExtractProp, isText } from './utils
 
 import type { TaroElement } from './dom/element'
 import type { TaroText } from './dom/text'
-import type { MiniData, MiniElementData, MiniTextData } from './interface'
-
+import type { MiniData, MiniElementData } from './interface'
 
 let SPECIAL_NODES
 let componentsAlias
 
-function initConfig () {
-  // 初始化 SPECIAL_NODES
-  SPECIAL_NODES ||= hooks.call('getSpecialNodes')
+/**
+ * React also has a fancy function's name for this: `hydrate()`.
+ * You may have been heard `hydrate` as a SSR-related function,
+ * actually, `hydrate` basicly do the `render()` thing, but ignore some properties,
+ * it's a vnode traverser and modifier: that's exactly what Taro's doing in here.
+ */
+export function hydrate (node: TaroElement | TaroText): MiniData {
   // 初始化 componentsAlias
   componentsAlias ||= getComponentsAlias()
-}
 
-function hydrateTextNode (node: TaroText): MiniTextData {
-  return {
-    [Shortcuts.Text]: node.nodeValue,
-    [Shortcuts.NodeName]: componentsAlias[node.nodeName]?._num || '8'
-  }
-}
+  // 初始化 SPECIAL_NODES
+  SPECIAL_NODES ||= hooks.call('getSpecialNodes')!
 
-function hydrateElementNode (node: TaroElement): MiniElementData {
   const nodeName = node.nodeName
-  let isCompileMode = false
+
+  if (isText(node)) {
+    return {
+      sid: node.sid,
+      [Shortcuts.Text]: node.nodeValue,
+      [Shortcuts.NodeName]: componentsAlias[nodeName]?._num || '8'
+    }
+  }
 
   const data: MiniElementData = {
     [Shortcuts.NodeName]: nodeName,
     sid: node.sid
   }
 
-  // NodeName
+  if (node.uid !== node.sid) {
+    data.uid = node.uid
+  }
+
   if (!node.isAnyEventBinded() && SPECIAL_NODES.indexOf(nodeName) > -1) {
     data[Shortcuts.NodeName] = `static-${nodeName}`
     if (nodeName === VIEW && !isHasExtractProp(node)) {
@@ -51,23 +58,6 @@ function hydrateElementNode (node: TaroElement): MiniElementData {
     }
   }
 
-  // Id
-  if (node.uid !== node.sid) {
-    data.uid = node.uid
-  }
-
-  // Class
-  if (node.className !== '') {
-    data[Shortcuts.Class] = node.className
-  }
-
-  // Style
-  const cssText = node.cssText
-  if (cssText !== '' && nodeName !== 'swiper-item') {
-    data[Shortcuts.Style] = cssText
-  }
-
-  // Attributes
   const { props } = node
   for (const prop in props) {
     const propInCamelCase = toCamelCase(prop)
@@ -85,17 +75,24 @@ function hydrateElementNode (node: TaroElement): MiniElementData {
       data[Shortcuts.NodeName] = CATCH_VIEW
     }
     if (propInCamelCase === COMPILE_MODE) {
-      isCompileMode = true
+      data[Shortcuts.NodeName] = props[prop]
     }
   }
 
   // Children
-  data[Shortcuts.Childnodes] = node.childNodes.filter(n => !isComment(n)).map(hydrate)
+  data[Shortcuts.Childnodes] = node.childNodes.filter(node => !isComment(node)).map(hydrate)
 
-  // Custom behavior
-  hooks.call('modifyHydrateData', data)
+  if (node.className !== '') {
+    data[Shortcuts.Class] = node.className
+  }
 
-  // Turn in alias
+  const cssText = node.cssText
+  if (cssText !== '' && nodeName !== 'swiper-item') {
+    data[Shortcuts.Style] = cssText
+  }
+
+  hooks.call('modifyHydrateData', data, node)
+
   const nn = data[Shortcuts.NodeName]
   const componentAlias = componentsAlias[nn]
   if (componentAlias) {
@@ -108,25 +105,7 @@ function hydrateElementNode (node: TaroElement): MiniElementData {
     }
   }
 
-  if (isCompileMode) {
-    data[Shortcuts.NodeName] = props[COMPILE_MODE]
-  }
+  const resData = hooks.call('transferHydrateData', data, node, componentAlias)
 
-  return data
-}
-
-/**
- * React also has a fancy function's name for this: `hydrate()`.
- * You may have been heard `hydrate` as a SSR-related function,
- * actually, `hydrate` basicly do the `render()` thing, but ignore some properties,
- * it's a vnode traverser and modifier: that's exactly what Taro's doing in here.
- */
-export function hydrate (node: TaroElement | TaroText): MiniData {
-  initConfig()
-
-  if (isText(node)) {
-    return hydrateTextNode(node)
-  } else {
-    return hydrateElementNode(node)
-  }
+  return resData || data
 }

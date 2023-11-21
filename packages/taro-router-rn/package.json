@@ -35,7 +35,7 @@
     "query-string": "^7.1.1",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-safe-area-context": "~4.4.1",
-    "react-native-screens": "^3.18.2"
+    "react-native-screens": "~3.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -48,6 +48,6 @@
     "@react-native-masked-view/masked-view": "~0.2.7",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-safe-area-context": "~4.4.1",
-    "react-native-screens": "^3.18.2"
+    "react-native-screens": "~3.20.0"
   }
 }
