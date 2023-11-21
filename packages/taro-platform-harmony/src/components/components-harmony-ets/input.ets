@@ -89,9 +89,9 @@ function getFontAttributes (node: TaroElement) {
   return {
     fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
     fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
-    fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
-    fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
-    textAlign: AttributeManager.getTextAlign(_st)
+    textAlign: AttributeManager.getStyleAfterConvert(_st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
+    fontWeight: AttributeManager.getStyleAfterConvert(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
+    fontFamily: AttributeManager.getStyleAfterConvert(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_FAMILY)
   }
 }
 
