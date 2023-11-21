@@ -791,6 +791,18 @@ require("./runtime");
                     }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
                     _ref;
                 }
+            },
+            modifyRecursiveComponentConfig: function modifyRecursiveComponentConfig(componentConfig, _ref2) {
+                var isCustomWrapper = _ref2.isCustomWrapper;
+                return isCustomWrapper ? Object.assign(Object.assign({}, componentConfig), {
+                    deriveDataFromProps: function deriveDataFromProps(nextProps) {
+                        if (this.data.i !== undefined && this.props.i !== nextProps.i) {
+                            this.setData({
+                                i: nextProps.i
+                            });
+                        }
+                    }
+                }) : componentConfig;
             }
         };
         var _navigator = runtime_navigator, userAgent = _navigator.userAgent;
