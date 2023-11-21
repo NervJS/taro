@@ -19,7 +19,7 @@ jobs:
             target: x86_64-apple-darwin
             build: |
               pnpm build:binding:release
-              strip -x *.node
+              strip -x crates/native_binding/*.node
           - host: windows-latest
             build: pnpm build:binding:release
             target: x86_64-pc-windows-msvc
@@ -29,12 +29,12 @@ jobs:
             build: |-
               set -e &&
               pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
-              strip *.node
+              strip crates/native_binding/*.node
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin
-              strip -x *.node
+              strip -x crates/native_binding/*.node
     name: stable - ${{ matrix.settings.target }}
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -84,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: ${{ inputs.name }}.*.node
+          path: crates/native_binding/${{ inputs.name }}.*.node
           if-no-files-found: error
   test-macOS-windows-binding:
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
@@ -112,58 +112,37 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: Pnpm install
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: .
+          path: crates/native_binding
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Test bindings
         run: pnpm test:binding
   test-linux-x64-gnu-binding:
-    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+    name: Test bindings on Linux-x64-gnu - node@16
     needs:
       - build
     strategy:
       fail-fast: false
-      matrix:
-        node:
-          - '14'
-          - '16'
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          check-latest: true
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-x86_64-unknown-linux-gnu
-          path: .
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Test bindings
-        run: docker run --rm -v $(pwd):/build -w /build node:${{ matrix.node }}-slim pnpm test:binding
-  universal-macOS:
-    name: Build universal macOS binary
-    needs:
-      - build
-    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -174,25 +153,29 @@ jobs:
         with:
           node-version: 16
           check-latest: true
-          cache: pnpm
-      - name: Install dependencies
-        run: pnpm install
-      - name: Download macOS x64 artifact
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: Pnpm install
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
+      - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-apple-darwin
-          path: artifacts
-      - name: Download macOS arm64 artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-aarch64-apple-darwin
-          path: artifacts
-      - name: Combine binaries
-        run: pnpm universal
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: bindings-universal-apple-darwin
-          path: ${{ inputs.name }}.*.node
-          if-no-files-found: error
+          name: bindings-x86_64-unknown-linux-gnu
+          path: crates/native_binding
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Test bindings
+        # 暂时使用了一个第三方的 docker 镜像
+        run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
     
