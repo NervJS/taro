@@ -66,11 +66,12 @@ function getRatio (value: number) {
       ? config.designWidth
       : () => config.designWidth
   }
-  const designWidth = designWidthFunc(value)
-  if (!(designWidth in config.deviceRatio)) {
+  const designWidth = designWidthFunc(value) || defaultDesignWidth
+  const deviceRatio = config.deviceRatio || defaultDesignRatio
+  if (!(designWidth in deviceRatio)) {
     throw new Error(`deviceRatio 配置中不存在 ${designWidth} 的设置！`)
   }
-  return Math.min(display.width, display.height) / designWidth / config.deviceRatio[designWidth]
+  return Math.min(display.width, display.height) / designWidth / deviceRatio[designWidth]
 }
 
 // Note: 设置为 style 单位时会自动完成设计稿转换，设计开发者调用 API 时也许抹平差异，例如 pageScrollTo[option.offsetTop]
@@ -83,6 +84,7 @@ export function pxTransformHelper (size: number, unit?: string, isNumber = false
 
   switch (targetUnit) {
     case 'vp':
+      // Note: 在应用创建前调用无效
       val = px2vp(val)
       break
     default:

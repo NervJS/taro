@@ -150,6 +150,10 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       obj['borderStyle'] = BORDER_STYLE_MAP[value]
       break
     }
+    case 'borderRadius': {
+      obj['borderRadius'] = getUnit(value)
+      break
+    }
     case 'transform': {
       // TODO
       break
@@ -166,7 +170,7 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       obj['focus'] = value
       break
     }
-    
+
     // 文本相关
     case 'color': {
       obj['fontColor'] = value
@@ -202,14 +206,14 @@ export function w3cToHarmonyStyle(obj: Record<string, any>, prop: string, value:
       break
     }
     case 'WebkitLineClamp': {
-      obj['maxLines'] = +value 
+      obj['maxLines'] = +value
     }
     case 'opacity': {
       obj['opacity'] = +value
       break
     }
   }
-  
+
   return obj
 }
 
