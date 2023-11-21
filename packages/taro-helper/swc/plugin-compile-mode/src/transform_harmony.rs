@@ -14,6 +14,7 @@ use swc_core::{
 };
 use std::{collections::HashMap, cell::RefCell};
 use std::rc::Rc;
+use std::collections::HashSet;
 use crate::PluginConfig;
 use crate::utils::{self, constants::*, harmony::components::*};
 
@@ -132,6 +133,7 @@ pub struct TransformVisitor {
     pub is_compile_mode: bool,
     pub node_stack: HashMap<String, Vec<i32>>,
     pub node_name: Vec<String>,
+    pub component_set: HashSet<String>,
     pub templates: HashMap<String, String>,
     pub get_tmpl_name: Box<dyn FnMut() -> String>,
     pub node_name_vec: Vec<String>,
@@ -153,6 +155,7 @@ impl TransformVisitor {
             node_stack: HashMap::new(),
             templates: HashMap::new(),
             get_tmpl_name,
+            component_set: HashSet::new(),
             node_name_vec: vec![],
             get_node_name
         }
@@ -168,35 +171,51 @@ impl TransformVisitor {
                 // TODO 先全部都添加
                 // jsx 节点添加动态 id，需要判断是否存在静态节点
                 let dynmaic_node_name: String;
+                let mut is_node_name_created = false;
 
                 // 如果是半编译状态下碰到的第一个 jsx，或者 jsx 含有动态属性，则创建新的 node_name
-                if !self.check_jsx_is_static(opening_element) || self.node_stack.is_empty() {
+                if !self.check_jsx_is_static(el) || self.node_stack.is_empty() {
                     dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
                     self.node_name.push(dynmaic_node_name.clone());
+                    is_node_name_created = true;
                 } else {
-                    dynmaic_node_name = String::from("static_node");
+                    dynmaic_node_name = self.get_current_node_path();
                 }
 
                 match self.config.components.get(&name) {
                     // 内置组件
                     Some(attrs_map) => {
-                    //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
-                    //   if attrs.is_none() { return String::new() };
-                    //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
-                    let children = self.build_ets_children(el);
-                    match name.as_str() {
-                        VIEW_TAG => utils::add_spaces_to_lines(&get_view_component_str(&dynmaic_node_name, &children)),
-                        TEXT_TAG => utils::add_spaces_to_lines(&get_text_component_str(&dynmaic_node_name)),
-                        IMAGE_TAG => utils::add_spaces_to_lines(&get_image_component_str(&dynmaic_node_name)),
-                        _ => String::new()
-                    }
+                        //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
+                        //   if attrs.is_none() { return String::new() };
+                        //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
+                        let children = self.build_ets_children(el);
+
+                        // 当前 node_name 节点树已全部递归完毕
+                        if is_node_name_created {
+                            self.node_name.pop();
+                        }
+
+                        match name.as_str() {
+                            VIEW_TAG => {
+                                self.component_set.insert(name.clone());
+                                utils::add_spaces_to_lines(&get_view_component_str(&dynmaic_node_name, &children))
+                            },
+                            TEXT_TAG => {
+                                self.component_set.insert(name.clone());
+                                utils::add_spaces_to_lines(&get_text_component_str(&dynmaic_node_name))
+                            },
+                            IMAGE_TAG => {
+                                self.component_set.insert(name.clone());
+                                utils::add_spaces_to_lines(&get_image_component_str(&dynmaic_node_name))
+                            },
+                            _ => String::new()
+                        }
                     },
                     None => {
                         // React 组件
                         // 原生自定义组件
-                    //   let node_path = self.get_current_node_path();
-                    //   format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
-                        String::new()
+                        // TODO: 路径需要调整
+                        format!("ForEach(this.node.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)")
                     }
                 }
             }
@@ -229,7 +248,9 @@ impl TransformVisitor {
         children_string
     }
 
-    fn check_jsx_is_static (&self, opening_element: &mut JSXOpeningElement) -> bool {
+    fn check_jsx_is_static (&self, el: &mut JSXElement) -> bool {
+        let opening_element = &mut el.opening;
+
         for attr in opening_element.attrs.iter_mut() {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(..) = &jsx_attr.name {
@@ -260,21 +281,31 @@ impl TransformVisitor {
                 }
             }
         }
+        // 判断当前 el 的 children 是否是表达式，表达式的话父节点需要标注为非静态
+        for child in el.children.iter_mut() {
+            if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr, .. }) = child {
+                if let JSXExpr::Expr(expr) = &expr {
+                    if let Expr::Ident(..) = &**expr {
+                        return false
+                    }
+                }
+            }
+        }
+
         return true;
     }
 
-    // fn get_current_node_path (&self) -> String {
-    //     // return: i.cn[0].cn[0]....
-    //     self.node_stack
-    //         .iter()
-    //         .fold(String::from("i"), |mut acc, item| {
-    //             if item == &LOOP_WRAPPER_ID {
-    //                 return String::from("item")
-    //             }
-    //             acc.push_str(&format!(".cn[{}]", item));
-    //             return acc;
-    //         })
-    // }
+    fn get_current_node_path (&self) -> String {
+        let current_node_name = self.node_name.last().unwrap().clone();
+        let current_node_stack = self.node_stack.get(&current_node_name).unwrap();
+
+        // return: node0.childNodes[0].childNodes[0]....
+        current_node_stack.iter().fold(current_node_name, |mut acc, item| {
+            acc.push_str(&format!(".childNodes[{}]", item));
+            return acc;
+        })
+    }
+
 //   fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> Option<String> {
 //       let mut props = HashMap::new();
 //       let mut attrs_string = String::new();
@@ -418,10 +449,9 @@ impl VisitMut for TransformVisitor {
               return acc;
           });
           let tmpl_main_contents = utils::add_spaces_to_lines(&format!("{}\n{}", tmpl_node_declare_contents, tmpl_build_contents));
-          let tmpl_contents = format!("`{}`",
+          let tmpl_contents =
             HARMONY_IMPORTER.to_owned() +
-            // TODO: 此处应该收集需要 Extend 的组件，而不是直接写死
-            HARMONY_FLEX_STYLE_BIND +
+            utils::get_harmony_component_style(self).as_str() +
             format!(
 r#"@Component
 struct TARO_TEMPLATES_{name} {{
@@ -439,9 +469,9 @@ export default TARO_TEMPLATES_{name}
 "#,
                 name = &tmpl_name,
                 content = tmpl_main_contents
-            ).as_str());
+            ).as_str();
 
-          self.templates.insert(tmpl_name, tmpl_contents);
+          self.templates.insert(tmpl_name, format!("`{}`", tmpl_contents));
           self.is_compile_mode = false;
       } else {
           el.visit_mut_children_with(self)

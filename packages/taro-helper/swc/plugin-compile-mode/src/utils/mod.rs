@@ -193,6 +193,23 @@ pub fn add_spaces_to_lines(input: &str) -> String {
     result
 }
 
+pub fn get_harmony_component_style (visitor: &mut TransformVisitor) -> String {
+    let component_set = &visitor.component_set;
+    let mut harmony_component_style = String::new();
+
+    let mut build_component = |component_tag: &str, component_style: &str| {
+        if component_set.contains(component_tag) {
+            harmony_component_style.push_str(component_style);
+        }
+    };
+
+    build_component(VIEW_TAG, HARMONY_FLEX_STYLE_BIND);
+    build_component(IMAGE_TAG, HARMONY_IMAGE_STYLE_BIND);
+    build_component(TEXT_TAG, HARMONY_TEXT_STYLE_BIND);
+
+    harmony_component_style
+}
+
 /**
  * identify: `xx.map(function () {})` or `xx.map(() => {})`
  */
