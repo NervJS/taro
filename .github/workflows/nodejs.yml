@@ -1,5 +1,7 @@
 name: Node CI
-
+env:
+  DEBUG: napi:*
+  MACOSX_DEPLOYMENT_TARGET: '10.13'
 on:
   push:
     branches:
@@ -13,10 +15,15 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
+  build-rust-binding:
+    name: Build Rust Binding
+    uses: ./.github/workflows/build-rust-binding.yml
+    with:
+      name: "taro"
   build:
 
     runs-on: ubuntu-latest
-
+    needs: [build-rust-binding]
     strategy:
       fail-fast: false
       matrix:
@@ -25,9 +32,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with :
-          ref : ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Use Node.js ${{ matrix.node-version }}
+        with:
+          ref: ${{ github.ref || github.head_ref || github.ref_name }}
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
