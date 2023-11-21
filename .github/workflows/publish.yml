@@ -128,7 +128,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: artifacts
+          path: crates/native_binding/artifacts
       - name: Move artifacts
         run: pnpm artifacts
       - name: build

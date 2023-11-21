@@ -35,7 +35,6 @@
     "version:release": "pnpm --parallel -r --aggregate-output --filter=./packages/* exec npm version ${npm_package_version}",
     "version:git": "git add . && git commit -m \"chore(release): publish ${npm_package_version}\"",
     "version:changelog": "conventional-changelog -p angular",
-    "universal": "pnpm --filter @tarojs/binding run universal",
     "artifacts": "pnpm --filter @tarojs/binding run artifacts"
   },
   "lint-staged": {
