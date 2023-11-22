@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.19-nightly.2023112221",
+  "version": "3.6.19-nightly.2023112223",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

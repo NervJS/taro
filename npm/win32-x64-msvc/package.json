@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-win32-x64-msvc",
   "description": "Native binding for taro",
-  "version": "3.6.19-nightly.2023112221",
+  "version": "3.6.19-nightly.2023112223",
   "os": [
     "win32"
   ],
