@@ -63,9 +63,8 @@ function attrs ({
   .clip(clip)
 }
 
-
 @Component
-struct TaroIcon {
+export default struct TaroIcon {
   nodeInfoMap: any = {}
 
   @Styles visibleChangeEvent () {
@@ -115,5 +114,3 @@ struct TaroIcon {
     }
   }
 }
-
-export default TaroIcon

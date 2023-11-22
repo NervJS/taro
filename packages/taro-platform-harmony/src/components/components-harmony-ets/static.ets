@@ -9,7 +9,6 @@ import { transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, s
 import type { TaroViewElement } from '@tarojs/runtime'
 
 @Extend(Image)
-
 function attrsImage ({
   flexBasis,
   flexGrow,
@@ -191,7 +190,7 @@ function getTextAttributes (node: TaroViewElement) {
 }
 
 @Component
-struct TaroFeedItem {
+export default struct TaroFeedItem {
   @ObjectLink node: TaroViewElement
 
   @State node1: TaroViewElement = new TaroIgnoreElement()
@@ -215,7 +214,7 @@ struct TaroFeedItem {
   @State node10: TaroViewElement = new TaroIgnoreElement()
 
   @State node11: TaroViewElement = new TaroIgnoreElement()
-  
+
   @State node12: TaroViewElement = new TaroIgnoreElement()
 
   dynamicCount = 11
@@ -227,7 +226,7 @@ struct TaroFeedItem {
 
   aboutToAppear () {
     this.dynamicCenter = new DynamicCenter()
-    
+
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }
 
@@ -242,7 +241,7 @@ struct TaroFeedItem {
             .attrsImage(getNormalAttributes(this.node4))
             .onAreaChange(getComponentEventCallback(this.node4, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
               const [_, areaResult] = eventResult
-              
+
               this.nodeInfoMap[this.node4._nid].areaInfo = areaResult
             }))
         }
@@ -301,7 +300,7 @@ struct TaroFeedItem {
           .attrs(getNormalAttributes(this.node6.childNodes[3].childNodes[1]))
           .onAreaChange(getComponentEventCallback(this.node6.childNodes[3].childNodes[1], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
             const [_, areaResult] = eventResult
-            
+
             this.nodeInfoMap[this.node6.childNodes[3].childNodes[1]._nid].areaInfo = areaResult
           }))
         }
@@ -313,5 +312,3 @@ struct TaroFeedItem {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node1), this.node1, ['click']))
   }
 }
-
-export default TaroFeedItem

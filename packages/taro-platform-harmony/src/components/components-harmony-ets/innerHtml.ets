@@ -5,10 +5,8 @@ import htmlParser from './utils/htmlParser'
 import { createNode } from './render'
 import type { TaroViewElement } from '../runtime'
 
-
 @Component
-struct TaroInnerHtml {
-
+export default struct TaroInnerHtml {
   @ObjectLink node: TaroViewElement
 
   // controller: web_webview.WebviewController = new web_webview.WebviewController();
@@ -80,5 +78,3 @@ struct TaroInnerHtml {
     }
   }
 }
-
-export default TaroInnerHtml

@@ -145,7 +145,7 @@ function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: nu
 }
 
 @Component
-struct TaroScrollView {
+export default struct TaroScrollView {
   nodeInfoMap: any = {}
 
   wrapper: Area = null
@@ -227,5 +227,3 @@ struct TaroScrollView {
     }
   }
 }
-
-export default TaroScrollView

@@ -8,8 +8,6 @@ import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
-
-
 @Extend(Video)
 function attrs ({
   id,
@@ -67,8 +65,6 @@ function attrs ({
   .clip(clip)
 }
 
-
-
 @Extend(Video)
 function props({
   muted,
@@ -85,7 +81,7 @@ function props({
 }
 
 @Component
-struct TaroVideo {
+export default struct TaroVideo {
   nodeInfoMap: any = {}
 
   eventMap: any = {}
@@ -168,5 +164,3 @@ struct TaroVideo {
     }
   }
 }
-
-export default TaroVideo

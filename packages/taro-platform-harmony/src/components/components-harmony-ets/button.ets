@@ -98,7 +98,7 @@ function getThemeAttributes (node: TaroButtonElement) {
 }
 
 @Component
-struct TaroButton {
+export default struct TaroButton {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroButtonElement
@@ -146,5 +146,3 @@ struct TaroButton {
     }
   }
 }
-
-export default TaroButton

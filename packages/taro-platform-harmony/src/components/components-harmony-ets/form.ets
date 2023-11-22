@@ -9,8 +9,6 @@ import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils
 
 import type { TaroViewElement } from '@tarojs/runtime'
 
-
-
 @Extend(Flex)
 function attrs ({
   id,
@@ -68,9 +66,8 @@ function attrs ({
   .clip(clip)
 }
 
-
 @Component
-struct TaroForm {
+export default struct TaroForm {
   nodeInfoMap: any = {}
 
   eventMap: any = {}
@@ -164,5 +161,3 @@ struct TaroForm {
     }
   }
 }
-
-export default TaroForm

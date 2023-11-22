@@ -139,7 +139,7 @@ function getAttributes (node: TaroElement) {
 }
 
 @Component
-struct TaroSpan {
+export struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
 
 
@@ -164,7 +164,7 @@ function buildSpan (node: TaroTextNode | TaroTextElement) {
 }
 
 @Component
-struct TaroText {
+export default struct TaroText {
   nodeInfoMap: any = {}
 
   @Styles visibleChangeEvent () {
@@ -184,7 +184,7 @@ struct TaroText {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
+
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }))
   }
@@ -211,5 +211,3 @@ struct TaroText {
     }
   }
 }
-
-export default TaroText

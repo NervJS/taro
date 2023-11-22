@@ -67,7 +67,7 @@ function attrs ({
 }
 
 @Component
-struct TaroSwiper {
+export struct TaroSwiper {
   private swiperController: SwiperController = new SwiperController()
 
   nodeInfoMap: any = {}
@@ -190,7 +190,7 @@ function getAttributes (node: TaroViewElement) {
 }
 
 @Component
-struct TaroSwiperItem {
+export struct TaroSwiperItem {
   nodeInfoMap: any = {}
 
   @Styles visibleChangeEvent () {
@@ -229,5 +229,3 @@ struct TaroSwiperItem {
     }
   }
 }
-
-export { TaroSwiper, TaroSwiperItem }

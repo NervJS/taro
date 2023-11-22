@@ -36,7 +36,7 @@ function themeStyles(isDisabled: boolean) {
 }
 
 @Component
-struct TaroRadio {
+export struct TaroRadio {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroViewElement
@@ -161,7 +161,7 @@ function attrs ({
 }
 
 @Component
-struct TaroRadioGroup {
+export struct TaroRadioGroup {
   nodeInfoMap: any = {}
 
   @Styles visibleChangeEvent () {
@@ -223,5 +223,3 @@ struct TaroRadioGroup {
     }
   }
 }
-
-export { TaroRadio, TaroRadioGroup }

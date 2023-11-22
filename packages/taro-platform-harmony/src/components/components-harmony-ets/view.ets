@@ -66,7 +66,7 @@ function attrs ({
 }
 
 @Component
-struct TaroView {
+export default struct TaroView {
   nodeInfoMap: any = {}
 
   @Styles visibleChangeEvent () {
@@ -87,7 +87,7 @@ struct TaroView {
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
+
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }))
   }
@@ -104,5 +104,3 @@ struct TaroView {
     }
   }
 }
-
-export default TaroView

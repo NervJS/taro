@@ -123,7 +123,7 @@ function attrs ({
 }
 
 @CustomDialog
-struct PickerView {
+export struct PickerView {
 
   @ObjectLink node: TaroViewElement
 
@@ -331,7 +331,7 @@ struct PickerView {
 }
 
 @Component
-struct TaroPicker {
+export default struct TaroPicker {
   nodeInfoMap: any = {}
 
   eventMap: any = {}
@@ -405,15 +405,13 @@ struct TaroPicker {
 
 function generateNumberArray(x, y) {
   // 创建一个空数组来存储结果
-  let result = [];
+  let result = []
 
   // 使用循环将 x 到 y 之间的数字添加到数组中
   for (let i = x; i <= y; i++) {
-    result.push(`${i}`);
+    result.push(`${i}`)
   }
 
   // 返回结果数组
-  return result;
+  return result
 }
-
-export default TaroPicker

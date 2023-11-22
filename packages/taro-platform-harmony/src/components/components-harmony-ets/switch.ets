@@ -30,7 +30,7 @@ function themeStyles(isDisabled: boolean) {
 }
 
 @Component
-struct TaroSwitch {
+export default struct TaroSwitch {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroViewElement
@@ -52,7 +52,7 @@ struct TaroSwitch {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
       const [_, areaResult] = eventResult
-      
+
       this.nodeInfoMap[this.node._nid].areaInfo = areaResult
     }))
   }
@@ -81,5 +81,3 @@ struct TaroSwitch {
     }
   }
 }
-
-export default TaroSwitch

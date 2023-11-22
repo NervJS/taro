@@ -67,7 +67,7 @@ function attrs ({
 }
 
 @Component
-struct TaroLabel {
+export default struct TaroLabel {
   nodeInfoMap: any = {}
 
   eventMap: any = {}
@@ -138,5 +138,3 @@ struct TaroLabel {
     }
   }
 }
-
-export default TaroLabel

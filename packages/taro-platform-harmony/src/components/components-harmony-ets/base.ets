@@ -1,7 +1,7 @@
 import type { TaroElement } from 'tarojs/runtime'
 
 @Component
-struct TaroComponentWrapper {
+export default struct TaroComponentWrapper {
   node: TaroElement
 
   @BuilderParam createElement: () => void
@@ -53,5 +53,3 @@ struct TaroComponentWrapper {
     })
   }
 }
-
-export default TaroComponentWrapper

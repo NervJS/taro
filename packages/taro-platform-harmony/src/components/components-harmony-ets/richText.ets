@@ -63,7 +63,7 @@ function attrs ({
 }
 
 @Component
-struct TaroRichText {
+export default struct TaroRichText {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroViewElement
@@ -97,5 +97,3 @@ struct TaroRichText {
     }
   }
 }
-
-export default TaroRichText

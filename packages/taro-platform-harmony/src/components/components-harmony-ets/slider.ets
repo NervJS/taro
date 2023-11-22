@@ -40,7 +40,7 @@ function themeStyles(isDisabled: boolean) {
 }
 
 @Component
-struct TaroSlider {
+export default struct TaroSlider {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroViewElement
@@ -117,5 +117,3 @@ struct TaroSlider {
     }
   }
 }
-
-export default TaroSlider

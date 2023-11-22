@@ -35,7 +35,7 @@ function themeStyles(isDisabled: boolean) {
 }
 
 @Component
-struct TaroCheckbox {
+export struct TaroCheckbox {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroViewElement
@@ -168,7 +168,7 @@ function themeStyles(isDisabled: boolean) {
 }
 
 @Component
-struct TaroCheckboxGroup {
+export struct TaroCheckboxGroup {
   nodeInfoMap: any = {}
 
   @ObjectLink node: TaroViewElement
@@ -229,5 +229,3 @@ struct TaroCheckboxGroup {
     }
   }
 }
-
-export { TaroCheckbox, TaroCheckboxGroup }
