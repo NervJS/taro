@@ -38,7 +38,7 @@ impl VisitMut for PreVisitor {
     fn visit_mut_expr (&mut self, expr: &mut Expr) {
         if Rc::strong_count(&self.is_in_jsx_expr_container) == 1 { return };
         let mut is_first_and_expr = false;
-        
+
         match expr {
             Expr::Bin(BinExpr { op, left, right, ..}) => {
                 // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
@@ -180,8 +180,8 @@ impl TransformVisitor {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
                     let jsx_attr_name = name.to_string();
-                    
-                    if jsx_attr_name == "key" {
+
+                    if REACT_RESERVED.contains(&jsx_attr_name.as_str()) {
                         return true;
                     }
 

@@ -9,3 +9,4 @@ pub const DATA_SID: &str = "data-sid";
 pub const TMPL_DATA_ROOT: &str = "i.";
 pub const ID: &str = "id";
 pub const LOOP_WRAPPER_ID: i32 = -1;
+pub const REACT_RESERVED: [&str; 2] = ["key", "ref"];
