@@ -38,7 +38,7 @@ export default class Index extends React.Component {
         func: (apiIndex, data) => {
           TestConsole.consoleTest('Taro.createAnimation')
           const animation = Taro.createAnimation(data)
-          this.setState({ animation })
+          this.setState({ animation, animationData: {}})
           TestConsole.consoleResult.call(this, animation, apiIndex)
           Taro.showToast({
             title: '创建动画成功',
@@ -49,8 +49,8 @@ export default class Index extends React.Component {
       {
         id: 'Animation.opacity',
         func: () => {
-          this.state.animation.opacity(0).step().opacity(0.5).step()
-          this.exportAnimation('opacity(0).step().opacity(0.5).step()')
+          this.state.animation.opacity(0).step().opacity(0.5).step().opacity(0.1).step().opacity(1).step()
+          this.exportAnimation('opacity(0).step().opacity(0.5).step().opacity(0.1).step().opacity(1).step()')
         },
       },
       {
@@ -85,8 +85,8 @@ export default class Index extends React.Component {
       {
         id: 'Animation.scale',
         func: () => {
-          this.state.animation.scale(2, 2).step().scale(1, 1).step()
-          this.exportAnimation('scale(2, 2).step().scale(1, 1).step()')
+          this.state.animation.scale(2, 2).step().scale(1, 1).step().scale(1.5).step().scale(1).step()
+          this.exportAnimation('scale(2, 2).step().scale(1, 1).step().scale(1.5).step().scale(1).step()')
         },
       },
       {
@@ -253,9 +253,6 @@ export default class Index extends React.Component {
   }
   render() {
     const { list, animationData, description } = this.state
-    const animationProp =
-      Taro.getEnv() == Taro.ENV_TYPE.WEAPP ? { animation: animationData } : { 'data-animation': animationData }
-
     return (
       <View>
         <View
@@ -280,7 +277,7 @@ export default class Index extends React.Component {
             }}
           >
             <View
-              {...animationProp}
+              animation={animationData}
               style={{
                 position: 'relative',
                 width: '100%',
