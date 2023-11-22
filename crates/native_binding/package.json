@@ -1,14 +1,20 @@
 {
   "name": "@tarojs/binding",
-  "version": "3.6.18",
+  "version": "3.6.19-nightly.20231122",
   "description": "Node binding for taro",
   "main": "binding.js",
   "typings": "binding.d.ts",
   "napi": {
-    "binaryName": "taro"
+    "binaryName": "taro",
+    "triples": {
+      "default": true,
+      "additional": [
+        "aarch64-apple-darwin"
+      ]
+    }
   },
   "scripts": {
-    "artifacts": "napi artifacts --dist ../../npm",
+    "artifacts": "napi artifacts --npm-dir ../../npm --cwd=./",
     "build": "napi build --platform --release --no-js --dts binding.d.ts",
     "build:debug": "napi build --platform --no-js --dts binding.d.ts",
     "prepublishOnly": "napi prepublish -t npm",
