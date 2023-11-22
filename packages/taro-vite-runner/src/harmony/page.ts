@@ -85,7 +85,7 @@ function transArr2Str (array: unknown[], prefixSpace = 0) {
   return array.filter(e => typeof e === 'string').join(`\n${' '.repeat(prefixSpace)}`)
 }
 
-function renderPage (isTabPage: boolean, enableRefresh = false) {
+function renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = false) {
   let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
@@ -107,19 +107,26 @@ function renderPage (isTabPage: boolean, enableRefresh = false) {
 `
 
   if (enableRefresh) {
-    pageStr = `Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
-  ${transArr2Str(pageStr.split('\n'), 2)}
-}
-.onStateChange((state) => {
-  if (state === RefreshStatus.Refresh) {
-    ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
-    this.page?.onPullDownRefresh?.call(this)
-  } else if (state === RefreshStatus.Done) {
-    ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
-  } else if (state === RefreshStatus.Drag) {
-    this.page?.onPullIntercept?.call(this)
+    const enableStr = appEnableRefresh
+      ? `this.getConfig(${isTabPage ? 'index' : ''}).enablePullDownRefresh !== false`
+      : `this.getConfig(${isTabPage ? 'index' : ''}).enablePullDownRefresh`
+    pageStr = `if (${enableStr}) {
+  Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
+    ${transArr2Str(pageStr.split('\n'), 4)}
   }
-})`
+  .onStateChange((state) => {
+    if (state === RefreshStatus.Refresh) {
+      ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
+      this.page?.onPullDownRefresh?.call(this)
+    } else if (state === RefreshStatus.Done) {
+      ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
+    } else if (state === RefreshStatus.Drag) {
+      this.page?.onPullIntercept?.call(this)
+    }
+  })
+} else {
+  ${transArr2Str(pageStr.split('\n'), 2)}
+}`
   }
 
   if (isTabPage) {
@@ -338,7 +345,7 @@ export default { ${
       'this.page ||= []',
       'if (!this.pageList[index]) {',
       '  const pageName = this.tabBarList[index]?.pagePath',
-      '  this.pageList[index] = createPageConfig(component[pageName], pageName, config[index])',
+      '  this.pageList[index] = createPageConfig(component[pageName], pageName, this.getConfig(index))',
       '  this.page = this.pageList[index]',
       '  this.page.onLoad?.call(this, params, (instance) => {',
       '    this.node[index] = instance',
@@ -557,7 +564,7 @@ export default { ${
   }` : null,
           `
   build() {
-    ${transArr2Str(renderPage(isTabbarPage, enableRefresh).split('\n'), 4)}
+    ${transArr2Str(renderPage(isTabbarPage, appConfig.window?.enablePullDownRefresh, enableRefresh).split('\n'), 4)}
   }`)
 
         structCodeArray.push('}')
