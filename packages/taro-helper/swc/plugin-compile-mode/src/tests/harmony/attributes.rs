@@ -11,10 +11,13 @@ test!(
           <View compileMode>
             <View class={myClass}>
               <View style={myStyle} customProp={myCustomProp}></View>
-              <View hoverStayTime={myTime}>
+              <View class="center" />
+              <View onTouch={myTime}>
                 <View hoverClass={myHoverClass}></View>
               </View>
             </View>
+            <Image alt="占位符" src="https://www.jd.com/test.jpg" />
+            <Image alt="占位符" src={src} />
           </View>
         )
       }
@@ -29,9 +32,12 @@ test!(
     function Index () {
         return (
           <View compileMode>
+            <View onClick={() => { console.log("click done") }}></View>
+            <View onClick={function clickFn () { console.log("click done") }}></View>
             <View onClick={handleViewClick}></View>
             <View onAnimationStart={() => {}} id={myId}></View>
-            <Image onLoad={() => {}} id="myImg" />
+            <Image onLoad={() => { console.log("load done") }} id="myImg" />
+            <View onClick={() => { console.log("click done") }} onTouch={() => { console.log("touch done") }} />
           </View>
         )
       }
