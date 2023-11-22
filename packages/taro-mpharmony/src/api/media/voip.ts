@@ -1,114 +1,111 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 更新实时语音静音设置
  * 
  * @canNotUse updateVoIPChatMuteConfig
  */
-export const updateVoIPChatMuteConfig = /* @__PURE__ */ temporarilyNotSupport('updateVoIPChatMuteConfig')
+export { updateVoIPChatMuteConfig } from '@tarojs/taro-h5'
 
 /**
  * 订阅视频画面成员
  * 
  * @canNotUse subscribeVoIPVideoMembers
  */
-export const subscribeVoIPVideoMembers = /* @__PURE__ */ temporarilyNotSupport('subscribeVoIPVideoMembers')
+export { subscribeVoIPVideoMembers } from '@tarojs/taro-h5'
 
 /**
  * 开启双人通话
  * 
  * @canNotUse setEnable1v1Chat
  */
-export const setEnable1v1Chat = /* @__PURE__ */ temporarilyNotSupport('setEnable1v1Chat')
+export { setEnable1v1Chat } from '@tarojs/taro-h5'
 
 /**
  * 监听实时语音通话成员视频状态变化事件
  * 
  * @canNotUse onVoIPVideoMembersChanged
  */
-export const onVoIPVideoMembersChanged = /* @__PURE__ */ temporarilyNotSupport('onVoIPVideoMembersChanged')
+export { onVoIPVideoMembersChanged } from '@tarojs/taro-h5'
 
 /**
  * 监听房间状态变化事件
  * 
  * @canNotUse onVoIPChatStateChanged
  */
-export const onVoIPChatStateChanged = /* @__PURE__ */ temporarilyNotSupport('onVoIPChatStateChanged')
+export { onVoIPChatStateChanged } from '@tarojs/taro-h5'
 
 /**
  * 监听实时语音通话成员通话状态变化事件
  * 
  * @canNotUse onVoIPChatSpeakersChanged
  */
-export const onVoIPChatSpeakersChanged = /* @__PURE__ */ temporarilyNotSupport('onVoIPChatSpeakersChanged')
+export { onVoIPChatSpeakersChanged } from '@tarojs/taro-h5'
 
 /**
  * 监听实时语音通话成员在线状态变化事件
  * 
  * @canNotUse onVoIPChatMembersChanged
  */
-export const onVoIPChatMembersChanged = /* @__PURE__ */ temporarilyNotSupport('onVoIPChatMembersChanged')
+export { onVoIPChatMembersChanged } from '@tarojs/taro-h5'
 
 /**
  * 监听被动断开实时语音通话事件
  * 
  * @canNotUse onVoIPChatInterrupted
  */
-export const onVoIPChatInterrupted = /* @__PURE__ */ temporarilyNotSupport('onVoIPChatInterrupted')
+export { onVoIPChatInterrupted } from '@tarojs/taro-h5'
 
 /**
  * 取消监听实时语音通话成员视频状态变化事件
  * 
  * @canNotUse offVoIPVideoMembersChanged
  */
-export const offVoIPVideoMembersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPVideoMembersChanged')
+export { offVoIPVideoMembersChanged } from '@tarojs/taro-h5'
 
 /**
  * 取消监听房间状态变化事件
  * 
  * @canNotUse offVoIPChatStateChanged
  */
-export const offVoIPChatStateChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatStateChanged')
+export { offVoIPChatStateChanged } from '@tarojs/taro-h5'
 
 /**
  * 取消监听实时语音通话成员通话状态变化事件
  * 
  * @canNotUse offVoIPChatSpeakersChanged
  */
-export const offVoIPChatSpeakersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatSpeakersChanged')
+export { offVoIPChatSpeakersChanged } from '@tarojs/taro-h5'
 
 /**
  * 取消监听实时语音通话成员在线状态变化事件
  * 
  * @canNotUse offVoIPChatMembersChanged
  */
-export const offVoIPChatMembersChanged = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatMembersChanged')
+export { offVoIPChatMembersChanged } from '@tarojs/taro-h5'
 
 /**
  * 取消监听被动断开实时语音通话事件
  * 
  * @canNotUse offVoIPChatInterrupted
  */
-export const offVoIPChatInterrupted = /* @__PURE__ */ temporarilyNotSupport('offVoIPChatInterrupted')
+export { offVoIPChatInterrupted } from '@tarojs/taro-h5'
 
 /**
  * 加入 (创建) 实时语音通话
  * 
  * @canNotUse joinVoIPChat
  */
-export const joinVoIPChat = /* @__PURE__ */ temporarilyNotSupport('joinVoIPChat')
+export { joinVoIPChat } from '@tarojs/taro-h5'
 
 /**
  * 加入（创建）双人通话
  * 
  * @canNotUse join1v1Chat
  */
-
-export const join1v1Chat = /* @__PURE__ */ temporarilyNotSupport('join1v1Chat')
+export { join1v1Chat } from '@tarojs/taro-h5'
 
 /**
  * 退出（销毁）实时语音通话
  * 
  * @canNotUse exitVoIPChat
  */
-export const exitVoIPChat = /* @__PURE__ */ temporarilyNotSupport('exitVoIPChat')
+export { exitVoIPChat } from '@tarojs/taro-h5'

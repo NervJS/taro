@@ -1,6 +1,6 @@
 import Taro from '@tarojs/api'
 
-import { shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /**
@@ -8,7 +8,7 @@ import { MethodHandler } from '../../utils/handler'
  *
  * @canNotUse openSystemBluetoothSetting
  */
-export const openSystemBluetoothSetting = /* @__PURE__ */ temporarilyNotSupport('openSystemBluetoothSetting')
+export { openSystemBluetoothSetting } from '@tarojs/taro-h5'
 
 /**
  * 跳转系统授权管理页
@@ -76,7 +76,7 @@ export const getWindowInfo: typeof Taro.getWindowInfo = () => {
   return windowInfo
 }
 
-const lastSystemSettingResult : Taro.getSystemSetting.Result = {}
+const lastSystemSettingResult: Taro.getSystemSetting.Result = {}
 let lastGetSystemSettingTime = 0
 
 /**

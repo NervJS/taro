@@ -1,53 +1,51 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 关闭 NFC 模块
  * 
  * @canNotUse stopHCE
  */
-export const stopHCE = /* @__PURE__ */ temporarilyNotSupport('stopHCE')
+export { stopHCE } from '@tarojs/taro-h5'
 
 /**
  * 初始化 NFC 模块
  * 
  * @canNotUse startHCE
  */
-export const startHCE = /* @__PURE__ */ temporarilyNotSupport('startHCE')
+export { startHCE } from '@tarojs/taro-h5'
 
 /**
  * 发送 NFC 消息
  * 
  * @canNotUse sendHCEMessage
  */
-export const sendHCEMessage = /* @__PURE__ */ temporarilyNotSupport('sendHCEMessage')
+export { sendHCEMessage } from '@tarojs/taro-h5'
 
 /**
  * 监听接收 NFC 设备消息事件，仅能注册一个监听
  * 
  * @canNotUse onHCEMessage
  */
-export const onHCEMessage = /* @__PURE__ */ temporarilyNotSupport('onHCEMessage')
+export { onHCEMessage } from '@tarojs/taro-h5'
 
 /**
  * 接收 NFC 设备消息事件，取消事件监听
  * 
  * @canNotUse offHCEMessage
  */
-export const offHCEMessage = /* @__PURE__ */ temporarilyNotSupport('offHCEMessage')
+export { offHCEMessage } from '@tarojs/taro-h5'
 
 /**
  * 获取 NFC 实例
  * 
  * @canNotUse getNFCAdapter
  */
-export const getNFCAdapter = /* @__PURE__ */ temporarilyNotSupport('getNFCAdapter')
+export { getNFCAdapter } from '@tarojs/taro-h5'
 
 /**
  * 判断当前设备是否支持 HCE 能力
  * 
  * @canNotUse getHCEState
  */
-export const getHCEState = /* @__PURE__ */ temporarilyNotSupport('getHCEState')
+export { getHCEState } from '@tarojs/taro-h5'
 
 /**
  * IsoDep 标签

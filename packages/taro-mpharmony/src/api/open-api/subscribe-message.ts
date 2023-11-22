@@ -1,5 +1,3 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 请求订阅消息
  * 
@@ -16,4 +14,4 @@ export const requestSubscribeMessage = () =>
  * 
  * @canNotUse requestSubscribeDeviceMessage
  */
-export const requestSubscribeDeviceMessage = /* @__PURE__ */ temporarilyNotSupport('requestSubscribeDeviceMessage')
+export { requestSubscribeDeviceMessage } from '@tarojs/taro-h5'

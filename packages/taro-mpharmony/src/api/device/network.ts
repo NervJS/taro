@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
 
-import { temporarilyNotSupport } from '../../utils'
 import { CallbackManager, MethodHandler } from '../../utils/handler'
 
 function getConnection () {
@@ -80,7 +79,7 @@ const networkStatusListener = async () => {
  * 
  * @canNotUse onNetworkWeakChange
  */
-export const onNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('onNetworkWeakChange')
+export { onNetworkWeakChange } from '@tarojs/taro-h5'
 
 /**
  * 监听网络状态变化
@@ -101,7 +100,7 @@ export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = (callbac
  * 
  * @canNotUse offNetworkWeakChange
  */
-export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNetworkStatusChange')
+export { offNetworkWeakChange } from '@tarojs/taro-h5'
 
 /**
  * 取消监听网络状态变化事件，参数为空，则取消所有的事件监听
@@ -126,4 +125,4 @@ export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = (callb
  * 
  * @canNotUse getLocalIPAddress
  */
-export const getLocalIPAddress = /* @__PURE__ */ temporarilyNotSupport('getLocalIPAddress')
+export { getLocalIPAddress } from '@tarojs/taro-h5'

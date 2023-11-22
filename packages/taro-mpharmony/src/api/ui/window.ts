@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
 
-import { temporarilyNotSupport } from '../../utils'
 import { CallbackManager } from '../../utils/handler'
 
 const callbackManager = new CallbackManager()
@@ -17,7 +16,7 @@ const resizeListener = () => {
  * 
  * @canNotUse setWindowSize
  */
-export const setWindowSize = /* @__PURE__ */ temporarilyNotSupport('setWindowSize')
+export { setWindowSize } from '@tarojs/taro-h5'
 
 /**
  * 监听窗口尺寸变化事件
@@ -48,4 +47,4 @@ export const offWindowResize: typeof Taro.offWindowResize = (callback) => {
  * 
  * @canNotUse checkIsPictureInPictureActive
  */
-export const checkIsPictureInPictureActive = /* @__PURE__ */ temporarilyNotSupport('checkIsPictureInPictureActive')
+export { checkIsPictureInPictureActive } from '@tarojs/taro-h5'

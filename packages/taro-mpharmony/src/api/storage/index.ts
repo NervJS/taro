@@ -1,13 +1,13 @@
 import Taro from '@tarojs/api'
 
-import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../utils'
+import { getParameterError, shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 function getItem (key) {
   let item
   try {
     item = JSON.parse(localStorage.getItem(key) || '')
-  } catch (e) {} // eslint-disable-line no-empty
+  } catch (e) { } // eslint-disable-line no-empty
 
   // 只返回使用 Taro.setStorage API 存储的数据
   if (item && typeof item === 'object' && item.hasOwnProperty('data')) {
@@ -83,7 +83,7 @@ export const setStorage: typeof Taro.setStorage = (options) => {
  * 
  * @canNotUse revokeBufferURL
  */
-export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
+export { revokeBufferURL } from '@tarojs/taro-h5'
 
 /** 
  * Taro.removeStorage 的同步版本
@@ -197,7 +197,7 @@ export const getStorageInfo: typeof Taro.getStorageInfo = ({ success, fail, comp
  * @__object [key]
  * @__success [data]
 */
-export const getStorage: typeof Taro.getStorage = <T>(options) => {
+export const getStorage: typeof Taro.getStorage = <T> (options) => {
   // options must be an Object
   const isObject = shouldBeObject(options)
   if (!isObject.flag) {
@@ -239,7 +239,7 @@ export const getStorage: typeof Taro.getStorage = <T>(options) => {
  * 
  * @canNotUse createBufferURL
  */
-export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
+export { createBufferURL } from '@tarojs/taro-h5'
 
 /** 
  * Taro.clearStorage 的同步版本
@@ -266,9 +266,8 @@ export const clearStorage: typeof Taro.clearStorage = ({ success, fail, complete
  * 
  * @canNotUse createCacheManager
  */
-export const createCacheManager = /* @__PURE__ */ temporarilyNotSupport('createCacheManager')
-
 export * from './background-fetch'
+export { createCacheManager } from '@tarojs/taro-h5'
 
 /**
  * CacheManager实例
