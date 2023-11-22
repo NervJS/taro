@@ -2,8 +2,9 @@ import { fs, isEmptyObject } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
 import { PAGE_SUFFIX, TARO_TABBAR_PAGE_PATH } from './page'
+import { AppParser } from './template'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
@@ -25,73 +26,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const rawId = stripVirtualModulePrefix(id).replace(ENTRY_SUFFIX, '')
         const { taroConfig, cwd: appPath, app } = viteCompilerContext
         const appConfig = app.config
-        const runtimePath = Array.isArray(taroConfig.runtimePath) ? taroConfig.runtimePath : [taroConfig.runtimePath]
-        let setReconcilerPost = ''
-        const setReconciler = runtimePath.reduce((res, item) => {
-          if (item && /^post:/.test(item)) {
-            setReconcilerPost += `import '${item.replace(/^post:/, '')}'\n`
-            return res
-          } else {
-            return res + `import '${item}'\n`
-          }
-        }, '')
-
-        const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = viteCompilerContext.loaderMeta
-        const createApp = `${creator}(component, ${frameworkArgs})`
-
-        const appConfigStr = prettyPrintJson(appConfig)
-
-        const { pages = [], entryPagePath = pages[0], tabBar } = appConfig
-        let entryPath = entryPagePath
-        const tabbarList = tabBar?.list || []
-        const tabbarIndex = tabbarList.findIndex(item => item.pagePath === entryPagePath)
-        if (tabbarIndex >= 0) {
-          entryPath = TARO_TABBAR_PAGE_PATH
-          // TODO 寻找其它方案传入 tabbarIndex 用于 switchTab
-          // entryPagePath = `${TARO_TABBAR_PAGE_PATH}?current=${tabbarIndex}`
-        }
-        let instantiateApp = `export default class EntryAbility extends UIAbility {
-  app
-
-  onCreate(want, launchParam) {
-    AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
-    AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
-    this.app = ${createApp}
-    this.app.onLaunch({
-      ...want,
-      ...launchParam
-    })
-  }
-
-  onDestroy() {}
-
-  onWindowStageCreate(stage) {
-    context.resolver(this.context)
-    stage.loadContent('${entryPath}', (err, data) => {
-      if (err.code) {
-        return this.app?.onError?.call(this, err)
-      }
-    })
-  }
-
-  onWindowStageDestroy() {
-    this.app?.onUnload?.call(this)
-  }
-
-  onForeground() {
-    this.app?.onShow?.call(this)
-  }
-
-  onBackground() {
-    this.app?.onHide?.call(this)
-  }
-}`
-
-        if (typeof modifyInstantiate === 'function') {
-          instantiateApp = modifyInstantiate(instantiateApp, 'app')
-        }
-
-        // rawfile innerHTML模版，供innerhtml的webview加载
+        // Note: rawfile innerHTML 模版，供 innerHtml 的 webview 加载
         const { outputRoot = 'dist' } = taroConfig
         const rawFileDir = path.join(path.resolve(outputRoot, '..'), 'resources/rawfile')
         if (!fs.existsSync(rawFileDir)) {
@@ -99,9 +34,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         }
         const targetPath = path.join(rawFileDir, 'innerHTML.html')
         fs.writeFile(targetPath, Buffer.from(`<html><body></body></html>`, 'utf-8'))
-
         const tabbar = appConfig.tabBar
-        // pages
+        const parse = new AppParser(appPath, appConfig, taroConfig, viteCompilerContext.loaderMeta)
+        // emit pages
         viteCompilerContext.pages.forEach(page => {
           const list = tabbar?.list || []
           if (list.every(item => item.pagePath !== page.name)) {
@@ -114,7 +49,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           }
         })
 
-        // tabbar
+        // emit tabbar
         if (tabbar && !isEmptyObject(tabbar)) {
           const tabbarPage = TARO_TABBAR_PAGE_PATH
           const tabbarPath = path.join(appPath, taroConfig.sourceRoot || 'src', `${tabbarPage}${PAGE_SUFFIX}`)
@@ -162,35 +97,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           })
           this.addWatchFile(themePath)
         }
-
-        const pxTransformOption = taroConfig.postcss?.pxtransform || {}
-        const pxTransformConfig = pxTransformOption.config || {}
-        pxTransformConfig.designWidth = taroConfig.designWidth
-        pxTransformConfig.deviceRatio = taroConfig.deviceRatio
-
-        return [
-          '// @ts-nocheck',
-          setReconciler,
-          'import UIAbility from "@ohos.app.ability.UIAbility"',
-          'import { window, context } from "@tarojs/runtime"',
-          `import { ${creator} } from "${creatorLocation}"`,
-          'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
-          'import router from "@ohos.router"',
-          setReconcilerPost,
-          `import component from "${rawId}"`,
-          importFrameworkStatement,
-          `var config = ${appConfigStr};`,
-          'window.__taroAppConfig = config',
-          instantiateApp,
-          'initNativeApi(Taro)',
-          'initPxTransform({',
-          `designWidth: ${pxTransformConfig.designWidth},`,
-          `deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},`,
-          `baseFontSize: ${pxTransformConfig.baseFontSize},`,
-          `unitPrecision: ${pxTransformConfig.unitPrecision},`,
-          `targetUnit: ${JSON.stringify(pxTransformConfig.targetUnit)},`,
-          '})',
-        ].join('\n')
+        return parse.parse(rawId)
       }
     }
   }
