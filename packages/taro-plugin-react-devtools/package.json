@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-react-devtools",
-  "version": "3.6.19-nightly.20231122",
+  "version": "3.6.19-nightly.2023112217",
   "description": "Taro 小程序端支持使用 React DevTools 的插件",
   "main": "index.js",
   "scripts": {
