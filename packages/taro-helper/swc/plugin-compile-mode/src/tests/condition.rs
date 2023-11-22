@@ -15,6 +15,7 @@ test!(
             )}
             {condition1 && "condition2" && condition3 && <View hoverClass={myClass}>{content}</View>}
             {condition1 && 'Hello'}
+            {condition1 && <View onClick={() => condition2 && doSth()} />}
             <View hoverClass={myClass}></View>
           </View>
         )
@@ -35,7 +36,9 @@ test!(
             {condition1 ? <View>{a}</View> : (condition2 ? <View>{b}</View> : <Text>{c}</Text>)}
             {condition1 ? condition2 && <View>{a}</View> : <View>{b}</View>}
             {condition1 ? <View>{a}</View> : condition2 && <View>{b}</View>}
-            {condition1 ? "someText" : 789 }
+            {condition1 ? "someText" : 789}
+            {condition1 ? <View className={condition2 ? '' : ''} /> : <View/>}
+            {condition1 ? <View>{condition2 ? <View/> : <View/>}</View> : <View/>}
             <View hoverClass={myClass}></View>
           </View>
         )
