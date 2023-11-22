@@ -97,14 +97,14 @@ impl VisitMut for PreVisitor {
                             el.opening.attrs.push(attr);
                         },
                         _ => {
-                            let temp = arm.take();
-                            let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
-                            **arm = Expr::JSXElement(Box::new(JSXElement {
-                                span,
-                                opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
-                                children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(temp)})],
-                                closing: Some(JSXClosingElement { span, name: jsx_el_name })
-                            }))
+                            // let temp = arm.take();
+                            // let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                            // **arm = Expr::JSXElement(Box::new(JSXElement {
+                            //     span,
+                            //     opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
+                            //     children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(temp)})],
+                            //     closing: Some(JSXClosingElement { span, name: jsx_el_name })
+                            // }))
                         }
                     }
                 };
@@ -184,10 +184,10 @@ impl TransformVisitor {
                         //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
 
                         // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createNode 来生成后续子节点
-                        let is_only_loop = utils::check_jsx_element_children_is_only_loop(el);
+                        let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
                         let mut children = utils::create_original_node_renderer(self);
                         
-                        if !is_only_loop {
+                        if !is_loop_exist {
                             children = self.build_ets_children(el);
                         }
 
@@ -249,51 +249,30 @@ impl TransformVisitor {
                         *jsx_expr = expr.take();
                     }
                     match &mut **jsx_expr {
-                        Expr::Cond(CondExpr { cons, alt, ..}) => {
-                            let mut process_condition_expr = |arm: &mut Box<Expr>| {
-                                match &mut **arm {
-                                    Expr::JSXElement(el) => {
-                                        // 判断 el 的属性中是否存在 COMPILE_IGNORE，如果存在则返回空字符串
-                                        if utils::check_jsx_element_has_compile_ignore(el) {
-                                            String::new()
-                                        } else {
-                                            self.build_ets_element(el)
-                                        }
-                                    },
-                                    Expr::Lit(lit) => {
-                                        // TODO: 处理静态文本
-                                        // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
-                                        // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
-                                        // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
-                                        let current_path = self.get_current_node_path();
-                                        let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, current_path, COMPILE_IGNORE, current_path);
-                                        str
-                                    },
-                                    _ => String::new()
-                                }
-                            };
-                            let mut temp_children_string = String::new();
-                            let alt_children_string = process_condition_expr(alt);
-                            let cons_children_string = process_condition_expr(cons);
-
-                            temp_children_string.push_str(format!("if (this.{}._attrs.compileIf) {{\n{}}}", self.get_current_node_path(), cons_children_string).as_str());
-                            if !alt_children_string.is_empty() {
-                                temp_children_string.push_str(format!(" else {{\n{}}}", alt_children_string).as_str());
-                            }
-
-                            children_string.push_str(&utils::add_spaces_to_lines(&temp_children_string));
+                        Expr::Cond(cond_expr) => {
+                            children_string.push_str(self.build_ets_cond_expr(cond_expr).as_str());
                         },
-                        // TODO 只支持 render 开头的函数调用返回 JSX
-                        // Expr::Call(_)
                         _ => {
-                            // TODO: 处理静态文本
-                            // println!("_ expr: {:?} ", jsx_expr);
+                            // TODO: 全部当普通文本处理，后续根据前缀是否为 render 来判断是 jsx 还是普通文本，后续会支持 render 开头的函数调用返回 JSX
+                            // Expr::Call(_)
                             let node_path = self.get_current_node_path();
-                            let code = format!("{{{{{}.v}}}}", node_path);
+                            let code = utils::add_spaces_to_lines(get_text_component_str(&node_path).as_str());
+                            self.component_set.insert(TEXT_TAG.clone().to_string());
                             children_string.push_str(&code);
                         }
                     };
                     retain_child_counter = retain_child_counter + 1;
+                },
+                JSXElementChild::JSXText(jsx_text) => {
+                    let content = utils::jsx_text_to_string(&jsx_text.value);
+                    if !content.is_empty() {
+                        let current_path = self.get_current_node_path();
+                        let code = utils::add_spaces_to_lines(get_text_component_str(&current_path).as_str());
+
+                        children_string.push_str(code.as_str());
+                        self.component_set.insert(TEXT_TAG.clone().to_string());
+                        retain_child_counter = retain_child_counter + 1;
+                    }
                 },
                 _ => (),
             }
@@ -303,6 +282,42 @@ impl TransformVisitor {
 
         children_string
     }
+
+    fn build_ets_cond_expr (&mut self, cond_expr: &mut CondExpr) -> String {
+        let mut children_string = String::new();
+        let mut process_condition_expr = |arm: &mut Box<Expr>| {
+            match &mut **arm {
+                Expr::JSXElement(el) => {
+                    // 判断 el 的属性中是否存在 COMPILE_IGNORE，如果存在则返回空字符串
+                    if utils::check_jsx_element_has_compile_ignore(el) {
+                        String::new()
+                    } else {
+                        self.build_ets_element(el)
+                    }
+                },
+                Expr::Lit(_) => {
+                    // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
+                    // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
+                    // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
+                    let current_path = self.get_current_node_path();
+
+                    self.component_set.insert(TEXT_TAG.clone().to_string());
+                    utils::add_spaces_to_lines(get_text_component_str(&current_path).as_str())
+                },
+                Expr::Cond(cond_expr) => self.build_ets_cond_expr(cond_expr),
+                _ => String::new()
+            }
+        };
+        let alt_children_string = process_condition_expr(&mut cond_expr.alt);
+        let cons_children_string = process_condition_expr(&mut cond_expr.cons as &mut Box<Expr>);
+
+        children_string.push_str(format!("if (this.{}._attrs.compileIf) {{\n{}}}", self.get_current_node_path(), cons_children_string).as_str());
+        if !alt_children_string.is_empty() {
+            children_string.push_str(format!(" else {{\n{}}}", alt_children_string).as_str());
+        }
+
+        utils::add_spaces_to_lines(&children_string)
+    }        
 
     fn check_jsx_is_static (&self, el: &mut JSXElement) -> bool {
         let opening_element = &mut el.opening;

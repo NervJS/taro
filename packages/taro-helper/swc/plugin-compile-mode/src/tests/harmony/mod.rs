@@ -2,7 +2,7 @@ pub use super::get_syntax_config;
 use swc_core::ecma::visit::{as_folder, Fold, VisitMut};
 use crate::{
   PluginConfig,
-  transform::*,
+  harmony_transform::*,
 };
 
 mod entry;
@@ -19,21 +19,7 @@ pub fn tr () -> impl Fold + VisitMut {
           "components": {
               "block": {},
               "image": {
-                  "src": "i.p3",
-                  "mode": "xs.b(i.p1,'scaleToFill')",
-                  "lazy-load": "xs.b(i.p0,!1)",
-                  "binderror": "eh",
-                  "bindload": "eh",
-                  "bindtouchstart": "eh",
-                  "bindtouchmove": "eh",
-                  "bindtouchend": "eh",
-                  "bindtouchcancel": "eh",
-                  "bindlongpress": "eh",
-                  "webp": "xs.b(i.p4,false)",
-                  "show-menu-by-longpress": "xs.b(i.p2,false)",
-                  "style": "i.st",
-                  "class": "i.cl",
-                  "bindtap": "eh"
+                  "onLoad": "onComplete"
               },
               "view": {
                   "hover-class": "xs.b(i.p1,'none')",
@@ -69,17 +55,6 @@ pub fn tr () -> impl Fold + VisitMut {
                   "class": "i.cl",
                   "bindtap": "eh"
               }
-          },
-          "adapter": {
-              "if": "wx:if",
-              "else": "wx:else",
-              "elseif": "wx:elif",
-              "for": "wx:for",
-              "forItem": "wx:for-item",
-              "forIndex": "wx:for-index",
-              "key": "wx:key",
-              "xs": "wxs",
-              "type": "weapp"
           }
       }"#
   )

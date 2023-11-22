@@ -279,9 +279,9 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
     None
 }
 
-pub fn check_jsx_element_children_is_only_loop (el: &mut JSXElement) -> bool {
-    if el.children.len() == 1 {
-        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = &mut el.children[0] {
+pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
+    for child in el.children.iter_mut() {
+        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
             if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &mut **expr {
                 if is_call_expr_of_loop(callee_expr, args) {
                     return true

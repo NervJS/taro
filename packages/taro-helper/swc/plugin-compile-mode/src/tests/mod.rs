@@ -1,10 +1,3 @@
-mod entry;
-mod attributes;
-mod shake;
-mod condition;
-mod looping;
-mod harmony;
-
 use swc_core::ecma::{
     parser,
     visit::{as_folder, Fold, VisitMut},
@@ -13,6 +6,13 @@ use crate::{
     PluginConfig,
     transform::*,
 };
+
+mod entry;
+mod attributes;
+mod shake;
+mod condition;
+mod looping;
+mod harmony;
 
 pub fn tr () -> impl Fold + VisitMut {
     let config = serde_json::from_str::<PluginConfig>(

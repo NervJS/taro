@@ -41,3 +41,22 @@ test!(
     }
     "#
 );
+
+test!(
+  get_syntax_config(),
+  |_| tr(),
+  should_loop_with_arrow_function_with_blockstmt_and_set_parent_dynamic_id,
+  r#"
+  function Index () {
+      return (
+        <View compileMode>
+          <View>
+            {list.map(item => {
+              return <View>{item}</View>
+            })}
+          </View>
+        </View>
+      )
+  }
+  "#
+);

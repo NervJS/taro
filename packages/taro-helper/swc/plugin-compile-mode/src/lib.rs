@@ -13,9 +13,9 @@ use std::collections::HashMap;
 use core::fmt::Debug;
 
 mod utils;
-// mod transform;
+mod transform;
 mod transform_harmony;
-use transform_harmony as transform;
+use transform_harmony as harmony_transform;
 #[cfg(test)]
 mod tests;
 
@@ -25,7 +25,7 @@ pub struct PluginConfig {
     pub is_harmony: Option<bool>,
     pub tmpl_prefix: String,
     pub components: HashMap<String, HashMap<String, String>>,
-    pub adapter: HashMap<String, String>,
+    pub adapter: Option<HashMap<String, String>>,
 }
 
 /// An example plugin function with macro support.
@@ -51,6 +51,16 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
             .unwrap()
     )
     .unwrap();
-    let visitor = transform::TransformVisitor::new(config);
-    program.fold_with(&mut as_folder(visitor))
+
+    // 如果 config 中的 is_harmony 字段为 true 则走 harmony_transform, 否则则走 transform
+    match config.is_harmony {
+        Some(true) => {
+            let visitor = harmony_transform::TransformVisitor::new(config);
+            program.fold_with(&mut as_folder(visitor))
+        },
+        _ => {
+            let visitor = transform::TransformVisitor::new(config);
+            program.fold_with(&mut as_folder(visitor))
+        }
+    }
 }
