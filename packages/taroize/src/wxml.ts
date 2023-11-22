@@ -637,10 +637,6 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   printToLogFile(
     `package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`
   )
-  let parseResult = getCacheWxml(dirPath)
-  if (parseResult) {
-    return parseResult
-  }
 
   try {
     wxml = prettyPrint(wxml, {
@@ -675,6 +671,11 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
+  // 确认当前解析页面是否已经解析过，如果解析过则直接获取缓存解析
+  let parseResult = getCacheWxml(dirPath, hydrate(ast))
+  if (parseResult) {
+    return parseResult
+  }
   // 在解析wxml页面前，先进行预解析
   // 当前预解析主要为了抽取页面下的模板信息
   traverse(ast, createPreWxmlVistor(templates))
@@ -694,6 +695,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
+  
   parseResult = {
     wxses,
     imports,
