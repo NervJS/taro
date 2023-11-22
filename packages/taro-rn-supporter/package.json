@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/rn-supporter",
-  "version": "3.6.19-nightly.2023112217",
+  "version": "3.6.19-nightly.2023112221",
   "description": "Taro rn supporter",
   "main": "dist/index.js",
   "scripts": {

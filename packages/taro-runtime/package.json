@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime",
-  "version": "3.6.19-nightly.2023112217",
+  "version": "3.6.19-nightly.2023112221",
   "description": "taro runtime for mini apps.",
   "main": "dist/runtime.esm.js",
   "module": "dist/runtime.esm.js",

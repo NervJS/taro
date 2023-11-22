@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.6.19-nightly.2023112217",
+  "version": "3.6.19-nightly.2023112221",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
