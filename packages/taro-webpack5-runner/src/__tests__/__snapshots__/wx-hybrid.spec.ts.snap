@@ -4,7 +4,7 @@ exports[`wx-hybrid should compatible with weapp native pages and components 1`] 
 
 exports[`wx-hybrid should compatible with weapp native pages and components 2`] = `
 "
-/** filePath: dist/app.js **/
+/** filePath: dist\\app.js **/
 "use strict";
 
 require("./common");
@@ -14,7 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    970: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    991: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -455,13 +455,13 @@ require("./runtime");
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(202);
-        var taro = __webpack_require__(357);
+        var taro_runtime = __webpack_require__(184);
+        var taro = __webpack_require__(946);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var react = __webpack_require__(800);
+        var react = __webpack_require__(757);
         var app_App = function(_React$Component) {
             (0, inherits.Z)(App, _React$Component);
             var _super = (0, createSuper.Z)(App);
@@ -519,20 +519,20 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(970);
+        return __webpack_exec__(991);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
 
 
-/** filePath: dist/app.json **/
+/** filePath: dist\\app.json **/
 {"pages":["pages/index/index","pages/native/native"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist/app.wxss **/
+/** filePath: dist\\app.wxss **/
 
 
-/** filePath: dist/base.wxml **/
+/** filePath: dist\\base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -1378,11 +1378,11 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist/common.js **/
+/** filePath: dist\\common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    800: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    757: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             Component: function() {
@@ -1392,7 +1392,7 @@ require("./runtime");
         var Component = {};
         __webpack_exports__["default"] = "react-mock";
     },
-    202: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    184: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createReactApp: function() {
@@ -1414,7 +1414,7 @@ require("./runtime");
         function createVueApp() {}
         function createVue3App() {}
     },
-    357: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    946: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             J1: function() {
                 return initPxTransform;
@@ -1458,12 +1458,12 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist/comp.js **/
+/** filePath: dist\\comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    685: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(202);
+    823: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(184);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -1471,21 +1471,21 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(685);
+        return __webpack_exec__(823);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist/comp.json **/
+/** filePath: dist\\comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist/comp.wxml **/
+/** filePath: dist\\comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist/components/tab/tab.js **/
+/** filePath: dist\\components\\tab\\tab.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 9 ], {
-    388: function() {
+    620: function() {
         Component({
             behaviors: [],
             properties: {
@@ -1523,23 +1523,23 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(388);
+    var __webpack_exports__ = __webpack_exec__(620);
 } ]);
 
-/** filePath: dist/components/tab/tab.json **/
+/** filePath: dist\\components\\tab\\tab.json **/
 {"component":true,"usingComponents":{}}
 
-/** filePath: dist/components/tab/tab.wxml **/
+/** filePath: dist\\components\\tab\\tab.wxml **/
 <view class="tab" bindtap="clickHandler">
   {{myProperty}}
 </view>
 
 
-/** filePath: dist/pages/index/index.js **/
+/** filePath: dist\\pages\\index\\index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    395: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    574: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         var taro_components_namespaceObject = {};
         __webpack_require__.r(taro_components_namespaceObject);
         __webpack_require__.d(taro_components_namespaceObject, {
@@ -1547,13 +1547,13 @@ require("./runtime");
                 return View;
             }
         });
-        var taro_runtime = __webpack_require__(202);
+        var taro_runtime = __webpack_require__(184);
         var classCallCheck = __webpack_require__(517);
         var createClass = __webpack_require__(872);
         var inherits = __webpack_require__(557);
         var createSuper = __webpack_require__(361);
-        var taro = __webpack_require__(357);
-        var react = __webpack_require__(800);
+        var taro = __webpack_require__(946);
+        var react = __webpack_require__(757);
         var Canvas = {};
         var CoverView = {};
         var CoverImage = {};
@@ -1641,25 +1641,25 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(395);
+        return __webpack_exec__(574);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist/pages/index/index.json **/
+/** filePath: dist\\pages\\index\\index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"tab":"../../components/tab/tab","comp":"../../comp"}}
 
-/** filePath: dist/pages/index/index.wxml **/
+/** filePath: dist\\pages\\index\\index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist/pages/index/index.wxss **/
+/** filePath: dist\\pages\\index\\index.wxss **/
 .title{font-size:36rpx;line-height:80rpx;text-align:center}.main{padding:0 50rpx}.wrapper{margin-bottom:24rpx}
 
-/** filePath: dist/pages/native/native.js **/
+/** filePath: dist\\pages\\native\\native.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 91 ], {
-    662: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-        var _require = __webpack_require__(344), add = _require.add;
+    368: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        var _require = __webpack_require__(215), add = _require.add;
         Page({
             data: {
                 text: "This is page data.",
@@ -1682,7 +1682,7 @@ require("./runtime");
             }
         });
     },
-    344: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    215: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
@@ -1698,26 +1698,144 @@ require("./runtime");
     var __webpack_exec__ = function(moduleId) {
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
-    var __webpack_exports__ = __webpack_exec__(662);
+    var __webpack_exports__ = __webpack_exec__(368);
 } ]);
 
-/** filePath: dist/pages/native/native.json **/
+/** filePath: dist\\pages\\native\\native.json **/
 {"navigationBarBackgroundColor":"#ffffff","navigationBarTextStyle":"black","navigationBarTitleText":"混写页面示例","backgroundColor":"#eeeeee","backgroundTextStyle":"light","usingComponents":{"tab":"../../components/tab/tab"}}
 
-/** filePath: dist/pages/native/native.wxml **/
+/** filePath: dist\\pages\\native\\native.wxml **/
 <view class="native" bindtap="viewTap">
   <text>{{text}}{{x}}</text>
   <tab myProperty="kkl" bindmyevent="handler" />
 </view>
 
 
-/** filePath: dist/pages/native/native.wxss **/
+/** filePath: dist\\pages\\native\\native.wxss **/
 .native{color:red}
 
-/** filePath: dist/runtime.js **/
+/** filePath: dist\\runtime.js **/
+(function() {
+    "use strict";
+    var __webpack_modules__ = {};
+    var __webpack_module_cache__ = {};
+    function __webpack_require__(moduleId) {
+        var cachedModule = __webpack_module_cache__[moduleId];
+        if (cachedModule !== undefined) {
+            return cachedModule.exports;
+        }
+        var module = __webpack_module_cache__[moduleId] = {
+            exports: {}
+        };
+        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+        return module.exports;
+    }
+    __webpack_require__.m = __webpack_modules__;
+    !function() {
+        var deferred = [];
+        __webpack_require__.O = function(result, chunkIds, fn, priority) {
+            if (chunkIds) {
+                priority = priority || 0;
+                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+                deferred[i] = [ chunkIds, fn, priority ];
+                return;
+            }
+            var notFulfilled = Infinity;
+            for (var i = 0; i < deferred.length; i++) {
+                var chunkIds = deferred[i][0];
+                var fn = deferred[i][1];
+                var priority = deferred[i][2];
+                var fulfilled = true;
+                for (var j = 0; j < chunkIds.length; j++) {
+                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
+                        return __webpack_require__.O[key](chunkIds[j]);
+                    }))) {
+                        chunkIds.splice(j--, 1);
+                    } else {
+                        fulfilled = false;
+                        if (priority < notFulfilled) notFulfilled = priority;
+                    }
+                }
+                if (fulfilled) {
+                    deferred.splice(i--, 1);
+                    var r = fn();
+                    if (r !== undefined) result = r;
+                }
+            }
+            return result;
+        };
+    }();
+    !function() {
+        __webpack_require__.d = function(exports, definition) {
+            for (var key in definition) {
+                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+                    Object.defineProperty(exports, key, {
+                        enumerable: true,
+                        get: definition[key]
+                    });
+                }
+            }
+        };
+    }();
+    !function() {
+        __webpack_require__.o = function(obj, prop) {
+            return Object.prototype.hasOwnProperty.call(obj, prop);
+        };
+    }();
+    !function() {
+        __webpack_require__.r = function(exports) {
+            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+                Object.defineProperty(exports, Symbol.toStringTag, {
+                    value: "Module"
+                });
+            }
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+        };
+    }();
+    !function() {
+        __webpack_require__.p = "/";
+    }();
+    !function() {
+        var installedChunks = {
+            666: 0
+        };
+        __webpack_require__.O.j = function(chunkId) {
+            return installedChunks[chunkId] === 0;
+        };
+        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
+            var chunkIds = data[0];
+            var moreModules = data[1];
+            var runtime = data[2];
+            var moduleId, chunkId, i = 0;
+            if (chunkIds.some((function(id) {
+                return installedChunks[id] !== 0;
+            }))) {
+                for (moduleId in moreModules) {
+                    if (__webpack_require__.o(moreModules, moduleId)) {
+                        __webpack_require__.m[moduleId] = moreModules[moduleId];
+                    }
+                }
+                if (runtime) var result = runtime(__webpack_require__);
+            }
+            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+            for (;i < chunkIds.length; i++) {
+                chunkId = chunkIds[i];
+                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+                    installedChunks[chunkId][0]();
+                }
+                installedChunks[chunkId] = 0;
+            }
+            return __webpack_require__.O(result);
+        };
+        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
+        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+    }();
+})();
 
-
-/** filePath: dist/utils.wxs **/
+/** filePath: dist\\utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41","tab"]
@@ -1758,7 +1876,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist/vendors.js **/
+/** filePath: dist\\vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {

@@ -4,7 +4,9 @@ import { globals } from '../src/global'
 import { parse } from '../src/index'
 import { getSrcRelPath } from '../src/template'
 import { parseWXML } from '../src/wxml'
-import { generateMinimalEscapeCode } from './util'
+import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 const path = require('path')
 
@@ -75,7 +77,8 @@ describe('template.ts', () => {
       <template is="huangye" data="{{ info }}"/>
       `
       // 确定解析wxml文件的绝对路径
-      const dirPath = '\\wechatTest\\template_test\\components\\LunaComponent\\ListHuangye'
+      const dirPath = path.join('wechatTest', 'template_test', 'components', 'LunaComponent', 'ListHuangye')
+      const rootPathMock = path.join('wechatTest','template_test')
 
       /**
        *  模拟全局对象下的文件路径
@@ -83,7 +86,7 @@ describe('template.ts', () => {
       // 保存原始的属性描述符
       const originalDescriptor = Object.getOwnPropertyDescriptor(globals, 'rootPath')
       Object.defineProperty(globals, 'rootPath', {
-        get: jest.fn().mockReturnValue('\\wechatTest\\template_test'),
+        get: jest.fn().mockReturnValue(rootPathMock),
       })
 
       const { imports } = parseWXML(dirPath, wxml)

@@ -13,7 +13,8 @@
     "test": "jest",
     "test:clear": "jest --clearCache",
     "test:cov": "jest --coverage",
-    "test:updateSnapshot": "jest --updateSnapshot"
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
   },
   "files": [
     "bin",
@@ -55,7 +56,8 @@
     ],
     "coveragePathIgnorePatterns": [
       "/__tests__/*"
-    ]
+    ],
+    "testTimeout": 60000
   },
   "author": "O2Team",
   "license": "MIT",
@@ -78,6 +80,7 @@
     "@babel/parser": "^7.14.5",
     "@tarojs/taro": "workspace:*",
     "jest": "^29.7.0",
-    "ts-jest": "^29.0.5"
+    "ts-jest": "^29.0.5",
+    "jest-environment-node": "^29.5.0"
   }
 }

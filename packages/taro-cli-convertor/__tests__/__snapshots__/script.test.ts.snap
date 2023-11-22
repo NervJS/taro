@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`page页面转换 template组件名转换 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 import AnFishTmpl from 'taroConvert/src/imports/AnFishTmpl.js';
 import ATmpl from 'taroConvert/src/imports/ATmpl.js';
 import AshMerTmpl from 'taroConvert/src/imports/AshMerTmpl.js';
@@ -25,14 +25,14 @@ class _C extends React.Component {
       }<AnFishTmpl></AnFishTmpl></Block>;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`语法转换 使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 this.setData({
   intData: 1024
 });
@@ -43,14 +43,14 @@ class _C extends React.Component {
     return null;
   }
 }
-export default _C;"
+export default _C;
 `;
 
 exports[`语法转换 模版的动态名称转换 1`] = `
-"import withWeapp, { cacheOptions } from \\"@tarojs/with-weapp\\";
-import { Block, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
 this.setData({
   intData: 1024
 });
@@ -63,12 +63,12 @@ class _C extends React.Component {
       infoList
     } = this.data;
     return infoList.map((item, index) => {
-      let ComponentName = ComponentMap[\\"info-\\" + item.tempName];
+      let ComponentName = ComponentMap["info-" + item.tempName];
       return <View key={item.infoId}><ComponentName data={{
           item: item
         }}></ComponentName></View>;
     });
   }
 }
-export default _C;"
+export default _C;
 `;
