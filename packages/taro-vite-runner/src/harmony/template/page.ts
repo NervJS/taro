@@ -548,4 +548,24 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
       this.instantiatePage,
     ])
   }
+
+  parseTabbar (pages: VitePageMeta[]) {
+    return this.transArr2Str([
+      this.tabbarList.map((e, i) => `import page${i} from './${e.pagePath}'`).join('\n'),
+      '',
+      this.tabbarList.map((e, i) => {
+        const page = pages.find(item => item.name === e.pagePath)
+        return this.transArr2Str([
+          page?.config.enableShareTimeline ? `page${i}.enableShareTimeline = true` : null,
+          page?.config.enableShareAppMessage ? `page${i}.enableShareAppMessage = true` : null,
+        ])
+      }).join('\n'),
+      '',
+      `
+export default { ${
+  this.tabbarList.map((e, i) => {
+    return `'${e.pagePath}': page${i}`
+  }).join(', ')
+} }`])
+  }
 }

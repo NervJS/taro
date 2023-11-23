@@ -37,23 +37,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       const tabbarList = appConfig.tabBar?.list || []
       const pages = viteCompilerContext.getPages()
       if (id === appendVirtualModulePrefix(path.join(appPath, taroConfig.sourceRoot || 'src', `${TARO_TABBAR_PAGE_PATH}`))) {
-        return parse.transArr2Str([
-          tabbarList.map((e, i) => `import page${i} from './${e.pagePath}'`).join('\n'),
-          '',
-          tabbarList.map((e, i) => {
-            const page = pages.find(item => item.name === e.pagePath)
-            return parse.transArr2Str([
-              page?.config.enableShareTimeline ? `page${i}.enableShareTimeline = true` : null,
-              page?.config.enableShareAppMessage ? `page${i}.enableShareAppMessage = true` : null,
-            ])
-          }).join('\n'),
-          '',
-          `
-export default { ${
-  tabbarList.map((e, i) => {
-    return `'${e.pagePath}': page${i}`
-  }).join(', ')
-} }`])
+        return parse.parseTabbar(pages)
       }
 
       if (id.endsWith(PAGE_SUFFIX)) {
