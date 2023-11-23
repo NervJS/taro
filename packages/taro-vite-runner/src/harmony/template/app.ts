@@ -52,8 +52,8 @@ export default class Parser extends BaseParser {
     ])
   }
 
-  parse (rawId: string) {
-    const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = this.loaderMeta
+  get instantiateApp () {
+    const { frameworkArgs, creator, modifyInstantiate } = this.loaderMeta
     const createApp = `${creator}(component, ${frameworkArgs})`
 
     const { pages = [], entryPagePath = pages[0], tabBar } = this.appConfig
@@ -63,6 +63,7 @@ export default class Parser extends BaseParser {
     if (tabbarIndex >= 0) {
       entryPath = TARO_TABBAR_PAGE_PATH
     }
+
     let instantiateApp = `export default class EntryAbility extends UIAbility {
 app
 
@@ -104,6 +105,12 @@ this.app?.onHide?.call(this)
       instantiateApp = modifyInstantiate(instantiateApp, 'app')
     }
 
+    return instantiateApp
+  }
+
+  parse (rawId: string) {
+    const { importFrameworkStatement, creator, creatorLocation } = this.loaderMeta
+
     return this.transArr2Str([
       // '// @ts-nocheck',
       this.#setReconciler,
@@ -119,7 +126,7 @@ this.app?.onHide?.call(this)
       'window.__taroAppConfig = config',
       'initNativeApi(Taro)',
       this.getInitPxTransform(),
-      instantiateApp,
+      this.instantiateApp,
     ])
   }
 }
