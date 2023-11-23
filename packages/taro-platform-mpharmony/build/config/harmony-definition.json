@@ -257,7 +257,6 @@
     },
     "LivePusherContext": false,
     "LogManager": true,
-    "MapContext": false,
     "MediaAudioPlayer": false,
     "MediaContainer": false,
     "MediaQueryObserver": {
@@ -688,7 +687,6 @@
       }
     },
     "createLivePusherContext": false,
-    "createMapContext": false,
     "createMediaAudioPlayer": false,
     "createMediaContainer": false,
     "createMediaQueryObserver": true,

@@ -1,71 +1,69 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 停止搜索 mDNS 服务
  * 
  * @canNotUse stopLocalServiceDiscovery
  */
-export const stopLocalServiceDiscovery = /* @__PURE__ */ temporarilyNotSupport('stopLocalServiceDiscovery')
+export { stopLocalServiceDiscovery } from '@tarojs/taro-h5'
 
 /**
  * 停止搜索 mDNS 服务
  * 
  * @canNotUse startLocalServiceDiscovery
  */
-export const startLocalServiceDiscovery = /* @__PURE__ */ temporarilyNotSupport('startLocalServiceDiscovery')
+export { startLocalServiceDiscovery } from '@tarojs/taro-h5'
 
 /**
  * 监听 mDNS 服务解析失败的事件
  * 
  * @canNotUse onLocalServiceResolveFail
  */
-export const onLocalServiceResolveFail = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceResolveFail')
+export { onLocalServiceResolveFail } from '@tarojs/taro-h5'
 
 /**
  * 监听 mDNS 服务离开的事件
  * 
  * @canNotUse onLocalServiceLost
  */
-export const onLocalServiceLost = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceLost')
+export { onLocalServiceLost } from '@tarojs/taro-h5'
 
 /**
  * 监听 mDNS 服务发现的事件
  * 
  * @canNotUse onLocalServiceFound
  */
-export const onLocalServiceFound = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceFound')
+export { onLocalServiceFound } from '@tarojs/taro-h5'
 
 /**
  * 监听 mDNS 服务停止搜索的事件
  * 
  * @canNotUse onLocalServiceDiscoveryStop
  */
-export const onLocalServiceDiscoveryStop = /* @__PURE__ */ temporarilyNotSupport('onLocalServiceDiscoveryStop')
+export { onLocalServiceDiscoveryStop } from '@tarojs/taro-h5'
 
 /**
  * 取消监听 mDNS 服务解析失败的事件
  * 
  * @canNotUse offLocalServiceResolveFail
  */
-export const offLocalServiceResolveFail = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceResolveFail')
+export { offLocalServiceResolveFail } from '@tarojs/taro-h5'
 
 /**
  * 取消监听 mDNS 服务离开的事件
  * 
  * @canNotUse offLocalServiceLost
  */
-export const offLocalServiceLost = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceLost')
+export { offLocalServiceLost } from '@tarojs/taro-h5'
 
 /**
  * 取消监听 mDNS 服务发现的事件
  * 
  * @canNotUse offLocalServiceFound
  */
-export const offLocalServiceFound = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceFound')
+export { offLocalServiceFound } from '@tarojs/taro-h5'
 
 /**
  * 取消监听 mDNS 服务停止搜索的事件
  * 
  * @canNotUse offLocalServiceDiscoveryStop
  */
-export const offLocalServiceDiscoveryStop = /* @__PURE__ */ temporarilyNotSupport('offLocalServiceDiscoveryStop')
+export { offLocalServiceDiscoveryStop } from '@tarojs/taro-h5'

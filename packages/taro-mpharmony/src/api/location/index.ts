@@ -1,5 +1,3 @@
-import { temporarilyNotSupport } from '../../utils/index'
-
 export * from './chooseLocation'
 export * from './getFuzzyLocation'
 export * from './getLocation'
@@ -17,4 +15,4 @@ export * from './stopLocationUpdate'
  * 
  * @canNotUse choosePoi
  */
-export const choosePoi = /* @__PURE__ */ temporarilyNotSupport('choosePoi')
+export { choosePoi } from '@tarojs/taro-h5'

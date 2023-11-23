@@ -1,5 +1,3 @@
-import { permanentlyNotSupport, temporarilyNotSupport } from '../../../utils'
-
 // 图片
 export * from './compressImage'
 export * from './getImageInfo'
@@ -12,20 +10,19 @@ export * from './saveImageToPhotosAlbum'
  * 
  * @canNotUse chooseMessageFile
  */
-export const chooseMessageFile = /* @__PURE__ */ permanentlyNotSupport('chooseMessageFile')
-
 export * from './chooseImage'
+export { chooseMessageFile } from '@tarojs/taro-h5'
 
 /**
  * 编辑图片接口
  * 
  * @canNotUse editImage
  */
-export const editImage = /* @__PURE__ */ temporarilyNotSupport('editImage')
+export { editImage } from '@tarojs/taro-h5'
 
 /**
  * 裁剪图片接口
  * 
  * @canNotUse cropImage
  */
-export const cropImage = /* @__PURE__ */ temporarilyNotSupport('cropImage')
+export { cropImage } from '@tarojs/taro-h5'

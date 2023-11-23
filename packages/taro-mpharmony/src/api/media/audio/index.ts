@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
 
-import { temporarilyNotSupport } from '../../../utils'
 import { AudioContext } from './AudioContext'
 import { InnerAudioContext } from './InnerAudioContext'
 
@@ -9,49 +8,49 @@ import { InnerAudioContext } from './InnerAudioContext'
  * 
  * @canNotUse stopVoice
  */
-export const stopVoice = /* @__PURE__ */ temporarilyNotSupport('stopVoice')
+export { stopVoice } from '@tarojs/taro-h5'
 
 /**
  * 设置 InnerAudioContext项
  * 
  * @canNotUse setInnerAudioOption
  */
-export const setInnerAudioOption = /* @__PURE__ */ temporarilyNotSupport('setInnerAudioOption')
+export { setInnerAudioOption } from '@tarojs/taro-h5'
 
 /**
  * 开始播放语音
  * 
  * @canNotUse playVoice
  */
-export const playVoice = /* @__PURE__ */ temporarilyNotSupport('playVoice')
+export { playVoice } from '@tarojs/taro-h5'
 
 /**
  * 暂停正在播放的语音
  * 
  * @canNotUse pauseVoice
  */
-export const pauseVoice = /* @__PURE__ */ temporarilyNotSupport('pauseVoice')
+export { pauseVoice } from '@tarojs/taro-h5'
 
 /**
  * 获取当前支持的音频输入源
  * 
  * @canNotUse getAvailableAudioSources
  */
-export const getAvailableAudioSources = /* @__PURE__ */ temporarilyNotSupport('getAvailableAudioSources')
+export { getAvailableAudioSources } from '@tarojs/taro-h5'
 
 /**
  * 创建 WebAudio 上下文
  * 
  * @canNotUse createWebAudioContext
  */
-export const createWebAudioContext = /* @__PURE__ */ temporarilyNotSupport('createWebAudioContext')
+export { createWebAudioContext } from '@tarojs/taro-h5'
 
 /**
  * 创建媒体音频播放器对象 MediaAudioPlayer 对象
  * 
  * @canNotUse createMediaAudioPlayer
  */
-export const createMediaAudioPlayer = /* @__PURE__ */ temporarilyNotSupport('createMediaAudioPlayer')
+export { createMediaAudioPlayer } from '@tarojs/taro-h5'
 
 /**
  * 创建内部 audio 上下文 InnerAudioContext 对象。

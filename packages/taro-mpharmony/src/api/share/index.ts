@@ -1,11 +1,9 @@
-import { permanentlyNotSupport, temporarilyNotSupport } from '../../utils'
-
 /** 
  * 更新转发属性 
  * 
  * @canNotUse updateShareMenu
 */
-export const updateShareMenu = /* @__PURE__ */ temporarilyNotSupport('updateShareMenu')
+export { updateShareMenu } from '@tarojs/taro-h5'
 
 /** 
  * 显示当前页面的转发按钮 
@@ -20,35 +18,35 @@ export const showShareMenu = () => Promise.resolve({})
  * 
  * @canNotUse showShareImageMenu
 */
-export const showShareImageMenu = /* @__PURE__ */ temporarilyNotSupport('showShareImageMenu')
+export { showShareImageMenu } from '@tarojs/taro-h5'
 
 /** 
  * 转发视频到聊天 
  * 
  * @canNotUse shareVideoMessage
 */
-export const shareVideoMessage = /* @__PURE__ */ temporarilyNotSupport('shareVideoMessage')
+export { shareVideoMessage } from '@tarojs/taro-h5'
 
 /** 
  * 转发文件到聊天 
  * 
  * @canNotUse shareFileMessage
 */
-export const shareFileMessage = /* @__PURE__ */ temporarilyNotSupport('shareFileMessage')
+export { shareFileMessage } from '@tarojs/taro-h5'
 
 /** 
  * 监听用户点击右上角菜单的「复制链接」按钮时触发的事件 
  * 
  * @canNotUse onCopyUrl
 */
-export const onCopyUrl = /* @__PURE__ */ temporarilyNotSupport('onCopyUrl')
+export { onCopyUrl } from '@tarojs/taro-h5'
 
 /** 
  * 移除用户点击右上角菜单的「复制链接」按钮时触发的事件的监听函数 
  * 
  * @canNotUse offCopyUrl
 */
-export const offCopyUrl = /* @__PURE__ */ temporarilyNotSupport('offCopyUrl')
+export { offCopyUrl } from '@tarojs/taro-h5'
 
 /** 
  * 隐藏当前页面的转发按钮 
@@ -71,4 +69,4 @@ export const getShareInfo = () => Promise.resolve({})
  * 
  * @canNotUse authPrivateMessage
 */
-export const authPrivateMessage = /* @__PURE__ */ permanentlyNotSupport('authPrivateMessage')
+export { authPrivateMessage } from '@tarojs/taro-h5'

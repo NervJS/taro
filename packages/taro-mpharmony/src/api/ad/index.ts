@@ -1,17 +1,15 @@
 import Taro from '@tarojs/taro'
 
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 创建激励视频广告组件
  * 
  * @canNotUse createRewardedVideoAd
  */
-export const createRewardedVideoAd = /* @__PURE__ */ temporarilyNotSupport('createRewardedVideoAd')
+export { createRewardedVideoAd } from '@tarojs/taro-h5'
 
 /**
  * 激励视频广告组件类
- * 
+ * -
  * @canNotUse RewardedVideoAd
  */
 
