@@ -9,7 +9,7 @@ test!(
     function Index () {
         return (
           <View compileMode>
-            <Image className="my_img" src="https://taro.com/x.png" lazyLoad />
+            <Image className="my_img" src="https://taro.com/x.png" lazyLoad key="image" ref={myRefCb} />
           </View>
         )
       }

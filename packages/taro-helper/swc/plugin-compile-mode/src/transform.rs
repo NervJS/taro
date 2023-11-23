@@ -13,115 +13,120 @@ use swc_core::{
     },
 };
 use std::collections::HashMap;
-use std::rc::Rc;
 use crate::PluginConfig;
 use crate::utils::{self, constants::*};
 
 struct PreVisitor {
-    is_in_jsx_expr_container: Rc<bool>,
     is_in_and_expr: bool,
 }
 impl PreVisitor {
     fn new () -> Self {
         Self {
-            is_in_jsx_expr_container: Rc::new(true),
             is_in_and_expr: false
         }
     }
 }
 impl VisitMut for PreVisitor {
-    fn visit_mut_jsx_expr_container (&mut self, container: &mut JSXExprContainer) {
-        let _counter = Rc::clone(&self.is_in_jsx_expr_container);
-        // TODO 目前的判断可能误伤函数内的三元表达式、条件表达式
-        container.visit_mut_children_with(self);
-    }
-    fn visit_mut_expr (&mut self, expr: &mut Expr) {
-        if Rc::strong_count(&self.is_in_jsx_expr_container) == 1 { return };
-        let mut is_first_and_expr = false;
-        
-        match expr {
-            Expr::Bin(BinExpr { op, left, right, ..}) => {
-                // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
-                if *op == op!("&&") && !self.is_in_and_expr {
-                    is_first_and_expr = true;
-                    fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
-                        el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
-                    }
-                    fn get_element_double (element_name: JSXElementName, condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
-                        Expr::Cond(CondExpr {
-                            span,
-                            test: condition.take(),
-                            cons: right.take(),
-                            alt: Box::new(utils::create_self_closing_jsx_element_expr(
-                                element_name, // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
-                                Some(vec![utils::create_jsx_bool_attr(COMPILE_IGNORE)]
-                            )))
-                        })
-                    }
-                    match &mut **right {
-                        Expr::JSXElement(el) => {
-                            let element_name = el.opening.name.clone();
-                            inject_compile_if(el, left);
-                            *expr = get_element_double(element_name, left, right);
-                        },
-                        Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
-                            if paren_expr.is_jsx_element() {
-                                let el: &mut Box<JSXElement> = paren_expr.as_mut_jsx_element().unwrap();
+    fn visit_mut_jsx_element_child (&mut self, child: &mut JSXElementChild) {
+        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
+            let mut is_first_and_expr = false;
+
+            if let Expr::Paren(ParenExpr { expr: e, .. }) = &mut **expr {
+                *expr = e.take();
+            }
+
+            match &mut **expr {
+                Expr::Bin(BinExpr { op, left, right, ..}) => {
+                    // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
+                    if *op == op!("&&") && !self.is_in_and_expr {
+                        is_first_and_expr = true;
+                        fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
+                            el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
+                        }
+                        fn get_element_double (element_name: JSXElementName, condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
+                            Expr::Cond(CondExpr {
+                                span,
+                                test: condition.take(),
+                                cons: right.take(),
+                                alt: Box::new(utils::create_self_closing_jsx_element_expr(
+                                    element_name, // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
+                                    Some(vec![utils::create_jsx_bool_attr(COMPILE_IGNORE)]
+                                )))
+                            })
+                        }
+                        match &mut **right {
+                            Expr::JSXElement(el) => {
                                 let element_name = el.opening.name.clone();
                                 inject_compile_if(el, left);
-                                *expr = get_element_double(element_name, left, paren_expr);
+                                **expr = get_element_double(element_name, left, right);
+                            },
+                            Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
+                                if paren_expr.is_jsx_element() {
+                                    let el: &mut Box<JSXElement> = paren_expr.as_mut_jsx_element().unwrap();
+                                    let element_name = el.opening.name.clone();
+                                    inject_compile_if(el, left);
+                                    **expr = get_element_double(element_name, left, paren_expr);
+                                }
+                            },
+                            Expr::Lit(_) => {
+                                **expr = Expr::Cond(CondExpr {
+                                    span,
+                                    test: left.take(),
+                                    cons: right.take(),
+                                    alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: COMPILE_IGNORE.into(), raw: None })))
+                                })
+                            },
+                            _ => {
+                                let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                                let mut block = Box::new(JSXElement {
+                                    span,
+                                    opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![], self_closing: false, type_args: None },
+                                    children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(right.take()) })],
+                                    closing: Some(JSXClosingElement { span, name: jsx_el_name.clone() })
+                                });
+                                inject_compile_if(&mut block, left);
+                                **expr = get_element_double(jsx_el_name, left, &mut Box::new(Expr::JSXElement(block)));
                             }
-                        },
-                        Expr::Lit(_) => {
-                            *expr = Expr::Cond(CondExpr {
-                                span,
-                                test: left.take(),
-                                cons: right.take(),
-                                alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: COMPILE_IGNORE.into(), raw: None })))
-                            })
-                        },
-                        _ => {
-                            // TODO Unknown fallback to template
-                            println!("unknown expr: {right:?}");
                         }
                     }
-                }
-            },
-            Expr::Cond(CondExpr { test, cons, alt, ..}) => {
-                let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
-                let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
-                let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
-                    match &mut **arm {
-                        Expr::JSXElement(el) => {
-                            el.opening.attrs.push(attr);
-                        },
-                        _ => {
-                            let temp = arm.take();
-                            let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
-                            **arm = Expr::JSXElement(Box::new(JSXElement {
-                                span,
-                                opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
-                                children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(temp)})],
-                                closing: Some(JSXClosingElement { span, name: jsx_el_name })
-                            }))
+                },
+                Expr::Cond(CondExpr { test, cons, alt, ..}) => {
+                    let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
+                    let compile_else = utils::create_jsx_bool_attr(COMPILE_ELSE);
+                    let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
+                        match &mut **arm {
+                            Expr::JSXElement(el) => {
+                                el.opening.attrs.push(attr);
+                            },
+                            _ => {
+                                let temp = arm.take();
+                                let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                                **arm = Expr::JSXElement(Box::new(JSXElement {
+                                    span,
+                                    opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
+                                    children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(temp)})],
+                                    closing: Some(JSXClosingElement { span, name: jsx_el_name })
+                                }))
+                            }
                         }
-                    }
-                };
-                process_cond_arm(cons, compile_if);
-                process_cond_arm(alt, compile_else);
-            },
-            _ => (),
-        }
+                    };
+                    process_cond_arm(cons, compile_if);
+                    process_cond_arm(alt, compile_else);
+                },
+                _ => (),
+            }
 
-        if is_first_and_expr {
-            self.is_in_and_expr = true;
-        }
+            if is_first_and_expr {
+                self.is_in_and_expr = true;
+            }
 
-        expr.visit_mut_children_with(self);
+            expr.visit_mut_children_with(self);
 
-        if is_first_and_expr {
-            self.is_in_and_expr = false;
+            if is_first_and_expr {
+                self.is_in_and_expr = false;
+            }
         }
+        child.visit_mut_children_with(self);
     }
 }
 
@@ -180,8 +185,8 @@ impl TransformVisitor {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
                     let jsx_attr_name = name.to_string();
-                    
-                    if jsx_attr_name == "key" {
+
+                    if REACT_RESERVED.contains(&jsx_attr_name.as_str()) {
                         return true;
                     }
 

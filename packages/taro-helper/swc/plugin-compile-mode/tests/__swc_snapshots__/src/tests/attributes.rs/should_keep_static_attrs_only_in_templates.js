@@ -2,7 +2,7 @@ const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><image class="my
 function Index() {
     return <View compileMode="f0t0">
 
-            
+            <Image key="image" ref={myRefCb}/>
 
           </View>;
 }

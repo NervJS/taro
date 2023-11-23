@@ -10,6 +10,7 @@ pub const TMPL_DATA_ROOT: &str = "i.";
 pub const ID: &str = "id";
 pub const LOOP_WRAPPER_ID: i32 = -1;
 pub const DYNAMIC_ID: &str = "_dynamicID";
+pub const REACT_RESERVED: [&str; 2] = ["key", "ref"];
 
 pub const VIEW_TAG: &str = "view";
 pub const TEXT_TAG: &str = "text";
