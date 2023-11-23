@@ -3,6 +3,7 @@ mod attributes;
 mod shake;
 mod condition;
 mod looping;
+mod children;
 
 use swc_core::ecma::{
     parser,
