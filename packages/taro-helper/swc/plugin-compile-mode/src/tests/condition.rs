@@ -17,6 +17,9 @@ test!(
             {condition1 && 'Hello'}
             {condition1 && <View onClick={() => condition2 && doSth()} />}
             <View hoverClass={myClass}></View>
+            <View>{condition1 && ident}</View>
+            <View>{condition1 && obj.property}</View>
+            <View>{condition1 && fn()}</View>
           </View>
         )
     }

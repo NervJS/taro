@@ -77,8 +77,15 @@ impl VisitMut for PreVisitor {
                                 })
                             },
                             _ => {
-                                // TODO Unknown fallback to template
-                                println!("unknown expr: {right:?}");
+                                let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                                let mut block = Box::new(JSXElement {
+                                    span,
+                                    opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![], self_closing: false, type_args: None },
+                                    children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(right.take()) })],
+                                    closing: Some(JSXClosingElement { span, name: jsx_el_name.clone() })
+                                });
+                                inject_compile_if(&mut block, left);
+                                **expr = get_element_double(jsx_el_name, left, &mut Box::new(Expr::JSXElement(block)));
                             }
                         }
                     }
@@ -119,6 +126,7 @@ impl VisitMut for PreVisitor {
                 self.is_in_and_expr = false;
             }
         }
+        child.visit_mut_children_with(self);
     }
 }
 
