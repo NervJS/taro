@@ -1859,12 +1859,12 @@ exports[`config should copy assets 2`] = `
     }
 } ]);
 
-/** filePath: dist\\weapp\\index.wxml **/
-<view>weapp</view>
-
-
 /** filePath: dist\\irrelevant.txt **/
 I m irrelevant.
+
+
+/** filePath: dist\\weapp\\index.wxml **/
+<view>weapp</view>
 
 
 /** filePath: dist\\index.html **/

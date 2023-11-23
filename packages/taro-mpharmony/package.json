@@ -43,6 +43,7 @@
     "@tarojs/router": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
+    "@tarojs/taro-h5": "workspace:*",
     "abortcontroller-polyfill": "^1.7.5",
     "base64-js": "^1.3.0",
     "ics": "^3.1.0",

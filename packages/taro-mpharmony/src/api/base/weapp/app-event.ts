@@ -2,7 +2,6 @@ import Taro from '@tarojs/api'
 import { isNil } from 'lodash'
 import { parse } from 'query-string'
 
-import { temporarilyNotSupport } from '../../../utils'
 import { CallbackManager } from '../../../utils/handler'
 
 const unhandledRejectionCallbackManager = new CallbackManager<[Taro.onUnhandledRejection.Result]>()
@@ -119,14 +118,14 @@ export const onError: typeof Taro.onError = (callback) => {
  * 
  * @canNotUse onAudioInterruptionEnd
  */
-export const onAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionEnd')
+export { onAudioInterruptionEnd } from '@tarojs/taro-h5'
 
 /**
  * 监听音频因为受到系统占用而被中断开始事件
  * 
  * @canNotUse onAudioInterruptionBegin
  */
-export const onAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('onAudioInterruptionBegin')
+export { onAudioInterruptionBegin } from '@tarojs/taro-h5'
 
 /**
  * 监听小程序切前台事件
@@ -210,14 +209,14 @@ export const offError: typeof Taro.offError = (callback) => {
  * 
  * @canNotUse offAudioInterruptionEnd
  */
-export const offAudioInterruptionEnd = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionEnd')
+export { offAudioInterruptionEnd } from '@tarojs/taro-h5'
 
 /**
  * 取消监听音频因为受到系统占用而被中断开始事件
  * 
  * @canNotUse offAudioInterruptionBegin
  */
-export const offAudioInterruptionBegin = /* @__PURE__ */ temporarilyNotSupport('offAudioInterruptionBegin')
+export { offAudioInterruptionBegin } from '@tarojs/taro-h5'
 
 /**
  * 取消监听小程序切前台事件

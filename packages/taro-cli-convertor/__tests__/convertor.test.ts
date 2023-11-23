@@ -6,6 +6,7 @@ import {
   CONVERT_CONFIG_DATA,
   DEMO_JS_FILE_INFO,
   DEMO_JS_FILE_INFO_MINIPROGRANROOT,
+  DEMO_JS_FILES,
   PLUGIN_FILE_DATA,
   root,
 } from './data/fileData'
@@ -159,6 +160,16 @@ describe('文件转换', () => {
     const convert = new Convertor(root, false)
     convert.framework = 'react'
     convert.traversePages(root, new Set(['/pages/commentPage/commentPage']))
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('一个文件夹下有多个wxml页面导致显示异常', () => {
+    // 设置初始文件信息
+    setMockFiles(root, DEMO_JS_FILES)
+
+    const convertor = new Convertor(root, false)
+    convertor.run()
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })

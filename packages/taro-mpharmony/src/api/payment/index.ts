@@ -1,5 +1,3 @@
-import { temporarilyNotSupport } from '../../utils'
-
 export * from './requestPayment'
 
 /**
@@ -7,11 +5,11 @@ export * from './requestPayment'
  * 
  * @canNotUse requestOrderPayment
  */
-export const requestOrderPayment = /* @__PURE__ */ temporarilyNotSupport('requestOrderPayment')
+export { requestOrderPayment } from '@tarojs/taro-h5'
 
 /**
  * 支付各个安全场景验证人脸
  * 
  * @canNotUse faceVerifyForPay
  */
-export const faceVerifyForPay = /* @__PURE__ */ temporarilyNotSupport('faceVerifyForPay')
+export { faceVerifyForPay } from '@tarojs/taro-h5'

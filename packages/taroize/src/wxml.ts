@@ -3,6 +3,7 @@ import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 import { printLog, processTypeEnum } from '@tarojs/helper'
+// @ts-ignore
 import { toCamelCase } from '@tarojs/shared'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'

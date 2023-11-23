@@ -36,6 +36,7 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "testEnvironmentOptions": {},
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
@@ -81,6 +82,7 @@
     "@tarojs/taro": "workspace:*",
     "jest": "^29.7.0",
     "ts-jest": "^29.0.5",
+    "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0"
   }
 }
