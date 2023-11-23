@@ -99,11 +99,12 @@ pub fn convert_jsx_attr_key (jsx_key: &str, adapter: &HashMap<String, String>) -
     to_kebab_case(jsx_key)
 }
 
+pub fn check_is_event_attr (val: &str) -> bool {
+    val.starts_with("on") && val.chars().nth(2).is_some_and(|x| x.is_uppercase())
+}
+
 pub fn identify_jsx_event_key (val: &str) -> Option<String> {
-    if 
-        val.starts_with("on") &&
-        val.chars().nth(2).is_some_and(|x| x.is_uppercase())
-    {
+    if check_is_event_attr(val) {
         let event_name = val.get(2..).unwrap().to_lowercase();
         let event_name = if event_name == "click" {
             "tap"

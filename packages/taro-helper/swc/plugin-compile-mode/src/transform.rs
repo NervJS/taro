@@ -152,7 +152,7 @@ impl TransformVisitor {
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
                 let name = utils::to_kebab_case(&ident.sym);
-                match self.config.components.get(&name) {
+                match self.config.components.as_ref().unwrap().get(&name) {
                     // 内置组件
                     Some(attrs_map) => {
                         let attrs = self.build_xml_attrs(opening_element, attrs_map);

@@ -37,7 +37,7 @@ test!(
             <View onClick={handleViewClick}></View>
             <View onAnimationStart={() => {}} id={myId}></View>
             <Image onLoad={() => { console.log("load done") }} id="myImg" />
-            <View onClick={() => { console.log("click done") }} onTouch={() => { console.log("touch done") }} />
+            <View onClick={() => { console.log("click done") }} onTouchStart={() => { console.log("touch start done") }} />
           </View>
         )
       }

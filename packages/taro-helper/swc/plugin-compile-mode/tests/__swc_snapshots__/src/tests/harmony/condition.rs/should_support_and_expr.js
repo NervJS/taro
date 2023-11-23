@@ -2,6 +2,7 @@ const TARO_TEMPLATES_f0t0 = `import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
 import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
 import type { TaroElement } from '../runtime'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
 @Extend(Flex)
 function attrs ({
   flexBasis,

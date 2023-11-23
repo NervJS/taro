@@ -156,33 +156,31 @@ impl TransformVisitor {
     }
 
     fn build_ets_element (&mut self, el: &mut JSXElement) -> String {
+        // jsx 节点添加动态 id，需要判断是否存在静态节点
+        let dynmaic_node_name: String;
+        let mut is_node_name_created = false;
+
+        // 如果是半编译状态下碰到的第一个 jsx，或者 jsx 含有动态属性，则创建新的 node_name
+        if !self.check_jsx_is_static(el) || self.node_stack.is_empty() {
+            dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
+            self.node_name.push(dynmaic_node_name.clone());
+            is_node_name_created = true;
+        } else {
+            dynmaic_node_name = self.get_current_node_path();
+        }
+
         let opening_element = &mut el.opening;
 
         let child_string = match &opening_element.name {
             JSXElementName::Ident(ident) => {
                 let name = utils::to_kebab_case(&ident.sym);
 
-                // jsx 节点添加动态 id，需要判断是否存在静态节点
-                let dynmaic_node_name: String;
-                let mut is_node_name_created = false;
-
-                // 如果是半编译状态下碰到的第一个 jsx，或者 jsx 含有动态属性，则创建新的 node_name
-                if !self.check_jsx_is_static(el) || self.node_stack.is_empty() {
-                    dynmaic_node_name = utils::create_jsx_dynamic_id(el, self);
-                    self.node_name.push(dynmaic_node_name.clone());
-                    is_node_name_created = true;
-                } else {
-                    dynmaic_node_name = self.get_current_node_path();
-                }
-
-                match self.config.components.get(&name) {
+                match self.config.support_components.as_ref().unwrap().iter().find(|&component| component == &name) {
                     // 内置组件
-                    Some(attrs_map) => {
-                        // TODO: 此处需要加上事件的处理，根据事件添加对应的 ets 事件处理函数
-                        //   let attrs: Option<String> = self.build_xml_attrs(opening_element, attrs_map);
-                        //   if attrs.is_none() { return String::new() };
-                        //   format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
-
+                    Some(_) => {
+                        // 事件的处理，根据事件添加对应的 ets 事件处理函数
+                        let event_string: String = self.build_ets_event(opening_element);
+         
                         // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createNode 来生成后续子节点
                         let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
                         let mut children = utils::create_original_node_renderer(self);
@@ -196,21 +194,24 @@ impl TransformVisitor {
                             self.node_name.pop();
                         }
 
-                        match name.as_str() {
+                        let mut code = match name.as_str() {
                             VIEW_TAG => {
                                 self.component_set.insert(name.clone());
-                                utils::add_spaces_to_lines(&get_view_component_str(&dynmaic_node_name, &children))
+                                get_view_component_str(&dynmaic_node_name, &children)
                             },
                             TEXT_TAG => {
                                 self.component_set.insert(name.clone());
-                                utils::add_spaces_to_lines(&get_text_component_str(&dynmaic_node_name))
+                                get_text_component_str(&dynmaic_node_name)
                             },
                             IMAGE_TAG => {
                                 self.component_set.insert(name.clone());
-                                utils::add_spaces_to_lines(&get_image_component_str(&dynmaic_node_name))
+                                get_image_component_str(&dynmaic_node_name)
                             },
                             _ => String::new()
-                        }
+                        };
+
+                        code.push_str(event_string.as_str());
+                        utils::add_spaces_to_lines(code.as_str())
                     },
                     None => {
                         // React 组件
@@ -364,9 +365,42 @@ impl TransformVisitor {
         return true;
     }
 
+    fn build_ets_event (&self, opening_element: &mut JSXOpeningElement) -> String {
+        let mut event_string = String::new();
+
+        // 在 transform 中使用的是 retain_mut 方法，在 retain_mut 中，如果 return false，就代表该属性不需要保留，在小程序中主要用于剪枝静态属性，鸿蒙这里不需要处理
+        for attr in opening_element.attrs.iter_mut() {
+            if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+                if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
+                    let mut jsx_attr_name = name.to_string();
+                    let common_event = self.config.support_events.as_ref().unwrap();
+                    let is_event = utils::check_is_event_attr(&jsx_attr_name);
+
+                    // 如果不是事件或者不是 common_event 里的事件，则执行下一次迭代
+                    if !is_event || !common_event.iter().any(|event| event == &jsx_attr_name) {
+                        continue;
+                    }
+
+                    let harmony_event_name = self.config.event_adapter.as_ref().unwrap().get(jsx_attr_name.as_str());
+
+                    if harmony_event_name.is_some() {
+                        jsx_attr_name = harmony_event_name.unwrap().to_string();
+                    }
+
+                    event_string.push_str(&create_component_event(jsx_attr_name.as_str(), &self.get_current_node_path()))
+                }
+            }
+        }
+
+        event_string
+    }
+
     fn get_current_node_path (&self) -> String {
         let current_node_name = self.node_name.last().unwrap().clone();
-        let current_node_stack = self.node_stack.get(&current_node_name).unwrap();
+        let current_node_stack = match self.node_stack.get(&current_node_name) {
+            Some(stack) => stack,
+            None => return current_node_name
+        };
 
         // return: node0.childNodes[0].childNodes[0]....
         current_node_stack.iter().fold(current_node_name, |mut acc, item| {
@@ -374,95 +408,6 @@ impl TransformVisitor {
             return acc;
         })
     }
-
-//   fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> Option<String> {
-//       let mut props = HashMap::new();
-//       let mut attrs_string = String::new();
-
-//       // 在 transform 中使用的是 retain_mut 方法，在 retain_mut 中，如果 return false，就代表该属性不需要保留，在小程序中主要用于剪枝静态属性，鸿蒙这里不需要处理
-//       for attr in opening_element.attrs.iter_mut() {
-//         if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
-//             if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
-//                 let jsx_attr_name = name.to_string();
-
-//                 let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
-//                 let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
-//                 let is_event = event_name.is_some();
-//                 match &jsx_attr.value {
-//                     Some(jsx_attr_value) => {
-//                         match jsx_attr_value {
-//                             JSXAttrValue::Lit(Lit::Str(Str { value, ..  })) => {
-//                                 // 静态属性在 xml 中保留即可，jsx 中可以删除
-//                                 if jsx_attr_name != COMPILE_MODE {
-//                                     props.insert(miniapp_attr_name, value.to_string());
-//                                 }
-//                             },
-//                             JSXAttrValue::JSXExprContainer(..) => {
-//                                 let mut node_path = self.get_current_node_path();
-//                                 if is_event {
-//                                     props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
-//                                     if props.get(DATA_SID).is_none() {
-//                                         props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
-//                                     }
-//                                 }
-
-//                                 // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
-//                                 let value: &str = attrs_map.get(&miniapp_attr_name).unwrap_or(&jsx_attr_name);
-//                                 // 按当前节点在节点树中的位置换算路径
-//                                 node_path.push('.');
-//                                 let value = if value.contains(TMPL_DATA_ROOT) {
-//                                     value.replace(TMPL_DATA_ROOT, &node_path)
-//                                 } else {
-//                                     format!("{}{}", node_path, value)
-//                                 };
-//                                 // 得出最终的模板属性值
-//                                 let miniapp_attr_value = format!("{{{{{}}}}}", value);
-
-//                                 props.insert(miniapp_attr_name, miniapp_attr_value);
-//                             },
-//                             _ => ()
-//                         }
-//                     },
-//                     None => {
-//                         if
-//                             jsx_attr_name == COMPILE_ELSE ||
-//                             jsx_attr_name == COMPILE_IGNORE
-//                         {
-//                             props.insert(miniapp_attr_name, String::from(jsx_attr_name));
-//                         } else if jsx_attr_name == COMPILE_FOR {
-//                             let current_path = self.get_current_loop_path();
-//                             let miniapp_attr_value = format!("{{{{{}}}}}", current_path);
-//                             props.insert(miniapp_attr_name, miniapp_attr_value);
-//                         } else {
-//                             props.insert(miniapp_attr_name, String::from("true"));
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//       }
-
-//       // 组件包含事件，但没有设置自定义 id 的话，把 id 设为 sid
-//       if props.get(DATA_SID).is_some() && props.get(ID).is_none() {
-//           props.insert(String::from(ID), props.get(DATA_SID).unwrap().clone());
-//       }
-
-//       // 生成的 template 需要幂等
-//       let mut keys: Vec<&String> = props.keys().collect();
-//       keys.sort();
-//       for key in keys {
-//           let value = props.get(key).unwrap();
-//           if value == COMPILE_IGNORE {
-//               return None
-//           } else if value == COMPILE_ELSE {
-//               attrs_string.push_str(&format!(" {}", key));
-//           } else {
-//               attrs_string.push_str(&format!(r#" {}="{}""#, key, value));
-//           }
-//       }
-
-//       Some(attrs_string)
-//   }
 }
 
 impl VisitMut for TransformVisitor {

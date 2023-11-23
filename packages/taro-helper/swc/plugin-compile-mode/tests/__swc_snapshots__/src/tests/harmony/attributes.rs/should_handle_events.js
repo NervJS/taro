@@ -207,8 +207,8 @@ function Index() {
 
             <View onClick={()=>{
         console.log("click done");
-    }} onTouch={()=>{
-        console.log("touch done");
+    }} onTouchStart={()=>{
+        console.log("touch start done");
     }}/>
 
           </View>;

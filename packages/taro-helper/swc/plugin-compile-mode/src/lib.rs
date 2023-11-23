@@ -24,8 +24,11 @@ mod tests;
 pub struct PluginConfig {
     pub is_harmony: Option<bool>,
     pub tmpl_prefix: String,
-    pub components: HashMap<String, HashMap<String, String>>,
+    pub components: Option<HashMap<String, HashMap<String, String>>>,
     pub adapter: Option<HashMap<String, String>>,
+    pub support_events: Option<Vec<String>>,
+    pub support_components: Option<Vec<String>>,
+    pub event_adapter: Option<HashMap<String, String>>,
 }
 
 /// An example plugin function with macro support.

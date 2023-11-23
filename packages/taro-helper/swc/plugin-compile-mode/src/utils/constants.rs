@@ -19,6 +19,7 @@ pub const HARMONY_IMPORTER: &str = "import { FlexManager } from './utils/FlexMan
 import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
 import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
 import type { TaroElement } from '../runtime'
+import { TOUCH_EVENT_MAP } from './utils/constant/event'
 ";
 
 pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Flex)
