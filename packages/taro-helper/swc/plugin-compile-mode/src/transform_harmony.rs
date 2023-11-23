@@ -96,16 +96,7 @@ impl VisitMut for PreVisitor {
                         Expr::JSXElement(el) => {
                             el.opening.attrs.push(attr);
                         },
-                        _ => {
-                            // let temp = arm.take();
-                            // let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
-                            // **arm = Expr::JSXElement(Box::new(JSXElement {
-                            //     span,
-                            //     opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
-                            //     children: vec![JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(temp)})],
-                            //     closing: Some(JSXClosingElement { span, name: jsx_el_name })
-                            // }))
-                        }
+                        _ => ()
                     }
                 };
                 process_cond_arm(cons, compile_if);
