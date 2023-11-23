@@ -264,3 +264,42 @@ export const PLUGIN_FILE_DATA = {
     <text>这是插件组件component1</text>
   `,
 }
+
+export const DEMO_JS_FILES = {
+  '/app.json': `
+    {
+      "pages":[
+        "pages/index/index",
+        "pages/index/other"
+      ]
+    }
+  `,
+  '/pages/index/index.js': `
+    const app = getApp()
+      Page({
+      data: {
+        info: 'this is index page',
+      },
+      onLoad() {}
+    })
+  `,
+  '/pages/index/index.wxml': `
+    <view>
+      <text>{{info}}</text>
+    </view>
+  `,
+  '/pages/index/other.js': `
+    const app = getApp()
+      Page({
+      data: {
+        message: 'this is other page',
+      },
+      onLoad() {}
+    })
+  `,
+  '/pages/index/other.wxml': `
+    <view>
+      <text>{{message}}</text>
+    </view>
+  `,
+}
