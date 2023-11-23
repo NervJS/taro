@@ -44,7 +44,7 @@ export default async function (source) {
           experimental: {
             plugins: [
               [
-                path.join(path.dirname(require.resolve('@tarojs/helper')), './swc/plugin-compile-mode/target/wasm32-wasi/release/swc_plugin_compile_mode.wasm'),
+                require.resolve('swc-plugin-taro-compile-mode'),
                 {
                   tmpl_prefix: `f${FILE_COUNTER_MAP.get(resourcePath)}`,
                   components,

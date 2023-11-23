@@ -12,7 +12,7 @@ test!(
             <Image className="my_img" src="https://taro.com/x.png" lazyLoad />
           </View>
         )
-    }
+      }
     "#
     // r#"
     // const TARO_TEMPLATES_f0t0 = '<template name="tmpl_0_f0t0"><view><image class="my_img" lazy-load="true" src="https://taro.com/x.png"></image></view></template>';

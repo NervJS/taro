@@ -80,6 +80,13 @@ require("./taro");
             },
             WebView: {
                 height: ""
+            },
+            Input: {
+                "adjust-position": "true"
+            },
+            Textarea: {
+                "show-confirm-bar": "true",
+                "adjust-position": "true"
             }
         };
         var hostConfig = {
@@ -118,7 +125,7 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = __webpack_require__(8);
         var config = {
             pages: [ "pages/index/index" ],
@@ -130,7 +137,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_src_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_src_app, react, taro_react["a"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -157,7 +164,7 @@ require("./taro");
 <jds src="./utils.jds" module="xs" />
 <template name="taro_tmpl">
   <block jd:for="{{root.cn}}" jd:key="sid">
-    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:''}}" />
+    <template is="{{xs.a(0, item.nn, '')}}" data="{{i:item,c:1,l:xs.f('',item.nn)}}" />
   </block>
 </template>
 
@@ -1125,7 +1132,8 @@ require("./taro");
 
 /** filePath: dist/comp.jxml **/
 <import src="./base.jxml" />
-<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
+<jds src="./utils.jds" module="xs" />
+<template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
 /** filePath: dist/pages/index/index.js **/
 /*! For license information please see index.js.LICENSE.txt */

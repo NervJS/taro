@@ -1,5 +1,5 @@
 import { Func, getCurrentInstance } from '@tarojs/runtime'
-import { ComponentLifecycle, eventCenter, nextTick } from '@tarojs/taro'
+import { ComponentLifecycle, createIntersectionObserver, createMediaQueryObserver,createSelectorQuery, eventCenter, nextTick } from '@tarojs/taro'
 
 import { clone } from './clone'
 import { diff } from './diff'
@@ -49,7 +49,7 @@ function defineGetter (component, key: string, getter: string) {
 
 function isFunction (o): o is Func {
   return typeof o === 'function'
-}
+}    
 
 export default function withWeapp (weappConf: WxOptions, isApp = false) {
   if (typeof weappConf === 'object' && Object.keys(weappConf).length === 0) {
@@ -63,7 +63,8 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
       ['created', []],
       ['attached', []],
       ['ready', []],
-      ['detached', []]
+      ['detached', []],
+      ['lifetimes', []]
     ])
     const behaviorProperties = {}
     if (weappConf.behaviors?.length) {
@@ -282,6 +283,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
                   if (!this[methodName]) {
                     const method = methods[methodName]
                     this[methodName] = bind(method, this)
+                  }
+                })
+                break
+              case 'lifetimes':
+                list.forEach(lifetimesObject => {
+                  for (const key in lifetimesObject) {
+                    this.initLifeCycles(key, lifetimesObject[key])
                   }
                 })
                 break
@@ -563,6 +571,13 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
           const page = this.current.page
           if (page?.[method]) {
             return page[method](...args)
+          } else if (method === 'createSelectorQuery') {
+            return createSelectorQuery()
+          } else if (method === 'createIntersectionObserver') {
+            // @ts-ignore
+            return createIntersectionObserver(...args)
+          } else if (method === 'createMediaQueryObserver') {
+            return createMediaQueryObserver()
           } else {
             console.error(`page 下没有 ${method} 方法`)
           }
@@ -625,3 +640,5 @@ export default function withWeapp (weappConf: WxOptions, isApp = false) {
     return BaseComponent
   }
 }
+
+export * from './convert-tools'

@@ -51,7 +51,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 开始监听设备方向的变化。
-     * @supported weapp, h5, rn
+     * @supported weapp, swan, jd, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.startDeviceMotionListening.html
      */
     startDeviceMotionListening(
@@ -60,7 +60,7 @@ declare module '../../index' {
 
     /**
      * 停止监听设备方向的变化。
-     * @supported weapp, h5, rn
+     * @supported weapp, swan, jd, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.stopDeviceMotionListening.html
      */
     stopDeviceMotionListening(
@@ -69,18 +69,20 @@ declare module '../../index' {
 
     /**
      * 监听设备方向变化事件。频率根据 Taro.startDeviceMotionListening() 的 interval 参数。可以使用 Taro.stopDeviceMotionListening() 停止监听。
-     * @supported weapp, h5, rn
+     * @supported weapp, alipay, swan, jd, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.onDeviceMotionChange.html
      */
-    onDeviceMotionChange (callback: onDeviceMotionChange.Callback): void
+    onDeviceMotionChange(
+      callback: onDeviceMotionChange.Callback
+    ): void
 
     /** 取消监听设备方向变化事件，参数为空，则取消所有的事件监听。
-     * @supported weapp, h5, rn
+     * @supported weapp, alipay, swan, jd, h5, rn
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/motion/wx.offDeviceMotionChange.html
      */
     offDeviceMotionChange(
       /** 设备方向变化事件的回调函数 */
-      callback?: (...args: any[]) => any,
+      callback?: onDeviceMotionChange.Callback
     ): void
   }
 }

@@ -26,7 +26,7 @@ jobs:
     steps:
       # Setup
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node ${{ matrix.node_version }}
         uses: actions/setup-node@v3
         with:
@@ -143,7 +143,7 @@ jobs:
       - name: Publish
         run: |
           if [ '${{ github.event_name }}' == 'pull_request' ] ; then
-            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref }} -r
+            pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r
           elif [ '${{ github.event_name }}' == 'push' ] ; then
             pnpm publish --registry=https://registry.npmjs.org/ --publish-branch=${{ github.ref_name }} -r ${{ env.PUBLISH_PARAMS }}
           fi
