@@ -460,7 +460,7 @@ struct TARO_TEMPLATES_{name} {{
 {content}}}
 export default TARO_TEMPLATES_{name}
 "#,
-                name = &tmpl_name,
+                name = tmpl_name,
                 content = tmpl_main_contents
             ).as_str();
 
