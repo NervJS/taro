@@ -2237,6 +2237,9 @@ importers:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
+      '@tarojs/taro-h5':
+        specifier: workspace:*
+        version: link:../taro-h5
       abortcontroller-polyfill:
         specifier: ^1.7.5
         version: registry.npmjs.org/abortcontroller-polyfill@1.7.5

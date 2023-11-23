@@ -1,7 +1,5 @@
 import { fromByteArray, toByteArray } from 'base64-js'
 
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 环境变量
  * 
@@ -39,22 +37,20 @@ export function base64ToArrayBuffer (base64: string) {
  * 
  * @canNotUse getSkylineInfo
  */
-export const getSkylineInfo = /* @__PURE__ */ temporarilyNotSupport('getSkylineInfo')
+export { getSkylineInfo } from '@tarojs/taro-h5'
 
 /**
  * 获取当前运行环境对于 Skyline 渲染引擎 的支持情况
  * 
  * @canNotUse getSkylineInfoSync
  */
-export const getSkylineInfoSync = /* @__PURE__ */ temporarilyNotSupport('getSkylineInfoSync')
+export { getSkylineInfoSync } from '@tarojs/taro-h5'
 
 /**
  * 获取程序的 UserAgent
  * 
  * @canNotUse getRendererUserAgent
  */
-export const getRendererUserAgent = /* @__PURE__ */ temporarilyNotSupport('getRendererUserAgent')
-
 export * from './crypto'
 export * from './debug/index'
 export * from './performance'
@@ -62,3 +58,4 @@ export * from './system'
 export * from './update/index'
 export * from './weapp/app-event'
 export * from './weapp/life-cycle'
+export { getRendererUserAgent } from '@tarojs/taro-h5'

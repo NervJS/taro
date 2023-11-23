@@ -1,7 +1,5 @@
 import Taro from '@tarojs/api'
 
-// import { temporarilyNotSupport } from '../../utils'
-
 /**
  * EditorContext 实例
  * 
@@ -11,8 +9,6 @@ import Taro from '@tarojs/api'
  * scrollIntoView, setContents, undo]
  */
 export class EditorContext implements Taro.EditorContext {
-  // blur = temporarilyNotSupport('EditorContext.blur')
-
   blur (option?: Taro.EditorContext.BlurOption | undefined): void {
     try {
       // 将焦点设置到页面上一个非输入元素（例如按钮）上

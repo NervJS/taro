@@ -11,13 +11,3 @@ export { getInferenceEnvInfo } from '@tarojs/taro-h5'
  * @canNotUse createInferenceSession
  */
 export { createInferenceSession } from '@tarojs/taro-h5'
-
-/**
- * InferenceSession类
- * 
- * @canNotUse InferenceSession
- */
-
-export * from './facial'
-export * from './inference'
-export * from './visual'

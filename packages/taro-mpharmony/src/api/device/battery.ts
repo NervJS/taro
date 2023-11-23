@@ -1,6 +1,5 @@
 import Taro from '@tarojs/api'
 
-import { permanentlyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 /**
@@ -8,7 +7,7 @@ import { MethodHandler } from '../../utils/handler'
  * 
  * @canNotUse getBatteryInfoSync
  */
-export const getBatteryInfoSync = /* @__PURE__ */ permanentlyNotSupport('getBatteryInfoSync')
+export { getBatteryInfoSync } from '@tarojs/taro-h5'
 
 /**
  * 获取设备电量

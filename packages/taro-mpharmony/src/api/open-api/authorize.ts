@@ -1,5 +1,3 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 仅小程序插件中能调用该接口
  * 
@@ -13,4 +11,4 @@ export const authorizeForMiniProgram = () => {}
  * 
  * @canNotUse authorize
  */
-export const authorize = /* @__PURE__ */ temporarilyNotSupport('authorize')
+export { authorize } from '@tarojs/taro-h5'

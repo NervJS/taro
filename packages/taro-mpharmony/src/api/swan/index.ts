@@ -1,36 +1,33 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 百度智能小程序可接入百度搜索和百度 App，setPageInfo 负责为小程序设置各类页面基础信息，包括标题、关键字、页面描述以及图片信息、视频信息等。
  * 
  * @canNotUse setPageInfo
  */
-export const setPageInfo = /* @__PURE__ */ temporarilyNotSupport('setPageInfo')
+export { setPageInfo } from '@tarojs/taro-h5'
 
 // 百度小程序 AI 相关
-export const ocrIdCard = /* @__PURE__ */ temporarilyNotSupport('ocrIdCard')
-export const ocrBankCard = /* @__PURE__ */ temporarilyNotSupport('ocrBankCard')
-export const ocrDrivingLicense = /* @__PURE__ */ temporarilyNotSupport('ocrDrivingLicense')
-export const ocrVehicleLicense = /* @__PURE__ */ temporarilyNotSupport('ocrVehicleLicense')
-export const textReview = /* @__PURE__ */ temporarilyNotSupport('textReview')
-export const textToAudio = /* @__PURE__ */ temporarilyNotSupport('textToAudio')
-export const imageAudit = /* @__PURE__ */ temporarilyNotSupport('imageAudit')
-export const advancedGeneralIdentify = /* @__PURE__ */ temporarilyNotSupport('advancedGeneralIdentify')
-export const objectDetectIdentify = /* @__PURE__ */ temporarilyNotSupport('objectDetectIdentify')
-export const carClassify = /* @__PURE__ */ temporarilyNotSupport('carClassify')
-export const dishClassify = /* @__PURE__ */ temporarilyNotSupport('dishClassify')
-export const logoClassify = /* @__PURE__ */ temporarilyNotSupport('logoClassify')
-export const animalClassify = /* @__PURE__ */ temporarilyNotSupport('animalClassify')
-export const plantClassify = /* @__PURE__ */ temporarilyNotSupport('plantClassify')
+export { ocrIdCard } from '@tarojs/taro-h5'
+export { ocrBankCard } from '@tarojs/taro-h5'
+export { ocrDrivingLicense } from '@tarojs/taro-h5'
+export { ocrVehicleLicense } from '@tarojs/taro-h5'
+export { textReview } from '@tarojs/taro-h5'
+export { textToAudio } from '@tarojs/taro-h5'
+export { imageAudit } from '@tarojs/taro-h5'
+export { advancedGeneralIdentify } from '@tarojs/taro-h5'
+export { objectDetectIdentify } from '@tarojs/taro-h5'
+export { dishClassify } from '@tarojs/taro-h5'
+export { logoClassify } from '@tarojs/taro-h5'
+export { animalClassify } from '@tarojs/taro-h5'
+export { plantClassify } from '@tarojs/taro-h5'
 
 // 用户信息
-export const getSwanId = /* @__PURE__ */ temporarilyNotSupport('getSwanId')
+export { getSwanId } from '@tarojs/taro-h5'
 
 // 百度收银台支付
-export const requestPolymerPayment = /* @__PURE__ */ temporarilyNotSupport('requestPolymerPayment')
+export { requestPolymerPayment } from '@tarojs/taro-h5'
 
 // 打开小程序
-export const navigateToSmartGameProgram = /* @__PURE__ */ temporarilyNotSupport('navigateToSmartGameProgram')
-export const navigateToSmartProgram = /* @__PURE__ */ temporarilyNotSupport('navigateToSmartProgram')
-export const navigateBackSmartProgram = /* @__PURE__ */ temporarilyNotSupport('navigateBackSmartProgram')
-export const preloadSubPackage = /* @__PURE__ */ temporarilyNotSupport('preloadSubPackage')
+export { navigateToSmartGameProgram } from '@tarojs/taro-h5'
+export { navigateToSmartProgram } from '@tarojs/taro-h5'
+export { navigateBackSmartProgram } from '@tarojs/taro-h5'
+export { preloadSubPackage } from '@tarojs/taro-h5'
