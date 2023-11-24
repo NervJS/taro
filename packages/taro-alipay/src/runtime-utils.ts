@@ -66,4 +66,17 @@ export const hostConfig = {
       }
     }
   },
+  modifyRecursiveComponentConfig (componentConfig, { isCustomWrapper }) {
+    // 修改组件的生命周期配置
+    return isCustomWrapper
+      ? {
+        ...componentConfig,
+        deriveDataFromProps (nextProps) {
+          if (this.data.i !== undefined && this.props.i !== nextProps.i) {
+            this.setData({ i: nextProps.i })
+          } 
+        }
+      }
+      : componentConfig
+  },
 }

@@ -1,0 +1,5 @@
+# These command aliases are not final, may change
+[alias]
+# Alias to build actual plugin binary for the specified target.
+build-wasi = "build --target wasm32-wasi"
+build-wasm32 = "build --target wasm32-unknown-unknown"

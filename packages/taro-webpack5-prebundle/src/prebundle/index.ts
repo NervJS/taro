@@ -29,6 +29,8 @@ export interface IPrebundleConfig {
   platformType: PLATFORM_TYPE
   sourceRoot: string
   isBuildPlugin?: boolean
+  alias?: Record<string, any>
+  defineConstants?: Record<string, any>
 }
 
 type TMode = 'production' | 'development' | 'none'
@@ -134,7 +136,7 @@ export default class BasePrebundle<T extends IPrebundleConfig = IPrebundleConfig
 
     const appConfigPath = resolveMainFilePath(`${appJsPath.replace(path.extname(appJsPath), '')}.config`)
     if (fs.existsSync(appConfigPath)) {
-      const appConfig = readConfig(appConfigPath)
+      const appConfig = readConfig(appConfigPath, this.config)
 
       appConfig.pages.forEach((page: string) => {
         const pageJsPath = resolveMainFilePath(path.join(appPath, sourceRoot, page))

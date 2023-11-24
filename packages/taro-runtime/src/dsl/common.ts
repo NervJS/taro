@@ -364,26 +364,26 @@ export function createRecursiveComponentConfig (componentName?: string) {
     }
     : EMPTY_OBJ
 
-  return {
-    properties: {
-      i: {
-        type: Object,
-        value: {
-          [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
+  return hooks.call('modifyRecursiveComponentConfig', 
+    { 
+      properties: {
+        i: {
+          type: Object,
+          value: {
+            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
+          }
+        },
+        l: {
+          type: String,
+          value: ''
         }
       },
-      l: {
-        type: String,
-        value: ''
-      }
-    },
-    options: {
-      addGlobalClass: true,
-      virtualHost: !isCustomWrapper
-    },
-    methods: {
-      eh: eventHandler
-    },
-    ...lifeCycles
-  }
+      options: {
+        addGlobalClass: true,
+        virtualHost: !isCustomWrapper
+      },
+      methods: {
+        eh: eventHandler
+      },
+      ...lifeCycles }, { isCustomWrapper })
 }
