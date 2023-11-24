@@ -1,5 +1,6 @@
 import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
+import { isFunction } from '@tarojs/shared'
 import * as path from 'path'
 
 import { HARMONY_SCOPES, PACKAGE_NAME, PLATFORM_NAME } from '../utils'
@@ -20,7 +21,7 @@ export default class Harmony extends TaroPlatformHarmony {
     templ: '.hml',
     style: '.css',
     config: '.json',
-    script: '.ets'
+    script: '.js'
   }
 
   useETS = true
@@ -178,7 +179,7 @@ export default class Harmony extends TaroPlatformHarmony {
             this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
             this.moveLibraries(p1, targetPath, path.dirname(lib), true)
           }
-          return src.replace(p1, relativePath)
+          return src.replace(p1, relativePath.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'))
         }
 
         return src
@@ -195,8 +196,8 @@ export default class Harmony extends TaroPlatformHarmony {
       if (['.ts', '.ets'].includes(ext)) {
         code = '// @ts-nocheck\n' + code
       }
-      fs.ensureDirSync(path.dirname(target))
-      fs.writeFileSync(target, code)
+      fs.ensureDirSync(path.dirname(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')))
+      fs.writeFileSync(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'), code)
     } else if (stat.isSymbolicLink()) {
       const realPath = fs.realpathSync(lib, { encoding: 'utf8' })
       this.moveLibraries(realPath, target, basedir)
@@ -232,6 +233,23 @@ export default class Harmony extends TaroPlatformHarmony {
       ])
     }
 
+    function modifyResolveId({
+      source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
+    }) {
+      if (source === that.runtimePath && isFunction(resolve)) {
+        return resolve('@tarojs/runtime', importer, options)
+      }
+
+      // Note: 映射 Taro 相关依赖到注入 taro 目录
+      if (that.indexOfLibraries(source) > -1) {
+        return {
+          external: 'resolve',
+          id: path.join(outputRoot, 'npm', source),
+          resolvedBy: name,
+        }
+      }
+    }
+
     that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function externalPlugin() {
         const name = 'taro:vite-harmony-external'
@@ -239,18 +257,13 @@ export default class Harmony extends TaroPlatformHarmony {
           name,
           enforce: 'pre',
           resolveId (source = '', importer = '', options: any = {}) {
-            if (source === that.runtimePath) {
-              return this.resolve('@tarojs/runtime', importer, options)
-            }
-
-            // Note: 映射 Taro 相关依赖到注入 taro 目录
-            if (that.indexOfLibraries(source) > -1) {
-              return {
-                external: 'resolve',
-                id: path.join(outputRoot, NODE_MODULES, source),
-                resolvedBy: name,
-              }
-            }
+            return modifyResolveId({
+              source,
+              importer,
+              options,
+              name,
+              resolve: this.resolve,
+            })
           },
         }
       }
@@ -277,6 +290,7 @@ function App(props) {
                   compiler.loaderMeta.importFrameworkName = ''
                   break
               }
+              compiler.loaderMeta.modifyResolveId = modifyResolveId
             }
           },
         }

@@ -109,7 +109,6 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
     },
     async transform(raw, id) {
       if (
-        /\.ets(\?\S*)?$/.test(id) ||
         commonjsProxyRE.test(id) ||
         SPECIAL_QUERY_RE.test(id) ||
         loadParseImportRE.test(id)

@@ -1,10 +1,13 @@
 import { isFunction } from '@tarojs/shared'
+import path from 'path'
 
-import { prettyPrintJson } from '../../utils'
+import { parseRelativePath, prettyPrintJson } from '../../utils'
+import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
 
 import type { AppConfig, TabBarItem } from '@tarojs/taro'
+import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type { ViteHarmonyBuildConfig, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 const SHOW_TREE = true
@@ -141,6 +144,7 @@ export default class Parser extends BaseParser {
     }
 
     if (isTabPage) {
+      // TODO: 根据页面配置判断每个页面是否需要注入下拉刷新模块
       pageStr = `Tabs({
     barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start,
     controller: this.controller,
@@ -228,8 +232,8 @@ export default class Parser extends BaseParser {
     }
     structCodeArray.push(
       this.transArr2Str(generateState, 2),
-      `
-aboutToAppear() {
+      '',
+      this.transArr2Str(`aboutToAppear() {
   const state = router.getState()
   state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (this.page as VitePageMeta).name}'
   if (this.pageStack.length >= state.index) {
@@ -270,7 +274,7 @@ aboutToDisappear () {
     item?.onUnLoad?.call(this)
   })
   this.removeEvent()` : 'this.page?.onUnLoad?.call(this)'}
-}`,
+}`.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
       `
 handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
@@ -524,48 +528,73 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
     return instantiatePage
   }
 
-  parse (rawId: string, page: VitePageMeta | VitePageMeta[]) {
-    const { importFrameworkStatement, creatorLocation } = this.loaderMeta
+  parse (rawId: string, page: VitePageMeta | VitePageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
+    const { importFrameworkStatement, creatorLocation, modifyResolveId } = this.loaderMeta
     this.page = page
     this.isTabbarPage = page instanceof Array
     this.enableRefresh = this.isTabbarPage
       ? (page as VitePageMeta[]).some(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
       : this.isEnable(this.appConfig.window?.enablePullDownRefresh, (page as VitePageMeta)?.config.enablePullDownRefresh)
 
-    return this.transArr2Str([
+    let code = this.transArr2Str([
       'import TaroView from "@tarojs/components/view"',
       `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
       'import { Current, PageInstance, TaroElement, window } from "@tarojs/runtime"',
       'import { eventCenter } from "@tarojs/runtime/dist/runtime.esm"',
       'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
-      `import component from "${rawId}"`,
       'import router from "@ohos.router"',
       importFrameworkStatement,
+      this.isTabbarPage
+        ? [
+          this.tabbarList.map((e, i) => `import page${i} from './${e.pagePath}${TARO_COMP_SUFFIX}'`).join('\n'),
+          '',
+          this.tabbarList.map((e, i) => {
+            const tabbarPage = (page as VitePageMeta[]).find(item => item.name === e.pagePath)
+            return this.transArr2Str([
+              tabbarPage?.config.enableShareTimeline ? `page${i}.enableShareTimeline = true` : null,
+              tabbarPage?.config.enableShareAppMessage ? `page${i}.enableShareAppMessage = true` : null,
+            ])
+          }).join('\n'),
+          `const component = { ${this.tabbarList.map((e, i) => `'${e.pagePath}': page${i}`).join(', ')} }`,
+        ]
+        : [
+          `import component from "${rawId}${TARO_COMP_SUFFIX}"`,
+          (page as VitePageMeta)?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
+          (page as VitePageMeta)?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
+        ],
       `const config = ${page instanceof Array ? prettyPrintJson(page.map(e => e.config)) : prettyPrintJson(page.config)}`,
-      !this.isTabbarPage && (page as VitePageMeta)?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
-      !this.isTabbarPage && (page as VitePageMeta)?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
       '',
       this.instantiatePage,
     ])
-  }
 
-  parseTabbar (pages: VitePageMeta[]) {
-    return this.transArr2Str([
-      this.tabbarList.map((e, i) => `import page${i} from './${e.pagePath}'`).join('\n'),
-      '',
-      this.tabbarList.map((e, i) => {
-        const page = pages.find(item => item.name === e.pagePath)
-        return this.transArr2Str([
-          page?.config.enableShareTimeline ? `page${i}.enableShareTimeline = true` : null,
-          page?.config.enableShareAppMessage ? `page${i}.enableShareAppMessage = true` : null,
-        ])
-      }).join('\n'),
-      '',
-      `
-export default { ${
-  this.tabbarList.map((e, i) => {
-    return `'${e.pagePath}': page${i}`
-  }).join(', ')
-} }`])
+    if (isFunction(modifyResolveId)) {
+      const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+      const targetRoot = path.resolve(this.appPath, sourceRoot)
+      code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src: string, source: string) => {
+        const absolutePath: string = modifyResolveId({
+          source,
+          importer: rawId,
+          options: {
+            isEntry: false,
+            skipSelf: true,
+          },
+          name,
+          resolve,
+        })?.id || source
+        if (absolutePath.startsWith(outputRoot)) {
+          const outputFile = path.resolve(
+            outputRoot,
+            rawId.startsWith('/') ? path.relative(targetRoot, rawId) : rawId
+          )
+          const outputDir = path.dirname(outputFile)
+          return src.replace(source, parseRelativePath(outputDir, absolutePath))
+        } else if (absolutePath.startsWith(targetRoot)) {
+          return src.replace(source, parseRelativePath(path.dirname(rawId), absolutePath))
+        }
+        return src.replace(source, absolutePath)
+      })
+    }
+
+    return code
   }
 }

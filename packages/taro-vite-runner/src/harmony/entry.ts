@@ -3,17 +3,19 @@ import { isString } from '@tarojs/shared'
 import path from 'path'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
-import { PAGE_SUFFIX, TARO_TABBAR_PAGE_PATH } from './page'
 import { AppParser } from './template'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
-const ENTRY_SUFFIX = '?entry-loader=true'
+export const ENTRY_SUFFIX = '?entry-loader=true'
+export const TARO_COMP_SUFFIX = '_taro_comp'
 
 export default function (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption {
+  const name = 'taro:vite-harmony-entry'
+
   return {
-    name: 'taro:vite-harmony-entry',
+    name,
     enforce: 'pre',
     resolveId (source, _importer, options) {
       if (viteCompilerContext?.isApp(source) && options.isEntry) {
@@ -38,32 +40,30 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const parse = new AppParser(appPath, appConfig, taroConfig, viteCompilerContext.loaderMeta)
         // emit pages
         viteCompilerContext.pages.forEach(page => {
-          const list = tabbar?.list || []
-          if (list.every(item => item.pagePath !== page.name)) {
-            this.emitFile({
-              type: 'chunk',
-              id: page.scriptPath,
-              fileName: viteCompilerContext.getScriptPath(page.name),
-              implicitlyLoadedAfterOneOf: [rawId]
-            })
-          }
+          // const list = tabbar?.list || []
+          // if (list.every(item => item.pagePath !== page.name)) {}
+          this.emitFile({
+            type: 'chunk',
+            id: page.scriptPath,
+            fileName: viteCompilerContext.getScriptPath(page.name + TARO_COMP_SUFFIX),
+            implicitlyLoadedAfterOneOf: [rawId]
+          })
         })
 
         // emit tabbar
         if (tabbar && !isEmptyObject(tabbar)) {
-          const tabbarPage = TARO_TABBAR_PAGE_PATH
-          const tabbarPath = path.join(appPath, taroConfig.sourceRoot || 'src', `${tabbarPage}${PAGE_SUFFIX}`)
-          this.emitFile({
-            type: 'chunk',
-            id: tabbarPath,
-            fileName: `${tabbarPage}.ets`,
-            implicitlyLoadedAfterOneOf: [rawId]
-          })
+          // const tabbarPage = TARO_TABBAR_PAGE_PATH
+          // const tabbarPath = path.join(appPath, taroConfig.sourceRoot || 'src', `${tabbarPage}${PAGE_SUFFIX}`)
+          // this.emitFile({
+          //   type: 'chunk',
+          //   id: tabbarPath,
+          //   fileName: `${tabbarPage}${viteCompilerContext.fileType.script}`,
+          //   implicitlyLoadedAfterOneOf: [rawId]
+          // })
           const list = tabbar.list || []
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item
             const { sourceDir } = viteCompilerContext
-
 
             if (iconPath) {
               const filePath = path.resolve(sourceDir, iconPath)
@@ -97,7 +97,14 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           })
           this.addWatchFile(themePath)
         }
-        return parse.parse(rawId)
+
+        this.emitFile({
+          type: 'prebuilt-chunk',
+          fileName: viteCompilerContext.getTargetFilePath(app.name, '.ets'),
+          code: parse.parse(rawId, name, this.resolve),
+          exports: ['default'],
+        })
+        return `export { default } from "${rawId}"`
       }
     }
   }

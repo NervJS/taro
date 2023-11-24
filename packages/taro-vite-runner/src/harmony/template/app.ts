@@ -1,7 +1,13 @@
+import { isFunction } from '@tarojs/shared'
+import path from 'path'
+
+import { parseRelativePath } from '../../utils'
+import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
 
 import type { AppConfig } from '@tarojs/taro'
+import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type { ViteHarmonyBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export default class Parser extends BaseParser {
@@ -108,10 +114,10 @@ this.app?.onHide?.call(this)
     return instantiateApp
   }
 
-  parse (rawId: string) {
-    const { importFrameworkStatement, creator, creatorLocation } = this.loaderMeta
+  parse (rawId: string, name = 'TaroPage', resolve?: TRollupResolveMethod) {
+    const { importFrameworkStatement, creator, creatorLocation, modifyResolveId } = this.loaderMeta
 
-    return this.transArr2Str([
+    let code = this.transArr2Str([
       // '// @ts-nocheck',
       this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
@@ -120,7 +126,7 @@ this.app?.onHide?.call(this)
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       'import router from "@ohos.router"',
       this.#setReconcilerPost,
-      `import component from "${rawId}"`,
+      `import component from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       importFrameworkStatement,
       `var config = ${this.prettyPrintJson(this.appConfig)};`,
       'window.__taroAppConfig = config',
@@ -128,5 +134,35 @@ this.app?.onHide?.call(this)
       this.getInitPxTransform(),
       this.instantiateApp,
     ])
+
+    if (isFunction(modifyResolveId)) {
+      const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+      const targetRoot = path.resolve(this.appPath, sourceRoot)
+      code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src: string, source: string) => {
+        const absolutePath: string = modifyResolveId({
+          source,
+          importer: rawId,
+          options: {
+            isEntry: false,
+            skipSelf: true,
+          },
+          name,
+          resolve,
+        })?.id || source
+        if (absolutePath.startsWith(outputRoot)) {
+          const outputFile = path.resolve(
+            outputRoot,
+            rawId.startsWith('/') ? path.relative(targetRoot, rawId) : rawId
+          )
+          const outputDir = path.dirname(outputFile)
+          return src.replace(source, parseRelativePath(outputDir, absolutePath))
+        } else if (absolutePath.startsWith(targetRoot)) {
+          return src.replace(source, parseRelativePath(path.dirname(rawId), absolutePath))
+        }
+        return src.replace(source, absolutePath)
+      })
+    }
+
+    return code
   }
 }
