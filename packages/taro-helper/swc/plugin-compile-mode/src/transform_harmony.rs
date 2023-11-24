@@ -166,7 +166,7 @@ impl TransformVisitor {
             JSXElementName::Ident(ident) => {
                 let name = utils::to_kebab_case(&ident.sym);
 
-                match self.config.support_components.as_ref().unwrap().iter().find(|&component| component == &name) {
+                match self.config.support_components.iter().find(|&component| component == &name) {
                     // 内置组件
                     Some(_) => {
                         // 事件的处理，根据事件添加对应的 ets 事件处理函数
@@ -364,7 +364,7 @@ impl TransformVisitor {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
                     let mut jsx_attr_name = name.to_string();
-                    let common_event = self.config.support_events.as_ref().unwrap();
+                    let common_event = &self.config.support_events;
                     let is_event = utils::check_is_event_attr(&jsx_attr_name);
 
                     // 如果不是事件或者不是 common_event 里的事件，则执行下一次迭代
@@ -372,7 +372,7 @@ impl TransformVisitor {
                         continue;
                     }
 
-                    let harmony_event_name = self.config.event_adapter.as_ref().unwrap().get(jsx_attr_name.as_str());
+                    let harmony_event_name = self.config.event_adapter.get(jsx_attr_name.as_str());
 
                     if harmony_event_name.is_some() {
                         jsx_attr_name = harmony_event_name.unwrap().to_string();

@@ -2,7 +2,7 @@ pub use super::get_syntax_config;
 use swc_core::ecma::visit::{as_folder, Fold, VisitMut};
 use crate::{
   PluginConfig,
-  harmony_transform::*,
+  transform_harmony::*,
 };
 
 mod entry;

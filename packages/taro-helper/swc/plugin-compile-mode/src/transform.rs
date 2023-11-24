@@ -158,7 +158,7 @@ impl TransformVisitor {
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
                 let name = utils::to_kebab_case(&ident.sym);
-                match self.config.components.as_ref().unwrap().get(&name) {
+                match self.config.components.get(&name) {
                     // 内置组件
                     Some(attrs_map) => {
                         let attrs = self.build_xml_attrs(opening_element, attrs_map);
@@ -191,7 +191,7 @@ impl TransformVisitor {
                         return true;
                     }
 
-                    let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter.as_ref().unwrap());
+                    let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
                     let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
                     let is_event = event_name.is_some();
                     match &jsx_attr.value {

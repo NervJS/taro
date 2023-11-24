@@ -1,7 +1,7 @@
 use swc_core::{
     ecma::{
         ast::Program,
-        visit::{as_folder, FoldWith},
+        visit::{as_folder, FoldWith, VisitMut},
     },
     plugin::{
         plugin_transform,
@@ -15,20 +15,25 @@ use core::fmt::Debug;
 mod utils;
 mod transform;
 mod transform_harmony;
-use transform_harmony as harmony_transform;
 #[cfg(test)]
 mod tests;
 
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
-    pub is_harmony: Option<bool>,
     pub tmpl_prefix: String,
-    pub components: Option<HashMap<String, HashMap<String, String>>>,
-    pub adapter: Option<HashMap<String, String>>,
-    pub support_events: Option<Vec<String>>,
-    pub support_components: Option<Vec<String>>,
-    pub event_adapter: Option<HashMap<String, String>>,
+    #[serde(default)]
+    pub is_harmony: bool,
+    #[serde(default)]
+    pub components: HashMap<String, HashMap<String, String>>,
+    #[serde(default)]
+    pub adapter: HashMap<String, String>,
+    #[serde(default)]
+    pub support_events: Vec<String>,
+    #[serde(default)]
+    pub support_components: Vec<String>,
+    #[serde(default)]
+    pub event_adapter: HashMap<String, String>,
 }
 
 /// An example plugin function with macro support.
@@ -48,7 +53,7 @@ pub struct PluginConfig {
 /// Refer swc_plugin_macro to see how does it work internally.
 #[plugin_transform]
 pub fn process_transform(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
-    let config: PluginConfig = serde_json::from_str::<PluginConfig>(
+    let config = serde_json::from_str::<PluginConfig>(
         &metadata
             .get_transform_plugin_config()
             .unwrap()
@@ -56,14 +61,11 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     .unwrap();
 
     // 如果 config 中的 is_harmony 字段为 true 则走 harmony_transform, 否则则走 transform
-    match config.is_harmony {
-        Some(true) => {
-            let visitor = harmony_transform::TransformVisitor::new(config);
-            program.fold_with(&mut as_folder(visitor))
-        },
-        _ => {
-            let visitor = transform::TransformVisitor::new(config);
-            program.fold_with(&mut as_folder(visitor))
-        }
-    }
+    let visitor: Box<dyn VisitMut> = if config.is_harmony {
+        Box::new(transform_harmony::TransformVisitor::new(config))
+    } else {
+        Box::new(transform::TransformVisitor::new(config))
+    };
+
+    program.fold_with(&mut as_folder(visitor))
 }
