@@ -5,6 +5,7 @@ import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
 import { hooks } from '@tarojs/runtime'
+import canvasPng from '@/assets/api/canvas.png'
 
 /**
  * 画布
@@ -301,7 +302,7 @@ export default class Index extends React.Component {
       {
         id: 'CanvasContext-createPattern',
         inputData: {
-          image: Taro.getEnv() === 'WEAPP' ? '/assets/tab/home.png' : '/static/images/assets/tab/home.png',
+          image: canvasPng,
           repetition: 'repeat',
         },
         func: (apiIndex, data) => {

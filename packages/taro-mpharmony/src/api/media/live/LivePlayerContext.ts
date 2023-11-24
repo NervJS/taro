@@ -5,8 +5,8 @@ import Taro from '@tarojs/taro'
  * 
  * @canUse LivePlayerContext
  * @__class 
- * [exitCasting, exitFullScreen, exitPictureInPicture, mute, pause, play, reconnectCasting, requestFullScreen, requestPictureInPicture, resume,\
- * snapshot, startCasting, stop, switchCasting]
+ * [exitFullScreen, exitPictureInPicture, mute, pause, play, requestFullScreen, requestPictureInPicture, resume,\
+ * snapshot, stop]
  */
 export class LivePlayerContext implements Taro.LivePlayerContext {
   LivePlayer: any

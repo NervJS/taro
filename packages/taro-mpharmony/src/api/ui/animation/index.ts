@@ -118,9 +118,9 @@ class Animation implements Taro.Animation {
         if (stepIndex < animStepsMaxIndex) {
           // 播放下一个关键帧（因为 nerv 和 react 有差异所以 animation & data-animation 都需要写）
           target.setAttribute(animAttr, `${animName}__${animIndex}--${stepIndex + 1}`)
-          if (animAttr === 'animation') {
+          if (animAttr === 'data-animation') {
             // Nerv 环境，animation & data-animation 双重保险
-            target.setAttribute('data-animation', `${animName}__${animIndex}--${stepIndex + 1}`)
+            target.setAttribute('animation', `${animName}__${animIndex}--${stepIndex + 1}`)
           }
         }
       }
@@ -214,8 +214,9 @@ class Animation implements Taro.Animation {
     return this
   }
 
-  scale (x, y) {
-    this.transform.push({ key: 'scale', transform: `scale(${x}, ${y})` })
+  scale (x: number, y?: number) {
+    const scaleY = (typeof y !== 'undefined' && y !== null) ? y : x
+    this.transform.push({ key: 'scale', transform: `scale(${x}, ${scaleY})` })
     return this
   }
 
