@@ -8,7 +8,6 @@ use swc_core::{
     ecma::{
         self,
         ast::*,
-        atoms::Atom,
         visit::{VisitMut, VisitMutWith},
     },
 };
@@ -163,7 +162,7 @@ impl TransformVisitor {
                     Some(attrs_map) => {
                         let attrs = self.build_xml_attrs(opening_element, attrs_map);
                         if attrs.is_none() { return String::new() };
-                        let children = self.build_xml_children(el);
+                        let (children, ..) = self.build_xml_children(&mut el.children, None);
                         format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
                     },
                     None => {
@@ -275,25 +274,24 @@ impl TransformVisitor {
         Some(attrs_string)
     }
 
-    fn build_xml_children (&mut self, el: &mut JSXElement) -> String {
+    fn build_xml_children (&mut self, children: &mut Vec<JSXElementChild>, retain_start_from: Option<i32>) -> (String, i32) {
         let mut children_string = String::new();
-        let mut retain_child_counter = 0;
+        let start = if retain_start_from.is_some() { retain_start_from.unwrap() } else { 0 };
+        let mut retain_child_counter = start;
 
-        el.children
-            .iter_mut()
-            .for_each(|child| {
+        children
+            .retain_mut(|child| {
+                let mut is_retain = true;
                 self.node_stack.push(retain_child_counter);
                 match child {
                     JSXElementChild::JSXElement(child_el) => {
                         let child_string = self.build_xml_element(&mut **child_el);
                         children_string.push_str(&child_string);
 
-                        let is_pure = utils::is_static_jsx(child_el);
-                        if is_pure {
-                            let raw: Atom = "To be removed".into();
-                            *child = JSXElementChild::JSXText(JSXText { span, value: raw.clone(), raw });
+                        if utils::is_static_jsx(child_el) {
+                            is_retain = false
                         } else {
-                            retain_child_counter = retain_child_counter + 1;
+                            retain_child_counter += 1;
                         }
                     },
                     JSXElementChild::JSXExprContainer(JSXExprContainer {
@@ -353,28 +351,33 @@ impl TransformVisitor {
                         }
                         retain_child_counter = retain_child_counter + 1
                     },
-                    JSXElementChild::JSXText(jsx_text) => {
-                        let content = utils::jsx_text_to_string(&jsx_text.value);
+                    JSXElementChild::JSXText(JSXText { value, .. }) => {
+                        let content = utils::jsx_text_to_string(value);
                         if !content.is_empty() {
                             children_string.push_str(&content);
+                            // JSX 过滤掉静态文本节点，只在模板中保留。同时保留用于换行、空格的静态文本节点
+                            is_retain = false
                         }
+                    },
+                    JSXElementChild::JSXFragment(child_el) => {
+                        self.node_stack.pop();
+                        let (child_string, inner_retain) = self.build_xml_children(&mut child_el.children, Some(retain_child_counter));
+                        children_string.push_str(&child_string);
+                        if inner_retain == 0 {
+                            // 静态 fragment，在 JSX 中删除
+                            is_retain = false
+                        } else {
+                            retain_child_counter += inner_retain;
+                        }
+                        self.node_stack.push(retain_child_counter);
                     },
                     _ => ()
                 }
                 self.node_stack.pop();
+                return is_retain
             });
 
-        el.children.retain_mut(|item| {
-            // JSX 过滤掉静态文本节点，只在模板中保留
-            match item {
-                JSXElementChild::JSXText(jsx_text) => {
-                    utils::is_empty_jsx_text_line(&jsx_text.value)
-                },
-                _ => true
-            }
-        });
-
-        children_string
+        (children_string, retain_child_counter - start)
     }
 
     fn get_current_node_path (&self) -> String {

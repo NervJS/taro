@@ -17,3 +17,38 @@ test!(
     }
     "#
 );
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_support_fragment,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            {content0}
+            <>
+              <View>{content1}</View>
+              <View>hello</View>
+              <View>
+                <>
+                  <View>{content2}</View>
+                  <View>hello!</View>
+                </>
+              </View>
+              <View>{content3}</View>
+            </>
+            <View>{content4}</View>
+            <>
+              <View>{content5}</View>
+            </>
+            <>
+              <View>hello!!</View>
+            </>
+            <View>hello!!!</View>
+            <View>{content6}</View>
+          </View>
+        )
+    }
+    "#
+);

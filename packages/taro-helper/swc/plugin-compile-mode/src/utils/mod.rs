@@ -55,11 +55,6 @@ pub fn jsx_text_to_string (atom: &Atom) -> String {
     res
 }
 
-pub fn is_empty_jsx_text_line (atom: &Atom) -> bool {
-    let str = jsx_text_to_string(atom);
-    str.is_empty()
-}
-
 pub fn to_kebab_case (val: &str) -> String {
     let mut res = String::new();
     val
