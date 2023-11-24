@@ -140,12 +140,12 @@ export class Slider implements ComponentInterface {
 
       if (value === current) break
 
-      if (!next && value > current) {
+      if (next === null && value > current) {
         // step 不能被 max - min 整除
         value = current
       }
 
-      if (next && value > current && value < next) {
+      if ((next || next === 0) && value > current && value < next) {
         if (value - current < step / 2) {
           value = current
         } else {
