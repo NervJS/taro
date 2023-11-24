@@ -187,6 +187,8 @@ type ITaroHooks = {
   getMiniLifecycleImpl: () => MiniLifecycle
   /** 解决 React 生命周期名称的兼容问题 */
   getLifecycle: (instance, lifecyle) => Func | Array<Func> | undefined
+  /** 提供Hook，为不同平台提供修改生命周期配置 */
+  modifyRecursiveComponentConfig: (defaultConfig:MiniLifecycle, options:any) => any
   /** 解决百度小程序的模版语法问题 */
   getPathIndex: (indexOfNode: number) => string
   /** 解决支付宝小程序分包时全局作用域不一致的问题 */
@@ -259,6 +261,8 @@ export const hooks = new TaroHooks<ITaroHooks>({
   }),
 
   getLifecycle: TaroHook(HOOK_TYPE.SINGLE, (instance, lifecycle) => instance[lifecycle]),
+
+  modifyRecursiveComponentConfig: TaroHook(HOOK_TYPE.SINGLE, (defaultConfig) => defaultConfig),
 
   getPathIndex: TaroHook(HOOK_TYPE.SINGLE, indexOfNode => `[${indexOfNode}]`),
 
