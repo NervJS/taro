@@ -8,3 +8,4 @@ declare var focusControl: any;
 declare var PlayMode: any;
 declare var animateTo: any;
 declare var Curve: any;
+declare var AppStorage: any;

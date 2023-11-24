@@ -21,11 +21,11 @@ import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
 type GetLocation = typeof Taro.getLocation
 type OnLocationChange = typeof Taro.onLocationChange
-type OffLocationChange = typeof Taro.offLocationChange
+type OffLocationChange = typeof Taro.offLocationChangeError
 
 interface IGetOHOSGeolocationParams {
   type?: string
-  altitude?: string
+  altitude?: boolean
   isHighAccuracy?: boolean
   highAccuracyExpireTime?: number
   priority?: number // 数值为固定几种
@@ -126,8 +126,12 @@ export const offLocationChange: OffLocationChange = function (callback) {
   validateParams('offLocationChange', [callback], ['Function'])
   geoLocationManager.off('locationChange', (location: LocationSuccessOHOS) => {
     const status = {
+      errCode: 200,
       errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
     }
-    callback(status)
+
+    if (callback) {
+      callback(status)
+    }
   })
 }

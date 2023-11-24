@@ -1,5 +1,5 @@
 declare module '@tarojs/runtime' {
-  export * from '@tarojs/runtime/dist/runtime.esm.d.ts'
+  export * from '@tarojs/runtime/dist/runtime.esm'
 
   export function convertNumber2VP(value: number): string
 
