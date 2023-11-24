@@ -1,4 +1,4 @@
-import type { TaroElement } from 'tarojs/runtime'
+import type { TaroElement } from '@tarojs/runtime'
 
 @Component
 export default struct TaroComponentWrapper {
