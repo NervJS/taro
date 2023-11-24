@@ -125,8 +125,9 @@ impl VisitMut for PreVisitor {
             if is_first_and_expr {
                 self.is_in_and_expr = false;
             }
+        } else {
+            child.visit_mut_children_with(self);
         }
-        child.visit_mut_children_with(self);
     }
 }
 
@@ -302,6 +303,7 @@ impl TransformVisitor {
                         if let Expr::Paren(ParenExpr { expr, .. }) = &mut **jsx_expr {
                             *jsx_expr = expr.take();
                         }
+                        let node_path = self.get_current_node_path();
                         match &mut **jsx_expr {
                             Expr::Cond(CondExpr { cons, alt, ..}) => {
                                 let mut process_condition_expr = |arm: &mut Box<Expr>| {
@@ -316,11 +318,10 @@ impl TransformVisitor {
                                                     return ();
                                                 }
                                             }
-                                            let current_path = self.get_current_node_path();
                                             // {condition1 && 'Hello'} 在预处理时会变成 {condition1 ? 'Hello' : "compileIgnore"}
                                             // 而普通文本三元则会被 block 标签包裹，因此处理后只有上述情况会存在 lit 类型的表达式
                                             // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
-                                            let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, current_path, COMPILE_IGNORE, current_path);
+                                            let str = format!(r#"{{{{{}.v==="{}"?"":{}.v}}}}"#, node_path, COMPILE_IGNORE, node_path);
                                             children_string.push_str(&str);
                                         },
                                         _ => ()
@@ -340,14 +341,16 @@ impl TransformVisitor {
                                     self.node_stack.push(LOOP_WRAPPER_ID);
                                     let child_string = self.build_xml_element(&mut *return_value);
                                     children_string.push_str(&child_string);
+                                } else if utils::is_render_fn(callee_expr) {
+                                    let tmpl = format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path);
+                                    children_string.push_str(&tmpl)
+                                } else {
+                                    let code = utils::gen_template_v(&node_path);
+                                    children_string.push_str(&code);
                                 }
                             },
-                            // TODO 只支持 render 开头的函数调用返回 JSX
-                            // Expr::Call(_)
                             _ => {
-                                // println!("_ expr: {:?} ", jsx_expr);
-                                let node_path = self.get_current_node_path();
-                                let code = format!("{{{{{}.v}}}}", node_path);
+                                let code = utils::gen_template_v(&node_path);
                                 children_string.push_str(&code);
                             }
                         }

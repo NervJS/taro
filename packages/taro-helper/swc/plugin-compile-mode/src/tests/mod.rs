@@ -12,6 +12,7 @@ mod attributes;
 mod shake;
 mod condition;
 mod looping;
+mod children;
 mod harmony;
 
 pub fn tr () -> impl Fold + VisitMut {

@@ -27,7 +27,7 @@ pub fn named_iter (str: String) -> impl FnMut() -> String {
 
 pub fn jsx_text_to_string (atom: &Atom) -> String {
     let content = atom.replace("\t", " ");
-    
+
     let res = content
         .lines()
         .enumerate()
@@ -238,6 +238,21 @@ pub fn is_call_expr_of_loop (callee_expr: &mut Box<Expr>, args: &mut Vec<ExprOrS
     return false
 }
 
+pub fn is_render_fn (callee_expr: &mut Box<Expr>) -> bool {
+    fn is_starts_with_render (name: &str) -> bool {
+        name.starts_with("render")
+    }
+    match &**callee_expr {
+        Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym: name, .. }), .. }) => {
+            is_starts_with_render(name)
+        },
+        Expr::Ident(Ident { sym: name, .. }) => {
+            is_starts_with_render(name)
+        },
+        _ => false
+    }
+}
+
 pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<ExprOrSpread>) -> Option<&'a mut Box<JSXElement>> {
     if is_call_expr_of_loop(callee_expr, args) {
         if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
@@ -296,6 +311,10 @@ pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
 
 pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
     add_spaces_to_lines(format!("ForEach(this.{}.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)", visitor.node_name.last().unwrap().clone()).as_str())
+}
+
+pub fn gen_template_v (node_path: &str) -> String {
+    format!("{{{{{}.v}}}}", node_path)
 }
 
 #[test]
