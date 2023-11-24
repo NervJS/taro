@@ -1,5 +1,14 @@
 import Taro from '@tarojs/taro'
 
+/**
+ * MapContext 实例
+ * 
+ * @canUse MapContext
+ * @__class 
+ * [getCenterLocation, setLocMarkerIcon, translateMarker, moveAlong, includePoints, getRegion, getRotate, getSkew, getScale, setCenterOffset,\
+ * addGroundOverlay, setBoundary, updateGroundOverlay, removeGroundOverlay, addMarkers, removeMarkers]
+ */
+
 export class MapContext implements Taro.MapContext {
   Map: any
 
