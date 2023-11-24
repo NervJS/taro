@@ -25,7 +25,9 @@ const config: Config = {
       },
     ],
   },
-  transformIgnorePatterns: ['node_modules'],
+  transformIgnorePatterns: [
+    '/node_modules/.pnpm/(?!registry.npmjs.org\\+@swc)'
+  ],
 }
 
 export default config

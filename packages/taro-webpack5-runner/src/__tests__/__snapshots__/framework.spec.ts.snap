@@ -521,7 +521,7 @@ require("./runtime");
                     page.setData(_defineProperty({}, toCamelCase(data.nn), data));
                     return _ref = {
                         sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"),
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
                     _ref;
                 }
             }
@@ -2619,7 +2619,7 @@ require("./runtime");
                     page.setData(_defineProperty({}, toCamelCase(data.nn), data));
                     return _ref = {
                         sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"),
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
                     _ref;
                 }
             }
@@ -3886,24 +3886,24 @@ require("./runtime");
             }
             function maybeInvokeDelegate(delegate, context) {
                 var methodName = context.method, method = delegate.iterator[methodName];
-                if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return",
-                context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw",
-                context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")),
+                if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", 
+                context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", 
+                context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), 
                 ContinueSentinel;
                 var record = tryCatch(method, delegate.iterator, context.arg);
-                if ("throw" === record.type) return context.method = "throw", context.arg = record.arg,
+                if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, 
                 context.delegate = null, ContinueSentinel;
                 var info = record.arg;
-                return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc,
-                "return" !== context.method && (context.method = "next", context.arg = undefined),
-                context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"),
+                return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, 
+                "return" !== context.method && (context.method = "next", context.arg = undefined), 
+                context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), 
                 context.delegate = null, ContinueSentinel);
             }
             function pushTryEntry(locs) {
                 var entry = {
                     tryLoc: locs[0]
                 };
-                1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2],
+                1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], 
                 entry.afterLoc = locs[3]), this.tryEntries.push(entry);
             }
             function resetTryEntry(entry) {
@@ -3922,7 +3922,7 @@ require("./runtime");
                     if ("function" == typeof iterable.next) return iterable;
                     if (!isNaN(iterable.length)) {
                         var i = -1, next = function next() {
-                            for (;++i < iterable.length; ) if (hasOwn.call(iterable, i)) return next.value = iterable[i],
+                            for (;++i < iterable.length; ) if (hasOwn.call(iterable, i)) return next.value = iterable[i], 
                             next.done = !1, next;
                             return next.value = undefined, next.done = !0, next;
                         };
@@ -3945,13 +3945,13 @@ require("./runtime");
             }), defineProperty(GeneratorFunctionPrototype, "constructor", {
                 value: GeneratorFunction,
                 configurable: !0
-            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"),
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), 
             exports.isGeneratorFunction = function(genFun) {
                 var ctor = "function" == typeof genFun && genFun.constructor;
                 return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name));
             }, exports.mark = function(genFun) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype,
-                define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp),
+                return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, 
+                define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), 
                 genFun;
             }, exports.awrap = function(arg) {
                 return {
@@ -3982,8 +3982,8 @@ require("./runtime");
             }, exports.values = values, Context.prototype = {
                 constructor: Context,
                 reset: function reset(skipTempReset) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1,
-                    this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry),
+                    if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, 
+                    this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), 
                     !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined);
                 },
                 stop: function stop() {
@@ -3996,7 +3996,7 @@ require("./runtime");
                     if (this.done) throw exception;
                     var context = this;
                     function handle(loc, caught) {
-                        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next",
+                        return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", 
                         context.arg = undefined), !!caught;
                     }
                     for (var i = this.tryEntries.length - 1; i >= 0; --i) {
@@ -4026,19 +4026,19 @@ require("./runtime");
                     }
                     finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null);
                     var record = finallyEntry ? finallyEntry.completion : {};
-                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next",
+                    return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", 
                     this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record);
                 },
                 complete: function complete(record, afterLoc) {
                     if ("throw" === record.type) throw record.arg;
-                    return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg,
-                    this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc),
+                    return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, 
+                    this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), 
                     ContinueSentinel;
                 },
                 finish: function finish(finallyLoc) {
                     for (var i = this.tryEntries.length - 1; i >= 0; --i) {
                         var entry = this.tryEntries[i];
-                        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc),
+                        if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), 
                         resetTryEntry(entry), ContinueSentinel;
                     }
                 },
@@ -4573,7 +4573,7 @@ require("./common");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    26: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    917: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function _typeof(obj) {
             "@babel/helpers - typeof";
             return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
@@ -5101,14 +5101,14 @@ require("./runtime");
                     page.setData(_defineProperty({}, toCamelCase(data.nn), data));
                     return _ref = {
                         sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"),
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
                     _ref;
                 }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(619);
+        var taro_runtime = __webpack_require__(500);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -5179,7 +5179,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(26);
+        return __webpack_exec__(917);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6145,7 +6145,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    619: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    500: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createPageConfig: function() {
@@ -6181,8 +6181,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    30: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(619);
+    693: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(500);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -6190,7 +6190,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(30);
+        return __webpack_exec__(693);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6207,10 +6207,12 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    169: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(619);
-        var render = function render() {
-            var _vm = this, _c = _vm._self._c;
+    412: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(500);
+        var render = function() {
+            var _vm = this;
+            var _h = _vm.$createElement;
+            var _c = _vm._self._c || _h;
             return _c("view", {
                 staticClass: "index"
             }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
@@ -6293,7 +6295,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(169);
+        return __webpack_exec__(412);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -6361,7 +6363,7 @@ exports[`framework should build vue app web 2`] = `
 (function() {
     "use strict";
     var __webpack_modules__ = {
-        "407": function(module, __webpack_exports__, __webpack_require__) {
+        "634": function(module, __webpack_exports__, __webpack_require__) {
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(870);
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
             var _node_modules_pnpm_registry_npmjs_org_css_loader_6_7_3_webpack_5_78_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(857);
@@ -6704,7 +6706,7 @@ exports[`framework should build vue app web 2`] = `
         var insertStyleElement_default = __webpack_require__.n(insertStyleElement);
         var styleTagTransform = __webpack_require__(110);
         var styleTagTransform_default = __webpack_require__.n(styleTagTransform);
-        var app = __webpack_require__(407);
+        var app = __webpack_require__(634);
         var options = {};
         options.styleTagTransform = styleTagTransform_default();
         options.setAttributes = setAttributesWithoutAttributes_default();
@@ -6737,7 +6739,7 @@ require("./common");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    659: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    461: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function _typeof(obj) {
             "@babel/helpers - typeof";
             return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
@@ -7265,14 +7267,14 @@ require("./runtime");
                     page.setData(_defineProperty({}, toCamelCase(data.nn), data));
                     return _ref = {
                         sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"),
+                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
                     _ref;
                 }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
-        var taro_runtime = __webpack_require__(83);
+        var taro_runtime = __webpack_require__(608);
         function setReconciler() {}
         function connectReactPage() {}
         function createReactApp() {}
@@ -7305,7 +7307,7 @@ require("./runtime");
         function useScope() {}
         function initPxTransform() {}
         var taro = "taro";
-        var vue = __webpack_require__(721);
+        var vue = __webpack_require__(807);
         var app_App = (0, vue.r)({
             onShow: function onShow(options) {}
         });
@@ -7338,7 +7340,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(659);
+        return __webpack_exec__(461);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8304,7 +8306,7 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
-    83: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    608: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, {
             createPageConfig: function() {
@@ -8334,7 +8336,7 @@ require("./runtime");
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
     },
-    721: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+    807: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             h: function() {
                 return h;
@@ -8353,8 +8355,8 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
-    865: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83);
+    677: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(608);
         Component((0, _tarojs_runtime__WEBPACK_IMPORTED_MODULE_0__.createRecursiveComponentConfig)());
     }
 }, function(__webpack_require__) {
@@ -8362,7 +8364,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(865);
+        return __webpack_exec__(677);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8379,17 +8381,19 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    356: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(83);
-        var render = function render() {
-            var _vm = this, _c = _vm._self._c;
+    190: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(608);
+        var render = function() {
+            var _vm = this;
+            var _h = _vm.$createElement;
+            var _c = _vm._self._c || _h;
             return _c("view", {
                 staticClass: "index"
             }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
         };
         var staticRenderFns = [];
         render._withStripped = true;
-        var vue = __webpack_require__(721);
+        var vue = __webpack_require__(807);
         var indexvue_type_script_lang_js_ = {
             setup: function setup() {
                 var msg = (0, vue.ref)("Hello world");
@@ -8467,7 +8471,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(356);
+        return __webpack_exec__(190);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
