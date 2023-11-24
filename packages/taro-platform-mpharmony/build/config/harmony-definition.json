@@ -240,20 +240,16 @@
     "InterstitialAd": true,
     "IsoDep": false,
     "LivePlayerContext": {
-      "exitCasting": true,
       "exitFullScreen": true,
       "exitPictureInPicture": true,
       "mute": true,
       "pause": true,
       "play": true,
-      "reconnectCasting": true,
       "requestFullScreen": true,
       "requestPictureInPicture": true,
       "resume": true,
       "snapshot": true,
-      "startCasting": true,
-      "stop": true,
-      "switchCasting": true
+      "stop": true
     },
     "LivePusherContext": false,
     "LogManager": true,
@@ -686,22 +682,12 @@
     "createBufferURL": false,
     "createCacheManager": false,
     "createCameraContext": true,
-    "createCanvasContext": {
-      "object": {
-        "canvasId": true,
-        "inst": true
-      }
-    },
+    "createCanvasContext": true,
     "createInferenceSession": false,
     "createInnerAudioContext": true,
     "createIntersectionObserver": true,
     "createInterstitialAd": true,
-    "createLivePlayerContext": {
-      "object": {
-        "id": true,
-        "inst": true
-      }
-    },
+    "createLivePlayerContext": true,
     "createLivePusherContext": false,
     "createMediaAudioPlayer": false,
     "createMediaContainer": false,
@@ -713,12 +699,7 @@
     "createTCPSocket": false,
     "createUDPSocket": false,
     "createVKSession": false,
-    "createVideoContext": {
-      "object": {
-        "id": true,
-        "inst": true
-      }
-    },
+    "createVideoContext": true,
     "createVideoDecoder": false,
     "createWebAudioContext": false,
     "createWorker": false,
@@ -1354,7 +1335,7 @@
     "offDeviceMotionChange": true,
     "offError": true,
     "offGetWifiList": true,
-    "offGyroscopeChange": true,
+    "offGyroscopeChange": false,
     "offHCEMessage": false,
     "offKeyboardHeightChange": true,
     "offLocalServiceDiscoveryStop": false,
