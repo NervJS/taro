@@ -240,20 +240,16 @@
     "InterstitialAd": true,
     "IsoDep": false,
     "LivePlayerContext": {
-      "exitCasting": true,
       "exitFullScreen": true,
       "exitPictureInPicture": true,
       "mute": true,
       "pause": true,
       "play": true,
-      "reconnectCasting": true,
       "requestFullScreen": true,
       "requestPictureInPicture": true,
       "resume": true,
       "snapshot": true,
-      "startCasting": true,
-      "stop": true,
-      "switchCasting": true
+      "stop": true
     },
     "LivePusherContext": false,
     "LogManager": true,
@@ -658,7 +654,23 @@
       "log": true,
       "warn": true
     },
-    "createAnimation": true,
+    "createAnimation": {
+      "object": {
+        "duration": true,
+        "timingFunction": {
+          "linear": true,
+          "ease": true,
+          "ease-in": true,
+          "ease-in-out": true,
+          "ease-out": true,
+          "step-start": true,
+          "step-end": true
+        },
+        "delay": true,
+        "transformOrigin": true,
+        "unit": true
+      }
+    },
     "createAudioContext": true,
     "createBLEConnection": {
       "object": {
@@ -670,22 +682,12 @@
     "createBufferURL": false,
     "createCacheManager": false,
     "createCameraContext": true,
-    "createCanvasContext": {
-      "object": {
-        "canvasId": true,
-        "inst": true
-      }
-    },
+    "createCanvasContext": true,
     "createInferenceSession": false,
     "createInnerAudioContext": true,
     "createIntersectionObserver": true,
     "createInterstitialAd": true,
-    "createLivePlayerContext": {
-      "object": {
-        "id": true,
-        "inst": true
-      }
-    },
+    "createLivePlayerContext": true,
     "createLivePusherContext": false,
     "createMediaAudioPlayer": false,
     "createMediaContainer": false,
@@ -697,12 +699,7 @@
     "createTCPSocket": false,
     "createUDPSocket": false,
     "createVKSession": false,
-    "createVideoContext": {
-      "object": {
-        "id": true,
-        "inst": true
-      }
-    },
+    "createVideoContext": true,
     "createVideoDecoder": false,
     "createWebAudioContext": false,
     "createWorker": false,
@@ -884,6 +881,22 @@
     "getImageInfo": {
       "object": {
         "src": true
+      },
+      "success": {
+        "height": true,
+        "orientation": {
+          "up": true,
+          "up-mirrored": true,
+          "down": true,
+          "down-mirrored": true,
+          "left-mirrored": true,
+          "right": true,
+          "right-mirrored": true,
+          "left": true
+        },
+        "path": true,
+        "type": true,
+        "width": true
       }
     },
     "getInferenceEnvInfo": false,
@@ -1177,6 +1190,25 @@
     "getVideoInfo": {
       "object": {
         "src": true
+      },
+      "success": {
+        "orientation": {
+          "up": true,
+          "down": true,
+          "left": true,
+          "right": true,
+          "up-mirrored": true,
+          "down-mirrored": true,
+          "left-mirrored": true,
+          "right-mirrored": true
+        },
+        "type": true,
+        "duration": true,
+        "size": true,
+        "height": true,
+        "width": true,
+        "fps": true,
+        "bitrate": true
       }
     },
     "getWeRunData": false,
@@ -1303,7 +1335,7 @@
     "offDeviceMotionChange": true,
     "offError": true,
     "offGetWifiList": true,
-    "offGyroscopeChange": true,
+    "offGyroscopeChange": false,
     "offHCEMessage": false,
     "offKeyboardHeightChange": true,
     "offLocalServiceDiscoveryStop": false,
@@ -1599,6 +1631,68 @@
     "reportMonitor": false,
     "reportPerformance": false,
     "request": {
+      "object": {
+        "url": true,
+        "data": true,
+        "header": true,
+        "timeout": true,
+        "method": {
+          "OPTIONS": true,
+          "GET": true,
+          "HEAD": true,
+          "POST": true,
+          "PUT": true,
+          "PATCH": true,
+          "DELETE": true,
+          "TRACE": true,
+          "CONNECT": true
+        },
+        "dataType": {
+          "json": true,
+          "text": true,
+          "base64": true,
+          "arraybuffer": true
+        },
+        "responseType": {
+          "text": true,
+          "arraybuffer": true
+        },
+        "enableHttp2": true,
+        "enableQuic": true,
+        "enableCache": true,
+        "enableHttpDNS": true,
+        "httpDNSServiceId": true,
+        "enableChunked": true,
+        "forceCellularNetwork": true,
+        "enableCookie": true,
+        "referrerStrategy": {
+          "index": true,
+          "page": true,
+          "querystring": true
+        },
+        "jsonp": true,
+        "jsonpCache": true,
+        "mode": true,
+        "credentials": {
+          "include": true,
+          "same-origin": true,
+          "omit": true
+        },
+        "cache": {
+          "default": true,
+          "no-cache": true,
+          "reload": true,
+          "force-cache": true
+        },
+        "retryTimes": true,
+        "backup": true,
+        "signal": true,
+        "dataCheck": true,
+        "useStore": true,
+        "storeCheckKey": true,
+        "storeSign": true,
+        "storeCheck": true
+      },
       "success": {
         "data": true,
         "header": true,

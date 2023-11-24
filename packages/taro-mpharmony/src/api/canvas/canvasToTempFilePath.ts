@@ -52,8 +52,8 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
   // 创建一个新的canvas元素
   const outCanvas = document.createElement('canvas')
   const ctx = outCanvas.getContext('2d') as CanvasRenderingContext2D
-  outCanvas.width = destWidth || x
-  outCanvas.height = destHeight || y
+  outCanvas.width = destWidth
+  outCanvas.height = destHeight
   // 设置背景为白色
   ctx.fillStyle = '#FFFFFF'
   ctx.fillRect(0, 0, outCanvas.width, outCanvas.height)
