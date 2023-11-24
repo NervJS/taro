@@ -1,7 +1,7 @@
 use swc_core::{
     ecma::{
         ast::Program,
-        visit::{as_folder, FoldWith},
+        visit::{as_folder, FoldWith, VisitMut},
     },
     plugin::{
         plugin_transform,
@@ -14,14 +14,26 @@ use core::fmt::Debug;
 
 mod utils;
 mod transform;
+mod transform_harmony;
 #[cfg(test)]
 mod tests;
+
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct PluginConfig {
     pub tmpl_prefix: String,
+    #[serde(default)]
+    pub is_harmony: bool,
+    #[serde(default)]
     pub components: HashMap<String, HashMap<String, String>>,
+    #[serde(default)]
     pub adapter: HashMap<String, String>,
+    #[serde(default)]
+    pub support_events: Vec<String>,
+    #[serde(default)]
+    pub support_components: Vec<String>,
+    #[serde(default)]
+    pub event_adapter: HashMap<String, String>,
 }
 
 /// An example plugin function with macro support.
@@ -47,6 +59,13 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
             .unwrap()
     )
     .unwrap();
-    let visitor = transform::TransformVisitor::new(config);
+
+    // 如果 config 中的 is_harmony 字段为 true 则走 harmony_transform, 否则则走 transform
+    let visitor: Box<dyn VisitMut> = if config.is_harmony {
+        Box::new(transform_harmony::TransformVisitor::new(config))
+    } else {
+        Box::new(transform::TransformVisitor::new(config))
+    };
+
     program.fold_with(&mut as_folder(visitor))
 }

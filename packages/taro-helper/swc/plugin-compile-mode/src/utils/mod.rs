@@ -12,7 +12,9 @@ use swc_core::{
 use std::collections::HashMap;
 
 use self::constants::*;
+use crate::transform_harmony::TransformVisitor;
 
+pub mod harmony;
 pub mod constants;
 
 pub fn named_iter (str: String) -> impl FnMut() -> String {
@@ -55,6 +57,7 @@ pub fn jsx_text_to_string (atom: &Atom) -> String {
     res
 }
 
+// 将驼峰写法转换为 kebab-case，即 aBcD -> a-bc-d
 pub fn to_kebab_case (val: &str) -> String {
     let mut res = String::new();
     val
@@ -91,11 +94,12 @@ pub fn convert_jsx_attr_key (jsx_key: &str, adapter: &HashMap<String, String>) -
     to_kebab_case(jsx_key)
 }
 
+pub fn check_is_event_attr (val: &str) -> bool {
+    val.starts_with("on") && val.chars().nth(2).is_some_and(|x| x.is_uppercase())
+}
+
 pub fn identify_jsx_event_key (val: &str) -> Option<String> {
-    if
-        val.starts_with("on") &&
-        val.chars().nth(2).is_some_and(|x| x.is_uppercase())
-    {
+    if check_is_event_attr(val) {
         let event_name = val.get(2..).unwrap().to_lowercase();
         let event_name = if event_name == "click" {
             "tap"
@@ -163,6 +167,56 @@ pub fn create_jsx_lit_attr (name: &str, lit: Lit) -> JSXAttrOrSpread {
         name: JSXAttrName::Ident(Ident::new(name.into(), span)),
         value: Some(JSXAttrValue::Lit(lit))
     })
+}
+
+pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisitor) -> String {
+    let node_name = (visitor.get_node_name)();
+
+    visitor.node_name_vec.push(node_name.clone());
+    el.opening.attrs.push(create_jsx_lit_attr(DYNAMIC_ID, node_name.clone().into()));
+    node_name
+}
+
+pub fn add_spaces_to_lines(input: &str) -> String {
+    let count = 2;
+    let mut result = String::new();
+
+    for line in input.lines() {
+        let spaces = " ".repeat(count);
+        result.push_str(&format!("{}{}\n", spaces, line));
+    }
+
+    result
+}
+
+pub fn get_harmony_component_style (visitor: &mut TransformVisitor) -> String {
+    let component_set = &visitor.component_set;
+    let mut harmony_component_style = String::new();
+
+    let mut build_component = |component_tag: &str, component_style: &str| {
+        if component_set.contains(component_tag) {
+            harmony_component_style.push_str(component_style);
+        }
+    };
+
+    build_component(VIEW_TAG, HARMONY_FLEX_STYLE_BIND);
+    build_component(IMAGE_TAG, HARMONY_IMAGE_STYLE_BIND);
+    build_component(TEXT_TAG, HARMONY_TEXT_STYLE_BIND);
+
+    harmony_component_style
+}
+
+pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
+    for attr in &el.opening.attrs {
+        if let JSXAttrOrSpread::JSXAttr(JSXAttr { name, .. }) = attr {
+            if let JSXAttrName::Ident(Ident { sym, .. }) = name {
+                if &**sym == COMPILE_IGNORE {
+                    return true
+                }
+            }
+        }
+    }
+    false
 }
 
 /**
@@ -234,6 +288,24 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
         }
     }
     None
+}
+
+pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
+    for child in el.children.iter_mut() {
+        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
+            if let Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) = &mut **expr {
+                if is_call_expr_of_loop(callee_expr, args) {
+                    return true
+                }
+            }
+        }
+    }
+
+    false
+}
+
+pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
+    add_spaces_to_lines(format!("ForEach(this.{}.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)", visitor.node_name.last().unwrap().clone()).as_str())
 }
 
 pub fn gen_template_v (node_path: &str) -> String {
