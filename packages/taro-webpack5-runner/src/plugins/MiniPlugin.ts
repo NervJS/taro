@@ -1185,7 +1185,15 @@ export default class TaroMiniPlugin {
         })
       }
     }
-    this.generateTemplateFile(compilation, compiler, baseTemplateName, template.buildTemplate, componentConfig)
+    const buildBaseTemplate = function (...args: [any]) {
+      const xmlsOutputDir = path.join(compiler.outputPath, './taro_xmls')
+      const list = fs.existsSync(xmlsOutputDir) ? fs.readdirSync(xmlsOutputDir) : []
+      return list.reduce((pre, cur) => {
+        const xmlPath = path.join(xmlsOutputDir, cur)
+        return pre + `\n<import src="${path.relative(compiler.outputPath, xmlPath)}"/>`
+      }, template.buildTemplate(...args))
+    }
+    this.generateTemplateFile(compilation, compiler, baseTemplateName, buildBaseTemplate, componentConfig)
     isUsingCustomWrapper && this.generateTemplateFile(compilation, compiler, this.getIsBuildPluginPath(customWrapperName, isBuildPlugin), template.buildCustomComponentTemplate, this.options.fileType.templ)
     this.generateXSFile(compilation, compiler, 'utils', isBuildPlugin)
 
