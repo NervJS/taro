@@ -1,6 +1,6 @@
 {
   "name": "taro",
-  "version": "3.7.0-alpha.26",
+  "version": "3.7.0-beta.3",
   "description": "开放式跨端跨框架开发解决方案",
   "homepage": "https://github.com/NervJS/taro#readme",
   "author": "O2Team",
@@ -59,7 +59,7 @@
     "@babel/traverse": "^7.14.5",
     "@babel/types": "^7.14.5",
     "@commitlint/cli": "^17.6.6",
-    "@commitlint/config-conventional": "^16.2.1",
+    "@commitlint/config-conventional": "^17.6.6",
     "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/mini-runner": "workspace:*",

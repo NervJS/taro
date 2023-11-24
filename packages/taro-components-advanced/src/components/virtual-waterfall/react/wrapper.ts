@@ -19,7 +19,8 @@ function getRenderExpandNodes ({
 }) {
   const id = `${sid}-${direction}`
   const props: any = {
-    id
+    key: id,
+    id,
   }
   if (!renderExpand) {
     props.style = {

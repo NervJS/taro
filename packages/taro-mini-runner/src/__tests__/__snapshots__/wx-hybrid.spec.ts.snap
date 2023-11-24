@@ -390,7 +390,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -400,10 +400,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -472,6 +474,21 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    const page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData({
+                        [Object(mocks_taro["toCamelCase"])(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
+                }
             }
         };
         Object(mocks_taro["e"])(hostConfig);
@@ -510,7 +527,7 @@ require("./taro");
             } ]);
             return App;
         }(react["default"].Component);
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = __webpack_require__(9);
         var config = {
             pages: [ "pages/index/index", "pages/native/native" ],
@@ -522,7 +539,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(Object(mocks_taro["a"])(lib_src_app, react, taro_react["a"], config));
+        var inst = App(Object(mocks_taro["a"])(entry_cachename_app_src_app, react, taro_react["a"], config));
         Object(mocks_taro["initPxTransform"])({
             designWidth: 750,
             deviceRatio: {
@@ -637,7 +654,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_0_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -701,7 +718,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_1_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -765,7 +782,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_2_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -829,7 +846,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_3_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -885,7 +902,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_4_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -941,7 +958,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_5_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -989,7 +1006,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_6_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1037,7 +1054,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_7_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1085,7 +1102,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_8_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1133,7 +1150,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_9_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1181,7 +1198,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_10_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1229,7 +1246,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_11_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1277,7 +1294,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_12_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1325,7 +1342,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_13_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
     </block>
@@ -1373,7 +1390,7 @@ require("./taro");
 </template>
 
 <template name="tmpl_14_tab">
-  <tab bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
       <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
     </block>

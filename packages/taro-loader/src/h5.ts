@@ -9,6 +9,7 @@ import { REG_POST } from './constants'
 import type * as webpack from 'webpack'
 
 function genResource (path: string, pages: Map<string, string>, loaderContext: webpack.LoaderContext<any>, syncFileName: string | false = false) {
+  const options = getOptions(loaderContext)
   const stringify = (s: string): string => stringifyRequest(loaderContext, s)
   const importDependent = syncFileName ? 'require' : 'import'
   return `Object.assign({
@@ -17,7 +18,7 @@ function genResource (path: string, pages: Map<string, string>, loaderContext: w
     const page = ${importDependent}(${stringify(join(loaderContext.context, syncFileName || path))})
     return [page, context, params]
   }
-}, ${JSON.stringify(readConfig(pages.get(path.split(sep).join('/'))!))})`
+}, ${JSON.stringify(readConfig(pages.get(path.split(sep).join('/'))!, options))})`
 }
 
 export default function (this: webpack.LoaderContext<any>) {

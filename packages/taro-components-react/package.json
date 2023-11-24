@@ -1,13 +1,14 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.7.0-alpha.26",
+  "version": "3.7.0-beta.3",
   "description": "",
   "main:h5": "dist/index.js",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "types/index.d.ts",
   "sideEffects": [
-    "./dist/components/**/loader.js"
+    "./dist/components/**/loader.js",
+    "**/style/*.js"
   ],
   "files": [
     "dist",
@@ -37,8 +38,8 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^2.79.0",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-postcss": "^3.1.8",
