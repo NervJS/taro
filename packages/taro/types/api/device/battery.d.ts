@@ -6,7 +6,7 @@ declare module '../../index' {
       /** 是否正在充电中 */
       isCharging: boolean
       /** 设备电量，范围 1 - 100 */
-      level: string
+      level: number
     }
   }
 

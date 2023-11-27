@@ -27,7 +27,7 @@ declare module '../../index' {
       /** 要保存的本地临时文件路径
        * @supported alipay
        */
-      apFilePath: string
+      apFilePath?: string
       /** 接口调用成功的回调函数 */
       success?: (result: SuccessCallbackResult) => void
     }
@@ -127,7 +127,7 @@ declare module '../../index' {
       /** 文件路径
        * @supported alipay
        */
-      apFilePath: string
+      apFilePath?: string
       /** 本地文件大小，以字节为单位 */
       size: number
     }
@@ -140,7 +140,7 @@ declare module '../../index' {
       /** 文件路径
        * @supported alipay
        */
-      apFilePath: string
+      apFilePath?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -165,7 +165,7 @@ declare module '../../index' {
       /** 本地文件路径
        * @supported alipay
        */
-      apFilePath: string
+      apFilePath?: string
       /**
        * 计算文件摘要的算法
        * @default 'md5'
@@ -818,7 +818,7 @@ declare module '../../index' {
       /** 本地缓存文件路径
        * @supported alipay
        */
-      apFilePath: string
+      apFilePath?: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
