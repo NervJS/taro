@@ -159,7 +159,6 @@ require("./taro");
 
 /** filePath: dist/app.jxss **/
 
-
 /** filePath: dist/base.jxml **/
 <jds src="./utils.jds" module="xs" />
 <template name="taro_tmpl">
@@ -1565,9 +1564,7 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.jxss **/
 
-
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 1 ], {

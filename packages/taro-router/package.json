@@ -1,11 +1,11 @@
 {
   "name": "@tarojs/router",
-  "version": "3.6.19",
+  "version": "3.7.0-beta.3",
   "description": "Taro-router",
-  "browser": "dist/index.esm.js",
-  "main:h5": "dist/index.js",
+  "browser": "dist/index.js",
+  "main:h5": "dist/index.esm.js",
   "main": "dist/index.js",
-  "module": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -38,12 +38,12 @@
     "universal-router": "^8.3.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/jest": "^29.4.0",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
-    "jest-environment-jsdom": "^29.5.0",
+    "jest-environment-jsdom": "^29.6.4",
     "jsdom": "^21.1.0",
     "rollup": "^2.79.0",
     "rollup-plugin-node-externals": "^5.0.0",

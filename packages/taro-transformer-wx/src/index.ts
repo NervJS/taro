@@ -132,8 +132,8 @@ function buildFullPathThisPropsRef(id: t.Identifier, memberIds: string[], path: 
   if (binding) {
     const bindingPath = binding.path
     if (bindingPath.isVariableDeclarator()) {
-      const dclId = bindingPath.get('id')
-      const dclInit = bindingPath.get('init')
+      const dclId = bindingPath.get('id') as any
+      const dclInit = bindingPath.get('init') as any
       let dclInitIds: string[] = []
       if (t.isMemberExpression(dclInit)) {
         dclInitIds = getIdsFromMemberProps((dclInit as any).node)
@@ -554,7 +554,6 @@ export default function transform(options: TransformOptions): TransformResult {
             if (index !== cases.length - 1 && t.isNullLiteral(Case.test)) {
               throw codeFrameError(Case, '含有 JSX 的 switch case 语句只有最后一个 case 才能是 default')
             }
-            // tslint:disable-next-line: strict-type-predicates
             const test =
               Case.test === null ? t.nullLiteral() : t.binaryExpression('===', discriminant as any, Case.test as any)
             return { block, test }
@@ -669,7 +668,6 @@ export default function transform(options: TransformOptions): TransformResult {
         }
       }
 
-      // tslint:disable-next-line: strict-type-predicates
       if (!t.isJSXIdentifier(name) || value === null || t.isStringLiteral(value) || t.isJSXElement(value)) {
         return
       }
@@ -677,7 +675,7 @@ export default function transform(options: TransformOptions): TransformResult {
       const expr = (value as t.JSXExpressionContainer)?.expression as any
       const exprPath = path.get('value.expression')
       const classDecl = path.findParent((p) => p.isClassDeclaration())
-      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '')
+      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '') as any
       let isConverted = false
       if (classDeclName) {
         isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')

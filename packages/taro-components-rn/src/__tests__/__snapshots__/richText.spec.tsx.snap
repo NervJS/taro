@@ -3,7 +3,7 @@
 exports[`RichText RichText render 1`] = `
 <View
   style={
-    Object {
+    {
       "height": 0,
       "width": "100%",
     }
@@ -11,8 +11,8 @@ exports[`RichText RichText render 1`] = `
 >
   <View
     style={
-      Array [
-        Object {
+      [
+        {
           "flex": 1,
           "overflow": "hidden",
         },
@@ -44,20 +44,20 @@ exports[`RichText RichText render 1`] = `
       onShouldStartLoadWithRequest={[Function]}
       scalesPageToFit={false}
       source={
-        Object {
-          "html": "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1, maximum-scale=1\\"/><div class=\\"div_class\\" style=\\"line-height:60px;color:white;font-size:60px;\\">Hello World!</div>",
+        {
+          "html": "<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/><div class="div_class" style="line-height:60px;color:white;font-size:60px;">Hello World!</div>",
         }
       }
       style={
-        Array [
-          Object {
+        [
+          {
             "flex": 1,
             "overflow": "hidden",
           },
-          Object {
+          {
             "backgroundColor": "#ffffff",
           },
-          Object {
+          {
             "backgroundColor": "transparent",
           },
         ]

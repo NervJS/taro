@@ -11,7 +11,7 @@ import { globals } from './global'
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
   if (binding) {
-    return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init'))
+    return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init') as any)
   }
   return false
 }

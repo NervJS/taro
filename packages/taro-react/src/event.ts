@@ -8,7 +8,7 @@ import { Props } from './props'
 import { TaroReconciler } from './reconciler' 
 
 
-export type RestoreType =  string | number | boolean | any[]
+export type RestoreType = string | number | boolean | any[]
 
 interface RestoreItem {
   target: TaroElement

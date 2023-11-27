@@ -29,6 +29,7 @@ import TaroSingleEntryPlugin from './TaroSingleEntryPlugin'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
 import type { AppConfig, Config } from '@tarojs/taro'
+import type { IMiniFilesConfig } from '@tarojs/taro/types/compile'
 import type { Compilation, Compiler } from 'webpack'
 import type { IComponent, IFileType } from '../utils/types'
 import type { MiniCombination } from '../webpack/MiniCombination'
@@ -76,13 +77,6 @@ export interface IComponentObj {
   type?: string
 }
 
-interface FilesConfig {
-  [configName: string]: {
-    content: Config
-    path: string
-  }
-}
-
 function isLoaderExist (loaders, loaderName: string) {
   return loaders.some(item => item.loader === loaderName)
 }
@@ -96,7 +90,7 @@ export default class TaroMiniPlugin {
   /** app config 配置内容 */
   appConfig: AppConfig
   /** app、页面、组件的配置集合 */
-  filesConfig: FilesConfig = {}
+  filesConfig: IMiniFilesConfig = {}
   isWatch = false
   /** 页面列表 */
   pages = new Set<IComponent>()
@@ -1122,7 +1116,7 @@ export default class TaroMiniPlugin {
           ...config.content.usingComponents
         }
 
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {
@@ -1230,7 +1224,7 @@ export default class TaroMiniPlugin {
           ...config.content.usingComponents
         }
 
-        if(isUsingCustomWrapper) {
+        if (isUsingCustomWrapper) {
           config.content.usingComponents[customWrapperName] = importCustomWrapperPath
         }
         if (!template.isSupportRecursive && !page.isNative) {

@@ -163,7 +163,7 @@ describe('文件转换', () => {
     
     // 模拟配置miniprogramRoot字段中的projectConfig值
     const readFromFile = './miniprogram'
-    const mockFileData  = `
+    const mockFileData = `
       "miniprogramRoot": "miniprogram/",
     `
     

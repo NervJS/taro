@@ -29,10 +29,12 @@ module.exports = (_, options = {}) => {
   const presets = []
   const plugins = []
   const overrides = []
-  const isReact = options.framework === 'react' || options.framework === 'preact'
-  const isNerv = options.framework === 'nerv'
-  const isVue = options.framework === 'vue'
-  const isVue3 = options.framework === 'vue3'
+  const isVite = options.compiler === 'vite'
+  const isReact = options.framework === 'react' || options.framework === 'preact' && !isVite
+  const isNerv = options.framework === 'nerv' && !isVite
+  const isVue = options.framework === 'vue' && !isVite
+  const isVue3 = options.framework === 'vue3' && !isVite
+  const isTs = options.ts && !isVite
   const moduleName = options.framework.charAt(0).toUpperCase() + options.framework.slice(1)
   const presetReactConfig = options.react || {}
 
@@ -72,7 +74,7 @@ module.exports = (_, options = {}) => {
     }
   }
 
-  if (options.ts) {
+  if (isTs) {
     const config = typeof options.ts === 'object' ? options.ts : {}
     if (isNerv || isReact) {
       config.jsxPragma = moduleName

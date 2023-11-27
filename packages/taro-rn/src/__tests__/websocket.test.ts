@@ -105,7 +105,7 @@ describe('websocket', () => {
     socketTaskThree.close({})
   })
   // @ts-ignore
-  test('should work basically', async (done) => {
+  test('should work basically', (done) => {
     const fakeURL = 'wss://localhost:8080'
     const mockServer = new Server(fakeURL)
     const connected = jest.fn()
@@ -123,47 +123,48 @@ describe('websocket', () => {
       mockServer.send(msg2)
     })
 
-    const socketTask = await Taro.connectSocket({
+    Taro.connectSocket({
       url: fakeURL,
       success,
       complete
-    })
+    }).then(socketTask => {
 
-    const socketTaskSend = jest.spyOn(socketTask.ws, 'send')
-    const socketTaskClose = jest.spyOn(socketTask.ws, 'close')
-    const closeCode = 100
-    const closeReason = 'hey'
-
-    socketTask.onOpen(() => {
-      socketTask.send({
-        data: msg,
-        success: (res) => {
-          expect(socketTaskSend).toHaveBeenCalled()
-          expect(res.errMsg).toMatch('sendSocketMessage:ok')
-        },
+      const socketTaskSend = jest.spyOn(socketTask.ws, 'send')
+      const socketTaskClose = jest.spyOn(socketTask.ws, 'close')
+      const closeCode = 100
+      const closeReason = 'hey'
+  
+      socketTask.onOpen(() => {
+        socketTask.send({
+          data: msg,
+          success: (res) => {
+            expect(socketTaskSend).toHaveBeenCalled()
+            expect(res.errMsg).toMatch('sendSocketMessage:ok')
+          },
+        })
       })
-    })
-
-    socketTask.onMessage(res => {
-      expect(res.data).toMatch(msg2)
-      socketTask.close({
-        code: closeCode,
-        reason: closeReason,
-        success: (res) => {
-          expect(socketTaskClose).toHaveBeenCalled()
-          expect(res.errMsg).toMatch('sendSocketMessage:ok')
-        },
+  
+      socketTask.onMessage(res => {
+        expect(res.data).toMatch(msg2)
+        socketTask.close({
+          code: closeCode,
+          reason: closeReason,
+          success: (res) => {
+            expect(socketTaskClose).toHaveBeenCalled()
+            expect(res.errMsg).toMatch('sendSocketMessage:ok')
+          },
+        })
       })
-    })
-
-    socketTask.onClose(({ code, reason }) => {
-      const expectMsg = 'connectSocket:ok'
-      expect(connected.mock.calls.length).toBe(1)
-      expect(success.mock.calls[0][0].errMsg).toMatch(expectMsg)
-      expect(complete.mock.calls[0][0].errMsg).toMatch(expectMsg)
-      expect(code).toBe(closeCode)
-      expect(reason).toBe(closeReason)
-      done()
+  
+      socketTask.onClose(({ code, reason }) => {
+        const expectMsg = 'connectSocket:ok'
+        expect(connected.mock.calls.length).toBe(1)
+        expect(success.mock.calls[0][0].errMsg).toMatch(expectMsg)
+        expect(complete.mock.calls[0][0].errMsg).toMatch(expectMsg)
+        expect(code).toBe(closeCode)
+        expect(reason).toBe(closeReason)
+        done()
+      })
     })
   })
 })

@@ -27,6 +27,8 @@ export default (ctx: IPluginContext) => {
     name: 'create',
     optionsMap: {
       '--name [name]': '名称',
+      '--dir [dir]': '路径',
+      '--subpkg [subpkg]': '分包路径',
       '--description [description]': '介绍',
       '--subpkg [subpkg]': '分包路径',
       '--dir [dir]': '路径',
@@ -50,6 +52,7 @@ export default (ctx: IPluginContext) => {
             return console.log(chalk.red('请输入需要创建的页面名称'))
           }
 
+          const subPkg = options.subpkg || ''
           const Page = require('../../create/page').default
           const page = new Page({
             subPkg: options.subpkg,

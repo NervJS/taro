@@ -21,6 +21,12 @@ export interface IOptions {
 export default (ctx: IPluginContext, options: IOptions) => {
   const fs = ctx.helper.fs
 
+  ctx.modifyWebpackChain(({ chain }) => {
+    if (options.componentsMap) {
+      chain.optimization.providedExports(false)
+    }
+  })
+
   ctx.registerMethod({
     name: 'onSetupClose',
     fn (platform: TaroPlatformBase) {
@@ -35,7 +41,7 @@ export default (ctx: IPluginContext, options: IOptions) => {
       } = options
 
       const template = platform.template
-      if(!template) return
+      if (!template) return
 
       if (isArray(voidComponents)) {
         voidComponents.forEach(el => template.voidElements.add(el))

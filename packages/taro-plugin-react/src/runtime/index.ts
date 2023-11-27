@@ -10,7 +10,7 @@ hooks.tap('initNativeApi', function (taro) {
   }
 })
 
-if (__TARO_FRAMEWORK__ === 'preact') {
+if (__TARO_FRAMEWORK__ === 'preact' && process.env.TARO_PLATFORM === 'mini') {
   const options = require('preact').options
   const oldVNodeHook = options.vnode
   const oldDiffedHook = options.diffed

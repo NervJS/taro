@@ -44,7 +44,7 @@ export interface IProjectConf {
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-type IProjectConfOptions = CustomPartial<IProjectConf,  'projectName' | 'projectDir' | 'template' | 'css' | 'npm' | 'framework' | 'templateSource'>
+type IProjectConfOptions = CustomPartial<IProjectConf, 'projectName' | 'projectDir' | 'template' | 'css' | 'npm' | 'framework' | 'templateSource'>
 
 interface AskMethods {
   (conf: IProjectConfOptions, prompts: Record<string, unknown>[], choices?: ITemplates[]): void
@@ -213,7 +213,11 @@ export default class Project extends Creator {
       },
       {
         name: 'Webpack4',
-        value: CompilerType.Webpack4
+        value: 'webpack4'
+      },
+      {
+        name: 'vite',
+        value: 'vite'
       }
     ]
 
@@ -393,7 +397,7 @@ export default class Project extends Creator {
   }
 
   async fetchTemplates (answers: IProjectConf): Promise<ITemplates[]> {
-    const { templateSource, framework } = answers
+    const { templateSource, framework, compiler } = answers
     this.conf.templateSource = this.conf.templateSource || templateSource
 
     // 使用默认模版
@@ -407,17 +411,28 @@ export default class Project extends Creator {
     const isClone = /gitee/.test(this.conf.templateSource) || this.conf.clone
     const templateChoices = await fetchTemplate(this.conf.templateSource, this.templatePath(''), isClone)
 
+    const filterFramework = (_framework) => {
+      if (typeof _framework === 'string' && _framework) {
+        return framework === _framework
+      } else if (isArray(_framework)) {
+        return _framework?.includes(framework)
+      } else {
+        return true
+      }
+    }
+
+    const filterCompiler = (_compiler) => {
+      if (_compiler && isArray(_compiler)) {
+        return _compiler?.includes(compiler)
+      }
+      return true
+    }
+
     // 根据用户选择的框架筛选模板
     const newTemplateChoices: ITemplates[] = templateChoices
       .filter(templateChoice => {
-        const { platforms } = templateChoice
-        if (typeof platforms === 'string' && platforms) {
-          return framework === templateChoice.platforms
-        } else if (isArray(platforms)) {
-          return templateChoice.platforms?.includes(framework)
-        } else {
-          return true
-        }
+        const { platforms, compiler } = templateChoice
+        return filterFramework(platforms) && filterCompiler(compiler)
       })
 
     return newTemplateChoices

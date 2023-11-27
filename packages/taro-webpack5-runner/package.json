@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.19",
+  "version": "3.7.0-beta.3",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -69,7 +69,6 @@
     "micromatch": "^4.0.2",
     "mini-css-extract-plugin": "2.4.6",
     "miniprogram-simulate": "^1.1.5",
-    "mkdirp": "^1.0.4",
     "ora": "^5.0.0",
     "postcss-html-transform": "workspace:*",
     "postcss-import": "^14.0.0",
@@ -103,6 +102,7 @@
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
+    "jest-taro-helper": "workspace:*",
     "jest-transform-css": "^6.0.1",
     "memfs": "^3.1.2",
     "memory-fs": "^0.5.0",

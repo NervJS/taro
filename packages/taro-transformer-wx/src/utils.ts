@@ -49,7 +49,7 @@ export function isDerivedFromProps(scope: Scope, bindingName: string) {
 export function isDerivedFromThis(scope: Scope, bindingName: string) {
   const binding = scope.getBinding(bindingName)
   if (binding && binding.path.isVariableDeclarator()) {
-    const init = binding.path.get('init')
+    const init = binding.path.get('init') as any
     if (t.isThisExpression(init)) {
       return true
     }
@@ -62,7 +62,6 @@ export const incrementId = () => {
   return () => id++
 }
 
-// tslint:disable-next-line:no-empty
 export const noop = function () {}
 
 export function getSuperClassCode(path: NodePath<t.ClassDeclaration>) {
@@ -85,8 +84,8 @@ export function getSuperClassPath(path: NodePath<t.ClassDeclaration>) {
     const binding = path.scope.getBinding(superClass.name)
     if (binding && binding.kind === 'module') {
       const bindingPath = binding.path.parentPath
-      if (t.isImportDeclaration(bindingPath)) {
-        const source = (bindingPath.node as any).source
+      if (t.isImportDeclaration(bindingPath as any)) {
+        const source = (bindingPath!.node as any).source
         if (source.value === TARO_PACKAGE_NAME) {
           return
         }
@@ -135,7 +134,6 @@ export function isVarName(str: string | unknown) {
   }
 
   try {
-    // tslint:disable-next-line:no-unused-expression
     new Function(str, 'var ' + str)
   } catch (e) {
     return false
@@ -287,7 +285,6 @@ export function generateAnonymousState(
           if (isArrowFunctionInJSX) {
             return
           }
-          // tslint:disable-next-line: strict-type-predicates
           if (t.isIdentifier(id) && !id.name.startsWith(LOOP_STATE) && !id.name.startsWith('_$') && init != null) {
             const newId = scope.generateDeclaredUidIdentifier('$' + id.name)
             refIds.forEach((refId) => {
@@ -318,7 +315,7 @@ export function generateAnonymousState(
         if (ifExpr && ifExpr.isIfStatement() && ifExpr.findParent((p) => p === callExpr)) {
           const consequent = ifExpr.get('consequent') as NodePath<t.Node>
           const test = ifExpr.get('test')
-          if (t.isBlockStatement(consequent)) {
+          if (t.isBlockStatement(consequent as any)) {
             if ((jsx != null && jsx === test) || jsx?.findParent((p) => p === test)) {
               func.body.body.unshift(buildConstVariableDeclaration(variableName, expr))
             } else {
@@ -626,7 +623,6 @@ export function reverseBoolean(expression: t.Expression) {
 export function isEmptyDeclarator(node: t.Node) {
   if (
     t.isVariableDeclarator(node) &&
-    // tslint:disable-next-line: strict-type-predicates
     (node.init === null || t.isNullLiteral(node.init))
   ) {
     return true

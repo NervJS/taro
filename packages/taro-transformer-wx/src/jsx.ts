@@ -87,7 +87,6 @@ export function setJSXAttr(
     return
   }
   const element = jsx.openingElement
-  // tslint:disable-next-line: strict-type-predicates
   if (element == null || !t.isJSXIdentifier(element.name)) {
     return
   }
@@ -285,7 +284,6 @@ export function parseJSXElement(element: t.JSXElement, isFirstEmit = false): str
           if (t.isStringLiteral(attrValue.expression)) {
             value = attrValue.expression.value
           }
-          // tslint:disable-next-line: strict-type-predicates
         } else if (attrValue === null && name !== Adapter.else) {
           value = `{{true}}`
         }

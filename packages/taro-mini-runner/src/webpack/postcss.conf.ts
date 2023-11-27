@@ -19,16 +19,6 @@ const defaultPxtransformOption: {
   }
 }
 
-const defaultUrlOption: {
-  [key: string]: any
-} = {
-  enable: true,
-  config: {
-    limit: 1000,
-    url: 'inline'
-  }
-}
-
 const defaultHtmltransformOption: IHtmlTransformOption = {
   enable: false,
   config: {
@@ -45,7 +35,7 @@ export const getPostcssPlugins = function (appPath: string, {
   isBuildQuickapp = false,
   designWidth,
   deviceRatio,
-  postcssOption = {} as IPostcssOption
+  postcssOption = {} as IPostcssOption<'mini'>
 }) {
   if (designWidth) {
     defaultPxtransformOption.config.designWidth = designWidth
@@ -57,7 +47,6 @@ export const getPostcssPlugins = function (appPath: string, {
 
   const autoprefixerOption = recursiveMerge({}, defaultAutoprefixerOption, postcssOption.autoprefixer)
   const pxtransformOption = recursiveMerge({}, defaultPxtransformOption, postcssOption.pxtransform)
-  const urlOption = recursiveMerge({}, defaultUrlOption, postcssOption.url)
   const htmltransformOption: IHtmlTransformOption = recursiveMerge({}, defaultHtmltransformOption, postcssOption.htmltransform)
   if (autoprefixerOption.enable) {
     const autoprefixer = require('autoprefixer')
@@ -68,10 +57,10 @@ export const getPostcssPlugins = function (appPath: string, {
     const pxtransform = require('postcss-pxtransform')
     plugins.push(pxtransform(pxtransformOption.config))
   }
-  if (urlOption.enable) {
-    const url = require('postcss-url')
-    plugins.push(url(urlOption.config))
-  }
+
+  // 小程序 postcss-url 一定要开启，不再允许配置
+  plugins.push(require('postcss-url')({ url: 'inline' }))
+
   if (htmltransformOption?.enable) {
     const htmlTransform = require('postcss-html-transform')
     plugins.push(htmlTransform(htmltransformOption.config))

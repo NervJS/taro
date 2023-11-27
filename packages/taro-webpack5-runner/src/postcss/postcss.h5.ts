@@ -49,7 +49,7 @@ const plugins: any[] = []
 export const getDefaultPostcssConfig = function ({
   designWidth,
   deviceRatio,
-  option = {} as IPostcssOption,
+  option = {} as IPostcssOption<'h5'>,
   alias = {}
 }): [string, any, Func?][] {
   const { autoprefixer, pxtransform, htmltransform, url, ...options } = option

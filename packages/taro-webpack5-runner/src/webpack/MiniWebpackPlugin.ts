@@ -11,7 +11,7 @@ import type { MiniCombination } from './MiniCombination'
 
 export class MiniWebpackPlugin {
   combination: MiniCombination
-  pxtransformOption: IPostcssOption['pxtransform']
+  pxtransformOption: IPostcssOption<'mini'>['pxtransform']
 
   constructor (combination: MiniCombination) {
     this.combination = combination

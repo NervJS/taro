@@ -3,7 +3,7 @@ import * as path from 'path'
 import * as shell from 'shelljs'
 
 import BaseCI from './BaseCi'
-import {  resolveNpmSync } from './utils/npm'
+import { resolveNpmSync } from './utils/npm'
 import { generateQrcodeImageFile, printQrcode2Terminal } from './utils/qrcode'
 
 export default class SwanCI extends BaseCI {
@@ -15,7 +15,7 @@ export default class SwanCI extends BaseCI {
     }
     const { chalk, printLog, processTypeEnum } = this.ctx.helper
     try {
-      this.swanBin = resolveNpmSync('swan-toolkit/bin/swan',process.cwd())
+      this.swanBin = resolveNpmSync('swan-toolkit/bin/swan', process.cwd())
     } catch (error) {
       printLog(processTypeEnum.ERROR, chalk.red('请安装依赖：swan-toolkit'))
       process.exit(1)

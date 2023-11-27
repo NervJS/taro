@@ -33,8 +33,8 @@ export const chooseMedia = async function (
     complete,
   } = options
   const handle = new MethodHandler({ name: methodName, success, fail, complete })
-  const withImage = mediaType.length < 1 ||  mediaType.indexOf('image') > -1
-  const withVideo = mediaType.length < 1 ||  mediaType.indexOf('video') > -1
+  const withImage = mediaType.length < 1 || mediaType.indexOf('image') > -1
+  const withVideo = mediaType.length < 1 || mediaType.indexOf('video') > -1
   const res: Partial<Taro.chooseMedia.SuccessCallbackResult> = {
     tempFiles: [],
     type: withImage && withVideo ? 'mix' : withImage ? 'image' : 'video',

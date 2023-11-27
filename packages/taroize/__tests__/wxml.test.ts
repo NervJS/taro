@@ -408,7 +408,7 @@ describe('style属性的解析', () => {
     expect(contentInput).toBe(`<swiper-item style="transform: translate(0%, 0rem) translateZ(0rem);"></swiper-item>`)
   })
 
-  test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用calc计算，包含变量，变量前有空格，转换后空格保留',() => {
+  test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用calc计算，包含变量，变量前有空格，转换后空格保留', () => {
     let contentInput = `<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe('<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>')

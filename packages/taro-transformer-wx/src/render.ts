@@ -69,7 +69,6 @@ type ClassMethodsMap = Map<string, NodePath<t.ClassMethod | t.ClassProperty>>
 
 function findParents<T>(path: NodePath<t.Node>, predicates: (p: NodePath<t.Node>) => boolean) {
   const parents: NodePath<T>[] = []
-  // tslint:disable-next-line:no-conditional-assignment
   while (path.parentPath) {
     if (path.parentPath != null) {
       path = path.parentPath as any
@@ -264,7 +263,7 @@ export class RenderParser {
       const test = testExpression.node
       if (t.isJSXElement(consequent) && this.isLiteralOrUndefined(alternate)) {
         const { value, confident } = (parentPath.get('alternate') as NodePath<t.Node>).evaluate()
-        if ((confident && !value) || t.isIdentifier({ name: 'undefined' })) {
+        if ((confident && !value) || (t as any).isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, test)
           block.children = [jsxElementPath.node]
           // newJSXIfAttr(jsxElementPath.node, test)
@@ -286,7 +285,7 @@ export class RenderParser {
         }
       } else if (this.isLiteralOrUndefined(consequent) && t.isJSXElement(alternate)) {
         const { value, confident } = (parentPath.get('consequent') as NodePath<t.Node>).evaluate()
-        if ((confident && !value) || t.isIdentifier({ name: 'undefined' })) {
+        if ((confident && !value) || (t as any).isIdentifier({ name: 'undefined' })) {
           newJSXIfAttr(block, reverseBoolean(test))
           block.children = [jsxElementPath.node]
           // newJSXIfAttr(jsxElementPath.node, test)
@@ -569,7 +568,6 @@ export class RenderParser {
                         indexName = index.name
                       }
                       this.loopScopes.add(index.name)
-                      // tslint:disable-next-line: strict-type-predicates
                     } else if (index === undefined) {
                       if (process.env.NODE_ENV !== 'test') {
                         const uid = this.renderScope.generateUid('anonIdx')
@@ -632,7 +630,7 @@ export class RenderParser {
       VariableDeclarator: (path) => {
         const { id, init } = path.node
         const ifStem = path.parentPath.parentPath?.parentPath
-        if (!t.isIfStatement(ifStem) || isContainJSXElement(path as any)) {
+        if (!t.isIfStatement(ifStem as any) || isContainJSXElement(path as any)) {
           return
         }
         if (t.isIdentifier(id)) {
@@ -661,10 +659,10 @@ export class RenderParser {
 
   findParallelIfStem = (p: NodePath<t.Node>) => {
     const exprs: Set<NodePath<t.IfStatement>> = new Set()
-    let expr = p.parentPath
-    while (t.isIfStatement(expr)) {
+    let expr = p.parentPath as any
+    while (t.isIfStatement(expr as any)) {
       exprs.add(expr as any)
-      expr = expr.parentPath
+      expr = expr!.parentPath
     }
     return exprs
   }
@@ -799,7 +797,6 @@ export class RenderParser {
             .get('body').scope
           : this.renderScope
         const bindingNode = renderScope.getOwnBinding(assignmentName)!.path.node as any
-        // tslint:disable-next-line
         const parallelIfStems = this.findParallelIfStem(ifStatement as any)
         const parentIfStatement = ifStatement?.findParent(
           (p) => p.isIfStatement() && !parallelIfStems.has(p as any)
@@ -1052,7 +1049,6 @@ export class RenderParser {
           !t.isJSXElement(value) &&
           !name.name.includes('-')
         ) {
-          // tslint:disable-next-line: strict-type-predicates
           const v: t.StringLiteral | t.Expression | t.BooleanLiteral =
             value === null
               ? t.booleanLiteral(true)
@@ -1527,7 +1523,6 @@ export class RenderParser {
           } else if (t.isMemberExpression(p)) {
             id = findFirstIdentifierFromMemberExpression(p)
           }
-          // tslint:disable-next-line: no-console
           console.warn(
             codeFrameError(
               path.parentPath.node,
@@ -1541,13 +1536,12 @@ export class RenderParser {
       const init = path.get('init')
       const id = path.get('id')
       const ifStem = init.findParent((p) => p.isIfStatement())
-      // tslint:disable-next-line: strict-type-predicates
       if (ifStem && init.node === null) {
         init.replaceWith(t.identifier('undefined'))
       }
       let isDerivedFromState = false
       if (init.isMemberExpression()) {
-        const object = init.get('object')
+        const object = init.get('object') as any
         if (
           t.isMemberExpression(object) &&
           t.isThisExpression(object.object) &&
@@ -1555,7 +1549,7 @@ export class RenderParser {
         ) {
           isDerivedFromState = true
         }
-        if (t.isThisExpression(object) && t.isIdentifier(init.get('property'), { name: 'state' })) {
+        if (t.isThisExpression(object) && t.isIdentifier(init.get('property') as any, { name: 'state' })) {
           isDerivedFromState = true
         }
       }
@@ -1565,7 +1559,6 @@ export class RenderParser {
         if (id.isIdentifier()) {
           const name = id.node.name
           if (this.initState.has(name)) {
-            // tslint:disable-next-line
             console.log(codeFrameError(id.node, errMsg).message)
           }
         }
@@ -1575,7 +1568,6 @@ export class RenderParser {
             if (t.isIdentifier(p)) {
               // @ts-ignore
               if (this.initState.has(p.name)) {
-                // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
               }
             }
@@ -1583,7 +1575,6 @@ export class RenderParser {
             if (t.isSpreadProperty(p) && t.isIdentifier(p.argument)) {
               // @ts-ignore
               if (this.initState.has(p.argument.name)) {
-                // tslint:disable-next-line
                 console.log(codeFrameError(id.node, errMsg).message)
               }
             }
@@ -1646,7 +1637,7 @@ export class RenderParser {
           path.replaceWith(t.identifier(snakeCase(path.node.name)))
         }
 
-        const sibling = path.getSibling('object')
+        const sibling = path.getSibling('object') as any
         if (
           sibling &&
           sibling.isMemberExpression() &&
@@ -2064,7 +2055,6 @@ export class RenderParser {
           const properties = Array.from(stateToBeAssign).map((state) =>
             t.objectProperty(t.identifier(state), t.identifier(state))
           )
-          // tslint:disable-next-line:no-inner-declarations
           function replaceOriginal(path, parent, name) {
             if (
               (path.isReferencedIdentifier() || t.isAssignmentExpression(parent)) &&
@@ -2102,7 +2092,6 @@ export class RenderParser {
                 ) {
                   if (process.env.TERM_PROGRAM || isTestEnv) {
                     // 无法找到 cli 名称的工具（例如 idea/webstorm）显示这个报错可能会乱码
-                    // tslint:disable-next-line:no-console
                     console.log(
                       codeFrameError(
                         value.expression,
@@ -2164,7 +2153,6 @@ export class RenderParser {
                   path.parentPath.isMemberExpression() &&
                   path.parentPath.parentPath.isMemberExpression()
                 ) {
-                  // tslint:disable-next-line
                   console.warn(
                     codeFrameError(
                       path.parentPath.parentPath.node,
@@ -2266,7 +2254,7 @@ export class RenderParser {
             const ifStem = callee.findParent((p) => p.isIfStatement())
             // @TEST
             if (ifStem && ifStem.isIfStatement()) {
-              const consequent = ifStem.get('consequent')
+              const consequent = ifStem.get('consequent') as any
               if (t.isBlockStatement(consequent)) {
                 const assignment = t.expressionStatement(
                   t.assignmentExpression(
@@ -2276,10 +2264,10 @@ export class RenderParser {
                   )
                 )
                 returnBody.unshift(t.variableDeclaration('let', [t.variableDeclarator(t.identifier(stateName))]))
-                if (callee.findParent((p) => p === consequent)) {
+                if (callee.findParent((p: any) => p === consequent)) {
                   (consequent as any).node.body.push(assignment)
                 } else {
-                  const alternate = ifStem.get('alternate')
+                  const alternate = ifStem.get('alternate') as any
                   if (t.isBlockStatement(alternate)) {
                     (alternate as any).node.body.push(assignment)
                   } else {
@@ -2378,7 +2366,7 @@ export class RenderParser {
     if (binding) {
       const path = binding.path
       const id = path.get('id') as NodePath<t.Node>
-      const init = path.get('init')
+      const init = path.get('init') as any
       if (t.isThisExpression(init)) {
         return hasStateId
       }
@@ -2504,7 +2492,6 @@ export class RenderParser {
           this.renderPath.scope.getBinding(s)!.path.node,
           '此变量声明与循环变量冲突，可能会造成问题。'
         )
-        // tslint:disable-next-line: no-console
         console.warn('Warning: ', err.message)
         this.loopScopes.delete(s)
       }

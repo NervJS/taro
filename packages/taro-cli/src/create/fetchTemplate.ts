@@ -12,6 +12,7 @@ export interface ITemplates {
   name: string
   platforms?: string | string[]
   desc?: string
+  compiler?: string[]
 }
 
 const TEMP_DOWNLOAD_FOLDER = 'taro-temp'
@@ -98,11 +99,12 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
 
         if (!fs.existsSync(creatorFile)) return { name }
 
-        const { platforms = '', desc = '' } = require(creatorFile)
+        const { platforms = '', desc = '', compiler } = require(creatorFile)
 
         return {
           name,
           platforms,
+          compiler,
           desc
         }
       })
@@ -116,11 +118,12 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
       const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
       if (fs.existsSync(creatorFile)) {
-        const { platforms = '', desc = '' } = require(creatorFile)
+        const { platforms = '', desc = '', compiler } = require(creatorFile)
 
         res = {
           name,
           platforms,
+          compiler,
           desc: desc || templateSource
         }
       }

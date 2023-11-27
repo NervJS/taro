@@ -338,7 +338,6 @@ require("./taro");
 
 /** filePath: dist/app.ttss **/
 
-
 /** filePath: dist/base.ttml **/
 <sjs module="xs" src="./utils.sjs" />
 <template name="taro_tmpl">
@@ -933,9 +932,7 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.ttss **/
 
-
 /** filePath: dist/runtime.js **/
-
 
 /** filePath: dist/taro.js **/
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 1 ], {

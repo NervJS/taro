@@ -41,7 +41,7 @@ let targetUnit
 
 module.exports = (options = {}) => {
   options = Object.assign({}, DEFAULT_WEAPP_OPTIONS, options)
-
+  const exclude = options.exclude
   const transUnits = ['px']
   const baseFontSize = options.baseFontSize || (options.minRootSize >= 1 ? options.minRootSize : 20)
   const designWidth = (input) =>
@@ -51,17 +51,22 @@ module.exports = (options = {}) => {
     case 'h5': {
       targetUnit = options.targetUnit ?? 'rem'
 
-      if (targetUnit === 'vw') {
-        options.rootValue = (input) => {
-          return designWidth(input) / 100
-        }
-      } else if (targetUnit === 'px') {
-        options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
-      } else {
-        // rem
-        options.rootValue = (input) => {
-          return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
-        }
+      switch (targetUnit) {
+        case 'vw':
+        case 'vmin':
+          options.rootValue = (input) => {
+            return designWidth(input) / 100
+          }
+          break
+        case 'px':
+          options.rootValue = (input) => (1 / options.deviceRatio[designWidth(input)]) * 2
+          break
+        default:
+          // rem
+          options.rootValue = (input) => {
+            return (baseFontSize / options.deviceRatio[designWidth(input)]) * 2
+          }
+          break
       }
 
       transUnits.push('rpx')
@@ -117,6 +122,10 @@ module.exports = (options = {}) => {
 
       /** 是否跳过当前文件不处理 */
       let skip = false
+      
+      if (exclude && exclude?.(result.opts.from)) {
+        return null
+      }
 
       return {
         // 注意：钩子在节点变动时会重新执行，Once，OnceExit只执行一次，https://github.com/NervJS/taro/issues/13238

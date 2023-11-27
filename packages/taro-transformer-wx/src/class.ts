@@ -246,10 +246,8 @@ class Transformer {
       }
       classBody.push(t.classProperty(t.identifier(anonymousFuncName + 'Map'), t.objectExpression([])))
       const indexKey = (stemParent as any).scope.generateUid('$indexKey')
-      // tslint:disable-next-line: no-inner-declarations
       function findParentLoopCallExprIndices(callExpr: NodePath<t.CallExpression>) {
         const indices: Set<t.Identifier> = new Set([])
-        // tslint:disable-next-line: no-conditional-assignment
         while (
           (callExpr = callExpr.findParent(
             (p) => isArrayMapCallExpression(p as any) && p !== callExpr
@@ -525,14 +523,13 @@ class Transformer {
               ReturnStatement(returnPath) {
                 const arg = returnPath.node.argument
                 const ifStem = returnPath.findParent((p) => p.isIfStatement())
-                // tslint:disable-next-line: strict-type-predicates
                 if (
                   ifStem &&
                   classMethodPath.node.body.body.some((s) => s === ifStem.node) &&
                   ifStem.isIfStatement() &&
                   arg === null
                 ) {
-                  const consequent = ifStem.get('consequent')
+                  const consequent = ifStem.get('consequent') as any
                   if (t.isBlockStatement(consequent) && (consequent as any).node.body.includes(returnPath.node)) {
                     returnPath.get('argument').replaceWith(t.nullLiteral())
                   }
@@ -693,7 +690,7 @@ class Transformer {
 
         const expression = path.get('expression') as NodePath<t.Expression>
         const scope = (renderMethod! && renderMethod!.scope) || path.scope
-        const calleeExpr = expression.get('callee')
+        const calleeExpr = expression.get('callee') as any
         const parentPath = path.parentPath
         if (
           hasComplexExpression(expression as NodePath<t.Node>) &&
@@ -830,7 +827,7 @@ class Transformer {
               parentPath.parentPath.isLogicalExpression() ||
               parentPath.parentPath.isConditionalExpression())
           ) {
-            const object = parentPath.get('object')
+            const object = parentPath.get('object') as any
             if (t.isIdentifier(object)) {
               const objectName = object.name
               if (isDerivedFromProps(path.scope, objectName)) {
@@ -917,7 +914,7 @@ class Transformer {
 
         const parentPath = path.parentPath
         if (parentPath.isMemberExpression()) {
-          const siblingProp = parentPath.get('property')
+          const siblingProp = parentPath.get('property') as unknown as t.Identifier
           if (t.isIdentifier(siblingProp)) {
             const name = siblingProp.name
             if (name === 'children') {
@@ -963,7 +960,7 @@ class Transformer {
             }
           }
         } else if (parentPath.isVariableDeclarator()) {
-          const siblingId = parentPath.get('id')
+          const siblingId = parentPath.get('id') as any
           if (t.isObjectPattern(siblingId)) {
             const properties = siblingId.properties
             for (const prop of properties) {
@@ -1199,13 +1196,13 @@ class Transformer {
             return
           }
           const { object, property } = path.node
-          if (t.isIdentifier(object, { name: propsName }) && t.isIdentifier(property)) {
+          if (t.isIdentifier(object, { name: propsName as string }) && t.isIdentifier(property)) {
             properties.add(property.name)
           }
         },
         VariableDeclarator(path) {
           const { id, init } = path.node
-          if (t.isObjectPattern(id) && t.isIdentifier(init, { name: propsName })) {
+          if (t.isObjectPattern(id) && t.isIdentifier(init, { name: propsName as string})) {
             for (const prop of id.properties) {
               if (t.isObjectProperty(prop) && t.isIdentifier(prop.key)) {
                 properties.add(prop.key.name)
