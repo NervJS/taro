@@ -648,13 +648,22 @@ export function readPageConfig (configPath: string) {
   return result
 }
 
-export function readConfig (configPath: string) {
+interface IReadConfigOptions {
+  defineConstants?: Record<string, any>
+  alias?: Record<string, any>
+}
+
+export function readConfig<T extends IReadConfigOptions> (configPath: string, options: T = {} as T) {
   let result: any = {}
   if (fs.existsSync(configPath)) {
     if (REG_JSON.test(configPath)) {
       result = fs.readJSONSync(configPath)
     } else {
       result = requireWithEsbuild(configPath, {
+        customConfig: {
+          define: options.defineConstants || {},
+          alias: options.alias || {},
+        },
         customSwcConfig: {
           jsc: {
             parser: {

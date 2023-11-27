@@ -37,3 +37,5 @@ packages/taro-runtime/src/polyfill
 
 packages/taro-plugin-react-devtools/src/backend
 packages/taro-plugin-vue-devtools/src/backend
+
+packages/taro-helper/swc

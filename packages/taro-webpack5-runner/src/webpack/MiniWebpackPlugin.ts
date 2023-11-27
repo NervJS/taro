@@ -124,7 +124,8 @@ export class MiniWebpackPlugin {
     if (optimizeMainPackage?.enable) {
       miniSplitChunksPlugin = WebpackPlugin.getPlugin(MiniSplitChunksPlugin, [{
         exclude: optimizeMainPackage.exclude,
-        fileType
+        fileType,
+        combination: this.combination
       }])
     }
 
@@ -132,54 +133,17 @@ export class MiniWebpackPlugin {
   }
 
   getMainPlugin (definePluginOptions) {
-    const {
-      sourceDir,
-      outputDir,
-      isBuildNativeComp,
-      newBlended,
-      isBuildPlugin,
-      buildNativePlugin,
-      config,
-      fileType
-    } = this.combination
-    const plugin = isBuildNativeComp ? BuildNativePlugin : MiniPlugin
-    const pxTransformConfig = this.pxtransformOption?.config || {}
+    const { combination } = this
+
     const options = {
-      /** paths */
-      sourceDir,
-      outputDir,
-      runtimePath: config.runtimePath,
-      nodeModulesPath: config.nodeModulesPath,
-      /** config & message */
-      framework: config.framework || 'react',
-      frameworkExts: config.frameworkExts,
-      fileType,
-      template: config.template,
       commonChunks: this.getCommonChunks(),
-      baseLevel: config.baseLevel || 16,
-      minifyXML: config.minifyXML || {},
-      alias: config.alias || {},
       constantsReplaceList: definePluginOptions,
-      pxTransformConfig,
-      /** building mode */
+      pxTransformConfig: this.pxtransformOption?.config || {},
       hot: false,
-      prerender: config.prerender,
-      blended: config.blended,
-      isBuildNativeComp,
-      isBuildPlugin: isBuildPlugin,
-      pluginConfig: buildNativePlugin?.pluginConfig,
-      pluginMainEntry: buildNativePlugin?.pluginMainEntry,
-      skipProcessUsingComponents: config.skipProcessUsingComponents,
-      newBlended,
-      /** hooks & methods */
-      addChunkPages: config.addChunkPages,
-      modifyMiniConfigs: config.modifyMiniConfigs,
-      modifyBuildAssets: config.modifyBuildAssets,
-      onCompilerMake: config.onCompilerMake,
-      onParseCreateElement: config.onParseCreateElement,
-      logger: config.logger
+      combination,
     }
 
+    const plugin = combination.isBuildNativeComp ? BuildNativePlugin : MiniPlugin
     return WebpackPlugin.getPlugin(plugin, [options])
   }
 
