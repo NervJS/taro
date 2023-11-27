@@ -28,6 +28,8 @@ export default (ctx: IPluginContext) => {
     optionsMap: {
       '--name [name]': '名称',
       '--description [description]': '介绍',
+      '--subpkg [subpkg]': '分包路径',
+      '--dir [dir]': '路径',
       '--type [type]': '模版类型(page(默认)|plugin-command|plugin-build|plugin-template)'
     },
     synopsisList: [
@@ -50,6 +52,8 @@ export default (ctx: IPluginContext) => {
 
           const Page = require('../../create/page').default
           const page = new Page({
+            subPkg: options.subpkg,
+            pageDir: options.dir,
             pageName: name,
             projectDir: appPath,
             description,

@@ -1,4 +1,4 @@
-import { CompilerType, createPage as createPageBinding,CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
+import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
@@ -22,6 +22,8 @@ export interface IPageConf {
   compiler?: CompilerType
   isCustomTemplate?: boolean
   customTemplatePath?: string
+  pageDir?: string
+  subPkg?: string
 }
 interface IPageArgs extends IPageConf {
   modifyCustomTemplateConfig : TGetCustomTemplate
@@ -148,7 +150,8 @@ export default class Page extends Creator {
   }
 
   write () {
-    const { projectName, projectDir, template, pageName, isCustomTemplate, customTemplatePath } = this.conf as IPageConf
+    const { projectName, projectDir, template, pageName, isCustomTemplate, customTemplatePath, subPkg, pageDir } = this.conf as IPageConf
+    console.log('pageDir', pageDir)
     let templatePath
 
     if (isCustomTemplate) {
@@ -166,6 +169,8 @@ export default class Page extends Creator {
     const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
 
     createPageBinding({
+      pageDir,
+      subPkg,
       projectDir,
       projectName,
       template,

@@ -1,6 +1,11 @@
+const path = require('path')
+
 function createWhenTs (err, params) {
   return !!params.typescript
 }
+
+const SOURCE_ENTRY = '/src'
+const PAGES_ENTRY = '/src/pages'
 
 const handler = {
   '/tsconfig.json': createWhenTs,
@@ -8,17 +13,29 @@ const handler = {
   '/types/vue.d.ts' (err, { framework, typescript }) {
     return ['Vue', 'Vue3'].includes(framework) && !!typescript
   },
-  '/src/pages/index/index.jsx' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.jsx` }
+  '/src/pages/index/index.jsx' (err, { pageDir = '', pageName = '', subPkg = '' }) {
+    return { 
+      setPageName: path.join(PAGES_ENTRY, pageDir, pageName, 'index.jsx'),
+      setSubPkgName: path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.jsx') 
+    }
   },
-  '/src/pages/index/index.css' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.css` }
+  '/src/pages/index/index.css' (err, { pageDir = '', pageName = '', subPkg = '' }) {
+    return { 
+      setPageName: path.join(PAGES_ENTRY, pageDir, pageName, 'index.css'),
+      setSubPkgName: path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.css') 
+    }
   },
-  '/src/pages/index/index.vue' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.vue` }
+  '/src/pages/index/index.vue' (err, { pageDir = '', pageName = '', subPkg = '' }) {
+    return { 
+      setPageName: path.join(PAGES_ENTRY, pageDir, pageName, 'index.vue'),
+      setSubPkgName: path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.vue') 
+    }
   },
-  '/src/pages/index/index.config.js' (err, { pageName }) {
-    return { setPageName: `/src/pages/${pageName}/index.config.js` }
+  '/src/pages/index/index.config.js' (err, { pageDir = '', pageName = '', subPkg = '' }) {
+    return { 
+      setPageName: path.join(PAGES_ENTRY, pageDir, pageName, 'index.config.js'),
+      setSubPkgName: path.join(SOURCE_ENTRY, subPkg, pageDir, pageName, 'index.config.js') 
+    }
   },
   '/_editorconfig' () {
     return { setPageName: `/.editorconfig` }

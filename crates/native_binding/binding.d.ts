@@ -27,6 +27,9 @@ export interface CreateOptions {
   pageName?: string
   compiler?: CompilerType
   setPageName?: string
+  subPkg?: string
+  pageDir?: string
+  setSubPkgPageName?: string
   changeExt?: boolean
   isCustomTemplate?: boolean
   pluginType?: string
@@ -76,6 +79,8 @@ export interface Page {
   customTemplatePath?: string
   basePageFiles: Array<string>
   period: PeriodType
+  subPkg?: string
+  pageDir?: string
 }
 
 export const enum PeriodType {

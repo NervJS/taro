@@ -34,6 +34,9 @@ pub struct CreateOptions {
   pub page_name: Option<String>,
   pub compiler: Option<CompilerType>,
   pub set_page_name: Option<String>,
+  pub sub_pkg: Option<String>,
+  pub page_dir: Option<String>,
+  pub set_sub_pkg_page_name: Option<String>,
   pub change_ext: Option<bool>,
   pub is_custom_template: Option<bool>,
   pub plugin_type: Option<String>,
@@ -43,6 +46,7 @@ pub struct CreateOptions {
 pub struct JSReturnObject {
   pub set_page_name: Option<String>,
   pub change_ext: Option<bool>,
+  pub set_sub_pkg_page_name: Option<String>,
 }
 
 impl FromNapiValue for JSReturnObject {
@@ -51,11 +55,16 @@ impl FromNapiValue for JSReturnObject {
     let mut js_return_object = JSReturnObject {
       set_page_name: None,
       change_ext: None,
+      set_sub_pkg_page_name: None,
     };
     let has_set_page_name = obj.has_named_property("setPageName")?;
     let has_change_ext = obj.has_named_property("changeExt")?;
+    let has_set_sub_pkg_page_name = obj.has_named_property("setSubPkgName")?;
     if has_set_page_name {
       js_return_object.set_page_name = Some(obj.get_named_property::<String>("setPageName")?);
+    }
+    if has_set_sub_pkg_page_name {
+      js_return_object.set_sub_pkg_page_name = Some(obj.get_named_property::<String>("setSubPkgName")?);
     }
     if has_change_ext {
       js_return_object.change_ext = Some(obj.get_named_property::<bool>("changeExt")?);
@@ -226,8 +235,17 @@ impl Creator {
           JSReturn::Object(obj) => {
             let set_page_name = obj.set_page_name;
             let change_ext_re = obj.change_ext;
-            if let Some(set_page_name) = set_page_name {
-              page_name = set_page_name;
+            let set_sub_pkg_page_name = obj.set_sub_pkg_page_name;
+            let sub_pkg = &options.sub_pkg;
+            if Some(sub_pkg).is_some() {
+              // 创建分包页面模式
+              if let Some(set_sub_pkg_page_name) = set_sub_pkg_page_name {
+                page_name = set_sub_pkg_page_name;
+              }
+            } else {
+              if let Some(set_page_name) = set_page_name {
+                page_name = set_page_name;
+              }
             }
             if let Some(change_ext_re) = change_ext_re {
               change_ext = change_ext_re;
