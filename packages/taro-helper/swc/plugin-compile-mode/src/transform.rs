@@ -288,7 +288,7 @@ impl TransformVisitor {
                         let child_string = self.build_xml_element(&mut **child_el);
                         children_string.push_str(&child_string);
 
-                        if utils::is_static_jsx(child_el) {
+                        if utils::is_static_jsx(child_el) && utils::is_inner_component(child_el, &self.config) {
                             is_retain = false
                         } else {
                             retain_child_counter += 1;

@@ -12,6 +12,7 @@ use swc_core::{
 use std::collections::HashMap;
 
 use self::constants::*;
+use crate::PluginConfig;
 use crate::transform_harmony::TransformVisitor;
 
 pub mod harmony;
@@ -110,6 +111,16 @@ pub fn identify_jsx_event_key (val: &str) -> Option<String> {
     } else {
         return None;
     }
+}
+
+pub fn is_inner_component (el: &mut Box<JSXElement>, config: &PluginConfig) -> bool {
+    let opening = &el.opening;
+    if let JSXElementName::Ident(Ident { sym, .. }) = &opening.name {
+        let name = to_kebab_case(&sym);
+        return config.components.get(&name).is_some();
+    }
+
+    false
 }
 
 pub fn is_static_jsx (el: &Box<JSXElement>) -> bool {

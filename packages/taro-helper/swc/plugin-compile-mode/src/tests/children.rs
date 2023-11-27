@@ -52,3 +52,19 @@ test!(
     }
     "#
 );
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_render_react_component,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            <Foo />
+            <Foo title={myTitle} loading onClick={() => {}} />
+          </View>
+        )
+    }
+    "#
+);
