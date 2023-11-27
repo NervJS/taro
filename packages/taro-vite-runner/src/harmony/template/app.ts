@@ -71,41 +71,42 @@ export default class Parser extends BaseParser {
     }
 
     let instantiateApp = `export default class EntryAbility extends UIAbility {
-app
+  app
 
-onCreate(want, launchParam) {
-AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
-AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
-this.app = ${createApp}
-this.app.onLaunch({
-  ...want,
-  ...launchParam
-})
-}
-
-onDestroy() {}
-
-onWindowStageCreate(stage) {
-context.resolver(this.context)
-stage.loadContent('${entryPath}', (err, data) => {
-  if (err.code) {
-    return this.app?.onError?.call(this, err)
+  onCreate(want, launchParam) {
+    AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
+    AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
+    this.app = ${createApp}
+    this.app.onLaunch({
+      ...want,
+      ...launchParam
+    })
   }
-})
-}
 
-onWindowStageDestroy() {
-this.app?.onUnload?.call(this)
-}
+  onDestroy() {}
 
-onForeground() {
-this.app?.onShow?.call(this)
-}
+  onWindowStageCreate(stage) {
+    context.resolver(this.context)
+    stage.loadContent('${entryPath}', (err, data) => {
+      if (err.code) {
+        return this.app?.onError?.call(this, err)
+      }
+    })
+  }
 
-onBackground() {
-this.app?.onHide?.call(this)
+  onWindowStageDestroy() {
+    this.app?.onUnload?.call(this)
+  }
+
+  onForeground() {
+    this.app?.onShow?.call(this)
+  }
+
+  onBackground() {
+    this.app?.onHide?.call(this)
+  }
 }
-}`
+`
 
     if (typeof modifyInstantiate === 'function') {
       instantiateApp = modifyInstantiate(instantiateApp, 'app')
@@ -118,13 +119,11 @@ this.app?.onHide?.call(this)
     const { importFrameworkStatement, creator, creatorLocation, modifyResolveId } = this.loaderMeta
 
     let code = this.transArr2Str([
-      // '// @ts-nocheck',
       this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import { window, context } from "@tarojs/runtime"',
       `import { ${creator} } from "${creatorLocation}"`,
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
-      'import router from "@ohos.router"',
       this.#setReconcilerPost,
       `import component, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       importFrameworkStatement,

@@ -26,7 +26,7 @@ export default class Harmony extends TaroPlatformHarmony {
 
   useETS = true
   useJSON5 = true
-  runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime-ets`
+  runtimePath: string[] | string = []
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-harmony-ets`
 
   #defineConstants: Record<string, string> = {}
@@ -95,6 +95,7 @@ export default class Harmony extends TaroPlatformHarmony {
   }
 
   externalDeps: [string, RegExp, string?][] = [
+    ['@tarojs/components/types', /^@tarojs[\\/]components[\\/]types/],
     ['@tarojs/components', /^@tarojs[\\/]components([\\/].+)?$/, this.componentLibrary],
     ['@tarojs/react', /^@tarojs[\\/]react$/],
     ['@tarojs/runtime', /^@tarojs[\\/]runtime$/, this.runtimeLibrary],
@@ -123,6 +124,7 @@ export default class Harmony extends TaroPlatformHarmony {
       const libName = lib
       lib = resolveSync(lib, {
         basedir,
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
         mainFields: ['unpkg', ...defaultMainFields],
         preserveSymlinks: false,
       }) || ''
@@ -137,7 +139,7 @@ export default class Harmony extends TaroPlatformHarmony {
       } else if (ext === '.mts') {
         ext = '.ts'
       }
-      if (basename === 'index') {
+      if (basename === 'index' || basename === 'index.d') {
         lib = path.dirname(lib)
         if (ext === '.js') {
           const typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
@@ -236,8 +238,10 @@ export default class Harmony extends TaroPlatformHarmony {
     function modifyResolveId({
       source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
     }) {
-      if (source === that.runtimePath && isFunction(resolve)) {
-        return resolve('@tarojs/runtime', importer, options)
+      if (isFunction(resolve)) {
+        if (source === that.runtimePath || that.runtimePath.includes(source)) {
+          return resolve('@tarojs/runtime', importer, options)
+        }
       }
 
       // Note: 映射 Taro 相关依赖到注入 taro 目录

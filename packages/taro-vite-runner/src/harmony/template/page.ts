@@ -117,8 +117,7 @@ export default class Parser extends BaseParser {
     })
   }
   .width('100%')
-  .height('100%')
-  `
+  .height('100%')`
 
     if (enableRefresh) {
       const enableStr = appEnableRefresh
@@ -126,7 +125,7 @@ export default class Parser extends BaseParser {
         : `this.getConfig(${isTabPage ? 'index' : ''}).enablePullDownRefresh`
       pageStr = `if (${enableStr}) {
     Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
-      ${this.transArr2Str(pageStr.split('\n'), 4)}
+  ${this.transArr2Str(pageStr.split('\n'), 4)}
     }
     .onStateChange((state) => {
       if (state === RefreshStatus.Refresh) {
@@ -139,7 +138,7 @@ export default class Parser extends BaseParser {
       }
     })
   } else {
-    ${this.transArr2Str(pageStr.split('\n'), 2)}
+  ${this.transArr2Str(pageStr.split('\n'), 2)}
   }`
     }
 
@@ -152,7 +151,7 @@ export default class Parser extends BaseParser {
   }) {
     ForEach(this.tabBarList, (item, index) => {
       TabContent() {
-        ${this.transArr2Str(pageStr.split('\n'), 6)}
+  ${this.transArr2Str(pageStr.split('\n'), 6)}
       }.tabBar(this.renderTabItemBuilder(index, item))
     }, (item, index) => item.key || index)
   }
@@ -172,8 +171,8 @@ export default class Parser extends BaseParser {
     }
     if (SHOW_TREE) {
       pageStr = `if (true) {
-    ${this.transArr2Str(pageStr.split('\n'), 2)}
-    ${this.transArr2Str(SHOW_TREE_BTN.split('\n'), 2)}
+  ${this.transArr2Str(pageStr.split('\n'), 4)}
+  ${this.transArr2Str(SHOW_TREE_BTN.split('\n'), 4)}
   }`
     }
     return pageStr
@@ -277,21 +276,21 @@ aboutToDisappear () {
 }`.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
       `
-handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
-  const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
-  if ((isCustomStyle && this.getConfig().navigationStyle !== 'default') || this.getConfig().navigationStyle === 'custom') {
-    (Current as any).contextPromise
-      .then(context => {
-        const win = window.__ohos.getTopWindow(context)
-        win.then(mainWindow => {
-          mainWindow.setFullScreen(true)
-          mainWindow.setSystemBarEnable(["status", "navigation"])
+  handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
+    const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
+    if ((isCustomStyle && this.getConfig().navigationStyle !== 'default') || this.getConfig().navigationStyle === 'custom') {
+      (Current as any).contextPromise
+        .then(context => {
+          const win = window.__ohos.getTopWindow(context)
+          win.then(mainWindow => {
+            mainWindow.setFullScreen(true)
+            mainWindow.setSystemBarEnable(["status", "navigation"])
+          })
         })
-      })
-  }
-  const params = router.getParams() || {}
+    }
+    const params = router.getParams() || {}
 
-  ${this.isTabbarPage
+${this.isTabbarPage
     ? this.transArr2Str([
       'this.page ||= []',
       'if (!this.pageList[index]) {',
@@ -311,214 +310,214 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
     ], 4)}
   }
 
-  getConfig(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
-  ${this.isTabbarPage ? `return config[index]` : 'return config'}
-  }`,
+    getConfig(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
+      ${this.isTabbarPage ? `return config[index]` : 'return config'}
+    }`,
       this.isTabbarPage ? `
-  setCurrentIndex(index: number) {
-    this.currentIndex = index
-    this.page = this.pageList[index]
-  }
-
-  updateTabBarKey = (index = 0, odd = '') => {
-    const obj = this.tabBarList[index]
-    if (Object.keys(obj).every(key => odd[key] === obj[key])) return
-
-    const idx = obj.key || index
-    const len = this.tabBarList.length
-    obj.key = (Math.floor(idx / len) + 1) * len + index
-  }
-
-  routerChangeHandler = () => {}
-
-  switchTabHandler = ({ params }) => {
-    const index = this.tabBarList.findIndex(e => e.pagePath === params.$page)
-    if (index >= 0 && this.currentIndex !== index) {
-      this.page.onHide?.call(this)
-      this.setCurrentIndex(index)
+    setCurrentIndex(index: number) {
+      this.currentIndex = index
+      this.page = this.pageList[index]
     }
-  }
 
-  setTabBarBadgeHandler = ({ index, text = '' }) => {
-    const list = [...this.tabBarList]
-    if (index in list) {
-      const obj = list[index]
-      const odd = { ... obj }
-      obj.showRedDot = false
-      obj.badgeText = text
-      this.updateTabBarKey(index, odd)
+    updateTabBarKey = (index = 0, odd = '') => {
+      const obj = this.tabBarList[index]
+      if (Object.keys(obj).every(key => odd[key] === obj[key])) return
+
+      const idx = obj.key || index
+      const len = this.tabBarList.length
+      obj.key = (Math.floor(idx / len) + 1) * len + index
     }
-    this.tabBarList = list
-  }
 
-  removeTabBarBadgeHandler = ({ index }) => {
-    const list = [...this.tabBarList]
-    if (index in list) {
-      const obj = list[index]
-      const odd = { ... obj }
-      obj.badgeText = null
-      this.updateTabBarKey(index, odd)
-    }
-    this.tabBarList = list
-  }
+    routerChangeHandler = () => {}
 
-  showTabBarRedDotHandler = ({ index }) => {
-    const list = [...this.tabBarList]
-    if (index in list) {
-      const obj = list[index]
-      const odd = { ... obj }
-      obj.badgeText = null
-      obj.showRedDot = true
-      this.updateTabBarKey(index, odd)
-    }
-    this.tabBarList = list
-  }
-
-  hideTabBarRedDotHandler = ({ index }) => {
-    const list = [...this.tabBarList]
-    if (index in list) {
-      const obj = list[index]
-      const odd = { ... obj }
-      obj.showRedDot = false
-      this.updateTabBarKey(index, odd)
-    }
-    this.tabBarList = list
-  }
-
-  showTabBarHandler = ({ animation = false }) => {
-    if (animation) {
-      animateTo({
-        duration: this.animationDuration,
-        tempo: 1,
-        playMode: PlayMode.Normal,
-        iterations: 1,
-      }, () => {
-        this.isTabbarShow = true
-      })
-    } else {
-      this.isTabbarShow = true
-    }
-  }
-
-  hideTabBarHandler = ({ animation = false }) => {
-    if (animation) {
-      animateTo({
-        duration: this.animationDuration,
-        tempo: 1,
-        playMode: PlayMode.Normal,
-        iterations: 1,
-      }, () => {
-        this.isTabbarShow = false
-      })
-    } else {
-      this.isTabbarShow = false
-    }
-  }
-
-  setTabBarStyleHandler = ({ backgroundColor, borderStyle, color, selectedColor }) => {
-    if (backgroundColor) this.backgroundColor = backgroundColor
-    if (borderStyle) this.borderStyle = borderStyle
-    if (color) this.color = color
-    if (selectedColor) this.selectedColor = selectedColor
-  }
-
-  setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text }) => {
-    const list = [...this.tabBarList]
-    if (index in list) {
-      const obj = list[index]
-      const odd = { ... obj }
-      if (iconPath) {
-        obj.iconPath = iconPath
-        this.withImage = true
+    switchTabHandler = ({ params }) => {
+      const index = this.tabBarList.findIndex(e => e.pagePath === params.$page)
+      if (index >= 0 && this.currentIndex !== index) {
+        this.page.onHide?.call(this)
+        this.setCurrentIndex(index)
       }
-      if (selectedIconPath) obj.selectedIconPath = selectedIconPath
-      if (text) obj.text = text
-      this.updateTabBarKey(index, odd)
     }
-    this.tabBarList = list
-  }
 
-  bindEvent () {
-    eventCenter.on('__taroRouterChange', this.routerChangeHandler)
-    eventCenter.on('__taroSwitchTab', this.switchTabHandler)
-    eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
-    eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
-    eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
-    eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-    eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
-    eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
-    eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
-    eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
-  }
-
-  removeEvent () {
-    eventCenter.off('__taroRouterChange', this.routerChangeHandler)
-    eventCenter.off('__taroSwitchTab', this.switchTabHandler)
-    eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
-    eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
-    eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
-    eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-    eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
-    eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
-    eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
-    eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
-  }
-
-  @Builder renderTabBarInnerBuilder(index: number, item: TabBarItem) {
-  Column() {
-    if (this.withImage) {
-      Image(this.currentIndex === index && item.selectedIconPath || item.iconPath)
-        .width(24)
-        .height(24)
-        .objectFit(ImageFit.Contain)
-      Text(item.text)
-        .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
-        .fontSize(10)
-        .fontWeight(this.currentIndex === index ? 500 : 400)
-        .lineHeight(14)
-        .maxLines(1)
-        .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .margin({ top: 7, bottom: 7 })
-    } else {
-      Text(item.text)
-        .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
-        .fontSize(16)
-        .fontWeight(this.currentIndex === index ? 500 : 400)
-        .lineHeight(22)
-        .maxLines(1)
-        .textOverflow({ overflow: TextOverflow.Ellipsis })
-        .margin({ top: 17, bottom: 7 })
+    setTabBarBadgeHandler = ({ index, text = '' }) => {
+      const list = [...this.tabBarList]
+      if (index in list) {
+        const obj = list[index]
+        const odd = { ... obj }
+        obj.showRedDot = false
+        obj.badgeText = text
+        this.updateTabBarKey(index, odd)
+      }
+      this.tabBarList = list
     }
-  }
-  }
 
-  @Builder renderTabItemBuilder(index: number, item: TabBarItem) {
-    Column() {
-      if (!!item.badgeText || item.showRedDot) {
-        Badge({
-          value: item.badgeText || '',
-          position: BadgePosition.RightTop,
-          style: {
-            badgeSize: !!item.badgeText ? 16 : 6,
-            badgeColor: Color.Red,
+    removeTabBarBadgeHandler = ({ index }) => {
+      const list = [...this.tabBarList]
+      if (index in list) {
+        const obj = list[index]
+        const odd = { ... obj }
+        obj.badgeText = null
+        this.updateTabBarKey(index, odd)
+      }
+      this.tabBarList = list
+    }
+
+    showTabBarRedDotHandler = ({ index }) => {
+      const list = [...this.tabBarList]
+      if (index in list) {
+        const obj = list[index]
+        const odd = { ... obj }
+        obj.badgeText = null
+        obj.showRedDot = true
+        this.updateTabBarKey(index, odd)
+      }
+      this.tabBarList = list
+    }
+
+    hideTabBarRedDotHandler = ({ index }) => {
+      const list = [...this.tabBarList]
+      if (index in list) {
+        const obj = list[index]
+        const odd = { ... obj }
+        obj.showRedDot = false
+        this.updateTabBarKey(index, odd)
+      }
+      this.tabBarList = list
+    }
+
+    showTabBarHandler = ({ animation = false }) => {
+      if (animation) {
+        animateTo({
+          duration: this.animationDuration,
+          tempo: 1,
+          playMode: PlayMode.Normal,
+          iterations: 1,
+        }, () => {
+          this.isTabbarShow = true
+        })
+      } else {
+        this.isTabbarShow = true
+      }
+    }
+
+    hideTabBarHandler = ({ animation = false }) => {
+      if (animation) {
+        animateTo({
+          duration: this.animationDuration,
+          tempo: 1,
+          playMode: PlayMode.Normal,
+          iterations: 1,
+        }, () => {
+          this.isTabbarShow = false
+        })
+      } else {
+        this.isTabbarShow = false
+      }
+    }
+
+    setTabBarStyleHandler = ({ backgroundColor, borderStyle, color, selectedColor }) => {
+      if (backgroundColor) this.backgroundColor = backgroundColor
+      if (borderStyle) this.borderStyle = borderStyle
+      if (color) this.color = color
+      if (selectedColor) this.selectedColor = selectedColor
+    }
+
+    setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text }) => {
+      const list = [...this.tabBarList]
+      if (index in list) {
+        const obj = list[index]
+        const odd = { ... obj }
+        if (iconPath) {
+          obj.iconPath = iconPath
+          this.withImage = true
+        }
+        if (selectedIconPath) obj.selectedIconPath = selectedIconPath
+        if (text) obj.text = text
+        this.updateTabBarKey(index, odd)
+      }
+      this.tabBarList = list
+    }
+
+    bindEvent () {
+      eventCenter.on('__taroRouterChange', this.routerChangeHandler)
+      eventCenter.on('__taroSwitchTab', this.switchTabHandler)
+      eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+      eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+      eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+      eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+      eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
+      eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
+      eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+      eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
+    }
+
+    removeEvent () {
+      eventCenter.off('__taroRouterChange', this.routerChangeHandler)
+      eventCenter.off('__taroSwitchTab', this.switchTabHandler)
+      eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
+      eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
+      eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
+      eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
+      eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
+      eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
+      eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
+      eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
+    }
+
+    @Builder renderTabBarInnerBuilder(index: number, item: TabBarItem) {
+      Column() {
+        if (this.withImage) {
+          Image(this.currentIndex === index && item.selectedIconPath || item.iconPath)
+            .width(24)
+            .height(24)
+            .objectFit(ImageFit.Contain)
+          Text(item.text)
+            .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+            .fontSize(10)
+            .fontWeight(this.currentIndex === index ? 500 : 400)
+            .lineHeight(14)
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .margin({ top: 7, bottom: 7 })
+        } else {
+          Text(item.text)
+            .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+            .fontSize(16)
+            .fontWeight(this.currentIndex === index ? 500 : 400)
+            .lineHeight(22)
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .margin({ top: 17, bottom: 7 })
+        }
+      }
+    }
+
+    @Builder renderTabItemBuilder(index: number, item: TabBarItem) {
+      Column() {
+        if (!!item.badgeText || item.showRedDot) {
+          Badge({
+            value: item.badgeText || '',
+            position: BadgePosition.RightTop,
+            style: {
+              badgeSize: !!item.badgeText ? 16 : 6,
+              badgeColor: Color.Red,
+            }
+          }) {
+            this.renderTabBarInnerBuilder(index, item)
           }
-        }) {
+        } else {
           this.renderTabBarInnerBuilder(index, item)
         }
-      } else {
-        this.renderTabBarInnerBuilder(index, item)
       }
-    }
-    .margin({ top: 4 })
-    .width('100%').height('100%')
-    .justifyContent(FlexAlign.SpaceEvenly)
-  }` : null,
+      .margin({ top: 4 })
+      .width('100%').height('100%')
+      .justifyContent(FlexAlign.SpaceEvenly)
+    }` : null,
       `
-  build() {
-    ${this.transArr2Str(this.renderPage(this.isTabbarPage, this.appConfig.window?.enablePullDownRefresh, this.enableRefresh).split('\n'), 4)}
+    build() {
+    ${this.transArr2Str(this.renderPage(this.isTabbarPage, this.appConfig.window?.enablePullDownRefresh, this.enableRefresh).split('\n'), 2)}
   }`)
 
-    structCodeArray.push('}')
+    structCodeArray.push('}', '')
 
     let instantiatePage = this.transArr2Str(structCodeArray)
     if (isFunction(modifyInstantiate)) {
@@ -538,7 +537,7 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
 
     let code = this.transArr2Str([
       'import TaroView from "@tarojs/components/view"',
-      `import { createPageConfig, ReactMeta } from '${creatorLocation}'`,
+      `import { createPageConfig } from '${creatorLocation}'`,
       'import { Current, PageInstance, TaroElement, window } from "@tarojs/runtime"',
       'import { eventCenter } from "@tarojs/runtime/dist/runtime.esm"',
       'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
@@ -546,15 +545,15 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
       importFrameworkStatement,
       this.isTabbarPage
         ? [
-          this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`).join('\n'),
+          this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
           '',
           this.tabbarList.map((e, i) => {
             const tabbarPage = (page as VitePageMeta[]).find(item => item.name === e.pagePath)
-            return this.transArr2Str([
+            return [
               tabbarPage?.config.enableShareTimeline ? `page${i}.enableShareTimeline = true` : null,
               tabbarPage?.config.enableShareAppMessage ? `page${i}.enableShareAppMessage = true` : null,
-            ])
-          }).join('\n'),
+            ]
+          }),
           `const component = { ${this.tabbarList.map((e, i) => `'${e.pagePath}': page${i}`).join(', ')} }`,
           `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
         ]
