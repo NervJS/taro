@@ -288,6 +288,63 @@ export default _C
 }
 `;
 
+exports[`文件转换 一个文件夹下有多个wxml页面导致显示异常 1`] = `
+Map {
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    info: 'this is index page',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { info } = this.data
+    return (
+      <View>
+        <Text>{info}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/pages/index/other.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const app = Taro.getApp()
+cacheOptions.setOptionsToCache({
+  data: {
+    message: 'this is other page',
+  },
+  onLoad() {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { message } = this.data
+    return (
+      <View>
+        <Text>{message}</Text>
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/other.config.js => export default {}
+,
+}
+`;
+
 exports[`文件转换 文件中包含commonjs导出转换 1`] = `
 Map {
   /wxProject/taroConvert/src/utils/util.js => const Taro = require('@tarojs/taro')
