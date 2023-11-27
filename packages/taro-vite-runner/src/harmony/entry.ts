@@ -104,7 +104,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           code: parse.parse(rawId, name, this.resolve),
           exports: ['default'],
         })
-        return `export { default } from "${rawId}"`
+        return parse.parseEntry(rawId, appConfig)
       }
     }
   }

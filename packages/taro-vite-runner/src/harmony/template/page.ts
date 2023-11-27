@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
 import path from 'path'
 
-import { parseRelativePath, prettyPrintJson } from '../../utils'
+import { parseRelativePath } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
@@ -546,7 +546,7 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
       importFrameworkStatement,
       this.isTabbarPage
         ? [
-          this.tabbarList.map((e, i) => `import page${i} from './${e.pagePath}${TARO_COMP_SUFFIX}'`).join('\n'),
+          this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`).join('\n'),
           '',
           this.tabbarList.map((e, i) => {
             const tabbarPage = (page as VitePageMeta[]).find(item => item.name === e.pagePath)
@@ -556,13 +556,13 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
             ])
           }).join('\n'),
           `const component = { ${this.tabbarList.map((e, i) => `'${e.pagePath}': page${i}`).join(', ')} }`,
+          `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
         ]
         : [
-          `import component from "${rawId}${TARO_COMP_SUFFIX}"`,
+          `import component, { config } from "${rawId}${TARO_COMP_SUFFIX}"`,
           (page as VitePageMeta)?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
           (page as VitePageMeta)?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
         ],
-      `const config = ${page instanceof Array ? prettyPrintJson(page.map(e => e.config)) : prettyPrintJson(page.config)}`,
       '',
       this.instantiatePage,
     ])
@@ -596,5 +596,12 @@ handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
     }
 
     return code
+  }
+
+  parseEntry (rawId: string, config = {}) {
+    return this.transArr2Str([
+      `export const config = ${this.prettyPrintJson(config)}`,
+      `export { default } from "${rawId}"`,
+    ])
   }
 }

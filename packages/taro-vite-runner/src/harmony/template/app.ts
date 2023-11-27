@@ -126,9 +126,8 @@ this.app?.onHide?.call(this)
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       'import router from "@ohos.router"',
       this.#setReconcilerPost,
-      `import component from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
+      `import component, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       importFrameworkStatement,
-      `var config = ${this.prettyPrintJson(this.appConfig)};`,
       'window.__taroAppConfig = config',
       'initNativeApi(Taro)',
       this.getInitPxTransform(),
@@ -164,5 +163,12 @@ this.app?.onHide?.call(this)
     }
 
     return code
+  }
+
+  parseEntry (rawId: string, config = {}) {
+    return this.transArr2Str([
+      `export const config = ${this.prettyPrintJson(config)}`,
+      `export { default } from "${rawId}"`,
+    ])
   }
 }
