@@ -68,3 +68,19 @@ test!(
     }
     "#
 );
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_render_native_component,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            <comp />
+            <comp type="primary" loading loading-text={loadingText} onMyevent={() => {}} />
+          </View>
+        )
+    }
+    "#
+);
