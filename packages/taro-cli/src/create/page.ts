@@ -1,11 +1,11 @@
 import { CompilerType, createPage as createPageBinding, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
-import { chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
+import { babelKit, chalk, DEFAULT_TEMPLATE_SRC, fs, getUserHomeDir, resolveScriptPath, TARO_BASE_CONFIG, TARO_CONFIG_FOLDER } from '@tarojs/helper'
 import { isNil } from 'lodash'
 import * as path from 'path'
 
 import { getPkgVersion, getRootPath } from '../util'
-import { TEMPLATE_CREATOR } from './constants'
 import { modifyPagesOrSubPackages } from '../util/createPage'
+import { TEMPLATE_CREATOR } from './constants'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
 
@@ -13,7 +13,6 @@ export interface IPageConf {
   projectDir: string
   projectName: string
   npm: NpmType
-  pageDir: string
   template: string
   description?: string
   pageName: string
@@ -121,8 +120,16 @@ export default class Page extends Creator {
     return templateInfo
   }
 
-  setPageEntryPath (pageEntryPath: string) {
-    this.pageEntryPath = pageEntryPath
+  setPageEntryPath (files: string[], handler) {
+    const configFileName = files.find((filename)=> /\.config\.(js|ts)$/.test(filename))
+    if (!configFileName) return
+    const getPageFn = handler[configFileName]
+    const { setPageName = '', setSubPkgName = '' } = getPageFn?.(() => {}, this.conf) || {}
+    if (this.conf.subPkg) {
+      this.pageEntryPath = setSubPkgName.replace(/\.config\.(js|ts)$/, '')
+    } else {
+      this.pageEntryPath = setPageName.replace(/\.config\.(js|ts)$/, '')
+    }
   }
 
   setCustomTemplateConfig (customTemplateConfig: TCustomTemplateInfo) {
@@ -228,7 +235,6 @@ export default class Page extends Creator {
 
   write () {
     const { projectName, projectDir, template, pageName, isCustomTemplate, customTemplatePath, subPkg, pageDir } = this.conf as IPageConf
-    console.log('pageDir', pageDir)
     let templatePath
 
     if (isCustomTemplate) {
@@ -244,6 +250,8 @@ export default class Page extends Creator {
     const basePageFiles = fs.existsSync(handlerPath) ? require(handlerPath).basePageFiles : []
     const files = Array.isArray(basePageFiles) ? basePageFiles : []
     const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
+    
+    this.setPageEntryPath(files, handler)
 
     createPageBinding({
       pageDir,

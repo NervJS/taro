@@ -237,7 +237,7 @@ impl Creator {
             let change_ext_re = obj.change_ext;
             let set_sub_pkg_page_name = obj.set_sub_pkg_page_name;
             let sub_pkg = &options.sub_pkg;
-            if Some(sub_pkg).is_some() {
+            if sub_pkg.is_some() {
               // 创建分包页面模式
               if let Some(set_sub_pkg_page_name) = set_sub_pkg_page_name {
                 page_name = set_sub_pkg_page_name;
