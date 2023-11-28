@@ -1,5 +1,3 @@
-import { fromByteArray, toByteArray } from 'base64-js'
-
 /**
  * 环境变量
  * 
@@ -19,18 +17,14 @@ export const env = {
  * 
  * @canUse arrayBufferToBase64
  */
-export function arrayBufferToBase64 (arrayBuffer: ArrayBuffer) {
-  return fromByteArray(arrayBuffer as Uint8Array)
-}
+export { arrayBufferToBase64 } from '@tarojs/taro-h5'
 
 /**
  * 将ArrayBuffer数据转成Base64字符串
  * 
  * @canUse base64ToArrayBuffer
  */
-export function base64ToArrayBuffer (base64: string) {
-  return toByteArray(base64).buffer
-}
+export { base64ToArrayBuffer } from '@tarojs/taro-h5'
 
 /**
  * 获取当前运行环境对于 Skyline 渲染引擎 的支持情况

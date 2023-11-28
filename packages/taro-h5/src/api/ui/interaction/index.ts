@@ -296,12 +296,16 @@ const showActionSheet = async (
 
 Taro.eventCenter.on('__afterTaroRouterChange', () => {
   if (toast.currentPath && toast.currentPath !== Current.page?.path) {
-    hideToast()
-    hideLoading()
+    if (Taro.getEnv() !== Taro.ENV_TYPE.MPHARMONY) {
+      hideToast()
+      hideLoading()
+    }
   }
 
   if (modal.currentPath && modal.currentPath !== Current.page?.path) {
-    hideModal()
+    if (Taro.getEnv() !== Taro.ENV_TYPE.MPHARMONY) {
+      hideModal()
+    }
   }
 })
 

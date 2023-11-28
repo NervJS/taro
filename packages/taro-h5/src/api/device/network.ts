@@ -52,7 +52,6 @@ export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
 }
 
 const networkStatusManager = new CallbackManager()
-
 const networkStatusListener = async () => {
   const { networkType } = await getNetworkType()
   const isConnected = networkType !== 'none'
