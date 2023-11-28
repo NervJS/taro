@@ -1,54 +1,86 @@
 // 各种组件的默认样式
 
-export const TEXT_DEFAULT_STYLE = {
-  COLOR: 'black',
-  FONT_SIZE: '24',
-  FONT_WEIGHT: FontWeight.Normal,
-  FONT_FAMILY: 'HarmonyOS Sans',
-  TEXT_ALIGN: TextAlign.Start,
-  TEXT_OVERFLOW: TextOverflow.Clip
+export class TEXT_DEFAULT_STYLE {
+  static COLOR = 'black'
+  static FONT_SIZE = '24'
+  static FONT_WEIGHT = FontWeight.Normal
+  static FONT_FAMILY = 'HarmonyOS Sans'
+  static TEXT_ALIGN = TextAlign.Start
+  static TEXT_OVERFLOW = TextOverflow.Clip
 }
 
-export const BUTTON_THEME_COLOR = {
-  default: {
-    text: '#000',
-    background: '#f7f7f7',
-  },
-  primary: {
-    text: '#fff',
-    background: '#1aad19',
-  },
-  warn: {
-    text: '#fff',
-    background: '#e64340'
+interface IBUTTON_THEME_COLOR {
+  text: string
+  background: string
+}
+
+export class BUTTON_THEME_COLOR {
+  static get (type: string): IBUTTON_THEME_COLOR {
+    switch (type) {
+      case 'primary': return {
+        text: '#fff',
+        background: '#1aad19',
+      }
+      case 'warn': return {
+        text: '#fff',
+        background: '#e64340'
+      }
+      default: return {
+        text: '#000',
+        background: '#f7f7f7',
+      }
+    }
   }
 }
 
-export const INPUT_TYPE_MAP = {
-  text: InputType.Normal,
-  number: InputType.Number,
-  idcard: InputType.Number,
-  ['safe-password']: InputType.Password,
+
+export class INPUT_TYPE_MAP {
+  static get (type: string) {
+    switch (type) {
+      case 'text': return InputType.Normal;
+      case 'number': return InputType.Number;
+      case 'idcard': return InputType.Number;
+      case 'safe-password': return InputType.Password;
+    }
+  }
 }
 
-export const INPUT_CONFIRM_MAP = {
-  go: EnterKeyType.Go,	// 右下角按钮为“前往”
-  send: EnterKeyType.Send,	// 右下角按钮为“发送”
-  done: EnterKeyType.Done,	// 右下角按钮为“完成”
-  next: EnterKeyType.Next,	// 右下角按钮为“下一个”
-  search: EnterKeyType.Search,	// 右下角按钮为“搜索”
+export class INPUT_CONFIRM_MAP {
+  static go = EnterKeyType.Go	// 右下角按钮为“前往”
+  static send = EnterKeyType.Send	// 右下角按钮为“发送”
+  static done = EnterKeyType.Done	// 右下角按钮为“完成”
+  static next = EnterKeyType.Next	// 右下角按钮为“下一个”
+  static search = EnterKeyType.Search	// 右下角按钮为“搜索”
+
+  static get (type: string) {
+    switch (type) {
+      case 'go': return EnterKeyType.Go
+      case 'send': return EnterKeyType.Send
+      case 'done': return EnterKeyType.Done
+      case 'next': return EnterKeyType.Next
+      case 'search': return EnterKeyType.Search
+    }
+  }
 }
 
-export const CurveMap = {
-  default: Curve.Linear,
-  linear: Curve.Linear,
-  easeInCubic: Curve.EaseIn,
-  easeOutCubic: Curve.EaseOut,
-  easeInOutCubic: Curve.EaseInOut,
+export class CurveMap {
+  static default = Curve.Linear
+  static linear = Curve.Linear
+  static easeInCubic = Curve.EaseIn
+  static easeOutCubic = Curve.EaseOut
+  static easeInOutCubic = Curve.EaseInOut
 }
 
-export const BORDER_STYLE_MAP = {
-  solid: BorderStyle.Solid,
-  dotted: BorderStyle.Dotted,
-  dashed: BorderStyle.Dashed,
+export class BORDER_STYLE_MAP {
+  static solid = BorderStyle.Solid
+  static dotted = BorderStyle.Dotted
+  static dashed = BorderStyle.Dashed
+
+  static get(type: string): BorderStyle {
+    switch (type) {
+      case 'dotted': return BorderStyle.Dotted;
+      case 'dashed': return BorderStyle.Dashed;
+      default: return BorderStyle.Solid;
+    }
+  }
 }

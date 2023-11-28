@@ -214,7 +214,7 @@ export default class Harmony extends TaroPlatformHarmony {
       }
       code = this.replaceDefineValue(code, define)
       const ext = path.extname(target)
-      if (['.ts', '.ets'].includes(ext)) {
+      if (['.ts'].includes(ext)) {
         code = '// @ts-nocheck\n' + code
       }
       if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
@@ -240,7 +240,9 @@ declare global {
 }`
       }
       fs.ensureDirSync(path.dirname(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')))
-      fs.writeFileSync(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'), code)
+      try {
+        fs.writeFileSync(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'), code)
+      } catch (e) { }
     } else if (stat.isSymbolicLink()) {
       const realPath = fs.realpathSync(lib, { encoding: 'utf8' })
       this.moveLibraries(realPath, target, basedir)

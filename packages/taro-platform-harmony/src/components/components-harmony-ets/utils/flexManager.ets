@@ -2,12 +2,14 @@ import { AttributeManager } from './AttributeManager'
 import { w3cToHarmonyStyle } from './dynamicConvert'
 
 import type { TaroElement } from '@tarojs/runtime'
+import { TaroAny } from './type'
+import type { HarmonyType } from '../type'
 
 class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
-    const { _st = {} } = node
+    const _st: TaroAny = node._st
 
-    let flexOptions = AttributeManager.getStyleAfterConvert(_st, 'flexOptions')
+    let flexOptions: HarmonyType.FlexOptions = AttributeManager.getStyleAfterConvert(_st, 'flexOptions')
     if (flexOptions) {
       const isDirectionExist = flexOptions.direction !== undefined
       if (!isDirectionExist) {
@@ -24,13 +26,13 @@ class FlexManager {
     }
 
     if (_st.flexDirection !== undefined) {
-      w3cToHarmonyStyle(flexOptions, 'flexDirection', _st.flexDirection)
+      flexOptions.direction = FlexManager.direction(_st.flexDirection)
     }
     if (_st.justifyContent !== undefined) {
-      w3cToHarmonyStyle(flexOptions, 'justifyContent', _st.justifyContent)
+      flexOptions.justifyContent = FlexManager.justifyContent(_st.justifyContent)
     }
     if (_st.alignItems !== undefined) {
-      w3cToHarmonyStyle(flexOptions, 'alignItems', _st.alignItems)
+      flexOptions.alignItems = FlexManager.itemAlign(_st.alignItems)
     }
 
     // TODO:
@@ -61,6 +63,15 @@ class FlexManager {
     }
   }
 
+  static direction (value: string): FlexDirection {
+    switch (value) {
+      case 'row': return FlexDirection.Row;
+      case 'row-reverse': return FlexDirection.RowReverse;
+      case 'column-reverse': return FlexDirection.ColumnReverse;
+      default: return FlexDirection.Column;
+    }
+  }
+
   static itemAlign (value: string | number | undefined): ItemAlign {
     switch (value) {
       case 'flex-start':
@@ -75,20 +86,6 @@ class FlexManager {
         return ItemAlign.Baseline
       default:
         return ItemAlign.Auto
-    }
-  }
-
-  static flexDirection (style: Record<string, string | number> = {}): FlexDirection {
-    const value = style.flexDirection
-    switch (value) {
-      case 'row':
-        return FlexDirection.Row
-      case 'row-reverse':
-        return FlexDirection.RowReverse
-      case 'column-reverse':
-        return FlexDirection.ColumnReverse
-      default:
-        return FlexDirection.Column
     }
   }
 
@@ -119,7 +116,10 @@ class FlexManager {
   }
 
   static flexSize (style: Record<string, string | number> = {}): [number, number, number | string] {
-    const { flex, flexGrow = 0, flexShrink = 0, flexBasis = 'auto' } = style
+    const flex = style.flex
+    const flexGrow = style.flexGrow || 0
+    const flexShrink = style.flexShrink || 0
+    const flexBasis = style.flexBasis || 'auto'
     let res: [number, number, number | string] = [Number(flexGrow), Number(flexShrink), flexBasis]
 
     if (typeof flex === 'number') {
@@ -129,7 +129,7 @@ class FlexManager {
     } else if (flex === 'none') {
       res = [0, 0, 'auto']
     } else if (typeof flex === 'string') {
-      const FlexList = flex.replace(/ +/g, ' ').split(' ')
+      const FlexList = flex.replace(new RegExp("/\s+/g"), ' ').split(' ')
       FlexList.forEach((item, index) => {
         res[index] = index < 2 ? Number(item) : item
       })

@@ -6,7 +6,7 @@ import { TaroElement } from './element'
 import type { EventOptions } from '../interface'
 
 // Taro 事件对象。以 Web 标准的事件对象为基础，加入小程序事件对象中携带的部分信息，并模拟实现事件冒泡。
-export class TaroEvent {
+export class TaroEvent<T = any> {
   public type: string
 
   public bubbles: boolean
@@ -23,6 +23,9 @@ export class TaroEvent {
 
   public currentTarget: TaroElement
 
+  /** 额外的信息 */
+  public detail: T
+
   // Mouse Event botton property, it's used in 3rd lib, like react-router. default 0 in general
   public button = 0
 
@@ -30,9 +33,9 @@ export class TaroEvent {
   // here use hi-res timestamp
   public timeStamp = Date.now()
 
-  public mpEvent: BaseEvent | undefined
+  public mpEvent: TaroEvent | undefined
 
-  public constructor (type: string, opts: EventOptions, event?: BaseEvent) {
+  public constructor (type: string, opts: EventOptions, event?: TaroEvent) {
     this.type = type.toLowerCase()
     this.mpEvent = event
     this.bubbles = Boolean(opts && opts.bubbles)
@@ -53,7 +56,7 @@ export class TaroEvent {
 }
 
 
-export function createEvent (event: BaseEvent | string, type?: string, node?: TaroElement) {
+export function createEvent (event: TaroEvent | string, type?: string, node?: TaroElement) {
   if (typeof event === 'string') {
     // For Vue3 using document.createEvent
     return new TaroEvent(event, { bubbles: true, cancelable: true })

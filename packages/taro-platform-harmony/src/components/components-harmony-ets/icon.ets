@@ -2,70 +2,46 @@ import { bindInstanceToNode, bindAnimation, eventHandler, convertNumber2VP, getC
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { getNormalAttributes, shouldBindEvent, getNodeAttributeOrNull, getNodeThresholds } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroImageElement } from '@tarojs/runtime'
+import type { TaroImageElement } from './utils/element'
+import type { TaroStyleType } from './type'
+import type { TaroAny } from './utils/type'
+
 
 @Extend(Image)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
-}) {
-  .id(id)
-  .key(id)
-  .constraintSize(constraintSize)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function attrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width || convertNumber2VP(23))
+  .height(style.height || convertNumber2VP(23))
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
 @Component
 export default struct TaroIcon {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -82,20 +58,17 @@ export default struct TaroIcon {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
   getIconData () {
     if (!this.node || !this.node._attrs) return null
-
-    const type = this.node._attrs.type
-
+    const type: string = this.node._attrs.type
     // TODO：等待鸿蒙支持 base64 格式的 svg 图片，或者工程化支持图片资源的迁移
-    return ICON_SVG_MAP[type] || null
+    return ICON_SVG_MAP.get(type) || null
   }
 
   build() {
@@ -103,13 +76,9 @@ export default struct TaroIcon {
       Image(this.getIconData())
         .defaultEvent()
         .objectFit(ImageFit.Contain)
-        .fillColor(getNodeAttributeOrNull(this.node, 'color'))
+        .fillColor(this.node._attrs.color)
         .onComplete(e => eventHandler(e, 'complete', this.node))
         .attrs(getNormalAttributes(this.node))
-        .size({
-          width: convertNumber2VP(getNodeAttributeOrNull(this.node, 'size') || 23),
-          height: convertNumber2VP(getNodeAttributeOrNull(this.node, 'size') || 23),
-        })
         .visibleChangeEvent()
     }
   }

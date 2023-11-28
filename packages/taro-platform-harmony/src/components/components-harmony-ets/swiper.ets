@@ -1,4 +1,5 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -7,70 +8,69 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement } from '@tarojs/runtime'
+import type { TaroViewElement, TaroElement } from './utils/element'
+import type { TaroStyleType, CompType } from './type'
+import type { TaroAny } from './utils/type'
 
 @Extend(Swiper)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
- }) {
-  .id(id)
-  .key(id)
-  .constraintSize(constraintSize)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function swiperStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
+}
+
+@Extend(Swiper)
+function swiperAttr (attr: CompType.Swiper.Attrs) {
+  .index(attr.index)
+  .loop(attr.loop)
+  .duration(attr.duration)
+  .interval(attr.interval)
+  .vertical(attr.vertical)
+  .autoPlay(attr.autoPlay)
+  .indicator(attr.indicator)
+}
+
+function getSwiperAttributes (node: TaroViewElement): CompType.Swiper.Attrs {
+  const _attrs = node._attrs
+  const swiperAttrs: CompType.Swiper.Attrs = {}
+  swiperAttrs.index = _attrs.current || 0
+  swiperAttrs.loop = _attrs.loop || true
+  swiperAttrs.duration = _attrs.duration || 400
+  swiperAttrs.interval = _attrs.interval || 3000
+  swiperAttrs.vertical = _attrs.vertical || false
+  swiperAttrs.autoPlay = _attrs.autoplay || false
+  swiperAttrs.indicator = _attrs.indicatorDots || false
+  return swiperAttrs
 }
 
 @Component
 export struct TaroSwiper {
   private swiperController: SwiperController = new SwiperController()
 
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @ObjectLink node: TaroViewElement
 
@@ -87,35 +87,28 @@ export struct TaroSwiper {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Swiper(this.swiperController) {
-        ForEach(this.node.childNodes, item => {
+        ForEach(this.node.childNodes, (item: TaroElement) => {
           createNode(item)
-        }, item => item._nid)
+        }, (item: TaroElement) => item._nid)
       }
-      .attrs(getNormalAttributes(this.node))
+      .swiperStyle(getNormalAttributes(this.node))
+      .swiperAttr(getSwiperAttributes(this.node))
       .defaultEvent()
-      .index(this.node.getAttribute('current') || 0)
-      .loop(this.node.getAttribute('loop') || true)
-      .duration(this.node.getAttribute('duration') || 400)
-      .interval(this.node.getAttribute('interval') || 3000)
-      .vertical(this.node.getAttribute('vertical') || false)
-      .autoPlay(this.node.getAttribute('autoplay') || false)
-      .indicator(this.node.getAttribute('indicatorDots') || false)
       .indicatorStyle({
         color: this.node.getAttribute('indicatorColor'),
         selectedColor:  this.node.getAttribute('indicatorActiveColor')
       })
       .onChange((index: number) => {
-        const event = createTaroEvent('change', { detail: { current: index } }, this.node)
+        const event: TaroEvent = createTaroEvent('change', { detail: { current: index } }, this.node)
         eventHandler(event, 'change', this.node)
       })
       .visibleChangeEvent()
@@ -124,74 +117,46 @@ export struct TaroSwiper {
 }
 
 @Extend(Flex)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
- }) {
-  .id(id)
-  .key(id)
-  .constraintSize(constraintSize)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function flexStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
 function getAttributes (node: TaroViewElement) {
-  const { _attrs = {}, _nid } = node
-  return {
-    ...getNormalAttributes(node),
-    id: _attrs.itemId || _attrs.id || _nid,
-    skipHiddenItemLayout: _attrs.skipHiddenItemLayout || false,
-  }
+  const _attrs = node._attrs
+  const _nid = node._nid
+  const style = getNormalAttributes(node)
+  style.id = _attrs.itemId || _attrs.id || _nid
+  return style
 }
 
 @Component
 export struct TaroSwiperItem {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -209,21 +174,20 @@ export struct TaroSwiperItem {
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Flex(FlexManager.flexOptions(this.node)) {
-        ForEach(this.node.childNodes, item => {
+        ForEach(this.node.childNodes, (item: TaroElement) => {
           createNode(item)
-        }, item => item._nid)
+        }, (item: TaroElement) => item._nid)
       }
-      .attrs(getAttributes(this.node))
+      .flexStyle(getAttributes(this.node))
       .defaultEvent()
       .visibleChangeEvent()
     }

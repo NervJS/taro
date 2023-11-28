@@ -1,4 +1,10 @@
-import type { TaroElement } from '@tarojs/runtime'
+import type { TaroElement } from './utils/element'
+
+class Position {
+  instance: TaroElement
+  top: number
+  left: number
+}
 
 @Component
 export default struct TaroComponentWrapper {
@@ -6,7 +12,7 @@ export default struct TaroComponentWrapper {
 
   @BuilderParam createElement: () => void
 
-  @Builder createFlexElementWithPosition ($$: { instance: TaroElement, top: number, left: number }) {
+  @Builder createFlexElementWithPosition ($$: Position) {
     if ($$.instance._st?.position === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
@@ -48,8 +54,8 @@ export default struct TaroComponentWrapper {
   build () {
     this.createFlexElementWithPosition({
       instance: this.node,
-      top: this.node._st?.top || this.node._st?._top || 0,
-      left: this.node._st?.left || this.node._st?._left || 0,
+      top: Number(this.node._st?.top || this.node._st?._top || 0),
+      left: Number(this.node._st?.left || this.node._st?._left || 0),
     })
   }
 }

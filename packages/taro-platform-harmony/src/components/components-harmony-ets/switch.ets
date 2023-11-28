@@ -1,27 +1,54 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroViewElement, TaroElement } from './utils/element'
+import type { TaroStyleType, CompType } from './type'
+import type { TaroAny } from './utils/type'
 
 @Extend(Toggle)
-function attrs ({
-  id,
-  color,
-}) {
-  .id(id)
-  .key(id)
-  .selectedColor(color)
+function styles (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
-function getAttributes (node: TaroViewElement) {
-  const { _attrs = {} } = node
-  return {
-    ...getNormalAttributes(node),
-    color: _attrs.color || '#04BE02',
-  }
+@Extend(Toggle)
+function attrs(attr: CompType.Switch.Attrs) {
+  .selectedColor(attr.selectedColor)
+}
+
+function getAttributes (node: TaroViewElement): CompType.Switch.Attrs {
+  const _attrs = node._attrs
+  const switchStyle: CompType.Switch.Attrs = {}
+  switchStyle.selectedColor = _attrs.color || '#04BE02'
+  return switchStyle
 }
 
 @Extend(Toggle)
@@ -31,7 +58,7 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSwitch {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @ObjectLink node: TaroViewElement
 
@@ -50,10 +77,9 @@ export default struct TaroSwitch {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
@@ -64,12 +90,13 @@ export default struct TaroSwitch {
         isOn: this.value,
       })
         .defaultEvent()
+        .styles(getNormalAttributes(this.node))
         .attrs(getAttributes(this.node))
         .themeStyles(!!this.node._attrs.disabled)
         .onChange((isOn: boolean) => {
           if (!this.node._attrs.disabled) {
             this.value = isOn
-            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
+            const event: TaroEvent = createTaroEvent('change', { detail: { value: this.value } }, this.node)
             eventHandler(event, 'change', this.node)
           } else {
             // FIXME 找下文档是否有强制刷新方法
