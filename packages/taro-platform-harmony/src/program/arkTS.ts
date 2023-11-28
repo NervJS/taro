@@ -99,6 +99,7 @@ export default class Harmony extends TaroPlatformHarmony {
     ['@tarojs/components', /^@tarojs[\\/]components([\\/].+)?$/, this.componentLibrary],
     ['@tarojs/react', /^@tarojs[\\/]react$/],
     ['@tarojs/runtime', /^@tarojs[\\/]runtime$/, this.runtimeLibrary],
+    ['@tarojs/taro/types', /^@tarojs[\\/]taro[\\/]types/],
     ['@tarojs/taro', /^@tarojs[\\/]taro$/, this.apiLibrary],
     ['@tarojs/plugin-framework-react/dist/runtime', /^@tarojs[\\/]plugin-framework-react[\\/]dist[\\/]runtime$/, this.runtimeFrameworkLibrary],
     ['react', /^react$|react[\\/]cjs/],
@@ -212,6 +213,28 @@ export default class Harmony extends TaroPlatformHarmony {
       const ext = path.extname(target)
       if (['.ts', '.ets'].includes(ext)) {
         code = '// @ts-nocheck\n' + code
+      }
+      if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
+        code = `/// <reference path="global.d.ts" />
+
+/// <reference path="taro.api.d.ts" />
+/// <reference path="taro.component.d.ts" />
+/// <reference path="taro.config.d.ts" />
+/// <reference path="taro.lifecycle.d.ts" />
+
+export = Taro
+export as namespace Taro
+
+declare const Taro: Taro.TaroStatic
+
+declare namespace Taro {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface TaroStatic {}
+}
+declare global {
+  const defineAppConfig: (config: Taro.Config) => Taro.Config
+  const definePageConfig: (config: Taro.Config) => Taro.Config
+}`
       }
       fs.ensureDirSync(path.dirname(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')))
       fs.writeFileSync(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'), code)

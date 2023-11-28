@@ -157,7 +157,7 @@ export default class Parser extends BaseParser {
   }
   .vertical(false)
   .barMode(BarMode.Fixed)
-  .barHeight(this.isTabbarShow ? 56 : 0)
+  .barHeight(this.isTabBarShow ? 56 : 0)
   .animationDuration(this.tabBarAnimationDuration)
   .onChange((index: number) => {
     if (this.tabBarCurrentIndex !== index) {
@@ -215,9 +215,9 @@ export default class Parser extends BaseParser {
     if (this.isTabbarPage) {
       generateState.push(
         '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
-        '@State isTabbarShow: boolean = true',
-        '@State tabBar: TabBar = this.appConfig.tabBar || {}',
-        '@State tabBarList: TabBarItem[] = this.tabBar.list || []',
+        '@State isTabBarShow: boolean = true',
+        '@State tabBar: Partial<TabBar> = this.appConfig.tabBar || {}',
+        '@State tabBarList: ITabBarItem[] = this.tabBar.list || []',
         '@State tabBarColor: string = this.tabBar.color || "#7A7E83"',
         '@State tabBarSelectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
         '@State tabBarBackgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
@@ -270,9 +270,9 @@ onPageHide () {
 
 aboutToDisappear () {
   ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    item?.onUnLoad?.call(this)
+    item?.onUnload?.call(this)
   })
-  this.removeEvent()` : 'this.page?.onUnLoad?.call(this)'}
+  this.removeEvent()` : 'this.page?.onUnload?.call(this)'}
 }`.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
       `
@@ -281,7 +281,7 @@ aboutToDisappear () {
     if ((isCustomStyle && this.getConfig().navigationStyle !== 'default') || this.getConfig().navigationStyle === 'custom') {
       (Current as any).contextPromise
         .then(context => {
-          const win = window.__ohos.getTopWindow(context)
+          const win = window.__ohos.getLastWindow(context)
           win.then(mainWindow => {
             mainWindow.setFullScreen(true)
             mainWindow.setSystemBarEnable(["status", "navigation"])
@@ -292,7 +292,7 @@ aboutToDisappear () {
 
 ${this.isTabbarPage
     ? this.transArr2Str([
-      'this.page ||= []',
+      'this.pageList ||= []',
       'if (!this.pageList[index]) {',
       '  const pageName = this.tabBarList[index]?.pagePath',
       '  this.pageList[index] = createPageConfig(component[pageName], pageName, this.getConfig(index))',
@@ -319,7 +319,7 @@ ${this.isTabbarPage
       this.page = this.pageList[index]
     }
 
-    updateTabBarKey = (index = 0, odd = '') => {
+    updateTabBarKey = (index = 0, odd = {}) => {
       const obj = this.tabBarList[index]
       if (Object.keys(obj).every(key => odd[key] === obj[key])) return
 
@@ -342,7 +342,7 @@ ${this.isTabbarPage
       const list = [...this.tabBarList]
       if (index in list) {
         const obj = list[index]
-        const odd = { ... obj }
+        const odd: ITabBarItem = { ... obj }
         obj.showRedDot = false
         obj.badgeText = text
         this.updateTabBarKey(index, odd)
@@ -354,7 +354,7 @@ ${this.isTabbarPage
       const list = [...this.tabBarList]
       if (index in list) {
         const obj = list[index]
-        const odd = { ... obj }
+        const odd: ITabBarItem = { ... obj }
         obj.badgeText = null
         this.updateTabBarKey(index, odd)
       }
@@ -365,7 +365,7 @@ ${this.isTabbarPage
       const list = [...this.tabBarList]
       if (index in list) {
         const obj = list[index]
-        const odd = { ... obj }
+        const odd: ITabBarItem = { ... obj }
         obj.badgeText = null
         obj.showRedDot = true
         this.updateTabBarKey(index, odd)
@@ -377,7 +377,7 @@ ${this.isTabbarPage
       const list = [...this.tabBarList]
       if (index in list) {
         const obj = list[index]
-        const odd = { ... obj }
+        const odd: ITabBarItem = { ... obj }
         obj.showRedDot = false
         this.updateTabBarKey(index, odd)
       }
@@ -392,10 +392,10 @@ ${this.isTabbarPage
           playMode: PlayMode.Normal,
           iterations: 1,
         }, () => {
-          this.isTabbarShow = true
+          this.isTabBarShow = true
         })
       } else {
-        this.isTabbarShow = true
+        this.isTabBarShow = true
       }
     }
 
@@ -407,10 +407,10 @@ ${this.isTabbarPage
           playMode: PlayMode.Normal,
           iterations: 1,
         }, () => {
-          this.isTabbarShow = false
+          this.isTabBarShow = false
         })
       } else {
-        this.isTabbarShow = false
+        this.isTabBarShow = false
       }
     }
 
@@ -425,7 +425,7 @@ ${this.isTabbarPage
       const list = [...this.tabBarList]
       if (index in list) {
         const obj = list[index]
-        const odd = { ... obj }
+        const odd: ITabBarItem = { ... obj }
         if (iconPath) {
           obj.iconPath = iconPath
           this.tabBarWithImage = true
@@ -463,7 +463,7 @@ ${this.isTabbarPage
       eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
     }
 
-    @Builder renderTabBarInnerBuilder(index: number, item: TabBarItem) {
+    @Builder renderTabBarInnerBuilder(index: number, item: ITabBarItem) {
       Column() {
         if (this.tabBarWithImage) {
           Image(this.tabBarCurrentIndex === index && item.selectedIconPath || item.iconPath)
@@ -491,7 +491,7 @@ ${this.isTabbarPage
       }
     }
 
-    @Builder renderTabItemBuilder(index: number, item: TabBarItem) {
+    @Builder renderTabItemBuilder(index: number, item: ITabBarItem) {
       Column() {
         if (!!item.badgeText || item.showRedDot) {
           Badge({
@@ -540,7 +540,7 @@ ${this.isTabbarPage
       `import { createPageConfig } from '${creatorLocation}'`,
       'import { Current, TaroElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
+      'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
       'import router from "@ohos.router"',
       importFrameworkStatement,
       this.isTabbarPage
@@ -556,6 +556,12 @@ ${this.isTabbarPage
           }),
           `const component = { ${this.tabbarList.map((e, i) => `'${e.pagePath}': page${i}`).join(', ')} }`,
           `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
+          '',
+          `interface ITabBarItem extends TabBarItem {
+            key?: number
+            badgeText?: string
+            showRedDot?: boolean
+          }`,
         ]
         : [
           `import component, { config } from "${rawId}${TARO_COMP_SUFFIX}"`,
