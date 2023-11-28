@@ -94,6 +94,8 @@ export default class Harmony extends TaroPlatformHarmony {
     })
   }
 
+  excludeLibraries: (string | RegExp)[] = []
+
   externalDeps: [string, RegExp, string?][] = [
     ['@tarojs/components/types', /^@tarojs[\\/]components[\\/]types/],
     ['@tarojs/components', /^@tarojs[\\/]components([\\/].+)?$/, this.componentLibrary],
@@ -119,6 +121,7 @@ export default class Harmony extends TaroPlatformHarmony {
 
   moveLibraries(lib: string, target = '', basedir = this.ctx.paths.appPath, sync = false) {
     if (!lib) return
+    if (this.excludeLibraries.some(e => typeof e === 'string' ? e === lib : e.test(lib))) return
 
     if (sync) {
       // FIXME 不支持 alias 配置
@@ -260,6 +263,9 @@ declare global {
     const { config } = that.ctx.runOpts
     const { outputRoot } = config
 
+    if (!that.framework.includes('vue')) {
+      that.excludeLibraries.push(/\bvue\b/)
+    }
     // @ts-ignore
     if (that.framework === 'solid') {
       that.externalDeps.push([
