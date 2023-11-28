@@ -154,6 +154,21 @@ export default class Harmony extends TaroPlatformHarmony {
         }
       } else if (basename === path.basename(target, ext)) {
         target = path.join(path.dirname(target), `${basename}${ext}`)
+        if (ext === '.js') {
+          const typeName = path.join(path.dirname(lib), `${basename}.d.ts`)
+          const typePath = resolveSync(typeName, {
+            basedir,
+            extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
+            mainFields: [...defaultMainFields],
+          })
+          if (typePath) {
+            this.moveLibraries(
+              typePath,
+              path.join(path.dirname(target), `${basename}.d.ts`),
+              basedir
+            )
+          }
+        }
       } else {
         target = path.join(target, `index${ext}`)
       }

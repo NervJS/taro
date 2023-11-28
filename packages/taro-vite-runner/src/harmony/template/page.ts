@@ -15,7 +15,7 @@ const showTreeFunc = (isTabbarPage: boolean) => `\nasync showTree() {
   const taskQueen = []
 
   function showTree (tree, level = 1) {
-    const res = {}
+    const res: Record<string, string> = {}
     Object.keys(tree).forEach(k => {
       const item = tree[k]
       if (k === 'nodeName' && item === 'TEXT') {
@@ -58,7 +58,7 @@ const showTreeFunc = (isTabbarPage: boolean) => `\nasync showTree() {
     }
   }
 
-  showTree(this.node${isTabbarPage ? '[this.currentIndex]' : ''})
+  showTree(this.node${isTabbarPage ? '[this.tabBarCurrentIndex]' : ''})
   for (let i = 0; i < taskQueen.length; i++) {
     taskQueen[i]()
     await new Promise((resolve) => setTimeout(resolve, 16))
@@ -145,9 +145,9 @@ export default class Parser extends BaseParser {
     if (isTabPage) {
       // TODO: 根据页面配置判断每个页面是否需要注入下拉刷新模块
       pageStr = `Tabs({
-    barPosition: this.position !== 'top' ? BarPosition.End : BarPosition.Start,
-    controller: this.controller,
-    index: this.currentIndex,
+    barPosition: this.tabBarPosition !== 'top' ? BarPosition.End : BarPosition.Start,
+    controller: this.tabBarController,
+    index: this.tabBarCurrentIndex,
   }) {
     ForEach(this.tabBarList, (item, index) => {
       TabContent() {
@@ -158,16 +158,16 @@ export default class Parser extends BaseParser {
   .vertical(false)
   .barMode(BarMode.Fixed)
   .barHeight(this.isTabbarShow ? 56 : 0)
-  .animationDuration(this.animationDuration)
+  .animationDuration(this.tabBarAnimationDuration)
   .onChange((index: number) => {
-    if (this.currentIndex !== index) {
+    if (this.tabBarCurrentIndex !== index) {
       this.page.onHide?.call(this)
-      this.setCurrentIndex(index)
+      this.setTabbarCurrentIndex(index)
     }
     this.handlePageAppear()
     this.page?.onShow?.call(this)
   })
-  .backgroundColor(this.backgroundColor)`
+  .backgroundColor(this.tabBarBackgroundColor)`
     }
     if (SHOW_TREE) {
       pageStr = `if (true) {
@@ -210,7 +210,7 @@ export default class Parser extends BaseParser {
             : null,
         ],
       '@State appConfig: AppConfig = window.__taroAppConfig || {}',
-      '@StorageLink("__TARO_PAGE_STACK") pageStack: string[] = []',
+      '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
     ].flat()
     if (this.isTabbarPage) {
       generateState.push(
@@ -218,15 +218,15 @@ export default class Parser extends BaseParser {
         '@State isTabbarShow: boolean = true',
         '@State tabBar: TabBar = this.appConfig.tabBar || {}',
         '@State tabBarList: TabBarItem[] = this.tabBar.list || []',
-        '@State color: string = this.tabBar.color || "#7A7E83"',
-        '@State selectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
-        '@State backgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
-        '@State borderStyle: "white" | "black" = this.tabBar.borderStyle || "black"',
-        '@State position: "top" | "bottom" = this.tabBar.position || "bottom"',
-        '@State withImage: boolean = this.tabBarList.every(e => !!e.iconPath)',
-        '@State animationDuration: number = 400',
-        '@State currentIndex: number = 0',
-        'private controller: TabsController = new TabsController()',
+        '@State tabBarColor: string = this.tabBar.color || "#7A7E83"',
+        '@State tabBarSelectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
+        '@State tabBarBackgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
+        '@State tabBarBorderStyle: "white" | "black" = this.tabBar.borderStyle || "black"',
+        '@State tabBarPosition: "top" | "bottom" = this.tabBar.position || "bottom"',
+        '@State tabBarWithImage: boolean = this.tabBarList.every(e => !!e.iconPath)',
+        '@State tabBarAnimationDuration: number = 400',
+        '@State tabBarCurrentIndex: number = 0',
+        'private tabBarController: TabsController = new TabsController()',
       )
     }
     structCodeArray.push(
@@ -239,13 +239,13 @@ export default class Parser extends BaseParser {
     this.pageStack.length = state.index - 1
   }
   this.pageStack.push(state)
-  ${this.isTabbarPage ? `const params = router.getParams() || {}
+  ${this.isTabbarPage ? `const params = router.getParams() as Record<string, string> || {}
   let index = params.$page
     ? this.tabBarList.findIndex(e => e.pagePath === params.$page)
     : this.tabBarList.findIndex(e => e.pagePath === this.entryPagePath)
   index = index >= 0 ? index : 0
   this.handlePageAppear(index)
-  this.setCurrentIndex(index)
+  this.setTabbarCurrentIndex(index)
   this.bindEvent()` : 'this.handlePageAppear()'}
 }
 
@@ -256,7 +256,7 @@ onPageShow () {
     this.pageStack.length = state.index
     this.pageStack[state.index - 1] = state
   }
-  ${this.isTabbarPage ? `this.switchTabHandler({ url: '${TARO_TABBAR_PAGE_PATH}', params: router.getParams() || {} })
+  ${this.isTabbarPage ? `this.switchTabHandler({ params: router.getParams() || {} })
   this.pageList?.forEach(item => {
     item?.onShow?.call(this)
   })` : 'this.page?.onShow?.call(this)'}
@@ -276,7 +276,7 @@ aboutToDisappear () {
 }`.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
       `
-  handlePageAppear(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
+  handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
     const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
     if ((isCustomStyle && this.getConfig().navigationStyle !== 'default') || this.getConfig().navigationStyle === 'custom') {
       (Current as any).contextPromise
@@ -288,7 +288,7 @@ aboutToDisappear () {
           })
         })
     }
-    const params = router.getParams() || {}
+    const params = router.getParams() as Record<string, string> || {}
 
 ${this.isTabbarPage
     ? this.transArr2Str([
@@ -310,12 +310,12 @@ ${this.isTabbarPage
     ], 4)}
   }
 
-    getConfig(${this.isTabbarPage ? 'index = this.currentIndex' : ''}) {
+    getConfig(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
       ${this.isTabbarPage ? `return config[index]` : 'return config'}
     }`,
       this.isTabbarPage ? `
-    setCurrentIndex(index: number) {
-      this.currentIndex = index
+    setTabbarCurrentIndex(index: number) {
+      this.tabBarCurrentIndex = index
       this.page = this.pageList[index]
     }
 
@@ -332,9 +332,9 @@ ${this.isTabbarPage
 
     switchTabHandler = ({ params }) => {
       const index = this.tabBarList.findIndex(e => e.pagePath === params.$page)
-      if (index >= 0 && this.currentIndex !== index) {
+      if (index >= 0 && this.tabBarCurrentIndex !== index) {
         this.page.onHide?.call(this)
-        this.setCurrentIndex(index)
+        this.setTabbarCurrentIndex(index)
       }
     }
 
@@ -387,7 +387,7 @@ ${this.isTabbarPage
     showTabBarHandler = ({ animation = false }) => {
       if (animation) {
         animateTo({
-          duration: this.animationDuration,
+          duration: this.tabBarAnimationDuration,
           tempo: 1,
           playMode: PlayMode.Normal,
           iterations: 1,
@@ -402,7 +402,7 @@ ${this.isTabbarPage
     hideTabBarHandler = ({ animation = false }) => {
       if (animation) {
         animateTo({
-          duration: this.animationDuration,
+          duration: this.tabBarAnimationDuration,
           tempo: 1,
           playMode: PlayMode.Normal,
           iterations: 1,
@@ -415,10 +415,10 @@ ${this.isTabbarPage
     }
 
     setTabBarStyleHandler = ({ backgroundColor, borderStyle, color, selectedColor }) => {
-      if (backgroundColor) this.backgroundColor = backgroundColor
-      if (borderStyle) this.borderStyle = borderStyle
-      if (color) this.color = color
-      if (selectedColor) this.selectedColor = selectedColor
+      if (backgroundColor) this.tabBarBackgroundColor = backgroundColor
+      if (borderStyle) this.tabBarBorderStyle = borderStyle
+      if (color) this.tabBarColor = color
+      if (selectedColor) this.tabBarSelectedColor = selectedColor
     }
 
     setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text }) => {
@@ -428,7 +428,7 @@ ${this.isTabbarPage
         const odd = { ... obj }
         if (iconPath) {
           obj.iconPath = iconPath
-          this.withImage = true
+          this.tabBarWithImage = true
         }
         if (selectedIconPath) obj.selectedIconPath = selectedIconPath
         if (text) obj.text = text
@@ -465,24 +465,24 @@ ${this.isTabbarPage
 
     @Builder renderTabBarInnerBuilder(index: number, item: TabBarItem) {
       Column() {
-        if (this.withImage) {
-          Image(this.currentIndex === index && item.selectedIconPath || item.iconPath)
+        if (this.tabBarWithImage) {
+          Image(this.tabBarCurrentIndex === index && item.selectedIconPath || item.iconPath)
             .width(24)
             .height(24)
             .objectFit(ImageFit.Contain)
           Text(item.text)
-            .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+            .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)
             .fontSize(10)
-            .fontWeight(this.currentIndex === index ? 500 : 400)
+            .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)
             .lineHeight(14)
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
             .margin({ top: 7, bottom: 7 })
         } else {
           Text(item.text)
-            .fontColor(this.currentIndex === index ? this.selectedColor : this.color)
+            .fontColor(this.tabBarCurrentIndex === index ? this.tabBarSelectedColor : this.tabBarColor)
             .fontSize(16)
-            .fontWeight(this.currentIndex === index ? 500 : 400)
+            .fontWeight(this.tabBarCurrentIndex === index ? 500 : 400)
             .lineHeight(22)
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
@@ -538,8 +538,8 @@ ${this.isTabbarPage
     let code = this.transArr2Str([
       'import TaroView from "@tarojs/components/view"',
       `import { createPageConfig } from '${creatorLocation}'`,
-      'import { Current, PageInstance, TaroElement, window } from "@tarojs/runtime"',
-      'import { eventCenter } from "@tarojs/runtime/dist/runtime.esm"',
+      'import { Current, TaroElement, window } from "@tarojs/runtime"',
+      'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro"',
       'import router from "@ohos.router"',
       importFrameworkStatement,
