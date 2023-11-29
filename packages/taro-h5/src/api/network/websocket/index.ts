@@ -86,3 +86,5 @@ export function connectSocket (options?: Taro.connectSocket.Option) {
 export function closeSocket () {
   console.warn('Deprecated.Please use socketTask.close instead.')
 }
+
+export { SocketTask }

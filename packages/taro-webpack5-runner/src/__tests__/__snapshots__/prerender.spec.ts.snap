@@ -4,7 +4,7 @@ exports[`prerender should prerender selected pages 1`] = `21`;
 
 exports[`prerender should prerender selected pages 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -562,13 +562,13 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index","others/detail/index","others/normal/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -1294,7 +1294,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -1357,7 +1357,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -1375,14 +1375,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\others\\detail\\index.js **/
+/** filePath: dist/others/detail/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 302 ], {
@@ -2670,10 +2670,10 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\others\\detail\\index.json **/
+/** filePath: dist/others/detail/index.json **/
 {"usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\others\\detail\\index.wxml **/
+/** filePath: dist/others/detail/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
   <template is="taro_tmpl" data="{{root:root}}" />
@@ -2682,7 +2682,7 @@ require("./runtime");
 <view id="_n_15" ><view class="taro-region-picker taro-region-picker-gray" id="_n_10" ><picker id="_n_9" mode="multiSelector" range='[["北京市","天津市","上海市","重庆市","河北省","山西省","内蒙古","辽宁省","吉林省","黑龙江省","江苏省","浙江省","安徽省","福建省","江西省","山东省","河南省","湖北省","湖南省","广东省","广西","海南省","四川省","贵州省","云南省","西藏","陕西省","甘肃省","青海省","宁夏","新疆","香港","澳门","台湾省"],["北京市"],["东城区","西城区","崇文区","宣武区","朝阳区","丰台区","石景山区","海淀区","门头沟区","房山区","通州区","顺义区","昌平区","大兴区","怀柔区","平谷区","密云县","延庆县","延庆镇"]]' value='[0,0,0]' ><view style="width: 100%;height: 44px;" id="_n_8" ><text id="_n_7" >请选择省市区</text></view></picker></view></view>
 </block>
 
-/** filePath: dist\\others\\normal\\index.js **/
+/** filePath: dist/others/normal/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 236 ], {
@@ -2737,14 +2737,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\others\\normal\\index.json **/
+/** filePath: dist/others/normal/index.json **/
 {"usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\others\\normal\\index.wxml **/
+/** filePath: dist/others/normal/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -2799,10 +2799,10 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
   <template is="taro_tmpl" data="{{root:root}}" />
@@ -2811,128 +2811,13 @@ require("./runtime");
 <view class="index" id="_n_19" ><text id="_n_18" >Hello world!</text></view>
 </block>
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -2973,7 +2858,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -3171,7 +3056,7 @@ exports[`prerender should transform dom tree 1`] = `21`;
 
 exports[`prerender should transform dom tree 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -3729,13 +3614,13 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index","others/detail/index","others/normal/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -4461,7 +4346,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -4524,7 +4409,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -4542,14 +4427,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\others\\detail\\index.js **/
+/** filePath: dist/others/detail/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 302 ], {
@@ -5837,10 +5722,10 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\others\\detail\\index.json **/
+/** filePath: dist/others/detail/index.json **/
 {"usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\others\\detail\\index.wxml **/
+/** filePath: dist/others/detail/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
   <template is="taro_tmpl" data="{{root:root}}" />
@@ -5849,7 +5734,7 @@ require("./runtime");
 <video id="_n_15" src="https://github.com/taro" ></video>
 </block>
 
-/** filePath: dist\\others\\normal\\index.js **/
+/** filePath: dist/others/normal/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 236 ], {
@@ -5904,14 +5789,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\others\\normal\\index.json **/
+/** filePath: dist/others/normal/index.json **/
 {"usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\others\\normal\\index.wxml **/
+/** filePath: dist/others/normal/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -5966,10 +5851,10 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
   <template is="taro_tmpl" data="{{root:root}}" />
@@ -5978,128 +5863,13 @@ require("./runtime");
 <view class="index" id="_n_19" ><text id="_n_18" >Hello world!</text></view>
 </block>
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -6140,7 +5910,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -6338,7 +6108,7 @@ exports[`prerender should transform result xml 1`] = `21`;
 
 exports[`prerender should transform result xml 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -6896,13 +6666,13 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index","others/detail/index","others/normal/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -7628,7 +7398,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -7691,7 +7461,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -7709,14 +7479,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\others\\detail\\index.js **/
+/** filePath: dist/others/detail/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 302 ], {
@@ -9004,10 +8774,10 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\others\\detail\\index.json **/
+/** filePath: dist/others/detail/index.json **/
 {"usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\others\\detail\\index.wxml **/
+/** filePath: dist/others/detail/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
   <template is="taro_tmpl" data="{{root:root}}" />
@@ -9016,7 +8786,7 @@ require("./runtime");
 <video src="https://github.com/taro" />
 </block>
 
-/** filePath: dist\\others\\normal\\index.js **/
+/** filePath: dist/others/normal/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 236 ], {
@@ -9071,14 +8841,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\others\\normal\\index.json **/
+/** filePath: dist/others/normal/index.json **/
 {"usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\others\\normal\\index.wxml **/
+/** filePath: dist/others/normal/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -9133,10 +8903,10 @@ require("./runtime");
         module.exports = wx._prerender
       }
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <block wx:if="{{root.uid}}">
   <template is="taro_tmpl" data="{{root:root}}" />
@@ -9145,128 +8915,13 @@ require("./runtime");
 <view class="index" id="_n_19" ><text id="_n_18" >Hello world!</text></view>
 </block>
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -9307,7 +8962,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {

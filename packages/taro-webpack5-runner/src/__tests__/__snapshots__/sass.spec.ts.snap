@@ -4,7 +4,7 @@ exports[`sass should build app with sass mini 1`] = `14`;
 
 exports[`sass should build app with sass mini 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -550,10 +550,10 @@ require("./runtime");
 
 
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -1271,7 +1271,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -1309,7 +1309,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -1327,14 +1327,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -1394,135 +1394,20 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 .index{color:red}
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -1563,7 +1448,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -1723,7 +1608,10 @@ exports[`sass should build app with sass web 1`] = `2`;
 
 exports[`sass should build app with sass web 2`] = `
 "
-/** filePath: dist\\js\\app.js **/
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script></head><body><div id="app"></div></body></html>
+
+/** filePath: dist/js/app.js **/
 (function() {
     "use strict";
     var __webpack_exports__ = {};
@@ -1857,9 +1745,6 @@ exports[`sass should build app with sass web 2`] = `
     }(Component);
     var app = null && App;
 })();
-
-/** filePath: dist\\index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script></head><body><div id="app"></div></body></html>
 "
 `;
 
@@ -1867,7 +1752,7 @@ exports[`sass should build app with scss mini 1`] = `15`;
 
 exports[`sass should build app with scss mini 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -2422,13 +2307,13 @@ require("./runtime");
 
 
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -3146,7 +3031,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -3184,7 +3069,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -3202,14 +3087,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -3281,135 +3166,20 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 .index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -3450,7 +3220,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -3610,10 +3380,13 @@ exports[`sass should build app with scss web 1`] = `3`;
 
 exports[`sass should build app with scss web 2`] = `
 "
-/** filePath: dist\\css\\app.css **/
+/** filePath: dist/css/app.css **/
 
 
-/** filePath: dist\\js\\app.js **/
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
+
+/** filePath: dist/js/app.js **/
 (function() {
     "use strict";
     var __webpack_exports__ = {};
@@ -3756,9 +3529,6 @@ exports[`sass should build app with scss web 2`] = `
     }(Component);
     var app = null && App;
 })();
-
-/** filePath: dist\\index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
 "
 `;
 
@@ -3766,7 +3536,7 @@ exports[`sass should set global sass content with data mini 1`] = `15`;
 
 exports[`sass should set global sass content with data mini 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -4321,13 +4091,13 @@ require("./runtime");
 
 
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 .body{background-color:blue}.body{background-color:red}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -5045,7 +4815,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -5083,7 +4853,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -5101,14 +4871,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -5180,135 +4950,20 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 .body{background-color:blue}.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -5349,7 +5004,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -5509,10 +5164,13 @@ exports[`sass should set global sass content with data web 1`] = `3`;
 
 exports[`sass should set global sass content with data web 2`] = `
 "
-/** filePath: dist\\css\\app.css **/
+/** filePath: dist/css/app.css **/
 .body{background-color:blue}.body{background-color:red}
 
-/** filePath: dist\\js\\app.js **/
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
+
+/** filePath: dist/js/app.js **/
 (function() {
     "use strict";
     var __webpack_exports__ = {};
@@ -5655,9 +5313,6 @@ exports[`sass should set global sass content with data web 2`] = `
     }(Component);
     var app = null && App;
 })();
-
-/** filePath: dist\\index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
 "
 `;
 
@@ -5665,7 +5320,7 @@ exports[`sass should set global sass content with source & dir mini 1`] = `15`;
 
 exports[`sass should set global sass content with source & dir mini 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -6220,13 +5875,13 @@ require("./runtime");
 
 
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 .body{background-color:blue}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -6944,7 +6599,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -6982,7 +6637,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -7000,14 +6655,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -7079,135 +6734,20 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 .body{background-color:blue}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -7248,7 +6788,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -7408,10 +6948,13 @@ exports[`sass should set global sass content with source & dir web 1`] = `3`;
 
 exports[`sass should set global sass content with source & dir web 2`] = `
 "
-/** filePath: dist\\css\\app.css **/
+/** filePath: dist/css/app.css **/
 .body{background-color:blue}
 
-/** filePath: dist\\js\\app.js **/
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
+
+/** filePath: dist/js/app.js **/
 (function() {
     "use strict";
     var __webpack_exports__ = {};
@@ -7554,9 +7097,6 @@ exports[`sass should set global sass content with source & dir web 2`] = `
     }(Component);
     var app = null && App;
 })();
-
-/** filePath: dist\\index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
 "
 `;
 
@@ -7564,7 +7104,7 @@ exports[`sass should set global sass content with source mini 1`] = `15`;
 
 exports[`sass should set global sass content with source mini 2`] = `
 "
-/** filePath: dist\\app.js **/
+/** filePath: dist/app.js **/
 "use strict";
 
 require("./common");
@@ -8119,13 +7659,13 @@ require("./runtime");
 
 
 
-/** filePath: dist\\app.json **/
+/** filePath: dist/app.json **/
 {"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
-/** filePath: dist\\app.wxss **/
+/** filePath: dist/app.wxss **/
 .body{background-color:blue}
 
-/** filePath: dist\\base.wxml **/
+/** filePath: dist/base.wxml **/
 <wxs module="xs" src="./utils.wxs" />
 <template name="taro_tmpl">
   <block wx:for="{{root.cn}}" wx:key="sid">
@@ -8843,7 +8383,7 @@ require("./runtime");
 </template>
 
 
-/** filePath: dist\\common.js **/
+/** filePath: dist/common.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 592 ], {
@@ -8881,7 +8421,7 @@ require("./runtime");
     }
 } ]);
 
-/** filePath: dist\\comp.js **/
+/** filePath: dist/comp.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 367 ], {
@@ -8899,14 +8439,14 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\comp.json **/
+/** filePath: dist/comp.json **/
 {"component":true,"usingComponents":{"comp":"./comp"}}
 
-/** filePath: dist\\comp.wxml **/
+/** filePath: dist/comp.wxml **/
 <import src="./base.wxml" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:l}}" />
 
-/** filePath: dist\\pages\\index\\index.js **/
+/** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
@@ -8978,135 +8518,20 @@ require("./runtime");
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
-/** filePath: dist\\pages\\index\\index.json **/
+/** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
 
-/** filePath: dist\\pages\\index\\index.wxml **/
+/** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist\\pages\\index\\index.wxss **/
+/** filePath: dist/pages/index/index.wxss **/
 .body{background-color:blue}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist\\runtime.js **/
-(function() {
-    "use strict";
-    var __webpack_modules__ = {};
-    var __webpack_module_cache__ = {};
-    function __webpack_require__(moduleId) {
-        var cachedModule = __webpack_module_cache__[moduleId];
-        if (cachedModule !== undefined) {
-            return cachedModule.exports;
-        }
-        var module = __webpack_module_cache__[moduleId] = {
-            exports: {}
-        };
-        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-        return module.exports;
-    }
-    __webpack_require__.m = __webpack_modules__;
-    !function() {
-        var deferred = [];
-        __webpack_require__.O = function(result, chunkIds, fn, priority) {
-            if (chunkIds) {
-                priority = priority || 0;
-                for (var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-                deferred[i] = [ chunkIds, fn, priority ];
-                return;
-            }
-            var notFulfilled = Infinity;
-            for (var i = 0; i < deferred.length; i++) {
-                var chunkIds = deferred[i][0];
-                var fn = deferred[i][1];
-                var priority = deferred[i][2];
-                var fulfilled = true;
-                for (var j = 0; j < chunkIds.length; j++) {
-                    if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((function(key) {
-                        return __webpack_require__.O[key](chunkIds[j]);
-                    }))) {
-                        chunkIds.splice(j--, 1);
-                    } else {
-                        fulfilled = false;
-                        if (priority < notFulfilled) notFulfilled = priority;
-                    }
-                }
-                if (fulfilled) {
-                    deferred.splice(i--, 1);
-                    var r = fn();
-                    if (r !== undefined) result = r;
-                }
-            }
-            return result;
-        };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for (var key in definition) {
-                if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-                    Object.defineProperty(exports, key, {
-                        enumerable: true,
-                        get: definition[key]
-                    });
-                }
-            }
-        };
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                Object.defineProperty(exports, Symbol.toStringTag, {
-                    value: "Module"
-                });
-            }
-            Object.defineProperty(exports, "__esModule", {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        var installedChunks = {
-            666: 0
-        };
-        __webpack_require__.O.j = function(chunkId) {
-            return installedChunks[chunkId] === 0;
-        };
-        var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-            var chunkIds = data[0];
-            var moreModules = data[1];
-            var runtime = data[2];
-            var moduleId, chunkId, i = 0;
-            if (chunkIds.some((function(id) {
-                return installedChunks[id] !== 0;
-            }))) {
-                for (moduleId in moreModules) {
-                    if (__webpack_require__.o(moreModules, moduleId)) {
-                        __webpack_require__.m[moduleId] = moreModules[moduleId];
-                    }
-                }
-                if (runtime) var result = runtime(__webpack_require__);
-            }
-            if (parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-            for (;i < chunkIds.length; i++) {
-                chunkId = chunkIds[i];
-                if (__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-                    installedChunks[chunkId][0]();
-                }
-                installedChunks[chunkId] = 0;
-            }
-            return __webpack_require__.O(result);
-        };
-        var chunkLoadingGlobal = wx["webpackJsonp"] = wx["webpackJsonp"] || [];
-        chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-        chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-    }();
-})();
+/** filePath: dist/runtime.js **/
 
-/** filePath: dist\\utils.wxs **/
+
+/** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
     var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
@@ -9147,7 +8572,7 @@ module.exports = {
   }
 }
 
-/** filePath: dist\\vendors.js **/
+/** filePath: dist/vendors.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
@@ -9307,10 +8732,13 @@ exports[`sass should set global sass content with source web 1`] = `3`;
 
 exports[`sass should set global sass content with source web 2`] = `
 "
-/** filePath: dist\\css\\app.css **/
+/** filePath: dist/css/app.css **/
 .body{background-color:blue}
 
-/** filePath: dist\\js\\app.js **/
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
+
+/** filePath: dist/js/app.js **/
 (function() {
     "use strict";
     var __webpack_exports__ = {};
@@ -9453,8 +8881,5 @@ exports[`sass should set global sass content with source web 2`] = `
     }(Component);
     var app = null && App;
 })();
-
-/** filePath: dist\\index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
 "
 `;

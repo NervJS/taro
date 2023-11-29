@@ -120,7 +120,7 @@ describe('tabbar', () => {
 
   it('should be able to switchTab', done => {
     Taro.switchTab({
-      url: '/pages/about/about'
+      url: '/pages/about/index'
     }).then((res: any) => {
       expect(res.errMsg).toBe('switchTab:ok')
       done()

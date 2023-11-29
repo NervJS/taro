@@ -11,17 +11,18 @@
 
   &_bar {
     display: flex;
-    flex: 0 95px;
-    height: 95px;
+    flex: 0 60px;
+    height: 60px;
     background-color: #ededed;
     color: #090909;
+    align-items: center;
   }
 
   &_back {
     position: relative;
-    flex: 0 45px;
-    margin-top: 30px;
-    width: 33px;
+    flex: 0 40px;
+    margin-left: 10px;
+    width: 25px;
     height: 30px;
 
     &::before {
@@ -52,18 +53,18 @@
   &_title {
     flex: 1;
     padding-left: 30px;
-    line-height: 95px;
+    line-height: 60px;
   }
 
   &_submit {
-    margin: 18px 30px 0 0;
+    margin-right: 25px;
     padding: 0;
     border: none;
-    width: 110px;
-    height: 60px;
+    width: 75px;
+    height: 40px;
     background-color: #08bf62;
-    line-height: 60px;
-    font-size: 28px;
+    line-height: 40px;
+    font-size: 20px;
     color: #fff;
   }
 
