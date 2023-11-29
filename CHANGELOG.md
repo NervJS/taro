@@ -1,4 +1,56 @@
-# [](https://github.com/NervJS/taro/compare/v2.2.15...v) (2020-12-09)
+# [](https://github.com/NervJS/taro/compare/v2.2.19...v) (2023-11-29)
+
+
+### Bug Fixes
+
+* 修复Taro.createInnerAudioContext执行destroy异常的问题 ([bbd6017](https://github.com/NervJS/taro/commit/bbd6017f7c547d4c9f77211c535d921030110ba3))
+
+
+
+## [2.2.19](https://github.com/NervJS/taro/compare/v2.2.18...v2.2.19) (2022-11-03)
+
+
+### Bug Fixes
+
+* 修复事件调用 preventDefault 后 preventDefault 值不存在的问题 ([#10839](https://github.com/NervJS/taro/issues/10839)) ([75e0a6e](https://github.com/NervJS/taro/commit/75e0a6ee12e6d5f9c40b04000753dfa8660652d2))
+* **2.x:** 微信小程序父子组件`render props`编译后事件名称不一致 ([cd47d4c](https://github.com/NervJS/taro/commit/cd47d4c1c54bd1d0d6959efc669056b1da2eaf7d))
+
+
+### Features
+
+* **mini-runner:** 支持用户对内置配置进行修改 ([d4ea48c](https://github.com/NervJS/taro/commit/d4ea48c68d44cd69d4d7af989fe1eafec2d12455))
+* **tt:** 抖音交易组件2.0所需的方法 ([852b17e](https://github.com/NervJS/taro/commit/852b17e5860be1f47d0115e7ba409039d9b0533b))
+
+
+
+## [2.2.18](https://github.com/NervJS/taro/compare/v2.2.17...v2.2.18) (2021-10-22)
+
+
+### Bug Fixes
+
+* 修复小程序 app onShow 时参数获取不到 ([02995b2](https://github.com/NervJS/taro/commit/02995b2c6c68ce669ae96dbb57aeb8f7c904750b))
+* h5 path regex ([fa6782c](https://github.com/NervJS/taro/commit/fa6782c84e46af63ecec5e146d509a54d0c41d94))
+* taro-img__mode-scaletofill修改为fill ([#9391](https://github.com/NervJS/taro/issues/9391)) ([1a88b0b](https://github.com/NervJS/taro/commit/1a88b0b38d79f994ddc293315db214c1eafa7447))
+* **cli:** h5 build error ([71c6879](https://github.com/NervJS/taro/commit/71c68798fb736f7cea6cf375d3682f9cb3554ef4))
+* **cli:** ui script build with multiple-platform ([b0c5aa8](https://github.com/NervJS/taro/commit/b0c5aa8b3f5028e4e02a9976a0de155f92bf067c))
+* **component:** 修复Input组件粘贴无效的问题([#8862](https://github.com/NervJS/taro/issues/8862)) ([db77883](https://github.com/NervJS/taro/commit/db778838630277c97b71362feb740d60f9efe1b9))
+
+
+
+## [2.2.17](https://github.com/NervJS/taro/compare/v2.2.16...v2.2.17) (2021-03-19)
+
+
+### Bug Fixes
+
+* **components:** 修复form组件设置h5原生属性无效的问题 ([6dfb70d](https://github.com/NervJS/taro/commit/6dfb70d1cf45b88224d8fd7932cc291fc6d9c3ff))
+* **redux:** 特殊情况下redux更新无法触发视图更新, fix [#8705](https://github.com/NervJS/taro/issues/8705) ([#8709](https://github.com/NervJS/taro/issues/8709)) ([4e89ff2](https://github.com/NervJS/taro/commit/4e89ff201cb6167fc3ba67c46a4347b2ef60a20c))
+* **router:** 修复页面首次加载时调用Taro.relaunch会跳转到空页面 ([62ae4b0](https://github.com/NervJS/taro/commit/62ae4b093cc2f7d81faad60e75264cf2b88aae3b))
+* **router:** 修复Taro.redirectTo和Taro.reLaunch方法导致多次componentDidShow的问题 ([662f447](https://github.com/NervJS/taro/commit/662f4479dccc07142bd7f209eaf4709a711a75ef))
+* **weapp:** 补全 API getUserProfile ([ec7fa04](https://github.com/NervJS/taro/commit/ec7fa04cb644f8daa6578faf845a3c728686c870))
+
+
+
+## [2.2.16](https://github.com/NervJS/taro/compare/v2.2.15...v2.2.16) (2020-12-09)
 
 
 ### Bug Fixes
