@@ -59,9 +59,7 @@ export default class Parser extends BaseParser {
   }
 
   get instantiateApp () {
-    const { frameworkArgs, creator, modifyInstantiate } = this.loaderMeta
-    const createApp = `${creator}(component, ${frameworkArgs})`
-
+    const { modifyInstantiate } = this.loaderMeta
     const { pages = [], entryPagePath = pages[0], tabBar } = this.appConfig
     let entryPath = entryPagePath
     const tabbarList = tabBar?.list || []
@@ -76,7 +74,7 @@ export default class Parser extends BaseParser {
   onCreate(want, launchParam) {
     AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
     AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
-    this.app = ${createApp}
+    this.app = createComponent()
     this.app.onLaunch({
       ...want,
       ...launchParam
@@ -116,17 +114,13 @@ export default class Parser extends BaseParser {
   }
 
   parse (rawId: string, name = 'TaroPage', resolve?: TRollupResolveMethod) {
-    const { importFrameworkStatement, creator, creatorLocation, modifyResolveId } = this.loaderMeta
+    const { modifyResolveId } = this.loaderMeta
 
     let code = this.transArr2Str([
-      this.#setReconciler,
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import { window, context } from "@tarojs/runtime"',
-      `import { ${creator} } from "${creatorLocation}"`,
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
-      this.#setReconcilerPost,
-      `import component, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
-      importFrameworkStatement,
+      `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       'window.__taroAppConfig = config',
       'initNativeApi(Taro)',
       this.getInitPxTransform(),
@@ -165,9 +159,17 @@ export default class Parser extends BaseParser {
   }
 
   parseEntry (rawId: string, config = {}) {
+    const { creator, creatorLocation, frameworkArgs, importFrameworkStatement } = this.loaderMeta
+    const createApp = `${creator}(component, ${frameworkArgs})`
+
     return this.transArr2Str([
+      this.#setReconciler,
+      `import { ${creator} } from "${creatorLocation}"`,
+      `import component from "${rawId}"`,
+      this.#setReconcilerPost,
+      importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(config)}`,
-      `export { default } from "${rawId}"`,
+      `export default () => ${createApp}`,
     ])
   }
 }

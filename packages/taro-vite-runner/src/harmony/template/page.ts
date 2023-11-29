@@ -121,8 +121,8 @@ export default class Parser extends BaseParser {
 
     if (isTabPage && enableRefresh > 1) {
       pageStr = `if (${appEnableRefresh
-        ? `this.getConfig(${isTabPage ? 'index' : ''}).enablePullDownRefresh !== false`
-        : `this.getConfig(${isTabPage ? 'index' : ''}).enablePullDownRefresh`}) {
+        ? `config${isTabPage ? '[index]' : ''}.enablePullDownRefresh !== false`
+        : `config${isTabPage ? '[index]' : ''}.enablePullDownRefresh`}) {
   Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
 ${this.transArr2Str(pageStr.split('\n'), 4)}
   }
@@ -277,7 +277,7 @@ aboutToDisappear () {
       this.transArr2Str(`
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
   const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
-  if ((isCustomStyle && this.getConfig().navigationStyle !== 'default') || this.getConfig().navigationStyle === 'custom') {
+  if ((isCustomStyle && config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default') || config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom') {
     (Current as any).contextPromise
       .then(context => {
         const win = window.__ohos.getLastWindow(context)
@@ -293,8 +293,7 @@ ${this.isTabbarPage
     ? this.transArr2Str([
       'this.pageList ||= []',
       'if (!this.pageList[index]) {',
-      '  const pageName = this.tabBarList[index]?.pagePath',
-      '  this.pageList[index] = createPageConfig(component[pageName], pageName, this.getConfig(index))',
+      '  this.pageList[index] = createComponent[index]()',
       '  this.page = this.pageList[index]',
       '  this.page.onLoad?.call(this, params, (instance) => {',
       '    this.node[index] = instance',
@@ -302,15 +301,11 @@ ${this.isTabbarPage
       '}',
     ], 4)
     : this.transArr2Str([
-      `this.page = createPageConfig(component, '${(this.page as VitePageMeta).name}', config)`,
+      `this.page = createComponent()`,
       'this.page.onLoad?.call(this, params, (instance) => {',
       '  this.node = instance',
       '})',
     ], 4)}
-}
-
-getConfig(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
-  ${this.isTabbarPage ? `return config[index]` : 'return config'}
 }
 `.split('\n'), 2),
       this.isTabbarPage ? this.transArr2Str(`
@@ -543,7 +538,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
   }
 
   parse (rawId: string, page: VitePageMeta | VitePageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
-    const { importFrameworkStatement, creatorLocation, modifyResolveId } = this.loaderMeta
+    const { modifyResolveId } = this.loaderMeta
     this.page = page
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
@@ -557,24 +552,15 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
     let code = this.transArr2Str([
       'import TaroView from "@tarojs/components/view"',
-      `import { createPageConfig } from '${creatorLocation}'`,
       'import { Current, TaroElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
       'import router from "@ohos.router"',
-      importFrameworkStatement,
       this.isTabbarPage
         ? [
           this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),
           '',
-          this.tabbarList.map((e, i) => {
-            const tabbarPage = (page as VitePageMeta[]).find(item => item.name === e.pagePath)
-            return [
-              tabbarPage?.config.enableShareTimeline ? `page${i}.enableShareTimeline = true` : null,
-              tabbarPage?.config.enableShareAppMessage ? `page${i}.enableShareAppMessage = true` : null,
-            ]
-          }),
-          `const component = { ${this.tabbarList.map((e, i) => `'${e.pagePath}': page${i}`).join(', ')} }`,
+          `const createComponent = [${this.tabbarList.map((_, i) => `page${i}`).join(', ')}]`,
           `const config = [${this.tabbarList.map((_, i) => `config${i}`).join(', ')}]`,
           '',
           'interface ITabBarItem extends TabBarItem {',
@@ -586,9 +572,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           '}',
         ]
         : [
-          `import component, { config } from "${rawId}${TARO_COMP_SUFFIX}"`,
-          (page as VitePageMeta)?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
-          (page as VitePageMeta)?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
+          `import createComponent, { config } from "${rawId}${TARO_COMP_SUFFIX}"`,
         ],
       '',
       this.instantiatePage,
@@ -625,10 +609,18 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     return code
   }
 
-  parseEntry (rawId: string, config = {}) {
+  parseEntry (rawId: string, page: VitePageMeta) {
+    const { creatorLocation, importFrameworkStatement } = this.loaderMeta
+    const createPage = `createPageConfig(component, '${page.name}', config)`
+
     return this.transArr2Str([
-      `export const config = ${this.prettyPrintJson(config)}`,
-      `export { default } from "${rawId}"`,
+      `import { createPageConfig } from '${creatorLocation}'`,
+      `import component from "${rawId}"`,
+      importFrameworkStatement,
+      `export const config = ${this.prettyPrintJson(page.config)}`,
+      page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,
+      page?.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : null,
+      `export default () => ${createPage}`,
     ])
   }
 }

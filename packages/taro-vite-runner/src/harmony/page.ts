@@ -71,7 +71,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             exports: ['default'],
           })
         }
-        return parse.parseEntry(rawId, page.config)
+        return parse.parseEntry(rawId, page)
       }
     },
   }

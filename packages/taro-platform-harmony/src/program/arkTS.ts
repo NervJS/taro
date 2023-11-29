@@ -94,6 +94,8 @@ export default class Harmony extends TaroPlatformHarmony {
     })
   }
 
+  extensions = ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts']
+
   excludeLibraries: (string | RegExp)[] = []
 
   externalDeps: [string, RegExp, string?][] = [
@@ -128,7 +130,7 @@ export default class Harmony extends TaroPlatformHarmony {
       const libName = lib
       lib = resolveSync(lib, {
         basedir,
-        extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
+        extensions: this.extensions,
         mainFields: ['unpkg', ...defaultMainFields],
         preserveSymlinks: false,
       }) || ''
@@ -149,7 +151,7 @@ export default class Harmony extends TaroPlatformHarmony {
           const typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
           const typePath = resolveSync(typeName, {
             basedir,
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
+            extensions: this.extensions,
             mainFields: [...defaultMainFields],
           })
           if (typePath) {
@@ -162,7 +164,7 @@ export default class Harmony extends TaroPlatformHarmony {
           const typeName = path.join(path.dirname(lib), `${basename}.d.ts`)
           const typePath = resolveSync(typeName, {
             basedir,
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
+            extensions: this.extensions,
             mainFields: [...defaultMainFields],
           })
           if (typePath) {
@@ -186,36 +188,38 @@ export default class Harmony extends TaroPlatformHarmony {
       })
     } else if (stat.isFile()) {
       let code = fs.readFileSync(lib, { encoding: 'utf8' })
-      code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
-        const { outputRoot } = this.ctx.runOpts.config
-        const targetPath = path.join(outputRoot, NODE_MODULES, p1)
-        let relativePath = path.relative(path.dirname(target), targetPath)
-        relativePath = /^\.{1,2}[\\/]/.test(relativePath)
-          ? relativePath
-          : /^\.{1,2}$/.test(relativePath)
-            ? `${relativePath}/`
-            : `./${relativePath}`
-        if (HARMONY_SCOPES.every(e => !e.test(p1))) {
-          if (this.indexOfLibraries(p1) === -1) {
-            this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
-            this.moveLibraries(p1, targetPath, path.dirname(lib), true)
+      if (this.extensions.includes(path.extname(lib))) {
+        code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
+          const { outputRoot } = this.ctx.runOpts.config
+          const targetPath = path.join(outputRoot, NODE_MODULES, p1)
+          let relativePath = path.relative(path.dirname(target), targetPath)
+          relativePath = /^\.{1,2}[\\/]/.test(relativePath)
+            ? relativePath
+            : /^\.{1,2}$/.test(relativePath)
+              ? `${relativePath}/`
+              : `./${relativePath}`
+          if (HARMONY_SCOPES.every(e => !e.test(p1))) {
+            if (this.indexOfLibraries(p1) === -1) {
+              this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
+              this.moveLibraries(p1, targetPath, path.dirname(lib), true)
+            }
+            return src.replace(p1, relativePath.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'))
           }
-          return src.replace(p1, relativePath.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'))
+
+          return src
+        })
+
+        const define = {
+          ...this.defineConstants
         }
-
-        return src
-      })
-
-      const define = {
-        ...this.defineConstants
-      }
-      if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
-        define.global = 'globalThis'
-      }
-      code = this.replaceDefineValue(code, define)
-      const ext = path.extname(target)
-      if (['.ts'].includes(ext)) {
-        code = '// @ts-nocheck\n' + code
+        if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
+          define.global = 'globalThis'
+        }
+        code = this.replaceDefineValue(code, define)
+        const ext = path.extname(target)
+        if (['.ts'].includes(ext)) {
+          code = '// @ts-nocheck\n' + code
+        }
       }
       if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
         code = `/// <reference path="global.d.ts" />
