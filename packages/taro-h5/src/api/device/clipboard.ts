@@ -10,9 +10,9 @@ import { isFunction } from '@tarojs/shared'
 
 import { MethodHandler } from '../../utils/handler'
 import { getStorageSync, setStorage, setStorageSync } from '../storage/index'
+import { showToast } from '../ui/interaction'
 
 const CLIPBOARD_STORAGE_NAME = 'taro_clipboard'
-
 document.addEventListener('copy', () => {
   setStorage({
     key: CLIPBOARD_STORAGE_NAME,
@@ -21,7 +21,6 @@ document.addEventListener('copy', () => {
     console.error(e)
   })
 })
-
 /**
  * 设置系统剪贴板的内容
  */
@@ -49,6 +48,11 @@ export const setClipboardData: typeof Taro.setClipboardData = async ({ data, suc
     } else {
       throw new Error('Unsupported Function: \'document.execCommand\'.')
     }
+    showToast({
+      title: '内容已复制',
+      icon: 'none',
+      duration: 1500
+    })
     return handle.success()
   } catch (e) {
     return handle.fail({ errMsg: e.message })

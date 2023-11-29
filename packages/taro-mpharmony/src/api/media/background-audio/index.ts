@@ -1,5 +1,3 @@
-import { BackgroundAudioManager } from './BackgroundAudioManager'
-
 /**
  * 停止播放音乐
  * 
@@ -61,4 +59,13 @@ export { getBackgroundAudioPlayerState } from '@tarojs/taro-h5'
  * 
  * @canUse getBackgroundAudioManager
  */
-export const getBackgroundAudioManager = () => new BackgroundAudioManager()
+export { getBackgroundAudioManager } from '@tarojs/taro-h5'
+
+/**
+ * BackgroundAudioManager 实例
+ * 
+ * @canUse BackgroundAudioManager
+ * @__class 
+ * [play, pause, seek, stop, onCanplay, onWaiting, onError, onPlay, onPause, onSeeking,\
+ * onSeeked, onEnded, onStop, onTimeUpdate]
+ */
