@@ -65,7 +65,7 @@ export default struct TaroForm {
     this.node.addEventListener('submit-btn', (e: TaroEvent) => {
       e.stopPropagation()
       const formResult: Record<string, string> = {}
-      treeToArray(this.node, (item: TaroFormWidgetElement) => {
+      treeToArray<TaroFormWidgetElement>(this.node, (item) => {
         switch (item.nodeName) {
           case 'INPUT':
           case 'SLIDER': 

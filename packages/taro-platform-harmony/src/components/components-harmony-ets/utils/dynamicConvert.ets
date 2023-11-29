@@ -266,7 +266,7 @@ interface BorderResult {
   style?: BorderStyle
 }
 
-function getNodeBorderData (border: string): BorderResult {
+function getNodeBorderData (border: string): BorderResult | null {
   const borderPattern = new RegExp("/^(\d+(px)?)\s*(\w+)\s*(.+)/")
   const matches = border.match(borderPattern);
 

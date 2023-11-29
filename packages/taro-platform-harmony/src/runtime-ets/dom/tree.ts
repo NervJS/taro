@@ -2,17 +2,17 @@ import { NodeType } from './node'
 
 import type { TaroElement } from './element'
 
-type Filter = (element: TaroElement) => boolean
+type Filter<T = TaroElement> = (element: T) => boolean
 
 function returnTrue () {
   return true
 }
 
-export function treeToArray (root: TaroElement, predict?: Filter): TaroElement[] {
-  const array: TaroElement[] = []
+export function treeToArray<T = TaroElement> (root: TaroElement, predict?: Filter<T>): T[] {
+  const array: T[] = []
   const filter = predict ?? returnTrue
 
-  let object: TaroElement | null = root
+  let object: T | null = root
 
   while (object) {
     if (object.nodeType === NodeType.ELEMENT_NODE && filter(object)) {

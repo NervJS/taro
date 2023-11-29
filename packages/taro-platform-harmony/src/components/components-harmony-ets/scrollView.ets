@@ -87,7 +87,7 @@ function getAttributes (node: TaroViewElement): CompType.ScrollView.Attrs {
 export default struct TaroScrollView {
   nodeInfoMap: TaroAny = {}
 
-  wrapper: Area = null
+  wrapper?: Area
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))

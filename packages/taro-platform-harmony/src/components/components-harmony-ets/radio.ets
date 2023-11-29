@@ -97,7 +97,7 @@ export struct TaroRadio {
       Stack() {
         Row() {
           Radio({
-            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentElement._attrs, 'id', this.node.parentNode._nid),
+            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentElement?._attrs, 'id', this.node.parentNode?._nid),
             value: this.node._attrs.value,
           })
             .checked(this.checked)
@@ -186,13 +186,14 @@ export struct TaroRadioGroup {
   }
 
   // Element使用的获取器
-  getValue (): string {
+  getValue (): string | undefined {
     const childList: TaroElement[] = this.node.getElementsByTagName('RADIO')
     for (let i = 0; i < childList.length; i++) {
       if (childList[i]._instance.checked) {
         return childList[i]._attrs.value
       }
     }
+    return undefined
   }
 
   // Element使用的重置方法

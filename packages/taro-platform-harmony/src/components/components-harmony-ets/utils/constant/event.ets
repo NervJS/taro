@@ -12,4 +12,5 @@ export function TOUCH_EVENT_MAP(event: TouchType) {
     case TouchType.Down: return ETouchEvent.TouchTypeDowm
     case TouchType.Cancel: return ETouchEvent.TouchTypeCancel
   }
+  return ETouchEvent.TouchTypeUp
 }

@@ -32,7 +32,7 @@ export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string
 }
 
 export function getNodeThresholds (node: TaroElement): number[] | null {
-  if (!node) return
+  if (!node) return null
 
   const id = node._nid
   const instance: TaroAny = node._instance

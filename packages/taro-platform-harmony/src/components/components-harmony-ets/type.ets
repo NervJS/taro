@@ -66,14 +66,14 @@ export interface TaroStyleType {
 
 export namespace CompType {
   export namespace ScrollView {
-    export class Attrs {
+    export interface Attrs {
       scrollBar: BarState
     }
-    export class CurrentOffset {
+    export interface CurrentOffset {
       xOffset: number
       yOffset: number
     }
-    export class ScrollEvent {
+    export interface ScrollEvent {
       deltaX: number
       deltaY: number
       scrollLeft: number
@@ -83,7 +83,7 @@ export namespace CompType {
     }
   }
   export namespace Slider {
-    export class Options {
+    export interface Options {
       min?: number
       max?: number
       value?: number
@@ -91,13 +91,13 @@ export namespace CompType {
       style?: SliderStyle
       direction?: Axis
     }
-    export class Attrs {
+    export interface Attrs {
       selectedColor?: ResourceColor
       trackColor?: ResourceColor
       trackThickness?: Length
       blockColor?: ResourceColor
     }
-    export class Params {
+    export interface Params {
       width: string
     }
   }
@@ -107,7 +107,7 @@ export namespace CompType {
     }
   }
   export namespace Text {
-    export class Attrs {
+    export interface Attrs {
       textAlign?: TextAlign
       textOverflow?: HarmonyType.Overflow
       maxLines?: number
@@ -115,31 +115,31 @@ export namespace CompType {
     }
   }
   export namespace Checkbox {
-    export class Options {
+    export interface Options {
       name: string
       group: string
     }
-    export class Attrs {
+    export interface Attrs {
       selectedColor?: ResourceColor
     }
   }
   export namespace Radio {
-    export class Options {
+    export interface Options {
       group: string
       value: string
     }
-    export class Attrs {
+    export interface Attrs {
       radioStyle?: HarmonyType.RadioStyle
       themeStyles?: boolean
     }
   }
   export namespace Switch {
-    export class Attrs {
+    export interface Attrs {
       selectedColor?: ResourceColor
     }
   }
   export namespace Swiper {
-    export class Attrs {
+    export interface Attrs {
       index?: number
       loop?: boolean
       duration?: number
@@ -150,19 +150,19 @@ export namespace CompType {
     }
   }
   export namespace Video {
-    export class Options {
+    export interface Options {
       src?: string | Resource
       previewUri?: string |PixelMap | Resource
       controller?: VideoController
     }
-    export class Attrs {
+    export interface Attrs {
       muted?: boolean
       controls?: boolean
       autoPlay?: boolean
       loop?: boolean
       objectFit?: ImageFit
     }
-    export class UpdateEvent {
+    export interface UpdateEvent {
       time: number
     }
   }
@@ -174,23 +174,23 @@ export namespace HarmonyType {
     justifyContent?: FlexAlign
     alignItems?: ItemAlign
   }
-  export class LinearGradient {
+  export interface LinearGradient {
     angle?: number | string
     direction?: GradientDirection
     colors: Array<[ResourceColor, number]>
     repeating?: boolean
   }
-  export class Overflow {
+  export interface Overflow {
     overflow: TextOverflow;
   }
-  export class RadioStyle {
+  export interface RadioStyle {
     checkedBackgroundColor?: ResourceColor
     uncheckedBorderColor?: ResourceColor
     indicatorColor?: ResourceColor
   }
   export namespace Background {
     export type backgroundColor = ResourceColor
-    export class backgroundImage {
+    export interface backgroundImage {
       src: ResourceStr
       repeat?: ImageRepeat
     }
@@ -198,7 +198,7 @@ export namespace HarmonyType {
     export type backgroundImagePosition = Position | Alignment
   }
   export namespace Transform {
-    export class Rotate {
+    export interface Rotate {
       x?: number
       y?: number
       z?: number
@@ -208,12 +208,12 @@ export namespace HarmonyType {
       center?: number
       perspective?: number
     }
-    export class Translate {
+    export interface Translate {
       x?: number | string
       y?: number | string
       z? : number | string
     }
-    export class Scale {
+    export interface Scale {
       x?: number
       y?: number
       z?: number

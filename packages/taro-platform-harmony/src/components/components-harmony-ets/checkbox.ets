@@ -60,7 +60,7 @@ function getOptions (node: TaroViewElement): CompType.Checkbox.Options {
   const value: string = _attrs.value
   return {
     name: name || value || node.textContent,
-    group: name || node.parentNode ? AttributeManager.getNodeStyle(node.parentElement._attrs, 'id', node.parentNode._nid) : '',
+    group: name || node.parentNode ? AttributeManager.getNodeStyle(node.parentElement?._attrs, 'id', node.parentNode?._nid) : '',
   }
 }
 

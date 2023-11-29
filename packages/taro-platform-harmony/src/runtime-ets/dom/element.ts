@@ -83,8 +83,8 @@ class TaroElement extends TaroNode {
     }
   }
 
-  public getAttribute (name: string): string | null {
-    return this._attrs[name] || null
+  public getAttribute (name: string): string {
+    return this._attrs[name]
   }
 
   public removeAttribute (name: string): void {

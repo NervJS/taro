@@ -75,7 +75,7 @@ function datePickerAttrs (style: TaroStyleType) {
   .clip(style.clip)
 }
 
-class TimeRange {
+interface TimeRange {
   startHH: number
   startMM: number
   endHH: number
@@ -117,27 +117,6 @@ export struct PickerView {
       mode = 'selector'
     }
     switch (mode) {
-      case 'selector': {
-        const rangeKey: TaroAny = this.node._attrs.rangeKey
-        let showRange: TaroAny = range
-        if (rangeKey && typeof range[0] === 'object') {
-          showRange = getSingleSelector(range, rangeKey)
-        }
-        return {
-          range: showRange,
-          selected: this.select || value
-        }
-      }
-      case 'multiSelector': {
-        const rangeKey: TaroAny = this.node._attrs.rangeKey
-        let showRange: TaroAny = range
-        this.showSelector = value
-        showRange = getMultiSelector(range, rangeKey, value)
-        return {
-          range: showRange,
-          selected: this.select || value
-        }
-      }
       case 'time': {
         const value: string = this.node._attrs.value
         const start: string = this.node._attrs.start
@@ -167,9 +146,29 @@ export struct PickerView {
           selected: [left.findIndex(i => parseInt(_selected[0]) === Number(i)), right.findIndex(i => parseInt(_selected[1]) === Number(i))],
         }
       }
+      case 'multiSelector': {
+        const rangeKey: TaroAny = this.node._attrs.rangeKey
+        let showRange: TaroAny = range
+        this.showSelector = value
+        showRange = getMultiSelector(range, rangeKey, value)
+        return {
+          range: showRange,
+          selected: this.select || value
+        }
+      }
+      default: {
+        const rangeKey: TaroAny = this.node._attrs.rangeKey
+        let showRange: TaroAny = range
+        if (rangeKey && typeof range[0] === 'object') {
+          showRange = getSingleSelector(range, rangeKey)
+        }
+        return {
+          range: showRange,
+          selected: this.select || value
+        }
+      }
     }
   }
-
 
   emitEvent = (type: string, detail: TaroAny = {}) => {
     const event: TaroEvent = createTaroEvent(type, { detail }, this.node)
@@ -193,11 +192,11 @@ function showDialog($$: PickerView, mode: string) {
     }) {
       Text($$.node._attrs.textProps?.cancelText || '取消').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
         $$.emitEvent('cancel')
-        $$.controller.close()
+        $$.controller?.close()
       })
       Text($$.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
         $$.emitEvent('change', { value: $$.select})
-        $$.controller.close()
+        $$.controller?.close()
       })
     }
     .width('100%')
@@ -213,8 +212,8 @@ function showDialog($$: PickerView, mode: string) {
         })
         .canLoop(false)
         .textPickerAttrs(getNormalAttributes($$.node))
-        .onChange((value, index: number) => {
-          $$.select = index
+        .onChange((value, index) => {
+          $$.select = index as number
         })
     } else if (mode === 'multiSelector') {
       TextPicker($$.getTextOptions())
@@ -223,23 +222,26 @@ function showDialog($$: PickerView, mode: string) {
         })
         .canLoop(false)
         .textPickerAttrs(getNormalAttributes($$.node))
-        .onChange((value, index: number[]) => {
-          $$.select = index.join(',')
-          // 计算几列发生了变化
-          const originIndexs: number[] = $$.multiColumnIndex || $$.showSelector
-          $$.multiColumnIndex = index
-          let changeValue: number
-          const changeIndex = index.findIndex((item, i) => {
-            const originIndex = originIndexs[i]
-            if (originIndex != item) {
-              changeValue = item
-              return true
+        .onChange((value, index) => {
+          if (index instanceof Array) {
+            $$.select = index.join(',')
+            // 计算几列发生了变化
+            const originIndexs: number[] = $$.multiColumnIndex || $$.showSelector
+            $$.multiColumnIndex = index
+            let changeValue: number | undefined
+            const changeIndex = index.findIndex((item, i) => {
+              const originIndex = originIndexs[i]
+              if (originIndex != item) {
+                changeValue = item
+                return true
+              }
+              return false
+            })
+            if (changeIndex < 0) {
+              return
             }
-          })
-          if (changeIndex < 0) {
-            return
+            $$.emitEvent('columnChange', { column: changeIndex, value: changeValue })
           }
-          $$.emitEvent('columnChange', { column: changeIndex, value: changeValue })
         })
     } else if (mode === 'date') {
       DatePicker($$.getDateOptions())

@@ -29,11 +29,13 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
 
   const background: TaroAny = AttributeManager.getStyleAfterConvert(_st, 'background')
   const _backgroundImage: HarmonyType.Background.backgroundImage = background?.image?.[0]
-  let backgroundImage: ResourceStr
-  let backgroundRepeat: ImageRepeat
+  let backgroundImage: ResourceStr | undefined
+  let backgroundRepeat: ImageRepeat | undefined
   if (_backgroundImage) {
     backgroundImage = _backgroundImage.src
-    backgroundRepeat = _backgroundImage.repeat
+    if (_backgroundImage.repeat) {
+      backgroundRepeat = _backgroundImage.repeat
+    }
   }
   const backgroundSize: HarmonyType.Background.backgroundImageSize = background?.size?.[0]
   const backgroundColor: ResourceColor = backgroundImage ? null : background?.color

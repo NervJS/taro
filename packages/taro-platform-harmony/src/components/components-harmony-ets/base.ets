@@ -1,61 +1,60 @@
 import type { TaroElement } from './utils/element'
 
-class Position {
-  instance: TaroElement
-  top: number
-  left: number
-}
 
 @Component
 export default struct TaroComponentWrapper {
-  node: TaroElement
+  @ObjectLink node: TaroElement
 
   @BuilderParam createElement: () => void
 
-  @Builder createFlexElementWithPosition ($$: Position) {
-    if ($$.instance._st?.position === 'absolute') {
+  get top() {
+    return Number(this.node._st?.top || this.node._st?._top || 0)
+  }
+
+  get left() {
+    return Number(this.node._st?.left || this.node._st?._left || 0)
+  }
+
+  @Builder createFlexElementWithPosition () {
+    if (this.node._st?.position === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
       .position({
-        x: $$.left,
-        y: $$.top,
+        x: this.left,
+        y: this.top
       })
-      .id($$.instance._attrs?.id || $$.instance._nid)
-      .key($$.instance._attrs?.id || $$.instance._nid)
-      .zIndex(Number($$.instance._st?.zIndex) || null)
-    } else if ($$.instance._st?.position === 'fixed') {
+      .id(this.node._attrs?.id || this.node._nid)
+      .key(this.node._attrs?.id || this.node._nid)
+      .zIndex(Number(this.node._st?.zIndex) || null)
+    } else if (this.node._st?.position === 'fixed') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
       .position({
-        x: $$.left,
-        y: $$.top
+        x: this.left,
+        y: this.top
       })
-      .id($$.instance._attrs?.id || $$.instance._nid)
-      .key($$.instance._attrs?.id || $$.instance._nid)
-      .zIndex(Number($$.instance._st?.zIndex) || null)
-    } else if (($$.instance._st?.position === 'relative')) {
+      .id(this.node._attrs?.id || this.node._nid)
+      .key(this.node._attrs?.id || this.node._nid)
+      .zIndex(Number(this.node._st?.zIndex) || null)
+    } else if ((this.node._st?.position === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
       .offset({
-        x: $$.left,
-        y: $$.top
+        x: this.left,
+        y: this.top
       })
-      .id($$.instance._attrs?.id || $$.instance._nid)
-      .key($$.instance._attrs?.id || $$.instance._nid)
-      .zIndex(Number($$.instance._st?.zIndex) || null)
+      .id(this.node._attrs?.id || this.node._nid)
+      .key(this.node._attrs?.id || this.node._nid)
+      .zIndex(Number(this.node._st?.zIndex) || null)
     } else {
       this.createElement()
     }
   }
 
   build () {
-    this.createFlexElementWithPosition({
-      instance: this.node,
-      top: Number(this.node._st?.top || this.node._st?._top || 0),
-      left: Number(this.node._st?.left || this.node._st?._left || 0),
-    })
+    this.createFlexElementWithPosition()
   }
 }

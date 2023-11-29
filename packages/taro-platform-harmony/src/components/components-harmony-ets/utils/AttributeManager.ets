@@ -30,9 +30,9 @@ interface IScale {
 }
 
 interface ITransform {
-  rotate?: IRotate
-  translate?: ITranslate
-  scale?: IScale
+  rotate: IRotate
+  translate: ITranslate
+  scale: IScale
   transform?: matrix4.Matrix4Transit
 }
 

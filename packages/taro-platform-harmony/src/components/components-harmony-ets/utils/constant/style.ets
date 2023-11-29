@@ -42,6 +42,7 @@ export class INPUT_TYPE_MAP {
       case 'idcard': return InputType.Number;
       case 'safe-password': return InputType.Password;
     }
+    return InputType.Normal
   }
 }
 
@@ -60,6 +61,7 @@ export class INPUT_CONFIRM_MAP {
       case 'next': return EnterKeyType.Next
       case 'search': return EnterKeyType.Search
     }
+    return EnterKeyType.Done
   }
 }
 

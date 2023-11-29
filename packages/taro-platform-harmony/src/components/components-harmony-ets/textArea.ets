@@ -65,7 +65,7 @@ struct TaroTextArea {
 
   controller: TextAreaController = new TextAreaController()
 
-  windowClass: window.Window = null
+  windowClass?: window.Window
 
   _height: number = 0
 
@@ -94,7 +94,7 @@ struct TaroTextArea {
     try {
       Current.contextPromise
         .then((context: common.BaseContext) => {
-          return window.getLastWindow(context, (err, windowClass) => {
+          return window.getLastWindow(context, (err, windowClass: window.Window) => {
             const errCode: number = err.code;
             if (errCode) {
               console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
