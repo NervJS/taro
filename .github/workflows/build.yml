@@ -1,3 +1,5 @@
+# 此文件只支持 release-3.6.8-app， 请不要将此文件合入到社区！！
+# 因为使用 node14 会导致线上CI build报错，不支持 node14，所以线上CI使用 node16
 name: codecheck
 
 on:

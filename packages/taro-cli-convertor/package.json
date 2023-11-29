@@ -57,8 +57,7 @@
     ],
     "coveragePathIgnorePatterns": [
       "/__tests__/*"
-    ],
-    "testTimeout": 60000
+    ]
   },
   "author": "O2Team",
   "license": "MIT",

@@ -103,25 +103,25 @@ describe('actionSheet', () => {
       complete
     })
       .then(res => {
-        const expectObj = { errMsg: 'showActionSheet:ok', tapIndex: 1 }
+        const expectObj = { errMsg: 'showActionSheet:ok', tapIndex: 0 }
         expect(success).toHaveBeenCalledWith(expectObj)
         expect(fail.mock.calls.length).toBe(0)
         expect(complete).toHaveBeenCalledWith(expectObj)
         expect(res).toEqual(expectObj)
         done()
       })
-
+    
     const actionSheet: any = document.body.lastChild
     expect(actionSheet.childNodes.length).toBe(2)
-
+  
     const mask = actionSheet.firstChild
     const list = actionSheet.lastChild.firstChild
-
-    expect(list.childNodes.length).toBe(3)
-    expect(list.childNodes[0]).toHaveTextContent(itemA)
-    expect(list.childNodes[1]).toHaveTextContent(itemB)
-    expect(list.childNodes[2]).toHaveTextContent(itemC)
-
+  
+    expect(list.childNodes.length).toBe(4)
+    expect(list.childNodes[1]).toHaveTextContent(itemA)
+    expect(list.childNodes[2]).toHaveTextContent(itemB)
+    expect(list.childNodes[3]).toHaveTextContent(itemC)
+  
     setTimeout(() => {
       expect(actionSheet).toBeVisible()
       expect(mask).toBeVisible()
@@ -197,14 +197,13 @@ describe('actionSheet', () => {
     Taro.showActionSheet({
       itemList: [itemA, itemB, itemC]
     })
-
     const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
-    expect(list.childNodes.length).toBe(3)
-    expect(list.childNodes[0]).toHaveTextContent(itemA)
-    expect(list.childNodes[1]).toHaveTextContent(itemB)
-    expect(list.childNodes[2]).toHaveTextContent(itemC)
+    expect(list.childNodes.length).toBe(4)
+    expect(list.childNodes[1]).toHaveTextContent(itemA)
+    expect(list.childNodes[2]).toHaveTextContent(itemB)
+    expect(list.childNodes[3]).toHaveTextContent(itemC)
   })
 
   test('should update list item when itemList get longer', () => {
@@ -216,16 +215,15 @@ describe('actionSheet', () => {
     Taro.showActionSheet({
       itemList: [itemA, itemB, itemC, itemD, itemE]
     })
-
     const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
-    expect(list.childNodes.length).toBe(5)
-    expect(list.childNodes[0]).toHaveTextContent(itemA)
-    expect(list.childNodes[1]).toHaveTextContent(itemB)
-    expect(list.childNodes[2]).toHaveTextContent(itemC)
-    expect(list.childNodes[3]).toHaveTextContent(itemD)
-    expect(list.childNodes[4]).toHaveTextContent(itemE)
+    expect(list.childNodes.length).toBe(6)
+    expect(list.childNodes[1]).toHaveTextContent(itemA)
+    expect(list.childNodes[2]).toHaveTextContent(itemB)
+    expect(list.childNodes[3]).toHaveTextContent(itemC)
+    expect(list.childNodes[4]).toHaveTextContent(itemD)
+    expect(list.childNodes[5]).toHaveTextContent(itemE)
   })
 
   test('should update list item when only itemList get shorter', () => {
@@ -234,12 +232,11 @@ describe('actionSheet', () => {
     Taro.showActionSheet({
       itemList: [itemA, itemB]
     })
-
     const actionSheet: any = document.body.lastChild
     const list = actionSheet.lastChild.firstChild
 
-    expect(list.childNodes.length).toBe(2)
-    expect(list.childNodes[0]).toHaveTextContent(itemA)
-    expect(list.childNodes[1]).toHaveTextContent(itemB)
+    expect(list.childNodes.length).toBe(3)
+    expect(list.childNodes[1]).toHaveTextContent(itemA)
+    expect(list.childNodes[2]).toHaveTextContent(itemB)
   })
 })
