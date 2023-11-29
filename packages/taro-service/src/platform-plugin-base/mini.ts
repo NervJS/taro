@@ -1,5 +1,6 @@
 import { recursiveMerge } from '@tarojs/helper'
 import { isObject, PLATFORM_TYPE } from '@tarojs/shared'
+import * as path from 'path'
 
 import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
@@ -23,6 +24,8 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
   abstract template: RecursiveTemplate | UnRecursiveTemplate
   projectConfigJson?: string
   taroComponentsPath?: string
+
+  private projectConfigJsonOutputPath: string
 
   /**
    * 1. 清空 dist 文件夹
@@ -52,6 +55,18 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
     if (this.ctx.initialConfig.logger?.quiet === false) {
       const { printLog, processTypeEnum } = this.ctx.helper
       printLog(processTypeEnum.START, '开发者工具-项目目录', `${this.ctx.paths.outputPath}`)
+    }
+    // Webpack5 代码自动热重载
+    if (this.compiler === 'webpack5' && this.config.isWatch && this.projectConfigJsonOutputPath) {
+      try {
+        const projectConfig = require(this.projectConfigJsonOutputPath)
+        if (projectConfig.setting?.compileHotReLoad === true) {
+          this.ctx.modifyWebpackChain(({ chain }) => {
+            chain.plugin('TaroMiniHMRPlugin')
+              .use(require(path.join(__dirname, './webpack/hmr-plugin.js')).default)
+          })
+        }
+      } catch (_) {}
     }
   }
 
@@ -165,6 +180,7 @@ ${exampleCommand}`))
       srcConfigName: src,
       distConfigName: dist
     })
+    this.projectConfigJsonOutputPath = `${this.ctx.paths.outputPath}/${dist}`
   }
 
   /**
