@@ -126,6 +126,8 @@ export default class Harmony extends TaroPlatformHarmony {
     if (this.excludeLibraries.some(e => typeof e === 'string' ? e === lib : e.test(lib))) return
 
     if (sync) {
+      const { outputRoot } = this.ctx.runOpts.config
+      const targetPath = path.join(outputRoot, NODE_MODULES)
       // FIXME 不支持 alias 配置
       const libName = lib
       lib = resolveSync(lib, {
@@ -139,44 +141,70 @@ export default class Harmony extends TaroPlatformHarmony {
         return this.removeFromLibraries(libName)
       }
       let ext = path.extname(lib)
+      const libDir = lib.replace(/.*[\\/]node_modules[\\/]/, '')
       const basename = path.basename(lib, ext)
       if (['.cjs', '.mjs'].includes(ext)) {
         ext = '.js'
       } else if (ext === '.mts') {
         ext = '.ts'
       }
-      if (basename === 'index' || basename === 'index.d') {
-        lib = path.dirname(lib)
-        if (ext === '.js') {
-          const typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
-          const typePath = resolveSync(typeName, {
+
+      if (ext === '.js') {
+        let typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
+        let typePath = resolveSync(typeName, {
+          basedir,
+          extensions: this.extensions,
+          mainFields: [...defaultMainFields],
+        })
+        if (!typePath) {
+          typeName = path.join(path.dirname(lib), `${basename}.d.ts`)
+          typePath = resolveSync(typeName, {
             basedir,
             extensions: this.extensions,
             mainFields: [...defaultMainFields],
           })
-          if (typePath) {
-            this.moveLibraries(typePath, path.join(target, 'index.d.ts'), basedir)
-          }
         }
-      } else if (basename === path.basename(target, ext)) {
-        target = path.join(path.dirname(target), `${basename}${ext}`)
-        if (ext === '.js') {
-          const typeName = path.join(path.dirname(lib), `${basename}.d.ts`)
-          const typePath = resolveSync(typeName, {
-            basedir,
-            extensions: this.extensions,
-            mainFields: [...defaultMainFields],
-          })
-          if (typePath) {
-            this.moveLibraries(
-              typePath,
-              path.join(path.dirname(target), `${basename}.d.ts`),
-              basedir
-            )
-          }
+        if (typePath) {
+          this.moveLibraries(
+            typePath,
+            path.extname(target)
+              ? path.join(path.dirname(target), `${basename}.d.ts`)
+              : path.join(target, `index.d.ts`),
+            basedir
+          )
         }
-      } else {
-        target = path.join(target, `index${ext}`)
+      }
+
+      if (ext) {
+        const code = fs.readFileSync(lib, { encoding: 'utf8' })
+        if (
+          (/(?:import\s|from\s|require\()['"]([\\/.][^'"\s]+)['"]\)?/g.test(code)
+          || /\/{3}\s<reference\spath=['"][^'"\s]+['"]\s\/>/g.test(code))
+          && `${libName}${path.extname(libDir)}` !== libDir
+        ) {
+          const pkgPath = path.relative(libName, libDir)
+          if (new RegExp(`^index(${this.extensions.map(e => e.replace('.', '\\.')).join('|')})$`).test(pkgPath)) {
+            // Note: 入口为 index 场景
+            lib = path.dirname(lib)
+          } else if (!/[\\/]/.test(pkgPath)) {
+            // FIXME: 非 index 入口文件场景，可能存在入口文件引用 index 但该文件被覆盖的情况，需要额外处理
+            const isDTS = /\.d\.ts$/.test(target)
+            target = path.join(target, `index${isDTS ? '.d.ts' : ext}`)
+          } else {
+            // FIXME 多级目录，可能存在入口不为 index 或者引用一级目录文件的情况，需要额外处理
+            const dir = path.dirname(pkgPath)
+            target = path.join(target, dir)
+            lib = path.dirname(lib)
+          }
+        } else if (path.isAbsolute(libDir)) {
+          // Note: 本地 link 的依赖
+          const isDTS = /\.d\.ts$/.test(target)
+          target = path.extname(target)
+            ? path.join(path.dirname(target), `${basename}${ext}`)
+            : path.join(target, `index${isDTS ? '.d.ts' : ext}`)
+        } else if (libDir !== path.relative(targetPath, target)) {
+          target = path.join(targetPath, libDir)
+        }
       }
     }
 
@@ -184,7 +212,9 @@ export default class Harmony extends TaroPlatformHarmony {
     if (stat.isDirectory()) {
       const files = fs.readdirSync(lib)
       files.forEach((file) => {
-        this.moveLibraries(path.join(lib, file), path.join(target, file))
+        if (![NODE_MODULES].includes(file)) {
+          this.moveLibraries(path.join(lib, file), path.join(target, file))
+        }
       })
     } else if (stat.isFile()) {
       let code = fs.readFileSync(lib, { encoding: 'utf8' })
@@ -243,10 +273,13 @@ declare global {
   const definePageConfig: (config: Taro.Config) => Taro.Config
 }`
       }
-      fs.ensureDirSync(path.dirname(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')))
       try {
-        fs.writeFileSync(target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'), code)
-      } catch (e) { }
+        const targetPath = target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')
+        fs.ensureDirSync(path.dirname(targetPath))
+        fs.writeFileSync(targetPath, code)
+      } catch (e) {
+        console.error(`[taro-arkts] inject ${lib} to ${target} failed`, e)
+      }
     } else if (stat.isSymbolicLink()) {
       const realPath = fs.realpathSync(lib, { encoding: 'utf8' })
       this.moveLibraries(realPath, target, basedir)
