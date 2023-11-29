@@ -4,48 +4,6 @@ exports[`sass should build app with sass 1`] = `4`;
 
 exports[`sass should build app with sass 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "18": function(module, exports, __webpack_require__) {},
-    "19": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return index_Index;
-        }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
-        var react = __webpack_require__(0);
-        var taro_components = "taro-components-mock";
-        var index = __webpack_require__(18);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                "key": "render",
-                "value": function render() {
-                    return react["default"].createElement(undefined, {
-                        "className": "index"
-                    }, react["default"].createElement(undefined, null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-    }
-} ]);
-
-/** filePath: dist/css/1.css **/
-.index{color:red}
-
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
-
 /** filePath: dist/js/app.js **/
 (function(modules) {
     function webpackJsonpCallback(data) {
@@ -119,7 +77,7 @@ exports[`sass should build app with sass 2`] = `
                 linkTag.onload = resolve;
                 linkTag.onerror = function(event) {
                     var request = event && event.target && event.target.src || fullhref;
-                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed./n(" + request + ")");
                     err.code = "CSS_CHUNK_LOAD_FAILED";
                     err.request = request;
                     delete installedCssChunks[chunkId];
@@ -159,7 +117,7 @@ exports[`sass should build app with sass 2`] = `
                         if (chunk) {
                             var errorType = event && (event.type === "load" ? "missing" : event.type);
                             var realSrc = event && event.target && event.target.src;
-                            error.message = "Loading chunk " + chunkId + " failed.\\n(" + errorType + ": " + realSrc + ")";
+                            error.message = "Loading chunk " + chunkId + " failed./n(" + errorType + ": " + realSrc + ")";
                             error.name = "ChunkLoadError";
                             error.type = errorType;
                             error.request = realSrc;
@@ -706,11 +664,12 @@ exports[`sass should build app with sass 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "MPHARMONY": "MPHARMONY"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -812,7 +771,7 @@ exports[`sass should build app with sass 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        console.log("http ".concat(method || "GET", " --/x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
             console.log("http <-- ".concat(url, " result:"), res);
@@ -857,8 +816,8 @@ exports[`sass should build app with sass 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -866,11 +825,9 @@ exports[`sass should build app with sass 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
+            switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -880,10 +837,10 @@ exports[`sass should build app with sass 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
             }
-            return val + targetUnit;
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -905,6 +862,48 @@ exports[`sass should build app with sass 2`] = `
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 } ]);
+
+/** filePath: dist/css/1.css **/
+.index{color:red}
+
+/** filePath: dist/chunk/1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "18": function(module, exports, __webpack_require__) {},
+    "19": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return index_Index;
+        }));
+        var classCallCheck = __webpack_require__(8);
+        var createClass = __webpack_require__(10);
+        var inherits = __webpack_require__(11);
+        var createSuper = __webpack_require__(9);
+        var react = __webpack_require__(0);
+        var taro_components = "taro-components-mock";
+        var index = __webpack_require__(18);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+    }
+} ]);
+
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;
 
@@ -912,62 +911,11 @@ exports[`sass should build app with scss 1`] = `5`;
 
 exports[`sass should build app with scss 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "19": function(module, exports, __webpack_require__) {},
-    "20": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return index_Index;
-        }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
-        var react = __webpack_require__(0);
-        var taro_components = "taro-components-mock";
-        var index = __webpack_require__(19);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                "key": "componentDidMount",
-                "value": function componentDidMount() {}
-            }, {
-                "key": "componentWillUnmount",
-                "value": function componentWillUnmount() {}
-            }, {
-                "key": "componentDidShow",
-                "value": function componentDidShow() {}
-            }, {
-                "key": "componentDidHide",
-                "value": function componentDidHide() {}
-            }, {
-                "key": "render",
-                "value": function render() {
-                    return react["default"].createElement(undefined, {
-                        "className": "index"
-                    }, react["default"].createElement(undefined, null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-    }
-} ]);
-
-/** filePath: dist/css/1.css **/
-.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
-
 /** filePath: dist/css/app.css **/
 
 
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
+/** filePath: dist/css/1.css **/
+.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -1042,7 +990,7 @@ exports[`sass should build app with scss 2`] = `
                 linkTag.onload = resolve;
                 linkTag.onerror = function(event) {
                     var request = event && event.target && event.target.src || fullhref;
-                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed./n(" + request + ")");
                     err.code = "CSS_CHUNK_LOAD_FAILED";
                     err.request = request;
                     delete installedCssChunks[chunkId];
@@ -1082,7 +1030,7 @@ exports[`sass should build app with scss 2`] = `
                         if (chunk) {
                             var errorType = event && (event.type === "load" ? "missing" : event.type);
                             var realSrc = event && event.target && event.target.src;
-                            error.message = "Loading chunk " + chunkId + " failed.\\n(" + errorType + ": " + realSrc + ")";
+                            error.message = "Loading chunk " + chunkId + " failed./n(" + errorType + ": " + realSrc + ")";
                             error.name = "ChunkLoadError";
                             error.type = errorType;
                             error.request = realSrc;
@@ -1639,11 +1587,12 @@ exports[`sass should build app with scss 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "MPHARMONY": "MPHARMONY"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -1745,7 +1694,7 @@ exports[`sass should build app with scss 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        console.log("http ".concat(method || "GET", " --/x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
             console.log("http <-- ".concat(url, " result:"), res);
@@ -1790,8 +1739,8 @@ exports[`sass should build app with scss 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -1799,11 +1748,9 @@ exports[`sass should build app with scss 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
+            switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -1813,10 +1760,10 @@ exports[`sass should build app with scss 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
             }
-            return val + targetUnit;
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -1838,6 +1785,57 @@ exports[`sass should build app with scss 2`] = `
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 } ]);
+
+/** filePath: dist/chunk/1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "19": function(module, exports, __webpack_require__) {},
+    "20": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return index_Index;
+        }));
+        var classCallCheck = __webpack_require__(8);
+        var createClass = __webpack_require__(10);
+        var inherits = __webpack_require__(11);
+        var createSuper = __webpack_require__(9);
+        var react = __webpack_require__(0);
+        var taro_components = "taro-components-mock";
+        var index = __webpack_require__(19);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {}
+            }, {
+                "key": "componentWillUnmount",
+                "value": function componentWillUnmount() {}
+            }, {
+                "key": "componentDidShow",
+                "value": function componentDidShow() {}
+            }, {
+                "key": "componentDidHide",
+                "value": function componentDidHide() {}
+            }, {
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+    }
+} ]);
+
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;
 
@@ -1845,62 +1843,11 @@ exports[`sass should set global sass content with data 1`] = `5`;
 
 exports[`sass should set global sass content with data 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "19": function(module, exports, __webpack_require__) {},
-    "20": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return index_Index;
-        }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
-        var react = __webpack_require__(0);
-        var taro_components = "taro-components-mock";
-        var index = __webpack_require__(19);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                "key": "componentDidMount",
-                "value": function componentDidMount() {}
-            }, {
-                "key": "componentWillUnmount",
-                "value": function componentWillUnmount() {}
-            }, {
-                "key": "componentDidShow",
-                "value": function componentDidShow() {}
-            }, {
-                "key": "componentDidHide",
-                "value": function componentDidHide() {}
-            }, {
-                "key": "render",
-                "value": function render() {
-                    return react["default"].createElement(undefined, {
-                        "className": "index"
-                    }, react["default"].createElement(undefined, null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-    }
-} ]);
-
-/** filePath: dist/css/1.css **/
-.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
-
 /** filePath: dist/css/app.css **/
 .body{background-color:red}
 
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
+/** filePath: dist/css/1.css **/
+.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -1975,7 +1922,7 @@ exports[`sass should set global sass content with data 2`] = `
                 linkTag.onload = resolve;
                 linkTag.onerror = function(event) {
                     var request = event && event.target && event.target.src || fullhref;
-                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed./n(" + request + ")");
                     err.code = "CSS_CHUNK_LOAD_FAILED";
                     err.request = request;
                     delete installedCssChunks[chunkId];
@@ -2015,7 +1962,7 @@ exports[`sass should set global sass content with data 2`] = `
                         if (chunk) {
                             var errorType = event && (event.type === "load" ? "missing" : event.type);
                             var realSrc = event && event.target && event.target.src;
-                            error.message = "Loading chunk " + chunkId + " failed.\\n(" + errorType + ": " + realSrc + ")";
+                            error.message = "Loading chunk " + chunkId + " failed./n(" + errorType + ": " + realSrc + ")";
                             error.name = "ChunkLoadError";
                             error.type = errorType;
                             error.request = realSrc;
@@ -2572,11 +2519,12 @@ exports[`sass should set global sass content with data 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "MPHARMONY": "MPHARMONY"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -2678,7 +2626,7 @@ exports[`sass should set global sass content with data 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        console.log("http ".concat(method || "GET", " --/x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
             console.log("http <-- ".concat(url, " result:"), res);
@@ -2723,8 +2671,8 @@ exports[`sass should set global sass content with data 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -2732,11 +2680,9 @@ exports[`sass should set global sass content with data 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
+            switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -2746,10 +2692,10 @@ exports[`sass should set global sass content with data 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
             }
-            return val + targetUnit;
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -2771,6 +2717,57 @@ exports[`sass should set global sass content with data 2`] = `
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 } ]);
+
+/** filePath: dist/chunk/1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "19": function(module, exports, __webpack_require__) {},
+    "20": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return index_Index;
+        }));
+        var classCallCheck = __webpack_require__(8);
+        var createClass = __webpack_require__(10);
+        var inherits = __webpack_require__(11);
+        var createSuper = __webpack_require__(9);
+        var react = __webpack_require__(0);
+        var taro_components = "taro-components-mock";
+        var index = __webpack_require__(19);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {}
+            }, {
+                "key": "componentWillUnmount",
+                "value": function componentWillUnmount() {}
+            }, {
+                "key": "componentDidShow",
+                "value": function componentDidShow() {}
+            }, {
+                "key": "componentDidHide",
+                "value": function componentDidHide() {}
+            }, {
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+    }
+} ]);
+
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;
 
@@ -2778,62 +2775,11 @@ exports[`sass should set global sass content with source & dir 1`] = `5`;
 
 exports[`sass should set global sass content with source & dir 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "19": function(module, exports, __webpack_require__) {},
-    "20": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return index_Index;
-        }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
-        var react = __webpack_require__(0);
-        var taro_components = "taro-components-mock";
-        var index = __webpack_require__(19);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                "key": "componentDidMount",
-                "value": function componentDidMount() {}
-            }, {
-                "key": "componentWillUnmount",
-                "value": function componentWillUnmount() {}
-            }, {
-                "key": "componentDidShow",
-                "value": function componentDidShow() {}
-            }, {
-                "key": "componentDidHide",
-                "value": function componentDidHide() {}
-            }, {
-                "key": "render",
-                "value": function render() {
-                    return react["default"].createElement(undefined, {
-                        "className": "index"
-                    }, react["default"].createElement(undefined, null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-    }
-} ]);
-
-/** filePath: dist/css/1.css **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
-
 /** filePath: dist/css/app.css **/
 .body{background-color:#00f}
 
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
+/** filePath: dist/css/1.css **/
+.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -2908,7 +2854,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 linkTag.onload = resolve;
                 linkTag.onerror = function(event) {
                     var request = event && event.target && event.target.src || fullhref;
-                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed./n(" + request + ")");
                     err.code = "CSS_CHUNK_LOAD_FAILED";
                     err.request = request;
                     delete installedCssChunks[chunkId];
@@ -2948,7 +2894,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                         if (chunk) {
                             var errorType = event && (event.type === "load" ? "missing" : event.type);
                             var realSrc = event && event.target && event.target.src;
-                            error.message = "Loading chunk " + chunkId + " failed.\\n(" + errorType + ": " + realSrc + ")";
+                            error.message = "Loading chunk " + chunkId + " failed./n(" + errorType + ": " + realSrc + ")";
                             error.name = "ChunkLoadError";
                             error.type = errorType;
                             error.request = realSrc;
@@ -3505,11 +3451,12 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "MPHARMONY": "MPHARMONY"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -3611,7 +3558,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        console.log("http ".concat(method || "GET", " --/x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
             console.log("http <-- ".concat(url, " result:"), res);
@@ -3656,8 +3603,8 @@ exports[`sass should set global sass content with source & dir 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -3665,11 +3612,9 @@ exports[`sass should set global sass content with source & dir 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
+            switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -3679,10 +3624,10 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
             }
-            return val + targetUnit;
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -3704,6 +3649,57 @@ exports[`sass should set global sass content with source & dir 2`] = `
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 } ]);
+
+/** filePath: dist/chunk/1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "19": function(module, exports, __webpack_require__) {},
+    "20": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return index_Index;
+        }));
+        var classCallCheck = __webpack_require__(8);
+        var createClass = __webpack_require__(10);
+        var inherits = __webpack_require__(11);
+        var createSuper = __webpack_require__(9);
+        var react = __webpack_require__(0);
+        var taro_components = "taro-components-mock";
+        var index = __webpack_require__(19);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {}
+            }, {
+                "key": "componentWillUnmount",
+                "value": function componentWillUnmount() {}
+            }, {
+                "key": "componentDidShow",
+                "value": function componentDidShow() {}
+            }, {
+                "key": "componentDidHide",
+                "value": function componentDidHide() {}
+            }, {
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+    }
+} ]);
+
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;
 
@@ -3711,62 +3707,11 @@ exports[`sass should set global sass content with source 1`] = `5`;
 
 exports[`sass should set global sass content with source 2`] = `
 "
-/** filePath: dist/chunk/1.js **/
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "19": function(module, exports, __webpack_require__) {},
-    "20": function(module, __webpack_exports__, __webpack_require__) {
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.d(__webpack_exports__, "default", (function() {
-            return index_Index;
-        }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
-        var react = __webpack_require__(0);
-        var taro_components = "taro-components-mock";
-        var index = __webpack_require__(19);
-        var index_Index = function(_Component) {
-            Object(inherits["a"])(Index, _Component);
-            var _super = Object(createSuper["a"])(Index);
-            function Index() {
-                Object(classCallCheck["a"])(this, Index);
-                return _super.apply(this, arguments);
-            }
-            Object(createClass["a"])(Index, [ {
-                "key": "componentDidMount",
-                "value": function componentDidMount() {}
-            }, {
-                "key": "componentWillUnmount",
-                "value": function componentWillUnmount() {}
-            }, {
-                "key": "componentDidShow",
-                "value": function componentDidShow() {}
-            }, {
-                "key": "componentDidHide",
-                "value": function componentDidHide() {}
-            }, {
-                "key": "render",
-                "value": function render() {
-                    return react["default"].createElement(undefined, {
-                        "className": "index"
-                    }, react["default"].createElement(undefined, null, "Hello world!"));
-                }
-            } ]);
-            return Index;
-        }(react["Component"]);
-    }
-} ]);
-
-/** filePath: dist/css/1.css **/
-.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
-
 /** filePath: dist/css/app.css **/
 .body{background-color:#00f}
 
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
+/** filePath: dist/css/1.css **/
+.body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:.5rem}
 
 /** filePath: dist/js/app.js **/
 (function(modules) {
@@ -3841,7 +3786,7 @@ exports[`sass should set global sass content with source 2`] = `
                 linkTag.onload = resolve;
                 linkTag.onerror = function(event) {
                     var request = event && event.target && event.target.src || fullhref;
-                    var err = new Error("Loading CSS chunk " + chunkId + " failed.\\n(" + request + ")");
+                    var err = new Error("Loading CSS chunk " + chunkId + " failed./n(" + request + ")");
                     err.code = "CSS_CHUNK_LOAD_FAILED";
                     err.request = request;
                     delete installedCssChunks[chunkId];
@@ -3881,7 +3826,7 @@ exports[`sass should set global sass content with source 2`] = `
                         if (chunk) {
                             var errorType = event && (event.type === "load" ? "missing" : event.type);
                             var realSrc = event && event.target && event.target.src;
-                            error.message = "Loading chunk " + chunkId + " failed.\\n(" + errorType + ": " + realSrc + ")";
+                            error.message = "Loading chunk " + chunkId + " failed./n(" + errorType + ": " + realSrc + ")";
                             error.name = "ChunkLoadError";
                             error.type = errorType;
                             error.request = realSrc;
@@ -4438,11 +4383,12 @@ exports[`sass should set global sass content with source 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "MPHARMONY": "MPHARMONY"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -4544,7 +4490,7 @@ exports[`sass should set global sass content with source 2`] = `
     function logInterceptor(chain) {
         var requestParams = chain.requestParams;
         var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        console.log("http ".concat(method || "GET", " --/x3e ").concat(url, " data: "), data);
         var p = chain.proceed(requestParams);
         var res = p.then((function(res) {
             console.log("http <-- ".concat(url, " result:"), res);
@@ -4589,8 +4535,8 @@ exports[`sass should set global sass content with source 2`] = `
     function getPxTransform(taro) {
         return function(size) {
             var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var baseFontSize = config.baseFontSize;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
                 return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
@@ -4598,11 +4544,9 @@ exports[`sass should set global sass content with source 2`] = `
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
             }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
             var formatSize = ~~size;
             var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
+            switch (config.targetUnit) {
               case "rem":
                 rootValue *= baseFontSize * 2;
                 break;
@@ -4612,10 +4556,10 @@ exports[`sass should set global sass content with source 2`] = `
                 break;
             }
             var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
+            if (config.unitPrecision >= 0 && config.unitPrecision <= 100) {
+                val = Number(val.toFixed(config.unitPrecision));
             }
-            return val + targetUnit;
+            return val + config.targetUnit;
         };
     }
     var Taro = {
@@ -4637,5 +4581,56 @@ exports[`sass should set global sass content with source 2`] = `
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
 } ]);
+
+/** filePath: dist/chunk/1.js **/
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
+    "19": function(module, exports, __webpack_require__) {},
+    "20": function(module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, "default", (function() {
+            return index_Index;
+        }));
+        var classCallCheck = __webpack_require__(8);
+        var createClass = __webpack_require__(10);
+        var inherits = __webpack_require__(11);
+        var createSuper = __webpack_require__(9);
+        var react = __webpack_require__(0);
+        var taro_components = "taro-components-mock";
+        var index = __webpack_require__(19);
+        var index_Index = function(_Component) {
+            Object(inherits["a"])(Index, _Component);
+            var _super = Object(createSuper["a"])(Index);
+            function Index() {
+                Object(classCallCheck["a"])(this, Index);
+                return _super.apply(this, arguments);
+            }
+            Object(createClass["a"])(Index, [ {
+                "key": "componentDidMount",
+                "value": function componentDidMount() {}
+            }, {
+                "key": "componentWillUnmount",
+                "value": function componentWillUnmount() {}
+            }, {
+                "key": "componentDidShow",
+                "value": function componentDidShow() {}
+            }, {
+                "key": "componentDidHide",
+                "value": function componentDidHide() {}
+            }, {
+                "key": "render",
+                "value": function render() {
+                    return react["default"].createElement(undefined, {
+                        "className": "index"
+                    }, react["default"].createElement(undefined, null, "Hello world!"));
+                }
+            } ]);
+            return Index;
+        }(react["Component"]);
+    }
+} ]);
+
+/** filePath: dist/index.html **/
+<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div><script src="/js/app.js"></script></body></html>
 "
 `;
