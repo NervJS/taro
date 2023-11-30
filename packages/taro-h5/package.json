@@ -24,8 +24,8 @@
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "node_modules/jest/bin/jest.js",
-    "test:ci": "jest --ci -i --coverage false",
     "test:dev": "jest --watch",
+    "test:ci": "jest --ci -i --coverage false",
     "test:coverage": "jest --coverage"
   },
   "repository": {

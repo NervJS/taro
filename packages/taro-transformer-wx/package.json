@@ -15,11 +15,11 @@
   ],
   "scripts": {
     "test:cov": "jest --coverage",
-    "test": "jest packages/taro-transformer-wx/__tests__/base.spec.ts",
-    "testAll": "jest",
+    "test": "jest",
     "dev": "tsc -w --pretty",
     "lint": "tslint",
-    "build": "tsc"
+    "build": "tsc",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
   },
   "author": "O2Team",
   "license": "MIT",

@@ -13,7 +13,8 @@
     "test": "jest",
     "test:clear": "jest --clearCache",
     "test:cov": "jest --coverage",
-    "test:updateSnapshot": "jest --updateSnapshot"
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
   },
   "files": [
     "bin",
@@ -35,6 +36,7 @@
   },
   "jest": {
     "testEnvironment": "node",
+    "testEnvironmentOptions": {},
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
@@ -78,6 +80,8 @@
     "@babel/parser": "^7.14.5",
     "@tarojs/taro": "workspace:*",
     "jest": "^29.7.0",
-    "ts-jest": "^29.0.5"
+    "ts-jest": "^29.0.5",
+    "jest-cli": "^29.3.1",
+    "jest-environment-node": "^29.5.0"
   }
 }

@@ -1,0 +1,58 @@
+# 此文件只支持 release-3.6.8-app， 请不要将此文件合入到社区！！
+# 因为使用 node14 会导致线上CI build报错，不支持 node14，所以线上CI使用 node16
+name: codecheck
+
+on:
+  push:
+    branches:
+      - release-3.6.8-app
+  pull_request:
+    branches:
+      - release-3.6.8-app
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with :
+          ref : ${{ github.ref || github.head_ref || github.ref_name }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Bootstrap project
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: install
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
+      - name: lint
+        run: pnpm lint
+      - name: build
+        run: pnpm build
+      - name: test
+        run: pnpm test
+        env:
+          CI: true

@@ -1,5 +1,3 @@
-'use strict'
-
 import { normalizePath } from '@tarojs/helper'
 
 import Convertor from '../src/index'
@@ -12,6 +10,9 @@ import {
   PLUGIN_FILE_DATA,
   root,
 } from './data/fileData'
+import { removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 const path = require('path')
 

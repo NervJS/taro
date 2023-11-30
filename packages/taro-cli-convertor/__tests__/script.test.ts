@@ -5,7 +5,9 @@ import Convertor from '../src/index'
 import { copyFileToTaro } from '../src/util'
 import { clearMockFiles, getResMapFile, updateMockFiles } from './__mocks__/fs-extra.js'
 import { root } from './data/fileData'
-import { generateMinimalEscapeCode } from './util'
+import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 const path = require('path')
 
