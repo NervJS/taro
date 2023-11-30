@@ -155,39 +155,58 @@ export class Map implements ComponentInterface {
         this.map.removeControl(this.map.getMapType())
         // 创建中心点坐标对象
         // 中心经纬度为必填值
-        if (this.latitude < -90 || this.latitude > 90 || this.longitude < -180 || this.longitude > 180 || !this.longitude || !this.latitude) {
+        if (this.latitude < -90 || this.latitude > 90 || this.longitude < -180 || this.longitude > 180 || isNaN(this.latitude) || isNaN(this.longitude)) {
           console.error('请正确设置中心经纬度')
           return
         }
-        const minScale = this.minScale ? this.minScale : 3
-        const maxScale = this.maxScale ? this.maxScale : 20
+        let scale = isNaN(this.scale) ? 16 : this.scale
+        let minScale = isNaN(this.minScale) ? 3 : this.minScale
+        let maxScale = isNaN(this.maxScale) ? 16: this.maxScale
         const point = new BMapGL.Point(this.longitude, this.latitude)
-        if (this.minScale < 3 || this.minScale > 20) {
+
+        if (minScale < 3 || minScale > 20) {
+          minScale = 3
           this.map.setMinZoom(3)
         } else {
           // 设置最小缩放级别
-          this.map.setMinZoom(minScale) 
+          this.map.setMinZoom(minScale)
         }
-        if (this.maxScale > 20 || this.maxScale < 3) {
+
+        if (maxScale > 20 || maxScale < 3) {
+          maxScale = 20
           this.map.setMaxZoom(20)
         } else {
           // 设置最大缩放级别
           this.map.setMaxZoom(maxScale)
         }
-        if (this.minScale > this.maxScale) {
-          this.map.setMinZoom(minScale)
-          this.map.setMaxZoom(maxScale)
+        
+        if (minScale > maxScale) {
+          minScale = 3
+          this.map.setMinZoom(3)
+          maxScale = 20
+          this.map.setMaxZoom(20)
         }
 
         // 设置地图中心和缩放级别
-        if (this.scale >= minScale && this.scale <= maxScale) {
-          this.map.centerAndZoom(point, this.scale) // 使用this.scale来设置缩放级别
-        } else if (this.scale <= minScale) {
-          this.map.centerAndZoom(point, minScale)
-        } else if (this.scale >= this.maxScale) {
-          this.map.centerAndZoom(point, maxScale)
+        if (minScale <= 16 && maxScale >= 16) {
+          if (scale >= minScale && scale <= maxScale) {
+            // 使用this.scale来设置缩放级别
+            this.map.centerAndZoom(point, scale)
+          } else {
+            scale=16
+            this.map.centerAndZoom(point, scale)
+          }
         } else {
-          this.map.centerAndZoom(point, 16)
+          if (scale >= minScale && scale <= maxScale) {
+            // 使用this.scale来设置缩放级别
+            this.map.centerAndZoom(point, scale) 
+          } else if (scale < minScale) {
+            scale = minScale
+            this.map.centerAndZoom(point, minScale)
+          } else {
+            scale = maxScale
+            this.map.centerAndZoom(point, maxScale)
+          } 
         }
 
         // 添加标记点markers
