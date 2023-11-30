@@ -174,7 +174,7 @@ impl TransformVisitor {
          
                         // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createNode 来生成后续子节点
                         let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
-                        let mut children = utils::create_original_node_renderer(self);
+                        let mut children = utils::create_original_node_renderer_foreach(self);
                         
                         if !is_loop_exist {
                             children = self.build_ets_children(el);
@@ -206,7 +206,7 @@ impl TransformVisitor {
                     },
                     None => {
                         // React 组件
-                        // 原生自定义组件
+                        // 原生自定义组件, 不支持自定义组件的跟节点是一个 fragment!!
                         // 半编译暂未支持的组件
                         utils::create_original_node_renderer(self)
                     }
@@ -386,7 +386,7 @@ impl TransformVisitor {
         event_string
     }
 
-    fn get_current_node_path (&self) -> String {
+    pub fn get_current_node_path (&self) -> String {
         let current_node_name = self.node_name.last().unwrap().clone();
         let current_node_stack = match self.node_stack.get(&current_node_name) {
             Some(stack) => stack,
@@ -438,7 +438,7 @@ impl VisitMut for TransformVisitor {
             utils::get_harmony_component_style(self).as_str() +
             format!(
 r#"@Component
-struct TARO_TEMPLATES_{name} {{
+export default struct TARO_TEMPLATES_{name} {{
   nodeInfoMap: any = {{}}
   dynamicCenter: DynamicCenter
   @ObjectLink node: TaroElement
@@ -449,7 +449,6 @@ struct TARO_TEMPLATES_{name} {{
   }}
 
 {content}}}
-export default TARO_TEMPLATES_{name}
 "#,
                 name = tmpl_name,
                 content = tmpl_main_contents

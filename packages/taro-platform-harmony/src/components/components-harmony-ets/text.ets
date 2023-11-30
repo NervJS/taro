@@ -1,7 +1,7 @@
 import { bindInstanceToNode, bindAnimation, eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent, getTextAttributes } from './utils/helper'
 
 import type { TaroTextElement, TaroTextNode } from '../runtime/index'
 
@@ -127,17 +127,6 @@ function spanAttrs ({
   .height(height)
 }
 
-function getAttributes (node: TaroElement) {
-  const attrs = {
-    ...getNormalAttributes(node),
-    ...getFontAttributes(node)
-  }
-  // 处理style属性，运行时转换成鸿蒙样式
-  transformW3CToHarmonyInStyle(node._st, attrs)
-
-  return attrs
-}
-
 @Component
 export struct TaroSpan {
   @ObjectLink node: TaroTextNode | TaroTextElement
@@ -148,9 +137,8 @@ export struct TaroSpan {
     bindAnimation(this.node)
   }
 
-
   build() {
-    Span(this.node.textContent).spanAttrs(getAttributes(this.node))
+    Span(this.node.textContent).spanAttrs(getTextAttributes(this.node))
   }
 }
 
@@ -200,12 +188,12 @@ export default struct TaroText {
           }, node => node._nid)
         }
         .defaultEvent()
-        .attrs(getAttributes(this.node))
+        .attrs(getTextAttributes(this.node))
         .visibleChangeEvent()
       } else {
         Text(this.node.textContent)
           .defaultEvent()
-          .attrs(getAttributes(this.node))
+          .attrs(getTextAttributes(this.node))
           .visibleChangeEvent()
       }
     }

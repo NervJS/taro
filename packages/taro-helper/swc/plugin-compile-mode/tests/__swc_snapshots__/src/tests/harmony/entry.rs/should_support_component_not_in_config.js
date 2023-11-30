@@ -1,8 +1,10 @@
-const TARO_TEMPLATES_f0t0 = `import { FlexManager } from './utils/FlexManager'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
-import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
-import type { TaroElement } from '../runtime'
-import { TOUCH_EVENT_MAP } from './utils/constant/event'
+const TARO_TEMPLATES_f0t0 = `import { createNode } from '../render'
+import { FlexManager } from '../utils/FlexManager'
+import { TOUCH_EVENT_MAP } from '../utils/constant/event'
+import { getNodeThresholds, getNormalAttributes, getTextAttributes } from '../utils/helper'
+import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
+
+import type { TaroElement } from '../../runtime'
 @Extend(Flex)
 function attrs ({
   flexBasis,
@@ -57,7 +59,7 @@ function attrs ({
   .clip(clip)
 }
 @Component
-struct TARO_TEMPLATES_f0t0 {
+export default struct TARO_TEMPLATES_f0t0 {
   nodeInfoMap: any = {}
   dynamicCenter: DynamicCenter
   @ObjectLink node: TaroElement
@@ -72,9 +74,7 @@ struct TARO_TEMPLATES_f0t0 {
   build() {
     Flex(FlexManager.flexOptions(this.node0)) {
       Flex(FlexManager.flexOptions(this.node0.childNodes[0])) {
-        ForEach(this.node0.childNodes, item => {
-          createNode(item)
-        }, item => item._nid)
+        createNode(this.node0.childNodes[0].childNodes[0])
       }
       .attrs(getNormalAttributes(this.node0.childNodes[0]))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
@@ -83,9 +83,7 @@ struct TARO_TEMPLATES_f0t0 {
         this.nodeInfoMap[this.node0.childNodes[0]._nid].areaInfo = areaResult
       }))
       Flex(FlexManager.flexOptions(this.node0.childNodes[1])) {
-        ForEach(this.node0.childNodes, item => {
-          createNode(item)
-        }, item => item._nid)
+        createNode(this.node0.childNodes[1].childNodes[0])
       }
       .attrs(getNormalAttributes(this.node0.childNodes[1]))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1], VISIBLE_CHANGE_EVENT_NAME))
@@ -102,7 +100,6 @@ struct TARO_TEMPLATES_f0t0 {
     }))
   }
 }
-export default TARO_TEMPLATES_f0t0
 `;
 function Index() {
     return <View compileMode="f0t0" _dynamicID="node0">

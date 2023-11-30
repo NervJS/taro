@@ -1,8 +1,10 @@
-const TARO_TEMPLATES_f0t0 = `import { FlexManager } from './utils/FlexManager'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
-import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
-import type { TaroElement } from '../runtime'
-import { TOUCH_EVENT_MAP } from './utils/constant/event'
+const TARO_TEMPLATES_f0t0 = `import { createNode } from '../render'
+import { FlexManager } from '../utils/FlexManager'
+import { TOUCH_EVENT_MAP } from '../utils/constant/event'
+import { getNodeThresholds, getNormalAttributes, getTextAttributes } from '../utils/helper'
+import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
+
+import type { TaroElement } from '../../runtime'
 @Extend(Flex)
 function attrs ({
   flexBasis,
@@ -57,7 +59,7 @@ function attrs ({
   .clip(clip)
 }
 @Component
-struct TARO_TEMPLATES_f0t0 {
+export default struct TARO_TEMPLATES_f0t0 {
   nodeInfoMap: any = {}
   dynamicCenter: DynamicCenter
   @ObjectLink node: TaroElement
@@ -83,7 +85,6 @@ struct TARO_TEMPLATES_f0t0 {
     }))
   }
 }
-export default TARO_TEMPLATES_f0t0
 `;
 function Index() {
     return <View compileMode="f0t0" _dynamicID="node0">

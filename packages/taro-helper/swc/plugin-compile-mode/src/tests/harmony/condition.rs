@@ -42,3 +42,18 @@ test!(
     }
     "#
 );
+
+test!(
+  get_syntax_config(),
+  |_| tr(),
+  should_support_conditional_and_unkonw_component,
+  r#"
+  function Index () {
+      return (
+        <View compileMode>
+          {condition ? <View hoverClass='test'>hello</View> : <UnKnow selectable>hello</UnKnow>}
+        </View>
+      )
+  }
+  "#
+);

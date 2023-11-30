@@ -1,4 +1,5 @@
 import { isUndefined } from '@tarojs/shared'
+import { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
 
 import type { TaroElement } from '@tarojs/runtime'
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
@@ -43,4 +44,17 @@ export function getNodeThresholds (node: TaroElement) {
   return component?.nodeInfoMap?.[id]?.thresholds || null
 }
 
-export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
+
+export function getTextAttributes (node: TaroElement) {
+  const attrs = {
+    ...getNormalAttributes(node),
+    ...getFontAttributes(node)
+  }
+
+  transformW3CToHarmonyInStyle(node._st, attrs)
+
+  return attrs
+}
+
+
+export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle }

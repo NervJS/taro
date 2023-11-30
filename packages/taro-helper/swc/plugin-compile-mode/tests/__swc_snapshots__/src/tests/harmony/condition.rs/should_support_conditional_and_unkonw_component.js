@@ -5,91 +5,6 @@ import { getNodeThresholds, getNormalAttributes, getTextAttributes } from '../ut
 import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
 
 import type { TaroElement } from '../../runtime'
-@Extend(Image)
-function attrsImage ({
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform
-}) {
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
-  .objectFit(ImageFit.Contain)
-}
-@Component
-export default struct TARO_TEMPLATES_f0t0 {
-  nodeInfoMap: any = {}
-  dynamicCenter: DynamicCenter
-  @ObjectLink node: TaroElement
-
-  aboutToAppear () {
-    this.dynamicCenter = new DynamicCenter()
-    this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
-  }
-
-  @State node0: TaroElement = new TaroIgnoreElement()
-  
-  build() {
-    Image(this.node0.getAttribute('src'))
-    .attrsImage(getNormalAttributes(this.node0))
-    .onVisibleAreaChange(getNodeThresholds(this.node0) || [0.0, 1.0], getComponentEventCallback(this.node0, VISIBLE_CHANGE_EVENT_NAME))
-    .onAreaChange(getComponentEventCallback(this.node0, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      this.nodeInfoMap[this.node0._nid].areaInfo = areaResult
-    }))
-  }
-}
-`
-const TARO_TEMPLATES_f0t1 = `import { createNode } from '../render'
-import { FlexManager } from '../utils/FlexManager'
-import { TOUCH_EVENT_MAP } from '../utils/constant/event'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from '../utils/helper'
-import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
-
-import type { TaroElement } from '../../runtime'
 @Extend(Flex)
 function attrs ({
   flexBasis,
@@ -204,7 +119,7 @@ function attrsText ({
   .height(height)
 }
 @Component
-export default struct TARO_TEMPLATES_f0t1 {
+export default struct TARO_TEMPLATES_f0t0 {
   nodeInfoMap: any = {}
   dynamicCenter: DynamicCenter
   @ObjectLink node: TaroElement
@@ -215,17 +130,28 @@ export default struct TARO_TEMPLATES_f0t1 {
   }
 
   @State node0: TaroElement = new TaroIgnoreElement()
-  @State node1: TaroElement = new TaroIgnoreElement()
   
   build() {
     Flex(FlexManager.flexOptions(this.node0)) {
-      Text(this.node1.textContent)
-      .attrsText(getTextAttributes(this.node1))
-      .onVisibleAreaChange(getNodeThresholds(this.node1) || [0.0, 1.0], getComponentEventCallback(this.node1, VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node1, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node1._nid].areaInfo = areaResult
-      }))
+      if (this.node0.childNodes[0]._attrs.compileIf) {
+        Flex(FlexManager.flexOptions(this.node0.childNodes[0])) {
+          Text(this.node0.childNodes[0].childNodes[0].textContent)
+          .attrsText(getTextAttributes(this.node0.childNodes[0].childNodes[0]))
+          .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0].childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0].childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
+          .onAreaChange(getComponentEventCallback(this.node0.childNodes[0].childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+            const [_, areaResult] = eventResult
+            this.nodeInfoMap[this.node0.childNodes[0].childNodes[0]._nid].areaInfo = areaResult
+          }))
+        }
+        .attrs(getNormalAttributes(this.node0.childNodes[0]))
+        .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
+        .onAreaChange(getComponentEventCallback(this.node0.childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+          const [_, areaResult] = eventResult
+          this.nodeInfoMap[this.node0.childNodes[0]._nid].areaInfo = areaResult
+        }))
+      } else {
+        createNode(this.node0.childNodes[0])
+      }
     }
     .attrs(getNormalAttributes(this.node0))
     .onVisibleAreaChange(getNodeThresholds(this.node0) || [0.0, 1.0], getComponentEventCallback(this.node0, VISIBLE_CHANGE_EVENT_NAME))
@@ -235,12 +161,11 @@ export default struct TARO_TEMPLATES_f0t1 {
     }))
   }
 }
-`
+`;
 function Index() {
-    return <View>
-        <Image src={mySrc} compileMode="f0t0" _dynamicID="node0"/>
-        <View compileMode="f0t1" _dynamicID="node0">
-          <Text _dynamicID="node1">{myText}</Text>
-        </View>
-      </View>
+    return <View compileMode="f0t0" _dynamicID="node0">
+
+          {condition ? <View hoverClass='test' compileIf={condition}>hello</View> : <UnKnow selectable>hello</UnKnow>}
+
+        </View>;
 }

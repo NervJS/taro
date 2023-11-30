@@ -16,11 +16,13 @@ pub const VIEW_TAG: &str = "view";
 pub const TEXT_TAG: &str = "text";
 pub const IMAGE_TAG: &str = "image";
 
-pub const HARMONY_IMPORTER: &str = "import { FlexManager } from './utils/FlexManager'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
-import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../runtime'
-import type { TaroElement } from '../runtime'
-import { TOUCH_EVENT_MAP } from './utils/constant/event'
+pub const HARMONY_IMPORTER: &str = "import { createNode } from '../render'
+import { FlexManager } from '../utils/FlexManager'
+import { TOUCH_EVENT_MAP } from '../utils/constant/event'
+import { getNodeThresholds, getNormalAttributes, getTextAttributes } from '../utils/helper'
+import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
+
+import type { TaroElement } from '../../runtime'
 ";
 
 pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Flex)
@@ -136,17 +138,6 @@ function attrsText ({
   .textAlign(textAlign)
   .width(width)
   .height(height)
-}
-
-function getTextAttributes (node: TaroViewElement) {
-  const attrs = {
-    ...getNormalAttributes(node),
-    ...getFontAttributes(node)
-  }
-
-  transformW3CToHarmonyInStyle(node._st, attrs)
-
-  return attrs
 }
 "#;
 pub const HARMONY_IMAGE_STYLE_BIND: &str = r#"@Extend(Image)

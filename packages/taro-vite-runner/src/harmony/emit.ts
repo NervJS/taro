@@ -41,6 +41,12 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     name: 'taro:vite-harmony-emit-post',
     enforce: 'post',
     async generateBundle (_outputOpts, bundle) {
+      for (const fileName in bundle) {
+        if (fileName.endsWith('.css')) {
+          delete bundle[fileName]
+        }
+      }
+      
       if (isFunction(taroConfig.modifyBuildAssets)) {
         const assets = {}
         for (const name in bundle) {

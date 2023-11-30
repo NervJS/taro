@@ -31,7 +31,7 @@ export const disconnectEvent = (node: TaroElement, eventName: string) => {
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function getComponentEventCallback (node: TaroElement, eventName: string, callback: Function) {
+export function getComponentEventCallback (node: TaroElement, eventName: string, callback?: Function) {
   if (!node || !node?._instance) return null
 
   const id = node._nid

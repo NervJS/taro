@@ -1,7 +1,7 @@
 import multiPlatformPlugin from '../common/multi-platform-plugin'
 import { assetPlugin } from './asset'
 import importPlugin from './babel'
-import { compileModePostPlugin, compileModePrePlugin } from './compile'
+import { compileModePrePlugin } from './compile'
 import configPlugin from './config'
 import emitPlugin from './emit'
 import entryPlugin from './entry'
@@ -17,8 +17,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): UserC
   return [
     pipelinePlugin(viteCompilerContext),
     configPlugin(viteCompilerContext),
-    stylePlugin(viteCompilerContext),
     compileModePrePlugin(viteCompilerContext),
+    stylePlugin(viteCompilerContext),
     assetPlugin(viteCompilerContext),
     entryPlugin(viteCompilerContext),
     pagePlugin(viteCompilerContext),
@@ -27,6 +27,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): UserC
     emitPlugin(viteCompilerContext),
     importPlugin(viteCompilerContext),
     stylePostPlugin(viteCompilerContext),
-    compileModePostPlugin(viteCompilerContext),
+    // compileModePostPlugin(viteCompilerContext),
   ]
 }

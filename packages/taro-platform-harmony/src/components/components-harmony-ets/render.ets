@@ -20,12 +20,12 @@ import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPicker from './picker'
 import TaroVideo from './video'
 import TaroForm from './form'
+import TARO_TEMPLATES_f0t0 from './static/TARO_TEMPLATES_f0t0'
 
 @Builder
 function createNode (node: any) {
-  // TODO: 后续需要根据半编译生成对应的控制流语句
-  if (!!node._attrs?.compileMode) {
-    TaroFeedsItem({ node })
+  if (node._attrs?.compileMode === 'f0t0') {
+    TARO_TEMPLATES_f0t0({ node })
   } else if (node.tagName === 'VIEW') {
     TaroView({ node })
   } else if (node.tagName === 'IMAGE') {
