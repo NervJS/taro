@@ -197,7 +197,7 @@ export function w3cToHarmonyStyle(obj: HarmonyStyle, prop: string, value: string
 
     // 文本相关
     case 'color': {
-      obj.fontColor = value
+      obj.color = value
       break
     }
     case 'fontSize': {

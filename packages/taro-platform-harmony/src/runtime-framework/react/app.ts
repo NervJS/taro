@@ -181,7 +181,7 @@ export function createReactApp (
     },
 
     unmount (id: string, cb: () => void) {
-      appWrapper.unmount(id, cb)
+      appWrapper?.unmount(id, cb)
     },
     onLaunch (launchParam?: any) {
       waitAppWrapper(() => {

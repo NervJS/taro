@@ -36,7 +36,7 @@ function textStyle (style: TaroStyleType) {
   .zIndex(style.zIndex)
   .opacity(style.opacity)
   .clip(style.clip)
-  .fontColor(style.fontColor)
+  .fontColor(style.color)
   .fontSize(style.fontSize)
   .fontWeight(style.fontWeight)
   .fontStyle(style.fontStyle)
@@ -44,7 +44,7 @@ function textStyle (style: TaroStyleType) {
   .lineHeight(style.lineHeight)
   .decoration({
     type: style.decoration,
-    color: style.fontColor
+    color: style.color
   })
 }
 

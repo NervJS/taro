@@ -89,23 +89,19 @@ class FlexManager {
     }
   }
 
-  static justifyContent (style: Record<string, string | number> = {}): FlexAlign {
-    const value = style.justifyContent
+  static justifyContent (value: string): FlexAlign {
     return FlexManager.flexAlign(value)
   }
 
-  static alignItems (style: Record<string, string | number> = {}): ItemAlign {
-    const value = style.alignItems
+  static alignItems (value: string): ItemAlign {
     return FlexManager.itemAlign(value)
   }
 
-  static alignSelf (style: Record<string, string | number> = {}): ItemAlign | undefined {
-    const value = style.alignSelf
+  static alignSelf (value: string): ItemAlign {
     return FlexManager.itemAlign(value)
   }
 
-  static flexWrap (style: Record<string, string | number> = {}): FlexWrap {
-    const value = style.flexWrap
+  static flexWrap (value: string): FlexWrap {
     return value === 'wrap' ? FlexWrap.Wrap : FlexWrap.NoWrap
   }
 

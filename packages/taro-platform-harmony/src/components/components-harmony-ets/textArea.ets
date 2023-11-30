@@ -42,7 +42,7 @@ function textStyle (style: TaroStyleType) {
   .zIndex(style.zIndex)
   .opacity(style.opacity)
   .clip(style.clip)
-  .fontColor(style.fontColor)
+  .fontColor(style.color)
   .fontSize(style.fontSize)
   .fontWeight(style.fontWeight)
   .fontStyle(style.fontStyle)

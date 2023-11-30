@@ -21,14 +21,14 @@ function textPickerAttrs (style: TaroStyleType) {
   .key(style.id)
   .padding(style.padding)
   .margin(style.margin)
-  .width(style.width)
+  .width(style.width || '100%')
   .height(style.height)
   .constraintSize(style.constraintSize)
   .flexGrow(style.flexGrow)
   .flexShrink(style.flexShrink)
   .flexBasis(style.flexBasis)
   .alignSelf(style.alignSelf)
-  .backgroundColor(style.backgroundColor)
+  .backgroundColor(style.backgroundColor || '#fff')
   .backgroundImage(style.backgroundImage, style.backgroundRepeat)
   .backgroundImageSize(style.backgroundImageSize)
   .rotate(style.rotate)
@@ -51,8 +51,8 @@ function datePickerAttrs (style: TaroStyleType) {
   .key(style.id)
   .padding(style.padding)
   .margin(style.margin)
-  .width(style.width)
-  .height(style.height || '100%')
+  .width(style.width || '100%')
+  .height(style.height)
   .constraintSize(style.constraintSize)
   .flexGrow(style.flexGrow)
   .flexShrink(style.flexShrink)
@@ -150,17 +150,21 @@ export struct PickerView {
         const rangeKey: TaroAny = this.node._attrs.rangeKey
         let showRange: TaroAny = range
         this.showSelector = value
-        showRange = getMultiSelector(range, rangeKey, value)
+        showRange = getMultiSelector(this, range, rangeKey, value)
+        let selects: string | number | string[] | number[] = this.select
+        if (typeof selects === 'string') {
+          selects = selects.split(',').map(i => Number(i))
+        }
         return {
           range: showRange,
-          selected: this.select || value
+          selected: selects || value
         }
       }
       default: {
         const rangeKey: TaroAny = this.node._attrs.rangeKey
         let showRange: TaroAny = range
         if (rangeKey && typeof range[0] === 'object') {
-          showRange = getSingleSelector(range, rangeKey)
+          showRange = getSingleSelector(this, range, rangeKey)
         }
         return {
           range: showRange,
@@ -176,95 +180,95 @@ export struct PickerView {
     eventHandler(event, type, this.node)
   }
 
-  build() {
-    showDialog(this, this.node._attrs.mode)
-  }
-}
-
-
-@Builder
-function showDialog($$: PickerView, mode: string) {
-  Column() {
-    Flex({
-      direction: FlexDirection.Row,
-      justifyContent: FlexAlign.SpaceBetween,
-      alignItems: ItemAlign.Center
-    }) {
-      Text($$.node._attrs.textProps?.cancelText || '取消').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
-        $$.emitEvent('cancel')
-        $$.controller?.close()
+  @Builder
+  showDialog() {
+    Column() {
+      Flex({
+        direction: FlexDirection.Row,
+        justifyContent: FlexAlign.SpaceBetween,
+        alignItems: ItemAlign.Center
+      }) {
+        Text(this.node._attrs.textProps?.cancelText || '取消').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
+          this.emitEvent('cancel')
+          this.controller?.close()
+        })
+        Text(this.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
+          this.emitEvent('change', { value: this.select})
+          this.controller?.close()
+        })
+      }
+      .width('100%')
+      .backgroundColor('#fff')
+      .padding({
+        left: 20,
+        right: 20
       })
-      Text($$.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
-        $$.emitEvent('change', { value: $$.select})
-        $$.controller?.close()
-      })
-    }
-    .width('100%')
-    .backgroundColor('#fff')
-    .padding({
-      left: 20,
-      right: 20
-    })
-    if (mode === 'selector') {
-      TextPicker($$.getTextOptions())
-        .selectedTextStyle({
-          color: '#000'
-        })
-        .canLoop(false)
-        .textPickerAttrs(getNormalAttributes($$.node))
-        .onChange((value, index) => {
-          $$.select = index as number
-        })
-    } else if (mode === 'multiSelector') {
-      TextPicker($$.getTextOptions())
-        .selectedTextStyle({
-          color: '#000'
-        })
-        .canLoop(false)
-        .textPickerAttrs(getNormalAttributes($$.node))
-        .onChange((value, index) => {
-          if (index instanceof Array) {
-            $$.select = index.join(',')
-            // 计算几列发生了变化
-            const originIndexs: number[] = $$.multiColumnIndex || $$.showSelector
-            $$.multiColumnIndex = index
-            let changeValue: number | undefined
-            const changeIndex = index.findIndex((item, i) => {
-              const originIndex = originIndexs[i]
-              if (originIndex != item) {
-                changeValue = item
-                return true
+      if (this.node._attrs.mode === 'selector') {
+        TextPicker(this.getTextOptions())
+          .selectedTextStyle({
+            color: '#000'
+          })
+          .canLoop(false)
+          .textPickerAttrs(getNormalAttributes(this.node))
+          .onChange((value, index) => {
+            this.select = index as number
+          })
+      } else if (this.node._attrs.mode === 'multiSelector') {
+        TextPicker(this.getTextOptions())
+          .selectedTextStyle({
+            color: '#000'
+          })
+          .canLoop(false)
+          .textPickerAttrs(getNormalAttributes(this.node))
+          .onChange((value, index) => {
+            if (index instanceof Array) {
+              this.select = index.join(',')
+              // 计算几列发生了变化
+              const originIndexs: number[] = this.multiColumnIndex || this.showSelector
+              this.multiColumnIndex = index
+              let changeValue: number | undefined
+              const changeIndex = index.findIndex((item, i) => {
+                const originIndex = originIndexs[i]
+                if (originIndex != item) {
+                  changeValue = item
+                  return true
+                }
+                return false
+              })
+              if (changeIndex < 0) {
+                return
               }
-              return false
-            })
-            if (changeIndex < 0) {
-              return
+              this.emitEvent('columnChange', { column: changeIndex, value: changeValue })
             }
-            $$.emitEvent('columnChange', { column: changeIndex, value: changeValue })
-          }
-        })
-    } else if (mode === 'date') {
-      DatePicker($$.getDateOptions())
-        .selectedTextStyle({
-          color: '#000'
-        })
-        .datePickerAttrs(getNormalAttributes($$.node))
-        .onChange(value => {
-          $$.select = `${value.year}-${value.month}-${value.day}`
-        })
-    } else if (mode === 'time') {
-      TextPicker($$.getTextOptions())
-        .selectedTextStyle({
-          color: '#000'
-        })
-        .canLoop(false)
-        .textPickerAttrs(getNormalAttributes($$.node))
-        .onChange((value) => {
-          $$.select = `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}}`
-        })
+          })
+      } else if (this.node._attrs.mode === 'date') {
+        DatePicker(this.getDateOptions())
+          .selectedTextStyle({
+            color: '#000'
+          })
+          .datePickerAttrs(getNormalAttributes(this.node))
+          .onChange(value => {
+            this.select = `${value.year}-${value.month}-${value.day}`
+          })
+      } else if (this.node._attrs.mode === 'time') {
+        TextPicker(this.getTextOptions())
+          .selectedTextStyle({
+            color: '#000'
+          })
+          .canLoop(false)
+          .textPickerAttrs(getNormalAttributes(this.node))
+          .onChange((value) => {
+            this.select = `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}}`
+          })
+      }
     }
   }
+
+  build() {
+    this.showDialog()
+  }
 }
+
 
 
 @Component

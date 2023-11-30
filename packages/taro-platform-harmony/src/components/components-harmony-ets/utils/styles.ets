@@ -75,7 +75,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     scale: transformScale,
     transform: transformTransform,
     // 通用文本相关
-    fontColor: AttributeManager.getStyleAfterConvert(_st, 'fontColor'),
+    color: AttributeManager.getStyleAfterConvert(_st, 'color'),
     fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize'),
     fontStyle: AttributeManager.getStyleAfterConvert(_st, 'fontStyle'),
     fontWeight: AttributeManager.getStyleAfterConvert(_st, 'fontWeight'),

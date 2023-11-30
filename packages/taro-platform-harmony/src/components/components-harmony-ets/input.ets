@@ -43,7 +43,7 @@ function styles (style: TaroStyleType) {
   .zIndex(style.zIndex)
   .opacity(style.opacity)
   .clip(style.clip)
-  .fontColor(style.fontColor)
+  .fontColor(style.color)
   .fontSize(style.fontSize)
   .fontWeight(style.fontWeight)
   .fontStyle(style.fontStyle)
@@ -57,7 +57,7 @@ function attrs(attr: CompType.Input.Attrs) {
 
 function getAttributes(node: TaroInputElement): CompType.Input.Attrs {
   return {
-    textAlign: node._attrs.textAlign
+    textAlign: AttributeManager.getStyleAfterConvert(node._st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
   }
 }
 

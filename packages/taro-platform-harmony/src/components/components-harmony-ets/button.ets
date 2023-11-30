@@ -51,7 +51,7 @@ function themeStyles(style: TaroStyleType) {
     width: 1,
     color: style.backgroundColor
   })
-  .fontColor(style.fontColor)
+  .fontColor(style.color)
   .opacity(style.opacity)
   .backgroundColor(style.backgroundColor)
 }
@@ -94,7 +94,7 @@ export default struct TaroButton {
           if (this.node._attrs.loading) {
             LoadingProgress()
             .width(20).height(20)
-            .color(getThemeAttributes(this.node).fontColor)
+            .color(getThemeAttributes(this.node).color)
           }
           ForEach(this.node.childNodes, (item: TaroElement) => {
             createNode(item)

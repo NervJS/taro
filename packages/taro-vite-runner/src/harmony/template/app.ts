@@ -49,12 +49,12 @@ export default class Parser extends BaseParser {
       'initPxTransform({',
       this.transArr2Str([
         `designWidth: ${this.pxTransformConfig.designWidth},`,
-        `deviceRatio: ${JSON.stringify(this.pxTransformConfig.deviceRatio)},`,
+        `deviceRatio: (${JSON.stringify(this.pxTransformConfig.deviceRatio)}) as Record<string, number>,`,
         `baseFontSize: ${this.pxTransformConfig.baseFontSize},`,
         `unitPrecision: ${this.pxTransformConfig.unitPrecision},`,
         `targetUnit: ${JSON.stringify(this.pxTransformConfig.targetUnit)},`,
       ], 2),
-      '})',
+      '} as TaroAny)',
     ])
   }
 
@@ -69,21 +69,18 @@ export default class Parser extends BaseParser {
     }
 
     let instantiateApp = `export default class EntryAbility extends UIAbility {
-  app
+  app: TaroAny
 
-  onCreate(want, launchParam) {
-    AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
-    AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
+  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
+    AppStorage.setOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
+    AppStorage.setOrCreate('__TARO_PAGE_STACK', [])
     this.app = createComponent()
-    this.app.onLaunch({
-      ...want,
-      ...launchParam
-    })
+    this.app.onLaunch(ObjectAssign(want, launchParam))
   }
 
   onDestroy() {}
 
-  onWindowStageCreate(stage) {
+  onWindowStageCreate(stage: ohWindow.WindowStage) {
     context.resolver(this.context)
     stage.loadContent('${entryPath}', (err, data) => {
       if (err.code) {
@@ -117,8 +114,11 @@ export default class Parser extends BaseParser {
     const { modifyResolveId } = this.loaderMeta
 
     let code = this.transArr2Str([
+      'import type AbilityConstant from "@ohos.app.ability.AbilityConstant"',
+      'import type Want from "@ohos.app.ability.Want"',
+      'import type ohWindow from "@ohos.window"',
       'import UIAbility from "@ohos.app.ability.UIAbility"',
-      'import { window, context } from "@tarojs/runtime"',
+      'import { window, context, ObjectAssign, TaroAny } from "@tarojs/runtime"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       'window.__taroAppConfig = config',

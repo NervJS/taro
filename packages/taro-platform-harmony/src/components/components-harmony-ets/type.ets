@@ -46,7 +46,7 @@ export interface TaroStyleType {
   borderRadius?: Length | BorderRadiuses
 
   // text
-  fontColor?: ResourceColor
+  color?: ResourceColor
   fontSize?: number | string | Resource
   fontStyle?: FontStyle
   fontWeight?: number | FontWeight | string

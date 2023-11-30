@@ -5,15 +5,15 @@ export function ObjectAssign(...objects) {
   return Object.assign.apply(this, [{}].concat(...objects))
 }
 
-export function getSingleSelector(range, rangeKey): any[] {
+export function getSingleSelector(ctx, range, rangeKey): any[] {
   return range.map((data) => data[rangeKey])
 }
 
-export function getMultiSelector(range, rangeKey, value) {
-  range.map((arr, arrIndex) => arr.map((data, i) => {
+export function getMultiSelector(ctx, range, rangeKey, value) {
+  return range.map((arr, arrIndex) => arr.map((data, i) => {
     const columnValue = value[arrIndex]
     if (columnValue === data) {
-      this.showSelector[arrIndex] = i
+      ctx.showSelector[arrIndex] = i
     }
     if (rangeKey && typeof range[0][0] === 'object') {
       return data[rangeKey]

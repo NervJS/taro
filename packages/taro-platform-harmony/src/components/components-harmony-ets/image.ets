@@ -44,7 +44,7 @@ function getImageMode (mode: string): ImageFit {
     case 'scaleToFill': return ImageFit.Fill
     case 'widthFix': return ImageFit.Auto
     case 'heightFix': return ImageFit.Auto
-    default: return ImageFit.None
+    default: return ImageFit.Contain
   }
 }
 

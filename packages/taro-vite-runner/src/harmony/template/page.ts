@@ -109,10 +109,10 @@ export default class Parser extends BaseParser {
   .onScroll(() => {
     if (!this.page) return
 
-    const { xOffset: currentXOffset, yOffset: currentYOffset } = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-    this.page?.onPageScroll?.call(this, {
-      scrollTop: currentYOffset || 0,
-      scrollLeft: currentXOffset || 0,
+    const offset: TaroAny = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
+    callFn(this.page.onPageScroll, {
+      scrollTop: offset.xOffset || 0,
+      scrollLeft: offset.yOffset || 0,
     })
   })
 }
@@ -126,7 +126,7 @@ export default class Parser extends BaseParser {
   Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
 ${this.transArr2Str(pageStr.split('\n'), 4)}
   }
-  .onStateChange(this.handleRefreshStatus.bind(this, index))
+  .onStateChange(bindFn(this.handleRefreshStatus, this, index))
 } else {
 ${this.transArr2Str(pageStr.split('\n'), 2)}
 }`
@@ -134,7 +134,7 @@ ${this.transArr2Str(pageStr.split('\n'), 2)}
       pageStr = `Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
 ${this.transArr2Str(pageStr.split('\n'), 2)}
 }
-.onStateChange(this.handleRefreshStatus${isTabPage ? '.bind(this, index)' : ''})
+.onStateChange(bindFn(this.handleRefreshStatus, ${isTabPage ? 'this, index' : ''}))
 })`
     }
 
@@ -145,11 +145,11 @@ ${this.transArr2Str(pageStr.split('\n'), 2)}
   controller: this.tabBarController,
   index: this.tabBarCurrentIndex,
 }) {
-  ForEach(this.tabBarList, (item, index) => {
+  ForEach(this.tabBarList, (item: ITabBarItem, index) => {
     TabContent() {
 ${this.transArr2Str(pageStr.split('\n'), 6)}
     }.tabBar(this.renderTabItemBuilder(index, item))
-  }, (item, index) => item.key || index)
+  }, (item: ITabBarItem, index) => \`\${item.key || index}\`)
 }
 .vertical(false)
 .barMode(BarMode.Fixed)
@@ -157,11 +157,11 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 .animationDuration(this.tabBarAnimationDuration)
 .onChange((index: number) => {
   if (this.tabBarCurrentIndex !== index) {
-    this.page.onHide?.call(this)
+    callFn(this.page?.onHide, this)
     this.setTabBarCurrentIndex(index)
   }
   this.handlePageAppear()
-  this.page?.onShow?.call(this)
+  callFn(this.page?.onShow, this)
 })
 .backgroundColor(this.tabBarBackgroundColor)`
     }
@@ -184,7 +184,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       'struct Index {',
     ]
     const generateState = [
-      'page: PageInstance',
+      'page?: PageInstance',
       this.isTabbarPage
         ? [
           `scroller: Scroller[] = [${
@@ -256,21 +256,21 @@ onPageShow () {
   }
   ${this.isTabbarPage ? `this.switchTabHandler({ params: router.getParams() || {} })
   this.pageList?.forEach(item => {
-    item?.onShow?.call(this)
-  })` : 'this.page?.onShow?.call(this)'}
+    callFn(item?.onShow, this)
+  })` : 'callFn(this.page?.onShow, this)'}
 }
 
 onPageHide () {
   ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    item?.onHide?.call(this)
-  })` : 'this.page?.onHide?.call(this)'}
+    callFn(item?.onHide, this)
+  })` : 'callFn(this.page?.onHide, this)'}
 }
 
 aboutToDisappear () {
   ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    item?.onUnload?.call(this)
+    callFn(item?.onUnload, this)
   })
-  this.removeEvent()` : 'this.page?.onUnload?.call(this)'}
+  this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
 }
 `.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
@@ -278,8 +278,8 @@ aboutToDisappear () {
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
   const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
   if ((isCustomStyle && config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default') || config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom') {
-    (Current as any).contextPromise
-      .then(context => {
+    Current.contextPromise
+      .then((context: common.BaseContext) => {
         const win = window.__ohos.getLastWindow(context)
         win.then(mainWindow => {
           mainWindow.setFullScreen(true)
@@ -295,14 +295,14 @@ ${this.isTabbarPage
       'if (!this.pageList[index]) {',
       '  this.pageList[index] = createComponent[index]()',
       '  this.page = this.pageList[index]',
-      '  this.page.onLoad?.call(this, params, (instance) => {',
+      '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '    this.node[index] = instance',
       '  })',
       '}',
     ], 4)
     : this.transArr2Str([
       `this.page = createComponent()`,
-      'this.page.onLoad?.call(this, params, (instance) => {',
+      'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '  this.node = instance',
       '})',
     ], 4)}
@@ -328,7 +328,7 @@ routerChangeHandler = () => {}
 switchTabHandler = ({ params }) => {
   const index = this.tabBarList.findIndex(e => e.pagePath === params.$page)
   if (index >= 0 && this.tabBarCurrentIndex !== index) {
-    this.page.onHide?.call(this)
+    callFn(this.page.onHide, this)
     this.setTabBarCurrentIndex(index)
   }
 }
@@ -512,11 +512,11 @@ removeEvent () {
 handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : ''}state: RefreshStatus) {
   if (state === RefreshStatus.Refresh) {
     ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
-    this.page?.onPullDownRefresh?.call(this)
+    callFn(this.page?.onPullDownRefresh, this)
   } else if (state === RefreshStatus.Done) {
     ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
   } else if (state === RefreshStatus.Drag) {
-    this.page?.onPullIntercept?.call(this)
+    callFn(this.page?.onPullIntercept, this)
   }
 }
 `.split('\n'), 2): null,
@@ -551,8 +551,9 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     }
 
     let code = this.transArr2Str([
+      'import common from "@ohos.app.ability.common"',
       'import TaroView from "@tarojs/components/view"',
-      'import { Current, TaroElement, window } from "@tarojs/runtime"',
+      'import { Current, TaroElement, window, TaroAny, callFn, bindFn } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
       'import router from "@ohos.router"',

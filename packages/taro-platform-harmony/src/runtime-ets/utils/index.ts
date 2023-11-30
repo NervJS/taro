@@ -124,3 +124,20 @@ export class DynamicCenter {
     }
   }
 }
+
+export function ObjectAssign(...objects) {
+  return Object.assign.apply(this, [{}].concat(...objects))
+}
+
+export function callFn (fn: any, ctx: any, ...args: any) {
+  if (typeof fn === 'function') {
+    return fn.apply(ctx, args)
+  }
+}
+export function bindFn (fn: any, ctx: any, ...args: any) {
+  if (typeof fn === 'function') {
+    return fn.bind(ctx, ...args)
+  }
+}
+
+export type TaroAny = any

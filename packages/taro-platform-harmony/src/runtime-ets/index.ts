@@ -1,3 +1,4 @@
+// Current必须放在前面初始化
 export * from './bom/document'
 export * from './bom/getComputedStyle'
 export { nav as navigator } from './bom/navigator'
