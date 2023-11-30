@@ -1,5 +1,15 @@
-import { NodeType } from '@tarojs/runtime'
+import BaseParser from './base'
 
+export default class RenderParser extends BaseParser {
+  constructor (
+    protected template: Map<string, string>
+  ) {
+    super()
+  }
+
+  generate () {
+    const renderContent = `// @ts-nocheck
+import { NodeType } from '../runtime'
 import TaroIcon from './icon'
 import TaroText from './text'
 import TaroView from './view'
@@ -10,7 +20,6 @@ import { TaroSwiper, TaroSwiperItem } from './swiper'
 import TaroButton from './button'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
-import TaroFeedsItem from './static'
 import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
@@ -20,13 +29,11 @@ import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPicker from './picker'
 import TaroVideo from './video'
 import TaroForm from './form'
-import TARO_TEMPLATES_f0t0 from './static/TARO_TEMPLATES_f0t0'
+${this.generateRenderImport()}
 
 @Builder
 function createNode (node: any) {
-  if (node._attrs?.compileMode === 'f0t0') {
-    TARO_TEMPLATES_f0t0({ node })
-  } else if (node.tagName === 'VIEW') {
+  ${this.generateRenderCondition()}if (node.tagName === 'VIEW') {
     TaroView({ node })
   } else if (node.tagName === 'IMAGE') {
     TaroImage({ node })
@@ -74,3 +81,32 @@ function createNode (node: any) {
 }
 
 export { createNode }
+`
+
+    return renderContent
+  }
+
+  generateRenderImport () {
+    let result = ''
+
+    this.template.forEach((_, key) => {
+      result = `${result}import ${key} from './static/${key}'\n`
+    })
+
+    return result
+  }
+
+  generateRenderCondition () {
+    let result = ''
+    
+    this.template.forEach((_, key) => {
+      const keyData = key.split('_')
+      const name = keyData[keyData.length - 1]
+      result = `${result}if (node._attrs?.compileMode === '${name}') {
+    ${key}({ node })
+  } else `
+    })
+
+    return result
+  }
+}

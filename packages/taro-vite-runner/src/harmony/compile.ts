@@ -2,6 +2,7 @@ import { NODE_MODULES, resolveSync, swc } from '@tarojs/helper'
 import path from 'path'
 
 import { commonjsProxyRE, CSS_LANGS_RE, loadParseImportRE, SPECIAL_QUERY_RE } from './postcss/constants'
+import RenderParser from './template/render'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption, ResolvedConfig } from 'vite'
@@ -124,11 +125,12 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
 
       // 遍历 templates, 输出 template 里的内容到 path.join(config.outputRoot, NODE_MODULES, '@tarojs/components/static/')
       for (const key in templates) {
-        const template = templates[key]
-        etsTemplateCache.set(key, template)
+        const template = `// @ts-nocheck\n${templates[key]}`
         const name = `${key}.ets`
         const fileName = path.join(NODE_MODULES, '@tarojs/components/static', name)
-        
+
+        etsTemplateCache.set(key, template)
+
         this.emitFile({
           type: 'prebuilt-chunk',
           code: template,
@@ -137,6 +139,16 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
       }
 
       return { map: null, code: extractedString }
+    },
+    buildEnd () {
+      const renderGenerator = new RenderParser(etsTemplateCache)
+      const fileName = path.join(NODE_MODULES, '@tarojs/components/render.ets')
+
+      this.emitFile({
+        type: 'prebuilt-chunk',
+        code: renderGenerator.generate(),
+        fileName,
+      })
     }
   }
 }
