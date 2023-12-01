@@ -16,7 +16,7 @@ export function getFontAttributes (node: TaroElement) {
     textAlign: AttributeManager.getStyleAfterConvert(_st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
     textOverflow:  AttributeManager.getStyleAfterConvert(_st, 'textOverflow', TEXT_DEFAULT_STYLE.TEXT_OVERFLOW),
     fontWeight: AttributeManager.getStyleAfterConvert(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
-    decoration: AttributeManager.getStyleAfterConvert(_st, 'textDecoration'),
+    decoration: AttributeManager.getStyleAfterConvert(_st, 'decoration'),
     fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
     fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
   }
