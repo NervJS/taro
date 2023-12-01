@@ -66,7 +66,7 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
   return {
     opacity: isDisabled ? 0.4 : 1,
     backgroundColor: isPlain ? Color.Transparent : (AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR.get(type).background),
-    fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR.get(type).text),
+    color: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR.get(type).text),
   }
 }
 
