@@ -13,7 +13,10 @@
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:clear": "jest --clearCache",
+    "test:cov": "jest --coverage",
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,13 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/__tests__/util.ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/__tests__/*",
+      "/src/vue.ts"
+    ],
+    "transformIgnorePatterns": [
+      "@taro-helper/node_modules/"
     ]
   },
   "author": "yuche",
@@ -60,7 +70,8 @@
     "better-babel-generator": "6.26.1",
     "himalaya-wxml": "^1.1.0",
     "html": "^1.0.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "fs-extra": "^8.0.1"
   },
   "devDependencies": {
     "@types/babel-traverse": "6.25.6",
