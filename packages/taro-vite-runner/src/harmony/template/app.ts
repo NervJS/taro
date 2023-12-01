@@ -69,13 +69,13 @@ export default class Parser extends BaseParser {
     }
 
     let instantiateApp = `export default class EntryAbility extends UIAbility {
-  app: TaroAny
+  app?: AppInstance
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
     AppStorage.setOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
     AppStorage.setOrCreate('__TARO_PAGE_STACK', [])
     this.app = createComponent()
-    this.app.onLaunch(ObjectAssign(want, launchParam))
+    this.app?.onLaunch?.(ObjectAssign(want, launchParam))
   }
 
   onDestroy() {}
@@ -84,21 +84,17 @@ export default class Parser extends BaseParser {
     context.resolver(this.context)
     stage.loadContent('${entryPath}', (err, data) => {
       if (err.code) {
-        return this.app?.onError?.call(this, err)
+        return this.app?.onError?.(err.toString())
       }
     })
   }
 
-  onWindowStageDestroy() {
-    this.app?.onUnload?.call(this)
-  }
-
   onForeground() {
-    this.app?.onShow?.call(this)
+    this.app?.onShow?.()
   }
 
   onBackground() {
-    this.app?.onHide?.call(this)
+    this.app?.onHide?.()
   }
 }
 `
@@ -117,10 +113,13 @@ export default class Parser extends BaseParser {
       'import type AbilityConstant from "@ohos.app.ability.AbilityConstant"',
       'import type Want from "@ohos.app.ability.Want"',
       'import type ohWindow from "@ohos.window"',
+      '',
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import { window, context, ObjectAssign, TaroAny } from "@tarojs/runtime"',
+      'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
+      '',
       'window.__taroAppConfig = config',
       'initNativeApi(Taro)',
       this.getInitPxTransform(),

@@ -109,10 +109,8 @@ export default class Parser extends BaseParser {
   .onScroll(() => {
     if (!this.page) return
 
-    const offset: TaroAny = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-    callFn(this.page.onPageScroll, {
-      scrollTop: offset.xOffset || 0,
-      scrollLeft: offset.yOffset || 0,
+    this.page?.onPageScroll?.({
+      scrollTop: ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset().yOffset || 0,
     })
   })
 }
@@ -157,11 +155,11 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 .animationDuration(this.tabBarAnimationDuration)
 .onChange((index: number) => {
   if (this.tabBarCurrentIndex !== index) {
-    callFn(this.page?.onHide, this)
+    this.page?.onHide?.()
     this.setTabBarCurrentIndex(index)
   }
   this.handlePageAppear()
-  callFn(this.page?.onShow, this)
+  this.page?.onShow?.()
 })
 .backgroundColor(this.tabBarBackgroundColor)`
     }
@@ -256,21 +254,21 @@ onPageShow () {
   }
   ${this.isTabbarPage ? `this.switchTabHandler({ params: router.getParams() || {} })
   this.pageList?.forEach(item => {
-    callFn(item?.onShow, this)
-  })` : 'callFn(this.page?.onShow, this)'}
+    item?.onShow?.()
+  })` : 'this.page?.onShow?.()'}
 }
 
 onPageHide () {
   ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    callFn(item?.onHide, this)
-  })` : 'callFn(this.page?.onHide, this)'}
+    item?.onHide?.()
+  })` : 'this.page?.onHide?.()'}
 }
 
 aboutToDisappear () {
   ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    callFn(item?.onUnload, this)
+    item?.onUnload?.()
   })
-  this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
+  this.removeEvent()` : 'this.page?.onUnload?.()'}
 }
 `.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
@@ -295,14 +293,14 @@ ${this.isTabbarPage
       'if (!this.pageList[index]) {',
       '  this.pageList[index] = createComponent[index]()',
       '  this.page = this.pageList[index]',
-      '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
+      '  this.page?.onLoad?.(params, (instance: TaroElement) => {',
       '    this.node[index] = instance',
       '  })',
       '}',
     ], 4)
     : this.transArr2Str([
       `this.page = createComponent()`,
-      'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
+      'this.page?.onLoad?.(params, (instance: TaroElement) => {',
       '  this.node = instance',
       '})',
     ], 4)}
@@ -314,8 +312,8 @@ setTabBarCurrentIndex(index: number) {
   this.page = this.pageList[index]
 }
 
-updateTabBarKey = (index = 0, odd = {}) => {
-  const obj = this.tabBarList[index]
+updateTabBarKey = (index = 0, odd: Partial<ITabBarItem> = {}) => {
+  const obj: Partial<ITabBarItem> = this.tabBarList[index]
   if (Object.keys(obj).every(key => odd[key] === obj[key])) return
 
   const idx = obj.key || index
@@ -325,62 +323,62 @@ updateTabBarKey = (index = 0, odd = {}) => {
 
 routerChangeHandler = () => {}
 
-switchTabHandler = ({ params }) => {
-  const index = this.tabBarList.findIndex(e => e.pagePath === params.$page)
+switchTabHandler = (option: TaroObject) => {
+  const index = this.tabBarList.findIndex(e => e.pagePath === option.params.$page)
   if (index >= 0 && this.tabBarCurrentIndex !== index) {
-    callFn(this.page.onHide, this)
+    this.page?.onHide?.()
     this.setTabBarCurrentIndex(index)
   }
 }
 
-setTabBarBadgeHandler = ({ index, text = '' }) => {
+setTabBarBadgeHandler = (option: TaroObject) => {
   const list = [...this.tabBarList]
-  if (index in list) {
-    const obj = list[index]
-    const odd: ITabBarItem = { ... obj }
+  if (!!list[option.index]) {
+    const obj = list[option.index]
+    const odd: ITabBarItem = ObjectAssign(obj)
     obj.showRedDot = false
-    obj.badgeText = text
-    this.updateTabBarKey(index, odd)
+    obj.badgeText = option.text
+    this.updateTabBarKey(option.index, odd)
   }
   this.tabBarList = list
 }
 
-removeTabBarBadgeHandler = ({ index }) => {
+removeTabBarBadgeHandler = (option: TaroObject) => {
   const list = [...this.tabBarList]
-  if (index in list) {
-    const obj = list[index]
-    const odd: ITabBarItem = { ... obj }
-    obj.badgeText = null
-    this.updateTabBarKey(index, odd)
+  if (!!list[option.index]) {
+    const obj = list[option.index]
+    const odd: ITabBarItem = ObjectAssign(obj)
+    obj.badgeText = undefined
+    this.updateTabBarKey(option.index, odd)
   }
   this.tabBarList = list
 }
 
-showTabBarRedDotHandler = ({ index }) => {
+showTabBarRedDotHandler = (option: TaroObject) => {
   const list = [...this.tabBarList]
-  if (index in list) {
-    const obj = list[index]
-    const odd: ITabBarItem = { ... obj }
-    obj.badgeText = null
+  if (!!list[option.index]) {
+    const obj = list[option.index]
+    const odd: ITabBarItem = ObjectAssign(obj)
+    obj.badgeText = undefined
     obj.showRedDot = true
-    this.updateTabBarKey(index, odd)
+    this.updateTabBarKey(option.index, odd)
   }
   this.tabBarList = list
 }
 
-hideTabBarRedDotHandler = ({ index }) => {
+hideTabBarRedDotHandler = (option: TaroObject) => {
   const list = [...this.tabBarList]
-  if (index in list) {
-    const obj = list[index]
-    const odd: ITabBarItem = { ... obj }
+  if (!!list[option.index]) {
+    const obj = list[option.index]
+    const odd: ITabBarItem = ObjectAssign(obj)
     obj.showRedDot = false
-    this.updateTabBarKey(index, odd)
+    this.updateTabBarKey(option.index, odd)
   }
   this.tabBarList = list
 }
 
-showTabBarHandler = ({ animation = false }) => {
-  if (animation) {
+showTabBarHandler = (option: TaroObject) => {
+  if (option.animation) {
     animateTo({
       duration: this.tabBarAnimationDuration,
       tempo: 1,
@@ -394,8 +392,8 @@ showTabBarHandler = ({ animation = false }) => {
   }
 }
 
-hideTabBarHandler = ({ animation = false }) => {
-  if (animation) {
+hideTabBarHandler = (option: TaroObject) => {
+  if (option.animation) {
     animateTo({
       duration: this.tabBarAnimationDuration,
       tempo: 1,
@@ -409,25 +407,25 @@ hideTabBarHandler = ({ animation = false }) => {
   }
 }
 
-setTabBarStyleHandler = ({ backgroundColor, borderStyle, color, selectedColor }) => {
-  if (backgroundColor) this.tabBarBackgroundColor = backgroundColor
-  if (borderStyle) this.tabBarBorderStyle = borderStyle
-  if (color) this.tabBarColor = color
-  if (selectedColor) this.tabBarSelectedColor = selectedColor
+setTabBarStyleHandler = (option: TaroObject) => {
+  if (option.backgroundColor) this.tabBarBackgroundColor = option.backgroundColor
+  if (option.borderStyle) this.tabBarBorderStyle = option.borderStyle
+  if (option.color) this.tabBarColor = option.color
+  if (option.selectedColor) this.tabBarSelectedColor = option.selectedColor
 }
 
-setTabBarItemHandler = ({ index, iconPath, selectedIconPath, text }) => {
+setTabBarItemHandler = (option: TaroObject) => {
   const list = [...this.tabBarList]
-  if (index in list) {
-    const obj = list[index]
-    const odd: ITabBarItem = { ... obj }
-    if (iconPath) {
-      obj.iconPath = iconPath
+  if (!!list[option.index]) {
+    const obj = list[option.index]
+    const odd: ITabBarItem = ObjectAssign(obj)
+    if (option.iconPath) {
+      obj.iconPath = option.iconPath
       this.tabBarWithImage = true
     }
-    if (selectedIconPath) obj.selectedIconPath = selectedIconPath
-    if (text) obj.text = text
-    this.updateTabBarKey(index, odd)
+    if (option.selectedIconPath) obj.selectedIconPath = option.selectedIconPath
+    if (option.text) obj.text = option.text
+    this.updateTabBarKey(option.index, odd)
   }
   this.tabBarList = list
 }
@@ -512,11 +510,11 @@ removeEvent () {
 handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : ''}state: RefreshStatus) {
   if (state === RefreshStatus.Refresh) {
     ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = true
-    callFn(this.page?.onPullDownRefresh, this)
+    this.page?.onPullDownRefresh?.()
   } else if (state === RefreshStatus.Done) {
     ${this.isTabbarPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} = false
   } else if (state === RefreshStatus.Drag) {
-    callFn(this.page?.onPullIntercept, this)
+    this.page?.onPullIntercept?.()
   }
 }
 `.split('\n'), 2): null,
@@ -551,12 +549,13 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
     }
 
     let code = this.transArr2Str([
-      'import common from "@ohos.app.ability.common"',
-      'import TaroView from "@tarojs/components/view"',
-      'import { Current, TaroElement, window, TaroAny, callFn, bindFn } from "@tarojs/runtime"',
-      'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      'import { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
+      'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
+      'import type common from "@ohos.app.ability.common"',
+      '',
       'import router from "@ohos.router"',
+      'import TaroView from "@tarojs/components/view"',
+      'import { Current, window, bindFn, ObjectAssign, TaroElement, TaroObject } from "@tarojs/runtime"',
+      'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       this.isTabbarPage
         ? [
           this.tabbarList.map((e, i) => `import page${i}, { config as config${i} } from './${e.pagePath}${TARO_COMP_SUFFIX}'`),

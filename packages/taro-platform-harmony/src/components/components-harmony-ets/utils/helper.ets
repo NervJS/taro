@@ -1,7 +1,6 @@
-import { isUndefined } from '@tarojs/shared'
-
 import type { TaroElement } from '@tarojs/runtime'
-import type { TaroAny, Func } from './type'
+import type { Func } from '@tarojs/runtime/dist/runtime.esm'
+import type { TaroAny } from './type'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
   const styleObj: Record<string, string> = {}
