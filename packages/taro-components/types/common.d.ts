@@ -27,7 +27,8 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
     __html: string
   }
   /**
-   * 是否开启小程序编译模式
+   * 是否开启编译模式
+   * @supported weapp, harmony
    */
   compileMode?: boolean
 }

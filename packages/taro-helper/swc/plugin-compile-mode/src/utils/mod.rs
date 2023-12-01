@@ -12,6 +12,7 @@ use swc_core::{
 use std::collections::HashMap;
 
 use self::constants::*;
+use crate::PluginConfig;
 use crate::transform_harmony::TransformVisitor;
 
 pub mod harmony;
@@ -55,11 +56,6 @@ pub fn jsx_text_to_string (atom: &Atom) -> String {
             acc
         });
     res
-}
-
-pub fn is_empty_jsx_text_line (atom: &Atom) -> bool {
-    let str = jsx_text_to_string(atom);
-    str.is_empty()
 }
 
 // 将驼峰写法转换为 kebab-case，即 aBcD -> a-bc-d
@@ -115,6 +111,16 @@ pub fn identify_jsx_event_key (val: &str) -> Option<String> {
     } else {
         return None;
     }
+}
+
+pub fn is_inner_component (el: &mut Box<JSXElement>, config: &PluginConfig) -> bool {
+    let opening = &el.opening;
+    if let JSXElementName::Ident(Ident { sym, .. }) = &opening.name {
+        let name = to_kebab_case(&sym);
+        return config.components.get(&name).is_some();
+    }
+
+    false
 }
 
 pub fn is_static_jsx (el: &Box<JSXElement>) -> bool {
@@ -176,7 +182,7 @@ pub fn create_jsx_lit_attr (name: &str, lit: Lit) -> JSXAttrOrSpread {
 
 pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisitor) -> String {
     let node_name = (visitor.get_node_name)();
-    
+
     visitor.node_name_vec.push(node_name.clone());
     el.opening.attrs.push(create_jsx_lit_attr(DYNAMIC_ID, node_name.clone().into()));
     node_name

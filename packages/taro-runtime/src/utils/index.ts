@@ -79,15 +79,15 @@ export function isHasExtractProp (el: TaroElement): boolean {
  * @param type 事件类型
  */
 export function isParentBinded (node: TaroElement | null, type: string): boolean {
-  let res = false
-  while (node?.parentElement && node.parentElement._path !== ROOT_STR) {
-    if (node.parentElement.__handlers[type]?.length) {
-      res = true
-      break
+  while ((node = node?.parentElement || null)) {
+    if (!node || node.nodeName === ROOT_STR || node.nodeName === 'root-portal') {
+      return false
+    } else if (node.__handlers[type]?.length) {
+      return true
     }
-    node = node.parentElement
   }
-  return res
+
+  return false
 }
 
 export function shortcutAttr (key: string): string {
