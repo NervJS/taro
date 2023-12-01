@@ -19,6 +19,11 @@ interface CheckboxProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
   color?: string
+  /**
+   * Checkbox 的名字
+   * @supported h5, harmony
+   */
+  name?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
