@@ -1,6 +1,20 @@
-import { temporarilyNotSupport } from '../../utils'
+/**
+ * 收藏视频
+ * 
+ * @canNotUse addVideoToFavorites
+ */
+export { addVideoToFavorites } from '@tarojs/taro-h5'
 
-// 收藏
-export const addVideoToFavorites = /* @__PURE__ */ temporarilyNotSupport('addVideoToFavorites')
-export const addFileToFavorites = /* @__PURE__ */ temporarilyNotSupport('addFileToFavorites')
-export const checkIsAddedToMyMiniProgram = /* @__PURE__ */ temporarilyNotSupport('checkIsAddedToMyMiniProgram')
+/**
+ * 收藏文件
+ * 
+ * @canNotUse addFileToFavorites
+ */
+export { addFileToFavorites } from '@tarojs/taro-h5'
+
+/**
+ * 检查小程序是否被添加至 「我的小程序」
+ * 
+ * @canNotUse checkIsAddedToMyMiniProgram
+ */
+export { checkIsAddedToMyMiniProgram } from '@tarojs/taro-h5'

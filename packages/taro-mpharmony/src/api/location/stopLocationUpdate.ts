@@ -2,6 +2,11 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+/**
+ * 关闭监听实时位置变化，前后台都停止消息接收
+ * 
+ * @canUse stopLocationUpdate
+ */
 export const stopLocationUpdate: typeof Taro.stopLocationUpdate = (options) => {
   const name = 'stopLocationUpdate'
   const isValid = shouldBeObject(options).flag || typeof options === 'undefined'

@@ -1,4 +1,6 @@
-import { temporarilyNotSupport } from '../../utils'
-
-// 微信红包
-export const showRedPackage = /* @__PURE__ */ temporarilyNotSupport('showRedPackage')
+/**
+ * 拉取h5领取红包封面页。
+ * 
+ * @canNotUse showRedPackage
+ */
+export { showRedPackage } from '@tarojs/taro-h5'

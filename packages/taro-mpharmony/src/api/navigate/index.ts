@@ -1,7 +1,7 @@
 import Taro from '@tarojs/api'
+import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
-import { shouldBeObject, temporarilyNotSupport } from '../../utils'
 import { showModal } from '../ui/index'
 
 /**
@@ -9,34 +9,34 @@ import { showModal } from '../ui/index'
  * 
  * @canNotUse openEmbeddedMiniProgram
  */
-export const openEmbeddedMiniProgram = /* @__PURE__ */ temporarilyNotSupport('openEmbeddedMiniProgram')
+export { openEmbeddedMiniProgram } from '@tarojs/taro-h5'
 
 /**
  * 返回到上一个小程序
  * 
  * @canNotUse navigateBackMiniProgram
  */
-export const navigateBackMiniProgram = /* @__PURE__ */ temporarilyNotSupport('navigateBackMiniProgram')
+export { navigateBackMiniProgram } from '@tarojs/taro-h5'
 
 /**
  * 退出当前小程序
  * 
  * @canNotUse exitMiniProgram
  */
-export const exitMiniProgram = /* @__PURE__ */ temporarilyNotSupport('exitMiniProgram')
+export { exitMiniProgram } from '@tarojs/taro-h5'
 
 /**
  * 打开微信支付分小程序，引导用户查看订单详情
  * 
  * @canNotUse openBusinessView
  */
-export const openBusinessView = /* @__PURE__ */ temporarilyNotSupport('openBusinessView')
+export { openBusinessView } from '@tarojs/taro-h5'
 
 /**
 * 打开另一个小程序
 * 
 * @canUse navigateToMiniProgram
-* @__object [appId, path, extraData, envVersion[develop, trial, release], shortLink]
+* @__object [appId, path, extraData]
 */
 export const navigateToMiniProgram: typeof Taro.navigateToMiniProgram = (options) => {
   const apiName = 'navigateToMiniProgram'

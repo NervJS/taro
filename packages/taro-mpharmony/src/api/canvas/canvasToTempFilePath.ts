@@ -10,6 +10,13 @@ const QUALITY = 1.0 // 图片质量，为1.0时和原图片质量一致
 const DX = 0 // imageResource的左上角在目标 canvas 上 x 轴的位置
 const DY = 0 // imageResource的左上角在目标 canvas 上 y 轴的位置
 
+/** 
+ * 把当前画布指定区域的内容导出生成指定大小的图片
+ * 
+ * @canUse canvasToTempFilePath
+ * @__object [canvas, canvasId, quality, destHeight, destWidth, fileType[jpg, png], height, width, x, y]
+ * @__success [tempFilePath]
+*/
 export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, inst) => {
   const name = 'canvasToTempFilePath'
   // options must be an Object
@@ -45,8 +52,8 @@ export const canvasToTempFilePath: typeof Taro.canvasToTempFilePath = (options, 
   // 创建一个新的canvas元素
   const outCanvas = document.createElement('canvas')
   const ctx = outCanvas.getContext('2d') as CanvasRenderingContext2D
-  outCanvas.width = destWidth || x
-  outCanvas.height = destHeight || y
+  outCanvas.width = destWidth
+  outCanvas.height = destHeight
   // 设置背景为白色
   ctx.fillStyle = '#FFFFFF'
   ctx.fillRect(0, 0, outCanvas.width, outCanvas.height)

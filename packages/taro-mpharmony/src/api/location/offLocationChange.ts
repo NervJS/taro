@@ -1,6 +1,11 @@
 import Taro from '@tarojs/taro'
 import { shouldBeFunction } from 'src/utils'
 
+/**
+ * 取消监听实时地理位置变化事件
+ * 
+ * @canUse offLocationChange
+ */
 export const offLocationChange: typeof Taro.offLocationChange = (callback) => {
   const name = 'offLocationChange'
   // callback must be an Function

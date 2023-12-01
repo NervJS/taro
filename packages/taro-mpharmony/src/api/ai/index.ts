@@ -1,18 +1,16 @@
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 获取通用AI推理引擎版本
  * 
  * @canNotUse getInferenceEnvInfo
  */
-export const getInferenceEnvInfo = /* @__PURE__ */ temporarilyNotSupport('getInferenceEnvInfo')
+export { getInferenceEnvInfo } from '@tarojs/taro-h5'
 
 /**
  * 创建 AI 推理 Session
  * 
  * @canNotUse createInferenceSession
  */
-export const createInferenceSession = /* @__PURE__ */ temporarilyNotSupport('createInferenceSession')
+export { createInferenceSession } from '@tarojs/taro-h5'
 
 /**
  * InferenceSession类
@@ -21,4 +19,5 @@ export const createInferenceSession = /* @__PURE__ */ temporarilyNotSupport('cre
  */
 
 export * from './facial'
+export * from './inference'
 export * from './visual'

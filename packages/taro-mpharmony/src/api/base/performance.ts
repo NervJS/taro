@@ -1,34 +1,32 @@
 import Taro from '@tarojs/taro'
 
-import { temporarilyNotSupport } from '../../utils'
-
 /**
  * 程序测速上报
  * 
  * @canNotUse reportPerformance
  */
-export const reportPerformance = /* @__PURE__ */ temporarilyNotSupport('reportPerformance')
+export { reportPerformance } from '@tarojs/taro-h5'
 
 /**
  * 预加载下个页面的 WebView
  * 
  * @canNotUse preloadWebview
  */
-export const preloadWebview = /* @__PURE__ */ temporarilyNotSupport('preloadWebview')
+export { preloadWebview } from '@tarojs/taro-h5'
 
 /**
  * 预加载下个页面所需要的 Skyline 运行环境
  * 
  * @canNotUse preloadSkylineView
  */
-export const preloadSkylineView = /* @__PURE__ */ temporarilyNotSupport('preloadSkylineView')
+export { preloadSkylineView } from '@tarojs/taro-h5'
 
 /**
  * 为视图层预加载媒体资源文件
  * 
  * @canNotUse preloadAssets
  */
-export const preloadAssets = /* @__PURE__ */ temporarilyNotSupport('preloadAssets')
+export { preloadAssets } from '@tarojs/taro-h5'
 
 /**
  * 程序测速上报

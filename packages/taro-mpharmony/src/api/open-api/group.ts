@@ -1,4 +1,6 @@
-import { temporarilyNotSupport } from '../../utils'
-
-// 微信群
-export const getGroupEnterInfo = /* @__PURE__ */ temporarilyNotSupport('getGroupEnterInfo')
+/**
+ * 获取微信群聊场景下的小程序启动信息
+ * 
+ * @canNotUse getGroupEnterInfo
+ */
+export { getGroupEnterInfo } from '@tarojs/taro-h5'

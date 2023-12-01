@@ -1,65 +1,71 @@
-import { temporarilyNotSupport } from '../../../utils'
-import { BackgroundAudioManager } from './BackgroundAudioManager'
-
 /**
  * 停止播放音乐
  * 
  * @canNotUse stopBackgroundAudio
  */
-export const stopBackgroundAudio = /* @__PURE__ */ temporarilyNotSupport('stopBackgroundAudio')
+export { stopBackgroundAudio } from '@tarojs/taro-h5'
 
 /**
  * 控制音乐播放进度
  * 
  * @canNotUse seekBackgroundAudio
  */
-export const seekBackgroundAudio = /* @__PURE__ */ temporarilyNotSupport('seekBackgroundAudio')
+export { seekBackgroundAudio } from '@tarojs/taro-h5'
 
 /**
  * 使用后台播放器播放音乐
  * 
  * @canNotUse playBackgroundAudio
  */
-export const playBackgroundAudio = /* @__PURE__ */ temporarilyNotSupport('playBackgroundAudio')
+export { playBackgroundAudio } from '@tarojs/taro-h5'
 
 /**
  * 暂停播放音乐
  * 
  * @canNotUse pauseBackgroundAudio
  */
-export const pauseBackgroundAudio = /* @__PURE__ */ temporarilyNotSupport('pauseBackgroundAudio')
+export { pauseBackgroundAudio } from '@tarojs/taro-h5'
 
 /**
  * 监听音乐停止
  * 
  * @canNotUse onBackgroundAudioStop
  */
-export const onBackgroundAudioStop = /* @__PURE__ */ temporarilyNotSupport('onBackgroundAudioStop')
+export { onBackgroundAudioStop } from '@tarojs/taro-h5'
 
 /**
  * 监听音乐播放
  * 
  * @canNotUse onBackgroundAudioPlay
  */
-export const onBackgroundAudioPlay = /* @__PURE__ */ temporarilyNotSupport('onBackgroundAudioPlay')
+export { onBackgroundAudioPlay } from '@tarojs/taro-h5'
 
 /**
  * 监听音乐暂停
  * 
  * @canNotUse onBackgroundAudioPause
  */
-export const onBackgroundAudioPause = /* @__PURE__ */ temporarilyNotSupport('onBackgroundAudioPause')
+export { onBackgroundAudioPause } from '@tarojs/taro-h5'
 
 /**
  * 获取后台音乐播放状态
  * 
  * @canNotUse getBackgroundAudioPlayerState
  */
-export const getBackgroundAudioPlayerState = /* @__PURE__ */ temporarilyNotSupport('getBackgroundAudioPlayerState')
+export { getBackgroundAudioPlayerState } from '@tarojs/taro-h5'
 
 /**
  * 获取全局唯一的背景音频管理器
  * 
  * @canUse getBackgroundAudioManager
  */
-export const getBackgroundAudioManager = () => new BackgroundAudioManager()
+export { getBackgroundAudioManager } from '@tarojs/taro-h5'
+
+/**
+ * BackgroundAudioManager 实例
+ * 
+ * @canUse BackgroundAudioManager
+ * @__class 
+ * [play, pause, seek, stop, onCanplay, onWaiting, onError, onPlay, onPause, onSeeking,\
+ * onSeeked, onEnded, onStop, onTimeUpdate]
+ */

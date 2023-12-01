@@ -2,7 +2,6 @@ import { h } from '@stencil/core'
 import { newSpecPage, SpecPage } from '@stencil/core/testing'
 
 import { Map } from '../src/components/map/map'
-import { printUnimplementedWarning } from './utils'
 
 const logError = jest.fn()
 console.error = logError
@@ -18,8 +17,9 @@ describe('Map', () => {
     await page.waitForChanges()
 
     expect(page.root).toEqualHtml(`
-      <taro-map-core></taro-map-core>
+      <taro-map-core>
+        <div id="mapContainer" style="height: 400px;"></div>
+      </taro-map-core>
     `)
-    expect(logError).toHaveBeenCalledWith(printUnimplementedWarning(page.root))
   })
 })

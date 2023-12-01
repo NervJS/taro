@@ -110,9 +110,9 @@ class Animation implements Taro.Animation {
         if (stepIndex < animStepsMaxIndex) {
           // 播放下一个关键帧（因为 nerv 和 react 有差异所以 animation & data-animation 都需要写）
           target.setAttribute(animAttr, `${animName}__${animIndex}--${stepIndex + 1}`)
-          if (animAttr === 'animation') {
+          if (animAttr === 'data-animation') {
             // Nerv 环境，animation & data-animation 双重保险
-            target.setAttribute('data-animation', `${animName}__${animIndex}--${stepIndex + 1}`)
+            target.setAttribute('animation', `${animName}__${animIndex}--${stepIndex + 1}`)
           }
         }
       }
@@ -121,7 +121,7 @@ class Animation implements Taro.Animation {
 
   transformUnit (...args) {
     const ret: string[] = []
-    args.forEach(each => {
+    args.forEach((each) => {
       ret.push(isNaN(each) ? each : `${each}${this.unit}`)
     })
     return ret
@@ -133,170 +133,193 @@ class Animation implements Taro.Animation {
   }
 
   // 属性组合
-  rules: string[] = []
+  rules: { key: string, rule: string }[] = []
   // transform 对象
-  transform = [`${TRANSFORM}:`]
+  transform: { key: string, transform: string }[] = []
   // 组合动画
   steps: string[] = []
   // 动画 map ----- 永久保留
   animationMap = {}
   // animationMap 的长度
   animationMapCount = 0
+  // 历史动画
+  historyAnimations: { key: string, transform: string }[] = []
+  // 历史规则
+  historyRules: { key: string, rule: string }[] = []
 
   matrix (a: number, b: number, c: number, d: number, tx: number, ty: number) {
-    this.transform.push(`matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})`)
+    this.transform.push({ key: 'matrix', transform: `matrix(${a}, ${b}, ${c}, ${d}, ${tx}, ${ty})` })
     return this
   }
 
-  matrix3d (a1: number, b1: number, c1: number, d1: number, a2: number, b2: number, c2: number, d2: number, a3: number, b3: number, c3: number, d3: number, a4: number, b4: number, c4: number, d4: number) {
-    this.transform.push(`matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`)
+  matrix3d (
+    a1: number,
+    b1: number,
+    c1: number,
+    d1: number,
+    a2: number,
+    b2: number,
+    c2: number,
+    d2: number,
+    a3: number,
+    b3: number,
+    c3: number,
+    d3: number,
+    a4: number,
+    b4: number,
+    c4: number,
+    d4: number
+  ) {
+    this.transform.push({
+      key: 'matrix3d',
+      transform: `matrix3d(${a1}, ${b1}, ${c1}, ${d1}, ${a2}, ${b2}, ${c2}, ${d2}, ${a3}, ${b3}, ${c3}, ${d3}, ${a4}, ${b4}, ${c4}, ${d4})`,
+    })
     return this
   }
 
   rotate (angle: number) {
-    this.transform.push(`rotate(${angle}deg)`)
+    this.transform.push({ key: 'rotate', transform: `rotate(${angle}deg)` })
     return this
   }
 
   rotate3d (x: number, y?: number, z?: number, angle?: number) {
     if (typeof y !== 'number') {
-      this.transform.push(`rotate3d(${x})`)
+      this.transform.push({ key: 'rotate3d', transform: `rotate3d(${x})` })
     } else {
-      this.transform.push(`rotate3d(${x}, ${y || 0}, ${z || 0}, ${angle || 0}deg)`)
+      this.transform.push({ key: 'rotate3d', transform: `rotate3d(${x}, ${y || 0}, ${z || 0}, ${angle || 0}deg)` })
     }
     return this
   }
 
   rotateX (angle) {
-    this.transform.push(`rotateX(${angle}deg)`)
+    this.transform.push({ key: 'rotateX', transform: `rotateX(${angle}deg)` })
     return this
   }
 
   rotateY (angle) {
-    this.transform.push(`rotateY(${angle}deg)`)
+    this.transform.push({ key: 'rotateY', transform: `rotateY(${angle}deg)` })
     return this
   }
 
   rotateZ (angle) {
-    this.transform.push(`rotateZ(${angle}deg)`)
+    this.transform.push({ key: 'rotateZ', transform: `rotateZ(${angle}deg)` })
     return this
   }
 
-  scale (x, y) {
-    this.transform.push(`scale(${x}, ${y})`)
+  scale (x: number, y?: number) {
+    const scaleY = (typeof y !== 'undefined' && y !== null) ? y : x
+    this.transform.push({ key: 'scale', transform: `scale(${x}, ${scaleY})` })
     return this
   }
 
   scale3d (x, y, z) {
-    this.transform.push(`scale3d(${x}, ${y}, ${z})`)
+    this.transform.push({ key: 'scale3d', transform: `scale3d(${x}, ${y}, ${z})` })
     return this
   }
 
   scaleX (scale) {
-    this.transform.push(`scaleX(${scale})`)
+    this.transform.push({ key: 'scaleX', transform: `scaleX(${scale})` })
     return this
   }
 
   scaleY (scale) {
-    this.transform.push(`scaleY(${scale})`)
+    this.transform.push({ key: 'scaleY', transform: `scaleY(${scale})` })
     return this
   }
 
   scaleZ (scale) {
-    this.transform.push(`scaleZ(${scale})`)
+    this.transform.push({ key: 'scaleZ', transform: `scaleZ(${scale})` })
     return this
   }
 
   skew (x, y) {
-    this.transform.push(`skew(${x}, ${y})`)
+    this.transform.push({ key: 'skew', transform: `skew(${x}deg, ${y}deg)` })
     return this
   }
 
   skewX (angle) {
-    this.transform.push(`skewX(${angle})`)
+    this.transform.push({ key: 'skewX', transform: `skewX(${angle}deg)` })
     return this
   }
 
   skewY (angle) {
-    this.transform.push(`skewY(${angle})`)
+    this.transform.push({ key: 'skewY', transform: `skewY(${angle}deg)` })
     return this
   }
 
   translate (x, y) {
     [x, y] = this.transformUnit(x, y)
-    this.transform.push(`translate(${x}, ${y})`)
+    this.transform.push({ key: 'translate', transform: `translate(${x}, ${y})` })
     return this
   }
 
   translate3d (x, y, z) {
     [x, y, z] = this.transformUnit(x, y, z)
-    this.transform.push(
-      `translate3d(${x}, ${y}, ${z})`
-    )
+    this.transform.push({ key: 'translate3d', transform: `translate3d(${x}, ${y}, ${z})` })
     return this
   }
 
   translateX (translate) {
     [translate] = this.transformUnit(translate)
-    this.transform.push(`translateX(${translate})`)
+    this.transform.push({ key: 'translateX', transform: `translateX(${translate})` })
     return this
   }
 
   translateY (translate) {
     [translate] = this.transformUnit(translate)
-    this.transform.push(`translateY(${translate})`)
+    this.transform.push({ key: 'translateY', transform: `translateY(${translate})` })
     return this
   }
 
   translateZ (translate) {
     [translate] = this.transformUnit(translate)
-    this.transform.push(`translateZ(${translate})`)
+    this.transform.push({ key: 'translateZ', transform: `translateZ(${translate})` })
     return this
   }
 
   opacity (value) {
-    this.rules.push(`opacity: ${value}`)
+    this.rules.push({ key: 'opacity', rule: `opacity: ${value}` })
     return this
   }
 
   backgroundColor (value) {
-    this.rules.push(`background-color: ${value}`)
+    this.rules.push({ key: 'backgroundColor', rule: `background-color: ${value}` })
     return this
   }
 
   width (value) {
     [value] = this.transformUnit(value)
-    this.rules.push(`width: ${value}`)
+    this.rules.push({ key: 'width', rule: `width: ${value}` })
     return this
   }
 
   height (value) {
     [value] = this.transformUnit(value)
-    this.rules.push(`height: ${value}`)
+    this.rules.push({ key: 'height', rule: `height: ${value}` })
     return this
   }
 
   top (value) {
     [value] = this.transformUnit(value)
-    this.rules.push(`top: ${value}`)
+    this.rules.push({ key: 'top', rule: `top: ${value}` })
     return this
   }
 
   right (value) {
     [value] = this.transformUnit(value)
-    this.rules.push(`right: ${value}`)
+    this.rules.push({ key: 'right', rule: `right: ${value}` })
     return this
   }
 
   bottom (value) {
     [value] = this.transformUnit(value)
-    this.rules.push(`bottom: ${value}`)
+    this.rules.push({ key: 'bottom', rule: `bottom: ${value}` })
     return this
   }
 
   left (value) {
     [value] = this.transformUnit(value)
-    this.rules.push(`left: ${value}`)
+    this.rules.push({ key: 'left', rule: `left: ${value}` })
     return this
   }
 
@@ -307,22 +330,45 @@ class Animation implements Taro.Animation {
       duration = DEFAULT.duration,
       delay = DEFAULT.delay,
       timingFunction = DEFAULT.timingFunction,
-      transformOrigin = DEFAULT.transformOrigin
+      transformOrigin = DEFAULT.transformOrigin,
     } = arg
     // 生成一条 transition 动画
+
+    this.transform.map((t0) => {
+      const index = this.historyAnimations.findIndex((t1) => t1.key === t0.key)
+      if (index === -1) {
+        this.historyAnimations.push(t0)
+      } else {
+        this.historyAnimations[index] = t0
+      }
+    })
+    const transforms = this.historyAnimations.map((t) => t.transform)
+    const transformSequence = transforms.length > 0 ? `${TRANSFORM}:${transforms.join(' ')}!important` : ''
+
+    this.rules.map((r0) => {
+      const index = this.historyRules.findIndex((r1) => r1.key === r0.key)
+      if (index === -1) {
+        this.historyRules.push(r0)
+      } else {
+        this.historyRules[index] = r0
+      }
+    })
+    const rules = this.historyRules.map((t) => t.rule)
+    const ruleSequence = rules.length > 0 ? rules.map((rule) => `${rule}!important`).join(';') : ''
+
     this.steps.push(
       [
-        this.rules.map(rule => `${rule}!important`).join(';'),
-        `${this.transform.join(' ')}!important`,
+        ruleSequence,
+        transformSequence,
         `${TRANSFORM}-origin: ${transformOrigin}`,
-        `transition: all ${duration}ms ${timingFunction} ${delay}ms`
+        `transition: all ${duration}ms ${timingFunction} ${delay}ms`,
       ]
-        .filter(item => item !== '' && item !== `${TRANSFORM}:`)
+        .filter((item) => item !== '')
         .join(';')
     )
     // 清空 rules 和 transform
     this.rules = []
-    this.transform = [`${TRANSFORM}:`]
+    this.transform = []
     return this as Taro.Animation
   }
 
@@ -333,9 +379,10 @@ class Animation implements Taro.Animation {
     this.animationMap[animIndex] = this.steps.length
     // 吐出 step
     this.steps.forEach((step, index) => {
-      const selector = index === 0
-        ? `[animation="${animIndex}"], [data-animation="${animIndex}"]`
-        : `[animation="${animIndex}--${index}"], [data-animation="${animIndex}--${index}"]`
+      const selector =
+        index === 0
+          ? `[animation="${animIndex}"], [data-animation="${animIndex}"]`
+          : `[animation="${animIndex}--${index}"], [data-animation="${animIndex}--${index}"]`
       styleSheet.add(`${selector} { ${step} }`)
     })
 

@@ -5,6 +5,7 @@ import ButtonList from '@/components/buttonList'
 import './index.scss'
 import { TestConsole } from '@/util/util'
 import { hooks } from '@tarojs/runtime'
+import canvasPng from '@/assets/api/canvas.png'
 
 /**
  * 画布
@@ -301,7 +302,7 @@ export default class Index extends React.Component {
       {
         id: 'CanvasContext-createPattern',
         inputData: {
-          image: Taro.getEnv() === 'WEAPP' ? '/assets/tab/home.png' : '/static/images/assets/tab/home.png',
+          image: canvasPng,
           repetition: 'repeat',
         },
         func: (apiIndex, data) => {
@@ -327,16 +328,67 @@ export default class Index extends React.Component {
           dWidth: 150,
           dHeight: 100,
         },
-        func: (apiIndex, data) => {
-          this.initCanvas(apiIndex, async () => {
-            context.beginPath()
-            context.drawImage(
-              'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
-              ...Object.values(data)
-            )
-            await context.draw()
-            TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
+        func: async (apiIndex, data) => {
+          Taro.chooseImage({
+            success: (res) => {
+              Taro.getImageInfo({
+                src: res.tempFilePaths[0],
+                success: (res) => {
+                  this.initCanvas(apiIndex, async () => {
+                    context.beginPath()
+                    context.drawImage(
+                      res.path,
+                      ...Object.values(data)
+                    )
+                    await context.draw()
+                    TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
+                  })
+                },
+                fail: (res) => {
+                  TestConsole.consoleNormal('getImageInfo fail', res)
+                },
+                complete: (res) => {
+                  TestConsole.consoleNormal('getImageInfo complete', res)
+                },
+              })
+            },
+            fail: (err) => {
+              TestConsole.consoleNormal('chooseImage fail:', err)
+            },
+            complete: (com) => {
+              TestConsole.consoleNormal('chooseImage complete', com)
+            },
           })
+          /**
+           * 通过downloadFile形式获取的路径的方式样例
+           * Taro.downloadFile({
+           *   url: 'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
+           *   success: (res) => {
+           *     TestConsole.consoleNormal('downloadFile path:', res.tempFilePath)
+           *     this.initCanvas(apiIndex, async () => {
+           *       context.beginPath()
+           *       context.drawImage(
+           *         res.tempFilePath,
+           *         ...Object.values(data)
+           *       )
+           *       await context.draw()
+           *       TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
+           *     })
+           *   }
+           * })
+           *
+           * 直接传入网络路径的方式样例
+           * this.initCanvas(apiIndex, async () => {
+           *   context.beginPath()
+           *   context.drawImage(
+           *     'http://is5.mzstatic.com/image/thumb/Purple128/v4/75/3b/90/753b907c-b7fb-5877-215a-759bd73691a4/source/50x50bb.jpg',
+           *     imageResource,
+           *     ...Object.values(data)
+           *   )
+           *   await context.draw()
+           *   TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
+           * })
+          */
         },
       },
       {

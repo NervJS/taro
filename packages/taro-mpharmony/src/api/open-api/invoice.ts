@@ -1,5 +1,13 @@
-import { temporarilyNotSupport } from '../../utils'
+/**
+ * 选择用户的发票抬头
+ * 
+ * @canNotUse chooseInvoiceTitle
+ */
+export { chooseInvoiceTitle } from '@tarojs/taro-h5'
 
-// 发票
-export const chooseInvoiceTitle = /* @__PURE__ */ temporarilyNotSupport('chooseInvoiceTitle')
-export const chooseInvoice = /* @__PURE__ */ temporarilyNotSupport('chooseInvoice')
+/**
+ * 选择用户已有的发票。
+ * 
+ * @canNotUse chooseInvoice
+ */
+export { chooseInvoice } from '@tarojs/taro-h5'

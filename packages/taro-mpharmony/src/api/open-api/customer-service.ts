@@ -1,4 +1,6 @@
-import { temporarilyNotSupport } from '../../utils'
-
-// 微信客服
-export const openCustomerServiceChat = /* @__PURE__ */ temporarilyNotSupport('openCustomerServiceChat')
+/**
+ * 微信客服
+ * 
+ * @canNotUse openCustomerServiceChat
+ */
+export { openCustomerServiceChat } from '@tarojs/taro-h5'

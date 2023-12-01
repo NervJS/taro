@@ -170,3 +170,23 @@ class _C extends React.Component {
 }
 export default _C;
 `;
+
+exports[`parseAst 转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分 1`] = `
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import Jstest from '../../components/test.js';
+import { Mymodule, Mymodules } from '../../components/test.js';
+import MymodulesComponent from '../../components/my-component';
+import MymoduleComponent from '../../components/my-component';
+import JstestComponent from '../../components/my-component';
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Block><JstestComponent></JstestComponent><MymoduleComponent></MymoduleComponent><MymodulesComponent></MymodulesComponent></Block>;
+  }
+}
+export default _C;
+`;

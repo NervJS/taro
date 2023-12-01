@@ -185,6 +185,8 @@ declare module '../../index' {
   }
   namespace MapContext {
     interface GetCenterLocationOption {
+      /** 图标路径，支持网络路径、本地路径、代码包路径 */
+      iconPath: string
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -321,6 +323,8 @@ declare module '../../index' {
       markerId: number
       /** marker 的旋转角度 */
       rotate: number
+      /** 平移和旋转同时进行 */
+      moveWithRotate:boolean
       /** 动画结束回调函数 */
       animationEnd?: (...args: any[]) => any
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */

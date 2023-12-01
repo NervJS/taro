@@ -1,4 +1,6 @@
-import { temporarilyNotSupport } from '../../utils'
-
-// 车牌
-export const chooseLicensePlate = /* @__PURE__ */ temporarilyNotSupport('chooseLicensePlate')
+/**
+ * 选择车牌号。
+ * 
+ * @canNotUse chooseLicensePlate
+ */
+export { chooseLicensePlate } from '@tarojs/taro-h5'

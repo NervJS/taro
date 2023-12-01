@@ -77,9 +77,9 @@ describe('template.ts', () => {
       <template is="huangye" data="{{ info }}"/>
       `
       // 确定解析wxml文件的绝对路径
-      // const dirPath = '\\wechatTest\\template_test\\components\\LunaComponent\\ListHuangye'
       const dirPath = path.join('wechatTest', 'template_test', 'components', 'LunaComponent', 'ListHuangye')
       const rootPathMock = path.join('wechatTest','template_test')
+
       /**
        *  模拟全局对象下的文件路径
        */

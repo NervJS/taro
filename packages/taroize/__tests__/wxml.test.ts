@@ -319,7 +319,7 @@ describe('wxs', () => {
     option.path = 'wxml_wxs_regexp'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxses[0]).toEqual({ module: 'wxs_regexp', src: './wxs__wxs_regexp' })
+    expect(wxses[0]).toEqual({ module: 'wxs_regexp',src: './wxs__wxs_regexp' })
     expect(importsCode).toBe('var regexp = new RegExp();')
   })
 
@@ -338,7 +338,7 @@ describe('wxs', () => {
     option.path = 'wxml_wxs_getDate'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxses[0]).toEqual({ module: 'wxs_getDate', src: './wxs__wxs_getDate' })
+    expect(wxses[0]).toEqual({ module: 'wxs_getDate',src: './wxs__wxs_getDate' })
     expect(importsCode).toMatchSnapshot()
   })
 })
@@ -390,7 +390,7 @@ describe('组件', () => {
 
 describe('parseContent', () => {
   test('节点key的值解析', () => {
-    const contentInput = `{{list}}`
+    const contentInput = '{{list}}'
     const { type, content } = parseContent(contentInput)
     expect(type).toBe('expression')
     expect(content).toBe(`(list)`)

@@ -1,14 +1,11 @@
-import { processOpenApi, temporarilyNotSupport } from '../../utils/index'
+import {  temporarilyNotSupport } from '../../utils/index'
 
 // 位置
 export const stopLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('stopLocationUpdate')
 export const startLocationUpdateBackground = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdateBackground')
 export const startLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdate')
 
-export const openLocation = /* @__PURE__ */ processOpenApi({
-  name: 'openLocation',
-  defaultOptions: { scale: 18 }
-})
+export { openLocation } from './openLocation'
 
 export const onLocationChangeError = /* @__PURE__ */ temporarilyNotSupport('onLocationChangeError')
 export const onLocationChange = /* @__PURE__ */ temporarilyNotSupport('onLocationChange')
