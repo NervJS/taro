@@ -41,7 +41,8 @@
       "/__tests__/util.ts"
     ],
     "coveragePathIgnorePatterns": [
-      "/__tests__/*"
+      "/__tests__/*",
+      "/src/vue.ts"
     ]
   },
   "author": "yuche",

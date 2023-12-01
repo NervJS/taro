@@ -1,5 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`parseScript CommonJS 导出页面 1`] = `
+const {
+  Block: Block,
+  View: View
+} = require("@tarojs/components");
+const React = require("react");
+const Taro = require("@tarojs/taro");
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+const wxs_date = require("../../utils/req.wxs");
+module.exports = {
+  data: {
+    message: 'Hello, Mini Program!'
+  },
+  onLoad() {
+    console.log('Page loaded.');
+  }
+};
+Component({});
+@withWeapp(cacheOptions.getOptionsFromCache(), true)
+class _C extends React.Component {
+  render() {
+    return <View>{wxs_date.date}</View>;
+  }
+}
+module.exports = _C;
+`;
+
 exports[`parseScript app.js 1`] = `
 import "@tarojs/components";
 import React from "react";

@@ -151,6 +151,27 @@ class _C extends React.Component {
 export default _C;
 `;
 
+exports[`template.ts 模板 template 的 is 属性是表达式情况 1`] = `
+<Block>{true ? <MsgItemTmpl data={{
+    data: 'xixi'
+  }}></MsgItemTmpl> : <bccdTmpl data={{
+    data: 'xixi'
+  }}></bccdTmpl>}</Block>
+`;
+
+exports[`template.ts 模板 template传递data的语法 {{...xxx,xxx}} 1`] = `
+<MsgItemTmpl data={{
+  ...item,
+  text
+}}></MsgItemTmpl>
+`;
+
+exports[`template.ts 模板 template传递data的语法 {{key:xxx}} 1`] = `
+<MsgItemTmpl data={{
+  text: 'abc'
+}}></MsgItemTmpl>
+`;
+
 exports[`template.ts 模板 当template同时使用外部工具类和data传递数据 1`] = `
 import { Block, Text, View } from "@tarojs/components";
 import React from "react";
