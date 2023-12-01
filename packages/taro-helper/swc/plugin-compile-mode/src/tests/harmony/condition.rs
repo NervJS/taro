@@ -57,3 +57,23 @@ test!(
   }
   "#
 );
+
+test!(
+  get_syntax_config(),
+  |_| tr(),
+  should_support_complex_condition,
+  r#"
+  function Index () {
+      return (
+        <View compileMode>
+          {condition1 && <View onClick={() => condition2 && doSth()} />}
+          <View>{condition1 && ident}</View>
+          <View>{condition1 && obj.property}</View>
+          <View>{condition1 && fn()}</View>
+          {condition1 ? <View className={condition2 ? '' : ''} /> : <View/>}
+          {condition1 ? <View>{condition2 ? <View/> : <View/>}</View> : <View/>}
+        </View>
+      )
+  }
+  "#
+);

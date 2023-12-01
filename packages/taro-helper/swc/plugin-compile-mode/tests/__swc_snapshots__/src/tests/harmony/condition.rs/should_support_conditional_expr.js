@@ -141,8 +141,6 @@ export default struct TARO_TEMPLATES_f0t0 {
   @State node9: TaroElement = new TaroIgnoreElement()
   @State node10: TaroElement = new TaroIgnoreElement()
   @State node11: TaroElement = new TaroIgnoreElement()
-  @State node12: TaroElement = new TaroIgnoreElement()
-  @State node13: TaroElement = new TaroIgnoreElement()
   
   build() {
     Flex(FlexManager.flexOptions(this.node0)) {
@@ -275,23 +273,6 @@ export default struct TARO_TEMPLATES_f0t0 {
         }))
       }
       if (this.node0.childNodes[4]._attrs.compileIf) {
-        if (this.node0.childNodes[4]._attrs.compileIf) {
-          Flex(FlexManager.flexOptions(this.node10)) {
-            Text(this.node10.childNodes[0].textContent)
-            .attrsText(getTextAttributes(this.node10.childNodes[0]))
-            .onVisibleAreaChange(getNodeThresholds(this.node10.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node10.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
-            .onAreaChange(getComponentEventCallback(this.node10.childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-              const [_, areaResult] = eventResult
-              this.nodeInfoMap[this.node10.childNodes[0]._nid].areaInfo = areaResult
-            }))
-          }
-          .attrs(getNormalAttributes(this.node10))
-          .onVisibleAreaChange(getNodeThresholds(this.node10) || [0.0, 1.0], getComponentEventCallback(this.node10, VISIBLE_CHANGE_EVENT_NAME))
-          .onAreaChange(getComponentEventCallback(this.node10, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-            const [_, areaResult] = eventResult
-            this.nodeInfoMap[this.node10._nid].areaInfo = areaResult
-          }))
-        }
       } else {
         Flex(FlexManager.flexOptions(this.node9)) {
           Text(this.node9.childNodes[0].textContent)
@@ -310,39 +291,21 @@ export default struct TARO_TEMPLATES_f0t0 {
         }))
       }
       if (this.node0.childNodes[5]._attrs.compileIf) {
-        Flex(FlexManager.flexOptions(this.node12)) {
-          Text(this.node12.childNodes[0].textContent)
-          .attrsText(getTextAttributes(this.node12.childNodes[0]))
-          .onVisibleAreaChange(getNodeThresholds(this.node12.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node12.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
-          .onAreaChange(getComponentEventCallback(this.node12.childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+        Flex(FlexManager.flexOptions(this.node10)) {
+          Text(this.node10.childNodes[0].textContent)
+          .attrsText(getTextAttributes(this.node10.childNodes[0]))
+          .onVisibleAreaChange(getNodeThresholds(this.node10.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node10.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
+          .onAreaChange(getComponentEventCallback(this.node10.childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
             const [_, areaResult] = eventResult
-            this.nodeInfoMap[this.node12.childNodes[0]._nid].areaInfo = areaResult
+            this.nodeInfoMap[this.node10.childNodes[0]._nid].areaInfo = areaResult
           }))
         }
-        .attrs(getNormalAttributes(this.node12))
-        .onVisibleAreaChange(getNodeThresholds(this.node12) || [0.0, 1.0], getComponentEventCallback(this.node12, VISIBLE_CHANGE_EVENT_NAME))
-        .onAreaChange(getComponentEventCallback(this.node12, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+        .attrs(getNormalAttributes(this.node10))
+        .onVisibleAreaChange(getNodeThresholds(this.node10) || [0.0, 1.0], getComponentEventCallback(this.node10, VISIBLE_CHANGE_EVENT_NAME))
+        .onAreaChange(getComponentEventCallback(this.node10, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
           const [_, areaResult] = eventResult
-          this.nodeInfoMap[this.node12._nid].areaInfo = areaResult
+          this.nodeInfoMap[this.node10._nid].areaInfo = areaResult
         }))
-      } else {
-        if (this.node0.childNodes[5]._attrs.compileIf) {
-          Flex(FlexManager.flexOptions(this.node11)) {
-            Text(this.node11.childNodes[0].textContent)
-            .attrsText(getTextAttributes(this.node11.childNodes[0]))
-            .onVisibleAreaChange(getNodeThresholds(this.node11.childNodes[0]) || [0.0, 1.0], getComponentEventCallback(this.node11.childNodes[0], VISIBLE_CHANGE_EVENT_NAME))
-            .onAreaChange(getComponentEventCallback(this.node11.childNodes[0], AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-              const [_, areaResult] = eventResult
-              this.nodeInfoMap[this.node11.childNodes[0]._nid].areaInfo = areaResult
-            }))
-          }
-          .attrs(getNormalAttributes(this.node11))
-          .onVisibleAreaChange(getNodeThresholds(this.node11) || [0.0, 1.0], getComponentEventCallback(this.node11, VISIBLE_CHANGE_EVENT_NAME))
-          .onAreaChange(getComponentEventCallback(this.node11, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-            const [_, areaResult] = eventResult
-            this.nodeInfoMap[this.node11._nid].areaInfo = areaResult
-          }))
-        }
       }
       if (this.node0.childNodes[6]._attrs.compileIf) {
         Text(this.node0.childNodes[6].textContent)
@@ -361,12 +324,12 @@ export default struct TARO_TEMPLATES_f0t0 {
           this.nodeInfoMap[this.node0.childNodes[6]._nid].areaInfo = areaResult
         }))
       }
-      Flex(FlexManager.flexOptions(this.node13)) {}
-      .attrs(getNormalAttributes(this.node13))
-      .onVisibleAreaChange(getNodeThresholds(this.node13) || [0.0, 1.0], getComponentEventCallback(this.node13, VISIBLE_CHANGE_EVENT_NAME))
-      .onAreaChange(getComponentEventCallback(this.node13, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
+      Flex(FlexManager.flexOptions(this.node11)) {}
+      .attrs(getNormalAttributes(this.node11))
+      .onVisibleAreaChange(getNodeThresholds(this.node11) || [0.0, 1.0], getComponentEventCallback(this.node11, VISIBLE_CHANGE_EVENT_NAME))
+      .onAreaChange(getComponentEventCallback(this.node11, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
         const [_, areaResult] = eventResult
-        this.nodeInfoMap[this.node13._nid].areaInfo = areaResult
+        this.nodeInfoMap[this.node11._nid].areaInfo = areaResult
       }))
     }
     .attrs(getNormalAttributes(this.node0))
@@ -385,17 +348,17 @@ function Index() {
 
             {condition1 ? condition2 ? <View compileIf={condition2} _dynamicID="node4">{a}</View> : <Text _dynamicID="node3">{b}</Text> : <View _dynamicID="node2">{c}</View>}
 
-            {condition1 ? <View compileIf={condition1} _dynamicID="node7">{a}</View> : condition2 ? <View compileIf={condition2} _dynamicID="node6">{b}</View> : <Text _dynamicID="node5">{c}</Text>}
+            {condition1 ? <View compileIf={condition1} _dynamicID="node7">{a}</View> : condition2 ? <View _dynamicID="node6">{b}</View> : <Text _dynamicID="node5">{c}</Text>}
 
-            {condition1 ? <View compileIf={condition1} _dynamicID="node8">{a}</View> : condition2 ? <View compileIf={condition2}>{b}</View> : <Text>{c}</Text>}
+            {condition1 ? <View compileIf={condition1} _dynamicID="node8">{a}</View> : condition2 ? <View>{b}</View> : <Text>{c}</Text>}
 
-            {condition1 ? condition2 ? <View compileIf={condition2} _dynamicID="node10">{a}</View> : <View compileIgnore/> : <View _dynamicID="node9">{b}</View>}
+            {condition1 ? condition2 && <View>{a}</View> : <View _dynamicID="node9">{b}</View>}
 
-            {condition1 ? <View compileIf={condition1} _dynamicID="node12">{a}</View> : condition2 ? <View compileIf={condition2} _dynamicID="node11">{b}</View> : <View compileIgnore/>}
+            {condition1 ? <View compileIf={condition1} _dynamicID="node10">{a}</View> : condition2 && <View>{b}</View>}
 
             {condition1 ? "someText" : 789}
 
-            <View hoverClass={myClass} _dynamicID="node13"></View>
+            <View hoverClass={myClass} _dynamicID="node11"></View>
 
           </View>;
 }

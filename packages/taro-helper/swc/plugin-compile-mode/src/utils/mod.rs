@@ -11,7 +11,7 @@ use swc_core::{
 };
 use std::collections::HashMap;
 
-use self::constants::*;
+use self::{constants::*, harmony::components::get_text_component_str};
 use crate::PluginConfig;
 use crate::transform_harmony::TransformVisitor;
 
@@ -321,6 +321,15 @@ pub fn create_original_node_renderer_foreach (visitor: &mut TransformVisitor) ->
 
 pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
     add_spaces_to_lines(format!("createNode(this.{})", visitor.get_current_node_path()).as_str())
+}
+
+pub fn create_normal_text_template (visitor: &mut TransformVisitor) -> String {
+    let node_path = visitor.get_current_node_path();
+    let code = add_spaces_to_lines(get_text_component_str(&node_path).as_str());
+
+    visitor.component_set.insert(TEXT_TAG.clone().to_string());
+
+    code
 }
 
 pub fn gen_template_v (node_path: &str) -> String {

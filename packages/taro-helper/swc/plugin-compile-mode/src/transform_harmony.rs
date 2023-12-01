@@ -12,106 +12,111 @@ use swc_core::{
   },
 };
 use std::collections::HashMap;
-use std::rc::Rc;
 use std::collections::HashSet;
 use crate::PluginConfig;
 use crate::utils::{self, constants::*, harmony::components::*};
 
 pub struct PreVisitor {
-  is_in_jsx_expr_container: Rc<bool>,
   is_in_and_expr: bool,
 }
 impl PreVisitor {
     fn new () -> Self {
         Self {
-            is_in_jsx_expr_container: Rc::new(true),
-            is_in_and_expr: false,
+            is_in_and_expr: false
         }
+    }
+    fn process_cond_expr (&self, expr: &mut CondExpr) {
+        let test = &expr.test;
+        let cons = &mut expr.cons;
+        let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
+        let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
+            match &mut **arm {
+                Expr::JSXElement(el) => {
+                    println!("el: {:?}", el.opening);
+                    el.opening.attrs.push(attr);
+                },
+                Expr::Cond(cond_expr) => {
+                    self.process_cond_expr(cond_expr);
+                },
+                _ => ()
+            }
+        };
+        process_cond_arm(cons, compile_if);
     }
 }
 impl VisitMut for PreVisitor {
-    fn visit_mut_jsx_expr_container (&mut self, container: &mut JSXExprContainer) {
-        let _counter = Rc::clone(&self.is_in_jsx_expr_container);
-        // TODO 目前的判断可能误伤函数内的三元表达式、条件表达式
-        container.visit_mut_children_with(self);
-    }
-    fn visit_mut_expr (&mut self, expr: &mut Expr) {
-        if Rc::strong_count(&self.is_in_jsx_expr_container) == 1 { return };
-        let mut is_first_and_expr = false;
+    fn visit_mut_jsx_element_child (&mut self, child: &mut JSXElementChild) {
+        if let JSXElementChild::JSXExprContainer(JSXExprContainer { expr: JSXExpr::Expr(expr), .. }) = child {
+            let mut is_first_and_expr = false;
 
-        // is_in_and_expr 为 false 时，表示为当前 expr 的第一个 && 表达式，即当出现 aa && bb && <View /> 这种表达式时，只会处理最右侧的 && 表达式    
-        match expr {
-            // 将 aa && <B /> 转换为 aa ? <B /> : <B compileIgnore />
-            Expr::Bin(BinExpr { op, left, right, ..}) => {
-                // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
-                if *op == op!("&&") && !self.is_in_and_expr {
-                    is_first_and_expr = true;
-                    fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
-                        el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
-                    }
-                    fn get_element_double (element_name: JSXElementName, condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
-                        Expr::Cond(CondExpr {
-                            span,
-                            test: condition.take(),
-                            cons: right.take(),
-                            alt: Box::new(utils::create_self_closing_jsx_element_expr(
-                                element_name, // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
-                                Some(vec![utils::create_jsx_bool_attr(COMPILE_IGNORE)]
-                            )))
-                        })
-                    }
-                    match &mut **right {
-                        Expr::JSXElement(el) => {
-                            let element_name = el.opening.name.clone();
-                            inject_compile_if(el, left);
-                            *expr = get_element_double(element_name, left, right);
-                        },
-                        Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
-                            if paren_expr.is_jsx_element() {
-                                let el: &mut Box<JSXElement> = paren_expr.as_mut_jsx_element().unwrap();
+            if let Expr::Paren(ParenExpr { expr: e, .. }) = &mut **expr {
+                *expr = e.take();
+            }
+
+            // is_in_and_expr 为 false 时，表示为当前 expr 的第一个 && 表达式，即当出现 aa && bb && <View /> 这种表达式时，只会处理最右侧的 && 表达式    
+            match &mut **expr {
+                // 将 aa && <B /> 转换为 aa ? <B /> : <B compileIgnore />
+                Expr::Bin(BinExpr { op, left, right, ..}) => {
+                    // C&&A 替换为 C?A:A'，原因是为了无论显示还是隐藏都保留一个元素，从而不影响兄弟节点的变量路径
+                    if *op == op!("&&") && !self.is_in_and_expr {
+                        is_first_and_expr = true;
+                        fn inject_compile_if (el: &mut Box<JSXElement>, condition: &mut Box<Expr>) -> () {
+                            el.opening.attrs.push(utils::create_jsx_expr_attr(COMPILE_IF, condition.clone()));
+                        }
+                        fn get_element_double (element_name: JSXElementName, condition: &mut Box<Expr>, right: &mut Box<Expr>) -> Expr {
+                            Expr::Cond(CondExpr {
+                                span,
+                                test: condition.take(),
+                                cons: right.take(),
+                                alt: Box::new(utils::create_self_closing_jsx_element_expr(
+                                    element_name, // element 替换为同类型的元素。在显示/隐藏切换时，让运行时 diff 只更新必要属性而不是整个节点刷新
+                                    Some(vec![utils::create_jsx_bool_attr(COMPILE_IGNORE)]
+                                )))
+                            })
+                        }
+                        match &mut **right {
+                            Expr::JSXElement(el) => {
                                 let element_name = el.opening.name.clone();
                                 inject_compile_if(el, left);
-                                *expr = get_element_double(element_name, left, paren_expr);
-                            }
-                        },
-                        Expr::Lit(_) => {
-                            *expr = Expr::Cond(CondExpr {
-                                span,
-                                test: left.take(),
-                                cons: right.take(),
-                                alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: String::new().into(), raw: None })))
-                            })
-                        },
-                        _ => {
-                            // TODO Unknown fallback to template
-                            // println!("unknown expr: {right:?}");
+                                **expr = get_element_double(element_name, left, right);
+                            },
+                            Expr::Paren(ParenExpr { expr: paren_expr, .. }) => {
+                                if paren_expr.is_jsx_element() {
+                                    let el: &mut Box<JSXElement> = paren_expr.as_mut_jsx_element().unwrap();
+                                    let element_name = el.opening.name.clone();
+                                    inject_compile_if(el, left);
+                                    **expr = get_element_double(element_name, left, paren_expr);
+                                }
+                            },
+                            Expr::Lit(_) => {
+                                **expr = Expr::Cond(CondExpr {
+                                    span,
+                                    test: left.take(),
+                                    cons: right.take(),
+                                    alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: String::new().into(), raw: None })))
+                                })
+                            },
+                            _ => ()
                         }
                     }
-                }
-            },
-            Expr::Cond(CondExpr { test, cons, ..}) => {
-                let compile_if = utils::create_jsx_expr_attr(COMPILE_IF, test.clone());
-                let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
-                    match &mut **arm {
-                        Expr::JSXElement(el) => {
-                            el.opening.attrs.push(attr);
-                        },
-                        _ => ()
-                    }
-                };
-                process_cond_arm(cons, compile_if);
-            },
-            _ => (),
-        }
+                },
+                Expr::Cond(cond_expr) => {
+                    self.process_cond_expr(cond_expr);
+                },
+                _ => (),
+            }
 
-        if is_first_and_expr {
-            self.is_in_and_expr = true;
-        }
+            if is_first_and_expr {
+                self.is_in_and_expr = true;
+            }
 
-        expr.visit_mut_children_with(self);
+            expr.visit_mut_children_with(self);
 
-        if is_first_and_expr {
-            self.is_in_and_expr = false;
+            if is_first_and_expr {
+                self.is_in_and_expr = false;
+            }
+        } else {
+            child.visit_mut_children_with(self);
         }
     }
 }
@@ -177,7 +182,8 @@ impl TransformVisitor {
                         let mut children = utils::create_original_node_renderer_foreach(self);
                         
                         if !is_loop_exist {
-                            children = self.build_ets_children(el);
+                            let (ets_children, ..) = self.build_ets_children(&mut el.children, None);
+                            children = ets_children;
                         }
 
                         // 当前 node_name 节点树已全部递归完毕
@@ -218,19 +224,20 @@ impl TransformVisitor {
         child_string
     }
 
-    fn build_ets_children (&mut self, el: &mut JSXElement) -> String {
+    fn build_ets_children (&mut self, children: &mut Vec<JSXElementChild>, retain_start_from: Option<i32>) -> (String, i32) {
         let mut children_string = String::new();
-        let mut retain_child_counter = 0;
+        let start = if retain_start_from.is_some() { retain_start_from.unwrap() } else { 0 };
+        let mut retain_child_counter = start;
 
         // 迭代 el.children
-        el.children.iter_mut().for_each(|child| {
-            self.node_stack.entry(self.node_name.last().unwrap().clone()).or_insert(vec![]).push(retain_child_counter);
+        children.iter_mut().for_each(|child| {
+            self.push_node_stack(retain_child_counter);
 
             match child {
                 JSXElementChild::JSXElement(child_el) => {
                     let child_string = self.build_ets_element(&mut **child_el);
                     children_string.push_str(&child_string);
-                    retain_child_counter = retain_child_counter + 1;
+                    retain_child_counter += 1;
                 },
                 JSXElementChild::JSXExprContainer(JSXExprContainer {
                     expr: JSXExpr::Expr(jsx_expr),
@@ -244,16 +251,22 @@ impl TransformVisitor {
                         Expr::Cond(cond_expr) => {
                             children_string.push_str(self.build_ets_cond_expr(cond_expr).as_str());
                         },
+                        Expr::Call(CallExpr {
+                            callee: Callee::Expr(callee_expr),
+                            ..
+                        }) => {
+                            let mut tmpl = utils::create_normal_text_template(self);
+                            if utils::is_render_fn(callee_expr) {
+                                tmpl = utils::create_original_node_renderer(self);
+                            }
+                            children_string.push_str(&tmpl);
+                        },
                         _ => {
-                            // TODO: 全部当普通文本处理，后续根据前缀是否为 render 来判断是 jsx 还是普通文本，后续会支持 render 开头的函数调用返回 JSX
-                            // Expr::Call(_)
-                            let node_path = self.get_current_node_path();
-                            let code = utils::add_spaces_to_lines(get_text_component_str(&node_path).as_str());
-                            self.component_set.insert(TEXT_TAG.clone().to_string());
+                            let code = utils::create_normal_text_template(self);
                             children_string.push_str(&code);
                         }
                     };
-                    retain_child_counter = retain_child_counter + 1;
+                    retain_child_counter += 1;
                 },
                 JSXElementChild::JSXText(jsx_text) => {
                     let content = utils::jsx_text_to_string(&jsx_text.value);
@@ -263,16 +276,25 @@ impl TransformVisitor {
 
                         children_string.push_str(code.as_str());
                         self.component_set.insert(TEXT_TAG.clone().to_string());
-                        retain_child_counter = retain_child_counter + 1;
+                        retain_child_counter += 1;
                     }
+                },
+                JSXElementChild::JSXFragment(child_el) => {
+                    self.pop_node_stack();
+                    let (child_string, inner_retain) = self.build_ets_children(&mut child_el.children, Some(retain_child_counter));
+                    children_string.push_str(&child_string);
+                    if inner_retain != 0 {
+                        retain_child_counter += inner_retain;
+                    }
+                    self.push_node_stack(retain_child_counter);
                 },
                 _ => (),
             }
             
-            self.node_stack.entry(self.node_name.last().unwrap().clone()).or_insert(vec![]).pop();
+            self.pop_node_stack();
         });
 
-        children_string
+        (children_string, retain_child_counter - start)
     }
 
     fn build_ets_cond_expr (&mut self, cond_expr: &mut CondExpr) -> String {
@@ -398,6 +420,14 @@ impl TransformVisitor {
             acc.push_str(&format!(".childNodes[{}]", item));
             return acc;
         })
+    }
+
+    pub fn pop_node_stack (&mut self) {
+        self.node_stack.entry(self.node_name.last().unwrap().clone()).or_insert(vec![]).pop();
+    }
+
+    pub fn push_node_stack (&mut self, index: i32) {
+        self.node_stack.entry(self.node_name.last().unwrap().clone()).or_insert(vec![]).push(index);
     }
 }
 
