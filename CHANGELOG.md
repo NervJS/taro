@@ -1,4 +1,8 @@
-# [](https://github.com/NervJS/taro/compare/v2.2.19...v) (2023-11-29)
+# [](https://github.com/NervJS/taro/compare/v2.2.20...v) (2023-12-02)
+
+
+
+## [2.2.20](https://github.com/NervJS/taro/compare/v2.2.19...v2.2.20) (2023-11-29)
 
 
 ### Bug Fixes

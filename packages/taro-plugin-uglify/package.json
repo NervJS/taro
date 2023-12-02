@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-uglify",
-  "version": "2.2.20",
+  "version": "2.2.21",
   "description": "Taro webpack uglify config plugin",
   "main": "index.js",
   "scripts": {
@@ -27,8 +27,8 @@
   "author": "luckyadam",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/runner-utils": "2.2.20",
-    "@tarojs/service": "2.2.20",
+    "@tarojs/runner-utils": "2.2.21",
+    "@tarojs/service": "2.2.21",
     "uglifyjs-webpack-plugin": "2.2.0"
   },
   "devDependencies": {
