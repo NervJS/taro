@@ -60,22 +60,22 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.setClipboardData.html
      */
-   setClipboardData(option: setClipboardData.Option): Promise<setClipboardData.Promised>
+    setClipboardData(option: setClipboardData.Option): Promise<setClipboardData.Promised>
 
-   /**
-    * 获取系统剪贴板内容
-    * @supported weapp, swan, jd, qq, h5, rn, tt
-    * @h5 部分实现
-    * @example
-    * ```tsx
-    * Taro.getClipboardData({
-    *   success: function (res){
-    *     console.log(res.data)
-    *   }
-    * })
-    * ```
-    * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
-    */
-   getClipboardData(res?: getClipboardData.Option): Promise<getClipboardData.Promised>
+    /**
+      * 获取系统剪贴板内容
+      * @supported weapp, swan, jd, qq, h5, rn, tt
+      * @h5 部分实现
+      * @example
+      * ```tsx
+      * Taro.getClipboardData({
+      *   success: function (res){
+      *     console.log(res.data)
+      *   }
+      * })
+      * ```
+      * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/clipboard/wx.getClipboardData.html
+      */
+    getClipboardData(res?: getClipboardData.Option): Promise<getClipboardData.Promised>
   }
 }
