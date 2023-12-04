@@ -4,7 +4,7 @@ import TaroComponentWrapper from './base'
 import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroTextNode } from '@tarojs/runtime'
-import type { TaroTextElement, TaroElement } from './utils/element'
+import type { TaroTextElement, TaroElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 import type { TaroAny } from './utils/type'
 

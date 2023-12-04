@@ -74,6 +74,8 @@ export default class Parser extends BaseParser {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
     AppStorage.setOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
     AppStorage.setOrCreate('__TARO_PAGE_STACK', [])
+    // 引入
+    initHarmonyElement()
     this.app = createComponent()
     this.app?.onLaunch?.(ObjectAssign(want, launchParam))
   }
@@ -117,6 +119,7 @@ export default class Parser extends BaseParser {
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import { window, context, ObjectAssign, TaroAny } from "@tarojs/runtime"',
       'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
+      'import { initHarmonyElement } from "@tarojs/components/element"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       '',

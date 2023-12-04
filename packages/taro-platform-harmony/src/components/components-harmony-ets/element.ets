@@ -13,11 +13,16 @@ import {
   TaroTextElement as _TaroTextElement,
   TaroVideoElement as _TaroVideoElement,
   TaroViewElement as _TaroViewElement,
-  FormElement as _FormElement
+  FormElement as _FormElement,
+  Current
 } from '@tarojs/runtime'
 
 @Observed
-class TaroElement extends _TaroElement {}
+class TaroElement extends _TaroElement {
+  constructor(tagName: string) {
+    super(tagName)
+  }
+}
 
 @Observed
 class TaroViewElement extends _TaroViewElement {}
@@ -61,6 +66,26 @@ class TaroIgnoreElement extends _TaroIgnoreElement {}
 @Observed
 class FormElement extends _FormElement {}
 
+
+export function initHarmonyElement () {
+  Current.createHarmonyElement = (tagName: string) => {
+    switch (tagName) {
+      case 'button': return new TaroButtonElement()
+      case 'checkbox-group': return new TaroCheckboxGroupElement()
+      case 'ignore': return new TaroIgnoreElement()
+      case 'image': return new TaroImageElement()
+      case 'input': return new TaroInputElement()
+      case 'picker': return new TaroPickerElement()
+      case 'radio-group': return new TaroRadioGroupElement()
+      case 'slider': return new TaroSliderElement()
+      case 'switch': return new TaroSwitchElement()
+      case 'text': return new TaroTextElement()
+      case 'video': return new TaroVideoElement()
+      case 'view': return new TaroViewElement()
+      default: return new TaroElement(tagName)
+    }
+  }
+}
 
 export {
   TaroButtonElement,

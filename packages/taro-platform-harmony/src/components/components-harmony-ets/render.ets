@@ -19,7 +19,7 @@ import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPicker from './picker'
 import TaroVideo from './video'
 import TaroForm from './form'
-import { TaroInputElement, TaroRadioGroupElement } from './utils/element'
+import { TaroInputElement, TaroRadioGroupElement } from './element'
 
 @Builder
 function createNode (node: TaroElement) {

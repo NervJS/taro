@@ -10,7 +10,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroButtonElement, TaroElement } from './utils/element'
+import type { TaroButtonElement, TaroElement } from './element'
 import type { TaroStyleType } from './type'
 import type { TaroAny } from './utils/type'
 

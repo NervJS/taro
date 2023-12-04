@@ -37,7 +37,7 @@ class TaroElement extends TaroNode {
   }
 
   public get id (): string {
-    return this.getAttribute('id') || ''
+    return this.getAttribute('id') || this._nid
   }
 
   public set className (value: string) {
@@ -99,6 +99,12 @@ class TaroElement extends TaroNode {
     return Object.keys(this._attrs).length > 0
   }
 
+  public getElementById (id: string | undefined | null): TaroElement {
+    const arr = treeToArray(this, (el) => {
+      return el.id === id
+    })
+    return arr[0]
+  }
 
   public getElementsByTagName (tagName: string): TaroElement[] {
     return treeToArray(this, (el) => {

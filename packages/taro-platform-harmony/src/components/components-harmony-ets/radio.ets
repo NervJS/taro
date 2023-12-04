@@ -12,7 +12,7 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroRadioGroupElement, TaroViewElement } from './utils/element'
+import type { TaroRadioGroupElement, TaroViewElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 import type { TaroAny } from './utils/type'
 

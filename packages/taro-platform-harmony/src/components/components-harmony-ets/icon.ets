@@ -4,7 +4,7 @@ import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroImageElement } from './utils/element'
+import type { TaroImageElement } from './element'
 import type { TaroStyleType } from './type'
 import type { TaroAny } from './utils/type'
 

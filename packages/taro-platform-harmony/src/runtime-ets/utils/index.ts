@@ -60,7 +60,7 @@ export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
   const isArrayData = scrollerOrNode instanceof Array
 
   if (isArrayData) {
-    const index = page.currentIndex || 0
+    const index = page.tabBarCurrentIndex || 0
 
     return scrollerOrNode[index]
   }

@@ -1,6 +1,6 @@
 import { convertNumber2VP } from '../runtime'
 import { AttributeManager } from './utils/AttributeManager'
-import type { TaroElement } from './utils/element'
+import type { TaroElement } from './element'
 
 
 @Component

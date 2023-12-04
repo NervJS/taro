@@ -2,7 +2,7 @@ import TaroComponentWrapper from './base'
 import web_webview from '@ohos.web.webview'
 import htmlParser from './utils/htmlParser'
 import { createNode } from './render'
-import type { TaroElement } from './utils/element'
+import type { TaroElement } from './element'
 
 @Component
 export default struct TaroInnerHtml {

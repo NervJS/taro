@@ -10,7 +10,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, parseStyles, shouldBindEvent } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
-import type { TaroViewElement, TaroInputElement, TaroElement } from './utils/element'
+import type { TaroViewElement, TaroInputElement, TaroElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 import type { TaroAny } from './utils/type'
 

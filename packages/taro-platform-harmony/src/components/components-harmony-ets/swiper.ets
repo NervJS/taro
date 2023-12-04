@@ -8,7 +8,7 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement, TaroElement } from './utils/element'
+import type { TaroViewElement, TaroElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 import type { TaroAny } from './utils/type'
 

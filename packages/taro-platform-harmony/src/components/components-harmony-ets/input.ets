@@ -11,7 +11,7 @@ import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds } 
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 
-import type { TaroInputElement } from './utils/element'
+import type { TaroInputElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 import type { TaroAny } from './utils/type'
 

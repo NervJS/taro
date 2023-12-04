@@ -7,7 +7,7 @@ import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroCheckboxGroupElement, TaroElement, TaroViewElement } from './utils/element'
+import type { TaroCheckboxGroupElement, TaroElement, TaroViewElement } from './element'
 import type { CompType, TaroStyleType } from './type'
 import type { TaroAny } from './utils/type'
 

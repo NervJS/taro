@@ -1,6 +1,5 @@
 import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME,
   TaroNode } from '@tarojs/runtime'
-import { findChildNodeWithDFS } from '@tarojs/taro/utils'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -8,7 +7,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroElement } from './utils/element'
+import type { TaroElement } from './element'
 import type { TaroStyleType } from './type'
 import type { TaroAny } from './utils/type'
 
@@ -77,7 +76,7 @@ export default struct TaroLabel {
     const taro: TaroAny = Current.taro
     const page: TaroAny = taro.getCurrentInstance().page
     const currentPageNode: TaroElement = getPageScrollerOrNode(page.node, page)
-    const node = findChildNodeWithDFS(currentPageNode, `#${id}`)
+    const node = currentPageNode.getElementById(id)
 
     if (!node || !node._instance) return
 
