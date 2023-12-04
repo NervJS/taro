@@ -221,7 +221,7 @@ pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
     for attr in &el.opening.attrs {
         if let JSXAttrOrSpread::JSXAttr(JSXAttr { name, .. }) = attr {
             if let JSXAttrName::Ident(Ident { sym, .. }) = name {
-                if &**sym == COMPILE_IGNORE {
+                if sym == COMPILE_IGNORE {
                     return true
                 }
             }
@@ -235,7 +235,7 @@ pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
  */
 pub fn is_call_expr_of_loop (callee_expr: &mut Box<Expr>, args: &mut Vec<ExprOrSpread>) -> bool {
     if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &mut **callee_expr {
-        if &**sym == "map" {
+        if sym == "map" {
             if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
                 return expr.is_arrow() || expr.is_fn_expr()
             }

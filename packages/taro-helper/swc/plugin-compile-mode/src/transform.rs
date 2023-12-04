@@ -10,6 +10,7 @@ use swc_core::{
         ast::*,
         visit::{VisitMut, VisitMutWith},
     },
+    atoms::Atom,
 };
 use std::collections::HashMap;
 use crate::PluginConfig;
@@ -312,7 +313,7 @@ impl TransformVisitor {
                                         },
                                         Expr::Lit(lit) => {
                                             if let Lit::Str(Str { value, .. }) = lit {
-                                                if &*value == COMPILE_IGNORE {
+                                                if value == COMPILE_IGNORE {
                                                     return ();
                                                 }
                                             }
@@ -425,12 +426,12 @@ impl VisitMut for TransformVisitor {
         for attr in &mut el.opening.attrs {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
-                    if &*jsx_attr_name.sym == COMPILE_MODE {
+                    if jsx_attr_name.sym == COMPILE_MODE {
                         self.is_compile_mode = true;
                         tmpl_name = (self.get_tmpl_name)();
                         jsx_attr.value = Some(JSXAttrValue::Lit(Lit::Str(Str {
                             span,
-                            value: tmpl_name.clone().into(),
+                            value: Atom::new(tmpl_name.as_str()),
                             raw: None,
                         })));
                         break;
@@ -465,10 +466,10 @@ impl VisitMut for TransformVisitor {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Ident(Ident::new(format!("TARO_TEMPLATES_{}", key).as_str().into(), span).into()),
+                        name: Pat::Ident(Ident::new(Atom::new(format!("TARO_TEMPLATES_{}", key)), span).into()),
                         init: Some(Box::new(Expr::Lit(Lit::Str(Str {
                             span,
-                            value: value.as_str().into(),
+                            value: Atom::new(value.as_str()),
                             raw: None
                         })))),
                         definite: false,
