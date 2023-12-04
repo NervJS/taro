@@ -1723,7 +1723,14 @@
     "requestOrderPayment": false,
     "requestPayment": true,
     "requestSubscribeDeviceMessage": false,
-    "requestSubscribeMessage": true,
+    "requestSubscribeMessage": {
+      "object": {
+        "tmplIds": true
+      },
+      "success": {
+        "errMsg": true
+      }
+    },
     "requirePrivacyAuthorize": false,
     "reserveChannelsLive": false,
     "revokeBufferURL": false,
