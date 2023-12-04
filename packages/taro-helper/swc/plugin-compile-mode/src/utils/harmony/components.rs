@@ -51,11 +51,11 @@ pub fn get_text_component_str (node_name: &str) -> String {
 pub fn create_component_event (event_name: &str, node_name: &str) -> String {
   let process_event_trigger_name = |name: &str| -> String {
     if name == "touch" {
-      String::from("TOUCH_EVENT_MAP[e.type]")
+      String::from("TOUCH_EVENT_MAP.get(e.type)")
     } else {
       format!("'{}'", name)
     }
   };
-  
+
   format!("\n.{}(e => eventHandler(e, {}, this.{} as TaroElement))", event_name, process_event_trigger_name(&event_name.get(2..).unwrap().to_lowercase()), node_name)
 }

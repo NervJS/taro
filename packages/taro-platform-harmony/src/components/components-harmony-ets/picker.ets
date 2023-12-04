@@ -321,7 +321,7 @@ export default struct TaroPicker {
     .onClick((e: ClickEvent) => {
       eventHandler(e, 'click', this.node)
     })
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
       const eventResult: TaroAny = res.eventResult
       this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]

@@ -68,10 +68,10 @@ export default struct TaroForm {
       findChildNodeWithDFS<TaroFormWidgetElement>(this.node, (item) => {
         switch (item.nodeName) {
           case 'INPUT':
-          case 'SLIDER': 
-          case 'SWITCH': 
+          case 'SLIDER':
+          case 'SWITCH':
           case 'RADIO-GROUP':
-          case 'CHECKBOX-GROUP': 
+          case 'CHECKBOX-GROUP':
           case 'PICKER': {
             formResult[item.name] = item.value
             break
@@ -119,7 +119,7 @@ export default struct TaroForm {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
+    .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
       const eventResult: TaroAny = res.eventResult
       this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]

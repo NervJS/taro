@@ -142,7 +142,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         this.nodeInfoMap[this.node0.childNodes[5]._nid].areaInfo = eventResult[1]
       }))
       .onClick(e => eventHandler(e, 'click', this.node0.childNodes[5] as TaroElement))
-      .onTouch(e => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node0.childNodes[5] as TaroElement))
+      .onTouch(e => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node0.childNodes[5] as TaroElement))
     }
     .attrs(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
