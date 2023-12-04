@@ -90,10 +90,24 @@ export default class Index extends React.Component {
         },
       },
       {
+        id: 'onAppShow1',
+        func: () => {
+          TestConsole.consoleTest('Taro.onAppShow1')
+          Taro.onAppShow(this.appShow1)
+        },
+      },
+      {
         id: 'onAppHide',
         func: () => {
           TestConsole.consoleTest('Taro.onAppHide')
           Taro.onAppHide(this.appHide)
+        },
+      },
+      {
+        id: 'onAppHide1',
+        func: () => {
+          TestConsole.consoleTest('Taro.onAppHide1')
+          Taro.onAppHide(this.appHide1)
         },
       },
       {
@@ -152,21 +166,43 @@ export default class Index extends React.Component {
         },
       },
       {
+        id: 'offAppShow1',
+        func: () => {
+          TestConsole.consoleTest('Taro.offAppShow1')
+          Taro.offAppShow(this.appShow1)
+        },
+      },
+      {
         id: 'offAppHide',
         func: () => {
           TestConsole.consoleTest('Taro.offAppHide')
           Taro.offAppHide(this.appHide)
         },
       },
+      {
+        id: 'offAppHide1',
+        func: () => {
+          TestConsole.consoleTest('Taro.offAppHide1')
+          Taro.offAppHide(this.appHide1)
+        },
+      },
     ],
   }
 
-  appShow(res) {
-    TestConsole.consoleOnCallback(res, 'onAppShow')
+  appShow = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onAppShow', 6)
   }
 
-  appHide(res) {
-    TestConsole.consoleOnCallback(res, 'onAppHide')
+  appShow1 = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onAppShow1', 7)
+  }
+
+  appHide = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onAppHide', 8)
+  }
+
+  appHide1 = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'onAppHide1', 9)
   }
 
   render() {
