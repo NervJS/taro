@@ -77,6 +77,11 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
     if (opt) this.callbacks.push(opt)
   }
 
+  /** 插入回调 */
+  insert = (start: number, opt?: TCallbackManagerUnit<T>) => {
+    if (opt) this.callbacks.splice(start, 0, opt)
+  }
+
   /** 移除回调 */
   remove = (opt?: TCallbackManagerUnit<T>) => {
     if (opt) {
@@ -89,6 +94,13 @@ export class CallbackManager<T extends unknown[] = unknown[]> {
       if (pos > -1) {
         this.callbacks.splice(pos, 1)
       }
+    }
+  }
+
+  /** 移除每一个opt回调 */
+  removeEvery = (opt?: TCallbackManagerUnit<T>) => {
+    if (opt) {
+      this.callbacks = this.callbacks.filter((callback) => callback !== opt)
     }
   }
 
