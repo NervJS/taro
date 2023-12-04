@@ -276,6 +276,7 @@ export default class Convertor {
     const thisData = new Set<string>()
     traverse(ast, {
       ObjectProperty (astPath) {
+        printToLogFile(`package: taro-cli-convertor, 解析ObjectProperty: ${astPath} ${getLineBreak()}`)
         // xxx({ data: {...} })，获取data属性中符合的数据
         const node = astPath.node
         const key = node.key
@@ -308,6 +309,7 @@ export default class Convertor {
         })
       },
       CallExpression (astPath) {
+        printToLogFile(`package: taro-cli-convertor, 解析CallExpression: ${astPath} ${getLineBreak()}`)
         // 用setData进行初始化的数据
         const node = astPath.node
         const callee = node.callee
@@ -341,8 +343,10 @@ export default class Convertor {
         }
       },
       ClassBody (astPath) {
+        printToLogFile(`package: taro-cli-convertor, 解析ClassBody: ${astPath} ${getLineBreak()}`)
         astPath.traverse({
           MemberExpression (path) {
+            printToLogFile(`package: taro-cli-convertor, 解析StringLiteral: ${astPath} ${getLineBreak()}`)
             // 遇到成员表达式，抽取表达式的来源数据
             const code = path.toString()
             const optionMatch = code.match(/^(.*?)\./)?.[1]
@@ -406,6 +410,7 @@ export default class Convertor {
         enter (astPath) {
           astPath.traverse({
             ClassDeclaration (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析ClassDeclaration: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               let isTaroComponent = false
               if (node.superClass) {
@@ -455,6 +460,7 @@ export default class Convertor {
               }
             },
             ExportDefaultDeclaration (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析ExportDefaultDeclaration: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const declaration = node.declaration
               if (declaration && (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')) {
@@ -479,6 +485,7 @@ export default class Convertor {
               }
             },
             ImportDeclaration (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析ImportDeclaration: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const source = node.source
               const value = source.value
@@ -573,6 +580,7 @@ export default class Convertor {
               }
             },
             MemberExpression (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析MemberExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               const object = node.object
               const prettier = node.property
@@ -623,6 +631,7 @@ export default class Convertor {
 
             // 获取js界面所有用到的自定义标签，不重复
             JSXElement (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析JSXElement: ${astPath} ${getLineBreak()}`)
               const openingElement = astPath.get('openingElement')
               const jsxName = openingElement.get('name')
               if (jsxName.isJSXIdentifier()) {
@@ -733,6 +742,7 @@ export default class Convertor {
 
             // 处理this.data.xx = XXX 的情况，因为此表达式在taro暂不支持, 转为setData
             AssignmentExpression (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析AssignmentExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
               if (
                 t.isMemberExpression(node.left) &&
@@ -777,6 +787,7 @@ export default class Convertor {
           }
           astPath.traverse({
             StringLiteral (astPath) {
+              printToLogFile(`package: taro-cli-convertor, 解析StringLiteral: ${astPath} ${getLineBreak()}`)
               const value = astPath.node.value
               const extname = path.extname(value)
               if (extname && REG_IMAGE.test(extname) && !REG_URL.test(value)) {
@@ -914,6 +925,7 @@ export default class Convertor {
     // 遍历 ast ,将多次 const { xxx } = require('@tarojs/with-weapp')  引入压缩为一次引入
     traverse(ast, {
       VariableDeclaration (astPath) {
+        printToLogFile(`package: taro-cli-convertor, 解析VariableDeclaration: ${astPath} ${getLineBreak()}`)
         const { kind, declarations } = astPath.node
         let currentAstIsWithWeapp = false
         if (kind === 'const') {
@@ -1420,7 +1432,7 @@ ${code}
 
   traversePages (root: string, pages: Set<string>) {
     pages.forEach((page) => {
-      printToLogFile(`开始转换页面 ${page} ${getLineBreak()}`)
+      printToLogFile(`package: taro-cli-convertor, 开始转换页面 ${page} ${getLineBreak()}`)
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(root, page)
 
       // 处理不转换的页面，可在convert.config.json中external字段配置
@@ -1542,8 +1554,8 @@ ${code}
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
-        console.log(err)
         printToLogFile(`package: taro-cli-convertor, 转换页面异常 ${err.stack} ${getLineBreak()}`)
+        console.log(err)
       }
     })
   }
@@ -1636,8 +1648,8 @@ ${code}
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '组件转换', this.generateShowPath(componentJSPath))
-        console.log(err)
         printToLogFile(`package: taro-cli-convertor, 转换组件异常 ${err.stack} ${getLineBreak()}`)
+        console.log(err)
       }
     })
   }
@@ -1868,6 +1880,14 @@ ${code}
   }
 
   showLog () {
+    try {
+      fs.appendFile(globals.logFilePath, globals.logFileContent)
+      globals.logFileContent = ''
+    } catch (error) {
+      console.error('写入日志文件异常')
+      throw error
+    }
+
     console.log()
     console.log(
       `${chalk.green('✔ ')} 转换成功，请进入 ${chalk.bold(

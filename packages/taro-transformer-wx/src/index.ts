@@ -46,6 +46,7 @@ import {
   printToLogFile,
   replaceJSXTextWithTextComponent,
   setting,
+  updateLogFileContent,
 } from './utils'
 import { traverseWxsFile } from './wxs'
 
@@ -200,7 +201,7 @@ export interface TransformResult extends Result {
 export type TransformOptions = Options
 
 function parseCode (code: string) {
-  printToLogFile(`package: taro-transformer-wx, funName: parseCode ${getLineBreak()}`)
+  updateLogFileContent(`package: taro-transformer-wx, funName: parseCode, code: ${code} ${getLineBreak()}`)
   const ast: any = parse(code, {
     sourceType: 'module',
     plugins: [
@@ -302,6 +303,8 @@ export default function transform(options: TransformOptions): TransformResult {
     if (options.sourcePath.endsWith('.wxs')) {
       return traverseWxsFile(ast, defaultResult)
     }
+
+    printToLogFile()
 
     const code = generate(ast.program as any).code
     return {

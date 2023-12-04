@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
-import { buildBlockElement, buildRender, getLineBreak, pascalName, printToLogFile, setting } from './utils'
+import { buildBlockElement, buildRender, getLineBreak, pascalName, setting, updateLogFileContent } from './utils'
 import { createWxmlVistor, parseWXML, WXS } from './wxml'
 
 function isNumeric (n) {
@@ -88,6 +88,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   const templateApplys = new Set<string>()
   path.traverse({
     JSXAttribute (p) {
+      updateLogFileContent(`package: taroize, 解析JSXAttribute, path: ${p} ${getLineBreak()}`)
       // 获取 template方法
       const node = p.node
       if (
@@ -104,6 +105,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
       }
     },
     JSXOpeningElement (p) {
+      updateLogFileContent(`package: taroize, 解析JSXOpeningElement, path: ${p} ${getLineBreak()}`)
       // 获取 template调用的模板
       const attrs = p.get('attributes')
       const is = attrs.find(
@@ -138,7 +140,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   if (!path.container || !path.isJSXElement()) {
     return
   }
-  printToLogFile(`package: taroize, funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(
@@ -317,7 +319,7 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
 }
 
 export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type: 'include' | 'import') {
-  printToLogFile(`package: taroize, funName: parseModule, jsx: ${jsx}, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseModule, jsx: ${jsx}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = jsx.get('openingElement')
   const attrs = openingElement.get('attributes')
   // const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')

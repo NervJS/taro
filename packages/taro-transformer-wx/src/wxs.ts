@@ -3,20 +3,23 @@ import traverse, { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { TransformResult } from './index'
-import { getLineBreak, printToLogFile } from './utils'
+import { getLineBreak, printToLogFile, updateLogFileContent } from './utils'
 
 export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
-  printToLogFile(`package: taro-transformer-wx, funName: traverseWxsFile ${getLineBreak()}`)
+  updateLogFileContent(`package: taro-transformer-wx, funName: traverseWxsFile ${getLineBreak()}`)
   const vistor: Visitor = {
     BlockStatement(path) {
+      updateLogFileContent(`package: taro-transformer-wx, 解析BlockStatement, path: ${path} ${getLineBreak()}`)
       path.scope.rename('wx', 'Taro')
     },
     Identifier(path) {
+      updateLogFileContent(`package: taro-transformer-wx, 解析Identifier, path: ${path} ${getLineBreak()}`)
       if (path.isReferenced() && path.node.name === 'wx') {
         path.replaceWith(t.identifier('Taro'))
       }
     },
     CallExpression(path) {
+      updateLogFileContent(`package: taro-transformer-wx, 解析CallExpression, path: ${path} ${getLineBreak()}`)
       // wxs文件中的getRegExp转换为new RegExp
       if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
         // 根据正则表达式是否定义了正则匹配修饰符，有则不变，没有就用默认
@@ -76,6 +79,8 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
   }
 
   traverse(ast, vistor)
+
+  printToLogFile()
 
   const code = generate(ast.program as any).code
   return {

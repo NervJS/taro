@@ -2,7 +2,7 @@ import * as t from '@babel/types'
 
 import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { parseScript } from './script'
-import { setting } from './utils'
+import { printToLogFile, setting } from './utils'
 import { parseVue } from './vue'
 import { parseWXML } from './wxml'
 
@@ -67,6 +67,8 @@ export function parse (option: Option) {
     option.isApp,
     option.pluginInfo
   )
+  
+  printToLogFile()
 
   return {
     ast,
