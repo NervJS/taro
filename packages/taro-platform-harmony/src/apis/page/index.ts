@@ -6,10 +6,10 @@
  * - 滚动距离
  * 文档地址 https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-framework-syntax-js-0000000000611432
  */
-import { AREA_CHANGE_EVENT_NAME, Current, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, Current, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 import { pxTransformHelper } from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess, findChildNodeWithDFS } from '../utils'
+import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/api'
 
