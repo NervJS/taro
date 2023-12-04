@@ -34,7 +34,7 @@ pub fn get_view_component_str (node_name: &str, child_content: &str) -> String {
 }
 
 pub fn get_image_component_str (node_name: &str) -> String {
-  format!("Image((this.{node_id} as TaroElement).getAttribute('src'))\n{style}",
+  format!("Image((this.{node_id} as TaroElement).getAttribute('src'))\n.objectFit(getImageMode((this.{node_id} as TaroElement).getAttribute('mode')))\n{style}",
     node_id = node_name,
     style = get_component_style_str(node_name, "image")
   )

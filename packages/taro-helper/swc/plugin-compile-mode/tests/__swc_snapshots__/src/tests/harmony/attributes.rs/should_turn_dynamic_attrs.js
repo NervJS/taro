@@ -67,6 +67,17 @@ function attrsImage (style: TaroStyleType) {
   .opacity(style.opacity)
   .clip(style.clip)
 }
+
+function getImageMode (mode: string): ImageFit {
+  switch (mode) {
+    case 'aspectFit': return ImageFit.Contain
+    case 'aspectFill': return ImageFit.Cover
+    case 'scaleToFill': return ImageFit.Fill
+    case 'widthFix': return ImageFit.Auto
+    case 'heightFix': return ImageFit.Auto
+    default: return ImageFit.Contain
+  }
+}
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   nodeInfoMap: TaroAny = {}
@@ -124,6 +135,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         this.nodeInfoMap[this.node1._nid].areaInfo = eventResult[1]
       }))
       Image((this.node0.childNodes[1] as TaroElement).getAttribute('src'))
+      .objectFit(getImageMode((this.node0.childNodes[1] as TaroElement).getAttribute('mode')))
       .attrsImage(getNormalAttributes(this.node0.childNodes[1] as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[1] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[1] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node0.childNodes[1] as TaroElement, AREA_CHANGE_EVENT_NAME, res => {
@@ -131,6 +143,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         this.nodeInfoMap[this.node0.childNodes[1]._nid].areaInfo = eventResult[1]
       }))
       Image((this.node5 as TaroElement).getAttribute('src'))
+      .objectFit(getImageMode((this.node5 as TaroElement).getAttribute('mode')))
       .attrsImage(getNormalAttributes(this.node5 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node5 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node5 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node5 as TaroElement, AREA_CHANGE_EVENT_NAME, res => {

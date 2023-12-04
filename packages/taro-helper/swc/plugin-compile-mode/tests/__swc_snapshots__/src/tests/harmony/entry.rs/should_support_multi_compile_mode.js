@@ -38,6 +38,17 @@ function attrsImage (style: TaroStyleType) {
   .opacity(style.opacity)
   .clip(style.clip)
 }
+
+function getImageMode (mode: string): ImageFit {
+  switch (mode) {
+    case 'aspectFit': return ImageFit.Contain
+    case 'aspectFill': return ImageFit.Cover
+    case 'scaleToFill': return ImageFit.Fill
+    case 'widthFix': return ImageFit.Auto
+    case 'heightFix': return ImageFit.Auto
+    default: return ImageFit.Contain
+  }
+}
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   nodeInfoMap: TaroAny = {}
@@ -52,6 +63,7 @@ export default struct TARO_TEMPLATES_f0t0 {
   
   build() {
     Image((this.node0 as TaroElement).getAttribute('src'))
+    .objectFit(getImageMode((this.node0 as TaroElement).getAttribute('mode')))
     .attrsImage(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, res => {

@@ -136,4 +136,15 @@ function attrsImage (style: TaroStyleType) {
   .opacity(style.opacity)
   .clip(style.clip)
 }
+
+function getImageMode (mode: string): ImageFit {
+  switch (mode) {
+    case 'aspectFit': return ImageFit.Contain
+    case 'aspectFill': return ImageFit.Cover
+    case 'scaleToFill': return ImageFit.Fill
+    case 'widthFix': return ImageFit.Auto
+    case 'heightFix': return ImageFit.Auto
+    default: return ImageFit.Contain
+  }
+}
 "#;
