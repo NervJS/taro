@@ -531,11 +531,11 @@ export class Video implements ComponentInterface {
     // 全屏后，"退出"走的是浏览器事件，在此同步状态
     const timestamp = new Date().getTime()
     if (!e.detail && this.isFullScreen && !document[screenFn.fullscreenElement] && timestamp - this.fullScreenTimestamp > 100) {
-      this.toggleFullScreen(false)
+      this.toggleFullScreen(false, true)
     }
   }
 
-  toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
+  toggleFullScreen = (isFullScreen = !this.isFullScreen, fromBrowser = false) => {
     this.isFullScreen = isFullScreen // this.videoRef?.['webkitDisplayingFullscreen']
     this.controlsRef.toggleVisibility(true)
     this.fullScreenTimestamp = new Date().getTime()
@@ -547,7 +547,8 @@ export class Video implements ComponentInterface {
       setTimeout(() => {
         this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
       }, 0)
-    } else {
+    } else if (!fromBrowser) {
+      // Note: 全屏后，"退出全屏"是浏览器按钮是浏览器内部按钮，非html按钮，点击"退出全屏"按钮是浏览器内部实现功能。此时再次调用exitFullscreen反而会报错，因此不再调用
       document[screenFn.exitFullscreen]()
     }
   }

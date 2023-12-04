@@ -87,6 +87,8 @@
  * │   │   └── index.d.ts                   路由 API
  * │   ├── share
  * │   │   └── index.d.ts                   转发 API
+ * │   ├── skyline
+ * │   │   └── index.d.ts                   微信 Skyline API
  * │   ├── storage
  * │   │   ├── background-fetch.d.ts        数据缓存 -> 后台获取 API
  * │   │   └── index.d.ts                   数据缓存 API

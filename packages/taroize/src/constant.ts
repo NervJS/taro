@@ -53,5 +53,7 @@ export const reserveKeyWords = new Set([
   'super',
   'synchronized',
   'throws',
-  'transient'
+  'transient',
 ])
+
+export const navigateFunc = new Set(['navigateTo', 'redirectTo', 'reLaunch'])

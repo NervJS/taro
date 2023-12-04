@@ -9,11 +9,20 @@ export const components = {
   Icon: {
     size: '24'
   },
+  Input: {
+    'adjust-position': _true,
+    'hold-keyboard': _false,
+    'clue-type': '0',
+    bindKeyboardHeightChange: _empty,
+  },
   Button: {
     bindGetPhoneNumber: _empty,
     'data-channel': _empty,
     'data-aweme-id': _empty,
-    bindOpenAwemeUserProfile: _empty
+    'group-id': _empty,
+    'data-is-half-page': _empty,
+    bindOpenAwemeUserProfile: _empty,
+    bindJoinGroup: _empty,
   },
   Form: {
     'report-submit-timeout': '0'

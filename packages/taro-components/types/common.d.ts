@@ -26,6 +26,10 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
   dangerouslySetInnerHTML?: {
     __html: string
   }
+  /**
+   * 是否开启小程序编译模式
+   */
+  compileMode?: boolean
 }
 
 export interface FormItemProps {

@@ -1,4 +1,4 @@
-import { isWebPlatform } from '@tarojs/shared'
+import { isNumber, isWebPlatform } from '@tarojs/shared'
 import classNames from 'classnames'
 import memoizeOne from 'memoize-one'
 import { defineComponent } from 'vue'
@@ -193,7 +193,7 @@ export default defineComponent({
             const [startIndex, stopIndex] = this._getRangeToRender(column)
             for (let row = startIndex; row <= stopIndex; row++) {
               const itemIndex = this.itemMap.getItemIndexByPosition(column, row)
-              if (itemIndex >= 0 && itemIndex < this.props.itemCount) {
+              if (itemIndex >= 0 && itemIndex < this.$props.itemCount) {
                 const times = this.itemMap.compareSizeByPosition(column, row) ? 3 : 0
                 getRectSizeSync(`#${this.preset.id}-${itemIndex}`, 100, times).then(({ height }) => {
                   if (typeof height === 'number' && height > 0 && !this.itemMap.compareSizeByPosition(column, row, height)) {
@@ -250,6 +250,7 @@ export default defineComponent({
         scrollTop,
         scrollLeft,
       } = event.currentTarget
+      if (!isNumber(scrollHeight) || !isNumber(scrollWidth)) return
       const clientHeight = this.itemMap.wrapperHeight
       const clientWidth = this.itemMap.wrapperWidth
       if (this.$props.onScrollNative) {

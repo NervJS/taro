@@ -51,6 +51,7 @@ declare module './index' {
     onReachBottom?(): void
     onResize?(opt: PageResizeObject): void
     onShareAppMessage?(opt: ShareAppMessageObject): ShareAppMessageReturn
+    onShareTimeline?(): ShareTimelineReturnObject
     onTabItemTap?(opt: TabItemTapObject): void
     onTitleClick?(): void
     onUnload(): void
@@ -89,7 +90,7 @@ declare module './index' {
     /** 创建一个 SelectorQuery 对象，选择器选取范围为这个组件实例内 */
     createSelectorQuery?(): SelectorQuery
     /** 创建一个 IntersectionObserver 对象，选择器选取范围为这个组件实例内 */
-    createIntersectionObserver?(): IntersectionObserver
+    createIntersectionObserver?(options?: createIntersectionObserver.Option): IntersectionObserver
     /** 创建一个 MediaQueryObserver 对象 */
     createMediaQueryObserver?(): MediaQueryObserver
     /** 使用选择器选择组件实例节点，返回匹配到的第一个组件实例对象（会被 wx://component-export 影响） */
