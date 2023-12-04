@@ -32,7 +32,6 @@ impl PreVisitor {
         let process_cond_arm = |arm: &mut Box<Expr>, attr: JSXAttrOrSpread| {
             match &mut **arm {
                 Expr::JSXElement(el) => {
-                    println!("el: {:?}", el.opening);
                     el.opening.attrs.push(attr);
                 },
                 Expr::Cond(cond_expr) => {
