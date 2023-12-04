@@ -290,7 +290,7 @@ export default struct TaroPicker {
     this.node.addEventListener('click', this.handleClick)
   }
 
-  dialogController: CustomDialogController | null
+  dialogController: CustomDialogController | null = null
 
   aboutToDisappear() {
     this.dialogController = null // 将dialogController置空
