@@ -1,13 +1,12 @@
-
 import TaroComponentWrapper from './base'
 import web_webview from '@ohos.web.webview'
 import htmlParser from './utils/htmlParser'
 import { createNode } from './render'
-import type { TaroViewElement } from '../runtime'
+import type { TaroElement } from './element'
 
 @Component
 export default struct TaroInnerHtml {
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroElement
 
   // controller: web_webview.WebviewController = new web_webview.WebviewController();
 

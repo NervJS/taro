@@ -11,5 +11,6 @@ export const Current: any = {
     context.resolver = resolve
 
     return resolve
-  })
+  }),
+  createHarmonyElement: null
 }

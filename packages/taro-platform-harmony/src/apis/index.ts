@@ -23,7 +23,7 @@ export function initNativeApi (taro) {
 }
 
 const defaultDesignWidth = 750
-const defaultDesignRatio = {
+const defaultDesignRatio: Record<string | number, number> = {
   640: 2.34 / 2,
   750: 1,
   828: 1.81 / 2

@@ -1,4 +1,5 @@
-import { bindScrollTo, bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindScrollTo, bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -6,149 +7,87 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroViewElement, TaroElement } from './element'
+import type { TaroStyleType, CompType } from './type'
+import type { TaroAny } from './utils/type'
 
 @Extend(Row)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
-}) {
-  .id(id)
-  .key(id)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function rowAttrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
+
 @Extend(Column)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
-}) {
-  .id(id)
-  .key(id)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function columnAttrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
-function getAttributes (node: TaroViewElement) {
-  const { _attrs = {} } = node
-  return {
-    showScrollbar: typeof _attrs.showScrollbar === 'boolean'
+
+function getAttributes (node: TaroViewElement): CompType.ScrollView.Attrs {
+  const _attrs = node._attrs
+  const scrollAttrs: CompType.ScrollView.Attrs = {
+    scrollBar: typeof _attrs.showScrollbar === 'boolean'
       ? _attrs.showScrollbar ? BarState.On : BarState.Off
-      : BarState.Auto,
+      : BarState.Auto
   }
+  return scrollAttrs
 }
 
-function handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: number) {
-    const { xOffset: currentXOffset, yOffset: currentYOffset } = this.scroller.currentOffset()
-    const value = {
-      deltaX: vp2px(xOffset),
-      deltaY: vp2px(yOffset),
-      scrollLeft: vp2px(currentXOffset),
-      scrollTop: vp2px(currentYOffset),
-      scrollWidth: vp2px(this.wrapper?.width),
-      scrollHeight: vp2px(this.wrapper?.height),
-    }
-    const event = createTaroEvent(eventName, { detail: { ...value } }, this.node)
-    eventHandler(event, eventName, this.node)
-}
 
 @Component
 export default struct TaroScrollView {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
-  wrapper: Area = null
+  wrapper?: Area
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -169,10 +108,9 @@ export default struct TaroScrollView {
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
@@ -182,46 +120,63 @@ export default struct TaroScrollView {
     }, this.node, ['scroll', 'scrollstart', 'scrollend']))
   }
 
+
+  handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: number) {
+    const currentOffset: CompType.ScrollView.CurrentOffset = this.scroller.currentOffset()
+    const currentXOffset = currentOffset.xOffset
+    const currentYOffset = currentOffset.yOffset
+    const value: CompType.ScrollView.ScrollEvent = {
+      deltaX: vp2px(xOffset),
+      deltaY: vp2px(yOffset),
+      scrollLeft: vp2px(currentXOffset),
+      scrollTop: vp2px(currentYOffset),
+      scrollWidth: vp2px(Number(this.wrapper?.width)),
+      scrollHeight: vp2px(Number(this.wrapper?.height)),
+    }
+    const event: TaroEvent = createTaroEvent(eventName, { detail: value }, this.node)
+    eventHandler(event, eventName, this.node)
+  }
+
   build() {
     TaroComponentWrapper({ node: this.node }) {
       // Copy 额外增加visibleChangeEvent
       if (this.node._attrs.scrollX) {
         Scroll(this.scroller) {
           Row() {
-            ForEach(this.node.childNodes, item => {
+            ForEach(this.node.childNodes, (item: TaroElement) => {
               createNode(item)
-            }, item => item._nid)
+            }, (item: TaroElement) => item._nid)
           }
-          .attrs(getNormalAttributes(this.node))
+          .rowAttrs(getNormalAttributes(this.node))
           .width(null)
           .defaultContainerEvent()
         }
         .flexGrow(getNormalAttributes(this.node).flexGrow)
         .scrollable(ScrollDirection.Horizontal)
-        .scrollBar(getAttributes(this.node).showScrollbar)
+        .scrollBar(getAttributes(this.node).scrollBar)
         .defaultEvent()
-        .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
-        .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
-        .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
+        .onScroll(shouldBindEvent(() => { this.handleScrollEvent('scroll') }, this.node, ['scroll']))
+        .onScrollStart(shouldBindEvent(() => { this.handleScrollEvent('scrollstart') }, this.node, ['scrollstart']))
+        .onScrollStop(shouldBindEvent(() => { this.handleScrollEvent('scrollend') }, this.node, ['scrollend']))
         .visibleChangeEvent()
       } else {
         Scroll(this.scroller) {
           Column() {
-            ForEach(this.node.childNodes, item => {
+            ForEach(this.node.childNodes, (item: TaroElement) => {
               createNode(item)
-            }, item => item._nid)
+            }, (item: TaroElement) => item._nid)
           }
-          .attrs(getNormalAttributes(this.node))
+          .columnAttrs(getNormalAttributes(this.node))
           .height(null)
           .defaultContainerEvent()
         }
         .flexGrow(getNormalAttributes(this.node).flexGrow)
         .scrollable(ScrollDirection.Vertical)
-        .scrollBar(getAttributes(this.node).showScrollbar)
+        .scrollBar(getAttributes(this.node).scrollBar)
         .defaultEvent()
-        .onScroll(shouldBindEvent(handleScrollEvent.bind(this, 'scroll'), this.node, ['scroll']))
-        .onScrollStart(shouldBindEvent(handleScrollEvent.bind(this, 'scrollstart'), this.node, ['scrollstart']))
-        .onScrollStop(shouldBindEvent(handleScrollEvent.bind(this, 'scrollend'), this.node, ['scrollend']))
+        .onScroll(shouldBindEvent(() => { this.handleScrollEvent('scroll') }, this.node, ['scroll']))
+        .onScrollStart(shouldBindEvent(() => { this.handleScrollEvent('scrollstart') }, this.node, ['scrollstart']))
+        .onScrollStop(shouldBindEvent(() => { this.handleScrollEvent('scrollend') }, this.node, ['scrollend']))
         .visibleChangeEvent()
       }
     }

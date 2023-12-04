@@ -9,6 +9,7 @@ import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
 import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
+import { TARO_COMP_SUFFIX } from './entry'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { InputPluginOption } from 'rollup'
@@ -170,7 +171,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           external: HARMONY_SCOPES,
           output: {
             entryFileNames(chunkInfo) {
-              return stripMultiPlatformExt(chunkInfo.name) + taroConfig.fileType.script
+              return stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
             },
             chunkFileNames(chunkInfo) {
               if (chunkInfo.moduleIds?.some(id => id.includes(taroConfig.fileType.script))) {

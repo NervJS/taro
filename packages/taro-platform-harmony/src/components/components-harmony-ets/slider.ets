@@ -1,37 +1,61 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroViewElement, TaroElement } from './element'
+import type { TaroStyleType, CompType } from './type'
+import type { TaroAny } from './utils/type'
+
 
 @Extend(Slider)
-function attrs ({
-  id,
-  activeColor,
-  backgroundColor,
-  blockSize,
-  blockColor,
-}) {
-  .id(id)
-  .key(id)
-  .selectedColor(activeColor)
-  .trackColor(backgroundColor)
-  .trackThickness(blockSize)
-  .blockColor(blockColor)
+function style (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
-function getAttributes (node: TaroViewElement) {
-  const { _attrs = {} } = node
-  return {
-    ...getNormalAttributes(node),
-    activeColor: _attrs.activeColor || _attrs.selectedColor || '#1aad19',
-    backgroundColor: _attrs.backgroundColor || _attrs.color || '#e9e9e9',
-    blockSize: _attrs.blockSize,
-    blockColor: _attrs.blockColor || '#ffffff',
-    showValue: !!_attrs.showValue,
-  }
+@Extend(Slider)
+function attrs (attr: CompType.Slider.Attrs) {
+  .selectedColor(attr.selectedColor)
+  .trackColor(attr.trackColor)
+  .trackThickness(attr.trackThickness)
+  .blockColor(attr.blockColor)
+}
+
+function getAttributes (node: TaroViewElement): CompType.Slider.Attrs {
+  const _attrs = node._attrs
+  const sliderAttrs: CompType.Slider.Attrs = {}
+  sliderAttrs.selectedColor = _attrs.activeColor || _attrs.selectedColor || '#1aad19'
+  sliderAttrs.trackColor = _attrs.backgroundColor || _attrs.color || '#e9e9e9'
+  sliderAttrs.trackThickness = _attrs.blockSize
+  sliderAttrs.blockColor = _attrs.blockColor || '#ffffff'
+  return sliderAttrs
 }
 
 @Extend(Slider)
@@ -41,7 +65,7 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSlider {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @ObjectLink node: TaroViewElement
 
@@ -60,14 +84,13 @@ export default struct TaroSlider {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
-  @Builder createSlider ($$: { width: string }) {
+  @Builder createSlider () {
     Slider({
       min: Number(this.node._attrs.min || 0),
       max: Number(this.node._attrs.max || 100),
@@ -77,8 +100,9 @@ export default struct TaroSlider {
       direction: Axis.Horizontal
     })
       .defaultEvent()
+      .style(getNormalAttributes(this.node))
       .attrs(getAttributes(this.node))
-      .width($$.width)
+      .width(!!this.node._attrs.showValue ? '90%' : '100%')
       .themeStyles(!!this.node._attrs.disabled)
       .onChange((value: number, mode: SliderChangeMode) => {
         if (!!this.node._attrs.disabled) {
@@ -90,10 +114,10 @@ export default struct TaroSlider {
         } else {
           this.value = value
           if (mode === SliderChangeMode.End) {
-            const event = createTaroEvent('change', { detail: { value: this.value } }, this.node)
+            const event: TaroEvent = createTaroEvent('change', { detail: { value: this.value } }, this.node)
             eventHandler(event, 'change', this.node)
           } else if (mode === SliderChangeMode.Moving) {
-            const event = createTaroEvent('changing', { detail: { value: this.value } }, this.node)
+            const event: TaroEvent = createTaroEvent('changing', { detail: { value: this.value } }, this.node)
             eventHandler(event, 'changing', this.node)
           }
         }
@@ -105,14 +129,14 @@ export default struct TaroSlider {
     TaroComponentWrapper({ node: this.node }) {
       if (!!this.node._attrs.showValue) {
         Row() {
-          this.createSlider({ width: '90%' })
+          this.createSlider()
           Text(Number(this.value).toFixed(0))
             .width('10%')
             .textAlign(TextAlign.Center)
             .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
         }
       } else {
-        this.createSlider({ width: '100%' })
+        this.createSlider()
       }
     }
   }

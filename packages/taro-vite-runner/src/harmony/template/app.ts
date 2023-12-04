@@ -1,7 +1,13 @@
+import { isFunction } from '@tarojs/shared'
+import path from 'path'
+
+import { parseRelativePath } from '../../utils'
+import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
 
 import type { AppConfig } from '@tarojs/taro'
+import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type { ViteHarmonyBuildConfig } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export default class Parser extends BaseParser {
@@ -43,19 +49,17 @@ export default class Parser extends BaseParser {
       'initPxTransform({',
       this.transArr2Str([
         `designWidth: ${this.pxTransformConfig.designWidth},`,
-        `deviceRatio: ${JSON.stringify(this.pxTransformConfig.deviceRatio)},`,
+        `deviceRatio: (${JSON.stringify(this.pxTransformConfig.deviceRatio)}) as Record<string, number>,`,
         `baseFontSize: ${this.pxTransformConfig.baseFontSize},`,
         `unitPrecision: ${this.pxTransformConfig.unitPrecision},`,
         `targetUnit: ${JSON.stringify(this.pxTransformConfig.targetUnit)},`,
       ], 2),
-      '})',
+      '} as TaroAny)',
     ])
   }
 
   get instantiateApp () {
-    const { frameworkArgs, creator, modifyInstantiate } = this.loaderMeta
-    const createApp = `${creator}(component, ${frameworkArgs})`
-
+    const { modifyInstantiate } = this.loaderMeta
     const { pages = [], entryPagePath = pages[0], tabBar } = this.appConfig
     let entryPath = entryPagePath
     const tabbarList = tabBar?.list || []
@@ -65,41 +69,37 @@ export default class Parser extends BaseParser {
     }
 
     let instantiateApp = `export default class EntryAbility extends UIAbility {
-app
+  app?: AppInstance
 
-onCreate(want, launchParam) {
-AppStorage.SetOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
-AppStorage.SetOrCreate('__TARO_PAGE_STACK', [])
-this.app = ${createApp}
-this.app.onLaunch({
-  ...want,
-  ...launchParam
-})
-}
-
-onDestroy() {}
-
-onWindowStageCreate(stage) {
-context.resolver(this.context)
-stage.loadContent('${entryPath}', (err, data) => {
-  if (err.code) {
-    return this.app?.onError?.call(this, err)
+  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
+    AppStorage.setOrCreate('__TARO_ENTRY_PAGE_PATH', '${entryPagePath}')
+    AppStorage.setOrCreate('__TARO_PAGE_STACK', [])
+    // 引入
+    initHarmonyElement()
+    this.app = createComponent()
+    this.app?.onLaunch?.(ObjectAssign(want, launchParam))
   }
-})
-}
 
-onWindowStageDestroy() {
-this.app?.onUnload?.call(this)
-}
+  onDestroy() {}
 
-onForeground() {
-this.app?.onShow?.call(this)
-}
+  onWindowStageCreate(stage: ohWindow.WindowStage) {
+    context.resolver(this.context)
+    stage.loadContent('${entryPath}', (err, data) => {
+      if (err.code) {
+        return this.app?.onError?.(err.toString())
+      }
+    })
+  }
 
-onBackground() {
-this.app?.onHide?.call(this)
+  onForeground() {
+    this.app?.onShow?.()
+  }
+
+  onBackground() {
+    this.app?.onHide?.()
+  }
 }
-}`
+`
 
     if (typeof modifyInstantiate === 'function') {
       instantiateApp = modifyInstantiate(instantiateApp, 'app')
@@ -108,25 +108,70 @@ this.app?.onHide?.call(this)
     return instantiateApp
   }
 
-  parse (rawId: string) {
-    const { importFrameworkStatement, creator, creatorLocation } = this.loaderMeta
+  parse (rawId: string, name = 'TaroPage', resolve?: TRollupResolveMethod) {
+    const { modifyResolveId } = this.loaderMeta
 
-    return this.transArr2Str([
-      // '// @ts-nocheck',
-      this.#setReconciler,
+    let code = this.transArr2Str([
+      'import type AbilityConstant from "@ohos.app.ability.AbilityConstant"',
+      'import type Want from "@ohos.app.ability.Want"',
+      'import type ohWindow from "@ohos.window"',
+      '',
       'import UIAbility from "@ohos.app.ability.UIAbility"',
-      'import { window, context } from "@tarojs/runtime"',
-      `import { ${creator} } from "${creatorLocation}"`,
+      'import { window, context, ObjectAssign, TaroAny } from "@tarojs/runtime"',
+      'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
+      'import { initHarmonyElement } from "@tarojs/components/element"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
-      'import router from "@ohos.router"',
-      this.#setReconcilerPost,
-      `import component from "${rawId}"`,
-      importFrameworkStatement,
-      `var config = ${this.prettyPrintJson(this.appConfig)};`,
+      `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
+      '',
       'window.__taroAppConfig = config',
       'initNativeApi(Taro)',
       this.getInitPxTransform(),
       this.instantiateApp,
+    ])
+
+    if (isFunction(modifyResolveId)) {
+      const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+      const targetRoot = path.resolve(this.appPath, sourceRoot)
+      code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src: string, source: string) => {
+        const absolutePath: string = modifyResolveId({
+          source,
+          importer: rawId,
+          options: {
+            isEntry: false,
+            skipSelf: true,
+          },
+          name,
+          resolve,
+        })?.id || source
+        if (absolutePath.startsWith(outputRoot)) {
+          const outputFile = path.resolve(
+            outputRoot,
+            rawId.startsWith('/') ? path.relative(targetRoot, rawId) : rawId
+          )
+          const outputDir = path.dirname(outputFile)
+          return src.replace(source, parseRelativePath(outputDir, absolutePath))
+        } else if (absolutePath.startsWith(targetRoot)) {
+          return src.replace(source, parseRelativePath(path.dirname(rawId), absolutePath))
+        }
+        return src.replace(source, absolutePath)
+      })
+    }
+
+    return code
+  }
+
+  parseEntry (rawId: string, config = {}) {
+    const { creator, creatorLocation, frameworkArgs, importFrameworkStatement } = this.loaderMeta
+    const createApp = `${creator}(component, ${frameworkArgs})`
+
+    return this.transArr2Str([
+      this.#setReconciler,
+      `import { ${creator} } from "${creatorLocation}"`,
+      `import component from "${rawId}"`,
+      this.#setReconcilerPost,
+      importFrameworkStatement,
+      `export const config = ${this.prettyPrintJson(config)}`,
+      `export default () => ${createApp}`,
     ])
   }
 }

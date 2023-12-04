@@ -1,89 +1,63 @@
 import window from '@ohos.window'
+import common from '@ohos.app.ability.common'
 import { isNumber, isUndefined } from '@tarojs/shared'
-import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { AttributeManager } from './utils/AttributeManager'
-import { getNodeThresholds, getNormalAttributes, parseStyles, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, getFontAttributes, parseStyles, shouldBindEvent } from './utils/helper'
 import { TEXT_DEFAULT_STYLE } from './utils/constant/style'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroViewElement, TaroInputElement, TaroElement } from './element'
+import type { TaroStyleType, CompType } from './type'
+import type { TaroAny } from './utils/type'
 
 @Extend(TextArea)
-function attrs ({
-  id,
-  flexSize,
-  alignSelf,
-  size,
-  focus,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
-}) {
-  .id(id)
-  .key(id)
-  .constraintSize(constraintSize)
-  .flexGrow(flexSize[0])
-  .flexShrink(flexSize[1])
-  .flexBasis(flexSize[2])
-  .alignSelf(alignSelf)
-  .size(size)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
+function textStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
+  .fontColor(style.color)
+  .fontSize(style.fontSize)
+  .fontWeight(style.fontWeight)
+  .fontStyle(style.fontStyle)
+  .fontFamily(style.fontFamily)
 }
 
 @Extend(TextArea)
-function textAttrs ({
-  fontColor,
-  fontSize,
-  fontWeight,
-  fontFamily
-}) {
-  .fontColor(fontColor)
-  .fontSize(fontSize)
-  .fontWeight(fontWeight)
-  .fontFamily(fontFamily)
-}
-
-
-function getFontAttributes (node: TaroElement) {
-  const { _st } = node
-
-  return {
-    fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
-    fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
-    fontWeight: AttributeManager.getNodeStyle(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
-    fontFamily: AttributeManager.getNodeStyle(_st, 'fontFamily', TEXT_DEFAULT_STYLE.FONT_FAMILY),
-  }
+function textAttr(attr: CompType.Text.Attrs) {
+  .textAlign(attr.textAlign)
+  .maxLines(attr.maxLines)
 }
 
 @Component
 struct TaroTextArea {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @State text: string = ''
 
@@ -91,10 +65,19 @@ struct TaroTextArea {
 
   controller: TextAreaController = new TextAreaController()
 
-  windowClass: Window = null
+  windowClass?: window.Window
 
-  height: number = 0
-  
+  _height: number = 0
+
+  heightChange = (height: number) => {
+    if (isNumber(height)) {
+      if (this._height !== height) {
+        this.onKeyboardHeightChange(height)
+        this._height = height
+      }
+    }
+  }
+
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
@@ -109,21 +92,17 @@ struct TaroTextArea {
     this.text = this.node._attrs.value || ''
 
     try {
-      (Current as any).contextPromise
-        .then(context => {
-          return window.getTopWindow(context)
-        }).then(windowClass => {
-          this.windowClass = windowClass
-          windowClass.on('keyboardHeightChange', (height) => {
-            if (isNumber(height)) {
-              if (this.height !== height) {
-                this.onKeyboardHeightChange(height)
-                this.height = height
-              }
+      Current.contextPromise
+        .then((context: common.BaseContext) => {
+          return window.getLastWindow(context, (err, windowClass: window.Window) => {
+            const errCode: number = err.code;
+            if (errCode) {
+              console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+              return;
             }
+            this.windowClass = windowClass
+            windowClass.on('keyboardHeightChange', this.heightChange)
           })
-        }).catch((err)=>{
-          console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
         })
     } catch (exception) {
       console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(exception))
@@ -132,41 +111,43 @@ struct TaroTextArea {
 
   aboutToDisappear () {
     if (this.windowClass) {
-      this.windowClass.then(win => {
-        win.off('keyboardheightchange')
-      })
+      try {
+        this.windowClass.off('keyboardHeightChange', this.heightChange)
+      } catch (err) {
+        console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+      }
     }
   }
 
-  onKeyboardHeightChange (height) {
-    const event = createTaroEvent('keyboardheightchange', { detail: { height: height, duration: 0 } }, this.node)
-    eventHandler(event, 'keyboardheightchange', this.node)
+  onKeyboardHeightChange (height: number) {
+    const event: TaroEvent = createTaroEvent('keyboardHeightChange', { detail: { height, duration: 0 } }, this.node)
+    eventHandler(event, 'keyboardHeightChange', this.node)
   }
 
-  getPlaceholderColor (node) {
-    const { placeholderTextColor, placeholderStyle } = node._attrs
+  getPlaceholderColor (node: TaroViewElement): string {
+    const placeholderTextColor: string = node._attrs.placeholderTextColor
+    const placeholderStyle: string = node._attrs.placeholderStyle
 
     return placeholderTextColor || parseStyles(placeholderStyle)?.color
   }
 
-  getText () {
+  getText (): string {
     return isUndefined(this.node._attrs.value) ? this.text : this.node._attrs.value
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onBlur(() => {
-      const event = createTaroEvent('blur', { detail: { value: this.value } }, this.node)
+      const event: TaroEvent = createTaroEvent('blur', { detail: { value: this.text } }, this.node)
       eventHandler(event, 'blur', this.node)
     })
     .onFocus(() => {
-      const event = createTaroEvent('focus', { detail: { value: this.value, height: this.height } }, this.node)
+      const event: TaroEvent = createTaroEvent('focus', { detail: { value: this.text, height: this._height } }, this.node)
       eventHandler(event, 'focus', this.node)
     })
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
@@ -177,10 +158,10 @@ struct TaroTextArea {
         .key(this.node._nid)
         .placeholderColor(this.getPlaceholderColor(this.node))
         .defaultEvent()
-        .attrs(getNormalAttributes(this.node))
-        .textAttrs(getFontAttributes(this.node))
+        .textStyle(getNormalAttributes(this.node))
+        .textAttr(getFontAttributes(this.node))
         .onChange((value: string) => {
-          const event = createTaroEvent('input', { detail: { value } }, this.node)
+          const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
           eventHandler(event, 'input', this.node)
           this.text = value
         })

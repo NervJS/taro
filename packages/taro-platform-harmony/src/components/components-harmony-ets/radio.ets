@@ -1,4 +1,8 @@
-import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroElement,
+  TaroNode,
+  TaroEvent
+} from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -8,26 +12,55 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroViewElement } from '../runtime'
+import type { TaroRadioGroupElement, TaroViewElement } from './element'
+import type { TaroStyleType, CompType } from './type'
+import type { TaroAny } from './utils/type'
+
 
 @Extend(Radio)
-function attrs ({
-  id,
-  color,
-}) {
-  .id(id)
-  .key(id)
-  .radioStyle({
-    checkedBackgroundColor: color,
-  })
+function style (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
-function getAttributes (node: TaroViewElement) {
-  const { _attrs = {} } = node
-  return {
-    ...getNormalAttributes(node),
-    color: _attrs.color || '#1aad19',
+@Extend(Radio)
+function radioAttr (attr: CompType.Radio.Attrs) {
+  .radioStyle(attr.radioStyle)
+  .themeStyles(attr.themeStyles)
+}
+
+function getAttributes (node: TaroViewElement): CompType.Radio.Attrs {
+  const _attrs = node._attrs
+  const radioAttrs: CompType.Radio.Attrs = {}
+  radioAttrs.radioStyle = {
+    checkedBackgroundColor: _attrs.color || '#1aad19'
   }
+  radioAttrs.themeStyles = !!_attrs.disabled
+  return radioAttrs
 }
 
 @Extend(Radio)
@@ -37,15 +70,12 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export struct TaroRadio {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @ObjectLink node: TaroViewElement
 
   @State checked: boolean = false
 
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -56,10 +86,9 @@ export struct TaroRadio {
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
@@ -68,13 +97,13 @@ export struct TaroRadio {
       Stack() {
         Row() {
           Radio({
-            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentNode._attrs, 'id', this.node.parentNode._nid),
+            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentElement?._attrs, 'id', this.node.parentNode?._nid),
             value: this.node._attrs.value,
           })
             .checked(this.checked)
             .defaultEvent()
-            .attrs(getAttributes(this.node))
-            .themeStyles(!!this.node._attrs.disabled)
+            .style(getNormalAttributes(this.node))
+            .radioAttr(getAttributes(this.node))
             .onChange((value: boolean) => {
               if (!!this.node._attrs.disabled) {
                 // FIXME 找下文档是否有强制刷新方法
@@ -83,12 +112,11 @@ export struct TaroRadio {
               } else {
                 this.checked = value
                 if (this.checked) {
-                  const event = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
+                  const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
                   eventHandler(event, 'change', this.node)
                 }
               }
             })
-            .visibleChangeEvent()
           Text(this.node.textContent)
             .textAlign(TextAlign.Center)
             .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
@@ -104,71 +132,45 @@ export struct TaroRadio {
 }
 
 @Extend(Flex)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
- }) {
-  .id(id)
-  .key(id)
-  .constraintSize(constraintSize)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function radioGroupAttrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
+
 
 @Component
 export struct TaroRadioGroup {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroRadioGroupElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -180,17 +182,18 @@ export struct TaroRadioGroup {
       element._attrs.name = this.node._attrs.name
     })
     // 阻止事件冒泡传递上去
-    this.node.addEventListener('change', e => e.stopPropagation())
+    this.node.addEventListener('change', (e: TaroEvent) => e.stopPropagation())
   }
 
   // Element使用的获取器
-  getValue () {
-    const childList = this.node.getElementsByTagName('RADIO')
+  getValue (): string | undefined {
+    const childList: TaroElement[] = this.node.getElementsByTagName('RADIO')
     for (let i = 0; i < childList.length; i++) {
       if (childList[i]._instance.checked) {
         return childList[i]._attrs.value
       }
     }
+    return undefined
   }
 
   // Element使用的重置方法
@@ -203,21 +206,20 @@ export struct TaroRadioGroup {
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-      const [_, areaResult] = eventResult
-      
-      this.nodeInfoMap[this.node._nid].areaInfo = areaResult
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+      const eventResult: TaroAny = res.eventResult
+      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
     }))
   }
 
   build() {
     TaroComponentWrapper({ node: this.node }) {
       Flex(FlexManager.flexOptions(this.node)) {
-        ForEach(this.node.childNodes, item => {
+        ForEach(this.node.childNodes, (item: TaroElement) => {
           createNode(item)
-        }, item => item._nid)
+        }, (item: TaroElement) => item._nid)
       }
-      .attrs(getNormalAttributes(this.node))
+      .radioGroupAttrs(getNormalAttributes(this.node))
       .defaultEvent()
       .visibleChangeEvent()
     }

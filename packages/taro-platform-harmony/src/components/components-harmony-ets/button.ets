@@ -1,4 +1,6 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent
+} from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -8,98 +10,69 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroButtonElement } from '../runtime'
+import type { TaroButtonElement, TaroElement } from './element'
+import type { TaroStyleType } from './type'
+import type { TaroAny } from './utils/type'
 
 @Extend(Button)
-function attrs ({
-  id,
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform,
-}) {
-  .id(id)
-  .key(id)
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function attrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 
+
 @Extend(Button)
-function themeStyles({
- isPlain,
- fontColor,
- isDisabled,
- backgroundColor,
-}) {
+function themeStyles(style: TaroStyleType) {
   .border({
     width: 1,
-    color: backgroundColor
+    color: style.backgroundColor
   })
-  .fontColor(fontColor)
-  .opacity(isDisabled ? 0.4 : 1)
-  .backgroundColor(isPlain ? Color.Transparent : backgroundColor)
+  .fontColor(style.color)
+  .opacity(style.opacity)
+  .backgroundColor(style.backgroundColor)
 }
 
-function getThemeAttributes (node: TaroButtonElement) {
-  const { _st, _attrs } = node
-  const isPlain = _attrs.plain
-  const isDisabled = _attrs.disabled
-  const type = _attrs.type || 'default'
+function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
+  const _st = node._st
+  const _attrs = node._attrs
+  const isPlain: boolean = _attrs.plain
+  const isDisabled: boolean = _attrs.disabled
+  const type: string = _attrs.type || 'default'
 
   return {
-    isPlain,
-    isDisabled,
-    backgroundColor: AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR[type].background,
-    fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR[type].text),
+    opacity: isDisabled ? 0.4 : 1,
+    backgroundColor: isPlain ? Color.Transparent : (AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR.get(type).background),
+    color: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR.get(type).text),
   }
 }
 
 @Component
 export default struct TaroButton {
-  nodeInfoMap: any = {}
+  nodeInfoMap: TaroAny = {}
 
   @ObjectLink node: TaroButtonElement
 
@@ -121,11 +94,11 @@ export default struct TaroButton {
           if (this.node._attrs.loading) {
             LoadingProgress()
             .width(20).height(20)
-            .color(getThemeAttributes(this.node).fontColor)
+            .color(getThemeAttributes(this.node).color)
           }
-          ForEach(this.node.childNodes, item => {
+          ForEach(this.node.childNodes, (item: TaroElement) => {
             createNode(item)
-          }, item => item._nid)
+          }, (item: TaroElement) => item._nid)
         }
       }
       .attrs(getNormalAttributes(this.node))
@@ -133,15 +106,16 @@ export default struct TaroButton {
       .onClick((e: ClickEvent) => {
         if (['submit', 'reset'].includes(this.node._attrs.formType)) {
           const eventName = this.node._attrs.formType + '-btn'
-          const event = createTaroEvent(eventName, { detail: {} }, this.node)
+          const event: TaroEvent = createTaroEvent(eventName, {}, this.node)
           eventHandler(event, eventName, this.node)
         }
         eventHandler(e, 'click', this.node)
       })
       .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP[e.type], this.node), this.node, Object.values(TOUCH_EVENT_MAP)))
-      .onAreaChange(getComponentEventCallback(AREA_CHANGE_EVENT_NAME, ({ eventResult }) => {
-        this.nodeInfoMap[this.node._nid].areaInfo = eventResult
-      }, this))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
+        const eventResult: TaroAny = res.eventResult
+        this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
+      }))
       .visibleChangeEvent()
     }
   }

@@ -4,18 +4,7 @@ import * as walk from 'acorn-walk'
 
 import { Frameworks } from './index'
 
-interface ILoaderMeta {
-  importFrameworkStatement: string
-  mockAppStatement: string
-  frameworkArgs: string
-  creator: string
-  creatorLocation: string
-  extraImportForWeb: string
-  execBeforeCreateWebApp: string
-  importFrameworkName: string
-  isNeedRawLoader?: boolean
-  modifyConfig?: (config: Record<string, any>, source: string) => void
-}
+import type { ILoaderMeta } from '@tarojs/taro/types/compile/config/plugin'
 
 function addConfig (source) {
   const configsMap = {

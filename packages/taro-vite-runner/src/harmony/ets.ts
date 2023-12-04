@@ -2,6 +2,8 @@ import { transformSync } from '@babel/core'
 import path from 'path'
 import ts from 'typescript'
 
+import { parseRelativePath } from '../utils'
+
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyBuildConfig, ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { Plugin, ResolvedConfig } from 'vite'
@@ -180,14 +182,7 @@ export class EtsHelper {
     const outputDir = path.dirname(outputFile)
     return code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
       if (p1.startsWith(this.taroConfig.outputRoot || 'dist')) {
-        let relativePath = path.relative(outputDir, p1)
-        relativePath = /^\.{1,2}[\\/]/.test(relativePath)
-          ? relativePath
-          : /^\.{1,2}$/.test(relativePath)
-            ? `${relativePath}/`
-            : `./${relativePath}`
-
-        return src.replace(p1, relativePath)
+        return src.replace(p1, parseRelativePath(outputDir, p1))
       }
 
       return src
@@ -220,13 +215,14 @@ export class EtsHelper {
 
 const etsMapCache = new WeakMap<ResolvedConfig, EtsHelper>()
 export default async function (viteCompilerContext: ViteHarmonyCompilerContext): Promise<Plugin> {
+  const name = 'taro:vite-ets'
   const { taroConfig, cwd: appPath } = viteCompilerContext
   let helper: EtsHelper
 
   let viteConfig: ResolvedConfig
 
   return {
-    name: 'taro:vite-ets',
+    name,
     enforce: 'pre',
     configResolved (config) {
       viteConfig = config
@@ -289,5 +285,6 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
 
       return helper.resolveAbsoluteRequire(id, code)
     },
+    // Note: 识别项目内 ets 文件并注入到 Harmony 项目中
   }
 }

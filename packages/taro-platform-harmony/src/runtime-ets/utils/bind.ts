@@ -2,9 +2,9 @@ import { bindAttributesCallback } from './info'
 
 import type { TaroElement } from '../dom/element'
 
-function convertToCamelCase(str) {
-  return str.replace(/-(.)/g, (_, char) => char.toUpperCase()).replace(/^\w/, firstChar => firstChar.toUpperCase())
-}
+// function convertToCamelCase(str) {
+//   return str.replace(/-(.)/g, (_, char) => char.toUpperCase()).replace(/^\w/, firstChar => firstChar.toUpperCase())
+// }
 
 export function bindInstanceToNode (node: TaroElement, instance: any) {
   if (!node) return
@@ -28,7 +28,8 @@ export function bindScrollTo (node: TaroElement, instance: any) {
 
 export function bindFocus (node: TaroElement) {
   bindAttributesCallback(node, 'focus', () => {
-    focusControl.requestFocus(node._nid) 
+    // TODO: ETS转TS
+    // focusControl.requestFocus(node._nid)
   })
 }
 
@@ -45,7 +46,8 @@ export function bindAnimation (node: TaroElement) {
             duration: anim.duration,
             delay: anim.delay,
             tempo: 1,
-            playMode: PlayMode.Normal,
+            // TODO: ETS转TS
+            // playMode: PlayMode.Normal,
             iterations: 1,
             onFinish: resolve
           }
@@ -56,26 +58,27 @@ export function bindAnimation (node: TaroElement) {
             animateParams.delay = anim.duration + anim.delay
             animateParams.duration = 0
           }
-          animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
-          animateTo(animateParams, () => {
-            const component = node._instance
-            const transformOrigin = anim.transformOrigin
-
-            if (transformOrigin) {
-              const splitOrigin = transformOrigin.split(' ')
-              Object.keys(anim.rule).forEach(key => {
-                if (['scale', 'rotate'].includes(key)) {
-                  Object.assign(anim.rule[key], {
-                    centerX: splitOrigin[0],
-                    centerY: splitOrigin[1],
-                  })
-                }
-              })
-            }
-
-            component.nodeInfoMap[node._nid].overwriteStyle = anim.rule
-            node.updateComponent()
-          })
+          // TODO: ETS转TS
+          // animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
+          // animateTo(animateParams, () => {
+          //   const component = node._instance
+          //   const transformOrigin = anim.transformOrigin
+          //
+          //   if (transformOrigin) {
+          //     const splitOrigin = transformOrigin.split(' ')
+          //     Object.keys(anim.rule).forEach(key => {
+          //       if (['scale', 'rotate'].includes(key)) {
+          //         Object.assign(anim.rule[key], {
+          //           centerX: splitOrigin[0],
+          //           centerY: splitOrigin[1],
+          //         })
+          //       }
+          //     })
+          //   }
+          //
+          //   component.nodeInfoMap[node._nid].overwriteStyle = anim.rule
+          //   node.updateComponent()
+          // })
         })
       }
     }

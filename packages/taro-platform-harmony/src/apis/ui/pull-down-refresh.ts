@@ -10,7 +10,7 @@ export const startPullDownRefresh: typeof Taro.startPullDownRefresh = function (
     const page = taro.getCurrentInstance().page
 
     if (page.isRefreshing instanceof Array) {
-      const index = page.currentIndex || 0
+      const index = page.tabBarCurrentIndex || 0
       page.isRefreshing[index] = true
     } else {
       page.isRefreshing = true
@@ -28,7 +28,7 @@ export const stopPullDownRefresh: typeof Taro.stopPullDownRefresh = function (op
     const page = taro.getCurrentInstance().page
 
     if (page.isRefreshing instanceof Array) {
-      const index = page.currentIndex || 0
+      const index = page.tabBarCurrentIndex || 0
       page.isRefreshing[index] = false
     } else {
       page.isRefreshing = false

@@ -60,7 +60,7 @@ export function getPageScrollerOrNode (scrollerOrNode: any, page: any) {
   const isArrayData = scrollerOrNode instanceof Array
 
   if (isArrayData) {
-    const index = page.currentIndex || 0
+    const index = page.tabBarCurrentIndex || 0
 
     return scrollerOrNode[index]
   }
@@ -124,3 +124,23 @@ export class DynamicCenter {
     }
   }
 }
+
+export function ObjectAssign(...objects) {
+  return Object.assign.apply(this, [{}].concat(...objects))
+}
+
+export function callFn (fn: any, ctx: any, ...args: any) {
+  if (typeof fn === 'function') {
+    return fn.apply(ctx, args)
+  }
+}
+export function bindFn (fn: any, ctx: any, ...args: any) {
+  if (typeof fn === 'function') {
+    return fn.bind(ctx, ...args)
+  }
+}
+
+export type TaroAny = any
+export type TaroFunc = (...args: TaroAny[]) => TaroAny
+export type TaroIndent = string | number | boolean | undefined | null
+export type TaroObject = Record<string | number | symbol, TaroAny>

@@ -1,5 +1,6 @@
 import { defaultMainFields, fs, isEmptyObject, NODE_MODULES, resolveSync } from '@tarojs/helper'
 import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
+import { isFunction } from '@tarojs/shared'
 import * as path from 'path'
 
 import { HARMONY_SCOPES, PACKAGE_NAME, PLATFORM_NAME } from '../utils'
@@ -20,12 +21,12 @@ export default class Harmony extends TaroPlatformHarmony {
     templ: '.hml',
     style: '.css',
     config: '.json',
-    script: '.ets'
+    script: '.js'
   }
 
   useETS = true
   useJSON5 = true
-  runtimePath: string[] | string = `${PACKAGE_NAME}/dist/runtime-ets`
+  runtimePath: string[] | string = []
   taroComponentsPath = `${PACKAGE_NAME}/dist/components-harmony-ets`
 
   #defineConstants: Record<string, string> = {}
@@ -93,10 +94,16 @@ export default class Harmony extends TaroPlatformHarmony {
     })
   }
 
+  extensions = ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts']
+
+  excludeLibraries: (string | RegExp)[] = []
+
   externalDeps: [string, RegExp, string?][] = [
+    ['@tarojs/components/types', /^@tarojs[\\/]components[\\/]types/],
     ['@tarojs/components', /^@tarojs[\\/]components([\\/].+)?$/, this.componentLibrary],
     ['@tarojs/react', /^@tarojs[\\/]react$/],
     ['@tarojs/runtime', /^@tarojs[\\/]runtime$/, this.runtimeLibrary],
+    ['@tarojs/taro/types', /^@tarojs[\\/]taro[\\/]types/],
     ['@tarojs/taro', /^@tarojs[\\/]taro$/, this.apiLibrary],
     ['@tarojs/plugin-framework-react/dist/runtime', /^@tarojs[\\/]plugin-framework-react[\\/]dist[\\/]runtime$/, this.runtimeFrameworkLibrary],
     ['react', /^react$|react[\\/]cjs/],
@@ -116,12 +123,16 @@ export default class Harmony extends TaroPlatformHarmony {
 
   moveLibraries(lib: string, target = '', basedir = this.ctx.paths.appPath, sync = false) {
     if (!lib) return
+    if (this.excludeLibraries.some(e => typeof e === 'string' ? e === lib : e.test(lib))) return
 
     if (sync) {
+      const { outputRoot } = this.ctx.runOpts.config
+      const targetPath = path.join(outputRoot, NODE_MODULES)
       // FIXME 不支持 alias 配置
       const libName = lib
       lib = resolveSync(lib, {
         basedir,
+        extensions: this.extensions,
         mainFields: ['unpkg', ...defaultMainFields],
         preserveSymlinks: false,
       }) || ''
@@ -130,29 +141,70 @@ export default class Harmony extends TaroPlatformHarmony {
         return this.removeFromLibraries(libName)
       }
       let ext = path.extname(lib)
+      const libDir = lib.replace(/.*[\\/]node_modules[\\/]/, '')
       const basename = path.basename(lib, ext)
       if (['.cjs', '.mjs'].includes(ext)) {
         ext = '.js'
       } else if (ext === '.mts') {
         ext = '.ts'
       }
-      if (basename === 'index') {
-        lib = path.dirname(lib)
-        if (ext === '.js') {
-          const typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
-          const typePath = resolveSync(typeName, {
+
+      if (ext === '.js') {
+        let typeName = `@types/${libName.replace('@', '').replace(/\//g, '__')}`
+        let typePath = resolveSync(typeName, {
+          basedir,
+          extensions: this.extensions,
+          mainFields: [...defaultMainFields],
+        })
+        if (!typePath) {
+          typeName = path.join(path.dirname(lib), `${basename}.d.ts`)
+          typePath = resolveSync(typeName, {
             basedir,
-            extensions: ['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs', '.mts', '.vue', '.ets', '.d.ts'],
+            extensions: this.extensions,
             mainFields: [...defaultMainFields],
           })
-          if (typePath) {
-            this.moveLibraries(typePath, path.join(target, 'index.d.ts'), basedir)
-          }
         }
-      } else if (basename === path.basename(target, ext)) {
-        target = path.join(path.dirname(target), `${basename}${ext}`)
-      } else {
-        target = path.join(target, `index${ext}`)
+        if (typePath) {
+          this.moveLibraries(
+            typePath,
+            path.extname(target)
+              ? path.join(path.dirname(target), `${basename}.d.ts`)
+              : path.join(target, `index.d.ts`),
+            basedir
+          )
+        }
+      }
+
+      if (ext) {
+        const code = fs.readFileSync(lib, { encoding: 'utf8' })
+        if (
+          (/(?:import\s|from\s|require\()['"]([\\/.][^'"\s]+)['"]\)?/g.test(code)
+          || /\/{3}\s<reference\spath=['"][^'"\s]+['"]\s\/>/g.test(code))
+          && `${libName}${path.extname(libDir)}` !== libDir
+        ) {
+          const pkgPath = path.relative(libName, libDir)
+          if (new RegExp(`^index(${this.extensions.map(e => e.replace('.', '\\.')).join('|')})$`).test(pkgPath)) {
+            // Note: 入口为 index 场景
+            lib = path.dirname(lib)
+          } else if (!/[\\/]/.test(pkgPath)) {
+            // FIXME: 非 index 入口文件场景，可能存在入口文件引用 index 但该文件被覆盖的情况，需要额外处理
+            const isDTS = /\.d\.ts$/.test(target)
+            target = path.join(target, `index${isDTS ? '.d.ts' : ext}`)
+          } else {
+            // FIXME 多级目录，可能存在入口不为 index 或者引用一级目录文件的情况，需要额外处理
+            const dir = path.dirname(pkgPath)
+            target = path.join(target, dir)
+            lib = path.dirname(lib)
+          }
+        } else if (path.isAbsolute(libDir)) {
+          // Note: 本地 link 的依赖
+          const isDTS = /\.d\.ts$/.test(target)
+          target = path.extname(target)
+            ? path.join(path.dirname(target), `${basename}${ext}`)
+            : path.join(target, `index${isDTS ? '.d.ts' : ext}`)
+        } else if (libDir !== path.relative(targetPath, target)) {
+          target = path.join(targetPath, libDir)
+        }
       }
     }
 
@@ -160,43 +212,74 @@ export default class Harmony extends TaroPlatformHarmony {
     if (stat.isDirectory()) {
       const files = fs.readdirSync(lib)
       files.forEach((file) => {
-        this.moveLibraries(path.join(lib, file), path.join(target, file))
+        if (![NODE_MODULES].includes(file)) {
+          this.moveLibraries(path.join(lib, file), path.join(target, file))
+        }
       })
     } else if (stat.isFile()) {
       let code = fs.readFileSync(lib, { encoding: 'utf8' })
-      code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
-        const { outputRoot } = this.ctx.runOpts.config
-        const targetPath = path.join(outputRoot, NODE_MODULES, p1)
-        let relativePath = path.relative(path.dirname(target), targetPath)
-        relativePath = /^\.{1,2}[\\/]/.test(relativePath)
-          ? relativePath
-          : /^\.{1,2}$/.test(relativePath)
-            ? `${relativePath}/`
-            : `./${relativePath}`
-        if (HARMONY_SCOPES.every(e => !e.test(p1))) {
-          if (this.indexOfLibraries(p1) === -1) {
-            this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
-            this.moveLibraries(p1, targetPath, path.dirname(lib), true)
+      if (this.extensions.includes(path.extname(lib))) {
+        code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
+          const { outputRoot } = this.ctx.runOpts.config
+          const targetPath = path.join(outputRoot, NODE_MODULES, p1)
+          let relativePath = path.relative(path.dirname(target), targetPath)
+          relativePath = /^\.{1,2}[\\/]/.test(relativePath)
+            ? relativePath
+            : /^\.{1,2}$/.test(relativePath)
+              ? `${relativePath}/`
+              : `./${relativePath}`
+          if (HARMONY_SCOPES.every(e => !e.test(p1))) {
+            if (this.indexOfLibraries(p1) === -1) {
+              this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
+              this.moveLibraries(p1, targetPath, path.dirname(lib), true)
+            }
+            return src.replace(p1, relativePath.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm'))
           }
-          return src.replace(p1, relativePath)
+
+          return src
+        })
+
+        const define = {
+          ...this.defineConstants
         }
+        if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
+          define.global = 'globalThis'
+        }
+        code = this.replaceDefineValue(code, define)
+        const ext = path.extname(target)
+        if (['.ts'].includes(ext)) {
+          code = '// @ts-nocheck\n' + code
+        }
+      }
+      if (/tarojs[\\/]taro[\\/]types[\\/]index.d.ts/.test(target)) {
+        code = `/// <reference path="global.d.ts" />
 
-        return src
-      })
+/// <reference path="taro.api.d.ts" />
+/// <reference path="taro.component.d.ts" />
+/// <reference path="taro.config.d.ts" />
+/// <reference path="taro.lifecycle.d.ts" />
 
-      const define = {
-        ...this.defineConstants
+export = Taro
+export as namespace Taro
+
+declare const Taro: Taro.TaroStatic
+
+declare namespace Taro {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface TaroStatic {}
+}
+declare global {
+  const defineAppConfig: (config: Taro.Config) => Taro.Config
+  const definePageConfig: (config: Taro.Config) => Taro.Config
+}`
       }
-      if ([/(@tarojs[\\/]runtime|taro-runtime)[\\/]dist/].some(e => e.test(lib))) {
-        define.global = 'globalThis'
+      try {
+        const targetPath = target.replace(new RegExp(`\\b${NODE_MODULES}\\b`), 'npm')
+        fs.ensureDirSync(path.dirname(targetPath))
+        fs.writeFileSync(targetPath, code)
+      } catch (e) {
+        console.error(`[taro-arkts] inject ${lib} to ${target} failed`, e)
       }
-      code = this.replaceDefineValue(code, define)
-      const ext = path.extname(target)
-      if (['.ts', '.ets'].includes(ext)) {
-        code = '// @ts-nocheck\n' + code
-      }
-      fs.ensureDirSync(path.dirname(target))
-      fs.writeFileSync(target, code)
     } else if (stat.isSymbolicLink()) {
       const realPath = fs.realpathSync(lib, { encoding: 'utf8' })
       this.moveLibraries(realPath, target, basedir)
@@ -219,6 +302,9 @@ export default class Harmony extends TaroPlatformHarmony {
     const { config } = that.ctx.runOpts
     const { outputRoot } = config
 
+    if (!that.framework.includes('vue')) {
+      that.excludeLibraries.push(/\bvue\b/)
+    }
     // @ts-ignore
     if (that.framework === 'solid') {
       that.externalDeps.push([
@@ -232,6 +318,25 @@ export default class Harmony extends TaroPlatformHarmony {
       ])
     }
 
+    function modifyResolveId({
+      source = '', importer = '', options = {}, name = 'modifyResolveId', resolve
+    }) {
+      if (isFunction(resolve)) {
+        if (source === that.runtimePath || that.runtimePath.includes(source)) {
+          return resolve('@tarojs/runtime', importer, options)
+        }
+      }
+
+      // Note: 映射 Taro 相关依赖到注入 taro 目录
+      if (that.indexOfLibraries(source) > -1) {
+        return {
+          external: 'resolve',
+          id: path.join(outputRoot, 'npm', source),
+          resolvedBy: name,
+        }
+      }
+    }
+
     that.ctx.modifyViteConfig?.(({ viteConfig }) => {
       function externalPlugin() {
         const name = 'taro:vite-harmony-external'
@@ -239,18 +344,13 @@ export default class Harmony extends TaroPlatformHarmony {
           name,
           enforce: 'pre',
           resolveId (source = '', importer = '', options: any = {}) {
-            if (source === that.runtimePath) {
-              return this.resolve('@tarojs/runtime', importer, options)
-            }
-
-            // Note: 映射 Taro 相关依赖到注入 taro 目录
-            if (that.indexOfLibraries(source) > -1) {
-              return {
-                external: 'resolve',
-                id: path.join(outputRoot, NODE_MODULES, source),
-                resolvedBy: name,
-              }
-            }
+            return modifyResolveId({
+              source,
+              importer,
+              options,
+              name,
+              resolve: this.resolve,
+            })
           },
         }
       }
@@ -277,6 +377,7 @@ function App(props) {
                   compiler.loaderMeta.importFrameworkName = ''
                   break
               }
+              compiler.loaderMeta.modifyResolveId = modifyResolveId
             }
           },
         }

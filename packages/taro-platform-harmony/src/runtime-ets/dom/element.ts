@@ -11,9 +11,10 @@ import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 
-@Observed
 class TaroElement extends TaroNode {
-  public _attrs: Record<string, string> = {}
+
+  public _attrs: Record<string, any> = {}
+
   private _innerHTML = ''
   public readonly tagName: string
 
@@ -36,7 +37,7 @@ class TaroElement extends TaroNode {
   }
 
   public get id (): string {
-    return this.getAttribute('id') || ''
+    return this.getAttribute('id') || this._nid
   }
 
   public set className (value: string) {
@@ -82,8 +83,8 @@ class TaroElement extends TaroNode {
     }
   }
 
-  public getAttribute (name: string): string | null {
-    return this._attrs[name] || null
+  public getAttribute (name: string): string {
+    return this._attrs[name]
   }
 
   public removeAttribute (name: string): void {
@@ -98,6 +99,12 @@ class TaroElement extends TaroNode {
     return Object.keys(this._attrs).length > 0
   }
 
+  public getElementById (id: string | undefined | null): TaroElement {
+    const arr = treeToArray(this, (el) => {
+      return el.id === id
+    })
+    return arr[0]
+  }
 
   public getElementsByTagName (tagName: string): TaroElement[] {
     return treeToArray(this, (el) => {
@@ -138,28 +145,24 @@ class TaroElement extends TaroNode {
   }
 }
 
-@Observed
 class TaroViewElement extends TaroElement {
   constructor() {
     super('View')
   }
 }
 
-@Observed
 class TaroTextElement extends TaroElement {
   constructor() {
     super('Text')
   }
 }
 
-@Observed
 class TaroImageElement extends TaroElement {
   constructor() {
     super('Image')
   }
 }
 
-@Observed
 class TaroButtonElement extends TaroElement {
   constructor() {
     super('Button')
@@ -167,9 +170,8 @@ class TaroButtonElement extends TaroElement {
 }
 
 
-@Observed
 class TaroFormWidgetElement extends TaroElement {
-  
+
   public get name () {
     return this._attrs.name
   }
@@ -177,9 +179,19 @@ class TaroFormWidgetElement extends TaroElement {
   public set name (val) {
     this._attrs.name = val
   }
+
+  public get value () {
+    return ''
+  }
+
+  public set value (val: any) {
+    if (this._instance) {
+      this._instance.value = val
+    }
+    this._attrs.value = val
+  }
 }
 
-@Observed
 class TaroInputElement extends TaroFormWidgetElement {
   constructor() {
     super('Input')
@@ -201,7 +213,6 @@ class TaroInputElement extends TaroFormWidgetElement {
   }
 }
 
-@Observed
 class TaroSliderElement extends TaroFormWidgetElement {
   constructor() {
     super('Slider')
@@ -222,7 +233,6 @@ class TaroSliderElement extends TaroFormWidgetElement {
   }
 }
 
-@Observed
 class TaroSwitchElement extends TaroFormWidgetElement {
   constructor() {
     super('Switch')
@@ -243,7 +253,6 @@ class TaroSwitchElement extends TaroFormWidgetElement {
   }
 }
 
-@Observed
 class TaroCheckboxGroupElement extends TaroFormWidgetElement {
   constructor() {
     super('CheckboxGroup')
@@ -256,8 +265,6 @@ class TaroCheckboxGroupElement extends TaroFormWidgetElement {
   }
 }
 
-
-@Observed
 class TaroRadioGroupElement extends TaroFormWidgetElement {
   constructor() {
     super('RadioGroup')
@@ -271,7 +278,6 @@ class TaroRadioGroupElement extends TaroFormWidgetElement {
 
 }
 
-@Observed
 class TaroPickerElement extends TaroFormWidgetElement {
   constructor() {
     super('Picker')
@@ -293,7 +299,6 @@ class TaroPickerElement extends TaroFormWidgetElement {
   }
 }
 
-@Observed
 class TaroVideoElement extends TaroElement {
   constructor() {
     super('Video')
@@ -336,7 +341,6 @@ class TaroVideoElement extends TaroElement {
   }
 }
 
-@Observed
 class TaroIgnoreElement extends TaroElement {
   isIgnore = true
 
@@ -345,15 +349,15 @@ class TaroIgnoreElement extends TaroElement {
   }
 }
 
-@Observed
-export class FormElement extends TaroElement {
-  public get type () {
-    return this._attrs.type ?? ''
-  }
+class FormElement extends TaroElement {
 
-  public set type (val: string) {
-    this.setAttribute('type', val)
-  }
+  // public get type () {
+  //   return this._attrs.type ?? ''
+  // }
+  //
+  // public set type (val: string) {
+  //   this.setAttribute('type', val)
+  // }
 
   public get value () {
     // eslint-disable-next-line dot-notation
@@ -366,11 +370,12 @@ export class FormElement extends TaroElement {
   }
 }
 
-
 export {
+  FormElement,
   TaroButtonElement,
   TaroCheckboxGroupElement,
   TaroElement,
+  TaroFormWidgetElement,
   TaroIgnoreElement,
   TaroImageElement,
   TaroInputElement,
@@ -380,5 +385,6 @@ export {
   TaroSwitchElement,
   TaroTextElement,
   TaroVideoElement,
-  TaroViewElement
+  TaroViewElement 
 }
+

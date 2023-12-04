@@ -9,7 +9,7 @@ export default class RenderParser extends BaseParser {
 
   generate () {
     const renderContent = `// @ts-nocheck
-import { NodeType } from '../runtime'
+import { NodeType, TaroCheckboxGroupElement, TaroElement } from '../runtime'
 import TaroIcon from './icon'
 import TaroText from './text'
 import TaroView from './view'
@@ -32,7 +32,7 @@ import TaroForm from './form'
 ${this.generateRenderImport()}
 
 @Builder
-function createNode (node: any) {
+function createNode (node: TaroElement) {
   ${this.generateRenderCondition()}if (node.tagName === 'VIEW') {
     TaroView({ node })
   } else if (node.tagName === 'IMAGE') {
@@ -48,7 +48,7 @@ function createNode (node: any) {
   } else if (node.tagName === 'SWITCH') {
     TaroSwitch({ node })
   } else if (node.tagName === 'INPUT') {
-    TaroInput({ node })
+    TaroInput({ node: node as TaroInputElement })
   } else if (node.tagName === 'SWIPER') {
     TaroSwiper({ node })
   } else if (node.tagName === 'SWIPER-ITEM') {
@@ -62,11 +62,11 @@ function createNode (node: any) {
   } else if (node.tagName === 'TEXTAREA') {
     TaroTextArea({ node })
   } else if (node.tagName === 'CHECKBOX-GROUP') {
-    TaroCheckboxGroup({ node })
+    TaroCheckboxGroup({ node: node as TaroCheckboxGroupElement })
   } else if (node.tagName === 'CHECKBOX') {
     TaroCheckbox({ node })
   } else if (node.tagName === 'RADIO-GROUP') {
-    TaroRadioGroup({ node })
+    TaroRadioGroup({ node: node as TaroRadioGroupElement })
   } else if (node.tagName === 'RADIO') {
     TaroRadio({ node })
   } else if (node.tagName === 'LABEL') {

@@ -1,55 +1,62 @@
-import type { TaroElement } from '@tarojs/runtime'
+import { convertNumber2VP } from '../runtime'
+import { AttributeManager } from './utils/AttributeManager'
+import type { TaroElement } from './element'
+
 
 @Component
 export default struct TaroComponentWrapper {
-  node: TaroElement
+  node?: TaroElement
 
   @BuilderParam createElement: () => void
 
-  @Builder createFlexElementWithPosition ($$: { instance: TaroElement, top: number, left: number }) {
-    if ($$.instance._st?.position === 'absolute') {
+  top(): Length {
+    return AttributeManager.getStyleAfterConvert(this.node?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(this.node?._st, 'top') || 0) 
+  }
+
+  left(): Length {
+    return AttributeManager.getStyleAfterConvert(this.node?._st, 'left') || convertNumber2VP(AttributeManager.getNodeStyle(this.node?._st, 'left') || 0)
+  }
+
+  @Builder createFlexElementWithPosition () {
+    if (this.node?._st?.position === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
       .position({
-        x: $$.left,
-        y: $$.top,
+        x: this.left(),
+        y: this.top()
       })
-      .id($$.instance._attrs?.id || $$.instance._nid)
-      .key($$.instance._attrs?.id || $$.instance._nid)
-      .zIndex(Number($$.instance._st?.zIndex) || null)
-    } else if ($$.instance._st?.position === 'fixed') {
+      .id(this.node?._attrs?.id || this.node?._nid)
+      .key(this.node?._attrs?.id || this.node?._nid)
+      .zIndex(Number(this.node?._st?.zIndex) || null)
+    } else if (this.node?._st?.position === 'fixed') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
       .position({
-        x: $$.left,
-        y: $$.top
+        x: this.left(),
+        y: this.top()
       })
-      .id($$.instance._attrs?.id || $$.instance._nid)
-      .key($$.instance._attrs?.id || $$.instance._nid)
-      .zIndex(Number($$.instance._st?.zIndex) || null)
-    } else if (($$.instance._st?.position === 'relative')) {
+      .id(this.node?._attrs?.id || this.node?._nid)
+      .key(this.node?._attrs?.id || this.node?._nid)
+      .zIndex(Number(this.node?._st?.zIndex) || null)
+    } else if ((this.node?._st?.position === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
       .offset({
-        x: $$.left,
-        y: $$.top
+        x: this.left(),
+        y: this.top()
       })
-      .id($$.instance._attrs?.id || $$.instance._nid)
-      .key($$.instance._attrs?.id || $$.instance._nid)
-      .zIndex(Number($$.instance._st?.zIndex) || null)
+      .id(this.node?._attrs?.id || this.node?._nid)
+      .key(this.node?._attrs?.id || this.node?._nid)
+      .zIndex(Number(this.node?._st?.zIndex) || null)
     } else {
       this.createElement()
     }
   }
 
   build () {
-    this.createFlexElementWithPosition({
-      instance: this.node,
-      top: this.node._st?.top || this.node._st?._top || 0,
-      left: this.node._st?.left || this.node._st?._left || 0,
-    })
+    this.createFlexElementWithPosition()
   }
 }

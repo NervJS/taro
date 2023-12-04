@@ -1,4 +1,4 @@
-import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { Current, eventSource } from '@tarojs/runtime'
 import { isUndefined } from '@tarojs/shared'
 
 import { TaroComment } from './comment'
@@ -29,45 +29,51 @@ class TaroDocument extends TaroNode {
   public createElement (tagName: string): TaroElement {
     let node: TaroElement
 
-    switch (tagName) {
-      case 'view':
-        node = new TaroViewElement()
-        break
-      case 'text':
-        node = new TaroTextElement()
-        break
-      case 'image':
-        node = new TaroImageElement()
-        break
-      case 'button':
-        node = new TaroButtonElement()
-        break
-      case 'video':
-        node = new TaroVideoElement()
-        break
-      case 'input': 
-        node = new TaroInputElement()
-        break
-      case 'switch': 
-        node = new TaroSwitchElement()
-        break
-      case 'slider': 
-        node = new TaroSliderElement()
-        break
-      case 'checkbox-group':
-        node = new TaroCheckboxGroupElement()
-        break
-      case 'radio-group':
-        node = new TaroRadioGroupElement()
-        break
-      case 'picker':
-        node = new TaroPickerElement()
-        break
-      case 'ignore':
-        node = new TaroIgnoreElement()
-        break
-      default:
-        node = new TaroElement(tagName)
+    // @ts-ignore
+    if (Current?.createHarmonyElement) {
+      // @ts-ignore
+      node = Current.createHarmonyElement(tagName)
+    } else {
+      switch (tagName) {
+        case 'view':
+          node = new TaroViewElement()
+          break
+        case 'text':
+          node = new TaroTextElement()
+          break
+        case 'image':
+          node = new TaroImageElement()
+          break
+        case 'button':
+          node = new TaroButtonElement()
+          break
+        case 'video':
+          node = new TaroVideoElement()
+          break
+        case 'input': 
+          node = new TaroInputElement()
+          break
+        case 'switch': 
+          node = new TaroSwitchElement()
+          break
+        case 'slider': 
+          node = new TaroSliderElement()
+          break
+        case 'checkbox-group':
+          node = new TaroCheckboxGroupElement()
+          break
+        case 'radio-group':
+          node = new TaroRadioGroupElement()
+          break
+        case 'picker':
+          node = new TaroPickerElement()
+          break
+        case 'ignore':
+          node = new TaroIgnoreElement()
+          break
+        default:
+          node = new TaroElement(tagName)
+      }
     }
     node._doc = this
     // Hack: 此 Proxy 不能放在 Element 类内定义，否则响应式更新会失效
