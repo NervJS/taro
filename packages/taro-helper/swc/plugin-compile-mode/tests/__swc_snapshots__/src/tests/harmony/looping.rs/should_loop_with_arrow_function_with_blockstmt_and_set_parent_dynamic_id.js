@@ -54,9 +54,9 @@ export default struct TARO_TEMPLATES_f0t0 {
   build() {
     Flex(FlexManager.flexOptions(this.node0 as TaroElement)) {
       Flex(FlexManager.flexOptions(this.node1 as TaroElement)) {
-        ForEach(this.node1.childNodes, item => {
-          createNode(item as TaroElement)
-        }, item => item._nid)
+        ForEach(this.node1.childNodes, (item: TaroElement) => {
+          createNode(item)
+        }, (item: TaroElement) => item._nid)
       }
       .attrs(getNormalAttributes(this.node1 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))

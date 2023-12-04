@@ -316,7 +316,7 @@ pub fn check_jsx_element_children_exist_loop (el: &mut JSXElement) -> bool {
 }
 
 pub fn create_original_node_renderer_foreach (visitor: &mut TransformVisitor) -> String {
-    add_spaces_to_lines(format!("ForEach(this.{}.childNodes, item => {{\n  createNode(item as TaroElement)\n}}, item => item._nid)", visitor.get_current_node_path()).as_str())
+    add_spaces_to_lines(format!("ForEach(this.{}.childNodes, (item: TaroElement) => {{\n  createNode(item)\n}}, (item: TaroElement) => item._nid)", visitor.get_current_node_path()).as_str())
 }
 
 pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String {
