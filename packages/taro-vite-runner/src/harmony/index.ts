@@ -27,6 +27,5 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): UserC
     emitPlugin(viteCompilerContext),
     importPlugin(viteCompilerContext),
     stylePostPlugin(viteCompilerContext),
-    // compileModePostPlugin(viteCompilerContext),
   ]
 }

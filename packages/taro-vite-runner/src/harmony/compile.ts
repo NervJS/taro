@@ -152,7 +152,3 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
     }
   }
 }
-
-export function compileModePostPlugin (_: ViteHarmonyCompilerContext): PluginOption {
-  return []
-}
