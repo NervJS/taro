@@ -1,6 +1,7 @@
-import { Current, eventSource } from '@tarojs/runtime/dist/runtime.esm'
+import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { isUndefined } from '@tarojs/shared'
 
+import { Current } from '../current'
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
 import { TaroButtonElement, TaroCheckboxGroupElement, TaroElement, TaroIgnoreElement, TaroImageElement, TaroInputElement, TaroPickerElement, TaroRadioGroupElement, TaroSliderElement, TaroSwitchElement, TaroTextElement, TaroVideoElement, TaroViewElement } from './element'
