@@ -277,8 +277,7 @@ export default struct TaroPicker {
 
   @State select: string = ''
 
-  // TODO 原本为Objectlink
-  @Prop node: TaroViewElement
+  @ObjectLink node: TaroViewElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -288,33 +287,37 @@ export default struct TaroPicker {
 
     this.select = this.node._attrs.value
 
-    this.node.addEventListener('click', () => {
-      if (this.dialogController != null) {
-        this.dialogController.open()
-      }
-    })
+    this.node.addEventListener('click', this.handleClick)
   }
 
-  dialogController: CustomDialogController | null = new CustomDialogController({
-    builder: PickerView({
-      node: this.node,
-      select: this.select
-    }),
-    customStyle: true,
-    cornerRadius: '0vp',
-    autoCancel: true,
-    alignment: DialogAlignment.Bottom,
-    offset: { dx: 0, dy: 0 },
-    gridCount: 4,
-    cancel: () => {
-      const event: TaroEvent = createTaroEvent('cancel', { detail: {} }, this.node)
-      event.stopPropagation()
-      eventHandler(event, 'cancel', this.node)
-    }
-  })
+  dialogController: CustomDialogController | null
 
   aboutToDisappear() {
     this.dialogController = null // 将dialogController置空
+  }
+
+
+  handleClick = () => {
+    if (!this.dialogController) {
+      this.dialogController = new CustomDialogController({
+        builder: PickerView({
+          node: this.node,
+          select: this.select
+        }),
+        customStyle: true,
+        cornerRadius: '0vp',
+        autoCancel: true,
+        alignment: DialogAlignment.Bottom,
+        offset: { dx: 0, dy: 0 },
+        gridCount: 4,
+        cancel: () => {
+          const event: TaroEvent = createTaroEvent('cancel', { detail: {} }, this.node)
+          event.stopPropagation()
+          eventHandler(event, 'cancel', this.node)
+        }
+      })
+    }
+    this.dialogController.open()
   }
 
   @Styles defaultEvent () {
