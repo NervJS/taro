@@ -1,6 +1,7 @@
-import { Current, eventSource } from '@tarojs/runtime'
+import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { isUndefined } from '@tarojs/shared'
 
+import { Current } from '../current'
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
 import { TaroButtonElement, TaroCheckboxGroupElement, TaroElement, TaroIgnoreElement, TaroImageElement, TaroInputElement, TaroPickerElement, TaroRadioGroupElement, TaroSliderElement, TaroSwitchElement, TaroTextElement, TaroVideoElement, TaroViewElement } from './element'
@@ -50,13 +51,13 @@ class TaroDocument extends TaroNode {
         case 'video':
           node = new TaroVideoElement()
           break
-        case 'input': 
+        case 'input':
           node = new TaroInputElement()
           break
-        case 'switch': 
+        case 'switch':
           node = new TaroSwitchElement()
           break
-        case 'slider': 
+        case 'slider':
           node = new TaroSliderElement()
           break
         case 'checkbox-group':

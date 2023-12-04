@@ -1,11 +1,10 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
-import { isElement } from '../utils'
+import { findChildNodeWithDFS, isElement } from '../utils'
 import { triggerAttributesCallback } from '../utils/info'
 import { ClassList } from './class-list'
 import { NodeType, TaroNode } from './node'
-import { treeToArray } from './tree'
 
 import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
@@ -99,26 +98,25 @@ class TaroElement extends TaroNode {
     return Object.keys(this._attrs).length > 0
   }
 
-  public getElementById (id: string | undefined | null): TaroElement {
-    const arr = treeToArray(this, (el) => {
+  public getElementById (id: string | undefined | null): TaroElement | null {
+    return findChildNodeWithDFS(this, (el) => {
       return el.id === id
-    })
-    return arr[0]
+    }, false)
   }
 
   public getElementsByTagName (tagName: string): TaroElement[] {
-    return treeToArray(this, (el) => {
+    return findChildNodeWithDFS(this, (el) => {
       return el.nodeName === tagName || (tagName === '*' && this !== el)
-    })
+    }, true) || []
   }
 
   public getElementsByClassName (className: string): TaroElement[] {
     const classNames = className.trim().split(/\s+/)
 
-    return treeToArray(this, (el) => {
+    return findChildNodeWithDFS(this, (el) => {
       const classList = el.classList
       return classNames.every(c => classList.contains(c))
-    })
+    }, true) || []
   }
 
   // @Todo

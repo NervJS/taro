@@ -77,7 +77,7 @@ export default class Parser extends BaseParser {
     // 引入
     initHarmonyElement()
     this.app = createComponent()
-    this.app?.onLaunch?.(ObjectAssign(want, launchParam))
+    callFn(this.app?.onLaunch, this, ObjectAssign(want, launchParam))
   }
 
   onDestroy() {}
@@ -86,17 +86,17 @@ export default class Parser extends BaseParser {
     context.resolver(this.context)
     stage.loadContent('${entryPath}', (err, data) => {
       if (err.code) {
-        return this.app?.onError?.(err.toString())
+        return callFn(this.app?.onError, this, err)
       }
     })
   }
 
   onForeground() {
-    this.app?.onShow?.()
+    callFn(this.app?.onShow, this)
   }
 
   onBackground() {
-    this.app?.onHide?.()
+    callFn(this.app?.onHide, this)
   }
 }
 `
@@ -117,7 +117,7 @@ export default class Parser extends BaseParser {
       'import type ohWindow from "@ohos.window"',
       '',
       'import UIAbility from "@ohos.app.ability.UIAbility"',
-      'import { window, context, ObjectAssign, TaroAny } from "@tarojs/runtime"',
+      'import { callFn, context, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
       'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
       'import { initHarmonyElement } from "@tarojs/components/element"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',

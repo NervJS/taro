@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, treeToArray,
+import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS,
   TaroEvent,
   TaroFormWidgetElement
 } from '@tarojs/runtime'
@@ -65,7 +65,7 @@ export default struct TaroForm {
     this.node.addEventListener('submit-btn', (e: TaroEvent) => {
       e.stopPropagation()
       const formResult: Record<string, string> = {}
-      treeToArray<TaroFormWidgetElement>(this.node, (item) => {
+      findChildNodeWithDFS<TaroFormWidgetElement>(this.node, (item) => {
         switch (item.nodeName) {
           case 'INPUT':
           case 'SLIDER': 
@@ -78,13 +78,13 @@ export default struct TaroForm {
           }
         }
         return false
-      })
+      }, true)
       const event: TaroEvent = createTaroEvent('submit', { detail: { value: formResult } }, this.node)
       eventHandler(event, 'submit', this.node)
     })
     // 监听reset冒泡
     this.node.addEventListener('reset-btn', (e: TaroEvent) => {
-      treeToArray(this.node, (item: TaroFormWidgetElement) => {
+      findChildNodeWithDFS<TaroFormWidgetElement>(this.node, (item) => {
         e.stopPropagation()
         switch (item.nodeName) {
           case 'INPUT': {
@@ -113,7 +113,7 @@ export default struct TaroForm {
           }
         }
         return false
-      })
+      }, true)
     })
   }
 
