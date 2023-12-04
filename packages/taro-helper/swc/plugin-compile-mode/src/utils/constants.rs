@@ -19,179 +19,121 @@ pub const IMAGE_TAG: &str = "image";
 pub const HARMONY_IMPORTER: &str = "import { createNode } from '../render'
 import { FlexManager } from '../utils/FlexManager'
 import { TOUCH_EVENT_MAP } from '../utils/constant/event'
-import { getNodeThresholds, getNormalAttributes, getTextAttributes } from '../utils/helper'
+import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../utils/helper'
 import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
 
+import type { TaroViewElement } from '../element'
 import type { TaroElement } from '../../runtime'
+import type { TaroStyleType, CompType } from '../type'
+import type { TaroAny } from '../utils/type'
+
 ";
 
 pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Flex)
-function attrs ({
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform
-}) {
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
+function attrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 "#;
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
-function attrsText ({
-  id,
-  width,
-  height,
-  zIndex,
-  opacity,
-  margin,
-  padding,
-  decoration,
-  lineHeight,
-  letterSpacing,
-  maxLines,
-  fontColor,
-  fontSize,
-  fontWeight,
-  fontFamily,
-  textOverflow,
-  constraintSize,
-  border,
-  borderRadius,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  rotate,
-  scale,
-  translate,
-  transform,
-  textAlign,
- }) {
-  .id(id)
-  .key(id)
-  .constraintSize(constraintSize)
-  .zIndex(zIndex)
-  .opacity(opacity)
-  .margin(margin)
-  .padding(padding)
-  .decoration(decoration)
-  .lineHeight(lineHeight)
-  .letterSpacing(letterSpacing)
-  .maxLines(maxLines)
-  .fontColor(fontColor)
-  .fontSize(fontSize)
-  .fontWeight(fontWeight)
-  .fontFamily(fontFamily)
-  .textOverflow(textOverflow)
-  .border(border)
-  .borderRadius(borderRadius)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .textAlign(textAlign)
-  .width(width)
-  .height(height)
+function textStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
+  .fontColor(style.color)
+  .fontSize(style.fontSize)
+  .fontWeight(style.fontWeight)
+  .fontStyle(style.fontStyle)
+  .fontFamily(style.fontFamily)
+  .lineHeight(style.lineHeight)
+  .decoration({
+    type: style.decoration,
+    color: style.color
+  })
+}
+
+@Extend(Text)
+function textAttr(attr: CompType.Text.Attrs) {
+  .textAlign(attr.textAlign)
+  .textOverflow(attr.textOverflow)
+  .maxLines(attr.maxLines)
+  .letterSpacing(attr.letterSpacing)
 }
 "#;
 pub const HARMONY_IMAGE_STYLE_BIND: &str = r#"@Extend(Image)
-function attrsImage ({
-  flexBasis,
-  flexGrow,
-  flexShrink,
-  alignSelf,
-  clip,
-  width,
-  height,
-  margin,
-  padding,
-  linearGradient,
-  zIndex,
-  borderStyle,
-  borderWidth,
-  borderColor,
-  borderRadius,
-  opacity,
-  backgroundColor,
-  backgroundImage,
-  backgroundRepeat,
-  backgroundImageSize,
-  constraintSize,
-  rotate,
-  scale,
-  translate,
-  transform
-}) {
-  .flexGrow(flexGrow)
-  .flexShrink(flexShrink)
-  .flexBasis(flexBasis)
-  .alignSelf(alignSelf)
-  .width(width)
-  .height(height)
-  .constraintSize(constraintSize)
-  .margin(margin)
-  .padding(padding)
-  .linearGradient(linearGradient)
-  .zIndex(zIndex)
-  .borderStyle(borderStyle)
-  .borderWidth(borderWidth)
-  .borderColor(borderColor)
-  .borderRadius(borderRadius)
-  .opacity(opacity)
-  .backgroundColor(backgroundColor)
-  .backgroundImage(backgroundImage, backgroundRepeat)
-  .backgroundImageSize(backgroundImageSize)
-  .rotate(rotate)
-  .scale(scale)
-  .translate(translate)
-  .transform(transform)
-  .clip(clip)
-  .objectFit(ImageFit.Contain)
+function attrsImage (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .padding(style.padding)
+  .margin(style.margin)
+  .width(style.width)
+  .height(style.height)
+  .constraintSize(style.constraintSize)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundImageSize)
+  .rotate(style.rotate)
+  .scale(style.scale)
+  .translate(style.translate)
+  .transform(style.transform)
+  .borderStyle(style.borderStyle)
+  .borderWidth(style.borderWidth)
+  .borderColor(style.borderColor)
+  .borderRadius(style.borderRadius)
+  .linearGradient(style.linearGradient)
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .clip(style.clip)
 }
 "#;

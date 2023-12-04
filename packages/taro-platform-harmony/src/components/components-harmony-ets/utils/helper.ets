@@ -41,17 +41,4 @@ export function getNodeThresholds (node: TaroElement): number[] | null {
   return instance?.nodeInfoMap?.[id]?.thresholds || null
 }
 
-
-export function getTextAttributes (node: TaroElement) {
-  const attrs = {
-    ...getNormalAttributes(node),
-    ...getFontAttributes(node)
-  }
-
-  transformW3CToHarmonyInStyle(node._st, attrs)
-
-  return attrs
-}
-
-
 export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle }

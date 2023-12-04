@@ -1,7 +1,7 @@
 import { bindInstanceToNode, bindAnimation, eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent, getTextAttributes } from './utils/helper'
+import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
 import type { TaroTextNode } from '@tarojs/runtime'
 import type { TaroTextElement, TaroElement } from './element'

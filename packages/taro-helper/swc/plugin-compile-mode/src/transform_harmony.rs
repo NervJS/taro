@@ -325,7 +325,7 @@ impl TransformVisitor {
         let alt_children_string = process_condition_expr(&mut cond_expr.alt);
         let cons_children_string = process_condition_expr(&mut cond_expr.cons as &mut Box<Expr>);
 
-        children_string.push_str(format!("if (this.{}._attrs.compileIf) {{\n{}}}", self.get_current_node_path(), cons_children_string).as_str());
+        children_string.push_str(format!("if ((this.{} as TaroElement)._attrs.compileIf) {{\n{}}}", self.get_current_node_path(), cons_children_string).as_str());
         if !alt_children_string.is_empty() {
             children_string.push_str(format!(" else {{\n{}}}", alt_children_string).as_str());
         }
@@ -469,12 +469,11 @@ impl VisitMut for TransformVisitor {
             format!(
 r#"@Component
 export default struct TARO_TEMPLATES_{name} {{
-  nodeInfoMap: any = {{}}
-  dynamicCenter: DynamicCenter
-  @ObjectLink node: TaroElement
+  nodeInfoMap: TaroAny = {{}}
+  dynamicCenter: DynamicCenter = new DynamicCenter()
+  @ObjectLink node: TaroViewElement
 
   aboutToAppear () {{
-    this.dynamicCenter = new DynamicCenter()
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)
   }}
 

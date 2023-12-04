@@ -8,9 +8,7 @@ export default class RenderParser extends BaseParser {
   }
 
   generate () {
-    const renderContent = `// @ts-nocheck
-import { NodeType, TaroCheckboxGroupElement, TaroElement } from '../runtime'
-import TaroIcon from './icon'
+    const renderContent = `import TaroIcon from './icon'
 import TaroText from './text'
 import TaroView from './view'
 import TaroLabel from './label'
@@ -29,7 +27,9 @@ import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 import TaroPicker from './picker'
 import TaroVideo from './video'
 import TaroForm from './form'
+import { NodeType } from '../runtime'
 ${this.generateRenderImport()}
+import type { TaroRadioGroupElement, TaroInputElement, TaroCheckboxGroupElement, TaroElement } from '../runtime'
 
 @Builder
 function createNode (node: TaroElement) {

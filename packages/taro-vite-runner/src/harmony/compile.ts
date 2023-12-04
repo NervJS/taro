@@ -125,7 +125,7 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
 
       // 遍历 templates, 输出 template 里的内容到 path.join(config.outputRoot, 'npm', '@tarojs/components/static/')
       for (const key in templates) {
-        const template = `// @ts-nocheck\n${templates[key]}`
+        const template = templates[key]
         const name = `${key}.ets`
         const fileName = path.join('npm', '@tarojs/components/static', name)
 
