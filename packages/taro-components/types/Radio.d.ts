@@ -20,6 +20,11 @@ interface RadioProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, rn
    */
   color?: string
+  /**
+   * Radio 的名字
+   * @supported h5, harmony
+   */
+  name?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
    * @supported h5
    */
