@@ -7,6 +7,8 @@ import { MethodHandler } from '../../utils/handler'
 
 let container: HTMLDivElement | null = null
 function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['mapOpts'] = {}) {
+  // @ts-ignore
+  const systemBarHeight = window.systemBarHeight ? window.systemBarHeight : 0
   const { key = LOCATION_APIKEY, referer = 'myapp', ...opts } = mapOpt
   const query = {
     key,
@@ -17,6 +19,7 @@ function createLocationChooser (handler, mapOpt: Taro.chooseLocation.Option['map
   if (!container) {
     const html = `
       <div class='taro_choose_location'>
+        <div style='height:${systemBarHeight}px; width:100%; background-color:transparent;'></div>
         <div class='taro_choose_location_bar'>
           <div class='taro_choose_location_back'></div>
           <p class='taro_choose_location_title'>位置</p>
