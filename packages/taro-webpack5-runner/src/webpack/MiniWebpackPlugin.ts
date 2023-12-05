@@ -3,6 +3,7 @@ import { isArray, isFunction, PLATFORM_TYPE } from '@tarojs/shared'
 import { ICopyOptions, IPostcssOption } from '@tarojs/taro/types/compile'
 
 import BuildNativePlugin from '../plugins/BuildNativePlugin'
+import MiniCompileModePlugin from '../plugins/MiniCompileModePlugin'
 import MiniPlugin from '../plugins/MiniPlugin'
 import MiniSplitChunksPlugin from '../plugins/MiniSplitChunksPlugin'
 import WebpackPlugin, { PluginArgs } from './WebpackPlugin'
@@ -36,6 +37,10 @@ export class MiniWebpackPlugin {
     const definePluginOptions = plugins.definePlugin.args[0]
     const mainPlugin = this.getMainPlugin(definePluginOptions)
     plugins.miniPlugin = mainPlugin
+
+    plugins.taroCompileModePlugin = WebpackPlugin.getPlugin(MiniCompileModePlugin, [{
+      combination: this.combination,
+    }])
 
     return plugins
   }

@@ -1,16 +1,22 @@
-import { fs, swc } from '@tarojs/helper'
+import { swc } from '@tarojs/helper'
 import { getComponentsAlias } from '@tarojs/shared'
 import { getOptions } from 'loader-utils'
-import * as path from 'path'
 
-let FILE_COUNTER = 0
-const FILE_COUNTER_MAP = new Map<string, number>()
+import { XMLDependency } from '../plugins/MiniCompileModePlugin'
+
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { LoaderContext } from 'webpack'
 
 const COMPILE_MODE = 'compileMode'
 
-export default async function (source) {
+interface IOptions {
+  template: RecursiveTemplate | UnRecursiveTemplate
+  FILE_COUNTER_MAP: Map<string, number>
+}
+
+export default async function (this: LoaderContext<IOptions>, source) {
   const callback = this.async()
-  const options = getOptions(this)
+  const options: IOptions = getOptions(this)
   const resourcePath = this.resourcePath
 
   // @TODO 思考非 JSX 文件应该如何处理 p3
@@ -18,16 +24,18 @@ export default async function (source) {
     return callback(null, source)
   }
 
-  const { template, outputDir, fileType } = options
+  const { template, FILE_COUNTER_MAP } = options
 
   template.componentsAlias = getComponentsAlias(template.internalComponents)
   const components = template.createMiniComponents(template.internalComponents)
 
   if (!FILE_COUNTER_MAP.has(resourcePath)) {
-    FILE_COUNTER_MAP.set(resourcePath, FILE_COUNTER++)
+    FILE_COUNTER_MAP.set(resourcePath, FILE_COUNTER_MAP.size + 1)
   }
+  const fileCount = FILE_COUNTER_MAP.get(resourcePath)
 
   try {
+    const identifier = `f${fileCount}`
     const { code } = await swc
       .transform(source, {
         filename: resourcePath,
@@ -46,7 +54,7 @@ export default async function (source) {
               [
                 require.resolve('swc-plugin-taro-compile-mode'),
                 {
-                  tmpl_prefix: `f${FILE_COUNTER_MAP.get(resourcePath)}`,
+                  tmpl_prefix: identifier,
                   components,
                   adapter: template.Adapter,
                 }
@@ -56,29 +64,36 @@ export default async function (source) {
         }
       })
 
+    const templatesList: string[] = []
     const regExp = /var\s+TARO_TEMPLATES_(\w+)\s*=\s*'(.+)';/g
     let res
     while((res = regExp.exec(code)) !== null) {
-      const [, $0, $1] = res
-      const outputPath = path.join(outputDir, 'taro_xmls', `${$0}${fileType.templ}`)
+      const [, , raw] = res
       // 小程序 xml 不支持 unescape，在此处对被 SWC 转义后的字符作还原
-      let content: string = $1.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
-        const isUnicode = $1 === 'u'
-        const num = isUnicode ? $2 : $2.substring(0,2)
-        const charCode = parseInt(num, 16)
-        return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
-      })
-
-      const xsImporter = template.buildXsTemplate().replace(/["']([^"]*)utils/g, function (match, $1) {
-        return match.replace($1, '../')
-      })
-      const baseTemplateImporter = '<import src="../base.wxml"/>'
-      content = xsImporter + baseTemplateImporter + content
-
-      await fs.outputFile(outputPath, content)
+      const content: string = unescape(raw)
+      templatesList.push(content)
     }
+
+    const templatesString = templatesList.join('\n')
+    this._module?.addDependency(new XMLDependency({
+      identifier,
+      context: this.rootContext,
+      content: templatesString,
+      resourcePath,
+      fileCount,
+    }))
+
     callback(null, code.replace(regExp, ''))
   } catch (err) {
     callback(err)
   }
+}
+
+function unescape (raw: string): string {
+  return raw.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
+    const isUnicode = $1 === 'u'
+    const num = isUnicode ? $2 : $2.substring(0,2)
+    const charCode = parseInt(num, 16)
+    return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
+  })
 }
