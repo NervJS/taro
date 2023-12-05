@@ -1,13 +1,14 @@
 {
   "name": "@tarojs/components-react",
-  "version": "3.6.18",
+  "version": "3.6.20",
   "description": "",
   "main:h5": "src/index.js",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "types/index.d.ts",
   "sideEffects": [
-    "./dist/components/**/loader.js"
+    "./dist/components/**/loader.js",
+    "**/style/*.js"
   ],
   "files": [
     "dist",

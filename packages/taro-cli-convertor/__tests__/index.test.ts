@@ -1,7 +1,12 @@
 import * as taroize from '@tarojs/taroize'
+import * as path from 'path'
 
 import Convertor from '../src/index'
-import { generateMinimalEscapeCode } from './util'
+import { setMockFiles } from './__mocks__/fs-extra'
+import { root } from './data/fileData'
+import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
@@ -163,5 +168,260 @@ describe('parseAst', () => {
         imports: [],
       })
     ).toThrow()
+  })
+
+  // 测试数据添加可选链操作符
+  test('为data数据添加可选链操作符', () => {
+    param.script = `
+      Page({
+        data: {
+          testString: '',
+          testArray: [],
+          testUnArray: undefined,
+        },
+      })
+    `
+    param.wxml = `
+      <view>
+        {{testString.trim()}}
+      </view>
+
+      <view wx:for="{{testArray[0].children}}">
+        {{item}}
+      </view>
+    
+      <view wx:for="{{testUnArray[1].children}}">
+        {{item}}
+      </view>
+    `
+    param.path = 'data_optional'
+
+    // 转换页面js脚本
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: '',
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: [],
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('为setData数据添加可选链操作符', () => {
+    param.script = `
+      Page({
+        onLoad() {
+          let list = []
+          let dcopy = []
+          list.push({
+            children: [0,1,2,3,4,5],
+          })
+          list.push({
+            children: [0,1,2,3,4],
+          })
+          this.setData({
+            list,
+            dcopy: [0,1,2,3,4,5],
+          })
+        },
+      })
+    `
+    param.wxml = `
+      <view wx:for="{{list[0].children}}">
+        {{item}}
+      </view>
+  
+      <view wx:for="{{dcopy}}">
+          {{item}}
+      </view>
+    `
+    param.path = 'setdata_optional'
+
+    // 转换页面js脚本
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: '',
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: [],
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  // 按需导入
+  test('自定义组件按需导入', () => {
+    // 构造导入的组件集合depComponents
+    const depComponents = new Set([
+      {
+        name: 'component-a',
+        path: '/project/components/a'
+      },
+      {
+        name: 'component-b',
+        path: '/project/components/b'
+      },
+      {
+        name: 'component-c',
+        path: '/project/components/c'
+      }
+    ])
+    param.script = ``
+    param.wxml = `
+      <component-a name="a" />
+      <component-b name="b" />
+      <!-- <component-c name="c" /> -->
+    `
+    param.path = 'components_import'
+
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: '/project/pages/index',
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents,
+      imports: [],
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('模板按需导入', () => {
+    // index使用模板A，imports传回模板A、B、C
+    param.script = ``
+    param.wxml = `
+      <template is="template-a" />
+    `
+    param.path = 'templates_import'
+    jest.spyOn(convert.hadBeenBuiltImports, 'has').mockReturnValue(true)
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+
+    // 按照实际情况，构造imports
+    const imports = [
+      {
+        ast: { type: 'File', program: [Object], comments: null, tokens: null },
+        name: 'TemplateATmpl',
+      },
+      {
+        ast: { type: 'File', program: [Object], comments: null, tokens: null },
+        name: 'TemplateBTmpl',
+      },
+      {
+        ast: { type: 'File', program: [Object], comments: null, tokens: null },
+        name: 'TemplateDTmpl',
+      }
+    ]
+
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: '',
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports,
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分',() =>{
+    const COMPONENT_IMPORT = {
+      '/pages/index/index.js':`
+        import Jstest from '../../components/test.js'
+        import {Mymodule, Mymodules} from '../../components/test.js'
+        Page({})
+      `,
+      '/pages/index/index.json':`
+        {
+          "usingComponents": {
+            "jstest": "../../components/my-component",
+            "mymodule": "../../components/my-component",
+            "mymodule1": "../../components/my-component"
+          }
+        }
+      `,
+      '/components/my-component':`
+        <view class="container">
+          <text>{{text}}</text>
+          <button class="btn" bindtap="handleClick">{{buttonText}}</button>
+        </view>
+      `,
+      '/components/test.js':``
+    }
+    setMockFiles(root,COMPONENT_IMPORT)
+
+    param.path = path.join(root, '/pages/index/index')
+    param.script = `
+      import Jstest from '../../components/test.js'
+      import {Mymodule, Mymodules} from '../../components/test.js'
+      Page({})
+    `
+    param.scriptPath = path.join(root,'/pages/index/index.js')
+    param.wxml = `
+      <Jstest></Jstest>
+      <Mymodule></Mymodule>
+      <Mymodules></Mymodules>
+    `
+    // 转换页面js脚本
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+    const depComponents = new Set([
+      {
+        name:'jstest',
+        path:path.join(root,'/components/my-component')
+      },
+      {
+        name:'mymodule',
+        path:path.join(root,'/components/my-component')
+      },
+      {
+        name:'mymodules',
+        path:path.join(root,'/components/my-component')
+      },
+    ])
+    
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: param.scriptPath,
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents,
+      imports: [],
+    })
+  
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
   })
 })

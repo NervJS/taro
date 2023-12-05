@@ -1,4 +1,3 @@
-swc/**/.cargo
 swc/**/target/*
 !swc/**/target/wasm32-wasi
 swc/**/target/wasm32-wasi/*

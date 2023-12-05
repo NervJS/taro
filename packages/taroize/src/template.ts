@@ -1,7 +1,7 @@
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import * as fs from 'fs'
-import { dirname, extname, relative, resolve } from 'path'
+import * as fs from 'fs-extra'
+import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
 import { buildBlockElement, buildRender, getLineBreak, pascalName, printToLogFile, setting } from './utils'
@@ -29,6 +29,32 @@ export function buildTemplateName (name: string, pascal = true): string {
   }
 
   return str.join('')
+}
+
+/**
+ * 支持import的src绝对路径转为相对路径
+ * 
+ * @param dirPath 文件目录的绝对路径
+ * @param srcPath import的src路径
+ * @returns 处理后的相对路径
+ */
+export function getSrcRelPath (dirPath: string, srcPath: string) {
+  if (srcPath.startsWith('/')) {
+    const absolutPath = join(setting.rootPath, srcPath.substr(1))
+    if (!fs.existsSync(absolutPath) && !fs.existsSync(`${absolutPath}.wxml`)) {
+      throw new Error(`import/include 的 src 请填入正确路径再进行转换：src="${srcPath}"`)
+    }
+    let relativePath = relative(dirPath, absolutPath)
+    relativePath = relativePath.replace(/\\/g, '/')
+    if (relativePath.indexOf('.') !== 0) {
+      srcPath = './' + relativePath
+      return srcPath
+    } else {
+      return relativePath
+    }
+  } else {
+    return srcPath
+  }
 }
 
 /**
@@ -112,7 +138,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   if (!path.container || !path.isJSXElement()) {
     return
   }
-  printToLogFile(`funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
+  printToLogFile(`package: taroize, funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(
@@ -152,7 +178,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
     path.traverse(createWxmlVistor(loopIds, refIds, dirPath, [], imports))
 
     // refIds中可能包含wxs模块，应从refIds中去除并单独以模块的形式导入
-    const usedWxses = new Set<WXS>
+    const usedWxses = new Set<WXS>()
     const refdata = refIds
     refdata.forEach((refId) => {
       wxses.forEach((wxsId) => {
@@ -278,7 +304,7 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
 
 export function getWXMLsource (dirPath: string, src: string, type: string) {
   try {
-    let filePath = resolve(dirPath, src)
+    let filePath = join(dirPath, src)
     if (!extname(filePath)) {
       filePath = filePath + '.wxml'
     }
@@ -291,6 +317,7 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
 }
 
 export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type: 'include' | 'import') {
+  printToLogFile(`package: taroize, funName: parseModule, jsx: ${jsx}, dirPath: ${dirPath} ${getLineBreak()}`)
   const openingElement = jsx.get('openingElement')
   const attrs = openingElement.get('attributes')
   // const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
@@ -317,19 +344,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
   }
   let srcValue = value.value
   // 判断是否为绝对路径
-  if (srcValue.startsWith('/')) {
-    const absolutPath = resolve(setting.rootPath, srcValue.substr(1))
-    if (!fs.existsSync(absolutPath) && !fs.existsSync(`${absolutPath}.wxml`)) {
-      throw new Error(`import/include 的 src 请填入正确路径再进行转换：src="${srcValue}"`)
-    }
-    let relativePath = relative(dirPath, absolutPath)
-    relativePath = relativePath.replace(/\\/g, '/')
-    if (relativePath.indexOf('.') !== 0) {
-      srcValue = './' + relativePath
-    } else {
-      srcValue = relativePath
-    }
-  }
+  srcValue = getSrcRelPath(dirPath, srcValue)
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)

@@ -1,44 +1,184 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`template.ts import 正常情况 import src 为绝对路径 1`] = `"<TemplateDemoTmpl></TemplateDemoTmpl>"`;
+exports[`template.ts template套用 同界面template套用 1`] = `
+<FirstTagTmpl data={{
+  tagListFirst: tagListFirst,
+  tagListSecond: tagListSecond
+}}></FirstTagTmpl>
+`;
 
-exports[`template.ts import 正常情况 import src 为绝对路径 2`] = `
-"import { Block, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
-import withWeapp from \\"@tarojs/with-weapp\\";
+exports[`template.ts template套用 同界面template套用 2`] = `
+import SecondTagTmpl from "./SecondTagTmpl";
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
+@withWeapp({})
+class FirstTagTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        tagListFirst,
+        index,
+        item,
+        tagListSecond
+      },
+      onClickFirstTag,
+      onClickSecndTag
+    } = this.props;
+    return <Block>{tagListFirst.map((item, index) => {
+        return <Block key={index}><View onClick={onClickFirstTag}>{item}</View></Block>;
+      })}<SecondTagTmpl data={{
+        tagListSecond: tagListSecond
+      }} onClickSecndTag={onClickSecndTag}></SecondTagTmpl></Block>;
+  }
+}
+export default FirstTagTmpl;
+`;
+
+exports[`template.ts template套用 同界面template套用 3`] = `
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
+@withWeapp({})
+class SecondTagTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        tagListSecond,
+        index,
+        item
+      },
+      onClickSecndTag
+    } = this.props;
+    return <Block>{tagListSecond.map((item, index) => {
+        return <Block key={index}><View onClick={onClickSecndTag}>{item}</View></Block>;
+      })}</Block>;
+  }
+}
+export default SecondTagTmpl;
+`;
+
+exports[`template.ts template套用 通过import的套用 1`] = `
+<TmplATmpl data={{
+  motto: motto,
+  mott: mott
+}}></TmplATmpl>
+`;
+
+exports[`template.ts template套用 通过import的套用 2`] = `
+import { Block, View, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
+@withWeapp({})
+class TmplBTmpl extends React.Component {
+  render() {
+    const {
+      onClickC
+    } = this.props;
+    return <Block><View>this is template B</View><Button onClick={onClickC}>模板C的按钮</Button></Block>;
+  }
+}
+export default TmplBTmpl;
+`;
+
+exports[`template.ts template套用 通过import的套用 3`] = `
+import TmplBTmpl from "./TmplBTmpl";
+import { Block, View, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
+@withWeapp({})
+class TmplATmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        motto,
+        mott
+      },
+      onClickC
+    } = this.props;
+    return <Block><View>this is template A</View>{motto && <View>{mott}</View>}<TmplBTmpl onClickC={onClickC}></TmplBTmpl></Block>;
+  }
+}
+export default TmplATmpl;
+`;
+
+exports[`template.ts 引入 import 正常情况 import src 为绝对路径且导入文件不存在 1`] = `
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
 @withWeapp({})
 class TemplateDemoTmpl extends React.Component {
   render() {
     return <Block><View>模版DEMO</View></Block>;
   }
 }
-export default TemplateDemoTmpl;"
+export default TemplateDemoTmpl;
 `;
 
-exports[`template.ts import 正常情况 import 引入template 1`] = `"<View><TemplateDemoTmpl></TemplateDemoTmpl></View>"`;
-
-exports[`template.ts import 正常情况 import 引入template 2`] = `
-"import { Block, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
-import withWeapp from \\"@tarojs/with-weapp\\";
+exports[`template.ts 引入 import 正常情况 import 引入template 1`] = `
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
 @withWeapp({})
 class TemplateDemoTmpl extends React.Component {
   render() {
     return <Block><View>模版DEMO</View></Block>;
   }
 }
-export default TemplateDemoTmpl;"
+export default TemplateDemoTmpl;
 `;
 
-exports[`template.ts template使用外部wxs工具类 当template同时使用外部工具类和data传递数据 1`] = `
-"import { Block, Text, View } from \\"@tarojs/components\\";
-import React from \\"react\\";
-import Taro from \\"@tarojs/taro\\";
-import withWeapp from \\"@tarojs/with-weapp\\";
-import myFunc from \\"../components/LunaComponent/utils/myFunc.wxs.js\\";
-import Tim from \\"../components/LunaComponent/utils/timFunc.wxs.js\\";
+exports[`template.ts 引入 include 正常情况 include 引入 header文件 1`] = `
+import { Block, Text } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>header.wxml</Text>;
+  }
+}
+export default _C;
+`;
+
+exports[`template.ts 模板 template 的 is 属性是表达式情况 1`] = `
+<Block>{true ? <MsgItemTmpl data={{
+    data: 'xixi'
+  }}></MsgItemTmpl> : <bccdTmpl data={{
+    data: 'xixi'
+  }}></bccdTmpl>}</Block>
+`;
+
+exports[`template.ts 模板 template传递data的语法 {{...xxx,xxx}} 1`] = `
+<MsgItemTmpl data={{
+  ...item,
+  text
+}}></MsgItemTmpl>
+`;
+
+exports[`template.ts 模板 template传递data的语法 {{key:xxx}} 1`] = `
+<MsgItemTmpl data={{
+  text: 'abc'
+}}></MsgItemTmpl>
+`;
+
+exports[`template.ts 模板 当template同时使用外部工具类和data传递数据 1`] = `
+import { Block, Text, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
+import myFunc from "../components/LunaComponent/utils/myFunc.wxs.js";
+import Tim from "../components/LunaComponent/utils/timFunc.wxs.js";
 @withWeapp({})
 class HuangyeTmpl extends React.Component {
   render() {
@@ -50,5 +190,54 @@ class HuangyeTmpl extends React.Component {
     return <Block><Text>{myFunc.getMsg}</Text><View>{Tim.getMsg}</View><View>{'姓名：' + info.name + '年龄：' + info.age}</View></Block>;
   }
 }
-export default HuangyeTmpl;"
+export default HuangyeTmpl;
+`;
+
+exports[`template.ts 模板 直接使用页面中的模板，转换后会创建模板文件 1`] = `
+import { Block, View, Text } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  data: {
+    item: {
+      index: 0,
+      msg: 'this is a template',
+      time: '2016-09-15'
+    }
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const {
+      item
+    } = this.data;
+    return <MsgItemTmpl data={item}></MsgItemTmpl>;
+  }
+}
+export default _C;
+`;
+
+exports[`template.ts 模板 直接使用页面中的模板，转换后会创建模板文件 2`] = `
+import { Block, View, Text } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import withWeapp from "@tarojs/with-weapp";
+@withWeapp({})
+class MsgItemTmpl extends React.Component {
+  render() {
+    const {
+      data: {
+        index,
+        msg,
+        time
+      }
+    } = this.props;
+    return <Block><View><Text>{index + ": " + msg}</Text><Text>{"Time: " + time}</Text></View></Block>;
+  }
+}
+export default MsgItemTmpl;
 `;

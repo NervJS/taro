@@ -55,7 +55,7 @@ export class Template extends RecursiveTemplate {
         return str + `${attr}="eh" `
       }
 
-      return str + `${attr}="{{ i.${toCamelCase(attr)} }}" `
+      return str + ` ${attr}="{{ i.${toCamelCase(attr)} }}" `
     }, '')
   }
 
