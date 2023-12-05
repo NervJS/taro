@@ -505,6 +505,38 @@ export default class Convertor {
                 scriptImports.push(importName)
               })
             },
+            // export全部导入写法
+            ExportAllDeclaration (astPath) {
+              const node = astPath.node
+              const source = node.source
+              const value = source.value
+              analyzeImportUrl(
+                self.root,
+                sourceFilePath,
+                scriptFiles,
+                source,
+                value,
+                self.isTsProject,
+                self.pluginInfo.pluginName
+              )
+            },
+            // export部分导入写法
+            ExportNamedDeclaration (astPath) {
+              const node = astPath.node
+              const source = node.source || ''
+              if (source) {
+                const value = source.value
+                analyzeImportUrl(
+                  self.root,
+                  sourceFilePath,
+                  scriptFiles,
+                  source,
+                  value,
+                  self.isTsProject,
+                  self.pluginInfo.pluginName
+                )
+              }
+            },
             CallExpression (astPath) {
               printToLogFile(`package: taro-cli-convertor, 解析CallExpression: ${astPath} ${getLineBreak()}`)
               const node = astPath.node
