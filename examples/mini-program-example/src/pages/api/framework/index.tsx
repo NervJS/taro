@@ -122,12 +122,10 @@ export default class Index extends React.Component {
   }
 
   componentDidShow(res) {
-    console.log('biggggg show')
     this.lifeCycleTrigger('componentDidShow', res)
   }
 
   componentDidHide(res) {
-    console.log('biggggg hide')
     this.lifeCycleTrigger('componentDidHide', res)
   }
 

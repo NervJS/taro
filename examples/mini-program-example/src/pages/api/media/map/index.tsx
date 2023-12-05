@@ -562,14 +562,17 @@ export default class Index extends React.Component {
 
   handleClickLatitude = async () => {
     const latitude = this.state.lat
-    await this.setState({
+    await this.setState(
+      {
         latitude,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeLongitude = (e) => {
@@ -580,14 +583,17 @@ export default class Index extends React.Component {
 
   handleClickLongitude = async () => {
     const longitude = this.state.lng
-    await this.setState({
+    await this.setState(
+      {
         longitude,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeRotate = (e) => {
@@ -598,14 +604,17 @@ export default class Index extends React.Component {
 
   handleClickRotate = async () => {
     const rotate = this.state.rotated
-    await this.setState({
+    await this.setState(
+      {
         rotate,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeSkew = (e) => {
@@ -616,14 +625,17 @@ export default class Index extends React.Component {
 
   handleClickSkew = async () => {
     const skew = this.state.Skew
-    await this.setState({
+    await this.setState(
+      {
         skew,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeScale = (e) => {
@@ -638,14 +650,17 @@ export default class Index extends React.Component {
 
   handleClickScale = async () => {
     const scale = this.state.Scale
-    await this.setState({
+    await this.setState(
+      {
         scale,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   render() {
@@ -653,7 +668,8 @@ export default class Index extends React.Component {
     function onTaps(e) {
       console.log(e.detail)
     }
-    const markers = [{
+    const markers = [
+      {
         id: 1,
         latitude: 39.914887,
         longitude: 116.403694,
@@ -668,14 +684,14 @@ export default class Index extends React.Component {
           color: '#ffffff',
           fontSize: 20,
           borderRadius: 24,
-          borderWidth:10,
-          borderColor:'#FF0000',
+          borderWidth: 10,
+          borderColor: '#FF0000',
           bgColor: '#4294ff',
           padding: 8,
           display: 'BYCLICK',
           textAlign: 'center',
-          anchorX:-10,
-          anchorY:-20,
+          anchorX: -10,
+          anchorY: -20,
         },
         label: {
           content: '天安门',
@@ -692,7 +708,8 @@ export default class Index extends React.Component {
         },
         anchor: { x: 0, y: 0 },
         ariaLabel: '中国首都',
-      }]
+      },
+    ]
     return (
       <View className='api-page'>
         {this.state.isShow && (

@@ -33,7 +33,7 @@ export const openSetting: typeof Taro.openSetting = function (options) {
       const result: Taro.openSetting.SuccessCallbackResult = {
 
         authSetting: res.authSetting,
-        subscriptionsSetting: res.subscriptionsSetting,
+        subscriptionsSetting: res.subscriptionsSetting || {},
         errMsg: res.errMsg,
       }
       handle.success(result)

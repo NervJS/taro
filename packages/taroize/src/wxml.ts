@@ -23,7 +23,7 @@ import {
   isValidVarName,
   normalizePath,
   parseCode,
-  printToLogFile,
+  updateLogFileContent,
 } from './utils'
 
 const { prettyPrint } = require('html')
@@ -127,7 +127,7 @@ function buildElement (name: string, children: Node[] = [], attributes: Attribut
 
 // 将 style 属性中属性名转小驼峰格式 并且将 {{}} 转为 ${}格式生成对应ast节点
 function convertStyleAttrs (styleAttrsMap: any[]) {
-  printToLogFile(`package: taroize, funName: convertStyleAttrs ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: convertStyleAttrs ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     attr.attrName = toCamelCase(attr.attrName.trim())
     // 匹配 {{}} 内部以及左右两边值
@@ -156,7 +156,7 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
  * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组
  */
 function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
-  printToLogFile(`package: taroize, funName: parseStyleAttrs ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseStyleAttrs ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     if (attr) {
       // 对含三元运算符的写法 style="width:{{ xx ? xx : xx }}" 匹配第一个 : 避免匹配三元表达式中的 : 运算符
@@ -214,7 +214,7 @@ export function convertStyleUnit (value: string) {
         })
     } catch (error) {
       printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
-      printToLogFile(`package: taroize, wxml内px/rpx单位转换异常 ${getLineBreak()}`)
+      updateLogFileContent(`package: taroize, wxml内px/rpx单位转换异常 ${getLineBreak()}`)
     }
   }
   return tempValue
@@ -227,6 +227,7 @@ export function convertStyleUnit (value: string) {
  * @returns Visitor
  */
 export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
+  updateLogFileContent(`package: taroize, funName: createPreWxmlVistor, templates: ${templates} ${getLineBreak()}`)
   // const Applys = new Map<string, string[]>()
   return {
     JSXElement: {
@@ -280,8 +281,9 @@ export const createWxmlVistor = (
   imports: Imports[] = [],
   templates?: Map<string, Templates>
 ) => {
-  printToLogFile(`package: taroize, funName: createWxmlVistor, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: createWxmlVistor, dirPath: ${dirPath} ${getLineBreak()}`)
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
+    updateLogFileContent(`package: taroize, 解析JSXAttribute, path: ${path} ${getLineBreak()}`)
     const name = path.node.name as t.JSXIdentifier
     const jsx = path.findParent((p) => p.isJSXElement()) as NodePath<t.JSXElement>
 
@@ -325,6 +327,7 @@ export const createWxmlVistor = (
   }
 
   const renameJSXKey = (path: NodePath<t.JSXIdentifier>) => {
+    updateLogFileContent(`package: taroize, 解析JSXIdentifier, path: ${path} ${getLineBreak()}`)
     const nodeName = path.node.name
     if (path.parentPath.isJSXAttribute()) {
       if (nodeName === WX_SHOW) {
@@ -344,6 +347,7 @@ export const createWxmlVistor = (
     JSXIdentifier: renameJSXKey,
     Identifier: {
       enter (path: NodePath<t.Identifier>) {
+        updateLogFileContent(`package: taroize, 解析Identifier, path: ${path} ${getLineBreak()}`)
         if (!path.isReferencedIdentifier()) {
           return
         }
@@ -358,6 +362,7 @@ export const createWxmlVistor = (
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
+        updateLogFileContent(`package: taroize, 解析JSXElement, path: ${path} ${getLineBreak()}`)
         const openingElement = path.get('openingElement')
         const jsxName = openingElement.get('name')
         const attrs = openingElement.get('attributes')
@@ -588,7 +593,7 @@ export const createWxmlVistor = (
  * @param templates 模板信息
  */
 function templateBfs (templates: Map<string, Templates>) {
-  printToLogFile(`package: taroize, funName: templateBfs ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: templateBfs ${getLineBreak()}`)
   const names: string[] = []
   const applys = new Map<string, Set<string>>()
   for (const key of templates.keys()) {
@@ -635,7 +640,7 @@ function templateBfs (templates: Map<string, Templates>) {
 }
 
 export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
-  printToLogFile(
+  updateLogFileContent(
     `package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`
   )
 
@@ -744,6 +749,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
     const ast = parseCode(script.value)
     traverse(ast, {
       CallExpression (path) {
+        updateLogFileContent(`package: taroize, 解析CallExpression, path: ${path} ${getLineBreak()}`)
         // wxs标签中getRegExp转换为new RegExp
         if (t.isIdentifier(path.node.callee, { name: 'getRegExp' })) {
           // 根据正则表达式是否定义了正则匹配修饰符，有则不变，没有就用默认
@@ -1032,7 +1038,7 @@ function handleConditions (conditions: Condition[]) {
       }
     } catch (error) {
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
-      printToLogFile(`package: taro-transformer-wx, wx:elif 转换异常 ${getLineBreak()}`)
+      updateLogFileContent(`package: taro-transformer-wx, wx:elif 转换异常 ${getLineBreak()}`)
     }
   }
 }
@@ -1068,7 +1074,7 @@ function findWXIfProps (jsx: NodePath<t.JSXElement>): { reg: RegExpMatchArray, t
 }
 
 function parseNode (node: AllKindNode, tagName?: string) {
-  printToLogFile(`package: taroize, funName: parseNode, tagName: ${tagName} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseNode, tagName: ${tagName} ${getLineBreak()}`)
   if (node.type === NodeType.Text) {
     return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
@@ -1085,7 +1091,7 @@ function parseNode (node: AllKindNode, tagName?: string) {
 }
 
 function parseElement (element: Element): t.JSXElement {
-  printToLogFile(`package: taroize, funName: parseElement ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseElement ${getLineBreak()}`)
   const tagName = t.jSXIdentifier(
     THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName)
   )
@@ -1151,7 +1157,7 @@ export function removEmptyTextAndComment (nodes: AllKindNode[]) {
 }
 
 function parseText (node: Text, tagName?: string) {
-  printToLogFile(`package: taroize, funName: parseText ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseText ${getLineBreak()}`)
   if (tagName === 'wxs') {
     return t.jSXText(node.content)
   }
@@ -1172,7 +1178,7 @@ function singleQuote (s: string) {
 }
 
 export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
-  printToLogFile(`package: taroize, funName: parseContent ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseContent ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
@@ -1228,7 +1234,7 @@ function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
  * @returns
  */
 export function parseStyle (key: string, value: string) {
-  printToLogFile(`package: taroize, funName: parseStyle, key: ${key}, value: ${value} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseStyle, key: ${key}, value: ${value} ${getLineBreak()}`)
   const styleAttrs = value.trim().split(';')
   // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
   if (isAllKeyValueFormat(styleAttrs)) {
@@ -1245,7 +1251,7 @@ export function parseStyle (key: string, value: string) {
 }
 
 function parseAttribute (attr: Attribute) {
-  printToLogFile(`package: taroize, funName: parseAttribute, attr: ${JSON.stringify(attr)} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseAttribute, attr: ${JSON.stringify(attr)} ${getLineBreak()}`)
   let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
   let type = ''
@@ -1271,7 +1277,7 @@ function parseAttribute (attr: Attribute) {
       } catch (error) {
         const errorMsg = `当前属性: style="${value}" 解析失败，失败原因：${error}`
         printLog(processTypeEnum.ERROR, errorMsg)
-        printToLogFile(`package: taroize, style="${value}" 解析异常 ${getLineBreak()}`)
+        updateLogFileContent(`package: taroize, style="${value}" 解析异常 ${getLineBreak()}`)
         throw new Error(errorMsg)
       }
     } else {

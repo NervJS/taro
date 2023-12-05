@@ -228,9 +228,25 @@ function isDir (path) {
 }
 
 /**
- * 获取状态
+ * 获取文件或目录状态，在处理路径为符号链接时返回链接指向的文件或目录的状态
  */
 function statSyncMock (path) {
+  if (typeof path !== 'string' || path === '') {
+    return
+  }
+
+  path = normalizePath(path)
+  // 返回包含状态信息的对象
+  return {
+    isFile: () => customIsFile(path),
+    isDirectory: () => customIsDirectory(path)
+  }
+}
+
+/**
+ * 获取文件或目录状态，在处理路径为符号链接时返回链接自身的文件或目录的状态
+ */
+function lstatSyncMock (path) {
   if (typeof path !== 'string' || path === '') {
     return
   }
@@ -250,7 +266,7 @@ function customIsFile (path) {
 
 // 自定义的 isDirectory 函数
 function customIsDirectory (path) {
-  if (typeof path !== 'string' || path === '') {
+  if (typeof path === 'string' && path.includes('.') && path.indexOf('.') !== 0) {
     return false
   }
   return true
@@ -277,6 +293,7 @@ module.exports = {
   writeFileSync: jest.fn((path, data) => writeFileSyncMock(path, data)),
   copySync: jest.fn((from, to) => copySyncMock(from, to)),
   statSync: jest.fn((path) => statSyncMock(path)),
+  lstatSync: jest.fn((path) => lstatSyncMock(path)),
 }
 
 module.exports.setMockFiles = setMockFiles

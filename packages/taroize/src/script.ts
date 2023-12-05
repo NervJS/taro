@@ -10,7 +10,7 @@ import {
   getLineBreak,
   isCommonjsModule,
   parseCode,
-  printToLogFile,
+  updateLogFileContent,
 } from './utils'
 import { WXS } from './wxml'
 
@@ -100,7 +100,7 @@ export function parseScript (
   isApp = false,
   pluginInfo?
 ) {
-  printToLogFile(`package: taroize, funName: parseScript, scriptPath: ${scriptPath} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parseScript, scriptPath: ${scriptPath} ${getLineBreak()}`)
   script = script || 'Page({})'
   if (t.isJSXText(returned as any)) {
     const block = buildBlockElement()
@@ -112,14 +112,17 @@ export function parseScript (
   let foundWXInstance = false
   const vistor: Visitor = {
     BlockStatement (path) {
+      updateLogFileContent(`package: taroize, 解析BlockStatement, path: ${path} ${getLineBreak()}`)
       path.scope.rename('wx', 'Taro')
     },
     Identifier (path) {
+      updateLogFileContent(`package: taroize, 解析Identifier, path: ${path} ${getLineBreak()}`)
       if (path.isReferenced() && path.node.name === 'wx') {
         path.replaceWith(t.identifier('Taro'))
       }
     },
     CallExpression (path) {
+      updateLogFileContent(`package: taroize, 解析CallExpression, path: ${path} ${getLineBreak()}`)
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)
@@ -210,10 +213,11 @@ function parsePage (
   isApp = false,
   pluginInfo?
 ) {
-  printToLogFile(`package: taroize, funName: parsePage, pagePath: ${pagePath} ${getLineBreak()}`)
+  updateLogFileContent(`package: taroize, funName: parsePage, pagePath: ${pagePath} ${getLineBreak()}`)
   const stateKeys: string[] = []
   pagePath.traverse({
     CallExpression (path) {
+      updateLogFileContent(`package: taroize, 解析CallExpression, path: ${path} ${getLineBreak()}`)
       const callee = path.get('callee')
       replaceIdentifier(callee as NodePath<t.Node>)
       replaceMemberExpression(callee as NodePath<t.Node>)
