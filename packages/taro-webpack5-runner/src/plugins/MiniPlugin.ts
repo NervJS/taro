@@ -785,7 +785,7 @@ export default class TaroMiniPlugin {
   /**
    * 读取页面、组件的配置，并递归读取依赖的组件的配置
    */
-  compileFile (file: IComponent, independentComponents?: IndependentPackage) {
+  compileFile (file: IComponent, independentPackage?: IndependentPackage) {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath, this.options.combination.config)
@@ -857,11 +857,11 @@ export default class TaroMiniPlugin {
           this.components.add(componentObj)
 
           // 收集独立分包的组件，用于后续单独编译
-          if (independentComponents) {
-            independentComponents?.components?.push(componentPath)
+          if (independentPackage) {
+            independentPackage?.components?.push(componentPath)
           }
 
-          this.compileFile(componentObj, independentComponents)
+          this.compileFile(componentObj, independentPackage)
         }
       })
     }
