@@ -1,11 +1,10 @@
-import { convertNumber2VP } from "@tarojs/runtime"
-import { capitalize, isNumber } from "@tarojs/shared"
+import { convertNumber2VP, ObjectAssign } from '@tarojs/runtime'
 
-import { BORDER_STYLE_MAP } from './constant/style'
-import { FlexManager } from "./flexManager"
 import { AttributeManager } from './AttributeManager'
+import { BORDER_STYLE_MAP } from './constant/style'
+import { FlexManager } from './flexManager'
+import { getUnit, getNodeMarginOrPaddingData } from './index'
 
-import { ObjectAssign, getUnit, getNodeMarginOrPaddingData } from './index'
 import type { HarmonyStyle } from '../type'
 
 

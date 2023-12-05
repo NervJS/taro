@@ -1,13 +1,12 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroEvent } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
+import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 import type { TaroViewElement, TaroElement } from './element'
 import type { TaroStyleType, CompType } from './type'
-import type { TaroAny } from './utils/type'
 
 @Extend(Toggle)
 function styles (style: TaroStyleType) {

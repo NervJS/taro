@@ -1,7 +1,4 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS,
-  TaroEvent,
-  TaroFormWidgetElement
-} from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -10,9 +7,9 @@ import { FlexManager } from './utils/FlexManager'
 import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
+import type { TaroAny, TaroEvent, TaroFormWidgetElement } from '@tarojs/runtime'
 import type { TaroElement } from './element'
 import type { TaroStyleType } from './type'
-import type { TaroAny } from './utils/type'
 
 
 @Extend(Flex)

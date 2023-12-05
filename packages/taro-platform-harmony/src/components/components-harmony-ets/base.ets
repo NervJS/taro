@@ -1,5 +1,6 @@
 import { convertNumber2VP } from '../runtime'
 import { AttributeManager } from './utils/AttributeManager'
+
 import type { TaroElement } from './element'
 
 
@@ -10,7 +11,7 @@ export default struct TaroComponentWrapper {
   @BuilderParam createElement: () => void
 
   top(): Length {
-    return AttributeManager.getStyleAfterConvert(this.node?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(this.node?._st, 'top') || 0) 
+    return AttributeManager.getStyleAfterConvert(this.node?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(this.node?._st, 'top') || 0)
   }
 
   left(): Length {

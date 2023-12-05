@@ -1,5 +1,4 @@
-import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME,
-  TaroNode } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -7,9 +6,9 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
+import type { TaroAny } from '@tarojs/runtime'
 import type { TaroElement } from './element'
 import type { TaroStyleType } from './type'
-import type { TaroAny } from './utils/type'
 
 @Extend(Flex)
 function attrs (style: TaroStyleType) {

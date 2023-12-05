@@ -1,8 +1,7 @@
 import { convertNumber2VP } from '@tarojs/runtime'
 import matrix4 from '@ohos.matrix4'
 
-import type { TaroAny } from './type'
-import type { TaroStyleType } from '../type'
+import type { TaroAny } from '@tarojs/runtime'
 
 type matrixNums = [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number]
 

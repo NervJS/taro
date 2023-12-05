@@ -1,8 +1,7 @@
-import { AttributeManager } from './AttributeManager' 
+import { AttributeManager } from './AttributeManager'
 import { w3cToHarmonyStyle } from './dynamicConvert'
 
-import type { TaroElement } from '@tarojs/runtime'
-import { TaroAny } from './type'
+import type { TaroAny, TaroElement } from '@tarojs/runtime'
 import type { HarmonyType } from '../type'
 
 class FlexManager {

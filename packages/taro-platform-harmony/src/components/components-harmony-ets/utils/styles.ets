@@ -1,12 +1,11 @@
+import { ObjectAssign } from '@tarojs/runtime'
+
 import { w3cToHarmonyStyle } from './dynamicConvert'
 import { AttributeManager } from './AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
-import type { TaroElement } from '@tarojs/runtime'
-
+import type { TaroAny, TaroElement } from '@tarojs/runtime'
 import type { TaroStyleType, CompType, HarmonyType, HarmonyStyle } from '../type'
-import type { TaroAny } from './type'
-import { ObjectAssign } from './index'
 
 export function getFontAttributes (node: TaroElement): CompType.Text.Attrs {
   const _st = node._st
@@ -96,7 +95,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
   // taro_page 等写死在运行时里的节点，没有 _instance
   if (component) {
     const overwriteStyle: TaroStyleType = component.nodeInfoMap[id].overwriteStyle
-  
+
     // 处理覆盖属性：如动画的覆盖
     if (overwriteStyle) {
       normalAttributes = ObjectAssign(normalAttributes, overwriteStyle)

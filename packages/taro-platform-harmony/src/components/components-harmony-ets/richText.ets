@@ -3,9 +3,9 @@ import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallb
 import TaroComponentWrapper from './base'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
+import type { TaroAny } from '@tarojs/runtime'
 import type { TaroViewElement } from './element'
 import type { TaroStyleType } from './type'
-import type { TaroAny } from './utils/type'
 
 @Extend(RichText)
 function attrs (style: TaroStyleType) {

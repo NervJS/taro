@@ -1,8 +1,4 @@
-import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroElement,
-  TaroNode,
-  TaroEvent
-} from '@tarojs/runtime'
+import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -12,9 +8,9 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
+import type { TaroAny, TaroElement, TaroEvent } from '@tarojs/runtime'
 import type { TaroRadioGroupElement, TaroViewElement } from './element'
 import type { TaroStyleType, CompType } from './type'
-import type { TaroAny } from './utils/type'
 
 
 @Extend(Radio)

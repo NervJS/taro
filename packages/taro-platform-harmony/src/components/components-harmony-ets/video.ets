@@ -1,16 +1,21 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
-  TaroEvent } from '@tarojs/runtime'
-import { capitalize } from "@tarojs/shared"
+import {
+  bindInstanceToNode,
+  bindAnimation,
+  AREA_CHANGE_EVENT_NAME,
+  eventHandler,
+  getComponentEventCallback,
+  VISIBLE_CHANGE_EVENT_NAME,
+  initComponentNodeInfo,
+} from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroViewElement, TaroElement } from './element'
+import type { TaroAny, TaroEvent } from '@tarojs/runtime'
+import type { TaroViewElement } from './element'
 import type { TaroStyleType, CompType } from './type'
-import type { TaroAny } from './utils/type'
-import { extend } from '@tarojs/runtime/dist/runtime.esm'
 
 @Extend(Video)
 function attrs (style: TaroStyleType) {

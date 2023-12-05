@@ -9,4 +9,7 @@ declare module '@tarojs/runtime' {
   export async function setNodeEventCallbackAndTriggerComponentUpdate (node: TaroElement, eventName: string, callback?: Function | null, isAsync = false): Promise<void>
   export function getPageScrollerOrNode (scrollerOrNode: any, page: any): any
   export const disconnectEvent : (node: TaroElement, eventName: string) => void
+
+  export type TaroAny = any
+  export type ObjectAssign = typeof Object.assign
 }

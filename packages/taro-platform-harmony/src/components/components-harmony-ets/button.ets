@@ -10,9 +10,9 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
+import type { TaroAny } from '@tarojs/runtime'
 import type { TaroButtonElement, TaroElement } from './element'
 import type { TaroStyleType } from './type'
-import type { TaroAny } from './utils/type'
 
 @Extend(Button)
 function attrs (style: TaroStyleType) {

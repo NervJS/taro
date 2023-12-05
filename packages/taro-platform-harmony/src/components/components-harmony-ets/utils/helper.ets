@@ -1,8 +1,7 @@
 import { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
 
-import type { TaroElement } from '@tarojs/runtime'
+import type { TaroAny, TaroElement } from '@tarojs/runtime'
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
-import type { TaroAny } from './type'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
   const styleObj: Record<string, string> = {}

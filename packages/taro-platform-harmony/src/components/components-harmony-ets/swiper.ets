@@ -1,5 +1,4 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroEvent } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -8,9 +7,9 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
+import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 import type { TaroViewElement, TaroElement } from './element'
 import type { TaroStyleType, CompType } from './type'
-import type { TaroAny } from './utils/type'
 
 @Extend(Swiper)
 function swiperStyle (style: TaroStyleType) {

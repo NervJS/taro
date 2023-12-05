@@ -1,10 +1,6 @@
 import { convertNumber2VP } from '@tarojs/runtime'
 import { isNumber } from '@tarojs/shared'
 
-export function ObjectAssign(...objects) {
-  return Object.assign.apply(this, [{}].concat(...objects))
-}
-
 export function getSingleSelector(ctx, range, rangeKey): any[] {
   return range.map((data) => data[rangeKey])
 }

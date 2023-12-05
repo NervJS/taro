@@ -3,9 +3,9 @@ import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallb
 import TaroComponentWrapper from './base'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
+import type { TaroAny } from '@tarojs/runtime'
 import type { TaroImageElement } from './element'
 import type { TaroStyleType } from './type'
-import type { TaroAny } from './utils/type'
 
 @Extend(Image)
 function attrs (style: TaroStyleType) {
