@@ -12,7 +12,6 @@ import type { TaroAny, TaroElement, TaroEvent } from '@tarojs/runtime'
 import type { TaroRadioGroupElement, TaroViewElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 
-
 @Extend(Radio)
 function style (style: TaroStyleType) {
   .id(style.id)
@@ -71,7 +70,6 @@ export struct TaroRadio {
   @ObjectLink node: TaroViewElement
 
   @State checked: boolean = false
-
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)

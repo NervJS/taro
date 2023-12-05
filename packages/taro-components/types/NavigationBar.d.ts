@@ -37,7 +37,7 @@ interface NavigationBarProps extends StandardProps {
  * :::
  *
  * @classification navig
- * @supported weapp, harmony
+ * @supported weapp
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/navigation-bar.html
  */
 declare const NavigationBar: ComponentType<NavigationBarProps>
