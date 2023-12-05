@@ -1,3 +1,4 @@
+import path from 'path'
 import ts from 'typescript'
 
 export interface DocEntry {
@@ -31,8 +32,8 @@ export function generateDocumentation (
   for (const sourceFile of program.getSourceFiles()) {
     if (param.withDeclaration !== false || !sourceFile.isDeclarationFile) {
       if (
-        (param.mapAll === true && filepaths.includes(sourceFile.fileName))
-        || sourceFile.fileName === filepaths[0]
+        (param.mapAll === true && filepaths.includes(path.normalize(sourceFile.fileName)))
+        || path.normalize(sourceFile.fileName) === path.normalize(filepaths[0])
       ) {
         ts.forEachChild(sourceFile, (n) => visitAST(n, output))
       }

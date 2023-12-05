@@ -968,7 +968,9 @@ export class Map implements ComponentInterface {
         // 创建 img 元素并设置样式
         const img = document.createElement('img')
         img.src = this._imageUrl
-        img.style.opacity = this._opacity
+        // 确保opacity值在0到1之间
+        const validOpacity = (this._opacity < 0 ) ? '1' : this._opacity
+        img.style.opacity = validOpacity
         div.appendChild(img)
         this._div = div
       }
@@ -1014,7 +1016,8 @@ export class Map implements ComponentInterface {
       this._div.style.width = imageWidth + 'px'
       this._div.style.height = imageHeight + 'px'
       this._div.style.display = this._visible ? 'block' : 'none'
-      this._div.getElementsByTagName('img')[0].style.opacity = this._opacity
+      const validOpacity = (this._opacity < 0 ) ? '1' : this._opacity
+      this._div.getElementsByTagName('img')[0].style.opacity = validOpacity
     }
 
     // 创建 GroundOverlay 实例
@@ -1050,7 +1053,8 @@ export class Map implements ComponentInterface {
         const imgElement = element.querySelector('img')
         if (imgElement) {
           // 找到了对应的元素
-          element.style.opacity = opacity
+          const validOpacity = (opacity < 0 ) ? '1' : opacity
+          element.style.opacity = validOpacity
           imgElement.style.display = visible ? 'block' : 'none'
           element.style.zIndex = zIndex
 

@@ -389,10 +389,17 @@ export function getLineBreak () {
  */
 export function printToLogFile (data: string) {
   try {
-    // 将参数记录到log文件
-    fs.appendFile(globals.logFilePath, data)
+    globals.logFileContent += data
+    
+    if (globals.logCount === 2000) {
+      fs.appendFile(globals.logFilePath, globals.logFileContent)
+      globals.logFileContent = ''
+      globals.logCount = 0
+    } else {
+      globals.logCount++
+    }
   } catch (error) {
-    console.log('写日志文件异常')
+    console.error('写入日志文件异常')
     throw error
   }
 }

@@ -1,5 +1,7 @@
 import { parseWXML } from '../src/wxml'
+import { removeBackslashesSerializer } from './util'
 
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 // 参数顺序  必要在前
 interface Option {
   wxml?: string

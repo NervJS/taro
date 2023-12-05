@@ -1,32 +1,26 @@
 import * as t from '@babel/types'
 
+import { parse } from '../src'
 import { convertStyleUnit, parseContent, parseStyle, parseWXML } from '../src/wxml'
-import { generateMinimalEscapeCode } from './util'
+import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
   appendFile: jest.fn(),
 }))
 
-interface Option {
-  path: string
-  rootPath: string
-  framework: 'react' | 'vue'
-  json?: string
-  script?: string
-  scriptPath?: string
-  wxml?: string
-  isApp?: boolean
-}
-
-const option: Option = {
+const option: any = {
   framework: 'react',
   json: '{}',
+  logFilePath: '',
   path: '',
   rootPath: '',
   script: '',
   scriptPath: '',
   wxml: '',
+  isApp: false,
 }
 
 describe('wxml语法', () => {
@@ -205,13 +199,40 @@ describe('slot插槽', () => {
     const wxmlCode = generateMinimalEscapeCode(wxml)
     expect(wxmlCode).toBe(`<View><SlotComponent renderBefore={<Block><View>这里是插入到组件slot name="before"中的内容</View></Block>} renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}></SlotComponent></View>`)
   })
+
+  test('当元素设置slot属性且值为空串时，移除slot属性', () => {
+    option.wxml = `
+      <view>
+        <slot-component>
+          <view slot="">这里是插入到组件slot name="before"中的内容</view>
+          <view slot="after">这里是插入到组件slot name="after"中的内容</view>
+        </slot-component>
+      </view>
+    `
+    option.path = 'component_slot_empty'
+    const { wxml: slotWxml }: any = parseWXML(option.path, option.wxml)
+    const slotWxmlCode = generateMinimalEscapeCode(slotWxml)
+    expect(slotWxmlCode).toMatchSnapshot()
+  })
+
+  test('slot的值为非字符串', () => {
+    option.wxml = `
+      <view class="wrapper">
+        <slot name="{{123}}"></slot>
+        <view>这里是组件的内部细节</view>
+        <slot name="after"></slot>
+      </view>
+    `
+    option.path = 'slot_name_no_string'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError()
+  })
 })
 
 describe('wxs', () => {
   /**
-   *  关于外部wxs文件的转换以及wxs的引入在taro-cli-convertor包中
+   *  关于外部wxs文件的转换在taro-cli-convertor包中
    */
-  test('在页面中引入外部wxs后，wxml转换情况，wxs引入地址是否解析', () => {
+  test('在页面中引入外部wxs，转换情况', () => {
     /**
      const wxs = `
         var foo = "'hello world' from comm.wxs";
@@ -230,10 +251,10 @@ describe('wxs', () => {
       <view>{{wxs_test.bar('nihao')}}</view>
     `
     option.path = 'wxs_src'
-    const { wxml, wxses }: any = parseWXML(option.path, option.wxml)
-    const wxmlCode = generateMinimalEscapeCode(wxml)
-    expect(wxmlCode).toBe("<Block><View>{wxs_test.foo}</View><View>{wxs_test.bar('nihao')}</View></Block>")
-    expect(wxses[0].src).toBe('.././../utils/test.wxs')
+    option.script = 'Page({})'
+    const { ast }: any = parse(option)
+    const code = generateMinimalEscapeCode(ast)
+    expect(code).toMatchSnapshot()
   })
 
   test('页面中使用wxs', () => {
@@ -308,6 +329,18 @@ describe('wxs', () => {
     expect(() => parseWXML(option.path, option.wxml)).toThrowError()
   })
 
+  test('wxs 标签的属性值为空', () => {
+    option.wxml = `<wxs src="" module=""/>`
+    option.path = 'wxs_empty'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('WXS 标签的属性值不得为空')
+  })
+
+  test('wxs 没有src属性且内部无代码', () => {
+    option.wxml = `<wxs module="wxs_no_code"></wxs>`
+    option.path = 'wxs_no_code'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('wxs 如果没有 src 属性，标签内部必须有 wxs 代码。')
+  })
+
   test('wxs模块中的var regexp = getRegExp()转换为var regexp = new RegExp()', () => {
     option.wxml = `
       <wxs module="wxs_regexp">
@@ -317,8 +350,64 @@ describe('wxs', () => {
     option.path = 'wxml_wxs_regexp'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxses).toMatchSnapshot()
+    expect(wxses[0]).toEqual({ module: 'wxs_regexp',src: './wxs__wxs_regexp' })
     expect(importsCode).toBe('var regexp = new RegExp();')
+  })
+
+  test('getRegExp()只有一个参数', () => {
+    // 参数为变量
+    option.wxml = `
+      <wxs module="wxs_getRegExp">
+        module.exports = {
+          regFun: function(date){
+            return getRegExp(date)
+          }
+        }
+      </wxs>
+      <view>{{wxs_getRegExp.regFun('x')}}</view>
+    `
+    option.path = 'wxs_getRegExp_argument_variable'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('getRegExp 函数暂不支持传入变量类型的参数')
+
+    // 参数为非字符串
+    option.wxml = `
+      <wxs module="wxs_getRegExp">
+        module.exports = {
+          reg : getRegExp(123)
+        }
+      </wxs>
+      <view>{{wxs_getRegExp.reg}}</view>
+    `
+    option.path = 'wxs_getRegExp_argument_no_string'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('getRegExp 函数暂不支持传入非字符串类型的参数')
+  })
+
+  test('getRegExp()有两个参数', () => {
+    // 参数为变量
+    option.wxml = `
+      <wxs module="wxs_getRegExp">
+        module.exports = {
+          regFun: function(date,flag){
+            return getRegExp(date,flag)
+          }
+        }
+      </wxs>
+      <view>{{wxs_getRegExp.regFun('x','img')}}</view>
+    `
+    option.path = 'wxs_getRegExp_arguments_variable'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('getRegExp 函数暂不支持传入变量类型的参数')
+
+    // 参数为非字符串
+    option.wxml = `
+      <wxs module="wxs_getRegExp">
+        module.exports = {
+          reg : getRegExp(123,'img')
+        }
+      </wxs>
+      <view>{{wxs_getRegExp.reg}}</view>
+    `
+    option.path = 'wxs_getRegExp_arguments_no_string'
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('getRegExp 函数暂不支持传入非字符串类型的参数')
   })
 
   test('wxs标签中的getDate()转换为new Date()', () => {
@@ -336,7 +425,7 @@ describe('wxs', () => {
     option.path = 'wxml_wxs_getDate'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxses).toMatchSnapshot()
+    expect(wxses[0]).toEqual({ module: 'wxs_getDate',src: './wxs__wxs_getDate' })
     expect(importsCode).toMatchSnapshot()
   })
 })
@@ -355,7 +444,7 @@ describe('解析wxs中创建正则表达式方法的转换', () => {
     option.path = 'wxml_wxs_reg1'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxses).toMatchSnapshot()
+    expect(wxses[0]).toEqual({ module: 'xxxfile',src: './wxs__xxxfile' })
     expect(importsCode).toMatchSnapshot()
   })
 
@@ -371,7 +460,7 @@ describe('解析wxs中创建正则表达式方法的转换', () => {
     option.path = 'wxml_wxs_reg2'
     const { wxses, imports }: any = parseWXML(option.path, option.wxml)
     const importsCode = generateMinimalEscapeCode(imports[0].ast)
-    expect(wxses).toMatchSnapshot()
+    expect(wxses[0]).toEqual({ module: 'xxxfile',src: './wxs__xxxfile' })
     expect(importsCode).toMatchSnapshot()
   })
 })
@@ -384,11 +473,19 @@ describe('组件', () => {
     const wxmlCode = generateMinimalEscapeCode(wxml)
     expect(wxmlCode).toBe(`<Image className="img" src={imgSrc} mode="scaleToFill"></Image>`)
   })
+
+  test('组件属性 data-XXX，XXX转为小写', () => {
+    option.wxml = `<view data-ID="123">组件属性data标识</view>`
+    option.path = 'data_id'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toBe(`<View data-id="123">组件属性data标识</View>`)
+  })
 })
 
 describe('parseContent', () => {
   test('节点key的值解析', () => {
-    const contentInput = `{{list}}`
+    const contentInput = '{{list}}'
     const { type, content } = parseContent(contentInput)
     expect(type).toBe('expression')
     expect(content).toBe(`(list)`)
@@ -460,6 +557,12 @@ describe('style属性的解析', () => {
       expect(type).toBe('expression')
       expect(content).toBe('({{ height + 10 }}px;width: 5rem;background-color: red;)')
     }
+  })
+
+  test('style = xxx:{{ xxx + 10 }}rpx', () => {
+    const contentInput = '<view style="font-size: {{height + 10}}rpx;">style参数为变量</view>'
+    const contentOut = convertStyleUnit(contentInput)
+    expect(contentOut).toBe(`<view style="font-size: {{(height + 10)/40}}rem;">style参数为变量</view>`)
   })
 
   // style=xxx:xxx情况中属性值中的value既有变量也有变量拼字符串
@@ -709,6 +812,14 @@ describe('style属性的解析', () => {
     let contentInput = `<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
     expect(contentInput).toBe('<swiper-item style="height: calc(100vh - {{num}}rem);"></swiper-item>')
+  })
+
+  test('当设置 style 属性但未赋值则删除该属性', () => {
+    option.wxml = `<view style="">style为空</view>`
+    option.path = 'component_style_empty'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toBe(`<View>style为空</View>`)
   })
 })
 

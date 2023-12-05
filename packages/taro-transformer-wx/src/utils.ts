@@ -756,16 +756,29 @@ export function getLineBreak() {
 }
 
 /**
- * 记录数据到日志文件中
+ * 记录数据到logFileContent中
  *
  * @param data 日志数据
  */
-export function printToLogFile(data: string) {
+export function updateLogFileContent(data: string) {
   try {
-    // 将参数记录到log文件
-    fs.appendFile(globals.logFilePath, data, () => {})
+    globals.logFileContent += data
   } catch (error) {
-    console.error('写日志文件异常')
+    console.error('记录日志数据异常')
+    throw error
+  }
+}
+
+/**
+ * 写入数据到日志文件中
+ *
+ */
+export function printToLogFile() {
+  try {
+    fs.appendFile(globals.logFilePath, globals.logFileContent, () => {})
+    globals.logFileContent = ''
+  } catch (error) {
+    console.error('写入日志文件异常')
     throw error
   }
 }

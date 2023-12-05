@@ -731,11 +731,12 @@ exports[`react should build react app 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "MPHARMONY": "MPHARMONY"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
