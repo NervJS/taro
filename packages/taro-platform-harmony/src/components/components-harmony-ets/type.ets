@@ -103,6 +103,8 @@ export namespace CompType {
   }
   export namespace Input {
     export class Attrs {
+      adjustPosition?: boolean
+      cursor?: number
       textAlign?: TextAlign
     }
   }
@@ -222,5 +224,4 @@ export namespace HarmonyType {
     }
     export type Transform = matrix4.Matrix4Transit
   }
-
 }

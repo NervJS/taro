@@ -53,10 +53,15 @@ function styles (style: TaroStyleType) {
 @Extend(TextInput)
 function attrs(attr: CompType.Input.Attrs) {
   .textAlign(attr.textAlign)
+  .enableKeyboardOnFocus(!!attr.adjustPosition)
+  .caretPosition(attr.cursor)
 }
 
 function getAttributes(node: TaroInputElement): CompType.Input.Attrs {
+  const _attrs = node._attrs
   return {
+    adjustPosition: _attrs.adjustPosition !== false,
+    cursor: Number(_attrs.cursor) || 0,
     textAlign: AttributeManager.getStyleAfterConvert(node._st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
   }
 }

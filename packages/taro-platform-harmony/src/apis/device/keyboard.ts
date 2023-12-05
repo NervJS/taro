@@ -13,14 +13,14 @@ const resizeListener = (height) => {
   })
 }
 
-let topWindow: ReturnType<typeof window.__ohos.findWindow>
+let topWindow: ReturnType<typeof window.__ohos.getLastWindow>
 
 export const onKeyboardHeightChange: typeof Taro.onKeyboardHeightChange = callback => {
   callbackManager.add(callback)
   if (callbackManager.count() === 1) {
     (Current as any).contextPromise
       .then(context => {
-        const win = window.__ohos.getTopWindow(context)
+        const win = window.__ohos.getLastWindow(context)
         win.then(mainWindow => {
           topWindow = mainWindow
           topWindow.on('keyboardHeightChange', resizeListener)
@@ -36,7 +36,6 @@ export const offKeyboardHeightChange: typeof Taro.offKeyboardHeightChange = call
   }
 }
 
-// @ts-ignore
 let keyboardController: inputMethodEngine.KeyboardController
 inputMethodEngine.getInputMethodAbility()
   // FIXME 当前事件无效，等待鸿蒙方面沟通
