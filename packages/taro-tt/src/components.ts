@@ -160,5 +160,13 @@ export const components = {
     'default-avatar': _empty,
     'use-empty-value': _false,
     bindError: _empty
+  },
+  AwemeUserCard: {
+    'aweme-id': _empty,
+    width: 504,
+    height: 144,
+    fixed: _false,
+    'left-right-padding': _empty,
+    bindError: _empty
   }
 }
