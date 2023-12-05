@@ -1,5 +1,7 @@
 import { parseWXML } from '../src/wxml'
+import { removeBackslashesSerializer } from './util'
 
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 // 参数顺序  必要在前
 interface Option {
   wxml?: string
@@ -475,5 +477,29 @@ describe('event convertor', () => {
                         </view>`
     const { wxml }: any = parseWXML(option.path, option.wxml)
     expect(wxml.openingElement.attributes[0].name.name).toBe('onTouchForceChange')
+  })
+})
+
+// 主要测试，catch转换后，原先转换结果的this.privateStopNoop的包裹被去除
+describe('catch_event convetor', () => {
+  const option: Option = {
+    path: '',
+    wxml: ``
+  }
+
+  test('catchtap', () => {
+    option.path = 'catchtap'
+    option.wxml = `<button catchtap="handleTap">点击事件1</button>`
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    expect(wxml.openingElement.attributes[0].name.name).toBe('onClick')
+    expect(wxml.openingElement.attributes[0].value.expression.object.type).toBe('ThisExpression')
+  })
+
+  test('catch:tap', () => {
+    option.path = 'catch_tap'
+    option.wxml = `<button catch:tap="handleTap">点击事件1</button>`
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    expect(wxml.openingElement.attributes[0].name.name).toBe('onClick')
+    expect(wxml.openingElement.attributes[0].value.expression.object.type).toBe('ThisExpression')
   })
 })

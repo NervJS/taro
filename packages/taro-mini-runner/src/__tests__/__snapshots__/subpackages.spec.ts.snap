@@ -539,7 +539,7 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = __webpack_require__(11);
         var config = {
             pages: [ "pages/index/index" ],
@@ -555,7 +555,7 @@ require("./taro");
             } ]
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(Object(mocks_taro["a"])(lib_src_app, react, taro_react["a"], config));
+        var inst = App(Object(mocks_taro["a"])(entry_cachename_app_src_app, react, taro_react["a"], config));
         Object(mocks_taro["initPxTransform"])({
             designWidth: 750,
             deviceRatio: {
@@ -1601,7 +1601,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

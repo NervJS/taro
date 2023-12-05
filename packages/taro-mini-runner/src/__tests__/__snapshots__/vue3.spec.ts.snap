@@ -570,7 +570,7 @@ require("./taro");
         var app_App = Object(vue["createApp"])({
             onShow: function onShow(options) {}
         });
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var config = {
             pages: [ "pages/index/index" ],
             window: {
@@ -581,7 +581,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createVue3App(lib_src_app, vue["h"], config));
+        var inst = App(createVue3App(entry_cachename_app_src_app, vue["h"], config));
         undefined({
             designWidth: 750,
             deviceRatio: {
@@ -1467,7 +1467,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

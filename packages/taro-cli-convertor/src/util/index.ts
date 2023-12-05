@@ -126,10 +126,19 @@ export function analyzeImportUrl (
   scriptFiles: Set<string>,
   source: t.StringLiteral,
   value: string,
-  isTsProject?: boolean
+  isTsProject?: boolean,
+  pluginName?: string
 ) {
   // 将参数记录到log文件
-  printToLogFile(`funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`)
+  printToLogFile(
+    `package: taro-cli-convertor, funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`
+  )
+
+  if (isPluginMainJs(value, pluginName)) {
+    // 插件的入口文件单独转换
+    return
+  }
+
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
@@ -142,7 +151,7 @@ export function analyzeImportUrl (
   }
   if (value.indexOf('.') === 0) {
     if (REG_SCRIPT.test(valueExtname) || REG_TYPESCRIPT.test(valueExtname)) {
-      const vpath = path.resolve(sourceFilePath, '..', value)
+      const vpath = path.join(sourceFilePath, '..', value)
       let fPath = value
       if (fs.existsSync(vpath)) {
         fPath = vpath
@@ -151,7 +160,7 @@ export function analyzeImportUrl (
       }
       scriptFiles.add(fPath)
     } else {
-      let vpath = resolveScriptPath(path.resolve(sourceFilePath, '..', value))
+      let vpath = resolveScriptPath(path.join(sourceFilePath, '..', value))
       if (vpath) {
         if (!fs.existsSync(vpath)) {
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
@@ -183,6 +192,22 @@ export function analyzeImportUrl (
     }
     scriptFiles.add(value)
   }
+}
+
+/**
+ * 判断导入模块的路径是否是plugin的module
+ *
+ * @param modulePath
+ * @param pluginName
+ * @returns
+ */
+function isPluginMainJs (modulePath: string, pluginName: string | undefined) {
+  if (pluginName === undefined) {
+    return false
+  }
+
+  const regex = new RegExp(`/${pluginName}/`)
+  return regex.test(modulePath)
 }
 
 export const incrementId = () => {
@@ -370,6 +395,41 @@ export function printToLogFile (data: string) {
     console.log('写日志文件异常')
     throw error
   }
+}
+
+/**
+ * 将引用插件的路径替换为引用子包插件的路径
+ *
+ * @param pluginComponentPath 小程序中引用的插件路径
+ * @param pluginInfo 插件信息
+ * @returns
+ */
+export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
+  // 捕获跳转路径中的插件名和页面名，替换为子包路径
+  const regexPluginUrl = /plugin:\/\/([^/]+)\/([^/?]+)/
+  const matchPluginUrl = pluginComponentPath.match(regexPluginUrl)
+  if (!matchPluginUrl) {
+    // 后续添加到转换报告中，不使用throw，不阻塞转换
+    throw new Error(`引用插件路径格式异常，插件路径：${pluginComponentPath}`)
+  }
+
+  // 捕获页面名
+  const componentName = matchPluginUrl[2]
+
+  // 通过引用的插件组件名在注册的插件组件信息中查找组件路径
+  let componentPath = null
+  pluginInfo.publicComponents.forEach((publicComponent) => {
+    if (publicComponent.name === componentName) {
+      componentPath = publicComponent.path
+    }
+  })
+
+  if (!componentPath) {
+    // 后续添加到转换报告中，不使用throw，不阻塞转换
+    throw new Error(`引用了未注册的插件组件，插件路径： ${pluginComponentPath}`)
+  }
+
+  return componentPath
 }
 
 // eslint-disable-next-line camelcase
