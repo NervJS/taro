@@ -336,10 +336,7 @@ export default class Index extends React.Component {
                 success: (res) => {
                   this.initCanvas(apiIndex, async () => {
                     context.beginPath()
-                    context.drawImage(
-                      res.path,
-                      ...Object.values(data)
-                    )
+                    context.drawImage(res.path, ...Object.values(data))
                     await context.draw()
                     TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
                   })
@@ -388,7 +385,7 @@ export default class Index extends React.Component {
            *   await context.draw()
            *   TestConsole.consoleNormal('CanvasContext-drawImage success ', context)
            * })
-          */
+           */
         },
       },
       {

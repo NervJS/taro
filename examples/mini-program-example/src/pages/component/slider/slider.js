@@ -54,7 +54,7 @@ export default class PageSlider extends React.Component {
               <Text>设置最小/最大值</Text>
             </View>
             <View className='example-body'>
-              <Slider step={1} value={100} showValue min={50} max={200}></Slider>
+              <Slider step={2} value={100} showValue min={-50} max={200}></Slider>
             </View>
           </View>
 

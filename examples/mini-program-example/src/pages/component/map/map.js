@@ -39,7 +39,8 @@ export default class PageView extends React.Component {
       enableAutoMaxOverlooking: false,
       enableTraffic: false,
       Traffic: false,
-      markers: [{
+      markers: [
+        {
           id: 8888888888,
           latitude: 39.914887,
           longitude: 116.403694,
@@ -113,9 +114,11 @@ export default class PageView extends React.Component {
             padding: 20,
           },
           anchor: { x: 0, y: 0 },
-        }],
+        },
+      ],
 
-      polyline: [{
+      polyline: [
+        {
           points: [
             { longitude: 120.219375, latitude: 30.25961 },
             { longitude: 110.220375, latitude: 30.25961 },
@@ -125,9 +128,11 @@ export default class PageView extends React.Component {
           color: 'red', // 路线颜色
           width: 5, // 路线宽度
           dottedLine: false, // 是否为虚线
-        }],
+        },
+      ],
 
-      circles: [{
+      circles: [
+        {
           latitude: 39.90923,
           longitude: 116.397428,
           radius: 1000,
@@ -142,9 +147,11 @@ export default class PageView extends React.Component {
           color: 'red',
           fillColor: 'blue',
           strokeWidth: 10,
-        }],
-        
-      polygons: [{
+        },
+      ],
+
+      polygons: [
+        {
           points: [
             { latitude: 31.230416, longitude: 121.473701 },
             { latitude: 39.938102, longitude: 122.473701 },
@@ -154,7 +161,8 @@ export default class PageView extends React.Component {
           fillColor: 'yellow',
           strokeColor: 'pink',
           strokeWidth: 5,
-        }],
+        },
+      ],
     }
   }
   handleInputChangeLatitude = (e) => {
@@ -165,14 +173,17 @@ export default class PageView extends React.Component {
 
   handleClickLatitude = async () => {
     const latitude = /^\d+(\.\d+)?$/.test(this.state.lat) ? this.state.lat : ''
-    await this.setState({
+    await this.setState(
+      {
         latitude,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeLongitude = (e) => {
@@ -183,14 +194,17 @@ export default class PageView extends React.Component {
 
   handleClickLongitude = async () => {
     const longitude = /^\d+(\.\d+)?$/.test(this.state.lng) ? this.state.lng : ''
-    await this.setState({
+    await this.setState(
+      {
         longitude,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeScale = (e) => {
@@ -201,14 +215,17 @@ export default class PageView extends React.Component {
 
   handleClickScale = async () => {
     const scale = /^\d+$/.test(this.state.sca) ? this.state.sca : ''
-    await this.setState({
+    await this.setState(
+      {
         scale,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeMinScale = (e) => {
@@ -219,14 +236,17 @@ export default class PageView extends React.Component {
 
   handleClickMinScale = async () => {
     const minScale = /^\d+$/.test(this.state.min) ? this.state.min : ''
-    await this.setState({
+    await this.setState(
+      {
         minScale,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeMaxScale = (e) => {
@@ -237,14 +257,17 @@ export default class PageView extends React.Component {
 
   handleClickMaxScale = async () => {
     const maxScale = /^\d+$/.test(this.state.max) ? this.state.max : ''
-    await this.setState({
+    await this.setState(
+      {
         maxScale,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableBuilding = (e) => {
@@ -255,14 +278,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableBuilding = async () => {
     const enableBuilding = this.state.build === 'false' ? this.state.build : true
-    await this.setState({
+    await this.setState(
+      {
         enableBuilding,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnable3D = (e) => {
@@ -273,14 +299,17 @@ export default class PageView extends React.Component {
 
   handleClickEnable3d = async () => {
     const enable3D = this.state.enable3d === 'true' ? this.state.enable3d : false
-    await this.setState({
+    await this.setState(
+      {
         enable3D,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeSkew = (e) => {
@@ -291,14 +320,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableSkew = async () => {
     const skew = /^\d+(\.\d+)?$/.test(this.state.sk) ? this.state.sk : ''
-    await this.setState({
+    await this.setState(
+      {
         skew,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableOverlooking = (e) => {
@@ -309,14 +341,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableOverlooking = async () => {
     const enableOverlooking = this.state.overlooking === 'true' ? this.state.overlooking : false
-    await this.setState({
+    await this.setState(
+      {
         enableOverlooking,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableAutoMaxOverlooking = (e) => {
@@ -327,14 +362,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableAutoMaxOverlooking = async () => {
     const enableAutoMaxOverlooking = this.state.AutoMaxOverlooking === 'true' ? this.state.AutoMaxOverlooking : false
-    await this.setState({
+    await this.setState(
+      {
         enableAutoMaxOverlooking,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableTraffic = (e) => {
@@ -345,14 +383,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableTraffic = async () => {
     const enableTraffic = this.state.Traffic === 'true' ? this.state.Traffic : false
-    this.setState({
+    this.setState(
+      {
         enableTraffic,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableSatellite = (e) => {
@@ -363,14 +404,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableSatellite = async () => {
     const enableSatellite = this.state.Satellite === 'true' ? this.state.Satellite : false
-    await this.setState({
+    await this.setState(
+      {
         enableSatellite,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeRotate = (e) => {
@@ -381,14 +425,17 @@ export default class PageView extends React.Component {
 
   handleClickRotate = async () => {
     const rotate = /^\d+(\.\d+)?$/.test(this.state.rotated) ? this.state.rotated : ''
-    await this.setState({
+    await this.setState(
+      {
         rotate,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableScroll = (e) => {
@@ -399,14 +446,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableScroll = async () => {
     const enableScroll = this.state.Scroll === 'false' ? this.state.Scroll : true
-    await this.setState({
+    await this.setState(
+      {
         enableScroll,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeShowCompass = (e) => {
@@ -417,14 +467,17 @@ export default class PageView extends React.Component {
 
   handleClickShowCompass = async () => {
     const showCompass = this.state.compass === 'true' ? this.state.compass : false
-    await this.setState({
+    await this.setState(
+      {
         showCompass,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeEnableZoom = (e) => {
@@ -435,14 +488,17 @@ export default class PageView extends React.Component {
 
   handleClickEnableZoom = async () => {
     const enableZoom = this.state.zoom === 'false' ? this.state.zoom : true
-    await this.setState({
+    await this.setState(
+      {
         enableZoom,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeSubkey = (e) => {
@@ -453,14 +509,17 @@ export default class PageView extends React.Component {
 
   handleClickSubkey = async () => {
     const subkey = this.state.key
-    await this.setState({
+    await this.setState(
+      {
         subkey,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
-      })
-   })
+        })
+      }
+    )
   }
 
   handleInputChangeLayerStyle = (e) => {
@@ -471,14 +530,17 @@ export default class PageView extends React.Component {
 
   handleClickLayerStyle = async () => {
     const layerStyle = /^\d+$/.test(this.state.style) ? this.state.style : ''
-    await this.setState({
+    await this.setState(
+      {
         layerStyle,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeShowScale = (e) => {
@@ -489,62 +551,77 @@ export default class PageView extends React.Component {
 
   handleClickShowScale = async () => {
     const showScale = this.state.ShowScaled === 'true' ? this.state.ShowScaled : false
-    await this.setState({
+    await this.setState(
+      {
         showScale,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeMakers = async (e) => {
     const markers = JSON.parse(e.target.value)
-    await this.setState({
+    await this.setState(
+      {
         markers,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangePolyline = async (e) => {
     const polyline = JSON.parse(e.target.value)
-    await this.setState({
+    await this.setState(
+      {
         polyline,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangeCircles = async (e) => {
     const circles = JSON.parse(e.target.value)
-    await this.setState({
+    await this.setState(
+      {
         circles,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   handleInputChangePolygons = async (e) => {
     const polygons = JSON.parse(e.target.value)
-    await this.setState({
+    await this.setState(
+      {
         polygons,
         isShow: false,
-      },() => {
+      },
+      () => {
         this.setState({
           isShow: true,
         })
-   })
+      }
+    )
   }
 
   render() {
