@@ -1728,7 +1728,8 @@
         "tmplIds": true
       },
       "success": {
-        "errMsg": true
+        "errMsg": true,
+        "TEMPLATE_ID": true
       }
     },
     "requirePrivacyAuthorize": false,
