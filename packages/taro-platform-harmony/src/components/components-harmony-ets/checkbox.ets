@@ -1,4 +1,4 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroNode, TaroEvent } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createNode } from './render'
@@ -7,7 +7,7 @@ import { FlexManager } from './utils/FlexManager'
 import { AttributeManager } from './utils/AttributeManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 import type { TaroCheckboxGroupElement, TaroElement, TaroViewElement } from './element'
 import type { CompType, TaroStyleType } from './type'
 

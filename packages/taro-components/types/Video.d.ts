@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface VideoProps extends StandardProps {
   /** 要播放视频的资源地址
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   src: string
   /** 指定视频时长

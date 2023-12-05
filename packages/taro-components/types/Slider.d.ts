@@ -3,62 +3,62 @@ import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface SliderProps extends StandardProps, FormItemProps {
   /** 最小值
    * @default 0
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   min?: number
   /** 最大值
    * @default 100
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   max?: number
   /** 步长，取值必须大于 0，并且可被(max - min)整除
    * @default 1
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   step?: number
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   disabled?: boolean
   /** 当前取值
    * @default 0
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   value?: number
   /** 背景条的颜色（请使用 backgroundColor）
    * @default "#e9e9e9"
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, tt, qq, jd, harmony
    */
   color?: string
   /** 已选择的颜色（请使用 activeColor）
    * @default "#1aad19"
-   * @supported weapp, tt, qq, jd
+   * @supported weapp, tt, qq, jd, harmony
    */
   selectedColor?: string
   /** 已选择的颜色
    * @default "#1aad19"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   activeColor?: string
   /** 背景条的颜色
    * @default "#e9e9e9"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   backgroundColor?: string
   /** 滑块的大小，取值范围为 12 - 28
    * @default 28
-   *  @supported weapp, swan, tt, qq, jd, h5
+   *  @supported weapp, swan, tt, qq, jd, h5, harmony
    */
   blockSize?: number
   /** 滑块的颜色
    * @default "#ffffff"
-   * @supported weapp, swan, tt, qq, jd, h5, rn
+   * @supported weapp, swan, tt, qq, jd, h5, rn, harmony
    */
   blockColor?: string
   /** 是否显示当前 value
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   showValue?: boolean
   /** 组件名字，用于表单提交获取数据。
@@ -84,11 +84,11 @@ interface SliderProps extends StandardProps, FormItemProps {
    */
   ariaLabel?: string
   /** 完成一次拖动后触发的事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onChange?: CommonEventFunction<SliderProps.onChangeEventDetail>
   /** 拖动过程中触发的事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onChanging?: CommonEventFunction<SliderProps.onChangeEventDetail>
 }

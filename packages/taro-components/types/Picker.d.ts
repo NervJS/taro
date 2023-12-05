@@ -6,7 +6,7 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
    * 选择器类型，默认是普通选择器
    * @default "selector"
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, harmony
    */
   mode?: keyof PickerStandardProps.Mode
   /**
@@ -17,7 +17,7 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
   disabled?: boolean
   /**
    * 取消选择或点遮罩层收起 picker 时触发
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, harmony
    */
   onCancel?: CommonEventFunction
 }

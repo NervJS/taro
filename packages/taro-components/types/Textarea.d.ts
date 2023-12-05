@@ -2,15 +2,15 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction, FormItemProps } from './common'
 interface TextareaProps extends StandardProps, FormItemProps {
   /** 输入框的内容
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   value?: string
   /** 输入框为空时占位符
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   placeholder?: string
   /** 指定 placeholder 的样式
-   * @supported weapp, alipay, swan, tt, qq, jd
+   * @supported weapp, alipay, swan, tt, qq, jd, harmony
    */
   placeholderStyle?: string
   /** 指定 placeholder 的样式类
@@ -124,11 +124,11 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   adjustKeyboardTo?: boolean
   /** 输入框聚焦时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onFocus?: CommonEventFunction<TextareaProps.onFocusEventDetail>
   /** 输入框失去焦点时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onBlur?: CommonEventFunction<TextareaProps.onBlurEventDetail>
   /** 输入框行数变化时调用
@@ -138,7 +138,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
   /** 当键盘输入时，触发 input 事件
    *
    * **onInput 处理函数的返回值并不会反映到 textarea 上**
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
   /** 点击完成时， 触发 confirm 事件
@@ -146,7 +146,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
   /** 键盘高度发生变化的时候触发此事件
-   * @supported weapp, tt
+   * @supported weapp, tt, harmony
    */
   onKeyboardHeightChange?: CommonEventFunction<TextareaProps.onKeyboardHeightChangeEventDetail>
 }

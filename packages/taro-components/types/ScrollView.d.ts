@@ -3,13 +3,13 @@ import { BaseEventOrigFunction, CommonEventFunction, StandardProps } from './com
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    * @rn 二选一
    */
   scrollX?: boolean
   /** 允许纵向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    * @rn 二选一
    */
   scrollY?: boolean
@@ -91,7 +91,7 @@ interface ScrollViewProps extends StandardProps {
    */
   bounces?: boolean
   /** 滚动条显隐控制 (同时开启 enhanced 属性后生效)
-   * @supported weapp
+   * @supported weapp, harmony
    * @default true
    */
   showScrollbar?: boolean
@@ -220,7 +220,7 @@ interface ScrollViewProps extends StandardProps {
    */
   onScrollToLower?: CommonEventFunction
   /** 滚动时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onScroll?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 滚动开始事件
