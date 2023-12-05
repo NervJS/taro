@@ -5,7 +5,7 @@ import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement, TaroElement } from './element'
+import type { TaroViewElement } from './element'
 import type { TaroStyleType, CompType } from './type'
 
 @Extend(Toggle)

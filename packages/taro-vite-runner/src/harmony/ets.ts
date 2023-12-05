@@ -276,14 +276,14 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
       }
     },
     renderChunk (code, chunk, opts: any) {
-      opts.__vite_skip_esbuild__ = true
+      // TODO ETS 文件改为 prebuilt-chunk 输出，输出前 resolve 依赖
       const id = chunk.facadeModuleId || chunk.fileName
-      const etsSuffix = /\.e?ts(\?\S*)?$/
+      const etsSuffix = /\.ets(\?\S*)?$/
       if (etsSuffix.test(id) || etsSuffix.test(chunk.fileName) || chunk.moduleIds?.some(id => etsSuffix.test(id))) {
+        opts.__vite_skip_esbuild__ = true
         code = `// @ts-nocheck\n${helper.recoverEtsCode(id, code)}`
+        return helper.resolveAbsoluteRequire(id, code)
       }
-
-      return helper.resolveAbsoluteRequire(id, code)
     },
     // Note: 识别项目内 ets 文件并注入到 Harmony 项目中
   }
