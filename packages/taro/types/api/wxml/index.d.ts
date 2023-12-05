@@ -484,7 +484,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 返回一个 SelectorQuery 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createSelectorQuery()` 来代替。
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony
      * @example
      * ```tsx
      * const query = Taro.createSelectorQuery()
@@ -500,10 +500,10 @@ declare module '../../index' {
     createSelectorQuery(): SelectorQuery
 
     /** 创建并返回一个 IntersectionObserver 对象实例。在自定义组件或包含自定义组件的页面中，应使用 `this.createIntersectionObserver([options])` 来代替。
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony
      * @example
      * ```tsx
-     * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
+     * const observer = Taro.createIntersectionObserver(this, { thresholds: [0], observeAll: true })
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/wxml/wx.createIntersectionObserver.html
      */
@@ -525,7 +525,7 @@ declare module '../../index' {
      * } else if (process.env.TARO_ENV === 'h5') {
      *    createMediaQueryObserver= Taro.createMediaQueryObserver
      * }
-     * const mediaQueryObserver = createMediaQueryObserver() 
+     * const mediaQueryObserver = createMediaQueryObserver()
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/framework/view/resizable.html#Media%20Query
      */
