@@ -4,7 +4,7 @@ import type webpackDevServer from 'webpack-dev-server'
 import type HtmlWebpackPlugin from 'html-webpack-plugin'
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
-import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 
 export interface IH5RouterConfig {
   /** 配置路由模式 */
@@ -120,4 +120,7 @@ export interface IH5Config <T extends CompilerTypes = CompilerWebpackTypes> {
   }
   /** 生成的代码是否要兼容旧版浏览器，值为 true 时，会去读取 package.json 的 browserslist 字段。只在 vite 编译模式下有效 */
   legacy?: T extends 'vite' ? boolean : undefined
+  
+  /** 使用的编译工具。可选值：webpack4、webpack5、vite */
+  compiler?: Compiler<T>
 }

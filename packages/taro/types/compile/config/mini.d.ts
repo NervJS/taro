@@ -2,7 +2,7 @@ import type Webpack from 'webpack'
 import type Chain from 'webpack-chain'
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
 import type { OutputOptions as RollupOutputOptions } from 'rollup'
-import type { CompilerTypes, CompilerWebpackTypes } from '../compiler'
+import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 
 interface Runtime {
   enableInnerHTML?: boolean
@@ -112,6 +112,9 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
 
   /** 插件内部使用 */
   runtime?: Runtime
+
+  /** 使用的编译工具。可选值：webpack4、webpack5、vite */
+  compiler?: Compiler<T>
 }
 
 export interface IMiniFilesConfig {
