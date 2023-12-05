@@ -36,6 +36,7 @@ export const offKeyboardHeightChange: typeof Taro.offKeyboardHeightChange = call
   }
 }
 
+// @ts-ignore
 let keyboardController: inputMethodEngine.KeyboardController
 inputMethodEngine.getInputMethodAbility()
   // FIXME 当前事件无效，等待鸿蒙方面沟通
