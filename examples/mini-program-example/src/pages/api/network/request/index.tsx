@@ -71,7 +71,7 @@ export default class Index extends React.Component {
     TestConsole.consoleOnCallback.call(this, res, 'onHeadersReceived', 2)
   }
 
-  startRequest(apiIndex, data, testTitle) {
+  startRequest = (apiIndex, data, testTitle) => {
     TestConsole.consoleTest(testTitle)
     const task = Taro.request({
       ...data,
@@ -87,7 +87,7 @@ export default class Index extends React.Component {
     })
     this.setState({ task })
     TestConsole.consoleNormal('Taro.RequestTask', task)
-    task.onHeadersReceived(headersReceived)
+    task.onHeadersReceived(this.headersReceived)
   }
 
   render() {

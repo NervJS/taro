@@ -276,15 +276,10 @@ export default class Index extends React.Component {
       <View className='api-page'>
         <ButtonList buttonList={list} />
         {this.state.isShow && (
-        <LivePlayer
-          id='LivePlayer'
-          src={this.state.srcurl}
-          soundMode='ear'
-          type='flv'
-        ></LivePlayer>
+          <LivePlayer id='LivePlayer' src={this.state.srcurl} soundMode='ear' type='flv'></LivePlayer>
         )}
-          src: <input type='text' name='username' onChange={this.handleInputChangeSrc} />{' '}
-            <Button onClick={this.handleClickSrc}>确定</Button>
+        src: <input type='text' name='username' onChange={this.handleInputChangeSrc} />{' '}
+        <Button onClick={this.handleClickSrc}>确定</Button>
       </View>
     )
   }

@@ -14,13 +14,8 @@ function setCallbackRes(res, type, apiIndex) {
 let startTime = NaN
 let endTime = NaN
 
-function getCostTime(apiIndex) {
-  if (!startTime) {
-    setCallbackRes.call(this, -1, 'costTime', apiIndex)
-    return
-  }
-  endTime = Date.now()
-  setCallbackRes.call(this, endTime - startTime, 'costTime', apiIndex)
+function getCostTime() {
+  return startTime ? Date.now() - startTime : -1
 }
 
 export const TestConsole = {
@@ -33,29 +28,35 @@ export const TestConsole = {
     )
   },
   consoleSuccess: function (res, apiIndex = -1) {
-    console.log('%csuccess:\n', 'color:green;font-weight:bold', res)
+    const costTime = getCostTime()
     setCallbackRes.call(this, res, 'success', apiIndex)
-    getCostTime.call(this, apiIndex)
+    setCallbackRes.call(this, costTime, 'costTime', apiIndex)
+    console.log('%csuccess:\n', 'color:green;font-weight:bold', { ...res, costTime })
   },
   consoleFail: function (res, apiIndex = -1) {
-    console.log('%cfail:\n', 'color:red;font-weight:bold', res)
+    const costTime = getCostTime()
     setCallbackRes.call(this, res, 'fail', apiIndex)
-    getCostTime.call(this, apiIndex)
+    setCallbackRes.call(this, costTime, 'costTime', apiIndex)
+    console.log('%cfail:\n', 'color:red;font-weight:bold', { ...res, costTime })
   },
   consoleComplete: function (res, apiIndex = -1) {
-    console.log('%ccomplete:\n', 'color:black;font-weight:bold', res)
+    const costTime = getCostTime()
     setCallbackRes.call(this, res, 'complete', apiIndex)
-    getCostTime.call(this, apiIndex)
+    setCallbackRes.call(this, costTime, 'costTime', apiIndex)
+    console.log('%ccomplete:\n', 'color:black;font-weight:bold', { ...res, costTime })
   },
   consoleResult: function (res, apiIndex = -1) {
-    console.log('%cresult:\n', 'color:blue;font-weight:bold', res)
+    const costTime = getCostTime()
+    startTime = NaN
     setCallbackRes.call(this, res, 'result', apiIndex)
-    getCostTime.call(this, apiIndex)
+    setCallbackRes.call(this, costTime, 'costTime', apiIndex)
+    console.log('%cresult:\n', 'color:blue;font-weight:bold', { ...res, costTime })
   },
   consoleOnCallback: function (res, apiName, apiIndex = -1) {
-    console.log(`%c${apiName} callback:\n`, 'color:green;font-weight:bold', res)
+    const costTime = getCostTime()
     setCallbackRes.call(this, res, 'callback', apiIndex)
-    getCostTime.call(this, apiIndex)
+    setCallbackRes.call(this, costTime, 'costTime', apiIndex)
+    console.log(`%c${apiName} callback:\n`, 'color:green;font-weight:bold', { ...res, costTime })
   },
   consoleNormal: (name: string, data?: any) => {
     if (data) {
