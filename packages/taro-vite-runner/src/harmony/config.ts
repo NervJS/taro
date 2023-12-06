@@ -162,12 +162,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           formats: ['es'],
         },
         watch: taroConfig.isWatch ? {} : null,
-        // @TODO doc needed: sourcemapType not supported
+        // TODO doc needed: sourcemapType not supported
         sourcemap: taroConfig.enableSourceMap ?? taroConfig.isWatch ?? process.env.NODE_ENV !== 'production',
         rollupOptions: {
-          // FIXME 考虑是否可以移除，需在 ets acornInjectPlugins 插件完成后
-          // treeshake: false,
-          // TODO 考虑默认排除 taro components、runtime 等相关的依赖，并通过 copy 插件进行拷贝
           external: HARMONY_SCOPES,
           makeAbsoluteExternalsRelative: 'ifRelativeSource',
           output: {

@@ -24,7 +24,7 @@ export default {
     }
   },
   jump (pagePath) {
-    // @todo 如果跳的 tabbar 页已打开过，优先复用
+    // TODO 如果跳的 tabbar 页已打开过，优先复用
     const app = getApp()
     const pages = app.pageStack
 

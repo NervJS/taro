@@ -140,9 +140,7 @@ export class TaroNode extends TaroEventTarget {
     return this.childNodes.length > 0
   }
 
-  // @Todo
-  // cloneNode()
-  // contains()
+  // TODO cloneNode()、contains()
 
   public appendChild (child: TaroNode): TaroNode {
     child.parentNode?.removeChild(child)
@@ -187,7 +185,7 @@ export class TaroNode extends TaroEventTarget {
     ]
 
     DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
-    
+
     return oldChild
   }
 

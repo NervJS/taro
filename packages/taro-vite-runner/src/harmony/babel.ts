@@ -12,7 +12,7 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
       const exts = Array.from(new Set(viteCompilerContext.frameworkExts.concat(SCRIPT_EXT)))
 
       if (id.startsWith(viteCompilerContext.sourceDir) && exts.some((ext: string) => id.includes(ext))) {
-        // @TODO 后续考虑使用 SWC 插件的方式实现
+        // TODO 后续考虑使用 SWC 插件的方式实现
         const result = await transformAsync(code, {
           filename: id,
           plugins: [

@@ -19,7 +19,7 @@ class TaroElement extends TaroNode {
 
   // 用于标记元素是否已经出现
   private _appearResolve: (value?: unknown) => void
-  public awaitAppear: Promise<unknown> 
+  public awaitAppear: Promise<unknown>
   public resolveAppear = () => this._appearResolve()
 
   // public changeRecord = ''
@@ -27,7 +27,7 @@ class TaroElement extends TaroNode {
   constructor(tagName: string) {
     super(tagName.replace(/(?<=.)([A-Z])/g, '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
-    
+
     this.awaitAppear = new Promise(resolve => { this._appearResolve = resolve })
   }
 
@@ -119,8 +119,7 @@ class TaroElement extends TaroNode {
     }, true) || []
   }
 
-  // @Todo
-  // dataset
+  // TODO dataset
 
   public set innerHTML (value: string) {
     if (this.nodeType === NodeType.ELEMENT_NODE) {
@@ -173,7 +172,7 @@ class TaroFormWidgetElement extends TaroElement {
   public get name () {
     return this._attrs.name
   }
-  
+
   public set name (val) {
     this._attrs.name = val
   }
@@ -383,6 +382,6 @@ export {
   TaroSwitchElement,
   TaroTextElement,
   TaroVideoElement,
-  TaroViewElement 
+  TaroViewElement,
 }
 
