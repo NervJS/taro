@@ -14,7 +14,7 @@ import image from '@ohos.multimedia.image'
 import { isNull } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
 
 type GetImageInfo = typeof Taro.getImageInfo
 type CompressImage = typeof Taro.compressImage
@@ -121,6 +121,9 @@ const chooseImage: ChooseImage = function (options) {
     })
   })
 }
+
+export const previewImage = temporarilyNotSupport('previewImage')
+export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
 
 export {
   chooseImage,

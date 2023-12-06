@@ -1,6 +1,6 @@
 import { Current } from '@tarojs/runtime'
 
-import { callAsyncSuccess, unsupport } from '../utils'
+import { callAsyncSuccess, temporarilyNotSupport } from '../../utils'
 
 import type Taro from '@tarojs/api'
 
@@ -31,14 +31,6 @@ export const setNavigationBarColor: SetNavigationBarColor = function (options) {
   })
 }
 
-export function showNavigationBarLoading () {
-  process.env.NODE_ENV !== 'production' && unsupport('showNavigationBarLoading')
-}
-
-export function hideNavigationBarLoading () {
-  process.env.NODE_ENV !== 'production' && unsupport('hideNavigationBarLoading')
-}
-
-export function hideHomeButton () {
-  process.env.NODE_ENV !== 'production' && unsupport('hideHomeButton')
-}
+export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
+export const hideNavigationBarLoading = temporarilyNotSupport('hideNavigationBarLoading')
+export const hideHomeButton = temporarilyNotSupport('hideHomeButton')

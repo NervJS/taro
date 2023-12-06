@@ -7,7 +7,7 @@ import i18n from '@ohos.i18n'
 // 设备信息 从API Version 6开始，该接口不再维护，推荐使用新接口'@ohos.deviceInfo'进行设备信息查询
 import deviceMethod from '@system.device'
 
-import { callAsyncFail, callAsyncSuccess, unsupport } from '../utils'
+import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/api'
 
@@ -74,24 +74,9 @@ const getSystemInfo: typeof Taro.getSystemInfo = function (options) {
   })
 }
 
-const onMemoryWarning = function (cb) {
-  unsupport('onMemoryWarning')
-  cb?.({ errMsg: '暂不支持 Taro.onMemoryWarning' })
-}
-
-const offMemoryWarning = function (cb) {
-  unsupport('offMemoryWarning')
-  cb?.({ errMsg: '暂不支持 Taro.offMemoryWarning' })
-}
-
 export {
   getSystemInfo,
   getSystemInfoSync,
-  offMemoryWarning,
-  onMemoryWarning,
 }
 
 globalThis.getSystemInfoSync = getSystemInfoSync
-
-export * from './vibrator'
-export * from './window'

@@ -1,6 +1,6 @@
 import prompt from '@ohos.prompt'
 
-import { callAsyncFail, callAsyncSuccess, unsupport, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
 
 const resCallback = (res) => {
   return { errMsg: `${res}:ok` }
@@ -191,10 +191,5 @@ export function hideToast (options) {
   })
 }
 
-export function showLoading () {
-  process.env.NODE_ENV !== 'production' && unsupport('showLoading')
-}
-
-export function hideLoading () {
-  process.env.NODE_ENV !== 'production' && unsupport('hideLoading')
-}
+export const showLoading = temporarilyNotSupport('showLoading')
+export const hideLoading = temporarilyNotSupport('hideLoading')

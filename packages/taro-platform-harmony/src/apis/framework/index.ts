@@ -3,6 +3,8 @@ import { Current } from '@tarojs/runtime'
 // eslint-disable-next-line import/no-duplicates
 import { eventCenter, Events, History } from '@tarojs/runtime/dist/runtime.esm'
 
+import { temporarilyNotSupport } from '../utils'
+
 const ENV_TYPE = {
   WEAPP: 'WEAPP',
   SWAN: 'SWAN',
@@ -28,7 +30,6 @@ const nextTick = (cb: (...args: any[]) => any, ctx?: Record<string, any>) => {
   }, 1)
 }
 
-
 export {
   ENV_TYPE,
   eventCenter,
@@ -38,3 +39,5 @@ export {
   History,
   nextTick,
 }
+
+export const requirePlugin = temporarilyNotSupport('requirePlugin')
