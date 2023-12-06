@@ -8,6 +8,7 @@ import * as path from 'path'
 
 import { Adapter, Adapters } from './adapter'
 import { IS_TARO_READY, LOOP_STATE, TARO_PACKAGE_NAME } from './constant'
+import { globals } from './global'
 import { buildBlockElement } from './jsx'
 import { transformOptions } from './options'
 // const template = require('babel-template')
@@ -740,4 +741,31 @@ export function setAncestorCondition(jsx: NodePath<t.Node>, expr: t.Expression):
   }
 
   return expr
+}
+
+/**
+ * 获取不同操作系统下的换行符
+ *
+ * @returns { string } 换行符
+ */
+export function getLineBreak() {
+  if (process.platform === 'win32') {
+    return '\r\n'
+  }
+  return '\n'
+}
+
+/**
+ * 记录数据到日志文件中
+ *
+ * @param data 日志数据
+ */
+export function printToLogFile(data: string) {
+  try {
+    // 将参数记录到log文件
+    fs.appendFile(globals.logFilePath, data, () => {})
+  } catch (error) {
+    console.error('写日志文件异常')
+    throw error
+  }
 }

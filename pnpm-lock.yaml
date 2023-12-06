@@ -860,12 +860,18 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taroize':
         specifier: workspace:*
         version: link:../taroize
       '@tarojs/transformer-wx':
         specifier: workspace:*
         version: link:../taro-transformer-wx
+      fs-extra:
+        specifier: ^8.0.1
+        version: registry.npmjs.org/fs-extra@8.1.0
       postcss:
         specifier: ^8.4.18
         version: registry.npmjs.org/postcss@8.4.23
@@ -885,6 +891,12 @@ importers:
       jest:
         specifier: ^29.7.0
         version: registry.npmjs.org/jest@29.7.0
+      jest-cli:
+        specifier: ^29.3.1
+        version: registry.npmjs.org/jest-cli@29.7.0
+      jest-environment-node:
+        specifier: ^29.5.0
+        version: registry.npmjs.org/jest-environment-node@29.7.0
       ts-jest:
         specifier: ^29.0.5
         version: registry.npmjs.org/ts-jest@29.1.0(jest@29.7.0)
@@ -3144,8 +3156,8 @@ importers:
         specifier: ^7.14.3
         version: registry.npmjs.org/@types/eslint@7.29.0
       '@types/jest':
-        specifier: ^22.2.3
-        version: registry.npmjs.org/@types/jest@22.2.3
+        specifier: ^29.5.1
+        version: registry.npmjs.org/@types/jest@29.5.1
       '@types/lodash':
         specifier: ^4.14.105
         version: registry.npmjs.org/@types/lodash@4.14.194
@@ -3788,6 +3800,9 @@ importers:
       better-babel-generator:
         specifier: 6.26.1
         version: registry.npmjs.org/better-babel-generator@6.26.1
+      fs-extra:
+        specifier: ^8.0.1
+        version: registry.npmjs.org/fs-extra@8.1.0
       himalaya-wxml:
         specifier: ^1.1.0
         version: registry.npmjs.org/himalaya-wxml@1.1.0
@@ -12268,12 +12283,6 @@ packages:
     version: 3.0.1
     dependencies:
       '@types/istanbul-lib-report': registry.npmjs.org/@types/istanbul-lib-report@3.0.0
-
-  registry.npmjs.org/@types/jest@22.2.3:
-    resolution: {integrity: sha512-e74sM9W/4qqWB6D4TWV9FQk0WoHtX1X4FJpbjxucMSVJHtFjbQOH3H6yp+xno4br0AKG0wz/kPtaN599GUOvAg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/jest/-/jest-22.2.3.tgz}
-    name: '@types/jest'
-    version: 22.2.3
-    dev: true
 
   registry.npmjs.org/@types/jest@27.5.2:
     resolution: {integrity: sha512-mpT8LJJ4CMeeahobofYWIjFo0xonRS/HfxnVEPMPFSQdGUt1uHCnoPT7Zhb+sjDU2wz0oKV0OLUR0WzrHNgfeA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/jest/-/jest-27.5.2.tgz}
@@ -26360,7 +26369,7 @@ packages:
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.5.0
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
       jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
       jest-regex-util: registry.npmjs.org/jest-regex-util@29.4.3
       jest-resolve: registry.npmjs.org/jest-resolve@29.5.0
@@ -26402,7 +26411,7 @@ packages:
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.5.0
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
       jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
       jest-regex-util: registry.npmjs.org/jest-regex-util@29.4.3
       jest-resolve: registry.npmjs.org/jest-resolve@29.5.0
@@ -26444,7 +26453,7 @@ packages:
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.5.0
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
       jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
       jest-regex-util: registry.npmjs.org/jest-regex-util@29.4.3
       jest-resolve: registry.npmjs.org/jest-resolve@29.5.0
@@ -26487,7 +26496,7 @@ packages:
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.5.0
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
       jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
       jest-regex-util: registry.npmjs.org/jest-regex-util@29.4.3
       jest-resolve: registry.npmjs.org/jest-resolve@29.5.0
@@ -27640,7 +27649,7 @@ packages:
       emittery: registry.npmjs.org/emittery@0.13.1
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-docblock: registry.npmjs.org/jest-docblock@29.4.3
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
       jest-haste-map: registry.npmjs.org/jest-haste-map@29.5.0
       jest-leak-detector: registry.npmjs.org/jest-leak-detector@29.5.0
       jest-message-util: registry.npmjs.org/jest-message-util@29.5.0

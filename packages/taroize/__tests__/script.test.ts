@@ -1,8 +1,10 @@
 import * as t from '@babel/types'
 
 import { parseScript } from '../src/script'
-import { parseWXML, WXS } from '../src/wxml'
-import { generateMinimalEscapeCode } from './util'
+import { parseWXML } from '../src/wxml'
+import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
+
+expect.addSnapshotSerializer(removeBackslashesSerializer)
 
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
@@ -13,7 +15,7 @@ interface Option {
   script: string
   scriptPath: string
   wxml: object
-  wxses: WXS[]
+  wxses: []
   refIds: Set<string>
   isApp: boolean
 }
@@ -89,6 +91,37 @@ describe('parseScript', () => {
     const { wxml } = parseWXML(path, wxmlStr)
     const ast = parseScript(option.script, option.scriptPath, wxml as t.Expression, option.wxses, option.refIds, true)
     const code = generateMinimalEscapeCode(ast)
+    expect(code).toMatchSnapshot()
+  })
+
+  test('CommonJS 导出页面', () => {
+    /**
+     *  wxs内容
+     * module.exports = {
+          date:'2023-11-11'
+        }
+     */
+    const wxmlStr = `
+      <wxs src="../../utils/req.wxs" module="wxs_date"/>
+      <view>{{wxs_date.date}}</view>
+    `
+    path = 'CommonJS_module_exports'
+    option.script = `
+      module.exports = {
+        data: {
+          message: 'Hello, Mini Program!'
+        },
+        onLoad() {
+          console.log('Page loaded.');
+        },
+      }
+    `
+    const { wxml, wxses }:any = parseWXML(path,wxmlStr)
+    option.wxml = wxml
+    option.wxses = wxses
+    const ast = parseScript(option.script, option.scriptPath, option.wxml as t.Expression, option.wxses, option.refIds, true)
+    const code = generateMinimalEscapeCode(ast)
+    expect(ast).toBeTruthy()
     expect(code).toMatchSnapshot()
   })
 })
