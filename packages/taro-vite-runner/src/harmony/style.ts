@@ -5,31 +5,26 @@ import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import path from 'path'
-import { normalizePath, resolveConfig } from 'vite'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
 import {
-  assetUrlRE,
   checkPublicFile,
   fileToUrl,
   // generatedAssets,
-  publicAssetUrlCache,
   publicFileToBuiltUrl,
   renderAssetUrlInJS,
 } from './asset'
 import { compileCSS } from './postcss'
-import { toOutputFilePathInCss } from './postcss/build'
 import {
   commonjsProxyRE, CSS_LANGS_RE, cssModuleRE,
   htmlProxyRE, inlineCSSRE, inlineRE, loadParseImportRE,
-  publicAssetUrlRE, SPECIAL_QUERY_RE, usedRE,
+  SPECIAL_QUERY_RE, usedRE,
 } from './postcss/constants'
 import { finalizeCss, stripBomTag } from './postcss/utils'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type {
-  NormalizedOutputOptions,
   RenderedChunk,
 } from 'rollup'
 import type { Plugin, ResolvedConfig } from 'vite'
@@ -38,7 +33,7 @@ import type { CssUrlReplacer } from './postcss/types'
 const STYLE_SUFFIX = '.xss'
 const STYLE_SUFFIX_RE = new RegExp(`\\${STYLE_SUFFIX}(\\?\\S+)?$`)
 
-const cssBundleName = 'style.css'
+// const cssBundleName = 'style.css'
 
 const isStyleRequest = (request: string): boolean =>
   CSS_LANGS_RE.test(request.replace(STYLE_SUFFIX_RE, ''))
@@ -226,34 +221,35 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
   const styles: Map<string, string> = new Map<string, string>()
   let pureCssChunks: Set<RenderedChunk>
 
+  // Note: ETS 模式不需要注入 CSS 文件
   // when there are multiple rollup outputs and extracting CSS, only emit once,
   // since output formats have no effect on the generated CSS.
-  let outputToExtractedCSSMap: Map<NormalizedOutputOptions, string>
-  let hasEmitted = false
+  // let outputToExtractedCSSMap: Map<NormalizedOutputOptions, string>
+  // let hasEmitted = false
 
-  const config = await resolveConfig({}, 'build')
-  const rollupOptionsOutput = config.build.rollupOptions.output
+  // const config = await resolveConfig({}, 'build')
+  // const rollupOptionsOutput = config.build.rollupOptions.output
   let viteConfig: ResolvedConfig
-  const assetFileNames = (
-    Array.isArray(rollupOptionsOutput)
-      ? rollupOptionsOutput[0]
-      : rollupOptionsOutput
-  )?.assetFileNames
-  const getCssAssetDirname = (config: ResolvedConfig, cssAssetName: string) => {
-    if (!assetFileNames) {
-      return config.build.assetsDir
-    } else if (typeof assetFileNames === 'string') {
-      return path.dirname(assetFileNames)
-    } else {
-      return path.dirname(
-        assetFileNames({
-          name: cssAssetName,
-          type: 'asset',
-          source: '/* vite internal call, ignore */',
-        }),
-      )
-    }
-  }
+  // const assetFileNames = (
+  //   Array.isArray(rollupOptionsOutput)
+  //     ? rollupOptionsOutput[0]
+  //     : rollupOptionsOutput
+  // )?.assetFileNames
+  // const getCssAssetDirname = (config: ResolvedConfig, cssAssetName: string) => {
+  //   if (!assetFileNames) {
+  //     return config.build.assetsDir
+  //   } else if (typeof assetFileNames === 'string') {
+  //     return path.dirname(assetFileNames)
+  //   } else {
+  //     return path.dirname(
+  //       assetFileNames({
+  //         name: cssAssetName,
+  //         type: 'asset',
+  //         source: '/* vite internal call, ignore */',
+  //       }),
+  //     )
+  //   }
+  // }
 
   return {
     name: 'taro:vite-style-post',
@@ -264,8 +260,8 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
     buildStart() {
       // Ensure new caches for every build (i.e. rebuilding in watch mode)
       pureCssChunks = new Set<RenderedChunk>()
-      outputToExtractedCSSMap = new Map<NormalizedOutputOptions, string>()
-      hasEmitted = false
+      // outputToExtractedCSSMap = new Map<NormalizedOutputOptions, string>()
+      // hasEmitted = false
     },
     async transform(raw, id) {
       if (
@@ -350,82 +346,83 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
         return null
       }
 
-      const publicAssetUrlMap = publicAssetUrlCache.get(viteConfig)!
+      // const publicAssetUrlMap = publicAssetUrlCache.get(viteConfig)!
 
       // resolve asset URL placeholders to their built file URLs
-      const resolveAssetUrlsInCss = (
-        chunkCSS: string,
-        cssAssetName: string,
-      ) => {
-        const cssAssetDirname = getCssAssetDirname(viteConfig, cssAssetName)
+      // const resolveAssetUrlsInCss = (
+      //   chunkCSS: string,
+      //   cssAssetName: string,
+      // ) => {
+      //   const cssAssetDirname = getCssAssetDirname(viteConfig, cssAssetName)
 
-        const toRelative = (filename: string) => {
-          // relative base + extracted CSS
-          const relativePath = path.posix.relative(cssAssetDirname!, filename)
-          return relativePath.startsWith('.')
-            ? relativePath
-            : './' + relativePath
-        }
+      //   const toRelative = (filename: string) => {
+      //     // relative base + extracted CSS
+      //     const relativePath = path.posix.relative(cssAssetDirname!, filename)
+      //     return relativePath.startsWith('.')
+      //       ? relativePath
+      //       : './' + relativePath
+      //   }
 
-        // replace asset url references with resolved url.
-        chunkCSS = chunkCSS.replace(assetUrlRE, (_, fileHash, postfix = '') => {
-          const filename = this.getFileName(fileHash) + postfix
-          return toOutputFilePathInCss(
-            filename,
-            'asset',
-            cssAssetName,
-            'css',
-            viteConfig,
-            toRelative,
-          )
-        })
-        // resolve public URL from CSS paths
-        const relativePathToPublicFromCSS = path.posix.relative(
-          cssAssetDirname!,
-          '',
-        )
-        chunkCSS = chunkCSS.replace(publicAssetUrlRE, (_, hash) => {
-          const publicUrl = publicAssetUrlMap.get(hash)!.slice(1)
-          return toOutputFilePathInCss(
-            publicUrl,
-            'public',
-            cssAssetName,
-            'css',
-            viteConfig,
-            () => `${relativePathToPublicFromCSS}/${publicUrl}`,
-          )
-        })
+      //   // replace asset url references with resolved url.
+      //   chunkCSS = chunkCSS.replace(assetUrlRE, (_, fileHash, postfix = '') => {
+      //     const filename = this.getFileName(fileHash) + postfix
+      //     return toOutputFilePathInCss(
+      //       filename,
+      //       'asset',
+      //       cssAssetName,
+      //       'css',
+      //       viteConfig,
+      //       toRelative,
+      //     )
+      //   })
+      //   // resolve public URL from CSS paths
+      //   const relativePathToPublicFromCSS = path.posix.relative(
+      //     cssAssetDirname!,
+      //     '',
+      //   )
+      //   chunkCSS = chunkCSS.replace(publicAssetUrlRE, (_, hash) => {
+      //     const publicUrl = publicAssetUrlMap.get(hash)!.slice(1)
+      //     return toOutputFilePathInCss(
+      //       publicUrl,
+      //       'public',
+      //       cssAssetName,
+      //       'css',
+      //       viteConfig,
+      //       () => `${relativePathToPublicFromCSS}/${publicUrl}`,
+      //     )
+      //   })
 
-        return chunkCSS
-      }
+      //   return chunkCSS
+      // }
 
-      function ensureFileExt(name: string, ext: string) {
-        return normalizePath(
-          path.format({ ...path.parse(name), base: undefined, ext }),
-        )
-      }
+      // function ensureFileExt(name: string, ext: string) {
+      //   return normalizePath(
+      //     path.format({ ...path.parse(name), base: undefined, ext }),
+      //   )
+      // }
 
       if (isPureCssChunk) {
         // this is a shared CSS-only chunk that is empty.
         pureCssChunks.add(chunk)
       }
       if (opts.format === 'es' || opts.format === 'cjs') {
-        const cssAssetName = chunk.facadeModuleId
-          ? normalizePath(path.relative(viteConfig.root, chunk.facadeModuleId))
-          : chunk.name
+        // const cssAssetName = chunk.facadeModuleId
+        //   ? normalizePath(path.relative(viteConfig.root, chunk.facadeModuleId))
+        //   : chunk.name
 
         // const lang = path.extname(cssAssetName).slice(1)
-        const cssFileName = ensureFileExt(cssAssetName, '.css')
+        // const cssFileName = ensureFileExt(cssAssetName, '.css')
 
-        chunkCSS = resolveAssetUrlsInCss(chunkCSS, cssAssetName)
-        chunkCSS = await finalizeCss(chunkCSS)
+        // chunkCSS = resolveAssetUrlsInCss(chunkCSS, cssAssetName)
+        // chunkCSS = await finalizeCss(chunkCSS)
 
         // emit corresponding css file
-        /** const referenceId = */ this.emitFile({
-          name: path.basename(cssFileName),
-          type: 'asset',
-          source: chunkCSS,
-        })
+        /** const referenceId = */
+        // this.emitFile({
+        //   name: path.basename(cssFileName),
+        //   type: 'asset',
+        //   source: chunkCSS,
+        // })
         // TODO 考虑 CSS 中相关 asset 处理方案
         // const originalName = isPreProcessor(lang) ? cssAssetName : cssFileName
         // const isEntry = chunk.isEntry && isPureCssChunk
@@ -528,16 +525,16 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
         })
       }
 
-      let extractedCss = outputToExtractedCSSMap.get(opts as any)
-      if (extractedCss && !hasEmitted) {
-        hasEmitted = true
-        extractedCss = await finalizeCss(extractedCss)
-        this.emitFile({
-          name: cssBundleName,
-          type: 'asset',
-          source: extractedCss,
-        })
-      }
+      // let extractedCss = outputToExtractedCSSMap.get(opts as any)
+      // if (extractedCss && !hasEmitted) {
+      //   hasEmitted = true
+      //   extractedCss = await finalizeCss(extractedCss)
+      //   this.emitFile({
+      //     name: cssBundleName,
+      //     type: 'asset',
+      //     source: extractedCss,
+      //   })
+      // }
     },
   }
 }
