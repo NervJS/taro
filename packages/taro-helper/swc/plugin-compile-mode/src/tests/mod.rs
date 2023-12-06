@@ -15,7 +15,7 @@ mod looping;
 mod children;
 mod harmony;
 
-pub fn tr () -> impl Fold + VisitMut {
+pub fn tr () -> impl Fold {
     let config = serde_json::from_str::<PluginConfig>(
         r#"
         {
