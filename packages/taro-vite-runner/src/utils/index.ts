@@ -230,6 +230,7 @@ export function getBabelOption (
 
   return opts
 }
+
 export function parseRelativePath (from: string, to: string) {
   const relativePath = path.relative(from, to).replace(/\\/g, '/')
 
@@ -239,4 +240,3 @@ export function parseRelativePath (from: string, to: string) {
       ? `${relativePath}/`
       : `./${relativePath}`
 }
-

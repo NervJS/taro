@@ -3,7 +3,7 @@ import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
 import * as path from 'path'
 
-import { HARMONY_SCOPES, PACKAGE_NAME, PLATFORM_NAME } from '../utils'
+import { HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
 import { TaroPlatformHarmony } from './harmony'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
@@ -222,12 +222,7 @@ export default class Harmony extends TaroPlatformHarmony {
         code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
           const { outputRoot } = this.ctx.runOpts.config
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
-          let relativePath = path.relative(path.dirname(target), targetPath)
-          relativePath = /^\.{1,2}[\\/]/.test(relativePath)
-            ? relativePath
-            : /^\.{1,2}$/.test(relativePath)
-              ? `${relativePath}/`
-              : `./${relativePath}`
+          const relativePath = parseRelativePath(path.dirname(target), targetPath)
           if (HARMONY_SCOPES.every(e => !e.test(p1))) {
             if (this.indexOfLibraries(p1) === -1) {
               this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
@@ -332,6 +327,7 @@ declare global {
         return {
           external: 'resolve',
           id: path.join(outputRoot, 'npm', source),
+          moduleSideEffects: false,
           resolvedBy: name,
         }
       }

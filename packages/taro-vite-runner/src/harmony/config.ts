@@ -6,7 +6,7 @@ import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
-import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, stripMultiPlatformExt } from '../utils'
+import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 import { TARO_COMP_SUFFIX } from './entry'
@@ -169,6 +169,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           // treeshake: false,
           // TODO 考虑默认排除 taro components、runtime 等相关的依赖，并通过 copy 插件进行拷贝
           external: HARMONY_SCOPES,
+          makeAbsoluteExternalsRelative: 'ifRelativeSource',
           output: {
             entryFileNames(chunkInfo) {
               return stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
@@ -186,8 +187,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
               if (isNodeModules || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
-              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1) {
-                return 'vendors'
+              } else if (moduleInfo?.importers?.length && moduleInfo.importers.length > 1 && !isVirtualModule(id)) {
+                return 'common'
               }
             },
           },
