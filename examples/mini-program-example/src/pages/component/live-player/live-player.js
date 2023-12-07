@@ -75,6 +75,9 @@ export default class PageView extends React.Component {
       }
     )
   }
+  hendleFullScreenChange(e){
+    console.log('hendleFullScreenChange',e)
+  }
   render() {
     return (
       <View className='components-page'>
@@ -96,13 +99,13 @@ export default class PageView extends React.Component {
                   autoplay
                   muted={false}
                   orientation='vertical'
-                  type='flv'
+                  mode='live'
                   id='LivePlayer'
                   soundMode='speaker'
                   objectFit='contain'
                 />
               )}
-            </View>
+            </View> 
             <View className='example-body'>
               {this.state.isShow && (
                 <LivePlayer
@@ -113,10 +116,11 @@ export default class PageView extends React.Component {
                   autoplay={false}
                   muted
                   orientation='horizontal'
-                  type='flv'
                   id='LivePlayer'
-                  soundMode='speaker'
+                  soundMode='speaker' 
                   objectFit='fillCrop'
+                  mode='RTC'
+                  onFullScreenChange={this.hendleFullScreenChange}
                 />
               )}
             </View>

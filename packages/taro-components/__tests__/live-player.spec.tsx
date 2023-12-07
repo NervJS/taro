@@ -33,10 +33,15 @@
       await page.waitForChanges()
 
       expect(page.root).toEqualHtml(`
-      <taro-live-player-core>
-        <div>
-          <video class="taro-live-player" controls=""></video>
+      <taro-live-player-core class="taro-live-player-container">
+        <video class="taro-live-player" playsinline="" webkit-playsinline="" style="object-fit: contain;"></video>
+        <div class="taro-video-cover">
+          <div class="taro-video-cover-play-button"></div>
         </div>
+        <taro-video-control controls="" showplaybtn="">
+          <div class="taro-video-mute"></div>
+          <div class="taro-video-fullscreen"></div>
+        </taro-video-control>
       </taro-live-player-core>
     `)
     })
