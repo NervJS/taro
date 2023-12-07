@@ -1,11 +1,8 @@
-// eslint-disable-next-line import/no-duplicates
 import { Current } from '@tarojs/runtime'
-// eslint-disable-next-line import/no-duplicates
-import { eventCenter, Events, History } from '@tarojs/runtime/dist/runtime.esm'
 
 import { temporarilyNotSupport } from '../utils'
 
-const ENV_TYPE = {
+export const ENV_TYPE = {
   WEAPP: 'WEAPP',
   SWAN: 'SWAN',
   ALIPAY: 'ALIPAY',
@@ -18,26 +15,18 @@ const ENV_TYPE = {
   QUICKAPP: 'QUICKAPP'
 }
 
-function getEnv () {
+export function getEnv () {
   return ENV_TYPE.HARMONY
 }
 
-const getCurrentInstance = () => Current
+export const getCurrentInstance = () => Current
 
-const nextTick = (cb: (...args: any[]) => any, ctx?: Record<string, any>) => {
+export const nextTick = (cb: (...args: any[]) => any, ctx?: Record<string, any>) => {
   setTimeout(function () {
     ctx ? cb.call(ctx) : cb()
   }, 1)
 }
 
-export {
-  ENV_TYPE,
-  eventCenter,
-  Events,
-  getCurrentInstance,
-  getEnv,
-  History,
-  nextTick,
-}
-
 export const requirePlugin = temporarilyNotSupport('requirePlugin')
+
+export { eventCenter, Events, History } from '@tarojs/runtime/dist/runtime.esm'

@@ -31,8 +31,7 @@ import file from '@system.file'
 import { isNumber, isString } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 
-import { validateParams } from '../utils'
-import { callCallbackFail, callCallbackSuccess, notSupport, notSupportAsync } from './utils'
+import { callCallbackFail, callCallbackSuccess, temporarilyNotSupport, validateParams } from '../utils'
 
 const rootDataPath = `/data/data/${app.getInfo()?.appID || 'app'}`
 const rootSavedFilePath = `${rootDataPath}/files`
@@ -261,23 +260,19 @@ function getDirFiles (dirPath: string): Promise<GetDirFilesResult> {
   })
 }
 
-function readCompressedFile (option: Taro.FileSystemManager.readCompressedFile.Option): Promise<Taro.FileSystemManager.readCompressedFile.Promised> {
-  return notSupportAsync('readCompressedFile', option)
-}
+const readCompressedFile = temporarilyNotSupport('readCompressedFile')
 
 function readCompressedFileSync (_: Taro.FileSystemManager.readCompressedFileSync.Option): ArrayBuffer {
-  notSupport('readCompressedFileSync')
+  temporarilyNotSupport('readCompressedFileSync')(_)
   return new ArrayBuffer(0)
 }
 
 function readdirSync (_: string): string[] {
-  notSupport('readdirSync')
+  temporarilyNotSupport('readdirSync')(_)
   return []
 }
 
-function readZipEntry (option: Taro.FileSystemManager.readZipEntry.Option): Promise<Taro.FileSystemManager.readZipEntry.Promised> {
-  return notSupportAsync('readZipEntry', option)
-}
+const readZipEntry = temporarilyNotSupport('readZipEntry')
 
 function access (option: Taro.FileSystemManager.AccessOption) {
   try {
@@ -353,7 +348,7 @@ function rmdir (option: Taro.FileSystemManager.RmdirOption) {
 
 function rmdirSync (dirPath: string, recursive?: boolean) {
   if (recursive === true) {
-    notSupport('rmdirSync recursive')
+    temporarilyNotSupport('rmdirSync recursive')(dirPath)
   } else {
     fileio.rmdirSync(dirPath)
   }
@@ -728,7 +723,7 @@ function stat (option: Taro.FileSystemManager.StatOption) {
 
 function statSync (path: string, recursive?: boolean): Taro.Stats | any {
   if (recursive === true) {
-    notSupport('statSync recursive')
+    return temporarilyNotSupport('statSync recursive')(path)
   }
   const fd = openSync({ filePath: path, flag: 'r' })
   const stats = fstatSync({ fd })

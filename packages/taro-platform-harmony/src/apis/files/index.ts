@@ -21,23 +21,20 @@ import document from '@ohos.document'
 import fileio from '@ohos.fileio'
 import Taro from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
 import { getFileSystemManager, validateSavedFilePath } from './manager'
-import { notSupportAsync } from './utils'
 
 const filePathSchema = {
   filePath: 'String'
 }
 
-function saveFileToDisk (option: Taro.saveFileToDisk.Option): Promise<any> {
-  return notSupportAsync('saveFileToDisk', option)
-}
+export const saveFileToDisk = temporarilyNotSupport('saveFileToDisk')
 
 /**
  * HarmonyOS 不支持 showMenu 选项，并且 type 目前仅支持 *，详情参见：
  * https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-document-0000001168936589#section9616125953711
  */
-function openDocument (option: Taro.openDocument.Option): Promise<any> {
+export function openDocument (option: Taro.openDocument.Option): Promise<any> {
   return new Promise((resolve, reject) => {
     try {
       validateParams('access', option, filePathSchema)
@@ -56,7 +53,7 @@ function openDocument (option: Taro.openDocument.Option): Promise<any> {
   })
 }
 
-function saveFile (option: Taro.saveFile.Option): Promise<any> {
+export function saveFile (option: Taro.saveFile.Option): Promise<any> {
   return new Promise((resolve, reject) => {
     const fileSystemManager = getFileSystemManager()
     fileSystemManager.saveFile({
@@ -72,7 +69,7 @@ function saveFile (option: Taro.saveFile.Option): Promise<any> {
   })
 }
 
-function removeSavedFile (option: Taro.removeSavedFile.Option): Promise<any> {
+export function removeSavedFile (option: Taro.removeSavedFile.Option): Promise<any> {
   return new Promise((resolve, reject) => {
     const fileSystemManager = getFileSystemManager()
     fileSystemManager.removeSavedFile({
@@ -87,7 +84,7 @@ function removeSavedFile (option: Taro.removeSavedFile.Option): Promise<any> {
   })
 }
 
-function getFileInfo (option: Taro.getFileInfo.Option): Promise<Taro.getFileInfo.SuccessCallbackResult | Taro.getFileInfo.FailCallbackResult> {
+export function getFileInfo (option: Taro.getFileInfo.Option): Promise<Taro.getFileInfo.SuccessCallbackResult | Taro.getFileInfo.FailCallbackResult> {
   return new Promise((resolve, reject) => {
     const fileSystemManager = getFileSystemManager()
     fileSystemManager.getFileInfo({
@@ -107,7 +104,7 @@ function getFileInfo (option: Taro.getFileInfo.Option): Promise<Taro.getFileInfo
   })
 }
 
-function getSavedFileList (option?: Taro.getSavedFileList.Option): Promise<Taro.getSavedFileList.SuccessCallbackResult> {
+export function getSavedFileList (option?: Taro.getSavedFileList.Option): Promise<Taro.getSavedFileList.SuccessCallbackResult> {
   return new Promise((resolve, reject) => {
     const fileSystemManager = getFileSystemManager()
     fileSystemManager.getSavedFileList({
@@ -117,7 +114,7 @@ function getSavedFileList (option?: Taro.getSavedFileList.Option): Promise<Taro.
   })
 }
 
-function getSavedFileInfo (option: Taro.getSavedFileInfo.Option): Promise<Taro.getSavedFileInfo.SuccessCallbackResult> {
+export function getSavedFileInfo (option: Taro.getSavedFileInfo.Option): Promise<Taro.getSavedFileInfo.SuccessCallbackResult> {
   return new Promise((resolve, reject) => {
     try {
       validateParams('getSavedFileInfo', option, filePathSchema)
@@ -135,13 +132,4 @@ function getSavedFileInfo (option: Taro.getSavedFileInfo.Option): Promise<Taro.g
   })
 }
 
-export {
-  getFileInfo,
-  getFileSystemManager,
-  getSavedFileInfo,
-  getSavedFileList,
-  openDocument,
-  removeSavedFile,
-  saveFile,
-  saveFileToDisk
-}
+export { getFileSystemManager }

@@ -1,8 +1,7 @@
 import { isArray } from './is'
 
 export * from './is'
-
-export const noop = (..._: unknown[]) => {}
+export { noop } from '@tarojs/shared'
 
 export function capitalize (s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)

@@ -13,8 +13,6 @@ import Taro, { UploadTask } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
-type UploadFile = typeof Taro.uploadFile
-
 interface IOHOSFileType {
   filename?: string
   name?: string
@@ -43,7 +41,7 @@ const uploadSchema = {
 
 // wx 只支持 HTTP POST 请求，OHOS 支持 POST 和 PUT 请求
 // OHOS 不支持 wx 的 timeout，但是支持 file 文件列表上传，wx 是单文件上传
-const uploadFile: UploadFile = function (options) {
+export const uploadFile: typeof Taro.uploadFile = function (options) {
   let uploadTask: any = {}
 
   const UploadTaskWX: any = new Promise((resolve, reject) => {
@@ -157,8 +155,4 @@ const uploadFile: UploadFile = function (options) {
   }
 
   return UploadTaskWX
-}
-
-export {
-  uploadFile
 }

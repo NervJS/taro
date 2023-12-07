@@ -31,7 +31,7 @@ const requestSchema = {
   url: 'String'
 }
 
-const request: typeof Taro.request = function (options) {
+export const request: typeof Taro.request = function (options) {
   let httpRequestOhos: ReturnType<typeof http.createHttp>
 
   const requestTask: any = new Promise((resolve, reject) => {
@@ -110,8 +110,4 @@ const request: typeof Taro.request = function (options) {
   }
 
   return requestTask
-}
-
-export {
-  request
 }

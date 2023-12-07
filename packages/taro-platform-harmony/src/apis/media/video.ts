@@ -26,9 +26,6 @@ import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
-type ChooseVideo = typeof Taro.chooseVideo
-type SaveVideoToPhotosAlbum = typeof Taro.saveVideoToPhotosAlbum
-
 interface IChooseVideoOptionOHOS {
   type: string
   count: number
@@ -46,10 +43,10 @@ const saveVideoToPhotosAlbumSchema = {
 
 // TODO: 1.返回属性补全
 // TODO: 2.只支持从相册选择，补充摄像头拍摄功能，需要HarmonyOS提供选择组件
-const chooseVideo: ChooseVideo = function (options = {}) {
+export const chooseVideo: typeof Taro.chooseVideo = function (options = {}) {
   return new Promise((resolve, reject) => {
     try {
-      validateParams('chooseVeide', [options], ['Object'])
+      validateParams('chooseVideo', [options], ['Object'])
     } catch (error) {
       const res = { errMsg: error.message }
       return callAsyncFail(reject, res, options)
@@ -66,7 +63,7 @@ const chooseVideo: ChooseVideo = function (options = {}) {
   })
 }
 
-const saveVideoToPhotosAlbum: SaveVideoToPhotosAlbum = function (options) {
+export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('saveVideoToPhotosAlbum', options, saveVideoToPhotosAlbumSchema)
@@ -86,9 +83,4 @@ const saveVideoToPhotosAlbum: SaveVideoToPhotosAlbum = function (options) {
       callAsyncFail(reject, error, options)
     })
   })
-}
-
-export {
-  chooseVideo,
-  saveVideoToPhotosAlbum
 }

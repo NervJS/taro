@@ -12,8 +12,6 @@ import Taro, { DownloadTask } from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
-type DownloadFile = typeof Taro.downloadFile
-
 interface IDownloadConfigOHOS {
   url: string
   header?: any
@@ -29,7 +27,7 @@ const downloadFileSchema = {
   url: 'String'
 }
 
-const downloadFile: DownloadFile = function (options) {
+export const downloadFile: typeof Taro.downloadFile = function (options) {
   let downloadTask: any = {}
 
   const downloadTaskWX: any = new Promise((resolve, reject) => {
@@ -112,8 +110,4 @@ const downloadFile: DownloadFile = function (options) {
     })
   }
   return downloadTaskWX
-}
-
-export {
-  downloadFile
 }

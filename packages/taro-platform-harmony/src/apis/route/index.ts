@@ -10,10 +10,6 @@ import { IAsyncParams } from '../utils/types'
 
 import type Taro from '@tarojs/api'
 
-type ReLaunch = typeof Taro.reLaunch
-type SwitchTab = typeof Taro.switchTab
-type NavigateTo = typeof Taro.navigateTo
-
 const launchOptions: Taro.getLaunchOptionsSync.LaunchOptions = {
   path: '',
   query: {},
@@ -45,10 +41,10 @@ function parseURL (raw = ''): [string, Record<string, unknown>] {
 }
 
 // 生命周期
-const getLaunchOptionsSync = () => launchOptions
-const getEnterOptionsSync = () => launchOptions
+export const getLaunchOptionsSync = () => launchOptions
+export const getEnterOptionsSync = () => launchOptions
 
-const getRouterFunc = (method): NavigateTo => {
+const getRouterFunc = (method): typeof Taro.navigateTo => {
   const methodName = method === 'navigateTo' ? 'pushUrl' : 'replaceUrl'
 
   return function (options) {
@@ -75,13 +71,13 @@ const getRouterFunc = (method): NavigateTo => {
   }
 }
 
-const navigateTo = getRouterFunc('navigateTo')
-const redirectTo = getRouterFunc('redirectTo')
+export const navigateTo = getRouterFunc('navigateTo')
+export const redirectTo = getRouterFunc('redirectTo')
 
 interface INavigateBackParams extends IAsyncParams {
   url?: string
 }
-function navigateBack (options: INavigateBackParams): Promise<any> {
+export function navigateBack (options: INavigateBackParams): Promise<any> {
   return new Promise(resolve => {
     if (!options?.url) {
       router.back()
@@ -95,7 +91,7 @@ function navigateBack (options: INavigateBackParams): Promise<any> {
   })
 }
 
-const reLaunch: ReLaunch = (options) => {
+export const reLaunch: typeof Taro.reLaunch = (options) => {
   return new Promise(resolve => {
     redirectTo({ url: options.url })
     router.clear()
@@ -104,7 +100,7 @@ const reLaunch: ReLaunch = (options) => {
   })
 }
 
-const switchTab: SwitchTab = (options) => {
+export const switchTab: typeof Taro.switchTab = (options) => {
   return new Promise((resolve, reject) => {
     const stack = AppStorage.prop('__TARO_PAGE_STACK').get()
     const [url, params] = parseURL(options.url)
@@ -133,22 +129,10 @@ const switchTab: SwitchTab = (options) => {
   })
 }
 
-const getLength = () => {
+export const getLength = () => {
   return router.getLength()
 }
 
-const getState = () => {
+export const getState = () => {
   return router.getState()
-}
-
-export {
-  getEnterOptionsSync,
-  getLaunchOptionsSync,
-  getLength,
-  getState,
-  navigateBack,
-  navigateTo,
-  redirectTo,
-  reLaunch,
-  switchTab
 }

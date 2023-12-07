@@ -7,9 +7,6 @@ import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/api'
 
-type SetTabBarStyle = typeof Taro.setTabBarStyle
-type SetTabBarItem = typeof Taro.setTabBarItem
-
 interface ShowTabBar {
   type: 'show'
   fn: typeof Taro.showTabBar
@@ -50,7 +47,7 @@ export const showTabBar = toggleTabBar('show')
 
 export const hideTabBar = toggleTabBar('hide')
 
-export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
+export const setTabBarStyle: typeof Taro.setTabBarStyle = function (options = {}) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page
@@ -75,7 +72,7 @@ export const setTabBarStyle: SetTabBarStyle = function (options = {}) {
   })
 }
 
-export const setTabBarItem: SetTabBarItem = function (options) {
+export const setTabBarItem: typeof Taro.setTabBarItem = function (options) {
   return new Promise((resolve, reject) => {
     const taro = (Current as any).taro
     const page = taro.getCurrentInstance().page

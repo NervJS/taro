@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 // @ts-ignore
 import { Current, disconnectEvent, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, TaroElement, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
-import { unsupport } from '../utils'
+import { temporarilyNotSupport } from '../utils'
 
 export class IntersectionObserver implements Taro.IntersectionObserver {
   // 自定义组件实例
@@ -79,12 +79,12 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
   }
 
   public relativeTo (): Taro.IntersectionObserver {
-    process.env.NODE_ENV !== 'production' && unsupport('relativeTo')
+    temporarilyNotSupport('relativeTo')()
     return this
   }
 
   public relativeToViewport (): Taro.IntersectionObserver {
-    process.env.NODE_ENV !== 'production' && unsupport('relativeToViewport')
+    temporarilyNotSupport('relativeToViewport')()
     return this
   }
 

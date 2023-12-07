@@ -1,6 +1,6 @@
 import matrix4 from '@ohos.matrix4'
 
-import { unsupport } from '../utils'
+import { temporarilyNotSupport } from '../utils'
 
 import type Taro from '@tarojs/api'
 
@@ -201,22 +201,22 @@ export class Animation implements Taro.Animation {
   }
 
   left (value: string | number): Taro.Animation {
-    unsupport('animation.left:' + value)
+    temporarilyNotSupport('animation.left:' + value)(value)
     return this
   }
 
   right (value: string | number): Taro.Animation {
-    unsupport('animation.right:' + value)
+    temporarilyNotSupport('animation.right:' + value)(value)
     return this
   }
 
   top (value: string | number): Taro.Animation {
-    unsupport('animation.top:' + value)
+    temporarilyNotSupport('animation.top:' + value)(value)
     return this
   }
 
   bottom (value: string | number): Taro.Animation {
-    unsupport('animation.bottom:' + value)
+    temporarilyNotSupport('animation.bottom:' + value)(value)
     return this
   }
 }

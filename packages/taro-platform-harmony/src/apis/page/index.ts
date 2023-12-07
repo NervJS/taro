@@ -13,12 +13,10 @@ import { callAsyncFail, callAsyncSuccess } from '../utils'
 
 import type Taro from '@tarojs/api'
 
-type pageScrollTo = typeof Taro.pageScrollTo
-
 // TODO
 export const getCurrentPages = () => []
 
-export const pageScrollTo: pageScrollTo = (options) => {
+export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
     const taro = (Current as any).taro

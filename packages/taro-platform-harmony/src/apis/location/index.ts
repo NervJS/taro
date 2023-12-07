@@ -19,10 +19,6 @@ import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
-type GetLocation = typeof Taro.getLocation
-type OnLocationChange = typeof Taro.onLocationChange
-type OffLocationChange = typeof Taro.offLocationChangeError
-
 interface IGetOHOSGeolocationParams {
   type?: string
   altitude?: boolean
@@ -34,7 +30,7 @@ interface IGetOHOSGeolocationParams {
   timeoutMs?: number
 }
 
-interface LocationRequest {
+interface ILocationRequest {
   priority?: number
   scenario?: number // 勘误：注意 Harmony OS 这个参数是必填
   timeInterval?: number
@@ -42,7 +38,7 @@ interface LocationRequest {
   maxAccuracy?: number
 }
 
-interface LocationSuccessDataOHOS {
+interface ILocationSuccessDataOHOS {
   latitude: number
   longitude: number
   altitude: number
@@ -55,12 +51,12 @@ interface LocationSuccessDataOHOS {
   additionSize: number
 }
 
-interface LocationSuccessOHOS {
+interface ILocationSuccessOHOS {
   code: number
-  data: LocationSuccessDataOHOS
+  data: ILocationSuccessDataOHOS
 }
 
-function formatLocation (location: LocationSuccessDataOHOS) {
+function formatLocation (location: ILocationSuccessDataOHOS) {
   const locationWX = {
     latitude: location.latitude,
     longitude: location.longitude,
@@ -80,7 +76,7 @@ function formatLocation (location: LocationSuccessDataOHOS) {
 //   highAccuracyExpireTime: 'number'
 // }
 
-export const getLocation: GetLocation = function (options = {}) {
+export const getLocation: typeof Taro.getLocation = function (options = {}) {
   return new Promise((resolve, reject) => {
     /**
      * ohos 有 priority, scenario, maxAccuracy, timeoutMs
@@ -95,7 +91,7 @@ export const getLocation: GetLocation = function (options = {}) {
       highAccuracyExpireTime
     }
     try {
-      return geoLocationManager.getCurrentLocation(params).then((location: LocationSuccessOHOS) => {
+      return geoLocationManager.getCurrentLocation(params).then((location: ILocationSuccessOHOS) => {
         if (location.code !== 0) {
           callAsyncFail(reject, location, options)
         } else {
@@ -111,10 +107,10 @@ export const getLocation: GetLocation = function (options = {}) {
   })
 }
 
-export const onLocationChange: OnLocationChange = function (callback) {
+export const onLocationChange: typeof Taro.onLocationChange = function (callback) {
   validateParams('onLocationChange', [callback], ['Function'])
-  const requestInfo: LocationRequest = {}
-  geoLocationManager.on('locationChange', requestInfo, (location: LocationSuccessDataOHOS) => {
+  const requestInfo: ILocationRequest = {}
+  geoLocationManager.on('locationChange', requestInfo, (location: ILocationSuccessDataOHOS) => {
     if (location) {
       const locationWX = formatLocation(location)
       callback(locationWX)
@@ -122,9 +118,9 @@ export const onLocationChange: OnLocationChange = function (callback) {
   })
 }
 
-export const offLocationChange: OffLocationChange = function (callback) {
+export const offLocationChange: typeof Taro.offLocationChangeError = function (callback) {
   validateParams('offLocationChange', [callback], ['Function'])
-  geoLocationManager.off('locationChange', (location: LocationSuccessOHOS) => {
+  geoLocationManager.off('locationChange', (location: ILocationSuccessOHOS) => {
     const status = {
       errCode: 200,
       errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'

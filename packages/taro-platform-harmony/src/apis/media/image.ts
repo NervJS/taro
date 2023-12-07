@@ -16,10 +16,6 @@ import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
 
-type GetImageInfo = typeof Taro.getImageInfo
-type CompressImage = typeof Taro.compressImage
-type ChooseImage = typeof Taro.chooseImage
-
 interface IPackingOptionOHOS {
   format: string
   quality: number
@@ -39,7 +35,7 @@ const chooseImageSchema = {
 
 const photoSelectOptions = new picker.PhotoSelectOptions()
 
-const getImageInfo: GetImageInfo = function (options) {
+export const getImageInfo: typeof Taro.getImageInfo = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('getImageInfo', options, getImageInfoSchema)
@@ -63,7 +59,7 @@ const getImageInfo: GetImageInfo = function (options) {
   })
 }
 
-const compressImage: CompressImage = function (options) {
+export const compressImage: typeof Taro.compressImage = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('compressImage', options, compressImageSchema)
@@ -99,7 +95,7 @@ const compressImage: CompressImage = function (options) {
   })
 }
 
-const chooseImage: ChooseImage = function (options) {
+export const chooseImage: typeof Taro.chooseImage = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('chooseImage', options, chooseImageSchema)
@@ -124,9 +120,3 @@ const chooseImage: ChooseImage = function (options) {
 
 export const previewImage = temporarilyNotSupport('previewImage')
 export const saveImageToPhotosAlbum = temporarilyNotSupport('saveImageToPhotosAlbum')
-
-export {
-  chooseImage,
-  compressImage,
-  getImageInfo,
-}

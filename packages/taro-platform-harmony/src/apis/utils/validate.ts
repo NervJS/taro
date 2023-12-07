@@ -51,26 +51,12 @@ function getType (param: string): JSTypes {
   }
 }
 
-function getErrorMessage (correctType: string, wrongType: string, methodName: string, paramName?: string): string {
-  const parameter = paramName ? `parameter.${paramName}` : 'parameter'
-  return `${methodName}:fail parameter error: ${parameter} should be ${correctType} instead of ${wrongType}`
-}
-
 export function assertType (target: any, type: string, methodName: string, paramName?: string) {
-  const currentType = upperCaseFirstLetter(getType(target))
-  const correctType = upperCaseFirstLetter(type)
-  if (currentType !== correctType) {
-    const err = getErrorMessage(correctType, currentType, methodName, paramName)
+  const correct = upperCaseFirstLetter(type)
+  if (correct !== upperCaseFirstLetter(getType(target))) {
+    const err = getParameterError({ name: methodName, para: paramName, correct, wrong: target })
     throw new Error(err)
   }
-}
-
-const isNormalSchema = function (schema: Schema): schema is NormalParamSchema {
-  return isArray(schema) && isString(schema[0])
-}
-
-const isObjectSchema = function (schema: Schema): schema is ObjectParamSchema {
-  return isObject(schema)
 }
 
 /**
@@ -88,9 +74,9 @@ const isObjectSchema = function (schema: Schema): schema is ObjectParamSchema {
  * @todo 校验可选参数
  */
 export const validateParams: ValidateParams = function (name, params, schema) {
-  if (isNormalSchema(schema)) {
+  if (isArray(schema) && isString(schema[0])) {
     schema.forEach((correctType, index) => assertType(params[index], correctType, name, `[${index}]`))
-  } else if (isObjectSchema(schema)) {
+  } else if (isObject(schema)) {
     const optionsSchema = schema
 
     assertType(params, 'object', name)

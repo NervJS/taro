@@ -23,8 +23,6 @@ import Taro from '@tarojs/taro'
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 import { IAsyncParams } from '../utils/types'
 
-type ConnectSocket = typeof Taro.connectSocket
-
 interface ISendSocketOptions extends IAsyncParams {
   data: string
 }
@@ -42,7 +40,7 @@ const sendSocketSchema = {
   data: 'String'
 }
 
-const connectSocket: ConnectSocket = function (options) {
+export const connectSocket: typeof Taro.connectSocket = function (options) {
   let ws
   const SocketTaskWX: any = new Promise((resolve, reject) => {
     ws = webSocket.createWebSocket()
@@ -129,8 +127,4 @@ const connectSocket: ConnectSocket = function (options) {
   }
 
   return SocketTaskWX
-}
-
-export {
-  connectSocket
 }

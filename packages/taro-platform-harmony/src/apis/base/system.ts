@@ -22,7 +22,7 @@ deviceMethod.getInfo({
 })
 
 /* 同步版本 */
-const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
+export const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
   const res: any = {}
   res.SDKVersion = deviceInfo && deviceInfo.sdkApiVersion // 客户端基础库版本 string
   res.albumAuthorized = false // 允许使用相册的开关（仅 iOS 有效） boolean
@@ -58,7 +58,7 @@ const getSystemInfoSync: typeof Taro.getSystemInfoSync = function () {
   return res
 }
 /* 异步版本 */
-const getSystemInfo: typeof Taro.getSystemInfo = function (options) {
+export const getSystemInfo: typeof Taro.getSystemInfo = function (options) {
   let res = {}
   return new Promise((resolve, reject) => {
     try {
@@ -72,11 +72,6 @@ const getSystemInfo: typeof Taro.getSystemInfo = function (options) {
       callAsyncFail(reject, res, options)
     }
   })
-}
-
-export {
-  getSystemInfo,
-  getSystemInfoSync,
 }
 
 globalThis.getSystemInfoSync = getSystemInfoSync

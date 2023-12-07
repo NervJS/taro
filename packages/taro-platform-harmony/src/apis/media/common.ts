@@ -8,9 +8,6 @@ import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
 
-type PreviewMedia = typeof Taro.previewMedia
-type ChooseMedia = typeof Taro.chooseMedia
-
 interface IPreviewImagesOptionsOHOS {
   images: Array<string>
   index: number
@@ -26,7 +23,7 @@ const previewMediaSchema = {
 }
 
 // TODO: 扩展支持预览video
-const previewMedia: PreviewMedia = function (options) {
+export const previewMedia: typeof Taro.previewMedia = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('previewMedia', options, previewMediaSchema)
@@ -53,7 +50,7 @@ const previewMedia: PreviewMedia = function (options) {
   })
 }
 
-const chooseMedia: ChooseMedia = function (options) {
+export const chooseMedia: typeof Taro.chooseMedia = function (options) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('chooseMedia', [options], ['Object'])
@@ -74,9 +71,4 @@ const chooseMedia: ChooseMedia = function (options) {
       callAsyncFail(reject, error, options)
     })
   })
-}
-
-export {
-  chooseMedia,
-  previewMedia
 }
