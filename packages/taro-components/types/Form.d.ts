@@ -43,11 +43,11 @@ interface FormProps extends StandardProps {
    */
   clueComponentId?: string
   /** 携带 form 中的数据触发 submit 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onSubmit?: CommonEventFunction<FormProps.onSubmitEventDetail>
   /** 表单重置时会触发 reset 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onReset?: CommonEventFunction
 }

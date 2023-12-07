@@ -6,12 +6,12 @@ interface VideoProps extends StandardProps {
    */
   src: string
   /** 指定视频时长
-   * @supported weapp, alipay, qq, h5, rn
+   * @supported weapp, alipay, qq, h5, rn, harmony
    */
   duration?: number
   /** 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）
    * @default true
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   controls?: boolean
   /** 弹幕列表
@@ -30,17 +30,17 @@ interface VideoProps extends StandardProps {
   enableDanmu?: boolean
   /** 是否自动播放
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   autoplay?: boolean
   /** 是否循环播放
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   loop?: boolean
   /** 是否静音播放
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   muted?: boolean
   /** 指定视频初始播放位置
@@ -83,7 +83,7 @@ interface VideoProps extends StandardProps {
   enableProgressGesture?: boolean
   /** 当视频大小与 video 容器大小不一致时，视频的表现形式
    * @default "contain"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony
    */
   objectFit?: keyof VideoProps.ObjectFit
   /** 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效
@@ -298,24 +298,24 @@ interface VideoProps extends StandardProps {
    */
   definition?: string
   /** 当开始/继续播放时触发 play 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onPlay?: CommonEventFunction
   /** 当暂停播放时触发 pause 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onPause?: CommonEventFunction
   /** 当播放到末尾时触发 ended 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onEnded?: CommonEventFunction
   /** 播放进度变化时触发, 触发频率 250ms 一次
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
   /** 当视频进入和退出全屏时触发
    *
-   * @supported h5, rn, alipay
+   * @supported h5, rn, alipay, harmony
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
   /** 视频出现缓冲时触发
@@ -328,11 +328,11 @@ interface VideoProps extends StandardProps {
    */
   onError?: CommonEventFunction
   /** 加载进度变化时触发，只支持一段加载
-   * @supported weapp, tt, qq, h5
+   * @supported weapp, tt, qq, h5, harmony
    */
   onProgress?: CommonEventFunction<VideoProps.onProgressEventDetail>
   /** 视频元数据加载完成时触发
-   * @supported weapp, swan, tt, jd, rn
+   * @supported weapp, swan, tt, jd, rn, harmony
    */
   onLoadedMetaData?: CommonEventFunction<VideoProps.onLoadedMetaDataEventDetail>
   /**
@@ -433,11 +433,11 @@ interface VideoProps extends StandardProps {
    */
   onLoadStart?: CommonEventFunction
   /** 否
-   * @supported jd
+   * @supported jd, harmony
    */
   onSeeked?: CommonEventFunction
   /** 否
-   * @supported jd
+   * @supported jd, harmony
    */
   onSeeking?: CommonEventFunction
   /** 贴片广告加载成功时触发，event.detail = { adType: 'preRollAd' | 'postRollAd' }
