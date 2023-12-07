@@ -49,11 +49,10 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
   protected async getRunner () {
     const { npm, chalk } = this.helper
     const { appPath } = this.ctx.paths
-    const { type } = this.config.compiler
 
-    if (type !== 'vite') {
+    if (this.compiler !== 'vite') {
       const errorChalk = chalk.hex('#f00')
-      
+
       console.log(errorChalk('目前 Harmony 平台只支持使用 vite 编译，请在 config/index.ts 中设置 compiler = vite 或者 harmony.compiler = vite'))
       process.exit(0)
     }
