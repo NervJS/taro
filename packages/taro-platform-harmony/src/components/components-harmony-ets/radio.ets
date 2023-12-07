@@ -1,4 +1,4 @@
-import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
   TaroElement,
   TaroAny,
   TaroEvent
@@ -10,7 +10,7 @@ import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNormalAttributes, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroRadioGroupElement, TaroRadioElement } from './element'
 import type { TaroStyleType, HarmonyType } from './type'

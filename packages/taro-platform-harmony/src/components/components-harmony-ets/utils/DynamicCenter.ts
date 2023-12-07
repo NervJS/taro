@@ -1,34 +1,25 @@
-import { bindFocus, bindInstanceToNode, bindScrollTo, initComponentNodeInfo, TaroElement, TaroNode } from '@tarojs/runtime'
+import { bindFocus, bindInstanceToNode, bindScrollTo, initComponentNodeInfo, TaroAny, TaroElement } from '@tarojs/runtime'
+
+import { bindAnimation } from './helper'
 
 export class DynamicCenter {
-  static checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
-    if (!parentNode._isCompileMode) return
-
-    parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
-  }
-
-  static checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
-    if (!node._isCompileMode) return
-
-    node._instance?.dynamicCenter?.uninstall?.(node)
-  }
 
   install (node: TaroElement, parentNode: TaroElement) {
     if (!parentNode._isCompileMode) return
 
-    const component = parentNode._instance
-
-    this.bindComponentToNodeWithDFS(node, component)
+    this.bindComponentToNodeWithDFS(node, parentNode._instance)
   }
 
   uninstall (node: TaroElement) {
     if (!node._isCompileMode || !node._instance) return
 
-    node._instance[node._attrs?._dynamicID] = null
+    if (node._attrs?._dynamicID) {
+      node._instance[node._attrs._dynamicID] = null
+    }
     node._instance = null
   }
 
-  bindComponentToNodeWithDFS (node: TaroElement, component) {
+  bindComponentToNodeWithDFS (node: TaroElement, component: TaroAny) {
     if (!node) return
 
     const dynamicID = node._attrs?._dynamicID
@@ -38,7 +29,7 @@ export class DynamicCenter {
     initComponentNodeInfo(component, node)
     bindInstanceToNode(node, component)
     bindFocus(node)
-    bindAnimatio(node)
+    bindAnimation(node)
     bindScrollTo(node, component)
 
     node._isCompileMode = true
@@ -51,8 +42,7 @@ export class DynamicCenter {
     if (!node.childNodes || !node.childNodes.length) return
 
     for (let i = 0; i < node.childNodes.length; i++) {
-      // @ts-ignore
-      this.bindComponentToNodeWithDFS(node.childNodes[i], component)
+      this.bindComponentToNodeWithDFS(node.childNodes[i] as TaroElement, component)
     }
   }
 }

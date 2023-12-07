@@ -1,8 +1,6 @@
 import { convertNumber2VP, TaroAny } from '@tarojs/runtime'
 import matrix4 from '@ohos.matrix4'
 
-import type { TaroAny } from '@tarojs/runtime'
-
 type matrixNums = [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number]
 
 interface IRotate {

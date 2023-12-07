@@ -1,7 +1,7 @@
 import { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
+import { bindAttributesCallback, ObjectAssign } from '@tarojs/runtime'
 
 import type { TaroAny, TaroElement } from '@tarojs/runtime'
-import { bindAttributesCallback } from '@tarojs/runtime'
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
@@ -41,25 +41,25 @@ export function getNodeThresholds (node: TaroElement): number[] | null {
   return instance?.nodeInfoMap?.[id]?.thresholds || null
 }
 
-function convertToCamelCase(str) {
-  return str.replace(/-(.)/g, (_, char) => char.toUpperCase()).replace(/^\w/, firstChar => firstChar.toUpperCase())
+function convertToCamelCase(str: string) {
+  return str.replace(new RegExp("/-(.)/g"), (_, char: string) => char.toUpperCase()).replace(new RegExp("/^\w/"), firstChar => firstChar.toUpperCase())
 }
 
 // 动画绑定
 export function bindAnimation (node: TaroElement) {
-  bindAttributesCallback(node, 'animation', async (animation) => {
+  bindAttributesCallback(node, 'animation', async (animation: TaroAny) => {
     if (animation && animation.actions) {
       for (let i = 0; i < animation.actions.length; i++) {
-        const anim = animation.actions[i]
+        const anim: TaroAny = animation.actions[i]
         // 动画队列
-        await new Promise(resolve => {
-          const timingFunction = anim.timingFunction
-          const animateParams: any = {
+        await new Promise<TaroAny>((resolve: TaroAny) => {
+          const timingFunction: TaroAny = anim.timingFunction
+          const animateParams: AnimateParam = {
             duration: anim.duration,
             delay: anim.delay,
             tempo: 1,
             // TODO: ETS转TS
-            // playMode: PlayMode.Normal,
+            playMode: PlayMode.Normal,
             iterations: 1,
             onFinish: resolve
           }
@@ -72,21 +72,21 @@ export function bindAnimation (node: TaroElement) {
           }
           animateParams.curve = Curve[convertToCamelCase(timingFunction)] || Curve.EaseInOut
           animateTo(animateParams, () => {
-            const component = node._instance
-            const transformOrigin = anim.transformOrigin
-          
+            const component: TaroAny = node._instance
+            const transformOrigin: string = anim.transformOrigin
+
             if (transformOrigin) {
               const splitOrigin = transformOrigin.split(' ')
               Object.keys(anim.rule).forEach(key => {
                 if (['scale', 'rotate'].includes(key)) {
-                  Object.assign(anim.rule[key], {
+                  anim.rule[key] = ObjectAssign(anim.rule[key], {
                     centerX: splitOrigin[0],
                     centerY: splitOrigin[1],
                   })
                 }
               })
             }
-          
+
             component.nodeInfoMap[node._nid].overwriteStyle = anim.rule
             node.updateComponent()
           })
@@ -95,6 +95,5 @@ export function bindAnimation (node: TaroElement) {
     }
   })
 }
-
 
 export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle }

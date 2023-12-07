@@ -1,6 +1,5 @@
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
-import { DynamicCenter } from '../utils'
 import { TaroEventTarget } from './eventTarget'
 
 import type { TaroDocument } from './document'
@@ -148,7 +147,7 @@ export class TaroNode extends TaroEventTarget {
     // this.childNodes.push(child)
     this.childNodes = [...this.childNodes, child]
 
-    DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(child, this)
+    checkIsCompileModeAndInstallAfterDOMAction(child, this)
     return child
   }
 
@@ -166,7 +165,7 @@ export class TaroNode extends TaroEventTarget {
       ]
     }
 
-    DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(newNode, this)
+    checkIsCompileModeAndInstallAfterDOMAction(newNode, this)
 
     return newNode
   }
@@ -184,7 +183,7 @@ export class TaroNode extends TaroEventTarget {
       ...this.childNodes.slice(idxOfRef + 1)
     ]
 
-    DynamicCenter.checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
+    checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
 
     return oldChild
   }
@@ -197,8 +196,20 @@ export class TaroNode extends TaroEventTarget {
 
     this.childNodes = this.childNodes.filter((_, index) => index !== idx)
 
-    DynamicCenter.checkIsCompileModeAndUninstallAfterDOMAction(child)
+    checkIsCompileModeAndUninstallAfterDOMAction(child)
 
     return child
   }
+}
+
+function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
+  if (!parentNode._isCompileMode) return
+
+  parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
+}
+
+function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
+  if (!node._isCompileMode) return
+
+  node._instance?.dynamicCenter?.uninstall?.(node)
 }

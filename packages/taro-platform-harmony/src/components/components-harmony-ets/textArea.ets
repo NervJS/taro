@@ -1,12 +1,12 @@
 import window from '@ohos.window'
 import common from '@ohos.app.ability.common'
 import { isNumber, isUndefined } from '@tarojs/shared'
-import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+import { bindFocus, bindInstanceToNode, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
   TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
-import { getNodeThresholds, getNormalAttributes, getFontAttributes, parseStyles, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, getFontAttributes, parseStyles, shouldBindEvent, bindAnimation } from './utils/helper'
 
 import type { TaroTextAreaElement } from './element'
 import type { TaroStyleType, TaroTextStyleType } from './type'

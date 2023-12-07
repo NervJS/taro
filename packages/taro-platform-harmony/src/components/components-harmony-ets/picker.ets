@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
+import { bindInstanceToNode, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
   TaroAny,
   TaroEvent
 } from '@tarojs/runtime'
@@ -8,12 +8,11 @@ import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { createTaroEvent } from './utils/events'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroPickerElement, TaroElement } from './element'
 import type { TaroStyleType } from './type'
 
-import { getSingleSelector, getMultiSelector } from './utils'
 import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
 
 @Extend(TextPicker)

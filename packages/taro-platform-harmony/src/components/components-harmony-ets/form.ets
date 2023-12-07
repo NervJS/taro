@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS,
+import { bindInstanceToNode, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS,
   TaroEvent,
   TaroAny,
   TaroFormWidgetElement
@@ -9,7 +9,7 @@ import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { createTaroEvent } from './utils/events'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroFormElement, TaroElement, TaroCheckboxElement, TaroRadioElement, TaroInputElement,
   TaroSliderElement,

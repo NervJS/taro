@@ -1,11 +1,11 @@
-import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME,
+import { bindInstanceToNode, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME,
   TaroAny } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroLabelElement, TaroElement } from './element'
 import type { TaroStyleType } from './type'
