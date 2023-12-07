@@ -47,16 +47,25 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
    * 返回当前项目内的 runner 包
    */
   protected async getRunner () {
+    const compilers = ['vite'] // , 'webpack5'
     const { npm, chalk } = this.helper
     const { appPath } = this.ctx.paths
 
-    if (this.compiler !== 'vite') {
+    if (compilers.indexOf(this.compiler) === -1) {
       const errorChalk = chalk.hex('#f00')
 
-      console.log(errorChalk('目前 Harmony 平台只支持使用 vite 编译，请在 config/index.ts 中设置 compiler = vite 或者 harmony.compiler = vite'))
+      console.log(errorChalk(`目前 Harmony 平台只支持使用 ${compilers.join(', ')} 编译，请在 config/index.ts 中设置 compiler = ${compilers[0]} 或者 harmony.compiler = ${compilers[0]}`))
       process.exit(0)
     }
-    const runnerPkg = '@tarojs/vite-runner'
+    let runnerPkg: string
+    switch (this.compiler) {
+      case 'webpack5':
+        runnerPkg = '@tarojs/webpack5-runner'
+        break
+      case 'vite':
+      default:
+        runnerPkg = '@tarojs/vite-runner'
+    }
     const runner = await npm.getNpmPkg(runnerPkg, appPath)
     return runner.bind(null, appPath)
   }
