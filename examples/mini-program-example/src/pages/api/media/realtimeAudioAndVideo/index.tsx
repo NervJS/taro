@@ -1,6 +1,6 @@
 import React from 'react'
 import Taro from '@tarojs/taro'
-import { View, Button, Text, ScrollView, LivePlayer } from '@tarojs/components'
+import { View, Button,  LivePlayer } from '@tarojs/components'
 import ButtonList from '@/components/buttonList'
 import { TestConsole } from '@/util/util'
 import './index.scss'
@@ -269,6 +269,9 @@ export default class Index extends React.Component {
       }
     )
   }
+  hendleFullScreenChange(e){
+    console.log('hendleFullScreenChange',e)
+  }
   render() {
     const { list } = this.state
     return (
@@ -276,7 +279,12 @@ export default class Index extends React.Component {
       <View className='api-page'>
         <ButtonList buttonList={list} />
         {this.state.isShow && (
-          <LivePlayer id='LivePlayer' src={this.state.srcurl} soundMode='ear' type='flv'></LivePlayer>
+        <LivePlayer
+          id='LivePlayer'
+          src={this.state.srcurl}
+          soundMode='ear'
+          onFullScreenChange={this.hendleFullScreenChange}
+        ></LivePlayer>
         )}
         src: <input type='text' name='username' onChange={this.handleInputChangeSrc} />{' '}
         <Button onClick={this.handleClickSrc}>确定</Button>

@@ -14,6 +14,7 @@ import {
 import flvjs from 'flv.js'
 
 import { scene, screenFn } from './utils'
+import classNames from 'classnames'
 
 @Component({
   tag: 'taro-live-player-core',
@@ -25,8 +26,8 @@ export class LivePlayer implements ComponentInterface {
   private speakerID: string
   private earID: string
   private livePlayerRef: HTMLVideoElement
+  private controlsRef: HTMLTaroVideoControlElement
   private videoElement: any
-  
   // 状态枚举
   ONSTATECHANGECODEMSSAGE = {
     // 视频源加载成功
@@ -72,15 +73,15 @@ export class LivePlayer implements ComponentInterface {
       code: -2305,
       message: '视频下载过程中网络断开或连接超时',
     },
-    NOTGET:{
+    NOTGET: {
       code: -2301,
       message: '网络错误，请稍后再试',
     },
-    DECODE:{
+    DECODE: {
       code: -2302,
       message: '解码错误或格式错误，请稍后再试',
     },
-    INTERIOR:{
+    INTERIOR: {
       code: -2308,
       message: '播放器内部错误，请稍后再试',
     }
@@ -138,45 +139,59 @@ export class LivePlayer implements ComponentInterface {
   @Prop() id = ''
   // 全屏状态时间戳
   @State() fullScreenTimestamp = new Date().getTime()
+  // 播放状态
+  @State() isPlaying = false
+  // 次数状态
+  @State() isFirst = true
+  // 静音状态
+  @State() isMute = false
+  // 播放按钮
+  @State() showCenterPlayBtn = true
+  // 全屏按钮
+  @State() showFullscreenBtn = true
+  // 静音按钮
+  @State() showMuteBtn = true
   // 全屏状态
   @State() isFullScreen = false
   // 停止状态
   @State() isStop = false
+ // 隐藏缓存
+ @State() enableStashBuffer = true
 
   @Event({
     eventName: 'onStateChange',
   })
-    onStateChange: EventEmitter
+  onStateChange: EventEmitter
 
   @Event({
     eventName: 'fullscreenchange',
   })
-    onFullScreenChange: EventEmitter
+  onFullScreenChange: EventEmitter
 
   @Event({
     eventName: 'onAudioVolumeNotify',
   })
-    onAudioVolumeNotify: EventEmitter
+  onAudioVolumeNotify: EventEmitter
 
   @Event({
     eventName: 'onNetStatus',
   })
-    onNetStatus: EventEmitter
+  onNetStatus: EventEmitter
 
   @Event({
     eventName: 'onError',
   })
-    onError: EventEmitter
+  onError: EventEmitter
 
   @Event({
     eventName: 'onEnterPictureInPicture',
   })
-    onEnterPictureInPicture: EventEmitter
+  onEnterPictureInPicture: EventEmitter
 
   @Event({
     eventName: 'onLeavePictureInPicture',
   })
-    onLeavePictureInPicture: EventEmitter
+  onLeavePictureInPicture: EventEmitter
 
   async componentDidLoad () {
     try {
@@ -188,24 +203,28 @@ export class LivePlayer implements ComponentInterface {
     if (document.addEventListener) {
       document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
     }
-    if (this.livePlayerRef && scene === 'iOS') {
+    if (this.videoElement && scene === 'iOS') {
       // NOTE: iOS 场景下 fullscreenchange 并不会在退出全屏状态下触发，仅 webkitpresentationmodechanged 与 webkitendfullscreen 可替代
-      this.livePlayerRef.addEventListener('webkitendfullscreen', this.handleFullScreenChange)
+      this.videoElement.addEventListener('webkitendfullscreen', this.handleFullScreenChange)
     }
     if (flvjs.isSupported()) {
       // 平均码率
-      let modeType: number = 1024 * 1024*2
+      let modeType: number = 1024 * 1024 * 2
       if (this.mode === 'live') {
-        modeType = 1024 * 1024*2
-      } else {
+        modeType = 1024 * 1024 * 2
+        this.enableStashBuffer = true
+      } else if (this.mode === 'RTC') {
+        this.enableStashBuffer = false
         modeType = 1024 * 512
+      } else {
+        modeType = 1024 * 1024 * 2
       }
       if (this.minCache <= 0) {
         this.minCache = 1
-      } 
+      }
       if (this.maxCache <= 0) {
         this.maxCache = 3
-      } 
+      }
       this.minCache = Math.floor((this.minCache * modeType) / 8)
       this.videoElement = this.el.querySelector('video')
       this.livePlayerRef.addEventListener('volumechange', () => {
@@ -218,6 +237,7 @@ export class LivePlayer implements ComponentInterface {
       // 静音属性
       if (this.muted && this.videoElement) {
         this.livePlayerRef.muted = this.muted
+        this.isMute = true
       }
       // 画面方向
       if (this.orientation === 'vertical' && this.videoElement) {
@@ -232,9 +252,9 @@ export class LivePlayer implements ComponentInterface {
       }
       // 画面填充方式
       if (this.objectFit === 'contain' && this.videoElement) {
-        this.videoElement.style.objectFit = 'contain'
+        this.objectFit = 'contain'
       } else if (this.objectFit === 'fillCrop' && this.videoElement) {
-        this.videoElement.style.objectFit = 'cover'
+        this.objectFit = 'cover'
       } else {
         console.error('画面填充方式设置失败')
       }
@@ -246,13 +266,13 @@ export class LivePlayer implements ComponentInterface {
       } else {
         this.switchToHeadphones()
       }
-      this.livePlayerRef.addEventListener('fullscreenchange', (event) => {
+      this.videoElement.addEventListener('fullscreenchange', (event) => {
         event.stopPropagation()
         const fullScreenTimestamp = new Date().getTime()
         if (fullScreenTimestamp - this.fullScreenTimestamp < 100) {
           return
         }
-        this.isFullScreen =! this.isFullScreen
+        this.isFullScreen = !this.isFullScreen
         if (this.isFullScreen) {
           this.onFullScreenChange.emit({
             fullScreen: this.isFullScreen,
@@ -288,15 +308,20 @@ export class LivePlayer implements ComponentInterface {
       type: this.type,
       url: this.src,
       isLive: true,
-      enableStashBuffer: true,
+      cors: true,
+      enableStashBuffer: this.enableStashBuffer,
       stashInitialSize: this.minCache,
-      stashInitialTime:0,
-      lazyLoad:true,
-      lazyLoadMaxDuration:this.maxCache,
+      stashInitialTime: this.maxCache,
+      lazyLoad: true,
+      lazyLoadMaxDuration: this.maxCache,
+      lazyLoadRecoverDuration: this.maxCache,
+      autoCleanupSourceBuffer: true,
+      autoCleanupMaxBackwardDuration: this.maxCache,
+      autoCleanupMinBackwardDuration: this.maxCache
     }
     this.player = flvjs.createPlayer(config)
     // 创建异常监听
-    this.player.on(flvjs.ErrorDetails.NETWORK_EXCEPTION,  (type, message, data) =>{
+    this.player.on(flvjs.ErrorDetails.NETWORK_EXCEPTION, (type, message, data) => {
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.ERROR)
       // 处理网络异常的逻辑
       if (type === flvjs.Events.ERROR && data === flvjs.ErrorDetails.NETWORK_EXCEPTION) {
@@ -321,24 +346,23 @@ export class LivePlayer implements ComponentInterface {
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.PLAYING)
     }
     // 创建错误监听
-    this.player.on(flvjs.Events.ERROR,  (message) => {
+    this.player.on(flvjs.Events.ERROR, (message) => {
       if (message.type === flvjs.ErrorTypes.NETWORK_ERROR) {
         this.onError.emit({
-          detail:this.ONERRORCODEMSSAGE.NOTGET,
-          message:message
+          detail: this.ONERRORCODEMSSAGE.NOTGET,
+          message: message
         })
       } else if (message.type === flvjs.ErrorTypes.MEDIA_ERROR) {
         this.onError.emit({
-          detail:this.ONERRORCODEMSSAGE.DECODE,
-          message:message
+          detail: this.ONERRORCODEMSSAGE.DECODE,
+          message: message
         })
       } else {
         this.onError.emit({
-          detail:this.ONERRORCODEMSSAGE.INTERIOR,
-          message:message
+          detail: this.ONERRORCODEMSSAGE.INTERIOR,
+          message: message
         })
       }
-     
     })
   }
 
@@ -394,6 +418,7 @@ export class LivePlayer implements ComponentInterface {
   _mute = () => {
     try {
       this.livePlayerRef.muted = true
+      this.isMute = true
       return { errMsg: `mute:ok` }
     } catch (e) {
       return { errMsg: `mute:${e}` }
@@ -404,6 +429,8 @@ export class LivePlayer implements ComponentInterface {
   _pause = () => {
     try {
       this.player.pause()
+      this.handlePause()
+      this.videoElement.pause()
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.PAUSED)
       return { errMsg: `pause:ok` }
     } catch (e) {
@@ -415,6 +442,8 @@ export class LivePlayer implements ComponentInterface {
   _play = () => {
     try {
       this.player.play()
+      this.handlePlay()
+      this.videoElement.play()
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.PLAYING)
       return { errMsg: `play:ok` }
     } catch (e) {
@@ -440,7 +469,7 @@ export class LivePlayer implements ComponentInterface {
   /** 恢复视频 */
   _resume = () => {
     try {
-      if (!this.isStop) { 
+      if (!this.isStop) {
         this.player.unload()
         this.player.detachMediaElement()
         this.player.destroy()
@@ -453,7 +482,10 @@ export class LivePlayer implements ComponentInterface {
       return { errMsg: `resume:${e}` }
     }
   }
-
+  onClickFullScreenBtn = (e: MouseEvent) => {
+    e.stopPropagation()
+    this.toggleFullScreen()
+  }
   /** 全屏事件 */
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
     this.isFullScreen = isFullScreen
@@ -593,13 +625,40 @@ export class LivePlayer implements ComponentInterface {
       this.toggleFullScreen(false)
     }
   }
+  
+  handlePlay = () => {
+    this.isPlaying = true
+    this.isFirst = false
+    this.controlsRef.toggleVisibility(true)
+  }
 
+  handlePause = () => {
+    this.isPlaying = false
+    this.controlsRef.toggleVisibility(true)
+  }
+
+  handleEnded = () => {
+    this.isFirst = true
+    this._pause()
+    this.controlsRef.toggleVisibility()
+  }
+
+  toggleMute = (e: MouseEvent) => {
+    e.stopPropagation()
+    this.livePlayerRef.muted = !this.isMute
+    this.controlsRef.toggleVisibility(true)
+    this.isMute = !this.isMute
+  }
   // 监听横屏
   @Listen('orientationchange', { target: 'window' })
   orientationchangeHandler () {
     this.handleOrientationChange()
   }
-
+  
+  onClickContainer = () => {
+    this.controlsRef.toggleVisibility()
+  }
+ 
   componentDidHide () {
     if (this.player) {
       if (this.autoPauseIfNavigate) {
@@ -615,20 +674,78 @@ export class LivePlayer implements ComponentInterface {
   }
 
   render () {
+    const {
+      autoplay,
+      muted,
+      objectFit,
+      isFirst,
+      isMute,
+      isFullScreen,
+      showCenterPlayBtn,
+      isPlaying,
+      showMuteBtn,
+      showFullscreenBtn,
+    } = this
     return (
-      <Host>
-        <div>
-          <video
-            id={this.id}
-            class="taro-live-player"
-            ref={(dom) => {
-              if (dom) {
-                this.livePlayerRef = dom as HTMLVideoElement
-              }
-            }}
-            controls
-          ></video>
-        </div>
+      <Host
+        class={classNames('taro-live-player-container', {
+          'taro-video-type-fullscreen': isFullScreen
+        })}
+        onClick={this.onClickContainer}>
+        <video
+          id={this.id}
+          class="taro-live-player"
+          style={{
+            'object-fit': objectFit
+          }}
+          ref={(dom) => {
+            if (dom) {
+              this.livePlayerRef = dom as HTMLVideoElement
+            }
+          }}
+          autoplay={autoplay}
+          muted={muted}
+          playsinline
+          webkit-playsinline
+          onPlay={this.handlePlay}
+          onPause={this.handlePause}
+          onEnded={this.handleEnded}
+        ></video>
+        {isFirst && showCenterPlayBtn && !isPlaying && (
+          <div class='taro-video-cover'>
+            <div class='taro-video-cover-play-button' onClick={() => this._play()} />
+          </div>
+        )}
+
+        <taro-video-control
+          ref={dom => {
+            if (dom) {
+              this.controlsRef = dom
+            }
+          }}
+          controls={true}
+          isPlaying={this.isPlaying}
+          pauseFunc={this._pause}
+          playFunc={this._play}
+          showPlayBtn={true}
+        >
+          {showMuteBtn && (
+            <div
+              class={classNames('taro-video-mute', {
+                'taro-video-type-mute': isMute
+              })}
+              onClick={this.toggleMute}
+            />
+          )}
+          {showFullscreenBtn && (
+            <div
+              class={classNames('taro-video-fullscreen', {
+                'taro-video-type-fullscreen': isFullScreen
+              })}
+              onClick={this.onClickFullScreenBtn}
+            />
+          )}
+        </taro-video-control>
       </Host>
     )
   }
