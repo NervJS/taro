@@ -9,6 +9,7 @@ import {
   DEMO_JS_FILES,
   PLUGIN_FILE_DATA,
   root,
+  USINGCOMPONENTS_FILE_DATA,
 } from './data/fileData'
 import { removeBackslashesSerializer } from './util'
 
@@ -346,3 +347,28 @@ describe('模版转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 })
+describe('公共组件引用', () => {
+  beforeAll(() => {
+    // mock报告生成
+    jest.spyOn(Convertor.prototype, 'generateReport').mockImplementation(() => {})
+
+    // 配置文件生成
+    jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  beforeEach(() => {
+    // 清空文件信息
+    clearMockFiles()
+  })
+
+  test('子组件内部标签引用公共组件时，解析app.json文件里公共组件,使子组件生效',()=>{
+
+    // 设置初始文件信息
+    setMockFiles(root, USINGCOMPONENTS_FILE_DATA)
+    const convert = new Convertor(root, false)
+    convert.run()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
+})
+
