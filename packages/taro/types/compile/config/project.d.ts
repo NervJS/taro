@@ -5,6 +5,7 @@ import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 import type { IModifyChainData } from '../hooks'
 import type { ICopyOptions, IOption, ISassOptions, TogglableOptions } from './util'
 import type { IH5Config } from './h5'
+import type { IHarmonyConfig } from './harmony'
 import type { IMiniAppConfig, IMiniFilesConfig } from './mini'
 import type { IRNConfig } from './rn'
 
@@ -312,6 +313,8 @@ export interface IProjectConfig<T extends CompilerTypes = CompilerWebpackTypes> 
 
   /** 专属于 RN 的配置 */
   rn?: IRNConfig
+
+  harmony?: IHarmonyConfig<T>
 
   [key: string]: any
 }

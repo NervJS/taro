@@ -31,6 +31,9 @@ export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 默认值：'cheap-module-source-map'， 具体参考[Webpack devtool 配置](https://webpack.js.org/configuration/devtool/#devtool) */
   sourceMapType?: string
 
+  /** 指定 React 框架相关的代码是否使用开发环境（未压缩）代码，默认使用生产环境（压缩后）代码 */
+  debugReact?: boolean
+
   /**
    * 自定义 Webpack 配置
    * @param chain  [webpackChain](https://github.com/neutrinojs/webpack-chain) 对象

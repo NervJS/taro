@@ -2,8 +2,10 @@ import { esbuild, fs, REG_TARO_H5 } from '@tarojs/helper'
 import { isString, isWebPlatform } from '@tarojs/shared'
 
 import { h5iVitePlugin } from './vite.h5'
+import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
+import { modifyHarmonyWebpackChain } from './webpack.harmony'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -33,6 +35,9 @@ export default (ctx: IPluginContext) => {
     if (isWebPlatform()) {
       // H5
       modifyH5WebpackChain(ctx, framework, chain)
+    } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
+      // 鸿蒙
+      modifyHarmonyWebpackChain(ctx, framework, chain)
     } else {
       // 小程序
       modifyMiniWebpackChain(ctx, framework, chain)
@@ -83,6 +88,9 @@ export default (ctx: IPluginContext) => {
       if (isWebPlatform()) {
         // H5
         compiler.vitePlugins.push(h5iVitePlugin(ctx, framework))
+      } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
+        // 鸿蒙
+        compiler.vitePlugins.push(harmonyVitePlugin(ctx, framework))
       } else {
         // 小程序
         compiler.vitePlugins.push(miniVitePlugin(ctx, framework))

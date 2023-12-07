@@ -3,8 +3,10 @@ import { isString, isWebPlatform } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { h5VitePlugin } from './vite.h5'
+import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
 import { modifyH5WebpackChain } from './webpack.h5'
+import { modifyHarmonyWebpackChain } from './webpack.harmony'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
 import type { IPluginContext } from '@tarojs/service'
@@ -28,6 +30,9 @@ export interface IConfig {
   mini?: {
     compilerOptions: CompilerOptions
   }
+  harmony?: {
+    compilerOptions: CompilerOptions
+  }
   vueLoaderOption?: {
     compilerOptions: CompilerOptions
     [key: string]: any
@@ -48,6 +53,9 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     if (isWebPlatform()) {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
+    } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
+      // 鸿蒙
+      modifyHarmonyWebpackChain(ctx, chain, data, config)
     } else {
       // 小程序
       modifyMiniWebpackChain(ctx, chain, data, config)
@@ -60,6 +68,9 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     if (isWebPlatform()) {
       // H5
       viteConfig.plugins.push(h5VitePlugin(ctx, config))
+    } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
+      // 鸿蒙
+      viteConfig.plugins.push(harmonyVitePlugin(ctx, data?.componentConfig, config))
     } else {
       // 小程序
       viteConfig.plugins.push(miniVitePlugin(ctx, data?.componentConfig, config))

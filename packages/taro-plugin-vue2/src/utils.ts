@@ -87,3 +87,45 @@ export function getMiniVueLoaderOptions(componentConfig) {
   }
   return miniOptions
 }
+
+export function getHarmonyVueLoaderOptions(componentConfig) {
+  const harmonyOptions = {
+    optimizeSSR: false,
+    transformAssetUrls: {
+      video: ['src', 'poster'],
+      'live-player': 'src',
+      audio: 'src',
+      source: 'src',
+      image: 'src',
+      'cover-image': 'src'
+    },
+    compilerOptions: {
+      whitespace: 'condense',
+      modules: [{
+        preTransformNode (el) {
+          const nodeName = el.tag
+          if (capitalize(toCamelCase(nodeName)) in internalComponents) {
+            componentConfig.includes.add(nodeName)
+          }
+
+          if (nodeName === CUSTOM_WRAPPER) {
+            componentConfig.thirdPartyComponents.set(CUSTOM_WRAPPER, new Set())
+          }
+
+          const usingComponent = componentConfig.thirdPartyComponents.get(nodeName)
+          if (usingComponent != null) {
+            el.attrsList
+              .filter(a => !a.dynamic)
+              .forEach(a => usingComponent.add(a.name.startsWith(':') ? a.name.slice(1) : a.name))
+          }
+
+          return el
+        }
+      }],
+      mustUseProp: function () {
+        return false
+      }
+    }
+  }
+  return harmonyOptions
+}

@@ -1,12 +1,12 @@
 import { REG_VUE } from '@tarojs/helper'
 
 import { getLoaderMeta } from './loader-meta'
-import { getMiniVueLoaderOptions, getVueLoaderPath } from './utils'
+import { getHarmonyVueLoaderOptions, getVueLoaderPath } from './utils'
 
 import type { IPluginContext } from '@tarojs/service'
 import type { IConfig } from './index'
 
-export function modifyMiniWebpackChain (ctx: IPluginContext, chain, data, config: IConfig) {
+export function modifyHarmonyWebpackChain (ctx: IPluginContext, chain, data, config: IConfig) {
   setVueLoader(ctx, chain, data, config)
   setLoader(chain)
   setDefinePlugin(chain)
@@ -22,7 +22,7 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
     .use(VueLoaderPlugin)
 
   // loader
-  const vueLoaderOption = getMiniVueLoaderOptions(ctx, data.componentConfig, config)
+  const vueLoaderOption = getHarmonyVueLoaderOptions(ctx, data.componentConfig, config)
 
   chain.module
     .rule('vue')
@@ -33,7 +33,7 @@ function setVueLoader (ctx: IPluginContext, chain, data, config: IConfig) {
 }
 
 function setLoader (chain) {
-  chain.plugin('miniPlugin')
+  chain.plugin('mainPlugin')
     .tap(args => {
       args[0].loaderMeta = getLoaderMeta()
       return args
