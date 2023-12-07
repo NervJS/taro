@@ -442,19 +442,14 @@ export default class TaroMiniPlugin {
     return appEntryPath
   }
 
-  getIndependentPackage (pagePath: string) {
-    let res: IndependentPackage | null = null
-
-    this.independentPackages.forEach((independentPackage) => {
+  getIndependentPackage (pagePath: string): IndependentPackage | undefined {
+    return Array.from(this.independentPackages.values()).find(independentPackage => {
       const { pages } = independentPackage
       if (pages.includes(pagePath)) {
-        res = independentPackage
+        return independentPackage
       }
     })
-    
-    return res
   } 
-
 
   getChangedFiles (compiler: Compiler) {
     return compiler.modifiedFiles
@@ -689,11 +684,7 @@ export default class TaroMiniPlugin {
       const pagePath = page.path
       const independentPackage = this.getIndependentPackage(pagePath)
 
-      if (independentPackage) {
-        this.compileFile(page, independentPackage)
-      } else {
-        this.compileFile(page)
-      }
+      this.compileFile(page, independentPackage)
     })
   }
 
@@ -854,13 +845,11 @@ export default class TaroMiniPlugin {
             stylePath: isNative ? this.getStylePath(componentPath) : undefined,
             templatePath: isNative ? this.getTemplatePath(componentPath) : undefined
           }
-          this.components.add(componentObj)
 
           // 收集独立分包的组件，用于后续单独编译
-          if (independentPackage) {
-            independentPackage?.components?.push(componentPath)
-          }
-
+          independentPackage?.components?.push(componentPath)
+          
+          this.components.add(componentObj)
           this.compileFile(componentObj, independentPackage)
         }
       })
