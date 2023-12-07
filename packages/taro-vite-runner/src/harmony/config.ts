@@ -23,8 +23,6 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       env = {},
       defineConstants = {},
       framework = 'react',
-      // @ts-ignore
-      runtime = {} as Record<string, boolean>,
     } = taroConfig
 
     env.FRAMEWORK = JSON.stringify(framework)
@@ -37,21 +35,9 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       return target
     }, {})
 
-    // FIXME 小程序运行时包含的变量，后续需要从鸿蒙运行时中排除
-    const runtimeConstants = {
-      ENABLE_INNER_HTML: runtime.enableInnerHTML ?? true,
-      ENABLE_ADJACENT_HTML: runtime.enableAdjacentHTML ?? false,
-      ENABLE_SIZE_APIS: runtime.enableSizeAPIs ?? false,
-      ENABLE_TEMPLATE_CONTENT: runtime.enableTemplateContent ?? false,
-      ENABLE_CLONE_NODE: runtime.enableCloneNode ?? false,
-      ENABLE_CONTAINS: runtime.enableContains ?? false,
-      ENABLE_MUTATION_OBSERVER: runtime.enableMutationObserver ?? false,
-    }
-
     return {
       ...envConstants,
       ...defineConstants,
-      ...runtimeConstants,
     }
   }
 

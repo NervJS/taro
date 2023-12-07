@@ -70,7 +70,6 @@ export const getDefaultPostcssConfig = function ({
   ]
 }
 
-
 export const getPostcssPlugins = function (appPath: string, option: [string, TogglableOptions<Record<string, unknown>>, Func?][] = []) {
   option.forEach(([pluginName, pluginOption, pluginPkg]) => {
     if (!pluginOption || ['cssModules'].includes(pluginName)) return

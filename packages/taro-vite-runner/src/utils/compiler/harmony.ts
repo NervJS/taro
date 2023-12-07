@@ -121,7 +121,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   modifyHarmonyConfig (config: Partial<AppConfig> = {}) {
     const { pages = [], tabBar } = config
     const { projectPath, hapName = 'entry', outputRoot = 'dist', name = 'default' } = this.taroConfig
-    const designWidth = this.taroConfig.designWidth || this.taroConfig.postcss.pxtransform?.config?.designWidth || 750
+    const designWidth = this.taroConfig.designWidth || this.taroConfig.postcss?.pxtransform?.config?.designWidth || 750
     const buildProfilePath = path.join(projectPath, `build-profile.${this.useJSON5 !== false ? 'json5' : 'json'}`)
     const srcPath = `./${hapName}`
     const hapConfigPath = path.join(path.resolve(outputRoot, '..'), `${this.useJSON5 !== false ? 'module.json5' : 'config.json'}`)

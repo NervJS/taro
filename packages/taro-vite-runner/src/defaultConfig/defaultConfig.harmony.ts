@@ -8,7 +8,7 @@ const defaultConfig: Partial<ViteHarmonyBuildConfig> = {
   fileType: {
     style: '.css',
     config: '.json',
-    script: '.ets',
+    script: '.js',
     templ: '.hml'
   },
   imageUrlLoaderOption: {
