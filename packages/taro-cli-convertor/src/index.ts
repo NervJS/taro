@@ -1611,31 +1611,70 @@ ${code}
       try {
         const param: ITaroizeOptions = {}
         const depComponents = new Set<IComponent>()
+        const pluginComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
           throw new Error(`自定义组件 ${component} 没有 JS 文件！`)
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
+        let componentConfig
         if (fs.existsSync(componentConfigPath)) {
           printLog(processTypeEnum.CONVERT, '组件配置', this.generateShowPath(componentConfigPath))
           const componentConfigStr = String(fs.readFileSync(componentConfigPath))
-          const componentConfig = JSON.parse(componentConfigStr)
+          componentConfig = JSON.parse(componentConfigStr)
+        } else if (this.entryUsingComponents) {
+          componentConfig = {}
+        }
+        if (componentConfig) {
+          // app.json中注册的组件为公共组件
+          if (this.entryUsingComponents && !this.isTraversePlugin) {
+            componentConfig.usingComponents = {
+              ...componentConfig.usingComponents,
+              ...this.entryUsingComponents,
+            }
+          }
           const componentUsingComponnets = componentConfig.usingComponents
           if (componentUsingComponnets) {
             // 页面依赖组件
+            const usingComponents = {}
             Object.keys(componentUsingComponnets).forEach((component) => {
-              let componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
-              if (!fs.existsSync(resolveScriptPath(componentPath))) {
-                componentPath = path.join(this.root, componentUsingComponnets[component])
+              const unResolveUseComponentPath: string = componentUsingComponnets[component]
+              let componentPath
+              if (unResolveUseComponentPath.startsWith('plugin://')) {
+                componentPath = replacePluginComponentUrl(unResolveUseComponentPath, this.pluginInfo)
+                pluginComponents.add({
+                  name: component,
+                  path: componentPath,
+                })
+              } else if (this.isThirdPartyLib(unResolveUseComponentPath, path.resolve(component, '..'))) {
+                handleThirdPartyLib(
+                  unResolveUseComponentPath,
+                  this.convertConfig?.nodePath,
+                  this.root,
+                  this.convertRoot
+                )
+              } else {
+                if (unResolveUseComponentPath.startsWith(this.root)) {
+                  componentPath = unResolveUseComponentPath
+                } else {
+                  componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
+                  if (!fs.existsSync(resolveScriptPath(componentPath))) {
+                    componentPath = path.join(this.root, componentUsingComponnets[component])
+                  }
+                  if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
+                    componentPath = path.join(componentPath, `/index`)
+                  }
+                }
+                depComponents.add({
+                  name: component,
+                  path: componentPath,
+                })
               }
-              if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
-                componentPath = path.join(componentPath, `/index`)
-              }
-              depComponents.add({
-                name: component,
-                path: componentPath,
-              })
             })
-            delete componentConfig.usingComponents
+            if (Object.keys(usingComponents).length === 0) {
+              delete componentConfig.usingComponents
+            } else {
+              componentConfig.usingComponents = usingComponents
+            }
           }
           param.json = JSON.stringify(componentConfig)
         }
@@ -1665,6 +1704,7 @@ ${code}
             : null,
           depComponents,
           imports: taroizeResult.imports,
+          pluginComponents: pluginComponents,
         })
 
         const jsCode = generateMinimalEscapeCode(ast)

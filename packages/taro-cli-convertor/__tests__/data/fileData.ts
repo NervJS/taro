@@ -303,3 +303,124 @@ export const DEMO_JS_FILES = {
     </view>
   `,
 }
+
+export const USINGCOMPONENTS_FILE_DATA = {
+  '/project.config.json': `
+    {
+      "miniprogramRoot": "miniprogram/",
+      "pluginRoot": "plugin/",
+      "compileType": "plugin"
+    }
+  `,
+  '/miniprogram/app.json': `
+    {
+      "pages": [
+        "pages/index/index"
+      ],
+      "plugins": {
+        "hello-plugin": {
+          "version": "dev",
+          "provider": "wx9e5d25b6307be4bc"
+        }
+      },
+      "usingComponents": {
+        "cpt": "/components/cpt/cpt"
+      }
+    }
+  `, 
+  '/miniprogram/app.js':`app({})`,
+  '/miniprogram/pages/index/index.js':`Page({})`,
+  '/miniprogram/pages/index/index.json':`
+    {
+      "usingComponents": {
+        "cpt2": "/components/cpt2/cpt2",
+        "hello-component": "plugin://hello-plugin/hello-component"
+      }
+    }
+  `,
+  '/miniprogram/pages/index/index.wxml':`
+    <hello-component items="{{ items }}" />
+    <view>
+      <cpt2></cpt2>
+    </view>
+  `,
+  '/miniprogram/components/cpt/cpt.js':`
+    Component({
+      properties: {
+        text: {
+          type: String,
+          value: 'cpt'
+        },
+        buttonText: {
+          type: String,
+          value: 'Click Me!'
+        }
+      }
+    })
+  `,
+  '/miniprogram/components/cpt/cpt.json':`
+  {
+    "component": true,
+    "usingComponents": {}
+  }
+  `,
+  '/miniprogram/components/cpt/cpt.wxml':`
+    <view>cpt</view>
+  `,
+  '/miniprogram/components/cpt2/cpt2.js':`
+    Component({
+      properties: {
+        text: {
+          type: String,
+          value: 'cpt2'
+        },
+        buttonText: {
+          type: String,
+          value: 'Click Me!'
+        }
+      }
+    })
+  `,
+  '/miniprogram/components/cpt2/cpt2.json':`
+  {
+    "component": true,
+    "usingComponents": {
+    }
+  }
+  `,
+  '/miniprogram/components/cpt2/cpt2.wxml':`
+    <view>
+      <cpt></cpt>
+      cpt2
+    </view>
+  `,
+  '/plugin/plugin.json': `
+    {
+      "publicComponents": {
+        "hello-component": "components/hello-component"
+      },
+      "main": "index.js"
+    }
+  `,
+  '/plugin/index.js': ``,
+  '/plugin/components/hello-component.js': `Component({})`,
+  '/plugin/components/hello-component.json': `
+    {
+      "component": true,
+      "usingComponents": {}
+    }
+  `,
+  '/plugin/components/hello-component.wxml': `
+    <view class="container">
+      <view>这是插件组件hello-component</view>
+    </view>
+  `,
+  '/plugin/components/hello-component.wxss': `
+    .container {
+      margin: 1em;
+    }
+    .item {
+      display: block;
+    }
+  `
+}
