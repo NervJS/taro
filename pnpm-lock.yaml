@@ -814,9 +814,6 @@ importers:
       inquirer:
         specifier: ^8.0.0
         version: registry.npmjs.org/inquirer@8.2.5
-      joi:
-        specifier: ^17.6.0
-        version: registry.npmjs.org/joi@17.9.2
       latest-version:
         specifier: ^5.1.0
         version: registry.npmjs.org/latest-version@5.1.0
@@ -26745,48 +26742,6 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmjs.org/jest-config@29.5.0(@types/node@14.18.45):
-    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-config/-/jest-config-29.5.0.tgz}
-    id: registry.npmjs.org/jest-config/29.5.0
-    name: jest-config
-    version: 29.5.0
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@types/node': '*'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      '@babel/core': registry.npmjs.org/@babel/core@7.21.8
-      '@jest/test-sequencer': registry.npmjs.org/@jest/test-sequencer@29.5.0
-      '@jest/types': registry.npmjs.org/@jest/types@29.5.0
-      '@types/node': registry.npmjs.org/@types/node@14.18.45
-      babel-jest: registry.npmjs.org/babel-jest@29.5.0(@babel/core@7.21.8)
-      chalk: registry.npmjs.org/chalk@4.1.2
-      ci-info: registry.npmjs.org/ci-info@3.8.0
-      deepmerge: registry.npmjs.org/deepmerge@4.3.1
-      glob: registry.npmjs.org/glob@7.2.3
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
-      jest-circus: registry.npmjs.org/jest-circus@29.5.0
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
-      jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
-      jest-regex-util: registry.npmjs.org/jest-regex-util@29.4.3
-      jest-resolve: registry.npmjs.org/jest-resolve@29.5.0
-      jest-runner: registry.npmjs.org/jest-runner@29.5.0
-      jest-util: registry.npmjs.org/jest-util@29.5.0
-      jest-validate: registry.npmjs.org/jest-validate@29.5.0
-      micromatch: registry.npmjs.org/micromatch@4.0.5
-      parse-json: registry.npmjs.org/parse-json@5.2.0
-      pretty-format: registry.npmjs.org/pretty-format@29.5.0
-      slash: registry.npmjs.org/slash@3.0.0
-      strip-json-comments: registry.npmjs.org/strip-json-comments@3.1.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   registry.npmjs.org/jest-config@29.5.0(@types/node@14.18.45)(ts-node@10.9.1):
     resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-config/-/jest-config-29.5.0.tgz}
     id: registry.npmjs.org/jest-config/29.5.0
@@ -26856,7 +26811,7 @@ packages:
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.5.0
-      jest-environment-node: registry.npmjs.org/jest-environment-node@29.5.0
+      jest-environment-node: registry.npmjs.org/jest-environment-node@29.7.0
       jest-get-type: registry.npmjs.org/jest-get-type@29.4.3
       jest-regex-util: registry.npmjs.org/jest-regex-util@29.4.3
       jest-resolve: registry.npmjs.org/jest-resolve@29.5.0

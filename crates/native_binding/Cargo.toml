@@ -9,11 +9,11 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { workspace = true, features = ["napi4", "tokio_rt"]}
+napi = { workspace = true}
 napi-derive = { workspace = true }
 tokio = { workspace = true }
 serde_json = { workspace = true }
-serde = { workspace = true, features = ["serde_derive"] }
+serde = { workspace = true }
 anyhow = { workspace = true }
 
 taro_init = { path = "../taro_init" }
