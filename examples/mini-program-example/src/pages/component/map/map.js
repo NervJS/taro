@@ -173,7 +173,8 @@ export default class PageView extends React.Component {
 
   handleClickLatitude = async () => {
     const latitude = /^-?\d+(\.\d+)?$/.test(this.state.lat.toString()) || this.state.lat === 0 ? this.state.lat : ''
-    await this.setState({
+    await this.setState(
+      {
         latitude,
         isShow: false,
       },
@@ -192,8 +193,9 @@ export default class PageView extends React.Component {
   }
 
   handleClickLongitude = async () => {
-    const longitude =  /^-?\d+(\.\d+)?$/.test(this.state.lng.toString()) || this.state.lng === 0 ? this.state.lng : ''
-    await this.setState({
+    const longitude = /^-?\d+(\.\d+)?$/.test(this.state.lng.toString()) || this.state.lng === 0 ? this.state.lng : ''
+    await this.setState(
+      {
         longitude,
         isShow: false,
       },
