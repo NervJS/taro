@@ -161,7 +161,7 @@ export class Map implements ComponentInterface {
         }
         let scale = isNaN(this.scale) ? 16 : this.scale
         let minScale = isNaN(this.minScale) ? 3 : this.minScale
-        let maxScale = isNaN(this.maxScale) ? 16: this.maxScale
+        let maxScale = isNaN(this.maxScale) ? 16 : this.maxScale
         const point = new BMapGL.Point(this.longitude, this.latitude)
 
         if (minScale < 3 || minScale > 20) {
@@ -179,7 +179,7 @@ export class Map implements ComponentInterface {
           // 设置最大缩放级别
           this.map.setMaxZoom(maxScale)
         }
-        
+
         if (minScale > maxScale) {
           minScale = 3
           this.map.setMinZoom(3)
@@ -193,20 +193,20 @@ export class Map implements ComponentInterface {
             // 使用this.scale来设置缩放级别
             this.map.centerAndZoom(point, scale)
           } else {
-            scale=16
+            scale = 16
             this.map.centerAndZoom(point, scale)
           }
         } else {
           if (scale >= minScale && scale <= maxScale) {
             // 使用this.scale来设置缩放级别
-            this.map.centerAndZoom(point, scale) 
+            this.map.centerAndZoom(point, scale)
           } else if (scale < minScale) {
             scale = minScale
             this.map.centerAndZoom(point, minScale)
           } else {
             scale = maxScale
             this.map.centerAndZoom(point, maxScale)
-          } 
+          }
         }
 
         // 添加标记点markers
@@ -279,7 +279,7 @@ export class Map implements ComponentInterface {
         const enable3D = this.enable3D === true ? this.enable3D : false
         const enableOverlooking = this.enableOverlooking === true ? this.enableOverlooking : false
         const enableAutoMaxOverlooking = this.enableAutoMaxOverlooking === true ? this.enableAutoMaxOverlooking : false
-        const skew =this.skew ? this.skew : 0
+        const skew = this.skew ? this.skew : 0
         if (enable3D === true) {
           if (enableOverlooking === true) {
             // /开启最大俯视角
@@ -387,15 +387,15 @@ export class Map implements ComponentInterface {
 
   addMarkers (markers) {
     // 维护已存在的marker id 列表
-    const existingIds: string[] = [] 
+    const existingIds: string[] = []
     markers.forEach((marker) => {
       if (existingIds.includes(marker.id)) {
         // 如果id已存在，直接返回，不执行后续操作
         console.error('请输入不同的marker的id')
         return
       }
-      existingIds.push(marker.id) 
-      if (marker.latitude && marker.longitude && marker.iconPath&&marker.id) {
+      existingIds.push(marker.id)
+      if (marker.latitude && marker.longitude && marker.iconPath && marker.id) {
         if (marker.latitude < -90 || marker.latitude > 90 || marker.longitude < -180 || marker.longitude > 180) {
           console.error('请正确设置marker的经纬度')
           return
@@ -666,13 +666,19 @@ export class Map implements ComponentInterface {
   /* 获取当前地图的旋转角 */
   _getRotate = () => {
     // 获取地图当前旋转角度
-    const rotation = this.rotate
+    let rotation = this.rotate
+    if (rotation < 0 || rotation > 360) {
+      rotation = 0
+    }
     return rotation
   }
 
   /* 获取当前地图的倾斜角 */
   _getSkew = () => {
-    const Skew = this.skew
+    let Skew = this.skew
+    if(Skew < 0 || Skew > 40 ){
+      Skew = 0
+    }
     return Skew
   }
 
@@ -972,7 +978,7 @@ export class Map implements ComponentInterface {
         const img = document.createElement('img')
         img.src = this._imageUrl
         // 确保opacity值在0到1之间
-        const validOpacity = (this._opacity < 0 ) ? '1' : this._opacity
+        const validOpacity = (this._opacity < 0) ? '1' : this._opacity
         img.style.opacity = validOpacity
         div.appendChild(img)
         this._div = div
@@ -1019,7 +1025,7 @@ export class Map implements ComponentInterface {
       this._div.style.width = imageWidth + 'px'
       this._div.style.height = imageHeight + 'px'
       this._div.style.display = this._visible ? 'block' : 'none'
-      const validOpacity = (this._opacity < 0 ) ? '1' : this._opacity
+      const validOpacity = (this._opacity < 0) ? '1' : this._opacity
       this._div.getElementsByTagName('img')[0].style.opacity = validOpacity
     }
 
@@ -1056,7 +1062,7 @@ export class Map implements ComponentInterface {
         const imgElement = element.querySelector('img')
         if (imgElement) {
           // 找到了对应的元素
-          const validOpacity = (opacity < 0 ) ? '1' : opacity
+          const validOpacity = (opacity < 0) ? '1' : opacity
           element.style.opacity = validOpacity
           imgElement.style.display = visible ? 'block' : 'none'
           element.style.zIndex = zIndex
@@ -1135,13 +1141,13 @@ export class Map implements ComponentInterface {
     return (
       <Host>
         <div
-          id = "mapContainer"
-          ref = {(dom) => {
+          id="mapContainer"
+          ref={(dom) => {
             if (dom) {
               this.mapRef = dom as HTMLDivElement
             }
           }}
-          style = {{ height: '400px' }}
+          style={{ height: '400px' }}
         ></div>
       </Host>
     )
