@@ -54,8 +54,6 @@ export interface ViteHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfi
   useJSON5?: boolean
   runtimePath?: string | string[]
   taroComponentsPath: string
-  postcss?: any
-  sassLoaderOption?: any
 }
 
 export interface CommonBuildConfig extends IProjectConfig<'vite'> {

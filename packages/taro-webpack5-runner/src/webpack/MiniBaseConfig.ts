@@ -2,7 +2,7 @@ import { defaultMainFields, resolveSync } from '@tarojs/helper'
 
 import { BaseConfig } from './BaseConfig'
 
-import type { MiniBuildConfig } from '../utils/types'
+import type { IMiniBuildConfig } from '../utils/types'
 
 export class MiniBaseConfig extends BaseConfig {
   defaultTerserOptions = {
@@ -43,7 +43,7 @@ export class MiniBaseConfig extends BaseConfig {
     },
   }
 
-  constructor(appPath: string, config: Partial<MiniBuildConfig>) {
+  constructor(appPath: string, config: Partial<IMiniBuildConfig>) {
     super(appPath, config)
     const mainFields = [...defaultMainFields]
     const resolveOptions = {

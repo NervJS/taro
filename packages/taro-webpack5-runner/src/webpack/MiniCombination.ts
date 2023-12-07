@@ -7,9 +7,9 @@ import { MiniBaseConfig } from './MiniBaseConfig'
 import { MiniWebpackModule } from './MiniWebpackModule'
 import { MiniWebpackPlugin } from './MiniWebpackPlugin'
 
-import type { IFileType, MiniBuildConfig } from '../utils/types'
+import type { IFileType, IMiniBuildConfig } from '../utils/types'
 
-export class MiniCombination extends Combination<MiniBuildConfig> {
+export class MiniCombination extends Combination<IMiniBuildConfig> {
   buildNativePlugin: BuildNativePlugin
   fileType: IFileType
   isBuildPlugin = false
@@ -17,7 +17,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     enable: true
   }
 
-  process (config: Partial<MiniBuildConfig>) {
+  process (config: Partial<IMiniBuildConfig>) {
     const baseConfig = new MiniBaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -82,7 +82,7 @@ export class MiniCombination extends Combination<MiniBuildConfig> {
     })
   }
 
-  getEntry (entry: MiniBuildConfig['entry']) {
+  getEntry (entry: IMiniBuildConfig['entry']) {
     return this.isBuildPlugin ? this.buildNativePlugin.entry : entry
   }
 

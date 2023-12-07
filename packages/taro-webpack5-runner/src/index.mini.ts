@@ -7,9 +7,9 @@ import { Prerender } from './prerender/prerender'
 import { MiniCombination } from './webpack/MiniCombination'
 
 import type { Stats } from 'webpack'
-import type { MiniBuildConfig } from './utils/types'
+import type { IMiniBuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
+export default async function build (appPath: string, rawConfig: IMiniBuildConfig): Promise<Stats> {
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 

@@ -6,20 +6,20 @@ import { H5WebpackModule } from './H5WebpackModule'
 import { H5WebpackPlugin } from './H5WebpackPlugin'
 
 import type { Configuration, EntryNormalized, LibraryOptions } from 'webpack'
-import type { H5BuildConfig } from '../utils/types'
+import type { IH5BuildConfig } from '../utils/types'
 
 type Output = Required<Configuration>['output']
 type Optimization = Required<Configuration>['optimization']
 type OptimizationSplitChunksOptions = Required<Optimization>['splitChunks']
 
-export class H5Combination extends Combination<H5BuildConfig> {
+export class H5Combination extends Combination<IH5BuildConfig> {
   appHelper: AppHelper
   webpackPlugin = new H5WebpackPlugin(this)
   webpackModule = new H5WebpackModule(this)
 
   isMultiRouterMode = false
 
-  process (config: Partial<H5BuildConfig>) {
+  process (config: Partial<IH5BuildConfig>) {
     const baseConfig = new H5BaseConfig(this.appPath, config)
     const chain = this.chain = baseConfig.chain
     const {
@@ -98,7 +98,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
     publicPath = '/', chunkDirectory, customOutput = {}, entryFileName = 'app'
   }: {
     publicPath: string
-    chunkDirectory: H5BuildConfig['chunkDirectory']
+    chunkDirectory: IH5BuildConfig['chunkDirectory']
     customOutput?: Output
     entryFileName?: string
   }): Output {

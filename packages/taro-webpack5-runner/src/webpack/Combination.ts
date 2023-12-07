@@ -9,11 +9,11 @@ import { componentConfig } from '../utils/component'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type { IPrebundle } from '@tarojs/webpack5-prebundle'
 import type Chain from 'webpack-chain'
-import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../utils/types'
+import type { CommonBuildConfig, IH5BuildConfig, IHarmonyBuildConfig, IMiniBuildConfig } from '../utils/types'
 
 type ICompiler = Exclude<CommonBuildConfig['compiler'], string | undefined>
 
-export class Combination<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig> {
+export class Combination<T extends IMiniBuildConfig | IH5BuildConfig | IHarmonyBuildConfig = CommonBuildConfig> {
   appPath: string
   config: T
   chain: Chain

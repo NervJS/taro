@@ -13,9 +13,9 @@ import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelpe
 import { H5Combination } from './webpack/H5Combination'
 
 import type { EntryNormalized, Stats } from 'webpack'
-import type { H5BuildConfig } from './utils/types'
+import type { IH5BuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: H5BuildConfig): Promise<Stats | void> {
+export default async function build (appPath: string, rawConfig: IH5BuildConfig): Promise<Stats | void> {
   const combination = new H5Combination(appPath, rawConfig)
   await combination.make()
 
@@ -142,7 +142,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
   }
 }
 
-async function getDevServerOptions (appPath: string, config: H5BuildConfig): Promise<WebpackDevServer.Configuration> {
+async function getDevServerOptions (appPath: string, config: IH5BuildConfig): Promise<WebpackDevServer.Configuration> {
   if (config.isBuildNativeComp) {
     return {
       devMiddleware: {

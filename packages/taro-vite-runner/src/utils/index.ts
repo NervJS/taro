@@ -158,7 +158,7 @@ export function getPostcssPlugins (appPath: string, option = {} as IPostcssOptio
   return plugins
 }
 
-export function getMinify (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig): 'terser' | 'esbuild' | boolean {
+export function getMinify (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig): 'terser' | 'esbuild' | boolean {
   const isProd = getMode(taroConfig) === 'production'
   return !isProd
     ? false
@@ -172,7 +172,7 @@ export function getMinify (taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig):
 }
 
 
-export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig): false | CSSModulesOptions {
+export function getCSSModulesOptions(taroConfig: ViteMiniBuildConfig | ViteH5BuildConfig | ViteHarmonyBuildConfig): false | CSSModulesOptions {
   if (taroConfig.postcss?.cssModules?.enable !== true) return false
   const config = recursiveMerge(
     {},

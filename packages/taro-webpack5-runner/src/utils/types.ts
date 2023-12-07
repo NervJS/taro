@@ -1,5 +1,6 @@
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { IH5Config, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
+import type { AppConfig } from '@tarojs/taro'
+import type { IH5Config, IHarmonyConfig, IMiniAppConfig, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import type { IComponentConfig } from '@tarojs/taro/types/compile/hooks'
 import type Webpack from 'webpack'
 import type { PrerenderConfig } from '../prerender/prerender'
@@ -47,7 +48,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
-export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
+export interface IMiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   isBuildPlugin: boolean
   isSupportRecursive: boolean
   isSupportXS: boolean
@@ -61,12 +62,23 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   blended?: boolean
   hot?: boolean
   /** hooks */
-  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
+  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<IMiniBuildConfig>) => Promise<any>
 }
 
-export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
+export interface IH5BuildConfig extends CommonBuildConfig, IH5Config {
   entryFileName?: string
   runtimePath?: string | string[]
+}
+
+export interface IHarmonyBuildConfig extends CommonBuildConfig, IHarmonyConfig {
+  fileType: IFileType
+  useETS?: boolean
+  useJSON5?: boolean
+  runtimePath?: string | string[]
+  taroComponentsPath: string
+  /** hooks */
+  modifyHarmonyConfig: (config: Partial<AppConfig>) => void
+  modifyHostPackageDep: (outDir: string, deps?: Record<string, string>, devDeps?: Record<string, string>) => void
 }
 
 export type AddPageChunks = (pages: Map<string, string[]>, pagesNames?: string[]) => void
