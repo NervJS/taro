@@ -865,13 +865,16 @@ export class Map implements ComponentInterface {
   _removeMarkers = (option) => {
     // 获取所有覆盖物
     const overlays = this.map.getOverlays()
+    let newTargetMarker = {}
     option.markerIds.forEach((id) => {
       // 查找指定 id 的 Marker 对象
       const targetMarker = overlays.find(
         (overlay: any) => overlay instanceof BMapGL.Marker && String(overlay.id) === id
       )
+      newTargetMarker = targetMarker
       this.map.removeOverlay(targetMarker)
     })
+    return newTargetMarker
   }
 
   /* 沿指定路径移动 marker，用于轨迹回放等场景。动画完成时触发回调事件，若动画进行中，对同一 marker 再次调用 moveAlong 方法，前一次的动画将被打断 */
@@ -1095,16 +1098,15 @@ export class Map implements ComponentInterface {
   _removeGroundOverlay = (option) => {
     // 获取所有图层
     const overlays = this.map.getOverlays()
-
+    let newTargetOverlay = ''
     // 找到要更新的图层
     const targetOverlay = overlays.find((overlay) => overlay._id === option.id)
-
+    newTargetOverlay = targetOverlay
     if (targetOverlay) {
       // 如果找到了对应的图层，执行删除操作
       this.map.removeOverlay(targetOverlay)
-    } else {
-      console.error(`未找到id为${option.id}的自定义图片图层`)
     }
+    return newTargetOverlay
   }
 
   /* 限制地图的显示范围。此接口同时会限制地图的最小缩放整数级别。 */
