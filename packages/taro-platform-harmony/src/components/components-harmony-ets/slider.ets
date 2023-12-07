@@ -1,12 +1,30 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroSliderElement } from './element'
+import type { TaroStyleType } from './type'
+
+interface SliderOptions {
+  min?: number
+  max?: number
+  value?: number
+  step?: number
+  style?: SliderStyle
+  direction?: Axis
+}
+interface SliderAttrs {
+  selectedColor?: ResourceColor
+  trackColor?: ResourceColor
+  trackThickness?: Length
+  blockColor?: ResourceColor
+}
+interface SliderParams {
+  width: string
+}
 
 @Extend(Slider)
 function style (style: TaroStyleType) {
@@ -39,16 +57,16 @@ function style (style: TaroStyleType) {
 }
 
 @Extend(Slider)
-function attrs (attr: CompType.Slider.Attrs) {
+function attrs (attr: SliderAttrs) {
   .selectedColor(attr.selectedColor)
   .trackColor(attr.trackColor)
   .trackThickness(attr.trackThickness)
   .blockColor(attr.blockColor)
 }
 
-function getAttributes (node: TaroViewElement): CompType.Slider.Attrs {
+function getAttributes (node: TaroSliderElement): SliderAttrs {
   const _attrs = node._attrs
-  const sliderAttrs: CompType.Slider.Attrs = {}
+  const sliderAttrs: SliderAttrs = {}
   sliderAttrs.selectedColor = _attrs.activeColor || _attrs.selectedColor || '#1aad19'
   sliderAttrs.trackColor = _attrs.backgroundColor || _attrs.color || '#e9e9e9'
   sliderAttrs.trackThickness = _attrs.blockSize
@@ -65,7 +83,7 @@ function themeStyles(isDisabled: boolean) {
 export default struct TaroSlider {
   nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroSliderElement
 
   @State value: number = 0
 

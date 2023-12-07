@@ -1,21 +1,29 @@
-import {
-  bindInstanceToNode,
-  bindAnimation,
-  AREA_CHANGE_EVENT_NAME,
-  eventHandler,
-  getComponentEventCallback,
-  VISIBLE_CHANGE_EVENT_NAME,
-  initComponentNodeInfo,
-} from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroVideoElement } from './element'
+import type { TaroStyleType } from './type'
+
+export interface VideoOptions {
+  src?: string | Resource
+  previewUri?: string |PixelMap | Resource
+  controller?: VideoController
+}
+export interface VideoAttrs {
+  muted?: boolean
+  controls?: boolean
+  autoPlay?: boolean
+  loop?: boolean
+  objectFit?: ImageFit
+}
+export interface VideoUpdateEvent {
+  time: number
+}
 
 @Extend(Video)
 function attrs (style: TaroStyleType) {
@@ -48,7 +56,7 @@ function attrs (style: TaroStyleType) {
 }
 
 @Extend(Video)
-function props(attr: CompType.Video.Attrs) {
+function props(attr: VideoAttrs) {
   .muted(attr.muted)
   .autoPlay(attr.autoPlay)
   .controls(attr.controls)
@@ -64,7 +72,7 @@ export default struct TaroVideo {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroVideoElement
 
   controller: VideoController = new VideoController()
 
@@ -93,9 +101,9 @@ export default struct TaroVideo {
   }
 
 
-  getVideoData (): CompType.Video.Options {
-    const src: string = this.node._attrs.src
-    const poster: string = this.node._attrs.poster
+  getVideoData (): VideoOptions {
+    const src = this.node._attrs.src
+    const poster = this.node._attrs.poster
     return {
       src,
       previewUri: poster,
@@ -103,12 +111,21 @@ export default struct TaroVideo {
     }
   }
 
-  getVideoProps (): CompType.Video.Attrs {
-    const muted: boolean = this.node._attrs.muted
-    const autoPlay: boolean = this.node._attrs.autoplay
+  getObjectFit () {
+    switch (this.node._attrs.objectFit) {
+      case 'contain': return ImageFit.Contain
+      case 'cover': return ImageFit.Cover
+      case 'fill': return ImageFit.Fill
+      default: return ImageFit.Contain
+    }
+  }
+
+  getVideoProps (): VideoAttrs {
+    const muted: boolean = this.node._attrs.muted || false
+    const autoPlay: boolean = this.node._attrs.autoplay || false
     const controls: boolean = this.node._attrs.controls || false
-    const objectFit: ImageFit = this.node._attrs.objectFit = ImageFit.Contain
-    const loop: boolean = this.node._attrs.loop
+    const objectFit: ImageFit = this.getObjectFit()
+    const loop: boolean = this.node._attrs.loop || false
     return {
       muted,
       controls,
@@ -118,7 +135,7 @@ export default struct TaroVideo {
     }
   }
 
-  handleUpdate (e: TaroAny) {
+  handleUpdate (e: VideoUpdateEvent) {
     this.nodeInfoMap[this.node._nid].currentTime = e.time
     this.emitEvent('timeUpdate', { currentTime: e.time})
   }

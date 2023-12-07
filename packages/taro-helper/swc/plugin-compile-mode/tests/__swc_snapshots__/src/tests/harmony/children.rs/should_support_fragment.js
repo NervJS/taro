@@ -5,9 +5,8 @@ import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../ut
 import { TaroIgnoreElement, eventHandler, DynamicCenter, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
 
 import type { TaroViewElement } from '../element'
-import type { TaroElement } from '../../runtime'
-import type { TaroStyleType, CompType } from '../type'
-import type { TaroAny } from '../utils/type'
+import type { TaroElement, TaroAny } from '../../runtime'
+import type { TaroStyleType, TaroTextStyleType } from '../type'
 
 @Extend(Flex)
 function attrs (style: TaroStyleType) {
@@ -79,7 +78,7 @@ function textStyle (style: TaroStyleType) {
 }
 
 @Extend(Text)
-function textAttr(attr: CompType.Text.Attrs) {
+function textAttr(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .textOverflow(attr.textOverflow)
   .maxLines(attr.maxLines)

@@ -1,4 +1,4 @@
-import { convertNumber2VP } from '@tarojs/runtime'
+import { convertNumber2VP, TaroAny } from '@tarojs/runtime'
 import matrix4 from '@ohos.matrix4'
 
 import type { TaroAny } from '@tarojs/runtime'

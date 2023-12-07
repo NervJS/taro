@@ -64,110 +64,11 @@ export interface TaroStyleType {
   focus?: boolean
 }
 
-export namespace CompType {
-  export namespace ScrollView {
-    export interface Attrs {
-      scrollBar: BarState
-    }
-    export interface CurrentOffset {
-      xOffset: number
-      yOffset: number
-    }
-    export interface ScrollEvent {
-      deltaX: number
-      deltaY: number
-      scrollLeft: number
-      scrollTop: number
-      scrollWidth: number
-      scrollHeight: number
-    }
-  }
-  export namespace Slider {
-    export interface Options {
-      min?: number
-      max?: number
-      value?: number
-      step?: number
-      style?: SliderStyle
-      direction?: Axis
-    }
-    export interface Attrs {
-      selectedColor?: ResourceColor
-      trackColor?: ResourceColor
-      trackThickness?: Length
-      blockColor?: ResourceColor
-    }
-    export interface Params {
-      width: string
-    }
-  }
-  export namespace Input {
-    export class Attrs {
-      adjustPosition?: boolean
-      cursor?: number
-      textAlign?: TextAlign
-    }
-  }
-  export namespace Text {
-    export interface Attrs {
-      textAlign?: TextAlign
-      textOverflow?: HarmonyType.Overflow
-      maxLines?: number
-      letterSpacing?: number | string
-    }
-  }
-  export namespace Checkbox {
-    export interface Options {
-      name: string
-      group: string
-    }
-    export interface Attrs {
-      selectedColor?: ResourceColor
-    }
-  }
-  export namespace Radio {
-    export interface Options {
-      group: string
-      value: string
-    }
-    export interface Attrs {
-      radioStyle?: HarmonyType.RadioStyle
-      themeStyles?: boolean
-    }
-  }
-  export namespace Switch {
-    export interface Attrs {
-      selectedColor?: ResourceColor
-    }
-  }
-  export namespace Swiper {
-    export interface Attrs {
-      index?: number
-      loop?: boolean
-      duration?: number
-      interval?: number
-      vertical?: boolean
-      autoPlay?: boolean
-      indicator?: boolean
-    }
-  }
-  export namespace Video {
-    export interface Options {
-      src?: string | Resource
-      previewUri?: string |PixelMap | Resource
-      controller?: VideoController
-    }
-    export interface Attrs {
-      muted?: boolean
-      controls?: boolean
-      autoPlay?: boolean
-      loop?: boolean
-      objectFit?: ImageFit
-    }
-    export interface UpdateEvent {
-      time: number
-    }
-  }
+export interface TaroTextStyleType {
+  textAlign?: TextAlign
+  textOverflow?: HarmonyType.Overflow
+  maxLines?: number
+  letterSpacing?: number | string
 }
 
 export namespace HarmonyType {

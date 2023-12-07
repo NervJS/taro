@@ -1,5 +1,31 @@
+// @ts-nocheck
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
+import { 
+  ButtonProps,
+  CheckboxGroupProps,
+  CheckboxProps,
+  FormProps,
+  IconProps,
+  ImageProps, InputProps,
+  LabelProps,
+  PickerDateProps,
+  PickerMultiSelectorProps,
+  PickerSelectorProps,
+  PickerTimeProps,
+  RadioGroupProps,
+  RadioProps,
+  RichTextProps,
+  ScrollViewProps,
+  SliderProps,
+  StandardProps,
+  SwiperItemProps,
+  SwiperProps,
+  SwitchProps,
+  TextareaProps,
+  TextProps,
+  VideoProps
+} from '../../components/types'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
 import { findChildNodeWithDFS, isElement } from '../utils'
 import { triggerAttributesCallback } from '../utils/info'
@@ -10,9 +36,15 @@ import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 
-class TaroElement extends TaroNode {
+interface TaroAttributeProps extends StandardProps {
+  compileMode?: string | boolean
+  compileIf?: boolean
+  disabled?: boolean
+}
 
-  public _attrs: Record<string, any> = {}
+export class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> extends TaroNode {
+
+  public _attrs: T = {}
 
   private _innerHTML = ''
   public readonly tagName: string
@@ -104,7 +136,7 @@ class TaroElement extends TaroNode {
     }, false)
   }
 
-  public getElementsByTagName (tagName: string): TaroElement[] {
+  public getElementsByTagName<T> (tagName: string): T[] {
     return findChildNodeWithDFS(this, (el) => {
       return el.nodeName === tagName || (tagName === '*' && this !== el)
     }, true) || []
@@ -142,32 +174,32 @@ class TaroElement extends TaroNode {
   }
 }
 
-class TaroViewElement extends TaroElement {
+export class TaroViewElement extends TaroElement {
   constructor() {
     super('View')
   }
 }
 
-class TaroTextElement extends TaroElement {
+export class TaroTextElement extends TaroElement<TextProps> {
   constructor() {
     super('Text')
   }
 }
 
-class TaroImageElement extends TaroElement {
+export class TaroImageElement extends TaroElement<ImageProps> {
   constructor() {
     super('Image')
   }
 }
 
-class TaroButtonElement extends TaroElement {
+export class TaroButtonElement extends TaroElement<ButtonProps> {
   constructor() {
     super('Button')
   }
 }
 
 
-class TaroFormWidgetElement extends TaroElement {
+export class TaroFormWidgetElement<T extends TaroAttributeProps = TaroAttributeProps> extends TaroElement<T> {
 
   public get name () {
     return this._attrs.name
@@ -189,7 +221,7 @@ class TaroFormWidgetElement extends TaroElement {
   }
 }
 
-class TaroInputElement extends TaroFormWidgetElement {
+export class TaroInputElement extends TaroFormWidgetElement<InputProps> {
   constructor() {
     super('Input')
   }
@@ -210,7 +242,7 @@ class TaroInputElement extends TaroFormWidgetElement {
   }
 }
 
-class TaroSliderElement extends TaroFormWidgetElement {
+export class TaroSliderElement extends TaroFormWidgetElement<SliderProps> {
   constructor() {
     super('Slider')
   }
@@ -230,7 +262,7 @@ class TaroSliderElement extends TaroFormWidgetElement {
   }
 }
 
-class TaroSwitchElement extends TaroFormWidgetElement {
+export class TaroSwitchElement extends TaroFormWidgetElement<SwitchProps> {
   constructor() {
     super('Switch')
   }
@@ -250,7 +282,7 @@ class TaroSwitchElement extends TaroFormWidgetElement {
   }
 }
 
-class TaroCheckboxGroupElement extends TaroFormWidgetElement {
+export class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps> {
   constructor() {
     super('CheckboxGroup')
   }
@@ -262,7 +294,7 @@ class TaroCheckboxGroupElement extends TaroFormWidgetElement {
   }
 }
 
-class TaroRadioGroupElement extends TaroFormWidgetElement {
+export class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   constructor() {
     super('RadioGroup')
   }
@@ -275,7 +307,7 @@ class TaroRadioGroupElement extends TaroFormWidgetElement {
 
 }
 
-class TaroPickerElement extends TaroFormWidgetElement {
+export class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
   constructor() {
     super('Picker')
   }
@@ -296,7 +328,7 @@ class TaroPickerElement extends TaroFormWidgetElement {
   }
 }
 
-class TaroVideoElement extends TaroElement {
+export class TaroVideoElement extends TaroElement<VideoProps> {
   constructor() {
     super('Video')
   }
@@ -338,7 +370,55 @@ class TaroVideoElement extends TaroElement {
   }
 }
 
-class TaroIgnoreElement extends TaroElement {
+export class TaroScrollViewElement extends TaroElement<ScrollViewProps> {
+  constructor() {
+    super('ScrollView')
+  }
+}
+export class TaroCheckboxElement extends TaroElement<CheckboxProps> {
+  constructor() {
+    super('Checkbox')
+  }
+}
+export class TaroRadioElement extends TaroElement<RadioProps> {
+  constructor() {
+    super('Radio')
+  }
+  
+  public group?: string
+}
+export class TaroIconElement extends TaroElement<IconProps> {
+  constructor() {
+    super('Icon')
+  }
+}
+export class TaroLabelElement extends TaroElement<LabelProps> {
+  constructor() {
+    super('Label')
+  }
+}
+export class TaroRichTextElement extends TaroElement<RichTextProps> {
+  constructor() {
+    super('RichText')
+  }
+}
+export class TaroSwiperElement extends TaroElement<SwiperProps> {
+  constructor() {
+    super('Swiper')
+  }
+}
+export class TaroSwiperItemElement extends TaroElement<SwiperItemProps> {
+  constructor() {
+    super('SwiperItem')
+  }
+}
+export class TaroTextAreaElement extends TaroElement<TextareaProps> {
+  constructor() {
+    super('TextArea')
+  }
+}
+
+export class TaroIgnoreElement extends TaroElement {
   isIgnore = true
 
   constructor() {
@@ -346,8 +426,10 @@ class TaroIgnoreElement extends TaroElement {
   }
 }
 
-class FormElement extends TaroElement {
-
+export class FormElement extends TaroElement<FormProps> {
+  constructor() {
+    super('Form')
+  }
   // public get type () {
   //   return this._attrs.type ?? ''
   // }
@@ -365,23 +447,5 @@ class FormElement extends TaroElement {
   public set value (val: string | boolean | number | any[]) {
     this.setAttribute('value', val)
   }
-}
-
-export {
-  FormElement,
-  TaroButtonElement,
-  TaroCheckboxGroupElement,
-  TaroElement,
-  TaroFormWidgetElement,
-  TaroIgnoreElement,
-  TaroImageElement,
-  TaroInputElement,
-  TaroPickerElement,
-  TaroRadioGroupElement,
-  TaroSliderElement,
-  TaroSwitchElement,
-  TaroTextElement,
-  TaroVideoElement,
-  TaroViewElement,
 }
 

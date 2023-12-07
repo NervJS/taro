@@ -1,15 +1,21 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny, TaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createNode } from './render'
 import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
-import { AttributeManager } from './utils/AttributeManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroCheckboxGroupElement, TaroElement, TaroViewElement } from './element'
-import type { CompType, TaroStyleType } from './type'
+import type { TaroCheckboxElement, TaroCheckboxGroupElement, TaroElement } from './element'
+import type { TaroStyleType } from './type'
+
+interface CheckboxOptions {
+  name?: string
+  group?: string
+}
+interface CheckboxAttrs {
+  selectedColor?: ResourceColor
+}
 
 @Extend(Checkbox)
 function checkboxStyle (style: TaroStyleType) {
@@ -42,24 +48,21 @@ function checkboxStyle (style: TaroStyleType) {
 }
 
 @Extend(Checkbox)
-function checkboxAttr(attr: CompType.Checkbox.Attrs) {
+function checkboxAttr(attr: CheckboxAttrs) {
   .selectedColor(attr.selectedColor)
 }
 
-function getAttributes (node: TaroViewElement | TaroCheckboxGroupElement): CompType.Checkbox.Attrs {
+function getAttributes (node: TaroCheckboxElement): CheckboxAttrs {
   const _attrs = node._attrs
-  const checkboxAttrs: CompType.Checkbox.Attrs = {}
+  const checkboxAttrs: CheckboxAttrs = {}
   checkboxAttrs.selectedColor = _attrs.color || '#1aad19'
   return checkboxAttrs
 }
 
-function getOptions (node: TaroViewElement): CompType.Checkbox.Options {
-  const _attrs = node._attrs || {}
-  const name: string = _attrs.name
-  const value: string = _attrs.value
+function getOptions (node: TaroCheckboxElement): CheckboxOptions {
+  const value: string = node._attrs.value
   return {
-    name: name || value || node.textContent,
-    group: name || node.parentNode ? AttributeManager.getNodeStyle(node.parentElement?._attrs, 'id', node.parentNode?._nid) : '',
+    name: value || node.textContent
   }
 }
 
@@ -68,7 +71,7 @@ function getOptions (node: TaroViewElement): CompType.Checkbox.Options {
 export struct TaroCheckbox {
   nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroCheckboxElement
 
   @State checked: boolean = false
 
@@ -183,7 +186,7 @@ export struct TaroCheckboxGroup {
 
   // Element使用的获取值方法
   getValues () {
-    const childList = this.node.getElementsByTagName('CHECKBOX')
+    const childList = this.node.getElementsByTagName<TaroCheckboxElement>('CHECKBOX')
     const result: string[] = []
     childList.forEach(element => {
       if (element._instance.checked) {
@@ -191,13 +194,6 @@ export struct TaroCheckboxGroup {
       }
     })
     return result
-  }
-
-  // Element使用的重置方法
-  reset () {
-    this.node.getElementsByTagName('CHECKBOX').forEach(element => {
-      element._instance.checked = element._attrs.checked
-    })
   }
 
   @Styles defaultEvent () {

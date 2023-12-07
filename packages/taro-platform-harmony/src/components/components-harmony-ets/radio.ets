@@ -1,4 +1,8 @@
-import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindAnimation, bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroElement,
+  TaroAny,
+  TaroEvent
+} from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -8,9 +12,17 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroElement, TaroEvent } from '@tarojs/runtime'
-import type { TaroRadioGroupElement, TaroViewElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroRadioGroupElement, TaroRadioElement } from './element'
+import type { TaroStyleType, HarmonyType } from './type'
+
+interface RadioOptions {
+  group: string
+  value: string
+}
+interface RadioAttrs {
+  radioStyle?: HarmonyType.RadioStyle
+  themeStyles?: boolean
+}
 
 @Extend(Radio)
 function style (style: TaroStyleType) {
@@ -43,18 +55,17 @@ function style (style: TaroStyleType) {
 }
 
 @Extend(Radio)
-function radioAttr (attr: CompType.Radio.Attrs) {
+function radioAttr (attr: RadioAttrs) {
   .radioStyle(attr.radioStyle)
   .themeStyles(attr.themeStyles)
 }
 
-function getAttributes (node: TaroViewElement): CompType.Radio.Attrs {
-  const _attrs = node._attrs
-  const radioAttrs: CompType.Radio.Attrs = {}
+function getAttributes (node: TaroRadioElement): RadioAttrs {
+  const radioAttrs: RadioAttrs = {}
   radioAttrs.radioStyle = {
-    checkedBackgroundColor: _attrs.color || '#1aad19'
+    checkedBackgroundColor: node._attrs.color || '#1aad19'
   }
-  radioAttrs.themeStyles = !!_attrs.disabled
+  radioAttrs.themeStyles = !!node._attrs.disabled
   return radioAttrs
 }
 
@@ -67,7 +78,7 @@ function themeStyles(isDisabled: boolean) {
 export struct TaroRadio {
   nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroRadioElement
 
   @State checked: boolean = false
 
@@ -91,8 +102,8 @@ export struct TaroRadio {
       Stack() {
         Row() {
           Radio({
-            group: this.node._attrs.name || AttributeManager.getNodeStyle(this.node.parentElement?._attrs, 'id', this.node.parentNode?._nid),
-            value: this.node._attrs.value,
+            group: this.node.group || this.node.parentNode?._nid || '',
+            value: this.node._attrs.value || '',
           })
             .checked(this.checked)
             .defaultEvent()
@@ -171,9 +182,9 @@ export struct TaroRadioGroup {
     bindInstanceToNode(this.node, this)
     // 绑定动画
     bindAnimation(this.node)
-    const childList = this.node.getElementsByTagName('RADIO')
+    const childList = this.node.getElementsByTagName<TaroRadioElement>('RADIO')
     childList.forEach(element => {
-      element._attrs.name = this.node._attrs.name
+      element.group = this.node._attrs.name || this.node._nid
     })
     // 阻止事件冒泡传递上去
     this.node.addEventListener('change', (e: TaroEvent) => e.stopPropagation())
@@ -181,20 +192,13 @@ export struct TaroRadioGroup {
 
   // Element使用的获取器
   getValue (): string | undefined {
-    const childList: TaroElement[] = this.node.getElementsByTagName('RADIO')
+    const childList = this.node.getElementsByTagName<TaroRadioElement>('RADIO')
     for (let i = 0; i < childList.length; i++) {
       if (childList[i]._instance.checked) {
         return childList[i]._attrs.value
       }
     }
     return undefined
-  }
-
-  // Element使用的重置方法
-  reset () {
-    this.node.getElementsByTagName('RADIO').forEach(element => {
-      element._instance.checked = element._attrs.checked
-    })
   }
 
   @Styles defaultEvent () {

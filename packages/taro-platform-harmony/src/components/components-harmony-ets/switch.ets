@@ -1,12 +1,16 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroSwitchElement } from './element'
+import type { TaroStyleType } from './type'
+
+interface SwitchAttrs {
+  selectedColor?: ResourceColor
+}
 
 @Extend(Toggle)
 function styles (style: TaroStyleType) {
@@ -39,13 +43,13 @@ function styles (style: TaroStyleType) {
 }
 
 @Extend(Toggle)
-function attrs(attr: CompType.Switch.Attrs) {
+function attrs(attr: SwitchAttrs) {
   .selectedColor(attr.selectedColor)
 }
 
-function getAttributes (node: TaroViewElement): CompType.Switch.Attrs {
+function getAttributes (node: TaroSwitchElement): SwitchAttrs {
   const _attrs = node._attrs
-  const switchStyle: CompType.Switch.Attrs = {}
+  const switchStyle: SwitchAttrs = {}
   switchStyle.selectedColor = _attrs.color || '#04BE02'
   return switchStyle
 }
@@ -59,7 +63,7 @@ function themeStyles(isDisabled: boolean) {
 export default struct TaroSwitch {
   nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroSwitchElement
 
   @State value: boolean = false
 

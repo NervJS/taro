@@ -1,4 +1,7 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
+  TaroAny,
+  TaroEvent
+} from '@tarojs/runtime'
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
 import { getSingleSelector, getMultiSelector } from './utils'
@@ -7,9 +10,11 @@ import { FlexManager } from './utils/FlexManager'
 import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement, TaroElement } from './element'
+import type { TaroPickerElement, TaroElement } from './element'
 import type { TaroStyleType } from './type'
+
+import { getSingleSelector, getMultiSelector } from './utils'
+import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
 
 @Extend(TextPicker)
 function textPickerAttrs (style: TaroStyleType) {
@@ -81,7 +86,7 @@ interface TimeRange {
 @CustomDialog
 export struct PickerView {
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroPickerElement
 
   @Link select: string | number
 
@@ -92,21 +97,19 @@ export struct PickerView {
   showSelector: number[] = []
 
   getDateOptions (): DatePickerOptions {
-    const value: string = this.node._attrs.value
-    const start: string = this.node._attrs.start
-    const end: string = this.node._attrs.end
+    const _attrs = this.node._attrs as PickerDateProps
     return {
-      start: new Date(start),
-      end: new Date(end),
-      selected: new Date(value),
+      start: new Date(_attrs.start || ''),
+      end: new Date(_attrs.end || ''),
+      selected: new Date(_attrs.value || ''),
     }
   }
 
   getTextOptions (): TextPickerOptions {
-    let mode: string = this.node._attrs.mode
-    const value: TaroAny = this.node._attrs.value
-    const range: TaroAny = this.node._attrs.range
+    let mode: string = this.node._attrs.mode || 'selector'
     if (!mode) {
+      const _attrs = this.node._attrs as PickerSelectorProps
+      const range = _attrs.range
       if (range && range.length && range[0] instanceof Array) {
         mode = 'multiSelector'
       }
@@ -114,39 +117,38 @@ export struct PickerView {
     }
     switch (mode) {
       case 'time': {
-        const value: string = this.node._attrs.value
-        const start: string = this.node._attrs.start
-        const end: string = this.node._attrs.end
+        const _attrs = this.node._attrs as PickerTimeProps
         let timeRange: TimeRange = {
           startHH: 0,
           startMM: 0,
           endHH: 23,
           endMM: 59
         }
-        if (start) {
-          const _start = start.split(':')
+        if (_attrs.start) {
+          const _start = _attrs.start.split(':')
           timeRange.startHH = parseInt(_start[0])
           timeRange.startMM = parseInt(_start[1])
         }
-        if (end) {
-          const _end = end.split(':')
+        if (_attrs.end) {
+          const _end = _attrs.end.split(':')
           timeRange.endHH = parseInt(_end[0])
           timeRange.endMM = parseInt(_end[1])
         }
         const left = generateNumberArray(timeRange.startHH, timeRange.endHH)
         const right =  generateNumberArray(timeRange.startMM, timeRange.endMM)
         const range = [left, right]
-        const _selected = value.split(':')
+        const _selected = _attrs.value.split(':')
         return {
           range: range,
           selected: [left.findIndex(i => parseInt(_selected[0]) === Number(i)), right.findIndex(i => parseInt(_selected[1]) === Number(i))],
         }
       }
       case 'multiSelector': {
-        const rangeKey: TaroAny = this.node._attrs.rangeKey
-        let showRange: TaroAny = range
+        const _attrs = this.node._attrs as PickerMultiSelectorProps
+        const value = _attrs.value as number[]
+        let showRange = _attrs.range as string[][]
         this.showSelector = value
-        showRange = getMultiSelector(this, range, rangeKey, value)
+        showRange = getMultiSelector(this, _attrs.range, _attrs.rangeKey, value)
         let selects: string | number | string[] | number[] = this.select
         if (typeof selects === 'string') {
           selects = selects.split(',').map(i => Number(i))
@@ -157,14 +159,15 @@ export struct PickerView {
         }
       }
       default: {
-        const rangeKey: TaroAny = this.node._attrs.rangeKey
-        let showRange: TaroAny = range
-        if (rangeKey && typeof range[0] === 'object') {
-          showRange = getSingleSelector(this, range, rangeKey)
+        const _attrs = this.node._attrs as PickerSelectorProps
+        const range = _attrs.range
+        let showRange = _attrs.range as string[]
+        if (_attrs.rangeKey && typeof range[0] === 'object') {
+          showRange = getSingleSelector(this, range, _attrs.rangeKey)
         }
         return {
           range: showRange,
-          selected: this.select || value
+          selected: (this.select as number) || _attrs.value
         }
       }
     }
@@ -176,6 +179,15 @@ export struct PickerView {
     eventHandler(event, type, this.node)
   }
 
+  getText = () => {
+    if (this.node._attrs.mode === 'selector') {
+      const _attrs = this.node._attrs as PickerSelectorProps
+      return [_attrs.textProps?.okText || '确认', _attrs.textProps?.cancelText || '取消']
+    } else {
+      return ['确认', '取消']
+    }
+  }
+
   @Builder
   showDialog() {
     Column() {
@@ -184,11 +196,11 @@ export struct PickerView {
         justifyContent: FlexAlign.SpaceBetween,
         alignItems: ItemAlign.Center
       }) {
-        Text(this.node._attrs.textProps?.cancelText || '取消').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
+        Text(this.getText()[1]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
           this.emitEvent('cancel')
           this.controller?.close()
         })
-        Text(this.node._attrs.textProps?.okText || '确认').fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
+        Text(this.getText()[0]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
           this.emitEvent('change', { value: this.select})
           this.controller?.close()
         })
@@ -273,7 +285,7 @@ export default struct TaroPicker {
 
   @State select: string = ''
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroPickerElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -281,7 +293,7 @@ export default struct TaroPicker {
     // 绑定动画
     bindAnimation(this.node)
 
-    this.select = this.node._attrs.value
+    this.select = this.node._attrs.value as TaroAny
 
     this.node.addEventListener('click', this.handleClick)
   }

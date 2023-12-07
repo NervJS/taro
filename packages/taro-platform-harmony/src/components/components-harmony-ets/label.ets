@@ -1,4 +1,5 @@
-import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, Current, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode, AREA_CHANGE_EVENT_NAME,
+  TaroAny } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -6,8 +7,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny } from '@tarojs/runtime'
-import type { TaroElement } from './element'
+import type { TaroLabelElement, TaroElement } from './element'
 import type { TaroStyleType } from './type'
 
 @Extend(Flex)
@@ -48,7 +48,7 @@ export default struct TaroLabel {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
-  @ObjectLink node: TaroElement
+  @ObjectLink node: TaroLabelElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -59,8 +59,8 @@ export default struct TaroLabel {
 
   @Styles defaultEvent () {
     .onClick((e: ClickEvent) => {
-      const firstChild = this.node.childNodes[0] as TaroElement
-      const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid
+      const firstChild = this.node.childNodes[0] as TaroElement | null
+      const id: string = this.node._attrs.for || firstChild?._attrs.id || firstChild?._nid || ''
       this.handleTargetChange(id)
       eventHandler(e, 'click', this.node)
     })
@@ -75,7 +75,7 @@ export default struct TaroLabel {
     const taro: TaroAny = Current.taro
     const page: TaroAny = taro.getCurrentInstance().page
     const currentPageNode: TaroElement = getPageScrollerOrNode(page.node, page)
-    const node = currentPageNode.getElementById(id)
+    const node: TaroElement | null = currentPageNode.getElementById(id)
 
     if (!node || !node._instance) return
 

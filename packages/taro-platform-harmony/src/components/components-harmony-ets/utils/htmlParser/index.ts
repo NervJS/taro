@@ -1,4 +1,4 @@
-import { document } from '@tarojs/runtime'
+import { document, TaroElement } from '@tarojs/runtime'
 
 import parseHTML, { TTreeNode } from './HarmonyHTMLParser'
 
@@ -10,6 +10,7 @@ function buildDomTree(dom: TTreeNode) {
   switch (name) {
     case 'root': tagName = 'view'; break
     case 'img': tagName = 'image'; break
+    case 'div': tagName = 'view'; break
     case 'p': tagName = 'text'; break
     case 'span': tagName = 'text'; break
   }
@@ -48,7 +49,7 @@ function fixBrokenTags(htmlString) {
   return fixedHTML
 }
 
-export default function htmlParser(htmlString: string) {
+export default function htmlParser(htmlString: string): TaroElement {
   htmlString = fixBrokenTags(htmlString)
   const trees = parseHTML(`<root>${htmlString}</root>`)
   return buildDomTree(trees[0])

@@ -29,54 +29,78 @@ import TaroVideo from './video'
 import TaroForm from './form'
 import { NodeType } from '../runtime'
 ${this.generateRenderImport()}
-import type { TaroRadioGroupElement, TaroInputElement, TaroCheckboxGroupElement, TaroElement } from '../runtime'
+import type { TaroElement } from '../runtime'
+
+import type {
+  TaroViewElement,
+  TaroCheckboxElement,
+  TaroFormElement,
+  TaroIconElement,
+  TaroLabelElement, 
+  TaroPickerElement, 
+  TaroRadioElement,
+  TaroRichTextElement,
+  TaroRadioGroupElement, 
+  TaroInputElement, 
+  TaroCheckboxGroupElement,
+  TaroTextAreaElement,
+  TaroVideoElement,
+  TaroSwiperItemElement,
+  TaroSwiperElement,
+  TaroSwitchElement,
+  TaroSliderElement,
+  TaroScrollViewElement,
+  TaroButtonElement,
+  TaroTextElement,
+  TaroImageElement
+} from './element'
 
 @Builder
 function createNode (node: TaroElement) {
   ${this.generateRenderCondition()}if (node.tagName === 'VIEW') {
-    TaroView({ node })
+    TaroView({ node: node as TaroViewElement })
   } else if (node.tagName === 'IMAGE') {
-    TaroImage({ node })
+    TaroImage({ node: node as  TaroImageElement })
   } else if (node.tagName === 'TEXT' || node.nodeType === NodeType.TEXT_NODE) {
-    TaroText({ node })
+    TaroText({ node: node as  TaroTextElement })
   } else if (node.tagName === 'BUTTON') {
-    TaroButton({ node })
+    TaroButton({ node: node as TaroButtonElement })
   } else if (node.tagName === 'SCROLL-VIEW') {
-    TaroScrollView({ node })
+    TaroScrollView({ node: node as TaroScrollViewElement })
   } else if (node.tagName === 'SLIDER') {
-    TaroSlider({ node })
+    TaroSlider({ node: node as TaroSliderElement })
   } else if (node.tagName === 'SWITCH') {
-    TaroSwitch({ node })
+    TaroSwitch({ node: node as TaroSwitchElement })
   } else if (node.tagName === 'INPUT') {
     TaroInput({ node: node as TaroInputElement })
   } else if (node.tagName === 'SWIPER') {
-    TaroSwiper({ node })
+    TaroSwiper({ node: node as  TaroSwiperElement })
   } else if (node.tagName === 'SWIPER-ITEM') {
-    TaroSwiperItem({ node })
+    TaroSwiperItem({ node: node as  TaroSwiperItemElement })
   } else if (node.tagName === 'INNER-HTML') {
     TaroInnerHtml({ node })
   } else if (node.tagName === 'RICH-TEXT') {
-    TaroRichText({ node })
+    TaroRichText({ node: node as  TaroRichTextElement })
   } else if (node.tagName === 'ICON') {
-    TaroIcon({ node })
+    TaroIcon({ node: node as  TaroIconElement })
   } else if (node.tagName === 'TEXTAREA') {
-    TaroTextArea({ node })
+    TaroTextArea({ node: node as  TaroTextAreaElement })
   } else if (node.tagName === 'CHECKBOX-GROUP') {
     TaroCheckboxGroup({ node: node as TaroCheckboxGroupElement })
   } else if (node.tagName === 'CHECKBOX') {
-    TaroCheckbox({ node })
+    TaroCheckbox({ node: node as  TaroCheckboxElement })
   } else if (node.tagName === 'RADIO-GROUP') {
     TaroRadioGroup({ node: node as TaroRadioGroupElement })
   } else if (node.tagName === 'RADIO') {
-    TaroRadio({ node })
+    TaroRadio({ node: node as  TaroRadioElement })
   } else if (node.tagName === 'LABEL') {
-    TaroLabel({ node })
+    TaroLabel({ node: node as  TaroLabelElement })
   } else if (node.tagName === 'PICKER') {
-    TaroPicker({ node })
+    TaroPicker({ node: node as  TaroPickerElement })
   } else if (node.tagName === 'FORM') {
-    TaroForm({ node })
+    TaroForm({ node: node as  TaroFormElement })
   } else if (node.tagName === 'VIDEO') {
-    TaroVideo({ node })
+    TaroVideo({ node: node as  TaroVideoElement })
   }
 }
 
@@ -103,7 +127,7 @@ export { createNode }
       const keyData = key.split('_')
       const name = keyData[keyData.length - 1]
       result = `${result}if (node._attrs?.compileMode === '${name}') {
-    ${key}({ node })
+    ${key}({ node: node as TaroViewElement })
   } else `
     })
 

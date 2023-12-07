@@ -5,24 +5,29 @@ import { AttributeManager } from './AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
 import type { TaroAny, TaroElement } from '@tarojs/runtime'
-import type { TaroStyleType, CompType, HarmonyType, HarmonyStyle } from '../type'
+import type { StandardProps } from '@tarojs/components/types'
 
-export function getFontAttributes (node: TaroElement): CompType.Text.Attrs {
+import type { TaroStyleType, TaroTextStyleType, HarmonyType, HarmonyStyle } from '../type'
+
+export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const _st = node._st
 
-  return {
+  const attributes: HarmonyStyle =  {
     maxLines: Number(AttributeManager.getNodeStyle(_st, 'WebkitLineClamp')) || Infinity,
     // 已做处理的属性
     letterSpacing: AttributeManager.getStyleAfterConvert(_st, 'letterSpacing'),
     textAlign: AttributeManager.getStyleAfterConvert(_st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
     textOverflow:  AttributeManager.getStyleAfterConvert(_st, 'textOverflow', TEXT_DEFAULT_STYLE.TEXT_OVERFLOW),
   }
+  transformW3CToHarmonyInStyle(_st, attributes)
+
+  return attributes
 }
 
 export function getNormalAttributes (node: TaroElement): TaroStyleType {
   const _st = node._st
   const _nid = node._nid
-  const _attrs = node._attrs
+  const _attrs: StandardProps = node._attrs
 
   const linearGradient: HarmonyType.LinearGradient[] = AttributeManager.getStyleAfterConvert(_st, 'linearGradient')
 

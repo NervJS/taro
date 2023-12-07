@@ -1,11 +1,10 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, isElement, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { getNodeThresholds, transformW3CToHarmonyInStyle, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroTextNode } from '@tarojs/runtime'
-import type { TaroTextElement, TaroElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroTextElement } from './element'
+import type { TaroStyleType, TaroTextStyleType } from './type'
 
 @Extend(Text)
 function textStyle (style: TaroStyleType) {
@@ -48,7 +47,7 @@ function textStyle (style: TaroStyleType) {
 }
 
 @Extend(Text)
-function textAttr(attr: CompType.Text.Attrs) {
+function textAttr(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .textOverflow(attr.textOverflow)
   .maxLines(attr.maxLines)

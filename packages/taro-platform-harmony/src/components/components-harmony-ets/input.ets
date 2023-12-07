@@ -1,7 +1,8 @@
 import window from '@ohos.window'
 import common from '@ohos.app.ability.common'
 import { isNumber, isUndefined } from '@tarojs/shared'
-import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
@@ -11,7 +12,11 @@ import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/c
 
 import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 import type { TaroInputElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroStyleType } from './type'
+
+interface InputAttrs {
+  textAlign?: TextAlign
+}
 
 @Extend(TextInput)
 function styles (style: TaroStyleType) {
@@ -49,32 +54,16 @@ function styles (style: TaroStyleType) {
 }
 
 @Extend(TextInput)
-function attrs(attr: CompType.Input.Attrs) {
+function attrs(attr: InputAttrs) {
   .textAlign(attr.textAlign)
-  .enableKeyboardOnFocus(!!attr.adjustPosition)
-  .caretPosition(attr.cursor)
 }
 
-function getAttributes(node: TaroInputElement): CompType.Input.Attrs {
-  const _attrs = node._attrs
+
+function getAttributes(node: TaroInputElement): InputAttrs {
   return {
-    adjustPosition: _attrs.adjustPosition !== false,
-    cursor: Number(_attrs.cursor) || 0,
     textAlign: AttributeManager.getStyleAfterConvert(node._st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
   }
 }
-
-
-// function getFontAttributes (node: TaroInputElement) {
-//   const _st = node._st
-//   return {
-//     fontColor: AttributeManager.getStyleAfterConvert(_st, 'color', TEXT_DEFAULT_STYLE.COLOR),
-//     fontSize: AttributeManager.getStyleAfterConvert(_st, 'fontSize', TEXT_DEFAULT_STYLE.FONT_SIZE),
-//     textAlign: AttributeManager.getStyleAfterConvert(_st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
-//     fontWeight: AttributeManager.getStyleAfterConvert(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_WEIGHT),
-//     fontFamily: AttributeManager.getStyleAfterConvert(_st, 'fontWeight', TEXT_DEFAULT_STYLE.FONT_FAMILY)
-//   }
-// }
 
 @Component
 struct TaroInput {
@@ -146,15 +135,15 @@ struct TaroInput {
   }
 
   getPlaceholderColor (node: TaroInputElement): string {
-    const placeholderTextColor: string = node._attrs.placeholderTextColor
-    const placeholderStyle: string = node._attrs.placeholderStyle
+    const placeholderTextColor: string = node._attrs.placeholderTextColor || ''
+    const placeholderStyle: string = node._attrs.placeholderStyle || ''
 
     return placeholderTextColor || parseStyles(placeholderStyle)?.color
   }
 
   getInputType (node: TaroInputElement) {
     if (node._attrs?.password) return InputType.Password
-    return INPUT_TYPE_MAP.get(node._attrs?.type) || InputType.Normal
+    return INPUT_TYPE_MAP.get(node._attrs?.type || '') || InputType.Normal
   }
 
   getText (): string {

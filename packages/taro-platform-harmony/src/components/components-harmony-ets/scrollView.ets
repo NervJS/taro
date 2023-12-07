@@ -1,4 +1,5 @@
-import { bindScrollTo, bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindScrollTo, bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -6,9 +7,24 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement, TaroElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroScrollViewElement, TaroElement } from './element'
+import type { TaroStyleType } from './type'
+
+interface ScrollViewAttrs {
+  scrollBar: BarState
+}
+interface ScrollViewCurrentOffset {
+  xOffset: number
+  yOffset: number
+}
+interface ScrollViewEvent {
+  deltaX: number
+  deltaY: number
+  scrollLeft: number
+  scrollTop: number
+  scrollWidth: number
+  scrollHeight: number
+}
 
 @Extend(Row)
 function rowAttrs (style: TaroStyleType) {
@@ -71,9 +87,9 @@ function columnAttrs (style: TaroStyleType) {
 }
 
 
-function getAttributes (node: TaroViewElement): CompType.ScrollView.Attrs {
+function getAttributes (node: TaroScrollViewElement): ScrollViewAttrs {
   const _attrs = node._attrs
-  const scrollAttrs: CompType.ScrollView.Attrs = {
+  const scrollAttrs: ScrollViewAttrs = {
     scrollBar: typeof _attrs.showScrollbar === 'boolean'
       ? _attrs.showScrollbar ? BarState.On : BarState.Off
       : BarState.Auto
@@ -94,7 +110,7 @@ export default struct TaroScrollView {
 
   scroller: Scroller = new Scroller()
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroScrollViewElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -121,10 +137,10 @@ export default struct TaroScrollView {
 
 
   handleScrollEvent (eventName = 'scroll', xOffset?: number, yOffset?: number) {
-    const currentOffset: CompType.ScrollView.CurrentOffset = this.scroller.currentOffset()
+    const currentOffset: ScrollViewCurrentOffset = this.scroller.currentOffset()
     const currentXOffset = currentOffset.xOffset
     const currentYOffset = currentOffset.yOffset
-    const value: CompType.ScrollView.ScrollEvent = {
+    const value: ScrollViewEvent = {
       deltaX: vp2px(xOffset),
       deltaY: vp2px(yOffset),
       scrollLeft: vp2px(currentXOffset),

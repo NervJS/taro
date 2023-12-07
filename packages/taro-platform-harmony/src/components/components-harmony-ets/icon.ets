@@ -1,12 +1,12 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny } from '@tarojs/runtime'
-import type { TaroImageElement } from './element'
+import type { TaroIconElement } from './element'
 import type { TaroStyleType } from './type'
+
 
 @Extend(Image)
 function attrs (style: TaroStyleType) {
@@ -46,7 +46,7 @@ export default struct TaroIcon {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
-  @ObjectLink node: TaroImageElement
+  @ObjectLink node: TaroIconElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)

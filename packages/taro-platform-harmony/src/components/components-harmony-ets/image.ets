@@ -1,4 +1,4 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'

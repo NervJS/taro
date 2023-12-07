@@ -1,4 +1,5 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -7,9 +8,18 @@ import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement, TaroElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroSwiperElement, TaroSwiperItemElement, TaroElement } from './element'
+import type { TaroStyleType } from './type'
+
+interface SwiperAttrs {
+  index?: number
+  loop?: boolean
+  duration?: number
+  interval?: number
+  vertical?: boolean
+  autoPlay?: boolean
+  indicator?: boolean
+}
 
 @Extend(Swiper)
 function swiperStyle (style: TaroStyleType) {
@@ -42,7 +52,7 @@ function swiperStyle (style: TaroStyleType) {
 }
 
 @Extend(Swiper)
-function swiperAttr (attr: CompType.Swiper.Attrs) {
+function swiperAttr (attr: SwiperAttrs) {
   .index(attr.index)
   .loop(attr.loop)
   .duration(attr.duration)
@@ -52,13 +62,13 @@ function swiperAttr (attr: CompType.Swiper.Attrs) {
   .indicator(attr.indicator)
 }
 
-function getSwiperAttributes (node: TaroViewElement): CompType.Swiper.Attrs {
+function getSwiperAttributes (node: TaroSwiperElement): SwiperAttrs {
   const _attrs = node._attrs
-  const swiperAttrs: CompType.Swiper.Attrs = {}
+  const swiperAttrs: SwiperAttrs = {}
   swiperAttrs.index = _attrs.current || 0
-  swiperAttrs.loop = _attrs.loop || true
-  swiperAttrs.duration = _attrs.duration || 400
-  swiperAttrs.interval = _attrs.interval || 3000
+  swiperAttrs.loop = _attrs.circular || false
+  swiperAttrs.duration = _attrs.duration || 500
+  swiperAttrs.interval = _attrs.interval || 5000
   swiperAttrs.vertical = _attrs.vertical || false
   swiperAttrs.autoPlay = _attrs.autoplay || false
   swiperAttrs.indicator = _attrs.indicatorDots || false
@@ -71,7 +81,7 @@ export struct TaroSwiper {
 
   nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroSwiperElement
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -145,7 +155,7 @@ function flexStyle (style: TaroStyleType) {
   .clip(style.clip)
 }
 
-function getAttributes (node: TaroViewElement) {
+function getAttributes (node: TaroSwiperItemElement) {
   const _attrs = node._attrs
   const _nid = node._nid
   const style = getNormalAttributes(node)
@@ -161,7 +171,7 @@ export struct TaroSwiperItem {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroSwiperItemElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)

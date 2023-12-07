@@ -1,15 +1,15 @@
 import window from '@ohos.window'
 import common from '@ohos.app.ability.common'
 import { isNumber, isUndefined } from '@tarojs/shared'
-import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindFocus, bindInstanceToNode, bindAnimation, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
+  TaroEvent, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, parseStyles, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroViewElement, TaroInputElement, TaroElement } from './element'
-import type { TaroStyleType, CompType } from './type'
+import type { TaroTextAreaElement } from './element'
+import type { TaroStyleType, TaroTextStyleType } from './type'
 
 @Extend(TextArea)
 function textStyle (style: TaroStyleType) {
@@ -47,7 +47,7 @@ function textStyle (style: TaroStyleType) {
 }
 
 @Extend(TextArea)
-function textAttr(attr: CompType.Text.Attrs) {
+function textAttr(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .maxLines(attr.maxLines)
 }
@@ -58,7 +58,7 @@ struct TaroTextArea {
 
   @State text: string = ''
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroTextAreaElement
 
   controller: TextAreaController = new TextAreaController()
 
@@ -121,11 +121,10 @@ struct TaroTextArea {
     eventHandler(event, 'keyboardHeightChange', this.node)
   }
 
-  getPlaceholderColor (node: TaroViewElement): string {
-    const placeholderTextColor: string = node._attrs.placeholderTextColor
-    const placeholderStyle: string = node._attrs.placeholderStyle
+  getPlaceholderColor (node: TaroTextAreaElement): string {
+    const placeholderStyle: string = node._attrs.placeholderStyle || ''
 
-    return placeholderTextColor || parseStyles(placeholderStyle)?.color
+    return parseStyles(placeholderStyle)?.color
   }
 
   getText (): string {

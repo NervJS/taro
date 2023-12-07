@@ -1,4 +1,8 @@
-import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, findChildNodeWithDFS,
+  TaroEvent,
+  TaroAny,
+  TaroFormWidgetElement
+} from '@tarojs/runtime'
 
 import { createNode } from './render'
 import TaroComponentWrapper from './base'
@@ -7,8 +11,11 @@ import { FlexManager } from './utils/FlexManager'
 import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent, TaroFormWidgetElement } from '@tarojs/runtime'
-import type { TaroElement } from './element'
+import type { TaroFormElement, TaroElement, TaroCheckboxElement, TaroRadioElement, TaroInputElement,
+  TaroSliderElement,
+  TaroSwitchElement,
+  TaroPickerElement
+} from './element'
 import type { TaroStyleType } from './type'
 
 
@@ -50,7 +57,7 @@ export default struct TaroForm {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
-  @ObjectLink node: TaroElement
+  @ObjectLink node: TaroFormElement
 
   aboutToAppear () {
     initComponentNodeInfo(this, this.node)
@@ -62,7 +69,7 @@ export default struct TaroForm {
     this.node.addEventListener('submit-btn', (e: TaroEvent) => {
       e.stopPropagation()
       const formResult: Record<string, string> = {}
-      findChildNodeWithDFS<TaroFormWidgetElement>(this.node, (item) => {
+      findChildNodeWithDFS(this.node, (item: TaroFormWidgetElement) => {
         switch (item.nodeName) {
           case 'INPUT':
           case 'SLIDER':
@@ -81,31 +88,35 @@ export default struct TaroForm {
     })
     // 监听reset冒泡
     this.node.addEventListener('reset-btn', (e: TaroEvent) => {
-      findChildNodeWithDFS<TaroFormWidgetElement>(this.node, (item) => {
+      findChildNodeWithDFS(this.node, (item: TaroFormWidgetElement) => {
         e.stopPropagation()
         switch (item.nodeName) {
           case 'INPUT': {
-            item.value = item._attrs.value
+            item.value = (item as TaroInputElement)._attrs.value
             break
           }
           case 'SLIDER': {
-            item.value = item._attrs.value
+            item.value = (item as TaroSliderElement)._attrs.value
             break
           }
           case 'SWITCH': {
-            item.value = item._attrs.checked
+            item.value = (item as TaroSwitchElement)._attrs.checked
             break
           }
           case 'RADIO-GROUP': {
-            item._instance.reset()
+            item.getElementsByTagName<TaroRadioElement>('RADIO').forEach(element => {
+              element._instance.checked = element._attrs.checked || false
+            })
             break
           }
           case 'CHECKBOX-GROUP': {
-            item._instance.reset()
+            item.getElementsByTagName<TaroCheckboxElement>('CHECKBOX').forEach(element => {
+              element._instance.checked = element._attrs.checked || false
+            })
             break
           }
           case 'PICKER': {
-            item.value = item._attrs.value
+            item.value = (item as TaroPickerElement)._attrs.value
             break
           }
         }

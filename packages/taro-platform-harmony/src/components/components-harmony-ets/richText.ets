@@ -1,10 +1,10 @@
-import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
+import { bindInstanceToNode, bindAnimation, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny } from '@tarojs/runtime'
-import type { TaroViewElement } from './element'
+import type { RichTextProps } from '@tarojs/components/types/RichText'
+import type { TaroRichTextElement } from './element'
 import type { TaroStyleType } from './type'
 
 @Extend(RichText)
@@ -41,7 +41,7 @@ function attrs (style: TaroStyleType) {
 export default struct TaroRichText {
   nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroViewElement
+  @ObjectLink node: TaroRichTextElement
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
@@ -62,12 +62,36 @@ export default struct TaroRichText {
     }))
   }
 
+  generateText (): string {
+    return parseHtmlNode(this.node._attrs.nodes || '')
+  }
+
   build() {
     TaroComponentWrapper({ node: this.node }) {
-      RichText(this.node._attrs.nodes) 
+      RichText(this.generateText())
         .attrs(getNormalAttributes(this.node))
         .defaultEvent()
         .visibleChangeEvent()
     }
   }
+}
+
+
+// 将nodeTree转换成harmony需要的string结构
+function nodeToHtml(node: RichTextProps.Text | RichTextProps.HTMLElement): string {
+  if (node.type === 'text') {
+    return node.text;
+  }
+  if (node.attrs) {
+    const attributes = Object.entries(node.attrs)
+      .map((item: [string, string]) => `${item[0]}="${item[1]}"`)
+      .join(' ');
+    const childrenHtml: string = typeof node.children === 'string' ? node.children : (node.children || []).map((child: RichTextProps.Text | RichTextProps.HTMLElement) => nodeToHtml(child)).join('');
+    return `<${node.name}${attributes ? ' ' + attributes : ''}>${childrenHtml}</${node.name}>`;
+  }
+  return ''
+}
+
+function parseHtmlNode (nodes: Array<RichTextProps.Text | RichTextProps.HTMLElement> | string) {
+  return typeof nodes === 'string' ? nodes: `<div>${nodes.map(node => nodeToHtml(node)).join('')}</div>`
 }

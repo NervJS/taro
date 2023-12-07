@@ -57,8 +57,8 @@ function themeStyles(style: TaroStyleType) {
 function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
   const _st = node._st
   const _attrs = node._attrs
-  const isPlain: boolean = _attrs.plain
-  const isDisabled: boolean = _attrs.disabled
+  const isPlain: boolean = _attrs.plain || false
+  const isDisabled: boolean = _attrs.disabled || false
   const type: string = _attrs.type || 'default'
 
   return {
