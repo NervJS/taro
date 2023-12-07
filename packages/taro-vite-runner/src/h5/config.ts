@@ -1,7 +1,6 @@
 import { defaultMainFields, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isBoolean, isNumber, isObject, isString, PLATFORM_TYPE } from '@tarojs/shared'
-import { PostcssOption } from '@tarojs/taro/types/compile'
 import { get } from 'lodash'
 import path from 'path'
 
@@ -10,6 +9,7 @@ import { addTrailingSlash, getCSSModulesOptions, getMinify, getMode, getPostcssP
 import { DEFAULT_TERSER_OPTIONS, H5_EXCLUDE_POSTCSS_PLUGIN_NAME } from '../utils/constants'
 import { getHtmlScript } from '../utils/html'
 
+import type { PostcssOption } from '@tarojs/taro/types/compile'
 import type { ViteH5CompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 

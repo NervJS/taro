@@ -1,10 +1,8 @@
-import { isNpmPkg, NODE_MODULES_REG, recursiveMerge } from '@tarojs/helper'
-import { isString } from '@tarojs/shared'
+import { isNpmPkg, NODE_MODULES_REG, recursiveMerge, resolveSync } from '@tarojs/helper'
+import { isFunction, isString } from '@tarojs/shared'
 import { IPostcssOption } from '@tarojs/taro/types/compile'
-import { isFunction } from 'lodash'
 import path from 'path'
 import querystring from 'querystring'
-import { sync as resolveSync } from 'resolve'
 
 import { MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from './constants'
 import createFilter from './createFilter'
@@ -149,7 +147,7 @@ export function getPostcssPlugins (appPath: string, option = {} as IPostcssOptio
     }
 
     try {
-      const pluginPath = resolveSync(pluginName, { basedir: appPath })
+      const pluginPath = resolveSync(pluginName, { basedir: appPath }) || ''
       plugins.push(require(pluginPath)(pluginOption.config || {}))
     } catch (e) {
       const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${pluginName}", 已忽略` : e

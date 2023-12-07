@@ -4,7 +4,7 @@
  * Author Tobias Rich Harris @richard.a.harris@gmail.com
  */
 
-import { isArray } from 'lodash'
+import { isArray } from '@tarojs/shared'
 import path from 'path'
 import pm from 'picomatch'
 

@@ -39,7 +39,6 @@
     "postcss-plugin-constparse": "workspace:*",
     "postcss-pxtransform": "workspace:*",
     "regenerator-runtime": "0.11",
-    "resolve": "^1.22.0",
     "rollup": "^3.19.0",
     "sass": "1.44.0",
     "sax": "1.2.4",
@@ -48,7 +47,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
-    "fs-extra": "^11.1.0",
     "postcss": "^8.4.18",
     "terser": "^5.4.0",
     "vite": "^4.2.0"
