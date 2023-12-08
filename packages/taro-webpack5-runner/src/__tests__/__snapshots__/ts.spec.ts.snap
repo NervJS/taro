@@ -1510,8 +1510,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .body #header{height:20rpx;width:10rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {

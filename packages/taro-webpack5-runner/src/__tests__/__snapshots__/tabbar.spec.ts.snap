@@ -1822,8 +1822,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -3258,8 +3256,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{}}
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/utils.sjs **/
 export default {
@@ -5049,8 +5045,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
