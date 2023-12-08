@@ -41,7 +41,8 @@ export function getOutput<T extends MiniBuildConfig | H5BuildConfig = CommonBuil
   const fs: IFs = config.fs ?? stats.compilation.compiler.outputFileSystem
 
   const files = readDir(fs, config.outputRoot || '')
-  const output = files.reduce((content, file) => {
+  // Note: 在小程序端构建过程中，仅 Windows 端编译会输出 runtime.js 文件
+  const output = files.filter(e => !/runtime\.js$/.test(e)).reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
 ${file === 'dist/runtime.js' ? '' : fs.readFileSync(file)}

@@ -66,7 +66,8 @@ export function getOutput(stats, config: Partial<BuildConfig>) {
   const fs: IFs = stats.compilation.compiler.outputFileSystem
 
   const files = readDir(fs, config.outputRoot as string)
-  const output = files.reduce((content, file) => {
+  // Note: 在小程序端构建过程中，仅 Windows 端编译会输出 runtime.js 文件
+  const output = files.filter(e => !/runtime\.js$/.test(e)).reduce((content, file) => {
     return `${content}
 /** filePath: ${file} **/
 ${fs.readFileSync(file)}

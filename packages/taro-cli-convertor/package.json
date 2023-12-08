@@ -11,7 +11,6 @@
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
     "test:clear": "jest --clearCache",
     "test:coverage": "jest --coverage",
     "updateSnapshot": "jest --updateSnapshot"
@@ -33,34 +32,6 @@
   ],
   "engines": {
     "node": ">=12"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "testEnvironmentOptions": {},
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/taro-cli-convertor/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "testPathIgnorePatterns": [
-      "node_modules",
-      "/__tests__/util.ts",
-      "/__mocks__/",
-      "/data/"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/__tests__/*"
-    ],
-    "transformIgnorePatterns": [
-      "@taro-helper/node_modules/"
-    ]
   },
   "author": "O2Team",
   "license": "MIT",
