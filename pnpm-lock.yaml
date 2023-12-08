@@ -1352,8 +1352,6 @@ importers:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
 
-  packages/taro-components/loader: {}
-
   packages/taro-extend:
     devDependencies:
       jest:
@@ -2968,6 +2966,9 @@ importers:
       '@tarojs/router-rn':
         specifier: workspace:*
         version: link:../taro-router-rn
+      react-native-device-info:
+        specifier: ~10.3.0
+        version: registry.npmjs.org/react-native-device-info@10.3.1
       react-native-root-siblings:
         specifier: ^4.1.1
         version: registry.npmjs.org/react-native-root-siblings@4.1.1
@@ -34566,6 +34567,14 @@ packages:
     dependencies:
       react: registry.npmjs.org/react@18.1.0
       react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
+    dev: false
+
+  registry.npmjs.org/react-native-device-info@10.3.1:
+    resolution: {integrity: sha512-KZU1luB7UrpRT8vYdWOoGJA0e2uAvF5J1Da90QMfLrtYBm1U0tbrlYO99qLCBRq7nQvBISlhqpqikzaS0vDYYw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.3.1.tgz}
+    name: react-native-device-info
+    version: 10.3.1
+    peerDependencies:
+      react-native: '*'
     dev: false
 
   registry.npmjs.org/react-native-device-info@10.3.1(react-native@0.70.9):
