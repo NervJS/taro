@@ -42,8 +42,37 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     stacks.method = method
     const { success, complete, fail } = option
+    const  eventChannel : TaroGeneral.eventChannel = {
+      emit (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件参数 */
+        ..._args: any
+      ): void{},
+      on (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件监听函数 */
+        _fn: TaroGeneral.EventCallback
+      ): void{},
+      once (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件监听函数 */
+        _fn: TaroGeneral.EventCallback
+      ): void{},
+      off (
+        /** 事件名称 */
+        _eventName: string,
+        /** 事件监听函数 */
+        _fn: TaroGeneral.EventCallback
+      ): void{},
+    }
     const unListen = history.listen(() => {
-      const res = { errMsg: `${method}:ok` }
+      const res = {
+        errMsg: `${method}:ok` ,
+        eventChannel : eventChannel
+      }
       success?.(res)
       complete?.(res)
       resolve(res)
@@ -54,6 +83,16 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
       if ('url' in option) {
         const pathPieces = processNavigateUrl(option)
         const state = { timestamp: Date.now() }
+        if (pathPieces.pathname) {
+          const pathname=pathPieces.pathname?.startsWith('/') ? pathPieces.pathname.substring(1) : pathPieces.pathname
+          if (!RouterConfig.pages.includes(pathname)) {
+            const res = { errMsg: `${method}:fail page ${pathname} is not found` }
+            fail?.(res)
+            complete?.(res)
+            reject(res)
+            return
+          }
+        }
         if (method === 'navigateTo') {
           history.push(pathPieces, state)
         } else if (method === 'redirectTo' || method === 'switchTab') {

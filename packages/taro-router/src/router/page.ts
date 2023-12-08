@@ -321,7 +321,7 @@ export default class PageHandler {
     const el: HTMLDivElement | null = (id
       ? document.querySelector(`.taro_page#${id}`)
       : document.querySelector('.taro_page') ||
-    document.querySelector('.taro_router')) as HTMLDivElement
+      document.querySelector('.taro_router')) as HTMLDivElement
     return el
   }
 
