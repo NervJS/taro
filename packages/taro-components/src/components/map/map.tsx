@@ -409,8 +409,26 @@ export class Map implements ComponentInterface {
           markerObj.setZIndex(marker.zIndex)
         }
         if (marker.width && marker.height) {
-          const icon = new BMapGL.Icon(marker.iconPath, new BMapGL.Size(marker.width, marker.height))
-          markerObj.setIcon(icon)
+          const canvas = document.createElement('canvas')
+          canvas.width = marker.width
+          canvas.height = marker.height
+          // 获取 Canvas 上下文
+          const ctx = canvas.getContext('2d')!
+          // 创建一个新的图片对象
+          const img = new Image()
+          // 设置图片的跨域属性
+          img.crossOrigin = 'Anonymous' 
+          img.src = marker.iconPath
+          // 当图片加载完成后，将其绘制到Canvas上
+          img.onload = function () {
+            ctx.drawImage(img, 0, 0, marker.width, marker.height)
+            // 创建 BMapGL.Icon 对象，并将 Canvas 元素作为图标的内容
+            // 设置锚点偏移量为(0, 0)，表示图标的左上角将与经纬度对齐
+            const icon = new BMapGL.Icon(canvas.toDataURL(), new BMapGL.Size(marker.width, marker.height), {
+              anchor: new BMapGL.Size(0, 0)
+            })
+            markerObj.setIcon(icon)
+          }
         } else {
           const img = new Image()
           img.src = marker.iconPath
@@ -423,12 +441,22 @@ export class Map implements ComponentInterface {
           }
         }
         const rotate = marker.rotate ? marker.rotate : 0
-        if (rotate) {
+        if (rotate >= 0 && this.rotate <= 360) {
           markerObj.setRotation(rotate)
         }
-        if (marker.anchor) {
-          const offsetX = (marker.anchor?.x ?? 0) * ((marker.width as number) || 0)
-          const offsetY = (marker.anchor?.y ?? 0) * ((marker.height as number) || 0)
+        // 如果anchor.x和anchor.y被定义，则使用它们的值，否则使用默认值
+        const anchorX = marker.anchor?.x ?? 0.5
+        const anchorY = marker.anchor?.y ?? 1
+        if (anchorX >= 0 && anchorX <= 1 && anchorY >= 0 && anchorY <= 1) {
+          // 锚点设置为图标宽度的负值乘以x，以向左移动
+          const offsetX = -(anchorX) * ((marker.width as number) || 0)
+          // 锚点设置为图标高度的负值乘以y，以向上移动
+          const offsetY = -(anchorY) * ((marker.height as number) || 0)
+          // 使用计算出的偏移量设置标注对象的偏移
+          markerObj.setOffset(new BMapGL.Size(offsetX, offsetY))
+        } else {
+          const offsetX = -0.5 * ((marker.width as number) || 0)
+          const offsetY = -1 * ((marker.height as number) || 0)
           markerObj.setOffset(new BMapGL.Size(offsetX, offsetY))
         }
         // 创建title
