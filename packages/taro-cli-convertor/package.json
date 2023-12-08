@@ -13,7 +13,7 @@
     "test": "jest",
     "test:ci": "cross-env NODE_ENV=test jest --ci -i",
     "test:clear": "jest --clearCache",
-    "test:cov": "jest --coverage",
+    "test:coverage": "jest --coverage",
     "updateSnapshot": "jest --updateSnapshot"
   },
   "files": [

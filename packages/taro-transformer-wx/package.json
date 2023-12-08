@@ -18,8 +18,8 @@
     "dev": "tsc -w --pretty",
     "lint": "tslint",
     "test": "jest",
-    "test:cov": "jest --coverage",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
+    "test:coverage": "jest --coverage"
   },
   "author": "O2Team",
   "license": "MIT",
