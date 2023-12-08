@@ -28,6 +28,52 @@ class _C extends React.Component {
 export default _C;
 `;
 
+exports[`文件转换 拷贝tsconfig.json文件到转换后的工程 1`] = `
+Convertor {
+  components: Set {},
+  convertDir: 
+      "miniprogramRoot": "miniprogram/",
+    /taroConvert/src,
+  convertRoot: 
+      "miniprogramRoot": "miniprogram/",
+    /taroConvert,
+  fileTypes: {
+    CONFIG: .json,
+    SCRIPT: .ts,
+    STYLE: .wxss,
+    TEMPL: .wxml,
+  },
+  hadBeenBuiltComponents: Set {},
+  hadBeenBuiltImports: Set {},
+  hadBeenCopyedFiles: Set {},
+  importsDir: 
+      "miniprogramRoot": "miniprogram/",
+    /taroConvert/src/imports,
+  isTsProject: ./miniprogram,
+  miniprogramRoot: 
+      "miniprogramRoot": "miniprogram/",
+    /miniprogram,
+  pages: Set {},
+  pluginInfo: {
+    entryFilePath: ,
+    pages: Set {},
+    pagesMap: Map {},
+    pluginName: ,
+    pluginRoot: ,
+    publicComponents: Set {},
+  },
+  projectConfig: {
+    compileType: ,
+    pluginRoot: ,
+  },
+  reportErroMsg: [],
+  root: 
+      "miniprogramRoot": "miniprogram/",
+    ,
+  wxsIncrementId: [Function],
+}
+`;
+
 exports[`语法转换 使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换 1`] = `
 import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";
