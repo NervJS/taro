@@ -1,9 +1,10 @@
+import { isNumber } from '@tarojs/shared'
 import { convertNumber2VP, ObjectAssign } from '@tarojs/runtime'
 
 import { AttributeManager } from './AttributeManager'
 import { BORDER_STYLE_MAP } from './constant/style'
 import { FlexManager } from './flexManager'
-import { getUnit, getNodeMarginOrPaddingData } from './index'
+import { getUnit, getNodeMarginOrPaddingData, getNodeBorderRadiusData } from './index'
 
 import type { HarmonyStyle } from '../type'
 
@@ -174,7 +175,11 @@ export function w3cToHarmonyStyle(obj: HarmonyStyle, prop: string, value: string
       break
     }
     case 'borderRadius': {
-      obj.borderRadius = getUnit(value)
+      if (isNumber(value)) {
+        obj.borderRadius = getUnit(value)
+      } else {
+        obj.borderRadius = getNodeBorderRadiusData(value)
+      }
       break
     }
     case 'transform': {
