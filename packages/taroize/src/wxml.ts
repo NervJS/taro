@@ -668,7 +668,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       wxml: t.nullLiteral(),
     }
   }
-  const nodes = removEmptyTextAndComment(parse(wxml.trim()))
+  const nodes = removeEmptyTextAndComment(parse(wxml.trim()))
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
@@ -696,7 +696,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
-  
+
   parseResult = {
     wxses,
     imports,
@@ -1133,12 +1133,12 @@ function parseElement (element: Element): t.JSXElement {
   return t.jSXElement(
     t.jSXOpeningElement(tagName, attributes.map(parseAttribute)),
     t.jSXClosingElement(tagName),
-    removEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
+    removeEmptyTextAndComment(element.children).map((el) => parseNode(el, element.tagName)),
     false
   )
 }
 
-export function removEmptyTextAndComment (nodes: AllKindNode[]) {
+export function removeEmptyTextAndComment (nodes: AllKindNode[]) {
   return nodes
     .filter((node) => {
       return (
@@ -1171,7 +1171,12 @@ function singleQuote (s: string) {
   return `'${s}'`
 }
 
-export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
+export interface IContext {
+  type: 'raw' | 'expression'
+  content: string
+}
+
+export function parseContent (content: string, single = false): IContext {
   printToLogFile(`package: taroize, funName: parseContent ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
