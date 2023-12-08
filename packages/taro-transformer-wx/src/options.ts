@@ -19,6 +19,7 @@ export interface Options {
   adapter?: Adapters
   jsxAttributeNameReplace?: Object
   rootProps?: object
+  logFilePath?: string
 }
 
 export let transformOptions: Options = {} as Options

@@ -3,6 +3,7 @@ import { parse as parseFile } from '@babel/parser'
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 import { printLog, processTypeEnum } from '@tarojs/helper'
+// @ts-ignore
 import { toCamelCase } from '@tarojs/shared'
 import { parse } from 'himalaya-wxml'
 import { camelCase, cloneDeep } from 'lodash'
@@ -18,9 +19,11 @@ import {
   buildTemplate,
   codeFrameError,
   DEFAULT_Component_SET,
+  getLineBreak,
   isValidVarName,
   normalizePath,
   parseCode,
+  printToLogFile,
 } from './utils'
 
 const { prettyPrint } = require('html')
@@ -86,7 +89,7 @@ export interface Imports {
 
 /**
  * wxml界面下的template模板信息
- * 
+ *
  * @param { any[] } funcs 模板所用方法集
  * @param { any[] } applyTemplates 套用模板集
  */
@@ -124,6 +127,7 @@ function buildElement (name: string, children: Node[] = [], attributes: Attribut
 
 // 将 style 属性中属性名转小驼峰格式 并且将 {{}} 转为 ${}格式生成对应ast节点
 function convertStyleAttrs (styleAttrsMap: any[]) {
+  printToLogFile(`package: taroize, funName: convertStyleAttrs ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     attr.attrName = toCamelCase(attr.attrName.trim())
     // 匹配 {{}} 内部以及左右两边值
@@ -152,6 +156,7 @@ function convertStyleAttrs (styleAttrsMap: any[]) {
  * @param { any[] } attrKeyValueMap 属性解析为 {attrName: attrValue} 形式的数组
  */
 function parseStyleAttrs (styleAttrsMap: any[], attrKeyValueMap: any[]) {
+  printToLogFile(`package: taroize, funName: parseStyleAttrs ${getLineBreak()}`)
   styleAttrsMap.forEach((attr) => {
     if (attr) {
       // 对含三元运算符的写法 style="width:{{ xx ? xx : xx }}" 匹配第一个 : 避免匹配三元表达式中的 : 运算符
@@ -209,6 +214,7 @@ export function convertStyleUnit (value: string) {
         })
     } catch (error) {
       printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
+      printToLogFile(`package: taroize, wxml内px/rpx单位转换异常 ${getLineBreak()}`)
     }
   }
   return tempValue
@@ -216,13 +222,11 @@ export function convertStyleUnit (value: string) {
 
 /**
  * 预解析，收集wxml所有的模板信息
- * 
+ *
  * @param { any[] } templates wxml页面下的模板信息
  * @returns Visitor
  */
-export const createPreWxmlVistor = (
-  templates: Map<string, Templates>
-) => {
+export const createPreWxmlVistor = (templates: Map<string, Templates>) => {
   // const Applys = new Map<string, string[]>()
   return {
     JSXElement: {
@@ -243,8 +247,8 @@ export const createPreWxmlVistor = (
             applyTemplates: templateInfo.applys,
           })
         }
-      }
-    }
+      },
+    },
   } as Visitor
 }
 
@@ -274,8 +278,9 @@ export const createWxmlVistor = (
   dirPath: string,
   wxses: WXS[] = [],
   imports: Imports[] = [],
-  templates?: Map<string, Templates>,
+  templates?: Map<string, Templates>
 ) => {
+  printToLogFile(`package: taroize, funName: createWxmlVistor, dirPath: ${dirPath} ${getLineBreak()}`)
   const jsxAttrVisitor = (path: NodePath<t.JSXAttribute>) => {
     const name = path.node.name as t.JSXIdentifier
     const jsx = path.findParent((p) => p.isJSXElement()) as NodePath<t.JSXElement>
@@ -349,7 +354,7 @@ export const createWxmlVistor = (
         if (isValidVarName(path.node.name)) {
           refIds.add(path.node.name)
         }
-      }
+      },
     },
     JSXElement: {
       enter (path: NodePath<t.JSXElement>) {
@@ -583,6 +588,7 @@ export const createWxmlVistor = (
  * @param templates 模板信息
  */
 function templateBfs (templates: Map<string, Templates>) {
+  printToLogFile(`package: taroize, funName: templateBfs ${getLineBreak()}`)
   const names: string[] = []
   const applys = new Map<string, Set<string>>()
   for (const key of templates.keys()) {
@@ -629,10 +635,9 @@ function templateBfs (templates: Map<string, Templates>) {
 }
 
 export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean): Wxml {
-  let parseResult = getCacheWxml(dirPath)
-  if (parseResult) {
-    return parseResult
-  }
+  printToLogFile(
+    `package: taroize, funName: parseWXML, dirPath: ${dirPath}, parseImport: ${parseImport} ${getLineBreak()}`
+  )
 
   try {
     wxml = prettyPrint(wxml, {
@@ -667,6 +672,11 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
   const ast = t.file(
     t.program([t.expressionStatement(parseNode(buildElement('block', nodes as Node[])) as t.Expression)], [])
   )
+  // 确认当前解析页面是否已经解析过，如果解析过则直接获取缓存解析
+  let parseResult = getCacheWxml(dirPath, hydrate(ast))
+  if (parseResult) {
+    return parseResult
+  }
   // 在解析wxml页面前，先进行预解析
   // 当前预解析主要为了抽取页面下的模板信息
   traverse(ast, createPreWxmlVistor(templates))
@@ -686,6 +696,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
+  
   parseResult = {
     wxses,
     imports,
@@ -769,6 +780,23 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
             const newExpr = t.newExpression(t.identifier('RegExp'), [])
             path.replaceWith(newExpr)
           }
+        }
+
+        // wxs标签中getDate()转换为new Date()
+        if (t.isIdentifier(path.node.callee, { name: 'getDate' })) {
+          let argument: any = []
+          let newDate: t.NewExpression
+          const date = path.node.arguments[0]
+          if (t.isStringLiteral(date)) {
+            argument = path.node.arguments.map((item) => t.stringLiteral(item.extra?.rawValue as string))
+            newDate = t.newExpression(t.identifier('Date'), [...argument])
+          } else if (t.isNumericLiteral(date)) {
+            argument = path.node.arguments.map((item) => t.numericLiteral(item.extra?.rawValue as number))
+            newDate = t.newExpression(t.identifier('Date'), [...argument])
+          } else {
+            newDate = t.newExpression(t.identifier('Date'), [])
+          }
+          path.replaceWith(newDate)
         }
       },
     })
@@ -1004,6 +1032,7 @@ function handleConditions (conditions: Condition[]) {
       }
     } catch (error) {
       console.error('wx:elif 的值需要用双括号 `{{}}` 包裹它的值')
+      printToLogFile(`package: taro-transformer-wx, wx:elif 转换异常 ${getLineBreak()}`)
     }
   }
 }
@@ -1039,6 +1068,7 @@ function findWXIfProps (jsx: NodePath<t.JSXElement>): { reg: RegExpMatchArray, t
 }
 
 function parseNode (node: AllKindNode, tagName?: string) {
+  printToLogFile(`package: taroize, funName: parseNode, tagName: ${tagName} ${getLineBreak()}`)
   if (node.type === NodeType.Text) {
     return parseText(node, tagName)
   } else if (node.type === NodeType.Comment) {
@@ -1055,6 +1085,7 @@ function parseNode (node: AllKindNode, tagName?: string) {
 }
 
 function parseElement (element: Element): t.JSXElement {
+  printToLogFile(`package: taroize, funName: parseElement ${getLineBreak()}`)
   const tagName = t.jSXIdentifier(
     THIRD_PARTY_COMPONENTS.has(element.tagName) ? element.tagName : allCamelCase(element.tagName)
   )
@@ -1078,9 +1109,9 @@ function parseElement (element: Element): t.JSXElement {
             if (str.includes('...')) {
               // (...a) => {{a}}
               attr.value = `{{${str.slice(4, strLastIndex)}}}`
-            } else if (/^\(([A-Za-z,]+)\)$/.test(str)) {
+            } else if (/^\(([A-Za-z,\s]+)\)$/.test(str)) {
               // (a) => {{a:a}}
-              attr.value = `{{${str.replace(/^\(([A-Za-z]+)\)$/, '$1:$1')}}}`
+              attr.value = `{{${str.slice(1, strLastIndex).replace(/([A-Za-z]+)/g, '$1:$1')}}}`
             } else {
               // (a:'a') => {{a:'a'}}
               attr.value = `{{${str.slice(1, strLastIndex)}}}`
@@ -1120,6 +1151,7 @@ export function removEmptyTextAndComment (nodes: AllKindNode[]) {
 }
 
 function parseText (node: Text, tagName?: string) {
+  printToLogFile(`package: taroize, funName: parseText ${getLineBreak()}`)
   if (tagName === 'wxs') {
     return t.jSXText(node.content)
   }
@@ -1140,6 +1172,7 @@ function singleQuote (s: string) {
 }
 
 export function parseContent (content: string, single = false): { type: 'raw' | 'expression', content: string } {
+  printToLogFile(`package: taroize, funName: parseContent ${getLineBreak()}`)
   content = content.trim()
   if (!handlebarsRE.test(content)) {
     return {
@@ -1195,6 +1228,7 @@ function isAllKeyValueFormat (styleAttrsMap: any[]): boolean {
  * @returns
  */
 export function parseStyle (key: string, value: string) {
+  printToLogFile(`package: taroize, funName: parseStyle, key: ${key}, value: ${value} ${getLineBreak()}`)
   const styleAttrs = value.trim().split(';')
   // 针对attrName: attrValue 格式做转换处理, 其他类型采用'+'连接符
   if (isAllKeyValueFormat(styleAttrs)) {
@@ -1211,6 +1245,7 @@ export function parseStyle (key: string, value: string) {
 }
 
 function parseAttribute (attr: Attribute) {
+  printToLogFile(`package: taroize, funName: parseAttribute, attr: ${JSON.stringify(attr)} ${getLineBreak()}`)
   let { key, value } = attr
   let jsxValue: null | t.JSXExpressionContainer | t.StringLiteral = null
   let type = ''
@@ -1236,6 +1271,7 @@ function parseAttribute (attr: Attribute) {
       } catch (error) {
         const errorMsg = `当前属性: style="${value}" 解析失败，失败原因：${error}`
         printLog(processTypeEnum.ERROR, errorMsg)
+        printToLogFile(`package: taroize, style="${value}" 解析异常 ${getLineBreak()}`)
         throw new Error(errorMsg)
       }
     } else {
