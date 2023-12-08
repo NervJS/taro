@@ -8,14 +8,17 @@ import { MethodHandler } from '../../utils/handler'
 
 let container: HTMLDivElement | null = null
 function createContainer (options: Taro.openLocation.Option) {
+  // @ts-ignore
+  const systemBarHeight = window.systemBarHeight ? window.systemBarHeight : 0
   const key = LOCATION_APIKEY
   const { longitude, latitude, name, address } = options
   if (!container) {
     const html = `
       <div class='taro_choose_location'>
+        <div style='height:${systemBarHeight}px; width:100%; background-color:transparent;'></div>
         <div class='taro_choose_location_bar'>
           <div class='taro_choose_location_back'></div>
-          <p class='taro_choose_location_title'>${name}</p>
+          <p class='taro_choose_location_title'>位置</p>
         </div>
         <iframe id='map-iframe' class='taro_choose_location_frame' frameborder='0' src="https://apis.map.qq.com/tools/poimarker?key=${key}&referer=myapp&type=0&marker=coord:${latitude},${longitude};title:${name};addr:${address}" />
       </div>

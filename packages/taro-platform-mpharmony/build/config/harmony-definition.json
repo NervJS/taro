@@ -1755,7 +1755,37 @@
         "filePath": true
       }
     },
-    "scanCode": false,
+    "scanCode": {
+      "object": {
+        "onlyFromCamera": true,
+        "scanType": {
+          "barCode": true,
+          "qrCode": true,
+          "datamatrix": true,
+          "pdf417": true
+        }
+      },
+      "success": {
+        "charSet": true,
+        "rawData": true,
+        "result": true,
+        "scanType": {
+          "QR_CODE": true,
+          "AZTEC": true,
+          "CODABAR": true,
+          "CODE_39": true,
+          "CODE_93": true,
+          "CODE_128": true,
+          "DATA_MATRIX": true,
+          "EAN_8": true,
+          "EAN_13": true,
+          "ITF": true,
+          "PDF_417": true,
+          "UPC_A": true,
+          "UPC_E": true
+        }
+      }
+    },
     "seekBackgroundAudio": false,
     "sendHCEMessage": false,
     "sendSms": false,
