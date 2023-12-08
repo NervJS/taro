@@ -1517,8 +1517,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .index-module__cbody___iSq4C{background-color:#e8e8ed;height:300rpx}.index-module__ctext___NT_hC{color:#ff0;display:inline-block;width:100%}.index__cwrapper___zpMF6{font-size:36rpx}.chomepage{background:grey}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -3394,8 +3392,6 @@ require("./runtime");
 
 /** filePath: dist/pages/index/index.wxss **/
 .index-module__cbody___iSq4C{background-color:#e8e8ed;height:300rpx}.index-module__ctext___NT_hC{color:#ff0;display:inline-block;width:100%}.cwrapper{font-size:36rpx}.chomepage{background:grey}
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/utils.wxs **/
 module.exports = {

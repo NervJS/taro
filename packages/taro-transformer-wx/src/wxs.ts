@@ -3,8 +3,10 @@ import traverse, { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { TransformResult } from './index'
+import { getLineBreak, printToLogFile } from './utils'
 
 export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
+  printToLogFile(`package: taro-transformer-wx, funName: traverseWxsFile ${getLineBreak()}`)
   const vistor: Visitor = {
     BlockStatement(path) {
       path.scope.rename('wx', 'Taro')
@@ -53,6 +55,22 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
           const newExpr = t.newExpression(t.identifier('RegExp'), [])
           path.replaceWith(newExpr)
         }
+      }
+      // wxs文件中getDate()转换为new Date()
+      if (t.isIdentifier(path.node.callee, { name: 'getDate' })) {
+        let argument: any = []
+        let newDate: t.NewExpression
+        const date = path.node.arguments[0]
+        if (t.isStringLiteral(date)) {
+          argument = path.node.arguments.map((item) => t.stringLiteral(item.extra?.rawValue as string))
+          newDate = t.newExpression(t.identifier('Date'), [...argument])
+        } else if (t.isNumericLiteral(date)) {
+          argument = path.node.arguments.map((item) => t.numericLiteral(item.extra?.rawValue as number))
+          newDate = t.newExpression(t.identifier('Date'), [...argument])
+        } else {
+          newDate = t.newExpression(t.identifier('Date'), [])
+        }
+        path.replaceWith(newDate)
       }
     },
   }

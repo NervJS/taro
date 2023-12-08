@@ -1679,8 +1679,6 @@ require("./taro");
 /** filePath: dist/pages/native/native.wxss **/
 .native{color:red}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     2: function(module, __webpack_exports__, __webpack_require__) {

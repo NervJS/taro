@@ -13,7 +13,7 @@
     "index.js"
   ],
   "scripts": {
-    "build": "rimraf ./dist && tsc && rollup -c",
+    "build": "rimraf --impl=move-remove ./dist && tsc && rollup -c",
     "dev": "tsc -w",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest --ci",

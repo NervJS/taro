@@ -932,8 +932,6 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.ttss **/
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (tt["webpackJsonp"] = tt["webpackJsonp"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {

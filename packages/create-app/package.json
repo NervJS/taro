@@ -10,7 +10,7 @@
     "dev": "tsc -w",
     "prod": "tsc",
     "build": "run-s clean prod",
-    "clean": "rimraf dist"
+    "clean": "rimraf --impl=move-remove dist"
   },
   "files": [
     "dist"

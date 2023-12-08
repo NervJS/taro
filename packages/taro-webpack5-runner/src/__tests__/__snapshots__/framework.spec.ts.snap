@@ -1733,8 +1733,6 @@ require("./runtime");
 
 /** filePath: dist/pages/index/index.wxss **/
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -4199,8 +4197,6 @@ require("./runtime");
 
 /** filePath: dist/pages/index/index.wxss **/
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -6306,8 +6302,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
@@ -8482,8 +8476,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/utils.wxs **/
 module.exports = {

@@ -22,7 +22,7 @@
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" && eslint src --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@babel/runtime": "^7.14.5",
