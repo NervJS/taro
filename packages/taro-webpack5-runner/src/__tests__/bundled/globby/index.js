@@ -2026,21 +2026,20 @@ module.exports.sync = (input, options) => {
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/index.js":
-/*!********************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/index.js ***!
-  \********************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/index.js":
+/*!*******************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/index.js ***!
+  \*******************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
-const taskManager = __webpack_require__(/*! ./managers/tasks */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/managers/tasks.js");
-const patternManager = __webpack_require__(/*! ./managers/patterns */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/managers/patterns.js");
-const async_1 = __webpack_require__(/*! ./providers/async */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/async.js");
-const stream_1 = __webpack_require__(/*! ./providers/stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/stream.js");
-const sync_1 = __webpack_require__(/*! ./providers/sync */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/sync.js");
-const settings_1 = __webpack_require__(/*! ./settings */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/settings.js");
-const utils = __webpack_require__(/*! ./utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
+const taskManager = __webpack_require__(/*! ./managers/tasks */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/managers/tasks.js");
+const async_1 = __webpack_require__(/*! ./providers/async */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/async.js");
+const stream_1 = __webpack_require__(/*! ./providers/stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/stream.js");
+const sync_1 = __webpack_require__(/*! ./providers/sync */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/sync.js");
+const settings_1 = __webpack_require__(/*! ./settings */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/settings.js");
+const utils = __webpack_require__(/*! ./utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
 async function FastGlob(source, options) {
     assertPatternsInput(source);
     const works = getWorks(source, async_1.default, options);
@@ -2050,6 +2049,10 @@ async function FastGlob(source, options) {
 // https://github.com/typescript-eslint/typescript-eslint/issues/60
 // eslint-disable-next-line no-redeclare
 (function (FastGlob) {
+    FastGlob.glob = FastGlob;
+    FastGlob.globSync = sync;
+    FastGlob.globStream = stream;
+    FastGlob.async = FastGlob;
     function sync(source, options) {
         assertPatternsInput(source);
         const works = getWorks(source, sync_1.default, options);
@@ -2069,7 +2072,7 @@ async function FastGlob(source, options) {
     FastGlob.stream = stream;
     function generateTasks(source, options) {
         assertPatternsInput(source);
-        const patterns = patternManager.transform([].concat(source));
+        const patterns = [].concat(source);
         const settings = new settings_1.default(options);
         return taskManager.generate(patterns, settings);
     }
@@ -2085,9 +2088,40 @@ async function FastGlob(source, options) {
         return utils.path.escape(source);
     }
     FastGlob.escapePath = escapePath;
+    function convertPathToPattern(source) {
+        assertPatternsInput(source);
+        return utils.path.convertPathToPattern(source);
+    }
+    FastGlob.convertPathToPattern = convertPathToPattern;
+    let posix;
+    (function (posix) {
+        function escapePath(source) {
+            assertPatternsInput(source);
+            return utils.path.escapePosixPath(source);
+        }
+        posix.escapePath = escapePath;
+        function convertPathToPattern(source) {
+            assertPatternsInput(source);
+            return utils.path.convertPosixPathToPattern(source);
+        }
+        posix.convertPathToPattern = convertPathToPattern;
+    })(posix = FastGlob.posix || (FastGlob.posix = {}));
+    let win32;
+    (function (win32) {
+        function escapePath(source) {
+            assertPatternsInput(source);
+            return utils.path.escapeWindowsPath(source);
+        }
+        win32.escapePath = escapePath;
+        function convertPathToPattern(source) {
+            assertPatternsInput(source);
+            return utils.path.convertWindowsPathToPattern(source);
+        }
+        win32.convertPathToPattern = convertPathToPattern;
+    })(win32 = FastGlob.win32 || (FastGlob.win32 = {}));
 })(FastGlob || (FastGlob = {}));
 function getWorks(source, _Provider, options) {
-    const patterns = patternManager.transform([].concat(source));
+    const patterns = [].concat(source);
     const settings = new settings_1.default(options);
     const tasks = taskManager.generate(patterns, settings);
     const provider = new _Provider(settings);
@@ -2105,52 +2139,22 @@ module.exports = FastGlob;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/managers/patterns.js":
-/*!********************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/managers/patterns.js ***!
-  \********************************************************************************************************************/
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.removeDuplicateSlashes = exports.transform = void 0;
-/**
- * Matches a sequence of two or more consecutive slashes, excluding the first two slashes at the beginning of the string.
- * The latter is due to the presence of the device path at the beginning of the UNC path.
- * @todo rewrite to negative lookbehind with the next major release.
- */
-const DOUBLE_SLASH_RE = /(?!^)\/{2,}/g;
-function transform(patterns) {
-    return patterns.map((pattern) => removeDuplicateSlashes(pattern));
-}
-exports.transform = transform;
-/**
- * This package only works with forward slashes as a path separator.
- * Because of this, we cannot use the standard `path.normalize` method, because on Windows platform it will use of backslashes.
- */
-function removeDuplicateSlashes(pattern) {
-    return pattern.replace(DOUBLE_SLASH_RE, '/');
-}
-exports.removeDuplicateSlashes = removeDuplicateSlashes;
-
-
-/***/ }),
-
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/managers/tasks.js":
-/*!*****************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/managers/tasks.js ***!
-  \*****************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/managers/tasks.js":
+/*!****************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/managers/tasks.js ***!
+  \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.convertPatternGroupToTask = exports.convertPatternGroupsToTasks = exports.groupPatternsByBaseDirectory = exports.getNegativePatternsAsPositive = exports.getPositivePatterns = exports.convertPatternsToTasks = exports.generate = void 0;
-const utils = __webpack_require__(/*! ../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
-function generate(patterns, settings) {
+const utils = __webpack_require__(/*! ../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
+function generate(input, settings) {
+    const patterns = processPatterns(input, settings);
+    const ignore = processPatterns(settings.ignore, settings);
     const positivePatterns = getPositivePatterns(patterns);
-    const negativePatterns = getNegativePatternsAsPositive(patterns, settings.ignore);
+    const negativePatterns = getNegativePatternsAsPositive(patterns, ignore);
     const staticPatterns = positivePatterns.filter((pattern) => utils.pattern.isStaticPattern(pattern, settings));
     const dynamicPatterns = positivePatterns.filter((pattern) => utils.pattern.isDynamicPattern(pattern, settings));
     const staticTasks = convertPatternsToTasks(staticPatterns, negativePatterns, /* dynamic */ false);
@@ -2158,6 +2162,34 @@ function generate(patterns, settings) {
     return staticTasks.concat(dynamicTasks);
 }
 exports.generate = generate;
+function processPatterns(input, settings) {
+    let patterns = input;
+    /**
+     * The original pattern like `{,*,**,a/*}` can lead to problems checking the depth when matching entry
+     * and some problems with the micromatch package (see fast-glob issues: #365, #394).
+     *
+     * To solve this problem, we expand all patterns containing brace expansion. This can lead to a slight slowdown
+     * in matching in the case of a large set of patterns after expansion.
+     */
+    if (settings.braceExpansion) {
+        patterns = utils.pattern.expandPatternsWithBraceExpansion(patterns);
+    }
+    /**
+     * If the `baseNameMatch` option is enabled, we must add globstar to patterns, so that they can be used
+     * at any nesting level.
+     *
+     * We do this here, because otherwise we have to complicate the filtering logic. For example, we need to change
+     * the pattern in the filter before creating a regular expression. There is no need to change the patterns
+     * in the application. Only on the input.
+     */
+    if (settings.baseNameMatch) {
+        patterns = patterns.map((pattern) => pattern.includes('/') ? pattern : `**/${pattern}`);
+    }
+    /**
+     * This method also removes duplicate slashes that may have been in the pattern or formed as a result of expansion.
+     */
+    return patterns.map((pattern) => utils.pattern.removeDuplicateSlashes(pattern));
+}
 /**
  * Returns tasks grouped by basic pattern directories.
  *
@@ -2228,17 +2260,17 @@ exports.convertPatternGroupToTask = convertPatternGroupToTask;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/async.js":
-/*!******************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/async.js ***!
-  \******************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/async.js":
+/*!*****************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/async.js ***!
+  \*****************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const async_1 = __webpack_require__(/*! ../readers/async */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/async.js");
-const provider_1 = __webpack_require__(/*! ./provider */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/provider.js");
+const async_1 = __webpack_require__(/*! ../readers/async */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/async.js");
+const provider_1 = __webpack_require__(/*! ./provider */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/provider.js");
 class ProviderAsync extends provider_1.default {
     constructor() {
         super(...arguments);
@@ -2262,17 +2294,17 @@ exports["default"] = ProviderAsync;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/deep.js":
-/*!*************************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/deep.js ***!
-  \*************************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/deep.js":
+/*!************************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/deep.js ***!
+  \************************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
-const partial_1 = __webpack_require__(/*! ../matchers/partial */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/matchers/partial.js");
+const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
+const partial_1 = __webpack_require__(/*! ../matchers/partial */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/matchers/partial.js");
 class DeepFilter {
     constructor(_settings, _micromatchOptions) {
         this._settings = _settings;
@@ -2335,16 +2367,16 @@ exports["default"] = DeepFilter;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/entry.js":
-/*!**************************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/entry.js ***!
-  \**************************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/entry.js":
+/*!*************************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/entry.js ***!
+  \*************************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
+const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
 class EntryFilter {
     constructor(_settings, _micromatchOptions) {
         this._settings = _settings;
@@ -2353,32 +2385,32 @@ class EntryFilter {
     }
     getFilter(positive, negative) {
         const positiveRe = utils.pattern.convertPatternsToRe(positive, this._micromatchOptions);
-        const negativeRe = utils.pattern.convertPatternsToRe(negative, this._micromatchOptions);
+        const negativeRe = utils.pattern.convertPatternsToRe(negative, Object.assign(Object.assign({}, this._micromatchOptions), { dot: true }));
         return (entry) => this._filter(entry, positiveRe, negativeRe);
     }
     _filter(entry, positiveRe, negativeRe) {
-        if (this._settings.unique && this._isDuplicateEntry(entry)) {
+        const filepath = utils.path.removeLeadingDotSegment(entry.path);
+        if (this._settings.unique && this._isDuplicateEntry(filepath)) {
             return false;
         }
         if (this._onlyFileFilter(entry) || this._onlyDirectoryFilter(entry)) {
             return false;
         }
-        if (this._isSkippedByAbsoluteNegativePatterns(entry.path, negativeRe)) {
+        if (this._isSkippedByAbsoluteNegativePatterns(filepath, negativeRe)) {
             return false;
         }
-        const filepath = this._settings.baseNameMatch ? entry.name : entry.path;
         const isDirectory = entry.dirent.isDirectory();
-        const isMatched = this._isMatchToPatterns(filepath, positiveRe, isDirectory) && !this._isMatchToPatterns(entry.path, negativeRe, isDirectory);
+        const isMatched = this._isMatchToPatterns(filepath, positiveRe, isDirectory) && !this._isMatchToPatterns(filepath, negativeRe, isDirectory);
         if (this._settings.unique && isMatched) {
-            this._createIndexRecord(entry);
+            this._createIndexRecord(filepath);
         }
         return isMatched;
     }
-    _isDuplicateEntry(entry) {
-        return this.index.has(entry.path);
+    _isDuplicateEntry(filepath) {
+        return this.index.has(filepath);
     }
-    _createIndexRecord(entry) {
-        this.index.set(entry.path, undefined);
+    _createIndexRecord(filepath) {
+        this.index.set(filepath, undefined);
     }
     _onlyFileFilter(entry) {
         return this._settings.onlyFiles && !entry.dirent.isFile();
@@ -2393,8 +2425,7 @@ class EntryFilter {
         const fullpath = utils.path.makeAbsolute(this._settings.cwd, entryPath);
         return utils.pattern.matchAny(fullpath, patternsRe);
     }
-    _isMatchToPatterns(entryPath, patternsRe, isDirectory) {
-        const filepath = utils.path.removeLeadingDotSegment(entryPath);
+    _isMatchToPatterns(filepath, patternsRe, isDirectory) {
         // Trying to match files and directories by patterns.
         const isMatched = utils.pattern.matchAny(filepath, patternsRe);
         // A pattern with a trailling slash can be used for directory matching.
@@ -2410,16 +2441,16 @@ exports["default"] = EntryFilter;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/error.js":
-/*!**************************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/error.js ***!
-  \**************************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/error.js":
+/*!*************************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/error.js ***!
+  \*************************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
+const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
 class ErrorFilter {
     constructor(_settings) {
         this._settings = _settings;
@@ -2436,16 +2467,16 @@ exports["default"] = ErrorFilter;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/matchers/matcher.js":
-/*!*****************************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/matchers/matcher.js ***!
-  \*****************************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/matchers/matcher.js":
+/*!****************************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/matchers/matcher.js ***!
+  \****************************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
+const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
 class Matcher {
     constructor(_patterns, _settings, _micromatchOptions) {
         this._patterns = _patterns;
@@ -2455,12 +2486,7 @@ class Matcher {
         this._fillStorage();
     }
     _fillStorage() {
-        /**
-         * The original pattern may include `{,*,**,a/*}`, which will lead to problems with matching (unresolved level).
-         * So, before expand patterns with brace expansion into separated patterns.
-         */
-        const patterns = utils.pattern.expandPatternsWithBraceExpansion(this._patterns);
-        for (const pattern of patterns) {
+        for (const pattern of this._patterns) {
             const segments = this._getPatternSegments(pattern);
             const sections = this._splitSegmentsIntoSections(segments);
             this._storage.push({
@@ -2497,16 +2523,16 @@ exports["default"] = Matcher;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/matchers/partial.js":
-/*!*****************************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/matchers/partial.js ***!
-  \*****************************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/matchers/partial.js":
+/*!****************************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/matchers/partial.js ***!
+  \****************************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const matcher_1 = __webpack_require__(/*! ./matcher */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/matchers/matcher.js");
+const matcher_1 = __webpack_require__(/*! ./matcher */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/matchers/matcher.js");
 class PartialMatcher extends matcher_1.default {
     match(filepath) {
         const parts = filepath.split('/');
@@ -2546,20 +2572,20 @@ exports["default"] = PartialMatcher;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/provider.js":
-/*!*********************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/provider.js ***!
-  \*********************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/provider.js":
+/*!********************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/provider.js ***!
+  \********************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const path = __webpack_require__(/*! path */ "path");
-const deep_1 = __webpack_require__(/*! ./filters/deep */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/deep.js");
-const entry_1 = __webpack_require__(/*! ./filters/entry */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/entry.js");
-const error_1 = __webpack_require__(/*! ./filters/error */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/filters/error.js");
-const entry_2 = __webpack_require__(/*! ./transformers/entry */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/transformers/entry.js");
+const deep_1 = __webpack_require__(/*! ./filters/deep */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/deep.js");
+const entry_1 = __webpack_require__(/*! ./filters/entry */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/entry.js");
+const error_1 = __webpack_require__(/*! ./filters/error */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/filters/error.js");
+const entry_2 = __webpack_require__(/*! ./transformers/entry */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/transformers/entry.js");
 class Provider {
     constructor(_settings) {
         this._settings = _settings;
@@ -2605,18 +2631,18 @@ exports["default"] = Provider;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/stream.js":
-/*!*******************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/stream.js ***!
-  \*******************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/stream.js":
+/*!******************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/stream.js ***!
+  \******************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const stream_1 = __webpack_require__(/*! stream */ "stream");
-const stream_2 = __webpack_require__(/*! ../readers/stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/stream.js");
-const provider_1 = __webpack_require__(/*! ./provider */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/provider.js");
+const stream_2 = __webpack_require__(/*! ../readers/stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/stream.js");
+const provider_1 = __webpack_require__(/*! ./provider */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/provider.js");
 class ProviderStream extends provider_1.default {
     constructor() {
         super(...arguments);
@@ -2647,17 +2673,17 @@ exports["default"] = ProviderStream;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/sync.js":
-/*!*****************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/sync.js ***!
-  \*****************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/sync.js":
+/*!****************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/sync.js ***!
+  \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const sync_1 = __webpack_require__(/*! ../readers/sync */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/sync.js");
-const provider_1 = __webpack_require__(/*! ./provider */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/provider.js");
+const sync_1 = __webpack_require__(/*! ../readers/sync */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/sync.js");
+const provider_1 = __webpack_require__(/*! ./provider */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/provider.js");
 class ProviderSync extends provider_1.default {
     constructor() {
         super(...arguments);
@@ -2681,16 +2707,16 @@ exports["default"] = ProviderSync;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/transformers/entry.js":
-/*!*******************************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/providers/transformers/entry.js ***!
-  \*******************************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/transformers/entry.js":
+/*!******************************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/providers/transformers/entry.js ***!
+  \******************************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
+const utils = __webpack_require__(/*! ../../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
 class EntryTransformer {
     constructor(_settings) {
         this._settings = _settings;
@@ -2718,18 +2744,18 @@ exports["default"] = EntryTransformer;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/async.js":
-/*!****************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/async.js ***!
-  \****************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/async.js":
+/*!***************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/async.js ***!
+  \***************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fsWalk = __webpack_require__(/*! @nodelib/fs.walk */ "../../node_modules/.pnpm/registry.npmjs.org+@nodelib+fs.walk@1.2.8/node_modules/@nodelib/fs.walk/out/index.js");
-const reader_1 = __webpack_require__(/*! ./reader */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/reader.js");
-const stream_1 = __webpack_require__(/*! ./stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/stream.js");
+const reader_1 = __webpack_require__(/*! ./reader */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/reader.js");
+const stream_1 = __webpack_require__(/*! ./stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/stream.js");
 class ReaderAsync extends reader_1.default {
     constructor() {
         super(...arguments);
@@ -2764,10 +2790,10 @@ exports["default"] = ReaderAsync;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/reader.js":
-/*!*****************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/reader.js ***!
-  \*****************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/reader.js":
+/*!****************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/reader.js ***!
+  \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -2775,7 +2801,7 @@ exports["default"] = ReaderAsync;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const path = __webpack_require__(/*! path */ "path");
 const fsStat = __webpack_require__(/*! @nodelib/fs.stat */ "../../node_modules/.pnpm/registry.npmjs.org+@nodelib+fs.stat@2.0.5/node_modules/@nodelib/fs.stat/out/index.js");
-const utils = __webpack_require__(/*! ../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js");
+const utils = __webpack_require__(/*! ../utils */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js");
 class Reader {
     constructor(_settings) {
         this._settings = _settings;
@@ -2808,10 +2834,10 @@ exports["default"] = Reader;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/stream.js":
-/*!*****************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/stream.js ***!
-  \*****************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/stream.js":
+/*!****************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/stream.js ***!
+  \****************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -2820,7 +2846,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const stream_1 = __webpack_require__(/*! stream */ "stream");
 const fsStat = __webpack_require__(/*! @nodelib/fs.stat */ "../../node_modules/.pnpm/registry.npmjs.org+@nodelib+fs.stat@2.0.5/node_modules/@nodelib/fs.stat/out/index.js");
 const fsWalk = __webpack_require__(/*! @nodelib/fs.walk */ "../../node_modules/.pnpm/registry.npmjs.org+@nodelib+fs.walk@1.2.8/node_modules/@nodelib/fs.walk/out/index.js");
-const reader_1 = __webpack_require__(/*! ./reader */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/reader.js");
+const reader_1 = __webpack_require__(/*! ./reader */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/reader.js");
 class ReaderStream extends reader_1.default {
     constructor() {
         super(...arguments);
@@ -2874,10 +2900,10 @@ exports["default"] = ReaderStream;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/sync.js":
-/*!***************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/sync.js ***!
-  \***************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/sync.js":
+/*!**************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/sync.js ***!
+  \**************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -2885,7 +2911,7 @@ exports["default"] = ReaderStream;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fsStat = __webpack_require__(/*! @nodelib/fs.stat */ "../../node_modules/.pnpm/registry.npmjs.org+@nodelib+fs.stat@2.0.5/node_modules/@nodelib/fs.stat/out/index.js");
 const fsWalk = __webpack_require__(/*! @nodelib/fs.walk */ "../../node_modules/.pnpm/registry.npmjs.org+@nodelib+fs.walk@1.2.8/node_modules/@nodelib/fs.walk/out/index.js");
-const reader_1 = __webpack_require__(/*! ./reader */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/readers/reader.js");
+const reader_1 = __webpack_require__(/*! ./reader */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/readers/reader.js");
 class ReaderSync extends reader_1.default {
     constructor() {
         super(...arguments);
@@ -2928,10 +2954,10 @@ exports["default"] = ReaderSync;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/settings.js":
-/*!***********************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/settings.js ***!
-  \***********************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/settings.js":
+/*!**********************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/settings.js ***!
+  \**********************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -2983,6 +3009,8 @@ class Settings {
         if (this.stats) {
             this.objectMode = true;
         }
+        // Remove the cast to the array in the next major (#404).
+        this.ignore = [].concat(this.ignore);
     }
     _getValue(option, value) {
         return option === undefined ? value : option;
@@ -2996,10 +3024,10 @@ exports["default"] = Settings;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/array.js":
-/*!**************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/array.js ***!
-  \**************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/array.js":
+/*!*************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/array.js ***!
+  \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -3029,10 +3057,10 @@ exports.splitWhen = splitWhen;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/errno.js":
-/*!**************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/errno.js ***!
-  \**************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/errno.js":
+/*!*************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/errno.js ***!
+  \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -3047,10 +3075,10 @@ exports.isEnoentCodeError = isEnoentCodeError;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/fs.js":
-/*!***********************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/fs.js ***!
-  \***********************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/fs.js":
+/*!**********************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/fs.js ***!
+  \**********************************************************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -3077,47 +3105,66 @@ exports.createDirentFromStats = createDirentFromStats;
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js":
-/*!**************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/index.js ***!
-  \**************************************************************************************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.string = exports.stream = exports.pattern = exports.path = exports.fs = exports.errno = exports.array = void 0;
-const array = __webpack_require__(/*! ./array */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/array.js");
-exports.array = array;
-const errno = __webpack_require__(/*! ./errno */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/errno.js");
-exports.errno = errno;
-const fs = __webpack_require__(/*! ./fs */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/fs.js");
-exports.fs = fs;
-const path = __webpack_require__(/*! ./path */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/path.js");
-exports.path = path;
-const pattern = __webpack_require__(/*! ./pattern */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/pattern.js");
-exports.pattern = pattern;
-const stream = __webpack_require__(/*! ./stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/stream.js");
-exports.stream = stream;
-const string = __webpack_require__(/*! ./string */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/string.js");
-exports.string = string;
-
-
-/***/ }),
-
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/path.js":
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js":
 /*!*************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/path.js ***!
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/index.js ***!
   \*************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.removeLeadingDotSegment = exports.escape = exports.makeAbsolute = exports.unixify = void 0;
+exports.string = exports.stream = exports.pattern = exports.path = exports.fs = exports.errno = exports.array = void 0;
+const array = __webpack_require__(/*! ./array */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/array.js");
+exports.array = array;
+const errno = __webpack_require__(/*! ./errno */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/errno.js");
+exports.errno = errno;
+const fs = __webpack_require__(/*! ./fs */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/fs.js");
+exports.fs = fs;
+const path = __webpack_require__(/*! ./path */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/path.js");
+exports.path = path;
+const pattern = __webpack_require__(/*! ./pattern */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/pattern.js");
+exports.pattern = pattern;
+const stream = __webpack_require__(/*! ./stream */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/stream.js");
+exports.stream = stream;
+const string = __webpack_require__(/*! ./string */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/string.js");
+exports.string = string;
+
+
+/***/ }),
+
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/path.js":
+/*!************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/path.js ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.convertPosixPathToPattern = exports.convertWindowsPathToPattern = exports.convertPathToPattern = exports.escapePosixPath = exports.escapeWindowsPath = exports.escape = exports.removeLeadingDotSegment = exports.makeAbsolute = exports.unixify = void 0;
+const os = __webpack_require__(/*! os */ "os");
 const path = __webpack_require__(/*! path */ "path");
+const IS_WINDOWS_PLATFORM = os.platform() === 'win32';
 const LEADING_DOT_SEGMENT_CHARACTERS_COUNT = 2; // ./ or .\\
-const UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\())/g;
+/**
+ * All non-escaped special characters.
+ * Posix: ()*?[]{|}, !+@ before (, ! at the beginning, \\ before non-special characters.
+ * Windows: (){}[], !+@ before (, ! at the beginning.
+ */
+const POSIX_UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\()|\\(?![!()*+?@[\]{|}]))/g;
+const WINDOWS_UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()[\]{}]|^!|[!+@](?=\())/g;
+/**
+ * The device path (\\.\ or \\?\).
+ * https://learn.microsoft.com/en-us/dotnet/standard/io/file-path-formats#dos-device-paths
+ */
+const DOS_DEVICE_PATH_RE = /^\\\\([.?])/;
+/**
+ * All backslashes except those escaping special characters.
+ * Windows: !()+@{}
+ * https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
+ */
+const WINDOWS_BACKSLASHES_RE = /\\(?![!()+@[\]{}])/g;
 /**
  * Designed to work only with simple paths: `dir\\file`.
  */
@@ -3129,10 +3176,6 @@ function makeAbsolute(cwd, filepath) {
     return path.resolve(cwd, filepath);
 }
 exports.makeAbsolute = makeAbsolute;
-function escape(pattern) {
-    return pattern.replace(UNESCAPED_GLOB_SYMBOLS_RE, '\\$2');
-}
-exports.escape = escape;
 function removeLeadingDotSegment(entry) {
     // We do not use `startsWith` because this is 10x slower than current implementation for some cases.
     // eslint-disable-next-line @typescript-eslint/prefer-string-starts-ends-with
@@ -3145,20 +3188,40 @@ function removeLeadingDotSegment(entry) {
     return entry;
 }
 exports.removeLeadingDotSegment = removeLeadingDotSegment;
+exports.escape = IS_WINDOWS_PLATFORM ? escapeWindowsPath : escapePosixPath;
+function escapeWindowsPath(pattern) {
+    return pattern.replace(WINDOWS_UNESCAPED_GLOB_SYMBOLS_RE, '\\$2');
+}
+exports.escapeWindowsPath = escapeWindowsPath;
+function escapePosixPath(pattern) {
+    return pattern.replace(POSIX_UNESCAPED_GLOB_SYMBOLS_RE, '\\$2');
+}
+exports.escapePosixPath = escapePosixPath;
+exports.convertPathToPattern = IS_WINDOWS_PLATFORM ? convertWindowsPathToPattern : convertPosixPathToPattern;
+function convertWindowsPathToPattern(filepath) {
+    return escapeWindowsPath(filepath)
+        .replace(DOS_DEVICE_PATH_RE, '//$1')
+        .replace(WINDOWS_BACKSLASHES_RE, '/');
+}
+exports.convertWindowsPathToPattern = convertWindowsPathToPattern;
+function convertPosixPathToPattern(filepath) {
+    return escapePosixPath(filepath);
+}
+exports.convertPosixPathToPattern = convertPosixPathToPattern;
 
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/pattern.js":
-/*!****************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/pattern.js ***!
-  \****************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/pattern.js":
+/*!***************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/pattern.js ***!
+  \***************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.matchAny = exports.convertPatternsToRe = exports.makeRe = exports.getPatternParts = exports.expandBraceExpansion = exports.expandPatternsWithBraceExpansion = exports.isAffectDepthOfReadingPattern = exports.endsWithSlashGlobStar = exports.hasGlobStar = exports.getBaseDirectory = exports.isPatternRelatedToParentDirectory = exports.getPatternsOutsideCurrentDirectory = exports.getPatternsInsideCurrentDirectory = exports.getPositivePatterns = exports.getNegativePatterns = exports.isPositivePattern = exports.isNegativePattern = exports.convertToNegativePattern = exports.convertToPositivePattern = exports.isDynamicPattern = exports.isStaticPattern = void 0;
+exports.removeDuplicateSlashes = exports.matchAny = exports.convertPatternsToRe = exports.makeRe = exports.getPatternParts = exports.expandBraceExpansion = exports.expandPatternsWithBraceExpansion = exports.isAffectDepthOfReadingPattern = exports.endsWithSlashGlobStar = exports.hasGlobStar = exports.getBaseDirectory = exports.isPatternRelatedToParentDirectory = exports.getPatternsOutsideCurrentDirectory = exports.getPatternsInsideCurrentDirectory = exports.getPositivePatterns = exports.getNegativePatterns = exports.isPositivePattern = exports.isNegativePattern = exports.convertToNegativePattern = exports.convertToPositivePattern = exports.isDynamicPattern = exports.isStaticPattern = void 0;
 const path = __webpack_require__(/*! path */ "path");
 const globParent = __webpack_require__(/*! glob-parent */ "../../node_modules/.pnpm/registry.npmjs.org+glob-parent@5.1.2/node_modules/glob-parent/index.js");
 const micromatch = __webpack_require__(/*! micromatch */ "../../node_modules/.pnpm/registry.npmjs.org+micromatch@4.0.5/node_modules/micromatch/index.js");
@@ -3169,6 +3232,11 @@ const REGEX_CHARACTER_CLASS_SYMBOLS_RE = /\[[^[]*]/;
 const REGEX_GROUP_SYMBOLS_RE = /(?:^|[^!*+?@])\([^(]*\|[^|]*\)/;
 const GLOB_EXTENSION_SYMBOLS_RE = /[!*+?@]\([^(]*\)/;
 const BRACE_EXPANSION_SEPARATORS_RE = /,|\.\./;
+/**
+ * Matches a sequence of two or more consecutive slashes, excluding the first two slashes at the beginning of the string.
+ * The latter is due to the presence of the device path at the beginning of the UNC path.
+ */
+const DOUBLE_SLASH_RE = /(?!^)\/{2,}/g;
 function isStaticPattern(pattern, options = {}) {
     return !isDynamicPattern(pattern, options);
 }
@@ -3287,10 +3355,16 @@ function expandPatternsWithBraceExpansion(patterns) {
 }
 exports.expandPatternsWithBraceExpansion = expandPatternsWithBraceExpansion;
 function expandBraceExpansion(pattern) {
-    return micromatch.braces(pattern, {
-        expand: true,
-        nodupes: true
-    });
+    const patterns = micromatch.braces(pattern, { expand: true, nodupes: true, keepEscaping: true });
+    /**
+     * Sort the patterns by length so that the same depth patterns are processed side by side.
+     * `a/{b,}/{c,}/*` – `['a///*', 'a/b//*', 'a//c/*', 'a/b/c/*']`
+     */
+    patterns.sort((a, b) => a.length - b.length);
+    /**
+     * Micromatch can return an empty string in the case of patterns like `{a,}`.
+     */
+    return patterns.filter((pattern) => pattern !== '');
 }
 exports.expandBraceExpansion = expandBraceExpansion;
 function getPatternParts(pattern, options) {
@@ -3325,14 +3399,22 @@ function matchAny(entry, patternsRe) {
     return patternsRe.some((patternRe) => patternRe.test(entry));
 }
 exports.matchAny = matchAny;
+/**
+ * This package only works with forward slashes as a path separator.
+ * Because of this, we cannot use the standard `path.normalize` method, because on Windows platform it will use of backslashes.
+ */
+function removeDuplicateSlashes(pattern) {
+    return pattern.replace(DOUBLE_SLASH_RE, '/');
+}
+exports.removeDuplicateSlashes = removeDuplicateSlashes;
 
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/stream.js":
-/*!***************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/stream.js ***!
-  \***************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/stream.js":
+/*!**************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/stream.js ***!
+  \**************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -3357,10 +3439,10 @@ function propagateCloseEventToSources(streams) {
 
 /***/ }),
 
-/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/string.js":
-/*!***************************************************************************************************************!*\
-  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/utils/string.js ***!
-  \***************************************************************************************************************/
+/***/ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/string.js":
+/*!**************************************************************************************************************!*\
+  !*** ../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/utils/string.js ***!
+  \**************************************************************************************************************/
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -8239,7 +8321,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var node_process__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! node:process */ "node:process");
 /* harmony import */ var node_fs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! node:fs */ "node:fs");
 /* harmony import */ var node_path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! node:path */ "node:path");
-/* harmony import */ var fast_glob__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-glob */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/index.js");
+/* harmony import */ var fast_glob__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-glob */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/index.js");
 /* harmony import */ var ignore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ignore */ "../../node_modules/.pnpm/registry.npmjs.org+ignore@5.2.4/node_modules/ignore/index.js");
 /* harmony import */ var slash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! slash */ "../../node_modules/.pnpm/registry.npmjs.org+slash@4.0.0/node_modules/slash/index.js");
 /* harmony import */ var _to_path_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./to-path.js */ "../../node_modules/.pnpm/registry.npmjs.org+globby@12.2.0/node_modules/globby/to-path.js");
@@ -8544,7 +8626,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var node_fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! node:fs */ "node:fs");
 /* harmony import */ var array_union__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! array-union */ "../../node_modules/.pnpm/registry.npmjs.org+array-union@3.0.1/node_modules/array-union/index.js");
 /* harmony import */ var merge2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! merge2 */ "../../node_modules/.pnpm/registry.npmjs.org+merge2@1.4.1/node_modules/merge2/index.js");
-/* harmony import */ var fast_glob__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-glob */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.2.12/node_modules/fast-glob/out/index.js");
+/* harmony import */ var fast_glob__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! fast-glob */ "../../node_modules/.pnpm/registry.npmjs.org+fast-glob@3.3.2/node_modules/fast-glob/out/index.js");
 /* harmony import */ var dir_glob__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dir-glob */ "../../node_modules/.pnpm/registry.npmjs.org+dir-glob@3.0.1/node_modules/dir-glob/index.js");
 /* harmony import */ var _to_path_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./to-path.js */ "../../node_modules/.pnpm/registry.npmjs.org+globby@12.2.0/node_modules/globby/to-path.js");
 /* harmony import */ var _gitignore_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./gitignore.js */ "../../node_modules/.pnpm/registry.npmjs.org+globby@12.2.0/node_modules/globby/gitignore.js");
