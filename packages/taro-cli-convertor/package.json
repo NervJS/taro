@@ -11,6 +11,7 @@
     "lint": "eslint src --ext .js --ext .jsx --ext .ts --ext .tsx",
     "format": "prettier --write \"{src, __tests__}/**/*.{ts,tsx,js,jsx}\" && eslint src  __tests__ --ext .js --ext .jsx --ext .ts --ext .tsx --fix",
     "test": "jest",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
     "test:clear": "jest --clearCache",
     "test:coverage": "jest --coverage",
     "updateSnapshot": "jest --updateSnapshot"
