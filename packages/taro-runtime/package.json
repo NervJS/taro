@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "prebuild": "rimraf ./dist",
+    "prebuild": "rimraf --impl=move-remove ./dist",
     "build": "pnpm run rollup",
     "dev": "pnpm run rollup --environment TARGET:esm -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",

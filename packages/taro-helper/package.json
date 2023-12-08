@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "run-s clean prod",
-    "clean": "rimraf dist",
+    "clean": "rimraf --impl=move-remove dist",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
     "prod": "tsc",

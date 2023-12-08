@@ -8,7 +8,7 @@
     "dev": "pnpm run mv:comp && tsc -w",
     "prod": "tsc && pnpm run mv:comp",
     "mv:comp": "node ./mv-comp.js",
-    "clean": "rimraf dist",
+    "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
     "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
