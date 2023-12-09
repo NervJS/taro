@@ -884,8 +884,8 @@ export default class Index extends React.Component {
   render() {
     const { list, canvasId, src } = this.state
     return (
-      <View className='api-page'>
-        <View className='canvas-main'>
+      <View>
+        <View className='canvas-main' style={{ top: '79px' }}>
           <Canvas
             canvasId={canvasId}
             className='canvas'
@@ -894,6 +894,7 @@ export default class Index extends React.Component {
             style='width: 305px; height: 280px;'
           ></Canvas>
         </View>
+        <View style={{ height: '300px' }}></View>
         <View className={`${!src ? 'hide' : 'show'}`}>
           <View>Taro.canvasToTempFilePath图片 </View>
           <Image className='image-show' src={src}></Image>
