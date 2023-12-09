@@ -56,6 +56,12 @@ jobs:
               args: [--frozen-lockfile]
       - name: lint
         run: pnpm lint
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: crates/native_binding/artifacts
+      - name: Move artifacts
+        run: pnpm artifacts
       - name: build
         run: pnpm build
       - name: test
