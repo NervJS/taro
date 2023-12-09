@@ -30,5 +30,7 @@ Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundCol
   if (typeof window !== 'undefined') {
     // @ts-ignore
     window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+    // @ts-ignore
+    window.currentNavigationStyle = style
   }
 })
