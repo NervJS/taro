@@ -216,7 +216,7 @@ export default class Project extends Creator {
         value: 'webpack4'
       },
       {
-        name: 'vite',
+        name: 'Vite',
         value: 'vite'
       }
     ]
