@@ -61,7 +61,8 @@ export class TaroH5IntersectionObserver implements Taro.IntersectionObserver {
           intersectionRatio: entry.intersectionRatio,
           intersectionRect: entry.intersectionRect,
           relativeRect: entry.rootBounds || { left: 0, right: 0, top: 0, bottom: 0 },
-          time: entry.time
+          // 使用时间戳而不是entry.time，跟微信小程序一致
+          time: Date.now(),
         }
         // web端会默认首次触发
         if (!this._isInited && this._options.initialRatio <= Math.min.apply(Math, this._options.thresholds)) {
