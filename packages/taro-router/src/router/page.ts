@@ -87,6 +87,14 @@ export default class PageHandler {
     return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
   }
 
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
+    }
+    return style !== 'custom'
+  }
+
   isSamePage (page?: PageInstance | null) {
     const routePath = stripBasename(this.pathname, this.basename)
     const pagePath = stripBasename(page?.path, this.basename)
@@ -192,12 +200,14 @@ export default class PageHandler {
     if (!page) return
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
+    // FIXME ios下页面未渲染完成快速切换tabbar白屏
     stacks.push(page)
     const param = this.getQuery(stampId, '', page.options)
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       pageEl.classList.remove('taro_page_shade')
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
+      this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
@@ -206,9 +216,10 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
+        this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
-        this.onReady(page, true)
         page.onShow?.()
+        this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
       })
@@ -266,8 +277,8 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
-        this.onReady(page, false)
         page.onShow?.()
+        this.onReady(page, false)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
       })
