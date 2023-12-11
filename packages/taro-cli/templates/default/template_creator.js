@@ -4,9 +4,6 @@ function createWhenTs (err, params) {
   return !!params.typescript
 }
 
-const SOURCE_ENTRY = '/src'
-const PAGES_ENTRY = '/src/pages'
-
 const handler = {
   '/tsconfig.json': createWhenTs,
   '/types/global.d.ts': createWhenTs,
