@@ -1021,6 +1021,9 @@ importers:
       typescript:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.9.5
+      mkdirp:
+        specifier: ^1.0.4
+        version: registry.npmjs.org/mkdirp@1.0.4
 
   packages/taro-components-advanced:
     dependencies:
