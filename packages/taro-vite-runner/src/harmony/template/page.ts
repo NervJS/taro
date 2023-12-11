@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
 import path from 'path'
 
-import { parseRelativePath } from '../../utils'
+import { escapeId, parseRelativePath } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
@@ -574,7 +574,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           '}',
         ]
         : [
-          `import createComponent, { config } from "${rawId}${TARO_COMP_SUFFIX}"`,
+          `import createComponent, { config } from "${escapeId(rawId + TARO_COMP_SUFFIX)}"`,
         ],
       '',
       this.instantiatePage,
@@ -617,7 +617,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
     return this.transArr2Str([
       `import { createPageConfig } from '${creatorLocation}'`,
-      `import component from "${rawId}"`,
+      `import component from "${escapeId(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,

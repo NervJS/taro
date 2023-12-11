@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
 import path from 'path'
 
-import { parseRelativePath } from '../../utils'
+import { escapeId, parseRelativePath } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
@@ -167,7 +167,7 @@ export default class Parser extends BaseParser {
     return this.transArr2Str([
       this.#setReconciler,
       `import { ${creator} } from "${creatorLocation}"`,
-      `import component from "${rawId}"`,
+      `import component from "${escapeId(rawId)}"`,
       this.#setReconcilerPost,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(config)}`,
