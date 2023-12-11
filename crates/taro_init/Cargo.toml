@@ -1,0 +1,22 @@
+[package]
+name = "taro_init"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+napi = { workspace = true }
+napi-derive = { workspace = true }
+once_cell = { workspace = true }
+tokio = { workspace = true, features = ["fs", "macros", "io-util", "process"] }
+tokio-util = { workspace = true, features = ["io"] }
+futures = { workspace = true }
+serde_json = { workspace = true }
+serde = { workspace = true }
+handlebars = { workspace = true }
+handlebars_misc_helpers = { workspace = true }
+anyhow = { workspace = true }
+console = { workspace = true }
+spinners = { workspace = true }
+regex = { workspace = true }

@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 
 import { isFunction } from './utils'
 
@@ -12,10 +13,14 @@ const defaultRadio = {
   828: 1.81 / 2
 }
 
+let uiWidthPx = 375
+
+if (DeviceInfo.isTablet()) {
+  uiWidthPx = 750
+}
+
 export function pxTransform (size: number): number {
-  const { width, height } = Dimensions.get('window')
-  const deviceWidthDp = Math.min(width, height)
-  const uiWidthPx = 375
+  const deviceWidthDp = Dimensions.get('window').width
   const config: AppConfig = globalAny.__taroAppConfig?.appConfig || {}
   const deviceRatio = config.deviceRatio || defaultRadio
   const designWidth = (((input = 0) => isFunction(config.designWidth)

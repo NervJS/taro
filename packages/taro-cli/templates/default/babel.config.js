@@ -3,9 +3,8 @@
 module.exports = {
   presets: [
     ['taro', {
-      framework: '<%= framework %>',
-      ts: <%= typescript %>,
-      compiler: '<%= compiler %>'
+      framework: '{{ to_lower_case framework }}',
+      ts: {{ typescript }}
     }]
   ]
 }

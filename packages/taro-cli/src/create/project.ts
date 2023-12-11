@@ -1,3 +1,4 @@
+import { CompilerType, createProject, CSSType, FrameworkType, NpmType, PeriodType } from '@tarojs/binding'
 import {
   chalk,
   DEFAULT_TEMPLATE_SRC,
@@ -15,30 +16,30 @@ import * as path from 'path'
 import * as request from 'request'
 import * as semver from 'semver'
 
-import { clearConsole } from '../util'
+import { clearConsole, getPkgVersion, getRootPath } from '../util'
+import { TEMPLATE_CREATOR } from './constants'
 import Creator from './creator'
 import fetchTemplate from './fetchTemplate'
-import { createApp } from './init'
 
 import type { ITemplates } from './fetchTemplate'
 
 export interface IProjectConf {
   projectName: string
   projectDir: string
-  npm: string
+  npm: NpmType
   templateSource: string
   clone?: boolean
   template: string
   description?: string
   typescript?: boolean
-  css: 'none' | 'sass' | 'stylus' | 'less'
+  css: CSSType
   date?: string
   src?: string
   sourceRoot?: string
   env?: string
   autoInstall?: boolean
-  framework: 'react' | 'preact' | 'nerv' | 'vue' | 'vue3'
-  compiler?: 'webpack4' | 'webpack5' | 'vite'
+  framework: FrameworkType
+  compiler?: CompilerType
 }
 
 type CustomPartial<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
@@ -178,19 +179,19 @@ export default class Project extends Creator {
     const cssChoices = [
       {
         name: 'Sass',
-        value: 'sass'
+        value: CSSType.Sass
       },
       {
         name: 'Less',
-        value: 'less'
+        value: CSSType.Less
       },
       {
         name: 'Stylus',
-        value: 'stylus'
+        value: CSSType.Stylus
       },
       {
         name: '无',
-        value: 'none'
+        value: CSSType.None
       }
     ]
 
@@ -208,7 +209,7 @@ export default class Project extends Creator {
     const compilerChoices = [
       {
         name: 'Webpack5',
-        value: 'webpack5'
+        value: CompilerType.Webpack5
       },
       {
         name: 'Webpack4',
@@ -234,11 +235,11 @@ export default class Project extends Creator {
     const frameworks = [
       {
         name: 'React',
-        value: 'react'
+        value: FrameworkType.React
       },
       {
         name: 'PReact',
-        value: 'preact'
+        value: FrameworkType.Preact
       },
       // {
       //   name: 'Nerv',
@@ -246,11 +247,11 @@ export default class Project extends Creator {
       // },
       {
         name: 'Vue',
-        value: 'vue'
+        value: FrameworkType.Vue
       },
       {
         name: 'Vue3',
-        value: 'vue3'
+        value: FrameworkType.Vue3
       }
     ]
 
@@ -369,19 +370,19 @@ export default class Project extends Creator {
     const packages = [
       {
         name: 'yarn',
-        value: 'yarn'
+        value: NpmType.Yarn
       },
       {
         name: 'pnpm',
-        value: 'pnpm'
+        value: NpmType.Pnpm
       },
       {
         name: 'npm',
-        value: 'npm'
+        value: NpmType.Npm
       },
       {
         name: 'cnpm',
-        value: 'cnpm'
+        value: NpmType.Cnpm
       }
     ]
 
@@ -439,7 +440,29 @@ export default class Project extends Creator {
 
   write (cb?: () => void) {
     this.conf.src = SOURCE_DIR
-    createApp(this, this.conf as IProjectConf, cb).catch(err => console.log(err))
+    const { projectName, projectDir, template, autoInstall = true, framework, npm } = this.conf as IProjectConf
+    // 引入模板编写者的自定义逻辑
+    const templatePath = this.templatePath(template)
+    const handlerPath = path.join(templatePath, TEMPLATE_CREATOR)
+    const handler = fs.existsSync(handlerPath) ? require(handlerPath).handler : {}
+    createProject({
+      projectRoot: projectDir,
+      projectName,
+      template,
+      npm,
+      framework,
+      css: this.conf.css || CSSType.None,
+      autoInstall: autoInstall,
+      templateRoot: getRootPath(),
+      version: getPkgVersion(),
+      typescript: this.conf.typescript,
+      date: this.conf.date,
+      description: this.conf.description,
+      compiler: this.conf.compiler,
+      period: PeriodType.CreateAPP,
+    }, handler).then(() => {
+      cb && cb()
+    })
   }
 }
 

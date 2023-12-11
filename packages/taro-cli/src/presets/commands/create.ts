@@ -57,7 +57,6 @@ export default (ctx: IPluginContext) => {
             pageName: name,
             projectDir: appPath,
             description,
-            framework: ctx.initialConfig.framework,
             async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }
