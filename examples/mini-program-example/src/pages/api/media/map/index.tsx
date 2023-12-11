@@ -706,7 +706,7 @@ export default class Index extends React.Component {
           padding: 20,
           textAlign: 'left',
         },
-        anchor: { x: 0, y: 0 },
+        anchor: { x: 0.5, y: 1 },
         ariaLabel: '中国首都',
       },
     ]
