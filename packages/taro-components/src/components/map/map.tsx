@@ -410,18 +410,18 @@ export class Map implements ComponentInterface {
         }
         if (marker.width && marker.height) {
           const canvas = document.createElement('canvas')
-          canvas.width = marker.width
-          canvas.height = marker.height
+          canvas.width = marker.width * 2
+          canvas.height = marker.height * 2
           // 获取 Canvas 上下文
           const ctx = canvas.getContext('2d')!
           // 创建一个新的图片对象
           const img = new Image()
           // 设置图片的跨域属性
-          img.crossOrigin = 'Anonymous' 
+          img.crossOrigin = 'Anonymous'
           img.src = marker.iconPath
           // 当图片加载完成后，将其绘制到Canvas上
           img.onload = function () {
-            ctx.drawImage(img, 0, 0, marker.width, marker.height)
+            ctx.drawImage(img, 0, 0, marker.width * 2, marker.height * 2)
             // 创建 BMapGL.Icon 对象，并将 Canvas 元素作为图标的内容
             // 设置锚点偏移量为(0, 0)，表示图标的左上角将与经纬度对齐
             const icon = new BMapGL.Icon(canvas.toDataURL(), new BMapGL.Size(marker.width, marker.height), {
@@ -606,8 +606,8 @@ export class Map implements ComponentInterface {
     option.iconPath = 'https://img0.baidu.com/it/u=2604176863,3349829508&fm=253&fmt=auto&app=138&f=PNG?w=243&h=243'
     const icon = new BMapGL.Icon(option.iconPath, new BMapGL.Size(20, 30))
     // 将经纬度从BD09转换为GCJ02
-    const gcj02Point = coordtransform.bd09togcj02(this.longitude, this.latitude)
-    const marker = new BMapGL.Marker(new BMapGL.Point(gcj02Point[0], gcj02Point[1]), { icon })
+    const gcj02Point = [this.longitude, this.latitude]
+    const marker = new BMapGL.Marker(new BMapGL.Point(this.longitude, this.latitude), { icon })
     marker.isCenterMarker = true // 标记该覆盖物是中心点图标
     // 添加新的图标
     this.map.addOverlay(marker)
@@ -704,7 +704,7 @@ export class Map implements ComponentInterface {
   /* 获取当前地图的倾斜角 */
   _getSkew = () => {
     let Skew = this.skew
-    if(Skew < 0 || Skew > 40 ){
+    if (Skew < 0 || Skew > 40) {
       Skew = 0
     }
     return Skew
