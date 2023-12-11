@@ -28,9 +28,6 @@ jobs:
       matrix:
         node-version: [16.x]
         os: [windows-latest, ubuntu-latest]
-        exclude:
-          - os: windows-latest
-            node-version: 16.x
 
     steps:
       - name: Checkout
