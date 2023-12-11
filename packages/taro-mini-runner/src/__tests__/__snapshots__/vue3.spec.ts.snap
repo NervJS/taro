@@ -1443,8 +1443,6 @@ require("./taro");
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], [ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -1467,7 +1465,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

@@ -1822,8 +1822,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -1840,7 +1838,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -3258,8 +3256,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{}}
-
-/** filePath: dist/runtime.js **/
 
 /** filePath: dist/utils.sjs **/
 export default {
@@ -5050,8 +5046,6 @@ D�RN��/y�   X}_�A��T�    IEND�B\`�
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -5068,7 +5062,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

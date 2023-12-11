@@ -49,6 +49,7 @@ export function isValidVarName (str?: string) {
 }
 
 export function parseCode (code: string, scriptPath?: string) {
+  printToLogFile(`package: taroize, funName: parseCode, scriptPath: ${scriptPath} ${getLineBreak()}`)
   let ast: any = {}
   if (typeof scriptPath !== 'undefined') {
     ast = parse(code, {

@@ -1514,8 +1514,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.json **/
 {"navigationBarTitleText":"首页","usingComponents":{}}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (my["webpackJsonp"] = my["webpackJsonp"] || []).push([ [ 1 ], {
     11: function(module, __webpack_exports__, __webpack_require__) {

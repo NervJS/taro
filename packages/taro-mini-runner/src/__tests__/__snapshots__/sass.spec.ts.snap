@@ -1418,8 +1418,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.wxss **/
 .index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -1452,7 +1450,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -3045,8 +3043,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.wxss **/
 .body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -3079,7 +3075,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -4672,8 +4668,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.wxss **/
 .body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -4706,7 +4700,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -6299,8 +6293,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.wxss **/
 .body{background-color:#00f}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -6333,7 +6325,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

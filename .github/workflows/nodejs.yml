@@ -5,11 +5,11 @@ env:
 on:
   push:
     branches:
-      - next
+      - main
       - feat/**
   pull_request:
     branches:
-      - next
+      - main
 
 permissions:
   contents: read # to fetch code (actions/checkout)

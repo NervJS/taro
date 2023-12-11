@@ -7,7 +7,7 @@ on:
       - 'feat/**'
   pull_request:
     branches:
-      - next
+      - main
     types: [closed]
 
 env:

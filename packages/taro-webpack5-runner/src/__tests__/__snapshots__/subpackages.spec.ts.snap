@@ -1682,8 +1682,6 @@ require("../../sub-utils");
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -1700,7 +1698,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

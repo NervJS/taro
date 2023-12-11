@@ -13,7 +13,7 @@
     "build": "pnpm run clean && pnpm run prod",
     "dev": "tsc -w",
     "prod": "tsc",
-    "clean": "rimraf dist"
+    "clean": "rimraf --impl=move-remove dist"
   },
   "files": [
     "bin",

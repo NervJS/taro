@@ -19,7 +19,7 @@
     "*.css"
   ],
   "scripts": {
-    "prebuild": "rimraf ./dist",
+    "prebuild": "rimraf --impl=move-remove ./dist",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",

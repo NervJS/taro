@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build:ci": "run-s clean prod",
-    "clean": "rimraf ../taro-components/lib/vue2",
+    "clean": "rimraf --impl=move-remove ../taro-components/lib/vue2",
     "dev": "pnpm run prod -w",
     "preprod": "node ./scripts/fix.js",
     "prod": "rollup -c"

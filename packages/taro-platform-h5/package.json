@@ -27,7 +27,7 @@
   "scripts": {
     "prebuild": "run-s clean generate:desc",
     "build": "pnpm run rollup --environment NODE_ENV:production",
-    "clean": "rimraf dist",
+    "clean": "rimraf --impl=move-remove dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "generate:desc": "pnpm run tsx --files ./build/definition-json",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",

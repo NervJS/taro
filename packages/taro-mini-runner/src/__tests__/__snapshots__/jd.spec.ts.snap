@@ -1564,8 +1564,6 @@ require("./taro");
 
 /** filePath: dist/pages/index/index.jxss **/
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (jd["webpackJsonp"] = jd["webpackJsonp"] || []).push([ [ 1 ], {
     1: function(module, __webpack_exports__, __webpack_require__) {
@@ -1598,7 +1596,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

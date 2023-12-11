@@ -1437,8 +1437,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.wxss **/
 .index-module__cbody___7MNr8{height:300rpx;background-color:#e8e8ed}.index-module__ctext___Oge7c{display:inline-block;width:100%;color:#ff0}.index__cwrapper___bFOj1{font-size:36rpx}.chomepage{background:gray}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -1471,7 +1469,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -3076,8 +3074,6 @@ require("./taro");
 /** filePath: dist/pages/index/index.wxss **/
 .index-module__cbody___7MNr8{height:300rpx;background-color:#e8e8ed}.index-module__ctext___Oge7c{display:inline-block;width:100%;color:#ff0}.cwrapper{font-size:36rpx}.chomepage{background:gray}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/taro.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 1 ], {
     0: function(module, __webpack_exports__, __webpack_require__) {
@@ -3110,7 +3106,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n

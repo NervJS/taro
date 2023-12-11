@@ -1484,8 +1484,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .index{color:red}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -1502,7 +1500,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -3342,8 +3340,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -3360,7 +3356,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -5212,8 +5208,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .body{background-color:blue}.body{background-color:red}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -5230,7 +5224,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -7083,8 +7077,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .body{background-color:blue}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -7101,7 +7093,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -8954,8 +8946,6 @@ require("./runtime");
 /** filePath: dist/pages/index/index.wxss **/
 .body{background-color:blue}.index{width:100%}.index .list{display:flex}.index .list .list-item{width:20rpx}
 
-/** filePath: dist/runtime.js **/
-
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
@@ -8972,7 +8962,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
