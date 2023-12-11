@@ -229,8 +229,12 @@ export function getBabelOption (
   return opts
 }
 
+export function escapePath (p: string) {
+  return p.replace(backSlashRegEx, '/')
+}
+
 export function parseRelativePath (from: string, to: string) {
-  const relativePath = path.relative(from, to).replace(backSlashRegEx, '/')
+  const relativePath = escapePath(path.relative(from, to))
 
   return /^\.{1,2}[\\/]/.test(relativePath)
     ? relativePath

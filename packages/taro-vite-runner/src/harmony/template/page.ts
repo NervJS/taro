@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
 import path from 'path'
 
-import { escapeId, parseRelativePath } from '../../utils'
+import { escapePath, parseRelativePath } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
@@ -574,7 +574,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           '}',
         ]
         : [
-          `import createComponent, { config } from "${escapeId(rawId + TARO_COMP_SUFFIX)}"`,
+          `import createComponent, { config } from "${rawId + TARO_COMP_SUFFIX}"`,
         ],
       '',
       this.instantiatePage,
@@ -597,7 +597,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
         if (absolutePath.startsWith(outputRoot)) {
           const outputFile = path.resolve(
             outputRoot,
-            rawId.startsWith('/') ? path.relative(targetRoot, rawId) : rawId
+            path.isAbsolute(rawId) ? path.relative(targetRoot, rawId) : rawId
           )
           const outputDir = path.dirname(outputFile)
           return src.replace(source, parseRelativePath(outputDir, absolutePath))
@@ -617,7 +617,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
     return this.transArr2Str([
       `import { createPageConfig } from '${creatorLocation}'`,
-      `import component from "${escapeId(rawId)}"`,
+      `import component from "${escapePath(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,
       page?.config.enableShareTimeline ? 'component.enableShareTimeline = true' : null,

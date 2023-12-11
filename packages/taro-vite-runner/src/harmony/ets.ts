@@ -177,7 +177,7 @@ export class EtsHelper {
     const targetRoot = path.resolve(this.appPath, sourceRoot)
     const outputFile = path.resolve(
       this.taroConfig.outputRoot || 'dist',
-      realImporter.startsWith('/') ? path.relative(targetRoot, realImporter) : realImporter
+      path.isAbsolute(realImporter) ? path.relative(targetRoot, realImporter) : realImporter
     )
     const outputDir = path.dirname(outputFile)
     return code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {

@@ -2,7 +2,7 @@ import { fs, isEmptyObject, removePathPrefix } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { appendVirtualModulePrefix, escapeId, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, escapePath, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 import { baseCompName, customWrapperName } from '../utils/constants'
 import { miniTemplateLoader, QUERY_IS_NATIVE_COMP, QUERY_IS_NATIVE_PAGE } from './native-support'
 
@@ -156,7 +156,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
           `import { ${creator} } from "${creatorLocation}"`,
           'import { initPxTransform } from "@tarojs/taro"',
           setReconcilerPost,
-          `import component from "${escapeId(rawId)}"`,
+          `import component from "${escapePath(rawId)}"`,
           importFrameworkStatement,
           `var config = ${appConfigStr};`,
           'window.__taroAppConfig = config',
