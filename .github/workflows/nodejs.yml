@@ -21,8 +21,7 @@ jobs:
     with:
       name: "taro"
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: [build-rust-binding]
     strategy:
       fail-fast: false
@@ -32,8 +31,6 @@ jobs:
         exclude:
           - os: windows-latest
             node-version: 16.x
-
-    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
