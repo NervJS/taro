@@ -4,7 +4,7 @@ import { IPostcssOption } from '@tarojs/taro/types/compile'
 import path from 'path'
 import querystring from 'querystring'
 
-import { MINI_EXCLUDE_POSTCSS_PLUGIN_NAME } from './constants'
+import { backSlashRegEx, MINI_EXCLUDE_POSTCSS_PLUGIN_NAME, needsEscapeRegEx, quoteNewlineRegEx } from './constants'
 import createFilter from './createFilter'
 import { logger } from './logger'
 
@@ -55,13 +55,13 @@ export function getComponentName (viteCompilerContext: ViteH5CompilerContext | V
   if (NODE_MODULES_REG.test(componentPath)) {
     componentName = componentPath
       .replace(viteCompilerContext.cwd, '')
-      .replace(/\\/g, '/')
+      .replace(backSlashRegEx, '/')
       .replace(path.extname(componentPath), '')
       .replace(/node_modules/gi, 'npm')
   } else {
     componentName = componentPath
       .replace(viteCompilerContext.sourceDir, '')
-      .replace(/\\/g, '/')
+      .replace(backSlashRegEx, '/')
       .replace(path.extname(componentPath), '')
   }
 
@@ -230,11 +230,16 @@ export function getBabelOption (
 }
 
 export function parseRelativePath (from: string, to: string) {
-  const relativePath = path.relative(from, to).replace(/\\/g, '/')
+  const relativePath = path.relative(from, to).replace(backSlashRegEx, '/')
 
   return /^\.{1,2}[\\/]/.test(relativePath)
     ? relativePath
     : /^\.{1,2}$/.test(relativePath)
       ? `${relativePath}/`
       : `./${relativePath}`
+}
+
+export function escapeId(id: string): string {
+  if (!needsEscapeRegEx.test(id)) return id
+  return id.replace(backSlashRegEx, '\\\\').replace(quoteNewlineRegEx, '\\$1')
 }

@@ -1,4 +1,4 @@
-import { appendVirtualModulePrefix, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, escapeId, prettyPrintJson, stripVirtualModulePrefix } from '../utils'
 
 import type { ViteMiniCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
@@ -36,7 +36,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
 
         return [
           'import { createPageConfig } from "@tarojs/runtime"',
-          `import component from "${rawId}"`,
+          `import component from "${escapeId(rawId)}"`,
           `var config = ${pageConfig}`,
           page.config.enableShareTimeline ? 'component.enableShareTimeline = true' : '',
           page.config.enableShareAppMessage ? 'component.enableShareAppMessage = true' : '',
