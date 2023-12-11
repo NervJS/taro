@@ -46,7 +46,7 @@ export class Swiper implements ComponentInterface {
   @Prop() current = 0
 
   /**
-   * 当前所在滑块的 index
+   * 当前所在滑块的 item-id
    */
   @Prop() currentItemId = ''
 
