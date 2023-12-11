@@ -263,7 +263,7 @@ export default class Index extends React.Component {
             height: '300px',
             border: '1px solid #000',
             backgroundColor: '#fff',
-            zIndex: 10,
+            zIndex: 100,
           }}
         >
           <Text style={{ fontSize: '16px' }}>{description}</Text>
