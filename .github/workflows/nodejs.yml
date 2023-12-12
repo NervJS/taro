@@ -1,5 +1,7 @@
 name: Node CI
-
+env:
+  DEBUG: napi:*
+  MACOSX_DEPLOYMENT_TARGET: '10.13'
 on:
   push:
     branches:
@@ -13,23 +15,25 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
+  build-rust-binding:
+    name: Build Rust Binding
+    uses: ./.github/workflows/build-rust-binding.yml
+    with:
+      name: "taro"
   build:
+    runs-on: ${{ matrix.os }}
+    needs: [build-rust-binding]
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14.x, 16.x]
-        os: [windows-latest, ubuntu-latest]
-        exclude:
-          - os: windows-latest
-            node-version: 16.x
-
-    runs-on: ${{ matrix.os }}
+        node-version: [16.x]
+        os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with :
-          ref : ${{ github.ref || github.head_ref || github.ref_name }}
+        with:
+          ref: ${{ github.ref || github.head_ref || github.ref_name }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -52,6 +56,12 @@ jobs:
               args: [--frozen-lockfile]
       - name: lint
         run: pnpm lint
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: crates/native_binding/artifacts
+      - name: Move artifacts
+        run: pnpm artifacts
       - name: build
         run: pnpm build
       - name: test

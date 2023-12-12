@@ -1,13 +1,13 @@
-import { defineConfig<% if (typescript) {%>, type UserConfigExport<%}%> } from '@tarojs/cli'
-<% if (typescript && compiler !== 'vite') {%>import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'<%}%>
+import { defineConfig{{#if typescript }}, type UserConfigExport{{/if}} } from '@tarojs/cli'
+{{#if typescript }}import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'{{/if}}
 import devConfig from './dev'
 import prodConfig from './prod'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async (merge, { command, mode }) => {
-  const baseConfig<% if (typescript) {%>: UserConfigExport<'<%= compiler %>'><%}%> = {
-    projectName: '<%= projectName %>',
-    date: '<%= date %>',
+export default defineConfig{{#if typescript }}<'{{ to_lower_case compiler }}'>{{/if}}(async (merge, { command, mode }) => {
+  const baseConfig{{#if typescript }}: UserConfigExport<'{{ to_lower_case compiler }}'>{{/if}} = {
+    projectName: '{{ projectName }}',
+    date: '{{ date }}',
     designWidth: 750,
     deviceRatio: {
       640: 2.34 / 2,
@@ -26,17 +26,23 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
       options: {
       }
     },
-    framework: '<%= framework %>',
-    compiler: '<%= compiler %>',<% if (compiler === 'webpack5') {%>
+    framework: '{{ to_lower_case framework }}',
+    compiler: '{{ to_lower_case compiler }}',{{#if (eq compiler "Webpack5") }}
     cache: {
       enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
-    },<%}%>
+    },{{/if}}
     mini: {
       postcss: {
         pxtransform: {
           enable: true,
           config: {
 
+          }
+        },
+        url: {
+          enable: true,
+          config: {
+            limit: 1024 // 设定转换尺寸上限
           }
         },
         cssModules: {
@@ -46,18 +52,19 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }<% if (typescript && compiler !== 'vite') {%>,
+      }{{#if typescript }},{{#unless (eq compiler "Vite")}}
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }<%}%>
+      }{{/unless}}{{/if}}
     },
     h5: {
       publicPath: '/',
-      staticDirectory: 'static',<% if (typescript && compiler !== 'vite') {%>
+      staticDirectory: 'static',
+      {{#unless (eq compiler "Vite")}}
       output: {
         filename: 'js/[name].[hash:8].js',
         chunkFilename: 'js/[name].[chunkhash:8].js'
-      },<%}%>
+      },{{/unless}}
       miniCssExtractPluginOption: {
         ignoreOrder: true,
         filename: 'css/[name].[hash].css',
@@ -75,10 +82,10 @@ export default defineConfig<% if (typescript) {%><'<%= compiler %>'><%}%>(async 
             generateScopedName: '[name]__[local]___[hash:base64:5]'
           }
         }
-      }<% if (typescript && compiler !== 'vite') {%>,
+      }{{#if typescript }},{{#unless (eq compiler "Vite")}}
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
-      }<%}%>
+      }{{/unless}}{{/if}}
     },
     rn: {
       appName: 'taroDemo',

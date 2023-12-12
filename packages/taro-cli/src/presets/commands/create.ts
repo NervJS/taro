@@ -50,14 +50,13 @@ export default (ctx: IPluginContext) => {
             return console.log(chalk.red('请输入需要创建的页面名称'))
           }
 
-          const subPkg = options.subpkg || ''
           const Page = require('../../create/page').default
           const page = new Page({
-            subPkg,
+            subPkg: options.subpkg,
+            pageDir: options.dir,
             pageName: name,
             projectDir: appPath,
             description,
-            framework: ctx.initialConfig.framework,
             async modifyCustomTemplateConfig (cb: TSetCustomTemplateConfig) {
               await ctx.applyPlugins({ name: hooks.MODIFY_CREATE_TEMPLATE, opts: cb })
             }

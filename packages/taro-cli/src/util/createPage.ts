@@ -108,13 +108,12 @@ const generateNewPageConfig = (fullPagePath: string, subPkgRootPath = '') => {
     pkg: '',
     page: ''
   }
-  const processedPageString = fullPagePath.slice(0, fullPagePath.lastIndexOf('.'))
   if (subPkgRootPath) {
     const processedSubPkg = `${subPkgRootPath}/`
     newPageConfig.pkg = processedSubPkg
-    newPageConfig.page = processedPageString.split(processedSubPkg)[1]
+    newPageConfig.page = fullPagePath.split(processedSubPkg)[1]
   } else {
-    newPageConfig.page = processedPageString
+    newPageConfig.page = fullPagePath
   }
 
   return newPageConfig
