@@ -99,7 +99,6 @@ jobs:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
         node:
-          - '14'
           - '16'
     runs-on: ${{ matrix.settings.host }}
     steps:
@@ -178,4 +177,3 @@ jobs:
       - name: Test bindings
         # 暂时使用了一个第三方的 docker 镜像
         run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
-    
