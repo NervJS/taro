@@ -60,7 +60,7 @@ function attrs(attr: InputAttrs) {
 
 function getAttributes(node: TaroInputElement): InputAttrs {
   return {
-    textAlign: node._st?.textAlign,
+    textAlign: node.hmStyle.textAlign,
   }
 }
 

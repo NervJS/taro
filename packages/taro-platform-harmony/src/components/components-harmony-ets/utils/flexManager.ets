@@ -2,17 +2,17 @@ import type { TaroAny, TaroElement } from '@tarojs/runtime'
 
 class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
-    const _st: TaroAny = node._st || {}
+    const hmStyle = node.hmStyle
 
-    let flexDirection: FlexDirection = _st.flexDirection
+    let flexDirection = hmStyle.direction
     if (!flexDirection && flexDirection !== 0) {
-      flexDirection = _st.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
+      flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
     }
 
     return {
       direction: flexDirection,
-      justifyContent: _st.justifyContent,
-      alignItems: _st.alignItems
+      justifyContent: hmStyle.justifyContent,
+      alignItems: hmStyle.alignItems
     }
   }
 

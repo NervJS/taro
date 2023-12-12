@@ -11,15 +11,15 @@ export default struct TaroComponentWrapper {
   @BuilderParam createElement: () => void
 
   top(): Length {
-    return this.node?._st?.top || 0
+    return this.node?.hmStyle?.top || 0
   }
 
   left(): Length {
-    return this.node?._st?.left || 0
+    return this.node?.hmStyle?.left || 0
   }
 
   @Builder createFlexElementWithPosition () {
-    if (this.node?._st?.position === 'absolute') {
+    if (this.node?.hmStyle?.position === 'absolute') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
@@ -29,8 +29,8 @@ export default struct TaroComponentWrapper {
       })
       .id(this.node?._attrs?.id || this.node?._nid)
       .key(this.node?._attrs?.id || this.node?._nid)
-      .zIndex(Number(this.node?._st?.zIndex) || null)
-    } else if (this.node?._st?.position === 'fixed') {
+      .zIndex(Number(this.node?.hmStyle?.zIndex) || null)
+    } else if (this.node?.hmStyle?.position === 'fixed') {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
@@ -40,8 +40,8 @@ export default struct TaroComponentWrapper {
       })
       .id(this.node?._attrs?.id || this.node?._nid)
       .key(this.node?._attrs?.id || this.node?._nid)
-      .zIndex(Number(this.node?._st?.zIndex) || null)
-    } else if ((this.node?._st?.position === 'relative')) {
+      .zIndex(Number(this.node?.hmStyle?.zIndex) || null)
+    } else if ((this.node?.hmStyle?.position === 'relative')) {
       Stack({ alignContent: Alignment.TopStart }) {
         this.createElement()
       }
@@ -51,7 +51,7 @@ export default struct TaroComponentWrapper {
       })
       .id(this.node?._attrs?.id || this.node?._nid)
       .key(this.node?._attrs?.id || this.node?._nid)
-      .zIndex(Number(this.node?._st?.zIndex) || null)
+      .zIndex(Number(this.node?.hmStyle?.zIndex) || null)
     } else {
       this.createElement()
     }

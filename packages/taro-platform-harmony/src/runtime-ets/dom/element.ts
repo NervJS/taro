@@ -168,6 +168,11 @@ export class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> exte
 
   public _st = new StyleSheet()
 
+  // 经转换后的鸿蒙样式
+  public get hmStyle () {
+    return this._st.hmStyle
+  }
+
   public _style: ICSSStyleDeclaration
 
   public get style (): ICSSStyleDeclaration {

@@ -7,26 +7,26 @@ import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyTyp
 import type { StandardProps } from '@tarojs/components/types'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
-  const _st = node._st._st
+  const hmStyle = node.hmStyle
 
   const attributes: TaroAny = {
-    maxLines: _st.maxLines || Infinity,
+    maxLines: hmStyle.maxLines || Infinity,
     // 已做处理的属性
-    letterSpacing: _st.letterSpacing,
-    textAlign: _st.textAlign,
-    textOverflow: _st.textOverflow
+    letterSpacing: hmStyle.letterSpacing,
+    textAlign: hmStyle.textAlign,
+    textOverflow: hmStyle.textOverflow
   }
 
   return attributes
 }
 
 export function getNormalAttributes (node: TaroElement): TaroStyleType {
-  const _st = node._st._st
+  const hmStyle = node.hmStyle
 
   const _nid = node._nid
   const _attrs: StandardProps = node._attrs || {}
 
-  const transform: TaroAny = _st.transform
+  const transform: TaroAny = hmStyle.transform
   const transformRotate: HarmonyType.Transform.Rotate = transform?.rotate?.[0]
   const transformTranslate: HarmonyType.Transform.Translate = transform?.translate?.[0]
   const transformScale: HarmonyType.Transform.Scale = transform?.scale?.[0]
@@ -34,42 +34,42 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
 
   let normalAttributes: HarmonyStyle = {
     // Flex相关
-    flexBasis: _st.flexBasis,
-    flexGrow: _st.flexGrow,
-    flexShrink: _st.flexShrink,
-    alignSelf: _st.alignSelf,
+    flexBasis: hmStyle.flexBasis,
+    flexGrow: hmStyle.flexGrow,
+    flexShrink: hmStyle.flexShrink,
+    alignSelf: hmStyle.alignSelf,
     // 尺寸相关
-    width: _st.width,
-    height: _st.height,
-    constraintSize: _st.constraintSize,
-    margin: _st.margin,
-    padding: _st.padding,
+    width: hmStyle.width,
+    height: hmStyle.height,
+    constraintSize: hmStyle.constraintSize,
+    margin: hmStyle.margin,
+    padding: hmStyle.padding,
     // 边框相关
-    borderStyle: _st.borderStyle,
-    borderWidth: _st.borderWidth,
-    borderColor: _st.borderColor,
-    borderRadius: _st.borderRadius,
+    borderStyle: hmStyle.borderStyle,
+    borderWidth: hmStyle.borderWidth,
+    borderColor: hmStyle.borderColor,
+    borderRadius: hmStyle.borderRadius,
     // 背景相关
-    backgroundColor: _st.backgroundColor,
-    backgroundImage: _st.backgroundImage,
-    backgroundImageSize: _st.backgroundImageSize,
-    backgroundRepeat: _st.backgroundRepeat,
-    linearGradient: _st.linearGradient,
+    backgroundColor: hmStyle.backgroundColor,
+    backgroundImage: hmStyle.backgroundImage,
+    backgroundImageSize: hmStyle.backgroundImageSize,
+    backgroundRepeat: hmStyle.backgroundRepeat,
+    linearGradient: hmStyle.linearGradient,
     // 变换相关
     rotate: transformRotate,
     translate: transformTranslate,
     scale: transformScale,
     transform: transformTransform,
     // 通用文本相关
-    color: _st.color,
-    fontSize: _st.fontSize,
-    fontStyle: _st.fontStyle,
-    fontWeight: _st.fontWeight,
-    fontFamily: _st.fontFamily || TEXT_DEFAULT_STYLE.FONT_FAMILY,
-    lineHeight: _st.lineHeight,
-    decoration: _st.decoration,
+    color: hmStyle.color,
+    fontSize: hmStyle.fontSize,
+    fontStyle: hmStyle.fontStyle,
+    fontWeight: hmStyle.fontWeight,
+    fontFamily: hmStyle.fontFamily || TEXT_DEFAULT_STYLE.FONT_FAMILY,
+    lineHeight: hmStyle.lineHeight,
+    decoration: hmStyle.decoration,
     // 其他
-    clip: _st.clip,
+    clip: hmStyle.clip,
     id: _attrs.id || _nid,
     // focus: _attrs.focus || false,
   }
