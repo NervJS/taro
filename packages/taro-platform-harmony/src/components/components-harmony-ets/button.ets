@@ -9,7 +9,7 @@ import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation 
 
 import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 import type { TaroButtonElement, TaroElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 @Extend(Button)
 function attrs (style: TaroStyleType) {
@@ -62,8 +62,8 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
 
   return {
     opacity: isDisabled ? 0.4 : 1,
-    backgroundColor: isPlain ? Color.Transparent : (AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR.get(type).background),
-    color: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR.get(type).text),
+    backgroundColor: isPlain ? Color.Transparent : (_st.backgroundColor || BUTTON_THEME_COLOR.get(type).background),
+    color: _st.color || BUTTON_THEME_COLOR.get(type).text,
   }
 }
 

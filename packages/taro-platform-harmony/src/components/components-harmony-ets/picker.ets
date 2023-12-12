@@ -11,7 +11,7 @@ import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroPickerElement, TaroElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
 

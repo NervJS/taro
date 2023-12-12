@@ -27,10 +27,11 @@ import {
   VideoProps
 } from '../../components/types'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
-import { findChildNodeWithDFS, isElement } from '../utils'
+import { findChildNodeWithDFS, isElement, TaroAny } from '../utils'
 import { triggerAttributesCallback } from '../utils/info'
 import { ClassList } from './class-list'
 import { NodeType, TaroNode } from './node'
+import StyleSheet from './stylesheet'
 
 import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
@@ -165,7 +166,7 @@ export class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> exte
     return this._innerHTML
   }
 
-  public _st: Record<string, string | number | object> = {}
+  public _st = new StyleSheet()
 
   public _style: ICSSStyleDeclaration
 

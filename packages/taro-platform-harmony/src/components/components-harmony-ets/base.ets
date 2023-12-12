@@ -11,11 +11,11 @@ export default struct TaroComponentWrapper {
   @BuilderParam createElement: () => void
 
   top(): Length {
-    return AttributeManager.getStyleAfterConvert(this.node?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(this.node?._st, 'top') || 0)
+    return this.node?._st?.top || 0
   }
 
   left(): Length {
-    return AttributeManager.getStyleAfterConvert(this.node?._st, 'left') || convertNumber2VP(AttributeManager.getNodeStyle(this.node?._st, 'left') || 0)
+    return this.node?._st?.left || 0
   }
 
   @Builder createFlexElementWithPosition () {

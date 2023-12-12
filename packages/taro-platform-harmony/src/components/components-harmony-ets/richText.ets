@@ -5,7 +5,7 @@ import { getNodeThresholds, getNormalAttributes, shouldBindEvent, bindAnimation 
 
 import type { RichTextProps } from '@tarojs/components/types/RichText'
 import type { TaroRichTextElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 @Extend(RichText)
 function attrs (style: TaroStyleType) {

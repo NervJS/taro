@@ -1,4 +1,4 @@
-import { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
+import { getNormalAttributes, getFontAttributes } from './styles'
 import { bindAttributesCallback, ObjectAssign } from '@tarojs/runtime'
 
 import type { TaroAny, TaroElement } from '@tarojs/runtime'
@@ -96,4 +96,4 @@ export function bindAnimation (node: TaroElement) {
   })
 }
 
-export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle }
+export { getNormalAttributes, getFontAttributes }

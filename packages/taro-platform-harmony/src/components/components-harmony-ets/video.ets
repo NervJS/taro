@@ -7,7 +7,7 @@ import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroVideoElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 export interface VideoOptions {
   src?: string | Resource

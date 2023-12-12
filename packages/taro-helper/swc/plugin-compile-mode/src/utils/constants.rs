@@ -24,8 +24,7 @@ import { TaroIgnoreElement, eventHandler, getComponentEventCallback, AREA_CHANGE
 import { DynamicCenter } from '../utils/DynamicCenter'
 
 import type { TaroViewElement } from '../element'
-import type { TaroElement, TaroAny } from '../../runtime'
-import type { TaroStyleType, TaroTextStyleType } from '../type'
+import type { TaroElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
 
 ";
 

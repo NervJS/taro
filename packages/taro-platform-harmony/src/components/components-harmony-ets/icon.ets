@@ -5,7 +5,7 @@ import { ICON_SVG_MAP } from './utils/constant/icon'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroIconElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 
 @Extend(Image)

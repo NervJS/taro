@@ -9,7 +9,7 @@ import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent, bindAnimation } from './utils/helper'
 
 import type { TaroSwiperElement, TaroSwiperItemElement, TaroElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 interface SwiperAttrs {
   index?: number

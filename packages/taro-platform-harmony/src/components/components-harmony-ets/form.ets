@@ -16,7 +16,7 @@ import type { TaroFormElement, TaroElement, TaroCheckboxElement, TaroRadioElemen
   TaroSwitchElement,
   TaroPickerElement
 } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 
 @Extend(Flex)

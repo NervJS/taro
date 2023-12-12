@@ -7,7 +7,7 @@ import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent, bindAnimation } from './utils/helper'
 
 import type { TaroViewElement, TaroElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 @Extend(Flex)
 function attrs (style: TaroStyleType) {
