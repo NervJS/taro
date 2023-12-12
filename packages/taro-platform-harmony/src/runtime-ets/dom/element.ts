@@ -29,8 +29,9 @@ import {
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
 import { ClassList } from '../dom/class-list'
 import { findChildNodeWithDFS } from '../utils'
-import { initComponentNodeInfo,triggerAttributesCallback } from '../utils/info'
+import { initComponentNodeInfo, triggerAttributesCallback } from '../utils/info'
 import { bindAnimation, bindFocus, bindScrollTo } from './bind'
+import { createTaroEvent, eventHandler,TaroEvent } from './event'
 import { NodeType, TaroNode, TaroTextNode } from './node'
 
 import type { ICSSStyleDeclaration } from '../dom/cssStyleDeclaration'
@@ -40,7 +41,7 @@ interface NamedNodeItem {
   name: string
   value: string
 }
-interface FormWidgetProps extends StandardProps {
+interface FormWidgetProps extends TaroAttributeProps {
   name?: string
   value?: string | number | number[] | string[] | Record<string, TaroAny>[]
 }
@@ -450,6 +451,68 @@ class TaroTextAreaElement extends TaroElement<TextareaProps>{
 class TaroFormElement extends TaroFormWidgetElement {
   constructor() {
     super('Form')
+
+    // 监听submit冒泡
+    this.addEventListener('submit-btn', (e: TaroEvent) => {
+      e.stopPropagation()
+      const formResult: Record<string, string> = {}
+      findChildNodeWithDFS<TaroFormWidgetElement>(this as TaroElement, item => {
+        switch (item.nodeName) {
+          case 'INPUT':
+          case 'SLIDER':
+          case 'SWITCH':
+          case 'RADIO-GROUP':
+          case 'CHECKBOX-GROUP':
+          case 'PICKER': {
+            formResult[item.name] = item.value
+            break
+          }
+        }
+        return false
+      }, true)
+      const event: TaroEvent = createTaroEvent('submit', { detail: { value: formResult } }, this)
+      eventHandler(event, 'submit', this)
+    })
+
+    // 监听reset冒泡
+    this.addEventListener('reset-btn', (e: TaroEvent) => {
+      findChildNodeWithDFS(this, (item: TaroFormWidgetElement) => {
+        e.stopPropagation()
+        switch (item.nodeName) {
+          case 'INPUT': {
+            item.value = (item as TaroInputElement)._attrs.value
+            break
+          }
+          case 'SLIDER': {
+            item.value = (item as TaroSliderElement)._attrs.value
+            break
+          }
+          case 'SWITCH': {
+            item.value = (item as TaroSwitchElement)._attrs.checked
+            break
+          }
+          case 'RADIO-GROUP': {
+            item.getElementsByTagName<TaroRadioElement>('RADIO').forEach((element: TaroRadioElement) => {
+              element.checked = element._attrs.checked || false
+              element.updateComponent()
+            })
+            break
+          }
+          case 'CHECKBOX-GROUP': {
+            item.getElementsByTagName<TaroCheckboxElement>('CHECKBOX').forEach((element: TaroCheckboxElement) => {
+              element.checked = element._attrs.checked || false
+              element.updateComponent()
+            })
+            break
+          }
+          case 'PICKER': {
+            item.value = (item as TaroPickerElement)._attrs.value
+            break
+          }
+        }
+        return false
+      }, true)
+    })
   }
 
   public get value () {

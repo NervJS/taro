@@ -1,8 +1,7 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny, TaroEvent } from '@tarojs/runtime'
+import { bindInstanceToNode, createTaroEvent, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny, TaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { createNode } from './render'
-import { createTaroEvent } from './utils/events'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 

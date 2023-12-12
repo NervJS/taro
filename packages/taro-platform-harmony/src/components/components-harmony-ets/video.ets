@@ -1,9 +1,8 @@
 import { bindInstanceToNode, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
-  TaroEvent, TaroAny } from '@tarojs/runtime'
+  TaroEvent, TaroAny, createTaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { createTaroEvent } from './utils/events'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroVideoElement } from './element'

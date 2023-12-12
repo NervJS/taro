@@ -1,8 +1,7 @@
 import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroEvent, TaroAny } from '@tarojs/runtime'
+  TaroEvent, TaroAny, createTaroEvent } from '@tarojs/runtime'
 
 import TaroComponentWrapper from './base'
-import { createTaroEvent } from './utils/events'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
 import type { TaroSliderElement } from './element'

@@ -13,7 +13,7 @@ import TaroText from './text'
 import TaroView from './view'
 import TaroButton from './button'
 import TaroIcon from './icon'
-// import TaroForm from './form'
+import TaroForm from './form'
 // import TaroLabel from './label'
 // import TaroInput from './input'
 // import TaroVideo from './video'
@@ -35,7 +35,7 @@ import type {
   TaroViewElement,
   TaroElement,
   TaroImageElement,
-  TaroButtonElement
+  TaroButtonElement,
   TaroTextElement,
   TaroCheckboxElement,
   TaroFormElement,
@@ -66,41 +66,41 @@ function createChildItem (item: TaroElement) {
     TaroImage(item as TaroImageElement)
   } else if (item.tagName === 'BUTTON') {
     TaroButton(item as TaroButtonElement)
-  } else if (node.tagName === 'SCROLL-VIEW') {
+  } else if (item.tagName === 'SCROLL-VIEW') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'SLIDER') {
+  } else if (item.tagName === 'SLIDER') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'SWITCH') {
+  } else if (item.tagName === 'SWITCH') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'INPUT') {
+  } else if (item.tagName === 'INPUT') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'SWIPER') {
+  } else if (item.tagName === 'SWIPER') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'SWIPER-ITEM') {
+  } else if (item.tagName === 'SWIPER-ITEM') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'INNER-HTML') {
+  } else if (item.tagName === 'INNER-HTML') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'RICH-TEXT') {
+  } else if (item.tagName === 'RICH-TEXT') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'ICON') {
+  } else if (item.tagName === 'ICON') {
     TaroIcon(item as TaroIconElement)
-  } else if (node.tagName === 'TEXTAREA') {
+  } else if (item.tagName === 'TEXTAREA') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'CHECKBOX-GROUP') {
+  } else if (item.tagName === 'CHECKBOX-GROUP') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'CHECKBOX') {
+  } else if (item.tagName === 'CHECKBOX') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'RADIO-GROUP') {
+  } else if (item.tagName === 'RADIO-GROUP') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'RADIO') {
+  } else if (item.tagName === 'RADIO') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'LABEL') {
+  } else if (item.tagName === 'LABEL') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'PICKER') {
+  } else if (item.tagName === 'PICKER') {
     TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'FORM') {
-    TaroView(item as TaroViewElement)
-  } else if (node.tagName === 'VIDEO') {
+  } else if (item.tagName === 'FORM') {
+    TaroForm(item as TaroFormElement)
+  } else if (item.tagName === 'VIDEO') {
     TaroView(item as TaroViewElement)
   } else {
     TaroView(item as TaroViewElement)
