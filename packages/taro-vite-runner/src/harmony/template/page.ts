@@ -1,7 +1,7 @@
 import { isFunction } from '@tarojs/shared'
 import path from 'path'
 
-import { escapePath, parseRelativePath } from '../../utils'
+import { escapePath, resolveAbsoluteRequire } from '../../utils'
 import { TARO_COMP_SUFFIX } from '../entry'
 import { TARO_TABBAR_PAGE_PATH } from '../page'
 import BaseParser from './base'
@@ -550,7 +550,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       this.enableRefresh = pageRefresh.some(e => !!e) ? 2 : 0
     }
 
-    let code = this.transArr2Str([
+    const code = this.transArr2Str([
       'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
       'import type common from "@ohos.app.ability.common"',
       '',
@@ -580,35 +580,16 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       this.instantiatePage,
     ])
 
-    if (isFunction(modifyResolveId)) {
-      const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
-      const targetRoot = path.resolve(this.appPath, sourceRoot)
-      code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src: string, source: string) => {
-        const absolutePath: string = modifyResolveId({
-          source,
-          importer: rawId,
-          options: {
-            isEntry: false,
-            skipSelf: true,
-          },
-          name,
-          resolve,
-        })?.id || source
-        if (absolutePath.startsWith(outputRoot)) {
-          const outputFile = path.resolve(
-            outputRoot,
-            path.isAbsolute(rawId) ? path.relative(targetRoot, rawId) : rawId
-          )
-          const outputDir = path.dirname(outputFile)
-          return src.replace(source, parseRelativePath(outputDir, absolutePath))
-        } else if (absolutePath.startsWith(targetRoot)) {
-          return src.replace(source, parseRelativePath(path.dirname(rawId), absolutePath))
-        }
-        return src.replace(source, absolutePath)
-      })
-    }
-
-    return code
+    const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
+    return resolveAbsoluteRequire({
+      name,
+      importer: rawId,
+      code,
+      outputRoot,
+      targetRoot: path.resolve(this.appPath, sourceRoot),
+      resolve,
+      modifyResolveId,
+    })
   }
 
   parseEntry (rawId: string, page: VitePageMeta) {

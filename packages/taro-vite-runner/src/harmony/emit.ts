@@ -46,7 +46,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           delete bundle[fileName]
         }
       }
-      
+
       if (isFunction(taroConfig.modifyBuildAssets)) {
         const assets = {}
         for (const name in bundle) {

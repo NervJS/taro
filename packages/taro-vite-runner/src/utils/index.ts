@@ -1,6 +1,5 @@
 import { isNpmPkg, NODE_MODULES_REG, recursiveMerge, resolveSync } from '@tarojs/helper'
 import { isFunction, isString } from '@tarojs/shared'
-import { IPostcssOption } from '@tarojs/taro/types/compile'
 import path from 'path'
 import querystring from 'querystring'
 
@@ -9,6 +8,8 @@ import createFilter from './createFilter'
 import { logger } from './logger'
 
 import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel'
+import type { IPostcssOption } from '@tarojs/taro/types/compile'
+import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plugin'
 import type {
   ViteH5BuildConfig,
   ViteH5CompilerContext,
@@ -246,4 +247,47 @@ export function parseRelativePath (from: string, to: string) {
 export function escapeId(id: string): string {
   if (!needsEscapeRegEx.test(id)) return id
   return id.replace(backSlashRegEx, '\\\\').replace(quoteNewlineRegEx, '\\$1')
+}
+
+export function resolveAbsoluteRequire ({
+  name = '',
+  importer = '',
+  outputRoot = '',
+  targetRoot = '',
+  code = '',
+  resolve,
+  modifyResolveId
+}: {
+  importer: string
+  code: string
+  name?: string
+  outputRoot?: string
+  targetRoot?: string
+  resolve?: TRollupResolveMethod
+  modifyResolveId?: unknown
+}) {
+  return code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src: string, source: string) => {
+    importer = stripVirtualModulePrefix(importer)
+    const absolutePath: string = isFunction(modifyResolveId) ? modifyResolveId({
+      source,
+      importer,
+      options: {
+        isEntry: false,
+        skipSelf: true,
+      },
+      name,
+      resolve,
+    })?.id || source : source
+    if (absolutePath.startsWith(outputRoot)) {
+      const outputFile = path.resolve(
+        outputRoot,
+        path.isAbsolute(importer) ? path.relative(targetRoot, importer) : importer
+      )
+      const outputDir = path.dirname(outputFile)
+      return src.replace(source, parseRelativePath(outputDir, absolutePath))
+    } else if (absolutePath.startsWith(targetRoot)) {
+      return src.replace(source, parseRelativePath(path.dirname(importer), absolutePath))
+    }
+    return src.replace(source, absolutePath)
+  })
 }
