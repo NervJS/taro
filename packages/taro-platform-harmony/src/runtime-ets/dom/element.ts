@@ -524,4 +524,3 @@ export {
   TaroVideoElement,
   TaroViewElement
 }
-

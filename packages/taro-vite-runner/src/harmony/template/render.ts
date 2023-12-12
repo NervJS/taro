@@ -29,7 +29,8 @@ import TaroImage from './image'
 import TaroText from './text'
 import TaroView from './view'
 ${this.generateRenderImport()}
-import { NodeType } from '../runtime'
+import { NodeType, convertNumber2VP } from '../runtime'
+import { AttributeManager } from './utils/AttributeManager'
 import type { TaroViewElement, TaroElement, TaroImageElement, TaroTextElement } from '../runtime'
 
 // import type {
@@ -53,8 +54,8 @@ import type { TaroViewElement, TaroElement, TaroImageElement, TaroTextElement } 
 //   TaroButtonElement
 // } from './element'
 
-@Builder
-function createNode (node: TaroElement) {
+// @Builder
+// function createNode (node: TaroElement) {
   // ${this.generateRenderCondition()}if (node.tagName === 'BUTTON') {
   //   TaroButton({ node: node as TaroButtonElement })
   // } else if (node.tagName === 'SCROLL-VIEW') {
@@ -94,12 +95,10 @@ function createNode (node: TaroElement) {
   // } else if (node.tagName === 'VIDEO') {
   //   TaroVideo({ node: node as TaroVideoElement })
   // }
-
-  createLazyChildItem(node)
-}
+// }
 
 @Builder
-function createLazyChildItem (item: TaroElement) {
+function createChildItem (item: TaroElement) {
   if (item.tagName === 'VIEW') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
@@ -112,13 +111,42 @@ function createLazyChildItem (item: TaroElement) {
 }
 
 @Builder
+function createChildItemWithPosition (item: TaroElement) {
+  if (item?._st?.position === 'absolute' || item?._st?.position === 'fixed') {
+    Stack({ alignContent: Alignment.TopStart }) {
+      createChildItem(item)
+    }
+    .position({
+      x: AttributeManager.getStyleAfterConvert(item?._st, 'left') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'left') || 0),
+      y: AttributeManager.getStyleAfterConvert(item?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'top') || 0)
+    })
+    .id(item?._attrs?.id || item?._nid)
+    .key(item?._attrs?.id || item?._nid)
+    .zIndex(Number(item?._st?.zIndex) || null)
+  } else if ((item?._st?.position === 'relative')) {
+    Stack({ alignContent: Alignment.TopStart }) {
+      createChildItem(item)
+    }
+    .offset({
+      x: AttributeManager.getStyleAfterConvert(item?._st, 'left') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'left') || 0),
+      y: AttributeManager.getStyleAfterConvert(item?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'top') || 0)
+    })
+    .id(item?._attrs?.id || item?._nid)
+    .key(item?._attrs?.id || item?._nid)
+    .zIndex(Number(item?._st?.zIndex) || null)
+  } else {
+    createChildItem(item)
+  }
+}
+
+@Builder
 function createLazyChildren (node: TaroElement) {
   LazyForEach(node, (item: TaroElement) => {
-    createLazyChildItem(item)
+    createChildItemWithPosition(item)
   }, (item: TaroElement) => item._nid)
 }
 
-export { createNode, createLazyChildren }
+export { createChildItem, createLazyChildren }
 `
 
     return renderContent
