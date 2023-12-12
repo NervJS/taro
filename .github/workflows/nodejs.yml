@@ -21,21 +21,21 @@ jobs:
     with:
       name: "taro"
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: [build-rust-binding]
     strategy:
       fail-fast: false
       matrix:
         node-version: [16.x]
+        os: [ubuntu-latest]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
