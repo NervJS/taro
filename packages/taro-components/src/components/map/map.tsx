@@ -441,7 +441,7 @@ export class Map implements ComponentInterface {
           }
         }
         const rotate = marker.rotate ? marker.rotate : 0
-        if (rotate >= 0 && this.rotate <= 360) {
+        if (rotate >= 0 && rotate <= 360) {
           markerObj.setRotation(rotate)
         }
         // 如果anchor.x和anchor.y被定义，则使用它们的值，否则使用默认值
