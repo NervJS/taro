@@ -2,7 +2,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroTextElement } from '@tarojs/runtime/ets/element'
+import type { TaroTextElement } from '@tarojs/runtime'
 import type { TaroStyleType, TaroTextStyleType } from './type'
 
 @Extend(Text)

@@ -32,9 +32,7 @@ export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: P
       (updatePayload = updatePayload || []).push(i, null)
     }
   }
-  const isHarmony = process.env.TARO_PLATFORM === 'harmony'
-  // @ts-ignore
-  const isFormElement = isHarmony ? dom.isForm : dom instanceof FormElement
+  const isFormElement = dom instanceof FormElement
   for (i in newProps) {
     if (oldProps[i] !== newProps[i] || (isFormElement && i === 'value')) {
       (updatePayload = updatePayload || []).push(i, newProps[i])

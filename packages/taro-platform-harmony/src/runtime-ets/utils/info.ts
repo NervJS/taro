@@ -93,7 +93,7 @@ export function triggerAttributesCallback (node, attributeName) {
   isFunction(cb) && cb(value)
 }
 
-export function initComponentNodeInfo (_: any, node: TaroElement) {
+export function initComponentNodeInfo (node: TaroElement) {
   node._nodeInfo.eventMap = {}
   node._nodeInfo.promiseMap = {}
   node._nodeInfo.attributeCallback = {}

@@ -5,7 +5,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement } from '@tarojs/runtime/ets/element'
+import type { TaroViewElement } from '@tarojs/runtime'
 import type { TaroStyleType } from './type'
 
 @Extend(Flex)

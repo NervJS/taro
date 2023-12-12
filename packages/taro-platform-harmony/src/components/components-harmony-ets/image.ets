@@ -2,7 +2,7 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroImageElement } from '@tarojs/runtime/ets/element'
+import type { TaroImageElement } from '@tarojs/runtime'
 import type { TaroStyleType } from './type'
 
 @Extend(Image)

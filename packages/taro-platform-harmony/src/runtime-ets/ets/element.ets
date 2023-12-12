@@ -27,7 +27,7 @@ import { Current } from '@tarojs/runtime'
 import { ClassList } from '../dom/class-list'
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { NodeType, TaroNode, TaroTextNode } from './node'
-import { triggerAttributesCallback } from '../utils/info'
+import { triggerAttributesCallback, initComponentNodeInfo } from '../utils/info'
 import { bindAnimation, bindFocus, bindScrollTo } from './bind'
 import { findChildNodeWithDFS } from '../utils'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
@@ -60,6 +60,7 @@ class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> extends Tar
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
 
+    initComponentNodeInfo(this)
     bindAnimation(this)
   }
 

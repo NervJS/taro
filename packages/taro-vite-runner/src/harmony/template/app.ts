@@ -118,7 +118,7 @@ export default class Parser extends BaseParser {
       'import UIAbility from "@ohos.app.ability.UIAbility"',
       'import { callFn, context, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
       'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      'import { initHarmonyElement } from "@tarojs/runtime/ets/element"',
+      'import { initHarmonyElement } from "@tarojs/runtime"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       '',

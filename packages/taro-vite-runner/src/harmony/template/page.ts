@@ -559,7 +559,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       'import router from "@ohos.router"',
       'import TaroView from "@tarojs/components/view"',
       'import { bindFn, callFn, Current, ObjectAssign, TaroObject, window } from "@tarojs/runtime"',
-      'import { TaroElement, TaroViewElement } from "@tarojs/runtime/ets/element"',
+      'import { TaroElement, TaroViewElement } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       this.isTabbarPage
         ? [
