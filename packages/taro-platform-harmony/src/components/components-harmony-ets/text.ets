@@ -1,8 +1,8 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroAny } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroTextElement } from '@tarojs/runtime'
+import type { TaroTextElement, TaroAny } from '@tarojs/runtime'
 import type { TaroStyleType, TaroTextStyleType } from './type'
 
 @Extend(Text)
@@ -58,9 +58,7 @@ export default function TaroText (node: TaroTextElement) {
   Text(node.textContent)
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      const eventResult: TaroAny = res.eventResult
-
-      node._nodeInfo.areaInfo = eventResult[1]
+      node._nodeInfo.areaInfo = res
     }))
     .textStyle(getNormalAttributes(node))
     .textAttr(getFontAttributes(node))

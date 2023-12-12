@@ -1,14 +1,12 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo } from '@tarojs/runtime'
-import { createNode } from './render'
-import TaroComponentWrapper from './base'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
+import { createLazyChildren } from './render'
 import { createTaroEvent } from './utils/events'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent } from '@tarojs/runtime'
-import type { TaroButtonElement, TaroElement } from './element'
+import type { TaroAny, TaroEvent, TaroButtonElement, TaroElement } from '@tarojs/runtime'
 import type { TaroStyleType } from './type'
 
 @Extend(Button)
@@ -41,7 +39,6 @@ function attrs (style: TaroStyleType) {
   .clip(style.clip)
 }
 
-
 @Extend(Button)
 function themeStyles(style: TaroStyleType) {
   .border({
@@ -67,53 +64,31 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
   }
 }
 
-@Component
-export default struct TaroButton {
-  nodeInfoMap: TaroAny = {}
-
-  @ObjectLink node: TaroButtonElement
-
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
-
-  aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-    // 绑定动画
-    bindAnimation(this.node)
-  }
-
-  build() {
-    TaroComponentWrapper({ node: this.node }) {
-      Button({ stateEffect: !this.node._attrs.disabled }) {
-        Row() {
-          if (this.node._attrs.loading) {
-            LoadingProgress()
-            .width(20).height(20)
-            .color(getThemeAttributes(this.node).color)
-          }
-          ForEach(this.node.childNodes, (item: TaroElement) => {
-            createNode(item)
-          }, (item: TaroElement) => item._nid)
-        }
+@Builder
+export default function TaroButton (node: TaroButtonElement) {
+  Button({ stateEffect: !node._attrs.disabled }) {
+    Row() {
+      if (node._attrs.loading) {
+        LoadingProgress()
+        .width(20).height(20)
+        .color(getThemeAttributes(node).color)
       }
-      .attrs(getNormalAttributes(this.node))
-      .themeStyles(getThemeAttributes(this.node))
-      .onClick((e: ClickEvent) => {
-        if (['submit', 'reset'].includes(this.node._attrs.formType)) {
-          const eventName = this.node._attrs.formType + '-btn'
-          const event: TaroEvent = createTaroEvent(eventName, {}, this.node)
-          eventHandler(event, eventName, this.node)
-        }
-        eventHandler(e, 'click', this.node)
-      })
-      .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
-      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-        const eventResult: TaroAny = res.eventResult
-        this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-      }))
-      .visibleChangeEvent()
+      createLazyChildren(node)
     }
   }
+  .attrs(getNormalAttributes(node))
+  .themeStyles(getThemeAttributes(node))
+  .onClick((e: ClickEvent) => {
+    if (['submit', 'reset'].includes(node._attrs.formType)) {
+      const eventName = node._attrs.formType + '-btn'
+      const event: TaroEvent = createTaroEvent(eventName, {}, node)
+      eventHandler(event, eventName, node)
+    }
+    eventHandler(e, 'click', node)
+  })
+  .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
+  .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+    node._nodeInfo.areaInfo = res
+  }))
+  .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }

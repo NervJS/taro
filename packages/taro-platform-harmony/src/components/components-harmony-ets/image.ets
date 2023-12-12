@@ -1,8 +1,8 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroAny } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroImageElement } from '@tarojs/runtime'
+import type { TaroImageElement, TaroAny } from '@tarojs/runtime'
 import type { TaroStyleType } from './type'
 
 @Extend(Image)
@@ -51,9 +51,7 @@ export default function TaroImage (node: TaroImageElement) {
   Image(node.getAttribute('src'))
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      const eventResult: TaroAny = res.eventResult
-
-      node._nodeInfo.areaInfo = eventResult[1]
+      node._nodeInfo.areaInfo = res
     }))
     .objectFit(getImageMode(node.getAttribute('mode')))
     .attrs(getNormalAttributes(node))
