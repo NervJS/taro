@@ -1,7 +1,5 @@
 import { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
-import { bindAttributesCallback, ObjectAssign } from '@tarojs/runtime'
 
-import type { TaroAny } from '@tarojs/runtime'
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
 import type { TaroElement } from '@tarojs/runtime'
 

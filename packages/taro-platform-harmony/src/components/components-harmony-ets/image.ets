@@ -49,51 +49,14 @@ function getImageMode (mode: string): ImageFit {
 @Builder
 export default function TaroImage (node: TaroImageElement) {
   Image(node.getAttribute('src'))
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node as TaroAny), node as TaroAny, ['click']))
-    .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       const eventResult: TaroAny = res.eventResult
 
       node._nodeInfo.areaInfo = eventResult[1]
     }))
     .objectFit(getImageMode(node.getAttribute('mode')))
-    .attrs(getNormalAttributes(node as TaroAny))
-    .onComplete(e => eventHandler(e, 'complete', node as TaroAny))
-    .onVisibleAreaChange(getNodeThresholds(node as TaroAny) || [0.0, 1.0], getComponentEventCallback(node as TaroAny, VISIBLE_CHANGE_EVENT_NAME))
+    .attrs(getNormalAttributes(node))
+    .onComplete(e => eventHandler(e, 'complete', node))
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }
-
-// @Component
-// export default struct TaroImage {
-//   nodeInfoMap: TaroAny = {}
-//
-//   @Styles visibleChangeEvent () {
-//     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-//   }
-//
-//   @ObjectLink node: TaroImageElement
-//
-//   aboutToAppear () {
-//     initComponentNodeInfo(this, this.node)
-//     bindInstanceToNode(this.node, this)
-//     // 绑定动画
-//     bindAnimation(this.node)
-//   }
-//
-//   @Styles defaultEvent () {
-//     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-//     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-//       const eventResult: TaroAny = res.eventResult
-//       this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-//     }))
-//   }
-//
-//   build() {
-//     TaroComponentWrapper({ node: this.node }) {
-//       Image(this.node.getAttribute('src'))
-//       .defaultEvent()
-//       .objectFit(getImageMode(this.node.getAttribute('mode')))
-//       .attrs(getNormalAttributes(this.node))
-//       .onComplete(e => eventHandler(e, 'complete', this.node))
-//       .visibleChangeEvent()
-//     }
-//   }
-// }

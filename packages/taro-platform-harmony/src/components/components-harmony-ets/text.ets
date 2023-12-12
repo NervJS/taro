@@ -56,62 +56,14 @@ function textAttr(attr: TaroTextStyleType) {
 @Builder
 export default function TaroText (node: TaroTextElement) {
   Text(node.textContent)
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node as TaroAny), node as TaroAny, ['click']))
-    .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       const eventResult: TaroAny = res.eventResult
 
       node._nodeInfo.areaInfo = eventResult[1]
     }))
-    .textStyle(getNormalAttributes(node as TaroAny))
-    .textAttr(getFontAttributes(node as TaroAny))
-    .onVisibleAreaChange(getNodeThresholds(node as TaroAny) || [0.0, 1.0], getComponentEventCallback(node as TaroAny, VISIBLE_CHANGE_EVENT_NAME))
+    .textStyle(getNormalAttributes(node))
+    .textAttr(getFontAttributes(node))
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }
 
-// @Component
-// export default struct TaroText {
-//   nodeInfoMap: TaroAny = {}
-//
-//   @Styles visibleChangeEvent () {
-//     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-//   }
-//
-//   @ObjectLink node: TaroTextElement
-//
-//   aboutToAppear () {
-//     initComponentNodeInfo(this, this.node)
-//     bindInstanceToNode(this.node, this)
-//     // 绑定动画
-//     bindAnimation(this.node)
-//   }
-//
-//   @Styles defaultEvent () {
-//     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-//     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-//       const eventResult: TaroAny = res.eventResult
-//       this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-//     }))
-//   }
-//
-//
-//   build() {
-//     TaroComponentWrapper({ node: this.node }) {
-//       // if (this.node.childNodes.findIndex(node => isElement(node) && node.tagName === 'TEXT') > -1) {
-//       //   // Text 嵌套 Text。受 Span 限制，最多嵌套一层
-//       //   Text() {
-//       //     ForEach(this.node.childNodes, node => {
-//       //       buildSpan(node)
-//       //     }, node => node._nid)
-//       //   }
-//       //   .defaultEvent()
-//       //   .attrs(getAttributes(this.node))
-//       //   .visibleChangeEvent()
-//       // } else {
-//         Text(this.node.textContent)
-//           .defaultEvent()
-//           .textStyle(getNormalAttributes(this.node))
-//           .textAttr(getFontAttributes(this.node))
-//           .visibleChangeEvent()
-//       // }
-//     }
-//   }
-// }

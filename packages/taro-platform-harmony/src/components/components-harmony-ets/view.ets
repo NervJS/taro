@@ -40,55 +40,16 @@ function attrs (style: TaroStyleType) {
 
 @Builder
 export default function TaroView (node: TaroViewElement) {
-  Flex(FlexManager.flexOptions(node as TaroAny)) {
+  Flex(FlexManager.flexOptions(node)) {
     createLazyChildren(node)
   }
-  .attrs(getNormalAttributes(node as TaroAny))
-  .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node as TaroAny), node as TaroAny, ['click']))
-  .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node as TaroAny), node as TaroAny, TOUCH_EVENT_MAP.values()))
-  .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+  .attrs(getNormalAttributes(node))
+  .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+  .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
+  .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
     const eventResult: TaroAny = res.eventResult
 
     node._nodeInfo.areaInfo = eventResult[1]
   }))
-  .onVisibleAreaChange(getNodeThresholds(node as TaroAny) || [0.0, 1.0], getComponentEventCallback(node as TaroAny, VISIBLE_CHANGE_EVENT_NAME))
+  .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }
-
-// @Component
-// struct TaroViewOld {
-//   nodeInfoMap: TaroAny = {}
-//
-//   @Styles visibleChangeEvent () {
-//     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-//   }
-//
-//   @ObjectLink node: TaroViewElement
-//
-//   aboutToAppear () {
-//     initComponentNodeInfo(this, this.node)
-//     bindInstanceToNode(this.node, this)
-//     // 绑定动画
-//     bindAnimation(this.node)
-//   }
-//
-//   @Styles defaultEvent () {
-//     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-//     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
-//     .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-//       const eventResult: TaroAny = res.eventResult
-//       this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-//     }))
-//   }
-//   build() {
-//     TaroComponentWrapper({ node: this.node }) {
-//       Flex(FlexManager.flexOptions(this.node)) {
-//         ForEach(this.node.childNodes, (item: TaroElement) => {
-//           createNode(item)
-//         }, (item: TaroElement) => item._nid)
-//       }
-//       .attrs(getNormalAttributes(this.node))
-//       .defaultEvent()
-//       .visibleChangeEvent()
-//     }
-//   }
-// }
