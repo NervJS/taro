@@ -1,12 +1,10 @@
-import { bindInstanceToNode, eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny } from '@tarojs/runtime'
+import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
-import TaroComponentWrapper from './base'
 import { ICON_SVG_MAP } from './utils/constant/icon'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroIconElement } from './element'
+import type { TaroIconElement, TaroAny } from './element'
 import type { TaroStyleType } from './type'
-
 
 @Extend(Image)
 function attrs (style: TaroStyleType) {
@@ -38,47 +36,24 @@ function attrs (style: TaroStyleType) {
   .clip(style.clip)
 }
 
-@Component
-export default struct TaroIcon {
-  nodeInfoMap: TaroAny = {}
+function getIconData (node) {
+  if (!node || !node._attrs) return null
 
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
+  const type: string = node._attrs.type
+  // TODO：等待鸿蒙支持 base64 格式的 svg 图片，或者工程化支持图片资源的迁移
+  return ICON_SVG_MAP.get(type) || null
+}
 
-  @ObjectLink node: TaroIconElement
-
-  aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-    // 绑定动画
-    bindAnimation(this.node)
-  }
-
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
+@Builder
+export default function TaroIcon (node: TaroIconElement) {
+  Image(getIconData(node))
+    .objectFit(ImageFit.Contain)
+    .fillColor(node._attrs.color)
+    .attrs(getNormalAttributes(node))
+    .onComplete(e => eventHandler(e, 'complete', node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      node._nodeInfo.areaInfo = res
     }))
-  }
-
-  getIconData () {
-    if (!this.node || !this.node._attrs) return null
-    const type: string = this.node._attrs.type
-    // TODO：等待鸿蒙支持 base64 格式的 svg 图片，或者工程化支持图片资源的迁移
-    return ICON_SVG_MAP.get(type) || null
-  }
-
-  build() {
-    TaroComponentWrapper({ node: this.node }) {
-      Image(this.getIconData())
-        .defaultEvent()
-        .objectFit(ImageFit.Contain)
-        .fillColor(this.node._attrs.color)
-        .onComplete(e => eventHandler(e, 'complete', this.node))
-        .attrs(getNormalAttributes(this.node))
-        .visibleChangeEvent()
-    }
-  }
 }

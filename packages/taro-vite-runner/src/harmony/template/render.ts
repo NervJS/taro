@@ -11,9 +11,9 @@ export default class RenderParser extends BaseParser {
     const renderContent = `import TaroImage from './image'
 import TaroText from './text'
 import TaroView from './view'
-// import TaroIcon from './icon'
-// import TaroForm from './form'
 import TaroButton from './button'
+import TaroIcon from './icon'
+// import TaroForm from './form'
 // import TaroLabel from './label'
 // import TaroInput from './input'
 // import TaroVideo from './video'
@@ -83,7 +83,7 @@ function createChildItem (item: TaroElement) {
   } else if (node.tagName === 'RICH-TEXT') {
     TaroView(item as TaroViewElement)
   } else if (node.tagName === 'ICON') {
-    TaroView(item as TaroViewElement)
+    TaroIcon(item as TaroIconElement)
   } else if (node.tagName === 'TEXTAREA') {
     TaroView(item as TaroViewElement)
   } else if (node.tagName === 'CHECKBOX-GROUP') {
