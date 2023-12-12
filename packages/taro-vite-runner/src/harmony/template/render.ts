@@ -30,7 +30,6 @@ import TaroForm from './form'
 import { NodeType, TaroElement as TaroOldElement } from '../runtime'
 import { TaroElement, TaroImageElement, TaroTextElement } from '../runtime/ets/element'
 ${this.generateRenderImport()}
-
 import type { TaroViewElement } from '../runtime/ets/element'
 
 import type {
