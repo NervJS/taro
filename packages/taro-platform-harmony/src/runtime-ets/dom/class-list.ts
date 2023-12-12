@@ -1,11 +1,9 @@
-import type { TaroElement } from './element'
-
 export class ClassList {
-  private el: TaroElement
+  private el: any
 
   private tokenList: string[] = []
 
-  constructor (className: string, el: TaroElement) {
+  constructor (className: string, el: any) {
     this.el = el
     className.trim().split(/\s+/).forEach(token => this.tokenList.push(token))
   }

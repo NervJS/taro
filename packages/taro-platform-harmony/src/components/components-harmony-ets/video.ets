@@ -61,7 +61,7 @@ function props(attr: VideoAttrs) {
   .autoPlay(attr.autoPlay)
   .controls(attr.controls)
   .objectFit(attr.objectFit)
-  .loop(attr.loop)
+  .loop(attr.loop || false)
 }
 
 @Component

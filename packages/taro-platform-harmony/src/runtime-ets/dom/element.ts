@@ -46,7 +46,7 @@ export class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> exte
 
   public _attrs: T = {}
 
-  private _innerHTML = ''
+  public _innerHTML = ''
   public readonly tagName: string
 
   // 用于标记元素是否已经出现

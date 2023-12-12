@@ -4,7 +4,7 @@ import { isUndefined } from '@tarojs/shared'
 import { Current } from '../current'
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
-import { TaroButtonElement, TaroCheckboxGroupElement, TaroElement, TaroIgnoreElement, TaroImageElement, TaroInputElement, TaroPickerElement, TaroRadioGroupElement, TaroSliderElement, TaroSwitchElement, TaroTextElement, TaroVideoElement, TaroViewElement } from './element'
+import { TaroElement } from './element'
 import { NodeType, TaroNode } from './node'
 import { TaroTextNode } from './text'
 
@@ -35,46 +35,7 @@ class TaroDocument extends TaroNode {
       // @ts-ignore
       node = Current.createHarmonyElement(tagName)
     } else {
-      switch (tagName) {
-        case 'view':
-          node = new TaroViewElement()
-          break
-        case 'text':
-          node = new TaroTextElement()
-          break
-        case 'image':
-          node = new TaroImageElement()
-          break
-        case 'button':
-          node = new TaroButtonElement()
-          break
-        case 'video':
-          node = new TaroVideoElement()
-          break
-        case 'input':
-          node = new TaroInputElement()
-          break
-        case 'switch':
-          node = new TaroSwitchElement()
-          break
-        case 'slider':
-          node = new TaroSliderElement()
-          break
-        case 'checkbox-group':
-          node = new TaroCheckboxGroupElement()
-          break
-        case 'radio-group':
-          node = new TaroRadioGroupElement()
-          break
-        case 'picker':
-          node = new TaroPickerElement()
-          break
-        case 'ignore':
-          node = new TaroIgnoreElement()
-          break
-        default:
-          node = new TaroElement(tagName)
-      }
+      node = new TaroElement(tagName)
     }
     node._doc = this
     // Hack: 此 Proxy 不能放在 Element 类内定义，否则响应式更新会失效
@@ -83,7 +44,10 @@ class TaroDocument extends TaroNode {
   }
 
   public createTextNode (value: string): TaroTextNode {
-    const node = new TaroTextNode(value)
+    // @ts-ignore
+    if (!Current?.createTextNode) return
+
+    const node = Current.createTextNode(value)
     node._doc = this
     return node
   }

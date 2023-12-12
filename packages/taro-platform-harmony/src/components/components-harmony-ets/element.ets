@@ -23,18 +23,14 @@ import {
   TaroSwiperItemElement as _TaroSwiperItemElement,
   TaroTextAreaElement as _TaroTextAreaElement,
   FormElement as _FormElement,
-  Current,
   TaroAny
 } from '@tarojs/runtime'
 
 import { TaroCheckbox, TaroCheckboxGroup } from './checkbox'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import TaroButton from './button'
-import TaroView from './view'
 import TaroForm from './form'
 import TaroIcon from './icon'
-import TaroText from './text'
-import TaroImage from './image'
 import TaroInput from './input'
 import TaroScrollView from './scrollView'
 import TaroTextArea from './textArea'
@@ -52,21 +48,6 @@ class TaroElement extends _TaroElement {
     super(tagName)
   }
   declare public _instance: TaroAny
-}
-
-@Observed
-class TaroViewElement extends _TaroViewElement {
-  declare public _instance: TaroView
-}
-
-@Observed
-class TaroTextElement extends _TaroTextElement {
-  declare public _instance: TaroText
-}
-
-@Observed
-class TaroImageElement extends _TaroImageElement {
-  declare public _instance: TaroImage
 }
 
 @Observed
@@ -165,36 +146,6 @@ class TaroFormWidgetElement extends _TaroFormWidgetElement {}
 @Observed
 class TaroIgnoreElement extends _TaroIgnoreElement {}
 
-export function initHarmonyElement () {
-  Current.createHarmonyElement = (tagName: string) => {
-    switch (tagName) {
-      case 'view': return new TaroViewElement()
-      case 'image': return new TaroImageElement()
-      case 'text': return new TaroTextElement()
-      case 'button': return new TaroButtonElement()
-      case 'scroll-view': return new TaroScrollViewElement()
-      case 'checkbox-group': return new TaroCheckboxGroupElement()
-      case 'ignore': return new TaroIgnoreElement()
-      case 'input': return new TaroInputElement()
-      case 'picker': return new TaroPickerElement()
-      case 'radio-group': return new TaroRadioGroupElement()
-      case 'slider': return new TaroSliderElement()
-      case 'switch': return new TaroSwitchElement()
-      case 'video': return new TaroVideoElement()
-      case 'checkbox': return new TaroCheckboxElement()
-      case 'radio': return new TaroRadioElement()
-      case 'icon': return new TaroIconElement()
-      case 'label': return new TaroLabelElement()
-      case 'rich-text': return new TaroRichTextElement()
-      case 'swiper': return new TaroSwiperElement()
-      case 'swiper-item': return new TaroSwiperItemElement()
-      case 'text-area': return new TaroTextAreaElement()
-      case 'form': return new TaroFormElement()
-      default: return new TaroElement(tagName)
-    }
-  }
-}
-
 export {
   TaroButtonElement,
   TaroCheckboxGroupElement,
@@ -202,15 +153,12 @@ export {
   TaroScrollViewElement,
   TaroFormWidgetElement,
   TaroIgnoreElement,
-  TaroImageElement,
   TaroInputElement,
   TaroPickerElement,
   TaroRadioGroupElement,
   TaroSliderElement,
   TaroSwitchElement,
-  TaroTextElement,
   TaroVideoElement,
-  TaroViewElement,
   TaroCheckboxElement,
   TaroRadioElement,
   TaroIconElement,

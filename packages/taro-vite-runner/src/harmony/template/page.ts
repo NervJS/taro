@@ -103,7 +103,9 @@ export default class Parser extends BaseParser {
     let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
-      TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
+      if (this.node) {
+        TaroView(${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement)
+      }
     }
   }
   .onScroll(() => {
@@ -190,8 +192,8 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           `scroller: Scroller[] = [${
             this.tabbarList.map(() => 'new Scroller()').join(', ')
           }]`,
-          `@State node: TaroElement[] = [${
-            this.tabbarList.map(() => 'new TaroElement("Block")').join(', ')
+          `@State node: TaroElement[] | null[] = [${
+            this.tabbarList.map(() => 'null').join(', ')
           }]`,
           this.enableRefresh
             ? `@State isRefreshing: boolean[] = [${
@@ -202,7 +204,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         ]
         : [
           'scroller: Scroller = new Scroller()',
-          '@State node: TaroElement = new TaroElement("Block")',
+          '@State node: TaroElement | null = null',
           this.enableRefresh
             ? '@State isRefreshing: boolean = false'
             : null,
@@ -556,7 +558,8 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       '',
       'import router from "@ohos.router"',
       'import TaroView from "@tarojs/components/view"',
-      'import { bindFn, callFn, Current, ObjectAssign, TaroElement, TaroObject, window } from "@tarojs/runtime"',
+      'import { bindFn, callFn, Current, ObjectAssign, TaroObject, window } from "@tarojs/runtime"',
+      'import { TaroElement, TaroViewElement } from "@tarojs/runtime/ets/element"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       this.isTabbarPage
         ? [

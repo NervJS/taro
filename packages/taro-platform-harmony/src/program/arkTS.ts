@@ -88,7 +88,7 @@ export default class Harmony extends TaroPlatformHarmony {
     ['@tarojs/components/types', /^@tarojs[\\/]components[\\/]types/],
     ['@tarojs/components', /^@tarojs[\\/]components([\\/].+)?$/, this.componentLibrary],
     ['@tarojs/react', /^@tarojs[\\/]react$/],
-    ['@tarojs/runtime', /^@tarojs[\\/]runtime$/, this.runtimeLibrary],
+    ['@tarojs/runtime', /^@tarojs[\\/]runtime([\\/]ets[\\/].*)?$/, this.runtimeLibrary],
     ['@tarojs/taro/types', /^@tarojs[\\/]taro[\\/]types/],
     ['@tarojs/taro', /^@tarojs[\\/]taro$/, this.apiLibrary],
     ['@tarojs/plugin-framework-react/dist/runtime', /^@tarojs[\\/]plugin-framework-react[\\/]dist[\\/]runtime$/, this.runtimeFrameworkLibrary],
