@@ -189,7 +189,7 @@ export struct TaroCheckboxGroup {
     const childList = this.node.getElementsByTagName<TaroCheckboxElement>('CHECKBOX')
     const result: string[] = []
     childList.forEach(element => {
-      if (element._instance.checked) {
+      if (element.checked) {
         result.push(element._attrs.value)
       }
     })

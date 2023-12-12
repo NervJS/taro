@@ -50,10 +50,10 @@ function getImageMode (mode: string): ImageFit {
 export default function TaroImage (node: TaroImageElement) {
   Image(node.getAttribute('src'))
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node as TaroAny), node as TaroAny, ['click']))
-    .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, res => {
+    .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       const eventResult: TaroAny = res.eventResult
-      const n: TaroAny = node
-      n.areaInfo = eventResult[1]
+
+      node._nodeInfo.areaInfo = eventResult[1]
     }))
     .objectFit(getImageMode(node.getAttribute('mode')))
     .attrs(getNormalAttributes(node as TaroAny))

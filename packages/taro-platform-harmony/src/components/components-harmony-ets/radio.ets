@@ -194,7 +194,7 @@ export struct TaroRadioGroup {
   getValue (): string | undefined {
     const childList = this.node.getElementsByTagName<TaroRadioElement>('RADIO')
     for (let i = 0; i < childList.length; i++) {
-      if (childList[i]._instance.checked) {
+      if (childList[i].checked) {
         return childList[i]._attrs.value
       }
     }

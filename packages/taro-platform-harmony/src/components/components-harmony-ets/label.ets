@@ -77,18 +77,17 @@ export default struct TaroLabel {
     const currentPageNode: TaroElement = getPageScrollerOrNode(page.node, page)
     const node: TaroElement | null = currentPageNode.getElementById(id)
 
-    if (!node || !node._instance) return
+    if (!node) return
 
     if (['BUTTON', 'CHECKBOX', 'RADIO', 'SWITCH', 'INPUT'].includes(node.tagName)) {
-      const instance: TaroAny = node._instance
       switch (node.tagName) {
         case 'RADIO':
-          if (!instance.checked) {
-            instance.checked = !instance.checked
+          if (!node.checked) {
+            node.checked = !node.checked
           }
           break
         case 'CHECKBOX':
-          instance.checked = !instance.checked
+          node.checked = !node.checked
           break
         default:
           focusControl.requestFocus(id)

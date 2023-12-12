@@ -35,7 +35,6 @@ export class TaroNode extends TaroDataSourceElement {
   public _isCompileMode = false
   // 是否为半编译模板下拥有自主更新权的节点
   public _isDynamicNode = false
-  public _instance: TaroAny
 
   private _updateTrigger = 0
   private _textContent = ''
@@ -219,11 +218,11 @@ export class TaroTextNode extends TaroNode {
 function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
   if (!parentNode._isCompileMode) return
 
-  parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
+  // parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
 }
 
 function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
   if (!node._isCompileMode) return
 
-  node._instance?.dynamicCenter?.uninstall?.(node)
+  // node._instance?.dynamicCenter?.uninstall?.(node)
 }

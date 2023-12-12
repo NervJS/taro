@@ -95,4 +95,5 @@ class TaroEventTarget extends Events {
   }
 }
 
+
 export { TaroEventTarget }

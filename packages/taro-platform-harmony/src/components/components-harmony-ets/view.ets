@@ -1,11 +1,11 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroAny } from '@tarojs/runtime'
 
-import { createNode } from './render'
+import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement, TaroElement, TaroImageElement } from '@tarojs/runtime/ets/element'
+import type { TaroViewElement } from '@tarojs/runtime/ets/element'
 import type { TaroStyleType } from './type'
 
 @Extend(Flex)
@@ -41,15 +41,15 @@ function attrs (style: TaroStyleType) {
 @Builder
 export default function TaroView (node: TaroViewElement) {
   Flex(FlexManager.flexOptions(node as TaroAny)) {
-    createNode(node)
+    createLazyChildren(node)
   }
   .attrs(getNormalAttributes(node as TaroAny))
   .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node as TaroAny), node as TaroAny, ['click']))
   .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node as TaroAny), node as TaroAny, TOUCH_EVENT_MAP.values()))
-  .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, res => {
+  .onAreaChange(getComponentEventCallback(node as TaroAny, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
     const eventResult: TaroAny = res.eventResult
-    const n: TaroAny = node
-    n.areaInfo = eventResult[1]
+
+    node._nodeInfo.areaInfo = eventResult[1]
   }))
   .onVisibleAreaChange(getNodeThresholds(node as TaroAny) || [0.0, 1.0], getComponentEventCallback(node as TaroAny, VISIBLE_CHANGE_EVENT_NAME))
 }

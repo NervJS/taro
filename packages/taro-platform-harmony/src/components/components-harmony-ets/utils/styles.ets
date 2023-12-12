@@ -95,11 +95,10 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
   transformW3CToHarmonyInStyle(_st, normalAttributes)
 
   const id = node._nid
-  const component: TaroAny = node._instance
 
-  // taro_page 等写死在运行时里的节点，没有 _instance
-  if (component) {
-    const overwriteStyle: TaroStyleType = component.nodeInfoMap[id].overwriteStyle
+  // taro_page 等写死在运行时里的节点，没有 _nodeInfo
+  if (node._nodeInfo) {
+    const overwriteStyle: TaroStyleType = node._nodeInfo?.overwriteStyle
 
     // 处理覆盖属性：如动画的覆盖
     if (overwriteStyle) {

@@ -38,20 +38,17 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
     } else if (selector) {
       const node = findChildNodeWithDFS(currentPageNode, selector)
 
-      if (!node || !node._instance) return
-
-      const instance = node._instance
-      const id = node?._nid
+      if (!node) return
 
       // 获取 areaInfo，需要先调用 setNodeEventCallbackAndTriggerComponentUpdate 更新一次组件并获取组件信息
       await setNodeEventCallbackAndTriggerComponentUpdate(node, AREA_CHANGE_EVENT_NAME, null, true)
 
-      const { areaInfo } = instance?.nodeInfoMap?.[id] || {}
+      const { areaInfo } = node._nodeInfo || {}
 
       let parent = node?.parentNode
       while (!!parent && parent !== currentPageNode) {
-        if (parent?._instance?.scroller) {
-          scroller = parent._instance.scroller
+        if (parent?.scroller) {
+          scroller = parent.scroller
           break
         }
         parent = parent?.parentNode

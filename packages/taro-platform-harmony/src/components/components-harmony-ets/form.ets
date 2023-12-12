@@ -105,13 +105,15 @@ export default struct TaroForm {
           }
           case 'RADIO-GROUP': {
             item.getElementsByTagName<TaroRadioElement>('RADIO').forEach(element => {
-              element._instance.checked = element._attrs.checked || false
+              element.checked = element._attrs.checked || false
+              element.updateComponent()
             })
             break
           }
           case 'CHECKBOX-GROUP': {
             item.getElementsByTagName<TaroCheckboxElement>('CHECKBOX').forEach(element => {
-              element._instance.checked = element._attrs.checked || false
+              element.checked = element._attrs.checked || false
+              element.updateComponent()
             })
             break
           }

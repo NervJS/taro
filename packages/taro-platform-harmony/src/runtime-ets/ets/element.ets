@@ -28,6 +28,7 @@ import { ClassList } from '../dom/class-list'
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { NodeType, TaroNode, TaroTextNode } from './node'
 import { triggerAttributesCallback } from '../utils/info'
+import { bindAnimation, bindFocus, bindScrollTo } from './bind'
 import { findChildNodeWithDFS } from '../utils'
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../constant'
 
@@ -50,21 +51,16 @@ export interface TaroAttributeProps extends StandardProps {
 type NamedNodeMap = NamedNodeItem[]
 
 class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> extends TaroNode {
-  public _attrs: T = new Object() as T
-
   public _innerHTML = ''
   public readonly tagName: string
-
-  // 用于标记元素是否已经出现
-  private _appearResolve: (value?: TaroAny) => void = () => {}
-  public awaitAppear: Promise<TaroAny>
-  public resolveAppear = () => this._appearResolve()
+  public _attrs: T = new Object() as T
+  public _nodeInfo: TaroAny = new Object()
 
   constructor(tagName: string) {
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName
 
-    this.awaitAppear = new Promise(resolve => { this._appearResolve = resolve })
+    bindAnimation(this)
   }
 
   public set id (value: string) {
@@ -205,8 +201,12 @@ class TaroImageElement extends TaroElement<ImageProps> {
 }
 
 class TaroScrollViewElement extends TaroElement<ScrollViewProps> {
+  scroller: Scroller = new Scroller()
+
   constructor() {
     super('ScrollView')
+
+    bindScrollTo(this)
   }
 }
 
@@ -218,6 +218,12 @@ class TaroButtonElement extends TaroElement<ButtonProps> {
 
 class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends TaroElement<T> {
   _value: TaroAny = ''
+
+  constructor (tagName: string) {
+    super(tagName)
+
+    bindFocus(this)
+  }
 
   public get name () {
     return this._attrs.name || ''
@@ -440,6 +446,8 @@ class TaroTextAreaElement extends TaroElement<TextareaProps>{
 }
 
 class TaroFormElement extends TaroFormWidgetElement {
+  isForm = true
+  
   constructor() {
     super('Form')
   }

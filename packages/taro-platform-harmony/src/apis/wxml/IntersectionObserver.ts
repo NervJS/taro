@@ -29,17 +29,15 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
       if (this._observerNodes instanceof Array) {
         this._observerNodes.forEach((n: TaroElement & any) => {
           disconnectEvent(n, VISIBLE_CHANGE_EVENT_NAME)
-          if (n._instance) {
-            // @ts-ignore
-            n._instance?.nodeInfoMap?.[n._nid]?.thresholds = null
-          }
+          // @ts-ignore
+          n._nodeInfo?.thresholds = null
         })
       } else {
         disconnectEvent(this._observerNodes, VISIBLE_CHANGE_EVENT_NAME)
         // @ts-ignore
-        if (this._observerNodes._instance) {
+        if (this._observerNodes._nodeInfo) {
           // @ts-ignore
-          this._observerNodes._instance?.nodeInfoMap?.[this._observerNodes._nid]?.thresholds = null
+          this._observerNodes._nodeInfo?.thresholds = null
         }
       }
     }
@@ -50,29 +48,22 @@ export class IntersectionObserver implements Taro.IntersectionObserver {
     const node = findChildNodeWithDFS(this._component, targetSelector, observeAll)
     this._observerNodes = node
 
-
     if (node) {
       if (node instanceof Array) {
         node.forEach(n => {
           // @ts-ignore
-          n.awaitAppear.then(() => {
-            // @ts-ignore
-            n._instance?.nodeInfoMap?.[n._nid]?.thresholds = thresholds
+          n._nodeInfo?.thresholds = thresholds
 
-            setNodeEventCallbackAndTriggerComponentUpdate(n, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
-              callback(this.handleResult(isVisible, currentRatio))
-            })
+          setNodeEventCallbackAndTriggerComponentUpdate(n, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
+            callback(this.handleResult(isVisible, currentRatio))
           })
         })
       } else {
         // @ts-ignore
-        node.awaitAppear.then(() => {
-          // @ts-ignore
-          node._instance?.nodeInfoMap?.[node._nid]?.thresholds = thresholds
+        node._nodeInfo?.thresholds = thresholds
 
-          setNodeEventCallbackAndTriggerComponentUpdate(node, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
-            callback(this.handleResult(isVisible, currentRatio))
-          })
+        setNodeEventCallbackAndTriggerComponentUpdate(node, VISIBLE_CHANGE_EVENT_NAME, (isVisible: boolean, currentRatio: number) => {
+          callback(this.handleResult(isVisible, currentRatio))
         })
       }
     }

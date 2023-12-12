@@ -135,8 +135,7 @@ function filter (fields, dom) {
   // if (dataset) res.dataset = Object.assign({}, dom.dataset)
 
   if (rect || size) {
-    const id = dom?._nid
-    const { areaInfo } = dom?._instance?.nodeInfoMap?.[id] || {}
+    const { areaInfo } = dom?._nodeInfo || {}
 
     if (areaInfo) {
       if (rect) {
@@ -153,7 +152,7 @@ function filter (fields, dom) {
     }
   }
   if (scrollOffset) {
-    const scroller = dom._instance.scroller
+    const scroller = dom.scroller
 
     if (scroller) {
       const { xOffset, yOffset } = scroller.currentOffset()
