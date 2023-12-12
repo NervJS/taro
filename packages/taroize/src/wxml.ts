@@ -182,20 +182,13 @@ export function convertStyleUnit (value: string) {
           if (Number(size) === 0) {
             return match.replace(size, '0').replace(unit, 'rem')
           }
-          // 绝对值<1的非零值转十进制会被转为0, 这种情况直接把值认为是1
-          if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1').replace(unit, 'rem')
-          }
-          return match.replace(size, parseInt(size, 10) / 20 + '').replace(unit, 'rem')
+          return match.replace(size, parseFloat(size) / 20 + '').replace(unit, 'rem')
         })
         .replace(/\s*-?([0-9.]+)(rpx)\b/gi, function (match, size, unit) {
           if (Number(size) === 0) {
             return match.replace(size, '0').replace(unit, 'rem')
           }
-          if (parseInt(size, 10) === 0) {
-            return match.replace(size, '1').replace(unit, 'rem')
-          }
-          return match.replace(size, parseInt(size, 10) / 40 + '').replace(unit, 'rem')
+          return match.replace(size, parseFloat(size) / 40 + '').replace(unit, 'rem')
         })
       // 把 xx="...{{参数}}rpx/px"的尺寸单位都转为rem,比如"{{参数}}rpx" -> "{{参数/40}}rem"
       tempValue = tempValue

@@ -802,10 +802,10 @@ describe('style属性的解析', () => {
     expect(contentInput).toBe(`<swiper-item style="transform: translate(0%, 0rem) translateZ(0rem);"></swiper-item>`)
   })
 
-  test('绝对值小于1的px转换成1rem', () => {
+  test('绝对值小于1的px/rpx转换成rem', () => {
     let contentInput = `<swiper-item style="margin-left: 0.5px;margin-right: -0.5rpx;"></swiper-item>`
     contentInput = convertStyleUnit(contentInput)
-    expect(contentInput).toBe(`<swiper-item style="margin-left: 1rem;margin-right: -1rem;"></swiper-item>`)
+    expect(contentInput).toBe(`<swiper-item style="margin-left: 0.025rem;margin-right: -0.0125rem;"></swiper-item>`)
   })
 
   test('style="height: calc(100vh - {{xxx}}rem)"，内联样式使用calc计算，包含变量，变量前有空格，转换后空格保留', () => {
