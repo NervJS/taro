@@ -98,6 +98,7 @@ export interface ViteCompilerContext<T> {
   frameworkExts: string[]
   app: ViteAppMeta
   pages: VitePageMeta[]
+  components?: VitePageMeta[]
   loaderMeta: any
   logger
   filesConfig: IMiniFilesConfig

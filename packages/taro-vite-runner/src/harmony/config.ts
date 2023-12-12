@@ -1,16 +1,17 @@
 import { babel } from '@rollup/plugin-babel'
-import inject, { type RollupInjectOptions } from '@rollup/plugin-inject'
+import inject from '@rollup/plugin-inject'
 import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
 
 import { getDefaultPostcssConfig } from '../postcss/postcss.harmony'
-import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt } from '../utils'
+import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlugins, isVirtualModule, stripMultiPlatformExt, stripVirtualModulePrefix } from '../utils'
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 import { TARO_COMP_SUFFIX } from './entry'
 
+import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { InputPluginOption } from 'rollup'
 import type { PluginOption } from 'vite'
@@ -144,7 +145,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         cssCodeSplit: true,
         emptyOutDir: false,
         lib: {
-          entry: taroConfig.entry.app,
+          entry: taroConfig.isBuildNativeComp ? viteCompilerContext.components!.map(e => e.scriptPath) : taroConfig.entry.app,
           formats: ['es'],
         },
         watch: taroConfig.isWatch ? {} : null,
@@ -155,6 +156,11 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           makeAbsoluteExternalsRelative: 'ifRelativeSource',
           output: {
             entryFileNames(chunkInfo) {
+              if (taroConfig.isBuildNativeComp) {
+                const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
+                const pageName = path.join(pagePath, chunkInfo.name)
+                return stripMultiPlatformExt(pageName + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+              }
               return stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
             },
             chunkFileNames(chunkInfo) {
