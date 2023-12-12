@@ -2,7 +2,7 @@ import { transformSync } from '@babel/core'
 import path from 'path'
 import ts from 'typescript'
 
-import { parseRelativePath } from '../utils'
+import { resolveAbsoluteRequire } from '../utils'
 
 import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyBuildConfig, ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -170,25 +170,6 @@ export class EtsHelper {
     return code
   }
 
-  resolveAbsoluteRequire (id: string, code: string) {
-    const isInvalidFirst = /^[^a-z@/\\]/i.test(id)
-    const realImporter = id.slice(isInvalidFirst ? 1 : 0)
-    const { sourceRoot = 'src' } = this.taroConfig
-    const targetRoot = path.resolve(this.appPath, sourceRoot)
-    const outputFile = path.resolve(
-      this.taroConfig.outputRoot || 'dist',
-      realImporter.startsWith('/') ? path.relative(targetRoot, realImporter) : realImporter
-    )
-    const outputDir = path.dirname(outputFile)
-    return code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
-      if (p1.startsWith(this.taroConfig.outputRoot || 'dist')) {
-        return src.replace(p1, parseRelativePath(outputDir, p1))
-      }
-
-      return src
-    })
-  }
-
   findScope (str: string, position = 0, flags = ['{', '}']) {
     const start = str.indexOf(flags[0], position)
     if (start === -1) return [-1, -1]
@@ -281,8 +262,22 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
       const etsSuffix = /\.ets(\?\S*)?$/
       if (etsSuffix.test(id) || etsSuffix.test(chunk.fileName) || chunk.moduleIds?.some(id => etsSuffix.test(id))) {
         opts.__vite_skip_esbuild__ = true
-        code = `// @ts-nocheck\n${helper.recoverEtsCode(id, code)}`
-        return helper.resolveAbsoluteRequire(id, code)
+        code = `${helper.recoverEtsCode(id, code)}`
+      }
+
+      const { outputRoot = 'dist', sourceRoot = 'src' } = taroConfig
+      code = resolveAbsoluteRequire({
+        name,
+        importer: id,
+        code,
+        outputRoot,
+        targetRoot: path.resolve(appPath, sourceRoot),
+        resolve: this.resolve,
+      })
+
+      return {
+        code,
+        map: null,
       }
     },
     // Note: 识别项目内 ets 文件并注入到 Harmony 项目中

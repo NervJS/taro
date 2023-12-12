@@ -17,6 +17,7 @@ import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
 import { TARO_TABBAR_PAGE_PATH } from '../../harmony/page'
+import { parseRelativePath } from '..'
 import { CompilerContext } from './base'
 
 import type { AppConfig, PageConfig } from '@tarojs/taro'
@@ -161,7 +162,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         if (target) {
           const appId = config.appId || 'app'
           const entryPath = path.join(this.taroConfig.outputRoot || 'dist', `${appId}.ets`)
-          const srcEntry = `./${path.relative(path.dirname(hapConfigPath), entryPath)}`
+          const srcEntry = parseRelativePath(path.dirname(hapConfigPath), entryPath)
           target.name = name
           target.mainElement = appId
           const ability = target.abilities?.[0]

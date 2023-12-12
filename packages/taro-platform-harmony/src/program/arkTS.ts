@@ -123,7 +123,7 @@ export default class Harmony extends TaroPlatformHarmony {
         preserveSymlinks: false,
       }) || ''
       // Note: 跳过 node 相关或未能找到的依赖
-      if (!lib || /^[^/]/.test(lib)) {
+      if (!lib || !path.isAbsolute(lib)) {
         return this.removeFromLibraries(libName)
       }
       let ext = path.extname(lib)
