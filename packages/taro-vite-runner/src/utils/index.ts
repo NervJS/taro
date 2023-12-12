@@ -231,7 +231,7 @@ export function getBabelOption (
 }
 
 export function escapePath (p: string) {
-  return p.replace(backSlashRegEx, '/')
+  return p.replace(/\\{1,2}/g, '/')
 }
 
 export function parseRelativePath (from: string, to: string) {
@@ -266,9 +266,11 @@ export function resolveAbsoluteRequire ({
   resolve?: TRollupResolveMethod
   modifyResolveId?: unknown
 }) {
+  outputRoot = escapePath(outputRoot)
+  targetRoot = escapePath(targetRoot)
   return code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src: string, source: string) => {
     importer = stripVirtualModulePrefix(importer)
-    const absolutePath: string = isFunction(modifyResolveId) ? modifyResolveId({
+    const absolutePath: string = escapePath(isFunction(modifyResolveId) ? modifyResolveId({
       source,
       importer,
       options: {
@@ -277,7 +279,7 @@ export function resolveAbsoluteRequire ({
       },
       name,
       resolve,
-    })?.id || source : source
+    })?.id || source : source)
     if (absolutePath.startsWith(outputRoot)) {
       const outputFile = path.resolve(
         outputRoot,

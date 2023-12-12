@@ -13,5 +13,7 @@
   "files.associations": {
     "*.json": "jsonc",
     "*.ets": "typescript"
-  }
+  },
+  "rust-analyzer.linkedProjects": ["./crates/taro_init/Cargo.toml", "./crates/native_binding/Cargo.toml"],
+  "rust-analyzer.showUnlinkedFileNotification": false
 }

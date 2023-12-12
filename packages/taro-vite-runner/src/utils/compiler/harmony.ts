@@ -47,6 +47,9 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.pages = this.getPages()
+    if (this.taroConfig.isBuildNativeComp) {
+      this.components = this.getComponents()
+    }
   }
 
   processConfig () {

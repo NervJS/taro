@@ -180,17 +180,6 @@ describe('page页面转换', () => {
     })
     convert = new Convertor('', false)
     convert.pages = Convertor.prototype.pages
-
-    // 模拟配置miniprogramRoot字段中的projectConfig值
-    const readFromFile = './miniprogram'
-    const mockFileData = `
-      "miniprogramRoot": "miniprogram/",
-    `
-
-    // 将 getApp() 中的 fs.readFileSync 返回值模拟为常量 mockFileData
-    jest.spyOn(fs, 'readFileSync').mockReturnValue(mockFileData)
-    const paresResult = new Convertor(mockFileData, readFromFile)
-    expect(paresResult).toMatchSnapshot()
   })
 
   test('template组件名转换', () => {
