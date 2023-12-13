@@ -179,7 +179,7 @@ declare module '../../index' {
 
     /** 取消用户录屏事件的监听函数
      * @supported weapp
-     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.offScreenRecordingStateChanged.html 
+     * @see https://developers.weixin.qq.com/miniprogram/dev/api/device/screen/wx.offScreenRecordingStateChanged.html
      */
     offScreenRecordingStateChanged(
       /** 用户录屏事件的监听函数 */

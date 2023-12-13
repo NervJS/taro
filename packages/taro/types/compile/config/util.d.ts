@@ -94,6 +94,8 @@ export type IPostcssOption<T = 'h5' | 'mini'> = T extends 'h5'
   ? IBasePostcssOption & { url?: PostcssOption.url }
   : IBasePostcssOption
 
+export type Config = ViteConfig | WebpackConfig
+
 export interface ICopyOptions {
   patterns: {
     from: string

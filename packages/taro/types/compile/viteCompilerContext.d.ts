@@ -1,10 +1,9 @@
+import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { PluginContext } from 'rollup'
 import type { AppConfig, PageConfig } from '../index'
 import type { IMiniFilesConfig, IH5Config, IMiniAppConfig } from './config'
 import type { IProjectConfig } from './config/project'
-import type { PluginContext } from "rollup"
-import { IComponentConfig } from "./hooks"
-
-import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
+import type { IComponentConfig } from './hooks'
 
 export interface ViteNativeCompMeta {
   name: string
@@ -91,6 +90,7 @@ export interface ViteCompilerContext<T> {
   frameworkExts: string[]
   app: ViteAppMeta
   pages: VitePageMeta[]
+  components?: VitePageMeta[]
   loaderMeta: any
   logger
   filesConfig: IMiniFilesConfig
