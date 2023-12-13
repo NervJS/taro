@@ -1,4 +1,4 @@
-const reactNativeBabelPreset = require('metro-react-native-babel-preset')
+const reactNativeBabelPreset = require('@react-native/babel-preset')
 
 module.exports = (_, options = {}) => {
   if (!process.env.NODE_ENV) {

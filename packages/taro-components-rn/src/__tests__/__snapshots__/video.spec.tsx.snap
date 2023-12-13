@@ -38,11 +38,11 @@ exports[`Video render Video 1`] = `
     }
   >
     <View
-      pointerEvents="box-none"
       style={
         [
           {
             "overflow": "hidden",
+            "pointerEvents": "box-none",
           },
           {
             "height": "100%",
