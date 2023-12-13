@@ -1,4 +1,3 @@
-
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
 import { ATTRIBUTES_CALLBACK_TRIGGER_MAP, ID } from '../../constant'
