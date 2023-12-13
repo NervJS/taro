@@ -31,6 +31,7 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteMiniBuildConfig>
   frameworkExts: string[]
   app: ViteAppMeta
   pages: VitePageMeta[]
+  components?: VitePageMeta[]
   loaderMeta: any
   logger = logger
   filesConfig: IMiniFilesConfig = {}
@@ -112,6 +113,17 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteMiniBuildConfig>
     })
 
     return pagesList
+  }
+
+  getComponents (): VitePageMeta[] {
+    const appConfig = this.app.config
+
+    if (!appConfig.components?.length) {
+      this.logger.error('全局配置缺少 components 字段，请检查！')
+      process.exit(1)
+    }
+
+    return appConfig.components.map<VitePageMeta>(pageName => this.compilePage(pageName))
   }
 
   /** 工具函数 */
