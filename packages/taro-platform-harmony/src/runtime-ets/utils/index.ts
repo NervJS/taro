@@ -3,7 +3,7 @@ import { pxTransformHelper } from '@tarojs/taro'
 import { NodeType } from '../dom/node'
 
 import type { CSSProperties } from 'react'
-import type { TaroElement } from '../dom/element'
+import type { TaroElement } from '../dom/element/element'
 import type { TaroNode } from '../dom/node'
 
 export function isElement (node: TaroNode): node is TaroElement {

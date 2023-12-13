@@ -1,7 +1,7 @@
 import { ObjectAssign } from '../utils'
 
 import type { TaroAny } from '../utils'
-import type { TaroElement, TaroScrollViewElement } from './element'
+import type { TaroElement, TaroScrollViewElement } from './element/element'
 
 function convertToCamelCase(str: string) {
   return str.replace(new RegExp("/-(.)/g"), (_, char: string) => char.toUpperCase()).replace(new RegExp("/^\w/"), firstChar => firstChar.toUpperCase())

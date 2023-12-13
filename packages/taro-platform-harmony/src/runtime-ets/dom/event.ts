@@ -1,7 +1,7 @@
 import { hooks } from '@tarojs/shared'
 
 import { CONFIRM, CURRENT_TARGET, INPUT, KEY_CODE, TARGET, TIME_STAMP, TYPE } from '../constant'
-import { TaroElement } from './element'
+import { TaroElement } from './element/element'
 
 import type { EventOptions } from '../interface'
 

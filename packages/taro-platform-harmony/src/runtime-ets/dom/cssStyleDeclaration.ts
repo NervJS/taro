@@ -1,6 +1,6 @@
 import { isObject, toCamelCase, toDashed } from '@tarojs/shared'
 
-import { TaroElement } from './element'
+import { TaroElement } from './element/element'
 
 class CSSStyleDeclaration {
   // eslint-disable-next-line no-useless-constructor

@@ -4,7 +4,7 @@ import TaroDataSourceElement from './dataSource'
 
 import type { TaroAny } from '../utils'
 import type { TaroDocument } from './document'
-import type { TaroAttributeProps,TaroElement } from './element'
+import type { TaroAttributeProps,TaroElement } from './element/element'
 
 export enum NodeType {
   ELEMENT_NODE = 1,

@@ -1,6 +1,6 @@
 import { bindAttributesCallback } from './info'
 
-import type { TaroElement } from '../dom/element'
+import type { TaroElement } from '../dom/element/element'
 
 // function convertToCamelCase(str) {
 //   return str.replace(/-(.)/g, (_, char) => char.toUpperCase()).replace(/^\w/, firstChar => firstChar.toUpperCase())

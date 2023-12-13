@@ -1,6 +1,6 @@
 import { isFunction } from '@tarojs/shared'
 
-import type { TaroElement } from '../dom/element'
+import type { TaroElement } from '../dom/element/element'
 
 export const AREA_CHANGE_EVENT_NAME = 'areaChange'
 export const VISIBLE_CHANGE_EVENT_NAME = 'visibleChange'

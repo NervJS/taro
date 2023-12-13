@@ -4,7 +4,7 @@ import { isUndefined } from '@tarojs/shared'
 import { Current } from '../current'
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
-import { TaroElement } from './element'
+import { TaroElement } from './element/element'
 import { NodeType, TaroNode } from './node'
 import { TaroTextNode } from './text'
 
