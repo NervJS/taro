@@ -1,4 +1,4 @@
-import { fs, isEmptyObject, removePathPrefix } from '@tarojs/helper'
+import { fs, isEmptyObject } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
@@ -121,7 +121,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               const filePath = path.resolve(sourceDir, iconPath)
               this.emitFile({
                 type: 'asset',
-                fileName: removePathPrefix(iconPath),
+                fileName: path.relative('/', iconPath),
                 source: await fs.readFile(filePath)
               })
               this.addWatchFile(filePath)
@@ -131,7 +131,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
               const filePath = path.resolve(sourceDir, selectedIconPath)
               this.emitFile({
                 type: 'asset',
-                fileName: removePathPrefix(selectedIconPath),
+                fileName: path.relative('/', selectedIconPath),
                 source: await fs.readFile(filePath)
               })
               this.addWatchFile(filePath)
