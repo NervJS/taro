@@ -127,9 +127,10 @@ export function hideTabBarRedDot (options) {
 export function setTabBarBadge (options) {
   const res = { errMsg: 'setTabBarBadge:ok' }
   return new Promise((resolve) => {
+    const text = options?.text || ''
     eventCenter.trigger('__taroSetTabBarBadge', {
       index: options?.index || 0,
-      text: options?.text || '',
+      text: text.replace(/[\u0391-\uFFE5]/g, 'aa').length > 4 ? '...' : text,
     })
     callAsyncSuccess(resolve, res, options)
   })
