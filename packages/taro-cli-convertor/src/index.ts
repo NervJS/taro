@@ -1656,7 +1656,7 @@ ${code}
                 if (unResolveUseComponentPath.startsWith(this.root)) {
                   componentPath = unResolveUseComponentPath
                 } else {
-                  componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
+                  componentPath = path.join(componentConfigPath, '..', componentUsingComponnets[component])
                   if (!fs.existsSync(resolveScriptPath(componentPath))) {
                     componentPath = path.join(this.root, componentUsingComponnets[component])
                   }

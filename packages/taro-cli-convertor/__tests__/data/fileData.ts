@@ -305,13 +305,6 @@ export const DEMO_JS_FILES = {
 }
 
 export const USINGCOMPONENTS_FILE_DATA = {
-  '/project.config.json': `
-    {
-      "miniprogramRoot": "miniprogram/",
-      "pluginRoot": "plugin/",
-      "compileType": "plugin"
-    }
-  `,
   '/miniprogram/app.json': `
     {
       "pages": [
@@ -329,11 +322,11 @@ export const USINGCOMPONENTS_FILE_DATA = {
     }
   `, 
   '/miniprogram/app.js':`app({})`,
-  '/miniprogram/pages/index/index.js':`Page({})`,
   '/miniprogram/pages/index/index.json':`
     {
       "usingComponents": {
         "cpt2": "/components/cpt2/cpt2",
+        "cpt3": "/components/cpt3/cpt3",
         "hello-component": "plugin://hello-plugin/hello-component"
       }
     }
@@ -361,10 +354,13 @@ export const USINGCOMPONENTS_FILE_DATA = {
   '/miniprogram/components/cpt/cpt.json':`
   {
     "component": true,
-    "usingComponents": {}
+    "usingComponents": {
+      "hello-component": "plugin://hello-plugin/hello-component"
+    }
   }
   `,
   '/miniprogram/components/cpt/cpt.wxml':`
+    <hello-component items="{{ items }}" />
     <view>cpt</view>
   `,
   '/miniprogram/components/cpt2/cpt2.js':`
@@ -394,33 +390,33 @@ export const USINGCOMPONENTS_FILE_DATA = {
       cpt2
     </view>
   `,
-  '/plugin/plugin.json': `
-    {
-      "publicComponents": {
-        "hello-component": "components/hello-component"
-      },
-      "main": "index.js"
-    }
+
+  '/miniprogram/components/cpt3/cpt3.js':`
+    Component({
+      properties: {
+        text: {
+          type: String,
+          value: 'cpt3'
+        },
+        buttonText: {
+          type: String,
+          value: 'Click Me!'
+        }
+      }
+    })
   `,
-  '/plugin/index.js': ``,
-  '/plugin/components/hello-component.js': `Component({})`,
-  '/plugin/components/hello-component.json': `
-    {
-      "component": true,
-      "usingComponents": {}
+  '/miniprogram/components/cpt3/cpt3.json':`
+  {
+    "component": true,
+    "usingComponents": {
+      "cpt2": "/components/cpt2/cpt2"
     }
+  }
   `,
-  '/plugin/components/hello-component.wxml': `
-    <view class="container">
-      <view>这是插件组件hello-component</view>
+  '/miniprogram/components/cpt3/cpt3.wxml':`
+    <view>
+      <cpt2></cpt2>
+      cpt3
     </view>
   `,
-  '/plugin/components/hello-component.wxss': `
-    .container {
-      margin: 1em;
-    }
-    .item {
-      display: block;
-    }
-  `
 }

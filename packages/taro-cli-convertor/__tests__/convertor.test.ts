@@ -364,7 +364,8 @@ describe('公共组件引用', () => {
   test('子组件内部标签引用公共组件时，解析app.json文件里公共组件,使子组件生效',()=>{
 
     // 设置初始文件信息
-    setMockFiles(root, USINGCOMPONENTS_FILE_DATA)
+    setMockFiles(root, PLUGIN_FILE_DATA)
+    updateMockFiles(root, USINGCOMPONENTS_FILE_DATA)
     const convert = new Convertor(root, false)
     convert.run()
     const resFileMap = getResMapFile()
