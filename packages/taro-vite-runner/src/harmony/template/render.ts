@@ -14,16 +14,16 @@ import TaroView from './view'
 import TaroButton from './button'
 import TaroIcon from './icon'
 import TaroForm from './form'
-// import TaroLabel from './label'
-// import TaroInput from './input'
-// import TaroVideo from './video'
+import TaroLabel from './label'
+import TaroInput from './input'
+import TaroVideo from './video'
 // import TaroPicker from './picker'
 // import TaroSlider from './slider'
 // import TaroSwitch from './switch'
 // import TaroTextArea from './textArea'
 // import TaroRichText from './richText'
 // import TaroInnerHtml from './innerHtml'
-// import TaroScrollView from './scrollView'
+import TaroScrollView from './scrollView'
 // import { TaroRadio, TaroRadioGroup } from './radio'
 // import { TaroSwiper, TaroSwiperItem } from './swiper'
 // import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
@@ -67,13 +67,13 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'BUTTON') {
     TaroButton(item as TaroButtonElement)
   } else if (item.tagName === 'SCROLL-VIEW') {
-    TaroView(item as TaroViewElement)
+    TaroScrollView(item as TaroScrollViewElement)
   } else if (item.tagName === 'SLIDER') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'SWITCH') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'INPUT') {
-    TaroView(item as TaroViewElement)
+    TaroInput(item as TaroInputElement)
   } else if (item.tagName === 'SWIPER') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'SWIPER-ITEM') {
@@ -95,29 +95,29 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'RADIO') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'LABEL') {
-    TaroView(item as TaroViewElement)
+    TaroLabel(item as TaroLabelElement)
   } else if (item.tagName === 'PICKER') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'FORM') {
     TaroForm(item as TaroFormElement)
   } else if (item.tagName === 'VIDEO') {
-    TaroView(item as TaroViewElement)
+    TaroVideo(item as TaroVideoElement)
   } else {
     TaroView(item as TaroViewElement)
   }
 }
 
-function getTop (node: TaroElement) {
+function getTop (node: TaroElement): Length | number {
   return node?.hmStyle?.top || 0
 }
 
-function getLeft (node: TaroElement) {
+function getLeft (node: TaroElement): Length | number {
   return node?.hmStyle?.left || 0
 }
 
 @Builder
 function createChildItemWithPosition (item: TaroElement) {
-  if (item?._st?.position === 'absolute' || item?._st?.position === 'fixed') {
+  if (item?.hmStyle?.position === 'absolute' || item?.hmStyle?.position === 'fixed') {
     Stack({ alignContent: Alignment.TopStart }) {
       createChildItem(item)
     }
@@ -127,8 +127,8 @@ function createChildItemWithPosition (item: TaroElement) {
     })
     .id(item?._attrs?.id || item?._nid)
     .key(item?._attrs?.id || item?._nid)
-    .zIndex(Number(item?._st?.zIndex) || null)
-  } else if ((item?._st?.position === 'relative')) {
+    .zIndex(Number(item?.hmStyle?.zIndex) || null)
+  } else if ((item?.hmStyle?.position === 'relative')) {
     Stack({ alignContent: Alignment.TopStart }) {
       createChildItem(item)
     }
@@ -138,7 +138,7 @@ function createChildItemWithPosition (item: TaroElement) {
     })
     .id(item?._attrs?.id || item?._nid)
     .key(item?._attrs?.id || item?._nid)
-    .zIndex(Number(item?._st?.zIndex) || null)
+    .zIndex(Number(item?.hmStyle?.zIndex) || null)
   } else {
     createChildItem(item)
   }

@@ -2,9 +2,10 @@ import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
 import TaroDataSourceElement from './dataSource'
 
+import type { StandardProps } from '../../components/types'
 import type { TaroAny } from '../utils'
 import type { TaroDocument } from './document'
-import type { TaroAttributeProps,TaroElement } from './element/element'
+import type { TaroElement } from './element/element'
 
 export enum NodeType {
   ELEMENT_NODE = 1,
@@ -52,7 +53,7 @@ export class TaroNode extends TaroDataSourceElement {
     return this.childNodes?.length || 0
   }
 
-  getData(index: number): TaroElement<TaroAttributeProps> {
+  getData(index: number): TaroElement<StandardProps> {
     return this.childNodes[index] as TaroElement
   }
 
@@ -162,7 +163,7 @@ export class TaroNode extends TaroDataSourceElement {
       this.appendChild(newNode)
     } else {
       const idxOfRef = this.findIndex(referenceNode)
-      this.childNodes.splice(idxOfRef, 0, newNode);
+      this.childNodes.splice(idxOfRef, 0, newNode)
       this.notifyDataAdd(idxOfRef)
     }
 
@@ -179,6 +180,7 @@ export class TaroNode extends TaroDataSourceElement {
     if (idxOfRef < 0) throw new Error('TaroNode:replaceChild NotFoundError')
 
     this.childNodes[idxOfRef] = newChild
+    oldChild.dispose()
     this.notifyDataChange(idxOfRef)
 
     checkIsCompileModeAndInstallAfterDOMAction(newChild, this)
@@ -193,11 +195,17 @@ export class TaroNode extends TaroDataSourceElement {
     if (idx < 0) throw new Error('TaroNode:removeChild NotFoundError')
 
     this.childNodes.splice(idx, 1)
+    child.dispose()
     this.notifyDataDelete(idx)
 
     checkIsCompileModeAndUninstallAfterDOMAction(child)
 
     return child
+  }
+
+  public dispose () {
+    this.parentNode = null
+    this.childNodes = []
   }
 }
 

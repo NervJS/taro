@@ -8,7 +8,7 @@ import { ClassList } from '../class-list'
 import { NodeType, TaroNode } from '../node'
 import StyleSheet from '../stylesheet'
 
-import type { StandardProps } from '../../components/types'
+import type { StandardProps } from '../../../components/types'
 import type { TaroAny } from '../../utils'
 import type { ICSSStyleDeclaration } from '../cssStyleDeclaration'
 

@@ -1,3 +1,7 @@
+import window from '@ohos.window'
+import { isNumber } from '@tarojs/shared'
+
+import { Current } from '../../current'
 import { findChildNodeWithDFS } from '../../utils'
 import { bindFocus } from '../bind'
 import { createTaroEvent, eventHandler, TaroEvent } from '../event'
@@ -46,26 +50,79 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
   public set value (val: TaroAny) {
     this._value = val
     this._attrs.value = val
+    this.updateComponent()
   }
 }
 
 class TaroInputElement extends TaroFormWidgetElement<InputProps> {
-  text = ''
+  _text = ''
+
+  _height = 0
+
+  windowClass?: window.Window
+
+  controller: TextInputController = new TextInputController()
 
   constructor() {
     super('Input')
 
-    this.text = this._attrs.value || ''
+    this._text = this._attrs.value || ''
+
+    try {
+      Current.contextPromise
+        .then((context: common.BaseContext) => {
+          return window.getLastWindow(context, (err, windowClass: window.Window) => {
+            const errCode: number = err.code
+
+            if (errCode) {
+              console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+              return
+            }
+
+            this.windowClass = windowClass
+            windowClass.on('keyboardHeightChange', this.heightChange)
+          })
+        })
+    } catch (exception) {
+      console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(exception))
+    }
+  }
+
+  private heightChange (height: number) {
+    if (isNumber(height)) {
+      if (this._height !== height) {
+        this.onKeyboardHeightChange(height)
+        this._height = height
+      }
+    }
+  }
+
+  private onKeyboardHeightChange (height: number) {
+    const event: TaroEvent = createTaroEvent('keyboardHeightChange', { detail: { height: height, duration: 0 } }, this)
+
+    eventHandler(event, 'keyboardHeightChange', this)
   }
 
   public get value () {
-    return this.text
+    return this._text
   }
 
   public set value (val: string) {
-    this.text = val
+    this._text = val
     this._attrs.value = val
-    // TODO: update
+    this.updateComponent()
+  }
+
+  public dispose () {
+    super.dispose()
+
+    if (this.windowClass) {
+      try {
+        this.windowClass.off('keyboardHeightChange', this.heightChange)
+      } catch (err) {
+        console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
+      }
+    }
   }
 }
 

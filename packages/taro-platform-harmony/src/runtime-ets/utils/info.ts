@@ -46,7 +46,7 @@ export function getComponentEventCallback (node: TaroElement, eventName: string,
 // eslint-disable-next-line @typescript-eslint/ban-types
 function tapCallbackToNodeAndUpdate (node: TaroElement, eventName: string, callback: Function) {
   node._nodeInfo.eventMap[createEventTapName(eventName)] = true
-  node[createEventOnName(eventName)] = ({ eventResult }) => {
+  node[createEventOnName(eventName)] = (eventResult) => {
     callback && callback(...eventResult)
   }
 

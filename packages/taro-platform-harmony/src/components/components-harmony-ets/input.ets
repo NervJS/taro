@@ -1,16 +1,9 @@
-import window from '@ohos.window'
-import common from '@ohos.app.ability.common'
-import { isNumber, isUndefined } from '@tarojs/shared'
-import { bindFocus, bindInstanceToNode, eventHandler, Current, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroEvent, TaroAny, createTaroEvent } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
 
-import TaroComponentWrapper from './base'
-import { AttributeManager } from './utils/AttributeManager'
-import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
-import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
+import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
-import type { TaroInputElement } from './element'
-import type { TaroStyleType } from '@tarojs/runtime'
+import type { TaroStyleType, TaroAny, TaroInputElement } from '@tarojs/runtime'
 
 interface InputAttrs {
   textAlign?: TextAlign
@@ -63,132 +56,53 @@ function getAttributes(node: TaroInputElement): InputAttrs {
   }
 }
 
-@Component
-struct TaroInput {
-  nodeInfoMap: TaroAny = {}
+function getPlaceholderColor (node: TaroInputElement): string {
+  const placeholderTextColor: string = node._attrs.placeholderTextColor || ''
+  const placeholderStyle: string = node._attrs.placeholderStyle || ''
 
-  @State text: string = ''
-
-  @ObjectLink node: TaroInputElement
-
-  controller: TextInputController = new TextInputController()
-
-  windowClass?: window.Window
-
-  _height: number = 0
-
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
-
-  heightChange = (height: number) => {
-    if (isNumber(height)) {
-      if (this._height !== height) {
-        this.onKeyboardHeightChange(height)
-        this._height = height
-      }
-    }
-  }
-
-  aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-    bindFocus(this.node)
-    // 绑定动画
-    bindAnimation(this.node)
-
-    this.text = this.node._attrs.value || ''
-
-    try {
-      Current.contextPromise
-        .then((context: common.BaseContext) => {
-          return window.getLastWindow(context, (err, windowClass: window.Window) => {
-            const errCode: number = err.code;
-            if (errCode) {
-              console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
-              return;
-            }
-            this.windowClass = windowClass
-            windowClass.on('keyboardHeightChange', this.heightChange)
-          })
-        })
-    } catch (exception) {
-      console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(exception))
-    }
-  }
-
-  aboutToDisappear () {
-    if (this.windowClass) {
-      try {
-        this.windowClass.off('keyboardHeightChange', this.heightChange)
-      } catch (err) {
-        console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(err))
-      }
-    }
-  }
-
-  onKeyboardHeightChange (height: number) {
-    const event: TaroEvent = createTaroEvent('keyboardHeightChange', { detail: { height: height, duration: 0 } }, this.node)
-    eventHandler(event, 'keyboardHeightChange', this.node)
-  }
-
-  getPlaceholderColor (node: TaroInputElement): string {
-    const placeholderTextColor: string = node._attrs.placeholderTextColor || ''
-    const placeholderStyle: string = node._attrs.placeholderStyle || ''
-
-    return placeholderTextColor || parseStyles(placeholderStyle)?.color
-  }
-
-  getInputType (node: TaroInputElement) {
-    if (node._attrs?.password) return InputType.Password
-    return INPUT_TYPE_MAP.get(node._attrs?.type || '') || InputType.Normal
-  }
-
-  getText (): string {
-    return isUndefined(this.node._attrs.value) ? this.text : this.node._attrs.value
-  }
-
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onBlur(() => {
-      const event: TaroEvent = createTaroEvent('blur', { detail: { value: this.text } }, this.node)
-      eventHandler(event, 'blur', this.node)
-    })
-    .onFocus(() => {
-      const event: TaroEvent = createTaroEvent('focus', { detail: { value: this.text, height: this._height } }, this.node)
-      eventHandler(event, 'focus', this.node)
-    })
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-    }))
-  }
-
-  build() {
-    TaroComponentWrapper({ node: this.node }) {
-      TextInput({ text: this.getText(), placeholder: this.node._attrs?.placeholder || '', controller: this.controller })
-        .focusable(true)
-        .key(this.node._nid)
-        .type(this.getInputType(this.node))
-        .maxLength(Number(this.node._attrs?.maxlength) || null)
-        .placeholderColor(this.getPlaceholderColor(this.node))
-        .enterKeyType(INPUT_CONFIRM_MAP.get(this.node._attrs?.confirmType) || EnterKeyType.Done)
-        .defaultEvent()
-        .styles(getNormalAttributes(this.node))
-        .attrs(getAttributes(this.node))
-        .style(TextInputStyle.Inline)
-        .onChange((value: string) => {
-          const event: TaroEvent = createTaroEvent('input', { detail: { value } }, this.node)
-          eventHandler(event, 'input', this.node)
-          this.text = value
-        })
-        .onSubmit(() => {
-          const event: TaroEvent = createTaroEvent('confirm', { detail: { value: this.text } }, this.node)
-          eventHandler(event, 'confirm', this.node)
-        })
-        .visibleChangeEvent()
-    }
-  }
+  return placeholderTextColor || parseStyles(placeholderStyle)?.color
 }
 
-export default TaroInput
+function getInputType (node: TaroInputElement) {
+  if (node._attrs?.password) return InputType.Password
+
+  return INPUT_TYPE_MAP.get(node._attrs?.type || '') || InputType.Normal
+}
+
+@Builder
+export default function TaroInput(node: TaroInputElement) {
+  TextInput({ text: node.value, placeholder: node._attrs?.placeholder || '', controller: node.controller })
+    .focusable(true)
+    .key(node._nid)
+    .type(getInputType(node))
+    .maxLength(Number(node._attrs?.maxlength) || null)
+    .placeholderColor(getPlaceholderColor(node))
+    .enterKeyType(INPUT_CONFIRM_MAP.get(node._attrs?.confirmType) || EnterKeyType.Done)
+    .styles(getNormalAttributes(node))
+    .attrs(getAttributes(node))
+    .style(TextInputStyle.Inline)
+    .onChange((value: string) => {
+      const event: TaroEvent = createTaroEvent('input', { detail: { value } }, node)
+      eventHandler(event, 'input', node)
+
+      node.value = value
+    })
+    .onSubmit(() => {
+      const event: TaroEvent = createTaroEvent('confirm', { detail: { value: node.value } }, node)
+      eventHandler(event, 'confirm', node)
+    })
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onBlur(() => {
+      const event: TaroEvent = createTaroEvent('blur', { detail: { value: node.value } }, node)
+      eventHandler(event, 'blur', node)
+    })
+    .onFocus(() => {
+      const event: TaroEvent = createTaroEvent('focus', { detail: { value: node.value, height: node._height } }, node)
+
+      eventHandler(event, 'focus', node)
+    })
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      node._nodeInfo.areaInfo = res
+    }))
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+}

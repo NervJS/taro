@@ -1,5 +1,4 @@
-import { NodeType } from './node'
-import { TaroTextNode } from './text'
+import { NodeType, TaroTextNode } from './node'
 
 class TaroComment extends TaroTextNode {
   constructor(data: string) {
