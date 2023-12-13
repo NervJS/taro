@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import traverse, { NodePath, Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
-import * as fs from 'fs'
+import { fs } from '@tarojs/helper'
 import { parse, stringify } from 'himalaya-wxml'
 import { kebabCase } from 'lodash'
 import { relative, resolve } from 'path'

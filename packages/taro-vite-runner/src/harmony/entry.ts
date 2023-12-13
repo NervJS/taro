@@ -72,7 +72,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               const filePath = path.resolve(sourceDir, iconPath)
               this.emitFile({
                 type: 'asset',
-                fileName: item.iconPath,
+                fileName: path.relative('/', iconPath),
                 source: await fs.readFile(filePath)
               })
               this.addWatchFile(filePath)
@@ -82,7 +82,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
               const filePath = path.resolve(sourceDir, selectedIconPath)
               this.emitFile({
                 type: 'asset',
-                fileName: selectedIconPath,
+                fileName: path.relative('/', selectedIconPath),
                 source: await fs.readFile(filePath)
               })
               this.addWatchFile(filePath)
