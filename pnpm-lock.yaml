@@ -2558,9 +2558,6 @@ importers:
       react-native-stylekit:
         specifier: ^1.0.0
         version: registry.npmjs.org/react-native-stylekit@1.0.0
-      react-native-syan-image-picker:
-        specifier: 0.5.3
-        version: registry.npmjs.org/react-native-syan-image-picker@0.5.3
     devDependencies:
       '@babel/core':
         specifier: ^7.14.5
@@ -40558,12 +40555,6 @@ packages:
       css-tree: registry.npmjs.org/css-tree@1.1.3
       react: registry.npmjs.org/react@18.2.0
       react-native: registry.npmjs.org/react-native@0.73.0(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.2.0)
-
-  registry.npmjs.org/react-native-syan-image-picker@0.5.3:
-    resolution: {integrity: sha512-jDHKiv6jPrC3Dslhq2tDjqYC27HE0sNRzpthOY1//THgQpJ0Ht7B6EHvllWVaMw0V41kFVMixLxVQTMu/V7RSw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-syan-image-picker/-/react-native-syan-image-picker-0.5.3.tgz}
-    name: react-native-syan-image-picker
-    version: 0.5.3
-    dev: false
 
   registry.npmjs.org/react-native-webview@13.6.3(react-native@0.73.0)(react@18.2.0):
     resolution: {integrity: sha512-IApO0JSj0uAWsBGKWagyfgDYoX29piiMYLmkHtRjKeL1rIVjLoR/bMe7KJ/0X47y86b//a6u3cYQtphyay+F2A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/react-native-webview/-/react-native-webview-13.6.3.tgz}
