@@ -28,6 +28,8 @@ export interface IPrebundleParam {
   publicPath?: string
   runtimePath?: string | string[]
   isBuildPlugin?: boolean
+  alias?: Record<string, any>
+  defineConstants?: Record<string, any>
 }
 
 export default class TaroPrebundle {
@@ -62,7 +64,9 @@ export default class TaroPrebundle {
       publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
       sourceRoot = 'src',
-      isBuildPlugin
+      isBuildPlugin,
+      alias,
+      defineConstants,
     } = this.params
     let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
     chunkFilename = chunkFilename.replace(/\[([a-z]*hash)[^[\]\s]*\]/ig, '_$1_')
@@ -82,7 +86,9 @@ export default class TaroPrebundle {
       publicPath,
       runtimePath,
       sourceRoot,
-      isBuildPlugin
+      isBuildPlugin,
+      alias,
+      defineConstants,
     }
   }
 
