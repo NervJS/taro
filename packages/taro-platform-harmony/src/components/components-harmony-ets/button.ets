@@ -4,8 +4,7 @@ import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent, TaroButtonElement } from '@tarojs/runtime'
-import type { TaroStyleType } from './type'
+import type { TaroAny, TaroEvent, TaroButtonElement, TaroStyleType } from '@tarojs/runtime'
 
 @Extend(Button)
 function attrs (style: TaroStyleType) {

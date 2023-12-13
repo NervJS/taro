@@ -3,8 +3,7 @@ import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_
 import { ICON_SVG_MAP } from './utils/constant/icon'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroIconElement, TaroAny } from '@tarojs/runtime'
-import type { TaroStyleType } from './type'
+import type { TaroIconElement, TaroAny, TaroStyleType } from '@tarojs/runtime'
 
 @Extend(Image)
 function attrs (style: TaroStyleType) {

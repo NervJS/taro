@@ -107,6 +107,14 @@ function createChildItem (item: TaroElement) {
   }
 }
 
+function getTop (node: TaroElement) {
+  return node?.hmStyle?.top || 0
+}
+
+function getLeft (node: TaroElement) {
+  return node?.hmStyle?.left || 0
+}
+
 @Builder
 function createChildItemWithPosition (item: TaroElement) {
   if (item?._st?.position === 'absolute' || item?._st?.position === 'fixed') {
@@ -114,8 +122,8 @@ function createChildItemWithPosition (item: TaroElement) {
       createChildItem(item)
     }
     .position({
-      x: AttributeManager.getStyleAfterConvert(item?._st, 'left') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'left') || 0),
-      y: AttributeManager.getStyleAfterConvert(item?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'top') || 0)
+      x: getLeft(item),
+      y: getTop(item)
     })
     .id(item?._attrs?.id || item?._nid)
     .key(item?._attrs?.id || item?._nid)
@@ -125,8 +133,8 @@ function createChildItemWithPosition (item: TaroElement) {
       createChildItem(item)
     }
     .offset({
-      x: AttributeManager.getStyleAfterConvert(item?._st, 'left') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'left') || 0),
-      y: AttributeManager.getStyleAfterConvert(item?._st, 'top') || convertNumber2VP(AttributeManager.getNodeStyle(item?._st, 'top') || 0)
+      x: getLeft(item),
+      y: getTop(item)
     })
     .id(item?._attrs?.id || item?._nid)
     .key(item?._attrs?.id || item?._nid)

@@ -1,6 +1,5 @@
 import { ObjectAssign } from '@tarojs/runtime'
 
-import { AttributeManager } from './AttributeManager'
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
 import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyType, HarmonyStyle } from '@tarojs/runtime'
@@ -73,9 +72,6 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     id: _attrs.id || _nid,
     // focus: _attrs.focus || false,
   }
-
-
-  const id = node._nid
 
   // taro_page 等写死在运行时里的节点，没有 _nodeInfo
   if (node._nodeInfo) {
