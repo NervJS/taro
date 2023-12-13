@@ -1,4 +1,4 @@
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 
 import { globals } from '../src/global'
 import { parse } from '../src/index'
@@ -22,10 +22,18 @@ const option: any = {
   isApp: false,
 }
 
-jest.mock('fs', () => ({
-  ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn(),
-}))
+jest.mock('@tarojs/helper', () => {
+  const helper = jest.requireActual('@tarojs/helper')
+  const fs = helper.fs
+  return {
+    __esModule: true,
+    ...helper,
+    fs: {
+      ...fs,
+      appendFile: jest.fn(),
+    },
+  }
+})
 
 describe('template.ts', () => {
   describe('模板', () => {
@@ -161,7 +169,7 @@ describe('template.ts', () => {
       const dirPath = 'template_name_no_string'
       expect(() => parseWXML(dirPath, wxmlStr)).toThrowError('template 的 `name` 属性只能是字符串')
     })
-    
+
     test('template 标签必须指名 `is` 或 `name` 任意一个标签', () => {
       const wxmlStr = `
         <template name="msgItem">
@@ -230,7 +238,7 @@ describe('template.ts', () => {
         jest.spyOn(path, 'relative').mockReturnValue('../template/template')
         jest.spyOn(fs, 'readFileSync').mockReturnValue(template)
         jest.spyOn(fs, 'existsSync').mockReturnValue(true)
-        const dirPath = 'import_absoulte_path'
+        const dirPath = 'import_absolute_path'
         const { wxml, imports }: any = parseWXML(dirPath, wxmlStr)
         const wxmlCode = generateMinimalEscapeCode(wxml)
         const importsCode = generateMinimalEscapeCode(imports[0].ast)
@@ -239,9 +247,9 @@ describe('template.ts', () => {
       })
 
       test('import src 为绝对路径但导入文件不存在', () => {
-    
+
         jest.spyOn(path, 'join').mockReturnValue('/code/taro_demopages/template/myTmpl')
-    
+
         const dirPath = 'import_absoulte_path'
         const srcValue = '/pages/template/myTmpl'
         expect(() => getSrcRelPath(dirPath, srcValue)).toThrowError(`import/include 的 src 请填入正确路径再进行转换：src="${srcValue}"`)
@@ -305,7 +313,7 @@ describe('template.ts', () => {
       const wxmlStr = `
         <template is="firstTag" data='{{ tagListFirst, tagListSecond}}'>顶层</template>
 
-        <template name="firstTag">                   
+        <template name="firstTag">
           <block wx:for="{{tagListFirst}}" wx:key="index">
             <view catchtap="onClickFirstTag">{{item}}</view>
           </block>
@@ -347,7 +355,7 @@ describe('template.ts', () => {
           <button bind:tap="onClickC">模板C的按钮</button>
         </template>
       `
-      
+
       jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(tmplA).mockReturnValueOnce(tmplB)
       jest.spyOn(fs, 'existsSync').mockReturnValue(true)
       const dirPath = 'template_import_apply'
