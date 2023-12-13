@@ -217,7 +217,7 @@ export const setTabBarBadge: typeof Taro.setTabBarBadge = (options) => {
   return new Promise((resolve, reject) => {
     Taro.eventCenter.trigger('__taroSetTabBarBadge', {
       index,
-      text,
+      text: text.replace(/[\u0391-\uFFE5]/g, 'aa').length > 4 ? '...' : text,
       successHandler: (res = {}) => handle.success(res, { resolve, reject }),
       errorHandler: (res = {}) => handle.fail(res, { resolve, reject })
     })
