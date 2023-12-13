@@ -83,9 +83,9 @@ export default function TaroInput(node: TaroInputElement) {
     .style(TextInputStyle.Inline)
     .onChange((value: string) => {
       const event: TaroEvent = createTaroEvent('input', { detail: { value } }, node)
+      
+      node._text = value
       eventHandler(event, 'input', node)
-
-      node.value = value
     })
     .onSubmit(() => {
       const event: TaroEvent = createTaroEvent('confirm', { detail: { value: node.value } }, node)

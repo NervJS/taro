@@ -38,7 +38,7 @@ export class TaroNode extends TaroDataSourceElement {
   // 是否为半编译模板下拥有自主更新权的节点
   public _isDynamicNode = false
 
-  private _updateTrigger = 0
+  public _updateTrigger = 0
   private _textContent = ''
 
   constructor(nodeName: string, nodeType = NodeType.ELEMENT_NODE) {
@@ -63,10 +63,15 @@ export class TaroNode extends TaroDataSourceElement {
 
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (this._isDynamicNode || !this._isCompileMode) {
-      this._updateTrigger += 1
+    if (!this.parentNode) return
+
+    const idx = this.parentNode.findIndex(this)
+      
+    if (idx >= 0) {
+      this._updateTrigger++
+      this.parentNode.notifyDataChange(idx)
     } else {
-      this.parentNode?.updateComponent()
+      this.parentNode.notifyDataReload()
     }
   }
 

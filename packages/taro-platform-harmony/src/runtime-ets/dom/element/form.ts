@@ -59,6 +59,8 @@ class TaroInputElement extends TaroFormWidgetElement<InputProps> {
 
   _height = 0
 
+  heightChange?: (height: number) => void
+
   windowClass?: window.Window
 
   controller: TextInputController = new TextInputController()
@@ -80,20 +82,19 @@ class TaroInputElement extends TaroFormWidgetElement<InputProps> {
             }
 
             this.windowClass = windowClass
-            windowClass.on('keyboardHeightChange', this.heightChange)
+            const heightChange = (height: number) => {
+              if (isNumber(height)) {
+                if (this._height !== height) {
+                  this.onKeyboardHeightChange(height)
+                  this._height = height
+                }
+              }
+            }
+            windowClass.on('keyboardHeightChange', heightChange)
           })
         })
     } catch (exception) {
       console.error('Failed to obtain the top window. Cause: ' + JSON.stringify(exception))
-    }
-  }
-
-  private heightChange (height: number) {
-    if (isNumber(height)) {
-      if (this._height !== height) {
-        this.onKeyboardHeightChange(height)
-        this._height = height
-      }
     }
   }
 
@@ -103,13 +104,20 @@ class TaroInputElement extends TaroFormWidgetElement<InputProps> {
     eventHandler(event, 'keyboardHeightChange', this)
   }
 
+  public setAttribute (name: string, value: TaroAny): void {
+    super.setAttribute(name, value)
+
+    if (name === 'value') {
+      this.value = value
+    }
+  }
+
   public get value () {
     return this._text
   }
 
   public set value (val: string) {
     this._text = val
-    this._attrs.value = val
     this.updateComponent()
   }
 

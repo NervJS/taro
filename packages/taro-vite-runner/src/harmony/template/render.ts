@@ -148,7 +148,7 @@ function createChildItemWithPosition (item: TaroElement) {
 function createLazyChildren (node: TaroElement) {
   LazyForEach(node, (item: TaroElement) => {
     createChildItemWithPosition(item)
-  }, (item: TaroElement) => item._nid)
+  }, (item: TaroElement) => \`\${item._nid}\${item._updateTrigger}\`)
 }
 
 export { createChildItem, createChildItemWithPosition, createLazyChildren }

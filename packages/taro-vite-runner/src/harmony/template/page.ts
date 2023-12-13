@@ -103,7 +103,7 @@ export default class Parser extends BaseParser {
     let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
-      if (this.node) {
+      if (${isTabPage ? 'this.node[index]' : 'this.node'}) {
         TaroView(${isTabPage ? 'this.node[index]' : 'this.node'} as TaroViewElement)
       }
     }
