@@ -134,8 +134,7 @@ ${this.transArr2Str(pageStr.split('\n'), 2)}
       pageStr = `Refresh({ refreshing: ${isTabPage ? 'this.isRefreshing[index]' : 'this.isRefreshing'} }) {
 ${this.transArr2Str(pageStr.split('\n'), 2)}
 }
-.onStateChange(bindFn(this.handleRefreshStatus, ${isTabPage ? 'this, index' : ''}))
-})`
+.onStateChange(bindFn(this.handleRefreshStatus, this${isTabPage ? ', index' : ''}))`
     }
 
     if (isTabPage) {
