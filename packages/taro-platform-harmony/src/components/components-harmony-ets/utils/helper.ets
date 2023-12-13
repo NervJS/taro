@@ -1,4 +1,4 @@
-import { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle } from './styles'
+import { getNormalAttributes, getFontAttributes } from './styles'
 
 import type { Func } from '@tarojs/runtime/dist/runtime.esm'
 import type { TaroElement } from '@tarojs/runtime'
@@ -36,4 +36,4 @@ export function getNodeThresholds (node: TaroElement): number[] | null {
   return node?._nodeInfo.thresholds || null
 }
 
-export { getNormalAttributes, getFontAttributes, transformW3CToHarmonyInStyle }
+export { getNormalAttributes, getFontAttributes }

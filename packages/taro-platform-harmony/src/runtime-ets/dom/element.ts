@@ -33,24 +33,23 @@ import { initComponentNodeInfo, triggerAttributesCallback } from '../utils/info'
 import { bindAnimation, bindFocus, bindScrollTo } from './bind'
 import { createTaroEvent, eventHandler,TaroEvent } from './event'
 import { NodeType, TaroNode, TaroTextNode } from './node'
+import StyleSheet from './stylesheet'
 
-import type { ICSSStyleDeclaration } from '../dom/cssStyleDeclaration'
 import type { TaroAny } from '../utils'
+import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
-interface NamedNodeItem {
-  name: string
-  value: string
-}
+type NamedNodeMap = ({ name: string, value: string })[]
+
 interface FormWidgetProps extends TaroAttributeProps {
   name?: string
   value?: string | number | number[] | string[] | Record<string, TaroAny>[]
 }
+
 export interface TaroAttributeProps extends StandardProps {
   compileMode?: string | boolean
   compileIf?: boolean
   disabled?: boolean
 }
-type NamedNodeMap = NamedNodeItem[]
 
 class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> extends TaroNode {
   public _innerHTML = ''
@@ -176,7 +175,12 @@ class TaroElement<T extends TaroAttributeProps = TaroAttributeProps> extends Tar
     return this._innerHTML
   }
 
-  public _st: Record<string, string | number | object> = {}
+  public _st = new StyleSheet()
+
+  // 经转换后的鸿蒙样式
+  public get hmStyle () {
+    return this._st.hmStyle
+  }
 
   public _style: ICSSStyleDeclaration | null = null
 

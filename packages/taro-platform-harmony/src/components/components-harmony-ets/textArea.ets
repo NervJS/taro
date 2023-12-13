@@ -8,7 +8,7 @@ import TaroComponentWrapper from './base'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, parseStyles, shouldBindEvent, bindAnimation } from './utils/helper'
 
 import type { TaroTextAreaElement } from './element'
-import type { TaroStyleType, TaroTextStyleType } from './type'
+import type { TaroStyleType, TaroTextStyleType } from '@tarojs/runtime'
 
 @Extend(TextArea)
 function textStyle (style: TaroStyleType) {

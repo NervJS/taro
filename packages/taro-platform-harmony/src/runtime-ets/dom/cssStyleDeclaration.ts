@@ -23,7 +23,8 @@ class CSSStyleDeclaration {
 
   public set cssText (value: string) {
     if (value === '' || value === undefined || value === null) {
-      this.el._st = {}
+      // TODO:
+      // this.el._st = {}
     }
 
     const rules = value.split(';')
@@ -68,9 +69,11 @@ class CSSStyleDeclaration {
     prop = prop.includes('-') ? toCamelCase(prop) : prop
     const value = node._st[prop]
     if (value === undefined) {
+      node._st[prop] = undefined
       return ''
     } else {
-      delete node._st[prop]
+      // delete node._st[prop]
+      node._st[prop] = undefined
       // node._st = { ...node._st }
       return value
     }

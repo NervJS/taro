@@ -55,7 +55,10 @@ function textAttr(attr: TaroTextStyleType) {
 
 @Builder
 export default function TaroText (node: TaroTextElement) {
-  Text(node.textContent)
+  if (this.node.nodeType === NodeType.TEXT_NODE) {
+    Text(this.node.textContent)
+  } else {
+    Text(node.textContent)
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       node._nodeInfo.areaInfo = res
@@ -63,5 +66,5 @@ export default function TaroText (node: TaroTextElement) {
     .textStyle(getNormalAttributes(node))
     .textAttr(getFontAttributes(node))
     .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+  }
 }
-

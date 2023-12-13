@@ -7,7 +7,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent, bindAnimation } from './utils/helper'
 
 import type { TaroScrollViewElement, TaroElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState

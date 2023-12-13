@@ -1,48 +1,19 @@
-import { AttributeManager } from './AttributeManager'
-import { w3cToHarmonyStyle } from './dynamicConvert'
-
 import type { TaroAny, TaroElement } from '@tarojs/runtime'
-import type { HarmonyType } from '../type'
 
 class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
-    const _st: TaroAny = node._st
+    const hmStyle = node.hmStyle
 
-    let flexOptions: HarmonyType.FlexOptions = AttributeManager.getStyleAfterConvert(_st, 'flexOptions')
-    if (flexOptions) {
-      const isDirectionExist = flexOptions.direction !== undefined
-      if (!isDirectionExist) {
-        const isFlexDisplay = _st.display === 'flex'
-
-        flexOptions.direction = isFlexDisplay ? FlexDirection.Row : FlexDirection.Column
-      }
-    } else {
-      const isFlexDisplay = _st.display === 'flex'
-
-      flexOptions = {
-        direction: isFlexDisplay ? FlexDirection.Row : FlexDirection.Column
-      }
+    let flexDirection = hmStyle.direction
+    if (!flexDirection && flexDirection !== 0) {
+      flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
     }
 
-    if (_st.flexDirection !== undefined) {
-      flexOptions.direction = FlexManager.direction(_st.flexDirection)
+    return {
+      direction: flexDirection,
+      justifyContent: hmStyle.justifyContent,
+      alignItems: hmStyle.alignItems
     }
-    if (_st.justifyContent !== undefined) {
-      flexOptions.justifyContent = FlexManager.justifyContent(_st.justifyContent)
-    }
-    if (_st.alignItems !== undefined) {
-      flexOptions.alignItems = FlexManager.itemAlign(_st.alignItems)
-    }
-
-    // TODO:
-    // if (_st.wrap !== undefined) {
-    //   w3cToHarmonyStyle(flexOptions, 'wrap', _st.wrap)
-    // }
-    // if (_st.alignContent !== undefined) {
-    //   w3cToHarmonyStyle(flexOptions, 'alignContent', _st.alignContent)
-    // }
-
-    return flexOptions
   }
 
   static flexAlign (value: string | number | undefined): FlexAlign {

@@ -1,11 +1,10 @@
 import { eventHandler, createTaroEvent, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 import { createLazyChildren } from './render'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
-import { AttributeManager } from './utils/AttributeManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroEvent, TaroButtonElement, TaroElement } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent, TaroButtonElement } from '@tarojs/runtime'
 import type { TaroStyleType } from './type'
 
 @Extend(Button)
@@ -50,7 +49,7 @@ function themeStyles(style: TaroStyleType) {
 }
 
 function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
-  const _st = node._st
+  const hmStyle = node.hmStyle
   const _attrs = node._attrs
   const isPlain: boolean = _attrs.plain || false
   const isDisabled: boolean = _attrs.disabled || false
@@ -58,8 +57,8 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
 
   return {
     opacity: isDisabled ? 0.4 : 1,
-    backgroundColor: isPlain ? Color.Transparent : (AttributeManager.getNodeStyle(_st, 'backgroundColor') || BUTTON_THEME_COLOR.get(type).background),
-    color: AttributeManager.getStyleAfterConvert(_st, 'color', BUTTON_THEME_COLOR.get(type).text),
+    backgroundColor: isPlain ? Color.Transparent : (hmStyle.backgroundColor || BUTTON_THEME_COLOR.get(type).background),
+    color: hmStyle.color || BUTTON_THEME_COLOR.get(type).text,
   }
 }
 

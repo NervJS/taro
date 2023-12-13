@@ -13,7 +13,7 @@ import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds, bindAnimation } from './utils/helper'
 
 import type { TaroRadioGroupElement, TaroRadioElement } from './element'
-import type { TaroStyleType, HarmonyType } from './type'
+import type { TaroStyleType, HarmonyType } from '@tarojs/runtime'
 
 interface RadioOptions {
   group: string

@@ -35,14 +35,6 @@ interface ITransform {
 
 class AttributeManager {
 
-  static getStyleAfterConvert<T = TaroAny> (style: TaroAny = {}, name: string, defaultValue?: TaroAny): T {
-    name = '_' + name
-
-    if (!style[name] && style[name] !== 0) return defaultValue
-
-    return style[name]
-  }
-
   static getNodeStyle<T = TaroAny> (style: TaroAny = {}, name: string, defaultValue?: TaroAny): T {
     const res: TaroAny = style[name]
 

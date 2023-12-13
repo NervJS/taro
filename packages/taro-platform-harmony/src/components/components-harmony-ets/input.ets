@@ -10,7 +10,7 @@ import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds, b
 import { TEXT_DEFAULT_STYLE, INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
 import type { TaroInputElement } from './element'
-import type { TaroStyleType } from './type'
+import type { TaroStyleType } from '@tarojs/runtime'
 
 interface InputAttrs {
   textAlign?: TextAlign
@@ -59,7 +59,7 @@ function attrs(attr: InputAttrs) {
 
 function getAttributes(node: TaroInputElement): InputAttrs {
   return {
-    textAlign: AttributeManager.getStyleAfterConvert(node._st, 'textAlign', TEXT_DEFAULT_STYLE.TEXT_ALIGN),
+    textAlign: node.hmStyle.textAlign,
   }
 }
 
