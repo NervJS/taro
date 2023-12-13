@@ -3415,9 +3415,6 @@ importers:
       '@babel/core':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/core@7.21.8
-      fs-extra:
-        specifier: ^11.1.0
-        version: registry.npmjs.org/fs-extra@11.1.1
       postcss:
         specifier: ^8.4.18
         version: registry.npmjs.org/postcss@8.4.23
@@ -4014,9 +4011,6 @@ importers:
       better-babel-generator:
         specifier: 6.26.1
         version: registry.npmjs.org/better-babel-generator@6.26.1
-      fs-extra:
-        specifier: ^8.0.1
-        version: registry.npmjs.org/fs-extra@8.1.0
       himalaya-wxml:
         specifier: ^1.1.0
         version: registry.npmjs.org/himalaya-wxml@1.1.0
