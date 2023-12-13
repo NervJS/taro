@@ -19,7 +19,7 @@ jest.mock('react-native', () => {
   ReactNative.Image.getSize = jest.fn((_uri, success: any) => {
     setTimeout(() => success && success(320, 240))
     return Promise.resolve([320, 240])
-  });
+  })
   return ReactNative
 })
 
