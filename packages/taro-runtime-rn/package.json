@@ -31,9 +31,6 @@
     "react-native": "^0.73.0",
     "react-native-root-siblings": "^5.0.1"
   },
-  "devDependencies": {
-    "@types/react-native": "^0.69.8"
-  },
   "peerDependencies": {
     "react-native-device-info": "~10.12.0"
   }

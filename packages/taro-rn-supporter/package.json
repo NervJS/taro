@@ -34,7 +34,6 @@
   "dependencies": {
     "@react-native-community/cli-config": "^12.2.1",
     "@react-native-community/cli-tools": "^12.2.1",
-    "@rnx-kit/metro-resolver-symlinks": "^0.1.23",
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/taro": "workspace:*",

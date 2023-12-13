@@ -2568,9 +2568,6 @@ importers:
       '@babel/preset-env':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
-      '@jest/globals':
-        specifier: ^26.6.2
-        version: registry.npmjs.org/@jest/globals@26.6.2
       '@react-native/babel-preset':
         specifier: ^0.73.18
         version: registry.npmjs.org/@react-native/babel-preset@0.73.18(@babel/core@7.21.8)(@babel/preset-env@7.21.5)
@@ -2792,9 +2789,6 @@ importers:
       '@react-native-community/cli-tools':
         specifier: ^12.2.1
         version: registry.npmjs.org/@react-native-community/cli-tools@12.2.1
-      '@rnx-kit/metro-resolver-symlinks':
-        specifier: ^0.1.23
-        version: registry.npmjs.org/@rnx-kit/metro-resolver-symlinks@0.1.28
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
@@ -3100,10 +3094,6 @@ importers:
       react-native-root-siblings:
         specifier: ^5.0.1
         version: registry.npmjs.org/react-native-root-siblings@5.0.1
-    devDependencies:
-      '@types/react-native':
-        specifier: ^0.69.8
-        version: registry.npmjs.org/@types/react-native@0.69.26
 
   packages/taro-service:
     dependencies:
@@ -12964,18 +12954,6 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@29.6.3
 
-  registry.npmjs.org/@jest/environment@26.6.2:
-    resolution: {integrity: sha512-nFy+fHl28zUrRsCeMB61VDThV1pVTtlEokBRgqPrcT1JNq4yRNIyTHfyht6PqtUvY9IsuLGTrbG8kPXjSZIZwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/environment/-/environment-26.6.2.tgz}
-    name: '@jest/environment'
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers@26.6.2
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      '@types/node': registry.npmjs.org/@types/node@14.18.45
-      jest-mock: registry.npmjs.org/jest-mock@26.6.2
-    dev: true
-
   registry.npmjs.org/@jest/environment@27.5.1:
     resolution: {integrity: sha512-/WQjhPJe3/ghaol/4Bq480JKXV/Rfw8nQdN7f41fM8VDHLcxKXou6QyXAh3EFr9/bVG3x74z1NWDkP87EiY8gA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/environment/-/environment-27.5.1.tgz}
     name: '@jest/environment'
@@ -13053,20 +13031,6 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmjs.org/@jest/fake-timers@26.6.2:
-    resolution: {integrity: sha512-14Uleatt7jdzefLPYM3KLcnUl1ZNikaKq34enpb5XG9i81JpppDb5muZvonvKyrl7ftEHkKS5L5/eB/kxJ+bvA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/fake-timers/-/fake-timers-26.6.2.tgz}
-    name: '@jest/fake-timers'
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      '@sinonjs/fake-timers': registry.npmjs.org/@sinonjs/fake-timers@6.0.1
-      '@types/node': registry.npmjs.org/@types/node@14.18.45
-      jest-message-util: registry.npmjs.org/jest-message-util@26.6.2
-      jest-mock: registry.npmjs.org/jest-mock@26.6.2
-      jest-util: registry.npmjs.org/jest-util@26.6.2
-    dev: true
-
   registry.npmjs.org/@jest/fake-timers@27.5.1:
     resolution: {integrity: sha512-/aPowoolwa07k7/oM3aASneNeBGCmGQsc3ugN4u6s4C/+s5M64MFo/+djTdiwcbQlRfFElGuDXWzaWj6QgKObQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/fake-timers/-/fake-timers-27.5.1.tgz}
     name: '@jest/fake-timers'
@@ -13107,17 +13071,6 @@ packages:
       jest-message-util: registry.npmjs.org/jest-message-util@29.7.0
       jest-mock: registry.npmjs.org/jest-mock@29.7.0
       jest-util: registry.npmjs.org/jest-util@29.7.0
-
-  registry.npmjs.org/@jest/globals@26.6.2:
-    resolution: {integrity: sha512-85Ltnm7HlB/KesBUuALwQ68YTU72w9H2xW9FjZ1eL1U3lhtefjjl5c2MiUbpXt/i6LaPRvoOFJ22yCBSfQ0JIA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/globals/-/globals-26.6.2.tgz}
-    name: '@jest/globals'
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@jest/environment': registry.npmjs.org/@jest/environment@26.6.2
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      expect: registry.npmjs.org/expect@26.6.2
-    dev: true
 
   registry.npmjs.org/@jest/globals@27.5.1:
     resolution: {integrity: sha512-ZEJNB41OBQQgGzgyInAv0UUfDDj3upmHydjieSxFvTRuZElrx7tXg/uVQ5hYVEwiXs3+aMsAeEc9X7xiSKCm4Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@jest/globals/-/globals-27.5.1.tgz}
@@ -15887,41 +15840,6 @@ packages:
     dependencies:
       web-streams-polyfill: registry.npmjs.org/web-streams-polyfill@3.2.1
 
-  registry.npmjs.org/@rnx-kit/metro-resolver-symlinks@0.1.28:
-    resolution: {integrity: sha512-nc6iGn7zeGKqRrnAQdoo6gi6nA4fZ41O0ZDY2uZGBHb9JlLPKrJOVDteyWQY3HIsFdRf4y+cP3kXnNybr7itOw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/metro-resolver-symlinks/-/metro-resolver-symlinks-0.1.28.tgz}
-    name: '@rnx-kit/metro-resolver-symlinks'
-    version: 0.1.28
-    dependencies:
-      '@rnx-kit/tools-node': registry.npmjs.org/@rnx-kit/tools-node@2.0.0
-      '@rnx-kit/tools-react-native': registry.npmjs.org/@rnx-kit/tools-react-native@1.3.1
-      enhanced-resolve: registry.npmjs.org/enhanced-resolve@5.13.0
-    dev: false
-
-  registry.npmjs.org/@rnx-kit/tools-language@2.0.0:
-    resolution: {integrity: sha512-KUZf7MIWG4GFA2vskiG1Su3AMlTKighUqIi/T8J2OlANC5gKNflqAAYFhSgwj2I0XJ5nvxyJ4VRmDEf7DSjJIA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/tools-language/-/tools-language-2.0.0.tgz}
-    name: '@rnx-kit/tools-language'
-    version: 2.0.0
-    dev: false
-
-  registry.npmjs.org/@rnx-kit/tools-node@2.0.0:
-    resolution: {integrity: sha512-BDTBaCifbxJJ5GM4scc+C/nwtznwEtjtNunFrKRlOFnQ2bLjbt3sTA0UnqIelWTztY71dD3zcKwlHFYi+yDTBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/tools-node/-/tools-node-2.0.0.tgz}
-    name: '@rnx-kit/tools-node'
-    version: 2.0.0
-    dependencies:
-      '@rnx-kit/tools-language': registry.npmjs.org/@rnx-kit/tools-language@2.0.0
-      find-up: registry.npmjs.org/find-up@5.0.0
-      pkg-dir: registry.npmjs.org/pkg-dir@5.0.0
-      pkg-up: registry.npmjs.org/pkg-up@3.1.0
-    dev: false
-
-  registry.npmjs.org/@rnx-kit/tools-react-native@1.3.1:
-    resolution: {integrity: sha512-zip8tXSN6iV0v3LzbUjno1atJCDtC8gLrva9CN/gJRwpzkpZOlg1/aZlK0LbhvPs3P3t/3FUX5P3svMTi/fWdw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rnx-kit/tools-react-native/-/tools-react-native-1.3.1.tgz}
-    name: '@rnx-kit/tools-react-native'
-    version: 1.3.1
-    dependencies:
-      '@rnx-kit/tools-node': registry.npmjs.org/@rnx-kit/tools-node@2.0.0
-    dev: false
-
   registry.npmjs.org/@rollup/plugin-babel@6.0.4(@babel/core@7.21.8)(rollup@2.79.1):
     resolution: {integrity: sha512-YF7Y52kFdFT/xVSuVdjkV5ZdX/3YtmX0QulG+x0taQOtJdHYzVU61aSSkAgVJ7NOv6qPkIYiJSgSWWN/DM5sGw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-6.0.4.tgz}
     id: registry.npmjs.org/@rollup/plugin-babel/6.0.4
@@ -16394,14 +16312,6 @@ packages:
     version: 10.0.2
     dependencies:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons@2.0.0
-
-  registry.npmjs.org/@sinonjs/fake-timers@6.0.1:
-    resolution: {integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/fake-timers/-/fake-timers-6.0.1.tgz}
-    name: '@sinonjs/fake-timers'
-    version: 6.0.1
-    dependencies:
-      '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons@1.8.6
-    dev: true
 
   registry.npmjs.org/@sinonjs/fake-timers@8.1.0:
     resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@sinonjs/fake-timers/-/fake-timers-8.1.0.tgz}
@@ -17575,14 +17485,6 @@ packages:
     resolution: {integrity: sha512-V835xgdSVmyQmI1KLV2BEIUgqEuinxp9O4G6g3FqO/SqLac049E53aysv0oEFD2kHfejeKU+ZqL2bcFWj9gLAQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-dom/-/react-dom-18.2.14.tgz}
     name: '@types/react-dom'
     version: 18.2.14
-    dependencies:
-      '@types/react': registry.npmjs.org/@types/react@18.2.6
-    dev: true
-
-  registry.npmjs.org/@types/react-native@0.69.26:
-    resolution: {integrity: sha512-K11OWz8SU3Eill/EUhma54qOeczUjIhTlV1Luv2BODawPsM8nCVJkWaAUCqJaMFrcIKUTH0KIYUzUjqWlRUNfw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/react-native/-/react-native-0.69.26.tgz}
-    name: '@types/react-native'
-    version: 0.69.26
     dependencies:
       '@types/react': registry.npmjs.org/@types/react@18.2.6
     dev: true
@@ -25698,13 +25600,6 @@ packages:
     version: 1.0.5
     dev: true
 
-  registry.npmjs.org/diff-sequences@26.6.2:
-    resolution: {integrity: sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/diff-sequences/-/diff-sequences-26.6.2.tgz}
-    name: diff-sequences
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dev: true
-
   registry.npmjs.org/diff-sequences@27.5.1:
     resolution: {integrity: sha512-k1gCAXAsNgLwEL+Y8Wvl+M6oEFj5bgazfZULpS5CneoPPXRaCCW7dm+q21Ky2VEE5X+VeRDBVg1Pcvvsr4TtNQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/diff-sequences/-/diff-sequences-27.5.1.tgz}
     name: diff-sequences
@@ -27727,20 +27622,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: false
-
-  registry.npmjs.org/expect@26.6.2:
-    resolution: {integrity: sha512-9/hlOBkQl2l/PLHJx6JjoDF6xPKcJEsUlWKb23rKE7KzeDqUZKXKNMW27KIue5JMdBV9HgmoJPcc8HtO85t9IA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expect/-/expect-26.6.2.tgz}
-    name: expect
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      ansi-styles: registry.npmjs.org/ansi-styles@4.3.0
-      jest-get-type: registry.npmjs.org/jest-get-type@26.3.0
-      jest-matcher-utils: registry.npmjs.org/jest-matcher-utils@26.6.2
-      jest-message-util: registry.npmjs.org/jest-message-util@26.6.2
-      jest-regex-util: registry.npmjs.org/jest-regex-util@26.0.0
-    dev: true
 
   registry.npmjs.org/expect@27.5.1:
     resolution: {integrity: sha512-E1q5hSUG2AmYQwQJ041nvgpkODHQvB+RKlB4IYdru6uJsyFTRyZAP463M+1lINorwbqAmUggi6+WwkD8lCS/Dw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/expect/-/expect-27.5.1.tgz}
@@ -31083,6 +30964,7 @@ packages:
     hasBin: true
     dependencies:
       ci-info: registry.npmjs.org/ci-info@2.0.0
+    dev: false
 
   registry.npmjs.org/is-color-stop@1.1.0:
     resolution: {integrity: sha512-H1U8Vz0cfXNujrJzEcvvwMDW9Ra+biSYA3ThdQvAnMLJkEHQXn6bWzLkxHtVYJ+Sdbx0b6finn3jZiaVe7MAHA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/is-color-stop/-/is-color-stop-1.1.0.tgz}
@@ -32569,18 +32451,6 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmjs.org/jest-diff@26.6.2:
-    resolution: {integrity: sha512-6m+9Z3Gv9wN0WFVasqjCL/06+EFCMTqDEUl/b87HYK2rAPTyfz4ZIuSlPhY51PIQRWx5TaxeF1qmXKe9gfN3sA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-diff/-/jest-diff-26.6.2.tgz}
-    name: jest-diff
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      chalk: registry.npmjs.org/chalk@4.1.2
-      diff-sequences: registry.npmjs.org/diff-sequences@26.6.2
-      jest-get-type: registry.npmjs.org/jest-get-type@26.3.0
-      pretty-format: registry.npmjs.org/pretty-format@26.6.2
-    dev: true
-
   registry.npmjs.org/jest-diff@27.5.1:
     resolution: {integrity: sha512-m0NvkX55LDt9T4mctTEgnZk3fmEg3NRYutvMPWM/0iPnkFj2wIeF45O1718cMSOFO1vINkqmxqD8vE37uTEbqw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-diff/-/jest-diff-27.5.1.tgz}
     name: jest-diff
@@ -32788,13 +32658,6 @@ packages:
       - encoding
     dev: true
 
-  registry.npmjs.org/jest-get-type@26.3.0:
-    resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-get-type/-/jest-get-type-26.3.0.tgz}
-    name: jest-get-type
-    version: 26.3.0
-    engines: {node: '>= 10.14.2'}
-    dev: true
-
   registry.npmjs.org/jest-get-type@27.5.1:
     resolution: {integrity: sha512-2KY95ksYSaK7DMBWQn6dQz3kqAf3BB64y2udeG+hv4KfSOb9qwcYQstTJc1KCbsix+wLZWZYN8t7nwX3GOBLRw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-get-type/-/jest-get-type-27.5.1.tgz}
     name: jest-get-type
@@ -32926,18 +32789,6 @@ packages:
       pretty-format: registry.npmjs.org/pretty-format@29.7.0
     dev: true
 
-  registry.npmjs.org/jest-matcher-utils@26.6.2:
-    resolution: {integrity: sha512-llnc8vQgYcNqDrqRDXWwMr9i7rS5XFiCwvh6DTP7Jqa2mqpcCBBlpCbn+trkG0KNhPu/h8rzyBkriOtBstvWhw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-matcher-utils/-/jest-matcher-utils-26.6.2.tgz}
-    name: jest-matcher-utils
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      chalk: registry.npmjs.org/chalk@4.1.2
-      jest-diff: registry.npmjs.org/jest-diff@26.6.2
-      jest-get-type: registry.npmjs.org/jest-get-type@26.3.0
-      pretty-format: registry.npmjs.org/pretty-format@26.6.2
-    dev: true
-
   registry.npmjs.org/jest-matcher-utils@27.5.1:
     resolution: {integrity: sha512-z2uTx/T6LBaCoNWNFWwChLBKYxTMcGBRjAt+2SbP929/Fflb9aa5LGma654Rz8z9HLxsrUaYzxE9T/EFIL/PAw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-matcher-utils/-/jest-matcher-utils-27.5.1.tgz}
     name: jest-matcher-utils
@@ -32960,23 +32811,6 @@ packages:
       jest-diff: registry.npmjs.org/jest-diff@29.7.0
       jest-get-type: registry.npmjs.org/jest-get-type@29.6.3
       pretty-format: registry.npmjs.org/pretty-format@29.7.0
-    dev: true
-
-  registry.npmjs.org/jest-message-util@26.6.2:
-    resolution: {integrity: sha512-rGiLePzQ3AzwUshu2+Rn+UMFk0pHN58sOG+IaJbk5Jxuqo3NYO1U2/MIR4S1sKgsoYSXSzdtSa0TgrmtUwEbmA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-message-util/-/jest-message-util-26.6.2.tgz}
-    name: jest-message-util
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@babel/code-frame': registry.npmjs.org/@babel/code-frame@7.22.13
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      '@types/stack-utils': registry.npmjs.org/@types/stack-utils@2.0.1
-      chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
-      micromatch: registry.npmjs.org/micromatch@4.0.5
-      pretty-format: registry.npmjs.org/pretty-format@26.6.2
-      slash: registry.npmjs.org/slash@3.0.0
-      stack-utils: registry.npmjs.org/stack-utils@2.0.6
     dev: true
 
   registry.npmjs.org/jest-message-util@27.5.1:
@@ -33040,16 +32874,6 @@ packages:
       jest: registry.npmjs.org/jest@29.5.0
     dev: true
 
-  registry.npmjs.org/jest-mock@26.6.2:
-    resolution: {integrity: sha512-YyFjePHHp1LzpzYcmgqkJ0nm0gg/lJx2aZFzFy1S6eUqNjXsOqTK10zNRff2dNfssgokjkG65OlWNcIlgd3zew==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock/-/jest-mock-26.6.2.tgz}
-    name: jest-mock
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      '@types/node': registry.npmjs.org/@types/node@14.18.45
-    dev: true
-
   registry.npmjs.org/jest-mock@27.5.1:
     resolution: {integrity: sha512-K4jKbY1d4ENhbrG2zuPWaQBvDly+iZ2yAW+T1fATN78hc0sInwn7wZB8XtlNnvHug5RMwV897Xm4LqmPM4e2Og==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-mock/-/jest-mock-27.5.1.tgz}
     name: jest-mock
@@ -33109,13 +32933,6 @@ packages:
         optional: true
     dependencies:
       jest-resolve: registry.npmjs.org/jest-resolve@29.7.0
-    dev: true
-
-  registry.npmjs.org/jest-regex-util@26.0.0:
-    resolution: {integrity: sha512-Gv3ZIs/nA48/Zvjrl34bf+oD76JHiGDUxNOVgUjh3j890sblXryjY4rss71fPtD/njchl6PSE2hIhvyWa1eT0A==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-regex-util/-/jest-regex-util-26.0.0.tgz}
-    name: jest-regex-util
-    version: 26.0.0
-    engines: {node: '>= 10.14.2'}
     dev: true
 
   registry.npmjs.org/jest-regex-util@27.5.1:
@@ -33510,20 +33327,6 @@ packages:
       style-inject: registry.npmjs.org/style-inject@0.3.0
     transitivePeerDependencies:
       - ts-node
-    dev: true
-
-  registry.npmjs.org/jest-util@26.6.2:
-    resolution: {integrity: sha512-MDW0fKfsn0OI7MS7Euz6h8HNDXVQ0gaM9uW6RjfDmd1DAFcaxX9OqIakHIqhbnmF08Cf2DLDG+ulq8YQQ0Lp0Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/jest-util/-/jest-util-26.6.2.tgz}
-    name: jest-util
-    version: 26.6.2
-    engines: {node: '>= 10.14.2'}
-    dependencies:
-      '@jest/types': registry.npmjs.org/@jest/types@26.6.2
-      '@types/node': registry.npmjs.org/@types/node@14.18.45
-      chalk: registry.npmjs.org/chalk@4.1.2
-      graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
-      is-ci: registry.npmjs.org/is-ci@2.0.0
-      micromatch: registry.npmjs.org/micromatch@4.0.5
     dev: true
 
   registry.npmjs.org/jest-util@27.5.1:
