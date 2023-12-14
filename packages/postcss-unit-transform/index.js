@@ -7,7 +7,7 @@ function plugin (opts) {
     root.walkDecls(function (decl) {
       let value = decl.value
       value = value.replace(/\b-?(\d+(\.\d+)?)px\b/ig, function (size) {
-        return Number(size) === 0 ? '0px': parseFloat(size) + 'px'
+        return Number(size) === 0 ? '0px': parseFloat(size) * 2 + 'px'
       }).replace(/\b-?(\d+(\.\d+)?)rpx\b/ig, function (size) {
         return size + 'px'
       })
