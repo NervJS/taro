@@ -1,11 +1,8 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroEvent, TaroAny, createTaroEvent } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
 
-import TaroComponentWrapper from './base'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroSliderElement } from './element'
-import type { TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroSliderElement, TaroStyleType } from '@tarojs/runtime'
 
 interface SliderOptions {
   min?: number
@@ -78,81 +75,56 @@ function themeStyles(isDisabled: boolean) {
   .opacity(isDisabled ? 0.4 : 1)
 }
 
-@Component
-export default struct TaroSlider {
-  nodeInfoMap: TaroAny = {}
-
-  @ObjectLink node: TaroSliderElement
-
-  @State value: number = 0
-
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
-
-  aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-
-    this.value = Number(this.node._attrs.value || 0)
-  }
-
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-    }))
-  }
-
-  @Builder createSlider () {
-    Slider({
-      min: Number(this.node._attrs.min || 0),
-      max: Number(this.node._attrs.max || 100),
-      value: this.value,
-      step: Number(this.node._attrs.step || 1),
-      style: SliderStyle.OutSet,
-      direction: Axis.Horizontal
-    })
-      .defaultEvent()
-      .style(getNormalAttributes(this.node))
-      .attrs(getAttributes(this.node))
-      .width(!!this.node._attrs.showValue ? '90%' : '100%')
-      .themeStyles(!!this.node._attrs.disabled)
-      .onChange((value: number, mode: SliderChangeMode) => {
-        if (!!this.node._attrs.disabled) {
-          if (mode === SliderChangeMode.End) {
-            // FIXME 找下文档是否有强制刷新方法
-            this.value = this.value + 0.01
-            this.value = this.value - 0.01
-          }
-        } else {
-          this.value = value
-          if (mode === SliderChangeMode.End) {
-            const event: TaroEvent = createTaroEvent('change', { detail: { value: this.value } }, this.node)
-            eventHandler(event, 'change', this.node)
-          } else if (mode === SliderChangeMode.Moving) {
-            const event: TaroEvent = createTaroEvent('changing', { detail: { value: this.value } }, this.node)
-            eventHandler(event, 'changing', this.node)
-          }
-        }
-      })
-      .visibleChangeEvent()
-  }
-
-  build() {
-    TaroComponentWrapper({ node: this.node }) {
-      if (!!this.node._attrs.showValue) {
-        Row() {
-          this.createSlider()
-          Text(Number(this.value).toFixed(0))
-            .width('10%')
-            .textAlign(TextAlign.Center)
-            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+@Builder
+function createSlider (node: TaroSliderElement) {
+  Slider({
+    min: Number(node._attrs.min || 0),
+    max: Number(node._attrs.max || 100),
+    value: node.value,
+    step: Number(node._attrs.step || 1),
+    style: SliderStyle.OutSet,
+    direction: Axis.Horizontal
+  })
+    .style(getNormalAttributes(node))
+    .attrs(getAttributes(node))
+    .width(!!node._attrs.showValue ? '90%' : '100%')
+    .themeStyles(!!node._attrs.disabled)
+    .onChange((value: number, mode: SliderChangeMode) => {
+      if (!!node._attrs.disabled) {
+        if (mode === SliderChangeMode.End) {
+          // FIXME 找下文档是否有强制刷新方法
+          node.value = node.value + 0.01
+          node.value = node.value - 0.01
         }
       } else {
-        this.createSlider()
+        node.value = value
+        if (mode === SliderChangeMode.End) {
+          const event: TaroEvent = createTaroEvent('change', { detail: { value: node.value } }, node)
+          eventHandler(event, 'change', node)
+        } else if (mode === SliderChangeMode.Moving) {
+          const event: TaroEvent = createTaroEvent('changing', { detail: { value: node.value } }, node)
+          eventHandler(event, 'changing', node)
+        }
       }
+    })
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      node._nodeInfo.areaInfo = res[1]
+    }))
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+}
+
+@Builder
+export default function TaroSlider (node: TaroSliderElement) {
+  if (!!node._attrs.showValue) {
+    Row() {
+      createSlider(node)
+      Text(Number(value).toFixed(0))
+        .width('10%')
+        .textAlign(TextAlign.Center)
+        .opacity(!!node._attrs.disabled ? 0.4 : 1)
     }
+  } else {
+    createSlider(node)
   }
 }

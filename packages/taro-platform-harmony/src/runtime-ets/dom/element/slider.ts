@@ -8,7 +8,7 @@ export class TaroSliderElement extends TaroElement<SliderProps> {
   constructor() {
     super('Slider')
 
-    this._value = this._attrs.value || ''
+    this._value = Number(this._attrs.value || 0)
   }
 
   public get value () {
@@ -17,6 +17,6 @@ export class TaroSliderElement extends TaroElement<SliderProps> {
 
   public set value (val: string | number) {
     this._value = val
-    // TODO: update
+    this.updateComponent()
   }
 }
