@@ -53,6 +53,6 @@ export default function TaroIcon (node: TaroIconElement) {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res
+      node._nodeInfo.areaInfo = res[1]
     }))
 }

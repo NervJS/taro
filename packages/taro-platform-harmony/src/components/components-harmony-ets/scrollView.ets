@@ -143,7 +143,7 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res
+      node._nodeInfo.areaInfo = res[1]
     }))
     .onScroll(shouldBindEvent(() => { handleScrollEvent(node, 'scroll') }, node, ['scroll']))
     .onScrollStart(shouldBindEvent(() => { handleScrollEvent(node, 'scrollstart') }, node, ['scrollstart']))

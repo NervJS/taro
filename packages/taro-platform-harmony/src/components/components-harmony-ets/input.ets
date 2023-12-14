@@ -102,7 +102,7 @@ export default function TaroInput(node: TaroInputElement) {
       eventHandler(event, 'focus', node)
     })
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res
+      node._nodeInfo.areaInfo = res[1]
     }))
     .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
 }
