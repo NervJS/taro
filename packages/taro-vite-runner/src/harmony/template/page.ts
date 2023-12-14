@@ -119,7 +119,8 @@ export default class Parser extends BaseParser {
   })
 }
 .width('100%')
-.height('100%')`
+.height('100%')
+.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || this.appConfig.window?.backgroundColor || "#FFFFFF")`
 
     if (isTabPage && enableRefresh > 1) {
       pageStr = `if (${appEnableRefresh
@@ -188,6 +189,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       'page?: PageInstance',
       this.isTabbarPage
         ? [
+          `@State pageList: PageInstance[] = []`,
           `scroller: Scroller[] = [${
             this.tabbarList.map(() => 'new Scroller()').join(', ')
           }]`,
@@ -199,7 +201,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
               this.tabbarList.map(() => 'false').join(', ')
             }]`
             : null,
-          `@State pageList: PageInstance[] = []`,
+          `@State pageBackgroundColor: string[] = [${
+            this.tabbarList.map((_, i) => `config${i}.backgroundColor`).join(', ')
+          }]`,
         ]
         : [
           'scroller: Scroller = new Scroller()',
@@ -207,6 +211,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           this.enableRefresh
             ? '@State isRefreshing: boolean = false'
             : null,
+          `@State pageBackgroundColor?: string = config.backgroundColor`,
         ],
       '@State appConfig: AppConfig = window.__taroAppConfig || {}',
       '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
@@ -255,7 +260,7 @@ onPageShow () {
     this.pageStack.length = state.index
     this.pageStack[state.index - 1] = state
   }
-  ${this.isTabbarPage ? `this.switchTabHandler({ params: router.getParams() || {} })
+  ${this.isTabbarPage ? `this.handleSwitchTab({ params: router.getParams() || {} })
   this.pageList?.forEach(item => {
     callFn(item?.onShow, this)
   })` : 'callFn(this.page?.onShow, this)'}
@@ -324,9 +329,15 @@ updateTabBarKey = (index = 0, odd: Partial<ITabBarItem> = {}) => {
   obj.key = (Math.floor(idx / len) + 1) * len + index
 }
 
-routerChangeHandler = () => {}
+handlePageStyle = (option: TaroObject) => {
+  if (option.backgroundColor) ${
+  this.isTabbarPage ? 'this.pageBackgroundColor[this.tabBarCurrentIndex]' : 'this.pageBackgroundColor'
+} = option.backgroundColor || '#FFFFFF'
+}
 
-switchTabHandler = (option: TaroObject) => {
+handleRouterChange = () => {}
+
+handleSwitchTab = (option: TaroObject) => {
   const index = this.tabBarList.findIndex(e => e.pagePath === option.params.$page)
   if (index >= 0 && this.tabBarCurrentIndex !== index) {
     this.page?.onHide?.()
@@ -334,7 +345,7 @@ switchTabHandler = (option: TaroObject) => {
   }
 }
 
-setTabBarBadgeHandler = (option: TaroObject) => {
+handleSetTabBarBadge = (option: TaroObject) => {
   const list = [...this.tabBarList]
   if (!!list[option.index]) {
     const obj = list[option.index]
@@ -346,7 +357,7 @@ setTabBarBadgeHandler = (option: TaroObject) => {
   this.tabBarList = list
 }
 
-removeTabBarBadgeHandler = (option: TaroObject) => {
+handleRemoveTabBarBadge = (option: TaroObject) => {
   const list = [...this.tabBarList]
   if (!!list[option.index]) {
     const obj = list[option.index]
@@ -357,7 +368,7 @@ removeTabBarBadgeHandler = (option: TaroObject) => {
   this.tabBarList = list
 }
 
-showTabBarRedDotHandler = (option: TaroObject) => {
+handleShowTabBarRedDot = (option: TaroObject) => {
   const list = [...this.tabBarList]
   if (!!list[option.index]) {
     const obj = list[option.index]
@@ -369,7 +380,7 @@ showTabBarRedDotHandler = (option: TaroObject) => {
   this.tabBarList = list
 }
 
-hideTabBarRedDotHandler = (option: TaroObject) => {
+handleHideTabBarRedDot = (option: TaroObject) => {
   const list = [...this.tabBarList]
   if (!!list[option.index]) {
     const obj = list[option.index]
@@ -380,7 +391,7 @@ hideTabBarRedDotHandler = (option: TaroObject) => {
   this.tabBarList = list
 }
 
-showTabBarHandler = (option: TaroObject) => {
+handleShowTabBar = (option: TaroObject) => {
   if (option.animation) {
     animateTo({
       duration: this.tabBarAnimationDuration,
@@ -395,7 +406,7 @@ showTabBarHandler = (option: TaroObject) => {
   }
 }
 
-hideTabBarHandler = (option: TaroObject) => {
+handleHideTabBar = (option: TaroObject) => {
   if (option.animation) {
     animateTo({
       duration: this.tabBarAnimationDuration,
@@ -410,14 +421,14 @@ hideTabBarHandler = (option: TaroObject) => {
   }
 }
 
-setTabBarStyleHandler = (option: TaroObject) => {
+handleSetTabBarStyle = (option: TaroObject) => {
   if (option.backgroundColor) this.tabBarBackgroundColor = option.backgroundColor
   if (option.borderStyle) this.tabBarBorderStyle = option.borderStyle
   if (option.color) this.tabBarColor = option.color
   if (option.selectedColor) this.tabBarSelectedColor = option.selectedColor
 }
 
-setTabBarItemHandler = (option: TaroObject) => {
+handleSetTabBarItem = (option: TaroObject) => {
   const list = [...this.tabBarList]
   if (!!list[option.index]) {
     const obj = list[option.index]
@@ -434,29 +445,31 @@ setTabBarItemHandler = (option: TaroObject) => {
 }
 
 bindEvent () {
-  eventCenter.on('__taroRouterChange', this.routerChangeHandler)
-  eventCenter.on('__taroSwitchTab', this.switchTabHandler)
-  eventCenter.on('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
-  eventCenter.on('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
-  eventCenter.on('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
-  eventCenter.on('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-  eventCenter.on('__taroShowTabBar', this.showTabBarHandler)
-  eventCenter.on('__taroHideTabBar', this.hideTabBarHandler)
-  eventCenter.on('__taroSetTabBarStyle', this.setTabBarStyleHandler)
-  eventCenter.on('__taroSetTabBarItem', this.setTabBarItemHandler)
+  eventCenter.on('__taroPageStyle', this.handlePageStyle)
+  eventCenter.on('__taroRouterChange', this.handleRouterChange)
+  eventCenter.on('__taroSwitchTab', this.handleSwitchTab)
+  eventCenter.on('__taroSetTabBarBadge', this.handleSetTabBarBadge)
+  eventCenter.on('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)
+  eventCenter.on('__taroShowTabBarRedDotHandler', this.handleShowTabBarRedDot)
+  eventCenter.on('__taroHideTabBarRedDotHandler', this.handleHideTabBarRedDot)
+  eventCenter.on('__taroShowTabBar', this.handleShowTabBar)
+  eventCenter.on('__taroHideTabBar', this.handleHideTabBar)
+  eventCenter.on('__taroSetTabBarStyle', this.handleSetTabBarStyle)
+  eventCenter.on('__taroSetTabBarItem', this.handleSetTabBarItem)
 }
 
 removeEvent () {
-  eventCenter.off('__taroRouterChange', this.routerChangeHandler)
-  eventCenter.off('__taroSwitchTab', this.switchTabHandler)
-  eventCenter.off('__taroSetTabBarBadge', this.setTabBarBadgeHandler)
-  eventCenter.off('__taroRemoveTabBarBadge', this.removeTabBarBadgeHandler)
-  eventCenter.off('__taroShowTabBarRedDotHandler', this.showTabBarRedDotHandler)
-  eventCenter.off('__taroHideTabBarRedDotHandler', this.hideTabBarRedDotHandler)
-  eventCenter.off('__taroShowTabBar', this.showTabBarHandler)
-  eventCenter.off('__taroHideTabBar', this.hideTabBarHandler)
-  eventCenter.off('__taroSetTabBarStyle', this.setTabBarStyleHandler)
-  eventCenter.off('__taroSetTabBarItem', this.setTabBarItemHandler)
+  eventCenter.off('__taroPageStyle', this.handlePageStyle)
+  eventCenter.off('__taroRouterChange', this.handleRouterChange)
+  eventCenter.off('__taroSwitchTab', this.handleSwitchTab)
+  eventCenter.off('__taroSetTabBarBadge', this.handleSetTabBarBadge)
+  eventCenter.off('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)
+  eventCenter.off('__taroShowTabBarRedDotHandler', this.handleShowTabBarRedDot)
+  eventCenter.off('__taroHideTabBarRedDotHandler', this.handleHideTabBarRedDot)
+  eventCenter.off('__taroShowTabBar', this.handleShowTabBar)
+  eventCenter.off('__taroHideTabBar', this.handleHideTabBar)
+  eventCenter.off('__taroSetTabBarStyle', this.handleSetTabBarStyle)
+  eventCenter.off('__taroSetTabBarItem', this.handleSetTabBarItem)
 }
 
 @Builder renderTabBarInnerBuilder(index: number, item: ITabBarItem) {

@@ -1,32 +1,35 @@
-import window from '@ohos.window'
-import { Current } from '@tarojs/runtime'
+// import window from '@ohos.window'
+// import { Current } from '@tarojs/runtime'
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
-import { callAsyncFail, callAsyncSuccess } from '../utils'
-import { IAsyncParams } from '../utils/types'
+import { MethodHandler } from '../utils/handler'
 
-interface ISetBackgroundColor extends IAsyncParams {
-  backgroundColor?: string
-  backgroundColorTop?: string
-  backgroundColorBottom?: string
-}
+// import { callAsyncFail, callAsyncSuccess } from '../utils'
 
-const windowClassPromise = (Current as any).contextPromise
-  .then(context => {
-    return window.getTopWindow(context)
-  })
 
-export function setBackgroundColor(options: ISetBackgroundColor) {
+// const windowClassPromise = (Current as any).contextPromise
+//   .then(context => {
+//     return window.getTopWindow(context)
+//   })
+
+export function setBackgroundColor(options: Taro.setBackgroundColor.Option) {
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'setBackgroundColor', success, fail, complete })
+
   return new Promise((resolve, reject) => {
-    const color = options.backgroundColor || options.backgroundColorTop || options.backgroundColorBottom
-
-    windowClassPromise.then(windowClass => {
-      windowClass.setBackgroundColor(color).then(() => {
-        const res = { errMsg: 'setBackgroundColor:ok' }
-        callAsyncSuccess(resolve, res, options)
-      }, (error) => {
-        const res = { errMsg: 'setBackgroundColor:fail' + error }
-        callAsyncFail(reject, res, options)
-      })
+    eventCenter.trigger('__taroPageStyle', {
+      backgroundColor: options.backgroundColor || options.backgroundColorTop || options.backgroundColorBottom,
     })
+
+    return handle.success({}, { resolve, reject })
+    // windowClassPromise.then(windowClass => {
+    //   windowClass.setBackgroundColor(color).then(() => {
+    //     const res = { errMsg: 'setBackgroundColor:ok' }
+    //     callAsyncSuccess(resolve, res, options)
+    //   }, (error) => {
+    //     const res = { errMsg: 'setBackgroundColor:fail' + error }
+    //     callAsyncFail(reject, res, options)
+    //   })
+    // })
   })
 }

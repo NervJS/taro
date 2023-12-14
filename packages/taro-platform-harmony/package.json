@@ -1,6 +1,6 @@
 {
-  "name": "@tarojs/plugin-platform-harmony",
-  "version": "3.7.0-alpha.8",
+  "name": "@tarojs/plugin-platform-harmony-ets",
+  "version": "3.7.0-alpha.27",
   "description": "OpenHarmony & 鸿蒙系统插件",
   "author": "O2Team",
   "homepage": "https://gitee.com/openharmony-sig/taro",
