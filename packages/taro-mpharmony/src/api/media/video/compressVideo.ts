@@ -6,8 +6,7 @@ import { MethodHandler } from 'src/utils/handler'
  * 压缩视频接口
  * 
  * @canUse compressVideo
- * @__object [src, quality[low, medium, high], bitrate, fps, resolution]
- * @__success [tempFilePath, size]
+ * @null_implementation
  */
 export const compressVideo: typeof Taro.compressVideo = (options) => {
   const name = 'compressVideo'

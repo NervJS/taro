@@ -7,7 +7,7 @@ import { MethodHandler } from '../../utils/handler'
  * 获取 canvas 区域隐含的像素数据。
  * 
  * @canUse canvasGetImageData
- * @__object [canvasId, data, height, width]
+ * @__object [canvasId, x, y, height, width]
  * @__success [data, height, width]
  */
 export const canvasGetImageData: typeof Taro.canvasGetImageData = (
