@@ -46,7 +46,7 @@
     "@react-native-community/segmented-control": "^2.2.2",
     "@testing-library/jest-native": "^5.4.2",
     "@testing-library/react-native": "^12.4.1",
-    "expo": "~50.0.0-preview.1",
+    "expo": "~50.0.0-preview.3",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
@@ -61,7 +61,7 @@
   "peerDependencies": {
     "@react-native-community/slider": "~4.4.2",
     "@react-native-picker/picker": "~2.6.1",
-    "expo": "~50.0.0-preview.1",
+    "expo": "~50.0.0-preview.3",
     "expo-av": "~13.10.0",
     "expo-barcode-scanner": "~12.9.0",
     "expo-camera": "~14.0.0",
