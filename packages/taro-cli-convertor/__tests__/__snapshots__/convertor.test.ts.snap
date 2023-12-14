@@ -17,16 +17,32 @@ class _C extends React.Component {
 export default _C;,
   /wxProject/taroConvert/src/app.config.js => export default {
   pages: ['pages/index/index'],
-  subPackages: [{ root: 'hello-plugin/', pages: [] }],
+  subPackages: [
+    { root: 'hello-plugin/', pages: ['pages/hello-page', 'pages/index/index'] },
+  ],
 }
 ,
   /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
+var plugin = require('../../hello-plugin/index.js')
 import HelloComponent from '../../hello-plugin/components/hello-component'
 import Cpt2 from '../../components/cpt2/cpt2'
-cacheOptions.setOptionsToCache({})
+import './index.scss'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function () {
+    plugin.sayHello()
+  },
+  goToPlugin: function () {
+    Taro.navigateTo({
+      url: '/hello-plugin/pages/hello-page?param1=value',
+    })
+  },
+})
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
@@ -78,6 +94,7 @@ export default _C
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
+import HelloComponent from '../../hello-plugin/components/hello-component'
 cacheOptions.setOptionsToCache({
   properties: {
     text: {
@@ -93,30 +110,159 @@ cacheOptions.setOptionsToCache({
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
-    return <View>cpt</View>
+    const { items } = this.data
+    return (
+      <Block>
+        <HelloComponent items={items}></HelloComponent>
+        <View>cpt</View>
+      </Block>
+    )
   }
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/hello-plugin/components/hello-component.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+  /wxProject/taroConvert/src/components/cpt3/cpt3.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
 import { Block, View } from '@tarojs/components'
 import React from 'react'
 import Taro from '@tarojs/taro'
-import './hello-component.scss'
-cacheOptions.setOptionsToCache({})
+import Cpt2 from '../cpt2/cpt2'
+cacheOptions.setOptionsToCache({
+  properties: {
+    text: {
+      type: String,
+      value: 'cpt3',
+    },
+    buttonText: {
+      type: String,
+      value: 'Click Me!',
+    },
+  },
+})
 @withWeapp(cacheOptions.getOptionsFromCache())
 class _C extends React.Component {
   render() {
     return (
-      <View className="container">
-        <View>这是插件组件hello-component</View>
+      <View>
+        <Cpt2></Cpt2>cpt3
       </View>
     )
   }
 }
 export default _C
 ,
-  /wxProject/taroConvert/src/hello-plugin/index.js => ,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text, Button } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import Component1 from '../components/component1/component1'
+const miniprogramPageUrl = '/pages/index/index'
+const pluginPageUrl = './index/index'
+cacheOptions.setOptionsToCache({
+  data: {
+    items: ['hello', 'world'],
+  },
+  onLoad: function (data) {
+    console.log('This is a plugin page!')
+    console.log(data)
+  },
+  goToMiniprogramPage: function () {
+    Taro.navigateTo({
+      url: miniprogramPageUrl,
+    })
+  },
+  goToPluginPage: function () {
+    Taro.navigateTo({
+      url: pluginPageUrl,
+    })
+  },
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return (
+      <Block>
+        <Text>This is a plugin page!</Text>
+        <Button onClick={this.goToMiniprogramPage}>跳转到小程序页面</Button>
+        <Button onClick={this.goToPluginPage}>跳转到插件页面</Button>
+        <Component1>nn</Component1>
+      </Block>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/hello-page.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/component1/component1.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件组件component1</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+cacheOptions.setOptionsToCache({
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Text>这是插件index页面</Text>
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/hello-plugin/components/hello-component.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block, View, Text } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+import './hello-component.scss'
+cacheOptions.setOptionsToCache({
+  properties: {
+    items: {
+      type: Array,
+      value: [],
+    },
+  },
+  data: {},
+})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    const { items } = this.data
+    return (
+      <View className="container">
+        <View>这是插件组件hello-component</View>
+        {items.map((item, index) => {
+          return (
+            <Text className="item" key={items}>
+              {item}
+            </Text>
+          )
+        })}
+      </View>
+    )
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/hello-plugin/index.js => module.exports = {
+  sayHello: function () {
+    console.log('Hello plugin!')
+  },
+}
+,
 }
 `;
 
