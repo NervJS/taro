@@ -42,9 +42,53 @@ const cssModulesCache = new WeakMap<ResolvedConfig, Map<string, Record<string, s
 const cssMapCache = new WeakMap<ResolvedConfig, Map<string, string>>()
 const removedPureCssFilesCache = new WeakMap<ResolvedConfig, Map<string, RenderedChunk>>()
 
+function getCssIdSets (raw: string, id: string, sourceDir: string) {
+  const cssIdSet = new Set<string>()
+  transformSync(raw, {
+    filename: id,
+    parserOpts: {
+      plugins: [
+        'jsx',
+        'typescript',
+      ],
+    },
+    plugins: [
+      [
+        function importPlugin (): BabelCore.PluginObj<BabelCore.PluginPass> {
+          return {
+            name: 'taro-import-plugin',
+            visitor: {
+              ImportDeclaration(ats) {
+                const rawId = ats.node.source.value
+                const resolveId = resolveSync(rawId, {
+                  basedir: path.dirname(id) || sourceDir,
+                  extensions: CSS_EXT,
+                })
+
+                if (resolveId && CSS_LANGS_RE.test(resolveId)) {
+                  // Note: 预加载依赖的 CSS 文件
+                  const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
+                  cssIdSet.add(cssId)
+                }
+                // const node = path.node
+                // if (t.isIdentifier(node) && node.loc) {
+                //   await that.load.add(node.name)
+                // }
+              }
+            },
+          }
+        }
+      ]
+    ],
+  })
+
+  return cssIdSet
+}
+
 export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContext): Promise<Plugin> {
   let moduleCache: Map<string, Record<string, string>>
   let cssCache: Map<string, string>
+  let globalCssCache: Set<string>
 
   let viteConfig: ResolvedConfig
   let resolveUrl
@@ -111,44 +155,34 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
       if (!isStyleRequest(id)) {
         if (!REG_SCRIPTS.test(id)) return
         try {
-          const cssIdSet = new Set<string>()
-          transformSync(raw, {
-            filename: id,
-            parserOpts: {
-              plugins: [
-                'jsx',
-                'typescript',
-              ],
-            },
-            plugins: [
-              [
-                function importPlugin (): BabelCore.PluginObj<BabelCore.PluginPass> {
-                  return {
-                    name: 'taro-import-plugin',
-                    visitor: {
-                      ImportDeclaration(ats) {
-                        const rawId = ats.node.source.value
-                        const resolveId = resolveSync(rawId, {
-                          basedir: path.dirname(id) || viteCompilerContext.sourceDir,
-                          extensions: CSS_EXT,
-                        })
+          const isEntry = viteCompilerContext.taroConfig.entry.app.includes(id)
+          if (!isEntry && !globalCssCache) {
+            const entryPath = viteCompilerContext.taroConfig.entry.app
+            if (typeof entryPath === 'string') {
+              await this.load({
+                id: entryPath,
+                resolveDependencies: true,
+              })
+            } else {
+              await Promise.all(entryPath.map(async (entry) => {
+                await this.load({
+                  id: entry,
+                  resolveDependencies: true,
+                })
+              }))
+            }
+          }
 
-                        if (resolveId && CSS_LANGS_RE.test(resolveId)) {
-                          // Note: 预加载依赖的 CSS 文件
-                          const cssId = appendVirtualModulePrefix(resolveId + STYLE_SUFFIX)
-                          cssIdSet.add(cssId)
-                        }
-                        // const node = path.node
-                        // if (t.isIdentifier(node) && node.loc) {
-                        //   await that.load.add(node.name)
-                        // }
-                      }
-                    },
-                  }
-                }
-              ]
-            ],
-          })
+          const cssIdSet = getCssIdSets(raw, id, viteCompilerContext.sourceDir)
+
+          if (isEntry) {
+            globalCssCache = cssIdSet
+          } else {
+            globalCssCache.forEach((cssId) => {
+              cssIdSet.add(cssId)
+            })
+          }
+
           // Note: 确保 CSS 文件已经加载
           await Promise.all(Array.from(cssIdSet).map(async (cssId) => {
             await this.load({
