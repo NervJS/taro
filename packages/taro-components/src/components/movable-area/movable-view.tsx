@@ -404,7 +404,6 @@ export class MovableView {
     if (this.disabled || !this.element || this.scaling || !this.touching || touches.length > 1) {
       return
     }
-    e.preventDefault()
 
     const touch = touches[0]
 
