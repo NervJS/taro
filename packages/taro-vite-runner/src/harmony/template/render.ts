@@ -21,7 +21,7 @@ import TaroPicker from './picker'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
 // import TaroTextArea from './textArea'
-// import TaroRichText from './richText'
+import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
 // import { TaroRadio, TaroRadioGroup } from './radio'
@@ -80,7 +80,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'INNER-HTML') {
     TaroInnerHtml(item as TaroViewElement)
   } else if (item.tagName === 'RICH-TEXT') {
-    TaroView(item as TaroViewElement)
+    TaroRichText(item as TaroRichTextElement)
   } else if (item.tagName === 'ICON') {
     TaroIcon(item as TaroIconElement)
   } else if (item.tagName === 'TEXTAREA') {

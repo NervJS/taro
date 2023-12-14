@@ -1,11 +1,10 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
-import TaroComponentWrapper from './base'
-import { getNodeThresholds, getNormalAttributes, shouldBindEvent, bindAnimation } from './utils/helper'
+
+import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
 import type { RichTextProps } from '@tarojs/components/types/RichText'
-import type { TaroRichTextElement } from './element'
-import type { TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType, TaroRichTextElement } from '@tarojs/runtime'
 
 @Extend(RichText)
 function attrs (style: TaroStyleType) {
@@ -37,45 +36,21 @@ function attrs (style: TaroStyleType) {
   .clip(style.clip)
 }
 
-@Component
-export default struct TaroRichText {
-  nodeInfoMap: TaroAny = {}
 
-  @ObjectLink node: TaroRichTextElement
-
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
-  
-  aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-    // 绑定动画
-    bindAnimation(this.node)
-  }
-
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-    }))
-  }
-
-  generateText (): string {
-    return parseHtmlNode(this.node._attrs.nodes || '')
-  }
-
-  build() {
-    TaroComponentWrapper({ node: this.node }) {
-      RichText(this.generateText())
-        .attrs(getNormalAttributes(this.node))
-        .defaultEvent()
-        .visibleChangeEvent()
-    }
-  }
+function generateText (node: TaroRichTextElement): string {
+  return parseHtmlNode(node._attrs.nodes || '')
 }
 
+@Builder
+export default function TaroRichText (node: TaroRichTextElement) {
+  RichText(generateText(node))
+    .attrs(getNormalAttributes(node))
+    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      node._nodeInfo.areaInfo = res[1]
+    }))
+    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+}
 
 // 将nodeTree转换成harmony需要的string结构
 function nodeToHtml(node: RichTextProps.Text | RichTextProps.HTMLElement): string {
