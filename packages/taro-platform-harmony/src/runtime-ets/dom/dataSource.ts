@@ -1,7 +1,7 @@
 import { TaroEventTarget } from '../dom/eventTarget'
 
 export default class TaroDataSourceElement extends TaroEventTarget implements IDataSource {
-  private listeners: DataChangeListener[] = []
+  protected listeners: DataChangeListener[] = []
 
   totalCount(): number {
     throw new Error('Method not implemented.')

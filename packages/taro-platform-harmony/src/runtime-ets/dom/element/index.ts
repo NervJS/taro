@@ -21,12 +21,12 @@ import {
   TaroSwiperElement,
   TaroSwiperItemElement,
   TaroTextAreaElement,
-  TaroTextElement,
   TaroViewElement
 } from './normal'
 import { TaroScrollViewElement } from './scrollView'
 import { TaroSliderElement } from './slider'
 import { TaroSwitchElement } from './switch'
+import { TaroTextElement } from './text'
 import { TaroVideoElement } from './video'
 
 export function initHarmonyElement () {

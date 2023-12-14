@@ -12,19 +12,12 @@ import type {
   SwiperItemProps,
   SwiperProps,
   TextareaProps,
-  TextProps,
   ViewProps
 } from '../../../components/types'
 
 class TaroViewElement extends TaroElement<ViewProps> {
   constructor() {
     super('View')
-  }
-}
-
-class TaroTextElement extends TaroElement<TextProps> {
-  constructor() {
-    super('Text')
   }
 }
 
@@ -105,6 +98,5 @@ export {
   TaroSwiperElement,
   TaroSwiperItemElement,
   TaroTextAreaElement,
-  TaroTextElement,  
   TaroViewElement, 
 }

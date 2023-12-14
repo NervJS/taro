@@ -3,11 +3,23 @@ import { capitalize, internalComponents, isFunction, isNumber, isObject, isStrin
 
 export type Props = Record<string, unknown>
 
+const isHarmony = process.env.TARO_PLATFORM === 'harmony'
+const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+
 function isEventName (s: string) {
   return s[0] === 'o' && s[1] === 'n'
 }
 
-const IS_NON_DIMENSIONAL = /max|aspect|acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i
+function isEqual (obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2)
+}
+
+function updateDOMInstance (dom: TaroElement) {
+  if (!isHarmony) return
+  // @ts-ignore
+  dom.updateComponent && dom.updateComponent()
+}
+
 
 export function updateProps (dom: TaroElement, oldProps: Props, newProps: Props) {
   const updatePayload = getUpdatePayload(dom, oldProps, newProps)
@@ -50,7 +62,6 @@ export function getUpdatePayload (dom: TaroElement, oldProps: Props, newProps: P
 
 function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: unknown) {
   const isCapture = name.endsWith('Capture')
-  const isHarmony = process.env.TARO_PLATFORM === 'harmony'
   let eventName = name.toLowerCase().slice(2)
   if (isCapture) {
     eventName = eventName.slice(0, -7)
@@ -77,7 +88,7 @@ function setEvent (dom: TaroElement, name: string, value: unknown, oldValue?: un
 function setStyle (style: Style, key: string, value: unknown) {
   if (key[0] === '-') {
     // 适配鸿蒙
-    if (process.env.TARO_PLATFORM === 'harmony') {
+    if (isHarmony) {
       style.setProperty(key, value as string)
     } else {
       style.setProperty(key, (value as string).toString())
@@ -86,7 +97,7 @@ function setStyle (style: Style, key: string, value: unknown) {
     return
   }
 
-  if (process.env.TARO_PLATFORM === 'harmony' && key.startsWith('_')) {
+  if (isHarmony && key.startsWith('_')) {
     // harmony样式已处理
     style[key] = value == null ? '' : value
   } else {
@@ -123,18 +134,28 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
         oldValue = null
       }
 
+      let needUpdateAfterMoved = false
       if (isObject<StyleValue>(oldValue)) {
         for (const i in oldValue) {
           if (!(value && i in (value as StyleValue))) {
             setStyle(style, i, '')
+
+            if (isObject<StyleValue>(value) && !value[i]) {
+              needUpdateAfterMoved = true
+            }
           }
+        }
+
+        if (needUpdateAfterMoved) {
+          updateDOMInstance(dom)
         }
       }
 
       if (isObject<StyleValue>(value)) {
         for (const i in value) {
-          if (!oldValue || value[i] !== (oldValue as StyleValue)[i]) {
+          if (!oldValue || !isEqual(value[i], (oldValue as StyleValue)[i])) {
             setStyle(style, i, value[i])
+            updateDOMInstance(dom)
           }
         }
       }
@@ -152,8 +173,10 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
   } else if (!isFunction(value)) {
     if (value == null) {
       dom.removeAttribute(name)
+      updateDOMInstance(dom)
     } else {
       dom.setAttribute(name, value as string)
+      updateDOMInstance(dom)
     }
   }
 }

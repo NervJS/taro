@@ -57,13 +57,13 @@ export class TaroNode extends TaroDataSourceElement {
     return this.childNodes[index] as TaroElement
   }
 
-  protected findIndex (refChild: TaroNode): number {
+  public findIndex (refChild: TaroNode): number {
     return this.childNodes.findIndex(node => node._nid === refChild._nid)
   }
 
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (!this.parentNode) return
+    if (!this.parentNode || !this.parentNode.listeners?.length) return
 
     const idx = this.parentNode.findIndex(this)
       
@@ -116,6 +116,7 @@ export class TaroNode extends TaroDataSourceElement {
   public set textContent (value: string) {
     if (this.nodeType === NodeType.TEXT_NODE) {
       this._textContent = value
+      this.parentNode?.updateComponent()
     } else if (this.nodeType === NodeType.ELEMENT_NODE) {
       const node = new TaroTextNode(value)
       node._doc = this.ownerDocument
@@ -137,6 +138,7 @@ export class TaroNode extends TaroDataSourceElement {
   public set nodeValue (value: string | null) {
     if (this.nodeType === NodeType.TEXT_NODE && value) {
       this.textContent = value
+      this.parentNode?.updateComponent()
     }
   }
 
@@ -169,7 +171,8 @@ export class TaroNode extends TaroDataSourceElement {
     } else {
       const idxOfRef = this.findIndex(referenceNode)
       this.childNodes.splice(idxOfRef, 0, newNode)
-      this.notifyDataAdd(idxOfRef)
+      // TODO: 优化
+      this.notifyDataReload()
     }
 
     checkIsCompileModeAndInstallAfterDOMAction(newNode, this)
