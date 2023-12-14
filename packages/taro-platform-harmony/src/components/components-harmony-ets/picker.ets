@@ -1,17 +1,11 @@
-import { bindInstanceToNode, AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, getPageScrollerOrNode,
-  TaroAny,
-  TaroEvent,
-  createTaroEvent
-} from '@tarojs/runtime'
-import { createNode } from './render'
-import TaroComponentWrapper from './base'
+import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroPickerElement, TaroEvent, createTaroEvent } from '@tarojs/runtime'
+import { createLazyChildren } from './render'
 import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds, bindAnimation } from './utils/helper'
+import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroPickerElement, TaroElement } from './element'
-import type { TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType } from '@tarojs/runtime'
 
 import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
 
@@ -85,7 +79,7 @@ interface TimeRange {
 @CustomDialog
 export struct PickerView {
 
-  @ObjectLink node: TaroPickerElement
+  node: TaroPickerElement = new TaroPickerElement()
 
   @Link select: string | number
 
@@ -200,6 +194,7 @@ export struct PickerView {
           this.controller?.close()
         })
         Text(this.getText()[0]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
+          this.node._attrs.value = this.select
           this.emitEvent('change', { value: this.select})
           this.controller?.close()
         })
@@ -254,8 +249,8 @@ export struct PickerView {
             color: '#000'
           })
           .datePickerAttrs(getNormalAttributes(this.node))
-          .onChange(value => {
-            this.select = `${value.year}-${value.month}-${value.day}`
+          .onDateChange(value => {
+            this.select = `${value.getFullYear()}-${value.getMonth()}-${value.getDay()}`
           })
       } else if (this.node._attrs.mode === 'time') {
         TextPicker(this.getTextOptions())
@@ -280,21 +275,14 @@ export struct PickerView {
 
 @Component
 export default struct TaroPicker {
-  nodeInfoMap: TaroAny = {}
-
   @State select: string = ''
 
-  @ObjectLink node: TaroPickerElement
+  node: TaroPickerElement | null = null
 
   aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-    // 绑定动画
-    bindAnimation(this.node)
+    this.select = this.node?._attrs?.value as TaroAny || ''
 
-    this.select = this.node._attrs.value as TaroAny
-
-    this.node.addEventListener('click', this.handleClick)
+    this.node?.addEventListener('click', this.handleClick)
   }
 
   dialogController: CustomDialogController | null = null
@@ -303,9 +291,8 @@ export default struct TaroPicker {
     this.dialogController = null // 将dialogController置空
   }
 
-
   handleClick = () => {
-    if (!this.dialogController) {
+    if (!this.dialogController && this.node) {
       this.dialogController = new CustomDialogController({
         builder: PickerView({
           node: this.node,
@@ -324,7 +311,7 @@ export default struct TaroPicker {
         }
       })
     }
-    this.dialogController.open()
+    this.dialogController?.open()
   }
 
   @Styles defaultEvent () {
@@ -332,9 +319,10 @@ export default struct TaroPicker {
       eventHandler(e, 'click', this.node)
     })
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), this.node), this.node, TOUCH_EVENT_MAP.values()))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      if (this.node) {
+        this.node._nodeInfo.areaInfo = res[1]
+      }
     }))
   }
 
@@ -343,19 +331,15 @@ export default struct TaroPicker {
   }
 
   build() {
-    TaroComponentWrapper({ node: this.node }) {
+    if (this.node) {
       Flex(FlexManager.flexOptions(this.node)) {
-        ForEach(this.node.childNodes, (item: TaroElement) => {
-          createNode(item)
-        }, (item: TaroElement) => item._nid)
+        createLazyChildren(this.node)
       }
-        .defaultEvent()
-        .visibleChangeEvent()
+      .defaultEvent()
+      .visibleChangeEvent()
     }
   }
 }
-
-
 
 function generateNumberArray(x: number, y: number) {
   // 创建一个空数组来存储结果

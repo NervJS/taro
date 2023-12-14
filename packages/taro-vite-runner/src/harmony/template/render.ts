@@ -17,9 +17,9 @@ import TaroForm from './form'
 import TaroLabel from './label'
 import TaroInput from './input'
 import TaroVideo from './video'
-// import TaroPicker from './picker'
+import TaroPicker from './picker'
 import TaroSlider from './slider'
-// import TaroSwitch from './switch'
+import TaroSwitch from './switch'
 // import TaroTextArea from './textArea'
 // import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
@@ -69,9 +69,9 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SCROLL-VIEW') {
     TaroScrollView(item as TaroScrollViewElement)
   } else if (item.tagName === 'SLIDER') {
-    TaroSlider(item as TaroSliderElement)
+    TaroSlider({ node: item as TaroSliderElement })
   } else if (item.tagName === 'SWITCH') {
-    TaroView(item as TaroViewElement)
+    TaroSwitch({ node: item as TaroSwitchElement })
   } else if (item.tagName === 'INPUT') {
     TaroInput(item as TaroInputElement)
   } else if (item.tagName === 'SWIPER') {
@@ -97,7 +97,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'LABEL') {
     TaroLabel(item as TaroLabelElement)
   } else if (item.tagName === 'PICKER') {
-    TaroView(item as TaroViewElement)
+    TaroPicker({ node: item as TaroPickerElement })
   } else if (item.tagName === 'FORM') {
     TaroForm(item as TaroFormElement)
   } else if (item.tagName === 'VIDEO') {

@@ -1,11 +1,8 @@
-import { bindInstanceToNode, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo,
-  TaroEvent, TaroAny, createTaroEvent } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
 
-import TaroComponentWrapper from './base'
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroSwitchElement } from './element'
-import type { TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType, TaroSwitchElement } from '@tarojs/runtime'
 
 interface SwitchAttrs {
   selectedColor?: ResourceColor
@@ -60,9 +57,7 @@ function themeStyles(isDisabled: boolean) {
 
 @Component
 export default struct TaroSwitch {
-  nodeInfoMap: TaroAny = {}
-
-  @ObjectLink node: TaroSwitchElement
+  node: TaroSwitchElement | null = null
 
   @State value: boolean = false
 
@@ -71,22 +66,22 @@ export default struct TaroSwitch {
   }
 
   aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-
-    this.value = !!this.node._attrs.checked
+    if (this.node) {
+      this.value = !!this.node._attrs.checked      
+    }
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      if (this.node) {
+        this.node._nodeInfo.areaInfo = res[1]
+      }
     }))
   }
 
   build() {
-    TaroComponentWrapper({ node: this.node }) {
+    if (this.node) {
       Toggle({
         type: this.node._attrs.type !== 'checkbox' ? ToggleType.Switch : ToggleType.Checkbox,
         isOn: this.value,
@@ -96,7 +91,7 @@ export default struct TaroSwitch {
         .attrs(getAttributes(this.node))
         .themeStyles(!!this.node._attrs.disabled)
         .onChange((isOn: boolean) => {
-          if (!this.node._attrs.disabled) {
+          if (!this.node?._attrs.disabled) {
             this.value = isOn
             const event: TaroEvent = createTaroEvent('change', { detail: { value: this.value } }, this.node)
             eventHandler(event, 'change', this.node)

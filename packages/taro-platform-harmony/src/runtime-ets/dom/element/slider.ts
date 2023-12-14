@@ -3,7 +3,7 @@ import { TaroElement } from './element'
 import type { SliderProps } from '../../../components/types'
 
 export class TaroSliderElement extends TaroElement<SliderProps> {
-  _value: string | number = ''
+  _value = 0
 
   constructor() {
     super('Slider')
@@ -15,7 +15,7 @@ export class TaroSliderElement extends TaroElement<SliderProps> {
     return this._value
   }
 
-  public set value (val: string | number) {
+  public set value (val: number) {
     this._value = val
     this.updateComponent()
   }
