@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
-import { 
+import {
   ButtonProps,
   CheckboxGroupProps,
   CheckboxProps,
@@ -37,7 +37,7 @@ import type { ICSSStyleDeclaration } from './cssStyleDeclaration'
 
 type NamedNodeMap = ({ name: string, value: string })[]
 
-interface TaroAttributeProps extends StandardProps {
+export interface TaroAttributeProps extends StandardProps {
   compileMode?: string | boolean
   compileIf?: boolean
   disabled?: boolean
@@ -390,7 +390,7 @@ export class TaroRadioElement extends TaroElement<RadioProps> {
   constructor() {
     super('Radio')
   }
-  
+
   public group?: string
 }
 export class TaroIconElement extends TaroElement<IconProps> {
