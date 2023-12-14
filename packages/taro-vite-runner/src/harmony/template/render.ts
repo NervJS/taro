@@ -27,10 +27,9 @@ import TaroScrollView from './scrollView'
 // import { TaroRadio, TaroRadioGroup } from './radio'
 // import { TaroSwiper, TaroSwiperItem } from './swiper'
 // import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
-
 ${this.generateRenderImport()}
-import { NodeType, convertNumber2VP } from '../runtime'
-import { AttributeManager } from './utils/AttributeManager'
+import { NodeType } from '../runtime'
+
 import type {
   TaroViewElement,
   TaroElement,
