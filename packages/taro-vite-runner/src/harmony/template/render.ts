@@ -11,21 +11,21 @@ export default class RenderParser extends BaseParser {
     const renderContent = `import TaroImage from './image'
 import TaroText from './text'
 import TaroView from './view'
-import TaroButton from './button'
 import TaroIcon from './icon'
 import TaroForm from './form'
 import TaroLabel from './label'
 import TaroInput from './input'
 import TaroVideo from './video'
+import TaroButton from './button'
 import TaroPicker from './picker'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
+import TaroSwiper from './swiper'
 import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
 import { TaroRadio, TaroRadioGroup } from './radio'
-// import { TaroSwiper, TaroSwiperItem } from './swiper'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 ${this.generateRenderImport()}
 import { NodeType } from '../runtime'
@@ -48,7 +48,7 @@ import type {
   TaroCheckboxGroupElement,
   TaroTextAreaElement,
   TaroVideoElement,
-  TaroSwiperItemElement,
+  // TaroSwiperItemElement,
   TaroSwiperElement,
   TaroSwitchElement,
   TaroSliderElement,
@@ -74,7 +74,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'INPUT') {
     TaroInput(item as TaroInputElement)
   } else if (item.tagName === 'SWIPER') {
-    TaroView(item as TaroViewElement)
+    TaroSwiper(item as TaroSwiperElement)
   } else if (item.tagName === 'SWIPER-ITEM') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'INNER-HTML') {
