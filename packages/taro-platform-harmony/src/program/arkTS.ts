@@ -38,6 +38,11 @@ export default class Harmony extends TaroPlatformHarmony {
         this.modifyViteConfig()
       },
     })
+
+    ctx.onBuildFinish(() => {
+      const outDir = path.resolve(process.cwd(), config.outputRoot)
+      this.handleResourceEmit(outDir)
+    })
   }
 
   get framework() {
@@ -372,5 +377,27 @@ function App(props) {
       })
       viteConfig.plugins.push(externalPlugin(), injectLoaderMeta())
     })
+  }
+
+  handleResourceEmit(outDir: string, basedir = this.ctx.paths.appPath) {
+    const resources = path.resolve(outDir, '..', 'resources')
+    const mediaPath = 'static/media'
+    const mediaSource = resolveSync(`${PACKAGE_NAME}/${mediaPath}`, {
+      basedir,
+      extensions: this.extensions,
+      mainFields: [...defaultMainFields],
+      preserveSymlinks: false,
+      isFile: (file: string) => {
+        try {
+          const stat = fs.lstatSync(file)
+          return stat.isFile() || (file.endsWith(mediaPath) && stat.isDirectory())
+        } catch (_) {} // eslint-disable-line no-empty
+        return false
+      }
+    })
+
+    if (mediaSource) {
+      this.moveLibraries(mediaSource, path.join(resources, 'base/media'), basedir)
+    }
   }
 }
