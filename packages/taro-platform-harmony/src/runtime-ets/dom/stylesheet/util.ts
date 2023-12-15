@@ -22,12 +22,41 @@ export class FlexManager {
     }
   }
 
+  static reverseFlexAlign (value: FlexAlign): string {
+    switch (value) {
+      case FlexAlign.Start:
+        return 'flex-start'
+      case FlexAlign.End:
+        return 'flex-end'
+      case FlexAlign.Center:
+        return 'center'
+      case FlexAlign.SpaceBetween:
+        return 'space-between'
+      case FlexAlign.SpaceAround:
+        return 'space-around'
+      case FlexAlign.SpaceEvenly:
+        return 'space-evenly'
+      default:
+        return ''
+    }
+  }
+
   static direction (value: string): FlexDirection {
     switch (value) {
       case 'row': return FlexDirection.Row
       case 'row-reverse': return FlexDirection.RowReverse
       case 'column-reverse': return FlexDirection.ColumnReverse
       default: return FlexDirection.Column
+    }
+  }
+
+  static reverseDirection (value: FlexDirection): string {
+    switch (value) {
+      case FlexDirection.Row: return 'row'
+      case FlexDirection.RowReverse: return 'row-reverse'
+      case FlexDirection.Column: return 'column'
+      case FlexDirection.ColumnReverse: return 'column-reverse'
+      default: return ''
     }
   }
 
@@ -45,6 +74,25 @@ export class FlexManager {
         return ItemAlign.Baseline
       default:
         return ItemAlign.Auto
+    }
+  }
+
+  static reverseItemAlign (value: ItemAlign): string {
+    switch (value) {
+      case ItemAlign.Start:
+        return 'flex-start'
+      case ItemAlign.End:
+        return 'flex-end'
+      case ItemAlign.Center:
+        return 'center'
+      case ItemAlign.Stretch:
+        return 'stretch'
+      case ItemAlign.Baseline:
+        return 'baseline'
+      case ItemAlign.Auto:
+        return 'auto'
+      default:
+        return ''
     }
   }
 
