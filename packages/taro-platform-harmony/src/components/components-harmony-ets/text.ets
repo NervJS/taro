@@ -2,12 +2,10 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroTextElement, TaroAny, TaroTextStyleType, TaroStyleType } from '@tarojs/runtime'
+import type { TaroElement, TaroTextElement, TaroAny, TaroTextStyleType, TaroStyleType } from '@tarojs/runtime'
 
 @Extend(Text)
-function textStyle (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
+function textNormalStyle (style: TaroStyleType) {
   .padding(style.padding)
   .margin(style.margin)
   .width(style.width)
@@ -30,8 +28,14 @@ function textStyle (style: TaroStyleType) {
   .borderRadius(style.borderRadius)
   .linearGradient(style.linearGradient)
   .zIndex(style.zIndex)
-  .opacity(style.opacity)
   .clip(style.clip)
+}
+
+@Extend(Text)
+function textNormalFontStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .opacity(style.opacity)
   .fontColor(style.color)
   .fontSize(style.fontSize)
   .fontWeight(style.fontWeight)
@@ -45,7 +49,7 @@ function textStyle (style: TaroStyleType) {
 }
 
 @Extend(Text)
-function textAttr(attr: TaroTextStyleType) {
+function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .textOverflow(attr.textOverflow)
   .maxLines(attr.maxLines)
@@ -56,14 +60,17 @@ function textAttr(attr: TaroTextStyleType) {
 export default function TaroText (node: TaroTextElement) {
   if (node.nodeType === NodeType.TEXT_NODE) {
     Text(node.textContent)
+    .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))
+    .textSpecialFontStyle(getFontAttributes(node.parentNode as TaroElement))
   } else {
     Text(node.textContent)
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       node._nodeInfo.areaInfo = res[1]
     }))
-    .textStyle(getNormalAttributes(node))
-    .textAttr(getFontAttributes(node))
+    .textNormalStyle(getNormalAttributes(node))
+    .textNormalFontStyle(getNormalAttributes(node))
+    .textSpecialFontStyle(getFontAttributes(node))
     .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
   }
 }

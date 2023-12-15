@@ -143,6 +143,32 @@ export default class StyleSheet {
     this.hmStyle.left = value
   }
 
+  get flex () {
+    return this.hmStyle.flex
+  }
+
+  set flex (value: string | number) {
+    let res: [number, number, number | string] = [0, 0, 'auto']
+
+    if (typeof value === 'number') {
+      res = [value, 1, 0]
+    } else if (value === 'auto') {
+      res = [1, 1, 'auto']
+    } else if (value === 'none') {
+      res = [0, 0, 'auto']
+    } else if (typeof value === 'string') {
+      const FlexList = value.replace(new RegExp('/\\s+/g'), ' ').split(' ')
+      FlexList.forEach((item, index) => {
+        res[index] = index < 2 ? Number(item) : item
+      })
+    }
+
+    this.flexGrow = res[0]
+    this.flexShrink = res[1]
+    this.flexBasis = res[2]
+    this.hmStyle.flex = value
+  }
+
   get flexBasis () {
     return this.hmStyle.flexBasis
   }
@@ -641,11 +667,6 @@ export default class StyleSheet {
 
   set _WebkitLineClamp (value: number) {
     this.hmStyle.maxLines = value
-  }
-
-  // TODO: 未实现转换为w3c
-  get linearGradient (): HarmonyType.LinearGradient {
-    return this.hmStyle.linearGradient
   }
 
   set _linearGradient (value: HarmonyType.LinearGradient[]) {
