@@ -100,20 +100,29 @@ export default class Parser extends BaseParser {
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
-    let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
+    let pageStr = `Column() {
   if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
     Flex({
       direction: FlexDirection.Row,
       justifyContent: FlexAlign.Start,
       alignItems: ItemAlign.Center,
     }) {${!isTabPage ? `
-      if (this.pageStack[0].path === this.entryPagePath && this.pageHomeBtn && this.pageStack.length === 1) {
+      // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
+      if (this.pageStack[0].path !== this.entryPagePath && this.pageHomeBtn && this.pageStack.length === 1) {
         Image($r('app.media.taro_home'))
           .height(convertNumber2VP(40))
           .width(convertNumber2VP(40))
           .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
           .fillColor((config.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
           .objectFit(ImageFit.Contain)
+          .onClick(() => {
+            router.replaceUrl({
+              url: this.tabBarList.find(e => e.pagePath === this.entryPagePath) ? '${TARO_TABBAR_PAGE_PATH}' : this.entryPagePath,
+              params: {
+                '$page': this.entryPagePath,
+              },
+            })
+          })
       } else if (this.pageStack.length > 1) {
         Image($r('app.media.taro_arrow_left'))
           .height(convertNumber2VP(40))
@@ -121,6 +130,9 @@ export default class Parser extends BaseParser {
           .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
           .fillColor((config.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
           .objectFit(ImageFit.Contain)
+          .onClick(() => {
+            router.back()
+          })
       }` : ''}
       Text(config${isTabPage ? '[index]' : ''}.navigationBarTitleText || '${this.appConfig.window?.navigationBarTitleText || ''}')
         .margin({ left: convertNumber2VP(40) })
@@ -133,6 +145,7 @@ export default class Parser extends BaseParser {
     Column() {
       TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
     }
+    .width('100%')
   }
   .onScroll(() => {
     if (!this.page) return
@@ -240,15 +253,17 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           '@State pageHomeBtn?: boolean = true',
           `@State pageBackgroundColor?: string = config.backgroundColor`,
         ],
-      '@State appConfig: AppConfig = window.__taroAppConfig || {}',
       '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
+      '@State appConfig: AppConfig = window.__taroAppConfig || {}',
+      `@State tabBarList: ${this.isTabbarPage
+        ? 'ITabBarItem'
+        : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
     ].flat()
     if (this.isTabbarPage) {
       generateState.push(
         '@State isTabBarShow: boolean = true',
         '@State tabBar: Partial<TabBar> = this.appConfig.tabBar || {}',
-        '@State tabBarList: ITabBarItem[] = this.tabBar.list || []',
         '@State tabBarColor: string = this.tabBar.color || "#7A7E83"',
         '@State tabBarSelectedColor: string = this.tabBar.selectedColor || "#3CC51F"',
         '@State tabBarBackgroundColor: string = this.tabBar.backgroundColor || "#FFFFFF"',
