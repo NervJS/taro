@@ -10,9 +10,9 @@ const compLibraryAlias = {
   vue3: 'vue3',
 }
 
-const PACKAGE_NAME = '@tarojs/plugin-platform-mpharmony'
+const PACKAGE_NAME = '@tarojs/plugin-platform-harmony-mini'
 export default class H5 extends TaroPlatformWeb {
-  platform = 'mpharmony'
+  platform = 'harmony-mini'
   runtimePath = `${PACKAGE_NAME}/dist/runtime`
 
   constructor (ctx: IPluginContext, config: TConfig) {

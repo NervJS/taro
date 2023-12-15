@@ -23,10 +23,19 @@ export * from './media'
 // export * from './storage'
 // export * from './swan'
 // export * from './ui'
+
 // export * from './worker'
 // export * from './wxml'
 
-export { setInnerAudioOption,playVoice,pauseVoice,getAvailableAudioSources,createWebAudioContext,createMediaAudioPlayer,stopBackgroundAudio,seekBackgroundAudio,playBackgroundAudio,pauseBackgroundAudio,onBackgroundAudioStop,onBackgroundAudioPlay,onBackgroundAudioPause,getBackgroundAudioPlayerState,getBackgroundAudioManager,chooseMessageFile,editImage,cropImage,createVideoContext,createLivePusherContext,createMediaRecorder,stopRecord,startRecord,createVideoDecoder,createMediaContainer } from '@tarojs/taro-h5'
+export {   chooseMessageFile,createLivePusherContext,createMediaAudioPlayer,createMediaContainer,createMediaRecorder,createVideoContext,createVideoDecoder,createWebAudioContext,cropImage,editImage,getApp,
+  getAvailableAudioSources,getBackgroundAudioManager,getBackgroundAudioPlayerState,  getCurrentInstance,
+  getCurrentPages,
+  navigateBack,
+  navigateTo,
+  nextTick,
+  onBackgroundAudioPause,onBackgroundAudioPlay,onBackgroundAudioStop,pauseBackgroundAudio,pauseVoice,playBackgroundAudio,playVoice,  redirectTo,
+  reLaunch,
+  seekBackgroundAudio,setInnerAudioOption,startRecord,stopBackgroundAudio,stopRecord,  switchTab } from '@tarojs/taro-h5'
 
 Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
