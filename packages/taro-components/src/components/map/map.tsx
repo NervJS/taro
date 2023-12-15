@@ -149,6 +149,11 @@ export class Map implements ComponentInterface {
     this.loadMapScript().then(() => {
       // 如果容器元素存在
       if (this.mapRef) {
+        this.mapRef.addEventListener('touchmove', (e) => {
+          if (e.cancelable) {
+            e.preventDefault()
+          }
+        })
         // 创建地图对象
         this.map = new BMapGL.Map(this.mapRef)
         // 移除百度地图版权信息
@@ -383,6 +388,12 @@ export class Map implements ComponentInterface {
         })
       }
     })
+  }
+
+  disconnectedCallback () {
+    if (this.map) {
+      this.map.destroy()
+    }
   }
 
   addMarkers (markers) {
@@ -675,7 +686,19 @@ export class Map implements ComponentInterface {
   /* 缩放视野展示所有经纬度 */
   _includePoints = (option) => {
     const bPoints = option.points.map((point) => new BMapGL.Point(point.longitude, point.latitude))
-    this.map.setViewport(bPoints)
+    const view = this.map.getViewport(bPoints)
+    this.latitude = view.center.lat
+    this.longitude = view.center.lng
+    this.scale = view.zoom
+    this.map.centerAndZoom(view.center, view.zoom)
+    const bounds = this.map.getBounds()
+    let flag = true
+    for (let i = 0; i < bPoints.length; i++) {
+      if (!bounds.containsPoint(bPoints[i])) {
+        flag = false
+      }
+    }
+    return flag
   }
 
   /* 获取当前地图的视野范围 */
