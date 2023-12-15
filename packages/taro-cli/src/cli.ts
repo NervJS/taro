@@ -1,10 +1,10 @@
-import { fs } from '@tarojs/helper'
+import { dotenvParse, fs, patchEnv } from '@tarojs/helper'
 import { Config, Kernel } from '@tarojs/service'
 import * as minimist from 'minimist'
 import * as path from 'path'
 
 import customCommand from './commands/customCommand'
-import { dotenvParse, getPkgVersion, patchEnv } from './util'
+import { getPkgVersion } from './util'
 
 const DISABLE_GLOBAL_CONFIG_COMMANDS = ['build', 'global-config', 'doctor', 'update', 'config']
 
@@ -165,7 +165,10 @@ export default class CLI {
             platform,
             plugin,
             isWatch: Boolean(args.watch),
+            // 是否把 Taro 组件编译为原生自定义组件
             isBuildNativeComp: _[1] === 'native-components',
+            // 新的混合编译模式，支持把组件单独编译为原生组件
+            newBlended: Boolean(args['new-blended']),
             port: args.port,
             env: args.env,
             deviceType: args.platform,

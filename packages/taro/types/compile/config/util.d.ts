@@ -89,7 +89,7 @@ export interface ICopyOptions {
     from: string
     to: string
     ignore?: string[]
-    transform?: Function
+    transform?: Func
     watch?: boolean
   }[]
   options: {

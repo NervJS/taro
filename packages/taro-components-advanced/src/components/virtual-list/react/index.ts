@@ -1,45 +1,16 @@
 import { ScrollView, View } from '@tarojs/components'
 import React from 'react'
 
-import { convertPX2Int } from '../../../utils/convert'
 import List from './list'
+import outerWrapper from './wrapper'
 
-import type { BaseEventOrig } from '@tarojs/components'
 import type { VirtualListProps } from '../'
 import type { IProps } from '../preset'
-
-const OuterScrollView = React.forwardRef(
-  function OuterScrollView (props, ref) {
-    const { style, onScroll, onScrollNative, layout, ...rest } = props as IProps
-    const handleScroll = (event: BaseEventOrig<VirtualListProps.IVirtualListEventDetail>) => {
-      onScroll({
-        ...event as any,
-        currentTarget: {
-          ...event.detail,
-          clientWidth: convertPX2Int(style.width),
-          clientHeight: convertPX2Int(style.height)
-        } as any
-      })
-
-      if (typeof onScrollNative === 'function') {
-        onScrollNative(event)
-      }
-    }
-
-    return React.createElement<any>(ScrollView, {
-      ref,
-      style,
-      scrollY: layout === 'vertical',
-      scrollX: layout === 'horizontal',
-      onScroll: handleScroll,
-      ...rest
-    })
-  }
-)
 
 const VirtualList = React.forwardRef(function VirtualList (props: VirtualListProps, ref) {
   const {
     direction = 'ltr',
+    outerElementType = ScrollView,
     innerElementType = View,
     itemElementType = View,
     initialScrollOffset = 0,
@@ -58,12 +29,13 @@ const VirtualList = React.forwardRef(function VirtualList (props: VirtualListPro
   return React.createElement(List, {
     ref,
     ...rest,
+    outerElementType,
     itemElementType,
     innerElementType,
-    outerElementType: OuterScrollView,
     direction,
     initialScrollOffset,
-    overscanCount
+    overscanCount,
+    outerWrapper,
   })
 })
 

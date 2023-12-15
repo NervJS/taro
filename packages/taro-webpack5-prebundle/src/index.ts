@@ -1,12 +1,13 @@
 import { getPlatformType, PLATFORM_TYPE } from '@tarojs/shared'
+import path from 'path'
 import webpackDevServer from 'webpack-dev-server'
 
 import BasePrebundle, { IPrebundle } from './prebundle'
+import { type IWebPrebundleConfig, VirtualModule } from './web'
 
-import type { EntryObject } from 'webpack'
+import type { Compiler, EntryObject } from 'webpack'
 import type Chain from 'webpack-chain'
 import type { IMiniPrebundleConfig } from './mini'
-import type { IWebPrebundleConfig } from './web'
 
 export * from './prebundle'
 
@@ -27,6 +28,8 @@ export interface IPrebundleParam {
   publicPath?: string
   runtimePath?: string | string[]
   isBuildPlugin?: boolean
+  alias?: Record<string, any>
+  defineConstants?: Record<string, any>
 }
 
 export default class TaroPrebundle {
@@ -34,6 +37,8 @@ export default class TaroPrebundle {
   public platformType: PLATFORM_TYPE
 
   public isBuildPlugin: boolean
+
+  protected options: IPrebundle
 
   constructor (protected params: IPrebundleParam) {
     const { env = process.env.TARO_ENV || 'h5', isBuildPlugin = false } = params
@@ -59,7 +64,9 @@ export default class TaroPrebundle {
       publicPath = chain.output.get('publicPath') || '/',
       runtimePath,
       sourceRoot = 'src',
-      isBuildPlugin
+      isBuildPlugin,
+      alias,
+      defineConstants,
     } = this.params
     let chunkFilename = chain.output.get('chunkFilename') ?? `${chunkDirectory}/[name].js`
     chunkFilename = chunkFilename.replace(/\[([a-z]*hash)[^[\]\s]*\]/ig, '_$1_')
@@ -79,7 +86,9 @@ export default class TaroPrebundle {
       publicPath,
       runtimePath,
       sourceRoot,
-      isBuildPlugin
+      isBuildPlugin,
+      alias,
+      defineConstants,
     }
   }
 
@@ -92,6 +101,7 @@ export default class TaroPrebundle {
   }
 
   async run (options: IPrebundle = {}) {
+    this.options = options
     if (!options.enable) return
 
     let prebundleRunner: BasePrebundle
@@ -105,5 +115,30 @@ export default class TaroPrebundle {
     }
 
     return prebundleRunner.run()
+  }
+
+  async postCompilerStart (compiler: Compiler) {
+    if (!this.options.enable) return
+
+    if (this.platformType === 'web') {
+      VirtualModule.apply(compiler)
+
+      Object.values(this.entry).forEach((item) => {
+        let resource = ''
+        if (Array.isArray(item)) {
+          resource = item[0]
+        } else if (typeof item === 'string') {
+          resource = item
+        } else if (typeof item.import === 'string') {
+          resource = item.import
+        } else {
+          resource = item.import[0]
+        }
+        const { dir, name } = path.parse(resource)
+        const filePath = path.join(dir, name).replace(/\.config/, '')
+        const bootPath = path.relative(this.config.appPath, `${filePath}.boot.js`)
+        VirtualModule.writeModule(bootPath, '/** bootstrap application code */')
+      })
+    }
   }
 }

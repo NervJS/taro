@@ -82,7 +82,8 @@ describe('request', () => {
           },
           mode: 'cors',
           cache: 'no-cache',
-          credentials: 'include'
+          credentials: 'include',
+          signal: new window.AbortController().signal
         })
         expect(res.statusCode).toBe(201)
         expect(res.data).toEqual({

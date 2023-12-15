@@ -63,9 +63,9 @@ export function connectSocket (options?: Taro.connectSocket.Option) {
     const _protocols = Array.isArray(protocols) ? protocols : null
 
     // 2 connection at most
-    if (socketTasks.length > 1) {
+    if (socketTasks.length >= 5) {
       return handle.fail({
-        errMsg: '同时最多发起 2 个 socket 请求，更多请参考文档。'
+        errMsg: '同时最多发起 5 个 socket 请求，更多请参考文档。'
       }, { resolve, reject })
     }
 

@@ -242,7 +242,7 @@ declare module '../../index' {
      * - 绿色: 圆心 (100, 75)
      * - 红色: 起始弧度 (0)
      * - 蓝色: 终止弧度 (1.5 * Math.PI)
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -300,7 +300,7 @@ declare module '../../index' {
       counterclockwise?: boolean,
     ): void
     /** 根据控制点和半径绘制圆弧路径。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.arcTo.html
      */
     arcTo(
@@ -319,7 +319,7 @@ declare module '../../index' {
      *
      *   - 在最开始的时候相当于调用了一次 `beginPath`。
      *   - 同一个路径内的多次 `setFillStyle`、`setStrokeStyle`、`setLineWidth`等设置，以最后一次设置为准。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -349,7 +349,7 @@ declare module '../../index' {
      * - 红色：起始点(20, 20)
      * - 蓝色：两个控制点(20, 100) (200, 100)
      * - 绿色：终止点(200, 20)
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -404,7 +404,7 @@ declare module '../../index' {
       y: number,
     ): void
     /** 清除画布上在该矩形区域内的内容
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * clearRect 并非画一个白色的矩形在地址区域，而是清空，为了有直观感受，对 canvas 加了一层背景色。
      * ```html
@@ -432,7 +432,7 @@ declare module '../../index' {
       height: number,
     ): void
     /** 从原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内（不能访问画布上的其他区域）。可以在使用 `clip` 方法前通过使用 `save` 方法对当前画布区域进行保存，并在以后的任意时间通过`restore`方法对其进行恢复。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -453,7 +453,7 @@ declare module '../../index' {
      */
     clip(): void
     /** 关闭一个路径。会连接起点和终点。如果关闭路径后没有调用 `fill` 或者 `stroke` 并开启了新的路径，那之前的路径将不会被渲染。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -486,7 +486,7 @@ declare module '../../index' {
      */
     closePath(): void
     /** 创建一个圆形的渐变颜色。起点在圆心，终点在圆环。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -510,7 +510,7 @@ declare module '../../index' {
       r: number,
     ): CanvasGradient
     /** 创建一个线性的渐变颜色。返回的`CanvasGradient`对象需要使用 [CanvasGradient.addColorStop()](/docs/apis/canvas/CanvasGradient#addcolorstop) 来指定渐变点，至少要两个。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -536,7 +536,7 @@ declare module '../../index' {
       y1: number,
     ): CanvasGradient
     /** 对指定的图像创建模式的方法，可在指定的方向上重复元图像
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.createPattern.html
      */
     createPattern(
@@ -544,9 +544,10 @@ declare module '../../index' {
       image: string,
       /** 如何重复图像 */
       repetition: keyof CanvasContext.Repetition,
-    ): void
+    ): CanvasPattern | null | Promise<CanvasPattern | null>
     /** 将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
-     * @supported weapp
+     * @supported weapp, h5
+     * @h5 第二次调用 draw 前需要等待上一次 draw 调用结束后再调用，否则新的一次 draw 调用栈不会清空而导致结果异常。
      * @example
      * 第二次 draw() reserve 为 true。所以保留了上一次的绘制结果，在上下文设置的 fillStyle 'red' 也变成了默认的 'black'。
      *
@@ -554,9 +555,10 @@ declare module '../../index' {
      * const ctx = Taro.createCanvasContext('myCanvas')
      * ctx.setFillStyle('red')
      * ctx.fillRect(10, 10, 150, 100)
-     * ctx.draw()
-     * ctx.fillRect(50, 50, 150, 100)
-     * ctx.draw(true)
+     * ctx.draw(false, () => {
+     *   ctx.fillRect(50, 50, 150, 100)
+     *   ctx.draw(true)
+     * })
      * ```
      * @example
      * 第二次 draw() reserve 为 false。所以没有保留了上一次的绘制结果和在上下文设置的 fillStyle 'red'。
@@ -565,9 +567,10 @@ declare module '../../index' {
      * const ctx = Taro.createCanvasContext('myCanvas')
      * ctx.setFillStyle('red')
      * ctx.fillRect(10, 10, 150, 100)
-     * ctx.draw()
-     * ctx.fillRect(50, 50, 150, 100)
-     * ctx.draw()
+     * ctx.draw(false, () => {
+     *   ctx.fillRect(50, 50, 150, 100)
+     *   ctx.draw()
+     * })
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.draw.html
      */
@@ -576,9 +579,9 @@ declare module '../../index' {
       reserve?: boolean,
       /** 绘制完成后执行的回调函数 */
       callback?: (...args: any[]) => any,
-    ): void
+    ): void | Promise<void>
     /** 绘制图像到画布
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * 有三个版本的写法：
      *
@@ -606,7 +609,7 @@ declare module '../../index' {
       dy: number,
     ): void
     /** 绘制图像到画布
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * 有三个版本的写法：
      *
@@ -638,7 +641,7 @@ declare module '../../index' {
       dHeight: number,
     ): void
     /** 绘制图像到画布
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * 有三个版本的写法：
      *
@@ -678,7 +681,7 @@ declare module '../../index' {
       dHeight: number,
     ): void
     /** 对当前路径中的内容进行填充。默认的填充色为黑色。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * 如果当前路径没有闭合，fill() 方法会将起点和终点进行连接，然后填充。
      *
@@ -715,7 +718,7 @@ declare module '../../index' {
      */
     fill(): void
     /** 填充一个矩形。用 [`setFillStyle`](/docs/apis/canvas/CanvasContext#setfillstyle) 设置矩形的填充色，如果没设置默认是黑色。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -736,7 +739,7 @@ declare module '../../index' {
       height: number,
     ): void
     /** 在画布上绘制被填充的文本
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -758,7 +761,7 @@ declare module '../../index' {
       maxWidth?: number,
     ): void
     /** 增加一个新点，然后创建一条从上次指定点到目标点的线。用 `stroke` 方法来画线条
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -777,7 +780,7 @@ declare module '../../index' {
       y: number,
     ): void
     /** 测量文本尺寸信息。目前仅返回文本宽度。同步接口。
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.measureText.html
      */
     measureText(
@@ -785,7 +788,7 @@ declare module '../../index' {
       text: string,
     ): TextMetrics
     /** 把路径移动到画布中的指定点，不创建线条。用 `stroke` 方法来画线条
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -811,7 +814,7 @@ declare module '../../index' {
      * - 红色：起始点(20, 20)
      * - 蓝色：控制点(20, 100)
      * - 绿色：终止点(200, 20)
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -858,7 +861,7 @@ declare module '../../index' {
       y: number,
     ): void
     /** 创建一个矩形路径。需要用 [`fill`](/docs/apis/canvas/CanvasContext#fill) 或者 [`stroke`](/docs/apis/canvas/CanvasContext#stroke) 方法将矩形真正的画到 `canvas` 中
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -879,8 +882,13 @@ declare module '../../index' {
       /** 矩形路径的高度 */
       height: number,
     ): void
+    /** 重置绘图上下文状态
+     * @supported h5
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/reset
+     */
+    reset(): void
     /** 恢复之前保存的绘图上下文
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -897,7 +905,7 @@ declare module '../../index' {
      */
     restore(): void
     /** 以原点为中心顺时针旋转当前坐标轴。多次调用旋转的角度会叠加。原点可以用 `translate` 方法修改。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -915,7 +923,7 @@ declare module '../../index' {
       rotate: number,
     ): void
     /** 保存绘图上下文。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -932,7 +940,7 @@ declare module '../../index' {
      */
     save(): void
     /** 在调用后，之后创建的路径其横纵坐标会被缩放。多次调用倍数会相乘。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -952,7 +960,7 @@ declare module '../../index' {
       scaleHeight: number,
     ): void
     /** 设置填充色。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -967,7 +975,7 @@ declare module '../../index' {
       color: string | CanvasGradient,
     ): void
     /** 设置字体的字号
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -988,7 +996,7 @@ declare module '../../index' {
       fontSize: number,
     ): void
     /** 设置全局画笔透明度。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1008,7 +1016,7 @@ declare module '../../index' {
       alpha: number,
     ): void
     /** 设置线条的端点样式
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1043,7 +1051,7 @@ declare module '../../index' {
       lineCap: keyof CanvasContext.LineCap,
     ): void
     /** 设置虚线样式。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1063,7 +1071,7 @@ declare module '../../index' {
       offset: number,
     ): void
     /** 设置线条的交点样式
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1102,7 +1110,7 @@ declare module '../../index' {
       lineJoin: keyof CanvasContext.LineJoin,
     ): void
     /** 设置线条的宽度
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1134,7 +1142,7 @@ declare module '../../index' {
       lineWidth: number,
     ): void
     /** 设置最大斜接长度。斜接长度指的是在两条线交汇处内角和外角之间的距离。当 [CanvasContext.setLineJoin()](/docs/apis/canvas/CanvasContext#setlinejoin) 为 miter 时才有效。超过最大倾斜长度的，连接处将以 lineJoin 为 bevel 来显示。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1179,7 +1187,7 @@ declare module '../../index' {
       miterLimit: number,
     ): void
     /** 设定阴影样式。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1201,7 +1209,7 @@ declare module '../../index' {
       color: string,
     ): void
     /** 设置描边颜色。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1216,7 +1224,7 @@ declare module '../../index' {
       color: string | CanvasGradient,
     ): void
     /** 设置文字的对齐
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1227,11 +1235,13 @@ declare module '../../index' {
      * ctx.setFontSize(15)
      * ctx.setTextAlign('left')
      * ctx.fillText('textAlign=left', 150, 60)
+     * await ctx.draw(true)
      * ctx.setTextAlign('center')
      * ctx.fillText('textAlign=center', 150, 80)
+     * await ctx.draw(true)
      * ctx.setTextAlign('right')
      * ctx.fillText('textAlign=right', 150, 100)
-     * ctx.draw()
+     * await ctx.draw(true)
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTextAlign.html
      */
@@ -1240,7 +1250,7 @@ declare module '../../index' {
       align: keyof CanvasContext.Align,
     ): void
     /** 设置文字的竖直对齐
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1251,13 +1261,16 @@ declare module '../../index' {
      * ctx.setFontSize(20)
      * ctx.setTextBaseline('top')
      * ctx.fillText('top', 5, 75)
+     * await ctx.draw(true)
      * ctx.setTextBaseline('middle')
      * ctx.fillText('middle', 50, 75)
+     * await ctx.draw(true)
      * ctx.setTextBaseline('bottom')
      * ctx.fillText('bottom', 120, 75)
+     * await ctx.draw(true)
      * ctx.setTextBaseline('normal')
      * ctx.fillText('normal', 200, 75)
-     * ctx.draw()
+     * await ctx.draw(true)
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTextBaseline.html
      */
@@ -1266,7 +1279,7 @@ declare module '../../index' {
       textBaseline: keyof CanvasContext.TextBaseline,
     ): void
     /** 使用矩阵重新设置（覆盖）当前变换的方法
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.setTransform.html
      */
     setTransform(
@@ -1284,7 +1297,7 @@ declare module '../../index' {
       translateY: number,
     ): void
     /** 画出当前路径的边框。默认颜色色为黑色。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1319,7 +1332,7 @@ declare module '../../index' {
      */
     stroke(): void
     /** 画一个矩形(非填充)。 用 [`setStrokeStyle`](/docs/apis/canvas/CanvasContext#setstrokestyle) 设置矩形线条的颜色，如果没设置默认是黑色。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')
@@ -1340,7 +1353,7 @@ declare module '../../index' {
       height: number,
     ): void
     /** 给定的 (x, y) 位置绘制文本描边的方法
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.strokeText.html
      */
     strokeText(
@@ -1354,7 +1367,7 @@ declare module '../../index' {
       maxWidth?: number,
     ): void
     /** 使用矩阵多次叠加当前变换的方法
-     * @supported weapp
+     * @supported weapp, h5
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/canvas/CanvasContext.transform.html
      */
     transform(
@@ -1372,7 +1385,7 @@ declare module '../../index' {
       translateY: number,
     ): void
     /** 对当前坐标系的原点 (0, 0) 进行变换。默认的坐标系原点为页面左上角。
-     * @supported weapp
+     * @supported weapp, h5
      * @example
      * ```tsx
      * const ctx = Taro.createCanvasContext('myCanvas')

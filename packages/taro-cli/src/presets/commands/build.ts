@@ -26,8 +26,9 @@ export default (ctx: IPluginContext) => {
       '--assets-dest': '[rn] Directory name where to store assets referenced in the bundle',
       '--qr': '[rn] Print qrcode of React-Native bundle server',
       '--blended': 'Blended Taro project in an original MiniApp project',
+      '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
-      '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix"
+      '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
     },
     synopsisList: [
       'taro build --type weapp',
@@ -35,13 +36,14 @@ export default (ctx: IPluginContext) => {
       'taro build --type weapp --env production',
       'taro build --type weapp --blended',
       'taro build native-components --type weapp',
+      'taro build --type weapp --new-blended',
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
       'taro build --type weapp --mode prepare --env-prefix TARO_APP_'
     ],
     async fn (opts) {
       const { options, config, _ } = opts
-      const { platform, isWatch, blended } = options
+      const { platform, isWatch, blended, newBlended } = options
       const { fs, chalk, PROJECT_CONFIG } = ctx.helper
       const { outputPath, configPath } = ctx.paths
 
@@ -108,6 +110,7 @@ export default (ctx: IPluginContext) => {
             mode: isProduction ? 'production' : 'development',
             blended,
             isBuildNativeComp,
+            newBlended,
             async modifyWebpackChain (chain, webpack, data) {
               await ctx.applyPlugins({
                 name: hooks.MODIFY_WEBPACK_CHAIN,

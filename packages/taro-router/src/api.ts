@@ -64,7 +64,11 @@ async function navigate (option: Option | NavigateBackOption, method: MethodName
         }
       } else if (method === 'navigateBack') {
         stacks.delta = option.delta
-        history.go(-option.delta)
+        if (stacks.length > option.delta) {
+          history.go(-option.delta)
+        } else {
+          history.go(1 - stacks.length)
+        }
       }
     } catch (error) {
       const res = { errMsg: `${method}:fail ${error.message || error}` }

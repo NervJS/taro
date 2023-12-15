@@ -48,6 +48,7 @@ describe('inspect', () => {
         bundleOutput: undefined,
         plugin: undefined,
         isBuildNativeComp: false,
+        newBlended: false,
         sourceMapUrl: undefined,
         sourcemapOutput: undefined,
         sourcemapSourcesRoot: undefined,

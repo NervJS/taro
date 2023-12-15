@@ -7,7 +7,9 @@ import { ConditionalFileStore } from './conditional-file-store'
 import { assetExts } from './defaults'
 import { getReactNativeVersion, handleFile, handleTaroFile, searchReactNativeModule } from './taroResolver'
 import { TerminalReporter } from './terminal-reporter'
-import { getBlockList, getProjectConfig, getRNConfig } from './utils'
+import { getBlockList, getProjectConfig } from './utils'
+
+import type { IProjectConfig } from '@tarojs/taro/types/compile'
 
 const reactNativePath: string = resolveReactNativePath(findProjectRoot())
 
@@ -41,16 +43,17 @@ export function getTransformer (opt: Options = {}) {
   return transform
 }
 
-export function getResolver (opt: Options = {}) {
-  const rnConfig = getRNConfig()
-  const blockList = getBlockList()
+export function getResolver (opt: Options = {}, config: IProjectConfig) {
+  const blockList = getBlockList(config)
   const handleEntryFile = (opt.fromRunner ?? true) ? handleTaroFile : handleFile
   const resolver: any = {
     sourceExts: ['ts', 'tsx', 'js', 'jsx', 'scss', 'sass', 'less', 'css', 'pcss', 'json', 'styl', 'cjs', 'svgx'],
-    resolveRequest: handleEntryFile,
+    resolveRequest: (context, moduleName, platform) => {
+      return handleEntryFile(context, moduleName, platform, config)
+    },
     resolverMainFields: ['react-native', 'browser', 'main'],
   }
-  if (rnConfig.enableSvgTransform) {
+  if (config?.rn?.enableSvgTransform) {
     resolver.assetExts = assetExts.filter(ext => ext !== 'svg')
     resolver.sourceExts.push('svg')
   }
@@ -61,7 +64,7 @@ export function getResolver (opt: Options = {}) {
   const rnVersion = getReactNativeVersion()
   if (rnVersion && (rnVersion.major === 0) && (rnVersion.minor === 60)) {
     resolver.resolveRequest = (context, moduleName, platform) => {
-      const res = handleEntryFile(context, moduleName, platform)
+      const res = handleEntryFile(context, moduleName, platform, config)
       if (res) {
         return res
       }
@@ -79,9 +82,9 @@ export function getResolver (opt: Options = {}) {
   return resolver
 }
 
-export function getMetroConfig (opt: Options = {}) {
-  const config = getProjectConfig()
-  const rnConfig = getRNConfig()
+export async function getMetroConfig (opt: Options = {}) {
+  const config = await getProjectConfig()
+  const rnConfig = config.rn || {}
   const entry = rnConfig?.entry || 'app'
   const cacheStore = new ConditionalFileStore<any>({
     root: path.join(os.tmpdir(), 'metro-cache')
@@ -89,7 +92,7 @@ export function getMetroConfig (opt: Options = {}) {
   const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr, entry)
   return {
     transformer: getTransformer(opt),
-    resolver: getResolver(opt),
+    resolver: getResolver(opt, config),
     serializer: {
       // We can include multiple copies of InitializeCore here because metro will
       // only add ones that are already part of the bundle

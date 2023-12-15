@@ -1,7 +1,7 @@
 import type { BaseEventOrig, BaseEventOrigFunction, ScrollViewProps, StandardProps } from '@tarojs/components'
 import type { Component, ComponentType, CSSProperties, ReactNode } from 'react'
 
-interface VirtualListProps extends Omit<StandardProps, 'children'> {
+interface VirtualListProps<T = any> extends Omit<StandardProps, 'children'> {
   /** 列表的高度。 */
   height: string | number
   /** 列表的宽度。 */
@@ -10,10 +10,8 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
   item: ComponentType<{
     /** 组件 ID */
     id: string
-    /** 单项的样式，样式必须传入组件的 style 中 */
-    style?: CSSProperties
     /** 组件渲染的数据 */
-    data: any
+    data: T[]
     /** 组件渲染数据的索引 */
     index: number
     /** 组件是否正在滚动，当 useIsScrolling 值为 true 时返回布尔值，否则返回 undefined */
@@ -22,53 +20,73 @@ interface VirtualListProps extends Omit<StandardProps, 'children'> {
   /** 列表的长度 */
   itemCount: number
   /** 渲染数据 */
-  itemData: any[]
+  itemData: T[]
   /** 列表单项的大小，垂直滚动时为高度，水平滚动时为宽度。
    *
    * > Note:
    * >  - unlimitedSize 模式下如果传入函数，只会调用一次用于设置初始值
    * >  - 非 unlimitedSize 模式下如果传入函数，为避免性能问题，每个节点只会调用一次用于设置初始值
    */
-  itemSize: number | ((index?: number, itemData?: any[]) => number)
-  /** 解开高度列表单项大小限制，默认值使用: itemSize (请注意，初始高度与实际高度差异过大会导致隐患)。
+  itemSize: number | ((index?: number, itemData?: T[]) => number)
+  /** 解开高度列表单项大小限制，默认值使用: itemSize。
    *
-   * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患
+   * > Note: 通过 itemSize 设置的初始高度与子节点实际高度差异过大会导致隐患，建议将单页大小设置接近于现实高度，在该模式下可以提升用户体验。
    * @default false
    */
   unlimitedSize?: boolean
   /** 布局方式
    * @default "absolute"
    */
-  position?: 'absolute' | 'relative'
+  position?: 'absolute' | 'relative' | 'brick'
+  /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。
+   * @default "vertical"
+   */
+  layout?: 'vertical' | 'horizontal'
   /** 初始滚动偏移值，水平滚动影响 scrollLeft，垂直滚动影响 scrollTop。 */
   initialScrollOffset?: number
-  /** 列表内部容器组件类型。
-   * @default View
+  /** 在可视区域之外渲染的列表单项数量，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。 */
+  overscanCount?: number
+  /** 上下滚动预占位节点 */
+  placeholderCount?: number
+  /** 触顶事件触发时距页面顶部距离
+   * @default 50
    */
-  innerElementType?: ComponentType
+  upperThreshold?: number
+  /** 触底事件触发时距页面底部距离
+   * @default 50
+   */
+  lowerThreshold?: number
+  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
+  useIsScrolling?: boolean
   /** 通过 ScrollViewContext 优化组件滚动性能
    * @default false
    * @note 部分平台不支持，使用时请注意甄别
    */
   enhanced?: boolean
+  /** 列表外部容器组件类型。
+   * @default ScrollView
+   */
+  outerElementType?: ComponentType | string
+  /** 列表内部容器组件类型。
+   * @default View
+   */
+  innerElementType?: ComponentType | string
+  /** 列表子节点容器组件类型。
+   * @default View
+   */
+  itemElementType?: ComponentType | string
   /** 顶部区域 */
   renderTop?: ReactNode
   /** 底部区域 */
   renderBottom?: ReactNode
-  /** 滚动方向。vertical 为垂直滚动，horizontal 为平行滚动。
-   * @default "vertical"
-   */
-  layout?: 'vertical' | 'horizontal'
   /** 列表滚动时调用函数 */
   onScroll?: (event: VirtualListProps.IVirtualListEvent<VirtualListProps.IVirtualListEventDetail>) => void
   /** 调用平台原生的滚动监听函数。 */
   onScrollNative?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
-  /** 在可视区域之外渲染的列表单项数量，值设置得越高，快速滚动时出现白屏的概率就越小，相应地，每次滚动的性能会变得越差。 */
-  overscanCount?: number
-  /** 上下滚动预占位节点 */
-  placeholderCount?: number
-  /** 是否注入 isScrolling 属性到 item 组件。这个参数一般用于实现滚动骨架屏（或其它 placeholder） 时比较有用。 */
-  useIsScrolling?: boolean
+  /** 触顶事件 */
+  onScrollToUpper?: () => void
+  /** 触底事件 */
+  onScrollToLower?: () => void
   style?: CSSProperties
 }
 
@@ -78,6 +96,9 @@ declare namespace VirtualListProps {
     scrollTop: number
     scrollHeight: number
     scrollWidth: number
+    clientHeight: number
+    clientWidth: number
+    diffOffset: number
   }
 
   interface IVirtualListEvent<T extends ScrollViewProps.onScrollDetail = ScrollViewProps.onScrollDetail> extends BaseEventOrig {
@@ -87,7 +108,7 @@ declare namespace VirtualListProps {
     scrollOffset: number
     /** 当滚动是由 scrollTo() 或 scrollToItem() 调用时返回 true，否则返回 false */
     scrollUpdateWasRequested: boolean
-    /** 当前只有 React 支持 */
+    /** 滚动信息 */
     detail: T
   }
 }
@@ -103,9 +124,9 @@ declare namespace VirtualListProps {
  *   return Array(100).fill(0).map((_, i) => i + offset);
  * }
  *
- * const Row = React.memo(({ id, index, style, data }) => {
+ * const Row = React.memo(({ id, index, data }) => {
  *   return (
- *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'} style={style}>
+ *     <View id={id} className={index % 2 ? 'ListItemOdd' : 'ListItemEven'}>
  *       Row {index}
  *     </View>
  *   );
@@ -145,7 +166,6 @@ declare namespace VirtualListProps {
  * <template>
  *   <view
  *     :class="index % 2 ? 'ListItemOdd' : 'ListItemEven'"
- *     :style="css"
  *   >
  *     Row {{ index }} : {{ data[index] }}
  *   </view>
@@ -153,7 +173,7 @@ declare namespace VirtualListProps {
  *
  * <script>
  * export default {
- *   props: ['index', 'data', 'css']
+ *   props: ['index', 'data']
  * }
  * </script>
  * ```
@@ -161,7 +181,6 @@ declare namespace VirtualListProps {
  * <! –– page.vue 页面组件 ––>
  * <template>
  *   <virtual-list
- *     wclass="List"
  *     :height="500"
  *     :item-data="list"
  *     :item-count="list.length"
@@ -195,7 +214,7 @@ declare class VirtualListComponent extends Component<VirtualListProps> {
   /**
    * 滚动到指定的地点。
    */
-  public scrollTo(scrollOffset: number): void
+  public scrollTo(scrollOffset: number, enhanced?: boolean): void
 
   /** 滚动到指定的条目。
    * @param index 指定条目的索引。
@@ -207,7 +226,7 @@ declare class VirtualListComponent extends Component<VirtualListProps> {
    * - auto：尽可能滚动距离最小保证条目在可视区域中，如果已经在可视区域，就不滚动。
    * - smart：条目如果已经在可视区域，就不滚动；如果有部分在可视区域，尽可能滚动距离最小保证条目在可视区域中；如果条目完全不在可视区域，那就滚动到条目在可视区域居中显示。
    */
-  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart'): void
+  public scrollToItem(index: number, align: 'start' | 'end' | 'center' | 'auto' | 'smart', enhanced?: boolean): void
 }
 
 declare type VirtualList = VirtualListComponent

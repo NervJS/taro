@@ -41,8 +41,9 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   platformType: string // mini | web
   /** special mode */
   isBuildNativeComp?: boolean
+  newBlended?: boolean
   /** hooks */
-  onCompilerMake: (compilation) => Promise<any>
+  onCompilerMake: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 

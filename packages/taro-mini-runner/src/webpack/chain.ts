@@ -144,6 +144,7 @@ export const getLessLoader = pipe(mergeOption, partial(getLoader, 'less-loader')
 export const getStylusLoader = pipe(mergeOption, partial(getLoader, 'stylus-loader'))
 export const getUrlLoader = pipe(mergeOption, partial(getLoader, 'url-loader'))
 export const getFileLoader = pipe(mergeOption, partial(getLoader, 'file-loader'))
+export const getMiniXScriptLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniXScriptLoader')))
 export const getMiniTemplateLoader = pipe(mergeOption, partial(getLoader, path.resolve(__dirname, '../loaders/miniTemplateLoader')))
 export const getResolveUrlLoader = pipe(mergeOption, partial(getLoader, 'resolve-url-loader'))
 
@@ -255,6 +256,7 @@ export const getModule = (appPath: string, {
   const miniTemplateLoader = getMiniTemplateLoader([{
     buildAdapter
   }])
+  const miniXScriptLoader = getMiniXScriptLoader([{}])
 
   const cssLoader = getCssLoader(cssOptions)
 
@@ -431,9 +433,44 @@ export const getModule = (appPath: string, {
       test: REG_TEMPLATE,
       use: [getFileLoader([{
         useRelativePath: true,
-        name: `[path][name]${fileType.templ}`,
+        name: (resourcePath: string) => {
+          // 差异点：
+          // webpack4 中的 resourcePath 是绝对路径
+          // webpack5 中的 filename 是相对于 appPath 的文件路径名称
+          // appPath /xxx/uuu/aaa
+          // sourceDir /xxx/uuu/aaa/bbb/ccc/src
+
+          // 因此在 webpack4 中如果包含 sourceDir，证明是在 src 内的路径
+          if (resourcePath.includes(sourceDir)) {
+            // 直接将 /xxx/src/yyy/zzz.wxml 转换成 yyy/zzz.wxml 即可
+            return resourcePath.replace(sourceDir + '/', '').replace(/node_modules/gi, 'npm')
+          } else {
+            // 否则，证明是外层，存在一下两种可能
+            // resourcePath /xxx/uuu/aaa/node_modules/yy/zzz.wxml
+            // --> result: npm/yy/zzz.wxml
+            
+            // resourcePath /xxx/uuu/aaa/bbb/abc/yy/zzz.wxml
+            // --> result: bbb/abc/yy/zzz.wxml
+            return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
+          }
+        },
         context: sourceDir
       }]), miniTemplateLoader]
+    },
+    xscript: {
+      test: new RegExp(`\\${fileType.xs || 'wxs'}$`),
+      use: [getFileLoader([{
+        useRelativePath: true,
+        name: (resourcePath) => {
+          if (resourcePath.includes(sourceDir)) {
+            return resourcePath.replace(sourceDir + '/', '').replace(/node_modules/gi, 'npm')
+          } else {
+            return resourcePath.replace(appPath + '/', '').replace(/node_modules/gi, 'npm')
+          }
+        },
+        context: sourceDir
+      }]),
+      miniXScriptLoader]
     },
     media: {
       test: REG_MEDIA,

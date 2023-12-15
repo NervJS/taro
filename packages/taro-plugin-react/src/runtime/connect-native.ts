@@ -9,7 +9,7 @@ import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
 
-import type { PageInstance } from '@tarojs/taro'
+import type { AppInstance, PageInstance } from '@tarojs/taro'
 import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
@@ -17,8 +17,17 @@ declare const getCurrentPages: () => PageInstance[]
 const getNativeCompId = incrementId()
 let h: typeof React.createElement
 let ReactDOM
+let nativeComponentApp: AppInstance
+interface InitNativeComponentEntryParams {
+  R: typeof React
+  ReactDOM: typeof ReactDOM
+  cb?: Func
+  // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
+  isDefaultEntryDom?: boolean
+}
 
-function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
+function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
+  const { R, ReactDOM, cb, isDefaultEntryDom = true } = params
   interface IEntryState {
     components: {
       compId: string
@@ -63,7 +72,11 @@ function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
     }
 
     componentDidMount () {
-      Current.app = this
+      if (isDefaultEntryDom) {
+        Current.app = this
+      } else {
+        nativeComponentApp = this
+      }
       cb && cb()
     }
 
@@ -127,15 +140,21 @@ function initNativeComponentEntry (R: typeof React, ReactDOM, cb?) {
 
   setReconciler(ReactDOM)
 
-  const app = document.getElementById('app')
-
+  let app = document.getElementById('app')
+  if (!isDefaultEntryDom && !nativeComponentApp) {
+    // create
+    const nativeApp = document.createElement('nativeComponent')
+    // insert
+    app.appendChild(nativeApp)
+    app = nativeApp
+  }
   ReactDOM.render(
     h(Entry, {}),
     app
   )
 }
 
-export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom, pageConfig) {
+export function createNativePageConfig (Component, pageName: string, data: Record<string, unknown>, react: typeof React, reactdom: typeof ReactDOM, pageConfig) {
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
@@ -199,8 +218,12 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 
       const mount = () => {
         if (!Current.app) {
-          initNativeComponentEntry(react, ReactDOM, () => {
-            Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
+          initNativeComponentEntry({
+            R: react,
+            ReactDOM,
+            cb: () => {
+              Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
+            }
           })
         } else {
           Current.app!.mount!(Component, $taroPath, () => this, mountCallback)
@@ -319,8 +342,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
   reactMeta.R = react
   h = react.createElement
   ReactDOM = reactdom
-
   setReconciler(ReactDOM)
+  const { isNewBlended } = componentConfig
 
   const componentObj: Record<string, any> = {
     options: componentConfig,
@@ -334,15 +357,21 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
       }
     },
     created () {
-      if (!Current.app) {
-        initNativeComponentEntry(react, ReactDOM)
+      const app = (isNewBlended ? nativeComponentApp : Current.app)
+      if (!app) {
+        initNativeComponentEntry({
+          R: react,
+          ReactDOM,
+          isDefaultEntryDom: !isNewBlended
+        })
       }
     },
     attached () {
       const compId = this.compId = getNativeCompId()
       setCurrent(compId)
       this.config = componentConfig
-      Current.app!.mount!(Component, compId, () => this, () => {
+      const app = (isNewBlended ? nativeComponentApp : Current.app)
+      app!.mount!(Component, compId, () => this, () => {
         const instance = getPageInstance(compId)
 
         if (instance && instance.node) {
@@ -359,7 +388,8 @@ export function createNativeComponentConfig (Component, react: typeof React, rea
     },
     detached () {
       resetCurrent()
-      Current.app!.unmount!(this.compId)
+      const app = (isNewBlended ? nativeComponentApp : Current.app)
+      app!.unmount!(this.compId)
     },
     pageLifetimes: {
       show (options) {

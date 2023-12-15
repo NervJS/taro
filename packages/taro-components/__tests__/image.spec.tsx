@@ -138,6 +138,8 @@ describe('Image', () => {
     expect(onLoad).toBeCalledTimes(0)
 
     await delay(2000)
+    await page.waitForChanges()
+
     expect(img?.src).toEqual(IMAGE)
     page.root?.dispatchEvent(new Event('load'))
     expect(onLoad).toBeCalledTimes(1)

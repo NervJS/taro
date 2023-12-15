@@ -1,21 +1,23 @@
-import { normalizePath } from '@tarojs/helper'
 import { getOptions, stringifyRequest } from 'loader-utils'
+import * as path from 'path'
 
 import { REG_POST } from './constants'
+import { entryCache } from './entry-cache'
 
 import type * as webpack from 'webpack'
 
-export default function (this: webpack.LoaderContext<any>) {
+export default function (this: webpack.LoaderContext<any>, source: string) {
   const stringify = (s: string): string => stringifyRequest(this, s)
 
   const options = getOptions(this)
   const { importFrameworkStatement, frameworkArgs, creator, creatorLocation, modifyInstantiate } = options.loaderMeta
   const config = JSON.stringify(options.config)
   const blended = options.blended
+  const newBlended = options.newBlended
   const pxTransformConfig = options.pxTransformConfig
-  const loaders = this.loaders
-  const thisLoaderIndex = loaders.findIndex(item => normalizePath(item.path).indexOf('@tarojs/taro-loader') >= 0)
   const { globalObject } = this._compilation?.outputOptions || { globalObject: 'wx' }
+  const entryCacheLoader = path.join(__dirname, 'entry-cache.js') + '?name=app'
+  entryCache.set('app', source)
 
   const prerender = `
 if (typeof PRERENDER !== 'undefined') {
@@ -35,7 +37,7 @@ if (typeof PRERENDER !== 'undefined') {
 
   const createApp = `${creator}(component, ${frameworkArgs})`
 
-  let instantiateApp = blended
+  let instantiateApp = blended || newBlended
     ? `
 var app = ${createApp}
 app.onLaunch()
@@ -52,7 +54,7 @@ import { window } from '@tarojs/runtime'
 import { ${creator} } from '${creatorLocation}'
 import { initPxTransform } from '@tarojs/taro'
 ${setReconcilerPost}
-import component from ${stringify(this.request.split('!').slice(thisLoaderIndex + 1).join('!'))}
+import component from ${stringify(['!', entryCacheLoader, this.resourcePath].join('!'))}
 ${importFrameworkStatement}
 var config = ${config};
 window.__taroAppConfig = config

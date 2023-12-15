@@ -1,5 +1,7 @@
 import { isFunction } from '@tarojs/shared'
+import memoizeOne from 'memoize-one'
 
+import { getOffsetForIndexAndAlignment } from '../../utils'
 import { isHorizontalFunc } from './utils'
 
 import type { IProps } from './preset'
@@ -10,6 +12,11 @@ export default class ListSet {
   list: number[] = []
   mode?: 'normal' | 'function' | 'unlimited'
   defaultSize = 1
+
+  wrapperHeight = 0
+  wrapperWidth = 0
+
+  refreshCounter = 0
 
   constructor (protected props: TProps, protected refresh?: TFunc) {
     this.update(props)
@@ -51,13 +58,7 @@ export default class ListSet {
   }
 
   get wrapperSize () {
-    const { height, width } = this.props
-    const isHorizontal = isHorizontalFunc(this.props)
-    const size = (isHorizontal ? width : height) as number
-    if (process.env.NODE_ENV !== 'production' && typeof size !== 'number') {
-      console.warn(`In mode ${isHorizontal ? 'horizontal, width' : 'vertical, height'} parameter should be a number, but got ${typeof size}.`)
-    }
-    return size
+    return isHorizontalFunc(this.props) ? this.wrapperWidth : this.wrapperHeight
   }
 
   update (props: TProps) {
@@ -74,6 +75,7 @@ export default class ListSet {
   setSize (i = 0, size = this.defaultSize) {
     this.list[i] = size
     this.refresh?.()
+    this.refreshCounter++
   }
 
   getSize (i = 0) {
@@ -94,10 +96,12 @@ export default class ListSet {
     return this.list.slice(0, i).reduce((sum, _, idx) => sum + this.getSize(idx), 0)
   }
 
+  getOffsetSizeCache = memoizeOne((i = this.list.length, _flag = this.refreshCounter) => {
+    return this.getOffsetSize(i)
+  })
+
   getSizeCount (offset = 0) {
-    if (offset === 0) {
-      return 0
-    }
+    if (offset === 0) return 0
     // if (this.isNormalMode) {
     //   return Math.min(this.length - 1, Math.floor(offset / this.length))
     // }
@@ -117,7 +121,7 @@ export default class ListSet {
   }
 
   getStopIndex (wrapperSize = 0, scrollOffset = 0, startIndex = 0) {
-    // const visibleOffset = this.getOffsetSize(startIndex)
+    // const visibleOffset = this.getOffsetSizeCache(startIndex)
     // if (this.isNormalMode) {
     //   const numVisibleItems = Math.ceil((wrapperSize + scrollOffset - visibleOffset) / this.length)
     //   /** -1 is because stop index is inclusive */
@@ -131,9 +135,8 @@ export default class ListSet {
       return [0, 0, 0, 0]
     }
 
-    const wrapperSize = this.wrapperSize
     const startIndex = this.getStartIndex(scrollOffset)
-    const stopIndex = this.getStopIndex(wrapperSize, scrollOffset, startIndex)
+    const stopIndex = this.getStopIndex(this.wrapperSize, scrollOffset, startIndex)
 
     // Overscan by one item in each direction so that tab/focus works. If there isn't at least one extra item, tab loops back around.
     const overscanBackward = !block || direction === 'backward' ? Math.max(1, this.overscan) : 1
@@ -147,55 +150,17 @@ export default class ListSet {
   }
 
   getOffsetForIndexAndAlignment (index: number, align: string, scrollOffset: number) {
-    const wrapperSize = this.wrapperSize
-    const itemSize = this.getSize(index)
-    const lastItemOffset = Math.max(0, this.getOffsetSize(this.props.itemCount) - wrapperSize)
-    const maxOffset = Math.min(lastItemOffset, this.getOffsetSize(index))
-    const minOffset = Math.max(0, this.getOffsetSize(index) - wrapperSize + itemSize)
-
-    if (align === 'smart') {
-      if (scrollOffset >= minOffset - wrapperSize && scrollOffset <= maxOffset + wrapperSize) {
-        align = 'auto'
-      } else {
-        align = 'center'
-      }
-    }
-
-    switch (align) {
-      case 'start':
-        return maxOffset
-
-      case 'end':
-        return minOffset
-
-      case 'center':
-      {
-        // "Centered" offset is usually the average of the min and max.
-        // But near the edges of the list, this doesn't hold true.
-        const middleOffset = Math.round(minOffset + (maxOffset - minOffset) / 2)
-
-        if (middleOffset < Math.ceil(wrapperSize / 2)) {
-          return 0 // near the beginning
-        } else if (middleOffset > lastItemOffset + Math.floor(wrapperSize / 2)) {
-          return lastItemOffset // near the end
-        } else {
-          return middleOffset
-        }
-      }
-
-      case 'auto':
-      default:
-        if (scrollOffset >= minOffset && scrollOffset <= maxOffset) {
-          return scrollOffset
-        } else if (scrollOffset < minOffset) {
-          return minOffset
-        } else {
-          return maxOffset
-        }
-    }
+    return getOffsetForIndexAndAlignment({
+      align,
+      containerSize: this.wrapperSize,
+      currentOffset: scrollOffset,
+      scrollSize: this.getOffsetSizeCache(this.length),
+      slideSize: this.getSize(index),
+      targetOffset: this.getOffsetSizeCache(index),
+    })
   }
 
-  compareSize (i = 0, size = 0) {
+  compareSize (i = 0, size = this.defaultSize) {
     if (this.isNormalMode) return true
     return this.getSize(i) === size
   }

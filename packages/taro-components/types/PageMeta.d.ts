@@ -80,7 +80,47 @@ declare namespace PageMetaProps {
 }
 /** 页面属性配置节点，用于指定页面的一些属性、监听页面事件。只能是页面内的第一个节点。可以配合 navigation-bar 组件一同使用。
  * 通过这个节点可以获得类似于调用 Taro.setBackgroundTextStyle Taro.setBackgroundColor 等接口调用的效果。
+ *
+ * :::info
+ * Taro v3.6.19 开始支持
+ * 开发者需要在页面配置里添加：`enablePageMeta: true`
+ * :::
+ *
  * @supported weapp, alipay
+ * @example_react
+ * ```tsx
+ * // page.config.ts
+ * export default definePageConfig({ enablePageMeta: true, ... })
+ *
+ * // page.tsx
+ * function Index () {
+ *   return (
+ *     <View>
+ *      <PageMeta
+ *        pageStyle={myPageStyle}
+ *        onScroll={handleScroll}
+ *      >
+ *        <NavigationBar title={title} />
+ *      </PageMeta>
+ *    </View>
+ *   )
+ * }
+ * ```
+ * @example_vue
+ * ```html
+ * <!-- page.config.ts -->
+ * <!-- export default definePageConfig({ enablePageMeta: true, ... }) -->
+ *
+ * <!-- page.vue -->
+ * <template>
+ *   <page-meta
+ *     :page-style="myPageStyle"
+ *     `@scroll="handleScroll"
+ *   >
+ *     <navigation-bar :title="title" />
+ *   </page-meta>
+ * </template>
+ * ```
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/page-meta.html
  */
 declare const PageMeta: ComponentType<PageMetaProps>

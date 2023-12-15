@@ -81,6 +81,8 @@ export interface AlipayConfig {
   devToolsInstallPath?: string
   /** 上传的终端, 默认alipay */
   clientType?: AlipayClientType
+  /** 上传时想要删除的一个版本 */
+  deleteVersion?: string
 }
 
 export type DingtalkProjectType =
@@ -116,7 +118,12 @@ export interface SwanConfig {
 }
 
 export interface JdConfig {
+  /** 秘钥信息 */
   privateKey: string
+  /** 指定使用哪一个 ci 机器人，可选值：1 ~ 30 */
+  robot?: number
+  /** 指定需要排除的规则。无需配置以“.”开头的隐藏文件，它们将默认被忽略，如“.git” */
+  ignores?: string[]
 }
 
 export interface CIOptions {
@@ -167,7 +174,7 @@ export default abstract class BaseCI {
         encoding: 'utf8'
       })
     )
-    this.version = pluginOpts.version || packageInfo.taroConfig?.version || '1.0.0'
+    this.version = pluginOpts.version || packageInfo.taroConfig?.version
     this.desc = pluginOpts.desc || packageInfo.taroConfig?.desc || `CI构建自动构建于${new Date().toLocaleTimeString()}`
 
   }

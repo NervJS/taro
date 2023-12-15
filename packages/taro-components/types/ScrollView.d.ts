@@ -1,5 +1,5 @@
 import { ComponentType } from 'react'
-import { StandardProps, CommonEventFunction, BaseEventOrigFunction } from './common'
+import { BaseEventOrigFunction, CommonEventFunction, StandardProps } from './common'
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
@@ -130,7 +130,7 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    * @default false
    */
-  enablePassive?: string
+  enablePassive?: boolean
   /** 渲染模式
    * list - 列表模式。只会渲染在屏节点，会根据直接子节点是否在屏来按需渲染，若只有一个直接子节点则性能会退化
    * custom - 自定义模式。只会渲染在屏节点，子节点可以是 sticky-section list-view grid-view 等组件
@@ -143,10 +143,25 @@ interface ScrollViewProps extends StandardProps {
    * @default false
    */
   reverse?: boolean
+  /** 是否对溢出进行裁剪，默认开启
+   * @supported weapp
+   * @default true
+   */
+  clip?: boolean
   /** 指定视口外渲染区域的距离，默认情况下视口外节点不渲染。指定 cache-extent 可优化滚动体验和加载速度，但会提高内存占用且影响首屏速度，可按需启用。
    * @supported weapp
    */
   cacheExtent?: number
+  /** 指定 scroll-view 触发滚动的最小拖动距离。仅在 scroll-view 和其他组件存在手势冲突时使用，可通过调整该属性使得滚动更加灵敏。
+   * @supported weapp
+   * @default 18
+   */
+  minDragDistance?: number
+  /** 长度为 4 的数组，按 top、right、bottom、left 顺序指定内边距
+   * @supported weapp
+   * @default [0,0,0,0]
+   */
+  padding?: [number, number, number, number]
   /** 只 scroll-into-view 到 cacheExtent 以内的目标节点，性能更佳
    * @supported weapp
    * @default false
@@ -157,10 +172,45 @@ interface ScrollViewProps extends StandardProps {
    * center - 目标节点显示在视口中间
    * end - 目标节点显示在视口结束处
    * nearest - 目标节点在就近的视口边缘显示，若节点已在视口内则不触发滚动
-   * @supported weapp
+   * @supported weapp, h5
    * @default 'start'
    */
   scrollIntoViewAlignment?: 'start' | 'center' | 'end' | 'nearest'
+  /** 开启下拉二级能力
+   * @supported weapp
+   * @default false
+   */
+  refresherTwoLevelEnabled?: boolean
+  /** 设置打开/关闭二级
+   * @supported weapp
+   * @default false
+   */
+  refresherTwoLevelTriggered?: boolean
+  /** 下拉二级阈值
+   * @supported weapp
+   * @default 150
+   */
+  refresherTwoLevelThreshold?: number
+  /** 滑动返回时关闭二级的阈值
+   * @supported weapp
+   * @default 80
+   */
+  refresherTwoLevelCloseThreshold?: number
+  /** 处于二级状态时是否可滑动
+   * @supported weapp
+   * @default false
+   */
+  refresherTwoLevelScrollEnabled?: boolean
+  /** 惯性滚动是否触发下拉刷新
+   * @supported weapp
+   * @default false
+   */
+  refresherBallisticRefreshEnabled?: boolean
+  /** 即将打开二级时否定住
+   * @supported weapp
+   * @default false
+   */
+  refresherTwoLevelPinned?: boolean
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
@@ -201,6 +251,10 @@ interface ScrollViewProps extends StandardProps {
    * @supported weapp
    */
   onRefresherWillRefresh?: CommonEventFunction
+  /** 下拉刷新状态回调
+   * @supported weapp
+   */
+  onRefresherStatusChange?: CommonEventFunction<ScrollViewProps.RefresherStatusChange>
   /** 滑动开始事件 (同时开启 enhanced 属性后生效)
    * @supported weapp
    */
@@ -251,6 +305,30 @@ declare namespace ScrollViewProps {
     scrollTop: number
     /** 滚动速度 */
     velocity: number
+  }
+  interface RefresherStatusChange {
+    status: RefreshStatus
+    dy: number
+  }
+  const enum RefreshStatus {
+    // 空闲
+    Idle,
+    // 超过下拉刷新阈值，同 bind:refresherwillRefresh 触发时机
+    CanRefresh,
+    // 下拉刷新，同 bind:refresherrefresh 触发时机
+    Refreshing,
+    // 下拉刷新完成，同 bind:refresherrestore 触发时机
+    Completed,
+    // 下拉刷新失败
+    Failed,
+    // 超过下拉二级阈值
+    CanTwoLevel,
+    // 开始打开二级
+    TwoLevelOpening,
+    // 打开二级
+    TwoLeveling,
+    // 开始关闭二级
+    TwoLevelClosing,
   }
 }
 /** 可滚动视图区域。使用竖向滚动时，需要给scroll-view一个固定高度，通过 WXSS 设置 height。组件属性的长度单位默认为 px

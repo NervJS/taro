@@ -1,30 +1,24 @@
-import { injectDefineConfigHeader } from '@tarojs/helper'
 import { merge } from 'lodash'
 import { getCacheKey, transform as babelTransform } from 'metro-react-native-babel-transformer'
 import { sep } from 'path'
 
+import { getBabelConfig } from './babel'
 import { entryFilePath } from './defaults'
-import { getProjectConfig, getRNConfig } from './utils'
+import { getProjectConfig } from './utils'
 
 const normalizeEntryFilePath = entryFilePath.replace(/\//g, sep)
-
-const configBabelTransform = ({ src, filename, options, plugins }) => {
-  // 获取rn配置中的moodifyBabelConfig
-  // 与参数plugins合并，然后传给babelTransform
-  const _plugins = plugins || []
-  _plugins.push(injectDefineConfigHeader)
-  return babelTransform({ src, filename, options, plugins: _plugins })
-}
 
 const getTransformer = (pkgName) => {
   // TODO: 利用缓存，参见metro对transformer的缓存处理
   return require(pkgName)
 }
 
-const transform = ({ src, filename, options, plugins }) => {
-  const config = getProjectConfig()
-  const rnConfig = getRNConfig()
+const transform = async ({ src, filename, options }) => {
+  const config = await getProjectConfig()
+  const rnConfig = config?.rn || {}
   const entry = rnConfig?.entry || 'app'
+  const isConfigFile = /\.config\.(t|j)sx?$/.test(filename)
+  const { plugins } = getBabelConfig(config, isConfigFile)
   const rules: Record<string, any> = [
     {
       test: /\.(css|scss|sass|less|styl|stylus|pcss)/,
@@ -46,12 +40,14 @@ const transform = ({ src, filename, options, plugins }) => {
         entry: entry,
         sourceRoot: config?.sourceRoot,
         appName: rnConfig.appName,
-        designWidth: rnConfig.designWidth ? rnConfig.designWidth : config.designWidth,
-        deviceRatio: rnConfig.designWidth ? rnConfig.deviceRatio : config.deviceRatio,
-        nextTransformer: /\.config\.(t|j)sx?$/.test(filename) ? configBabelTransform : babelTransform,
+        designWidth: rnConfig.designWidth || config.designWidth,
+        deviceRatio: rnConfig.deviceRatio || config.deviceRatio,
+        nextTransformer: babelTransform,
         isEntryFile: filename_ => {
           return filename_.includes(normalizeEntryFilePath)
         },
+        isConfigFile,
+        plugins,
         rn: rnConfig
       }
     }
@@ -63,7 +59,7 @@ const transform = ({ src, filename, options, plugins }) => {
       return getTransformer(rules[i].transformer).transform({ src, filename, options: mixOptions })
     }
   }
-  return babelTransform({ src, filename, options, plugins })
+  return babelTransform({ src, filename, options })
 }
 
 export {
@@ -71,6 +67,4 @@ export {
   transform
 }
 
-module.exports.transform = function ({ src, filename, options }) {
-  return transform({ src, filename, options, plugins: [] })
-}
+module.exports.transform = transform

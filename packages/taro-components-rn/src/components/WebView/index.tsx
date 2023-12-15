@@ -20,7 +20,7 @@ const _WebView: React.FC<WebViewProps> = ({
   onMessage = noop,
   onLoad = noop,
   onError = noop,
-}: WebViewProps) => {
+}) => {
   return (
     <WebView
       source={{ uri: src }}

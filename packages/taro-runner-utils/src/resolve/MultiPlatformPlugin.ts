@@ -38,7 +38,7 @@ export class MultiPlatformPlugin {
       .getHook(this.source)
       .tapAsync('MultiPlatformPlugin', (request, resolveContext, callback) => {
         const innerRequest: string = request.request || request.path
-        if (!innerRequest || !request.context.issuer) return callback()
+        if (!innerRequest || (request.context.hasOwnProperty('issuer') && !request.context.issuer)) return callback()
 
         if (!path.extname(innerRequest)) {
           let srcRequest: string

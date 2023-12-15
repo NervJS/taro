@@ -9,6 +9,7 @@ jest.mock('webpack', () => {
     const fs = createFsFromVolume(new Volume())
     const ensuredFs = ensureWebpackMemoryFs(fs)
 
+    compiler.inputFileSystem._writeVirtualFile = () => {}
     compiler.outputFileSystem = ensuredFs
 
     return compiler

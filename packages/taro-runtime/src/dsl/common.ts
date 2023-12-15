@@ -239,8 +239,18 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   }
 
   LIFECYCLES.forEach((lifecycle) => {
+    let isDefer = false
+    lifecycle = lifecycle.replace(/^defer:/, () => {
+      isDefer = true
+      return ''
+    })
     config[lifecycle] = function () {
-      return safeExecute(this.$taroPath, lifecycle, ...arguments)
+      const exec = () => safeExecute(this.$taroPath, lifecycle, ...arguments)
+      if (isDefer) {
+        hasLoaded.then(exec)
+      } else {
+        return exec()
+      }
     }
   })
 
@@ -285,7 +295,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
     [ATTACHED] () {
       perf.start(PAGE_INIT)
       this.pageIdCache = this.getPageId?.() || pageId()
-      
+
       const path = getPath(id, { id: this.pageIdCache })
 
       Current.app!.mount!(component, path, () => {
@@ -354,26 +364,26 @@ export function createRecursiveComponentConfig (componentName?: string) {
     }
     : EMPTY_OBJ
 
-  return {
-    properties: {
-      i: {
-        type: Object,
-        value: {
-          [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
+  return hooks.call('modifyRecursiveComponentConfig', 
+    { 
+      properties: {
+        i: {
+          type: Object,
+          value: {
+            [Shortcuts.NodeName]: getComponentsAlias(internalComponents)[VIEW]._num
+          }
+        },
+        l: {
+          type: String,
+          value: ''
         }
       },
-      l: {
-        type: String,
-        value: ''
-      }
-    },
-    options: {
-      addGlobalClass: true,
-      virtualHost: !isCustomWrapper
-    },
-    methods: {
-      eh: eventHandler
-    },
-    ...lifeCycles
-  }
+      options: {
+        addGlobalClass: true,
+        virtualHost: !isCustomWrapper
+      },
+      methods: {
+        eh: eventHandler
+      },
+      ...lifeCycles }, { isCustomWrapper })
 }

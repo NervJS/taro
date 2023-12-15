@@ -50,11 +50,11 @@ export const components = {
     bindChange: ''
   },
   Input: {
-    'always-system':'false',
+    'always-system': 'false',
     'random-number': 'false',
     controlled: 'false',
     enableNative: 'true',
-    name:''
+    name: ''
   },
   Slider: {
     'track-size': '4',
@@ -102,7 +102,9 @@ export const components = {
   },
   Video: {
     'poster-size': singleQuote('contain'),
+    'show-thin-progress-bar': 'false',
     'mobilenet-hint-type': '1',
+    'floating-mode': singleQuote('none'),
     enableNative: 'true',
     bindLoading: '',
     bindUserAction: '',
@@ -184,5 +186,20 @@ export const components = {
     transform: 'false',
     duration: '300',
     'easing-function': singleQuote('ease-out'),
+  },
+  RootPortal: {
+    enable: 'true'
+  },
+  PageMeta: {
+    'background-color': '',
+    'background-color-top': '',
+    'background-color-bottom': '',
+    'root-background-color': '',
+    'scroll-top': "''",
+    'scroll-duration': '300',
+    'page-style': "''",
+    'root-font-size': "''",
+    'page-font-size': "''",
+    bindScroll: '',
   },
 }
