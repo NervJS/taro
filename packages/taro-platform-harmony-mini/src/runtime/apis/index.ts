@@ -1,4 +1,4 @@
-import definition from '@tarojs/plugin-platform-mpharmony/dist/definition.json'
+import definition from '@tarojs/plugin-platform-harmony-mini/dist/definition.json'
 import isMatchWith from 'lodash-es/isMatchWith'
 import setWith from 'lodash-es/setWith'
 
