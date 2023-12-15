@@ -2,7 +2,7 @@ import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 
 import TaroDataSourceElement from './dataSource'
 
-import type { StandardProps } from '../../components/types'
+import type { StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../utils'
 import type { TaroDocument } from './document'
 import type { TaroElement } from './element/element'

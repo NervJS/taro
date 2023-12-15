@@ -1,6 +1,6 @@
 import { TaroElement } from './element'
 
-import type { SwitchProps } from '../../../components/types'
+import type { SwitchProps } from '@tarojs/components/types'
 
 export class TaroSwitchElement extends TaroElement<SwitchProps> {
   _value = false

@@ -1,6 +1,6 @@
 import { TaroElement } from './element'
 
-import type { SliderProps } from '../../../components/types'
+import type { SliderProps } from '@tarojs/components/types'
 
 export class TaroSliderElement extends TaroElement<SliderProps> {
   _value = 0

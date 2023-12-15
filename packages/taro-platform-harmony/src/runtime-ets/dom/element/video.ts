@@ -1,6 +1,6 @@
 import { TaroElement } from './element'
 
-import type { VideoProps } from '../../../components/types'
+import type { VideoProps } from '@tarojs/components/types'
 
 export class TaroVideoElement extends TaroElement<VideoProps> {
   _currentTime = 0

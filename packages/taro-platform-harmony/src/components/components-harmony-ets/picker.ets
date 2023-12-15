@@ -1,11 +1,11 @@
-import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroPickerElement, TaroEvent, createTaroEvent } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroPickerElement, createTaroEvent } from '@tarojs/runtime'
 import { createLazyChildren } from './render'
 import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType, TaroEvent } from '@tarojs/runtime'
 
 import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
 
@@ -260,7 +260,7 @@ export struct PickerView {
           .canLoop(false)
           .textPickerAttrs(getNormalAttributes(this.node))
           .onChange((value) => {
-            this.select = `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}}`
+            this.select = `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}`
           })
       }
     }

@@ -3,24 +3,24 @@ import { TaroTextNode } from '../node'
 import { TaroElement } from './element'
 import {
   FormElement,
+  TaroCheckboxElement,
   TaroCheckboxGroupElement,
   TaroFormElement,
   TaroFormWidgetElement,
   TaroInputElement,
   TaroPickerElement,
-  TaroRadioGroupElement
+  TaroRadioElement,
+  TaroRadioGroupElement,
+  TaroTextAreaElement,
 } from './form'
 import {
   TaroButtonElement,
-  TaroCheckboxElement,
   TaroIconElement,
   TaroImageElement,
   TaroLabelElement,
-  TaroRadioElement,
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,
-  TaroTextAreaElement,
   TaroViewElement
 } from './normal'
 import { TaroScrollViewElement } from './scrollView'

@@ -84,10 +84,10 @@ export function bindFn (fn: any, ctx: any, ...args: any) {
 
 // 使用深度优先遍历寻找节点树中对应的子节点，且只需要找到第一个
 // 通过 selector 判断是 id 还是 selector，从 node 的 id 和 className 属性中寻找
-export function findChildNodeWithDFS<T extends TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll: true): TaroElement[] | null;
-export function findChildNodeWithDFS<T extends TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll?: false): TaroElement | null;
-export function findChildNodeWithDFS<T extends TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll: boolean): TaroElement[] | TaroElement | null;
-export function findChildNodeWithDFS<T extends TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll): TaroElement[] | TaroElement | null {
+export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll: true): T[] | null;
+export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll?: false): T | null;
+export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll: boolean): T[] | T | null;
+export function findChildNodeWithDFS<T extends TaroElement = TaroElement> (node: TaroElement, selector: string | ((ele: T) => boolean), selectAll): T[] | T | null {
   const queue = [node]
 
   const nodeList: TaroElement[] = []

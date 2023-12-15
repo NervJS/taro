@@ -1,12 +1,10 @@
-import { bindInstanceToNode, createTaroEvent, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, initComponentNodeInfo, TaroAny, TaroEvent } from '@tarojs/runtime'
+import { createTaroEvent, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
-import TaroComponentWrapper from './base'
-import { createNode } from './render'
+import { createLazyChildren } from './render'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroCheckboxElement, TaroCheckboxGroupElement, TaroElement } from './element'
-import type { TaroStyleType } from '@tarojs/runtime'
+import type { TaroStyleType, TaroAny, TaroEvent, TaroCheckboxElement, TaroCheckboxGroupElement } from '@tarojs/runtime'
 
 interface CheckboxOptions {
   name?: string
@@ -65,70 +63,43 @@ function getOptions (node: TaroCheckboxElement): CheckboxOptions {
   }
 }
 
+@Builder
+export function TaroCheckbox(node: TaroCheckboxElement) {
+  Stack() {
+    Row() {
+      Checkbox(getOptions(node))
+        .checkboxStyle(getNormalAttributes(node))
+        .checkboxAttr(getAttributes(node))
+        .opacity(!!node._attrs.disabled ? 0.4 : 1)
+        .select(node.checked)
+        .onChange((value: boolean) => {
+          if (!!node?._attrs.disabled) {
+            node.updateComponent()
+          } else {
+            node.updateCheckedValue(value)
 
-@Component
-export struct TaroCheckbox {
-  nodeInfoMap: TaroAny = {}
-
-  @ObjectLink node: TaroCheckboxElement
-
-  @State checked: boolean = false
-
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
-
-  aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-
-    this.checked = !!this.node._attrs.checked
-  }
-
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
-    }))
-  }
-
-  build() {
-    TaroComponentWrapper({ node: this.node }) {
-      Stack() {
-        Row() {
-          Checkbox(getOptions(this.node))
-            .defaultEvent()
-            .checkboxStyle(getNormalAttributes(this.node))
-            .checkboxAttr(getAttributes(this.node))
-            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
-            .select(this.checked)
-            .onChange((value: boolean) => {
-              if (!!this.node._attrs.disabled) {
-                // FIXME 找下文档是否有强制刷新方法
-                this.checked = !this.checked
-                this.checked = !this.checked
-              } else {
-                this.checked = value
-                if (this.checked) {
-                  const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node._attrs.value } }, this.node)
-                  eventHandler(event, 'change', this.node)
-                }
-              }
-            })
-            .visibleChangeEvent()
-          Text(this.node.textContent)
-            .textAlign(TextAlign.Center)
-            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
-        }
-        .onClick(() => {
-          this.checked = !this.checked
+            if (value) {
+              const event: TaroEvent = createTaroEvent('change', { detail: { value: node?._attrs.value } }, node)
+              eventHandler(event, 'change', node)
+            }
+          }
         })
-      }
+        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
+        .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+          node._nodeInfo.areaInfo = res[1]
+        }))
+        .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+      Text(node.textContent)
+        .textAlign(TextAlign.Center)
+        .opacity(!!node._attrs.disabled ? 0.4 : 1)
     }
+    .onClick(() => {
+      if (!node._checked && !node?._attrs.disabled) {
+        node.checked = !node.checked
+      }
+    })
   }
 }
-
 
 @Extend(Flex)
 function checkboxGroupAttrs (style: TaroStyleType) {
@@ -164,51 +135,35 @@ interface ChangeEventDetail { value: string[] }
 
 @Component
 export struct TaroCheckboxGroup {
-  nodeInfoMap: TaroAny = {}
-
-  @ObjectLink node: TaroCheckboxGroupElement
+  node: TaroCheckboxGroupElement | null = null
 
   @Styles visibleChangeEvent () {
     .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   aboutToAppear () {
-    initComponentNodeInfo(this, this.node)
-    bindInstanceToNode(this.node, this)
-
-    // 阻止事件冒泡传递上去
-    this.node.addEventListener('change', (e: TaroEvent<ChangeEventDetail>) => {
-      e.stopPropagation()
-      e.detail.value = this.getValues()
-    })
-  }
-
-  // Element使用的获取值方法
-  getValues () {
-    const childList = this.node.getElementsByTagName<TaroCheckboxElement>('CHECKBOX')
-    const result: string[] = []
-    childList.forEach(element => {
-      if (element.checked) {
-        result.push(element._attrs.value)
-      }
-    })
-    return result
+    if (this.node) {
+      // 阻止事件冒泡传递上去
+      this.node.addEventListener('change', (e: TaroEvent<ChangeEventDetail>) => {
+        e.stopPropagation()
+        e.detail.value = (this.node as TaroCheckboxGroupElement).value
+      })
+    }
   }
 
   @Styles defaultEvent () {
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, res => {
-      const eventResult: TaroAny = res.eventResult
-      this.nodeInfoMap[this.node._nid].areaInfo = eventResult[1]
+    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+      if (this.node) {
+        this.node._nodeInfo.areaInfo = res[1]
+      }
     }))
   }
 
   build() {
-    TaroComponentWrapper({ node: this.node }) {
+    if (this.node) {
       Flex(FlexManager.flexOptions(this.node)) {
-        ForEach(this.node.childNodes, (item: TaroElement) => {
-          createNode(item)
-        }, (item: TaroElement) => item._nid)
+        createLazyChildren(this.node)
       }
       .checkboxGroupAttrs(getNormalAttributes(this.node))
       .defaultEvent()

@@ -1,7 +1,8 @@
-import { ObjectAssign, TaroAttributeProps } from '@tarojs/runtime'
+import { ObjectAssign } from '@tarojs/runtime'
 
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
+import type { StandardProps } from '@tarojs/components/types'
 import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyType, HarmonyStyle } from '@tarojs/runtime'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
@@ -22,7 +23,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
   const hmStyle = node.hmStyle
 
   const _nid = node._nid
-  const _attrs: TaroAttributeProps = node._attrs || {}
+  const _attrs: StandardProps = node._attrs || {}
 
   const transform: TaroAny = hmStyle.transform
   const transformRotate: HarmonyType.Transform.Rotate = transform?.rotate?.[0]

@@ -1,10 +1,10 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroStyleType, TaroScrollViewElement } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState

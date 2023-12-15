@@ -1,9 +1,9 @@
-import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
+import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroStyleType, TaroAny, TaroVideoElement } from '@tarojs/runtime'
+import type { TaroStyleType, TaroAny, TaroVideoElement, TaroEvent } from '@tarojs/runtime'
 
 export interface VideoOptions {
   src?: string | Resource

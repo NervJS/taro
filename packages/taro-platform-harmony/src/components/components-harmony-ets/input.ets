@@ -1,9 +1,9 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import { getNormalAttributes, parseStyles, shouldBindEvent, getNodeThresholds } from './utils/helper'
 import { INPUT_TYPE_MAP, INPUT_CONFIRM_MAP } from './utils/constant/style'
 
-import type { TaroStyleType, TaroAny, TaroInputElement } from '@tarojs/runtime'
+import type { TaroStyleType, TaroAny, TaroInputElement, TaroEvent } from '@tarojs/runtime'
 
 interface InputAttrs {
   textAlign?: TextAlign
@@ -56,17 +56,17 @@ function getAttributes(node: TaroInputElement): InputAttrs {
   }
 }
 
+function getInputType (node: TaroInputElement) {
+  if (node._attrs?.password) return InputType.Password
+
+  return INPUT_TYPE_MAP.get(node._attrs?.type || '') || InputType.Normal
+}
+
 function getPlaceholderColor (node: TaroInputElement): string {
   const placeholderTextColor: string = node._attrs.placeholderTextColor || ''
   const placeholderStyle: string = node._attrs.placeholderStyle || ''
 
   return placeholderTextColor || parseStyles(placeholderStyle)?.color
-}
-
-function getInputType (node: TaroInputElement) {
-  if (node._attrs?.password) return InputType.Password
-
-  return INPUT_TYPE_MAP.get(node._attrs?.type || '') || InputType.Normal
 }
 
 @Builder

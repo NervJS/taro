@@ -20,13 +20,13 @@ import TaroVideo from './video'
 import TaroPicker from './picker'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
-// import TaroTextArea from './textArea'
+import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
-// import { TaroRadio, TaroRadioGroup } from './radio'
+import { TaroRadio, TaroRadioGroup } from './radio'
 // import { TaroSwiper, TaroSwiperItem } from './swiper'
-// import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
+import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
 ${this.generateRenderImport()}
 import { NodeType } from '../runtime'
 
@@ -84,15 +84,15 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'ICON') {
     TaroIcon(item as TaroIconElement)
   } else if (item.tagName === 'TEXTAREA') {
-    TaroView(item as TaroViewElement)
+    TaroTextArea(item as TaroTextAreaElement)
   } else if (item.tagName === 'CHECKBOX-GROUP') {
-    TaroView(item as TaroViewElement)
+    TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement })
   } else if (item.tagName === 'CHECKBOX') {
-    TaroView(item as TaroViewElement)
+    TaroCheckbox(item as TaroCheckboxElement)
   } else if (item.tagName === 'RADIO-GROUP') {
-    TaroView(item as TaroViewElement)
+    TaroRadioGroup({ node: item as TaroRadioGroupElement })
   } else if (item.tagName === 'RADIO') {
-    TaroView(item as TaroViewElement)
+    TaroRadio(item as TaroRadioElement)
   } else if (item.tagName === 'LABEL') {
     TaroLabel(item as TaroLabelElement)
   } else if (item.tagName === 'PICKER') {

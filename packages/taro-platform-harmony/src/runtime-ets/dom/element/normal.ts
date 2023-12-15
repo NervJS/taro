@@ -3,17 +3,14 @@ import { TaroElement } from './element'
 
 import type {
   ButtonProps,
-  CheckboxProps,
   IconProps,
   ImageProps,
   LabelProps,
-  RadioProps,
   RichTextProps,
   SwiperItemProps,
   SwiperProps,
-  TextareaProps,
   ViewProps
-} from '../../../components/types'
+} from '@tarojs/components/types'
 
 class TaroViewElement extends TaroElement<ViewProps> {
   constructor() {
@@ -33,23 +30,6 @@ class TaroButtonElement extends TaroElement<ButtonProps> {
   }
 }
 
-class TaroCheckboxElement extends TaroElement<CheckboxProps>{
-  checked = false
-  
-  constructor() {
-    super('Checkbox')
-  }
-}
-
-class TaroRadioElement extends TaroElement<RadioProps>{
-  checked = false
-
-  constructor() {
-    super('Radio')
-  }
-
-  public group?: string
-}
 
 class TaroIconElement extends TaroElement<IconProps>{
   constructor() {
@@ -81,22 +61,13 @@ class TaroSwiperItemElement extends TaroElement<SwiperItemProps>{
   }
 }
 
-class TaroTextAreaElement extends TaroElement<TextareaProps>{
-  constructor() {
-    super('TextArea')
-  }
-}
-
 export {
   TaroButtonElement,
-  TaroCheckboxElement,
   TaroIconElement,
   TaroImageElement,
   TaroLabelElement,
-  TaroRadioElement,
   TaroRichTextElement,
   TaroSwiperElement,
   TaroSwiperItemElement,
-  TaroTextAreaElement,
   TaroViewElement, 
 }

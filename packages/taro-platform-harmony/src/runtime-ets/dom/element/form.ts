@@ -9,15 +9,17 @@ import { TaroElement } from './element'
 
 import type {
   CheckboxGroupProps,
+  CheckboxProps,
   InputProps,
   PickerDateProps,
   PickerMultiSelectorProps,
   PickerSelectorProps, PickerTimeProps,
   RadioGroupProps,
-  StandardProps
-} from '../../../components/types'
+  RadioProps,
+  StandardProps,
+  TextareaProps,
+} from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
-import type { TaroCheckboxElement, TaroRadioElement } from './normal'
 import type { TaroSliderElement } from './slider'
 import type { TaroSwitchElement } from './switch'
 
@@ -33,6 +35,7 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
     super(tagName)
 
     bindFocus(this)
+    this._value = this._attrs.value || ''
   }
 
   public get name () {
@@ -44,7 +47,7 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
   }
 
   public get value () {
-    return ''
+    return this._value
   }
 
   public set value (val: TaroAny) {
@@ -54,7 +57,31 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
   }
 }
 
-class TaroInputElement extends TaroFormWidgetElement<InputProps> {
+class TaroCheckedElement<T extends StandardProps & { checked?: boolean }> extends TaroElement<T> {
+  _checked = false
+
+  constructor(tagName: string) {
+    super(tagName)
+
+    this._checked = this._attrs.checked || false
+  }
+
+  get checked () {
+    return this._attrs.checked || false
+  }
+
+  set checked (val: boolean) {
+    this.updateCheckedValue(val)
+    this.updateComponent()
+  }
+
+  public updateCheckedValue (val: boolean) {
+    this._checked = val
+    this._attrs.checked = val
+  }
+}
+
+class TaroInputElement<T extends FormWidgetProps = InputProps> extends TaroFormWidgetElement<T> {
   _text = ''
 
   _height = 0
@@ -65,8 +92,8 @@ class TaroInputElement extends TaroFormWidgetElement<InputProps> {
 
   controller: TextInputController = new TextInputController()
 
-  constructor() {
-    super('Input')
+  constructor(tagName = 'Input') {
+    super(tagName)
 
     this._text = this._attrs.value || ''
 
@@ -134,17 +161,29 @@ class TaroInputElement extends TaroFormWidgetElement<InputProps> {
   }
 }
 
+
+class TaroTextAreaElement extends TaroInputElement<TextareaProps>{
+  controller: TextAreaController = new TextAreaController()
+
+  constructor() {
+    super('TextArea')
+  }
+}
+
 class TaroCheckboxGroupElement extends TaroFormWidgetElement<CheckboxGroupProps> {
   constructor() {
     super('CheckboxGroup')
   }
 
   public get value () {
-    // TODO: 待完善
-    return null
-    // if (this._instance) {
-    //   return this._instance.getValues()
-    // }
+    const childList = this.getElementsByTagName<TaroCheckboxElement>('CHECKBOX')
+    const result: string[] = []
+    childList.forEach(element => {
+      if (element.checked) {
+        result.push(element._attrs.value)
+      }
+    })
+    return result
   }
 }
 
@@ -154,34 +193,18 @@ class TaroRadioGroupElement extends TaroFormWidgetElement<RadioGroupProps> {
   }
 
   public get value () {
-    // TODO: 待完善
-    return null
-    // if (this._instance) {
-    //   return this._instance.getValues()
-    // }
-  }
-}
-
-class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
-  select: TaroAny
-
-  constructor() {
-    super('Picker')
-  }
-
-  public get value () {
-    if (this.select instanceof Array) {
-      return this.select.join(',')
+    const childList = this.getElementsByTagName<TaroRadioElement>('RADIO')
+    for (let i = 0; i < childList.length; i++) {
+      if (childList[i].checked) {
+        return childList[i]._attrs.value
+      }
     }
 
-    return this.select
-  }
-
-  public set value (val: TaroAny) {
-    this.select = val
+    return undefined
   }
 }
 
+// TODO: 待 review
 class TaroFormElement extends TaroFormWidgetElement {
   constructor() {
     super('Form')
@@ -259,14 +282,52 @@ class TaroFormElement extends TaroFormWidgetElement {
   }
 }
 
+class TaroCheckboxElement extends TaroCheckedElement<CheckboxProps>{
+  constructor() {
+    super('Checkbox')
+  }
+}
+
+class TaroRadioElement extends TaroCheckedElement<RadioProps>{
+  public group?: string
+
+  constructor() {
+    super('Radio')
+  }
+}
+
+// TODO: 待 review
+class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | PickerTimeProps | PickerDateProps | PickerMultiSelectorProps> {
+  select: TaroAny
+
+  constructor() {
+    super('Picker')
+  }
+
+  public get value () {
+    if (this.select instanceof Array) {
+      return this.select.join(',')
+    }
+
+    return this.select
+  }
+
+  public set value (val: TaroAny) {
+    this.select = val
+  }
+}
+
 const FormElement = TaroFormElement
 
 export {
   FormElement,
+  TaroCheckboxElement,
   TaroCheckboxGroupElement,
   TaroFormElement,
   TaroFormWidgetElement,
   TaroInputElement,
   TaroPickerElement,
+  TaroRadioElement,
   TaroRadioGroupElement,
+  TaroTextAreaElement
 }

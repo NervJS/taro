@@ -1,8 +1,8 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, TaroEvent, createTaroEvent } from '@tarojs/runtime'
+import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
 import { getNodeThresholds, shouldBindEvent, getNormalAttributes } from './utils/helper'
 
-import type { TaroAny, TaroSliderElement, TaroStyleType } from '@tarojs/runtime'
+import type { TaroAny, TaroSliderElement, TaroStyleType, TaroEvent } from '@tarojs/runtime'
 
 interface SliderAttrs {
   selectedColor?: ResourceColor

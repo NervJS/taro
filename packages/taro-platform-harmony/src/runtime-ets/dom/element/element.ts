@@ -8,7 +8,7 @@ import { ClassList } from '../class-list'
 import { NodeType, TaroNode } from '../node'
 import StyleSheet from '../stylesheet'
 
-import type { StandardProps } from '../../../components/types'
+import type { StandardProps } from '@tarojs/components/types'
 import type { TaroAny } from '../../utils'
 import type { ICSSStyleDeclaration } from '../cssStyleDeclaration'
 
@@ -105,22 +105,22 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
     return Object.keys(this._attrs).length > 0
   }
 
-  public getElementById (id: string | undefined | null) {
-    return findChildNodeWithDFS(this as TaroAny, (el) => {
+  public getElementById<T extends TaroElement = TaroElement> (id: string | undefined | null) {
+    return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
       return el.id === id
     }, false)
   }
 
-  public getElementsByTagName<T> (tagName: string) {
-    return findChildNodeWithDFS(this as TaroAny, (el) => {
+  public getElementsByTagName<T extends TaroElement = TaroElement> (tagName: string) {
+    return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
       return el.nodeName === tagName || (tagName === '*' && this as TaroAny !== el)
     }, true) || []
   }
 
-  public getElementsByClassName (className: string) {
+  public getElementsByClassName<T extends TaroElement = TaroElement> (className: string) {
     const classNames = className.trim().split(new RegExp('\s+'))
 
-    return findChildNodeWithDFS(this as TaroAny, (el) => {
+    return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
       const classList = el.classList
       return classNames.every(c => {
         const bool = classList.contains(c)
