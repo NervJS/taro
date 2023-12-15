@@ -75,7 +75,6 @@ const SHOW_TREE_BTN = `Button({ type: ButtonType.Circle, stateEffect: true }) {
 .onClick(this.showTree.bind(this))`
 
 export default class Parser extends BaseParser {
-  page: VitePageMeta | VitePageMeta[]
   isTabbarPage: boolean
   enableRefresh: number // 0: false, 1: true, 2: part
   tabbarList: TabBarItem[]
@@ -100,7 +99,36 @@ export default class Parser extends BaseParser {
   }
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
+    const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Stack({ alignContent: Alignment.TopStart }) {
+  if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
+    Flex({
+      direction: FlexDirection.Row,
+      justifyContent: FlexAlign.Start,
+      alignItems: ItemAlign.Center,
+    }) {${!isTabPage ? `
+      if (this.pageStack[0].path === this.entryPagePath && this.pageHomeBtn && this.pageStack.length === 1) {
+        Image($r('app.media.taro_home'))
+          .height(convertNumber2VP(40))
+          .width(convertNumber2VP(40))
+          .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+          .fillColor((config.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+          .objectFit(ImageFit.Contain)
+      } else if (this.pageStack.length > 1) {
+        Image($r('app.media.taro_arrow_left'))
+          .height(convertNumber2VP(40))
+          .width(convertNumber2VP(40))
+          .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
+          .fillColor((config.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+          .objectFit(ImageFit.Contain)
+      }` : ''}
+      Text(config${isTabPage ? '[index]' : ''}.navigationBarTitleText || '${this.appConfig.window?.navigationBarTitleText || ''}')
+        .margin({ left: convertNumber2VP(40) })
+        .fontColor((config${isTabPage ? '[index]' : ''}.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+    }
+    .height(convertNumber2VP(75))
+    .backgroundColor(config${isTabPage ? '[index]' : ''}.navigationBarBackgroundColor || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+  }
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
       TaroView({ node: ${isTabPage ? 'this.node[index]' : 'this.node'} })
@@ -118,7 +146,7 @@ export default class Parser extends BaseParser {
 }
 .width('100%')
 .height('100%')
-.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || this.appConfig.window?.backgroundColor || "#FFFFFF")`
+.backgroundColor(${isTabPage ? 'this.pageBackgroundColor[index]' : 'this.pageBackgroundColor'} || "${this.appConfig.window?.backgroundColor || '#FFFFFF'}")`
 
     if (isTabPage && enableRefresh > 1) {
       pageStr = `if (${appEnableRefresh
@@ -176,7 +204,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     return pageStr
   }
 
-  get instantiatePage () {
+  getInstantiatePage (page: VitePageMeta | VitePageMeta[]) {
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
       '@Entry',
@@ -209,14 +237,15 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
           this.enableRefresh
             ? '@State isRefreshing: boolean = false'
             : null,
+          '@State pageHomeBtn?: boolean = true',
           `@State pageBackgroundColor?: string = config.backgroundColor`,
         ],
       '@State appConfig: AppConfig = window.__taroAppConfig || {}',
       '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
+      '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
     ].flat()
     if (this.isTabbarPage) {
       generateState.push(
-        '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
         '@State isTabBarShow: boolean = true',
         '@State tabBar: Partial<TabBar> = this.appConfig.tabBar || {}',
         '@State tabBarList: ITabBarItem[] = this.tabBar.list || []',
@@ -236,7 +265,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       '',
       this.transArr2Str(`aboutToAppear() {
   const state = router.getState()
-  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (this.page as VitePageMeta).name}'
+  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1
   }
@@ -253,7 +282,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
 onPageShow () {
   const state = router.getState()
-  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (this.page as VitePageMeta).name}'
+  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
   if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
     this.pageStack.length = state.index
     this.pageStack[state.index - 1] = state
@@ -280,8 +309,9 @@ aboutToDisappear () {
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
       this.transArr2Str(`
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
-  const isCustomStyle = this.appConfig.window?.navigationStyle === 'custom'
-  if ((isCustomStyle && config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default') || config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom') {
+  if (${this.appConfig.window?.navigationStyle === 'custom'
+    ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
+    : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
     Current.contextPromise
       .then((context: common.BaseContext) => {
         const win = window.__ohos.getLastWindow(context)
@@ -551,7 +581,6 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
   parse (rawId: string, page: VitePageMeta | VitePageMeta[], name = 'TaroPage', resolve?: TRollupResolveMethod) {
     const { modifyResolveId } = this.loaderMeta
-    this.page = page
     this.isTabbarPage = page instanceof Array
     const pageRefresh: boolean[] = page instanceof Array
       ? page.map(e => this.isEnable(this.appConfig.window?.enablePullDownRefresh, e.config.enablePullDownRefresh))
@@ -568,7 +597,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       '',
       'import router from "@ohos.router"',
       'import TaroView from "@tarojs/components/view"',
-      'import { bindFn, callFn, Current, ObjectAssign, TaroElement, TaroObject, window } from "@tarojs/runtime"',
+      'import { bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroElement, TaroObject, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       this.isTabbarPage
         ? [
@@ -589,7 +618,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
           `import createComponent, { config } from "${rawId + TARO_COMP_SUFFIX}"`,
         ],
       '',
-      this.instantiatePage,
+      this.getInstantiatePage(page),
     ])
 
     const { outputRoot = 'dist', sourceRoot = 'src' } = this.buildConfig
