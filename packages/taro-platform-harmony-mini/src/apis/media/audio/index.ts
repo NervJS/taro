@@ -57,6 +57,7 @@ import { InnerAudioContext } from './InnerAudioContext'
  *
  * @canUse createInnerAudioContext
  */
+// @ts-ignore
 export const createInnerAudioContext: typeof Taro.createInnerAudioContext = (options) => {
   if (options && typeof options === 'object' && options.useWebAudioImplement) {
     return new InnerAudioContext()

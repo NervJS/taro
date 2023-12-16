@@ -7,7 +7,7 @@ import type { IPluginContext, TConfig } from '@tarojs/service'
 
 const compLibraryAlias = {
   vue: 'vue2',
-  vue3: 'vue3',
+  vue3: 'vue3'
 }
 
 const PACKAGE_NAME = '@tarojs/plugin-platform-harmony-mini'
@@ -20,7 +20,7 @@ export default class H5 extends TaroPlatformWeb {
     this.setupTransaction.addWrapper({
       close () {
         this.modifyWebpackConfig()
-      },
+      }
     })
   }
 
@@ -28,22 +28,38 @@ export default class H5 extends TaroPlatformWeb {
     return this.ctx.initialConfig.framework || 'react'
   }
 
+  get useHtmlComponents () {
+    return !!this.ctx.initialConfig.h5?.useHtmlComponents
+  }
+
   get useDeprecatedAdapterComponent () {
     return !!this.ctx.initialConfig.h5?.useDeprecatedAdapterComponent
   }
 
+  get apiLibrary () {
+    return require.resolve('./runtime/apis')
+  }
+
+  get aliasFramework (): string {
+    return compLibraryAlias[this.framework] || 'react'
+  }
+
   get componentLibrary () {
-    if (this.framework === 'react') {
-      return './runtime/components'
+    if (this.useHtmlComponents && this.aliasFramework === 'react') {
+      return require.resolve('./runtime/components')
     } else if (this.useDeprecatedAdapterComponent) {
-      return `@tarojs/components/lib/component-lib/${compLibraryAlias[this.framework] || 'react'}`
+      return require.resolve(`@tarojs/components/lib/${this.aliasFramework}/component-lib`)
     } else {
-      return `@tarojs/components/lib/${compLibraryAlias[this.framework] || 'react'}`
+      return require.resolve(`@tarojs/plugin-platform-harmony-mini/dist/components/${this.aliasFramework}`)
     }
   }
 
   get componentAdapter () {
     return path.join(path.dirname(require.resolve('@tarojs/components')), '..', 'lib')
+  }
+
+  get routerLibrary () {
+    return require.resolve('@tarojs/router')
   }
 
   get libraryDefinition () {
@@ -66,28 +82,33 @@ export default class H5 extends TaroPlatformWeb {
             {
               packageName: '@tarojs/taro',
               apis: require(resolveSync('./taroApis')),
-              definition: require(this.libraryDefinition),
-            },
-          ],
-        ],
+              definition: require(this.libraryDefinition)
+            }
+          ]
+        ]
       })
 
       const alias = chain.resolve.alias
       // TODO 考虑集成到 taroComponentsPath 中，与小程序端对齐
-      alias.set('@tarojs/components$', require.resolve(this.componentLibrary))
+      alias.set('@tarojs/components$', this.componentLibrary)
       alias.set('@tarojs/components/lib', this.componentAdapter)
-      alias.set('@tarojs/router$', require.resolve('@tarojs/router'))
-      alias.set('@tarojs/taro', require.resolve('./runtime/apis'))
+      alias.set('@tarojs/router$', this.routerLibrary)
+      alias.set('@tarojs/taro', this.apiLibrary)
       chain.plugin('mainPlugin').tap((args) => {
         args[0].loaderMeta ||= {
           extraImportForWeb: '',
-          execBeforeCreateWebApp: '',
+          execBeforeCreateWebApp: ''
         }
 
         // Note: 旧版本适配器不会自动注册 Web Components 组件，需要加载 defineCustomElements 脚本自动注册使用的组件
         if (this.useDeprecatedAdapterComponent) {
           args[0].loaderMeta.extraImportForWeb += `import { applyPolyfills, defineCustomElements } from '@tarojs/components/loader'\n`
           args[0].loaderMeta.execBeforeCreateWebApp += `applyPolyfills().then(() => defineCustomElements(window))\n`
+        }
+
+        if (!this.useHtmlComponents) {
+          args[0].loaderMeta.extraImportForWeb += `import { defineCustomElementTaroPullToRefresh } from '@tarojs/components/dist/components'\n`
+          args[0].loaderMeta.execBeforeCreateWebApp += `defineCustomElementTaroPullToRefresh()\n`
         }
 
         switch (this.framework) {
@@ -100,8 +121,10 @@ export default class H5 extends TaroPlatformWeb {
             args[0].loaderMeta.execBeforeCreateWebApp += `initVue3Components(component, list)\n`
             break
           default:
-            args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
-            args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+            if (this.useHtmlComponents) {
+              args[0].loaderMeta.extraImportForWeb += `import { PullDownRefresh } from '@tarojs/components'\n`
+              args[0].loaderMeta.execBeforeCreateWebApp += `config.PullDownRefresh = PullDownRefresh\n`
+            }
         }
         return args
       })

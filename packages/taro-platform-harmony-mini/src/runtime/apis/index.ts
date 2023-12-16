@@ -5,7 +5,7 @@ import setWith from 'lodash-es/setWith'
 import Taro from './taro'
 
 export * from './taro'
-export * from './taro-apis'
+export * from './taro-h5'
 
 let list: Record<string, unknown> | null = null
 export function canIUse (scheme = '') {
