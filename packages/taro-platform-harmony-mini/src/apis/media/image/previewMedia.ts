@@ -6,13 +6,13 @@ import {
 } from '@tarojs/components/dist/components'
 import { isFunction } from '@tarojs/shared'
 
-import { shouldBeObject } from '../../../utils'
-import { MethodHandler } from '../../../utils/handler'
+import { shouldBeObject } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /**
  * previewImage api基于开源的React组件[react-wx-images-viewer](https://github.com/react-ld/react-wx-images-viewer)开发，感谢！
  * 在新页面中全屏预览图片/视频。预览的过程中用户可以进行保存图片/视频、发送给朋友等操作。
- * 
+ *
  * @canUse previewMedia
  * @__object [sources, current]
  */

@@ -1,11 +1,11 @@
 import Taro from '@tarojs/api'
 
-import { getParameterError, shouldBeObject } from '../../../utils'
-import { MethodHandler } from '../../../utils/handler'
+import { getParameterError, shouldBeObject } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
- * 
+ *
  * @canUse chooseImage
  * @__object [count, sizeType[original, compressed], sourceType[album, camera], imageId]
  * @__success [tempFilePaths, tempFiles]
