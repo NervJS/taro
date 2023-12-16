@@ -106,19 +106,23 @@ export class MapContext implements Taro.MapContext {
 
   includePoints (_option: Taro.MapContext.IncludePointsOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._includePoints(_option)
+      const flag = this.Map._includePoints(_option)
       const successResult: TaroGeneral.CallbackResult = {
-        errMsg: 'includePoints:ok',
+        errMsg: 'includePoints:ok'
       }
-      _option?.success?.({ errMsg: 'includePoints:ok' })
-      _option?.complete?.({ errMsg: 'includePoints:ok' })
-
+      if (flag) {
+        _option?.success?.({ errMsg: 'includePoints:ok' })
+        _option?.complete?.({ errMsg: 'includePoints:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `includePoints:fail,可视范围的坐标点超出最小缩放级别` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+      }
       return Promise.resolve(successResult)
     } catch (e) {
-      const errorResult: TaroGeneral.CallbackResult = { errMsg: `includePoints:${e}` }
+      const errorResult: TaroGeneral.CallbackResult = { errMsg: `includePoints:${e},可视范围的坐标点超出最小缩放级别` }
       _option?.fail?.(errorResult)
       _option?.complete?.({ errMsg: 'includePoints:ok' })
-
       return Promise.reject(errorResult)
     }
   }
