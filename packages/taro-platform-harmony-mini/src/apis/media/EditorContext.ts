@@ -2,10 +2,10 @@ import Taro from '@tarojs/api'
 
 /**
  * EditorContext 实例
- * 
+ *
  * @canUse EditorContext
- * @__class 
- * [blur, clear, format, getContents, getSelectionText, insertDivider, insertImage, insertText, redo, removeFormat,\ 
+ * @__class
+ * [blur, clear, format, getContents, getSelectionText, insertDivider, insertImage, insertText, redo, removeFormat,\
  * scrollIntoView, setContents, undo]
  */
 export class EditorContext implements Taro.EditorContext {
@@ -169,15 +169,15 @@ export class EditorContext implements Taro.EditorContext {
     }
   }
 
-  getContents (option?: Taro.EditorContext.GetContents.Option | undefined): void {
+  getContents (option?: Taro.EditorContext.GetContentsOption | undefined): void {
     try {
       const editor = this.activeEditor()
       if (editor) {
         option?.success?.({
           errMsg: 'ok',
-          html: editor.getContent({ format: 'html' }),
-          text: editor.getContent({ format: 'text' }),
-          delta: editor.getContent({ format: 'tree' }),
+          // html: editor.getContent({ format: 'html' }),
+          // text: editor.getContent({ format: 'text' }),
+          // delta: editor.getContent({ format: 'tree' }),
         })
       }
     } catch (e) {

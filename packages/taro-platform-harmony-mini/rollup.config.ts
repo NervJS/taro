@@ -1,108 +1,92 @@
 import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
-import fg from 'fast-glob'
-import { join } from 'path'
-import { type InputPluginOption, type RollupOptions, defineConfig } from 'rollup'
-import copy from 'rollup-plugin-copy'
+import { merge } from 'lodash'
+import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
-const cwd = __dirname
+import type { InputPluginOption, RollupOptions } from 'rollup'
 
-const base: RollupOptions & { plugins: InputPluginOption[] } = {
-  plugins: [
-    externals({
-      devDeps: false
-    }),
+const baseConfig: RollupOptions = {
+  output: {
+    format: 'es',
+    exports: 'named',
+    sourcemap: true,
+  },
+  treeshake: false
+}
+
+function getPlugins<T = InputPluginOption> (pre: T[] = [], post: T[] = []) {
+  return [
+    ...pre,
     nodeResolve({
-      preferBuiltins: false
+      preferBuiltins: false,
+      mainFields: ['main:harmony-mini', 'browser', 'module', 'jsnext:main', 'main']
+    }),
+    json({
+      compact: true,
+      preferConst: true,
     }),
     ts({
       tsconfig: e => ({
         ...e,
-        declaration: false,
+        declaration: true,
+        sourceMap: true,
       })
     }),
-    commonjs()
+    commonjs(),
+    ...post
   ]
 }
 
-// 供 CLI 编译时使用的 Taro 插件入口
-const compileConfig: RollupOptions = {
-  ...base,
-  input: join(cwd, 'src/index.ts'),
+const variesConfig: RollupOptions[] = [{
+  input: 'src/index.ts', // 供 CLI 编译时使用的 Taro 插件入口
   output: {
-    dir: join(cwd, 'dist'),
-    format: 'cjs',
-    sourcemap: true,
-    exports: 'named'
+    file: 'dist/index.js',
+    format: 'cjs'
   },
-  plugins: [
-    ...base.plugins,
-    copy({
-
-      targets: [
-        // { src: 'src/template/container.js', dest: 'dist/template' },
-        // { src: 'src/template/global.scss', dest: 'dist/template' },
-        // { src: 'src/components/components-harmony-ets', dest: 'dist' },
-        // { src: 'src/components/components-harmony', dest: 'dist' },
-        { src: 'src/apis', dest: 'dist' },
-        // { src: 'src/runtime-ets', dest: 'dist' },
-        // { src: 'src/runtime-framework', dest: 'dist' },
-        // { src: 'src/react', dest: 'dist' },
-      ]
-    }) as InputPluginOption,
-    {
-      name: 'copy-runtime-watch',
-      async buildStart () {
-        const files = await fg('src/**/*')
-        for (const file of files) {
-          this.addWatchFile(file)
-        }
-      }
-    }
-  ]
-}
-
-// 供 Loader 使用的运行时入口
-const runtimeConfig: RollupOptions = {
-  ...base,
-  input: join(cwd, 'src/runtime/index.ts'),
+  plugins: getPlugins([externals({
+    deps: true,
+    devDeps: false,
+  })])
+}, {
+  input: [
+    'src/apis/index.ts', // APIS
+    'src/apis/taro.ts', // APIS
+    'src/components/react/index.ts', // React 组件
+    'src/components/vue2/index.ts', // vue2 组件
+    'src/components/vue3/index.ts', // vue3 组件
+    'src/runtime/index.ts', // 供 Loader 使用的运行时入口
+    'src/runtime/apis/index.ts', // API 入口
+    'src/runtime/components/index.ts', // Components Library
+  ],
   output: {
-    dir: join(cwd, 'dist/runtime'),
-    format: 'es',
-    sourcemap: true
-  }
+    dir: 'dist',
+    preserveModules: true,
+    preserveModulesRoot: 'src'
+  },
+  plugins: getPlugins([externals({
+    deps: true,
+    devDeps: false,
+  })])
+}]
+
+if (process.env.NODE_ENV === 'production') {
+  variesConfig.push({
+    input: 'src/apis/index.ts',
+    output: {
+      format: 'cjs',
+      file: 'dist/apis/index.cjs.js',
+      inlineDynamicImports: true
+    }
+  }, {
+    input: 'src/apis/index.ts',
+    output: {
+      file: 'dist/apis/index.esm.js',
+      inlineDynamicImports: true
+    }
+  })
 }
 
-// 供继承的包使用，为了能 tree-shaking
-// const runtimeUtilsConfig: RollupOptions = {
-//   ...base,
-//   input: join(cwd, 'src/runtime-utils.ts'),
-//   output: {
-//     dir: join(cwd, 'dist/runtime-utils.js'),
-//     format: 'es',
-//     sourcemap: true
-//   }
-// }
-
-// React 下 webpack 会 alias @tarojs/components 为此文件
-// const otherConfig: RollupOptions = {
-//   ...base,
-//   input: join(cwd, 'src/components/components-react.ts'),
-//   output: {
-//     dir: join(cwd, 'dist/components/components-react.js'),
-//     format: 'es',
-//     sourcemap: true
-//   },
-//   plugins: [
-//     ts({
-//       tsconfig: e => ({
-//         ...e,
-//         declaration: false,
-//       })
-//     })
-//   ]
-// }
-
-export default defineConfig([compileConfig, runtimeConfig])
+export default defineConfig(variesConfig.map(v => merge({}, baseConfig, v)))
