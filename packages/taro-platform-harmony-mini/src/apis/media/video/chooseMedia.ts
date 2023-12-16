@@ -1,13 +1,14 @@
 import Taro from '@tarojs/taro'
-import { shouldBeObject } from 'src/utils'
-import { MethodHandler } from 'src/utils/handler'
+
+import { shouldBeObject } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /**
  * 拍摄或从手机相册中选择图片或视频
- * 
- * @canUse chooseMedia 
+ *
+ * @canUse chooseMedia
  * @__object [count, mediaType[video, image, mix], sourceType[album, camera], maxDuration, sizeType, camera[back, front]]
- * @__success [tempFiles, type] 
+ * @__success [tempFiles, type]
  */
 export const chooseMedia: typeof Taro.chooseMedia = (options) => {
   const name = 'chooseMedia'

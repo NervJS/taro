@@ -1,12 +1,13 @@
 import Taro from '@tarojs/taro'
-import { getParameterError, shouldBeObject } from 'src/utils'
-import { MethodHandler } from 'src/utils/handler'
+
+import { getParameterError, shouldBeObject } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 /**
  * 压缩图片接口，可选压缩质量
- * 
- * @canUse compressImage 
- * @__object [src, quality, compressedWidth, compressHeight] 
+ *
+ * @canUse compressImage
+ * @__object [src, quality, compressedWidth, compressHeight]
  * @__success [tempFilePath]
  */
 export const compressImage: typeof Taro.compressImage = (options) => {

@@ -10,7 +10,8 @@ export const ENV_TYPE = {
   WEB: 'WEB',
   RN: 'RN',
   HARMONY: 'HARMONY',
-  QUICKAPP: 'QUICKAPP'
+  QUICKAPP: 'QUICKAPP',
+  HARMONYMINI: 'HARMONYMINI',
 }
 
 const isWeb = isWebPlatform()
@@ -36,7 +37,9 @@ export function getEnv () {
     return ENV_TYPE.HARMONY
   } else if (process.env.TARO_ENV === 'quickapp') {
     return ENV_TYPE.QUICKAPP
-  } else {
+  } else if (process.env.TARO_ENV === 'harmonymini') {
+    return ENV_TYPE.HARMONYMINI
+  }else {
     return process.env.TARO_ENV || 'Unknown'
   }
 }

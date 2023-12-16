@@ -13,9 +13,9 @@
 
 export * from './audio'
 export * from './camera'
+export * from './EditorContext'
 export * from './image'
 export * from './live'
 export * from './map'
 export * from './recorder'
 export * from './video'
-export * from './EditorContext'

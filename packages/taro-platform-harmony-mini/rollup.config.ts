@@ -10,9 +10,6 @@ import ts from 'rollup-plugin-ts'
 const cwd = __dirname
 
 const base: RollupOptions & { plugins: InputPluginOption[] } = {
-  external: d => {
-    return /^@(system\.|ohos\.|hmscore\/)/.test(d)
-  },
   plugins: [
     externals({
       devDeps: false

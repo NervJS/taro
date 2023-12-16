@@ -3,7 +3,9 @@ export enum PLATFORM_TYPE {
   WEB = 'web',
   RN = 'rn',
   HARMONY = 'harmony',
-  QUICK = 'quickapp'
+  QUICK = 'quickapp',
+  HARMONYMINI = 'harmonymini',
+
 }
 
 export const PLATFORM_CONFIG_MAP = {
@@ -21,5 +23,8 @@ export const PLATFORM_CONFIG_MAP = {
   },
   quickapp: {
     type: PLATFORM_TYPE.QUICK
-  }
+  },
+  harmonymini: {
+    type: PLATFORM_TYPE.HARMONYMINI
+  },
 }
