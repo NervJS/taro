@@ -69,6 +69,7 @@
     "@babel/template": "^7.20.0",
     "@babel/traverse": "^7.20.0",
     "@babel/types": "^7.20.0",
+    "@tarojs/binding": "workspace:*",
     "@tarojs/cli": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/shared": "workspace:*",

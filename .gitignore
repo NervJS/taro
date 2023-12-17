@@ -73,3 +73,12 @@ common/autoinstallers/*/.npmrc
 
 # Heft
 .heft
+
+target/
+debug/
+
+# Binding artifacts
+artifacts
+
+# Node Addons
+*.node

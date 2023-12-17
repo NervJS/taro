@@ -1,0 +1,22 @@
+[package]
+name = "taro_binding"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+napi = { workspace = true}
+napi-derive = { workspace = true }
+tokio = { workspace = true }
+serde_json = { workspace = true }
+serde = { workspace = true }
+anyhow = { workspace = true }
+
+taro_init = { path = "../taro_init" }
+
+[build-dependencies]
+napi-build = { workspace = true }

@@ -1,5 +1,5 @@
 import type { IPluginContext } from '@tarojs/service'
-<% if (['plugin-build'].includes(type)) { -%>
+{{#if (eq pluginType "plugin-build") }}
 import webpackChain from 'webpack-chain'
 
 /**
@@ -44,8 +44,8 @@ export default (ctx: IPluginContext, pluginOpts) => {
     console.log('Webpack 编译结束！')
   })
 }
-<% } -%>
-<% if (['plugin-command'].includes(type)) { -%>
+{{/if}}
+{{#if (eq pluginType "plugin-command") }}
 
 /**
  * 命令行扩展
@@ -68,8 +68,8 @@ export default (ctx: IPluginContext, pluginOpts) => {
     },
   })
 }
-<% } -%>
-<% if (['plugin-template'].includes(type)) { -%>
+{{/if}}
+{{#if (eq pluginType "plugin-template") }}
 import * as fs from 'fs-extra'
 const path = require('path')
 const download = require('download')
@@ -150,4 +150,4 @@ const downloadTemplate = async (customTemplateConfig) => {
     })
   })
 }
-<% } -%>
+{{/if}}
