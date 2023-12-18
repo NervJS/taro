@@ -24,9 +24,11 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "build": "pnpm run rollup --environment NODE_ENV:production && pnpm generate:desc",
+    "prebuild": "run-s clean generate:desc",
+    "build": "pnpm run rollup --environment NODE_ENV:production",
+    "clean": "rimraf dist",
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "generate:desc": "pnpm run tsx --files ./build/definition-json",
+    "generate:desc": "pnpm run tsx --files ./build",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "tsx": "ts-node --skipIgnore"
   },

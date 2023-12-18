@@ -1,10 +1,9 @@
 import Taro from '@tarojs/api'
 import { isFunction, toKebabCase } from '@tarojs/shared'
 
-import { findDOM } from '../utils'
 import { CanvasContext } from '../canvas/CanvasContext'
-// import { NodesRef } from './nodesRef'
-import { NodesRef } from '@tarojs/taro-h5'
+import { findDOM } from '../utils'
+import { NodesRef } from './nodesRef'
 
 type TElement = Document | HTMLElement | Element
 

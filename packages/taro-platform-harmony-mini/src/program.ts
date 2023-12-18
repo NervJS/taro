@@ -81,6 +81,7 @@ export default class H5 extends TaroPlatformWeb {
             require('babel-plugin-transform-taroapi'),
             {
               packageName: '@tarojs/taro',
+              apis: require(resolveSync('./taroApis')),
               definition: require(this.libraryDefinition)
             }
           ]
