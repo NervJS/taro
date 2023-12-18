@@ -247,8 +247,9 @@ export default class Index extends React.Component {
       },
     ],
     src: '',
-    srcurl: 'https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/flv/xgplayer-demo-480p.flv',
+    srcurl: 'https://hls-xjhsy.sobeylive.com/xjwlmqapp2019/211_q_live170191539951308.flv',
     isShow: true,
+    iscache: false,
   }
   handleInputChangeSrc = (e) => {
     this.setState({
@@ -257,20 +258,18 @@ export default class Index extends React.Component {
   }
   handleClickSrc = async () => {
     let srcurl = this.state.src
-    await this.setState(
-      {
-        srcurl,
-        isShow: false,
-      },
-      () => {
-        this.setState({
-          isShow: true,
-        })
-      }
-    )
+    await this.setState({
+      srcurl,
+    })
   }
-  hendleFullScreenChange(e){
-    console.log('hendleFullScreenChange',e)
+  hendleFullScreenChange(e) {
+    console.log('hendleFullScreenChange', e)
+  }
+  updates = async () => {
+    let iscache = !this.state.iscache
+    await this.setState({
+      iscache,
+    })
   }
   render() {
     const { list } = this.state
@@ -279,13 +278,16 @@ export default class Index extends React.Component {
       <View className='api-page'>
         <ButtonList buttonList={list} />
         {this.state.isShow && (
-        <LivePlayer
-          id='LivePlayer'
-          src={this.state.srcurl}
-          soundMode='ear'
-          onFullScreenChange={this.hendleFullScreenChange}
-        ></LivePlayer>
+          <LivePlayer
+            id='LivePlayer'
+            maxCache={3}
+            minCache={1}
+            src={this.state.srcurl}
+            iscache={this.state.iscache}
+            onFullScreenChange={this.hendleFullScreenChange}
+          ></LivePlayer>
         )}
+        <Button onClick={this.updates}>显示缓冲秒数</Button>
         src: <input type='text' name='username' onChange={this.handleInputChangeSrc} />{' '}
         <Button onClick={this.handleClickSrc}>确定</Button>
       </View>
