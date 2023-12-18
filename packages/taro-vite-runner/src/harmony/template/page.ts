@@ -11,59 +11,62 @@ import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plu
 import type { ViteHarmonyBuildConfig, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 const SHOW_TREE = false
-const showTreeFunc = (isTabbarPage: boolean) => `async showTree() {
-  const taskQueen = []
+const showTreeFunc = (isTabbarPage: boolean) => `  handleTree (tree: TaroNode | null, level = 1, taskQueen: Func[] = []) {
+  if (!tree) return
 
-  function showTree (tree, level = 1) {
-    const res: Record<string, string> = {}
-    Object.keys(tree).forEach(k => {
-      const item = tree[k]
-      if (k === 'nodeName' && item === 'TEXT') {
-        return
-      }
-      // 匹配的属性
-      if (['nodeName', '_st', '_textContent', '_attrs'].includes(k)) {
-        res[k] = item
-      }
-    })
-    let attr = ''
-    Object.keys(res).forEach(k => {
-      // 过滤空的
-      if (k === 'nodeName') {
-        return
-      } else  if (k === '_textContent' && !res[k]) {
-        return
-      } else if (k === '_st' && !Object.keys(res[k]).length) {
-        return
-      } else if (k === '_attrs' && !Object.keys(res[k]).length) {
-        return
-      }
-      attr += \`\${k}=\${JSON.stringify(res[k])} \`
-    })
-
-    if(tree.childNodes?.length) {
-      taskQueen.push(() => {
-        console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
-      })
-      tree.childNodes.forEach(child => {
-        showTree(child, level+1)
-      })
-      taskQueen.push(() => {
-        console.info('taro-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
-      })
-    } else {
-      taskQueen.push(() => {
-        console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
-      })
+  const res: Record<string, string> = {}
+  Object.keys(tree).forEach(k => {
+    const item: TaroAny = tree[k]
+    if (k === 'nodeName' && item === 'TEXT') {
+      return
     }
-  }
+    // 匹配的属性
+    if (['nodeName', '_st', '_textContent', '_attrs'].includes(k)) {
+      res[k] = item
+    }
+  })
+  let attr = ''
+  Object.keys(res).forEach(k => {
+    // 过滤空的
+    if (k === 'nodeName') {
+      return
+    } else  if (k === '_textContent' && !res[k]) {
+      return
+    } else if (k === '_st' && !Object.keys(res[k]).length) {
+      return
+    } else if (k === '_attrs' && !Object.keys(res[k]).length) {
+      return
+    }
+    attr += \`\${k}=\${JSON.stringify(res[k])} \`
+  })
 
-  showTree(this.node${isTabbarPage ? '[this.tabBarCurrentIndex]' : ''})
+  if(tree.childNodes?.length) {
+    taskQueen.push(() => {
+      console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}>\`)
+    })
+    tree.childNodes.forEach(child => {
+      this.handleTree(child, level+1, taskQueen)
+    })
+    taskQueen.push(() => {
+      console.info('taro-ele' + new Array(level).join('   '), \`</\${res.nodeName}>\`)
+    })
+  } else {
+    taskQueen.push(() => {
+      console.info('taro-ele' + new Array(level).join('   '), \`<\${res.nodeName} \${attr}/>\`)
+    })
+  }
+}
+
+async showTree() {
+  const taskQueen: Func[] = []
+
+  this.handleTree(this.node${isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}, 1, taskQueen)
   for (let i = 0; i < taskQueen.length; i++) {
     taskQueen[i]()
-    await new Promise((resolve) => setTimeout(resolve, 16))
+    await new Promise<void>((resolve) => setTimeout(resolve, 16))
   }
-}`
+}
+`
 const SHOW_TREE_BTN = `Button({ type: ButtonType.Circle, stateEffect: true }) {
   Text('打印 NodeTree')
     .fontSize(7).fontColor(Color.White)
@@ -72,7 +75,7 @@ const SHOW_TREE_BTN = `Button({ type: ButtonType.Circle, stateEffect: true }) {
 }
 .width(55).height(55).margin({ left: 20 }).backgroundColor(Color.Blue)
 .position({ x: '75%', y: '80%' })
-.onClick(this.showTree.bind(this))`
+.onClick(bindFn(this.showTree, this))`
 
 export default class Parser extends BaseParser {
   isTabbarPage: boolean
@@ -634,11 +637,12 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
     const code = this.transArr2Str([
       'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
+      'import type { Func } from "@tarojs/runtime/dist/runtime.esm"',
       'import type common from "@ohos.app.ability.common"',
       '',
       'import router from "@ohos.router"',
       'import TaroView from "@tarojs/components/view"',
-      'import { bindFn, callFn, Current, ObjectAssign, TaroObject, window, convertNumber2VP, TaroElement, TaroViewElement } from "@tarojs/runtime"',
+      'import { bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       this.isTabbarPage
         ? [
