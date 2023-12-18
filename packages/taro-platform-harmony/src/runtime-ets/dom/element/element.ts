@@ -26,6 +26,9 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   public readonly tagName: string
   public _attrs: T & TaroExtraProps = {} as T & TaroExtraProps
 
+  _client?: Area
+  _scroll?: Area
+
   constructor(tagName: string) {
     super(tagName.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase(), NodeType.ELEMENT_NODE)
     this.tagName = this.nodeName

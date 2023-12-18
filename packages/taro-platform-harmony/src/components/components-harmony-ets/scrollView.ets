@@ -116,8 +116,8 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
     deltaY: vp2px(yOffset),
     scrollLeft: vp2px(currentXOffset),
     scrollTop: vp2px(currentYOffset),
-    scrollWidth: vp2px(Number(node._wrapper?.width)),
-    scrollHeight: vp2px(Number(node._wrapper?.height)),
+    scrollWidth: vp2px(Number(node._scroll?.width)),
+    scrollHeight: vp2px(Number(node._scroll?.height)),
   }
   const event: TaroEvent = createTaroEvent(eventName, { detail: value }, node)
 
@@ -134,7 +134,7 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
         .width(null)
         .rowAttrs(getNormalAttributes(node))
         .onAreaChange(shouldBindEvent((areaResult: Area) => {
-          node._wrapper = areaResult
+          node._scroll = areaResult
         }, node, ['scroll', 'scrollstart', 'scrollend']))
       } else {
         Column() {
@@ -144,7 +144,7 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
         .columnAttrs(getNormalAttributes(node))
         .alignItems(HorizontalAlign.Start)
         .onAreaChange(shouldBindEvent((areaResult: Area) => {
-          node._wrapper = areaResult
+          node._scroll = areaResult
         }, node, ['scroll', 'scrollstart', 'scrollend']))
       }
     }

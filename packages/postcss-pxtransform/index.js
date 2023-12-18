@@ -1,8 +1,8 @@
 const pxRegex = require('./lib/pixel-unit-regex')
-const PXRegex = require('./lib/pixel-upper-unit-regex')
 const filterPropList = require('./lib/filter-prop-list')
 
 const defaults = {
+  methods: ['platform', 'size'],
   rootValue: 16,
   unitPrecision: 5,
   selectorBlackList: [],
@@ -135,6 +135,8 @@ module.exports = (options = {}) => {
             return
           }
 
+          if (!opts.methods.includes('platform')) return
+
           // delete code between comment in RN
           // 有死循环的问题
           if (options.platform === 'rn') {
@@ -192,47 +194,34 @@ module.exports = (options = {}) => {
         },
         Declaration (decl) {
           if (skip) return
+          if (!opts.methods.includes('size')) return
 
           if (decl[processed]) return
 
           // 标记当前 node 已处理
           decl[processed] = true
 
-          if (options.platform === 'harmony') {
-            if (decl.value.indexOf('PX') === -1) return
-            const value = decl.value.replace(PXRegex, function (m, _$1, $2) {
-              return m.replace($2, 'vp')
-            })
+          if (decl.value.indexOf('px') === -1) return
+
+          if (!satisfyPropList(decl.prop)) return
+
+          if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
+          const value = decl.value.replace(pxRgx, pxReplace)
+          // if rem unit already exists, do not add or replace
+          if (declarationExists(decl.parent, decl.prop, value)) return
+          if (opts.replace) {
             decl.value = value
           } else {
-            if (decl.value.indexOf('px') === -1) return
-
-            if (!satisfyPropList(decl.prop)) return
-
-            if (blacklistedSelector(opts.selectorBlackList, decl.parent.selector)) return
-            const value = decl.value.replace(pxRgx, pxReplace)
-            // if rem unit already exists, do not add or replace
-            if (declarationExists(decl.parent, decl.prop, value)) return
-            if (opts.replace) {
-              decl.value = value
-            } else {
-              decl.cloneAfter({ value: value })
-            }
+            decl.cloneAfter({ value: value })
           }
         },
         AtRule: {
           media: (rule) => {
             if (skip) return
-            if (options.platform === 'harmony') {
-              if (rule.params.indexOf('PX') === -1) return
-              const value = rule.params.replace(PXRegex, function (m, _$1, $2) {
-                return m.replace($2, 'vp')
-              })
-              rule.params = value
-            } else {
-              if (rule.params.indexOf('px') === -1) return
-              rule.params = rule.params.replace(pxRgx, pxReplace)
-            }
+            if (!opts.methods.includes('size')) return
+
+            if (rule.params.indexOf('px') === -1) return
+            rule.params = rule.params.replace(pxRgx, pxReplace)
           },
         },
       }
