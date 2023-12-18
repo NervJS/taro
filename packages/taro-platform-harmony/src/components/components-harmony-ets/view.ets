@@ -96,7 +96,7 @@ export default function TaroView (node: TaroViewElement) {
       node._nodeInfo.areaInfo = res[1]
     }))
     .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
-    .alignItems(node.hmStyle.alignItems)
+    .alignItems(HorizontalAlign.Start)
     .justifyContent(node.hmStyle.justifyContent)
   }
 }

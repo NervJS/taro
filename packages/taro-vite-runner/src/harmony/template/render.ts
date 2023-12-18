@@ -83,7 +83,7 @@ function createChildItem (item: TaroElement) {
     TaroRichText(item as TaroRichTextElement)
   } else if (item.tagName === 'ICON') {
     TaroIcon(item as TaroIconElement)
-  } else if (item.tagName === 'TEXTAREA') {
+  } else if (item.tagName === 'TEXT-AREA') {
     TaroTextArea(item as TaroTextAreaElement)
   } else if (item.tagName === 'CHECKBOX-GROUP') {
     TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement })

@@ -78,10 +78,7 @@ interface TimeRange {
 
 @CustomDialog
 export struct PickerView {
-
-  node: TaroPickerElement = new TaroPickerElement()
-
-  @Link select: string | number
+  node: TaroPickerElement | null = null
 
   controller?: CustomDialogController
 
@@ -90,7 +87,7 @@ export struct PickerView {
   showSelector: number[] = []
 
   getDateOptions (): DatePickerOptions {
-    const _attrs = this.node._attrs as PickerDateProps
+    const _attrs = this.node?._attrs as PickerDateProps
     return {
       start: new Date(_attrs.start || ''),
       end: new Date(_attrs.end || ''),
@@ -99,9 +96,9 @@ export struct PickerView {
   }
 
   getTextOptions (): TextPickerOptions {
-    let mode: string = this.node._attrs.mode || 'selector'
+    let mode: string = this.node?._attrs.mode || 'selector'
     if (!mode) {
-      const _attrs = this.node._attrs as PickerSelectorProps
+      const _attrs = this.node?._attrs as PickerSelectorProps
       const range = _attrs.range
       if (range && range.length && range[0] instanceof Array) {
         mode = 'multiSelector'
@@ -110,7 +107,7 @@ export struct PickerView {
     }
     switch (mode) {
       case 'time': {
-        const _attrs = this.node._attrs as PickerTimeProps
+        const _attrs = this.node?._attrs as PickerTimeProps
         let timeRange: TimeRange = {
           startHH: 0,
           startMM: 0,
@@ -137,30 +134,27 @@ export struct PickerView {
         }
       }
       case 'multiSelector': {
-        const _attrs = this.node._attrs as PickerMultiSelectorProps
-        const value = _attrs.value as number[]
+        const _attrs = this.node?._attrs as PickerMultiSelectorProps
         let showRange = _attrs.range as string[][]
-        this.showSelector = value
-        showRange = getMultiSelector(this, _attrs.range, _attrs.rangeKey, value)
-        let selects: string | number | string[] | number[] = this.select
-        if (typeof selects === 'string') {
-          selects = selects.split(',').map(i => Number(i))
-        }
+        const selected: number[] = this.node?.value
+        this.showSelector = selected
+        showRange = getMultiSelector(this, _attrs.range, _attrs.rangeKey, selected)
+
         return {
+          selected,
           range: showRange,
-          selected: selects || value
         }
       }
       default: {
-        const _attrs = this.node._attrs as PickerSelectorProps
+        const _attrs = this.node?._attrs as PickerSelectorProps
         const range = _attrs.range
         let showRange = _attrs.range as string[]
         if (_attrs.rangeKey && typeof range[0] === 'object') {
-          showRange = getSingleSelector(this, range, _attrs.rangeKey)
+          showRange = getSingleSelector(range, _attrs.rangeKey)
         }
         return {
           range: showRange,
-          selected: (this.select as number) || _attrs.value
+          selected: this.node?.value
         }
       }
     }
@@ -173,7 +167,7 @@ export struct PickerView {
   }
 
   getText = () => {
-    if (this.node._attrs.mode === 'selector') {
+    if (this.node?._attrs.mode === 'selector') {
       const _attrs = this.node._attrs as PickerSelectorProps
       return [_attrs.textProps?.okText || '确认', _attrs.textProps?.cancelText || '取消']
     } else {
@@ -184,84 +178,89 @@ export struct PickerView {
   @Builder
   showDialog() {
     Column() {
-      Flex({
-        direction: FlexDirection.Row,
-        justifyContent: FlexAlign.SpaceBetween,
-        alignItems: ItemAlign.Center
-      }) {
-        Text(this.getText()[1]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
-          this.emitEvent('cancel')
-          this.controller?.close()
+      if (this.node) {
+        Flex({
+          direction: FlexDirection.Row,
+          justifyContent: FlexAlign.SpaceBetween,
+          alignItems: ItemAlign.Center
+        }) {
+          Text(this.getText()[1]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#888').onClick(() => {
+            this.emitEvent('cancel')
+            this.controller?.close()
+          })
+          Text(this.getText()[0]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
+            this.emitEvent('change', { value: this.node?.value})
+            this.controller?.close()
+          })
+        }
+        .width('100%')
+        .backgroundColor('#fff')
+        .padding({
+          left: 20,
+          right: 20
         })
-        Text(this.getText()[0]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
-          this.node._attrs.value = this.select
-          this.emitEvent('change', { value: this.select})
-          this.controller?.close()
-        })
-      }
-      .width('100%')
-      .backgroundColor('#fff')
-      .padding({
-        left: 20,
-        right: 20
-      })
-      if (this.node._attrs.mode === 'selector') {
-        TextPicker(this.getTextOptions())
-          .selectedTextStyle({
-            color: '#000'
-          })
-          .canLoop(false)
-          .textPickerAttrs(getNormalAttributes(this.node))
-          .onChange((value, index) => {
-            this.select = index as number
-          })
-      } else if (this.node._attrs.mode === 'multiSelector') {
-        TextPicker(this.getTextOptions())
-          .selectedTextStyle({
-            color: '#000'
-          })
-          .canLoop(false)
-          .textPickerAttrs(getNormalAttributes(this.node))
-          .onChange((value, index) => {
-            if (index instanceof Array) {
-              this.select = index.join(',')
-              // 计算几列发生了变化
-              const originIndexs: number[] = this.multiColumnIndex || this.showSelector
-              this.multiColumnIndex = index
-              let changeValue: number | undefined
-              const changeIndex = index.findIndex((item, i) => {
-                const originIndex = originIndexs[i]
-                if (originIndex != item) {
-                  changeValue = item
-                  return true
+        if (this.node._attrs.mode === 'selector') {
+          TextPicker(this.getTextOptions())
+            .selectedTextStyle({
+              color: '#000'
+            })
+            .canLoop(false)
+            .textPickerAttrs(getNormalAttributes(this.node))
+            .onChange((_, index) => {
+              this.node?.updateFormWidgetValue(index)
+            })
+        } else if (this.node?._attrs.mode === 'multiSelector') {
+          TextPicker(this.getTextOptions())
+            .selectedTextStyle({
+              color: '#000'
+            })
+            .canLoop(false)
+            .textPickerAttrs(getNormalAttributes(this.node))
+            .onChange((_, index) => {
+              if (index instanceof Array) {
+                this.node?.updateFormWidgetValue(index)
+                // 计算几列发生了变化
+                const originIndexs: number[] = this.multiColumnIndex || this.showSelector
+                this.multiColumnIndex = index
+                let changeValue: number | undefined
+                const changeIndex = index.findIndex((item, i) => {
+                  const originIndex = originIndexs[i]
+                  if (originIndex != item) {
+                    changeValue = item
+                    return true
+                  }
+                  return false
+                })
+                if (changeIndex < 0) {
+                  return
                 }
-                return false
-              })
-              if (changeIndex < 0) {
-                return
+                this.emitEvent('columnChange', { column: changeIndex, value: changeValue })
               }
-              this.emitEvent('columnChange', { column: changeIndex, value: changeValue })
-            }
-          })
-      } else if (this.node._attrs.mode === 'date') {
-        DatePicker(this.getDateOptions())
-          .selectedTextStyle({
-            color: '#000'
-          })
-          .datePickerAttrs(getNormalAttributes(this.node))
-          .onDateChange(value => {
-            this.select = `${value.getFullYear()}-${value.getMonth()}-${value.getDay()}`
-          })
-      } else if (this.node._attrs.mode === 'time') {
-        TextPicker(this.getTextOptions())
-          .selectedTextStyle({
-            color: '#000'
-          })
-          .canLoop(false)
-          .textPickerAttrs(getNormalAttributes(this.node))
-          .onChange((value) => {
-            this.select = `${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}`
-          })
+            })
+        } else if (this.node._attrs.mode === 'date') {
+          DatePicker(this.getDateOptions())
+            .selectedTextStyle({
+              color: '#000'
+            })
+            .datePickerAttrs(getNormalAttributes(this.node))
+            .onDateChange(value => {
+              const data = value.toLocaleDateString().split('/')
+              const day = data[1]
+              const month = data[0]
+              const year = data[2]
+              this.node?.updateFormWidgetValue(`${year}-${month}-${day}`)
+            })
+        } else if (this.node._attrs.mode === 'time') {
+          TextPicker(this.getTextOptions())
+            .selectedTextStyle({
+              color: '#000'
+            })
+            .canLoop(false)
+            .textPickerAttrs(getNormalAttributes(this.node))
+            .onChange((value) => {
+              this.node?.updateFormWidgetValue(`${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}`)
+            })
+        }
       }
     }
   }
@@ -271,17 +270,11 @@ export struct PickerView {
   }
 }
 
-
-
 @Component
 export default struct TaroPicker {
-  @State select: string = ''
-
   node: TaroPickerElement | null = null
 
   aboutToAppear () {
-    this.select = this.node?._attrs?.value as TaroAny || ''
-
     this.node?.addEventListener('click', this.handleClick)
   }
 
@@ -289,15 +282,13 @@ export default struct TaroPicker {
 
   aboutToDisappear() {
     this.dialogController = null // 将dialogController置空
+    this.node?.removeEventListener('click', this.handleClick)
   }
 
   handleClick = () => {
     if (!this.dialogController && this.node) {
       this.dialogController = new CustomDialogController({
-        builder: PickerView({
-          node: this.node,
-          select: this.select
-        }),
+        builder: PickerView({ node: this.node }),
         customStyle: true,
         cornerRadius: '0vp',
         autoCancel: true,

@@ -6,12 +6,13 @@ import {
   TaroCheckboxElement,
   TaroCheckboxGroupElement,
   TaroFormElement,
-  TaroFormWidgetElement,
   TaroInputElement,
   TaroPickerElement,
   TaroRadioElement,
   TaroRadioGroupElement,
-  TaroTextAreaElement,
+  TaroSliderElement,
+  TaroSwitchElement,
+  TaroTextAreaElement
 } from './form'
 import {
   TaroButtonElement,
@@ -24,8 +25,6 @@ import {
   TaroViewElement
 } from './normal'
 import { TaroScrollViewElement } from './scrollView'
-import { TaroSliderElement } from './slider'
-import { TaroSwitchElement } from './switch'
 import { TaroTextElement } from './text'
 import { TaroVideoElement } from './video'
 
@@ -51,7 +50,7 @@ export function initHarmonyElement () {
       case 'rich-text': return new TaroRichTextElement()
       case 'swiper': return new TaroSwiperElement()
       case 'swiper-item': return new TaroSwiperItemElement()
-      case 'text-area': return new TaroTextAreaElement()
+      case 'textarea': return new TaroTextAreaElement()
       case 'form': return new TaroFormElement()
       default: return new TaroElement(tagName)
     }
@@ -70,7 +69,6 @@ export {
   TaroCheckboxGroupElement,
   TaroElement,
   TaroFormElement,
-  TaroFormWidgetElement,
   TaroIconElement,
   TaroImageElement,
   TaroInputElement,

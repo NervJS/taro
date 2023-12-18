@@ -1,7 +1,7 @@
 import { convertNumber2VP } from '@tarojs/runtime'
 import { isNumber } from '@tarojs/shared'
 
-export function getSingleSelector(ctx, range, rangeKey): any[] {
+export function getSingleSelector(range, rangeKey): any[] {
   return range.map((data) => data[rangeKey])
 }
 

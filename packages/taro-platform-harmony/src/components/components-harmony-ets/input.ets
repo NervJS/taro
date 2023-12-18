@@ -84,7 +84,7 @@ export default function TaroInput(node: TaroInputElement) {
     .onChange((value: string) => {
       const event: TaroEvent = createTaroEvent('input', { detail: { value } }, node)
       
-      node._text = value
+      node.updateFormWidgetValue(value)
       eventHandler(event, 'input', node)
     })
     .onSubmit(() => {

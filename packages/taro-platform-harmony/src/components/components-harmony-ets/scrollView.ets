@@ -29,7 +29,12 @@ function rowAttrs (style: TaroStyleType) {
   .padding(style.padding)
   .margin(style.margin)
   .height(style.height)
-  .constraintSize(style.constraintSize)
+  .constraintSize({
+    minWidth: style?.constraintSize?.minWidth || style.width,
+    minHeight: style?.constraintSize?.minHeight,
+    maxWidth: style?.constraintSize?.maxWidth,
+    maxHeight: style?.constraintSize?.maxHeight,
+  })
   .flexGrow(style.flexGrow)
   .flexShrink(style.flexShrink)
   .flexBasis(style.flexBasis)
@@ -58,7 +63,12 @@ function columnAttrs (style: TaroStyleType) {
   .padding(style.padding)
   .margin(style.margin)
   .width(style.width)
-  .constraintSize(style.constraintSize)
+  .constraintSize({
+    minWidth: style?.constraintSize?.minWidth,
+    minHeight: style?.constraintSize?.minHeight || style.height,
+    maxWidth: style?.constraintSize?.maxWidth,
+    maxHeight: style?.constraintSize?.maxHeight,
+  })
   .flexGrow(style.flexGrow)
   .flexShrink(style.flexShrink)
   .flexBasis(style.flexBasis)
@@ -132,11 +142,14 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
         }
         .height(null)
         .columnAttrs(getNormalAttributes(node))
+        .alignItems(HorizontalAlign.Start)
         .onAreaChange(shouldBindEvent((areaResult: Area) => {
           node._wrapper = areaResult
         }, node, ['scroll', 'scrollstart', 'scrollend']))
       }
     }
+    .width(getNormalAttributes(node).width)
+    .height(getNormalAttributes(node).height)
     .flexGrow(getNormalAttributes(node).flexGrow)
     .scrollable(getScrollable(node))
     .scrollBar(getAttributes(node).scrollBar)

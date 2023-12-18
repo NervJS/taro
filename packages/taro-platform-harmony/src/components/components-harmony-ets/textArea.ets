@@ -61,8 +61,9 @@ export default function TaroTextArea (node: TaroTextAreaElement) {
     .textAttr(getFontAttributes(node))
     .onChange((value: string) => {
       const event: TaroEvent = createTaroEvent('input', { detail: { value } }, node)
+      
+      node.updateFormWidgetValue(value)
       eventHandler(event, 'input', node)
-      node._text = value
     })
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onBlur(() => {

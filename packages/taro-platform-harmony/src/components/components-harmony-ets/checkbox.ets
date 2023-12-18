@@ -57,9 +57,8 @@ function getAttributes (node: TaroCheckboxElement): CheckboxAttrs {
 }
 
 function getOptions (node: TaroCheckboxElement): CheckboxOptions {
-  const value: string = node._attrs.value
   return {
-    name: value || node.textContent
+    name: node.value as string || node.textContent
   }
 }
 
@@ -94,7 +93,7 @@ export function TaroCheckbox(node: TaroCheckboxElement) {
         .opacity(!!node._attrs.disabled ? 0.4 : 1)
     }
     .onClick(() => {
-      if (!node._checked && !node?._attrs.disabled) {
+      if (!node?._attrs.disabled) {
         node.checked = !node.checked
       }
     })
