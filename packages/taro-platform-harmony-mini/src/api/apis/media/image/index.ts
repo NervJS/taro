@@ -1,8 +1,7 @@
 // 图片
-export * from './compressImage'
 export * from './getImageInfo'
+export * from './chooseImage'
 export * from './previewImage'
-export * from './previewMedia'
 export * from './saveImageToPhotosAlbum'
 
 /**
