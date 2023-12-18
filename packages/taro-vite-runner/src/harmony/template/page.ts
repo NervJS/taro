@@ -153,7 +153,7 @@ export default class Parser extends BaseParser {
     if (!this.page) return
 
     const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
-    callFn(this.page.onPageScroll, {
+    callFn(this.page.onPageScroll, this, {
       scrollTop: offset.xOffset || 0,
       scrollLeft: offset.yOffset || 0,
     })
