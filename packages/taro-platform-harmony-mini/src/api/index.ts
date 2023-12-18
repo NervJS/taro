@@ -1,7 +1,7 @@
-import taro from './taro'
+import taro from './apis/taro'
 
-export * from './apis'
-export * from './taro'
+export * from './apis/index'
+export * from './apis/taro'
 
 export default taro
 

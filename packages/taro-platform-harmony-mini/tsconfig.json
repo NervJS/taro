@@ -6,9 +6,10 @@
     "module": "ESNext",
     "sourceMap": true,
     "esModuleInterop": true,
-    "outDir": "dist",
+    "resolveJsonModule": true,
+    "outDir": "dist"
   },
-  "include": ["./src", "./types", "rollup.config.ts"],
+  "include": ["./src", "./types", "rollup.config.ts", "./build"]
   // "ts-node": {
   //   "compilerOptions": {
   //     "module": "UMD",
