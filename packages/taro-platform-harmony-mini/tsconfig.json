@@ -6,21 +6,20 @@
     "module": "ESNext",
     "sourceMap": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
     "outDir": "dist"
   },
-  "include": ["./src", "./types", "rollup.config.ts", "./build"]
-  // "ts-node": {
-  //   "compilerOptions": {
-  //     "module": "UMD",
-  //     "moduleResolution": "Node",
-  //     "noEmit": true,
-  //     "resolveJsonModule": false,
-  //     "rootDir": ".",
-  //     "target": "ESNext"
-  //   },
-  //   "esm": true,
-  //   "experimentalSpecifierResolution": "node",
-  //   "require": ["tsconfig-paths/register"]
-  // }
+  "include": ["./src", "./types", "rollup.config.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "UMD",
+      "moduleResolution": "Node",
+      "noEmit": true,
+      "resolveJsonModule": false,
+      "rootDir": ".",
+      "target": "ESNext"
+    },
+    "esm": true,
+    "experimentalSpecifierResolution": "node",
+    "require": ["tsconfig-paths/register"]
+  }
 }

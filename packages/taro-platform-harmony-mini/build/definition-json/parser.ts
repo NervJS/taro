@@ -1,7 +1,7 @@
-import propsConfig from '@tarojs/plugin-platform-mpharmony/build/config/harmony-definition.json'
 import * as fs from 'fs-extra'
 import * as pathModule from 'path'
 
+import propsConfig from '../../build/config/harmony-definition.json'
 import DefinitionObj from '../interface/definitionObj'
 import { parseApis, removeFalseProperties } from './parseApis'
 
@@ -185,14 +185,14 @@ export function generateDefinitionJSON () {
       .map(item => item.replace(/ +/g, ' '))
       .map(item => item.replace(/([^:]+):\s?(.*)/g, '"$1":"$2"')) // 冒号前后的内容用双引号括起来以便进行JSON字符串转换
       .join(',') // 将转换后的数组元素用逗号拼接起来
-    
+
     let propsObject: object
     try {
       propsObject = JSON.parse(`{${JSONStr}}`)
     } catch (error) {
       propsObject = {}
     }
-    
+
     const result: object = {}
     for (const [key, value] of Object.entries(propsObject)) {
       const newKey = convertCamelToDash(key)
@@ -326,7 +326,7 @@ export function generateDefinitionJSON () {
   function getFinalDefinitionObj (componentProps: object, componentsConfig: any) {
     const apisConfig = parseApis()
     finalDefinitionObj.components = getComponentsDefinition(componentProps, componentsConfig)
-    
+
     // 更新组件属性配置文件
     const newComponentsConfig = updatePropsConfig(componentProps, componentsConfig)
 
