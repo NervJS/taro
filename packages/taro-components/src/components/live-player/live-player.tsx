@@ -137,6 +137,10 @@ export class LivePlayer implements ComponentInterface {
    * id
    */
   @Prop() id = ''
+  /**
+   * 缓冲
+   */
+  @Prop() iscache = false
   // 全屏状态时间戳
   @State() fullScreenTimestamp = new Date().getTime()
   // 播放状态
@@ -155,51 +159,48 @@ export class LivePlayer implements ComponentInterface {
   @State() isFullScreen = false
   // 停止状态
   @State() isStop = false
- // 隐藏缓存
- @State() enableStashBuffer = true
-
+  // 隐藏缓存
+  @State() enableStashBuffer = true
+  // 跳帧状态
+  @State() isdelta = false
+  // 跳帧状态
+  @State() cache = 0
   @Event({
     eventName: 'onStateChange',
   })
-  onStateChange: EventEmitter
+    onStateChange: EventEmitter
 
   @Event({
     eventName: 'fullscreenchange',
   })
-  onFullScreenChange: EventEmitter
+    onFullScreenChange: EventEmitter
 
   @Event({
     eventName: 'onAudioVolumeNotify',
   })
-  onAudioVolumeNotify: EventEmitter
+    onAudioVolumeNotify: EventEmitter
 
   @Event({
     eventName: 'onNetStatus',
   })
-  onNetStatus: EventEmitter
+    onNetStatus: EventEmitter
 
   @Event({
     eventName: 'onError',
   })
-  onError: EventEmitter
+    onError: EventEmitter
 
   @Event({
     eventName: 'onEnterPictureInPicture',
   })
-  onEnterPictureInPicture: EventEmitter
+    onEnterPictureInPicture: EventEmitter
 
   @Event({
     eventName: 'onLeavePictureInPicture',
   })
-  onLeavePictureInPicture: EventEmitter
+    onLeavePictureInPicture: EventEmitter
 
   async componentDidLoad () {
-    try {
-      const deviceInfos = await navigator.mediaDevices.enumerateDevices()
-      this.findAudioDevices(deviceInfos)
-    } catch (error) {
-      console.error('获取设备列表失败: ', error)
-    }
     if (document.addEventListener) {
       document.addEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
     }
@@ -208,24 +209,6 @@ export class LivePlayer implements ComponentInterface {
       this.videoElement.addEventListener('webkitendfullscreen', this.handleFullScreenChange)
     }
     if (flvjs.isSupported()) {
-      // 平均码率
-      let modeType: number = 1024 * 1024 * 2
-      if (this.mode === 'live') {
-        modeType = 1024 * 1024 * 2
-        this.enableStashBuffer = true
-      } else if (this.mode === 'RTC') {
-        this.enableStashBuffer = false
-        modeType = 1024 * 512
-      } else {
-        modeType = 1024 * 1024 * 2
-      }
-      if (this.minCache <= 0) {
-        this.minCache = 1
-      }
-      if (this.maxCache <= 0) {
-        this.maxCache = 3
-      }
-      this.minCache = Math.floor((this.minCache * modeType) / 8)
       this.videoElement = this.el.querySelector('video')
       this.livePlayerRef.addEventListener('volumechange', () => {
         this.onAudioVolumeNotify.emit({})
@@ -260,12 +243,6 @@ export class LivePlayer implements ComponentInterface {
       }
       // 创建播放器
       this.createPlayers()
-      // 声音传输方式
-      if (this.soundMode === 'speaker') {
-        this.switchToSpeaker()
-      } else {
-        this.switchToHeadphones()
-      }
       this.videoElement.addEventListener('fullscreenchange', (event) => {
         event.stopPropagation()
         const fullScreenTimestamp = new Date().getTime()
@@ -288,38 +265,22 @@ export class LivePlayer implements ComponentInterface {
     }
   }
 
-  // 获取当前设备的声音传输设备的ID
-  findAudioDevices (deviceInfos) {
-    deviceInfos.forEach((deviceInfo) => {
-      if (deviceInfo.kind === 'audiooutput') {
-        // 处理扬声器设备
-        this.speakerID = deviceInfo.deviceId
-      }
-      if (deviceInfo.kind === 'audioinput' && deviceInfo.label.toLowerCase().includes('ear')) {
-        // 处理听筒设备 (根据设备标签中包含 "ear" 来判断)
-        this.earID = deviceInfo.deviceId
-      }
-    })
-  }
-
   // 创建播放器
   createPlayers () {
     const config = {
+      enableStashBuffer: this.enableStashBuffer,
+      stashInitialSize: this.minCache,
+      lazyLoad: true,
+      lazyLoadMaxDuration: this.maxCache,
+      lazyLoadRecoverDuration: 1,
+    }
+    const MediaDataSource = {
       type: this.type,
       url: this.src,
       isLive: true,
       cors: true,
-      enableStashBuffer: this.enableStashBuffer,
-      stashInitialSize: this.minCache,
-      stashInitialTime: this.maxCache,
-      lazyLoad: true,
-      lazyLoadMaxDuration: this.maxCache,
-      lazyLoadRecoverDuration: this.maxCache,
-      autoCleanupSourceBuffer: true,
-      autoCleanupMaxBackwardDuration: this.maxCache,
-      autoCleanupMinBackwardDuration: this.maxCache
     }
-    this.player = flvjs.createPlayer(config)
+    this.player = flvjs.createPlayer(MediaDataSource,config)
     // 创建异常监听
     this.player.on(flvjs.ErrorDetails.NETWORK_EXCEPTION, (type, message, data) => {
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.ERROR)
@@ -342,7 +303,6 @@ export class LivePlayer implements ComponentInterface {
     this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.READY)
     if (this.autoplay) {
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.RENDERING)
-      this.player.play()
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.PLAYING)
     }
     // 创建错误监听
@@ -476,16 +436,22 @@ export class LivePlayer implements ComponentInterface {
       }
       this.createPlayers()
       this.isStop = false
+      this._pause()
+      if (this.autoplay) {
+        this._play() 
+      }
       this.onStateChange.emit(this.ONSTATECHANGECODEMSSAGE.ENDED)
       return { errMsg: `resume:ok` }
     } catch (e) {
       return { errMsg: `resume:${e}` }
     }
   }
+
   onClickFullScreenBtn = (e: MouseEvent) => {
     e.stopPropagation()
     this.toggleFullScreen()
   }
+
   /** 全屏事件 */
   toggleFullScreen = (isFullScreen = !this.isFullScreen) => {
     this.isFullScreen = isFullScreen
@@ -649,6 +615,66 @@ export class LivePlayer implements ComponentInterface {
     this.controlsRef.toggleVisibility(true)
     this.isMute = !this.isMute
   }
+
+  handleProgress = () => {
+    if (this.mode === 'RTC') {
+      this.maxCache = 0.8
+      this.minCache = 0.2
+    }
+    if (this.minCache <= 0 ) {
+      this.minCache = 1
+    }
+    if (this.maxCache <= 0) {
+      this.maxCache = 3
+    }
+    if (this.maxCache < this.minCache) {
+      this.minCache = 1
+      this.maxCache = 3
+    }
+    if (this.mode === 'RTC') {
+      this.minCache = 0.2
+      this.maxCache = 0.8
+    }
+    try {
+      if (!this.isdelta) { 
+        const end = this.player.buffered.end(0) // 获取当前buffered值(缓冲区末尾)
+        const delta = end - this.player.currentTime // 获取buffered与当前播放位置的差值
+        if (delta >= this.minCache ) {
+          if (this.autoplay){
+            this._play()
+          }
+          this.isdelta = true
+          return
+        } else {
+          return
+        } 
+      }
+      const end = this.player.buffered.end(0) // 获取当前buffered值(缓冲区末尾)
+      const delta = end - this.player.currentTime // 获取buffered与当前播放位置的差值
+      this.cache = delta
+      if (delta > this.maxCache || delta < 0) {
+        if (this.isPlaying) {
+          const deltaNum = delta - this.maxCache
+          // 如果缓冲误差小于1秒时
+          if (deltaNum <= 1) {
+          // 如果缓冲误差小于1秒同时大于0.2秒时
+            if ( deltaNum > 0.2 ) {
+              this.videoElement.playbackRate = 1.1
+            } else {
+              this.videoElement.playbackRate = 1
+            }
+          } else {
+            this.player.currentTime = this.player.buffered.end(0) - this.maxCache
+          }
+         
+        }
+        return
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   // 监听横屏
   @Listen('orientationchange', { target: 'window' })
   orientationchangeHandler () {
@@ -658,12 +684,28 @@ export class LivePlayer implements ComponentInterface {
   onClickContainer = () => {
     this.controlsRef.toggleVisibility()
   }
- 
+
+  loadings = (event) => {
+    event.stopPropagation()
+  }
+
   componentDidHide () {
     if (this.player) {
-      if (this.autoPauseIfNavigate) {
-        this.player.pause()
-      }
+      this._stop()
+      this.videoElement.remove()
+    }
+    if (document.removeEventListener) {
+      document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
+    }
+    if (this.livePlayerRef && scene === 'iOS') {
+      this.livePlayerRef.removeEventListener('webkitendfullscreen', this.handleFullScreenChange)
+    }
+  }
+
+  disconnectedCallback () {
+    if (this.player) {
+      this._stop()
+      this.videoElement.remove()
     }
     if (document.removeEventListener) {
       document.removeEventListener(screenFn.fullscreenchange, this.handleFullScreenChange)
@@ -675,7 +717,7 @@ export class LivePlayer implements ComponentInterface {
 
   render () {
     const {
-      autoplay,
+      cache,
       muted,
       objectFit,
       isFirst,
@@ -685,6 +727,8 @@ export class LivePlayer implements ComponentInterface {
       isPlaying,
       showMuteBtn,
       showFullscreenBtn,
+      isdelta,
+      iscache
     } = this
     return (
       <Host
@@ -703,20 +747,25 @@ export class LivePlayer implements ComponentInterface {
               this.livePlayerRef = dom as HTMLVideoElement
             }
           }}
-          autoplay={autoplay}
           muted={muted}
           playsinline
           webkit-playsinline
           onPlay={this.handlePlay}
           onPause={this.handlePause}
           onEnded={this.handleEnded}
+          onProgress={this.handleProgress}
         ></video>
-        {isFirst && showCenterPlayBtn && !isPlaying && (
+        {isFirst && showCenterPlayBtn && !isPlaying && isdelta && (
           <div class='taro-video-cover'>
             <div class='taro-video-cover-play-button' onClick={() => this._play()} />
           </div>
         )}
-
+        {!isdelta && (
+          <div class='taro-video-cover' onClick={this.loadings}>
+            <div class='taro-video-loader'  />
+          </div>
+        )}
+       
         <taro-video-control
           ref={dom => {
             if (dom) {
@@ -746,6 +795,9 @@ export class LivePlayer implements ComponentInterface {
             />
           )}
         </taro-video-control>
+        {iscache && (
+          <div class='caches'>当前缓冲秒数：{ cache } </div>
+        )}  
       </Host>
     )
   }

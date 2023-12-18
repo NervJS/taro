@@ -36,7 +36,7 @@
       <taro-live-player-core class="taro-live-player-container">
         <video class="taro-live-player" playsinline="" webkit-playsinline="" style="object-fit: contain;"></video>
         <div class="taro-video-cover">
-          <div class="taro-video-cover-play-button"></div>
+          <div class="taro-video-loader"></div>
         </div>
         <taro-video-control controls="" showplaybtn="">
           <div class="taro-video-mute"></div>
