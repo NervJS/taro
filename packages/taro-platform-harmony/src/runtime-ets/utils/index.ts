@@ -18,7 +18,6 @@ export function isElement (node: TaroNode): node is TaroElement {
 export function isParentBinded (node: TaroElement | null, type: string): boolean {
   let res = false
 
-  // TODO: 当前 node 结构没有 root，因此不作判断，后续可根据情况添加 root 条件
   while (node?.parentElement) {
     if (node.parentElement.__listeners[type]?.length) {
       res = true

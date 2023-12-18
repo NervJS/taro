@@ -4,16 +4,13 @@ import { isArray, isFunction, isUndefined } from '@tarojs/shared'
 import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './contant'
 import { incrementId } from './utils'
 
-// TODO TYPE
 const instances = new Map<string, any>()
 const pageId = incrementId()
 
-// TODO TYPE
 export function injectPageInstance (inst: any, id: string) {
   instances.set(id, inst)
 }
 
-// TODO TYPE
 export function getPageInstance (id: string): any {
   return instances.get(id)
 }
@@ -81,12 +78,10 @@ export function getOnHideEventKey (path: string) {
 export function createPageConfig (component: any, pageName?: string) {
   // 小程序 Page 构造器是一个傲娇小公主，不能把复杂的对象挂载到参数上
   const id = pageName ?? `taro_page_${pageId()}`
-  // TODO TYPE
   let pageElement: any = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
 
-  // TODO TYPE
   function setCurrentRouter (page) {
     const router = page.route || page.__route__ || page.$taroPath
 
@@ -127,7 +122,6 @@ export function createPageConfig (component: any, pageName?: string) {
 
       const mount = () => {
         Current.app!.mount!(component, $taroPath, () => {
-          // TODO TYPE env
           // pageElement = document.getElementById($taroPath)
 
           // if (!pageElement) {

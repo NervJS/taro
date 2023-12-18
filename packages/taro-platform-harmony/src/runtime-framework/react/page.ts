@@ -9,17 +9,14 @@ import { incrementId } from './utils'
 
 import type { PageConfig } from '@tarojs/taro'
 
-// TODO TYPE
 const instances = new Map<string, any>()
 const pageId = incrementId()
 
-// TODO TYPE
 export function injectPageInstance (inst: any, id: string) {
   hooks.call('mergePageInstance', instances.get(id), inst)
   instances.set(id, inst)
 }
 
-// TODO TYPE
 export function getPageInstance (id: string): any {
   return instances.get(id)
 }
@@ -98,12 +95,10 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
     SIDE_EFFECT_LIFECYCLES,
   ] = hooks.call('getMiniLifecycleImpl')!.page
 
-  // TODO TYPE
   let pageElement: any = null
   let unmounting = false
   let prepareMountList: (() => void)[] = []
 
-  // TODO TYPE
   function setCurrentRouter (page) {
     const router = page.route || page.__route__ || page.$taroPath
 
