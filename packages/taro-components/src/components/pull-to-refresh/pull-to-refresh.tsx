@@ -110,7 +110,7 @@ export class PullToRefresh implements ComponentInterface {
             errMsg: 'stopPullDownRefresh: fail'
           })
         }
-      })
+      },0)
     })
   }
 
