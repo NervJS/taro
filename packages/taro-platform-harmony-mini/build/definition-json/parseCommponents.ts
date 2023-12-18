@@ -1,23 +1,20 @@
-import * as fs from 'fs-extra'
+import * as fsExtra from 'fs-extra'
 import * as pathModule from 'path'
 
-import propsConfig from '../../build/config/harmony-definition.json'
-import DefinitionObj from '../interface/definitionObj'
-import { parseApis, removeFalseProperties } from './parseApis'
+import { capitalizeFirstLetter, convertCamelToDash,removeComments } from '../utils/helper'
 
-export function generateDefinitionJSON () {
-  const componentsPath = require.resolve('@tarojs/components/types/index.d.ts')
-  const directoryPath = pathModule.dirname(componentsPath)
-  const definitionObj: DefinitionObj = { apis: {}, components: {} }
-  const finalDefinitionObj: DefinitionObj = { apis: {}, components: {} }
+export function parseComponents () {
+  const entryPath = require.resolve('@tarojs/components/types/index.d.ts')
+  const componentsPath = pathModule.dirname(entryPath)
+  const componentsDefinition: object = {}
 
   function listFilesRecursively (dirPath: string) {
     const absolutePaths: string[] = []
     const traverseDirectory = (currentPath) => {
-      const files = fs.readdirSync(currentPath)
+      const files = fsExtra.readdirSync(currentPath)
       files.forEach((file) => {
         const filePath = pathModule.join(currentPath, file)
-        const stats = fs.statSync(filePath)
+        const stats = fsExtra.statSync(filePath)
         if (stats.isDirectory()) {
           traverseDirectory(filePath)
         } else {
@@ -33,9 +30,6 @@ export function generateDefinitionJSON () {
     traverseDirectory(dirPath)
     return absolutePaths
   }
-
-  // 递归获取声明文件绝对路径数组
-  const absolutePaths = listFilesRecursively(directoryPath)
 
   // 判断是否是需要继续解析的类型
   const baseType: string[] = ['object', 'any', 'number', 'string', 'boolean', 'symbol']
@@ -105,21 +99,6 @@ export function generateDefinitionJSON () {
     return keyArr
   }
 
-  // 使用正则表达式剔除组件属性定义文本中/** */和//注释内容
-  function removeComments (text: string) {
-    return text.replace(/\/\*[\s\S]*?\*\/|\/\/.*/g, '')
-  }
-
-  // 将驼峰式命名转换为破折号命名且全小写
-  function convertCamelToDash (str: string) {
-    return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-  }
-
-  // 将字符串首字母转大写
-  function capitalizeFirstLetter (str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
-  }
-
   // 遍历属性的类型，若可继续解析出属性则返回对象，否则返回‘''’
   function handlePropsType (propType: string, declareFileContent: string) {
     const propObj: object = {}
@@ -185,14 +164,14 @@ export function generateDefinitionJSON () {
       .map(item => item.replace(/ +/g, ' '))
       .map(item => item.replace(/([^:]+):\s?(.*)/g, '"$1":"$2"')) // 冒号前后的内容用双引号括起来以便进行JSON字符串转换
       .join(',') // 将转换后的数组元素用逗号拼接起来
-
+    
     let propsObject: object
     try {
       propsObject = JSON.parse(`{${JSONStr}}`)
     } catch (error) {
       propsObject = {}
     }
-
+    
     const result: object = {}
     for (const [key, value] of Object.entries(propsObject)) {
       const newKey = convertCamelToDash(key)
@@ -228,7 +207,7 @@ export function generateDefinitionJSON () {
   }
 
   function getComponentProps (declareFilePath: string) {
-    const declareFileContent = fs.readFileSync(declareFilePath, 'utf-8') // 读取声明文件文本内容
+    const declareFileContent = fsExtra.readFileSync(declareFilePath, 'utf-8') // 读取声明文件文本内容
     const componentName = pathModule.basename(declareFilePath).replace('.d.ts', '') // 剔除文件扩展名，获取组件的名称
     const componentNameWithDash = convertCamelToDash(componentName) // 将组件名转换为“-”连接，且均为小写字母
     const propsName = componentName === 'Picker' ? componentName.concat('StandardProps') : componentName.concat('Props') // Picker组件的属性interface名称特殊，单独区分
@@ -238,105 +217,30 @@ export function generateDefinitionJSON () {
       const propsObject = getPropsObject(propsContent, declareFileContent)
       // 当前weapp不支持PullToRefreshProps，暂不处理PullToRefreshProps组件
       if (propsName !== 'PullToRefreshProps') {
-        definitionObj.components[componentNameWithDash] = Object.keys(propsObject).length === 0 ? '' : propsObject
+        componentsDefinition[componentNameWithDash] = Object.keys(propsObject).length === 0 ? '' : propsObject
       }
     } else {
-      definitionObj.components[componentNameWithDash] = ''
+      componentsDefinition[componentNameWithDash] = ''
     }
 
     // Picker组件包含多种模式，单独解析
     if (componentName === 'Picker') {
-      const modeObj = definitionObj.components[componentNameWithDash].mode ?? {}
+      const modeObj = componentsDefinition[componentNameWithDash].mode ?? {}
       for (const key in modeObj) {
         const modePropsName = componentName.concat(capitalizeFirstLetter(key)).concat('Props')
         const modePropsContent = getPropsInterfaceContent(modePropsName, declareFileContent)
         if (modePropsContent) {
           const propsObject = getPropsObject(modePropsContent, declareFileContent)
-          definitionObj.components[componentNameWithDash].mode[key] = Object.keys(propsObject).length === 0 ? '' : propsObject
+          componentsDefinition[componentNameWithDash].mode[key] = Object.keys(propsObject).length === 0 ? '' : propsObject
         }
       }
     }
   }
 
+  // 递归获取声明文件绝对路径数组
+  const absolutePaths = listFilesRecursively(componentsPath)
   // 遍历组件声明文件并获取组件的属性对象
   absolutePaths.forEach(getComponentProps)
 
-  // 获取组件支持的属性
-  function getComponentsDefinition (componentProps: object, componentsConfig: object) {
-    const componentDefinition: object = {}
-
-    for (const key in componentsConfig) {
-      if (componentProps.hasOwnProperty(key)) {
-        if (typeof componentsConfig[key] === 'object' && typeof componentProps[key] === 'object') {
-          const ret = getComponentsDefinition(componentProps[key], componentsConfig[key])
-          if (Object.keys(ret).length > 0) {
-            componentDefinition[key] = ret
-          }
-        } else if (typeof componentsConfig[key] === 'boolean' && componentProps[key] === '') {
-          if (componentsConfig[key]) { componentDefinition[key] = componentProps[key] }
-        } else {
-          delete componentsConfig[key]
-        }
-      } else {
-        // 如果原始配置中的某个属性不在从声明文件提取的属性中，则将这个属性从原始配置中删除
-        delete componentsConfig[key]
-      }
-    }
-
-    return componentDefinition
-  }
-
-  // 获取API的描述信息
-  function getApisDefinition (apisConfig: object) {
-    removeFalseProperties(apisConfig)
-    return apisConfig
-  }
-
-  // 更新组件属性配置
-  function updatePropsConfig (componentProps: object, componentsConfig: object) {
-    const newComponentsConfig: object = componentsConfig
-    // 遍历声明文件提取的属性，如果原始配置中不存在该属性，则添加到配置中，并赋值默认值false
-    for (const key in componentProps) {
-      if (!componentsConfig.hasOwnProperty(key)) {
-        if (typeof componentProps[key] === 'object') {
-          newComponentsConfig[key] = updatePropsConfig(componentProps[key], {})
-        } else {
-          newComponentsConfig[key] = false
-        }
-      } else {
-        if (typeof componentProps[key] === 'object' && typeof componentsConfig[key] === 'object') {
-          newComponentsConfig[key] = updatePropsConfig(componentProps[key], componentsConfig[key])
-        }
-      }
-    }
-    return newComponentsConfig
-  }
-
-  // keys按字母顺序排序
-  function sortKeys (obj: object) {
-    const sortedKeys = Object.keys(obj).sort()
-    const sortedObj = sortedKeys.reduce((acc, key) => {
-      acc[key] = obj[key]
-      return acc
-    }, {})
-    return sortedObj
-  }
-
-  // 获取最终的组件和API属性配置表同时更新原始属性配置文件
-  function getFinalDefinitionObj (componentProps: object, componentsConfig: any) {
-    const apisConfig = parseApis()
-    finalDefinitionObj.components = getComponentsDefinition(componentProps, componentsConfig)
-
-    // 更新组件属性配置文件
-    const newComponentsConfig = updatePropsConfig(componentProps, componentsConfig)
-
-    fs.writeJSONSync('build/config/harmony-definition.json', { 'apis': sortKeys(apisConfig), 'components': sortKeys(newComponentsConfig) }, { spaces: 2 })
-    finalDefinitionObj.apis = getApisDefinition(apisConfig)
-  }
-
-  getFinalDefinitionObj(definitionObj.components, propsConfig.components)
-
-  // 写入文件
-  fs.ensureDirSync('dist')
-  fs.writeJSONSync('dist/definition.json', finalDefinitionObj, { spaces: 2 })
+  return componentsDefinition
 }

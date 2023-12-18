@@ -3,11 +3,11 @@ import * as pathModule from 'path'
 
 /**
  * 解析API注释信息
- *
+ * 
  * @returns { object } apisDefinition - 返回api支持情况对象
  */
 export function parseApis () {
-  const entryPath = require.resolve('@tarojs/plugin-platform-harmony-mini/src/api/index.ts')
+  const entryPath = require.resolve('../../src/api/apis/index.ts')
   const apisDir = pathModule.dirname(entryPath)
   const commentArray: string[] = []
   const apisDefinition: object = {}
@@ -125,24 +125,4 @@ export function parseApis () {
 
   parseComments(commentArray)
   return apisDefinition
-}
-
-/**
- * 删除对象中值为false的属性,并将值为true的属性值改为''
- *
- * @param { object} obj - 需要处理的对象
- */
-export function removeFalseProperties (obj: object) {
-  for (const prop in obj) {
-    if (obj[prop] === false) {
-      delete obj[prop]
-    } else if (typeof obj[prop] === 'object') {
-      removeFalseProperties(obj[prop]) // 递归处理子对象
-      if (Object.keys(obj[prop]).length === 0) {
-        delete obj[prop] // 如果子对象处理完毕后为空，则删除父对象中的属性
-      }
-    } else {
-      obj[prop] = ''
-    }
-  }
 }
