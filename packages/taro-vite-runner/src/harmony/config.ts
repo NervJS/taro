@@ -171,6 +171,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             },
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
+              if (taroConfig.isBuildNativeComp) return
 
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'
