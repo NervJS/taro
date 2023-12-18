@@ -53,8 +53,6 @@ const taro: typeof Taro = {
   switchTab
 }
 
-const requirePlugin = /* @__PURE__ */ permanentlyNotSupport('requirePlugin')
-
 function getConfig (): Record<string, any> {
   if (this?.pxTransformConfig) return this.pxTransformConfig
   return ((taro as any).config ||= {})
@@ -118,6 +116,11 @@ const pxTransform = function (size = 0) {
   return val + targetUnit
 }
 
+/**
+ * 判断能否使用WebP格式
+ * 
+ * @canUse canIUseWebp
+ */
 const canIUseWebp = function () {
   const canvas = document.createElement('canvas')
   return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0
@@ -132,7 +135,6 @@ const getAppInfo = function () {
   }
 }
 
-taro.requirePlugin = requirePlugin
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
@@ -140,6 +142,11 @@ taro.canIUseWebp = canIUseWebp
 
 export default taro
 
+/**
+ * 跳转预加载 API
+ * 
+ * @canUse preload
+ */
 export {
   Behavior,
   canIUseWebp,
@@ -157,5 +164,4 @@ export {
   options,
   preload,
   pxTransform,
-  requirePlugin
 }

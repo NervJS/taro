@@ -9,9 +9,9 @@ import Taro from '@tarojs/taro'
 
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
-// import { downloadFile } from '../../network/download'
-// import { showActionSheet, showToast } from '../../ui/interaction/index'
-// import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
+import { downloadFile } from '../../network/download'
+import { showActionSheet, showToast } from '@tarojs/taro-h5'
+import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
 
 /**
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
@@ -24,8 +24,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   defineCustomElementTaroSwiperCore()
   defineCustomElementTaroSwiperItemCore()
   const PRESS_TIME = 1000
-  // const SHOW_TIME = 2000
-  // const SAVE_IMAGE_BUTTON = 1
+  const SHOW_TIME = 2000
+  const SAVE_IMAGE_BUTTON = 1
 
   // options must be an Object
   const isObject = shouldBeObject(options)
@@ -76,43 +76,43 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       function startPress () {
         pressTimer = setTimeout(async function () {
           if (!showmenu) {
-            
+
           }
-          // try {
-          //   const { tapIndex } = await showActionSheet({
-          //     itemList: ['转发给朋友', '保存图片', '收藏', '翻译图片中的文字', '提取文字'],
-          //   })
-          //   if (tapIndex !== SAVE_IMAGE_BUTTON) {
-          //     return
-          //   }
-          //   downloadFile({
-          //     url: url, // 仅为示例，并非真实的资源
-          //     success: function (res: any) {
-          //       // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
-          //       saveImageToPhotosAlbum({
-          //         filePath: res.tempFilePath,
-          //         success: function (res: any) {
-          //           showToast({
-          //             title: '保存成功',
-          //             icon: 'success',
-          //             duration: SHOW_TIME
-          //           })
-          //           handle.success(res)
-          //         },
-          //         fail: function (err: any) {
-          //           handle.fail(err)
-          //         }
-          //       })
-          //     },
-          //     fail: function (err: any) {
-          //       handle.fail(err)
-          //     }
-          //   })
-          // } catch (e) {
-          //   return handle.fail({
-          //     errMsg: e.errMsg?.replace('^.*:fail ', '')
-          //   })
-          // }
+          try {
+            const { tapIndex } = await showActionSheet({
+              itemList: ['转发给朋友', '保存图片', '收藏', '翻译图片中的文字', '提取文字'],
+            })
+            if (tapIndex !== SAVE_IMAGE_BUTTON) {
+              return
+            }
+            downloadFile({
+              url: url, // 仅为示例，并非真实的资源
+              success: function (res: any) {
+                // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+                saveImageToPhotosAlbum({
+                  filePath: res.tempFilePath,
+                  success: function (res: any) {
+                    showToast({
+                      title: '保存成功',
+                      icon: 'success',
+                      duration: SHOW_TIME
+                    })
+                    handle.success(res)
+                  },
+                  fail: function (err: any) {
+                    handle.fail(err)
+                  }
+                })
+              },
+              fail: function (err: any) {
+                handle.fail(err)
+              }
+            })
+          } catch (e) {
+            return handle.fail({
+              errMsg: e.errMsg?.replace('^.*:fail ', '')
+            })
+          }
         }, PRESS_TIME) // 这里的1000表示长按的时间，以毫秒为单位，您可以根据需要调整
       }
 
