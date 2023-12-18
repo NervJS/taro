@@ -3,11 +3,11 @@ import * as pathModule from 'path'
 
 /**
  * 解析API注释信息
- * 
+ *
  * @returns { object } apisDefinition - 返回api支持情况对象
  */
 export function parseApis () {
-  const entryPath = require.resolve('@tarojs/taro-mpharmony/src/index.ts')
+  const entryPath = require.resolve('@tarojs/plugin-platform-harmony-mini/src/api/index.ts')
   const apisDir = pathModule.dirname(entryPath)
   const commentArray: string[] = []
   const apisDefinition: object = {}
@@ -129,7 +129,7 @@ export function parseApis () {
 
 /**
  * 删除对象中值为false的属性,并将值为true的属性值改为''
- * 
+ *
  * @param { object} obj - 需要处理的对象
  */
 export function removeFalseProperties (obj: object) {
