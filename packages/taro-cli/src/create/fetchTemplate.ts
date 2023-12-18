@@ -6,7 +6,7 @@ import * as path from 'path'
 import * as request from 'request'
 
 import { getTemplateSourceType, readDirWithFileTypes } from '../util'
-import { TEMPLATE_CREATOR } from './init'
+import { TEMPLATE_CREATOR } from './constants'
 
 export interface ITemplates {
   name: string
