@@ -14,9 +14,10 @@ const defaultAutoprefixerOption = {
 const defaultPxtransformOption: {
   [key: string]: any
 } = {
-  enable: false,
+  enable: true,
   config: {
-    platform
+    platform,
+    methods: ['platform'],
   }
 }
 

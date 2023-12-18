@@ -28,9 +28,10 @@ const defaultConfig: Partial<ViteHarmonyBuildConfig> = {
       }
     },
     pxtransform: {
-      enable: false,
+      enable: true,
       config: {
-        platform
+        platform,
+        methods: ['platform'],
       }
     },
     htmltransform: {

@@ -77,6 +77,8 @@ export interface IPxTransformOption {
   deviceRatio?: TaroGeneral.TDeviceRatio
   /** 平台 */
   platform?: 'weapp' | 'h5' | string
+  /** 启用的能力 Scope 默认为 ['platform', 'size'] */
+  methods?: string[]
   /** filter 回调函数，可 exclude 不处理的文件 */
   exclude?: (fileName: string) => boolean
 }
