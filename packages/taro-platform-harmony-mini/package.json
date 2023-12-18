@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/plugin-platform-harmony-mini",
-  "version": "3.6.15",
+  "version": "3.6.20",
   "description": "Harmony 端平台插件",
   "author": "ZakaryCode",
   "license": "MIT",
@@ -24,10 +24,11 @@
     "url": "git+https://github.com/NervJS/taro.git"
   },
   "scripts": {
-    "prebuild": "rimraf ./dist",
-    "build": "pnpm run rollup",
-    "dev": "pnpm run rollup -w",
-    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
+    "build": "pnpm run rollup --environment NODE_ENV:production && pnpm generate:desc",
+    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
+    "generate:desc": "pnpm run tsx --files ./build/definition-json",
+    "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
+    "tsx": "ts-node --skipIgnore"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
@@ -46,7 +47,8 @@
     "lodash-es": "4.17.21",
     "query-string": "^7.1.1",
     "jsonp-retry": "^1.0.3",
-    "whatwg-fetch": "^3.4.0"
+    "whatwg-fetch": "^3.4.0",
+    "change-case": "^4.1.2"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",

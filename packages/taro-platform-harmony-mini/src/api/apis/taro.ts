@@ -12,7 +12,7 @@ import {
   redirectTo,
   reLaunch,
   switchTab
-} from '../apis'
+} from './index'
 import { permanentlyNotSupport } from './utils'
 
 const {
