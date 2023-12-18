@@ -123,9 +123,9 @@ export default class Index extends React.Component {
           inputData: {
             markerId: 1,
             path: [
-              { latitude: 38.925, longitude: 115.418 },
-              { latitude: 39.925, longitude: 116.414 },
-              { latitude: 39.935, longitude: 116.424 },
+              { latitude: 39.916263, longitude: 116.403119},
+              { latitude: 39.951671, longitude: 116.488781},
+              { latitude: 39.968041, longitude: 116.534775},
             ],
             duration: 5000,
             autoRotate: true,

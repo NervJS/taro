@@ -508,18 +508,17 @@ export class Map implements ComponentInterface {
           const offsetY = marker.callout?.anchorY ? marker.callout?.anchorY : 0 // 纵向偏移量
           // 创建气泡(callout)对象
           const callout = new BMapGL.InfoWindow(
-            `<div style="background-color: ${marker.callout?.bgColor}; 
-              border: ${marker.callout?.borderWidth}px solid ${marker.callout?.borderColor}; 
+            `<div style=" 
               padding: ${marker.callout?.padding}px;
               color:${marker.callout?.color};
               text-align:${marker.callout?.textAlign};
-              border-radius:${marker.callout?.borderRadius}px";>
+              >
              <p style="font-size:${marker.callout?.fontSize}px">${marker.callout?.content || ''}</p>
              </div>`,
             {
               width: 200, // 气泡宽度
               height: 100, // 气泡高度
-              offset: new BMapGL.Size(offsetX, offsetY), // 设置偏移量
+              offset: new BMapGL.Size(offsetX, offsetY - 12), // 设置偏移量
             }
           )
           // 自定义属性存储气泡(callout)对象
@@ -528,6 +527,24 @@ export class Map implements ComponentInterface {
           this.map.addOverlay(markerObj)
           if (marker.callout?.display === 'ALWAYS') {
             markerObj.callout.disableCloseOnClick()
+            const point = markerObj.getPosition() // 获取marker标记点的位置
+            markerObj.callout.addEventListener('open', function () {
+              const infoWindowElement = document.querySelector('.BMap_bubble_pop')
+              const img = document.querySelector('.BMap_bubble_pop>img')
+              if (img) {
+                img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
+              }
+
+              if (infoWindowElement) {
+                const backgroundcolor = marker.callout?.bgColor
+                let borderWidth = marker.callout?.borderWidth || 5
+                const borderColor = marker.callout?.borderColor
+                const borderRadius = marker.callout?.borderRadius
+                // 确保边框大小不超过15
+                borderWidth = Math.min(borderWidth, 15)
+                infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
+              }
+            })
             this.map.openInfoWindow(markerObj.callout, pt)
           } else {
             const hammer = new Hammer(this.mapRef) // 创建Hammer对象，绑定到地图容器
@@ -553,6 +570,23 @@ export class Map implements ComponentInterface {
                 // 计算触摸位置与标记点的距离
                 const distance = Math.sqrt(Math.pow(x - markerX, 2) + Math.pow(y - markerY, 2))
                 if (distance < threshold && marker.id === markerObj.id) {
+                  const point = markerObj.getPosition() // 获取marker标记点的位置
+                  markerObj.callout.addEventListener('open', function () {
+                    const infoWindowElement = document.querySelector('.BMap_bubble_pop')
+                    const img = document.querySelector('.BMap_bubble_pop>img')
+                    if (img) {
+                      img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
+                    }
+                    if (infoWindowElement) {
+                      const backgroundcolor = marker.callout?.bgColor
+                      let borderWidth = marker.callout?.borderWidth || 5
+                      const borderColor = marker.callout?.borderColor
+                      const borderRadius = marker.callout?.borderRadius
+                      // 确保边框大小不超过15
+                      borderWidth = Math.min(borderWidth, 15)
+                      infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
+                    }
+                  })
                   // 最近的标记点距离小于阈值，表示用户点击到了标记点
                   this.map.openInfoWindow(markerObj.callout, pt)
                 } else {
@@ -838,18 +872,17 @@ export class Map implements ComponentInterface {
           const offsetY = marker.callout?.anchorY ? marker.callout?.anchorY : 0 // 纵向偏移量
           // 创建气泡(callout)对象
           const callout = new BMapGL.InfoWindow(
-            `<div style="background-color: ${marker.callout?.bgColor}; 
-              border: ${marker.callout?.borderWidth}px solid ${marker.callout?.borderColor}; 
+            `<div style=" 
               padding: ${marker.callout?.padding}px;
               color:${marker.callout?.color};
               text-align:${marker.callout?.textAlign};
-              border-radius:${marker.callout?.borderRadius}px";>
+              >
              <p style="font-size:${marker.callout?.fontSize}px">${marker.callout?.content || ''}</p>
              </div>`,
             {
               width: 200, // 气泡宽度
               height: 100, // 气泡高度
-              offset: new BMapGL.Size(offsetX, offsetY), // 设置偏移量
+              offset: new BMapGL.Size(offsetX, offsetY - 12), // 设置偏移量
             }
           )
           // 自定义属性存储气泡(callout)对象
@@ -858,6 +891,24 @@ export class Map implements ComponentInterface {
           this.map.addOverlay(markerObj)
           if (marker.callout?.display === 'ALWAYS') {
             markerObj.callout.disableCloseOnClick()
+            const point = markerObj.getPosition() // 获取marker标记点的位置
+            markerObj.callout.addEventListener('open', function () {
+              const infoWindowElement = document.querySelector('.BMap_bubble_pop')
+              const img = document.querySelector('.BMap_bubble_pop>img')
+              if (img) {
+                img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
+              }
+
+              if (infoWindowElement) {
+                const backgroundcolor = marker.callout?.bgColor
+                let borderWidth = marker.callout?.borderWidth || 5
+                const borderColor = marker.callout?.borderColor
+                const borderRadius = marker.callout?.borderRadius
+                // 确保边框大小不超过15
+                borderWidth = Math.min(borderWidth, 15)
+                infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
+              }
+            })
             this.map.openInfoWindow(markerObj.callout, pt)
           } else {
             const hammer = new Hammer(this.mapRef) // 创建Hammer对象，绑定到地图容器
@@ -883,6 +934,24 @@ export class Map implements ComponentInterface {
                 // 计算触摸位置与标记点的距离
                 const distance = Math.sqrt(Math.pow(x - markerX, 2) + Math.pow(y - markerY, 2))
                 if (distance < threshold && marker.id === markerObj.id) {
+                  const point = markerObj.getPosition() // 获取marker标记点的位置
+                  markerObj.callout.addEventListener('open', function () {
+                    const infoWindowElement = document.querySelector('.BMap_bubble_pop')
+                    const img = document.querySelector('.BMap_bubble_pop>img')
+                    if (img) {
+                      img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
+                    }
+      
+                    if (infoWindowElement) {
+                      const backgroundcolor = marker.callout?.bgColor
+                      let borderWidth = marker.callout?.borderWidth || 5
+                      const borderColor = marker.callout?.borderColor
+                      const borderRadius = marker.callout?.borderRadius
+                      // 确保边框大小不超过15
+                      borderWidth = Math.min(borderWidth, 15)
+                      infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
+                    }
+                  })
                   // 最近的标记点距离小于阈值，表示用户点击到了标记点
                   this.map.openInfoWindow(markerObj.callout, pt)
                 } else {
@@ -937,13 +1006,13 @@ export class Map implements ComponentInterface {
   /* 沿指定路径移动 marker，用于轨迹回放等场景。动画完成时触发回调事件，若动画进行中，对同一 marker 再次调用 moveAlong 方法，前一次的动画将被打断 */
   _moveAlong = (object) => {
     const path = object.path
+    const targetMarkerId = object.markerId
     const duration = object.duration
-    const autoRotate = object.autoRotate || true // 默认为 true
-    const overlays = this.map.getOverlays()
-    const targetMarker = overlays.find((overlay) => overlay instanceof BMapGL.Marker && overlay.id === object.markerId)
+    const autoRotate = object.autoRotate
+    const targetMarker = this.map.getOverlays().find((overlay) => overlay instanceof BMapGL.Marker && overlay.id === targetMarkerId)
 
     if (!targetMarker) {
-      console.error(`Marker "${object.markerId}" not found.`)
+      console.error(`Marker "${targetMarkerId}" not found.`)
       return
     }
 
@@ -953,38 +1022,61 @@ export class Map implements ComponentInterface {
     const animate = (timestamp) => {
       const elapsedTime = timestamp - startTime
       const progress = Math.min(elapsedTime / duration, 1)
+      const currentPoint = this.getPointOnPath(points, progress)
+      targetMarker.setPosition(currentPoint)
 
-      const currentPointIndex = Math.floor(progress * (points.length - 1))
-      const nextPointIndex = Math.ceil(progress * (points.length - 1))
-
-      const currentPoint = points[currentPointIndex]
-      const nextPoint = points[nextPointIndex]
-
-      // 确保当前路径点和下一个路径点索引不超出有效范围
-      const validCurrentPoint = currentPoint || points[points.length - 1]
-      const validNextPoint = nextPoint || points[points.length - 1]
-
-      const deltaX = validNextPoint.lng - validCurrentPoint.lng
-      const deltaY = validNextPoint.lat - validCurrentPoint.lat
-
-      const markerPosition = new BMapGL.Point(
-        validCurrentPoint.lng + deltaX * progress,
-        validCurrentPoint.lat + deltaY * progress
-      )
-
-      targetMarker.setPosition(markerPosition)
-
-      if (autoRotate) {
-        const rotation = Math.atan2(deltaY, deltaX) * (180 / Math.PI)
+      if (autoRotate && progress < 1) {
+        const nextPoint = this.getPointOnPath(points, Math.min(progress + 0.01, 1)) // 获取前进一点的点
+        const rotation = this.calculateRotation(currentPoint, nextPoint)
         targetMarker.setRotation(rotation)
       }
 
       if (progress < 1) {
         requestAnimationFrame(animate)
+      } else {
+        // 动画结束
+        targetMarker.setPosition(points[points.length - 1]) // 设置 marker 位置为路径的最后一个点
+        targetMarker.setRotation(0) // 恢复旋转角度为0
       }
     }
 
     requestAnimationFrame(animate)
+  }
+
+  getPointOnPath = (points, progress) => {
+    const totalLength = this.calculateTotalLength(points)
+    const targetLength = totalLength * progress
+    let currentLength = 0
+    for (let i = 0; i < points.length - 1; i++) {
+      const segmentLength = this.map.getDistance(points[i], points[i + 1])
+      if (currentLength + segmentLength >= targetLength) {
+        const ratio = (targetLength - currentLength) / segmentLength
+        const deltaX = points[i + 1].lng - points[i].lng
+        const deltaY = points[i + 1].lat - points[i].lat
+        const newLng = points[i].lng + deltaX * ratio
+        const newLat = points[i].lat + deltaY * ratio
+        return new BMapGL.Point(newLng, newLat)
+      }
+      currentLength += segmentLength
+    }
+    // 如果进度超出路径长度，返回路径的最后一个点
+    return points[points.length - 1]
+  }
+
+  calculateTotalLength = (points) => {
+    let totalLength = 0
+    for (let i = 0; i < points.length - 1; i++) {
+      totalLength += this.map.getDistance(points[i], points[i + 1])
+    }
+    return totalLength
+  }
+
+  calculateRotation = (currentPoint, nextPoint) => {
+    const dx = nextPoint.lng - currentPoint.lng
+    const dy = nextPoint.lat - currentPoint.lat
+    let angle = Math.atan2(dy, dx) * (180 / Math.PI)
+    angle = 90 - angle
+    return angle
   }
 
   /* 创建自定义图片图层，图片会随着地图缩放而缩放 */
