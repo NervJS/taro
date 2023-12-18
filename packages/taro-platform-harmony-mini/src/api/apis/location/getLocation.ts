@@ -79,7 +79,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
           /** 位置的精确度 */
           accuracy: res.accuracy,
           /** 高度，单位 m */
-          altitude: JSON.parse(altitude) ? res.altitude : 0,
+          altitude: altitude ? res.altitude : 0,
           /** 水平精度，单位 m */
           horizontalAccuracy: res.accuracy,
           /** 纬度，范围为 -90~90，负数表示南纬 */
