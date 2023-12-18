@@ -148,7 +148,20 @@ export default class Parser extends BaseParser {
       }
     }
     .width('100%')
+    .onAreaChange((area: Area) => {
+      const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
+      if (node) {
+        node._scroll = area
+      }
+    })
   }
+  .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
+  .onAreaChange((area: Area) => {
+    const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
+    if (node) {
+      node._client = area
+    }
+  })
   .onScroll(() => {
     if (!this.page) return
 
@@ -157,6 +170,17 @@ export default class Parser extends BaseParser {
       scrollTop: offset.xOffset || 0,
       scrollLeft: offset.yOffset || 0,
     })
+  })
+  .onScrollStop(() => {
+    if (!this.page) return
+
+    const offset: TaroObject = ${isTabPage ? 'this.scroller[index]' : 'this.scroller'}?.currentOffset()
+    const distance: number = config${isTabPage ? '[index]' : ''}.onReachBottomDistance || ${this.appConfig.window?.onReachBottomDistance || 50}
+    const clientHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._client?.height) || 0
+    const scrollHeight: number = Number(${isTabPage ? 'this.node[index]' : 'this.node'}?._scroll?.height) || 0
+    if (scrollHeight - clientHeight - offset.yOffset <= distance) {
+      callFn(this.page.onReachBottom, this)
+    }
   })
 }
 .width('100%')
