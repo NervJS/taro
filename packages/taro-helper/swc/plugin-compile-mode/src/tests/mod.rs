@@ -1,6 +1,6 @@
 use swc_core::ecma::{
     parser,
-    visit::{as_folder, Fold, VisitMut},
+    visit::{as_folder, Fold},
 };
 use crate::{
     PluginConfig,
