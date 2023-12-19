@@ -151,7 +151,7 @@ export default class Parser extends BaseParser {
       }
     }
     .width('100%')
-    .onAreaChange((area: Area) => {
+    .onAreaChange((_: Area, area: Area) => {
       const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
       if (node) {
         node._scroll = area
@@ -159,7 +159,7 @@ export default class Parser extends BaseParser {
     })
   }
   .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
-  .onAreaChange((area: Area) => {
+  .onAreaChange((_: Area, area: Area) => {
     const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
     if (node) {
       node._client = area
@@ -376,11 +376,17 @@ ${this.isTabbarPage
       '  callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
       '    this.node[index] = instance',
       '  })',
+      '  callFn(this.page.onReady, this, params, (instance: TaroElement) => {',
+      '    this.node[index] = instance',
+      '  })',
       '}',
     ], 4)
     : this.transArr2Str([
       `this.page = createComponent()`,
       'callFn(this.page.onLoad, this, params, (instance: TaroElement) => {',
+      '  this.node = instance',
+      '})',
+      'callFn(this.page.onReady, this, params, (instance: TaroElement) => {',
       '  this.node = instance',
       '})',
     ], 4)}

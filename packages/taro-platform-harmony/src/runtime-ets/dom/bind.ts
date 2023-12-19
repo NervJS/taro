@@ -1,3 +1,5 @@
+import animator from '@ohos.animator'
+
 import { ObjectAssign } from '../utils'
 
 import type { TaroAny } from '../utils'
