@@ -19,6 +19,8 @@ export function getEnv () {
   return ENV_TYPE.HARMONY
 }
 
+export { Current }
+
 // TODO
 export const getCurrentPages = () => []
 
