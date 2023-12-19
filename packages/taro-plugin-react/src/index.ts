@@ -105,8 +105,22 @@ function setAlias(framework: Frameworks, chain) {
 
 function VitePresetPlugin (framework: Frameworks): PluginOption {
   return framework === 'preact'
-    ? require('@preact/preset-vite').preact()
-    : require('@vitejs/plugin-react').default()
+    ? require('@preact/preset-vite').preact({
+      babel: {
+        plugins: [
+          ['@babel/plugin-proposal-decorators', { legacy: true }],
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
+        ],
+      },
+    })
+    : require('@vitejs/plugin-react').default({
+      babel: {
+        plugins: [
+          ['@babel/plugin-proposal-decorators', { legacy: true }],
+          ['@babel/plugin-proposal-class-properties', { loose: true }],
+        ],
+      },
+    })
 }
 
 function viteCommonPlugin(framework: Frameworks): PluginOption {
