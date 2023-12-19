@@ -98,7 +98,6 @@ export default function fetchTemplate (templateSource: string, templateRootPath:
         const creatorFile = path.join(templateRootPath, name, TEMPLATE_CREATOR)
 
         if (!fs.existsSync(creatorFile)) return { name }
-
         const { platforms = '', desc = '', compiler } = require(creatorFile)
 
         return {
