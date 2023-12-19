@@ -1,10 +1,11 @@
 import { transformSync } from '@babel/core'
 import { dataToEsm } from '@rollup/pluginutils'
-import { CSS_EXT, fs, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
+import { chalk, CSS_EXT, fs, REG_SCRIPTS, resolveSync } from '@tarojs/helper'
 import { parse as parseJSXStyle } from '@tarojs/parse-css-to-stylesheet'
 import { isEqual } from 'lodash'
 import MagicString from 'magic-string'
 import path from 'path'
+import stylelint from 'stylelint'
 
 import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
 import {
@@ -231,6 +232,8 @@ export async function stylePlugin(viteCompilerContext: ViteHarmonyCompilerContex
         map,
       } = await compileCSS(id, raw, viteConfig, urlReplacer)
       cssCache.set(id, css)
+      // 校验css
+      validateStylelint(id, raw)
       if (modules) {
         moduleCache.set(id, modules)
       }
@@ -571,4 +574,40 @@ export async function stylePostPlugin(_viteCompilerContext: ViteHarmonyCompilerC
       // }
     },
   }
+}
+
+// 校验stylelint
+function validateStylelint(id: string, code: string) {
+  stylelint.lint({
+    code,
+    configBasedir: process.cwd()
+  }).then(res => {
+    if (res.errored) {
+      // eslint-disable-next-line no-console
+      console.log(res.output)
+    } else {
+      res.results.forEach(res => {
+        if (res.warnings.length) {
+          // eslint-disable-next-line no-console
+          console.log('\n', chalk.cyan('Taro多端样式检测:'), chalk.gray(id))
+        }
+        res.warnings.forEach(warning => {
+          // eslint-disable-next-line no-console
+          console.log(' |', chalk.gray(`${path.basename(id)}:[${warning.line}:${warning.column}]`), highlightQuotes(warning.text))
+        })
+      })
+    }
+  }).catch(_ => {
+    // 没有stylelint配置文件
+  })
+}
+
+function highlightQuotes(inputString) {
+  // 使用正则表达式匹配双引号内容
+  const regex = /"("?[^"]*?"?)"/g
+  // 使用 replace 方法将匹配到的双引号内容进行高亮
+  const highlightedString = inputString.replace(regex, (_, group) => {
+    return chalk.yellow(`"${group}"`)
+  })
+  return highlightedString
 }
