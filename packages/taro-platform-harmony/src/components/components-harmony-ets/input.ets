@@ -72,7 +72,6 @@ function getPlaceholderColor (node: TaroInputElement): string {
 @Builder
 export default function TaroInput(node: TaroInputElement) {
   TextInput({ text: node.value, placeholder: node._attrs?.placeholder || '', controller: node.controller })
-    .focusable(true)
     .key(node._nid)
     .type(getInputType(node))
     .maxLength(Number(node._attrs?.maxlength) || null)
@@ -80,7 +79,6 @@ export default function TaroInput(node: TaroInputElement) {
     .enterKeyType(INPUT_CONFIRM_MAP.get(node._attrs?.confirmType) || EnterKeyType.Done)
     .styles(getNormalAttributes(node))
     .attrs(getAttributes(node))
-    .style(TextInputStyle.Inline)
     .onChange((value: string) => {
       const event: TaroEvent = createTaroEvent('input', { detail: { value } }, node)
       
