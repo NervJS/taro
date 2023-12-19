@@ -34,7 +34,7 @@ interface Result {
 }
 
 export function parseVue (dirPath: string, wxml: string, jsCode = ''): Result {
-  updateLogFileContent(`package: taroize, funName: parseVue, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseVue - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}`)
   let ast = parseCode(jsCode)
   let foundWXInstance = false
   const vistor: Visitor = {

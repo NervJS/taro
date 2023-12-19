@@ -764,8 +764,7 @@ export function updateLogFileContent(data: string) {
   try {
     globals.logFileContent += data
   } catch (error) {
-    console.error('记录日志数据异常')
-    throw error
+    console.error(`记录日志数据异常 ${error.message}`)
   }
 }
 
@@ -778,7 +777,6 @@ export function printToLogFile() {
     fs.appendFile(globals.logFilePath, globals.logFileContent, () => {})
     globals.logFileContent = ''
   } catch (error) {
-    console.error('写入日志文件异常')
-    throw error
+    console.error(`写入日志文件异常 ${error.message}`)
   }
 }

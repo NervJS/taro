@@ -129,6 +129,16 @@ describe('wxml语法', () => {
       `length > 5 ? <View>1</View> : length > 2 ? <View>2</View> : <View>3</View>`
     )
   })
+  
+  test('使用wx:if替换wx:show属性', () => {
+    option.wxml = `<view wx:show="{{isShow}}">
+                    测试使用wx:if替换wx:show属性
+                  </view>`
+    option.path = 'wxml_show'
+    const { wxml }: any = parseWXML(option.path, option.wxml)
+    const wxmlCode = generateMinimalEscapeCode(wxml)
+    expect(wxmlCode).toMatchSnapshot()
+  })
 })
 
 describe('slot插槽', () => {
@@ -332,7 +342,7 @@ describe('wxs', () => {
   test('wxs 标签的属性值为空', () => {
     option.wxml = `<wxs src="" module=""/>`
     option.path = 'wxs_empty'
-    expect(() => parseWXML(option.path, option.wxml)).toThrowError('WXS 标签的属性值不得为空')
+    expect(() => parseWXML(option.path, option.wxml)).toThrowError('wxs 标签的属性值不得为空')
   })
 
   test('wxs 没有src属性且内部无代码', () => {

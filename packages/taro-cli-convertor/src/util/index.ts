@@ -130,8 +130,8 @@ export function analyzeImportUrl (
   pluginName?: string
 ) {
   // 将参数记录到log文件
-  printToLogFile(
-    `package: taro-cli-convertor, funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`
+  updateLogFileContent(
+    `INFO [taro-cli-convertor] analyzeImportUrl - 入参 ${getLineBreak()}sourceFilePath: ${sourceFilePath} ${getLineBreak()}value: ${value} ${getLineBreak()}`
   )
 
   if (isPluginMainJs(value, pluginName)) {
@@ -143,6 +143,9 @@ export function analyzeImportUrl (
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
     printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+    updateLogFileContent(
+      `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用 ${value} 不存在 ${getLineBreak()}`
+    )
     return
   }
   if (rpath !== value) {
@@ -157,6 +160,9 @@ export function analyzeImportUrl (
         fPath = vpath
       } else {
         printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+        updateLogFileContent(
+          `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用 ${value} 不存在 ${getLineBreak()}`
+        )
       }
       scriptFiles.add(fPath)
     } else {
@@ -164,12 +170,18 @@ export function analyzeImportUrl (
       if (vpath) {
         if (!fs.existsSync(vpath)) {
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+          updateLogFileContent(
+            `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用 ${value} 不存在！ ${getLineBreak()}`
+          )
         } else {
           if (fs.lstatSync(vpath).isDirectory()) {
             if (fs.existsSync(path.join(vpath, 'index.js'))) {
               vpath = path.join(vpath, 'index.js')
             } else {
               printLog(processTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+              updateLogFileContent(
+                `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用了目录 ${value}！ ${getLineBreak()}`
+              )
               return
             }
           }
@@ -241,9 +253,15 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
 
     if (!isThirdPartyLibExist) {
       console.log(chalk.red(`在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`))
+      updateLogFileContent(
+        `WARN [taro-cli-convertor] handleThirdPartyLib - 在 [${nodePath.toString()}] 中没有找到依赖的三方库 ${filePath}，请安装依赖后运行 ${getLineBreak()}`
+      )
     }
   } catch (error) {
     console.log(chalk.red(`转换三方库${filePath}异常，请手动处理, error message:${error}`))
+    updateLogFileContent(
+      `WARN [taro-cli-convertor] handleThirdPartyLib - 转换三方库 ${filePath} 异常 ${getLineBreak()}${error} ${getLineBreak()}`
+    )
   }
 }
 
@@ -351,6 +369,9 @@ export function generateReportFile (sourceFilePath, targeFileDir, targeFileName,
     }
     fs.writeFileSync(path.join(targeFileDir, targeFileName), data)
   } catch (error) {
+    updateLogFileContent(
+      `WARN [taro-cli-convertor] generateReportFile - 文件 ${sourceFilePath} 写入异常 ${getLineBreak()}${error} ${getLineBreak()}`
+    )
     console.log(`文件${sourceFilePath}写入失败，errorMsg：${error}`)
   }
 }
@@ -383,24 +404,36 @@ export function getLineBreak () {
 }
 
 /**
- * 记录数据到日志文件中
+ * 记录数据到logFileContent中
  *
  * @param data 日志数据
  */
-export function printToLogFile (data: string) {
+export function updateLogFileContent (data: string) {
   try {
     globals.logFileContent += data
-    
+
+    // 日志分段写入log文件
     if (globals.logCount === 2000) {
-      fs.appendFile(globals.logFilePath, globals.logFileContent)
-      globals.logFileContent = ''
+      printToLogFile()
       globals.logCount = 0
     } else {
       globals.logCount++
     }
   } catch (error) {
-    console.error('写入日志文件异常')
-    throw error
+    console.error(`记录日志数据异常 ${error.message}}`)
+  }
+}
+
+/**
+ * 写入数据到日志文件中
+ *
+ */
+export function printToLogFile () {
+  try {
+    fs.appendFile(globals.logFilePath, globals.logFileContent)
+    globals.logFileContent = ''
+  } catch (error) {
+    console.error(`写入日志文件异常 ${error.message}}`)
   }
 }
 
