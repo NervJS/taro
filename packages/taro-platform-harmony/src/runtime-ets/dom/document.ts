@@ -30,6 +30,15 @@ class TaroDocument extends TaroNode {
   public createElement (tagName: string): TaroElement {
     let node: TaroElement
 
+    // TODO: 仍需补充更多节点解析和它默认样式行为的转换，比如h1\h2
+    switch (tagName) {
+      case 'root': tagName = 'view'; break
+      case 'img': tagName = 'image'; break
+      case 'div': tagName = 'view'; break
+      case 'p': tagName = 'text'; break
+      case 'span': tagName = 'text'; break
+    }
+
     // @ts-ignore
     if (Current?.createHarmonyElement) {
       // @ts-ignore
