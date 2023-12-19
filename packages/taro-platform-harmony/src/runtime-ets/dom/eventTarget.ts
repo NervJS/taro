@@ -37,7 +37,7 @@ class TaroEventTarget extends Events {
 
   public removeEventListener (type: string, listener: fn) {
     const listeners = this.__listeners[type]
-    if (listeners.length) {
+    if (listeners?.length) {
       this.__listeners[type] = listeners.filter(item => item !== listener)
     }
   }
