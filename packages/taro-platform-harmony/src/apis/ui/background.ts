@@ -1,16 +1,10 @@
-// import window from '@ohos.window'
-// import { Current } from '@tarojs/runtime'
 import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
+import { temporarilyNotSupport } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
-// import { callAsyncFail, callAsyncSuccess } from '../utils'
+export const setBackgroundTextStyle = /* @__PURE__ */ temporarilyNotSupport('setBackgroundTextStyle')
 
-
-// const windowClassPromise = (Current as any).contextPromise
-//   .then(context => {
-//     return window.getTopWindow(context)
-//   })
 
 export function setBackgroundColor(options: Taro.setBackgroundColor.Option) {
   const { success, fail, complete } = options || {}
@@ -22,14 +16,5 @@ export function setBackgroundColor(options: Taro.setBackgroundColor.Option) {
     })
 
     return handle.success({}, { resolve, reject })
-    // windowClassPromise.then(windowClass => {
-    //   windowClass.setBackgroundColor(color).then(() => {
-    //     const res = { errMsg: 'setBackgroundColor:ok' }
-    //     callAsyncSuccess(resolve, res, options)
-    //   }, (error) => {
-    //     const res = { errMsg: 'setBackgroundColor:fail' + error }
-    //     callAsyncFail(reject, res, options)
-    //   })
-    // })
   })
 }
