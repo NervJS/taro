@@ -2,6 +2,8 @@ import H5 from './program'
 
 import type { IPluginContext } from '@tarojs/service'
 
+export { H5 }
+
 export default (ctx: IPluginContext) => {
   ctx.registerPlatform({
     name: 'harmony-mini',
@@ -12,3 +14,5 @@ export default (ctx: IPluginContext) => {
     },
   })
 }
+
+export * from './resolve'

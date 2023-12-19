@@ -238,6 +238,15 @@
     "compressVideo": false,
     "connectSocket": false,
     "connectWifi": false,
+    "console": {
+      "debug": true,
+      "error": true,
+      "group": true,
+      "groupEnd": true,
+      "info": true,
+      "log": true,
+      "warn": true
+    },
     "createAnimation": false,
     "createAudioContext": true,
     "createBLEConnection": false,
