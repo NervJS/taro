@@ -1,10 +1,11 @@
 // 网络状态，从API Version 7 开始，该接口不再维护，推荐使用新接口'@ohos.telephony.observer'
 // 但是新接口 @ohos.telephony.observer 没有network.getType。而且网络状态枚举值不清楚
 import network from '@system.network'
-import Taro from '@tarojs/taro'
 
 import { temporarilyNotSupport } from '../utils'
 import { CallbackManager, MethodHandler } from '../utils/handler'
+
+import type Taro from '@tarojs/taro/types'
 
 export const getNetworkType: typeof Taro.getNetworkType = (options = {}) => {
   const { success, fail, complete } = options

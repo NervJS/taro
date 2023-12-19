@@ -2,7 +2,7 @@ import { Current } from '@tarojs/runtime'
 
 import { callAsyncSuccess, temporarilyNotSupport } from '../../utils'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 export const setNavigationBarTitle: typeof Taro.setNavigationBarTitle = function (options) {
   return new Promise(resolve => {

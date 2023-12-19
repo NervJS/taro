@@ -6,23 +6,8 @@ import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 import { queryToJson } from '@tarojs/shared'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
-import { IAsyncParams } from '../utils/types'
 
-import type Taro from '@tarojs/api'
-
-const launchOptions: Taro.getLaunchOptionsSync.LaunchOptions = {
-  path: '',
-  query: {},
-  scene: 0,
-  shareTicket: '',
-  referrerInfo: {}
-}
-
-function initLaunchOptions (options = {}) {
-  Object.assign(launchOptions, options)
-}
-
-eventCenter.once('__taroRouterLaunch', initLaunchOptions)
+import type Taro from '@tarojs/taro/types'
 
 const TARO_TABBAR_PAGE_PATH = 'taro_tabbar'
 function isTabPage (url: string): boolean {
@@ -39,10 +24,6 @@ function parseURL (raw = ''): [string, Record<string, unknown>] {
   }
   return [url, query]
 }
-
-// 生命周期
-export const getLaunchOptionsSync = () => launchOptions
-export const getEnterOptionsSync = () => launchOptions
 
 const getRouterFunc = (method): typeof Taro.navigateTo => {
   const methodName = method === 'navigateTo' ? 'pushUrl' : 'replaceUrl'
@@ -74,10 +55,7 @@ const getRouterFunc = (method): typeof Taro.navigateTo => {
 export const navigateTo = getRouterFunc('navigateTo')
 export const redirectTo = getRouterFunc('redirectTo')
 
-interface INavigateBackParams extends IAsyncParams {
-  url?: string
-}
-export function navigateBack (options: INavigateBackParams): Promise<any> {
+export function navigateBack (options: Taro.navigateBack.Option & { url?: string }): Promise<any> {
   return new Promise(resolve => {
     if (!options?.url) {
       router.back()

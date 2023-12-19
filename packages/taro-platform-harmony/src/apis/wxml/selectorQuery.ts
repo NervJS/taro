@@ -2,7 +2,7 @@ import { AREA_CHANGE_EVENT_NAME, Current, getPageScrollerOrNode, setNodeEventCal
 
 import { NodesRef } from './nodesRef'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 interface ISelectorQueryQueue {
   component: any

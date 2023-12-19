@@ -18,14 +18,10 @@
 // ❌ wx.closeSocket
 
 import webSocket from '@ohos.net.webSocket'
-import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
-import { IAsyncParams } from '../utils/types'
 
-interface ISendSocketOptions extends IAsyncParams {
-  data: string
-}
+import type Taro from '@tarojs/taro/types'
 
 const connectSocketSchema = {
   url: 'String'
@@ -108,7 +104,7 @@ export const connectSocket: typeof Taro.connectSocket = function (options) {
       onOpenCallback(!err ? value : err)
     })
   }
-  SocketTaskWX.send = function (sendOptions: ISendSocketOptions) {
+  SocketTaskWX.send = function (sendOptions: Taro.SocketTask.SendOption) {
     return new Promise((resolve, reject) => {
       const { data } = sendOptions
       try {

@@ -193,3 +193,6 @@ export function hideToast (options) {
 
 export const showLoading = temporarilyNotSupport('showLoading')
 export const hideLoading = temporarilyNotSupport('hideLoading')
+
+export const enableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('enableAlertBeforeUnload')
+export const disableAlertBeforeUnload = /* @__PURE__ */ temporarilyNotSupport('disableAlertBeforeUnload')

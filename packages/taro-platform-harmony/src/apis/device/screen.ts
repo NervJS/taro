@@ -2,10 +2,11 @@
 // 但是 新接口 @ohos.brightness 没有 getValue
 import brightness from '@system.brightness'
 import { isNumber } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../utils'
 import { MethodHandler } from '../utils/handler'
+
+import type Taro from '@tarojs/taro/types'
 
 // 屏幕
 export const setVisualEffectOnCapture = /* @__PURE__ */ temporarilyNotSupport('setVisualEffectOnCapture')

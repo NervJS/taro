@@ -2,7 +2,7 @@ import { Current } from '@tarojs/runtime'
 
 import { callAsyncSuccess } from '../utils'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 export const startPullDownRefresh: typeof Taro.startPullDownRefresh = function (options) {
   return new Promise(resolve => {

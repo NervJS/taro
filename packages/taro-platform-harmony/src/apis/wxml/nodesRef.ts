@@ -1,6 +1,6 @@
-import Taro from '@tarojs/api'
-
 import { SelectorQuery } from './selectorQuery'
+
+import type Taro from '@tarojs/taro/types'
 
 export class NodesRef implements Taro.NodesRef {
   _component?: any

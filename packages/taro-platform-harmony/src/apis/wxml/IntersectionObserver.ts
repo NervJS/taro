@@ -1,8 +1,8 @@
-import Taro from '@tarojs/api'
-// @ts-ignore
 import { Current, disconnectEvent, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate, TaroElement, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 
 import { temporarilyNotSupport } from '../utils'
+
+import type Taro from '@tarojs/taro/types'
 
 export class IntersectionObserver implements Taro.IntersectionObserver {
   // 自定义组件实例

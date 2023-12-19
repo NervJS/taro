@@ -7,9 +7,10 @@
 
 import http from '@ohos.net.http'
 import { isString, isUndefined } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+
+import type Taro from '@tarojs/taro/types'
 
 const METHOD: string [] = ['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT']
 

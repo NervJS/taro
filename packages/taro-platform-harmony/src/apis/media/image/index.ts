@@ -12,9 +12,10 @@
 import picker from '@ohos.file.picker'
 import image from '@ohos.multimedia.image'
 import { isNull } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
+
+import type Taro from '@tarojs/taro/types'
 
 interface IPackingOptionOHOS {
   format: string

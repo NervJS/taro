@@ -6,7 +6,7 @@
  */
 
 // import hmsJSAccount from '@hmscore/hms-jsb-account'
-import { temporarilyNotSupport } from '../../utils'
+import { temporarilyNotSupport } from '../utils'
 
 /**
  * 通过Scope数组获取已登录的对应帐号信息(依赖login行为)
@@ -52,21 +52,6 @@ export const getUserProfile = temporarilyNotSupport('getUserProfile')
 //       })
 //   })
 // }
-
-/**
- * 提前向用户发起授权请求
- */
-export const authorize = temporarilyNotSupport('authorize')
-
-/**
- * 获取用户的当前设置
- */
-export const getSetting = temporarilyNotSupport('getSetting')
-
-/**
- * 调起客户端小程序设置界面
- */
-export const openSetting = temporarilyNotSupport('openSetting')
 
 // function generateUserInfo (hmsAuthInfo) {
 //   const userInfo = {

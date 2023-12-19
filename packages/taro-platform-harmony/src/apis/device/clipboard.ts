@@ -5,7 +5,7 @@ import { isString } from '@tarojs/shared'
 import { callAsyncFail, getParameterError, object2String } from '../utils'
 import { MethodHandler } from '../utils/handler'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 /**
  * 设置系统剪贴板的内容

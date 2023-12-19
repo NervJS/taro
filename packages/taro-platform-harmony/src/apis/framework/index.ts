@@ -19,13 +19,10 @@ export function getEnv () {
   return ENV_TYPE.HARMONY
 }
 
-export const getCurrentInstance = () => Current
+// TODO
+export const getCurrentPages = () => []
 
-export const nextTick = (cb: (...args: any[]) => any, ctx?: Record<string, any>) => {
-  setTimeout(function () {
-    ctx ? cb.call(ctx) : cb()
-  }, 1)
-}
+export const getCurrentInstance = () => Current
 
 export const requirePlugin = temporarilyNotSupport('requirePlugin')
 

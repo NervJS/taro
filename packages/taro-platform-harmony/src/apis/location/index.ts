@@ -15,9 +15,16 @@
 // ❌ wx.startLocationUpdate
 
 import geoLocationManager from '@ohos.geoLocationManager'
-import Taro from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
+
+import type Taro from '@tarojs/taro/types'
+
+// 位置
+export const stopLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('stopLocationUpdate')
+export const startLocationUpdateBackground = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdateBackground')
+export const startLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdate')
+export const openLocation = /* @__PURE__ */ temporarilyNotSupport('openLocation')
 
 interface IGetOHOSGeolocationParams {
   type?: string
@@ -131,3 +138,10 @@ export const offLocationChange: typeof Taro.offLocationChangeError = function (c
     }
   })
 }
+
+export const onLocationChangeError = /* @__PURE__ */ temporarilyNotSupport('onLocationChangeError')
+export const offLocationChangeError = /* @__PURE__ */ temporarilyNotSupport('offLocationChangeError')
+
+export const choosePoi = /* @__PURE__ */ temporarilyNotSupport('choosePoi')
+export const chooseLocation = /* @__PURE__ */ temporarilyNotSupport('chooseLocation')
+export const getFuzzyLocation = /* @__PURE__ */ temporarilyNotSupport('getFuzzyLocation')

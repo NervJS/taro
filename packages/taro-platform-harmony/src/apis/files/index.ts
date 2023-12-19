@@ -19,10 +19,11 @@
 
 import document from '@ohos.document'
 import fileio from '@ohos.fileio'
-import Taro from '@tarojs/taro'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
 import { getFileSystemManager, validateSavedFilePath } from './manager'
+
+import type Taro from '@tarojs/taro/types'
 
 const filePathSchema = {
   filePath: 'String'

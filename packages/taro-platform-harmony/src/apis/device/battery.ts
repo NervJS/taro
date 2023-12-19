@@ -2,7 +2,7 @@ import batteryInfo, { BatteryChargeState } from '@ohos.batteryInfo'
 
 import { MethodHandler } from '../utils/handler'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 // 电量
 

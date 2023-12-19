@@ -1,8 +1,8 @@
 import matrix4 from '@ohos.matrix4'
 
-import { temporarilyNotSupport } from '../utils'
+import { temporarilyNotSupport } from '../../utils'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 interface IAnimationAttr {
   duration: number

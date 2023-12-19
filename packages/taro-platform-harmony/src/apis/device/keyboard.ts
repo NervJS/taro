@@ -1,9 +1,10 @@
 import inputMethodEngine from '@ohos.inputMethodEngine'
 import { Current, window } from '@tarojs/runtime'
-import Taro from '@tarojs/taro'
 
 import { temporarilyNotSupport } from '../utils'
 import { CallbackManager, MethodHandler } from '../utils/handler'
+
+import type Taro from '@tarojs/taro/types'
 
 const callbackManager = new CallbackManager()
 

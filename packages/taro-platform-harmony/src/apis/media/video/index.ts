@@ -22,9 +22,10 @@
 //   ❌ VideoContext.stop
 
 import mediaLibrary from '@ohos.multimedia.mediaLibrary'
-import Taro from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess, validateParams } from '../utils'
+import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
+
+import type Taro from '@tarojs/taro/types'
 
 interface IChooseVideoOptionOHOS {
   type: string
@@ -40,6 +41,8 @@ interface ISaveVideoToPhotosAlbumOptionsOHOS {
 const saveVideoToPhotosAlbumSchema = {
   filePath: 'String'
 }
+
+export const createVideoContext = /* @__PURE__ */ temporarilyNotSupport('createVideoContext')
 
 // TODO: 1.返回属性补全
 // TODO: 2.只支持从相册选择，补充摄像头拍摄功能，需要HarmonyOS提供选择组件
@@ -62,6 +65,10 @@ export const chooseVideo: typeof Taro.chooseVideo = function (options = {}) {
     })
   })
 }
+
+export const compressVideo = /* @__PURE__ */ temporarilyNotSupport('compressVideo')
+export const getVideoInfo = /* @__PURE__ */ temporarilyNotSupport('getVideoInfo')
+export const openVideoEditor = /* @__PURE__ */ temporarilyNotSupport('openVideoEditor')
 
 export const saveVideoToPhotosAlbum: typeof Taro.saveVideoToPhotosAlbum = function (options) {
   return new Promise((resolve, reject) => {

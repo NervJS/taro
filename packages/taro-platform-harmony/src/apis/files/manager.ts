@@ -29,9 +29,10 @@ import zlib from '@ohos.zlib'
 import app from '@system.app'
 import file from '@system.file'
 import { isNumber, isString } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
 import { callCallbackFail, callCallbackSuccess, temporarilyNotSupport, validateParams } from '../utils'
+
+import type Taro from '@tarojs/taro/types'
 
 const rootDataPath = `/data/data/${app.getInfo()?.appID || 'app'}`
 const rootSavedFilePath = `${rootDataPath}/files`

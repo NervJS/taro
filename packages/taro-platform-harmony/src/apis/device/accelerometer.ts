@@ -1,7 +1,8 @@
 import sensor from '@ohos.sensor'
-import Taro from '@tarojs/taro'
 
 import { CallbackManager, MethodHandler } from '../utils/handler'
+
+import type Taro from '@tarojs/taro/types'
 
 const callbackManager = new CallbackManager()
 let devicemotionListener

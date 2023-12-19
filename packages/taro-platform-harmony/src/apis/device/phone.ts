@@ -1,10 +1,11 @@
 // 从 API Version 7 开始支持。
 import call from '@ohos.telephony.call'
 import { isString } from '@tarojs/shared'
-import Taro from '@tarojs/taro'
 
 import { getParameterError, object2String, shouldBeObject } from '../utils'
 import { MethodHandler } from '../utils/handler'
+
+import type Taro from '@tarojs/taro/types'
 
 export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
   // options must be an Object

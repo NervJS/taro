@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * 鸿蒙SDK API Version 6
  * 将页面滚动到目标位置
@@ -9,13 +8,13 @@
 import { AREA_CHANGE_EVENT_NAME, Current, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 import { pxTransformHelper } from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess } from '../utils'
+import { callAsyncFail, callAsyncSuccess } from '../../utils'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
-// TODO
-export const getCurrentPages = () => []
-
+/**
+ * 将页面滚动到目标位置
+ */
 export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {

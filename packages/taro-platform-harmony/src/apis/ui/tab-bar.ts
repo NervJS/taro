@@ -5,7 +5,7 @@ import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
 
-import type Taro from '@tarojs/api'
+import type Taro from '@tarojs/taro/types'
 
 interface ShowTabBar {
   type: 'show'

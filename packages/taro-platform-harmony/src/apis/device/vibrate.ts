@@ -1,13 +1,14 @@
 import vibrator from '@ohos.vibrator'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
-import { IAsyncParams } from '../utils/types'
+
+import type Taro from '@tarojs/taro/types'
 
 const VIBRATOR_LONG_TIME = 400
 const VIBRATOR_SHORT_TIME = 15
 
 function vibrateBaseGenerator (time: number) {
-  return (options: IAsyncParams) => {
+  return (options: Taro.vibrateLong.Option) => {
     return new Promise((resolve, reject) => {
       vibrator.vibrate(time).then(() => {
         const res = { errMsg: 'vibrateShort:ok' }

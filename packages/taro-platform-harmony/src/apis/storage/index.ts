@@ -9,19 +9,7 @@ import { Current } from '@tarojs/runtime'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
 
-import type { IAsyncParams } from '../utils/types'
-
-interface IGetStorageParams extends IAsyncParams {
-  key: string
-}
-interface ISetStorageParams extends IAsyncParams {
-  key: string
-  data: number | string | boolean
-}
-
-interface IRemoveStorageParams extends IAsyncParams {
-  key: string
-}
+import type Taro from '@tarojs/taro/types'
 
 const preferencesPromise = (Current as any).contextPromise
   .then((context) => {
@@ -51,7 +39,7 @@ const storageSchema = {
   key: 'String'
 }
 
-export function getStorage (options: IGetStorageParams) {
+export function getStorage<T = any> (options: Taro.getStorage.Option<T>) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('getStorage', options, storageSchema)
@@ -61,7 +49,7 @@ export function getStorage (options: IGetStorageParams) {
     }
     getItem(options.key).then(({ result, data }) => {
       const res: Record<string, any> = { errMsg: 'getStorage:ok' }
-    
+
       if (result) {
         res.data = data
         callAsyncSuccess(resolve, res, options)
@@ -73,7 +61,7 @@ export function getStorage (options: IGetStorageParams) {
   })
 }
 
-export function setStorage (options: ISetStorageParams) {
+export function setStorage (options: Taro.setStorage.Option) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('setStorage', options, storageSchema)
@@ -94,7 +82,7 @@ export function setStorage (options: ISetStorageParams) {
   })
 }
 
-export function removeStorage (options: IRemoveStorageParams) {
+export function removeStorage (options: Taro.removeStorage.Option) {
   return new Promise((resolve, reject) => {
     try {
       validateParams('removeStorage', options, storageSchema)
@@ -115,7 +103,7 @@ export function removeStorage (options: IRemoveStorageParams) {
   })
 }
 
-export function clearStorage (options: IAsyncParams) {
+export function clearStorage (options: Taro.clearStorage.Option) {
   return new Promise(resolve => {
     preferencesPromise.then(async (preferences) => {
       await preferences.clear()
@@ -127,7 +115,21 @@ export function clearStorage (options: IAsyncParams) {
   })
 }
 
+export const getStorageInfoSync = temporarilyNotSupport('getStorageInfoSync')
+export const getStorageInfo = temporarilyNotSupport('getStorageInfo')
+
 export const getStorageSync = temporarilyNotSupport('getStorageSync', 'getStorage')
 export const setStorageSync = temporarilyNotSupport('setStorageSync', 'setStorage')
 export const clearStorageSync = temporarilyNotSupport('clearStorageSync', 'clearStorage')
 export const removeStorageSync = temporarilyNotSupport('removeStorageSync', 'removeStorage')
+
+export const createBufferURL = /* @__PURE__ */ temporarilyNotSupport('createBufferURL')
+export const revokeBufferURL = /* @__PURE__ */ temporarilyNotSupport('revokeBufferURL')
+
+export const batchSetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchSetStorageSync')
+export const batchSetStorage = /* @__PURE__ */ temporarilyNotSupport('batchSetStorage')
+export const batchGetStorageSync = /* @__PURE__ */ temporarilyNotSupport('batchGetStorageSync')
+export const batchGetStorage = /* @__PURE__ */ temporarilyNotSupport('batchGetStorage')
+
+export * from './background-fetch'
+export * from './cache-manager'
