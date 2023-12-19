@@ -92,6 +92,7 @@ export function TaroCheckbox(node: TaroCheckboxElement) {
         .textAlign(TextAlign.Center)
         .opacity(!!node._attrs.disabled ? 0.4 : 1)
     }
+    .alignItems(VerticalAlign.Start)
     .onClick(() => {
       if (!node?._attrs.disabled) {
         node.checked = !node.checked

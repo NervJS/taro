@@ -70,7 +70,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SLIDER') {
     TaroSlider({ node: item as TaroSliderElement })
   } else if (item.tagName === 'SWITCH') {
-    TaroSwitch({ node: item as TaroSwitchElement })
+    TaroSwitch(item as TaroSwitchElement)
   } else if (item.tagName === 'INPUT') {
     TaroInput(item as TaroInputElement)
   } else if (item.tagName === 'SWIPER') {
