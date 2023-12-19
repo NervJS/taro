@@ -215,7 +215,7 @@ export default class Harmony extends TaroPlatformHarmony {
           const targetPath = path.join(outputRoot, NODE_MODULES, p1)
           const relativePath = parseRelativePath(path.dirname(target), targetPath)
           if (HARMONY_SCOPES.every(e => !e.test(p1))) {
-            if (this.indexOfLibraries(p1) === -1) {
+            if (this.indexOfLibraries(p1) === -1 && !/\.(d\.ts|flow\.js)$/.test(lib)) {
               this.externalDeps.push([p1, new RegExp(`^${p1.replace(/([-\\/$])/g, '\\$1')}$`)])
               this.moveLibraries(p1, targetPath, path.dirname(lib), true)
             }

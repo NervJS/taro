@@ -5,7 +5,6 @@ import { MethodHandler } from '../utils/handler'
 
 export const setBackgroundTextStyle = /* @__PURE__ */ temporarilyNotSupport('setBackgroundTextStyle')
 
-
 export function setBackgroundColor(options: Taro.setBackgroundColor.Option) {
   const { success, fail, complete } = options || {}
   const handle = new MethodHandler({ name: 'setBackgroundColor', success, fail, complete })
