@@ -1,5 +1,6 @@
 import { messages, ruleName } from '../index'
 
+// @ts-ignore
 testRule({
   ruleName,
   config: true,
@@ -40,4 +41,4 @@ testRule({
       column: 1,
     }
   ]
-});
+})
