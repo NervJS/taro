@@ -1,30 +1,35 @@
-import { Current } from '@tarojs/runtime'
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
-import { callAsyncSuccess, temporarilyNotSupport } from '../../utils'
+import { temporarilyNotSupport } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
 export const setNavigationBarTitle: typeof Taro.setNavigationBarTitle = function (options) {
-  return new Promise(resolve => {
-    const taro = (Current as any).taro
-    const page = taro.getCurrentInstance().page
-    const res = { errMsg: 'setNavigationBarTitle:ok' }
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'setNavigationBarTitle', success, fail, complete })
 
-    page.$set?.('taroNavBar.title', options.title)
-    callAsyncSuccess(resolve, res, options)
+  return new Promise((resolve, reject) => {
+    eventCenter.trigger('__taroNavigationStyle', {
+      title: options.title,
+    })
+
+    return handle.success({}, { resolve, reject })
   })
 }
 
 export const setNavigationBarColor: typeof Taro.setNavigationBarColor = function (options) {
-  return new Promise(resolve => {
-    const taro = (Current as any).taro
-    const page = taro.getCurrentInstance().page
-    const { frontColor, backgroundColor } = options
-    const res = { errMsg: 'setNavigationBarColor:ok' }
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'setNavigationBarTitle', success, fail, complete })
 
-    page.$set?.('taroNavBar.textStyle', frontColor)
-    page.$set?.('taroNavBar.background', backgroundColor)
-    callAsyncSuccess(resolve, res, options)
+  return new Promise((resolve, reject) => {
+    eventCenter.trigger('__taroNavigationStyle', {
+      animation: options.animation,
+      backgroundColor: options.backgroundColor,
+      frontColor: options.frontColor,
+    })
+
+    return handle.success({}, { resolve, reject })
   })
 }
 
