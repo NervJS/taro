@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/no-duplicates
-import { Current, document } from '@tarojs/runtime'
-// eslint-disable-next-line import/no-duplicates
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 
 import { setReconciler } from './connect'
 import { injectPageInstance } from './page'
@@ -211,7 +209,7 @@ export function createReactApp (
 
           app.onCreate?.()
         }
-        
+
         eventCenter.trigger('__taroRouterLaunch', launchParam)
       })
     },

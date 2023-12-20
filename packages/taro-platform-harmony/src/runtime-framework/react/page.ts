@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/no-duplicates
-import { Current, document, requestAnimationFrame, window } from '@tarojs/runtime'
-// eslint-disable-next-line import/no-duplicates
-import { CONTEXT_ACTIONS, env, eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { Current, document, requestAnimationFrame, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import { CONTEXT_ACTIONS, env, eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import { hooks, isArray, isFunction, isUndefined } from '@tarojs/shared'
 
 import { ON_HIDE, ON_LOAD, ON_READY, ON_SHOW, ON_UNLOAD } from './constant'

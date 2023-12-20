@@ -1,8 +1,6 @@
 import router from '@ohos.router'
-// eslint-disable-next-line import/no-duplicates
-import { window } from '@tarojs/runtime'
-// eslint-disable-next-line import/no-duplicates
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import { queryToJson } from '@tarojs/shared'
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'

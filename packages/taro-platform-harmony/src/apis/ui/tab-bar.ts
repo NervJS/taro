@@ -1,7 +1,5 @@
-// eslint-disable-next-line import/no-duplicates
-import { Current } from '@tarojs/runtime'
-// eslint-disable-next-line import/no-duplicates
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
+import { Current } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
+import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 
 import { callAsyncFail, callAsyncSuccess } from '../utils'
 
