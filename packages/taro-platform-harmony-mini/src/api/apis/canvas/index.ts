@@ -5,7 +5,7 @@ export * from './createCanvasContext'
 export * from './canvasToTempFilePath'
 
 /**
- * Canvas 实例
+ * Canvas 实例, 可通过 SelectorQuery 获取。
  * 
  * @canUse Canvas
  * @__class [cancelAnimationFrame, createImageData, createImage, createPath2D, getContext, requestAnimationFrame, toDataURL]
