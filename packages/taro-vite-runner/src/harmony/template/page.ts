@@ -111,12 +111,12 @@ export default class Parser extends BaseParser {
       alignItems: ItemAlign.Center,
     }) {${!isTabPage ? `
       // FIXME 这里 pageStack 更新问题，需要第二次才能显示 Home 按钮
-      if (this.pageStack[0].path !== this.entryPagePath && this.pageHomeBtn && this.pageStack.length === 1) {
+      if (this.pageStack[0].path !== this.entryPagePath && this.navigationBarHomeBtn && this.pageStack.length === 1) {
         Image($r('app.media.taro_home'))
           .height(convertNumber2VP(40))
           .width(convertNumber2VP(40))
           .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
-          .fillColor((config.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+          .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
           .objectFit(ImageFit.Contain)
           .onClick(() => {
             router.replaceUrl({
@@ -131,18 +131,18 @@ export default class Parser extends BaseParser {
           .height(convertNumber2VP(40))
           .width(convertNumber2VP(40))
           .margin({ left: convertNumber2VP(40), right: convertNumber2VP(-20) })
-          .fillColor((config.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+          .fillColor((this.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
           .objectFit(ImageFit.Contain)
           .onClick(() => {
             router.back()
           })
       }` : ''}
-      Text(config${isTabPage ? '[index]' : ''}.navigationBarTitleText || '${this.appConfig.window?.navigationBarTitleText || ''}')
+      Text(this.navigationBarTitleText${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
         .margin({ left: convertNumber2VP(40) })
-        .fontColor((config${isTabPage ? '[index]' : ''}.navigationBarTextStyle || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+        .fontColor((this.navigationBarTextStyle${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
     }
     .height(convertNumber2VP(75))
-    .backgroundColor(config${isTabPage ? '[index]' : ''}.navigationBarBackgroundColor || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
+    .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
   }
   Scroll(${isTabPage ? 'this.scroller[index]' : 'this.scroller'}) {
     Column() {
@@ -246,6 +246,30 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     return pageStr
   }
 
+  renderState ({
+    scope = ['page', 'tabbar'],
+    decorator = '',
+    name = '',
+    type = '',
+    prefix = '',
+    suffix = '',
+    connector = ', ',
+    foreach = (_item: unknown, _idx: number | string) => '',
+    disabled = false,
+  },
+  isTabPage: boolean,
+  ) {
+    if (disabled || scope.length < 1) return null
+
+    if (scope.includes('tabbar') && isTabPage) {
+      return `${decorator ? `@${decorator} ` : ''}${name}: ${type}[] = [${prefix}${this.tabbarList.map(foreach).filter(e => e.length).join(connector)}${suffix}]`
+    }
+    if (scope.includes('page')) {
+      return `${decorator ? `@${decorator} ` : ''}${name}: ${type} = ${prefix}${foreach(null, '')}${suffix}`
+    }
+    return null
+  }
+
   getInstantiatePage (page: VitePageMeta | VitePageMeta[]) {
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
@@ -254,40 +278,39 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       'struct Index {',
     ]
     const generateState = [
+      this.renderState({
+        name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()'
+      }, this.isTabbarPage),
       'page?: PageInstance',
-      this.isTabbarPage
-        ? [
-          `@State pageList: PageInstance[] = []`,
-          `scroller: Scroller[] = [${
-            this.tabbarList.map(() => 'new Scroller()').join(', ')
-          }]`,
-          `@State node: TaroElement[] | null[] = [${
-            this.tabbarList.map(() => 'null').join(', ')
-          }]`,
-          this.enableRefresh
-            ? `@State isRefreshing: boolean[] = [${
-              this.tabbarList.map(() => 'false').join(', ')
-            }]`
-            : null,
-          `@State pageBackgroundColor: string[] = [${
-            this.tabbarList.map((_, i) => `config${i}.backgroundColor`).join(', ')
-          }]`,
-        ]
-        : [
-          'scroller: Scroller = new Scroller()',
-          '@State node: TaroElement | null = null',
-          this.enableRefresh
-            ? '@State isRefreshing: boolean = false'
-            : null,
-          '@State pageHomeBtn?: boolean = true',
-          `@State pageBackgroundColor?: string = config.backgroundColor`,
-        ],
+      this.renderState({
+        decorator: 'State', name: 'pageList', type: 'PageInstance', scope: ['tabbar']
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'node', type: '(TaroElement | null)', foreach: () => 'null'
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0
+      }, this.isTabbarPage),
+      // Note: 仅普通页面包含 Home 按钮
+      this.renderState({
+        decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page']
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'navigationBarBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.navigationBarBackgroundColor`
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'navigationBarTextStyle', type: 'string', foreach: (_, i) => `config${i}.navigationBarTextStyle`
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`
+      }, this.isTabbarPage),
+      this.renderState({
+        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`
+      }, this.isTabbarPage),
       '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
       '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
       '@State appConfig: AppConfig = window.__taroAppConfig || {}',
-      `@State tabBarList: ${this.isTabbarPage
-        ? 'ITabBarItem'
-        : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
+      `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
     ].flat()
     if (this.isTabbarPage) {
       generateState.push(
