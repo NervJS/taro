@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`wxss 引入外部wxss 1`] = `
+Map {
+  "/wxProject/taroConvert/src/pages/index/index.scss" => "
+      @import "../common.scss";
+      .scrollarea {
+        flex: 1;
+        overflow-y: hidden;
+      }
+    ",
+}
+`;

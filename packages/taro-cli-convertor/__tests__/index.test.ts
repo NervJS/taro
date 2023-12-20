@@ -2,8 +2,8 @@ import * as taroize from '@tarojs/taroize'
 import * as path from 'path'
 
 import Convertor from '../src/index'
-import { setMockFiles } from './__mocks__/fs-extra'
-import { root } from './data/fileData'
+import { setMockFiles, updateMockFiles } from './__mocks__/fs-extra'
+import { DEMO_JS_FILE_INFO, root } from './data/fileData'
 import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
@@ -26,7 +26,7 @@ interface ITaroizeOptions {
 describe('parseAst', () => {
   let convert
   let param: ITaroizeOptions
-  beforeAll(() => {
+  beforeEach(() => {
     const entryJSON = { pages: ['pages/index/index'] }
     /**
      * json：index.json的内容
@@ -44,11 +44,11 @@ describe('parseAst', () => {
       script: '',
       scriptPath: '',
       wxml: '',
-      logFilePath: ''
+      logFilePath: '',
     }
 
     jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
-    
+
     // new Convertot后会直接执行 init()，为确保 init() 在测试中通过采用 spyOn 去模拟
     jest.spyOn(Convertor.prototype, 'getApp').mockImplementation(() => {
       Convertor.prototype.entryJSON = entryJSON
@@ -58,6 +58,10 @@ describe('parseAst', () => {
     })
     convert = new Convertor('', false)
     convert.pages = Convertor.prototype.pages
+  })
+
+  afterAll(() => {
+    jest.restoreAllMocks()
   })
 
   test('当使用e.target.dataset时引入工具函数 getTarget', () => {
@@ -112,7 +116,7 @@ describe('parseAst', () => {
       depComponents: new Set(),
       imports: [],
     })
-    
+
     // 将ast转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()
@@ -272,16 +276,16 @@ describe('parseAst', () => {
     const depComponents = new Set([
       {
         name: 'component-a',
-        path: '/project/components/a'
+        path: '/project/components/a',
       },
       {
         name: 'component-b',
-        path: '/project/components/b'
+        path: '/project/components/b',
       },
       {
         name: 'component-c',
-        path: '/project/components/c'
-      }
+        path: '/project/components/c',
+      },
     ])
     param.script = ``
     param.wxml = `
@@ -322,7 +326,6 @@ describe('parseAst', () => {
       ...param,
       framework: 'react',
     })
-
     // 按照实际情况，构造imports
     const imports = [
       {
@@ -336,7 +339,7 @@ describe('parseAst', () => {
       {
         ast: { type: 'File', program: [Object], comments: null, tokens: null },
         name: 'TemplateDTmpl',
-      }
+      },
     ]
 
     const { ast } = convert.parseAst({
@@ -353,14 +356,14 @@ describe('parseAst', () => {
     expect(jsCode).toMatchSnapshot()
   })
 
-  test('转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分',() =>{
+  test('转换后模块名重名时，为导入的组件模块名添加Component后缀，以示区分', () => {
     const COMPONENT_IMPORT = {
-      '/pages/index/index.js':`
+      '/pages/index/index.js': `
         import Jstest from '../../components/test.js'
         import {Mymodule, Mymodules} from '../../components/test.js'
         Page({})
       `,
-      '/pages/index/index.json':`
+      '/pages/index/index.json': `
         {
           "usingComponents": {
             "jstest": "../../components/my-component",
@@ -369,15 +372,15 @@ describe('parseAst', () => {
           }
         }
       `,
-      '/components/my-component':`
+      '/components/my-component': `
         <view class="container">
           <text>{{text}}</text>
           <button class="btn" bindtap="handleClick">{{buttonText}}</button>
         </view>
       `,
-      '/components/test.js':``
+      '/components/test.js': ``,
     }
-    setMockFiles(root,COMPONENT_IMPORT)
+    setMockFiles(root, COMPONENT_IMPORT)
 
     param.path = path.join(root, '/pages/index/index')
     param.script = `
@@ -385,7 +388,7 @@ describe('parseAst', () => {
       import {Mymodule, Mymodules} from '../../components/test.js'
       Page({})
     `
-    param.scriptPath = path.join(root,'/pages/index/index.js')
+    param.scriptPath = path.join(root, '/pages/index/index.js')
     param.wxml = `
       <Jstest></Jstest>
       <Mymodule></Mymodule>
@@ -398,19 +401,19 @@ describe('parseAst', () => {
     })
     const depComponents = new Set([
       {
-        name:'jstest',
-        path:path.join(root,'/components/my-component')
+        name: 'jstest',
+        path: path.join(root, '/components/my-component'),
       },
       {
-        name:'mymodule',
-        path:path.join(root,'/components/my-component')
+        name: 'mymodule',
+        path: path.join(root, '/components/my-component'),
       },
       {
-        name:'mymodules',
-        path:path.join(root,'/components/my-component')
+        name: 'mymodules',
+        path: path.join(root, '/components/my-component'),
       },
     ])
-    
+
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
       sourceFilePath: param.scriptPath,
@@ -419,7 +422,176 @@ describe('parseAst', () => {
       depComponents,
       imports: [],
     })
-  
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('对图片路径的转换处理', () => {
+    const CONVERT_IMAGE = {
+      '/images/tutu.jpg': '图片',
+      '/pages/index/index.js': 'Page({})',
+      '/pages/index/index.wxml': '<image src="/images/tutu.jpg" mode=""/>',
+    }
+    setMockFiles(root, CONVERT_IMAGE)
+    param.path = path.join(root, '/pages/index/index')
+    param.script = `Page({})`
+    param.scriptPath = path.join(root, '/pages/index/index.js')
+    param.wxml = `<image src="/images/tutu.jpg" mode=""/>`
+
+    convert = new Convertor(root, false)
+
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: param.scriptPath,
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: [],
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('模板中使用function', () => {
+    const TEMPLATE_FUNCTION = {
+      '/pages/index/index.wxml': `
+        <import src="/template/item"/>
+        <template is="item" data="{{text: 'forbar'}}"/>
+      `,
+      '/pages/index/index.js': `
+        Page({
+          onClick(){
+            console.log('click')
+          }
+        })
+      `,
+      '/template/item.wxml': `
+        <template name="item">
+          <button bind:tap="onClick">按钮</button>
+        </template>
+      `,
+    }
+    setMockFiles(root, TEMPLATE_FUNCTION)
+
+    param.path = path.join(root, '/pages/index/index')
+    param.script = `
+      Page({
+        onClick(){
+          console.log('click')
+        }
+      })
+    `
+    param.scriptPath = path.join(root, '/pages/index/index.js')
+    param.wxml = `
+      <import src="/template/item"/>
+      <template is="item" data="{{text: 'forbar'}}"/>
+    `
+    param.rootPath = root
+
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: path.join(root, '/pages/index/index.js'),
+      outputFilePath: convert.getDistFilePath(path.join(root, '/pages/index/index.js')),
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: taroizeResult.imports,
+    })
+
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('处理js文件中以/开头的绝对路径', () => {
+    const DEMO_ABSOLUTE = {
+      '/pages/index/index.js': `
+        const { add } = require('/add')
+        Page({})
+      `,
+      '/pages/index/add.js':`
+        function add(num1,num2){
+          return num1 + num2
+        }
+        module.exports.add = add
+      `
+    }
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    updateMockFiles(root, DEMO_ABSOLUTE)
+
+    param.script = `
+      const { add } = require('/add')
+      Page({})
+    `
+    param.path = path.join(root, '/pages/index/index')
+    param.scriptPath = path.join(root, '/pages/index/index.js')
+    param.wxml = ''
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: path.join(root,'/pages/index/index.js'),
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: [],
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('处理js文件中非正常路径，比如 a/b',() => {
+    const DEMO_ABSOLUTE = {
+      '/pages/index/index.js': `
+        const { add } = require('add')
+        Page({})
+      `,
+      '/pages/index/add.js':`
+        function add(num1,num2){
+          return num1 + num2
+        }
+        module.exports.add = add
+      `
+    }
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    updateMockFiles(root, DEMO_ABSOLUTE)
+
+    param.script = `
+      const { add } = require('add')
+      Page({})
+    `
+    param.path = path.join(root, '/pages/index/index')
+    param.scriptPath = path.join(root, '/pages/index/index.js')
+    param.wxml = ''
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: path.join(root,'/pages/index/index.js'),
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: [],
+    })
+
     // 将ast转换为代码
     const jsCode = generateMinimalEscapeCode(ast)
     expect(jsCode).toMatchSnapshot()

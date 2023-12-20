@@ -7,6 +7,8 @@ import {
   DEMO_JS_FILE_INFO,
   DEMO_JS_FILE_INFO_MINIPROGRANROOT,
   DEMO_JS_FILES,
+  DEMO_SUBPACKAFES,
+  DEMO_TABBER,
   PLUGIN_FILE_DATA,
   root,
   USINGCOMPONENTS_FILE_DATA,
@@ -26,6 +28,10 @@ describe('微信小程序转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(()=>{
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -63,6 +69,50 @@ describe('微信小程序转换', () => {
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
+
+  test('小程序tabber转换',() => {
+    setMockFiles(root,DEMO_TABBER)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('小程序分包',() => {
+    setMockFiles(root,DEMO_SUBPACKAFES)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('三方库转换',() => {
+    const EDMO_ThIREdPARTYLIB = {
+      '/pages/index/index.js': `
+        import moment from 'moment'
+        Page({
+          data:{
+            time:moment(new Date()).format('YYYY-MM-DD')
+          }
+        })
+      `,
+      '/pages/index/index.wxml': `<view>{{time}}</view>`,
+      '/node_modules/moment': {
+        '/dist':{
+          '/locale':{
+            '/af.js':'123'
+          },
+          '/moment.js':'format(){}'
+        }
+      } 
+    }
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    updateMockFiles(root, EDMO_ThIREdPARTYLIB)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
 })
 
 describe('配置文件解析转换', () => {
@@ -72,6 +122,10 @@ describe('配置文件解析转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(()=>{
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -90,6 +144,33 @@ describe('配置文件解析转换', () => {
       CONVERT_CONFIG_DATA['/mps/index/index.js']
     )
   })
+
+  test('小程序sitemap.json文件的转换',() => {
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    const DEMO_SITEMAP = {
+      '/app.json': `
+        {
+          "pages": [
+            "pages/index/index"
+          ],
+          "sitemapLocation":"./sitemap.json"
+        }
+      `,
+      '/sitemap.json':`
+        {
+          "rules":[{
+            "action": "allow",
+            "page": "*"
+          }]
+        }
+      `
+    }
+    updateMockFiles(root, DEMO_SITEMAP)
+    const convert = new Convertor(root, false)
+    convert.getSitemapLocation()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
 })
 
 describe('文件转换', () => {
@@ -99,6 +180,10 @@ describe('文件转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(()=>{
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -183,6 +268,10 @@ describe('模版转换', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(()=>{
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
@@ -347,6 +436,7 @@ describe('模版转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 })
+
 describe('公共组件引用', () => {
   beforeAll(() => {
     // mock报告生成
@@ -354,6 +444,10 @@ describe('公共组件引用', () => {
 
     // 配置文件生成
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
+  })
+
+  afterAll(()=>{
+    jest.restoreAllMocks()
   })
 
   beforeEach(() => {
