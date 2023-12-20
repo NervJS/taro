@@ -12,79 +12,17 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: 'chooseImage_album',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseImage_album')
-          Taro.chooseImage({
-            count: 7,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['album'],
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          }).then((res) => {
-            TestConsole.consoleResult.call(this, res, apiIndex)
-          })
+        id: 'chooseImage',
+        inputData: {
+          count: 7,
+          sizeType: ['original'],
+          sourceType: ['album'],
+          imageId: ''
         },
-      },
-      {
-        id: 'chooseImage_camera',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseImage_camera')
+        func: (apiIndex, data) => {
+          TestConsole.consoleTest('chooseImage')
           Taro.chooseImage({
-            count: 5,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['camera'],
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          }).then((res) => {
-            TestConsole.consoleResult.call(this, res, apiIndex)
-          })
-        },
-      },
-      {
-        id: 'chooseImage_user',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseImage_user')
-          Taro.chooseImage({
-            count: 7,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['user'],
-            success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
-            },
-          }).then((res) => {
-            TestConsole.consoleResult.call(this, res, apiIndex)
-          })
-        },
-      },
-      {
-        id: 'chooseImage_environment',
-        func: (apiIndex) => {
-          TestConsole.consoleTest('chooseImage_environment')
-          Taro.chooseImage({
-            count: 5,
-            sizeType: ['original', 'compressed'],
-            sourceType: ['environment'],
+            ...data,
             success: (res) => {
               TestConsole.consoleSuccess.call(this, res, apiIndex)
             },
@@ -376,7 +314,7 @@ export default class Index extends React.Component {
       },
     ],
   }
-  render() {
+  render () {
     const { list } = this.state
     return (
       <View className='api-page'>

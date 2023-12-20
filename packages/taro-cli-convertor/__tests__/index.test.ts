@@ -26,7 +26,7 @@ interface ITaroizeOptions {
 describe('parseAst', () => {
   let convert
   let param: ITaroizeOptions
-  beforeAll(() => {
+  beforeEach(() => {
     const entryJSON = { pages: ['pages/index/index'] }
     /**
      * json：index.json的内容
@@ -504,8 +504,8 @@ describe('parseAst', () => {
 
     const { ast } = convert.parseAst({
       ast: taroizeResult.ast,
-      sourceFilePath: '',
-      outputFilePath: '',
+      sourceFilePath: path.join(root, '/pages/index/index.js'),
+      outputFilePath: convert.getDistFilePath(path.join(root, '/pages/index/index.js')),
       importStylePath: '',
       depComponents: new Set(),
       imports: taroizeResult.imports,
