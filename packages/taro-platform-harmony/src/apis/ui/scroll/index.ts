@@ -8,7 +8,7 @@
 import { AREA_CHANGE_EVENT_NAME, Current, findChildNodeWithDFS, getPageScrollerOrNode, setNodeEventCallbackAndTriggerComponentUpdate } from '@tarojs/runtime'
 import { pxTransformHelper } from '@tarojs/taro'
 
-import { callAsyncFail, callAsyncSuccess } from '../../utils'
+import { MethodHandler } from '../../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -16,17 +16,22 @@ import type Taro from '@tarojs/taro/types'
  * 将页面滚动到目标位置
  */
 export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
+  const { scrollTop, selector = '', duration = 300, offsetTop = 0, success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'pageScrollTo', success, fail, complete })
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve, reject) => {
-    const taro = (Current as any).taro
-    const page = taro.getCurrentInstance().page
-    const res = { errMsg: 'pageScrollTo:ok' }
-    const error = { errMsg: 'pageScrollTo:fail' }
-    const { scrollTop, selector = '', duration = 300, offsetTop = 0 } = options
+    if (scrollTop === undefined && !selector) {
+      return handle.fail({
+        errMsg: 'scrollTop" 或 "selector" 需要其之一'
+      }, { resolve, reject })
+    }
 
     if (scrollTop && selector) {
       console.warn('"scrollTop" 或 "selector" 建议只设一个值，全部设置会忽略selector')
     }
+
+    const taro = (Current as any).taro
+    const page = taro.getCurrentInstance().page
 
     let scrollValue = -1
     let scroller = page.scroller
@@ -64,7 +69,9 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
     const { xOffset } = scroller.currentOffset()
 
     if (scrollValue === -1) {
-      return callAsyncFail(reject, { errMsg: 'pageScrollTo:fail, 请检查传入的 scrollTop 或 selector 是否合法' }, options)
+      return handle.fail({
+        errMsg: '请检查传入的 scrollTop 或 selector 是否合法'
+      }, { resolve, reject })
     }
 
     try {
@@ -79,10 +86,12 @@ export const pageScrollTo: typeof Taro.pageScrollTo = (options) => {
       })
 
       setTimeout(() => {
-        callAsyncSuccess(resolve, res, options)
+        handle.success({}, { resolve, reject })
       }, duration)
-    } catch (_) {
-      callAsyncFail(reject, error, options)
+    } catch (err) {
+      return handle.fail({
+        errMsg: err.message
+      }, { resolve, reject })
     }
   })
 }
