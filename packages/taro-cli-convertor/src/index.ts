@@ -827,7 +827,7 @@ export default class Convertor {
                 if (path.isAbsolute(value)) {
                   sourceImagePath = path.join(self.root, value)
                 } else {
-                  sourceImagePath = path.resolve(sourceFilePath, '..', value)
+                  sourceImagePath = path.join(sourceFilePath, '..', value)
                 }
                 const imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
                 const outputImagePath = self.getDistFilePath(sourceImagePath)

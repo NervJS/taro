@@ -420,3 +420,74 @@ export const USINGCOMPONENTS_FILE_DATA = {
     </view>
   `,
 }
+
+export const DEMO_TABBER = {
+  '/app.json':`
+    {
+      "pages": [
+        "pages/component/index",
+        "pages/api/index"
+      ],
+      "tabBar": {
+        "color": "#7A7E83",
+        "selectedColor": "#3cc51f",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+          {
+            "pagePath": "pages/component/index",
+            "iconPath": "image/icon_component.png",
+            "selectedIconPath": "image/icon_component_HL.png",
+            "text": "组件"
+          },
+          {
+            "pagePath": "pages/api/index",
+            "iconPath": "image/icon_API.png",
+            "selectedIconPath": "image/icon_API_HL.png",
+            "text": "接口"
+          }
+        ]
+      }
+    }
+  `,
+  '/app.js':'App({})',
+  '/project.config.json': `{}`,
+  '/pages/component/index.js':'Page({})',
+  '/pages/component/index.wxml':`<view>组件</view>`,
+  '/pages/api/index.js':'Page({})',
+  '/pages/api/index.wxml':'<view>接口</view>',
+  '/image/icon_component.png':'',
+  '/image/icon_component_HL.png':'',
+  '/image/icon_API.png':'',
+  '/image/icon_API_HL.png':''
+}
+
+export const DEMO_SUBPACKAFES = {
+  '/app.json':`
+    {
+      "pages": [
+        "pages/index/index"
+      ],
+      "subPackages": [
+        {
+          "root": "packageA/pages/",
+          "pages": [
+            "component/index"
+          ]
+        },
+        {
+          "root": "packageB/pages/",
+          "pages": [
+            "api/index"
+          ]
+        }
+      ]
+    }
+  `,
+  '/app.js':'App({})',
+  '/project.config.json': `{}`,
+  '/packageA/pages/component/index.js':'Page({})',
+  '/packageA/pages/component/index.wxml':'<text>packageA/pages/component/index.wxml</text>',
+  '/packageB/pages/api/index.js':'Page({})',
+  '/packageB/pages/api/index.wxml':'<text>packageB/pages/api/index.wxml</text>',
+}

@@ -51,7 +51,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
     if (oriPath.indexOf('/') !== 0) {
       return ''
     }
-    const absolutePath = revertScriptPath(path.resolve(sourceFilePath, '..' + oriPath), SCRIPT_EXT)
+    const absolutePath = revertScriptPath(path.join(sourceFilePath, '..' + oriPath), SCRIPT_EXT)
     if (absolutePath == null) {
       return ''
     }
@@ -65,7 +65,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
   }
   // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
-    const absolutePath = revertScriptPath(path.resolve(sourceFilePath, '..', oriPath), SCRIPT_EXT)
+    const absolutePath = revertScriptPath(path.join(sourceFilePath, '..', oriPath), SCRIPT_EXT)
 
     // 可能为三方库
     if (absolutePath == null) {
@@ -226,11 +226,11 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
     let isThirdPartyLibExist = false
     for (const modulePath of nodePath) {
       const parts = filePath.split('/')
-      const npmModulePath = path.resolve(root, modulePath, parts[0])
+      const npmModulePath = path.join(root, modulePath, parts[0])
       if (fs.existsSync(npmModulePath)) {
         isThirdPartyLibExist = true
         // 转换后的三方库放在node_modules中
-        const moduleConvertPath = path.resolve(convertRoot, NODE_MODULES, parts[0])
+        const moduleConvertPath = path.join(convertRoot, NODE_MODULES, parts[0])
         if (!fs.existsSync(moduleConvertPath)) {
           copyFolderToTaro(npmModulePath, moduleConvertPath)
           printLog(processTypeEnum.COPY, '三方库', normalizePath(npmModulePath.replace(path.join(root, '/'), '')))
