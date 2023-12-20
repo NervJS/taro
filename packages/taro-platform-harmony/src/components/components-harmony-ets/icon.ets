@@ -84,8 +84,8 @@ export default function TaroIcon (node: TaroIconElement) {
     .fillColor(node._attrs.color || ICON_COLOR_MAP[node._attrs.type] || Color.Black)
     .attrs(getNormalAttributes(node))
     .size({
-      width: convertNumber2VP(node._attrs.size || 23),
-      height: convertNumber2VP(node._attrs.size || 23),
+      width: convertNumber2VP(Number(node._attrs.size) || 23),
+      height: convertNumber2VP(Number(node._attrs.size) || 23),
     })
     .onComplete(e => eventHandler(e, 'complete', node))
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
