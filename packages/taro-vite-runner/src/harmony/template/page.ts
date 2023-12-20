@@ -139,7 +139,15 @@ export default class Parser extends BaseParser {
       }` : ''}
       Text(this.navigationBarTitleText${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTitleText || ''}')
         .margin({ left: convertNumber2VP(40) })
+        .fontSize(convertNumber2VP(32))
         .fontColor((this.navigationBarTextStyle${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+      if (this.navigationBarLoading${isTabPage ? '[index]' : ''}) {
+        LoadingProgress()
+        .margin({ left: convertNumber2VP(10) })
+        .height(convertNumber2VP(40))
+        .width(convertNumber2VP(40))
+        .color((this.navigationBarTextStyle${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarTextStyle}') !== 'black' ? Color.White : Color.Black)
+      }
     }
     .height(convertNumber2VP(75))
     .backgroundColor(this.navigationBarBackgroundColor${isTabPage ? '[index]' : ''} || '${this.appConfig.window?.navigationBarBackgroundColor || '#000000'}')
@@ -296,6 +304,9 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page']
       }, this.isTabbarPage),
       this.renderState({
+        decorator: 'State', name: 'navigationBarLoading', type: 'boolean', foreach: () => 'false'
+      }, this.isTabbarPage),
+      this.renderState({
         decorator: 'State', name: 'navigationBarBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.navigationBarBackgroundColor`
       }, this.isTabbarPage),
       this.renderState({
@@ -348,6 +359,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 }
 
 onPageShow () {
+  this.bindPageEvent()
   const state = router.getState()
   state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
   if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
@@ -361,6 +373,7 @@ onPageShow () {
 }
 
 onPageHide () {
+  this.removePageEvent()
   ${this.isTabbarPage ? `this.pageList?.forEach(item => {
     callFn(item?.onHide, this)
   })` : 'callFn(this.page?.onHide, this)'}
@@ -415,7 +428,19 @@ ${this.isTabbarPage
     ], 4)}
 }
 `.split('\n'), 2),
-      this.isTabbarPage ? this.transArr2Str(`
+      this.transArr2Str(`
+handleNavigationStyle = (option: TaroObject) => {
+  if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title
+  if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'
+  if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'
+  if (typeof option.home === 'boolean') this.navigationBarHomeBtn${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.home
+  if (typeof option.loading === 'boolean') this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.loading
+}
+
+handlePageStyle = (option: TaroObject) => {
+  if (option.backgroundColor) this.pageBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#FFFFFF'
+}
+${this.isTabbarPage ? `
 setTabBarCurrentIndex(index: number) {
   this.tabBarCurrentIndex = index
   this.page = this.pageList[index]
@@ -429,14 +454,6 @@ updateTabBarKey = (index = 0, odd: Partial<ITabBarItem> = {}) => {
   const len = this.tabBarList.length
   obj.key = (Math.floor(idx / len) + 1) * len + index
 }
-
-handlePageStyle = (option: TaroObject) => {
-  if (option.backgroundColor) ${
-  this.isTabbarPage ? 'this.pageBackgroundColor[this.tabBarCurrentIndex]' : 'this.pageBackgroundColor'
-} = option.backgroundColor || '#FFFFFF'
-}
-
-handleRouterChange = () => {}
 
 handleSwitchTab = (option: TaroObject) => {
   const index = this.tabBarList.findIndex(e => e.pagePath === option.params.$page)
@@ -544,10 +561,18 @@ handleSetTabBarItem = (option: TaroObject) => {
   }
   this.tabBarList = list
 }
-
-bindEvent () {
+` : ''}
+bindPageEvent () {
+  eventCenter.on('__taroNavigationStyle', this.handleNavigationStyle)
   eventCenter.on('__taroPageStyle', this.handlePageStyle)
-  eventCenter.on('__taroRouterChange', this.handleRouterChange)
+}
+
+removePageEvent () {
+  eventCenter.off('__taroNavigationStyle', this.handleNavigationStyle)
+  eventCenter.off('__taroPageStyle', this.handlePageStyle)
+}
+${this.isTabbarPage ? `
+bindEvent () {
   eventCenter.on('__taroSwitchTab', this.handleSwitchTab)
   eventCenter.on('__taroSetTabBarBadge', this.handleSetTabBarBadge)
   eventCenter.on('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)
@@ -560,8 +585,6 @@ bindEvent () {
 }
 
 removeEvent () {
-  eventCenter.off('__taroPageStyle', this.handlePageStyle)
-  eventCenter.off('__taroRouterChange', this.handleRouterChange)
   eventCenter.off('__taroSwitchTab', this.handleSwitchTab)
   eventCenter.off('__taroSetTabBarBadge', this.handleSetTabBarBadge)
   eventCenter.off('__taroRemoveTabBarBadge', this.handleRemoveTabBarBadge)
@@ -622,7 +645,7 @@ removeEvent () {
   .width('100%').height('100%')
   .justifyContent(FlexAlign.SpaceEvenly)
 }
-`.split('\n'), 2) : null,
+` : ''}`.split('\n'), 2),
       this.enableRefresh ? this.transArr2Str(`
 handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : ''}state: RefreshStatus) {
   if (state === RefreshStatus.Refresh) {

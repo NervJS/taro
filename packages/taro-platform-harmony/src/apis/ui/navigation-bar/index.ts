@@ -1,6 +1,5 @@
 import { eventCenter } from '@tarojs/runtime/dist/runtime.esm'
 
-import { temporarilyNotSupport } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
@@ -33,6 +32,41 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = function
   })
 }
 
-export const showNavigationBarLoading = temporarilyNotSupport('showNavigationBarLoading')
-export const hideNavigationBarLoading = temporarilyNotSupport('hideNavigationBarLoading')
-export const hideHomeButton = temporarilyNotSupport('hideHomeButton')
+export const showNavigationBarLoading: typeof Taro.setNavigationBarColor = function (options) {
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'showNavigationBarLoading', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    eventCenter.trigger('__taroNavigationStyle', {
+      loading: true,
+    })
+
+    return handle.success({}, { resolve, reject })
+  })
+}
+
+export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = function (options) {
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'hideNavigationBarLoading', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    eventCenter.trigger('__taroNavigationStyle', {
+      loading: false,
+    })
+
+    return handle.success({}, { resolve, reject })
+  })
+}
+
+export const hideHomeButton: typeof Taro.hideHomeButton = function (options) {
+  const { success, fail, complete } = options || {}
+  const handle = new MethodHandler({ name: 'hideHomeButton', success, fail, complete })
+
+  return new Promise((resolve, reject) => {
+    eventCenter.trigger('__taroNavigationStyle', {
+      home: false,
+    })
+
+    return handle.success({}, { resolve, reject })
+  })
+}

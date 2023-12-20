@@ -79,7 +79,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 在当前页面显示导航条加载动画
-     * @supported weapp, rn, tt
+     * @supported weapp, rn, tt, harmony
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.showNavigationBarLoading.html
      */
     showNavigationBarLoading(option?: showNavigationBarLoading.Option): void
@@ -116,13 +116,13 @@ declare module '../../index' {
     setNavigationBarColor(option: setNavigationBarColor.Option): Promise<TaroGeneral.CallbackResult>
 
     /** 在当前页面隐藏导航条加载动画
-     * @supported weapp, rn, tt
+     * @supported weapp, rn, tt, harmony
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideNavigationBarLoading.html
      */
     hideNavigationBarLoading(option?: hideNavigationBarLoading.Option): void
 
     /** 隐藏返回首页按钮。微信7.0.7版本起，当用户打开的小程序最底层页面是非首页时，默认展示“返回首页”按钮，开发者可在页面 onShow 中调用 hideHomeButton 进行隐藏。
-     * @supported weapp, tt
+     * @supported weapp, tt, harmony
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/ui/navigation-bar/wx.hideHomeButton.html
      */
     hideHomeButton(option?: hideHomeButton.Option): Promise<TaroGeneral.CallbackResult>
