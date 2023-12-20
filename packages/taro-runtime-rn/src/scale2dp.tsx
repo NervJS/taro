@@ -1,14 +1,13 @@
-import { Dimensions, Platform } from 'react-native'
+import { Dimensions } from 'react-native'
+import DeviceInfo from 'react-native-device-info'
 
 // 一般app 只有竖屏模式，所以可以只获取一次 width
 const deviceWidthDp = Dimensions.get('window').width
 const deviceHeightDp = Dimensions.get('window').height
 let uiWidthPx = 375
 
-if (Platform.OS === 'ios') {
-  if (Platform.isPad) {
-    uiWidthPx = 750
-  }
+if (DeviceInfo.isTablet()) {
+  uiWidthPx = 750
 }
 
 export function scalePx2dp (uiElementPx) {

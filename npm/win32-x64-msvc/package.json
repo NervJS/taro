@@ -1,0 +1,23 @@
+{
+  "name": "@tarojs/binding-win32-x64-msvc",
+  "description": "Native binding for taro",
+  "version": "3.6.21",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "main": "taro.win32-x64-msvc.node",
+  "files": [
+    "taro.win32-x64-msvc.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": "https://github.com/NervJS/taro"
+}

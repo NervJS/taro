@@ -1,0 +1,17 @@
+# Fix napi breaking in test environment <https://github.com/napi-rs/napi-rs/issues/1005#issuecomment-1011034770>
+# To be able to run unit tests on macOS, support compilation to 'x86_64-apple-darwin'.
+[target.'cfg(target_vendor = "apple")']
+rustflags = ["-C", "link-args=-Wl,-undefined,dynamic_lookup,-no_fixup_chains"]
+
+# To be able to run unit tests on Linux, support compilation to 'x86_64-unknown-linux-gnu'.
+[target.'cfg(target_os = "linux")']
+rustflags = ["-C", "link-args=-Wl,--warn-unresolved-symbols"]
+
+# To be able to run unit tests on Windows, support compilation to 'x86_64-pc-windows-msvc'.
+[target.'cfg(target_os = "windows")']
+rustflags = ["-C", "link-args=/FORCE"]
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+[target.i686-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/cli",
-  "version": "3.6.20",
+  "version": "3.6.21",
   "description": "cli tool for taro",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -42,6 +42,7 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
+    "@tarojs/binding": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
@@ -53,11 +54,8 @@
     "eslint": "^8.12.0",
     "glob": "^7.1.2",
     "inquirer": "^8.0.0",
-    "joi": "^17.6.0",
     "latest-version": "^5.1.0",
     "lodash": "^4.17.21",
-    "mem-fs": "^2.3.0",
-    "mem-fs-editor": "^9.6.0",
     "minimist": "^1.2.8",
     "npm-check": "^6.0.1",
     "ora": "^5.0.0",

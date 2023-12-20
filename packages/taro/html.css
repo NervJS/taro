@@ -133,6 +133,15 @@
 .h5-h3,
 .h5-h4,
 .h5-h5,
+.h5-h6 {
+  line-height: 1;
+}
+
+.h5-h1,
+.h5-h2,
+.h5-h3,
+.h5-h4,
+.h5-h5,
 .h5-h6,
 .h5-b,
 .h5-strong {
