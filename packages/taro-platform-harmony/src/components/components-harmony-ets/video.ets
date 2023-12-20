@@ -112,6 +112,7 @@ export default function TaroVideo (node: TaroVideoElement) {
   Video(getVideoData(node))
     .attrs(getNormalAttributes(node))
     .props(getVideoProps(node))
+    .aspectRatio(4 / 3)
     .onStart(shouldBindEvent(() => { emitEvent(node, 'play') }, node, ['play']))
     .onPause(shouldBindEvent(() => { emitEvent(node, 'pause') }, node, ['pause']))
     .onFinish(shouldBindEvent(() => { emitEvent(node, 'ended') }, node, ['ended']))

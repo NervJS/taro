@@ -14,8 +14,13 @@ function isEqual (obj1, obj2) {
   return JSON.stringify(obj1) === JSON.stringify(obj2)
 }
 
-function updateDOMInstance (dom: TaroElement) {
+function updateDOMInstance (dom: TaroElement, name?: string) {
   if (!isHarmony) return
+
+  const isFormElement = dom instanceof FormElement
+  const isNotNeedUpdateDOM = isFormElement && name && !['value', 'name', 'checked'].includes(name)
+  if (isNotNeedUpdateDOM) return
+  
   // @ts-ignore
   dom.updateComponent && dom.updateComponent()
 }
@@ -173,10 +178,10 @@ function setProperty (dom: TaroElement, name: string, value: unknown, oldValue?:
   } else if (!isFunction(value)) {
     if (value == null) {
       dom.removeAttribute(name)
-      updateDOMInstance(dom)
+      updateDOMInstance(dom, name)
     } else {
       dom.setAttribute(name, value as string)
-      updateDOMInstance(dom)
+      updateDOMInstance(dom, name)
     }
   }
 }

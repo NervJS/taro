@@ -30,7 +30,7 @@ function attrs (style: TaroStyleType) {
   .borderWidth(style.borderWidth)
   .borderColor(style.borderColor)
   .borderRadius(style.borderRadius)
-  .linearGradient(style.linearGradient)
+  // .linearGradient(style.linearGradient)
   .zIndex(style.zIndex)
   .opacity(style.opacity)
   .clip(style.clip)

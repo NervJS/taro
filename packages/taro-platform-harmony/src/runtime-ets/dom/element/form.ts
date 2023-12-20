@@ -29,6 +29,8 @@ interface FormWidgetProps extends StandardProps {
 }
 
 class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends TaroElement<T> {
+  _instance
+
   _name = ''
 
   _value: TaroAny = ''
@@ -72,7 +74,12 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
 
   public set value (val: TaroAny) {
     this.updateFormWidgetValue(val)
-    this.updateComponent()
+
+    if (this._instance) {
+      this._instance.value = val
+    } else {
+      this.updateComponent()
+    }
   }
 
   public updateFormWidgetName (val: string) {
@@ -323,7 +330,7 @@ class TaroFormElement extends TaroFormWidgetElement {
       const formResult: Record<string, any> = {}
 
       findChildNodeWithDFS<TaroFormWidgetElement>(this, item => {
-        if (!item.nodeName) return false
+        if (!item.name) return false
         
         switch (item.nodeName) {
           case 'INPUT':

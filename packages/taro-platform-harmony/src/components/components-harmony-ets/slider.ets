@@ -70,21 +70,11 @@ export default struct TaroSlider {
 
   @State value: number = 0
 
-  @Styles visibleChangeEvent () {
-    .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
-  }
-
   aboutToAppear () {
-    this.value = Number(this.node?._attrs?.value || 0)
-  }
-
-  @Styles defaultEvent () {
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
-    .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      if (this.node) {
-        this.node._nodeInfo.areaInfo = res[1]
-      }
-    }))
+    if (this.node) {
+      this.value = this.node.value
+      this.node._instance = this
+    }
   }
 
   @Builder createSlider (node: TaroSliderElement) {
@@ -96,7 +86,6 @@ export default struct TaroSlider {
       style: SliderStyle.OutSet,
       direction: Axis.Horizontal
     })
-      .defaultEvent()
       .style(getNormalAttributes(node))
       .attrs(getAttributes(node))
       .width(!!node._attrs.showValue ? '90%' : '100%')
@@ -104,12 +93,12 @@ export default struct TaroSlider {
       .onChange((value: number, mode: SliderChangeMode) => {
         if (!!node._attrs.disabled) {
           if (mode === SliderChangeMode.End) {
-            // FIXME 找下文档是否有强制刷新方法
-            this.value = this.value + 0.01
-            this.value = this.value - 0.01
+            this.node?.updateComponent()
           }
         } else {
           this.value = value
+          this.node?.updateFormWidgetValue(value)
+          
           if (mode === SliderChangeMode.End) {
             const event: TaroEvent = createTaroEvent('change', { detail: { value: this.value } }, node)
             eventHandler(event, 'change', node)
@@ -119,7 +108,13 @@ export default struct TaroSlider {
           }
         }
       })
-      .visibleChangeEvent()
+      .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+      .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+        if (this.node) {
+          this.node._nodeInfo.areaInfo = res[1]
+        }
+      }))
+      .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
   }
 
   build() {

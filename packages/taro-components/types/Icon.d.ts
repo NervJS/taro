@@ -9,7 +9,7 @@ interface IconProps extends StandardProps {
    * @default 23
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
    */
-  size?: string
+  size?: number
   /** icon 的颜色，同 css 的 color
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */

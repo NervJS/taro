@@ -72,7 +72,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SWITCH') {
     TaroSwitch(item as TaroSwitchElement)
   } else if (item.tagName === 'INPUT') {
-    TaroInput(item as TaroInputElement)
+    TaroInput({ node: item as TaroInputElement })
   } else if (item.tagName === 'SWIPER') {
     TaroSwiper(item as TaroSwiperElement)
   } else if (item.tagName === 'SWIPER-ITEM') {
@@ -84,7 +84,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'ICON') {
     TaroIcon(item as TaroIconElement)
   } else if (item.tagName === 'TEXT-AREA') {
-    TaroTextArea(item as TaroTextAreaElement)
+    TaroTextArea({ node: item as TaroTextAreaElement })
   } else if (item.tagName === 'CHECKBOX-GROUP') {
     TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement })
   } else if (item.tagName === 'CHECKBOX') {
