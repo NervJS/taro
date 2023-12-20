@@ -18,6 +18,7 @@ function textNormalStyle (style: TaroStyleType) {
   .backgroundColor(style.backgroundColor)
   .backgroundImage(style.backgroundImage, style.backgroundRepeat)
   .backgroundImageSize(style.backgroundImageSize)
+  .backgroundImagePosition(style.backgroundImagePosition)
   .rotate(style.rotate)
   .scale(style.scale)
   .translate(style.translate)

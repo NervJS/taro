@@ -1,3 +1,4 @@
+import _display from '@ohos.display'
 import { pxTransformHelper } from '@tarojs/taro'
 
 import { NodeType } from '../dom/node'
@@ -5,6 +6,8 @@ import { NodeType } from '../dom/node'
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element/element'
 import type { TaroNode } from '../dom/node'
+
+const display = _display.getDefaultDisplaySync()
 
 export function isElement (node: TaroNode): node is TaroElement {
   return node.nodeType === NodeType.ELEMENT_NODE
@@ -34,7 +37,10 @@ export function convertNumber2PX (value: number) {
   return pxTransformHelper(value, 'vp')
 }
 
-export function convertNumber2VP (value: number) {
+export function convertNumber2VP (value: number, unit = 'px') {
+  if (unit === 'vw' || unit === 'vh') {
+    return (value / 100 * (unit === 'vw' ? display.width: display.height)) + 'px'
+  }
   return pxTransformHelper(value, 'vp')
 }
 

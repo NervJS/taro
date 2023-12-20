@@ -31,7 +31,7 @@ export interface TaroStyleType {
   direction?: FlexDirection
   justifyContent?: FlexAlign
   alignItems?: ItemAlign
-  wrap?: FlexWrap
+  flexWrap?: FlexWrap
   alignContent?: FlexAlign
 
   // background
@@ -39,6 +39,7 @@ export interface TaroStyleType {
   backgroundImage?: ResourceStr
   backgroundRepeat?: ImageRepeat
   backgroundImageSize?: SizeOptions | ImageSize
+  backgroundImagePosition?: Position | Alignment
 
   // transform
   rotate?: HarmonyType.Transform.Rotate

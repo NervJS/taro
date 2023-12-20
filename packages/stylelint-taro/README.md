@@ -14,7 +14,7 @@ yarn add -D stylelint-taro
 
 ```js
 // .stylelintrc.js
-const mergeConfig = require('stylelint-taro-harmony/lib/config')
+const mergeConfig = require('stylelint-taro/lib/config')
 
 // 合并配置，填写需要适配的端："h5", "miniprogram", "harmony", "rn"
 module.exports = mergeConfig(['h5', 'miniprogram', 'harmony'], {

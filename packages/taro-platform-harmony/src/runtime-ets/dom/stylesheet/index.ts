@@ -227,6 +227,12 @@ export default class StyleSheet {
     if (typeof value.alignItems !== 'undefined') {
       this.hmStyle.alignItems = value.alignItems
     }
+    if (typeof value.wrap !== 'undefined') {
+      this.hmStyle.flexWrap = value.wrap
+    }
+    if (typeof value.alignContent !== 'undefined') {
+      this.hmStyle.alignContent = value.alignContent
+    }
   }
 
   get flexDirection () {
@@ -237,20 +243,12 @@ export default class StyleSheet {
     this.hmStyle.direction = FlexManager.direction(value)
   }
 
-  set _direction (value: FlexDirection) {
-    this.hmStyle.direction = value
-  }
-
   get justifyContent () {
     return FlexManager.reverseFlexAlign(this.hmStyle.justifyContent)
   }
 
   set justifyContent (value: string) {
     this.hmStyle.justifyContent = FlexManager.flexAlign(value)
-  }
-
-  set _justifyContent (value: FlexAlign) {
-    this.hmStyle.justifyContent = value
   }
 
   get alignItems () {
@@ -261,8 +259,20 @@ export default class StyleSheet {
     this.hmStyle.alignItems = FlexManager.itemAlign(value)
   }
 
-  set _alignItems (value: ItemAlign) {
-    this.hmStyle.alignItems = value
+  get alignContent () {
+    return FlexManager.reverseFlexAlign(this.hmStyle.alignContent)
+  }
+
+  set alignContent (value: string) {
+    this.hmStyle.alignContent = FlexManager.flexAlign(value)
+  }
+
+  get flexWrap () {
+    return FlexManager.reverseFlexWrap(this.hmStyle.wrap)
+  }
+
+  set flexWrap (value: string) {
+    this.hmStyle.wrap = FlexManager.flexWrap(value)
   }
 
   get width () {
@@ -344,6 +354,9 @@ export default class StyleSheet {
     }
     this.hmStyle.backgroundImageSize = value?.size?.[0]
     this.hmStyle.backgroundColor = this.hmStyle.backgroundImage ? null : value?.color
+
+    const _backgroundPosition: HarmonyType.Background.backgroundImagePosition = value?.position?.[0]
+    this.hmStyle.backgroundImagePosition = _backgroundPosition
   }
 
   get backgroundColor () {
@@ -403,6 +416,62 @@ export default class StyleSheet {
         this.hmStyle.backgroundImageSize = { width: getUnit(sizes[0]) }
       } else if (sizes.length === 2) {
         this.hmStyle.backgroundImageSize = { width: getUnit(sizes[0]), height: getUnit(sizes[1]) }
+      }
+    }
+  }
+
+  get backgroundPosition () {
+    if (this.hmStyle.backgroundImagePosition) {
+      switch (this.hmStyle.backgroundImagePosition) {
+        case Alignment.TopStart: return 'left top'; break
+        case Alignment.Top: return 'center top'; break
+        case Alignment.TopEnd: return 'right top'; break
+        case Alignment.Start: return 'left center'; break
+        case Alignment.Center: return 'center center'; break
+        case Alignment.End: return 'right center'; break
+        case Alignment.BottomStart: return 'left bottom'; break
+        case Alignment.Bottom: return 'center bottom'; break
+        case Alignment.BottomEnd: return 'right bottom'; break
+        default: {
+          if (this.hmStyle.backgroundImagePosition) {
+            return [this.hmStyle.backgroundImagePosition, this.hmStyle.backgroundImagePosition.y].join(' ')
+          }
+        }
+      }
+    }
+  }
+
+  set backgroundPosition (value: string) {
+    if (typeof value === 'string') {
+      const positions = backgroundImagePosition.split(' ')
+      const horizontal = positions[0].toLowerCase()
+      const vertical = positions[1].toLowerCase() || 'top'
+
+      if (horizontal === 'left' && vertical === 'top') {
+        this.hmStyle.backgroundImagePosition = Alignment.TopStart
+      } else if (horizontal === 'center' && vertical === 'top') {
+        this.hmStyle.backgroundImagePosition = Alignment.Top
+      } else if (horizontal === 'right' && vertical === 'top') {
+        this.hmStyle.backgroundImagePosition = Alignment.TopEnd
+      } else if (horizontal === 'left' && vertical === 'center') {
+        this.hmStyle.backgroundImagePosition = Alignment.Start
+      } else if (horizontal === 'center' && vertical === 'center') {
+        this.hmStyle.backgroundImagePosition = Alignment.Center
+      } else if (horizontal === 'right' && vertical === 'center') {
+        this.hmStyle.backgroundImagePosition = Alignment.End
+      } else if (horizontal === 'left' && vertical === 'bottom') {
+        this.hmStyle.backgroundImagePosition = Alignment.BottomStart
+      } else if (horizontal === 'center' && vertical === 'bottom') {
+        this.hmStyle.backgroundImagePosition = Alignment.Bottom
+      } else if (horizontal === 'right' && vertical === 'bottom') {
+        this.hmStyle.backgroundImagePosition = Alignment.BottomEnd
+      } else {
+        if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(horizontal)) {
+          this.hmStyle.backgroundImagePosition = { x: getUnit(horizontal) }
+          if (/^\d+(\.\d+)?(px|%|vw|vh)$/.test(vertical)) {
+            this.hmStyle.backgroundImagePosition = { x: getUnit(horizontal), y: getUnit(vertical) }
+          }
+        }
       }
     }
   }
@@ -490,10 +559,6 @@ export default class StyleSheet {
     this.hmStyle.clip = value === 'hidden'
   }
 
-  set _overflow (value: boolean) {
-    this.hmStyle.clip = value
-  }
-
   get focus () {
     return !!this.hmStyle.focus
   }
@@ -541,6 +606,27 @@ export default class StyleSheet {
 
   set _fontWeight (value: number | FontWeight | string) {
     this.hmStyle.fontWeight = value
+  }
+
+  get fontStyle () {
+    switch (this.hmStyle.fontStyle) {
+      case FontStyle.Italic: return 'italic'; break
+      case FontStyle.Normal: return 'normal'; break
+      default: return ''
+    }
+  }
+
+  set fontStyle (value: string) {
+    switch (value) {
+      case 'italic':
+        return FontStyle.Italic
+      default:
+        return FontStyle.Normal
+    }
+  }
+
+  set _fontStyle (value: FontStyle) {
+    this.hmStyle.fontStyle = value
   }
 
   get fontFamily () {
@@ -624,7 +710,7 @@ export default class StyleSheet {
     }
   }
 
-  set _textDecoration (value: TextDecorationType) {
+  set _decoration (value: TextDecorationType) {
     this.hmStyle.decoration = value
   }
 
@@ -654,6 +740,12 @@ export default class StyleSheet {
   }
 
   set _textOverflow (value: TextOverflow) {
+    switch (value.overflow) {
+      case TextOverflow.Clip: 
+      case TextOverflow.Ellipsis:
+      case TextOverflow.None: this.hmStyle.maxLines = this.hmStyle.maxLines || 1; break
+      default: break
+    }
     this.hmStyle.textOverflow = value
   }
 

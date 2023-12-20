@@ -53,6 +53,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     backgroundImage: hmStyle.backgroundImage,
     backgroundImageSize: hmStyle.backgroundImageSize,
     backgroundRepeat: hmStyle.backgroundRepeat,
+    backgroundImagePosition: hmStyle.backgroundImagePosition,
     linearGradient: hmStyle.linearGradient,
     // 变换相关
     rotate: transformRotate,
@@ -70,6 +71,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     // 其他
     clip: hmStyle.clip,
     id: _attrs.id || _nid,
+    opacity: hmStyle.opacity,
     // focus: _attrs.focus || false,
   }
 

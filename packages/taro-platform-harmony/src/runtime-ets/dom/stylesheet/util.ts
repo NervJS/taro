@@ -109,7 +109,29 @@ export class FlexManager {
   }
 
   static flexWrap (value: string): FlexWrap {
-    return value === 'wrap' ? FlexWrap.Wrap : FlexWrap.NoWrap
+    switch (value) {
+      case 'nowrap':
+        return FlexWrap.NoWrap
+      case 'wrap':
+        return FlexWrap.Wrap
+      case 'wrap-reverse':
+        return FlexWrap.WrapReverse
+      default:
+        return FlexWrap.NoWrap
+    }
+  }
+
+  static reverseFlexWrap (value: FlexWrap): string {
+    switch (value) {
+      case FlexWrap.NoWrap:
+        return 'nowrap'
+      case FlexWrap.Wrap:
+        return 'wrap'
+      case FlexWrap.WrapReverse:
+        return 'wrap-reverse'
+      default:
+        return 'nowrap'
+    }
   }
 
   static alignContent (style: Record<string, string | number> = {}): FlexAlign | undefined {

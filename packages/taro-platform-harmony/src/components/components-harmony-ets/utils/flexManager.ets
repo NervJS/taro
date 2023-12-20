@@ -12,7 +12,9 @@ class FlexManager {
     return {
       direction: flexDirection,
       justifyContent: hmStyle.justifyContent,
-      alignItems: hmStyle.alignItems
+      alignItems: hmStyle.alignItems,
+      wrap: hmStyle.flexWrap,
+      alignContent: hmStyle.alignContent,
     }
   }
 }

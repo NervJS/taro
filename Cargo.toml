@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/*"]
+members = ["crates/*", "packages/taro-helper/swc/*"]
 resolver = "2"
 
 [workspace.dependencies]
