@@ -215,10 +215,12 @@ export class MiniWebpackModule {
       rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
     }
 
-    rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
-      template: this.combination.config.template,
-      FILE_COUNTER_MAP,
-    })
+    if (this.combination.config.experimental?.compileMode === true) {
+      rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
+        template: this.combination.config.template,
+        FILE_COUNTER_MAP,
+      })
+    }
 
     return rule
   }

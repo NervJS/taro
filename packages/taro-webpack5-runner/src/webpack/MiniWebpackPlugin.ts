@@ -38,9 +38,11 @@ export class MiniWebpackPlugin {
     const mainPlugin = this.getMainPlugin(definePluginOptions)
     plugins.miniPlugin = mainPlugin
 
-    plugins.taroCompileModePlugin = WebpackPlugin.getPlugin(MiniCompileModePlugin, [{
-      combination: this.combination,
-    }])
+    if (this.combination.config.experimental?.compileMode === true) {
+      plugins.taroCompileModePlugin = WebpackPlugin.getPlugin(MiniCompileModePlugin, [{
+        combination: this.combination,
+      }])
+    }
 
     return plugins
   }
