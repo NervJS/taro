@@ -93,16 +93,6 @@
       "offSeeking": true,
       "offSeeked": true
     },
-    "IntersectionObserver": {
-      "disconnect": true,
-      "observe": true,
-      "relativeTo": true,
-      "relativeToViewport": true
-    },
-    "MediaQueryObserver": {
-      "observe": true,
-      "disconnect": true
-    },
     "NodesRef": {
       "context": true,
       "node": true,
