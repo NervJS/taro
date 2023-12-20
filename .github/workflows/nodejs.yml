@@ -5,11 +5,10 @@ env:
 on:
   push:
     branches:
-      - main
-      - feat/**
+      - taro-web
   pull_request:
     branches:
-      - main
+      - taro-web
 
 permissions:
   contents: read # to fetch code (actions/checkout)
