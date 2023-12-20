@@ -166,6 +166,9 @@ export default class Parser extends BaseParser {
       }
     })
   }
+  .constraintSize({
+    maxHeight: ${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`} ? \`calc(100% - \${convertNumber2VP(75)})\` : '100%'
+  })
   .scrollBar(typeof config${isTabPage ? '[index]' : ''}.enableScrollBar === 'boolean' ? config${isTabPage ? '[index]' : ''}.enableScrollBar : ${!this.appConfig.window?.enableScrollBar ? 'false' : 'true'})
   .onAreaChange((_: Area, area: Area) => {
     const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
