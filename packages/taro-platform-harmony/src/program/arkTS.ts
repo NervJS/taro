@@ -146,6 +146,7 @@ export default class Harmony extends TaroPlatformHarmony {
           basedir,
           extensions: this.extensions,
           mainFields: [...defaultMainFields],
+          preserveSymlinks: false,
         })
         if (!typePath) {
           typeName = path.join(path.dirname(lib), `${basename}.d.ts`)
@@ -153,6 +154,7 @@ export default class Harmony extends TaroPlatformHarmony {
             basedir,
             extensions: this.extensions,
             mainFields: [...defaultMainFields],
+            preserveSymlinks: false,
           })
         }
         if (typePath) {
@@ -184,7 +186,9 @@ export default class Harmony extends TaroPlatformHarmony {
           } else {
             // FIXME 多级目录，可能存在入口不为 index 或者引用一级目录文件的情况，需要额外处理
             const dir = path.dirname(pkgPath)
-            target = path.join(target, dir)
+            if (libDir.includes(NODE_MODULES)) {
+              target = path.join(target, dir)
+            }
             lib = path.dirname(lib)
           }
         } else if (path.isAbsolute(libDir)) {
