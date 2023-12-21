@@ -38,18 +38,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 7
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Setup pnpm and install dependencies
-        uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 7
-          run_install: |-
-              recursive: true
-              args: [--frozen-lockfile]
+      - name: Install dependencies
+        run: pnpm -r install --frozen-lockfile
       - name: Lint
         run: pnpm lint
       - name: Download artifact bindings-${{ matrix.settings.target }}
