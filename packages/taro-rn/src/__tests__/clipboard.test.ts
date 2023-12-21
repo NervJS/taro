@@ -12,7 +12,7 @@ const Taro = {
 describe('clipboard', () => {
   describe('setClipboardData', () => {
     test('should set value into Clipboard', async () => {
-      const data = 'foo'
+      const data = 'mockString'
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()
@@ -63,7 +63,7 @@ describe('clipboard', () => {
 
   describe('getClipboardData', () => {
     test('可以获得正确的剪切板数据', async () => {
-      const data = 'hey!hey!hey!'
+      const data = 'mockString'
       const success = jest.fn()
       const fail = jest.fn()
       const complete = jest.fn()

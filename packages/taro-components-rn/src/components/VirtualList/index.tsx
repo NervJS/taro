@@ -78,6 +78,7 @@ class _VirtualList extends React.Component<VirtualListProps & ScrollViewProps<an
       })
     return (
       <FlatList
+        scrollEventThrottle={50}
         {...restProps}
         data={itemData}
         windowSize={overscanCount}
