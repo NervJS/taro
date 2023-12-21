@@ -28,8 +28,10 @@
     "@tarojs/components-rn": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
     "react-native-device-info": "~10.12.0",
-    "react-native": "^0.73.1",
     "react-native-root-siblings": "^5.0.1"
+  },
+  "devDependencies": {
+    "react-native": "^0.73.1"
   },
   "peerDependencies": {
     "react-native-device-info": "~10.12.0"

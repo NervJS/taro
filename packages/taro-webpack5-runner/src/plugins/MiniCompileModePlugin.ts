@@ -26,7 +26,7 @@
  */
 
 import path from 'path'
-import webpack, { type Compiler, Dependency, Module } from 'webpack'
+import webpack, { type Compiler, Dependency, Module, } from 'webpack'
 
 import type { MiniCombination } from '../webpack/MiniCombination'
 
