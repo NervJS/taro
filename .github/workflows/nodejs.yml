@@ -20,7 +20,7 @@ jobs:
     name: Build Rust Binding
     uses: ./.github/workflows/build-rust-binding.yml
   build:
-    name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.os }})
+    name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
     needs:
       - build-rust-binding
     strategy:
