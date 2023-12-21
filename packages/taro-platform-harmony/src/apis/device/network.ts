@@ -52,11 +52,19 @@ const networkStatusListener = async (data, code = 0) => {
 export const onNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('onNetworkWeakChange')
 
 export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback => {
-  networkStatusManager.add(callback)
-  if (networkStatusManager.count() === 1) {
-    network.subscribe({
-      success: networkStatusListener,
-      fail: networkStatusListener,
+  const name = 'onNetworkStatusChange'
+  const handle = new MethodHandler<Partial<Taro.onNetworkStatusChange.CallbackResult>>({ name, complete: callback })
+  try {
+    networkStatusManager.add(callback)
+    if (networkStatusManager.count() === 1) {
+      network.subscribe({
+        success: networkStatusListener,
+        fail: networkStatusListener,
+      })
+    }
+  } catch (error) {
+    handle.fail({
+      errMsg: error
     })
   }
 }
@@ -64,9 +72,17 @@ export const onNetworkStatusChange: typeof Taro.onNetworkStatusChange = callback
 export const offNetworkWeakChange = /* @__PURE__ */ temporarilyNotSupport('offNetworkWeakChange')
 
 export const offNetworkStatusChange: typeof Taro.offNetworkStatusChange = callback => {
-  networkStatusManager.remove(callback)
-  if (networkStatusManager.count() === 0) {
-    network.unsubscribe()
+  const name = 'offNetworkStatusChange'
+  const handle = new MethodHandler<Partial<Taro.onNetworkStatusChange.CallbackResult>>({ name, complete: callback })
+  try {
+    networkStatusManager.remove(callback)
+    if (networkStatusManager.count() === 0) {
+      network.unsubscribe()
+    }
+  } catch (error) {
+    handle.fail({
+      errMsg: error
+    })
   }
 }
 
