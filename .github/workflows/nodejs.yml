@@ -19,14 +19,11 @@ jobs:
   build-rust-binding:
     name: Build Rust Binding
     uses: ./.github/workflows/build-rust-binding.yml
-  build-rust-wasm:
-    name: Build Rust WASM
-    uses: ./.github/workflows/build-rust-wasm.yml
+
   nodejs-tesing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
     needs:
       - build-rust-binding
-      - build-rust-wasm
     strategy:
       fail-fast: false
       matrix:
@@ -89,6 +86,7 @@ jobs:
         if: ${{ matrix.settings.host == 'ubuntu-latest' }}
         env:
           CI: true
+
   rust-testing:
     strategy:
       fail-fast: false
