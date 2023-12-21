@@ -2,19 +2,13 @@ name: Build Rust Wasm
 
 on:
   workflow_call:
-    inputs:
-      name:
-        description: 'The name of the binary to build'
-        required: false
-        default: 'taro'
-        type: string
 
 jobs:
   build:
     strategy:
       fail-fast: false
     name: stable - wasm32-wasi
-    runs-on: ubantu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -91,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
     name: Testing on Rust
-    runs-on: ubantu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
