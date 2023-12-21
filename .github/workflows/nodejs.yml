@@ -22,7 +22,7 @@ jobs:
   build-rust-wasm:
     name: Build Rust WASM
     uses: ./.github/workflows/build-rust-wasm.yml
-  build:
+  nodejs-tesing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
     needs:
       - build-rust-binding
@@ -87,3 +87,28 @@ jobs:
         if: ${{ matrix.settings.host == 'ubuntu-latest' }}
         env:
           CI: true
+  rust-testing:
+    strategy:
+      fail-fast: false
+    name: Testing on Rust
+    runs-on: ubantu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          targets: wasm32-wasi
+      - name: Cache cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            .cargo-cache
+            target/
+          key: wasm32-wasi-cargo-ubantu-latest
+      - name: Test
+        run: cargo test-swc-plugins

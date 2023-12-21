@@ -2,6 +2,12 @@ name: Build Rust Wasm
 
 on:
   workflow_call:
+    inputs:
+      name:
+        description: 'The name of the binary to build'
+        required: false
+        default: 'taro'
+        type: string
 
 jobs:
   build:
