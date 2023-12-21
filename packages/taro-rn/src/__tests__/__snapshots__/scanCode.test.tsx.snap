@@ -15,7 +15,7 @@ exports[`scanCode should render scanCode success 1`] = `
     ]
   }
 >
-  <ViewManagerAdapter_ExponentCamera
+  <ViewManagerAdapter_ExpoCamera
     barCodeScannerEnabled={true}
     barCodeScannerSettings={
       {
