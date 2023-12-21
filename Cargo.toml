@@ -29,6 +29,6 @@ incremental = true
 [profile.release]
 codegen-units = 1
 debug = false
-lto = false # disabled by now, because it will significantly increase our compile time.
+lto = false # disabled by now, because it will significantly increase our compile time. # https://github.com/swc-project/swc/issues/7479
 opt-level = 3
 strip = true

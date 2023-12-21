@@ -2007,6 +2007,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_plugin_define_config"
+version = "0.2.0"
+dependencies = [
+ "serde",
+ "swc_core",
+]
+
+[[package]]
 name = "swc_plugin_macro"
 version = "0.9.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"

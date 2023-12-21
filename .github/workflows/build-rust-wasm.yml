@@ -28,7 +28,7 @@ jobs:
             target/
           key: wasm32-wasi-cargo-ubantu-latest
       - name: Build
-        run: cargo build-wasi --release -p swc_plugin_compile_mode
+        run: cargo build-swc-plugins
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
