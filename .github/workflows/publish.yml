@@ -5,6 +5,11 @@ on:
     branches:
       - 'chore/**'
       - 'feat/**'
+      - 'fix/**'
+      - '1.x'
+      - '2.x'
+      - '3.x'
+      - '4.x'
   pull_request:
     branches:
       - main
