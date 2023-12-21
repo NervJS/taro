@@ -6,7 +6,6 @@ import * as path from 'path'
 import { ConditionalFileStore } from './conditional-file-store'
 import { assetExts } from './defaults'
 import { getReactNativeVersion, handleFile, handleTaroFile, searchReactNativeModule } from './taroResolver'
-import { TerminalReporter } from './terminal-reporter'
 import { getBlockList, getProjectConfig } from './utils'
 
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
@@ -82,6 +81,22 @@ export function getResolver (opt: Options = {}, config: IProjectConfig) {
   return resolver
 }
 
+interface ShareObject {
+  sourceRoot: string
+  qr: boolean
+  entry: string
+  cacheStore: any
+  metroServerInstance: any
+  port?: number
+}
+export const shareObject:ShareObject = {
+  sourceRoot: 'src',
+  qr: false,
+  entry: 'app',
+  cacheStore: null,
+  metroServerInstance: null
+}
+
 export async function getMetroConfig (opt: Options = {}) {
   const config = await getProjectConfig()
   const rnConfig = config.rn || {}
@@ -89,7 +104,10 @@ export async function getMetroConfig (opt: Options = {}) {
   const cacheStore = new ConditionalFileStore<any>({
     root: path.join(os.tmpdir(), 'metro-cache')
   }, entry)
-  const reporter = new TerminalReporter(config.sourceRoot || 'src', cacheStore, opt.qr, entry)
+  shareObject.sourceRoot = config.sourceRoot || 'src'
+  shareObject.qr = opt.qr ?? false
+  shareObject.entry = entry
+  shareObject.cacheStore = cacheStore
   return {
     transformer: getTransformer(opt),
     resolver: getResolver(opt, config),
@@ -105,10 +123,10 @@ export async function getMetroConfig (opt: Options = {}) {
         require(path.join(reactNativePath, 'rn-get-polyfills'))()
     },
     cacheStores: [cacheStore],
-    reporter,
     server: {
       enhanceMiddleware: (Middleware, Server) => {
-        reporter.metroServerInstance = Server
+        shareObject.metroServerInstance = Server
+        shareObject.port = Server._config.server.port
         return Middleware
       }
     }
