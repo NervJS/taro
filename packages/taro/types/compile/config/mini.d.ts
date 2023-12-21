@@ -115,6 +115,12 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
 
   /** 使用的编译工具。可选值：webpack4、webpack5、vite */
   compiler?: Compiler<T>
+
+  /** 体验式功能 */
+  experimental?: {
+    /** 是否开启编译模式 */
+    compileMode?: boolean
+  }
 }
 
 export interface IMiniFilesConfig {

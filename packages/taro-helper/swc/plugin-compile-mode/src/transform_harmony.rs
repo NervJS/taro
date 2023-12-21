@@ -52,7 +52,7 @@ impl VisitMut for PreVisitor {
                 *expr = e.take();
             }
 
-            // is_in_and_expr 为 false 时，表示为当前 expr 的第一个 && 表达式，即当出现 aa && bb && <View /> 这种表达式时，只会处理最右侧的 && 表达式    
+            // is_in_and_expr 为 false 时，表示为当前 expr 的第一个 && 表达式，即当出现 aa && bb && <View /> 这种表达式时，只会处理最右侧的 && 表达式
             match &mut **expr {
                 // 将 aa && <B /> 转换为 aa ? <B /> : <B compileIgnore />
                 Expr::Bin(BinExpr { op, left, right, ..}) => {
@@ -175,11 +175,11 @@ impl TransformVisitor {
                     Some(_) => {
                         // 事件的处理，根据事件添加对应的 ets 事件处理函数
                         let event_string: String = self.build_ets_event(opening_element);
-         
+
                         // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createNode 来生成后续子节点
                         let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
                         let mut children = utils::create_original_node_renderer_foreach(self);
-                        
+
                         if !is_loop_exist {
                             let (ets_children, ..) = self.build_ets_children(&mut el.children, None);
                             children = ets_children;
@@ -289,7 +289,7 @@ impl TransformVisitor {
                 },
                 _ => (),
             }
-            
+
             self.pop_node_stack();
         });
 
@@ -314,7 +314,7 @@ impl TransformVisitor {
                     // 由于这种情况没有办法使用 wx:if 来处理，需要特殊处理成 {{i.cn[3].v==="compileIgnore"?"":i.cn[3].v}} 的形式
                     let current_path = self.get_current_node_path();
 
-                    self.component_set.insert(TEXT_TAG.clone().to_string());
+                    self.component_set.insert(TEXT_TAG.to_string());
                     utils::add_spaces_to_lines(get_text_component_str(&current_path).as_str())
                 },
                 Expr::Cond(cond_expr) => self.build_ets_cond_expr(cond_expr),
@@ -330,7 +330,7 @@ impl TransformVisitor {
         }
 
         utils::add_spaces_to_lines(&children_string)
-    }        
+    }
 
     fn check_jsx_is_static (&self, el: &mut JSXElement) -> bool {
         let opening_element = &mut el.opening;
@@ -358,7 +358,7 @@ impl TransformVisitor {
                                     } else if !is_condition {
                                         return false
                                     }
-                                    
+
                                 },
                                 _ => return false
                             }

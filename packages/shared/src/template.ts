@@ -117,7 +117,7 @@ export class BaseTemplate {
     return name
   }
 
-  protected createMiniComponents (components: Components) {
+  public createMiniComponents (components: Components) {
     const result: Components = Object.create(null)
 
     for (const key in components) {

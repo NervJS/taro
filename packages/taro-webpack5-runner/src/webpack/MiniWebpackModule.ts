@@ -11,6 +11,7 @@ import {
 import { cloneDeep } from 'lodash'
 import path from 'path'
 
+import { FILE_COUNTER_MAP } from '../plugins/MiniCompileModePlugin'
 import { getDefaultPostcssConfig, getPostcssPlugins } from '../postcss/postcss.mini'
 import { WebpackModule } from './WebpackModule'
 
@@ -213,11 +214,12 @@ export class MiniWebpackModule {
       rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
     }
 
-    rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
-      template: this.combination.config.template,
-      outputDir: this.combination.outputDir,
-      fileType: this.combination.fileType,
-    })
+    if (this.combination.config.experimental?.compileMode === true) {
+      rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
+        template: this.combination.config.template,
+        FILE_COUNTER_MAP,
+      })
+    }
 
     return rule
   }

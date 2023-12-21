@@ -1,7 +1,8 @@
 use swc_core::{
     ecma::{
         atoms::Atom,
-        ast::*
+        ast::*,
+        utils::quote_str,
     },
     common::{
         iter::IdentifyLast,
@@ -221,7 +222,7 @@ pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
     for attr in &el.opening.attrs {
         if let JSXAttrOrSpread::JSXAttr(JSXAttr { name, .. }) = attr {
             if let JSXAttrName::Ident(Ident { sym, .. }) = name {
-                if &**sym == COMPILE_IGNORE {
+                if sym == COMPILE_IGNORE {
                     return true
                 }
             }
@@ -235,7 +236,7 @@ pub fn check_jsx_element_has_compile_ignore (el: &JSXElement) -> bool {
  */
 pub fn is_call_expr_of_loop (callee_expr: &mut Box<Expr>, args: &mut Vec<ExprOrSpread>) -> bool {
     if let Expr::Member(MemberExpr { prop: MemberProp::Ident(Ident { sym, ..}), .. }) = &mut **callee_expr {
-        if &**sym == "map" {
+        if sym == "map" {
             if let Some(ExprOrSpread { expr, .. }) = args.get_mut(0) {
                 return expr.is_arrow() || expr.is_fn_expr()
             }
@@ -269,7 +270,7 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
                 if return_value.is_jsx_element() {
                     let el = return_value.as_mut_jsx_element().unwrap();
                     el.opening.attrs.push(create_jsx_bool_attr(COMPILE_FOR));
-                    el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(Str { span, value: "sid".into(), raw: None})));
+                    el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid"))));
                     return Some(el)
                 }
                 None

@@ -3,13 +3,15 @@ use swc_core::{
     common::{
         iter::IdentifyLast,
         util::take::Take,
-        DUMMY_SP as span
+        DUMMY_SP as span,
     },
     ecma::{
         self,
         ast::*,
         visit::{VisitMut, VisitMutWith},
+        utils::{quote_ident, quote_str},
     },
+    atoms::Atom,
 };
 use std::collections::HashMap;
 use crate::PluginConfig;
@@ -72,11 +74,11 @@ impl VisitMut for PreVisitor {
                                     span,
                                     test: left.take(),
                                     cons: right.take(),
-                                    alt: Box::new(Expr::Lit(Lit::Str(Str { span, value: COMPILE_IGNORE.into(), raw: None })))
+                                    alt: Box::new(Expr::Lit(Lit::Str(quote_str!(COMPILE_IGNORE))))
                                 })
                             },
                             _ => {
-                                let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                                let jsx_el_name = JSXElementName::Ident(quote_ident!("block"));
                                 let mut block = Box::new(JSXElement {
                                     span,
                                     opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![], self_closing: false, type_args: None },
@@ -99,7 +101,7 @@ impl VisitMut for PreVisitor {
                             },
                             _ => {
                                 let temp = arm.take();
-                                let jsx_el_name = JSXElementName::Ident(Ident { span, sym: "block".into(), optional: false });
+                                let jsx_el_name = JSXElementName::Ident(quote_ident!("block"));
                                 **arm = Expr::JSXElement(Box::new(JSXElement {
                                     span,
                                     opening: JSXOpeningElement { name: jsx_el_name.clone(), span, attrs: vec![attr], self_closing: false, type_args: None },
@@ -156,7 +158,7 @@ impl TransformVisitor {
         let opening_element = &mut el.opening;
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
-                let name = utils::to_kebab_case(&ident.sym);
+                let name = utils::to_kebab_case(ident.as_ref());
                 match self.config.components.get(&name) {
                     // 内置组件
                     Some(attrs_map) => {
@@ -312,7 +314,7 @@ impl TransformVisitor {
                                         },
                                         Expr::Lit(lit) => {
                                             if let Lit::Str(Str { value, .. }) = lit {
-                                                if &*value == COMPILE_IGNORE {
+                                                if value == COMPILE_IGNORE {
                                                     return ();
                                                 }
                                             }
@@ -425,14 +427,10 @@ impl VisitMut for TransformVisitor {
         for attr in &mut el.opening.attrs {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(jsx_attr_name) = &jsx_attr.name {
-                    if &*jsx_attr_name.sym == COMPILE_MODE {
+                    if jsx_attr_name.sym == COMPILE_MODE {
                         self.is_compile_mode = true;
                         tmpl_name = (self.get_tmpl_name)();
-                        jsx_attr.value = Some(JSXAttrValue::Lit(Lit::Str(Str {
-                            span,
-                            value: tmpl_name.clone().into(),
-                            raw: None,
-                        })));
+                        jsx_attr.value = Some(JSXAttrValue::Lit(Lit::Str(quote_str!(tmpl_name.as_str()))));
                         break;
                     }
                 }
@@ -465,12 +463,8 @@ impl VisitMut for TransformVisitor {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span,
-                        name: Pat::Ident(Ident::new(format!("TARO_TEMPLATES_{}", key).as_str().into(), span).into()),
-                        init: Some(Box::new(Expr::Lit(Lit::Str(Str {
-                            span,
-                            value: value.as_str().into(),
-                            raw: None
-                        })))),
+                        name: Pat::Ident(Ident::new(Atom::new(format!("TARO_TEMPLATES_{}", key)), span).into()),
+                        init: Some(Box::new(Expr::Lit(Lit::Str(quote_str!(value.as_str()))))),
                         definite: false,
                     }],
                 }))))
