@@ -1,10 +1,14 @@
-const { mergeConfig } = require('metro-config')
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const { getMetroConfig } = require('@tarojs/rn-supporter')
 
+/**
+ * Metro configuration
+ * https://facebook.github.io/metro/docs/configuration
+ *
+ * @type {import('metro-config').MetroConfig}
+ */
+const config = {};
+
 module.exports = (async function (){
-  return mergeConfig({
-  // custom your metro config here
-  // https://facebook.github.io/metro/docs/configuration
-    resolver: {}
-  }, await getMetroConfig())
+    return mergeConfig(getDefaultConfig(__dirname), await getMetroConfig(), config)
 })()
