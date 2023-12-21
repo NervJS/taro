@@ -19,6 +19,8 @@ anyhow = { version = "=1.0.75" }
 console = { version = "=0.15.7" }
 spinners = { version = "=4.1.1" }
 regex = { version = "=1.10.2" }
+swc_core = { version = "0.87.*", features = ["ecma_plugin_transform", "ecma_utils"] }
+
 
 [profile.dev]
 debug = 2
