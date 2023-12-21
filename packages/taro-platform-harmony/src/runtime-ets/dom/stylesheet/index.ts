@@ -1,7 +1,5 @@
 /* eslint-disable accessor-pairs */
 // @ts-nocheck
-import matrix4 from '@ohos.matrix4'
-
 import { ObjectAssign, TaroAny } from '../../'
 import { FlexManager, getNodeMarginOrPaddingData, getUnit } from './util'
 
@@ -548,7 +546,9 @@ export default class StyleSheet {
   }
 
   set opacity (value: string) {
-    this.hmStyle.opacity = Number(value)
+    const val = Number(value)
+
+    this.hmStyle.opacity = Number.isNaN(val) ? 1 : val
   }
 
   get overflow () {

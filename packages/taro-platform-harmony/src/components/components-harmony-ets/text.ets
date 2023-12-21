@@ -1,5 +1,6 @@
 import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
 
+import { getButtonColor } from './button'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
@@ -72,7 +73,7 @@ export default function TaroText (node: TaroTextElement) {
         .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))
         .textSpecialFontStyle(getFontAttributes(node.parentNode as TaroElement))
         .fontSize((node.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((node.parentNode as TaroButtonElement)))
-        .fontColor((node.parentNode as TaroButtonElement).hmStyle.color || BUTTON_THEME_COLOR.get((node.parentNode as TaroButtonElement)._attrs.type).text)
+        .fontColor((node.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(node.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((node.parentNode as TaroButtonElement)._attrs.type).text))
     } else {
       Text(node.textContent)
         .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))

@@ -12,6 +12,7 @@ export class TEXT_DEFAULT_STYLE {
 interface IBUTTON_THEME_COLOR {
   text: Color
   background: string
+  plainText: string | Color
 }
 
 export class BUTTON_THEME_COLOR {
@@ -20,14 +21,17 @@ export class BUTTON_THEME_COLOR {
       case 'primary': return {
         text: Color.White,
         background: '#1aad19',
+        plainText: '#1aad19'
       }
       case 'warn': return {
         text: Color.White,
-        background: '#e64340'
+        background: '#e64340',
+        plainText: '#e64340'
       }
       default: return {
         text: Color.Black,
         background: '#f7f7f7',
+        plainText: Color.Black
       }
     }
   }

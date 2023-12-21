@@ -10,8 +10,8 @@ export interface HarmonyStyle extends TaroStyleType {
 export interface TaroStyleType {
   id?: string
 
-  padding?: Margin | Length
-  margin?: Margin | Length
+  padding?: Padding
+  margin?: Margin
   width?: Length
   height?: Length
   constraintSize?: ConstraintSizeOptions

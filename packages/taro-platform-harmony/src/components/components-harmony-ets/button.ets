@@ -10,9 +10,15 @@ import type { TaroAny, TaroEvent, TaroButtonElement, TaroStyleType } from '@taro
 function attrs (style: TaroStyleType) {
   .id(style.id)
   .key(style.id)
-  .padding(style.padding)
+  .width(style.width)
+  .height(style.height)
+  .padding({
+    top: style.padding?.top,
+    left: style.padding?.left || 10,
+    right: style.padding?.right || 10,
+    bottom: style.padding?.bottom,
+  })
   .margin(style.margin)
-  .constraintSize(style.constraintSize)
   .flexGrow(style.flexGrow)
   .flexShrink(style.flexShrink)
   .flexBasis(style.flexBasis)
@@ -25,9 +31,6 @@ function attrs (style: TaroStyleType) {
   .translate(style.translate)
   .transform(style.transform)
   .borderStyle(style.borderStyle)
-  .borderWidth(style.borderWidth)
-  .borderColor(style.borderColor)
-  .borderRadius(style.borderRadius || convertNumber2VP(10))
   .linearGradient(style.linearGradient)
   .zIndex(style.zIndex)
   .clip(style.clip)
@@ -35,13 +38,29 @@ function attrs (style: TaroStyleType) {
 
 @Extend(Button)
 function themeStyles(style: TaroStyleType) {
-  .border({
-    width: 1,
-    color: style.backgroundColor
-  })
   .fontColor(style.color)
   .opacity(style.opacity)
+  .borderColor(style.borderColor)
+  .borderWidth(style.borderWidth)
+  .borderRadius(style.borderRadius)
   .backgroundColor(style.backgroundColor)
+}
+
+export function getButtonColor (node: TaroButtonElement, color: ResourceColor) {
+  const _attrs = node._attrs
+  const isDisabled: boolean = _attrs.disabled || false
+  const isPlain: boolean = _attrs.plain || false
+  const type: string = _attrs.type || 'default'
+
+  if (isDisabled && isPlain) {
+    return Color.Black
+  }
+
+  if (isPlain) {
+    return BUTTON_THEME_COLOR.get(type).plainText
+  }
+
+  return color
 }
 
 function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
@@ -52,9 +71,12 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
   const type: string = _attrs.type || 'default'
 
   return {
+    borderColor: hmStyle.borderColor || getButtonColor(node, BUTTON_THEME_COLOR.get(type).background),
+    borderWidth: hmStyle.borderWidth || 1,
+    borderRadius: hmStyle.borderRadius || convertNumber2VP(10),
     opacity: isDisabled ? 0.4 : hmStyle.opacity,
     backgroundColor: isPlain ? Color.Transparent : (hmStyle.backgroundColor || BUTTON_THEME_COLOR.get(type).background),
-    color: hmStyle.color || BUTTON_THEME_COLOR.get(type).text,
+    color: hmStyle.color || getButtonColor(node, BUTTON_THEME_COLOR.get(type).text),
   }
 }
 
@@ -68,6 +90,22 @@ function getButtonHeight (node: TaroButtonElement) {
   const isMini = node._attrs.size === 'mini'
 
   return isMini ? convertNumber2VP(60) : convertNumber2VP(92)
+}
+
+function getButtonMinWidth (node: TaroButtonElement): string | number | undefined {
+  if (node.hmStyle.width) {
+    return undefined
+  }
+
+  return getButtonWidth(node)
+}
+
+function getButtonMinHeight (node: TaroButtonElement): string | number | undefined {
+  if (node.hmStyle.height) {
+    return undefined
+  }
+
+  return getButtonHeight(node)
 }
 
 @Builder
@@ -84,8 +122,12 @@ export default function TaroButton (node: TaroButtonElement) {
   }
   .themeStyles(getThemeAttributes(node))
   .attrs(getNormalAttributes(node))
-  .width(node.hmStyle.width || getButtonWidth(node))
-  .height(node.hmStyle.height || getButtonHeight(node))
+  .constraintSize({
+    minWidth: node.hmStyle?.constraintSize?.minWidth || getButtonMinWidth(node),
+    minHeight: node.hmStyle?.constraintSize?.minHeight || getButtonMinHeight(node),
+    maxWidth: node.hmStyle?.constraintSize?.maxWidth,
+    maxHeight: node.hmStyle?.constraintSize?.maxHeight,
+  })
   .type(ButtonType.Normal)
   .onClick((e: ClickEvent) => {
     if (['submit', 'reset'].includes(node._attrs.formType)) {
