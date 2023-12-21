@@ -17,7 +17,6 @@ jobs:
   need-publish:
     permissions:
       actions: write # to cancel running workflow (andymckay/cancel-action)
-
     name: Need Publish
     runs-on: ubuntu-latest
     steps:
@@ -47,10 +46,10 @@ jobs:
         if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
         uses: andymckay/cancel-action@0.3
 
-  # build-rust-binding:
-  #   name: Build Rust Binding
-  #   needs: [need-publish]
-  #   uses: ./.github/workflows/build-rust-binding.yml
+  build-rust-binding:
+    name: Build Rust Binding
+    needs: [need-publish]
+    uses: ./.github/workflows/build-rust-binding.yml
 
   build-rust-wasm:
     name: Build Rust WASM
@@ -65,7 +64,7 @@ jobs:
       pull-requests: write # to create comment and so on
     name: Publish
     runs-on: ubuntu-latest
-    needs: [need-publish, build-rust-wasm]
+    needs: [need-publish, build-rust-binding, build-rust-wasm]
     steps:
       # Setup
       - name: Checkout
@@ -148,20 +147,17 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: crates/native_binding/artifacts
-
-      - name: List Package before move
-        run: |-
-          pwd
-          ls -R ./crates/native_binding
-        shell: bash
-
       - name: Move artifacts
         run: pnpm artifacts
-      # - name: build
-      #   run: pnpm build
-
-      - name: List Package after move
+      - name: build
+        run: pnpm build
+      - name: List Packages
         run: |-
+          echo "List ./crates/native_binding/artifacts"
+          ls -R ./crates/native_binding/artifacts
+          echo "List ./npm"
+          ls -R ./npm
+          echo "List ./packages/taro-helper/swc"
           ls -R ./packages/taro-helper/swc
         shell: bash
 

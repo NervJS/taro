@@ -3,6 +3,7 @@ const fs = require('fs')
 
 const plugins = [
   'swc_plugin_compile_mode',
+  'swc_plugin_define_config',
 ]
 
 plugins.forEach(plugin => {
