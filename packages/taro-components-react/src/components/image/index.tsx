@@ -4,7 +4,7 @@ import './style/index.css'
 import classNames from 'classnames'
 import React from 'react'
 
-require('intersection-observer')
+import('intersection-observer')
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string
