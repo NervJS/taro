@@ -32,8 +32,8 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
-    "@react-native-community/cli-config": "^12.2.1",
-    "@react-native-community/cli-tools": "^12.2.1",
+    "@react-native-community/cli-config": "^12.3.0",
+    "@react-native-community/cli-tools": "^12.3.0",
     "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/taro": "workspace:*",
@@ -50,8 +50,7 @@
     "metro-resolver": "^0.76.5",
     "mime-types": "^2.1.27",
     "qrcode": "^1.5.1",
-    "react-native-svg-transformer": "^0.14.3",
-    "yargs": "^15.3.1"
+    "react-native-svg-transformer": "^0.14.3"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -59,6 +58,7 @@
     "react": "18.2.0",
     "react-native": "^0.73.1",
     "react-native-svg": "~14.1.0",
-    "react-test-renderer": "18.2.0"
+    "react-test-renderer": "18.2.0",
+    "typescript": "^4.7.4"
   }
 }
