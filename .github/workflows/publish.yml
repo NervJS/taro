@@ -160,8 +160,6 @@ jobs:
 
       - name: List Package after move
         run: |-
-          ls -R ./crates/native_binding
-          ls -R ./npm
           ls -R ./packages/taro-helper/swc
         shell: bash
 
