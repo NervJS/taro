@@ -50,9 +50,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
-      - name: Clear puppeteer cache
-        run: pnpm cache clean --filter puppeteer
+          # cache: 'pnpm'
+      # - name: Clear puppeteer cache
+      #   run: pnpm cache clean --filter puppeteer
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
       - name: Lint
