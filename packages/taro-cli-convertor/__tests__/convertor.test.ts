@@ -1,3 +1,4 @@
+import { FrameworkType } from '@tarojs/binding'
 import { normalizePath } from '@tarojs/helper'
 
 import Convertor from '../src/index'
@@ -158,7 +159,7 @@ describe('文件转换', () => {
     updateMockFiles(root, COMMENT_PAGE_DATA)
 
     const convert = new Convertor(root, false)
-    convert.framework = 'react'
+    convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/commentPage/commentPage']))
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
@@ -219,7 +220,7 @@ describe('模版转换', () => {
     updateMockFiles(root, TEMPLATE_DATA)
 
     const convert = new Convertor(root, false)
-    convert.framework = 'react'
+    convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/simpleTemplatePage/simpleTemplatePage']))
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
@@ -256,7 +257,7 @@ describe('模版转换', () => {
     updateMockFiles(root, TEMPLATE_DATA)
 
     const convert = new Convertor(root, false)
-    convert.framework = 'react'
+    convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/mulVarTemplatePage/mulVarTemplatePage']))
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
@@ -298,7 +299,7 @@ describe('模版转换', () => {
     updateMockFiles(root, TEMPLATE_DATA)
 
     const convert = new Convertor(root, false)
-    convert.framework = 'react'
+    convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/templatePage_tempNameIsVar/templatePage_tempNameIsVar']))
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
@@ -340,7 +341,7 @@ describe('模版转换', () => {
     updateMockFiles(root, TEMPLATE_DATA)
 
     const convert = new Convertor(root, false)
-    convert.framework = 'react'
+    convert.framework = FrameworkType.React
     convert.traversePages(root, new Set(['/pages/templatePage_tempNameContainsVar/templatePage_tempNameContainsVar']))
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()

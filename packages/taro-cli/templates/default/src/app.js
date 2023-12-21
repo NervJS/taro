@@ -1,15 +1,15 @@
-<%if (['react', 'preact'].includes(framework)) {-%>
-<% if (typescript) {%>import { PropsWithChildren } from 'react'<%}%>
+{{#if (includes "React" "Preact" s=framework)}}
+{{#if typescript }}import { PropsWithChildren } from 'react'{{/if}}
 import { useLaunch } from '@tarojs/taro'
-<%} else if (framework === 'vue') { -%>
+{{/if}}{{#if (eq framework 'Vue') }}
 import Vue from 'vue'
-<%} else if (framework === 'vue3') { -%>
+{{/if}}{{#if (eq framework 'Vue3') }}
 import { createApp } from 'vue'
-<%}-%>
-import './app.<%= cssExt %>'
+{{/if}}
+import './app.{{ cssExt }}'
 
-<% if (['react', 'preact'].includes(framework)) { -%>
-function App({ children }<% if (typescript) {%>: PropsWithChildren<any><%}%>) {
+{{#if (includes "React" "Preact" s=framework)}}
+function App({ children }{{#if typescript }}: PropsWithChildren<any>{{/if}}) {
 
   useLaunch(() => {
     console.log('App launched.')
@@ -18,8 +18,8 @@ function App({ children }<% if (typescript) {%>: PropsWithChildren<any><%}%>) {
   // children 是将要会渲染的页面
   return children
 }
-<%}-%>
-<% if (framework === 'vue') { -%>
+{{/if}}
+{{#if (eq framework 'Vue') }}
 const App = {
   onShow (options) {
     console.log('App onShow.')
@@ -29,14 +29,14 @@ const App = {
     return h('block', this.$slots.default)
   }
 }
-<%}-%>
-<% if (framework === 'vue3') { -%>
+{{/if}}
+{{#if (eq framework 'Vue3') }}
 const App = createApp({
   onShow (options) {
     console.log('App onShow.')
   },
   // 入口组件不需要实现 render 方法，即使实现了也会被 taro 所覆盖
 })
-<%}-%>
+{{/if}}
 
 export default App
