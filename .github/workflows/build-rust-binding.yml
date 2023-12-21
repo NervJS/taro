@@ -68,7 +68,7 @@ jobs:
             target/
           key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
       - name: Install dependencies
-        run: pnpm install --filter crates/native_binding... --frozen-lockfile
+        run: pnpm install --filter @tarojs/binding... --frozen-lockfile
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
