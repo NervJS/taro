@@ -232,14 +232,14 @@ export class TaroTextNode extends TaroNode {
   }
 }
 
-function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
-  if (!parentNode._isCompileMode) return
+function checkIsCompileModeAndInstallAfterDOMAction (_node: TaroNode, _parentNode: TaroNode) {
+  // if (!parentNode._isCompileMode) return
 
   // parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
 }
 
-function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
-  if (!node._isCompileMode) return
+function checkIsCompileModeAndUninstallAfterDOMAction (_node: TaroNode) {
+  // if (!node._isCompileMode) return
 
   // node._instance?.dynamicCenter?.uninstall?.(node)
 }

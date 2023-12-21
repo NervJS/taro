@@ -121,7 +121,7 @@ export class TaroElement<T extends StandardProps = StandardProps> extends TaroNo
   }
 
   public getElementsByClassName<T extends TaroElement = TaroElement> (className: string) {
-    const classNames = className.trim().split(new RegExp('\s+'))
+    const classNames = className.trim().split(new RegExp('\\s+'))
 
     return findChildNodeWithDFS<T>(this as TaroAny, (el) => {
       const classList = el.classList

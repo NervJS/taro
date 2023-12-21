@@ -1,16 +1,16 @@
 import { ObjectAssign } from '../utils'
 
 import type { TaroAny } from '../utils'
-import type { TaroElement, TaroScrollViewElement } from './element/element'
+import type { TaroElement, TaroScrollViewElement } from './element'
 
 function convertToCamelCase(str: string) {
-  return str.replace(new RegExp("/-(.)/g"), (_, char: string) => char.toUpperCase()).replace(new RegExp("/^\w/"), firstChar => firstChar.toUpperCase())
+  return str.replace(new RegExp('/-(.)/g'), (_, char: string) => char.toUpperCase()).replace(new RegExp('/^\\w/'), firstChar => firstChar.toUpperCase())
 }
 
-function bindAttributesCallback (node: TaroElement, attributeName: string, callback: Function) {
+function bindAttributesCallback (node: TaroElement, attributeName: string, callback: TaroAny) {
   if (!node) return
 
-  node._nodeInfo.attributeCallback[attributeName]  = callback
+  node._nodeInfo.attributeCallback[attributeName] = callback
 }
 
 export function bindScrollTo (node: TaroScrollViewElement) {

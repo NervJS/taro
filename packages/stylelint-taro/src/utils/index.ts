@@ -2,7 +2,7 @@ import { utils } from 'stylelint'
 
 import type { Problem } from 'stylelint'
 
-export function taroDocsUrl(ruleName: string) {
+export function taroDocsUrl(_: string) {
   return `https://taro-docs.jd.com/docs/`
 }
 

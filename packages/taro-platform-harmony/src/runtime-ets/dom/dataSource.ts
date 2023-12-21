@@ -7,7 +7,7 @@ export default class TaroDataSourceElement extends TaroEventTarget implements ID
     throw new Error('Method not implemented.')
   }
 
-  getData(index: number) {
+  getData(_: number) {
     throw new Error('Method not implemented.')
   }
 

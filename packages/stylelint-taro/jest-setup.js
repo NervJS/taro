@@ -1,3 +1,3 @@
-const getTestRule = require('jest-preset-stylelint/getTestRule');
+const getTestRule = require('jest-preset-stylelint/getTestRule')
 
-global.testRule = getTestRule({ plugins: ["./lib"] });
+global.testRule = getTestRule({ plugins: ['./lib'] })
