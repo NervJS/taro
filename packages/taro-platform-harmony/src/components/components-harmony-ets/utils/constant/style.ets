@@ -10,7 +10,7 @@ export class TEXT_DEFAULT_STYLE {
 }
 
 interface IBUTTON_THEME_COLOR {
-  text: string
+  text: Color
   background: string
 }
 
@@ -18,21 +18,20 @@ export class BUTTON_THEME_COLOR {
   static get (type: string): IBUTTON_THEME_COLOR {
     switch (type) {
       case 'primary': return {
-        text: '#fff',
+        text: Color.White,
         background: '#1aad19',
       }
       case 'warn': return {
-        text: '#fff',
+        text: Color.White,
         background: '#e64340'
       }
       default: return {
-        text: '#000',
+        text: Color.Black,
         background: '#f7f7f7',
       }
     }
   }
 }
-
 
 export class INPUT_TYPE_MAP {
   static get (type: string) {

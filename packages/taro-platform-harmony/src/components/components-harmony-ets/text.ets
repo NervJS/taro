@@ -1,8 +1,9 @@
-import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
+import { eventHandler, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, NodeType } from '@tarojs/runtime'
 
+import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroElement, TaroTextElement, TaroAny, TaroTextStyleType, TaroStyleType } from '@tarojs/runtime'
+import type { TaroButtonElement, TaroElement, TaroTextElement, TaroAny, TaroTextStyleType, TaroStyleType } from '@tarojs/runtime'
 
 @Extend(Text)
 function textNormalStyle (style: TaroStyleType) {
@@ -57,12 +58,26 @@ function textSpecialFontStyle(attr: TaroTextStyleType) {
   .letterSpacing(attr.letterSpacing)
 }
 
+function getButtonFontSize (node: TaroButtonElement) {
+  const isMini = node._attrs.size === 'mini'
+
+  return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
+}
+
 @Builder
 export default function TaroText (node: TaroTextElement) {
-  if (node.nodeType === NodeType.TEXT_NODE) {
-    Text(node.textContent)
-    .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))
-    .textSpecialFontStyle(getFontAttributes(node.parentNode as TaroElement))
+  if (node.nodeType === NodeType.TEXT_NODE && node.parentNode) {
+    if ((node.parentNode as TaroElement).tagName === 'BUTTON') {
+      Text(node.textContent)
+        .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))
+        .textSpecialFontStyle(getFontAttributes(node.parentNode as TaroElement))
+        .fontSize((node.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((node.parentNode as TaroButtonElement)))
+        .fontColor((node.parentNode as TaroButtonElement).hmStyle.color || BUTTON_THEME_COLOR.get((node.parentNode as TaroButtonElement)._attrs.type).text)
+    } else {
+      Text(node.textContent)
+        .textNormalFontStyle(getNormalAttributes(node.parentNode as TaroElement))
+        .textSpecialFontStyle(getFontAttributes(node.parentNode as TaroElement))
+    }
   } else {
     Text(node.textContent)
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
