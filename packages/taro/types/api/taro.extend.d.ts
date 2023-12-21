@@ -132,7 +132,7 @@ declare module '../index' {
       /** @supported weapp */
       (pluginName: string, success?: (mod: any) => any, error?: (e: { mod: any; errMsg: string }) => any): any;
       /** @supported weapp */
-      async: (pluginName: string) => Promise<any>
+      async?: (pluginName: string) => Promise<any>
     }
 
     /** 获取当前页面实例
