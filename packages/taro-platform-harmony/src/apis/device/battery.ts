@@ -13,7 +13,7 @@ export const getBatteryInfoSync: typeof Taro.getBatteryInfoSync = () => ({
 })
 
 export const getBatteryInfo: typeof Taro.getBatteryInfo = async ({ success, fail, complete } = {}) => {
-  const handle = new MethodHandler({ name: 'getBatteryInfo', success, fail, complete })
+  const handle = new MethodHandler<Taro.getBatteryInfo.SuccessCallbackResult>({ name: 'getBatteryInfo', success, fail, complete })
   try {
     return handle.success(getBatteryInfoSync())
   } catch (error) {
