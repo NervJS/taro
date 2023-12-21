@@ -24,6 +24,7 @@
 import mediaLibrary from '@ohos.multimedia.mediaLibrary'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
+import { VideoContext } from './VideoContext'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -42,7 +43,9 @@ const saveVideoToPhotosAlbumSchema = {
   filePath: 'String'
 }
 
-export const createVideoContext = /* @__PURE__ */ temporarilyNotSupport('createVideoContext')
+export const createVideoContext: typeof Taro.createVideoContext = () => {
+  return new VideoContext()
+}
 
 // TODO: 1.返回属性补全
 // TODO: 2.只支持从相册选择，补充摄像头拍摄功能，需要HarmonyOS提供选择组件
