@@ -345,8 +345,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       this.transArr2Str(generateState, 2),
       '',
       this.transArr2Str(`aboutToAppear() {
-  const state = router.getState()
-  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
+  const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1
   }
@@ -363,8 +362,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
 onPageShow () {
   this.bindPageEvent()
-  const state = router.getState()
-  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
+  const state = this.getPageState()
   if (this.pageStack[this.pageStack.length - 1].path !== state.path) {
     this.pageStack.length = state.index
     this.pageStack[state.index - 1] = state
@@ -391,6 +389,15 @@ aboutToDisappear () {
 `.split('\n'), 2),
       SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
       this.transArr2Str(`
+getPageState() {
+  const state = router.getState()
+  state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
+  if (state.path.endsWith('/')) {
+    state.path += 'index'
+  }
+  return state
+}
+
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
   if (${this.appConfig.window?.navigationStyle === 'custom'
     ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
