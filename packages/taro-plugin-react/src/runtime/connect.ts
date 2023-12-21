@@ -73,7 +73,7 @@ export function setReconciler (ReactDOM) {
         }
 
         return h(
-          customWrapper || 'taro-pull-to-refresh',
+          customWrapper || 'taro-pull-to-refresh-core',
           null,
           h(el, {
             ...newProps,

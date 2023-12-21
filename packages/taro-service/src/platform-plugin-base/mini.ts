@@ -66,7 +66,7 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
               .use(require(path.join(__dirname, './webpack/hmr-plugin.js')).default)
           })
         }
-      } catch (_) {} // eslint-disable-line no-empty
+      } catch (e) {} // eslint-disable-line no-empty
     }
   }
 

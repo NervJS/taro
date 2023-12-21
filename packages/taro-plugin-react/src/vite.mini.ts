@@ -42,7 +42,7 @@ function aliasPlugin (ctx: IPluginContext, framework: Frameworks): PluginOption 
         if (!isProd && ctx.initialConfig.mini?.debugReact !== true && !isHarmony) {
           // 不是生产环境，且没有设置 debugReact，则使用压缩版本的 react 依赖，减少体积
           alias.push({ find: /react-reconciler$/, replacement: 'react-reconciler/cjs/react-reconciler.production.min.js' })
-          alias.push({ find: /react$/, replacement: 'react/cjs/react.production.min.js' })
+          alias.push({ find: /^(?!.*mobx-react$).*react$/, replacement: 'react/cjs/react.production.min.js' })
           alias.push({ find: /scheduler$/, replacement: 'scheduler/cjs/scheduler.production.min.js' })
           alias.push({ find: /react\/jsx-runtime$/, replacement: 'react/cjs/react-jsx-runtime.production.min.js' })
 

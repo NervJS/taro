@@ -1,4 +1,4 @@
-import * as path from 'path'
+import path from 'path'
 import ts from 'typescript'
 
 export interface DocEntry {
@@ -40,10 +40,9 @@ export function generateDocumentation (
 
   for (const sourceFile of program.getSourceFiles()) {
     if (param.withDeclaration !== false || !sourceFile.isDeclarationFile) {
-      if (
-        (param.mapAll === true && filepaths.includes(sourceFile.fileName))
-        || pathsAreEqual(sourceFile.fileName, filepaths[0])
-      ) {
+      // Note: 规范化路径，修复window环境无法生成definition.json文件
+      const normalSrcFile = path.normalize(sourceFile.fileName)
+      if ((param.mapAll === true && filepaths.includes(normalSrcFile)) || normalSrcFile === path.normalize(filepaths[0])) {
         ts.forEachChild(sourceFile, (n) => visitAST(n, output))
       }
     }

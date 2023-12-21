@@ -7,6 +7,17 @@
     {
       "type": "node",
       "request": "launch",
+      "name": "debug-init",
+      "sourceLanguages": ["rust"],
+      "program": "node",
+      "args": ["${workspaceFolder}/packages/taro-cli/bin/taro", "init", "test_pro"],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build binding debug",
+      "postDebugTask": "remove test_pro"
+    },
+    {
+      "type": "node",
+      "request": "launch",
       "name": "CLI debug",
       "program": "${workspaceFolder}/packages/taro-cli/bin/taro",
       // "cwd": "${project absolute path}",
