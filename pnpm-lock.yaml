@@ -2837,9 +2837,6 @@ importers:
       react-native-svg-transformer:
         specifier: ^0.14.3
         version: registry.npmjs.org/react-native-svg-transformer@0.14.3(react-native-svg@14.1.0)(react-native@0.73.1)
-      yargs:
-        specifier: ^15.3.1
-        version: registry.npmjs.org/yargs@15.4.1
     devDependencies:
       '@babel/core':
         specifier: ^7.14.5
@@ -2859,6 +2856,9 @@ importers:
       react-test-renderer:
         specifier: 18.2.0
         version: registry.npmjs.org/react-test-renderer@18.2.0(react@18.2.0)
+      typescript:
+        specifier: ^4.7.4
+        version: registry.npmjs.org/typescript@4.9.5
 
   packages/taro-rn-transformer:
     dependencies:

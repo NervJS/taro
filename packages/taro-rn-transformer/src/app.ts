@@ -134,7 +134,7 @@ export default function generateEntry ({
   ${importPageList}
   ${`import AppComponentConfig from '${appComponentPath}.config';`}
   ${importPageConfig}
-
+  // todo: 此处需要重启才能更新
   AppComponentConfig.tabBar = ${JSON.stringify(appTabBar)}
 
   const buildConfig = ${JSON.stringify(appConfig)}
