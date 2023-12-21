@@ -148,10 +148,25 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: crates/native_binding/artifacts
+
+      - name: List Package before move
+        run: ls -R ./crates/native_binding
+        shell: bash
+
       - name: Move artifacts
         run: pnpm artifacts
       - name: build
         run: pnpm build
+
+      - name: List Package after move
+        run: |-
+          ls -R ./crates/native_binding
+          ls -R ./npm
+          ls -R ./packages/taro-helper/swc
+        shell: bash
+
+      - name: Give up
+        uses: andymckay/cancel-action@0.3
 
       # Git stash
       - name: Drop current changes
