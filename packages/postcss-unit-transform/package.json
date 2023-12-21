@@ -4,7 +4,29 @@
   "description": "小程序单位转换",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:clear": "jest --clearCache",
+    "test:cov": "jest --coverage",
+    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/postcss-unit-transform/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   },
   "author": "luckyadam",
   "license": "MIT",
@@ -12,5 +34,8 @@
     "postcss": "^6.0.21",
     "typescript": "^4.7.4"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.0.5"
+  }
 }
