@@ -14,13 +14,13 @@ let INSTANCE_ID = 0
   ]
 })
 export class Swiper implements ComponentInterface {
-  private _id = INSTANCE_ID++
+  #id = INSTANCE_ID++
+  #source = ''
 
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
   @State() private swiper: ISwiper
   @State() isWillLoadCalled = false
-  @State() source = ''
   /**
    * 是否显示面板指示点
    */
@@ -284,7 +284,7 @@ export class Swiper implements ComponentInterface {
     const that = this
 
     const options: any = {
-      pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
+      pagination: { el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: displayMultipleItems,
@@ -312,22 +312,22 @@ export class Swiper implements ComponentInterface {
           }
           that.onChange.emit({
             current: this.realIndex,
-            source: that.source
+            source: that.#source,
           })
         },
         touchEnd: () => {
-          that.source = 'touch'
+          that.#source = 'touch'
         },
         autoplay() {
-          that.source = 'autoplay'
+          that.#source = 'autoplay'
         },
         transitionEnd () {
           setTimeout(() => {
-            that.source = ''
+            that.#source = ''
           })
           that.onAnimationFinish.emit({
             current: this.realIndex,
-            source: ''
+            source: that.#source,
           })
         },
         observerUpdate (_swiper: ISwiper, e) {
@@ -354,8 +354,8 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    this.swiper = new SwiperJS(`.taro-swiper-${this._id} > .swiper-container`, options)
-    this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this._id} > .swiper-container > .swiper-wrapper`)
+    this.swiper = new SwiperJS(`.taro-swiper-${this.#id} > .swiper-container`, options)
+    this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this.#id} > .swiper-container > .swiper-wrapper`)
   }
 
   render () {
@@ -386,12 +386,12 @@ export class Swiper implements ComponentInterface {
     }
 
     return (
-      <Host class={`taro-swiper-${this._id}`} style={hostStyle}>
+      <Host class={`taro-swiper-${this.#id}`} style={hostStyle}>
         <div class='swiper-container' style={style}>
           <style type='text/css'>
             {`
-              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${indicatorColor} }
-              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
+              .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${indicatorColor} }
+              .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
             `}
           </style>
           <div class='swiper-wrapper'>
