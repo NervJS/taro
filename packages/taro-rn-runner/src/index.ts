@@ -60,7 +60,12 @@ export default async function build (_appPath: string, config: any): Promise<any
       cliParams.push('--port', config.port)
     }
     try {
-      spawn(npxCmd, ['react-native', 'start'].concat(cliParams), {
+      spawn(npxCmd, [
+        'react-native',
+        'start',
+        '--custom-log-reporter-path',
+        '@tarojs/rn-supporter/TerminalReporter'
+      ].concat(cliParams), {
         stdio: 'inherit'
       })
       if (config.qr) {
