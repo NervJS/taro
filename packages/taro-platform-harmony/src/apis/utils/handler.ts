@@ -11,7 +11,7 @@ interface IMethodParam<T = Partial<ICallbackResult>> {
   name: string
   success?: TCallback<T & ICallbackResult>
   fail?: TCallback
-  complete?: TCallback
+  complete?: TCallback<T | ICallbackResult>
 }
 interface IMockPromise {
   resolve?: typeof Promise.resolve | TFunc
@@ -23,7 +23,7 @@ export class MethodHandler<T = Partial<ICallbackResult>> {
 
   protected __success?: TCallback<T>
   protected __fail?: TCallback
-  protected __complete?: TCallback
+  protected __complete?: TCallback<T | ICallbackResult>
 
   protected isHandlerError = false
 
@@ -41,7 +41,7 @@ export class MethodHandler<T = Partial<ICallbackResult>> {
       res.errMsg = `${this.methodName}:ok`
     }
     isFunction(this.__success) && this.__success(res as T)
-    isFunction(this.__complete) && this.__complete(res)
+    isFunction(this.__complete) && this.__complete(res as T)
 
     const { resolve = Promise.resolve.bind(Promise) } = promise
     return resolve(res as Required<T & U & ICallbackResult>)
@@ -54,7 +54,7 @@ export class MethodHandler<T = Partial<ICallbackResult>> {
       res.errMsg = `${this.methodName}:fail ${res.errMsg}`
     }
     isFunction(this.__fail) && this.__fail(res)
-    isFunction(this.__complete) && this.__complete(res)
+    isFunction(this.__complete) && this.__complete(res as ICallbackResult)
 
     const {
       resolve = Promise.resolve.bind(Promise),

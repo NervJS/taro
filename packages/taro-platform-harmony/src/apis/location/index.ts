@@ -1,3 +1,4 @@
+// @ts-nocheck
 // HarmonyOS 文档: https://developer.harmonyos.com/cn/docs/documentation/doc-references/js-apis-geolocation-0000001199568865#section13752433138
 // WX 文档: https://developers.weixin.qq.com/miniprogram/dev/api/location/wx.onLocationChange.html
 // ✅ wx.offLocationChange
@@ -17,6 +18,7 @@
 import geoLocationManager from '@ohos.geoLocationManager'
 
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../utils'
+import { MethodHandler } from '../utils/handler'
 
 import type Taro from '@tarojs/taro/types'
 
@@ -26,45 +28,8 @@ export const startLocationUpdateBackground = /* @__PURE__ */ temporarilyNotSuppo
 export const startLocationUpdate = /* @__PURE__ */ temporarilyNotSupport('startLocationUpdate')
 export const openLocation = /* @__PURE__ */ temporarilyNotSupport('openLocation')
 
-interface IGetOHOSGeolocationParams {
-  type?: string
-  altitude?: boolean
-  isHighAccuracy?: boolean
-  highAccuracyExpireTime?: number
-  priority?: number // 数值为固定几种
-  scenario?: number // 数值为固定几种
-  maxAccuracy?: number // 表示精度信息，单位是米。
-  timeoutMs?: number
-}
-
-interface ILocationRequest {
-  priority?: number
-  scenario?: number // 勘误：注意 Harmony OS 这个参数是必填
-  timeInterval?: number
-  distanceInterval?: number
-  maxAccuracy?: number
-}
-
-interface ILocationSuccessDataOHOS {
-  latitude: number
-  longitude: number
-  altitude: number
-  accuracy: number
-  speed: number
-  timeStamp: number
-  direction: number
-  timeSinceBoot: number
-  additions: Array<string>
-  additionSize: number
-}
-
-interface ILocationSuccessOHOS {
-  code: number
-  data: ILocationSuccessDataOHOS
-}
-
-function formatLocation (location: ILocationSuccessDataOHOS) {
-  const locationWX = {
+function formatLocation (location: Location) {
+  const wxLocate = {
     latitude: location.latitude,
     longitude: location.longitude,
     altitude: location.altitude,
@@ -73,7 +38,7 @@ function formatLocation (location: ILocationSuccessDataOHOS) {
     verticalAccuracy: 0, // OHOS 不支持返回此参数，直接设置为默认值
     horizontalAccuracy: 0 // OHOS 不支持返回此参数，直接设置为默认值
   }
-  return locationWX
+  return wxLocate
 }
 // TODO：增加参数校验
 // const getLocationSchema = {
@@ -91,19 +56,18 @@ export const getLocation: typeof Taro.getLocation = function (options = {}) {
      * 二者参数不一致
      */
     const { type, altitude, isHighAccuracy, highAccuracyExpireTime } = options
-    const params: IGetOHOSGeolocationParams = {
-      type,
-      altitude,
-      isHighAccuracy,
-      highAccuracyExpireTime
-    }
     try {
-      return geoLocationManager.getCurrentLocation(params).then((location: ILocationSuccessOHOS) => {
+      return geoLocationManager.getCurrentLocation({
+        type,
+        altitude,
+        isHighAccuracy,
+        highAccuracyExpireTime
+      }).then((location: Location) => {
         if (location.code !== 0) {
           callAsyncFail(reject, location, options)
         } else {
-          const locationWX = formatLocation(location.data)
-          callAsyncSuccess(resolve, locationWX, options)
+          const wxLocate = formatLocation(location.data)
+          callAsyncSuccess(resolve, wxLocate, options)
         }
       }).catch(error => {
         callAsyncFail(reject, error, options)
@@ -115,28 +79,43 @@ export const getLocation: typeof Taro.getLocation = function (options = {}) {
 }
 
 export const onLocationChange: typeof Taro.onLocationChange = function (callback) {
-  validateParams('onLocationChange', [callback], ['Function'])
-  const requestInfo: ILocationRequest = {}
-  geoLocationManager.on('locationChange', requestInfo, (location: ILocationSuccessDataOHOS) => {
-    if (location) {
-      const locationWX = formatLocation(location)
-      callback(locationWX)
-    }
-  })
+  const name = 'onLocationChange'
+  const handle = new MethodHandler<Partial<Taro.onLocationChange.CallbackResult>>({ name, complete: callback })
+  try {
+    validateParams(name, [callback], ['Function'])
+    geoLocationManager.on('locationChange', {}, (location: Location) => {
+      if (location) {
+        const wxLocate = formatLocation(location)
+        callback(wxLocate)
+      }
+    })
+  } catch (error) {
+    handle.fail({
+      errMsg: error
+    })
+  }
 }
 
-export const offLocationChange: typeof Taro.offLocationChangeError = function (callback) {
-  validateParams('offLocationChange', [callback], ['Function'])
-  geoLocationManager.off('locationChange', (location: ILocationSuccessOHOS) => {
-    const status = {
-      errCode: 200,
-      errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
-    }
+export const offLocationChange: typeof Taro.offLocationChange = function (callback) {
+  const name = 'offLocationChange'
+  const handle = new MethodHandler<Partial<Taro.onLocationChange.CallbackResult>>({ name, complete: callback })
+  try {
+    validateParams(name, [callback], ['Function'])
+    geoLocationManager.off('locationChange', (location: Location) => {
+      const status = {
+        errCode: 200,
+        errMsg: location ? 'offLocationChange is off' : 'offLocationChange err'
+      }
 
-    if (callback) {
-      callback(status)
-    }
-  })
+      if (callback) {
+        callback(status)
+      }
+    })
+  } catch (error) {
+    handle.fail({
+      errMsg: error
+    })
+  }
 }
 
 export const onLocationChangeError = /* @__PURE__ */ temporarilyNotSupport('onLocationChangeError')
