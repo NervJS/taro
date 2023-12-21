@@ -15,10 +15,11 @@ export const loadFontFace: typeof Taro.loadFontFace = async options => {
     try {
       await fontFace.load()
       fonts.add(fontFace)
-      return handle.success({})
+      return handle.success({ status: 'loaded' })
     } catch (error) {
       return handle.fail({
-        errMsg: error.message || error
+        status: 'error',
+        errMsg: error.message || error,
       })
     }
   } else {
@@ -59,6 +60,6 @@ export const loadFontFace: typeof Taro.loadFontFace = async options => {
 
     style.innerText = `@font-face{${innerText}}`
     document.head.appendChild(style)
-    return handle.success()
+    return handle.success({ status: 'loaded' })
   }
 }
