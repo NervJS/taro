@@ -6,18 +6,18 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
    * 选择器类型，默认是普通选择器
    * @default "selector"
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   mode?: keyof PickerStandardProps.Mode
   /**
    * 是否禁用
    * @default false
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, harmony_hybrid, rn
    */
   disabled?: boolean
   /**
    * 取消选择或点遮罩层收起 picker 时触发
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onCancel?: CommonEventFunction
 }
@@ -46,18 +46,18 @@ interface PickerSelectorProps extends PickerStandardProps {
   mode?: 'selector'
   /**
    * mode为 selector 或 multiSelector 时，range 有效
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    * @default []
    */
   range: string[] | number[] | Record<string, any>[]
   /**
    * 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   rangeKey?: string
   /**
    * 表示选择了 range 中的第几个（下标从 0 开始）
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    * @default 0
    */
   value?: number
@@ -79,12 +79,12 @@ interface PickerSelectorProps extends PickerStandardProps {
   indicatorStyle?: StyleProp<ViewStyle>
   /**
    * value 改变时触发 change 事件
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onChange?: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
   /**
    * 用于替换组件内部文本
-   * @supported h5, harmony
+   * @supported h5, harmony, harmony_hybrid
    */
   textProps?: PickerStandardProps.PickerText
 }
@@ -100,18 +100,18 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   mode: 'multiSelector'
   /**
    * mode为 selector 或 multiSelector 时，range 有效
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    * @default []
    */
   range: Array<string[]> | Array<number[]> | Array<Record<string, any>[]>
   /**
    * 当 range 是一个 Object Array 时，通过 rangeKey 来指定 Object 中 key 的值作为选择器显示内容
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   rangeKey?: string
   /**
    * 表示选择了 range 中的第几个（下标从 0 开始）
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    * @default []
    */
   value: number[] | string[] | Record<string, any>[]
@@ -129,12 +129,12 @@ interface PickerMultiSelectorProps extends PickerStandardProps {
   indicatorStyle?: StyleProp<ViewStyle>
   /**
    * 当 value 改变时触发 change 事件
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onChange: CommonEventFunction<PickerMultiSelectorProps.ChangeEventDetail>
   /**
    * 列改变时触发
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onColumnChange?: CommonEventFunction<PickerMultiSelectorProps.ColumnChangeEventDetail>
 }
@@ -156,22 +156,22 @@ interface PickerTimeProps extends PickerStandardProps {
   mode: 'time'
   /**
    * value 的值表示选择了 range 中的第几个（下标从 0 开始）
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   value: string
   /**
    * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的开始，字符串格式为"hh:mm"
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   start?: string
   /**
    * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的结束，字符串格式为"hh:mm"
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   end?: string
   /**
    * value 改变时触发 change 事件
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onChange: CommonEventFunction<PickerTimeProps.ChangeEventDetail>
 }
@@ -187,29 +187,29 @@ interface PickerDateProps extends PickerStandardProps {
   mode: 'date'
   /**
    * 表示选中的日期，格式为"YYYY-MM-DD"
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    * @default 0
    */
   value: string
   /**
    * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的开始，字符串格式为"YYYY-MM-DD"
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   start?: string
   /**
    * 仅当 mode 为 "time" 或 "date" 时有效，表示有效时间范围的结束，字符串格式为"YYYY-MM-DD"
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   end?: string
   /**
    * 有效值 year, month, day，表示选择器的粒度
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, harmony_hybrid, rn
    * @default "day"
    */
   fields?: keyof PickerDateProps.Fields
   /**
    * value 改变时触发 change 事件
-   * @supported weapp, h5, rn, harmony
+   * @supported weapp, h5, rn, harmony, harmony_hybrid
    */
   onChange: CommonEventFunction<PickerDateProps.ChangeEventDetail>
 }
@@ -233,13 +233,13 @@ interface PickerRegionProps extends PickerStandardProps {
   mode: 'region'
   /**
    * 表示选中的省市区，默认选中每一列的第一个值
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, harmony_hybrid, rn
    * @default []
    */
   value?: string[]
   /**
    * 可为每一列的顶部添加一个自定义的项
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, harmony_hybrid, rn
    */
   customItem?: string
   /**
@@ -255,7 +255,7 @@ interface PickerRegionProps extends PickerStandardProps {
   regionData?: PickerRegionProps.RegionData[]
   /**
    * value 改变时触发 change 事件
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, harmony_hybrid, rn
    */
   onChange: CommonEventFunction<PickerRegionProps.ChangeEventDetail>
 }
@@ -287,7 +287,7 @@ declare namespace PickerRegionProps {
 /**
  * 从底部弹起的滚动选择器
  * @classification forms
- * @supported weapp, swan, alipay, tt, h5, rn, harmony
+ * @supported weapp, swan, alipay, tt, h5, harmony_hybrid, rn, harmony
  * @example_react
  * ```tsx
  * export default class PagePicker extends Component {
