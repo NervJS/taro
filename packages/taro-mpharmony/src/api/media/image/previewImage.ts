@@ -154,6 +154,34 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
 
   swiper.current = currentIndex
 
+  // 创建一个固定定位的容器
+  const indexContainer = document.createElement('div')
+  indexContainer.style.position = 'fixed'
+  indexContainer.style.top = '35px'
+  indexContainer.style.left = '50%'
+  indexContainer.style.transform = 'translateX(-50%)'
+  indexContainer.style.zIndex = '999' // 确保显示在最上层
+  container.appendChild(indexContainer)
+
+  // 创建一个div用来显示索引
+  const indexDisplay = document.createElement('div')
+  indexContainer.style.position = 'fixed'
+  indexDisplay.id = 'index-display'
+  indexDisplay.style.backgroundColor = '#111' // 设置背景颜色为黑色
+  indexDisplay.style.color = 'white' // 设置文字颜色为白色
+  indexContainer.style.transform = 'translateX(-50%)'
+  indexContainer.style.zIndex = '999' // 确保显示在最上层
+  indexDisplay.style.border = '1px solid #111'
+  indexContainer.appendChild(indexDisplay)
+  indexDisplay.innerText = `${currentIndex + 2} / ${urls.length}`
+
+  // 监听滑块index并渲染
+  swiper.addEventListener('change', (e) => {
+    // @ts-ignore
+    const index = e.detail.current
+    indexDisplay.innerText = `${index + 1} / ${urls.length}`
+  })
+
   container.appendChild(swiper)
   document.body.appendChild(container)
   eventCenter.trigger('__taroEnterFullScreen', {})
