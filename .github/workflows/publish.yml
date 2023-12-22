@@ -78,7 +78,7 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://registry.npmjs.org' # Don't touch!
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
