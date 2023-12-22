@@ -98,7 +98,7 @@ declare module '../index' {
     }): void
 
     /** 小程序获取和 Taro 相关的 App 信息
-     * @supported weapp, alipay, jd, qq, swan, tt, h5
+     * @supported weapp, alipay, jd, qq, swan, tt, h5, harmony_hybrid
      */
     getAppInfo(): getAppInfo.AppInfo
 
