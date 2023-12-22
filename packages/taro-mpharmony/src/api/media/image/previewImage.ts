@@ -41,6 +41,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const removeHandler = () => {
     eventCenter.off('__taroRouterChange', removeHandler)
     container.remove()
+    eventCenter.trigger('__taroExitFullScreen', {})
   }
   // 路由改变后应该关闭预览框
   eventCenter.on('__taroRouterChange', removeHandler)
@@ -155,6 +156,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
 
   container.appendChild(swiper)
   document.body.appendChild(container)
+  eventCenter.trigger('__taroEnterFullScreen', {})
 
   return handle.success()
 }

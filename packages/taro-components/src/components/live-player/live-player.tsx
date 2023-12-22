@@ -10,7 +10,7 @@ import {
   Prop,
   State,
 } from '@stencil/core'
-
+import Taro from '@tarojs/taro'
 import flvjs from 'flv.js'
 
 import { scene, screenFn } from './utils'
@@ -464,6 +464,7 @@ export class LivePlayer implements ComponentInterface {
       try {
         setTimeout(() => {
           this.livePlayerRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
+          Taro.eventCenter.trigger('__taroEnterFullScreen', {})
         }, 0)
         return { errMsg: `requestFullScreen:ok` }
       } catch (e) {
@@ -471,6 +472,7 @@ export class LivePlayer implements ComponentInterface {
       }
     } else {
       try {
+        Taro.eventCenter.trigger('__taroExitFullScreen', {})
         document[screenFn.exitFullscreen]()
         return { errMsg: `exitFullScreen:ok` }
       } catch (e) {
