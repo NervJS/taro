@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "declaration": true,
     "esModuleInterop": true,
+    "lib": ["ESNext"],
     "outDir": "dist",
     "rootDir": "./src",
     "module": "commonjs",
