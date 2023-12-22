@@ -54,6 +54,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Prune store
+        shell: bash
         run: |
           PNPM_STORE_PATH=$(pnpm store path)
           echo "[Debug] Store path: $PNPM_STORE_PATH"
