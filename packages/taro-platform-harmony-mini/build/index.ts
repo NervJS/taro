@@ -13,7 +13,7 @@ function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[])
   const h5ExportApis = getH5ExportApis()
   // 需要继承H5导出的API不能是harmony-mini中已存在的API，此外，需要继承H5导出的API必须存在于h5导出的API中。
   const exportApis = declaredApiList.filter(api => !existApiList.includes(api)).filter(api => h5ExportApis.includes(api)).sort((a, b) => a.localeCompare(b))
-  let code = '\n/** 该文件由脚本自动生成，请勿自行修改 */\n'
+  let code = '/** 该文件由脚本自动生成，请勿自行修改 */\n'
   code += `export {\n  ${exportApis.join(',\n  ')}\n} from '${taroH5Path}'\n`
   const entryPath = require.resolve('@tarojs/plugin-platform-harmony-mini/src/api/apis/extend-h5-apis.ts')
   
