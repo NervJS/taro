@@ -153,16 +153,13 @@ jobs:
         run: pnpm build
       - name: List Packages
         run: |-
-          echo "List ./crates/native_binding/artifacts"
+          echo "\n[Debug] Listing ./crates/native_binding/artifacts"
           ls -R ./crates/native_binding/artifacts
-          echo "List ./npm"
+          echo "\n[Debug] Listing ./npm"
           ls -R ./npm
-          echo "List ./packages/taro-helper/swc"
+          echo "\n[Debug] Listing ./packages/taro-helper/swc"
           ls -R ./packages/taro-helper/swc
         shell: bash
-
-      - name: Give up
-        uses: andymckay/cancel-action@0.3
 
       # Git stash
       - name: Drop current changes

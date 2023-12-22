@@ -18,7 +18,6 @@ export default async function (this: LoaderContext<IOptions>, source) {
   const callback = this.async()
   const options: IOptions = getOptions(this)
   const resourcePath = this.resourcePath
-
   // @TODO 思考非 JSX 文件应该如何处理 p3
   if (!((/\.[tj]sx$/.test(resourcePath)) && source.includes(COMPILE_MODE))) {
     return callback(null, source)
@@ -33,7 +32,6 @@ export default async function (this: LoaderContext<IOptions>, source) {
     FILE_COUNTER_MAP.set(resourcePath, FILE_COUNTER_MAP.size + 1)
   }
   const fileCount = FILE_COUNTER_MAP.get(resourcePath)
-
   try {
     const identifier = `f${fileCount}`
     const { code } = await swc
@@ -52,7 +50,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
           experimental: {
             plugins: [
               [
-                require.resolve('swc-plugin-taro-compile-mode'),
+                '@tarojs/helper/swc/swc_plugin_compile_mode.wasm',
                 {
                   tmpl_prefix: identifier,
                   components,
@@ -82,7 +80,6 @@ export default async function (this: LoaderContext<IOptions>, source) {
       resourcePath,
       fileCount,
     }))
-
     callback(null, code.replace(regExp, ''))
   } catch (err) {
     callback(err)
