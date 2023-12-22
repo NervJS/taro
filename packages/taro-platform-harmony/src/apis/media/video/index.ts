@@ -26,6 +26,7 @@ import mediaLibrary from '@ohos.multimedia.mediaLibrary'
 import { callAsyncFail, callAsyncSuccess, temporarilyNotSupport, validateParams } from '../../utils'
 import { VideoContext } from './VideoContext'
 
+import type { TaroAny } from '@tarojs/runtime'
 import type Taro from '@tarojs/taro/types'
 
 interface IChooseVideoOptionOHOS {
@@ -43,8 +44,8 @@ const saveVideoToPhotosAlbumSchema = {
   filePath: 'String'
 }
 
-export const createVideoContext: typeof Taro.createVideoContext = () => {
-  return new VideoContext()
+export const createVideoContext: typeof Taro.createVideoContext = (id: string, _: TaroAny) => {
+  return new VideoContext(id)
 }
 
 // TODO: 1.返回属性补全
