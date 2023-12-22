@@ -159,6 +159,7 @@ export default class Parser extends BaseParser {
       }
     }
     .width('100%')
+    .alignItems(HorizontalAlign.Start)
     .onAreaChange((_: Area, area: Area) => {
       const node: TaroElement | null = ${isTabPage ? 'this.node[index]' : 'this.node'}
       if (node) {

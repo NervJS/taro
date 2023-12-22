@@ -62,6 +62,11 @@ export default struct TaroTextArea {
     if (this.node) {
       this.value = this.node.value
       this.node._instance = this
+
+      if (!this.node._isInit) {
+        this.node._isInit = true
+        this.node._reset = this.node.value || ''
+      }
     }
   }
 

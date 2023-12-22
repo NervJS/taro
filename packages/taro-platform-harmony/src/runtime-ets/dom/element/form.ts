@@ -31,6 +31,8 @@ interface FormWidgetProps extends StandardProps {
 class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends TaroElement<T> {
   _instance
 
+  _isInit = false
+
   _name = ''
 
   _value: TaroAny = ''
@@ -44,7 +46,6 @@ class TaroFormWidgetElement<T extends FormWidgetProps = FormWidgetProps> extends
 
     this._name = this._attrs.name || ''
     this._value = this._attrs.value || ''
-    this._reset = this._attrs.value || ''
   }
 
   public setAttribute (name: string, value: any): void {
@@ -104,7 +105,6 @@ class TaroCheckedElement<T extends StandardProps & { checked?: boolean } = Stand
     super(tagName)
 
     this._checked = this._attrs.checked || false
-    this._reset = this._attrs.checked || false
   }
 
   public setAttribute (name: string, value: any): void {
@@ -261,6 +261,15 @@ class TaroPickerElement extends TaroFormWidgetElement<PickerSelectorProps | Pick
       default:
         return ''
     }
+  }
+
+  public reset() {
+    super.reset()
+
+    const event: TaroEvent = createTaroEvent('change', { detail: { value: this._reset } }, this)
+    
+    event.stopPropagation()
+    eventHandler(event, 'change', this)
   }
 }
 

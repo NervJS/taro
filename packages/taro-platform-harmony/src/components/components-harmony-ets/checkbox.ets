@@ -63,41 +63,60 @@ function getOptions (node: TaroCheckboxElement): CheckboxOptions {
   }
 }
 
-@Builder
-export function TaroCheckbox(node: TaroCheckboxElement) {
-  Stack() {
-    Row() {
-      Checkbox(getOptions(node))
-        .checkboxStyle(getNormalAttributes(node))
-        .checkboxAttr(getAttributes(node))
-        .opacity(!!node._attrs.disabled ? 0.4 : 1)
-        .select(node.checked)
-        .onChange((value: boolean) => {
-          if (!!node?._attrs.disabled) {
-            node.updateComponent()
-          } else {
-            node.updateCheckedValue(value)
+@Component
+export struct TaroCheckbox {
+  node: TaroCheckboxElement | null = null
 
-            if (value) {
-              const event: TaroEvent = createTaroEvent('change', { detail: { value: node?._attrs.value } }, node)
-              eventHandler(event, 'change', node)
+  aboutToAppear () {
+    if (this.node && !this.node._isInit) {
+      this.node._isInit = true
+      this.node._reset = this.node.checked || false
+    }
+  }
+
+  build () {
+    if (this.node) {
+      Stack() {
+        Row() {
+          Checkbox(getOptions(this.node))
+            .checkboxStyle(getNormalAttributes(this.node))
+            .checkboxAttr(getAttributes(this.node))
+            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+            .select(this.node.checked)
+            .onChange((value: boolean) => {
+              if (this.node) {
+                if (!!this.node?._attrs.disabled) {
+                  this.node.updateComponent()
+                } else {
+                  this.node.updateCheckedValue(value)
+      
+                  if (value) {
+                    const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node?._attrs.value } }, this.node)
+                    eventHandler(event, 'change', this.node)
+                  }
+                }
+              }
+            })
+            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+            .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+              if (this.node) {
+                this.node._nodeInfo.areaInfo = res[1]
+              }
+            }))
+            .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+          Text(this.node.textContent)
+            .textAlign(TextAlign.Center)
+            .opacity(!!this.node._attrs.disabled ? 0.4 : 1)
+        }
+        .onClick(() => {
+          if (this.node) {
+            if (!this.node?._attrs.disabled) {
+              this.node.checked = !this.node.checked
             }
           }
         })
-        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-        .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          node._nodeInfo.areaInfo = res[1]
-        }))
-        .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
-      Text(node.textContent)
-        .textAlign(TextAlign.Center)
-        .opacity(!!node._attrs.disabled ? 0.4 : 1)
-    }
-    .onClick(() => {
-      if (!node?._attrs.disabled) {
-        node.checked = !node.checked
       }
-    })
+    }
   }
 }
 

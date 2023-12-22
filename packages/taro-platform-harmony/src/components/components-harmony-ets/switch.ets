@@ -56,28 +56,45 @@ function themeStyles(isDisabled: boolean) {
   .opacity(isDisabled ? 0.4 : 1)
 }
 
-@Builder
-export default function TaroSwitch (node: TaroSwitchElement) {
-  Toggle({
-    type: node._attrs.type !== 'checkbox' ? ToggleType.Switch : ToggleType.Checkbox,
-    isOn: node.checked,
-  })
-    .styles(getNormalAttributes(node))
-    .attrs(getAttributes(node))
-    .themeStyles(!!node._attrs.disabled)
-    .onChange((isOn: boolean) => {
-      if (!node?._attrs.disabled) {
-        const event: TaroEvent = createTaroEvent('change', { detail: { value: isOn } }, node)
+@Component
+export default struct TaroSwitch {
+  node: TaroSwitchElement | null = null
 
-        node.updateCheckedValue(isOn)
-        eventHandler(event, 'change', node)
-      } else {
-        node.updateComponent()
-      }
-    })
-    .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-    .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      node._nodeInfo.areaInfo = res[1]
-    }))
-    .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
+  aboutToAppear () {
+    if (this.node && !this.node._isInit) {
+      this.node._isInit = true
+      this.node._reset = this.node.checked || false
+    }
+  }
+
+  build () {
+    if (this.node) {
+      Toggle({
+        type: this.node._attrs.type !== 'checkbox' ? ToggleType.Switch : ToggleType.Checkbox,
+        isOn: this.node.checked,
+      })
+        .styles(getNormalAttributes(this.node))
+        .attrs(getAttributes(this.node))
+        .themeStyles(!!this.node._attrs.disabled)
+        .onChange((isOn: boolean) => {
+          if (this.node) {
+            if (!this.node?._attrs.disabled) {
+              const event: TaroEvent = createTaroEvent('change', { detail: { value: isOn } }, this.node)
+      
+              this.node.updateCheckedValue(isOn)
+              eventHandler(event, 'change', this.node)
+            } else {
+              this.node.updateComponent()
+            }
+          }
+        })
+        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+        .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+          if (this.node) {
+            this.node._nodeInfo.areaInfo = res[1]
+          }
+        }))
+        .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+    }
+  }
 }

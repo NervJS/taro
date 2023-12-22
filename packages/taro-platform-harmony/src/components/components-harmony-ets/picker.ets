@@ -191,7 +191,7 @@ export struct PickerView {
             this.controller?.close()
           })
           Text(this.getText()[0]).fontSize(15).padding({top: 20, bottom: 40}).fontColor('#1aad19').onClick(() => {
-            this.emitEvent('change', { value: this.node?.value})
+            this.emitEvent('change', { value: this.node?.value })
             this.controller?.close()
           })
         }
@@ -278,6 +278,40 @@ export default struct TaroPicker {
 
   aboutToAppear () {
     this.node?.addEventListener('click', this.handleClick)
+
+    if (this.node && !this.node._isInit) {
+      let defaultResetValue: TaroAny = ''
+      switch (this.node._attrs.mode) {
+        case 'selector':
+          defaultResetValue = 0
+          break
+        case 'multiSelector':
+          defaultResetValue = this.node._attrs.range.map((_: TaroAny) => 0)
+          break
+        case 'time': {
+          const hour = new Date().getHours()
+          const minute = new Date().getMinutes() 
+  
+          defaultResetValue = `${('00'+hour).slice(-2)}:${('00'+minute).slice(-2)}`
+          break
+        }
+        case 'date': {
+          const data = new Date().toLocaleDateString().split('/')
+          const day = data[1]
+          const month = data[0]
+          const year = data[2]
+  
+          defaultResetValue = `${year}-${month}-${day}`
+          break
+        }
+        default:
+          defaultResetValue = ''
+          break
+      }
+  
+      this.node._isInit = true
+      this.node._reset = this.node.value || defaultResetValue
+    }
   }
 
   dialogController: CustomDialogController | null = null
