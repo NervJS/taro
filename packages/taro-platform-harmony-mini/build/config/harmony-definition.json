@@ -1,11 +1,78 @@
 {
   "apis": {
+    "Animation": {
+      "export": true,
+      "step": true,
+      "matrix": true,
+      "matrix3d": true,
+      "rotate": true,
+      "rotate3d": true,
+      "rotateX": true,
+      "rotateY": true,
+      "rotateZ": true,
+      "scale": true,
+      "scale3d": true,
+      "scaleX": true,
+      "scaleY": true,
+      "scaleZ": true,
+      "skew": true,
+      "skewX": true,
+      "skewY": true,
+      "translate": true,
+      "translate3d": true,
+      "translateX": true,
+      "translateY": true,
+      "translateZ": true,
+      "opacity": true,
+      "backgroundColor": true,
+      "width": true,
+      "height": true,
+      "left": true,
+      "right": true,
+      "top": true,
+      "bottom": true
+    },
+    "AudioBuffer": false,
     "AudioContext": {
       "pause": true,
       "play": true,
       "seek": true,
       "setSrc": true
     },
+    "AuthSetting": {
+      "scope": {
+        "userInfo": true,
+        "userLocation": true,
+        "address": true,
+        "invoiceTitle": true,
+        "invoice": true,
+        "werun": true,
+        "record": true,
+        "writePhotosAlbum": true,
+        "camera": true,
+        "bluetoothBackground": true
+      }
+    },
+    "BLEPeripheralServer": false,
+    "BackgroundAudioManager": {
+      "play": true,
+      "pause": true,
+      "seek": true,
+      "stop": true,
+      "onCanplay": true,
+      "onWaiting": true,
+      "onError": true,
+      "onPlay": true,
+      "onPause": true,
+      "onSeeking": true,
+      "onSeeked": true,
+      "onEnded": true,
+      "onStop": true,
+      "onTimeUpdate": true
+    },
+    "CacheManager": false,
+    "CameraContext": false,
+    "CameraFrameListener": false,
     "Canvas": {
       "cancelAnimationFrame": true,
       "createImageData": true,
@@ -59,6 +126,11 @@
       "transform": true,
       "translate": true
     },
+    "CanvasGradient": {
+      "addColorStop": true
+    },
+    "Color": false,
+    "DB": false,
     "DownloadTask": {
       "abort": true,
       "onProgressUpdate": true,
@@ -66,6 +138,54 @@
       "onHeadersReceived": true,
       "offHeadersReceived": true
     },
+    "EditorContext": false,
+    "EntryList": false,
+    "EventChannel": false,
+    "FileSystemManager": {
+      "access": true,
+      "accessSync": true,
+      "appendFile": true,
+      "appendFileSync": true,
+      "close": true,
+      "closeSync": true,
+      "copyFile": true,
+      "copyFileSync": true,
+      "fstat": true,
+      "ftruncate": true,
+      "ftruncateSync": true,
+      "getFileInfo": true,
+      "mkdir": true,
+      "mkdirSync": true,
+      "open": true,
+      "openSync": true,
+      "read": true,
+      "readdir": true,
+      "readdirSync": true,
+      "readFile": true,
+      "readFileSync": true,
+      "readSync": true,
+      "rename": true,
+      "renameSync": true,
+      "rmdir": true,
+      "rmdirSync": true,
+      "truncate": true,
+      "truncateSync": true
+    },
+    "IBeaconInfo": false,
+    "Image": {
+      "src": true,
+      "height": true,
+      "width": true,
+      "referrerPolicy": true,
+      "onerror": true,
+      "onload": true
+    },
+    "ImageData": {
+      "width": true,
+      "height": true,
+      "data": true
+    },
+    "InferenceSession": false,
     "InnerAudioContext": {
       "play": true,
       "pause": true,
@@ -93,6 +213,34 @@
       "offSeeking": true,
       "offSeeked": true
     },
+    "IntersectionObserver": {
+      "disconnect": true,
+      "observe": true,
+      "relativeTo": true,
+      "relativeToViewport": true
+    },
+    "InterstitialAd": false,
+    "IsoDep": false,
+    "LivePlayerContext": false,
+    "LivePusherContext": false,
+    "LogManager": false,
+    "MapContext": false,
+    "MediaAudioPlayer": false,
+    "MediaContainer": false,
+    "MediaQueryObserver": {
+      "observe": true,
+      "disconnect": true
+    },
+    "MediaRecorder": false,
+    "MediaTrack": false,
+    "MifareClassic": false,
+    "MifareUltralight": false,
+    "NFCAdapter": false,
+    "Ndef": false,
+    "NfcA": false,
+    "NfcB": false,
+    "NfcF": false,
+    "NfcV": false,
     "NodesRef": {
       "context": true,
       "node": true,
@@ -100,11 +248,23 @@
       "scrollOffset": true,
       "fields": true
     },
+    "OffscreenCanvas": false,
+    "Path2D": true,
+    "Performance": false,
+    "PerformanceEntry": false,
+    "PerformanceObserver": false,
+    "ReadResult": false,
+    "RealtimeLogManager": false,
+    "RealtimeTagLogManager": false,
+    "RecorderManager": false,
+    "RenderingContext": true,
     "RequestTask": {
       "abort": true,
       "onHeadersReceived": true,
       "offHeadersReceived": true
     },
+    "RewardedVideoAd": false,
+    "ScrollViewContext": false,
     "SelectorQuery": {
       "in": true,
       "select": true,
@@ -113,6 +273,19 @@
       "exec": true
     },
     "Snapshot": false,
+    "SocketTask": {
+      "send": true,
+      "close": true,
+      "onOpen": true,
+      "onClose": true,
+      "onError": true,
+      "onMessage": true
+    },
+    "Stats": false,
+    "SubscriptionsSetting": false,
+    "TCPSocket": false,
+    "UDPSocket": false,
+    "UpdateManager": false,
     "UploadTask": {
       "abort": true,
       "onProgressUpdate": true,
@@ -120,6 +293,35 @@
       "onHeadersReceived": true,
       "offHeadersReceived": true
     },
+    "UserCryptoManager": false,
+    "UserInfo": {
+      "nickName": true,
+      "avatarUrl": true
+    },
+    "VKBodyAnchor": false,
+    "VKCamera": false,
+    "VKDepthAnchor": false,
+    "VKFaceAnchor": false,
+    "VKFrame": false,
+    "VKHandAnchor": false,
+    "VKMarkerAnchor": false,
+    "VKOCRAnchor": false,
+    "VKOSDAnchor": false,
+    "VKPlaneAnchor": false,
+    "VKSession": false,
+    "VideoContext": {
+      "pause": true,
+      "play": true,
+      "requestFullScreen": true,
+      "seek": true,
+      "stop": true
+    },
+    "VideoDecoder": false,
+    "WebAudioContext": false,
+    "WebAudioContextNode": false,
+    "WifiInfo": false,
+    "Worker": false,
+    "WriteResult": false,
     "addCard": false,
     "addFileToFavorites": false,
     "addInterceptor": false,
@@ -127,18 +329,38 @@
     "addPhoneContact": false,
     "addPhoneRepeatCalendar": false,
     "addVideoToFavorites": false,
-    "arrayBufferToBase64": false,
+    "arrayBufferToBase64": true,
     "authPrivateMessage": false,
     "authorize": false,
     "authorizeForMiniProgram": false,
-    "base64ToArrayBuffer": false,
+    "base64ToArrayBuffer": true,
     "batchGetStorage": false,
     "batchGetStorageSync": false,
     "batchSetStorage": false,
     "batchSetStorageSync": false,
     "canIUseWebp": true,
-    "canvasGetImageData": false,
-    "canvasPutImageData": false,
+    "canvasGetImageData": {
+      "object": {
+        "canvasId": true,
+        "x": true,
+        "y": true,
+        "height": true,
+        "width": true
+      },
+      "success": {
+        "data": true,
+        "height": true,
+        "width": true
+      }
+    },
+    "canvasPutImageData": {
+      "object": {
+        "canvasId": true,
+        "data": true,
+        "x": true,
+        "y": true
+      }
+    },
     "canvasToTempFilePath": {
       "object": {
         "canvas": true,
@@ -189,7 +411,17 @@
     "chooseInvoice": false,
     "chooseInvoiceTitle": false,
     "chooseLicensePlate": false,
-    "chooseLocation": false,
+    "chooseLocation": {
+      "object": {
+        "mapOpts": true
+      },
+      "success": {
+        "address": true,
+        "latitude": true,
+        "longitude": true,
+        "name": true
+      }
+    },
     "chooseMedia": {
       "object": {
         "count": true,
@@ -218,15 +450,22 @@
     "choosePoi": false,
     "chooseVideo": false,
     "cleanInterceptors": false,
-    "clearStorage": false,
-    "clearStorageSync": false,
+    "clearStorage": true,
+    "clearStorageSync": true,
     "closeBLEConnection": false,
     "closeBluetoothAdapter": false,
     "closeSocket": false,
     "cloud": false,
     "compressImage": false,
     "compressVideo": false,
-    "connectSocket": false,
+    "connectSocket": {
+      "object": {
+        "url": true,
+        "header": true,
+        "protocols": true,
+        "tcpNoDelay": true
+      }
+    },
     "connectWifi": false,
     "console": {
       "debug": true,
@@ -237,7 +476,23 @@
       "log": true,
       "warn": true
     },
-    "createAnimation": false,
+    "createAnimation": {
+      "object": {
+        "duration": true,
+        "timingFunction": {
+          "linear": true,
+          "ease": true,
+          "ease-in": true,
+          "ease-in-out": true,
+          "ease-out": true,
+          "step-start": true,
+          "step-end": true
+        },
+        "delay": true,
+        "transformOrigin": true,
+        "unit": true
+      }
+    },
     "createAudioContext": true,
     "createBLEConnection": false,
     "createBLEPeripheralServer": false,
@@ -247,14 +502,14 @@
     "createCanvasContext": true,
     "createInferenceSession": false,
     "createInnerAudioContext": true,
-    "createIntersectionObserver": false,
+    "createIntersectionObserver": true,
     "createInterstitialAd": false,
     "createLivePlayerContext": false,
     "createLivePusherContext": false,
     "createMapContext": false,
     "createMediaAudioPlayer": false,
     "createMediaContainer": false,
-    "createMediaQueryObserver": false,
+    "createMediaQueryObserver": true,
     "createMediaRecorder": false,
     "createOffscreenCanvas": false,
     "createRewardedVideoAd": false,
@@ -262,7 +517,7 @@
     "createTCPSocket": false,
     "createUDPSocket": false,
     "createVKSession": false,
-    "createVideoContext": false,
+    "createVideoContext": true,
     "createVideoDecoder": false,
     "createWebAudioContext": false,
     "createWorker": false,
@@ -330,11 +585,16 @@
     "getBLEDeviceRSSI": false,
     "getBLEDeviceServices": false,
     "getBLEMTU": false,
-    "getBackgroundAudioManager": false,
+    "getBackgroundAudioManager": true,
     "getBackgroundAudioPlayerState": false,
     "getBackgroundFetchData": false,
     "getBackgroundFetchToken": false,
-    "getBatteryInfo": false,
+    "getBatteryInfo": {
+      "success": {
+        "isCharging": true,
+        "level": true
+      }
+    },
     "getBatteryInfoSync": false,
     "getBeacons": false,
     "getBluetoothAdapterState": false,
@@ -342,7 +602,11 @@
     "getChannelsLiveInfo": false,
     "getChannelsLiveNoticeInfo": false,
     "getChannelsShareKey": false,
-    "getClipboardData": false,
+    "getClipboardData": {
+      "success": {
+        "data": true
+      }
+    },
     "getCommonConfig": false,
     "getConnectedBluetoothDevices": false,
     "getConnectedWifi": false,
@@ -427,7 +691,19 @@
       }
     },
     "getNFCAdapter": false,
-    "getNetworkType": false,
+    "getNetworkType": {
+      "success": {
+        "networkType": {
+          "wifi": true,
+          "2g": true,
+          "3g": true,
+          "4g": true,
+          "5g": true,
+          "unknown": true,
+          "none": true
+        }
+      }
+    },
     "getOpenUserInfo": false,
     "getPerformance": false,
     "getPrivacySetting": false,
@@ -453,10 +729,29 @@
     "getShareInfo": false,
     "getSkylineInfo": false,
     "getSkylineInfoSync": false,
-    "getStorage": false,
-    "getStorageInfo": false,
-    "getStorageInfoSync": false,
-    "getStorageSync": false,
+    "getStorage": {
+      "object": {
+        "key": true
+      },
+      "success": {
+        "data": true
+      }
+    },
+    "getStorageInfo": {
+      "success": {
+        "currentSize": true,
+        "keys": true,
+        "limitSize": true
+      }
+    },
+    "getStorageInfoSync": {
+      "return": {
+        "currentSize": true,
+        "keys": true,
+        "limitSize": true
+      }
+    },
+    "getStorageSync": true,
     "getSystemInfo": {
       "success": {
         "brand": true,
@@ -625,19 +920,49 @@
     },
     "hideHomeButton": false,
     "hideKeyboard": true,
-    "hideLoading": false,
+    "hideLoading": {
+      "object": {
+        "noConflict": true
+      }
+    },
     "hideNavigationBarLoading": false,
     "hideShareMenu": false,
-    "hideTabBar": false,
-    "hideTabBarRedDot": false,
-    "hideToast": false,
+    "hideTabBar": {
+      "object": {
+        "animation": true
+      }
+    },
+    "hideTabBarRedDot": {
+      "object": {
+        "index": true
+      }
+    },
+    "hideToast": {
+      "object": {
+        "noConflict": true
+      }
+    },
     "initFaceDetect": false,
     "initTabBarApis": false,
     "isBluetoothDevicePaired": false,
     "isVKSupport": false,
     "join1v1Chat": false,
     "joinVoIPChat": false,
-    "loadFontFace": false,
+    "loadFontFace": {
+      "object": {
+        "global": true,
+        "family": true,
+        "source": true,
+        "desc": {
+          "style": true,
+          "variant": true,
+          "weight": true
+        }
+      },
+      "success": {
+        "status": true
+      }
+    },
     "login": {
       "object": {
         "timeout": true
@@ -689,7 +1014,7 @@
     "offCompassChange": false,
     "offCopyUrl": false,
     "offDeviceMotionChange": false,
-    "offError": false,
+    "offError": true,
     "offGetWifiList": false,
     "offGyroscopeChange": false,
     "offHCEMessage": false,
@@ -701,12 +1026,12 @@
     "offLocationChange": false,
     "offLocationChangeError": false,
     "offMemoryWarning": false,
-    "offNetworkStatusChange": false,
+    "offNetworkStatusChange": true,
     "offNetworkWeakChange": false,
-    "offPageNotFound": false,
+    "offPageNotFound": true,
     "offScreenRecordingStateChanged": false,
     "offThemeChange": false,
-    "offUnhandledRejection": false,
+    "offUnhandledRejection": true,
     "offUserCaptureScreen": false,
     "offVoIPChatInterrupted": false,
     "offVoIPChatMembersChanged": false,
@@ -715,7 +1040,7 @@
     "offVoIPVideoMembersChanged": false,
     "offWifiConnected": false,
     "offWifiConnectedWithPartialInfo": false,
-    "offWindowResize": false,
+    "offWindowResize": true,
     "onAccelerometerChange": false,
     "onAppHide": true,
     "onAppShow": {
@@ -744,7 +1069,7 @@
     "onCompassChange": false,
     "onCopyUrl": false,
     "onDeviceMotionChange": false,
-    "onError": false,
+    "onError": true,
     "onGetWifiList": false,
     "onGyroscopeChange": false,
     "onHCEMessage": false,
@@ -757,16 +1082,40 @@
     "onLocationChangeError": false,
     "onMemoryWarning": false,
     "onNeedPrivacyAuthorization": false,
-    "onNetworkStatusChange": false,
+    "onNetworkStatusChange": {
+      "success": {
+        "isConnected": true,
+        "networkType": {
+          "wifi": true,
+          "2g": true,
+          "3g": true,
+          "4g": true,
+          "5g": true,
+          "unknown": true,
+          "none": true
+        }
+      }
+    },
     "onNetworkWeakChange": false,
-    "onPageNotFound": false,
+    "onPageNotFound": {
+      "callback": {
+        "isEntryPage": true,
+        "path": true,
+        "query": true
+      }
+    },
     "onScreenRecordingStateChanged": false,
     "onSocketClose": false,
     "onSocketError": false,
     "onSocketMessage": false,
     "onSocketOpen": false,
     "onThemeChange": false,
-    "onUnhandledRejection": false,
+    "onUnhandledRejection": {
+      "callback": {
+        "reason": true,
+        "promise": true
+      }
+    },
     "onUserCaptureScreen": true,
     "onVoIPChatInterrupted": false,
     "onVoIPChatMembersChanged": false,
@@ -775,7 +1124,7 @@
     "onVoIPVideoMembersChanged": false,
     "onWifiConnected": false,
     "onWifiConnectedWithPartialInfo": false,
-    "onWindowResize": false,
+    "onWindowResize": true,
     "openAppAuthorizeSetting": false,
     "openBluetoothAdapter": false,
     "openBusinessView": false,
@@ -787,7 +1136,14 @@
     "openCustomerServiceChat": false,
     "openDocument": false,
     "openEmbeddedMiniProgram": false,
-    "openLocation": false,
+    "openLocation": {
+      "object": {
+        "latitude": true,
+        "longitude": true,
+        "address": true,
+        "name": true
+      }
+    },
     "openPrivacyContract": false,
     "openQzonePublish": false,
     "openSetting": {
@@ -801,7 +1157,14 @@
     },
     "openSystemBluetoothSetting": false,
     "openVideoEditor": false,
-    "pageScrollTo": false,
+    "pageScrollTo": {
+      "object": {
+        "duration": true,
+        "scrollTop": true,
+        "selector": true,
+        "offsetTop": true
+      }
+    },
     "pauseBackgroundAudio": false,
     "pauseVoice": false,
     "playBackgroundAudio": false,
@@ -818,7 +1181,12 @@
         "showmenu": true
       }
     },
-    "previewMedia": false,
+    "previewMedia": {
+      "object": {
+        "sources": true,
+        "current": true
+      }
+    },
     "reLaunch": {
       "object": {
         "url": true
@@ -827,9 +1195,17 @@
     "readBLECharacteristicValue": false,
     "redirectTo": true,
     "removeSavedFile": false,
-    "removeStorage": false,
-    "removeStorageSync": false,
-    "removeTabBarBadge": false,
+    "removeStorage": {
+      "object": {
+        "key": true
+      }
+    },
+    "removeStorageSync": true,
+    "removeTabBarBadge": {
+      "object": {
+        "index": true
+      }
+    },
     "reportAnalytics": false,
     "reportEvent": false,
     "reportMonitor": false,
@@ -929,7 +1305,11 @@
     "setBackgroundColor": false,
     "setBackgroundFetchToken": false,
     "setBackgroundTextStyle": false,
-    "setClipboardData": false,
+    "setClipboardData": {
+      "object": {
+        "data": true
+      }
+    },
     "setEnable1v1Chat": false,
     "setEnableDebug": false,
     "setInnerAudioOption": false,
@@ -945,14 +1325,47 @@
         "animation": true
       }
     },
-    "setNavigationBarTitle": false,
+    "setNavigationBarTitle": {
+      "object": {
+        "title": true
+      }
+    },
     "setPageInfo": false,
     "setScreenBrightness": false,
-    "setStorage": false,
-    "setStorageSync": false,
-    "setTabBarBadge": false,
-    "setTabBarItem": false,
-    "setTabBarStyle": false,
+    "setStorage": {
+      "object": {
+        "data": true,
+        "key": true
+      }
+    },
+    "setStorageSync": {
+      "object": {
+        "key": true,
+        "data": true
+      }
+    },
+    "setTabBarBadge": {
+      "object": {
+        "index": true,
+        "text": true
+      }
+    },
+    "setTabBarItem": {
+      "object": {
+        "index": true,
+        "iconPath": true,
+        "selectedIconPath": true,
+        "text": true
+      }
+    },
+    "setTabBarStyle": {
+      "object": {
+        "backgroundColor": true,
+        "borderStyle": true,
+        "color": true,
+        "selectedColor": true
+      }
+    },
     "setTopBarText": false,
     "setVisualEffectOnCapture": false,
     "setWifiList": false,
@@ -960,16 +1373,65 @@
     "shareFileMessage": false,
     "shareToWeRun": false,
     "shareVideoMessage": false,
-    "showActionSheet": false,
-    "showLoading": false,
-    "showModal": false,
+    "showActionSheet": {
+      "object": {
+        "alertText": true,
+        "itemList": true,
+        "itemColor": true
+      },
+      "success": {
+        "tapIndex": true
+      }
+    },
+    "showLoading": {
+      "object": {
+        "title": true,
+        "mask": true
+      }
+    },
+    "showModal": {
+      "object": {
+        "cancelColor": true,
+        "cancelText": true,
+        "confirmColor": true,
+        "confirmText": true,
+        "content": true,
+        "showCancel": true,
+        "title": true
+      },
+      "success": {
+        "cancel": true,
+        "confirm": true
+      }
+    },
     "showNavigationBarLoading": false,
     "showRedPackage": false,
     "showShareImageMenu": false,
     "showShareMenu": false,
-    "showTabBar": false,
-    "showTabBarRedDot": false,
-    "showToast": false,
+    "showTabBar": {
+      "object": {
+        "animation": true
+      }
+    },
+    "showTabBarRedDot": {
+      "object": {
+        "index": true
+      }
+    },
+    "showToast": {
+      "object": {
+        "title": true,
+        "duration": true,
+        "icon": {
+          "success": true,
+          "error": true,
+          "loading": true,
+          "none": true
+        },
+        "image": true,
+        "mask": true
+      }
+    },
     "startAccelerometer": false,
     "startBeaconDiscovery": false,
     "startBluetoothDevicesDiscovery": false,
@@ -982,7 +1444,7 @@
     "startLocalServiceDiscovery": false,
     "startLocationUpdate": false,
     "startLocationUpdateBackground": false,
-    "startPullDownRefresh": false,
+    "startPullDownRefresh": true,
     "startRecord": false,
     "startSoterAuthentication": false,
     "startWifi": false,
@@ -997,7 +1459,7 @@
     "stopHCE": false,
     "stopLocalServiceDiscovery": false,
     "stopLocationUpdate": false,
-    "stopPullDownRefresh": false,
+    "stopPullDownRefresh": true,
     "stopRecord": false,
     "stopVoice": false,
     "stopWifi": false,

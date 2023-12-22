@@ -3,18 +3,19 @@ import * as fsExtra from 'fs-extra'
 import hosDefinition from './config/harmony-definition.json'
 import { parseApis } from './definition-json/parseApis'
 import { parseComponents } from './definition-json/parseCommponents'
+import { getAnnotatedApis } from './utils/getAnnotatedApis'
 import { getDeclaredApis } from './utils/getDeclaredApis'
-import { getH5Apis } from './utils/getH5Apis'
+import { getH5ExportApis } from './utils/getH5ExportApis'
 import { removeFalseProperties, setPropertiesValue,sortKeys } from './utils/helper'
 
 function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[]) {
   const taroH5Path = '@tarojs/taro-h5'
-  const h5Apis = getH5Apis()
-  // 需要继承H5导出的API不能是harmony中已存在的API，此外，需要继承H5导出的API必须存在于h5导出的API中。
-  const exportApis = declaredApiList.filter(api => !existApiList.includes(api)).filter(api => h5Apis.includes(api)).sort((a, b) => a.localeCompare(b))
+  const h5ExportApis = getH5ExportApis()
+  // 需要继承H5导出的API不能是harmony-mini中已存在的API，此外，需要继承H5导出的API必须存在于h5导出的API中。
+  const exportApis = declaredApiList.filter(api => !existApiList.includes(api)).filter(api => h5ExportApis.includes(api)).sort((a, b) => a.localeCompare(b))
   let code = '\n/** 该文件由脚本自动生成，请勿自行修改 */\n'
   code += `export {\n  ${exportApis.join(',\n  ')}\n} from '${taroH5Path}'\n`
-  const entryPath = require.resolve('@tarojs/plugin-platform-harmony-mini/src/api/apis/extend-h5.ts')
+  const entryPath = require.resolve('@tarojs/plugin-platform-harmony-mini/src/api/apis/extend-h5-apis.ts')
   
   fsExtra.ensureFileSync(entryPath)
   fsExtra.writeFileSync(entryPath, code, 'utf-8')
@@ -86,14 +87,14 @@ const declareApis = getDeclaredApis()
 const declaredApiList = Object.keys(declareApis).filter(api => !extraApi.includes(api))
 declaredApiList.push('env', 'cloud', 'initTabBarApis')
 
-// 获取已存在的API列表（剔除实例对象）
-const existApiList = Object.keys(apisDefinition).filter(api => !/^[A-Z]/.test(api))
+// 获取harmony-mini中已定义的API列表，不包括comment.ts中注释的继承API（剔除实例对象）
+const existApiList = Object.keys(apisDefinition).filter(api => !getAnnotatedApis().includes(api)).filter(api => !/^[A-Z]/.test(api))
 
 // harmony平台未添加的API以继承H5的方式导出
 exportAbsentTaroApi(declaredApiList, existApiList)
 
 // 更新apisDefinition
-const needToAdd = declaredApiList.filter(api => !existApiList.includes(api))
+const needToAdd = declaredApiList.filter(api => !Object.keys(apisDefinition).includes(api))
 needToAdd.forEach(api => {
   apisDefinition[api] = false
 })
