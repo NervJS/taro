@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-darwin-x64",
   "description": "Native binding for taro",
-  "version": "3.6.22-alpha.2",
+  "version": "3.6.22-alpha.3",
   "os": [
     "darwin"
   ],
