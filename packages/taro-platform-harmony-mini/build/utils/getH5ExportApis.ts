@@ -35,7 +35,7 @@ function getH5ApiList (h5ApiFiles: string[]) {
   return h5ApiList
 }
 
-export function getH5Apis () {
+export function getH5ExportApis () {
   const entryPath = require.resolve('@tarojs/taro-h5/src/api/index.ts')
   const h5ApiDir = pathModule.dirname(entryPath)
   const h5ApiFiles: string[] = []
