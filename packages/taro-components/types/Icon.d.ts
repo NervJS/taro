@@ -2,16 +2,16 @@ import { ComponentType } from 'react'
 import { StandardProps } from './common'
 interface IconProps extends StandardProps {
   /** icon 的类型
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
    */
   type: keyof IconProps.TIconType
   /** icon 的大小，单位px
    * @default 23
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
    */
   size?: string
   /** icon 的颜色，同 css 的 color
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
    */
   color?: string
   /** 无障碍访问，（属性）元素的额外描述
@@ -48,7 +48,7 @@ declare namespace IconProps {
 }
 /** 图标。组件属性的长度单位默认为 px
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
