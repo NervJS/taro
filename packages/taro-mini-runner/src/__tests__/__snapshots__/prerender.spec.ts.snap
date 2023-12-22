@@ -18,6 +18,7 @@ require("./taro");
     18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var defineProperty = __webpack_require__(3);
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -429,7 +430,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -439,10 +440,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -484,7 +487,9 @@ require("./taro");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
                 "feed-id": _empty,
                 "finder-user-name": _empty
@@ -509,15 +514,28 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(Object(defineProperty["a"])({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, Object(defineProperty["a"])(_ref, "v", ""), Object(defineProperty["a"])(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var app = __webpack_require__(14);
         var app_App = function(_Component) {
@@ -544,7 +562,7 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = __webpack_require__(11);
         var config = {
             pages: [ "pages/index/index", "others/detail/index", "others/normal/index" ],
@@ -556,7 +574,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_src_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_src_app, react, taro_react["a"], config));
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
@@ -1342,12 +1360,12 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var defineProperty = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var assertThisInitialized = __webpack_require__(8);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var defineProperty = __webpack_require__(3);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var region = [ {
@@ -2634,12 +2652,12 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var defineProperty = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var assertThisInitialized = __webpack_require__(8);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var defineProperty = __webpack_require__(3);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var normal_Index = function(_Component) {
@@ -2689,10 +2707,10 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var index = __webpack_require__(17);
@@ -2781,7 +2799,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -2808,6 +2826,26 @@ module.exports = {
 
 /** filePath: dist/vendors.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _defineProperty;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+    function _defineProperty(obj, key, value) {
+        key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                value: value,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _classCallCheck;
@@ -2862,8 +2900,8 @@ module.exports = {
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(8);
-    var assertThisInitialized = __webpack_require__(7);
+    var esm_typeof = __webpack_require__(9);
+    var assertThisInitialized = __webpack_require__(8);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
             return call;
@@ -2940,29 +2978,9 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _defineProperty;
-    }));
-    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-    function _defineProperty(obj, key, value) {
-        key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                value: value,
-                enumerable: true,
-                configurable: true,
-                writable: true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _toPropertyKey;
     }));
-    var esm_typeof = __webpack_require__(8);
+    var esm_typeof = __webpack_require__(9);
     function _toPrimitive(input, hint) {
         if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
         var prim = input[Symbol.toPrimitive];
@@ -2999,6 +3017,7 @@ require("./taro");
     18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var defineProperty = __webpack_require__(3);
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -3410,7 +3429,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -3420,10 +3439,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -3465,7 +3486,9 @@ require("./taro");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
                 "feed-id": _empty,
                 "finder-user-name": _empty
@@ -3490,15 +3513,28 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(Object(defineProperty["a"])({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, Object(defineProperty["a"])(_ref, "v", ""), Object(defineProperty["a"])(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var app = __webpack_require__(14);
         var app_App = function(_Component) {
@@ -3525,7 +3561,7 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = __webpack_require__(11);
         var config = {
             pages: [ "pages/index/index", "others/detail/index", "others/normal/index" ],
@@ -3537,7 +3573,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_src_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_src_app, react, taro_react["a"], config));
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
@@ -4323,12 +4359,12 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var defineProperty = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var assertThisInitialized = __webpack_require__(8);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var defineProperty = __webpack_require__(3);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var region = [ {
@@ -5615,12 +5651,12 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var defineProperty = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var assertThisInitialized = __webpack_require__(8);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var defineProperty = __webpack_require__(3);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var normal_Index = function(_Component) {
@@ -5670,10 +5706,10 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var index = __webpack_require__(17);
@@ -5762,7 +5798,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -5789,6 +5825,26 @@ module.exports = {
 
 /** filePath: dist/vendors.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _defineProperty;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+    function _defineProperty(obj, key, value) {
+        key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                value: value,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _classCallCheck;
@@ -5843,8 +5899,8 @@ module.exports = {
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(8);
-    var assertThisInitialized = __webpack_require__(7);
+    var esm_typeof = __webpack_require__(9);
+    var assertThisInitialized = __webpack_require__(8);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
             return call;
@@ -5921,29 +5977,9 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _defineProperty;
-    }));
-    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-    function _defineProperty(obj, key, value) {
-        key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                value: value,
-                enumerable: true,
-                configurable: true,
-                writable: true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _toPropertyKey;
     }));
-    var esm_typeof = __webpack_require__(8);
+    var esm_typeof = __webpack_require__(9);
     function _toPrimitive(input, hint) {
         if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
         var prim = input[Symbol.toPrimitive];
@@ -5980,6 +6016,7 @@ require("./taro");
     18: function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
+        var defineProperty = __webpack_require__(3);
         var mocks_taro = "taro";
         function mergeReconciler() {}
         function mergeInternalComponents() {}
@@ -6391,7 +6428,7 @@ require("./taro");
             NavigationBar: {
                 title: _empty,
                 loading: _false,
-                "front-color": _empty,
+                "front-color": "'#000000'",
                 "background-color": _empty,
                 "color-animation-duration": _zero,
                 "color-animation-timing-func": "'linear'"
@@ -6401,10 +6438,12 @@ require("./taro");
                 "background-color": _empty,
                 "background-color-top": _empty,
                 "background-color-bottom": _empty,
+                "root-background-color": _empty,
                 "scroll-top": "''",
                 "scroll-duration": "300",
                 "page-style": "''",
                 "root-font-size": "''",
+                "page-orientation": "''",
                 bindResize: _empty,
                 bindScroll: _empty,
                 bindScrollDone: _empty
@@ -6446,7 +6485,9 @@ require("./taro");
                 "easing-function": "'ease-out'"
             },
             KeyboardAccessory: {},
-            RootPortal: {},
+            RootPortal: {
+                enable: _true
+            },
             ChannelLive: {
                 "feed-id": _empty,
                 "finder-user-name": _empty
@@ -6471,15 +6512,28 @@ require("./taro");
                     methods.push("onSaveExitState");
                 }
                 return config;
+            },
+            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+                var _a;
+                if (element.isTransferElement) {
+                    var _ref;
+                    var page = getCurrentPages()[0];
+                    data["nn"] = element.dataName;
+                    page.setData(Object(defineProperty["a"])({}, undefined(data.nn), data));
+                    return _ref = {
+                        sid: element.sid
+                    }, Object(defineProperty["a"])(_ref, "v", ""), Object(defineProperty["a"])(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
+                    _ref;
+                }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var app = __webpack_require__(14);
         var app_App = function(_Component) {
@@ -6506,7 +6560,7 @@ require("./taro");
             } ]);
             return App;
         }(react["Component"]);
-        var lib_src_app = app_App;
+        var entry_cachename_app_src_app = app_App;
         var taro_react = __webpack_require__(11);
         var config = {
             pages: [ "pages/index/index", "others/detail/index", "others/normal/index" ],
@@ -6518,7 +6572,7 @@ require("./taro");
             }
         };
         taro_runtime["window"].__taroAppConfig = config;
-        var inst = App(createReactApp(lib_src_app, react, taro_react["a"], config));
+        var inst = App(createReactApp(entry_cachename_app_src_app, react, taro_react["a"], config));
         if (typeof PRERENDER !== "undefined") {
             wx._prerender = inst;
         }
@@ -7304,12 +7358,12 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var defineProperty = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var assertThisInitialized = __webpack_require__(8);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var defineProperty = __webpack_require__(3);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var region = [ {
@@ -8596,12 +8650,12 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var assertThisInitialized = __webpack_require__(7);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
-        var defineProperty = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var assertThisInitialized = __webpack_require__(8);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
+        var defineProperty = __webpack_require__(3);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var normal_Index = function(_Component) {
@@ -8651,10 +8705,10 @@ require("./taro");
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var taro_runtime = __webpack_require__(2);
-        var classCallCheck = __webpack_require__(3);
-        var createClass = __webpack_require__(4);
-        var inherits = __webpack_require__(6);
-        var createSuper = __webpack_require__(5);
+        var classCallCheck = __webpack_require__(4);
+        var createClass = __webpack_require__(5);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var taro_components = __webpack_require__(1);
         var index = __webpack_require__(17);
@@ -8743,7 +8797,7 @@ module.exports = {
       }
       l = depth
     }
-    if (l === 15) {
+    if (l >= 15) {
       return 'tmpl_15_container'
     }
     return 'tmpl_' + l + '_' + n
@@ -8770,6 +8824,26 @@ module.exports = {
 
 /** filePath: dist/vendors.js **/
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 3 ], [ , , , function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _defineProperty;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
+    function _defineProperty(obj, key, value) {
+        key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                value: value,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _classCallCheck;
@@ -8824,8 +8898,8 @@ module.exports = {
             return false;
         }
     }
-    var esm_typeof = __webpack_require__(8);
-    var assertThisInitialized = __webpack_require__(7);
+    var esm_typeof = __webpack_require__(9);
+    var assertThisInitialized = __webpack_require__(8);
     function _possibleConstructorReturn(self, call) {
         if (call && (Object(esm_typeof["a"])(call) === "object" || typeof call === "function")) {
             return call;
@@ -8902,29 +8976,9 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _defineProperty;
-    }));
-    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-    function _defineProperty(obj, key, value) {
-        key = Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                value: value,
-                enumerable: true,
-                configurable: true,
-                writable: true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _toPropertyKey;
     }));
-    var esm_typeof = __webpack_require__(8);
+    var esm_typeof = __webpack_require__(9);
     function _toPrimitive(input, hint) {
         if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
         var prim = input[Symbol.toPrimitive];

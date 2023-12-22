@@ -187,4 +187,19 @@ export const components = {
     duration: '300',
     'easing-function': singleQuote('ease-out'),
   },
+  RootPortal: {
+    enable: 'true'
+  },
+  PageMeta: {
+    'background-color': '',
+    'background-color-top': '',
+    'background-color-bottom': '',
+    'root-background-color': '',
+    'scroll-top': "''",
+    'scroll-duration': '300',
+    'page-style': "''",
+    'root-font-size': "''",
+    'page-font-size': "''",
+    bindScroll: '',
+  },
 }

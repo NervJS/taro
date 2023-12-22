@@ -298,6 +298,8 @@ export class BaseTemplate {
         : `<template is="tmpl_${level}_${Shortcuts.Container}" data="{{${data}}}" />`
     } else {
       const data = isUseXs
+        // TODO: 此处直接 c+1，不是最优解，变量 c 的作用是监测组件嵌套的层级是否大于 baselevel
+        // 但目前的监测方法用于所有组件嵌套的总和，应该分开组件计算，单个组件嵌套层级大于 baselevel 时，再进入 comp 组件中进行新的嵌套
         ? `${this.dataKeymap(`i:item,c:c+1,l:xs.f(l,item.${Shortcuts.NodeName})`)}`
         : this.isSupportRecursive
           ? `${this.dataKeymap('i:item')}`
@@ -451,7 +453,7 @@ export class BaseTemplate {
 
         template += `
 <template name="tmpl_${level}_${compName}">
-  <${compName}${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
+  <${compName} ${this.buildThirdPartyAttr(attrs, this.thirdPartyPatcher[compName] || {})} id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">${children}</${compName}>
 </template>
   `
       }
@@ -492,7 +494,7 @@ export class BaseTemplate {
     return ''
   }
 
-  public buildPageTemplate = (baseTempPath: string) => {
+  public buildPageTemplate = (baseTempPath: string, _page: { content: Record<string, any>, path: string }) => {
     const template = `<import src="${baseTempPath}"/>
 <template is="taro_tmpl" data="{{${this.dataKeymap('root:root')}}}" />`
 
@@ -680,6 +682,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
     const listB = hasMaxComps.map(item => componentsAlias[item]?._num || item)
     const containerLevel = this.baseLevel - 1
 
+    // l >= containerLevel 是为了避免 baselevel 倒数两三层几层组件恰好不是 listA 中的组件，而最后一个组件又刚好是 listA 的组件，导致出现 l >= baselevel 却没有走入新的嵌套循环的问题 #14883
     return `function (l, n, s) {
     var a = ${JSON.stringify(listA)}
     var b = ${JSON.stringify(listB)}
@@ -694,7 +697,7 @@ export class UnRecursiveTemplate extends BaseTemplate {
       }
       l = depth
     }
-    if (l === ${containerLevel}) {
+    if (l >= ${containerLevel}) {
       return 'tmpl_${containerLevel}_${Shortcuts.Container}'
     }
     return 'tmpl_' + l + '_' + n

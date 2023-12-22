@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.18",
+  "version": "3.6.21",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -55,7 +55,7 @@
     "css-minimizer-webpack-plugin": "3.4.1",
     "csso": "^5.0.2",
     "detect-port": "^1.3.0",
-    "esbuild": "^0.14.27",
+    "esbuild": "~0.19.5",
     "esbuild-loader": "2.18.0",
     "file-loader": "6.0.0",
     "html-minifier": "^4.0.0",

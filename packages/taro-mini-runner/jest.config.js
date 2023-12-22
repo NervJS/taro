@@ -17,6 +17,6 @@ module.exports = {
     }],
   },
   transformIgnorePatterns: [
-    'node_modules',
+    '/node_modules/.pnpm/(?!registry.npmjs.org\\+@swc)',
   ],
 }

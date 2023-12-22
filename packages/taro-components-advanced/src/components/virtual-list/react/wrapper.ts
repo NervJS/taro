@@ -21,8 +21,10 @@ function getRenderExpandNodes ({
   innerElement: VirtualListProps['innerElementType']
   renderExpand?: VirtualListProps['renderTop'] | VirtualListProps['renderBottom']
 }) {
+  const id = `${sid}-${direction}`
   const props: any = {
-    id: `${sid}-${direction}`,
+    key: id,
+    id,
     style: {
       visibility: 'hidden',
       height: isHorizontal ? '100%' : 100,
