@@ -26,9 +26,9 @@ jobs:
 
   nodejs-tesing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
-    # needs:
-    #   - build-rust-binding
-    #   - build-rust-wasm
+    needs:
+      - build-rust-binding
+      - build-rust-wasm
     strategy:
       fail-fast: false
       matrix:
@@ -64,10 +64,6 @@ jobs:
           else
             echo "pnpm store does not exist"
           fi
-
-      - name: Give up
-        uses: andymckay/cancel-action@0.3
-
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
       - name: Lint
