@@ -1,10 +1,10 @@
 name: publish
 on:
+  # When Release Pull Request is merged
   push:
     branches:
       - 'chore/**'
       - 'feat/**'
-  # When Release Pull Request is merged
   pull_request:
     branches:
       - main
@@ -17,6 +17,7 @@ jobs:
   need-publish:
     permissions:
       actions: write # to cancel running workflow (andymckay/cancel-action)
+
     name: Need Publish
     runs-on: ubuntu-latest
     steps:
@@ -50,11 +51,8 @@ jobs:
     name: Build Rust Binding
     needs: [need-publish]
     uses: ./.github/workflows/build-rust-binding.yml
-
-  build-rust-wasm:
-    name: Build Rust WASM
-    needs: [need-publish]
-    uses: ./.github/workflows/build-rust-wasm.yml
+    with:
+      name: "taro"
 
   publish:
     permissions:
@@ -62,23 +60,19 @@ jobs:
       actions: write # to cancel running workflow (andymckay/cancel-action)
       issues: write # to create comment
       pull-requests: write # to create comment and so on
+
     name: Publish
     runs-on: ubuntu-latest
-    needs: [need-publish, build-rust-binding, build-rust-wasm]
+    needs: [need-publish, build-rust-binding]
     steps:
       # Setup
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 7
-          registry-url: 'https://registry.npmjs.org'
-      - name: Setup Node 16
-        uses: actions/setup-node@v4
+      - name: Setup Node ${{ matrix.node_version }}
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -142,8 +136,20 @@ jobs:
         uses: andymckay/cancel-action@0.3
 
       # Bootstrap project
-      - name: Install dependencies
-        run: pnpm -r install --frozen-lockfile
+      - name: Cache pnpm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - name: install
+        uses: pnpm/action-setup@v2.4.0
+        with:
+          version: 7
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
@@ -152,15 +158,6 @@ jobs:
         run: pnpm artifacts
       - name: build
         run: pnpm build
-      - name: List Packages
-        run: |-
-          echo "[Debug] Listing ./crates/native_binding/artifacts"
-          ls -R ./crates/native_binding/artifacts
-          echo "[Debug] Listing ./npm"
-          ls -R ./npm
-          echo "[Debug] Listing ./packages/taro-helper/swc"
-          ls -R ./packages/taro-helper/swc
-        shell: bash
 
       # Git stash
       - name: Drop current changes
@@ -177,7 +174,6 @@ jobs:
           github_repo: ${{ github.repository }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
-
 
       # ------------------ publish -------------
 
