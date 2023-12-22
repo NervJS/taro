@@ -5,7 +5,7 @@ import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
 
-import type { TaroEvent, TaroAny, TaroStyleType, HarmonyType, TaroRadioGroupElement, TaroRadioElement } from '@tarojs/runtime'
+import { TaroEvent, TaroAny, TaroStyleType, HarmonyType, TaroRadioGroupElement, TaroRadioElement } from '@tarojs/runtime'
 
 interface RadioAttrs {
   radioStyle?: HarmonyType.RadioStyle
@@ -63,43 +63,62 @@ function themeStyles(isDisabled: boolean) {
   .opacity(isDisabled ? 0.4 : 1)
 }
 
-@Builder
-export function TaroRadio (node: TaroRadioElement) {
-  Stack() {
-    Row() {
-      Radio({
-        group: node.group || node.parentNode?._nid || '',
-        value: node._attrs.value || '',
-      })
-        .checked(node.checked)
-        .style(getNormalAttributes(node))
-        .radioAttr(getAttributes(node))
-        .onChange((value: boolean) => {
-          if (!!node?._attrs.disabled) {
-            node.updateComponent()
-          } else {
-            node.updateCheckedValue(value)
+@Component
+export struct TaroRadio {
+  node: TaroRadioElement | null = null
+  
+  aboutToAppear () {
+    if (this.node && !this.node._isInit) {
+      this.node._isInit = true
+      this.node._reset = this.node.checked || false
+    }
+  }
 
-            if (value) {
-              const event: TaroEvent = createTaroEvent('change', { detail: { value: node?._attrs.value } }, node)
-              eventHandler(event, 'change', node)
+  build () {
+    if (this.node) {
+      Stack() {
+        Row() {
+          Radio({
+            group: this.node.group || this.node.parentNode?._nid || '',
+            value: this.node.value || '',
+          })
+            .checked(this.node.checked)
+            .style(getNormalAttributes(this.node))
+            .radioAttr(getAttributes(this.node))
+            .onChange((value: boolean) => {
+              if (this.node) {
+                if (!!this.node?._attrs.disabled) {
+                  this.node.updateComponent()
+                } else {
+                  this.node.updateCheckedValue(value)
+      
+                  if (value) {
+                    const event: TaroEvent = createTaroEvent('change', { detail: { value: this.node?._attrs.value } }, this.node)
+                    eventHandler(event, 'change', this.node)
+                  }
+                }
+              }
+            })
+            .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', this.node), this.node, ['click']))
+            .onAreaChange(getComponentEventCallback(this.node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
+              if (this.node) {
+                this.node._nodeInfo.areaInfo = res[1]
+              }
+            }))
+            .onVisibleAreaChange(getNodeThresholds(this.node) || [0.0, 1.0], getComponentEventCallback(this.node, VISIBLE_CHANGE_EVENT_NAME))
+          Text(this.node.textContent)
+            .textAlign(TextAlign.Center)
+            .opacity(!!this.node?._attrs.disabled ? 0.4 : 1)
+        }
+        .onClick(() => {
+          if (this.node) {
+            if (!this.node._checked && !this.node?._attrs.disabled) {
+              this.node.checked = !this.node.checked
             }
           }
         })
-        .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
-        .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          node._nodeInfo.areaInfo = res[1]
-        }))
-        .onVisibleAreaChange(getNodeThresholds(node) || [0.0, 1.0], getComponentEventCallback(node, VISIBLE_CHANGE_EVENT_NAME))
-      Text(node.textContent)
-        .textAlign(TextAlign.Center)
-        .opacity(!!node?._attrs.disabled ? 0.4 : 1)
-    }
-    .onClick(() => {
-      if (!node._checked && !node?._attrs.disabled) {
-        node.checked = !node.checked
       }
-    })
+    }
   }
 }
 

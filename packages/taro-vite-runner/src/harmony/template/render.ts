@@ -70,7 +70,7 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'SLIDER') {
     TaroSlider({ node: item as TaroSliderElement })
   } else if (item.tagName === 'SWITCH') {
-    TaroSwitch(item as TaroSwitchElement)
+    TaroSwitch({ node: item as TaroSwitchElement })
   } else if (item.tagName === 'INPUT') {
     TaroInput({ node: item as TaroInputElement })
   } else if (item.tagName === 'SWIPER') {
@@ -88,11 +88,11 @@ function createChildItem (item: TaroElement) {
   } else if (item.tagName === 'CHECKBOX-GROUP') {
     TaroCheckboxGroup({ node: item as TaroCheckboxGroupElement })
   } else if (item.tagName === 'CHECKBOX') {
-    TaroCheckbox(item as TaroCheckboxElement)
+    TaroCheckbox({ node: item as TaroCheckboxElement })
   } else if (item.tagName === 'RADIO-GROUP') {
     TaroRadioGroup({ node: item as TaroRadioGroupElement })
   } else if (item.tagName === 'RADIO') {
-    TaroRadio(item as TaroRadioElement)
+    TaroRadio({ node: item as TaroRadioElement })
   } else if (item.tagName === 'LABEL') {
     TaroLabel(item as TaroLabelElement)
   } else if (item.tagName === 'PICKER') {
