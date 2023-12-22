@@ -5,8 +5,14 @@ env:
 on:
   push:
     branches:
+      - 'chore/**'
+      - 'feat/**'
+      - 'fix/**'
+      - '1.x'
+      - '2.x'
+      - '3.x'
+      - '4.x'
       - main
-      - feat/**
   pull_request:
     branches:
       - main
