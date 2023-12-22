@@ -63,16 +63,30 @@ export default class Index extends React.Component {
       },
       {
         id: 'onHeadersReceived',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('DownloadTask.onHeadersReceived')
+          if (this.state.task) {
+            ;(this.state.task as Taro.DownloadTask).onHeadersReceived(this.headersReceived)
+          }
+        },
       },
       {
         id: 'offHeadersReceived',
-        func: null,
+        func: () => {
+          TestConsole.consoleTest('DownloadTask.offHeadersReceived')
+          if (this.state.task) {
+            ;(this.state.task as Taro.DownloadTask).offHeadersReceived(this.headersReceived)
+          }
+        },
       },
     ],
   }
   progressUpdate = (res) => {
     TestConsole.consoleOnCallback.call(this, res, 'onProgressUpdate', 3)
+  }
+
+  headersReceived = (res) => {
+    TestConsole.consoleOnCallback.call(this, res, 'headersReceived', 5)
   }
 
   startDownloadFile(apiIndex, data, testTitle) {
@@ -95,6 +109,7 @@ export default class Index extends React.Component {
     TestConsole.consoleNormal('DownloadTask', task)
     this.setState({ task })
     task.onProgressUpdate(this.progressUpdate)
+    task.onHeadersReceived(this.headersReceived)
   }
 
   render() {
