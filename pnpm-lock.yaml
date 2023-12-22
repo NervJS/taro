@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: false
-  excludeLinksFromLockfile: false
-
 packageExtensionsChecksum: 4febf6665ca78aef4b39b91c5bd86984
 
 importers:
@@ -1379,6 +1375,8 @@ importers:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
 
+  packages/taro-components/loader: {}
+
   packages/taro-extend:
     devDependencies:
       jest:
@@ -1614,8 +1612,6 @@ importers:
       typescript:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.9.5
-
-  packages/taro-helper/swc/plugin-compile-mode: {}
 
   packages/taro-jd:
     dependencies:
@@ -3645,9 +3641,6 @@ importers:
       stylus-loader:
         specifier: 6.2.0
         version: registry.npmjs.org/stylus-loader@6.2.0(stylus@0.55.0)(webpack@5.78.0)
-      swc-plugin-taro-compile-mode:
-        specifier: workspace:*
-        version: link:../taro-helper/swc/plugin-compile-mode
       terser-webpack-plugin:
         specifier: ^5.1.3
         version: registry.npmjs.org/terser-webpack-plugin@5.3.8(esbuild@0.19.7)(webpack@5.78.0)
@@ -42086,3 +42079,7 @@ packages:
       property-expr: registry.npmjs.org/property-expr@2.0.5
       toposort: registry.npmjs.org/toposort@2.0.2
     dev: false
+
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: false
