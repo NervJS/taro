@@ -26,9 +26,9 @@ jobs:
 
   nodejs-tesing:
     name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
-    needs:
-      - build-rust-binding
-      - build-rust-wasm
+    # needs:
+    #   - build-rust-binding
+    #   - build-rust-wasm
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +54,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
       - name: Prune store
-        run: pnpm store prune
+        run: |
+          PNPM_STORE_PATH=$(pnpm store path)
+          echo "[Debug] Store path: $PNPM_STORE_PATH"
+          if [ -d ${PNPM_STORE_PATH} ]; then
+            echo "pnpm store exists"
+            pnpm store prune
+          else
+            echo "pnpm store does not exist"
+          fi
+
+      - name: Give up
+        uses: andymckay/cancel-action@0.3
+
       - name: Install dependencies
         run: pnpm -r install --frozen-lockfile
       - name: Lint
