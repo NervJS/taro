@@ -256,6 +256,7 @@ export class LivePlayer implements ComponentInterface {
             direction: 0,
           })
         } else {
+          Taro.eventCenter.trigger('__taroExitFullScreen', {})
           this.onFullScreenChange.emit({
             fullScreen: this.isFullScreen,
             direction: 0,
@@ -460,11 +461,13 @@ export class LivePlayer implements ComponentInterface {
       fullScreen: this.isFullScreen,
       direction: 0,
     })
+    if (this.isFullScreen) {
+      Taro.eventCenter.trigger('__taroEnterFullScreen', {})
+    } 
     if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
       try {
         setTimeout(() => {
           this.livePlayerRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
-          Taro.eventCenter.trigger('__taroEnterFullScreen', {})
         }, 0)
         return { errMsg: `requestFullScreen:ok` }
       } catch (e) {
@@ -472,7 +475,6 @@ export class LivePlayer implements ComponentInterface {
       }
     } else {
       try {
-        Taro.eventCenter.trigger('__taroExitFullScreen', {})
         document[screenFn.exitFullscreen]()
         return { errMsg: `exitFullScreen:ok` }
       } catch (e) {
