@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { getMobileDetect } from '@tarojs/router/dist/utils/navigate'
+import { isMobile } from 'is-mobile'
 
 import { showActionSheet } from '../../../api/ui'
 import { getParameterError, shouldBeObject } from '../../../utils'
@@ -64,8 +64,7 @@ export const chooseMedia = async function (
   }
 
   // Note: Input 仅在移动端支持 capture 属性，可以使用 getUserMedia 替代（暂不考虑）
-  const md = getMobileDetect()
-  if (md.mobile()) {
+  if (isMobile()) {
     if (sourceType.length > 1 || sourceType.length < 1) {
       try {
         const { tapIndex } = await showActionSheet({
