@@ -1,10 +1,10 @@
 name: publish
 on:
-  # When Release Pull Request is merged
   push:
     branches:
       - 'chore/**'
       - 'feat/**'
+  # When Release Pull Request is merged
   pull_request:
     branches:
       - main
@@ -17,7 +17,6 @@ jobs:
   need-publish:
     permissions:
       actions: write # to cancel running workflow (andymckay/cancel-action)
-
     name: Need Publish
     runs-on: ubuntu-latest
     steps:
@@ -51,8 +50,11 @@ jobs:
     name: Build Rust Binding
     needs: [need-publish]
     uses: ./.github/workflows/build-rust-binding.yml
-    with:
-      name: "taro"
+
+  # build-rust-wasm:
+  #   name: Build Rust WASM
+  #   needs: [need-publish]
+  #   uses: ./.github/workflows/build-rust-wasm.yml
 
   publish:
     permissions:
@@ -60,9 +62,9 @@ jobs:
       actions: write # to cancel running workflow (andymckay/cancel-action)
       issues: write # to create comment
       pull-requests: write # to create comment and so on
-
     name: Publish
     runs-on: ubuntu-latest
+    # needs: [need-publish, build-rust-binding, build-rust-wasm]
     needs: [need-publish, build-rust-binding]
     steps:
       # Setup
@@ -72,7 +74,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: 'https://registry.npmjs.org'
       - name: Git Identity
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -158,6 +159,15 @@ jobs:
         run: pnpm artifacts
       - name: build
         run: pnpm build
+      - name: List Packages
+        run: |-
+          echo "[Debug] Listing ./crates/native_binding/artifacts"
+          ls -R ./crates/native_binding/artifacts
+          echo "[Debug] Listing ./npm"
+          ls -R ./npm
+          echo "[Debug] Listing ./packages/taro-helper/swc"
+          ls -R ./packages/taro-helper/swc
+        shell: bash
 
       # Git stash
       - name: Drop current changes
