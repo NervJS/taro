@@ -172,8 +172,8 @@ export { createChildItem, createChildItemWithPosition, createLazyChildren }
     this.template.forEach((_, key) => {
       const keyData = key.split('_')
       const name = keyData[keyData.length - 1]
-      result = `${result}if (node._attrs?.compileMode === '${name}') {
-    ${key}({ node: node as TaroViewElement })
+      result = `${result}if (item._attrs?.compileMode === '${name}') {
+    ${key}({ node: item as TaroViewElement })
   } else `
     })
 

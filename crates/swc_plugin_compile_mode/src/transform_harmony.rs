@@ -176,7 +176,7 @@ impl TransformVisitor {
                         // 事件的处理，根据事件添加对应的 ets 事件处理函数
                         let event_string: String = self.build_ets_event(opening_element);
 
-                        // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createNode 来生成后续子节点
+                        // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createLazyChildren 来生成后续子节点
                         let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
                         let mut children = utils::create_original_node_renderer_foreach(self);
 
@@ -458,7 +458,7 @@ impl VisitMut for TransformVisitor {
 
           let tmpl_build_contents = format!("build() {{\n{content}}}", content = self.build_ets_element(el));
           let tmpl_node_declare_contents = self.node_name_vec.iter().fold(String::new(), |mut acc, item| {
-              acc.push_str(&format!("@State {}: TaroElement = new TaroIgnoreElement()\n", item));
+              acc.push_str(&format!("@State {}: TaroElement = new TaroElement('Ignore')\n", item));
               return acc;
           });
           let tmpl_main_contents = utils::add_spaces_to_lines(&format!("{}\n{}", tmpl_node_declare_contents, tmpl_build_contents));
@@ -468,9 +468,9 @@ impl VisitMut for TransformVisitor {
             format!(
 r#"@Component
 export default struct TARO_TEMPLATES_{name} {{
-  nodeInfoMap: TaroAny = {{}}
+  node: TaroViewElement = new TaroElement('Ignore')
+
   dynamicCenter: DynamicCenter = new DynamicCenter()
-  @ObjectLink node: TaroViewElement
 
   aboutToAppear () {{
     this.dynamicCenter.bindComponentToNodeWithDFS(this.node, this)

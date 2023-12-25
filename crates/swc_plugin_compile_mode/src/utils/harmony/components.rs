@@ -12,9 +12,10 @@ pub fn get_component_style_str (node_name: &str, tag_name: &str) -> String {
   format!(
 r#"{}
 .onVisibleAreaChange(getNodeThresholds(this.{node_id} as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.{node_id} as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
-.onAreaChange(getComponentEventCallback(this.{node_id} as TaroElement, AREA_CHANGE_EVENT_NAME, res => {{
-  const eventResult: TaroAny = res.eventResult
-  this.nodeInfoMap[this.{node_id}._nid].areaInfo = eventResult[1]
+.onAreaChange(getComponentEventCallback(this.{node_id} as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {{
+  if (this.node) {{
+    this.{node_id}._nodeInfo.areaInfo = res[1]
+  }}
 }}))"#,
     get_component_attr_str(node_name, tag_name),
     node_id = node_name,
