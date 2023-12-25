@@ -42,7 +42,7 @@ export function setReconciler () {
       return {
         render () {
           return h(
-            'taro-pull-to-refresh',
+            'taro-pull-to-refresh-core',
             {
               class: 'hydrated'
             },
