@@ -15,7 +15,7 @@
     "dev": "pnpm run rollup --environment TARGET:esm -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "jest",
-    "test:ci": "jest --ci -i --coverage false"
+    "test:ci": "jest --ci -i --coverage"
   },
   "repository": {
     "type": "git",
