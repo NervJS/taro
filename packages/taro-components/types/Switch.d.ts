@@ -88,7 +88,7 @@ declare namespace SwitchProps {
  *   </view>
  * </template>
  * ```
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @see https://developers.weixin.qq.com/miniprogram/dev/component/switch.html
  */
 declare const Switch: ComponentType<SwitchProps>

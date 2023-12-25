@@ -47,7 +47,7 @@ interface SliderProps extends StandardProps, FormItemProps {
   activeColor?: string
   /** 背景条的颜色
    * @default "#e9e9e9"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
    */
   backgroundColor?: string
   /** 滑块的大小，取值范围为 12 - 28
@@ -103,7 +103,7 @@ declare namespace SliderProps {
 }
 /** 滑动选择器
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

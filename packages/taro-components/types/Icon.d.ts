@@ -7,7 +7,7 @@ interface IconProps extends StandardProps {
   type: keyof IconProps.TIconType
   /** icon 的大小，单位px
    * @default 23
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   size?: number
   /** icon 的颜色，同 css 的 color
@@ -48,7 +48,7 @@ declare namespace IconProps {
 }
 /** 图标。组件属性的长度单位默认为 px
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

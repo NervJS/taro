@@ -3,7 +3,7 @@ import { StandardProps } from './common'
 interface TextProps extends StandardProps {
   /** 文本是否可选
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   selectable?: boolean
   /** 文本是否可选，该属性会使文本节点显示为 inline-block

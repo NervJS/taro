@@ -46,7 +46,7 @@ interface SwiperProps extends StandardProps {
   duration?: number
   /** 是否采用衔接滑动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   circular?: boolean
   /** 滑动方向是否为纵向
@@ -162,7 +162,7 @@ interface SwiperProps extends StandardProps {
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
   /** 动画结束时会触发 animationfinish 事件
-   * @supported weapp, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onAnimationFinish?: SwiperProps['onChange']
   /** 动画结束时会触发 animationEnd 事件
@@ -217,7 +217,7 @@ declare namespace SwiperProps {
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
  * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Component {

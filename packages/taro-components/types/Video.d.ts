@@ -44,7 +44,7 @@ interface VideoProps extends StandardProps {
    */
   muted?: boolean
   /** 指定视频初始播放位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   initialTime?: number
   /** 在非全屏模式下，是否开启亮度与音量调节手势
@@ -73,7 +73,7 @@ interface VideoProps extends StandardProps {
   showPlayBtn?: boolean
   /** 是否显示视频中间的播放按钮
    * @default true
-   * @supported weapp, alipay, swan, qq, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, qq, h5, rn, harmony_hybrid
    */
   showCenterPlayBtn?: boolean
   /** 是否开启控制进度的手势
@@ -87,7 +87,7 @@ interface VideoProps extends StandardProps {
    */
   objectFit?: keyof VideoProps.ObjectFit
   /** 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   poster?: string
   /** 是否显示静音按钮
@@ -324,7 +324,7 @@ interface VideoProps extends StandardProps {
    */
   onWaiting?: CommonEventFunction<VideoProps.onWaitingEventDetail>
   /** 视频播放出错时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onError?: CommonEventFunction
   /** 加载进度变化时触发，只支持一段加载
@@ -557,7 +557,7 @@ declare namespace VideoProps {
 }
 /** 视频。相关api：Taro.createVideoContext
  * @classification media
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {

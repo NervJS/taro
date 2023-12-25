@@ -46,7 +46,7 @@ declare module '../index' {
 
     /**
      * 当前是 tab 页时，tab 被点击时的回调。
-     * @supported weapp, h5, harmony_hybrid, rn
+     * @supported weapp, h5, rn, harmony_hybrid
      */
     useTabItemTap(callback: (payload: TabItemTapObject) => void): void
 

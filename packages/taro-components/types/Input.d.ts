@@ -38,7 +38,7 @@ interface InputProps extends StandardProps, FormItemProps {
   placeholderTextColor?: string
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   disabled?: boolean
   /** 最大输入长度，设置为 -1 的时候不限制最大长度
@@ -59,7 +59,7 @@ interface InputProps extends StandardProps, FormItemProps {
   autoFocus?: boolean
   /** 获取焦点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   focus?: boolean
   /** 设置键盘右下角按钮的文字，仅在type='text'时生效
@@ -198,11 +198,11 @@ declare namespace InputProps {
   /** Input 类型 */
   interface Type {
     /** 文本输入键盘
-     * @supported weapp, alipay, h5, harmony_hybrid, rn
+     * @supported weapp, alipay, h5, rn, harmony_hybrid
      */
     text
     /** 数字输入键盘
-     * @supported weapp, alipay, h5, harmony_hybrid, rn
+     * @supported weapp, alipay, h5, rn, harmony_hybrid
      */
     number
     /** 身份证输入键盘
@@ -210,7 +210,7 @@ declare namespace InputProps {
      */
     idcard
     /** 带小数点的数字键盘
-     * @supported weapp, alipay, h5, harmony_hybrid, rn
+     * @supported weapp, alipay, h5, rn, harmony_hybrid
      */
     digit
     /** 密码安全输入键盘[指引](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/safe-password.html)
@@ -275,7 +275,7 @@ declare namespace InputProps {
 }
 /** 输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Component {

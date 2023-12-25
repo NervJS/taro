@@ -12,7 +12,7 @@ interface PickerStandardProps extends StandardProps, FormItemProps {
   /**
    * 是否禁用
    * @default false
-   * @supported weapp, h5, harmony_hybrid, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    */
   disabled?: boolean
   /**
@@ -203,7 +203,7 @@ interface PickerDateProps extends PickerStandardProps {
   end?: string
   /**
    * 有效值 year, month, day，表示选择器的粒度
-   * @supported weapp, h5, harmony_hybrid, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    * @default "day"
    */
   fields?: keyof PickerDateProps.Fields
@@ -233,13 +233,13 @@ interface PickerRegionProps extends PickerStandardProps {
   mode: 'region'
   /**
    * 表示选中的省市区，默认选中每一列的第一个值
-   * @supported weapp, h5, harmony_hybrid, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    * @default []
    */
   value?: string[]
   /**
    * 可为每一列的顶部添加一个自定义的项
-   * @supported weapp, h5, harmony_hybrid, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    */
   customItem?: string
   /**
@@ -255,7 +255,7 @@ interface PickerRegionProps extends PickerStandardProps {
   regionData?: PickerRegionProps.RegionData[]
   /**
    * value 改变时触发 change 事件
-   * @supported weapp, h5, harmony_hybrid, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    */
   onChange: CommonEventFunction<PickerRegionProps.ChangeEventDetail>
 }
@@ -287,7 +287,7 @@ declare namespace PickerRegionProps {
 /**
  * 从底部弹起的滚动选择器
  * @classification forms
- * @supported weapp, swan, alipay, tt, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, swan, alipay, tt, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PagePicker extends Component {

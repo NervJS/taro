@@ -24,12 +24,12 @@ interface TextareaProps extends StandardProps, FormItemProps {
   placeholderClass?: string
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   disabled?: boolean
   /** 最大输入长度，设置为 -1 的时候不限制最大长度
    * @default 140
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   maxlength?: number
   /** 自动聚焦，拉起键盘
@@ -39,12 +39,12 @@ interface TextareaProps extends StandardProps, FormItemProps {
   autoFocus?: boolean
   /** 获取焦点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   focus?: boolean
   /** 是否自动增高，设置 autoHeight 时，style.height不生效
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   autoHeight?: boolean
   /** 如果 Textarea 是在一个 `position:fixed` 的区域，需要显示指定属性 fixed 为 true
@@ -146,7 +146,7 @@ interface TextareaProps extends StandardProps, FormItemProps {
    */
   onInput?: CommonEventFunction<TextareaProps.onInputEventDetail>
   /** 点击完成时， 触发 confirm 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onConfirm?: CommonEventFunction<TextareaProps.onConfirmEventDetail>
   /** 键盘高度发生变化的时候触发此事件
@@ -193,7 +193,7 @@ declare namespace TextareaProps {
 }
 /** 多行输入框。该组件是原生组件，使用时请注意相关限制
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
