@@ -50,7 +50,9 @@ function tapCallbackToNodeAndUpdate (node: TaroElement, eventName: string, callb
     callback && callback(...eventResult)
   }
 
-  node.updateComponent()
+  if (!node._isDynamicNode || !node._isCompileMode) {
+    node.updateComponent()
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

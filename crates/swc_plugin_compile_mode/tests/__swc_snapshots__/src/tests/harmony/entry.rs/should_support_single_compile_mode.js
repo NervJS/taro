@@ -54,9 +54,7 @@ export default struct TARO_TEMPLATES_f0t0 {
     .attrs(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      if (this.node) {
-        this.node0._nodeInfo.areaInfo = res[1]
-      }
+      (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
     }))
   }
 }

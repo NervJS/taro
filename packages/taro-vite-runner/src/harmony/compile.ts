@@ -90,7 +90,7 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
           experimental: {
             plugins: [
               [
-                require.resolve('swc-plugin-taro-compile-mode'),
+                '@tarojs/helper/swc/swc_plugin_compile_mode.wasm',
                 {
                   tmpl_prefix: `f${FILE_COUNTER_MAP.get(resourcePath)}`,
                   is_harmony: true,

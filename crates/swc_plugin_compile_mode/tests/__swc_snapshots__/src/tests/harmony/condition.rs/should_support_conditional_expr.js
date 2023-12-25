@@ -117,17 +117,13 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node1.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node1.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node1.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node1.childNodes[0]._nodeInfo.areaInfo = res[1]
-            }
+            (this.node1.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
         .attrs(getNormalAttributes(this.node1 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node1._nodeInfo.areaInfo = res[1]
-          }
+          (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       } else {
         Text(this.node0.childNodes[0].textContent)
@@ -135,9 +131,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         .textAttr(getFontAttributes(this.node0.childNodes[0] as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node0.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node0.childNodes[0]._nodeInfo.areaInfo = res[1]
-          }
+          (this.node0.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       }
       if ((this.node0.childNodes[1] as TaroElement)._attrs.compileIf) {
@@ -148,17 +142,13 @@ export default struct TARO_TEMPLATES_f0t0 {
             .textAttr(getFontAttributes(this.node4.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node4.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node4.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
             .onAreaChange(getComponentEventCallback(this.node4.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              if (this.node) {
-                this.node4.childNodes[0]._nodeInfo.areaInfo = res[1]
-              }
+              (this.node4.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
             }))
           }
           .attrs(getNormalAttributes(this.node4 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node4 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node4 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node4 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node4._nodeInfo.areaInfo = res[1]
-            }
+            (this.node4 as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         } else {
           Text(this.node3.textContent)
@@ -166,9 +156,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node3 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node3 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node3 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node3 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node3._nodeInfo.areaInfo = res[1]
-            }
+            (this.node3 as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
       } else {
@@ -178,17 +166,13 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node2.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node2.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node2.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node2.childNodes[0]._nodeInfo.areaInfo = res[1]
-            }
+            (this.node2.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
         .attrs(getNormalAttributes(this.node2 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node2 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node2 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node2._nodeInfo.areaInfo = res[1]
-          }
+          (this.node2 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       }
       if ((this.node0.childNodes[2] as TaroElement)._attrs.compileIf) {
@@ -198,17 +182,13 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node7.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node7.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node7.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node7.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node7.childNodes[0]._nodeInfo.areaInfo = res[1]
-            }
+            (this.node7.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
         .attrs(getNormalAttributes(this.node7 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node7 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node7 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node7 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node7._nodeInfo.areaInfo = res[1]
-          }
+          (this.node7 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       } else {
         if ((this.node0.childNodes[2] as TaroElement)._attrs.compileIf) {
@@ -218,17 +198,13 @@ export default struct TARO_TEMPLATES_f0t0 {
             .textAttr(getFontAttributes(this.node6.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node6.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node6.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
             .onAreaChange(getComponentEventCallback(this.node6.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-              if (this.node) {
-                this.node6.childNodes[0]._nodeInfo.areaInfo = res[1]
-              }
+              (this.node6.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
             }))
           }
           .attrs(getNormalAttributes(this.node6 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node6 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node6 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node6 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node6._nodeInfo.areaInfo = res[1]
-            }
+            (this.node6 as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         } else {
           Text(this.node5.textContent)
@@ -236,9 +212,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node5 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node5 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node5 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node5 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node5._nodeInfo.areaInfo = res[1]
-            }
+            (this.node5 as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
       }
@@ -249,17 +223,13 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node8.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node8.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node8.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node8.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node8.childNodes[0]._nodeInfo.areaInfo = res[1]
-            }
+            (this.node8.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
         .attrs(getNormalAttributes(this.node8 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node8 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node8 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node8 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node8._nodeInfo.areaInfo = res[1]
-          }
+          (this.node8 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       }
       if ((this.node0.childNodes[4] as TaroElement)._attrs.compileIf) {
@@ -270,17 +240,13 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node9.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node9.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node9.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node9.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node9.childNodes[0]._nodeInfo.areaInfo = res[1]
-            }
+            (this.node9.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
         .attrs(getNormalAttributes(this.node9 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node9 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node9 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node9 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node9._nodeInfo.areaInfo = res[1]
-          }
+          (this.node9 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       }
       if ((this.node0.childNodes[5] as TaroElement)._attrs.compileIf) {
@@ -290,17 +256,13 @@ export default struct TARO_TEMPLATES_f0t0 {
           .textAttr(getFontAttributes(this.node10.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node10.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node10.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node10.childNodes[0] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-            if (this.node) {
-              this.node10.childNodes[0]._nodeInfo.areaInfo = res[1]
-            }
+            (this.node10.childNodes[0] as TaroElement)._nodeInfo.areaInfo = res[1]
           }))
         }
         .attrs(getNormalAttributes(this.node10 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node10 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node10 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node10 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node10._nodeInfo.areaInfo = res[1]
-          }
+          (this.node10 as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       }
       if ((this.node0.childNodes[6] as TaroElement)._attrs.compileIf) {
@@ -309,9 +271,7 @@ export default struct TARO_TEMPLATES_f0t0 {
         .textAttr(getFontAttributes(this.node0.childNodes[6] as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[6] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[6] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node0.childNodes[6] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node0.childNodes[6]._nodeInfo.areaInfo = res[1]
-          }
+          (this.node0.childNodes[6] as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       } else {
         Text(this.node0.childNodes[6].textContent)
@@ -319,26 +279,20 @@ export default struct TARO_TEMPLATES_f0t0 {
         .textAttr(getFontAttributes(this.node0.childNodes[6] as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[6] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[6] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node0.childNodes[6] as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-          if (this.node) {
-            this.node0.childNodes[6]._nodeInfo.areaInfo = res[1]
-          }
+          (this.node0.childNodes[6] as TaroElement)._nodeInfo.areaInfo = res[1]
         }))
       }
       Flex(FlexManager.flexOptions(this.node11 as TaroElement)) {}
       .attrs(getNormalAttributes(this.node11 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node11 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node11 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node11 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-        if (this.node) {
-          this.node11._nodeInfo.areaInfo = res[1]
-        }
+        (this.node11 as TaroElement)._nodeInfo.areaInfo = res[1]
       }))
     }
     .attrs(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
-      if (this.node) {
-        this.node0._nodeInfo.areaInfo = res[1]
-      }
+      (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]
     }))
   }
 }
