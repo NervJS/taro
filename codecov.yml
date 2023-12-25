@@ -1,0 +1,17 @@
+comment:
+  layout: "header, diff, flags, components"  # show component info in the PR comment
+
+component_management:
+  default_rules:  # default rules that will be inherited by all components
+    statuses:
+      project:
+        default:
+          informational: true
+      patch:
+        default:
+          informational: true
+  individual_components:
+    - component_id: module_taro-runtime  # this is an identifier that should not be changed
+      name: @tarojs/runtime  # this is a display name, and can be changed freely
+      paths:
+        - packages/taro-runtime/**
