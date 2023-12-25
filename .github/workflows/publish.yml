@@ -12,6 +12,7 @@ on:
 
 env:
   CI: true
+  ABANDON: false
 permissions: {}
 jobs:
   need-publish:
@@ -40,18 +41,20 @@ jobs:
 
       - name: Commit message compliance verification
         if: startsWith( env.COMMIT_MESSAGE , 'chore(release):' ) != true
-        uses: andymckay/cancel-action@0.3
+        run: echo "ABORT=true" >> $GITHUB_ENV
 
       - name: Publish push tag verification
         if: github.event_name == 'push' && contains( env.COMMIT_MESSAGE , '--tag=' ) != true
-        uses: andymckay/cancel-action@0.3
+        run: echo "ABORT=true" >> $GITHUB_ENV
 
   build-rust-binding:
+    if: env.ABORT != 'true'
     name: Build Rust Binding
     needs: [need-publish]
     uses: ./.github/workflows/build-rust-binding.yml
 
   build-rust-wasm:
+    if: env.ABORT != 'true'
     name: Build Rust WASM
     needs: [need-publish]
     uses: ./.github/workflows/build-rust-wasm.yml
