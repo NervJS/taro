@@ -3,6 +3,10 @@
   "version": "4.0.0-beta.0",
   "main": "index.js",
   "license": "MIT",
+  "files": [
+    "index.js",
+    "dist"
+  ],
   "scripts": {
     "dev": "pnpm run mv:comp && tsc -w",
     "build": "tsc && pnpm run mv:comp",
