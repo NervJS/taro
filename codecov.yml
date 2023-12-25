@@ -2,15 +2,7 @@ comment:
   layout: "header, diff, flags, components"  # show component info in the PR comment
 
 flag_management:
-  default_rules: # the rules that will be followed for any flag added, generally
-    statuses:
-      project:
-        default:
-          informational: true
-      patch:
-        default:
-          informational: true
   individual_flags: # exceptions to the default rules above, stated flag by flag
-    - name: @tarojs/runtime  #fill in your own flag name
+    - name: taro-runtime  #fill in your own flag name
       paths:
-        - packages/taro-runtime  #fill in your own path. Note, accepts globs, not regexes
+      - packages/taro-runtime  #fill in your own path. Note, accepts globs, not regexes
