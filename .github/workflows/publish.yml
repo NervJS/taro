@@ -12,7 +12,6 @@ on:
 
 env:
   CI: true
-  ABANDON: false
 permissions: {}
 jobs:
   need-publish:
@@ -20,6 +19,11 @@ jobs:
       actions: write # to cancel running workflow (andymckay/cancel-action)
     name: Need Publish
     runs-on: ubuntu-latest
+    outputs:
+      ABORT: ${{ env.ABORT }}
+    env:
+      ABORT: false
+      COMMIT_MESSAGE: ''
     steps:
       # Setup
       - name: Checkout
@@ -50,13 +54,13 @@ jobs:
   build-rust-binding:
     name: Build Rust Binding
     needs: [need-publish]
-    if: env.ABORT != 'true'
+    if: needs.need-publish.outputs.ABORT != 'true'
     uses: ./.github/workflows/build-rust-binding.yml
 
   build-rust-wasm:
     name: Build Rust WASM
     needs: [need-publish]
-    if: env.ABORT != 'true'
+    if: needs.need-publish.outputs.ABORT != 'true'
     uses: ./.github/workflows/build-rust-wasm.yml
 
   publish:
@@ -68,6 +72,7 @@ jobs:
     name: Publish
     runs-on: ubuntu-latest
     needs: [need-publish, build-rust-binding, build-rust-wasm]
+    if: needs.need-publish.outputs.ABORT != 'true'
     steps:
       # Setup
       - name: Checkout
