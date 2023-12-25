@@ -6,8 +6,6 @@ on:
   push:
     branches:
       - main
-      - feat/**
-      - fix/**
   pull_request:
     branches:
       - main
@@ -100,6 +98,10 @@ jobs:
         if: ${{ matrix.settings.host == 'ubuntu-latest' }}
         env:
           CI: true
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   rust-testing:
     strategy:
