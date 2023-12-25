@@ -49,37 +49,42 @@ export function isValidVarName (str?: string) {
 }
 
 export function parseCode (code: string, scriptPath?: string) {
-  updateLogFileContent(`package: taroize, funName: parseCode, scriptPath: ${scriptPath} ${getLineBreak()}`)
+  updateLogFileContent(`INFO [taroize] parseCode - 入参${getLineBreak()}scriptPath: ${scriptPath} ${getLineBreak()}`)
   let ast: any = {}
-  if (typeof scriptPath !== 'undefined') {
-    ast = parse(code, {
-      sourceFilename: scriptPath,
-      sourceType: 'module',
-      plugins: [
-        'jsx',
-        'flow',
-        'decorators-legacy',
-        ['optionalChainingAssign', { version: '2023-07' }],
-        'sourcePhaseImports',
-        'throwExpressions',
-        'deferredImportEvaluation',
-        'exportDefaultFrom'
-      ],
-    })
-  } else {
-    ast = parse(code, {
-      sourceType: 'module',
-      plugins: [
-        'jsx',
-        'flow',
-        'decorators-legacy',
-        ['optionalChainingAssign', { version: '2023-07' }],
-        'sourcePhaseImports',
-        'throwExpressions',
-        'deferredImportEvaluation',
-        'exportDefaultFrom'
-      ],
-    })
+  try {
+    if (typeof scriptPath !== 'undefined') {
+      ast = parse(code, {
+        sourceFilename: scriptPath,
+        sourceType: 'module',
+        plugins: [
+          'jsx',
+          'flow',
+          'decorators-legacy',
+          ['optionalChainingAssign', { version: '2023-07' }],
+          'sourcePhaseImports',
+          'throwExpressions',
+          'deferredImportEvaluation',
+          'exportDefaultFrom',
+        ],
+      })
+    } else {
+      ast = parse(code, {
+        sourceType: 'module',
+        plugins: [
+          'jsx',
+          'flow',
+          'decorators-legacy',
+          ['optionalChainingAssign', { version: '2023-07' }],
+          'sourcePhaseImports',
+          'throwExpressions',
+          'deferredImportEvaluation',
+          'exportDefaultFrom',
+        ],
+      })
+    }
+  } catch (error) {
+    updateLogFileContent(`ERROR [taroize] parseCode - 转换代码异常 ${getLineBreak()}${error} ${getLineBreak()}`)
+    throw new Error(`parseCode方法转换代码异常 ${error}`)
   }
   // 移除Flow类型注释
   traverse(ast, {
@@ -329,8 +334,7 @@ export function updateLogFileContent (data: string) {
   try {
     globals.logFileContent += data
   } catch (error) {
-    console.error('记录日志数据异常')
-    throw error
+    console.error(`记录日志数据异常 ${error.message}`)
   }
 }
 
@@ -343,7 +347,6 @@ export function printToLogFile () {
     fs.appendFile(globals.logFilePath, globals.logFileContent)
     globals.logFileContent = ''
   } catch (error) {
-    console.error('写入日志文件异常')
-    throw error
+    console.error(`写入日志文件异常 ${error.message}`)
   }
 }

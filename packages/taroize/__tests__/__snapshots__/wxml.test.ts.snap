@@ -8,6 +8,8 @@ data.map((item, index) => {
 })
 `;
 
+exports[`wxml语法 使用wx:if替换wx:show属性 1`] = `isShow && <View>测试使用wx:if替换wx:show属性</View>`;
+
 exports[`wxml语法 列表渲染 1`] = `
 array.map((item, index) => {
   return <View>{index + ": " + item.message}</View>;
