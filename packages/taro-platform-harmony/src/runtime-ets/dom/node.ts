@@ -31,15 +31,17 @@ export class TaroNode extends TaroDataSourceElement {
   public childNodes: TaroNode[] = []
   public parentNode: TaroNode | null = null
   public _nid: string = genId()
-
   public _doc: TaroDocument | null = null
+
+  private _textContent = ''
+
+  // 以下属性为半编译模式下才会赋值和使用的属性
+  // 半编译节点更新触发器
+  public _updateTrigger = 0
   // 是否为半编译模板下的节点
   public _isCompileMode = false
   // 是否为半编译模板下拥有自主更新权的节点
   public _isDynamicNode = false
-
-  public _updateTrigger = 0
-  private _textContent = ''
 
   constructor(nodeName: string, nodeType = NodeType.ELEMENT_NODE) {
     super()
@@ -66,12 +68,22 @@ export class TaroNode extends TaroDataSourceElement {
     if (!this.parentNode || !this.parentNode.listeners?.length) return
 
     const idx = this.parentNode.findIndex(this)
-      
-    if (idx >= 0) {
-      this._updateTrigger++
-      this.parentNode.notifyDataChange(idx)
+
+    if (this._isCompileMode) {
+      // 半编译模式下走 @State 的更新模式
+      if (this._isDynamicNode) {
+        this._updateTrigger++
+      } else {
+        this.parentNode.updateComponent()
+      }
     } else {
-      this.parentNode.notifyDataReload()
+      // 非半编译模式下走 LazyForEach 的更新模式
+      if (idx >= 0) {
+        this._updateTrigger++
+        this.parentNode.notifyDataChange(idx)
+      } else {
+        this.parentNode.notifyDataReload()
+      }
     }
   }
 
@@ -232,14 +244,14 @@ export class TaroTextNode extends TaroNode {
   }
 }
 
-function checkIsCompileModeAndInstallAfterDOMAction (_node: TaroNode, _parentNode: TaroNode) {
-  // if (!parentNode._isCompileMode) return
+function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode: TaroNode) {
+  if (!parentNode._isCompileMode || !parentNode._instance) return
 
-  // parentNode._instance?.dynamicCenter?.install?.(node, parentNode)
+  parentNode._instance.dynamicCenter?.install?.(node, parentNode)
 }
 
-function checkIsCompileModeAndUninstallAfterDOMAction (_node: TaroNode) {
-  // if (!node._isCompileMode) return
+function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
+  if (!node._isCompileMode || !parentNode._instance) return
 
-  // node._instance?.dynamicCenter?.uninstall?.(node)
+  node._instance.dynamicCenter?.uninstall?.(node)
 }

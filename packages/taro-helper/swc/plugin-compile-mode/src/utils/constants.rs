@@ -16,15 +16,14 @@ pub const VIEW_TAG: &str = "view";
 pub const TEXT_TAG: &str = "text";
 pub const IMAGE_TAG: &str = "image";
 
-pub const HARMONY_IMPORTER: &str = "import { createNode } from '../render'
+pub const HARMONY_IMPORTER: &str = "import { createLazyChildren, createChildItem } from '../render'
 import { FlexManager } from '../utils/FlexManager'
 import { TOUCH_EVENT_MAP } from '../utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../utils/helper'
-import { TaroIgnoreElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
+import { TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
 import { DynamicCenter } from '../utils/DynamicCenter'
 
-import type { TaroViewElement } from '../element'
-import type { TaroElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
+import type { TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
 
 ";
 
