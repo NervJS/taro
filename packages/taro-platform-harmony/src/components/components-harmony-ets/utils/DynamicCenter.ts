@@ -1,7 +1,6 @@
 import { TaroAny, TaroElement } from '@tarojs/runtime'
 
 export class DynamicCenter {
-
   install (node: TaroElement, parentNode: TaroElement) {
     if (!parentNode._isCompileMode) return
 

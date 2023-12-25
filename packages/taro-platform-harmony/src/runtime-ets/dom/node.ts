@@ -65,7 +65,7 @@ export class TaroNode extends TaroDataSourceElement {
 
   // 更新对应的 ArkUI 组件
   public updateComponent () {
-    if (!this.parentNode || !this.parentNode.listeners?.length) return
+    if (!this._isCompileMode && (!this.parentNode || !this.parentNode.listeners?.length)) return
 
     const idx = this.parentNode.findIndex(this)
 
@@ -248,6 +248,7 @@ function checkIsCompileModeAndInstallAfterDOMAction (node: TaroNode, parentNode:
   if (!parentNode._isCompileMode || !parentNode._instance) return
 
   parentNode._instance.dynamicCenter?.install?.(node, parentNode)
+  node.updateComponent()
 }
 
 function checkIsCompileModeAndUninstallAfterDOMAction (node: TaroNode) {
