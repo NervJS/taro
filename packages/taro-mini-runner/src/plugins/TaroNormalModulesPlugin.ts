@@ -55,8 +55,8 @@ export default class TaroNormalModulesPlugin {
               } else {
                 const nameOfCallee = callee.name
                 if (
-                  // 兼容 react17 new jsx transform
-                  nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
+                  // 兼容 react17 new jsx transtrom 以及esbuild-loader的ast兼容问题
+                  !/^_?jsxs?$/.test(nameOfCallee) &&
                   // 兼容 Vue 3.0 渲染函数及 JSX
                   !(nameOfCallee && nameOfCallee.includes('createVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createBlock')) &&

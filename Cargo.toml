@@ -19,6 +19,8 @@ anyhow = { version = "=1.0.75" }
 console = { version = "=0.15.7" }
 spinners = { version = "=4.1.1" }
 regex = { version = "=1.10.2" }
+swc_core = { version = "0.87.*", features = ["ecma_plugin_transform", "ecma_utils"] }
+
 
 [profile.dev]
 debug = 2
@@ -27,6 +29,6 @@ incremental = true
 [profile.release]
 codegen-units = 1
 debug = false
-lto = false # disabled by now, because it will significantly increase our compile time.
+lto = false # disabled by now, because it will significantly increase our compile time. # https://github.com/swc-project/swc/issues/7479
 opt-level = 3
 strip = true

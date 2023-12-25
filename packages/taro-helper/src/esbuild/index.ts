@@ -25,7 +25,7 @@ export function requireWithEsbuild(
   { customConfig = {}, customSwcConfig = {}, cwd = process.cwd() }: IRequireWithEsbuildOptions = {}
 ) {
   const { outputFiles = [] } = esbuild.buildSync(
-    defaults(omit(customConfig, ['define', 'loader', 'plugins']), {
+    defaults(omit(customConfig, ['alias', 'define', 'loader', 'plugins']), {
       platform: 'node',
       absWorkingDir: cwd,
       bundle: true,
@@ -35,7 +35,7 @@ export function requireWithEsbuild(
         // 导致这些模块报错（如 lodash）。目前的办法是把 define 置为 false，不支持 AMD 导出。
         define: 'false',
       }),
-      alias: customConfig.alias || {},
+      alias: Object.fromEntries(Object.entries(customConfig.alias || {}).filter(([key]) => !key.startsWith('/'))),
       entryPoints: [id],
       format: 'esm',
       loader: defaults(customConfig.loader, defaultEsbuildLoader),
