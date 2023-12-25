@@ -197,8 +197,15 @@ export default class Harmony extends TaroPlatformHarmony {
           target = path.extname(target)
             ? path.join(path.dirname(target), `${basename}${ext}`)
             : path.join(target, `index${isDTS ? '.d.ts' : ext}`)
-        } else if (libDir !== path.relative(targetPath, target)) {
-          target = path.join(targetPath, libDir)
+        } else {
+          const libPath = path.relative(targetPath, target)
+          if (libDir !== libPath) {
+            if (path.relative(libPath, libDir).startsWith('.')) {
+              target = path.join(targetPath, libDir)
+            } else {
+              target = path.join(targetPath, libName, `index${ext}`)
+            }
+          }
         }
       }
     }
