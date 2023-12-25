@@ -113,6 +113,32 @@ describe('微信小程序转换', () => {
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
+
+  test('使用工具函数初始化page页面',() => {
+    const EDMO_CREATEPAGE = {
+      '/app.json': `
+        {
+          "pages":[
+            "pages/index/index"
+          ]
+        }
+      `,
+      '/pages/index/index.js': `
+        const { createPage } = require('../../utils/tools')
+        createPage({})
+      `,
+      '/utils/tools.js': `
+        module.exports.createPage = function(options) {
+          Page(options)
+        }
+      `
+    }
+    updateMockFiles(root, EDMO_CREATEPAGE)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
 })
 
 describe('配置文件解析转换', () => {

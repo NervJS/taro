@@ -313,6 +313,34 @@ export default _C
 }
 `;
 
+exports[`微信小程序转换 使用工具函数初始化page页面 1`] = `
+Map {
+  /wxProject/taroConvert/.convert => ,
+  /wxProject/taroConvert/src/pages/index/index.js => import withWeapp, { cacheOptions } from '@tarojs/with-weapp'
+import { Block } from '@tarojs/components'
+import React from 'react'
+import Taro from '@tarojs/taro'
+const { createPage } = require('../../utils/tools.js')
+createPage({})
+cacheOptions.setOptionsToCache({})
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null
+  }
+}
+export default _C
+,
+  /wxProject/taroConvert/src/pages/index/index.config.js => export default {}
+,
+  /wxProject/taroConvert/src/utils/tools.js => const { cacheOptions } = require('@tarojs/with-weapp')
+module.exports.createPage = function (options) {
+  cacheOptions.setOptionsToCache(options)
+}
+,
+}
+`;
+
 exports[`微信小程序转换 小程序demo转换 1`] = `
 Map {
   /wxProject/taroConvert/.convert => ,
