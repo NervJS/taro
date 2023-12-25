@@ -1,4 +1,5 @@
 // @ts-nocheck
+import matrix4 from '@ohos.matrix4'
 import { isNumber } from '@tarojs/shared'
 
 import { convertNumber2VP } from '../../'
@@ -163,6 +164,32 @@ export class FlexManager {
   }
 }
 
+
+export class BORDER_STYLE_MAP {
+  static solid = BorderStyle.Solid
+  static dotted = BorderStyle.Dotted
+  static dashed = BorderStyle.Dashed
+
+  static get(type: string): BorderStyle {
+    switch (type) {
+      case 'dotted': return BorderStyle.Dotted
+      case 'dashed': return BorderStyle.Dashed
+      default: return BorderStyle.Solid
+    }
+  }
+
+  static reverse(type: BorderStyle): string {
+    switch (type) {
+      case BorderStyle.Dotted: return 'dotted'
+      case BorderStyle.Dashed: return 'dashed'
+      case BorderStyle.Solid: return 'solid'
+      default: return ''
+    }
+  
+  }
+}
+
+
 export function getNodeMarginOrPaddingData (dataValue: string) {
   let res: any = {}
   if (dataValue) {
@@ -184,10 +211,7 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
         break
     }
     Object.keys(res).forEach(key => {
-      const exec = `${res[key]}`.match(/(\d+)(px)$/)
-      if (exec && values.length > 1) {
-        res[key] = getUnit(+exec[1])
-      }
+      res[key] = getUnit(exec[1]) || 0
     })
   }
   return res
@@ -197,8 +221,34 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
 export function getUnit (val) {
   if (/\d+(vp)$/.test(val)) {
     return val
-  } else if (isNumber(val) || /\d+px$/.test(val)) {
+  } else if (isNumber(val)) {
     return convertNumber2VP(parseFloat(val))
   }
+  if (val) {
+    // 匹配vw\vh
+    const exec = val.match(/(\d+)(vw|vh|px)$/)
+    if (exec) {
+      const [, num, unit] = exec
+      return convertNumber2VP(parseFloat(num), unit)
+    }
+  }
   return val
+}
+
+export function getTransform(transform) {
+  if (transform) {
+    return transform.reduce((res, item) => {
+      switch (item.type) {
+        case 'Translate': return res.translate(item.value)
+        case 'Scale': return res.scale(item.value)
+        case 'Rotate': return res.rotate(item.value)
+        case 'Matrix': return res.combine(matrix4.init(item.value))
+      }
+      return res
+    }, matrix4.identity())
+  }
+}
+
+export function capitalizeFirstLetter (str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }

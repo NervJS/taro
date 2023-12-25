@@ -10,30 +10,65 @@ import type { TaroAny, TaroEvent, TaroButtonElement, TaroStyleType } from '@taro
 function attrs (style: TaroStyleType) {
   .id(style.id)
   .key(style.id)
-  .width(style.width)
-  .height(style.height)
-  .padding({
-    top: style.padding?.top,
-    left: style.padding?.left || 10,
-    right: style.padding?.right || 10,
-    bottom: style.padding?.bottom,
-  })
-  .margin(style.margin)
   .flexGrow(style.flexGrow)
   .flexShrink(style.flexShrink)
   .flexBasis(style.flexBasis)
   .alignSelf(style.alignSelf)
-  .backgroundImage(style.backgroundImage, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundImageSize)
-  .backgroundImagePosition(style.backgroundImagePosition)
-  .rotate(style.rotate)
-  .scale(style.scale)
-  .translate(style.translate)
-  .transform(style.transform)
-  .borderStyle(style.borderStyle)
-  .linearGradient(style.linearGradient)
+  .padding({
+    top: style.paddingTop,
+    right: style.paddingRight || 10,
+    bottom: style.paddingBottom,
+    left: style.paddingLeft || 10
+  })
+  .margin({
+    top: style.marginTop,
+    right: style.marginRight,
+    bottom: style.marginBottom,
+    left: style.marginLeft
+  })
+  .width(style.width)
+  .height(style.height)
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundSize)
+  .backgroundImagePosition(style.backgroundPosition)
+  .borderStyle({
+    top: style.borderTopStyle,
+    right: style.borderRightStyle,
+    bottom: style.borderBottomStyle,
+    left: style.borderLeftStyle
+  })
+  .borderWidth({
+    top: style.borderTopWidth,
+    right: style.borderRightWidth,
+    bottom: style.borderBottomWidth,
+    left: style.borderLeftWidth
+  })
+  .borderColor({
+    top: style.borderTopColor,
+    right: style.borderRightColor,
+    bottom: style.borderBottomColor,
+    left: style.borderLeftColor
+  })
+  .borderRadius({
+    topLeft: style.borderTopLeftRadius,
+    topRight: style.borderTopRightRadius,
+    bottomLeft: style.borderBottomLeftRadius,
+    bottomRight: style.borderBottomRightRadius
+  })
   .zIndex(style.zIndex)
-  .clip(style.clip)
+  .opacity(style.opacity)
+  .linearGradient(style.linearGradient)
+  .clip(style.overflow)
+  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
+  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
+  .transform(style.transform)
 }
 
 @Extend(Button)
@@ -123,10 +158,10 @@ export default function TaroButton (node: TaroButtonElement) {
   .themeStyles(getThemeAttributes(node))
   .attrs(getNormalAttributes(node))
   .constraintSize({
-    minWidth: node.hmStyle?.constraintSize?.minWidth || getButtonMinWidth(node),
-    minHeight: node.hmStyle?.constraintSize?.minHeight || getButtonMinHeight(node),
-    maxWidth: node.hmStyle?.constraintSize?.maxWidth,
-    maxHeight: node.hmStyle?.constraintSize?.maxHeight,
+    minWidth: node.hmStyle?.minWidth || getButtonMinWidth(node),
+    minHeight: node.hmStyle?.minHeight || getButtonMinHeight(node),
+    maxWidth: node.hmStyle?.maxWidth,
+    maxHeight: node.hmStyle?.maxHeight,
   })
   .type(ButtonType.Normal)
   .onClick((e: ClickEvent) => {

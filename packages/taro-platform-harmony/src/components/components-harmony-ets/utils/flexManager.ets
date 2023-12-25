@@ -4,7 +4,7 @@ class FlexManager {
   static flexOptions (node: TaroElement): FlexOptions {
     const hmStyle = node.hmStyle
 
-    let flexDirection = hmStyle.direction
+    let flexDirection = hmStyle.flexDirection
     if (!flexDirection && flexDirection !== 0) {
       flexDirection = hmStyle.display === 'flex' ? FlexDirection.Row : FlexDirection.Column
     }

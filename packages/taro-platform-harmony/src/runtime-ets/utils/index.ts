@@ -6,6 +6,7 @@ import { NodeType } from '../dom/node'
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element/element'
 import type { TaroNode } from '../dom/node'
+import convertWebStyle2HmStyle from '../dom/stylesheet/covertWeb2Hm'
 
 const display = _display.getDefaultDisplaySync()
 
@@ -53,7 +54,8 @@ export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, cla
       obj.push(styleSheet[className])
     }
   }
-  obj.push(style)
+  obj.push(convertWebStyle2HmStyle(style))
+  
   return Object.assign.apply(null, [{}].concat(obj))
 }
 
