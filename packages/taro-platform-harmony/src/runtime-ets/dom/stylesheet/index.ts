@@ -1,7 +1,7 @@
 /* eslint-disable accessor-pairs */
 // @ts-nocheck
-import { ObjectAssign, TaroAny } from '../../'
-import { BORDER_STYLE_MAP,FlexManager, getNodeMarginOrPaddingData, getTransform, getUnit } from './util'
+import { TaroAny } from '../../'
+import { BORDER_STYLE_MAP, FlexManager, getTransform } from './util'
 
 import type { HarmonyStyle, HarmonyType, TaroStyleType, TaroTextStyleType } from './type'
 

@@ -2,11 +2,11 @@ import _display from '@ohos.display'
 import { pxTransformHelper } from '@tarojs/taro'
 
 import { NodeType } from '../dom/node'
+import convertWebStyle2HmStyle from '../dom/stylesheet/covertWeb2Hm'
 
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element/element'
 import type { TaroNode } from '../dom/node'
-import convertWebStyle2HmStyle from '../dom/stylesheet/covertWeb2Hm'
 
 const display = _display.getDefaultDisplaySync()
 

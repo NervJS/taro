@@ -109,14 +109,8 @@ export interface TaroTextStyleType {
   letterSpacing?: number | string
 }
 
-
-interface BackgroundImage {
-  src?: ResourceStr
-  colors?: Array<[ResourceColor, number]>
-}
-
 export namespace HarmonyType {
-  export type BackgroundImage = BackgroundImage
+  export type BackgroundImage = Background
   export interface FlexOptions {
     direction?: FlexDirection
     justifyContent?: FlexAlign
