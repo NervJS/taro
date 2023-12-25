@@ -1,8 +1,8 @@
 comment:
   layout: "header, diff, flags, components"  # show component info in the PR comment
 
-component_management:
-  default_rules:  # default rules that will be inherited by all components
+flag_management:
+  default_rules: # the rules that will be followed for any flag added, generally
     statuses:
       project:
         default:
@@ -10,8 +10,7 @@ component_management:
       patch:
         default:
           informational: true
-  individual_components:
-    - component_id: module_taro-runtime  # this is an identifier that should not be changed
-      name: @tarojs/runtime  # this is a display name, and can be changed freely
+  individual_flags: # exceptions to the default rules above, stated flag by flag
+    - name: @tarojs/runtime  #fill in your own flag name
       paths:
-        - packages/taro-runtime/**
+        - packages/taro-runtime  #fill in your own path. Note, accepts globs, not regexes
