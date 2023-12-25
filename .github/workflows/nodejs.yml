@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - feat/**
+      - fix/**
   pull_request:
     branches:
       - main
@@ -18,53 +19,110 @@ jobs:
   build-rust-binding:
     name: Build Rust Binding
     uses: ./.github/workflows/build-rust-binding.yml
-    with:
-      name: "taro"
-  build:
-    runs-on: ${{ matrix.os }}
-    needs: [build-rust-binding]
+
+  build-rust-wasm:
+    name: Build Rust WASM
+    uses: ./.github/workflows/build-rust-wasm.yml
+
+  nodejs-tesing:
+    name: Testing on Node.js ${{ matrix.node-version }} (${{ matrix.settings.host }})
+    needs:
+      - build-rust-binding
+      - build-rust-wasm
     strategy:
       fail-fast: false
       matrix:
         node-version: [16.x]
-        os: [ubuntu-latest]
-
+        settings:
+          - host: macos-latest
+            target: x86_64-apple-darwin
+          - host: windows-latest
+            target: x86_64-pc-windows-msvc
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+    runs-on: ${{ matrix.settings.host }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      # Bootstrap project
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - name: install
+      - name: Setup pnpm
         uses: pnpm/action-setup@v2.4.0
         with:
           version: 7
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
-      - name: lint
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Prune store
+        shell: bash
+        run: |
+          PNPM_STORE_PATH=$(pnpm store path)
+          echo "[Debug] Store path: $PNPM_STORE_PATH"
+          if [ -d ${PNPM_STORE_PATH} ]; then
+            echo "[Debug] pnpm store exists"
+            pnpm store prune
+          else
+            echo "[Debug] pnpm store does not exist"
+          fi
+      - name: Install dependencies
+        run: pnpm -r install --frozen-lockfile
+      - name: Lint
         run: pnpm lint
-      - name: Download all artifacts
+      - name: Download artifact bindings-${{ matrix.settings.target }}
         uses: actions/download-artifact@v3
         with:
+          name: bindings-${{ matrix.settings.target }}
+          path: crates/native_binding
+      - name: Test bindings
+        run: pnpm test:binding
+        if: ${{ matrix.settings.target != 'x86_64-unknown-linux-gnu' }}
+      - name: Test bindings with docker
+        if: ${{ matrix.settings.target == 'x86_64-unknown-linux-gnu' }}
+        # 暂时使用了一个第三方的 docker 镜像
+        run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
+      # 以下的测试流程应该在所有平台都执行，但 windows 好像还有些问题，因此目前只在 ubuntu-latest 执行
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        with:
           path: crates/native_binding/artifacts
+      - name: List Package crates/native_binding
+        run: ls -R ./crates/native_binding
+        shell: bash
       - name: Move artifacts
         run: pnpm artifacts
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
       - name: build
         run: pnpm build
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
       - name: test
         run: pnpm test
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
         env:
           CI: true
+
+  rust-testing:
+    strategy:
+      fail-fast: false
+    name: Testing on Rust
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          targets: wasm32-wasi
+      - name: Cache cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            .cargo-cache
+            target/
+          key: wasm32-wasi-cargo-ubantu-latest
+      - name: Test
+        run: cargo test-swc-plugins
