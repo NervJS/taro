@@ -48,15 +48,15 @@ jobs:
         run: echo "ABORT=true" >> $GITHUB_ENV
 
   build-rust-binding:
-    if: env.ABORT != 'true'
     name: Build Rust Binding
     needs: [need-publish]
+    if: env.ABORT != 'true'
     uses: ./.github/workflows/build-rust-binding.yml
 
   build-rust-wasm:
-    if: env.ABORT != 'true'
     name: Build Rust WASM
     needs: [need-publish]
+    if: env.ABORT != 'true'
     uses: ./.github/workflows/build-rust-wasm.yml
 
   publish:
