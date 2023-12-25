@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: false
-  excludeLinksFromLockfile: false
-
 packageExtensionsChecksum: 4febf6665ca78aef4b39b91c5bd86984
 
 importers:
@@ -42083,3 +42079,7 @@ packages:
       property-expr: registry.npmjs.org/property-expr@2.0.5
       toposort: registry.npmjs.org/toposort@2.0.2
     dev: false
+
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: false
