@@ -68,12 +68,16 @@ class CSSStyleDeclaration {
     const node = this.el
     prop = prop.includes('-') ? toCamelCase(prop) : prop
     const value = node._st[prop]
+    if (prop.startsWith('_')) {
+      prop = prop.replace('_', '')
+    }
     if (value === undefined) {
-      node._st[prop] = undefined
+      // node._st[prop] = undefined
+      delete node._st.hmStyle[prop]
       return ''
     } else {
-      // delete node._st[prop]
-      node._st[prop] = undefined
+      delete node._st.hmStyle[prop]
+      // node._st[prop] = undefined
       // node._st = { ...node._st }
       return value
     }

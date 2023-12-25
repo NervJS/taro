@@ -2,6 +2,7 @@ import _display from '@ohos.display'
 import { pxTransformHelper } from '@tarojs/taro'
 
 import { NodeType } from '../dom/node'
+import convertWebStyle2HmStyle from '../dom/stylesheet/covertWeb2Hm'
 
 import type { CSSProperties } from 'react'
 import type { TaroElement } from '../dom/element/element'
@@ -53,7 +54,8 @@ export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, cla
       obj.push(styleSheet[className])
     }
   }
-  obj.push(style)
+  obj.push(convertWebStyle2HmStyle(style))
+  
   return Object.assign.apply(null, [{}].concat(obj))
 }
 

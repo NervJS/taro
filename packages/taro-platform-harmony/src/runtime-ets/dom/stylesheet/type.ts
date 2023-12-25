@@ -1,20 +1,33 @@
+// @ts-nocheck
 import matrix4 from '@ohos.matrix4'
 
 export interface HarmonyStyle extends TaroStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
-  maxLines?: number
+  WebkitLineClamp?: number
   letterSpacing?: number | string
 }
 
 export interface TaroStyleType {
   id?: string
 
-  padding?: Padding
-  margin?: Margin
+  paddingTop?: Length
+  paddingRight?: Length
+  paddingBottom?: Length
+  paddingLeft?: Length
+
+  marginTop?: Length
+  marginRight?: Length
+  marginBottom?: Length
+  marginLeft?: Length
+
   width?: Length
   height?: Length
-  constraintSize?: ConstraintSizeOptions
+
+  minHeight?: Length
+  maxHeight?: Length
+  minWidth?: Length
+  maxWidth?: Length
 
   display?: 'flex' | 'block' | 'none'
 
@@ -28,7 +41,7 @@ export interface TaroStyleType {
   flexGrow?: number
   flexShrink?: number
   alignSelf?: ItemAlign
-  direction?: FlexDirection
+  flexDirection?: FlexDirection
   justifyContent?: FlexAlign
   alignItems?: ItemAlign
   flexWrap?: FlexWrap
@@ -36,22 +49,39 @@ export interface TaroStyleType {
 
   // background
   backgroundColor?: ResourceColor
-  backgroundImage?: ResourceStr
+  backgroundImage?: HarmonyType.BackgroundImage
   backgroundRepeat?: ImageRepeat
-  backgroundImageSize?: SizeOptions | ImageSize
-  backgroundImagePosition?: Position | Alignment
+  backgroundSize?: SizeOptions | ImageSize
+  backgroundPosition?: Position | Alignment
 
   // transform
   rotate?: HarmonyType.Transform.Rotate
   translate?: HarmonyType.Transform.Translate
   scale?: HarmonyType.Transform.Scale
   transform?: HarmonyType.Transform.Transform
+  transformOrigin?: HarmonyType.Transform.Origin
 
   // border
   borderWidth?: Length | EdgeWidths
+  borderLeftWidth?: Length
+  borderRightWidth?: Length
+  borderTopWidth?: Length
+  borderBottomWidth?: Length
   borderColor?: ResourceColor | EdgeColors
+  borderLeftColor?: ResourceColor
+  borderRightColor?: ResourceColor
+  borderTopColor?: ResourceColor
+  borderBottomColor?: ResourceColor
   borderStyle?: BorderStyle | EdgeStyles
+  borderLeftStyle?: BorderStyle
+  borderRightStyle?: BorderStyle
+  borderTopStyle?: BorderStyle
+  borderBottomStyle?: BorderStyle
   borderRadius?: Length | BorderRadiuses
+  borderTopLeftRadius?: Length
+  borderTopRightRadius?: Length
+  borderBottomLeftRadius?: Length
+  borderBottomRightRadius?: Length
 
   // text
   color?: ResourceColor
@@ -60,7 +90,7 @@ export interface TaroStyleType {
   fontWeight?: number | FontWeight | string
   fontFamily?: string | Resource
   lineHeight?: string | number | Resource
-  decoration?: TextDecorationType
+  textDecoration?: TextDecorationType
 
   // gradient
   linearGradient?: HarmonyType.LinearGradient
@@ -68,18 +98,19 @@ export interface TaroStyleType {
   // other
   opacity?: number | Resource
   zIndex?: number
-  clip?: boolean
+  overflow?: boolean
   focus?: boolean
 }
 
 export interface TaroTextStyleType {
   textAlign?: TextAlign
   textOverflow?: HarmonyType.Overflow
-  maxLines?: number
+  WebkitLineClamp?: number
   letterSpacing?: number | string
 }
 
 export namespace HarmonyType {
+  export type BackgroundImage = Background
   export interface FlexOptions {
     direction?: FlexDirection
     justifyContent?: FlexAlign
@@ -109,6 +140,10 @@ export namespace HarmonyType {
     export type backgroundImagePosition = Position | Alignment
   }
   export namespace Transform {
+    export interface Origin {
+      x?: number
+      y?: number
+    }
     export interface Rotate {
       x?: number
       y?: number

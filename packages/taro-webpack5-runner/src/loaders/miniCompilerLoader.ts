@@ -65,7 +65,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
     const templatesList: string[] = []
     const regExp = /var\s+TARO_TEMPLATES_(\w+)\s*=\s*'(.+)';/g
     let res
-    while((res = regExp.exec(code)) !== null) {
+    while ((res = regExp.exec(code)) !== null) {
       const [, , raw] = res
       // 小程序 xml 不支持 unescape，在此处对被 SWC 转义后的字符作还原
       const content: string = unescape(raw)
@@ -89,7 +89,7 @@ export default async function (this: LoaderContext<IOptions>, source) {
 function unescape (raw: string): string {
   return raw.replace(/\\([xu])([a-fA-F0-9]{2,4})/g, (_, $1: string, $2: string) => {
     const isUnicode = $1 === 'u'
-    const num = isUnicode ? $2 : $2.substring(0,2)
+    const num = isUnicode ? $2 : $2.substring(0, 2)
     const charCode = parseInt(num, 16)
     return String.fromCharCode(charCode) + (!isUnicode ? $2.substring(2) : '')
   })

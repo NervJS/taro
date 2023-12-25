@@ -87,6 +87,7 @@ const config: TaroStylelintConfig = {
     'overflow': ['hidden', 'visible', 'auto'],
     'opacity': [NUMBER],
     'transform': true,
+    'transform-origin': true,
     '-webkit-line-clamp': [NUMBER]
   },
   // 关联的插件

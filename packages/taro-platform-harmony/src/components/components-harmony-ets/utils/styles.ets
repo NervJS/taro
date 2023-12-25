@@ -9,7 +9,7 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const hmStyle = node.hmStyle
 
   const attributes: TaroAny = {
-    maxLines: hmStyle.maxLines || Infinity,
+    WebkitLineClamp: hmStyle.WebkitLineClamp || Infinity,
     // 已做处理的属性
     letterSpacing: hmStyle.letterSpacing,
     textAlign: hmStyle.textAlign,
@@ -25,11 +25,11 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
   const _nid = node._nid
   const _attrs: StandardProps = node._attrs || {}
 
-  const transform: TaroAny = hmStyle.transform
-  const transformRotate: HarmonyType.Transform.Rotate = transform?.rotate?.[0]
-  const transformTranslate: HarmonyType.Transform.Translate = transform?.translate?.[0]
-  const transformScale: HarmonyType.Transform.Scale = transform?.scale?.[0]
-  const transformTransform: HarmonyType.Transform.Transform = transform?.transform?.[0]
+  let linearGradient: HarmonyType.LinearGradient | undefined = undefined
+  // 渐变
+  if (hmStyle.backgroundImage?.colors) {
+    linearGradient = hmStyle.backgroundImage
+  }
 
   let normalAttributes: HarmonyStyle = {
     // Flex相关
@@ -40,26 +40,52 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     // 尺寸相关
     width: hmStyle.width,
     height: hmStyle.height,
-    constraintSize: hmStyle.constraintSize,
-    margin: hmStyle.margin,
-    padding: hmStyle.padding,
+    minHeight: hmStyle.minHeight,
+    maxHeight: hmStyle.maxHeight,
+    minWidth: hmStyle.minWidth,
+    maxWidth: hmStyle.maxWidth,
+    marginTop: hmStyle.marginTop,
+    marginRight: hmStyle.marginRight,
+    marginBottom: hmStyle.marginBottom,
+    marginLeft: hmStyle.marginLeft,
+    paddingTop: hmStyle.paddingTop,
+    paddingRight: hmStyle.paddingRight,
+    paddingBottom: hmStyle.paddingBottom,
+    paddingLeft: hmStyle.paddingLeft,
     // 边框相关
     borderStyle: hmStyle.borderStyle,
+    borderTopStyle: hmStyle.borderTopStyle,
+    borderRightStyle: hmStyle.borderRightStyle,
+    borderBottomStyle: hmStyle.borderBottomStyle,
+    borderLeftStyle: hmStyle.borderLeftStyle,
     borderWidth: hmStyle.borderWidth,
+    borderTopWidth: hmStyle.borderTopWidth,
+    borderRightWidth: hmStyle.borderRightWidth,
+    borderBottomWidth: hmStyle.borderBottomWidth,
+    borderLeftWidth: hmStyle.borderLeftWidth,
     borderColor: hmStyle.borderColor,
+    borderTopColor: hmStyle.borderTopColor,
+    borderRightColor: hmStyle.borderRightColor,
+    borderBottomColor: hmStyle.borderBottomColor,
+    borderLeftColor: hmStyle.borderLeftColor,
     borderRadius: hmStyle.borderRadius,
+    borderTopLeftRadius: hmStyle.borderTopLeftRadius,
+    borderTopRightRadius: hmStyle.borderTopRightRadius,
+    borderBottomRightRadius: hmStyle.borderBottomRightRadius,
+    borderBottomLeftRadius: hmStyle.borderBottomLeftRadius,
     // 背景相关
     backgroundColor: hmStyle.backgroundColor,
     backgroundImage: hmStyle.backgroundImage,
-    backgroundImageSize: hmStyle.backgroundImageSize,
+    backgroundSize: hmStyle.backgroundSize,
     backgroundRepeat: hmStyle.backgroundRepeat,
-    backgroundImagePosition: hmStyle.backgroundImagePosition,
-    linearGradient: hmStyle.linearGradient,
+    backgroundPosition: hmStyle.backgroundPosition,
+    linearGradient,
     // 变换相关
-    rotate: transformRotate,
-    translate: transformTranslate,
-    scale: transformScale,
-    transform: transformTransform,
+    transform: hmStyle.transform,
+    transformOrigin: {
+      x: hmStyle.transformOrigin?.x || 0,
+      y: hmStyle.transformOrigin?.y || 0
+    },
     // 通用文本相关
     color: hmStyle.color,
     fontSize: hmStyle.fontSize,
@@ -67,9 +93,9 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     fontWeight: hmStyle.fontWeight,
     fontFamily: hmStyle.fontFamily || TEXT_DEFAULT_STYLE.FONT_FAMILY,
     lineHeight: hmStyle.lineHeight,
-    decoration: hmStyle.decoration,
+    textDecoration: hmStyle.textDecoration,
     // 其他
-    clip: hmStyle.clip,
+    overflow: hmStyle.overflow,
     id: _attrs.id || _nid,
     opacity: hmStyle.opacity,
     // focus: _attrs.focus || false,
