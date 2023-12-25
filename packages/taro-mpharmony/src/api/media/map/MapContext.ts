@@ -66,16 +66,19 @@ export class MapContext implements Taro.MapContext {
 
   translateMarker (_option: Taro.MapContext.TranslateMarkerOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._translateMarker(_option)
+      const flag = this.Map._translateMarker(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'translateMarker:ok',
       }
-      const animationEndResult: any = {
-        errMsg: 'animationEnd:ok',
+      if (flag) {
+        _option?.success?.({ errMsg: 'translateMarker:ok' })
+        _option?.complete?.({ errMsg: 'translateMarker:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `translateMarker:fail,makerId${_option.markerId}未找到` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
       }
-      _option?.animationEnd?.(animationEndResult)
-      _option?.success?.({ errMsg: 'translateMarker:ok' })
-      _option?.complete?.({ errMsg: 'translateMarker:ok' })
+
 
       return Promise.resolve(successResult)
     } catch (e) {
@@ -89,12 +92,20 @@ export class MapContext implements Taro.MapContext {
 
   moveAlong (_object: any) {
     try {
-      this.Map._moveAlong(_object)
+      const flag = this.Map._moveAlong(_object)
       const successResult: any = {
         errMsg: 'moveAlong:ok',
       }
-      _object?.success?.({ errMsg: 'moveAlong:ok' })
-      _object?.complete?.({ errMsg: 'moveAlong:ok' })
+
+      if (flag) {
+        _object?.success?.({ errMsg: 'moveAlong:ok' })
+        _object?.complete?.({ errMsg: 'moveAlong:ok' })
+      } else {
+        const errorResult: any = { errMsg: `moveAlong:fail,makerId${_object.markerId}未找到` }
+        _object?.fail?.(errorResult)
+        _object?.complete?.(errorResult)
+      }
+      
       return successResult
     } catch (e) {
       const errorResult: any = { errMsg: `moveAlong:${e}` }
@@ -245,13 +256,18 @@ export class MapContext implements Taro.MapContext {
 
   addGroundOverlay (_option: Taro.MapContext.AddGroundLayerOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._addGroundOverlay(_option)
+      const flag = this.Map._addGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'addGroundOverlay:ok',
       }
-      _option?.success?.(successResult)
-      _option?.complete?.({ errMsg: 'addGroundOverlay:ok' })
-
+      if (flag) {
+        _option?.success?.(successResult)
+        _option?.complete?.({ errMsg: 'addGroundOverlay:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `addGroundOverlay:fail,请设置经纬度有效值` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+      }
       return Promise.resolve(successResult)
     } catch (e) {
       const errorResult: TaroGeneral.CallbackResult = { errMsg: `addGroundOverlay:${e}` }
@@ -284,13 +300,18 @@ export class MapContext implements Taro.MapContext {
   
   setBoundary (_option: Taro.MapContext.SetBoundaryOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._setBoundary(_option)
+      const flag = this.Map._setBoundary(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'setBoundary:ok',
       }
-      _option?.success?.(successResult)
-      _option?.complete?.({ errMsg: 'setBoundary:ok' })
-
+      if (flag) {
+        _option?.success?.({ errMsg: 'setBoundary:ok' })
+        _option?.complete?.({ errMsg: 'setBoundary:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `setBoundary:fail,请设置经纬度有效值` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+      }
       return Promise.resolve(successResult)
     } catch (e) {
       const errorResult: TaroGeneral.CallbackResult = { errMsg: `setBoundary:${e}` }
@@ -303,13 +324,19 @@ export class MapContext implements Taro.MapContext {
 
   updateGroundOverlay (_option: Taro.MapContext.UpdateGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._updateGroundOverlay(_option)
+      const flag = this.Map._updateGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'updateGroundOverlay:ok',
       }
-      _option?.success?.(successResult)
-      _option?.complete?.({ errMsg: 'updateGroundOverlay:ok' })
-
+      if (flag) {
+        _option?.success?.(successResult)
+        _option?.complete?.({ errMsg: 'updateGroundOverlay:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `updateGroundOverlay:fail,未找到id为${_option.id}的自定义图片图层` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+  
+      }
       return Promise.resolve(successResult)
     } catch (e) {
       const errorResult: TaroGeneral.CallbackResult = { errMsg: `updateGroundOverlay:${e}` }

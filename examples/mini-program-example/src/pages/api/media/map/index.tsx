@@ -404,12 +404,12 @@ export default class Index extends React.Component {
             src: 'https://img0.baidu.com/it/u=2604176863,3349829508&fm=253&fmt=auto&app=138&f=PNG?w=243&h=243',
             bounds: {
               southwest: {
-                latitude: 39.915,
-                longitude: 116.404,
+                latitude: 39.90955,
+                longitude: 116.406616,
               },
               northeast: {
-                latitude: 39.925,
-                longitude: 116.414,
+                latitude: 39.911487,
+                longitude: 116.408013,
               },
             },
             opacity: 1,
@@ -686,12 +686,12 @@ export default class Index extends React.Component {
           borderRadius: 24,
           borderWidth: 10,
           borderColor: '#FF0000',
-          bgColor: '#4294ff',
+          bgColor: 'red',
           padding: 8,
           display: 'BYCLICK',
           textAlign: 'center',
           anchorX: -10,
-          anchorY: -20,
+          anchorY: -10,
         },
         label: {
           content: '天安门',
