@@ -3,7 +3,7 @@ import { StandardProps, CommonEventFunction, TouchEventFunction } from './common
 interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   /** movable-view 的移动方向，属性值有`all`、`vertical`、`horizontal`、`none`
    * @default none
-   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid
    */
   direction?: 'all' | 'vertical' | 'horizontal' | 'none'
   /** movable-view 是否带有惯性
@@ -17,11 +17,11 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
    */
   outOfBounds?: boolean
   /** 定义 x 轴方向的偏移，如果 x 的值不在可移动范围内，会自动移动到可移动范围；改变 x 的值会触发动画
-   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid
    */
   x?: number | string
   /** 定义 y 轴方向的偏移，如果 y 的值不在可移动范围内，会自动移动到可移动范围；改变 y 的值会触发动画
-   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid
    */
   y?: number | string
   /** 阻尼系数，用于控制x或y改变时的动画和过界回弹的动画，值越大移动越快
@@ -36,7 +36,7 @@ interface MovableViewProps extends Omit<StandardProps, 'animation'> {
   friction?: number
   /** 是否禁用
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid
    */
   disabled?: boolean
   /** 是否支持双指缩放，默认缩放手势生效区域是在 movable-view 内
@@ -155,7 +155,7 @@ declare namespace MovableViewProps {
 }
 /** 可移动的视图容器，在页面中可以拖拽滑动。movable-view 必须在 movable-area 组件中，并且必须是直接子节点，否则不能移动。
  * @classification viewContainer
- * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, rn
+ * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Components {

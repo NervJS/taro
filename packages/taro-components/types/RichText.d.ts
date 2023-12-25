@@ -7,11 +7,11 @@ interface RichTextProps extends StandardProps {
    */
   userSelect?: boolean
   /** 节点列表/ HTML String
-   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid, rn, harmony
+   * @supported weapp, alipay, swan, tt, qq, h5, rn, harmony, harmony_hybrid
    */
   nodes?: Nodes
   /** 显示连续空格
-   * @supported weapp, alipay, tt, qq, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, tt, qq, h5, rn, harmony_hybrid
    */
   space?: keyof RichTextProps.TSpace
   /** 富文本是否可以长按选中，可用于复制，粘贴，长按搜索等场景
@@ -99,7 +99,7 @@ declare namespace RichTextProps {
 }
 /** 富文本
  * @classification base
- * @supported weapp, swan, alipay, tt, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, swan, alipay, tt, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Components {

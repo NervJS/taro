@@ -6,7 +6,7 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
    */
   name?: string
   /** `<CheckboxGroup/>` 中选中项发生改变是触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onChange?: CommonEventFunction<{
     value: string[]
@@ -14,7 +14,7 @@ interface CheckboxGroupProps extends StandardProps, FormItemProps {
 }
 /** 多项选择器，内部由多个checkbox组成
  * @classification forms
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example
  * ```tsx
  * export default class PageCheckbox extends Component {

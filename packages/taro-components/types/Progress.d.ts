@@ -2,12 +2,12 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface ProgressProps extends StandardProps {
   /** 百分比 0~100
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   percent?: number
   /** 在进度条右侧显示百分比
    * @default false
-   * @supported weapp, alipay, swan, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, qq, jd, h5, rn, harmony_hybrid
    */
   showInfo?: boolean
   /** 圆角大小
@@ -22,7 +22,7 @@ interface ProgressProps extends StandardProps {
   fontSize?: number | string
   /** 进度条线的宽度
    * @default 6
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   strokeWidth?: number | string
   /** 进度条颜色 (请使用 activeColor)
@@ -32,24 +32,24 @@ interface ProgressProps extends StandardProps {
   color?: string
   /** 已选择的进度条的颜色
    * @default "#09BB07"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   activeColor?: string
   /** 未选择的进度条的颜色
    * @default "#EBEBEB"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   backgroundColor?: string
   /** 进度条从左往右的动画
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   active?: boolean
   /** backwards: 动画从头播
    *
    * forwards: 动画从上次结束点接着播
    * @default backwards
-   * @supported weapp, swan, tt, qq, jd, h5, harmony_hybrid, rn
+   * @supported weapp, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   activeMode?: 'backwards' | 'forwards'
   /** 进度增加 1% 所需毫秒数
@@ -68,7 +68,7 @@ interface ProgressProps extends StandardProps {
 }
 /** 进度条。组件属性的长度单位默认为 px
  * @classification base
- * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
