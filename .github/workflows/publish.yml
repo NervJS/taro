@@ -73,6 +73,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [need-publish, build-rust-binding, build-rust-wasm]
     if: needs.need-publish.outputs.ABORT != 'true'
+    env:
+      CURRENT_VERSION: ''
+      PUBLISH_PARAMS: ''
     steps:
       # Setup
       - name: Checkout
