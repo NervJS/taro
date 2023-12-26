@@ -47,7 +47,8 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
-    "acorn-walk": "^8.0.0",
+    "acorn": "^8.11.2",
+    "acorn-walk": "^8.3.1",
     "autoprefixer": "^9.7.4",
     "babel-loader": "8.2.1",
     "babel-preset-taro": "workspace:*",
@@ -82,7 +83,7 @@
     "terser-webpack-plugin": "^3.0.5",
     "url-loader": "^4.1.0",
     "vm2": "^3.8.4",
-    "webpack": "4.46.0",
+    "webpack": "4.47.0",
     "webpack-chain": "4.9.0",
     "webpack-sources": "^1.4.3",
     "webpack-format-messages": "^2.0.5"

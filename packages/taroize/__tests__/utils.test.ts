@@ -83,9 +83,9 @@ describe('utils.ts', () => {
 
     test('deferredImportEvaluation插件支持延迟导入', () => {
       code = `import defer * as ns from "dep"`
-      const ast = parseCode(code, scriptPath) 
+      const ast = parseCode(code, scriptPath)
       const codeStr = generateMinimalEscapeCode(ast)
-      expect(codeStr).toBe(`import * as ns from "dep";`)
+      expect(codeStr).toBe(`import defer * as ns from "dep";`)
     })
 
     test('exportDefaultFrom插件支持使用 export default from 语法导入默认导出', () => {

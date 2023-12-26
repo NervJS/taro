@@ -31,28 +31,28 @@ exports[`vue should build vue app 2`] = `
     module.exports = content.locals || {};
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_pnpm_style_loader_1_3_0_webpack_4_47_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_postcss_loader_4_3_0_postcss_8_4_32_webpack_4_47_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_sass_loader_10_2_0_sass_1_50_0_webpack_4_47_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+    var _node_modules_pnpm_style_loader_1_3_0_webpack_4_47_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_postcss_loader_4_3_0_postcss_8_4_32_webpack_4_47_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_sass_loader_10_2_0_sass_1_50_0_webpack_4_47_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_style_loader_1_3_0_webpack_4_47_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_postcss_loader_4_3_0_postcss_8_4_32_webpack_4_47_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_sass_loader_10_2_0_sass_1_50_0_webpack_4_47_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss__WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+    var _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+    var _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
     }));
     ___CSS_LOADER_EXPORT___.push([ module.i, ".index {\\n  color: blue;\\n}", "" ]);
     __webpack_exports__["default"] = ___CSS_LOADER_EXPORT___;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
-    var _node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_style_loader_1_3_0_webpack_4_46_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_pnpm_style_loader_1_3_0_webpack_4_47_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_postcss_loader_4_3_0_postcss_8_4_32_webpack_4_47_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_sass_loader_10_2_0_sass_1_50_0_webpack_4_47_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+    var _node_modules_pnpm_style_loader_1_3_0_webpack_4_47_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_postcss_loader_4_3_0_postcss_8_4_32_webpack_4_47_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_sass_loader_10_2_0_sass_1_50_0_webpack_4_47_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_style_loader_1_3_0_webpack_4_47_0_node_modules_style_loader_dist_cjs_js_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_postcss_loader_4_3_0_postcss_8_4_32_webpack_4_47_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_sass_loader_10_2_0_sass_1_50_0_webpack_4_47_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_vue_loader_15_11_1_css_loader_5_2_7_lodash_4_17_21_prettier_2_8_8_react_dom_18_2_0_react_18_2_au55eauq4m5dgs3qtju6txfstu_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass__WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+    var _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+    var _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
     }));
     ___CSS_LOADER_EXPORT___.push([ module.i, ".detail {\\n  color: red;\\n}", "" ]);
@@ -70,16 +70,16 @@ exports[`vue should build vue app 2`] = `
     };
     var staticRenderFns = [];
     render._withStripped = true;
-    var indexvue_type_script_lang_js_ = {
+    var indexvue_type_script_lang_js = {
         "data": function data() {
             return {
                 "msg": "Hello world!"
             };
         }
     };
-    var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
-    var indexvue_type_style_index_0_id_26c853a8_prod_lang_scss_ = __webpack_require__(18);
-    var indexvue_type_style_index_1_id_26c853a8_prod_lang_sass_ = __webpack_require__(20);
+    var pages_indexvue_type_script_lang_js = indexvue_type_script_lang_js;
+    var indexvue_type_style_index_0_id_26c853a8_prod_lang_scss = __webpack_require__(18);
+    var indexvue_type_style_index_1_id_26c853a8_prod_lang_sass = __webpack_require__(20);
     function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
         var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
         if (render) {
@@ -131,7 +131,7 @@ exports[`vue should build vue app 2`] = `
             "options": options
         };
     }
-    var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
+    var component = normalizeComponent(pages_indexvue_type_script_lang_js, render, staticRenderFns, false, null, null, null);
     var index = __webpack_exports__["default"] = component.exports;
 } ] ]);
 
@@ -318,14 +318,14 @@ exports[`vue should build vue app 2`] = `
     function createRecursiveComponentConfig() {}
     function createPageConfig() {}
 }, function(module, exports) {
-    function _typeof(obj) {
+    function _typeof(o) {
         "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+            return typeof o;
+        } : function(o) {
+            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
         }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(obj);
+        _typeof(o);
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
@@ -418,11 +418,11 @@ exports[`vue should build vue app 2`] = `
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(1)["default"];
     var toPrimitive = __webpack_require__(11);
-    function _toPropertyKey(arg) {
-        var key = toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
+    function toPropertyKey(t) {
+        var i = toPrimitive(t, "string");
+        return "symbol" == _typeof(i) ? i : String(i);
     }
-    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    module.exports = toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
     var taro = __webpack_require__(15).default;
@@ -433,26 +433,26 @@ exports[`vue should build vue app 2`] = `
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
     var defineProperty = __webpack_require__(2);
-    function ownKeys(object, enumerableOnly) {
-        var keys = Object.keys(object);
+    function ownKeys(e, r) {
+        var t = Object.keys(e);
         if (Object.getOwnPropertySymbols) {
-            var symbols = Object.getOwnPropertySymbols(object);
-            enumerableOnly && (symbols = symbols.filter((function(sym) {
-                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-            }))), keys.push.apply(keys, symbols);
+            var o = Object.getOwnPropertySymbols(e);
+            r && (o = o.filter((function(r) {
+                return Object.getOwnPropertyDescriptor(e, r).enumerable;
+            }))), t.push.apply(t, o);
         }
-        return keys;
+        return t;
     }
-    function _objectSpread2(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = null != arguments[i] ? arguments[i] : {};
-            i % 2 ? ownKeys(Object(source), !0).forEach((function(key) {
-                defineProperty(target, key, source[key]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach((function(key) {
-                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    function _objectSpread2(e) {
+        for (var r = 1; r < arguments.length; r++) {
+            var t = null != arguments[r] ? arguments[r] : {};
+            r % 2 ? ownKeys(Object(t), !0).forEach((function(r) {
+                defineProperty(e, r, t[r]);
+            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach((function(r) {
+                Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
             }));
         }
-        return target;
+        return e;
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
@@ -660,17 +660,17 @@ exports[`vue should build vue app 2`] = `
     module.exports = __webpack_require__(14);
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(1)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
+    function toPrimitive(t, r) {
+        if ("object" != _typeof(t) || !t) return t;
+        var e = t[Symbol.toPrimitive];
+        if (void 0 !== e) {
+            var i = e.call(t, r || "default");
+            if ("object" != _typeof(i)) return i;
             throw new TypeError("@@toPrimitive must return a primitive value.");
         }
-        return (hint === "string" ? String : Number)(input);
+        return ("string" === r ? String : Number)(t);
     }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    module.exports = toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var api = __webpack_require__(9);
     var content = __webpack_require__(13);
@@ -686,9 +686,9 @@ exports[`vue should build vue app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
-    var _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
-    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
+    var _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+    var _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+    var ___CSS_LOADER_EXPORT___ = _node_modules_pnpm_css_loader_5_2_7_webpack_4_47_0_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()((function(i) {
         return i[1];
     }));
     ___CSS_LOADER_EXPORT___.push([ module.i, "", "" ]);

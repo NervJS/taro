@@ -534,14 +534,12 @@ require("./taro");
             transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var _ref;
                     var page = getCurrentPages()[0];
                     data["nn"] = element.dataName;
                     page.setData(_defineProperty({}, undefined(data.nn), data));
-                    return _ref = {
+                    return _defineProperty(_defineProperty({
                         sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
-                    _ref;
+                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
                 }
             }
         };
@@ -1500,13 +1498,13 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _typeof;
     }));
-    function _typeof(obj) {
+    function _typeof(o) {
         "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+            return typeof o;
+        } : function(o) {
+            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+        }, _typeof(o);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -1622,22 +1620,22 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _toPropertyKey;
+        return toPropertyKey;
     }));
     var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
+    function toPrimitive(t, r) {
+        if ("object" != Object(esm_typeof["a"])(t) || !t) return t;
+        var e = t[Symbol.toPrimitive];
+        if (void 0 !== e) {
+            var i = e.call(t, r || "default");
+            if ("object" != Object(esm_typeof["a"])(i)) return i;
             throw new TypeError("@@toPrimitive must return a primitive value.");
         }
-        return (hint === "string" ? String : Number)(input);
+        return ("string" === r ? String : Number)(t);
     }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    function toPropertyKey(t) {
+        var i = toPrimitive(t, "string");
+        return "symbol" == Object(esm_typeof["a"])(i) ? i : String(i);
     }
 } ] ]);
 "
@@ -2175,14 +2173,12 @@ require("./taro");
             transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var _ref;
                     var page = getCurrentPages()[0];
                     data["nn"] = element.dataName;
                     page.setData(_defineProperty({}, undefined(data.nn), data));
-                    return _ref = {
+                    return _defineProperty(_defineProperty({
                         sid: element.sid
-                    }, _defineProperty(_ref, "v", ""), _defineProperty(_ref, "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"), 
-                    _ref;
+                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
                 }
             }
         };
@@ -3137,13 +3133,13 @@ module.exports = {
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _typeof;
     }));
-    function _typeof(obj) {
+    function _typeof(o) {
         "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
-            return typeof obj;
-        } : function(obj) {
-            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, _typeof(obj);
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
+            return typeof o;
+        } : function(o) {
+            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+        }, _typeof(o);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -3259,22 +3255,22 @@ module.exports = {
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _toPropertyKey;
+        return toPropertyKey;
     }));
     var esm_typeof = __webpack_require__(2);
-    function _toPrimitive(input, hint) {
-        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (Object(esm_typeof["a"])(res) !== "object") return res;
+    function toPrimitive(t, r) {
+        if ("object" != Object(esm_typeof["a"])(t) || !t) return t;
+        var e = t[Symbol.toPrimitive];
+        if (void 0 !== e) {
+            var i = e.call(t, r || "default");
+            if ("object" != Object(esm_typeof["a"])(i)) return i;
             throw new TypeError("@@toPrimitive must return a primitive value.");
         }
-        return (hint === "string" ? String : Number)(input);
+        return ("string" === r ? String : Number)(t);
     }
-    function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
+    function toPropertyKey(t) {
+        var i = toPrimitive(t, "string");
+        return "symbol" == Object(esm_typeof["a"])(i) ? i : String(i);
     }
 } ] ]);
 "
