@@ -69,8 +69,8 @@ export default class TaroNormalModulesPlugin {
               } else {
                 const nameOfCallee = callee.name
                 if (
-                  // 兼容 react17 new jsx transform
-                  nameOfCallee !== '_jsx' && nameOfCallee !== '_jsxs' &&
+                  // 兼容 react17 new jsx transtrom 以及esbuild-loader的ast兼容问题
+                  !/^_?jsxs?$/.test(nameOfCallee) &&
                   // 兼容 Vue 3.0 渲染函数及 JSX
                   !(nameOfCallee && nameOfCallee.includes('createVNode')) &&
                   !(nameOfCallee && nameOfCallee.includes('createBlock')) &&
@@ -86,7 +86,7 @@ export default class TaroNormalModulesPlugin {
 
               // @ts-ignore
               const [type, prop] = node.arguments
-              
+
               // 防止 vue2 中类似 h() 的定义报错
               if (!type) return
 
@@ -113,11 +113,19 @@ export default class TaroNormalModulesPlugin {
                 return
               }
 
-              const props = prop.properties
-                .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
-              const res = props.map(p => p.key.name).join('|')
+              function getPropName (key): string {
+                return key.type === 'Identifier' ? key.name : (key.type === 'Literal' ? key.value : null)
+              }
 
-              props.forEach(p => attrs.add(p.key.name))
+              const props = prop.properties
+                .filter(p => {
+                  if (p.type !== 'Property') return false
+
+                  const propName = getPropName(p.key)
+                  return propName && propName !== 'children' && propName !== 'id'
+                })
+              const res = props.map(p => getPropName(p.key)).join('|')
+              props.forEach(p => attrs.add(getPropName(p.key)))
 
               currentModule.collectProps[type.value] = res
             },

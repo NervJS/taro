@@ -676,7 +676,7 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
             experimental: {
               plugins: [
                 // Note: 更新 SWC 版本可能会使插件将箭头函数等代码错误抖动，导致配置读取错误
-                [path.resolve(__dirname, '../swc/plugin-define-config/target/wasm32-wasi/release/swc_plugin_define_config.wasm'), {}]
+                [path.resolve(__dirname, '../swc/swc_plugin_define_config.wasm'), {}]
               ]
             }
           },

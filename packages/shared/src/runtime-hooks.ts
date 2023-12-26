@@ -239,6 +239,7 @@ type ITaroHooks = {
 
   dispatchTaroEvent: (event, element) => void
   dispatchTaroEventFinish: (event, element) => void
+  modifyTaroEventReturn: (node, event, returnVal) => any
 
   modifyDispatchEvent: (event, element) => void
   injectNewStyleProperties: (styleProperties: string[]) => void
@@ -339,6 +340,8 @@ export const hooks = new TaroHooks<ITaroHooks>({
   }),
 
   dispatchTaroEventFinish: TaroHook(HOOK_TYPE.MULTI),
+
+  modifyTaroEventReturn: TaroHook(HOOK_TYPE.SINGLE, () => undefined),
 
   modifyDispatchEvent: TaroHook(HOOK_TYPE.MULTI),
 

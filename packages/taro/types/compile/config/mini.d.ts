@@ -103,4 +103,10 @@ export interface IMiniAppConfig {
 
   /** 插件内部使用 */
   runtime?: Runtime
+
+  /** 体验式功能 */
+  experimental?: {
+    /** 是否开启编译模式 */
+    compileMode?: boolean
+  }
 }
