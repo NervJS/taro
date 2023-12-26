@@ -200,7 +200,6 @@ export default class PageHandler {
     if (!page) return
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
-    // FIXME ios下页面未渲染完成快速切换tabbar白屏
     stacks.push(page)
     const param = this.getQuery(stampId, '', page.options)
     let pageEl = this.getPageContainer(page)
@@ -213,6 +212,7 @@ export default class PageHandler {
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
     } else {
+      // FIXME 在 iOS 端快速切换页面时，可能不会执行回调注入对应类名导致 TabBar 白屏
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
