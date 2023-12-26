@@ -87,6 +87,14 @@ export default class PageHandler {
     return !!pagePath && this.tabBarList.some(t => stripTrailing(t.pagePath) === pagePath)
   }
 
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
+    }
+    return style !== 'custom'
+  }
+
   isSamePage (page?: PageInstance | null) {
     const routePath = stripBasename(this.pathname, this.basename)
     const pagePath = stripBasename(page?.path, this.basename)
@@ -198,17 +206,20 @@ export default class PageHandler {
     if (pageEl) {
       pageEl.classList.remove('taro_page_shade')
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
+      this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
     } else {
+      // FIXME 在 iOS 端快速切换页面时，可能不会执行回调注入对应类名导致 TabBar 白屏
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
+        this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
-        this.onReady(page, true)
         page.onShow?.()
+        this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
       })
@@ -266,8 +277,8 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
-        this.onReady(page, false)
         page.onShow?.()
+        this.onReady(page, false)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
       })
