@@ -10,6 +10,7 @@ import WebpackDevServer from 'webpack-dev-server'
 import { addHtmlSuffix, addLeadingSlash, formatOpenHost, parsePublicPath, stripBasename, stripTrailingSlash } from './utils'
 import AppHelper from './utils/app'
 import { bindDevLogger, bindProdLogger, printBuildError } from './utils/logHelper'
+import { errorHandling } from './utils/webpack'
 import { H5Combination } from './webpack/H5Combination'
 
 import type { EntryNormalized, Stats } from 'webpack'
@@ -46,10 +47,10 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
-  const { isWatch } = config
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
 
   try {
-    if (!isWatch) {
+    if (!config.isWatch) {
       const compiler = webpack(webpackConfig)
       prebundle?.postCompilerStart(compiler)
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -74,6 +75,8 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
             }
 
             err ? reject(err) : resolve(stats)
+
+            errorHandling(errorLevel, stats)
           })
         })
       })
@@ -114,6 +117,7 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
             isWatch: true
           })
         }
+        errorHandling(errorLevel, stats)
       })
       compiler.hooks.failed.tap('taroBuildDone', error => {
         if (isFunction(config.onBuildFinish)) {
@@ -123,6 +127,7 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
             isWatch: true
           })
         }
+        process.exit(1)
       })
 
       return new Promise<void>((resolve, reject) => {
@@ -138,7 +143,7 @@ export default async function build (appPath: string, rawConfig: IH5BuildConfig)
     }
   } catch (err) {
     console.error(err)
-    !isWatch && process.exit(1)
+    !config.isWatch && process.exit(1)
   }
 }
 

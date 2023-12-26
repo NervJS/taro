@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash'
 import webpack from 'webpack'
 
 import { Prerender } from './prerender/prerender'
+import { errorHandling } from './utils/webpack'
 import { MiniCombination } from './webpack/MiniCombination'
 
 import type { Stats } from 'webpack'
@@ -52,10 +53,13 @@ export default async function build (appPath: string, rawConfig: IMiniBuildConfi
     }
 
     const callback = async (err: Error, stats: Stats) => {
+      const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
         onFinish(error, null)
-        return reject(error)
+        reject(error)
+        errorHandling(errorLevel, stats)
+        return
       }
 
       if (!isEmpty(config.prerender)) {
