@@ -84,19 +84,32 @@ export function createRouter (
         // NOTE: webpack5 与 prebundle 搭配使用时，开发环境下初次启动时偶发错误，由于 HMR 加载 chunk hash 错误，导致热更新失败
         window.location.reload()
       } else {
-        throw new Error(error)
+        throw error
       }
     }
     if (!element) return
     const pageConfig = handler.pageConfig
     let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
+    let navigationStyle = config?.window?.navigationStyle || 'default'
+    let navigationBarTextStyle = config?.window?.navigationBarTextStyle || 'white'
+    let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
 
     if (pageConfig) {
       setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
+      if (typeof pageConfig.navigationStyle === 'string') {
+        navigationStyle = pageConfig.navigationStyle
+      }
+      if (typeof pageConfig.navigationBarTextStyle === 'string') {
+        navigationBarTextStyle = pageConfig.navigationBarTextStyle
+      }
+      if (typeof pageConfig.navigationBarBackgroundColor === 'string') {
+        navigationBarBackgroundColor = pageConfig.navigationBarBackgroundColor
+      }
     }
+    eventCenter.trigger('__taroSetNavigationStyle', navigationStyle, navigationBarTextStyle, navigationBarBackgroundColor)
 
     const currentPage = Current.page
     const pathname = handler.pathname
