@@ -89,7 +89,7 @@ export class Image implements ComponentInterface {
       didLoad
     } = this
     // mode="" 按默认值处理
-    const mode = this.mode ||= 'scaleToFill'
+    const mode = this.mode || 'scaleToFill'
 
     const cls = classNames({
       'taro-img__widthfix': mode === 'widthFix'
