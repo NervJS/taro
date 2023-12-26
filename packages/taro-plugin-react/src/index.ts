@@ -68,7 +68,7 @@ export default (ctx: IPluginContext) => {
               contents: require('./api-loader')(content)
             }
           })
-          build.onLoad({ filter: /taro-platform-harmony-mini[\\/]dist[\\/]api[\\/]apis[\\/]taro/ }, ({ path }) => {
+          build.onLoad({ filter: /taro-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/ }, ({ path }) => {
             const content = fs.readFileSync(path).toString()
             return {
               contents: require('./api-loader')(content)
