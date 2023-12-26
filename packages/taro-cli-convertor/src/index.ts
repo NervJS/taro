@@ -28,7 +28,10 @@ import * as prettier from 'prettier'
 
 import {
   analyzeImportUrl,
+  astToCode,
+  computeProjectFileNums,
   copyFileToTaro,
+  createErrorCodeMsg,
   DEFAULT_Component_SET,
   generateDir,
   generateReportFile,
@@ -39,6 +42,11 @@ import {
   handleThirdPartyLib,
   handleUnconvertDir,
   incrementId,
+  IReportData,
+  IReportError,
+  parseError,
+  parseProjectName,
+  paseGlobalErrMsgs,
   printToLogFile,
   replacePluginComponentUrl,
   transRelToAbsPath,
@@ -106,19 +114,13 @@ interface ITaroizeOptions {
   scriptPath?: string
   logFilePath?: string
   pluginInfo?: IPluginInfo
+  templatePath?: string
 }
 
 // convert.config,json配置参数
 interface IConvertConfig {
   external: string[] // 不做转换的目录
   nodePath: string[] // 搜索三方库的目录
-}
-
-interface IReportMsg {
-  filePath: string // 报告信息所在文件路径
-  message: string // 报告信息
-  type?: string // 报告信息类型
-  childReportMsg?: IReportMsg[]
 }
 
 interface IProjectConfig {
@@ -182,7 +184,6 @@ export default class Convertor {
   miniprogramRoot: string
   convertConfig: IConvertConfig
   external: string[]
-  reportErroMsg: IReportMsg[]
   projectConfig: IProjectConfig
   pluginInfo: IPluginInfo
   isTraversePlugin: boolean
@@ -207,7 +208,6 @@ export default class Convertor {
     this.hadBeenCopyedFiles = new Set<string>()
     this.hadBeenBuiltComponents = new Set<string>()
     this.hadBeenBuiltImports = new Set<string>()
-    this.reportErroMsg = []
     this.projectConfig = { pluginRoot: '', compileType: '' }
     this.pluginInfo = {
       pluginRoot: '',
@@ -513,8 +513,17 @@ export default class Convertor {
                   }
 
                   if (!t.isStringLiteral(args[0])) {
-                    // require 暂不支持动态导入，如require('aa' + aa)，后续收录到报告中
-                    throw new Error(`require暂不支持动态导入, filePath: ${sourceFilePath}, context: ${astPath}`)
+                    const position = {
+                      col: astPath.node.loc?.start?.column || 0,
+                      row: astPath.node.loc?.start?.line || 0,
+                    }
+                    throw new IReportError(
+                      `require暂不支持动态导入, filePath: ${sourceFilePath}, context: ${astPath}`,
+                      'DynamicImportNotSupportedError',
+                      sourceFilePath,
+                      astToCode(astPath.node) || '',
+                      position
+                    )
                   }
 
                   const value = args[0].value
@@ -792,6 +801,17 @@ export default class Convertor {
                   copyFileToTaro(sourceImagePath, outputImagePath)
                   printLog(processTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
                 } else if (!t.isBinaryExpression(astPath.parent) || astPath.parent.operator !== '+') {
+                  const position = { 
+                    row: astPath.node.loc?.start?.line || 0,
+                    col: astPath.node.loc?.start?.column || 0
+                  }
+                  createErrorCodeMsg(
+                    'ImageNotFound',
+                    '图片不存在',
+                    astToCode(astPath.node) || '',
+                    sourceFilePath,
+                    position
+                  )
                   printLog(processTypeEnum.ERROR, '图片不存在', self.generateShowPath(sourceImagePath))
                 }
                 if (astPath.parentPath.isVariableDeclarator()) {
@@ -862,6 +882,14 @@ export default class Convertor {
                 }
                 let componentPath = componentObj.path
                 if (!componentPath.startsWith(self.root) && !componentPath.startsWith(self.pluginInfo.pluginRoot)) {
+                  const position = { col: 0, row: 0 }
+                  createErrorCodeMsg(
+                    'invalidComponentPath',
+                    `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`,
+                    `${componentObj.name}: ${componentObj.path}`,
+                    globals.currentParseFile,
+                    position
+                  )
                   console.error(
                     `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`
                   )
@@ -1000,6 +1028,14 @@ export default class Convertor {
           const outputFilePath = path.join(this.convertRoot, tempConfig)
           copyFileToTaro(tempConfigPath, outputFilePath)
         } catch (err) {
+          const position = { col: 0, row: 0 }
+          createErrorCodeMsg(
+            'TsConfigCopyError',
+            `tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`,
+            '',
+            path.join(this.root, `tsconfig${this.fileTypes.CONFIG}`),
+            position
+          )
           // 失败不退出，仅提示
           console.log(chalk.red(`tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`))
         }
@@ -1016,6 +1052,14 @@ export default class Convertor {
         this.convertConfig = { ...convertJson }
         this.convertConfig.external = transRelToAbsPath(convertJsonPath, this.convertConfig.external)
       } catch (err) {
+        const position = { col: 0, row: 0 }
+        createErrorCodeMsg(
+          'ConvertConfigReadError',
+          `convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`,
+          '',
+          convertJsonPath,
+          position
+        )
         console.log(chalk.red(`convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`))
         process.exit(1)
       }
@@ -1035,6 +1079,14 @@ export default class Convertor {
         if (projectConfigJson && projectConfigJson.compileType === Constants.PLUGIN) {
           const pluginRoot = projectConfigJson.pluginRoot
           if (pluginRoot === '' || isNull(pluginRoot) || isUndefined(pluginRoot)) {
+            const position = { col: 0, row: 0 }
+            createErrorCodeMsg(
+              'emptyPluginRoot',
+              'project.config,json中pluginRoot为空或未配置，请确认配置是否正确',
+              '',
+              projectConfigFilePath,
+              position
+            )
             console.log('project.config,json中pluginRoot为空或未配置，请确认配置是否正确')
             process.exit(1)
           }
@@ -1046,7 +1098,14 @@ export default class Convertor {
           this.root = path.join(this.root, projectConfigJson.miniprogramRoot.replace(/\/+$/, ''))
         }
       } catch (err) {
-        throw new Error(`project.config${this.fileTypes.CONFIG} 解析失败，请检查！`)
+        const position = { col: 0, row: 0 }
+        throw new IReportError(
+          `project.config${this.fileTypes.CONFIG} 解析失败，请检查！`, 
+          'ProjectConfigParsingError', 
+          projectConfigFilePath,
+          '',
+          position
+        )
       }
     }
   }
@@ -1091,6 +1150,14 @@ export default class Convertor {
       }
     } catch (err) {
       this.entryJSON = {}
+      const position = { col: 0, row: 0 }
+      createErrorCodeMsg(
+        'AppConfigReadError',
+        `app${this.fileTypes.CONFIG} 读取失败，请检查！`,
+        '',
+        this.entryJSONPath,
+        position
+      )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
       process.exit(1)
     }
@@ -1106,6 +1173,14 @@ export default class Convertor {
     if (plugins && Object.keys(plugins).length) {
       this.pluginInfo.pluginName = Object.keys(plugins)[0]
     } else {
+      const position = { col: 0, row: 0 }
+      createErrorCodeMsg(
+        'unregisteredPlugin',
+        '当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确',
+        '',
+        this.entryJSONPath,
+        position
+      )
       console.log('当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确')
       process.exit(1)
     }
@@ -1114,6 +1189,14 @@ export default class Convertor {
   getPages () {
     const pages = this.entryJSON.pages
     if (!pages || !pages.length) {
+      const position = { col: 0, row: 0 }
+      createErrorCodeMsg(
+        'missingPageConfig',
+        `app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`,
+        '',
+        this.entryJSONPath,
+        position
+      )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`))
       return
     }
@@ -1195,8 +1278,10 @@ export default class Convertor {
           this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
           printLog(processTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
           this.hadBeenCopyedFiles.add(file)
+          globals.currentParseFile = file
           this.generateScriptFiles(scriptFiles)
         } catch (error) {
+          parseError(error, file, '')
           console.log(`转换文件${file}异常，errorMessage:${error}`)
         }
       })
@@ -1279,6 +1364,7 @@ ${code}
         isApp: true,
         logFilePath: globals.logFilePath,
       })
+      globals.errCodeMsgs.push(...taroizeResult.errCodeMsgs)
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
         sourceFilePath: this.entryJSPath,
@@ -1301,13 +1387,14 @@ ${code}
       if (this.entryStyle) {
         this.traverseStyle(this.entryStylePath, this.entryStyle)
       }
+      globals.currentParseFile = this.entryJSPath
       this.generateScriptFiles(scriptFiles)
       if (this.entryJSON.tabBar) {
         this.generateTabBarIcon(this.entryJSON.tabBar)
         this.generateCustomTabbar(this.entryJSON.tabBar)
       }
     } catch (err) {
-      console.log(err)
+      parseError(err, this.entryJSPath, '')
     }
   }
 
@@ -1430,15 +1517,22 @@ ${code}
         return
       }
 
-      const pageJSPath = pagePath + this.fileTypes.SCRIPT
+      const pageJSPath = pagePath + this.fileTypes.SCRIPT   // .js文件
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
-      const pageConfigPath = pagePath + this.fileTypes.CONFIG
-      const pageStylePath = pagePath + this.fileTypes.STYLE
-      const pageTemplPath = pagePath + this.fileTypes.TEMPL
+      const pageConfigPath = pagePath + this.fileTypes.CONFIG   // .json文件
+      const pageStylePath = pagePath + this.fileTypes.STYLE     // .wxss文件
+      const pageTemplPath = pagePath + this.fileTypes.TEMPL     // .wxml文件
 
       try {
         if (!fs.existsSync(pageJSPath)) {
-          throw new Error(`页面 ${page} 没有 JS 文件！`)
+          const position = { col: 0, row: 0 }
+          throw new IReportError(
+            `页面 ${page} 没有 JS 文件！`,
+            'MissingJSFileError',
+            pagePath,
+            '',
+            position
+          )
         }
         const param: ITaroizeOptions = {}
         printLog(processTypeEnum.CONVERT, '页面文件', this.generateShowPath(pageJSPath))
@@ -1470,12 +1564,14 @@ ${code}
               const unResolveComponentPath: string = pageUsingComponents[component]
               let componentPath
               if (unResolveComponentPath.startsWith('plugin://')) {
+                globals.currentParseFile = pageConfigPath
                 componentPath = replacePluginComponentUrl(unResolveComponentPath, this.pluginInfo)
                 pluginComponents.add({
                   name: component,
                   path: componentPath,
                 })
               } else if (this.isThirdPartyLib(unResolveComponentPath, path.resolve(pagePath, '..'))) {
+                globals.currentParseFile = pageConfigPath
                 handleThirdPartyLib(unResolveComponentPath, this.convertConfig?.nodePath, root, this.convertRoot)
               } else {
                 if (unResolveComponentPath.startsWith(root)) {
@@ -1517,10 +1613,13 @@ ${code}
         param.rootPath = root
         param.pluginInfo = this.pluginInfo
         param.logFilePath = globals.logFilePath
+        param.templatePath = pageTemplPath
         const taroizeResult = taroize({
           ...param,
           framework: this.framework,
         })
+        globals.errCodeMsgs.push(...taroizeResult.errCodeMsgs)
+        globals.currentParseFile = pageConfigPath
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
           sourceFilePath: pageJSPath,
@@ -1538,12 +1637,14 @@ ${code}
         if (pageStyle) {
           this.traverseStyle(pageStylePath, pageStyle)
         }
+        globals.currentParseFile = pageJSPath
         this.generateScriptFiles(scriptFiles)
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
-        console.log(err)
         printToLogFile(`package: taro-cli-convertor, 转换页面异常 ${err.stack} ${getLineBreak()}`)
+        parseError(err, pageJSPath, pageTemplPath)
+        console.log(`页面: ${page}转换失败 ${err.message}`)
       }
     })
   }
@@ -1568,7 +1669,14 @@ ${code}
         const param: ITaroizeOptions = {}
         const depComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
-          throw new Error(`自定义组件 ${component} 没有 JS 文件！`)
+          const position = { col: 0, row: 0 }
+          throw new IReportError(
+            `自定义组件 ${component} 没有 JS 文件！`,
+            'MissingJSFileError',
+            componentJSPath,
+            '',
+            position
+          )
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
         if (fs.existsSync(componentConfigPath)) {
@@ -1608,10 +1716,13 @@ ${code}
         param.path = path.dirname(componentJSPath)
         param.rootPath = this.root
         param.logFilePath = globals.logFilePath
+        param.templatePath = componentTemplPath
         const taroizeResult = taroize({
           ...param,
           framework: this.framework,
         })
+        globals.errCodeMsgs.push(...taroizeResult.errCodeMsgs)
+        globals.currentParseFile = componentConfigPath
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
           sourceFilePath: componentJSPath,
@@ -1632,12 +1743,14 @@ ${code}
         if (componentStyle) {
           this.traverseStyle(componentStylePath, componentStyle)
         }
+        globals.currentParseFile = componentJSPath
         this.generateScriptFiles(scriptFiles)
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '组件转换', this.generateShowPath(componentJSPath))
-        console.log(err)
+        console.log(`组件转换失败 ${err.message}`)
         printToLogFile(`package: taro-cli-convertor, 转换组件异常 ${err.stack} ${getLineBreak()}`)
+        parseError(err, componentJSPath, componentTemplPath)
       }
     })
   }
@@ -1725,6 +1838,7 @@ ${code}
     this.traverseComponents(this.pluginInfo.publicComponents)
 
     // 转换插件的工具文件
+    globals.currentParseFile = this.pluginInfo.entryFilePath
     this.generateScriptFiles(new Set([this.pluginInfo.entryFilePath]))
   }
 
@@ -1740,6 +1854,14 @@ ${code}
       try {
         const pluginConfigJson = JSON.parse(String(fs.readFileSync(pluginConfigPath)))
         if (!pluginConfigJson) {
+          const position = { col: 0, row: 0 }
+          createErrorCodeMsg(
+            'emptyPluginConfig',
+            '插件配置信息为空，请检查！',
+            '',
+            pluginConfigPath,
+            position
+          )
           console.log('插件配置信息为空，请检查！')
           return
         }
@@ -1771,6 +1893,14 @@ ${code}
           pluginInfo.entryFilePath = path.join(pluginInfo.pluginRoot, entryFilePath)
         }
       } catch (err) {
+        const position = { col: 0, row: 0 }
+        createErrorCodeMsg(
+          'PluginJsonParsingError',
+          '解析plugin.json失败，请检查！',
+          '',
+          pluginConfigPath,
+          position
+        )
         console.log('解析plugin.json失败，请检查！')
         process.exit(1)
       }
@@ -1860,11 +1990,32 @@ ${code}
    */
   generateReport () {
     const reportDir = path.join(this.convertRoot, 'report')
-    const reportBundleFilePath = path.resolve(__dirname, '../', 'report/bundle.js')
-    const reportIndexFilePath = path.resolve(__dirname, '../', 'report/report.html')
+    const iconFilePath = path.resolve(__dirname, '../', 'report/favicon.ico')
+    const reportIndexFilePath = path.resolve(__dirname, '../', 'report/index.html')
+    const reportBundleFilePath = path.resolve(__dirname, '../', 'report/static/js/bundle.js')
+    const reportStyleFilePath = path.resolve(__dirname, '../', 'report/static/css/main.css')
+    const fontBlodFilePath = path.resolve(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Bold.ttf')
+    const fontMediumFilePath = path.resolve(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Medium.ttf')
+    const errMsgList = paseGlobalErrMsgs(globals.errCodeMsgs)
+    const reportData: IReportData = {
+      projectName: parseProjectName(this.root),
+      projectPath: this.root,
+      pagesNum: this.pages.size,
+      filesNum: computeProjectFileNums(this.root),  
+      errMsgList: errMsgList
+    }
 
-    generateReportFile(reportBundleFilePath, reportDir, 'bundle.js', this.reportErroMsg)
-    generateReportFile(reportIndexFilePath, reportDir, 'report.html')
+    try {
+      generateReportFile(iconFilePath, reportDir, 'favicon.ico')
+      generateReportFile(reportIndexFilePath, reportDir, 'index.html')
+      generateReportFile(reportBundleFilePath,path.join(reportDir, '/static/js'), 'bundle.js', reportData)
+      generateReportFile(reportStyleFilePath, path.join(reportDir, '/static/css'), 'main.css')
+      generateReportFile(fontBlodFilePath, path.join(reportDir,'/static/media'), 'HarmonyOS_Sans_SC_Bold.ttf')
+      generateReportFile(fontMediumFilePath,path.join( reportDir,'/static/media'), 'HarmonyOS_Sans_SC_Medium.ttf')
+      console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
+    } catch (error) {
+      console.log(`报告生成失败 ${error.message}`)
+    }
   }
 
   showLog () {
@@ -1874,15 +2025,19 @@ ${code}
         'taroConvert'
       )} 目录下使用 npm 或者 yarn 安装项目依赖后再运行！`
     )
-    console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
   }
 
   run () {
-    this.framework = 'react'
-    this.generateEntry()
-    this.traversePages(this.root, this.pages)
-    this.traversePlugin()
-    this.generateConfigFiles()
-    this.generateReport()
+    try {
+      this.framework = 'react'
+      this.generateEntry()
+      this.traversePages(this.root, this.pages)
+      this.traversePlugin()
+      this.generateConfigFiles()
+    } catch (error) {
+      throw new Error(`convertor转换失败 ${error.message}`)
+    } finally {
+      this.generateReport()
+    }
   }
 }

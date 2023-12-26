@@ -1,12 +1,20 @@
 import { codeFrameColumns } from '@babel/code-frame'
+import generate from '@babel/generator'
 import { parse } from '@babel/parser'
 import { default as template } from '@babel/template'
 import traverse, { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
 import { camelCase, capitalize } from 'lodash'
+import * as prettier from 'prettier'
 
 import { globals } from './global'
+
+const prettierJSConfig: prettier.Options = {
+  semi: false,
+  singleQuote: true,
+  parser: 'babel',
+}
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
@@ -51,35 +59,49 @@ export function isValidVarName (str?: string) {
 export function parseCode (code: string, scriptPath?: string) {
   printToLogFile(`package: taroize, funName: parseCode, scriptPath: ${scriptPath} ${getLineBreak()}`)
   let ast: any = {}
-  if (typeof scriptPath !== 'undefined') {
-    ast = parse(code, {
-      sourceFilename: scriptPath,
-      sourceType: 'module',
-      plugins: [
-        'jsx',
-        'flow',
-        'decorators-legacy',
-        ['optionalChainingAssign', { version: '2023-07' }],
-        'sourcePhaseImports',
-        'throwExpressions',
-        'deferredImportEvaluation',
-        'exportDefaultFrom'
-      ],
-    })
-  } else {
-    ast = parse(code, {
-      sourceType: 'module',
-      plugins: [
-        'jsx',
-        'flow',
-        'decorators-legacy',
-        ['optionalChainingAssign', { version: '2023-07' }],
-        'sourcePhaseImports',
-        'throwExpressions',
-        'deferredImportEvaluation',
-        'exportDefaultFrom'
-      ],
-    })
+  try {
+    if (typeof scriptPath !== 'undefined') {
+      ast = parse(code, {
+        sourceFilename: scriptPath,
+        sourceType: 'module',
+        plugins: [
+          'jsx',
+          'flow',
+          'decorators-legacy',
+          ['optionalChainingAssign', { version: '2023-07' }],
+          'sourcePhaseImports',
+          'throwExpressions',
+          'deferredImportEvaluation',
+          'exportDefaultFrom'
+        ],
+      })
+    } else {
+      ast = parse(code, {
+        sourceType: 'module',
+        plugins: [
+          'jsx',
+          'flow',
+          'decorators-legacy',
+          ['optionalChainingAssign', { version: '2023-07' }],
+          'sourcePhaseImports',
+          'throwExpressions',
+          'deferredImportEvaluation',
+          'exportDefaultFrom'
+        ],
+      })
+    }
+  } catch (error) {
+    // 结尾注释会引起 parseCode 报错，因此收录到报告中
+    if (error.message.includes('Unterminated comment')) {
+      const position = { col: 0, row: 0 }
+      throw new  IReportError(
+        'WXML代码解析失败, 代码中存在不完整的注释',
+        'UnterminatedComment',
+        'WXML_FILE',
+        code || '',
+        position
+      )
+    }
   }
   // 移除Flow类型注释
   traverse(ast, {
@@ -106,7 +128,14 @@ export const buildTemplate = (str: string) => {
   if (t.isExpressionStatement(ast)) {
     return ast.expression
   } else {
-    throw new Error(`Invalid AST. Expected an ExpressionStatement`)
+    const position = { col: 0, row: 0 }
+    throw new IReportError(
+      `Invalid AST. Expected an ExpressionStatement`,
+      'InvalidASTError',
+      'WXML_FILE',
+      str,
+      position
+    )
   }
 }
 
@@ -331,6 +360,109 @@ export function printToLogFile (data: string) {
     fs.appendFile(globals.logFilePath, data)
   } catch (error) {
     console.error('写日志文件异常')
-    throw error
+    const position = { col: 0, row: 0 }
+    throw new IReportError(
+      '写日志文件异常',
+      'WriteLogException',
+      globals.logFilePath,
+      '',
+      position
+    )
   }
+}
+
+/**
+ * 将部分 ast 节点转为代码片段
+ * @param ast 
+ * @returns 
+ */
+export function astToCode (ast) {
+  if (!ast) return ''
+  try {
+    let formatCode = prettier.format(generate(ast).code, prettierJSConfig)
+    if (formatCode.startsWith(';')) {
+      formatCode = formatCode.slice(1)
+    }
+    return formatCode
+  } catch (err) {
+    //
+  }
+}
+
+/**
+ * 创建 errorCodeMsg 对象
+ * @param msgType 错误类型
+ * @param describe 错误描述
+ * @param code 错误代码
+ * @param filePath 错误信息所在文件路径
+ * @returns 
+ */
+export function createErrorCodeMsg (
+  msgType: string, 
+  describe: string, 
+  code: string, 
+  filePath: string, 
+  position?: { col: number, row: number }
+) {
+  const errorCodeMsg = {
+    msgType,
+    describe,
+    codeBeforeConvert: {
+      filePath,
+      code,
+      location: { start: position }
+    }
+  }
+  globals.errCodeMsgs.push(errorCodeMsg)
+}
+
+/**
+ *  拓展原生 Error 属性
+ */
+export class IReportError extends Error {
+
+  // 错误信息类型
+  msgType: string
+
+  // 错误信息路径
+  filePath: string | 'JS_FILE' | 'WXML_FILE'
+
+  // 错误代码
+  code: string
+
+  // 错误代码位置信息
+  location: { col: number, row: number } | undefined
+
+  constructor (
+    message: string,
+    msgType?: string, 
+    filePath?: string | 'JS_FILE' | 'WXML_FILE',
+    code?: string,
+    location?: { col: number, row: number } | undefined
+  ) {
+    super(message)
+    this.msgType = msgType || ''
+    this.filePath = filePath || ''
+    this.code = code || ''
+    this.location = location
+  }
+}
+
+/**
+ * 将oldElement的position信息赋值给newElement的position属性
+ * 
+ * @param newElement 新节点
+ * @param oldElement 旧节点
+ * @returns newElement 添加位置信息的新节点
+ */
+export function addLocInfo (newElement, oldElement) {
+  if (oldElement && oldElement.position) {
+    const position = oldElement.position
+    const newPosition = {
+      start: { line: position?.start.line + 1, column: position?.start.column + 1 },
+      end: { line: position?.end.line + 1, column: position?.end.column + 1 }
+    }
+    newElement.position = newPosition
+  }
+  return newElement
 }

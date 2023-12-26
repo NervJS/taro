@@ -3,7 +3,7 @@ import traverse, { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { TransformResult } from './index'
-import { getLineBreak, printToLogFile } from './utils'
+import { astToCode,getLineBreak, IReportError, printToLogFile } from './utils'
 
 export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
   printToLogFile(`package: taro-transformer-wx, funName: traverseWxsFile ${getLineBreak()}`)
@@ -33,9 +33,25 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
             ])
             path.replaceWith(newExpr)
           } else if (t.isIdentifier(regex) || t.isIdentifier(modifier)) {
-            throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入变量类型的参数',
+              'GetRegExpVariableTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           } else {
-            throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入非字符串类型的参数',
+              'GetRegExpParameterTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           }
         } else if (path.node.arguments.length === 1) {
           const regex = path.node.arguments[0]
@@ -47,9 +63,25 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
             ])
             path.replaceWith(newExpr)
           } else if (t.isIdentifier(regex)) {
-            throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入变量类型的参数',
+              'GetRegExpVariableTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           } else {
-            throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入非字符串类型的参数',
+              'GetRegExpParameterTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           }
         } else {
           const newExpr = t.newExpression(t.identifier('RegExp'), [])
