@@ -49,7 +49,7 @@ export interface TaroStyleType {
 
   // background
   backgroundColor?: ResourceColor
-  backgroundImage?: HarmonyType.BackgroundImage
+  backgroundImage?: HarmonyType.Background.BackgroundImage
   backgroundRepeat?: ImageRepeat
   backgroundSize?: SizeOptions | ImageSize
   backgroundPosition?: Position | Alignment
@@ -110,7 +110,6 @@ export interface TaroTextStyleType {
 }
 
 export namespace HarmonyType {
-  export type BackgroundImage = Background
   export interface FlexOptions {
     direction?: FlexDirection
     justifyContent?: FlexAlign
@@ -135,6 +134,7 @@ export namespace HarmonyType {
     export interface backgroundImage {
       src: ResourceStr
       repeat?: ImageRepeat
+      colors?: Array<[ResourceColor, number]>
     }
     export type backgroundImageSize = SizeOptions | ImageSize
     export type backgroundImagePosition = Position | Alignment
