@@ -35,7 +35,7 @@
     "@tarojs/shared": "3.5.6",
     "@tarojs/taro": "3.5.6",
     "@tarojs/taro-h5": "3.5.6",
-    "vue": "^3.0.0"
+    "vue": "3.2.47"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

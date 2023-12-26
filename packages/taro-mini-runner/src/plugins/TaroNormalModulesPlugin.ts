@@ -6,6 +6,7 @@ import TaroNormalModule from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
 import type AcornWalk from 'acorn-walk'
+import type acorn from 'acorn'
 
 const walk = require('acorn-walk') as typeof AcornWalk
 
@@ -49,11 +50,14 @@ export default class TaroNormalModulesPlugin {
               // @ts-ignore
               const callee = node.callee
               if (callee.type === 'MemberExpression') {
+                if (callee.property.type !== 'Identifier') {
+                  return
+                }
                 if (callee.property.name !== 'createElement') {
                   return
                 }
               } else {
-                const nameOfCallee = callee.name
+                const nameOfCallee = (callee as acorn.Identifier).name
                 if (
                   // 兼容 react17 new jsx transtrom 以及esbuild-loader的ast兼容问题
                   !/^_?jsxs?$/.test(nameOfCallee) &&
@@ -70,11 +74,10 @@ export default class TaroNormalModulesPlugin {
                 }
               }
 
-              // @ts-ignore
               const [type, prop] = node.arguments
-              const componentName = type.name
+              const componentName = (type as acorn.Identifier).name;
 
-              type.value && this.onParseCreateElement?.(type.value, componentConfig)
+              (type as acorn.Literal).value && this.onParseCreateElement?.((type as acorn.Literal).value, componentConfig)
 
               if (componentName === 'CustomWrapper' && !componentConfig.thirdPartyComponents.get('custom-wrapper')) {
                 componentConfig.thirdPartyComponents.set('custom-wrapper', new Set())
@@ -82,6 +85,7 @@ export default class TaroNormalModulesPlugin {
               if (componentConfig.thirdPartyComponents.size === 0) {
                 return
               }
+              // @ts-ignore
               const attrs = componentConfig.thirdPartyComponents.get(type.value)
 
               if (attrs == null || !prop || prop.type !== 'ObjectExpression') {
@@ -90,9 +94,11 @@ export default class TaroNormalModulesPlugin {
 
               prop.properties
                 .filter(p => p.type === 'Property' && p.key.type === 'Identifier' && p.key.name !== 'children' && p.key.name !== 'id')
+                // @ts-ignore
                 .forEach(p => attrs.add(p.key.name))
             }
           }, {
+            // @ts-ignore
             ...walk.base, Import: walk.base.Import || (() => {})
           })
         })

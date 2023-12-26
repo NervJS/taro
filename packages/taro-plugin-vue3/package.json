@@ -36,10 +36,10 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@tarojs/taro": "workspace:*",
-    "@vue/compiler-core": "^3.0.0",
-    "@vue/runtime-core": "^3.0.0",
+    "@vue/compiler-core": "3.2.47",
+    "@vue/runtime-core": "3.2.47",
     "vite": "^4.2.0",
-    "vue": "^3.0.0",
+    "vue": "3.2.47",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
@@ -49,7 +49,7 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "vite": "^4.2.0",
-    "vue": "^3.0.0"
+    "vue": "3.2.47"
   },
   "peerDependenciesMeta": {
     "vite": {

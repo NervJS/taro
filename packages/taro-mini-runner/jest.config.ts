@@ -1,7 +1,7 @@
 import type { Config } from 'jest'
 
 const config: Config = {
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'jsx', 'node'],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   preset: 'ts-jest',
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setup/index.ts'],
   snapshotSerializers: ['jest-taro-helper/lib/snapshot/serializers.js'],
@@ -16,18 +16,14 @@ const config: Config = {
         module: true,
       },
     ],
-    '^.+\\.jsx?$': 'babel-jest',
-    '^.+\\.tsx?$': [
+    '^.+\\.m?[tj]sx?$': [
       'ts-jest',
       {
         diagnostics: false,
         tsconfig: 'tsconfig.test.json',
       },
     ],
-  },
-  transformIgnorePatterns: [
-    '/node_modules/.pnpm/(?!registry.npmjs.org\\+@swc)'
-  ],
+  }
 }
 
 export default config
