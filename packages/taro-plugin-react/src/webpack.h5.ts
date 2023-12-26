@@ -39,7 +39,7 @@ export function modifyH5WebpackChain (ctx: IPluginContext, framework: Frameworks
     module: {
       rule: {
         'process-import-taro': {
-          test: /taro-platform-harmony-mini[\\/]dist[\\/]api[\\/]apis[\\/]taro/,
+          test: /taro-platform-harmony-hybrid[\\/]dist[\\/]api[\\/]apis[\\/]taro/,
           loader: require.resolve('./api-loader')
         }
       }

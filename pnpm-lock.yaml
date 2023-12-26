@@ -91,9 +91,9 @@ importers:
       '@tarojs/plugin-platform-h5':
         specifier: workspace:*
         version: link:packages/taro-platform-h5
-      '@tarojs/plugin-platform-harmony-mini':
+      '@tarojs/plugin-platform-harmony-hybrid':
         specifier: workspace:*
-        version: link:packages/taro-platform-harmony-mini
+        version: link:packages/taro-platform-harmony-hybrid
       '@tarojs/plugin-platform-jd':
         specifier: workspace:*
         version: link:packages/taro-jd
@@ -2115,7 +2115,7 @@ importers:
         specifier: ^4.8.2
         version: registry.npmjs.org/typescript@4.9.5
 
-  packages/taro-platform-harmony-mini:
+  packages/taro-platform-harmony-hybrid:
     dependencies:
       '@tarojs/api':
         specifier: workspace:*
@@ -2144,6 +2144,9 @@ importers:
       babel-plugin-transform-taroapi:
         specifier: workspace:*
         version: link:../babel-plugin-transform-taroapi
+      change-case:
+        specifier: ^4.1.2
+        version: registry.npmjs.org/change-case@4.1.2
       jsonp-retry:
         specifier: ^1.0.3
         version: registry.npmjs.org/jsonp-retry@1.0.3
@@ -4711,11 +4714,6 @@ packages:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==, tarball: https://registry.npmjs.org/deep-is/-/deep-is-0.1.4.tgz}
     dev: false
 
-  /deepmerge@4.3.1:
-    resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==, tarball: https://registry.npmjs.org/deepmerge/-/deepmerge-4.3.1.tgz}
-    engines: {node: '>=0.10.0'}
-    dev: true
-
   /define-properties@1.2.0:
     resolution: {integrity: sha512-xvqAVKGfT1+UAvPwKTVw/njhdQ8ZhXK4lI0bCIuCMrp2up9nPnaDftrLtmpTazqd1o+UY4zgzU+avtMbDP+ldA==, tarball: https://registry.npmjs.org/define-properties/-/define-properties-1.2.0.tgz}
     engines: {node: '>= 0.4'}
@@ -4851,7 +4849,7 @@ packages:
       ignore: 5.2.4
       import-fresh: 3.3.0
       imurmurhash: 0.1.4
-      is-glob: 4.0.3
+      is-glob: registry.npmjs.org/is-glob@4.0.3
       is-path-inside: 3.0.3
       js-yaml: 4.1.0
       json-stable-stringify-without-jsonify: 1.0.1
@@ -5108,11 +5106,6 @@ packages:
     dependencies:
       has-tostringtag: 1.0.0
 
-  /is-extglob@2.1.1:
-    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==, tarball: https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /is-fullwidth-code-point@2.0.0:
     resolution: {integrity: sha512-VHskAKYM8RfSFXwee5t5cbN5PZeq1Wrh6qd5bkyiXIf6UQcN6w/A0eXM9r6t8d+GYOh+o6ZhiEnb88LN/Y8m2w==, tarball: https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-2.0.0.tgz}
     engines: {node: '>=4'}
@@ -5121,13 +5114,6 @@ packages:
   /is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==, tarball: https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz}
     engines: {node: '>=8'}
-
-  /is-glob@4.0.3:
-    resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==, tarball: https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      is-extglob: 2.1.1
-    dev: false
 
   /is-negative-zero@2.0.2:
     resolution: {integrity: sha512-dqJvarLawXsFbNDeJW7zAz8ItJ9cd28YufuuFzh0G8pNHjJMnY08Dv7sYX2uF5UpQOwieAeOExEYAWWfu7ZZUA==, tarball: https://registry.npmjs.org/is-negative-zero/-/is-negative-zero-2.0.2.tgz}
@@ -5418,10 +5404,6 @@ packages:
     requiresBuild: true
     dependencies:
       remove-trailing-separator: registry.npmjs.org/remove-trailing-separator@1.1.0
-
-  /object-assign@4.1.1:
-    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==, tarball: https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz}
-    engines: {node: '>=0.10.0'}
 
   /object-inspect@1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==, tarball: https://registry.npmjs.org/object-inspect/-/object-inspect-1.12.3.tgz}
@@ -16364,8 +16346,8 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@3.21.5)
-      resolve: registry.npmjs.org/resolve@1.22.2
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.21.5)
+      resolve: registry.npmjs.org/resolve@1.22.8
       rollup: registry.npmjs.org/rollup@3.21.5
       tslib: registry.npmjs.org/tslib@2.6.2
       typescript: registry.npmjs.org/typescript@4.9.5
@@ -16387,8 +16369,8 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@3.21.5)
-      resolve: registry.npmjs.org/resolve@1.22.2
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.21.5)
+      resolve: registry.npmjs.org/resolve@1.22.8
       rollup: registry.npmjs.org/rollup@3.21.5
       typescript: registry.npmjs.org/typescript@4.9.5
     dev: true
@@ -16409,8 +16391,8 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@3.29.4)
-      resolve: registry.npmjs.org/resolve@1.22.2
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.29.4)
+      resolve: registry.npmjs.org/resolve@1.22.8
       rollup: registry.npmjs.org/rollup@3.29.4
       typescript: registry.npmjs.org/typescript@4.9.5
     dev: true
@@ -16557,6 +16539,24 @@ packages:
       estree-walker: registry.npmjs.org/estree-walker@2.0.2
       picomatch: registry.npmjs.org/picomatch@2.3.1
       rollup: registry.npmjs.org/rollup@3.21.5
+
+  registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.29.4):
+    resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-5.1.0.tgz}
+    id: registry.npmjs.org/@rollup/pluginutils/5.1.0
+    name: '@rollup/pluginutils'
+    version: 5.1.0
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@types/estree': registry.npmjs.org/@types/estree@1.0.1
+      estree-walker: registry.npmjs.org/estree-walker@2.0.2
+      picomatch: registry.npmjs.org/picomatch@2.3.1
+      rollup: registry.npmjs.org/rollup@3.29.4
+    dev: true
 
   registry.npmjs.org/@segment/loosely-validate-event@2.0.0:
     resolution: {integrity: sha512-ZMCSfztDBqwotkl848ODgVcAmN4OItEWDCkshcKz0/W6gGSQayuuCtWV/MlodFivAZD793d6UgANd6wCXUfrIw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@segment/loosely-validate-event/-/loosely-validate-event-2.0.0.tgz}
@@ -19377,7 +19377,7 @@ packages:
     name: add-dom-event-listener
     version: 1.1.0
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
     dev: false
 
   registry.npmjs.org/add-stream@1.0.0:
@@ -29180,7 +29180,7 @@ packages:
     version: 2.3.1
     engines: {node: '>=0.10.0'}
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       pinkie-promise: registry.npmjs.org/pinkie-promise@2.0.1
     dev: false
 
@@ -29606,7 +29606,7 @@ packages:
     dependencies:
       array-union: registry.npmjs.org/array-union@1.0.2
       glob: registry.npmjs.org/glob@7.2.3
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       pify: registry.npmjs.org/pify@2.3.0
       pinkie-promise: registry.npmjs.org/pinkie-promise@2.0.1
     dev: false
@@ -32518,7 +32518,7 @@ packages:
       babel-jest: registry.npmjs.org/babel-jest@29.7.0(@babel/core@7.21.8)
       chalk: registry.npmjs.org/chalk@4.1.2
       ci-info: registry.npmjs.org/ci-info@3.8.0
-      deepmerge: 4.3.1
+      deepmerge: registry.npmjs.org/deepmerge@4.3.1
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.7.0
@@ -32561,7 +32561,7 @@ packages:
       babel-jest: registry.npmjs.org/babel-jest@29.7.0(@babel/core@7.21.8)
       chalk: registry.npmjs.org/chalk@4.1.2
       ci-info: registry.npmjs.org/ci-info@3.8.0
-      deepmerge: 4.3.1
+      deepmerge: registry.npmjs.org/deepmerge@4.3.1
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.7.0
@@ -32604,7 +32604,7 @@ packages:
       babel-jest: registry.npmjs.org/babel-jest@29.7.0(@babel/core@7.21.8)
       chalk: registry.npmjs.org/chalk@4.1.2
       ci-info: registry.npmjs.org/ci-info@3.8.0
-      deepmerge: 4.3.1
+      deepmerge: registry.npmjs.org/deepmerge@4.3.1
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.7.0
@@ -32648,7 +32648,7 @@ packages:
       babel-jest: registry.npmjs.org/babel-jest@29.7.0(@babel/core@7.21.8)
       chalk: registry.npmjs.org/chalk@4.1.2
       ci-info: registry.npmjs.org/ci-info@3.8.0
-      deepmerge: 4.3.1
+      deepmerge: registry.npmjs.org/deepmerge@4.3.1
       glob: registry.npmjs.org/glob@7.2.3
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
       jest-circus: registry.npmjs.org/jest-circus@29.7.0
@@ -36969,7 +36969,7 @@ packages:
     version: 1.9.1
     engines: {node: '>=4'}
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       prepend-http: registry.npmjs.org/prepend-http@1.0.4
       query-string: registry.npmjs.org/query-string@4.3.4
       sort-keys: registry.npmjs.org/sort-keys@1.1.2
@@ -40003,7 +40003,7 @@ packages:
     version: 4.3.4
     engines: {node: '>=0.10.0'}
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       strict-uri-encode: registry.npmjs.org/strict-uri-encode@1.1.0
     dev: false
 
@@ -40014,7 +40014,7 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       decode-uri-component: registry.npmjs.org/decode-uri-component@0.2.2
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       strict-uri-encode: registry.npmjs.org/strict-uri-encode@1.1.0
     dev: false
 
@@ -40642,7 +40642,7 @@ packages:
     peerDependencies:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       react-is: registry.npmjs.org/react-is@16.13.1
     dev: true
 
@@ -40654,7 +40654,7 @@ packages:
     peerDependencies:
       react: ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      object-assign: 4.1.1
+      object-assign: registry.npmjs.org/object-assign@4.1.1
       react: registry.npmjs.org/react@18.2.0
       react-is: registry.npmjs.org/react-is@16.13.1
 
