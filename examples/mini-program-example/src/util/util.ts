@@ -4,6 +4,14 @@ function setCallbackRes(res, type, apiIndex) {
     if (apiList[apiIndex].callbackRes == null) {
       apiList[apiIndex].callbackRes = {}
     }
+    if (type === 'success' || type === 'fail') {
+      if (apiList[apiIndex].callbackRes['success']) {
+        delete apiList[apiIndex].callbackRes['success']
+      }
+      if (apiList[apiIndex].callbackRes['fail']) {
+        delete apiList[apiIndex].callbackRes['fail']
+      }
+    }
     apiList[apiIndex].callbackRes[type] = res
     this.setState({
       list: apiList,
