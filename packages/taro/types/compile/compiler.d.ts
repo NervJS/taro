@@ -20,6 +20,8 @@ interface IPrebundle {
 interface ICompiler {
   type: CompilerTypes
   prebundle?: IPrebundle
+  /** 错误处理级别。可选值：0、1 */
+  errorLevel?: number
 }
 
 export type Compiler = CompilerTypes | ICompiler
