@@ -29,6 +29,8 @@ export function getEnv () {
     return ENV_TYPE.JD
   } else if (process.env.TARO_ENV === 'qq') {
     return ENV_TYPE.QQ
+  } else if (process.env.TARO_ENV === 'harmony-hybrid') {
+    return ENV_TYPE.HARMONYHYBRID
   } else if (isWeb) {
     return ENV_TYPE.WEB
   } else if (process.env.TARO_ENV === 'rn') {
@@ -37,9 +39,7 @@ export function getEnv () {
     return ENV_TYPE.HARMONY
   } else if (process.env.TARO_ENV === 'quickapp') {
     return ENV_TYPE.QUICKAPP
-  } else if (process.env.TARO_ENV === 'harmony-hybrid') {
-    return ENV_TYPE.HARMONYHYBRID
-  }else {
+  } else {
     return process.env.TARO_ENV || 'Unknown'
   }
 }
