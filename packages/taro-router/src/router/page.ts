@@ -101,18 +101,6 @@ export default class PageHandler {
     return style !== 'custom'
   }
 
-  addBlankNavigationBar (pageEl: HTMLElement | null) {
-    if (this.isDefaultNavigationStyle() && pageEl && !pageEl.querySelector('.taro_navigation')) {
-      const firstChild = pageEl.firstElementChild
-      if (firstChild) {
-        const navigation = document.createElement('div')
-        navigation.classList.add('taro_navigation')
-        firstChild.classList.add('taro_navi_page')
-        pageEl.insertBefore(navigation, firstChild)
-      }
-    }
-  }
-
   isSamePage (page?: PageInstance | null) {
     const routePath = stripBasename(this.pathname, this.basename)
     const pagePath = stripBasename(page?.path, this.basename)
@@ -223,8 +211,8 @@ export default class PageHandler {
     let pageEl = this.getPageContainer(page)
     if (pageEl) {
       setDisplay(pageEl)
-      this.addBlankNavigationBar(pageEl)
       this.isTabBar(this.pathname) && pageEl.classList.add('taro_tabbar_page')
+      this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
       this.bindPageEvents(page, pageConfig)
@@ -232,11 +220,11 @@ export default class PageHandler {
     } else {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
-        this.addBlankNavigationBar(pageEl)
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
+        this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
-        this.onReady(page, true)
         page.onShow?.()
+        this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
       })
@@ -294,8 +282,8 @@ export default class PageHandler {
       page.onLoad?.(param, () => {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
-        this.onReady(page, false)
         page.onShow?.()
+        this.onReady(page, false)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
       })

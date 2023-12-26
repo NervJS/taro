@@ -106,19 +106,23 @@ export class MapContext implements Taro.MapContext {
 
   includePoints (_option: Taro.MapContext.IncludePointsOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._includePoints(_option)
+      const flag = this.Map._includePoints(_option)
       const successResult: TaroGeneral.CallbackResult = {
-        errMsg: 'includePoints:ok',
+        errMsg: 'includePoints:ok'
       }
-      _option?.success?.({ errMsg: 'includePoints:ok' })
-      _option?.complete?.({ errMsg: 'includePoints:ok' })
-
+      if (flag) {
+        _option?.success?.({ errMsg: 'includePoints:ok' })
+        _option?.complete?.({ errMsg: 'includePoints:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `includePoints:fail,可视范围的坐标点超出最小缩放级别` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+      }
       return Promise.resolve(successResult)
     } catch (e) {
-      const errorResult: TaroGeneral.CallbackResult = { errMsg: `includePoints:${e}` }
+      const errorResult: TaroGeneral.CallbackResult = { errMsg: `includePoints:${e},可视范围的坐标点超出最小缩放级别` }
       _option?.fail?.(errorResult)
       _option?.complete?.({ errMsg: 'includePoints:ok' })
-
       return Promise.reject(errorResult)
     }
   }
@@ -318,12 +322,18 @@ export class MapContext implements Taro.MapContext {
 
   removeGroundOverlay (_option: Taro.MapContext.RemoveGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._removeGroundOverlay(_option)
+      const newTargetOverlay = this.Map._removeGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'removeGroundOverlay:ok',
       }
-      _option?.success?.(successResult)
-      _option?.complete?.({ errMsg: 'removeGroundOverlay:ok' })
+      if (newTargetOverlay) {
+        _option?.success?.(successResult)
+        _option?.complete?.({ errMsg: 'removeGroundOverlay:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `removeGroundOverlay:fail,未找到id为${_option.id}的自定义图片图层` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+      }
 
       return Promise.resolve(successResult)
     } catch (e) {
@@ -371,13 +381,19 @@ export class MapContext implements Taro.MapContext {
 
   removeMarkers (_option: Taro.MapContext.RemoveMarkersOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      this.Map._removeMarkers(_option)
+      const TargetMarker = this.Map._removeMarkers(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'removeMarkers:ok',
       }
-      _option?.success?.(successResult)
-      _option?.complete?.({ errMsg: 'removeMarkers:ok' })
-
+      if (TargetMarker) {
+        _option?.success?.(successResult)
+        _option?.complete?.({ errMsg: 'removeMarkers:ok' })
+      } else {
+        const errorResult: TaroGeneral.CallbackResult = { errMsg: `removeMarkers:fail,未找到该id的marker` }
+        _option?.fail?.(errorResult)
+        _option?.complete?.(errorResult)
+      }
+       
       return Promise.resolve(successResult)
     } catch (e) {
       const errorResult: TaroGeneral.CallbackResult = { errMsg: `removeMarkers:${e}` }

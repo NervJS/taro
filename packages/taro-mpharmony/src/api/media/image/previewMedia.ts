@@ -1,10 +1,11 @@
-import Taro from '@tarojs/api'
 import { SwiperProps } from '@tarojs/components'
 import {
   defineCustomElementTaroSwiperCore,
   defineCustomElementTaroSwiperItemCore,
 } from '@tarojs/components/dist/components'
+import { eventCenter } from '@tarojs/runtime'
 import { isFunction } from '@tarojs/shared'
+import Taro from '@tarojs/taro'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
@@ -71,9 +72,16 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
   container.classList.add('preview-image')
   container.style.cssText =
     'position:fixed;top:0;left:0;z-index:1050;width:100%;height:100%;overflow:hidden;outline:0;background-color:#111;'
-  container.addEventListener('click', () => {
+
+  const removeHandler = () => {
+    eventCenter.off('__taroRouterChange', removeHandler)
     container.remove()
-  })
+    eventCenter.trigger('__taroExitFullScreen', {})
+  }
+  container.addEventListener('click', removeHandler)
+
+  // 路由改变后应该关闭预览框
+  eventCenter.on('__taroRouterChange', removeHandler)
 
   const swiper: HTMLElement & Omit<SwiperProps, 'style' | 'children'> = document.createElement('taro-swiper-core')
   // @ts-ignore
@@ -101,6 +109,7 @@ export const previewMedia: typeof Taro.previewMedia = async (options) => {
 
   container.appendChild(swiper)
   document.body.appendChild(container)
+  eventCenter.trigger('__taroEnterFullScreen', {})
 
   return handle.success()
 }

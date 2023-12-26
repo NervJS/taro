@@ -34,8 +34,8 @@ export const getSetting: typeof Taro.getSetting = function (options) {
     (res: any) => {
       const result: Taro.getSetting.SuccessCallbackResult = {
         authSetting: res.authSetting,
-        subscriptionsSetting: res.subscriptionsSetting,
-        miniprogramAuthSetting: res.miniprogramAuthSetting,
+        subscriptionsSetting: res.subscriptionsSetting || {},
+        miniprogramAuthSetting: {},
         errMsg: res.errMsg,
       }
       handle.success(result)

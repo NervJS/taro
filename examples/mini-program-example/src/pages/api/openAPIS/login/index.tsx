@@ -19,6 +19,7 @@ export default class Index extends React.Component {
           timeout: 2000,
         },
         func: (apiIndex, data) => {
+          TestConsole.consoleTest('Taro.login')
           Taro.login({
             ...data,
             success: (res) => {

@@ -14,15 +14,6 @@ export default class Index extends React.Component {
   state = {
     list: [
       {
-        id: '触发 onPageNotFound',
-        func: () => {
-          TestConsole.consoleTest('触发App.onPageNotFound')
-          Taro.navigateTo({
-            url: '/pages/unexistedpage',
-          })
-        },
-      },
-      {
         id: '触发 onError',
         func: () => {
           TestConsole.consoleTest('触发App.onError')
@@ -122,12 +113,10 @@ export default class Index extends React.Component {
   }
 
   componentDidShow(res) {
-    console.log('biggggg show')
     this.lifeCycleTrigger('componentDidShow', res)
   }
 
   componentDidHide(res) {
-    console.log('biggggg hide')
     this.lifeCycleTrigger('componentDidHide', res)
   }
 

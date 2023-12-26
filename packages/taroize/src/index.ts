@@ -2,7 +2,7 @@ import * as t from '@babel/types'
 
 import { errors, globals, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { parseScript } from './script'
-import { setting } from './utils'
+import { getLineBreak, printToLogFile, setting, updateLogFileContent } from './utils'
 import { parseVue } from './vue'
 import { parseWXML } from './wxml'
 
@@ -36,45 +36,53 @@ interface Option {
 
 export function parse (option: Option) {
   resetGlobals(option.rootPath, option.logFilePath)
-  setting.rootPath = option.rootPath
-  if (option.json) {
-    const config = JSON.parse(option.json)
-    const usingComponents = config.usingComponents
-    if (usingComponents) {
-      for (const key in usingComponents) {
-        if (usingComponents.hasOwnProperty(key)) {
-          THIRD_PARTY_COMPONENTS.add(key)
+  updateLogFileContent(
+    `INFO [taroize] parseCode - 入参 ${getLineBreak()}option: ${JSON.stringify(option)} ${getLineBreak()}`
+  )
+
+  try {
+    setting.rootPath = option.rootPath
+    if (option.json) {
+      const config = JSON.parse(option.json)
+      const usingComponents = config.usingComponents
+      if (usingComponents) {
+        for (const key in usingComponents) {
+          if (usingComponents.hasOwnProperty(key)) {
+            THIRD_PARTY_COMPONENTS.add(key)
+          }
         }
       }
     }
-  }
 
-  if (option.framework === 'vue') {
-    const result = parseVue(option.path, option.wxml || '', option.script)
-    return {
-      ...result,
-      errors,
+    if (option.framework === 'vue') {
+      const result = parseVue(option.path, option.wxml || '', option.script)
+      return {
+        ...result,
+        errors,
+      }
     }
-  }
 
-  globals.currentParseFile = option.templatePath || ''
-  const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
-  setting.sourceCode = option.script!
-  globals.currentParseFile = option.scriptPath || ''
-  const ast = parseScript(
-    option.script,
-    option.scriptPath,
-    wxml as t.Expression,
-    wxses,
-    refIds,
-    option.isApp,
-    option.pluginInfo
-  )
-  const errCodeMsgs = globals.errCodeMsgs
-  return {
-    ast,
-    imports,
-    errors,
-    errCodeMsgs
+    globals.currentParseFile = option.templatePath || ''
+    const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
+    setting.sourceCode = option.script!
+    globals.currentParseFile = option.scriptPath || ''
+    const ast = parseScript(
+      option.script,
+      option.scriptPath,
+      wxml as t.Expression,
+      wxses,
+      refIds,
+      option.isApp,
+      option.pluginInfo
+    )
+    const errCodeMsgs = globals.errCodeMsgs
+    return {
+      ast,
+      imports,
+      errors,
+      errCodeMsgs
+    }
+  } finally {
+    printToLogFile()
   }
 }

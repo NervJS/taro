@@ -41,7 +41,11 @@
       "/__tests__/util.ts"
     ],
     "coveragePathIgnorePatterns": [
-      "/__tests__/*"
+      "/__tests__/*",
+      "/src/vue.ts"
+    ],
+    "transformIgnorePatterns": [
+      "@taro-helper/node_modules/"
     ]
   },
   "author": "yuche",

@@ -1,6 +1,6 @@
 import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Host, Watch, Listen, Element, Method } from '@stencil/core'
+import Taro from '@tarojs/taro'
 import classNames from 'classnames'
-
 import { throttle } from '../../utils'
 import {
   formatTime,
@@ -546,9 +546,13 @@ export class Video implements ComponentInterface {
     if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
       setTimeout(() => {
         this.videoRef[screenFn.requestFullscreen]({ navigationUI: 'auto' })
+        Taro.eventCenter.trigger('__taroEnterFullScreen', {})
       }, 0)
-    } else if (!fromBrowser) {
-      document[screenFn.exitFullscreen]()
+    } else {
+      if (!fromBrowser) {
+        document[screenFn.exitFullscreen]()
+      }
+      Taro.eventCenter.trigger('__taroExitFullScreen', {})
     }
     // 全屏后，"退出全屏"是浏览器按钮是浏览器内部按钮，非html按钮，点击"退出全屏"按钮是浏览器内部实现功能。此时再次调用exitFullscreen反而会报错，因此不再调用
   }

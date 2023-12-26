@@ -1,6 +1,7 @@
 export const globals = {
   logFilePath: '',
-  currentParseFile: ''
+  currentParseFile: '',
+  logFileContent: ''
 }
 
 export const resetGlobals = (options) => {

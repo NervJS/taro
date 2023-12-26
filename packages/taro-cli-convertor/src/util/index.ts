@@ -98,7 +98,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
     if (oriPath.indexOf('/') !== 0) {
       return ''
     }
-    const absolutePath = revertScriptPath(path.resolve(sourceFilePath, '..' + oriPath), SCRIPT_EXT)
+    const absolutePath = revertScriptPath(path.join(sourceFilePath, '..' + oriPath), SCRIPT_EXT)
     if (absolutePath == null) {
       return ''
     }
@@ -112,7 +112,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
   }
   // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
-    const absolutePath = revertScriptPath(path.resolve(sourceFilePath, '..', oriPath), SCRIPT_EXT)
+    const absolutePath = revertScriptPath(path.join(sourceFilePath, '..', oriPath), SCRIPT_EXT)
 
     // 可能为三方库
     if (absolutePath == null) {
@@ -177,8 +177,8 @@ export function analyzeImportUrl (
   pluginName?: string
 ) {
   // 将参数记录到log文件
-  printToLogFile(
-    `package: taro-cli-convertor, funName: analyzeImportUrl, sourceFilePath: ${sourceFilePath}, value: ${value} ${getLineBreak()}`
+  updateLogFileContent(
+    `INFO [taro-cli-convertor] analyzeImportUrl - 入参 ${getLineBreak()}sourceFilePath: ${sourceFilePath} ${getLineBreak()}value: ${value} ${getLineBreak()}`
   )
 
   if (isPluginMainJs(value, pluginName)) {
@@ -198,6 +198,9 @@ export function analyzeImportUrl (
       position
     )
     printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+    updateLogFileContent(
+      `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用 ${value} 不存在 ${getLineBreak()}`
+    )
     return
   }
   if (rpath !== value) {
@@ -220,6 +223,9 @@ export function analyzeImportUrl (
           position
         )
         printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+        updateLogFileContent(
+          `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用 ${value} 不存在 ${getLineBreak()}`
+        )
       }
       scriptFiles.add(fPath)
     } else {
@@ -235,6 +241,9 @@ export function analyzeImportUrl (
             position
           )
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
+          updateLogFileContent(
+            `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用 ${value} 不存在！ ${getLineBreak()}`
+          )
         } else {
           if (fs.lstatSync(vpath).isDirectory()) {
             if (fs.existsSync(path.join(vpath, 'index.js'))) {
@@ -249,6 +258,9 @@ export function analyzeImportUrl (
                 position
               )
               printLog(processTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
+              updateLogFileContent(
+                `WARN [taro-cli-convertor] analyzeImportUrl - 文件 ${sourceFilePath} 中引用了目录 ${value}！ ${getLineBreak()}`
+              )
               return
             }
           }
@@ -305,11 +317,11 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
     let isThirdPartyLibExist = false
     for (const modulePath of nodePath) {
       const parts = filePath.split('/')
-      const npmModulePath = path.resolve(root, modulePath, parts[0])
+      const npmModulePath = path.join(root, modulePath, parts[0])
       if (fs.existsSync(npmModulePath)) {
         isThirdPartyLibExist = true
         // 转换后的三方库放在node_modules中
-        const moduleConvertPath = path.resolve(convertRoot, NODE_MODULES, parts[0])
+        const moduleConvertPath = path.join(convertRoot, NODE_MODULES, parts[0])
         if (!fs.existsSync(moduleConvertPath)) {
           copyFolderToTaro(npmModulePath, moduleConvertPath)
           printLog(processTypeEnum.COPY, '三方库', normalizePath(npmModulePath.replace(path.join(root, '/'), '')))
@@ -328,6 +340,9 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
         position
       )
       console.log(chalk.red(`在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`))
+      updateLogFileContent(
+        `WARN [taro-cli-convertor] handleThirdPartyLib - 在 [${nodePath.toString()}] 中没有找到依赖的三方库 ${filePath}，请安装依赖后运行 ${getLineBreak()}`
+      )
     }
   } catch (error) {
     const position = { col: 0, row: 0 }
@@ -339,6 +354,9 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
       position
     )
     console.log(chalk.red(`转换三方库${filePath}异常，请手动处理, error message:${error}`))
+    updateLogFileContent(
+      `WARN [taro-cli-convertor] handleThirdPartyLib - 转换三方库 ${filePath} 异常 ${getLineBreak()}${error} ${getLineBreak()}`
+    )
   }
 }
 
@@ -458,7 +476,10 @@ export function generateReportFile (
       fs.writeFileSync(path.join(targeFileDir, targeFileName), data)
     }
   } catch (error) {
-    throw new Error(`文件${sourceFilePath}写入失败，errorMsg：${error.message}`)
+    updateLogFileContent(
+      `WARN [taro-cli-convertor] generateReportFile - 文件 ${sourceFilePath} 写入异常 ${getLineBreak()}${error} ${getLineBreak()}`
+    )
+    console.log(`文件${sourceFilePath}写入失败，errorMsg：${error}`)
   }
 }
 
@@ -498,16 +519,36 @@ export function getLineBreak () {
 }
 
 /**
- * 记录数据到日志文件中
+ * 记录数据到logFileContent中
  *
  * @param data 日志数据
  */
-export function printToLogFile (data: string) {
+export function updateLogFileContent (data: string) {
   try {
-    // 将参数记录到log文件
-    fs.appendFile(globals.logFilePath, data)
+    globals.logFileContent += data
+
+    // 日志分段写入log文件
+    if (globals.logCount === 2000) {
+      printToLogFile()
+      globals.logCount = 0
+    } else {
+      globals.logCount++
+    }
   } catch (error) {
-    console.log('写日志文件异常')
+    console.error(`记录日志数据异常 ${error.message}}`)
+  }
+}
+
+/**
+ * 写入数据到日志文件中
+ *
+ */
+export function printToLogFile () {
+  try {
+    fs.appendFile(globals.logFilePath, globals.logFileContent)
+    globals.logFileContent = ''
+  } catch (error) {
+    console.error(`写入日志文件异常 ${error.message}}`)
     const position = { col: 0, row: 0 }
     throw new IReportError(
       '写日志文件异常',

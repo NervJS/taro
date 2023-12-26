@@ -1,12 +1,26 @@
 'use strict'
 
 const path = require('path')
-
+const fs = require('fs')
 // 存储文件信息，包括文件路径和对应的内容
 const oriFileMap = new Map()
 
 // 保存转换后的文件
 const resFileMap = new Map()
+
+/**
+ *  输出模拟文件的所有path结构
+ */
+const flatteningFile = (file,path = '',result = {}) => {
+  for(const filePath in file){
+    if(typeof file[filePath] === 'object' && file[filePath] !== null){
+      result[path + filePath] = file[filePath]
+      flatteningFile(file[filePath], path + filePath, result)
+    } else {
+      result[path + filePath] = file[filePath]
+    }
+  }
+}
 
 /**
  * 保存文件信息
@@ -15,8 +29,10 @@ const resFileMap = new Map()
  * @param { map } newMockFiles 
  */
 function setMockFiles (root, newMockFiles) {
-  for (const file in newMockFiles) {
-    oriFileMap.set(normalizePath(path.join(root, file)), newMockFiles[file])
+  const flatteningFileRes = {}
+  flatteningFile(newMockFiles,'',flatteningFileRes)
+  for (const file in flatteningFileRes) {
+    oriFileMap.set(normalizePath(path.join(root, file)), flatteningFileRes[file])
   }
 }
 
@@ -36,8 +52,10 @@ function getMockFiles () {
  * @param { map } updateFiles 
  */
 function updateMockFiles (root, updateFiles) {
-  for (const file in updateFiles) {
-    oriFileMap.set(normalizePath(path.join(root, file)), updateFiles[file])
+  const flatteningFileRes = {}
+  flatteningFile(updateFiles,'',flatteningFileRes)
+  for (const file in flatteningFileRes) {
+    oriFileMap.set(normalizePath(path.join(root, file)), flatteningFileRes[file])
   }
 }
 
@@ -88,22 +106,31 @@ function readFileSyncMock (path) {
  * 判断文件是否存在
  * 
  */
-function existsSyncMock (path) {
-  if (typeof path !== 'string' || path === '') {
+function existsSyncMock (pathParam) {
+  /**
+   * 针对于测试 generateConfigFiles 函数需要，因为 generateConfigFiles 中会查找 taro 子包中的文件
+   * fs 操作使用的是node核心模块，非模拟，所以会查找真实路径
+   */
+  if(fs.existsSync(pathParam) && path.isAbsolute(pathParam)) return true
+    
+  if (typeof pathParam !== 'string' || pathParam === '') {
     return false
   }
 
-  path = normalizePath(path)
+  pathParam = normalizePath(pathParam)
 
-  const parts = path.split('/')
+  const parts = pathParam.split('/')
   // 根据是否有后缀名判断为文件
   if (parts[parts.length - 1].includes('.')) {
-    if (oriFileMap.get(path) === undefined) {
+    if (oriFileMap.get(pathParam) === undefined) {
       return false
     }
     return true
   }
-
+  // 判断文件夹
+  if(oriFileMap.get(pathParam) && !parts[parts.length - 1].includes('.')){
+    return true
+  }
   // 文件夹内默认不存在
   return false
 }
@@ -131,8 +158,8 @@ function ensureDirMock () {
  * 
  * @returns 
  */
-function mkdirSyncMock () {
-  return true
+function mkdirSyncMock (path) {
+  resFileMap.set(path,'')
 }
 
 /**
@@ -228,7 +255,7 @@ function isDir (path) {
 }
 
 /**
- * 获取状态
+ * 获取文件或目录状态，在处理路径为符号链接时返回链接指向的文件或目录的状态
  */
 function statSyncMock (path) {
   if (typeof path !== 'string' || path === '') {
@@ -243,6 +270,46 @@ function statSyncMock (path) {
   }
 }
 
+/**
+ * 获取文件或目录状态，在处理路径为符号链接时返回链接自身的文件或目录的状态
+ */
+function lstatSyncMock (path) {
+  if (typeof path !== 'string' || path === '') {
+    return
+  }
+
+  path = normalizePath(path)
+  // 返回包含状态信息的对象
+  return {
+    isFile: () => customIsFile(path),
+    isDirectory: () => customIsDirectory(path),
+    isSymbolicLink: () => false
+  }
+}
+
+/** 
+ * 读取文件夹下的内容
+*/
+function readdirSyncMock (source){
+  const parts = source.split('/')
+  if(oriFileMap.get(source) && !parts[parts.length - 1].includes('.')){
+    const fileName  = []
+    Object.keys(oriFileMap.get(source)).forEach((item) => {
+      fileName.push(item)
+    })
+    return fileName  
+  } else {
+    return fs.readdirSync(source)
+  }
+}
+
+/**
+ * 文件复制
+ */
+function copyFileSyncMock (sourcePath, destinationPath){
+  resFileMap.set(destinationPath, oriFileMap.get(sourcePath))
+}
+
 // 自定义的 isFile 函数
 function customIsFile (path) {
   return oriFileMap.get(path)
@@ -250,7 +317,7 @@ function customIsFile (path) {
 
 // 自定义的 isDirectory 函数
 function customIsDirectory (path) {
-  if (typeof path !== 'string' || path === '') {
+  if (typeof path === 'string' && path.includes('.') && path.indexOf('.') !== 0) {
     return false
   }
   return true
@@ -272,11 +339,14 @@ module.exports = {
   existsSync: jest.fn((path) => existsSyncMock(path)),
   ensureDirSync: jest.fn(() => ensureDirSyncMock()),
   ensureDir: jest.fn(() => ensureDirMock()),
-  mkdirSync: jest.fn(() => mkdirSyncMock()),
+  mkdirSync: jest.fn((path) => mkdirSyncMock(path)),
   appendFile: jest.fn((path, appendContent) => appendFileMock(path, appendContent)),
   writeFileSync: jest.fn((path, data) => writeFileSyncMock(path, data)),
   copySync: jest.fn((from, to) => copySyncMock(from, to)),
   statSync: jest.fn((path) => statSyncMock(path)),
+  lstatSync: jest.fn((path) => lstatSyncMock(path)),
+  readdirSync:jest.fn((source) => readdirSyncMock(source)),
+  copyFileSync:jest.fn((sourcePath,destinationPath) => copyFileSyncMock(sourcePath,destinationPath))
 }
 
 module.exports.setMockFiles = setMockFiles

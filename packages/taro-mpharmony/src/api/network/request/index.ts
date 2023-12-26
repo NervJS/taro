@@ -64,12 +64,7 @@ const link = new Link(taroInterceptor)
  * 发起 HTTPS 网络请求
  * 
  * @canUse request
- * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT,\
- * PATCH, DELETE, TRACE, CONNECT], dataType[json, text, base64, arraybuffer], responseType[text, arraybuffer],\
- * enableHttp2, enableQuic, enableCache, enableHttpDNS, httpDNSServiceId, enableChunked, forceCellularNetwork, enableCookie, referrerStrategy[index,\
- * page, querystring], jsonp, jsonpCache, mode, credentials[include, same-origin,\
- * omit], cache[default, no-cache, reload, force-cache, force-cache], retryTimes, backup, signal, dataCheck,\
- * useStore, storeCheckKey, storeSign, storeCheck]
+ * @__object [url, data, header, timeout, method[OPTIONS, GET, HEAD, POST, PUT, PATCH, DELETE, TRACE, CONNECT], responseType[text, arraybuffer], enableCache]
  * @__success [data, header, statusCode, cookies]
  */
 export function request (options) {

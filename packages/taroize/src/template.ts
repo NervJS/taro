@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
-import { astToCode, buildBlockElement, buildRender, getLineBreak, IReportError, pascalName, printToLogFile, setting } from './utils'
+import { astToCode, buildBlockElement, buildRender, getLineBreak, IReportError, pascalName, setting, updateLogFileContent } from './utils'
 import { createWxmlVistor, parseWXML, WXS } from './wxml'
 
 function isNumeric (n) {
@@ -97,6 +97,7 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   const templateApplys = new Set<string>()
   path.traverse({
     JSXAttribute (p) {
+      updateLogFileContent(`INFO [taroize] preParseTemplate - 解析JSXAttribute ${getLineBreak()}${p} ${getLineBreak()}`)
       // 获取 template方法
       const node = p.node
       if (
@@ -113,6 +114,9 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
       }
     },
     JSXOpeningElement (p) {
+      updateLogFileContent(
+        `INFO [taroize] preParseTemplate - 解析JSXOpeningElement ${getLineBreak()}${p} ${getLineBreak()}`
+      )
       // 获取 template调用的模板
       const attrs = p.get('attributes')
       const is = attrs.find(
@@ -156,7 +160,9 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   if (!path.container || !path.isJSXElement()) {
     return
   }
-  printToLogFile(`package: taroize, funName: parseTemplate, path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(
+    `INFO [taroize] parseTemplate - 入参 ${getLineBreak()}path: ${path}, dirPath: ${dirPath} ${getLineBreak()}`
+  )
   const openingElement = path.get('openingElement')
   const attrs = openingElement.get('attributes')
   const is = attrs.find(
@@ -361,7 +367,9 @@ export function getWXMLsource (dirPath: string, src: string, type: string) {
 }
 
 export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type: 'include' | 'import') {
-  printToLogFile(`package: taroize, funName: parseModule, jsx: ${jsx}, dirPath: ${dirPath} ${getLineBreak()}`)
+  updateLogFileContent(
+    `INFO [taroize] parseModule - 入参 ${getLineBreak()}jsx: ${jsx}, dirPath: ${dirPath} ${getLineBreak()}`
+  )
   const openingElement = jsx.get('openingElement')
   const attrs = openingElement.get('attributes')
   // const src = attrs.find(attr => t.isJSXAttribute(attr) && t.isJSXIdentifier(attr.name) && attr.name.name === 'src')
@@ -377,6 +385,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     // @ts-ignore
     const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
     const position = { col: column, row: line }
+    updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签未包含 src 属性 ${getLineBreak()}`)
     throw new IReportError(
       `${type} 标签必须包含 \`src\` 属性`,
       'WxmlTagSrcAttributeError',
@@ -392,6 +401,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     // @ts-ignore
     const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
     const position = { col: column, row: line }
+    updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签src AST节点未包含node ${getLineBreak()}`)
     throw new IReportError(
       `${type} 标签src AST节点 必须包含node`,
       'WxmlTagSrcAttributeError',
@@ -405,6 +415,7 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
     // @ts-ignore
     const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
     const position = { col: column, row: line }
+    updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签的 src 属性值不是一个字符串 ${getLineBreak()}`)
     throw new IReportError(
       `${type} 标签的 src 属性值必须是一个字符串`,
       'WxmlTagSrcAttributeError',
@@ -445,6 +456,9 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
       if (jsx.node.children.length) {
         console.error(
           `标签: <include src="${srcValue}"> 没有自动关闭。形如：<include src="${srcValue}" /> 才是标准的 wxml 格式。`
+        )
+        updateLogFileContent(
+          `WARN [taroize] parseModule - 标签: <include src="${srcValue}"> 没有自动关闭 ${getLineBreak()}`
         )
       }
       jsx.remove()

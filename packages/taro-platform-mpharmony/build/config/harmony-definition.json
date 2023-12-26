@@ -1666,51 +1666,11 @@
           "TRACE": true,
           "CONNECT": true
         },
-        "dataType": {
-          "json": true,
-          "text": true,
-          "base64": true,
-          "arraybuffer": true
-        },
         "responseType": {
           "text": true,
           "arraybuffer": true
         },
-        "enableHttp2": true,
-        "enableQuic": true,
-        "enableCache": true,
-        "enableHttpDNS": true,
-        "httpDNSServiceId": true,
-        "enableChunked": true,
-        "forceCellularNetwork": true,
-        "enableCookie": true,
-        "referrerStrategy": {
-          "index": true,
-          "page": true,
-          "querystring": true
-        },
-        "jsonp": true,
-        "jsonpCache": true,
-        "mode": true,
-        "credentials": {
-          "include": true,
-          "same-origin": true,
-          "omit": true
-        },
-        "cache": {
-          "default": true,
-          "no-cache": true,
-          "reload": true,
-          "force-cache": true
-        },
-        "retryTimes": true,
-        "backup": true,
-        "signal": true,
-        "dataCheck": true,
-        "useStore": true,
-        "storeCheckKey": true,
-        "storeSign": true,
-        "storeCheck": true
+        "enableCache": true
       },
       "success": {
         "data": true,
@@ -1723,7 +1683,15 @@
     "requestOrderPayment": false,
     "requestPayment": true,
     "requestSubscribeDeviceMessage": false,
-    "requestSubscribeMessage": true,
+    "requestSubscribeMessage": {
+      "object": {
+        "tmplIds": true
+      },
+      "success": {
+        "errMsg": true,
+        "TEMPLATE_ID": true
+      }
+    },
     "requirePrivacyAuthorize": false,
     "reserveChannelsLive": false,
     "revokeBufferURL": false,
@@ -1747,7 +1715,37 @@
         "filePath": true
       }
     },
-    "scanCode": false,
+    "scanCode": {
+      "object": {
+        "onlyFromCamera": true,
+        "scanType": {
+          "barCode": true,
+          "qrCode": true,
+          "datamatrix": true,
+          "pdf417": true
+        }
+      },
+      "success": {
+        "charSet": true,
+        "rawData": true,
+        "result": true,
+        "scanType": {
+          "QR_CODE": true,
+          "AZTEC": true,
+          "CODABAR": true,
+          "CODE_39": true,
+          "CODE_93": true,
+          "CODE_128": true,
+          "DATA_MATRIX": true,
+          "EAN_8": true,
+          "EAN_13": true,
+          "ITF": true,
+          "PDF_417": true,
+          "UPC_A": true,
+          "UPC_E": true
+        }
+      }
+    },
     "seekBackgroundAudio": false,
     "sendHCEMessage": false,
     "sendSms": false,

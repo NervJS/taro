@@ -84,6 +84,57 @@ class _C extends React.Component {
 export default _C;
 `;
 
+exports[`parseAst 处理js文件中以/开头的绝对路径 1`] = `
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  add
+} = require("./add.js");
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;
+`;
+
+exports[`parseAst 处理js文件中非正常路径，比如 a/b 1`] = `
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  add
+} = require("./add.js");
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;
+`;
+
+exports[`parseAst 对图片路径的转换处理 1`] = `
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block, Image } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Image src={require("../../images/tutu.jpg")} mode="scaleToFill"></Image>;
+  }
+}
+export default _C;
+`;
+
 exports[`parseAst 当使用e.target.dataset时引入工具函数 getTarget 1`] = `
 import withWeapp, { cacheOptions, getTarget } from "@tarojs/with-weapp";
 import { Block, View, Button } from "@tarojs/components";
@@ -131,6 +182,28 @@ class _C extends React.Component {
       tagInfo
     } = this.data;
     return <Block><View>测试data-xxx-xxx写法</View><Button data-tag-name="WX1314" data-tag-data={tagInfo} onClick={this.getMsg}>获取</Button><View>测试data-xxxXxxx 驼峰写法</View><Button data-tagname="WX1314" data-tagdata={tagInfo} onClick={this.getMsg02}>获取</Button></Block>;
+  }
+}
+export default _C;
+`;
+
+exports[`parseAst 模板中使用function 1`] = `
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+import ItemTmpl from '../../../imports/ItemTmpl.js';
+cacheOptions.setOptionsToCache({
+  onClick() {
+    console.log('click');
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <ItemTmpl data={{
+      text: 'forbar'
+    }} onClick={this.onClick}></ItemTmpl>;
   }
 }
 export default _C;

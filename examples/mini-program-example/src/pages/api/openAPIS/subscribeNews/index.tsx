@@ -16,13 +16,9 @@ export default class Index extends React.Component {
       {
         id: 'requestSubscribeMessage',
         inputData: {
-          tmplIds: [''],
+          tmplIds: ['OTHER_TYPES', 'CONTENT_INFORMATION', 'SERVICE_INFORMATION', 'SOCIAL_COMMUNICATION'],
         },
         func: (apiIndex, data) => {
-          TestConsole.consoleTest('Taro.requestSubscribeMessage')
-          Taro.requestSubscribeMessage(data).then((res) => {
-            TestConsole.consoleNormal('requestSubscribeMessage', res)
-          })
           Taro.requestSubscribeMessage({
             ...data,
             success: (res) => {

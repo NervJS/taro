@@ -1,10 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`slot插槽 当元素设置slot属性且值为空串时，移除slot属性 1`] = `<View><SlotComponent renderAfter={<Block><View>这里是插入到组件slot name="after"中的内容</View></Block>}><View>这里是插入到组件slot name="before"中的内容</View></SlotComponent></View>`;
+
 exports[`wxml语法 wx:key="index"会转换成key="index" 1`] = `
 data.map((item, index) => {
   return <View key={index}><Text>{item.name}</Text></View>;
 })
 `;
+
+exports[`wxml语法 使用wx:if替换wx:show属性 1`] = `isShow && <View>测试使用wx:if替换wx:show属性</View>`;
 
 exports[`wxml语法 列表渲染 1`] = `
 array.map((item, index) => {
@@ -37,6 +41,24 @@ module.exports = {
   //参数为字符串
   date3: new Date("2017-7-14")
 };
+`;
+
+exports[`wxs 在页面中引入外部wxs，转换情况 1`] = `
+import { Block, View } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+import wxs_test from ".././../utils/test.wxs";
+Page({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Block><View>{wxs_test.foo}</View><View>{wxs_test.bar('nihao')}</View></Block>;
+  }
+}
+export default _C;
 `;
 
 exports[`wxs 页面中使用wxs 1`] = `

@@ -98,6 +98,93 @@ describe('template.ts', () => {
         Object.defineProperty(globals, 'rootPath', originalDescriptor)
       }
     })
+
+    test('template传递data的语法 {{...xxx,xxx}}', () => {
+      const wxmlStr = `
+        <template name="msgItem">
+          <view>{{age}}</view>
+          <view>{{name}}</view>
+          <view>{{text}}</view>
+        </template>
+        <template is="msgItem" data="{{...item, text}}"/>
+      `
+      const dirPath = 'template_data_es'
+      const { wxml }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+    })
+
+    test('template传递data的语法 {{key:xxx}}', () => {
+      const wxmlStr = `
+        <template name="msgItem">
+          <view>{{text}}</view>
+        </template>
+        <template is="msgItem" data="{{text:'abc'}}"/>
+      `
+      const dirPath = 'template_data_key_value'
+      const { wxml }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+    })
+
+    test('当 template is 标签是三元表达式时，他的两个值都必须为字符串', () => {
+      const wxmlStr = `
+        <template name="msgItem">
+          <view>{{data}}</view>
+        </template>
+        <template is="{{true ? msgItem : iso}}" data="{{data:'xixi'}}"/>
+      `
+      const dirPath = 'template_is_string'
+      expect(() => parseWXML(dirPath, wxmlStr)).toThrowError(
+        '当 template is 标签是三元表达式时，他的两个值都必须为字符串'
+      )
+    })
+
+    test('template的is属性不能为空', () => {
+      const wxmlStr = `
+        <template name="msgItem">
+          <view>{{data}}</view>
+        </template>
+        <template is="" data="{{data:'xixi'}}"/>
+      `
+      const dirPath = 'template_is_empty'
+      expect(() => parseWXML(dirPath, wxmlStr)).toThrowError()
+    })
+
+    test('template 的 name 属性只能是字符串', () => {
+      const wxmlStr = `
+        <template name="{{msgItem}}">
+          <view>{{data}}</view>
+        </template>
+        <template is="{{msgItem}}" data="{{data:'xixi'}}"/>
+      `
+      const dirPath = 'template_name_no_string'
+      expect(() => parseWXML(dirPath, wxmlStr)).toThrowError('template 的 `name` 属性只能是字符串')
+    })
+    
+    test('template 标签必须指名 `is` 或 `name` 任意一个标签',() => {
+      const wxmlStr = `
+        <template name="msgItem">
+          <view>{{data}}</view>
+        </template>
+        <template />
+      `
+      const dirPath = 'template_no_name_no_is'
+      expect(() => parseWXML(dirPath, wxmlStr)).toThrowError('template 标签必须指名 `is` 或 `name` 任意一个标签')
+    })
+
+    test('template 的 is 属性是表达式情况', () => {
+      const wxmlStr = `
+        <template name="msgItem">
+          <view>{{data}}</view>
+        </template>
+        <template is="{{true ? 'msgItem' : '1223'}}" data="{{data:'xixi'}}"/>
+      `
+      const dirPath = 'dasdsa'
+      const { wxml }: any = parseWXML(dirPath, wxmlStr)
+      const wxmlCode = generateMinimalEscapeCode(wxml)
+      expect(wxmlCode).toMatchSnapshot()
+    })
   })
 
   describe('引入', () => {
@@ -139,7 +226,7 @@ describe('template.ts', () => {
             <view>模版DEMO</view>
           </template>
         `
-        jest.spyOn(path, 'join').mockReturnValue('\\code\\taro_demo\\pages\\template\\template')
+        jest.spyOn(path, 'join').mockReturnValue('/code/taro_demo/pages/template/template')
         jest.spyOn(path, 'relative').mockReturnValue('../template/template')
         jest.spyOn(fs, 'readFileSync').mockReturnValue(template)
         jest.spyOn(fs, 'existsSync').mockReturnValue(true)
@@ -153,7 +240,7 @@ describe('template.ts', () => {
 
       test('import src 为绝对路径但导入文件不存在', () => {
     
-        jest.spyOn(path, 'join').mockReturnValue('\\code\\taro_demo\\pages\\template\\myTmpl')
+        jest.spyOn(path, 'join').mockReturnValue('/code/taro_demopages/template/myTmpl')
     
         const dirPath = 'import_absoulte_path'
         const srcValue = '/pages/template/myTmpl'
@@ -171,6 +258,12 @@ describe('template.ts', () => {
         const wxml = `<import/>`
         const dirPath = 'import_no_src'
         expect(() => parseWXML(dirPath, wxml)).toThrowError('import 标签必须包含 `src` 属性')
+      })
+
+      test('import src属性必须是一个字符串',() => {
+        const wxmlStr = '<import src="{{srcStr}}"/>'
+        const dirPath = 'import_src_no_string'
+        expect(() => parseWXML(dirPath, wxmlStr)).toThrowError()
       })
     })
 

@@ -9,6 +9,6 @@ export { pageScrollTo } from '@tarojs/taro-h5'
 /**
  * 增强 ScrollView 实例
  * 
- * @canUse ScrollView
+ * @canUse ScrollViewContext
  * @__class [scrollTo, scrollIntoView]
  */

@@ -26,9 +26,49 @@ export * from './ui'
 export * from './worker'
 export * from './wxml'
 
+if (typeof window !== 'undefined') {
+  // @ts-ignore
+  window.currentNavigation = {}
+}
+
 Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
   if (typeof window !== 'undefined') {
     // @ts-ignore
     window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+    // @ts-ignore
+    Object.assign(window.currentNavigation, {
+      style,
+      textStyle,
+      backgroundColor,
+    })
+    // @ts-ignore
+    if (typeof window.originCapsuleState !== 'undefined') {
+      // @ts-ignore
+      window.native?.setCapsuleState?.(window.originCapsuleState)
+    }
+  }
+})
+
+Taro.eventCenter.on('__taroEnterFullScreen', () => {
+  // @ts-ignore
+  window.native?.setNavigationStyle?.('custom', 'black', '#000000')
+  // @ts-ignore
+  if (typeof window.originCapsuleState === 'undefined') {
+    // @ts-ignore
+    window.originCapsuleState = window.native?.getCapsuleState().visible
+  }
+  // @ts-ignore
+  window.native?.setCapsuleState?.(false)
+})
+
+Taro.eventCenter.on('__taroExitFullScreen', () => {
+  // @ts-ignore
+  const { style, textStyle, backgroundColor } = window.currentNavigation
+  // @ts-ignore
+  window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+  // @ts-ignore
+  if (typeof window.originCapsuleState !== 'undefined') {
+    // @ts-ignore
+    window.native?.setCapsuleState?.(window.originCapsuleState)
   }
 })

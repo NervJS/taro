@@ -9,6 +9,7 @@ interface Globals {
   logFilePath: string   // 日志文件路径
   currentParseFile: string  // 当前解析文件 (转换报告涉及的字段)
   errCodeMsgs: any[]    // 错误代码信息列表 (转换报告涉及的字段)
+  logFileContent: string
 }
 
 export const globals: Globals = {
@@ -17,6 +18,7 @@ export const globals: Globals = {
   logFilePath: '',
   currentParseFile: '',
   errCodeMsgs: [],
+  logFileContent: ''
 }
 
 export const THIRD_PARTY_COMPONENTS = new Set<string>()
