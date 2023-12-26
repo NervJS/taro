@@ -2,13 +2,12 @@ import { Component, ComponentInterface, Element, Event, EventEmitter, h, Host, P
 import Hammer from 'hammerjs'
 import { MapProps } from 'types'
 
-const coordtransform = require('coordtransform')
-
 declare const BMapGL: any
 declare const BMAP_ANCHOR_TOP_RIGHT: any
 declare const BMAP_ANCHOR_BOTTOM_RIGHT: any
 declare const BMAP_NORMAL_MAP: any
 declare const BMAP_SATELLITE_MAP: any
+declare const BMapGLLib: any
 
 @Component({
   tag: 'taro-map-core',
@@ -138,263 +137,269 @@ export class Map implements ComponentInterface {
   @Event({
     eventName: 'tap',
   })
+  
     onTap: EventEmitter
 
+  private currentRotation = 0
   private map: any
   private mapRef: HTMLDivElement
   @Element() el: HTMLElement
   groundOverlay: any
-  componentDidLoad () {
-    // 加载地图脚本
-    this.loadMapScript().then(() => {
-      // 如果容器元素存在
-      if (this.mapRef) {
-        this.mapRef.addEventListener('touchmove', (e) => {
-          if (e.cancelable) {
-            e.preventDefault()
+  async componentDidLoad () {
+    // 加载地图脚本 
+    await this.loadMapScript()
+    // 记载BmapLib工具库 
+    await this.LoadBmapLibScript()
+    // 如果容器元素存在 
+
+    if (this.mapRef) {
+      this.mapRef.addEventListener('touchmove', (e) => {
+        if (e.cancelable) {
+          e.preventDefault()
+        }
+      })
+      // 创建地图对象
+      this.map = new BMapGL.Map(this.mapRef)
+      // 移除百度地图版权信息
+      this.map.removeControl(this.map.getMapType())
+      // 创建中心点坐标对象
+      // 中心经纬度为必填值
+      if (this.latitude < -90 || this.latitude > 90 || this.longitude < -180 || this.longitude > 180 || isNaN(this.latitude) || isNaN(this.longitude)) {
+        console.error('请正确设置中心经纬度')
+        return
+      }
+      let scale = isNaN(this.scale) ? 16 : this.scale
+      let minScale = isNaN(this.minScale) ? 3 : this.minScale
+      let maxScale = isNaN(this.maxScale) ? 16 : this.maxScale
+      const point = new BMapGL.Point(this.longitude, this.latitude)
+
+      if (minScale < 3 || minScale > 20) {
+        minScale = 3
+        this.map.setMinZoom(3)
+      } else {
+        // 设置最小缩放级别
+        this.map.setMinZoom(minScale)
+      }
+
+      if (maxScale > 20 || maxScale < 3) {
+        maxScale = 20
+        this.map.setMaxZoom(20)
+      } else {
+        // 设置最大缩放级别
+        this.map.setMaxZoom(maxScale)
+      }
+
+      if (minScale > maxScale) {
+        minScale = 3
+        this.map.setMinZoom(3)
+        maxScale = 20
+        this.map.setMaxZoom(20)
+      }
+
+      // 设置地图中心和缩放级别
+      if (minScale <= 16 && maxScale >= 16) {
+        if (scale >= minScale && scale <= maxScale) {
+          // 使用this.scale来设置缩放级别
+          this.map.centerAndZoom(point, scale)
+        } else {
+          scale = 16
+          this.map.centerAndZoom(point, scale)
+        }
+      } else {
+        if (scale >= minScale && scale <= maxScale) {
+          // 使用this.scale来设置缩放级别
+          this.map.centerAndZoom(point, scale)
+        } else if (scale < minScale) {
+          scale = minScale
+          this.map.centerAndZoom(point, minScale)
+        } else {
+          scale = maxScale
+          this.map.centerAndZoom(point, maxScale)
+        }
+      }
+
+      // 添加标记点markers
+      if (Array.isArray(this.markers)) {
+        this.addMarkers(this.markers)
+      }
+
+      // 创建polyline路线
+      if (Array.isArray(this.polyline)) {
+        this.polyline.forEach((line) => {
+          if (line.points) {
+            const points = line.points.map((point) => new BMapGL.Point(point.longitude, point.latitude))
+            const polyline = new BMapGL.Polyline(points, {
+              strokeColor: line.color,
+              strokeWeight: line.width,
+              strokeStyle: line.dottedLine ? 'dashed' : 'solid',
+              strokeOpacity: 1,
+            })
+            // 将polyline路线添加到地图上
+            this.map.addOverlay(polyline)
           }
         })
-        // 创建地图对象
-        this.map = new BMapGL.Map(this.mapRef)
-        // 移除百度地图版权信息
-        this.map.removeControl(this.map.getMapType())
-        // 创建中心点坐标对象
-        // 中心经纬度为必填值
-        if (this.latitude < -90 || this.latitude > 90 || this.longitude < -180 || this.longitude > 180 || isNaN(this.latitude) || isNaN(this.longitude)) {
-          console.error('请正确设置中心经纬度')
-          return
-        }
-        let scale = isNaN(this.scale) ? 16 : this.scale
-        let minScale = isNaN(this.minScale) ? 3 : this.minScale
-        let maxScale = isNaN(this.maxScale) ? 16 : this.maxScale
-        const point = new BMapGL.Point(this.longitude, this.latitude)
+      }
 
-        if (minScale < 3 || minScale > 20) {
-          minScale = 3
-          this.map.setMinZoom(3)
-        } else {
-          // 设置最小缩放级别
-          this.map.setMinZoom(minScale)
-        }
-
-        if (maxScale > 20 || maxScale < 3) {
-          maxScale = 20
-          this.map.setMaxZoom(20)
-        } else {
-          // 设置最大缩放级别
-          this.map.setMaxZoom(maxScale)
-        }
-
-        if (minScale > maxScale) {
-          minScale = 3
-          this.map.setMinZoom(3)
-          maxScale = 20
-          this.map.setMaxZoom(20)
-        }
-
-        // 设置地图中心和缩放级别
-        if (minScale <= 16 && maxScale >= 16) {
-          if (scale >= minScale && scale <= maxScale) {
-            // 使用this.scale来设置缩放级别
-            this.map.centerAndZoom(point, scale)
-          } else {
-            scale = 16
-            this.map.centerAndZoom(point, scale)
-          }
-        } else {
-          if (scale >= minScale && scale <= maxScale) {
-            // 使用this.scale来设置缩放级别
-            this.map.centerAndZoom(point, scale)
-          } else if (scale < minScale) {
-            scale = minScale
-            this.map.centerAndZoom(point, minScale)
-          } else {
-            scale = maxScale
-            this.map.centerAndZoom(point, maxScale)
-          }
-        }
-
-        // 添加标记点markers
-        if (Array.isArray(this.markers)) {
-          this.addMarkers(this.markers)
-        }
-
-        // 创建polyline路线
-        if (Array.isArray(this.polyline)) {
-          this.polyline.forEach((line) => {
-            if (line.points) {
-              const points = line.points.map((point) => new BMapGL.Point(point.longitude, point.latitude))
-              const polyline = new BMapGL.Polyline(points, {
-                strokeColor: line.color,
-                strokeWeight: line.width,
-                strokeStyle: line.dottedLine ? 'dashed' : 'solid',
-                strokeOpacity: 1,
-              })
-              // 将polyline路线添加到地图上
-              this.map.addOverlay(polyline)
-            }
-          })
-        }
-
-        // 添加圆形覆盖物circles
-        if (Array.isArray(this.circles)) {
-          this.circles.forEach((circle) => {
-            if (circle.latitude && circle.longitude && circle.radius) {
-              const point = new BMapGL.Point(circle.longitude, circle.latitude)
-              const circleObj = new BMapGL.Circle(point, circle.radius, {
-                strokeColor: circle.color,
-                fillColor: circle.fillColor,
-                strokeWeight: circle.strokeWidth,
-              })
-              this.map.addOverlay(circleObj)
-            }
-          })
-        }
-
-        //  多边形
-        if (Array.isArray(this.polygons)) {
-          this.polygons.forEach((polygon) => {
-            // 创建多边形的点坐标数组
-            const points = polygon.points.map((point) => new BMapGL.Point(point.longitude, point.latitude))
-            // 创建多边形对象
-            const polygonObj = new BMapGL.Polygon(points, {
-              strokeColor: polygon.strokeColor,
-              fillColor: polygon.fillColor,
-              strokeWeight: polygon.strokeWidth,
+      // 添加圆形覆盖物circles
+      if (Array.isArray(this.circles)) {
+        this.circles.forEach((circle) => {
+          if (circle.latitude && circle.longitude && circle.radius) {
+            const point = new BMapGL.Point(circle.longitude, circle.latitude)
+            const circleObj = new BMapGL.Circle(point, circle.radius, {
+              strokeColor: circle.color,
+              fillColor: circle.fillColor,
+              strokeWeight: circle.strokeWidth,
             })
-            // 将多边形添加到地图上
-            this.map.addOverlay(polygonObj)
+            this.map.addOverlay(circleObj)
+          }
+        })
+      }
+
+      //  多边形
+      if (Array.isArray(this.polygons)) {
+        this.polygons.forEach((polygon) => {
+          // 创建多边形的点坐标数组
+          const points = polygon.points.map((point) => new BMapGL.Point(point.longitude, point.latitude))
+          // 创建多边形对象
+          const polygonObj = new BMapGL.Polygon(points, {
+            strokeColor: polygon.strokeColor,
+            fillColor: polygon.fillColor,
+            strokeWeight: polygon.strokeWidth,
           })
-        }
+          // 将多边形添加到地图上
+          this.map.addOverlay(polygonObj)
+        })
+      }
 
-        if (this.layerStyle === 0) {
-          const layerStyle = this.layerStyle
-          if (layerStyle) {
-            // 使用个性化地图样式
-            this.map.setMapStyleV2({ styleId: this.subkey })
-          }
-        } else {
-          const layerStyle = this.layerStyle ? this.layerStyle : 1
-          if (layerStyle === 1) {
-            // 使用个性化地图样式
-            this.map.setMapStyleV2({ styleId: this.subkey })
-          }
+      if (this.layerStyle === 0) {
+        const layerStyle = this.layerStyle
+        if (layerStyle) {
+          // 使用个性化地图样式
+          this.map.setMapStyleV2({ styleId: this.subkey })
         }
+      } else {
+        const layerStyle = this.layerStyle ? this.layerStyle : 1
+        if (layerStyle === 1) {
+          // 使用个性化地图样式
+          this.map.setMapStyleV2({ styleId: this.subkey })
+        }
+      }
 
-        const enable3D = this.enable3D === true ? this.enable3D : false
-        const enableOverlooking = this.enableOverlooking === true ? this.enableOverlooking : false
-        const enableAutoMaxOverlooking = this.enableAutoMaxOverlooking === true ? this.enableAutoMaxOverlooking : false
-        const skew = this.skew ? this.skew : 0
-        if (enable3D === true) {
-          if (enableOverlooking === true) {
-            // /开启最大俯视角
-            if (enableAutoMaxOverlooking === true) {
-              this.map.setTilt(75)
-            } else {
-              // 开启俯视角度
-              this.map.setTilt(45)
-            }
-          } else if (skew >= 0 && skew <= 40) {
-            // 设置倾斜角度
-            this.map.setTilt(skew)
+      const enable3D = this.enable3D === true ? this.enable3D : false
+      const enableOverlooking = this.enableOverlooking === true ? this.enableOverlooking : false
+      const enableAutoMaxOverlooking = this.enableAutoMaxOverlooking === true ? this.enableAutoMaxOverlooking : false
+      const skew = this.skew ? this.skew : 0
+      if (enable3D === true) {
+        if (enableOverlooking === true) {
+          // /开启最大俯视角
+          if (enableAutoMaxOverlooking === true) {
+            this.map.setTilt(75)
           } else {
-            this.map.setTilt(0)
+            // 开启俯视角度
+            this.map.setTilt(45)
           }
+        } else if (skew >= 0 && skew <= 40) {
+          // 设置倾斜角度
+          this.map.setTilt(skew)
         } else {
           this.map.setTilt(0)
         }
-
-        // 显示指南针
-        const showCompass = this.showCompass === true ? this.showCompass : false
-        if (showCompass === true) {
-          const compassControl = new BMapGL.NavigationControl3D({
-            anchor: BMAP_ANCHOR_TOP_RIGHT,
-            type: 3, // 3代表显示指南针
-          })
-          this.map.addControl(compassControl)
-        }
-
-        // 显示比例尺
-        const showScale = this.showScale === true ? this.showScale : false
-        if (showScale === true) {
-          const scaleControl = new BMapGL.ScaleControl({
-            anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
-          })
-          this.map.addControl(scaleControl)
-        }
-
-        const enableZoom = this.enableZoom === false ? this.enableZoom : true
-        if (enableZoom === true) {
-          // 启用缩放
-          this.map.enableScrollWheelZoom(this.enableZoom)
-        }
-        // 启用缩放
-        if (this.enableZoom === true && this.mapRef) {
-          this.map.enablePinchToZoom()
-        } else {
-          this.map.disablePinchToZoom()
-        }
-
-        // 拖拽
-        const enableScroll = this.enableScroll === false ? this.enableScroll : true
-        if (enableScroll === true) {
-          this.map.enableDragging()
-        } else {
-          this.map.disableDragging()
-        }
-
-        const rotate = this.rotate ? this.rotate : 0
-        if (rotate >= 0 && this.rotate <= 360) {
-          this.map.setHeading(this.rotate)
-        } else {
-          this.map.setHeading(0)
-        }
-
-        // 设置旋转角度
-        if (this.enableRotate === true) {
-          this.map.enableRotateGestures()
-        }
-
-        // 启用卫星图
-        const enableSatellite = this.enableSatellite === true ? this.enableSatellite : false
-        if (enableSatellite === true && this.mapRef) {
-          const mapTypeControl = new BMapGL.MapTypeControl({
-            mapTypes: [BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP],
-          })
-          this.map.addControl(mapTypeControl)
-        }
-
-        const enableTraffic = this.enableTraffic === true ? this.enableTraffic : false
-        if (enableTraffic === true && this.mapRef) {
-          this.map.setTrafficOn()
-        }
-
-        // 是否开启建筑物
-        const enableBuilding = this.enableBuilding === false ? this.enableBuilding : true
-        if (enableBuilding === false) {
-          this.map.setDisplayOptions({ building: false })
-        }
+      } else {
+        this.map.setTilt(0)
       }
-      if (this.map) {
-        // 创建Hammer对象，绑定到地图容器
-        const hammer = new Hammer(this.mapRef)
-        hammer.on('tap', (e) => {
-          // 将Hammer事件对象中的坐标转换为百度地图坐标
-          const point = this.map.pixelToPoint({ x: e.center.x, y: e.center.y })
-          this.onTap.emit({
-            longitude: point.lng,
-            latitude: point.lat,
-          })
+
+      // 显示指南针
+      const showCompass = this.showCompass === true ? this.showCompass : false
+      if (showCompass === true) {
+        const compassControl = new BMapGL.NavigationControl3D({
+          anchor: BMAP_ANCHOR_TOP_RIGHT,
+          type: 3, // 3代表显示指南针
         })
+        this.map.addControl(compassControl)
       }
-    })
+
+      // 显示比例尺
+      const showScale = this.showScale === true ? this.showScale : false
+      if (showScale === true) {
+        const scaleControl = new BMapGL.ScaleControl({
+          anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+        })
+        this.map.addControl(scaleControl)
+      }
+
+      const enableZoom = this.enableZoom === false ? this.enableZoom : true
+      if (enableZoom === true) {
+        // 启用缩放
+        this.map.enableScrollWheelZoom(this.enableZoom)
+      }
+      // 启用缩放
+      if (this.enableZoom === true && this.mapRef) {
+        this.map.enablePinchToZoom()
+      } else {
+        this.map.disablePinchToZoom()
+      }
+
+      // 拖拽
+      const enableScroll = this.enableScroll === false ? this.enableScroll : true
+      if (enableScroll === true) {
+        this.map.enableDragging()
+      } else {
+        this.map.disableDragging()
+      }
+
+      const rotate = this.rotate ? this.rotate : 0
+      if (rotate >= 0 && this.rotate <= 360) {
+        this.map.setHeading(this.rotate)
+      } else {
+        this.map.setHeading(0)
+      }
+
+      // 设置旋转角度
+      if (this.enableRotate === true) {
+        this.map.enableRotateGestures()
+      }
+
+      // 启用卫星图
+      const enableSatellite = this.enableSatellite === true ? this.enableSatellite : false
+      if (enableSatellite === true && this.mapRef) {
+        const mapTypeControl = new BMapGL.MapTypeControl({
+          mapTypes: [BMAP_NORMAL_MAP, BMAP_SATELLITE_MAP],
+        })
+        this.map.addControl(mapTypeControl)
+      }
+
+      const enableTraffic = this.enableTraffic === true ? this.enableTraffic : false
+      if (enableTraffic === true && this.mapRef) {
+        this.map.setTrafficOn()
+      }
+
+      // 是否开启建筑物
+      const enableBuilding = this.enableBuilding === false ? this.enableBuilding : true
+      if (enableBuilding === false) {
+        this.map.setDisplayOptions({ building: false })
+      }
+    }
+    if (this.map) {
+      // 创建Hammer对象，绑定到地图容器
+      const hammer = new Hammer(this.mapRef)
+      hammer.on('tap', (e) => {
+        // 将Hammer事件对象中的坐标转换为百度地图坐标
+        const point = this.map.pixelToPoint({ x: e.center.x, y: e.center.y })
+        this.onTap.emit({
+          longitude: point.lng,
+          latitude: point.lat,
+        })
+      })
+    }
   }
+
 
   disconnectedCallback () {
     if (this.map) {
-      this.map.destroy()
+      this.map.destroy() 
     }
   }
+
 
   addMarkers (markers) {
     // 维护已存在的marker id 列表
@@ -518,7 +523,7 @@ export class Map implements ComponentInterface {
             {
               width: 200, // 气泡宽度
               height: 100, // 气泡高度
-              offset: new BMapGL.Size(offsetX, offsetY - 12), // 设置偏移量
+              offset: new BMapGL.Size(offsetX - 24, offsetY - 20), // 设置偏移量
             }
           )
           // 自定义属性存储气泡(callout)对象
@@ -530,18 +535,26 @@ export class Map implements ComponentInterface {
             const point = markerObj.getPosition() // 获取marker标记点的位置
             markerObj.callout.addEventListener('open', function () {
               const infoWindowElement = document.querySelector('.BMap_bubble_pop')
-              const img = document.querySelector('.BMap_bubble_pop>img')
-              if (img) {
-                img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
-              }
-
               if (infoWindowElement) {
+                let triangle = infoWindowElement.querySelector('.triangle')
+                if (!triangle) {
+                  // 如果不存在，则创建并添加新的三角形 div
+                  triangle = document.createElement('div')
+                  triangle.className = 'triangle'  // 添加一个类名以便日后查找
+                  infoWindowElement.appendChild(triangle)
+                }
+
+                const img = document.querySelector('.BMap_bubble_pop>img')
+                if (img) {
+                  img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;display:none`)
+                }
                 const backgroundcolor = marker.callout?.bgColor
                 let borderWidth = marker.callout?.borderWidth || 5
                 const borderColor = marker.callout?.borderColor
                 const borderRadius = marker.callout?.borderRadius
                 // 确保边框大小不超过15
                 borderWidth = Math.min(borderWidth, 15)
+                triangle.setAttribute('style', `width:0;height:0;borderLeft:${borderWidth}px solid transparent;borderRight:${borderWidth}px solid transparent;borderTop:${borderWidth}px solid ${borderColor};position:absolute;left:83px;bottom:-${2 * borderWidth}px`)
                 infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
               }
             })
@@ -573,17 +586,26 @@ export class Map implements ComponentInterface {
                   const point = markerObj.getPosition() // 获取marker标记点的位置
                   markerObj.callout.addEventListener('open', function () {
                     const infoWindowElement = document.querySelector('.BMap_bubble_pop')
-                    const img = document.querySelector('.BMap_bubble_pop>img')
-                    if (img) {
-                      img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
-                    }
                     if (infoWindowElement) {
+                      let triangle = infoWindowElement.querySelector('.triangle')
+                      if (!triangle) {
+                        // 如果不存在，则创建并添加新的三角形 div
+                        triangle = document.createElement('div')
+                        triangle.className = 'triangle'  // 添加一个类名以便日后查找
+                        infoWindowElement.appendChild(triangle)
+                      }
+
+                      const img = document.querySelector('.BMap_bubble_pop>img')
+                      if (img) {
+                        img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;display:none`)
+                      }
                       const backgroundcolor = marker.callout?.bgColor
                       let borderWidth = marker.callout?.borderWidth || 5
                       const borderColor = marker.callout?.borderColor
                       const borderRadius = marker.callout?.borderRadius
                       // 确保边框大小不超过15
                       borderWidth = Math.min(borderWidth, 15)
+                      triangle.setAttribute('style', `width:0;height:0;border-left:${borderWidth}px solid transparent;border-right:${borderWidth}px solid transparent;border-top:${borderWidth}px solid ${borderColor};position:absolute;left:83px;bottom:-${2 * borderWidth}px`)
                       infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
                     }
                   })
@@ -626,6 +648,7 @@ export class Map implements ComponentInterface {
     })
   }
 
+
   public loadMapScript (): Promise<void> {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script')
@@ -635,6 +658,22 @@ export class Map implements ComponentInterface {
       script.onerror = reject
       script.type = 'text/javascript'
       document.head.appendChild(script)
+    })
+  }
+
+
+  public async LoadBmapLibScript (): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // 地图加载完成后再加载BMapGLLib
+      const bmapLibScript = document.createElement('script')
+      bmapLibScript.src = '//mapopen.bj.bcebos.com/github/BMapGLLib/AreaRestriction/src/AreaRestriction.min.js'
+      bmapLibScript.defer = true
+      bmapLibScript.type = 'text/javascript'
+      bmapLibScript.onload = () => {
+        resolve()
+      }
+      bmapLibScript.onerror = reject
+      document.head.appendChild(bmapLibScript)
     })
   }
 
@@ -675,6 +714,10 @@ export class Map implements ComponentInterface {
     const latitude = option.destination.latitude
     const longitude = option.destination.longitude
     const destinationPoint = new BMapGL.Point(longitude, latitude)
+    const animationEndResult: any = {
+      errMsg: 'animationEnd:ok',
+    }
+    let flag = true
     // 获取所有覆盖物
     const overlays = this.map.getOverlays()
     // 查找指定 id 的 Marker 对象
@@ -683,6 +726,7 @@ export class Map implements ComponentInterface {
     )
     if (!targetMarker) {
       console.error(`Marker "${option.markerId}" not found.`)
+      flag = false
       return
     }
     // 计算平移步长
@@ -695,41 +739,82 @@ export class Map implements ComponentInterface {
     // 计算旋转角度的步长
     const startRotation = targetMarker.getRotation() // 获取起始旋转角度
     const targetRotation = option.rotate // 设置目标旋转角度
-    const rotationStep = (targetRotation - startRotation) / (option.duration / 16)
+    if (!this.currentRotation) {
+      this.currentRotation = targetRotation
+    } else {
+      this.currentRotation += targetRotation
+    }
+    const rotationStep = (this.currentRotation - startRotation) / (option.duration / 16)
 
     // 执行平移动画
     let currentLngLat = startLngLat
-    let currentFrame = 0
     let currentRotation = startRotation
 
-    const animationInterval = setInterval(() => {
-      currentLngLat = new BMapGL.Point(currentLngLat.lng + step.lng, currentLngLat.lat + step.lat)
-      targetMarker.setPosition(currentLngLat)
-      // 如果moveWithRotate为true且autoRotate为true，则同时进行旋转
-      if (option.moveWithRotate && option.autoRotate) {
+    if (!option.moveWithRotate && option.autoRotate) {
+      let currentFrame = 0 // 用于平移动画的计数器
+      // 执行平移动画
+      const animationInterval = setInterval(() => {
+        currentLngLat = new BMapGL.Point(currentLngLat.lng + step.lng, currentLngLat.lat + step.lat)
+        targetMarker.setPosition(currentLngLat)
+        currentFrame++
+        if (currentFrame >= option.duration / 16) {
+          clearInterval(animationInterval)
+          let rotationFrame = 0 // 用于旋转动画的计数器
+          // 在到达目的地后执行旋转动画
+          const rotationInterval = setInterval(() => {
+            currentRotation += rotationStep
+            targetMarker.setRotation(currentRotation)
+            rotationFrame++
+            if (rotationFrame >= option.duration / 16) {
+              clearInterval(rotationInterval) // 清除旋转动画的定时器
+              option?.animationEnd(animationEndResult)
+            }
+          }, 16)
+        }
+      }, 16)
+    } else if (option.moveWithRotate && option.autoRotate) {
+      let currentFrame = 0  // 定义局部变量
+      const animationInterval = setInterval(() => {
+        currentLngLat = new BMapGL.Point(currentLngLat.lng + step.lng, currentLngLat.lat + step.lat)
+        targetMarker.setPosition(currentLngLat)
         currentRotation += rotationStep
         targetMarker.setRotation(currentRotation)
-      }
-      currentFrame++
-      if (currentFrame >= option.duration / 16) {
-        clearInterval(animationInterval)
-      }
-    }, 16)
+        currentFrame++
+        if (currentFrame >= option.duration / 16) {
+          clearInterval(animationInterval)
+          option?.animationEnd(animationEndResult)
+        }
+      }, 16)
+    } else if (option.moveWithRotate && !option.autoRotate) {
+      let currentFrame = 0  // 定义局部变量
+      const animationInterval = setInterval(() => {
+        currentLngLat = new BMapGL.Point(currentLngLat.lng + step.lng, currentLngLat.lat + step.lat)
+        targetMarker.setPosition(currentLngLat)
+        currentFrame++
+        if (currentFrame >= option.duration / 16) {
+          clearInterval(animationInterval)
+          option?.animationEnd(animationEndResult)
+        }
+      }, 16)
+    }
+    return flag
   }
 
   /* 缩放视野展示所有经纬度 */
   _includePoints = (option) => {
     const bPoints = option.points.map((point) => new BMapGL.Point(point.longitude, point.latitude))
+    const originalZoom = this.map.getZoom()
+    const originalCenter = this.map.getCenter()
     const view = this.map.getViewport(bPoints)
-    this.latitude = view.center.lat
-    this.longitude = view.center.lng
-    this.scale = view.zoom
+    // 地图缩放后
     this.map.centerAndZoom(view.center, view.zoom)
     const bounds = this.map.getBounds()
     let flag = true
     for (let i = 0; i < bPoints.length; i++) {
       if (!bounds.containsPoint(bPoints[i])) {
+        this.map.centerAndZoom(originalCenter, originalZoom)
         flag = false
+        break
       }
     }
     return flag
@@ -882,7 +967,7 @@ export class Map implements ComponentInterface {
             {
               width: 200, // 气泡宽度
               height: 100, // 气泡高度
-              offset: new BMapGL.Size(offsetX, offsetY - 12), // 设置偏移量
+              offset: new BMapGL.Size(offsetX - 24, offsetY - 20), // 设置偏移量
             }
           )
           // 自定义属性存储气泡(callout)对象
@@ -893,19 +978,30 @@ export class Map implements ComponentInterface {
             markerObj.callout.disableCloseOnClick()
             const point = markerObj.getPosition() // 获取marker标记点的位置
             markerObj.callout.addEventListener('open', function () {
+              console.log(markerObj.callout)
               const infoWindowElement = document.querySelector('.BMap_bubble_pop')
-              const img = document.querySelector('.BMap_bubble_pop>img')
-              if (img) {
-                img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
-              }
-
               if (infoWindowElement) {
+                let triangle = infoWindowElement.querySelector('.triangle')
+                if (!triangle) {
+                  // 如果不存在，则创建并添加新的三角形 div
+                  triangle = document.createElement('div')
+                  triangle.className = 'triangle'  // 添加一个类名以便日后查找
+                  infoWindowElement.appendChild(triangle)
+                }
+
+                const img = document.querySelector('.BMap_bubble_pop>img')
+                if (img) {
+                  img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;display:none`)
+                }
                 const backgroundcolor = marker.callout?.bgColor
                 let borderWidth = marker.callout?.borderWidth || 5
                 const borderColor = marker.callout?.borderColor
                 const borderRadius = marker.callout?.borderRadius
                 // 确保边框大小不超过15
                 borderWidth = Math.min(borderWidth, 15)
+
+                triangle.setAttribute('style', `width:0;height:0;border-left:${borderWidth}px solid transparent;border-right:${borderWidth}px solid transparent;border-top:${borderWidth}px solid ${borderColor};position:absolute;left:83px;bottom:-${2 * borderWidth}px`)
+
                 infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
               }
             })
@@ -936,19 +1032,28 @@ export class Map implements ComponentInterface {
                 if (distance < threshold && marker.id === markerObj.id) {
                   const point = markerObj.getPosition() // 获取marker标记点的位置
                   markerObj.callout.addEventListener('open', function () {
+                    console.log(markerObj.callout)
                     const infoWindowElement = document.querySelector('.BMap_bubble_pop')
-                    const img = document.querySelector('.BMap_bubble_pop>img')
-                    if (img) {
-                      img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;`)
-                    }
-      
                     if (infoWindowElement) {
+                      let triangle = infoWindowElement.querySelector('.triangle')
+                      if (!triangle) {
+                        // 如果不存在，则创建并添加新的三角形 div
+                        triangle = document.createElement('div')
+                        triangle.className = 'triangle'  // 添加一个类名以便日后查找
+                        infoWindowElement.appendChild(triangle)
+                      }
+
+                      const img = document.querySelector('.BMap_bubble_pop>img')
+                      if (img) {
+                        img.setAttribute('style', `position: absolute;transform: translate(-50%, 0); top: ${point.lat - 100}px; left: ${point.lng - 20}px;display:none`)
+                      }
                       const backgroundcolor = marker.callout?.bgColor
                       let borderWidth = marker.callout?.borderWidth || 5
                       const borderColor = marker.callout?.borderColor
                       const borderRadius = marker.callout?.borderRadius
                       // 确保边框大小不超过15
                       borderWidth = Math.min(borderWidth, 15)
+                      triangle.setAttribute('style', `width:0;height:0;border-left:${borderWidth}px solid transparent;border-right:${borderWidth}px solid transparent;border-top:${borderWidth}px solid ${borderColor};position:absolute;left:83px;bottom:-${2 * borderWidth}px`)
                       infoWindowElement.setAttribute('style', `background-color:${backgroundcolor};top:${point.lat - 120}px; left:${point.lng - 100}px;position: absolute;border: ${borderWidth}px solid ${borderColor};border-radius:${borderRadius}px; `)
                     }
                   })
@@ -1082,15 +1187,20 @@ export class Map implements ComponentInterface {
   /* 创建自定义图片图层，图片会随着地图缩放而缩放 */
   _addGroundOverlay = (option) => {
     const { src, opacity, bounds, visible, id, zIndex } = option
+    let flag = true
+    if (bounds.southwest.longitude > bounds.northeast.longitude || bounds.southwest.latitude > bounds.northeast.latitude) {
+      flag = false
+      return
+    }
     // 创建覆盖物边界对象
     const overlayBounds = new BMapGL.Bounds(
       new BMapGL.Point(bounds.southwest.longitude, bounds.southwest.latitude),
       new BMapGL.Point(bounds.northeast.longitude, bounds.northeast.latitude)
     )
-    // 定义 GroundOverlay 类
+    // 定义 GroundOverlay类
     function GroundOverlay (bounds, imageUrl, map, visible, opacity, zIndex, id) {
       this._bounds = bounds
-      this._imageUrl = imageUrl
+      this._imageUrl = imageUrl 
       this._map = map
       this._visible = visible
       this._opacity = opacity
@@ -1151,7 +1261,11 @@ export class Map implements ComponentInterface {
     // 绘制方法
     GroundOverlay.prototype.draw = function () {
       // 设置 div 元素位置和尺寸
-      const position = this._map.pointToOverlayPixel(this._bounds.getNorthEast())
+      const _northeast = {
+        lat: option.bounds.northeast.latitude,
+        lng: option.bounds.southwest.longitude
+      }
+      const position = this._map.pointToOverlayPixel(_northeast)
       this._div.style.left = position.x + 'px'
       this._div.style.top = position.y + 'px'
 
@@ -1162,6 +1276,7 @@ export class Map implements ComponentInterface {
       const height = ne.y - sw.y
 
       const zoom = this._map.getZoom()
+
       const imageWidth = width * Math.pow(2, 18 - zoom)
       const imageHeight = height * Math.pow(2, 18 - zoom)
 
@@ -1181,11 +1296,21 @@ export class Map implements ComponentInterface {
     this.groundOverlay = overlay
     // 将所有覆盖物重新绘制
     overlays.forEach((overlay) => overlay.draw())
+    const zoom = this.map.getZoom()
+    if (zoom < 20) {
+      this.map.setZoom(zoom + 1)
+      this.map.setZoom(zoom)
+    } else {
+      this.map.setZoom(zoom - 1)
+      this.map.setZoom(zoom)
+    }
+    return flag
   }
 
   /* 更新自定义图片图层 */
   _updateGroundOverlay = (option) => {
     const { src, opacity, bounds, visible, id, zIndex } = option
+    let flag = true
     const targetBounds = new BMapGL.Bounds(
       new BMapGL.Point(bounds.southwest.longitude, bounds.southwest.latitude),
       new BMapGL.Point(bounds.northeast.longitude, bounds.northeast.latitude)
@@ -1235,12 +1360,14 @@ export class Map implements ComponentInterface {
             targetOverlay.draw()
           }
           image.src = src
-        } else {
-          // 没有找到对应的元素
-          console.error(`未找到id为${id}的元素`)
         }
       }
+    } else {
+      // 没有找到对应的元素
+      console.error(`未找到id为${id}的元素`)
+      flag = false
     }
+    return flag
   }
 
   /* 移除自定义图片图层 */
@@ -1260,25 +1387,44 @@ export class Map implements ComponentInterface {
 
   /* 限制地图的显示范围。此接口同时会限制地图的最小缩放整数级别。 */
   _setBoundary = (option) => {
-    // 创建百度地图的边界对象
-    const bounds = new BMapGL.Bounds(
-      new BMapGL.Point(option.southwest.longitude, option.southwest.latitude),
-      new BMapGL.Point(option.northeast.longitude, option.northeast.latitude)
-    )
+    let nth = option.northeast.latitude
+    let sth = option.southwest.latitude
+    let flag = true
 
-    // 将边界坐标从BD09转换成GCJ02
-    const sw = coordtransform.bd09togcj02(option.southwest.longitude, option.southwest.latitude)
-    const ne = coordtransform.bd09togcj02(option.northeast.longitude, option.northeast.latitude)
-    // 创建新的边界对象
-    const newBounds = new BMapGL.Bounds(new BMapGL.Point(sw[0], sw[1]), new BMapGL.Point(ne[0], ne[1]))
-    this.map.setBounds(bounds)
-    this.map.setViewport([
-      new BMapGL.Point(newBounds.sw.lng, newBounds.sw.lat),
-      new BMapGL.Point(newBounds.ne.lng, newBounds.ne.lat),
-    ])
-    this.map.setMinZoom(10) // 最小缩放级别
-    this.map.setMaxZoom(18) // 最大缩放级别
+    if (option.northeast.latitude <= -80 && option.northeast.latitude >= -90) {
+      nth = option.northeast.latitude + 10
+    }
+    if (option.southwest.latitude <= -80 && option.southwest.latitude >= -90) {
+      sth = option.southwest.latitude + 10
+    }
+    if (option.northeast.latitude < -90 || option.northeast.latitude > 90 || option.northeast.longitude < -180 || option.northeast.longitude > 180 || isNaN(option.northeast.latitude) || isNaN(option.northeast.longitude) || option.northeast.longitude < option.southwest.longitude || option.northeast.latitude < option.southwest.latitude) {
+      flag = false
+      return
+    }
+    if (option.southwest.latitude < -90 || option.southwest.latitude > 90 || option.southwest.longitude < -180 || option.southwest.longitude > 180 || isNaN(option.southwest.latitude) || isNaN(option.southwest.longitude)) {
+      flag = false
+      return
+    }
+    const ne = new BMapGL.Point(option.northeast.longitude, nth)
+    const sw = new BMapGL.Point(option.southwest.longitude, sth)
+    const bounds = new BMapGL.Bounds(sw, ne)
+    const viewport = this.map.getViewport([ne, sw])
+
+
+    this.map.centerAndZoom(new BMapGL.Point(viewport.center.lng, viewport.center.lat), viewport.zoom + 2)
+    this.map.addOverlay(new BMapGL.Polygon([
+      new BMapGL.Point(bounds.sw.lng, bounds.sw.lat),
+      new BMapGL.Point(bounds.sw.lng, bounds.ne.lat),
+      new BMapGL.Point(bounds.ne.lng, bounds.ne.lat),
+      new BMapGL.Point(bounds.ne.lng, bounds.sw.lat)
+    ], {
+      fillOpacity: 0
+    }))
+
+    BMapGLLib.AreaRestriction.setBounds(this.map, bounds)
+    return flag
   }
+
 
   render () {
     return (
