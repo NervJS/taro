@@ -25,8 +25,8 @@ const customizeChain = async (chain, modifyWebpackChainFunc: Func, customizeFunc
   }
 }
 
-function errorHandling (errorLevel: number, stats: Stats) {
-  if (errorLevel === 1 && stats.hasErrors()) {
+function errorHandling (errorLevel?: number, stats?: Stats) {
+  if (errorLevel === 1 && stats?.hasErrors()) {
     process.exit(1)
   }
 }
@@ -48,7 +48,7 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
   }
 
   /** webpack config */
-  const errorLevel = (config.compiler as any)?.errorLevel || 0
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
 
   return new Promise<webpack.Stats>((resolve, reject) => {

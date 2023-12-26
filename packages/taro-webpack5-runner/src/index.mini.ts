@@ -53,7 +53,7 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
     }
 
     const callback = async (err: Error, stats: Stats) => {
-      const errorLevel = (config.compiler as any)?.errorLevel || 0
+      const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
       if (err || stats.hasErrors()) {
         const error = err ?? stats.toJson().errors
         onFinish(error, null)

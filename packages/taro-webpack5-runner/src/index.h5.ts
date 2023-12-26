@@ -47,10 +47,10 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
-  const { isWatch, compiler: compilerConfig } = config
-  const errorLevel = (compilerConfig as any)?.errorLevel || 0
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
+
   try {
-    if (!isWatch) {
+    if (!config.isWatch) {
       const compiler = webpack(webpackConfig)
       prebundle?.postCompilerStart(compiler)
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -143,7 +143,7 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
     }
   } catch (err) {
     console.error(err)
-    !isWatch && process.exit(1)
+    !config.isWatch && process.exit(1)
   }
 }
 

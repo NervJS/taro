@@ -31,8 +31,8 @@ export const customizeChain = async (chain, modifyWebpackChainFunc: Func, custom
   }
 }
 
-function errorHandling (errorLevel: number, stats: Stats) {
-  if (errorLevel === 1 && stats.hasErrors()) {
+function errorHandling (errorLevel?: number, stats?: Stats) {
+  if (errorLevel === 1 && stats?.hasErrors()) {
     process.exit(1)
   }
 }
@@ -43,7 +43,7 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
-  const errorLevel = (config.compiler as any)?.errorLevel || 0
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const webpackConfig = webpackChain.toConfig()
   const compiler = webpack(webpackConfig)
   const onBuildFinish = config.onBuildFinish
@@ -90,7 +90,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
   const outputPath = path.join(appPath, conf.outputRoot as string)
   const { proxy: customProxy = [], ...customDevServerOption } = config.devServer || {}
   const webpackChain = devConf(appPath, config, appHelper)
-  const errorLevel = (config.compiler as any)?.errorLevel || 0
+  const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const onBuildFinish = config.onBuildFinish
   await customizeChain(webpackChain, config.modifyWebpackChain!, config.webpackChain)
 
