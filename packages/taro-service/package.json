@@ -21,8 +21,7 @@
   "files": [
     "index.js",
     "dist",
-    "types",
-    "src"
+    "types"
   ],
   "keywords": [
     "taro"
