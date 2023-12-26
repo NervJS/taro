@@ -36,17 +36,17 @@ export default async function build (appPath: string, config: IBuildConfig): Pro
 
   /** process config.sass options */
   const newConfig = await makeConfig(config)
-  
+
   /** initialized chain */
   const webpackChain = buildConf(appPath, mode, newConfig)
-  
+
   /** customized chain */
   await customizeChain(webpackChain, newConfig.modifyWebpackChain!, newConfig.webpackChain)
-  
+
   if (typeof newConfig.onWebpackChainReady === 'function') {
     newConfig.onWebpackChainReady(webpackChain)
   }
-  
+
   /** webpack config */
   const errorLevel = (config.compiler as any)?.errorLevel || 0
   const webpackConfig: webpack.Configuration = webpackChain.toConfig()
