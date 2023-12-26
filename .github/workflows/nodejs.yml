@@ -39,7 +39,7 @@ jobs:
       matrix:
         node-version: [16.x]
         settings:
-          - host: macos-latest
+          - host: macos-11
             target: x86_64-apple-darwin
           - host: windows-latest
             target: x86_64-pc-windows-msvc
