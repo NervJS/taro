@@ -30,7 +30,7 @@ import {
   updateLogFileContent,
 } from './utils'
 
-// const { prettyPrint } = require('html')
+const { prettyPrint } = require('html')
 const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
@@ -723,16 +723,16 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
     `INFO [taroize] parseWXML - 入参 ${getLineBreak()}dirPath: ${dirPath} ${getLineBreak()}parseImport: ${parseImport} ${getLineBreak()}`
   )
 
-  // try {
-  //   wxml = prettyPrint(wxml, {
-  //     max_char: 0,
-  //     indent_char: 0,
-  //     unformatted: ['text', 'wxs'],
-  //   })
-  // } catch (error) {
-  // updateLogFileContent(`WARN [taroize] parseWXML - wxml代码格式化异常 ${getLineBreak()}${error} ${getLineBreak()}`)
-  //   //
-  // }
+  try {
+    wxml = prettyPrint(wxml, {
+      max_char: 0,
+      indent_char: 0,
+      unformatted: ['text', 'wxs'],
+    })
+  } catch (error) {
+    updateLogFileContent(`WARN [taroize] parseWXML - wxml代码格式化异常 ${getLineBreak()}${error} ${getLineBreak()}`)
+    //
+  }
 
   if (!parseImport) {
     errors.length = 0
