@@ -463,7 +463,9 @@ export class LivePlayer implements ComponentInterface {
     })
     if (this.isFullScreen) {
       Taro.eventCenter.trigger('__taroEnterFullScreen', {})
-    } 
+    } else {
+      Taro.eventCenter.trigger('__taroExitFullScreen', {})
+    }
     if (this.isFullScreen && !document[screenFn.fullscreenElement]) {
       try {
         setTimeout(() => {
