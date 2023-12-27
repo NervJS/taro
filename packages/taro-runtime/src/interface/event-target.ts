@@ -7,6 +7,7 @@ export interface AddEventListenerOptions extends EventListenerOptions {
   passive?: boolean
 }
 
-export interface EventHandler extends Function {
+export interface EventHandler<T = any, R = void> {
+  (...args: T[]): R
   _stop?: boolean
 }

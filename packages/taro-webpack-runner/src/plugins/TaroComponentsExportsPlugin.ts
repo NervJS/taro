@@ -4,9 +4,9 @@ import { toDashed } from '@tarojs/shared'
 import { componentConfig } from '../utils/component'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type acorn from 'acorn'
 import type AcornWalk from 'acorn-walk'
 import type { Compiler } from 'webpack'
-import type acorn from 'acorn'
 
 const walk = require('acorn-walk') as typeof AcornWalk
 const NullDependency = require('webpack/lib/dependencies/NullDependency')
