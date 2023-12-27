@@ -158,3 +158,10 @@ MIT (stencil-vue2-output-target):
 The following files embed [stencil-vue2-output-target](https://github.com/diondree/stencil-vue2-output-target) MIT:
 `/packages/taro-components-library-vue2/src/vue-component-lib/utils.ts`
 See `/LICENSE` for details of the license.
+
+==================
+
+MIT (weui):
+The following files embed [stencil-vue2-output-target](https://github.com/Tencent/weui) MIT:
+`/packages/taro-components/src/components/*.scss`
+See `/LICENSE.txt` for details of the license.
