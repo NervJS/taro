@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`babel should convert do expressions mini 1`] = `15`;
+exports[`wx-hybrid should compatible with weapp native pages and components 1`] = `22`;
 
-exports[`babel should convert do expressions mini 2`] = `
+exports[`wx-hybrid should compatible with weapp native pages and components 2`] = `
 "
 /** filePath: dist/app.js **/
 "use strict";
@@ -14,22 +14,7 @@ require("./vendors");
 require("./runtime");
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 143 ], {
-    766: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var toPropertyKey = __webpack_require__(59);
-        function _defineProperty(obj, key, value) {
-            key = (0, toPropertyKey.Z)(key);
-            if (key in obj) {
-                Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: true,
-                    configurable: true,
-                    writable: true
-                });
-            } else {
-                obj[key] = value;
-            }
-            return obj;
-        }
+    979: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
         function mergeReconciler() {}
         function mergeInternalComponents() {}
         function isArray() {}
@@ -50,26 +35,21 @@ require("./runtime");
         var EMPTY_OBJ = {};
         var hooks = {};
         function Events() {}
-        _c = Events;
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var _c;
-        $RefreshReg$(_c, "Events");
-        var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
+        const needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
                 needPromiseApis: needPromiseApis,
-                modifyApis: function modifyApis(apis) {
+                modifyApis(apis) {
                     apis.delete("lanDebug");
                 },
-                transformMeta: function transformMeta(api, options) {
+                transformMeta(api, options) {
                     var _a;
                     if (api === "showShareMenu") {
-                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((function(item) {
-                            return item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item;
-                        }));
+                        options.menus = (_a = options.showShareItems) === null || _a === void 0 ? void 0 : _a.map((item => item === "wechatFriends" ? "shareAppMessage" : item === "wechatMoment" ? "shareTimeline" : item));
                     }
                     return {
                         key: api,
@@ -89,11 +69,11 @@ require("./runtime");
                 return (_c = (_b = (_a = taro.getCurrentInstance()) === null || _a === void 0 ? void 0 : _a.page) === null || _b === void 0 ? void 0 : _b.renderer) !== null && _c !== void 0 ? _c : "webview";
             };
         }
-        var _true = "true";
-        var _false = "false";
-        var _empty = "";
-        var _zero = "0";
-        var components = {
+        const _true = "true";
+        const _false = "false";
+        const _empty = "";
+        const _zero = "0";
+        const components = {
             Progress: {
                 "border-radius": _zero,
                 "font-size": "16",
@@ -506,69 +486,42 @@ require("./runtime");
             },
             Snapshot: {}
         };
-        var hostConfig = {
+        const hostConfig = {
             initNativeApi: initNativeApi,
-            getMiniLifecycle: function getMiniLifecycle(config) {
-                var methods = config.page[5];
+            getMiniLifecycle(config) {
+                const methods = config.page[5];
                 if (methods.indexOf("onSaveExitState") === -1) {
                     methods.push("onSaveExitState");
                 }
                 return config;
             },
-            transferHydrateData: function transferHydrateData(data, element, componentsAlias) {
+            transferHydrateData(data, element, componentsAlias) {
                 var _a;
                 if (element.isTransferElement) {
-                    var page = getCurrentPages()[0];
+                    const page = getCurrentPages()[0];
                     data["nn"] = element.dataName;
-                    page.setData(_defineProperty({}, toCamelCase(data.nn), data));
-                    return _defineProperty(_defineProperty({
-                        sid: element.sid
-                    }, "v", ""), "nn", ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8");
+                    page.setData({
+                        [toCamelCase(data.nn)]: data
+                    });
+                    return {
+                        sid: element.sid,
+                        ["v"]: "",
+                        ["nn"]: ((_a = componentsAlias["#text"]) === null || _a === void 0 ? void 0 : _a._num) || "8"
+                    };
                 }
             }
         };
         mergeReconciler(hostConfig);
         mergeInternalComponents(components);
         var taro_runtime = __webpack_require__(226);
-        function setReconciler() {}
-        function connectReactPage() {}
-        function createReactApp() {}
-        function createNativeComponentConfig() {}
-        function connectVuePage() {}
-        function createVueApp() {}
-        function createVue3App() {}
-        var setGlobalDataPlugin = {};
-        function useDidHide() {}
-        function useDidShow() {}
-        function useError() {}
-        function useLaunch() {}
-        function usePageNotFound() {}
-        function useLoad() {}
-        function usePageScroll() {}
-        function usePullDownRefresh() {}
-        function usePullIntercept() {}
-        function useReachBottom() {}
-        function useResize() {}
-        function useUnload() {}
-        function useAddToFavorites() {}
-        function useOptionMenuClick() {}
-        function useSaveExitState() {}
-        function useShareAppMessage() {}
-        function useShareTimeline() {}
-        function useTitleClick() {}
-        function useReady() {}
-        function useRouter() {}
-        function useTabItemTap() {}
-        function useScope() {}
-        function initPxTransform() {}
-        var taro = "taro";
-        var classCallCheck = __webpack_require__(808);
-        var createClass = __webpack_require__(421);
-        var inherits = __webpack_require__(795);
-        var createSuper = __webpack_require__(396);
+        var taro = __webpack_require__(482);
+        var classCallCheck = __webpack_require__(977);
+        var createClass = __webpack_require__(216);
+        var inherits = __webpack_require__(298);
+        var createSuper = __webpack_require__(645);
         var react = __webpack_require__(522);
-        var app_App = function(_Component) {
-            (0, inherits.Z)(App, _Component);
+        var app_App = function(_React$Component) {
+            (0, inherits.Z)(App, _React$Component);
             var _super = (0, createSuper.Z)(App);
             function App() {
                 (0, classCallCheck.Z)(this, App);
@@ -584,17 +537,20 @@ require("./runtime");
                 key: "componentDidHide",
                 value: function componentDidHide() {}
             }, {
+                key: "componentCatchError",
+                value: function componentCatchError() {}
+            }, {
                 key: "render",
                 value: function render() {
                     return this.props.children;
                 }
             } ]);
             return App;
-        }(react.Component);
+        }(react["default"].Component);
         var app = app_App;
         var taro_react = "taro-react-mock";
         var config = {
-            pages: [ "pages/index/index" ],
+            pages: [ "pages/index/index", "pages/native/native" ],
             window: {
                 backgroundTextStyle: "light",
                 navigationBarBackgroundColor: "#fff",
@@ -603,8 +559,8 @@ require("./runtime");
             }
         };
         taro_runtime.window.__taroAppConfig = config;
-        var inst = App(createReactApp(app, react, taro_react, config));
-        initPxTransform({
+        var inst = App((0, taro.Ox)(app, react, taro_react, config));
+        (0, taro.J1)({
             designWidth: 750,
             deviceRatio: {
                 640: 1.17,
@@ -621,7 +577,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(766);
+        return __webpack_exec__(979);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -629,7 +585,7 @@ require("./runtime");
 
 
 /** filePath: dist/app.json **/
-{"pages":["pages/index/index"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
+{"pages":["pages/index/index","pages/native/native"],"window":{"backgroundTextStyle":"light","navigationBarBackgroundColor":"#fff","navigationBarTitleText":"WeChat","navigationBarTextStyle":"black"}}
 
 /** filePath: dist/app.wxss **/
 
@@ -689,6 +645,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_0_12">
+  <button size="{{xs.b(i.p10,'default')}}" type="{{i.p11}}" plain="{{xs.b(i.p9,!1)}}" disabled="{{i.p0}}" loading="{{xs.b(i.p6,!1)}}" form-type="{{i.p1}}" open-type="{{i.p8}}" hover-class="{{xs.b(i.p2,'button-hover')}}" hover-stop-propagation="{{xs.b(i.p5,!1)}}" hover-start-time="{{xs.b(i.p3,20)}}" hover-stay-time="{{xs.b(i.p4,70)}}" name="{{i.p7}}" bindagreeprivacyauthorization="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </button>
+</template>
+
 <template name="tmpl_0_36">
   <scroll-view scroll-x="{{xs.b(i.p7,!1)}}" scroll-y="{{xs.b(i.p8,!1)}}" upper-threshold="{{xs.b(i.p9,50)}}" lower-threshold="{{xs.b(i.p2,50)}}" scroll-top="{{i.p5}}" scroll-left="{{i.p4}}" scroll-into-view="{{i.p3}}" scroll-with-animation="{{xs.b(i.p6,!1)}}" enable-back-to-top="{{xs.b(i.p1,!1)}}" bindscrolltoupper="eh" bindscrolltolower="eh" bindscroll="eh" bindtouchstart="eh" bindtouchmove="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -717,6 +681,14 @@ require("./runtime");
   <block>{{i.v}}</block>
 </template>
 
+<template name="tmpl_0_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_1_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -773,6 +745,14 @@ require("./runtime");
   </scroll-view>
 </template>
 
+<template name="tmpl_1_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_2_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -829,6 +809,14 @@ require("./runtime");
   </scroll-view>
 </template>
 
+<template name="tmpl_2_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_3_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -885,6 +873,14 @@ require("./runtime");
   </scroll-view>
 </template>
 
+<template name="tmpl_3_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_4_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -933,6 +929,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_4_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_5_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -981,6 +985,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_5_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_6_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1021,6 +1033,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_6_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_7_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1061,6 +1081,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_7_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_8_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1101,6 +1129,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_8_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_9_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1141,6 +1177,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_9_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_10_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1181,6 +1225,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_10_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_11_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1221,6 +1273,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_11_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_12_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1261,6 +1321,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_12_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_13_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1301,6 +1369,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_13_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.a(c, item.nn, l)}}" data="{{i:item,c:c+1,l:xs.f(l,item.nn)}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_14_0">
   <view hover-class="{{xs.b(i.p1,'none')}}" hover-stop-propagation="{{xs.b(i.p4,!1)}}" hover-start-time="{{xs.b(i.p2,50)}}" hover-stay-time="{{xs.b(i.p3,400)}}" bindtouchstart="eh" bindtouchend="eh" bindtouchcancel="eh" bindlongpress="eh" animation="{{i.p0}}" bindanimationstart="eh" bindanimationiteration="eh" bindanimationend="eh" bindtransitionend="eh" style="{{i.st}}" class="{{i.cl}}" bindtap="eh" catchtouchmove="eh"  id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
     <block wx:for="{{i.cn}}" wx:key="sid">
@@ -1341,6 +1417,14 @@ require("./runtime");
   </text>
 </template>
 
+<template name="tmpl_14_tab">
+  <tab  bindmyevent="eh" myProperty="{{i.myProperty}}" id="{{i.uid||i.sid}}" data-sid="{{i.sid}}">
+    <block wx:for="{{i.cn}}" wx:key="sid">
+      <template is="{{xs.e(15)}}" data="{{i:item,c:c,l:l}}" />
+    </block>
+  </tab>
+</template>
+  
 <template name="tmpl_15_container">
   <block wx:if="{{i.nn === '8'}}">
     <template is="tmpl_0_8" data="{{i:i}}" />
@@ -1394,6 +1478,48 @@ require("./runtime");
         function createVue3App() {}
         function createRecursiveComponentConfig() {}
         function createPageConfig() {}
+    },
+    482: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        __webpack_require__.d(__webpack_exports__, {
+            J1: function() {
+                return initPxTransform;
+            },
+            Ox: function() {
+                return createReactApp;
+            }
+        });
+        function setReconciler() {}
+        function connectReactPage() {}
+        function createReactApp() {}
+        function createNativeComponentConfig() {}
+        function connectVuePage() {}
+        function createVueApp() {}
+        function createVue3App() {}
+        var setGlobalDataPlugin = {};
+        function useDidHide() {}
+        function useDidShow() {}
+        function useError() {}
+        function useLaunch() {}
+        function usePageNotFound() {}
+        function useLoad() {}
+        function usePageScroll() {}
+        function usePullDownRefresh() {}
+        function usePullIntercept() {}
+        function useReachBottom() {}
+        function useResize() {}
+        function useUnload() {}
+        function useAddToFavorites() {}
+        function useOptionMenuClick() {}
+        function useSaveExitState() {}
+        function useShareAppMessage() {}
+        function useShareTimeline() {}
+        function useTitleClick() {}
+        function useReady() {}
+        function useRouter() {}
+        function useTabItemTap() {}
+        function useScope() {}
+        function initPxTransform() {}
+        __webpack_exports__["ZP"] = "taro";
     }
 } ]);
 
@@ -1423,16 +1549,76 @@ require("./runtime");
 <wxs module="xs" src="./utils.wxs" />
 <template is="{{'tmpl_0_' + i.nn}}" data="{{i:i,c:1,l:xs.f('',i.nn)}}" />
 
+/** filePath: dist/components/tab/tab.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 9 ], {
+    166: function() {
+        Component({
+            behaviors: [],
+            properties: {
+                myProperty: {
+                    type: String,
+                    value: "",
+                    observer: function observer(newVal, oldVal, changedPath) {}
+                },
+                myProperty2: String
+            },
+            data: {},
+            attached: function attached() {},
+            moved: function moved() {},
+            detached: function detached() {},
+            methods: {
+                onMyButtonTap: function onMyButtonTap() {
+                    this.setData({});
+                },
+                _myPrivateMethod: function _myPrivateMethod() {
+                    this.setData({
+                        "A[0].B": "myPrivateData"
+                    });
+                },
+                _propertyChange: function _propertyChange(newVal, oldVal) {},
+                clickHandler: function clickHandler() {
+                    console.log("sdsd");
+                    this.triggerEvent("myevent", {
+                        f: 1
+                    });
+                }
+            }
+        });
+    }
+}, function(__webpack_require__) {
+    var __webpack_exec__ = function(moduleId) {
+        return __webpack_require__(__webpack_require__.s = moduleId);
+    };
+    var __webpack_exports__ = __webpack_exec__(166);
+} ]);
+
+/** filePath: dist/components/tab/tab.json **/
+{"component":true,"usingComponents":{}}
+
+/** filePath: dist/components/tab/tab.wxml **/
+<view class="tab" bindtap="clickHandler">
+  {{myProperty}}
+</view>
+
+
 /** filePath: dist/pages/index/index.js **/
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    53: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+    131: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_components_namespaceObject = {};
+        __webpack_require__.r(taro_components_namespaceObject);
+        __webpack_require__.d(taro_components_namespaceObject, {
+            G7: function() {
+                return View;
+            }
+        });
         var taro_runtime = __webpack_require__(226);
-        var classCallCheck = __webpack_require__(808);
-        var createClass = __webpack_require__(421);
-        var inherits = __webpack_require__(795);
-        var createSuper = __webpack_require__(396);
+        var classCallCheck = __webpack_require__(977);
+        var createClass = __webpack_require__(216);
+        var inherits = __webpack_require__(298);
+        var createSuper = __webpack_require__(645);
+        var taro = __webpack_require__(482);
         var react = __webpack_require__(522);
         var Canvas = {};
         var CoverView = {};
@@ -1446,30 +1632,68 @@ require("./runtime");
         var Video = {};
         var View = {};
         var taro_components = "taro-components-mock";
-        var Index = function(_Component) {
-            (0, inherits.Z)(Index, _Component);
+        var Index = function(_React$Component) {
+            (0, inherits.Z)(Index, _React$Component);
             var _super = (0, createSuper.Z)(Index);
             function Index() {
                 (0, classCallCheck.Z)(this, Index);
                 return _super.apply(this, arguments);
             }
             (0, createClass.Z)(Index, [ {
-                key: "componentDidMount",
-                value: function componentDidMount() {
-                    var a = x > 10 ? "big" : "small";
+                key: "gotoWxParse",
+                value: function gotoWxParse() {
+                    taro.ZP.navigateTo({
+                        url: "/pages/wxParse/wxParse"
+                    });
+                }
+            }, {
+                key: "gotoEcharts",
+                value: function gotoEcharts() {
+                    taro.ZP.navigateTo({
+                        url: "/pages/echarts/echarts"
+                    });
+                }
+            }, {
+                key: "gotoNative",
+                value: function gotoNative() {
+                    taro.ZP.navigateTo({
+                        url: "/pages/native/native"
+                    });
+                }
+            }, {
+                key: "tabEvent",
+                value: function tabEvent(e) {
+                    console.log(e);
                 }
             }, {
                 key: "render",
                 value: function render() {
                     return react["default"].createElement(View, {
                         className: "index"
-                    }, react["default"].createElement(Text, null, "Hello world!"));
+                    }, react["default"].createElement(View, {
+                        className: "title"
+                    }, "\\u4e0e\\u5c0f\\u7a0b\\u5e8f\\u539f\\u751f\\u878d\\u5408\\u7684\\u5404\\u79cd\\u793a\\u4f8b"), react["default"].createElement(View, {
+                        className: "main"
+                    }, react["default"].createElement(View, {
+                        className: "wrapper"
+                    }, react["default"].createElement("tab", {
+                        onMyevent: this.tabEvent,
+                        myProperty: "This is tab"
+                    })), react["default"].createElement(View, {
+                        className: "wrapper"
+                    }, react["default"].createElement(taro_components_namespaceObject.Button, {
+                        type: "primary",
+                        onClick: this.gotoNative
+                    }, "\\u6df7\\u5199\\u539f\\u751f\\u9875\\u9762\\u793a\\u4f8b"))));
                 }
             } ]);
             return Index;
-        }(react.Component);
+        }(react["default"].Component);
         var config = {
-            navigationBarTitleText: "\\u9996\\u9875"
+            navigationBarTitleText: "\\u9996\\u9875",
+            usingComponents: {
+                tab: "../../components/tab/tab"
+            }
         };
         var inst = Page((0, taro_runtime.createPageConfig)(Index, "pages/index/index", {
             root: {
@@ -1483,24 +1707,83 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 216, 592 ], (function() {
-        return __webpack_exec__(53);
+        return __webpack_exec__(131);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
 
 /** filePath: dist/pages/index/index.json **/
-{"navigationBarTitleText":"首页","usingComponents":{"comp":"../../comp"}}
+{"navigationBarTitleText":"首页","usingComponents":{"tab":"../../components/tab/tab","comp":"../../comp"}}
 
 /** filePath: dist/pages/index/index.wxml **/
 <import src="../../base.wxml"/>
 <template is="taro_tmpl" data="{{root:root}}" />
 
 /** filePath: dist/pages/index/index.wxss **/
+.title{font-size:36rpx;line-height:80rpx;text-align:center}.main{padding:0 50rpx}.wrapper{margin-bottom:24rpx}
+
+/** filePath: dist/pages/native/native.js **/
+(wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 91 ], {
+    414: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+        var _require = __webpack_require__(609), add = _require.add;
+        Page({
+            data: {
+                text: "This is page data.",
+                x: add(1, 2)
+            },
+            created: function created(options) {
+                console.log(options);
+            },
+            onReady: function onReady() {},
+            viewTap: function viewTap() {
+                this.setData({
+                    text: "Set some data for updating view."
+                }, (function() {}));
+            },
+            handler: function handler(e) {
+                console.log(e);
+            },
+            customData: {
+                hi: "MINA"
+            }
+        });
+    },
+    609: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+        "use strict";
+        __webpack_require__.r(__webpack_exports__);
+        __webpack_require__.d(__webpack_exports__, {
+            add: function() {
+                return add;
+            }
+        });
+        function add(a, b) {
+            return a + b;
+        }
+    }
+}, function(__webpack_require__) {
+    var __webpack_exec__ = function(moduleId) {
+        return __webpack_require__(__webpack_require__.s = moduleId);
+    };
+    var __webpack_exports__ = __webpack_exec__(414);
+} ]);
+
+/** filePath: dist/pages/native/native.json **/
+{"navigationBarBackgroundColor":"#ffffff","navigationBarTextStyle":"black","navigationBarTitleText":"混写页面示例","backgroundColor":"#eeeeee","backgroundTextStyle":"light","usingComponents":{"tab":"../../components/tab/tab"}}
+
+/** filePath: dist/pages/native/native.wxml **/
+<view class="native" bindtap="viewTap">
+  <text>{{text}}{{x}}</text>
+  <tab myProperty="kkl" bindmyevent="handler" />
+</view>
+
+
+/** filePath: dist/pages/native/native.wxss **/
+.native{color:red}
 
 /** filePath: dist/utils.wxs **/
 module.exports = {
   a: function (l, n, s) {
-    var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41"]
+    var a = ["7","0","18","5","2","11","6","4","38","39","22","19","36","40","41","tab"]
     var b = ["4","38","39","22","19","36","40","41"]
     if (a.indexOf(n) === -1) {
       l = 0
@@ -1542,7 +1825,7 @@ module.exports = {
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 216 ], {
-    808: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    977: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _classCallCheck;
@@ -1554,20 +1837,34 @@ module.exports = {
             }
         }
     },
-    421: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    216: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createClass;
             }
         });
-        var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(59);
+        var esm_typeof = __webpack_require__(882);
+        function toPrimitive(t, r) {
+            if ("object" != (0, esm_typeof.Z)(t) || !t) return t;
+            var e = t[Symbol.toPrimitive];
+            if (void 0 !== e) {
+                var i = e.call(t, r || "default");
+                if ("object" != (0, esm_typeof.Z)(i)) return i;
+                throw new TypeError("@@toPrimitive must return a primitive value.");
+            }
+            return ("string" === r ? String : Number)(t);
+        }
+        function toPropertyKey(t) {
+            var i = toPrimitive(t, "string");
+            return "symbol" == (0, esm_typeof.Z)(i) ? i : String(i);
+        }
         function _defineProperties(target, props) {
             for (var i = 0; i < props.length; i++) {
                 var descriptor = props[i];
                 descriptor.enumerable = descriptor.enumerable || false;
                 descriptor.configurable = true;
                 if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, (0, _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__.Z)(descriptor.key), descriptor);
+                Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
             }
         }
         function _createClass(Constructor, protoProps, staticProps) {
@@ -1579,7 +1876,7 @@ module.exports = {
             return Constructor;
         }
     },
-    396: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    645: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _createSuper;
@@ -1602,7 +1899,7 @@ module.exports = {
                 return false;
             }
         }
-        var esm_typeof = __webpack_require__(56);
+        var esm_typeof = __webpack_require__(882);
         function _assertThisInitialized(self) {
             if (self === void 0) {
                 throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
@@ -1631,7 +1928,7 @@ module.exports = {
             };
         }
     },
-    795: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    298: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _inherits;
@@ -1661,29 +1958,7 @@ module.exports = {
             if (superClass) _setPrototypeOf(subClass, superClass);
         }
     },
-    59: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-        __webpack_require__.d(__webpack_exports__, {
-            Z: function() {
-                return toPropertyKey;
-            }
-        });
-        var esm_typeof = __webpack_require__(56);
-        function toPrimitive(t, r) {
-            if ("object" != (0, esm_typeof.Z)(t) || !t) return t;
-            var e = t[Symbol.toPrimitive];
-            if (void 0 !== e) {
-                var i = e.call(t, r || "default");
-                if ("object" != (0, esm_typeof.Z)(i)) return i;
-                throw new TypeError("@@toPrimitive must return a primitive value.");
-            }
-            return ("string" === r ? String : Number)(t);
-        }
-        function toPropertyKey(t) {
-            var i = toPrimitive(t, "string");
-            return "symbol" == (0, esm_typeof.Z)(i) ? i : String(i);
-        }
-    },
-    56: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+    882: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
         __webpack_require__.d(__webpack_exports__, {
             Z: function() {
                 return _typeof;
@@ -1699,160 +1974,5 @@ module.exports = {
         }
     }
 } ]);
-"
-`;
-
-exports[`babel should convert do expressions web 1`] = `3`;
-
-exports[`babel should convert do expressions web 2`] = `
-"
-/** filePath: dist/css/app.css **/
-
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
-
-/** filePath: dist/js/app.js **/
-(function() {
-    "use strict";
-    var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(o) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, _typeof(o);
-    }
-    function toPrimitive(t, r) {
-        if ("object" != _typeof(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != _typeof(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == _typeof(i) ? i : String(i);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    var Component = {};
-    var react = "react-mock";
-    var App = function(_Component) {
-        _inherits(App, _Component);
-        var _super = _createSuper(App);
-        function App() {
-            _classCallCheck(this, App);
-            return _super.apply(this, arguments);
-        }
-        _createClass(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(Component);
-    var app = null && App;
-})();
 "
 `;

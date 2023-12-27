@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`babel should convert do expressions mini 1`] = `15`;
+exports[`parse html should parse dangerouslySetInnerHTML 1`] = `15`;
 
-exports[`babel should convert do expressions mini 2`] = `
+exports[`parse html should parse dangerouslySetInnerHTML 2`] = `
 "
 /** filePath: dist/app.js **/
 "use strict";
@@ -50,13 +50,10 @@ require("./runtime");
         var EMPTY_OBJ = {};
         var hooks = {};
         function Events() {}
-        _c = Events;
         function ensure() {}
         function noop() {}
         function warn() {}
         var taro_shared = "taro-shared-mock";
-        var _c;
-        $RefreshReg$(_c, "Events");
         var needPromiseApis = new Set([ "addFileToFavorites", "addVideoToFavorites", "authPrivateMessage", "checkIsAddedToMyMiniProgram", "chooseContact", "cropImage", "disableAlertBeforeUnload", "editImage", "enableAlertBeforeUnload", "getBackgroundFetchData", "getChannelsLiveInfo", "getChannelsLiveNoticeInfo", "getFuzzyLocation", "getGroupEnterInfo", "getLocalIPAddress", "getShareInfo", "getUserProfile", "getWeRunData", "join1v1Chat", "openChannelsActivity", "openChannelsEvent", "openChannelsLive", "openChannelsUserProfile", "openCustomerServiceChat", "openVideoEditor", "saveFileToDisk", "scanItem", "setEnable1v1Chat", "setWindowSize", "sendBizRedPacket", "startFacialRecognitionVerify" ]);
         function initNativeApi(taro) {
             processApis(taro, wx, {
@@ -1454,16 +1451,16 @@ require("./runtime");
                 return _super.apply(this, arguments);
             }
             (0, createClass.Z)(Index, [ {
-                key: "componentDidMount",
-                value: function componentDidMount() {
-                    var a = x > 10 ? "big" : "small";
-                }
-            }, {
                 key: "render",
                 value: function render() {
+                    var html = '<div class="page" role="" aria-label=""></div>\\n    <div class="page__hd" role="" aria-label=""><span class="page__title"><span\\n          style="display:none;">image</span><span>image</span></span><span class="page__desc"><span\\n          style="display:none;">\\u56fe\\u7247</span><span>\\u56fe\\u7247</span></span></div>\\n    <div class="page__bd" role="" aria-label="">\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">scaleToFill\\uff1a\\u4e0d\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u4f7f\\u56fe\\u7247\\u5b8c\\u5168\\u9002\\u5e94</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="scaleToFill"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: 100% 100%; background-position: 0% 0%; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">aspectFit\\uff1a\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u4f7f\\u56fe\\u7247\\u7684\\u957f\\u8fb9\\u80fd\\u5b8c\\u5168\\u663e\\u793a\\u51fa\\u6765</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="aspectFit"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: contain; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">aspectFill\\uff1a\\u4fdd\\u6301\\u7eb5\\u6a2a\\u6bd4\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u4fdd\\u8bc1\\u56fe\\u7247\\u7684\\u77ed\\u8fb9\\u80fd\\u5b8c\\u5168\\u663e\\u793a\\u51fa\\u6765</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="aspectFill"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: cover; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u9876\\u90e8\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5e95\\u90e8\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">center\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u4e2d\\u95f4\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="center"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: center center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u8fb9\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right center; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u4e0a\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">top right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u4e0a\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="top right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right top; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom left\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u5de6\\u4e0b\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom left"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: left bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n      <div class="section section_gap" role="" aria-label="">\\n        <div class="section__title" role="" aria-label="">bottom right\\uff1a\\u4e0d\\u7f29\\u653e\\u56fe\\u7247\\uff0c\\u53ea\\u663e\\u793a\\u56fe\\u7247\\u7684\\u53f3\\u4e0b\\u8fb9\\u533a\\u57df</div>\\n        <div class="section__ctn" role="" aria-label=""><img mode="bottom right"\\n            src="https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg"\\n            style="width: 200px; height: 200px; background-color: #eeeeee;">\\n          <div role="img" aria-label=""\\n            style=\\'background-size: auto; background-position: right bottom; background-repeat: no-repeat; background-image: url("https://res.wx.qq.com/wxdoc/dist/assets/img/0.4cb08bb4.jpg");\\'>\\n          </div>\\n          <span></span></img>\\n        </div>\\n      </div>\\n    </div>\\n  </div>';
                     return react["default"].createElement(View, {
                         className: "index"
-                    }, react["default"].createElement(Text, null, "Hello world!"));
+                    }, react["default"].createElement(View, {
+                        dangerouslySetInnerHTML: {
+                            __html: html
+                        }
+                    }));
                 }
             } ]);
             return Index;
@@ -1699,160 +1696,5 @@ module.exports = {
         }
     }
 } ]);
-"
-`;
-
-exports[`babel should convert do expressions web 1`] = `3`;
-
-exports[`babel should convert do expressions web 2`] = `
-"
-/** filePath: dist/css/app.css **/
-
-/** filePath: dist/index.html **/
-<!doctype html><html><head><meta content="text/html; charset=utf-8" http-equiv="Content-Type"><meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="format-detection" content="telephone=no,address=no"><meta name="apple-mobile-web-app-status-bar-style" content="white"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title></title><script>!function(x){function w(){var v,u,t,tes,s=x.document,r=s.documentElement,a=r.getBoundingClientRect().width;if(!v&&!u){var n=!!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/);v=x.devicePixelRatio;tes=x.devicePixelRatio;v=n?v:1,u=1/v}if(a>=640){r.style.fontSize="40px"}else{if(a<=320){r.style.fontSize="20px"}else{r.style.fontSize=a/320*20+"px"}}}x.addEventListener("resize",function(){w()});w()}(window);</script><script defer="defer" src="/js/app.js"></script><link href="/css/app.css" rel="stylesheet"></head><body><div id="app"></div></body></html>
-
-/** filePath: dist/js/app.js **/
-(function() {
-    "use strict";
-    var __webpack_exports__ = {};
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _typeof(o) {
-        "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, _typeof(o);
-    }
-    function toPrimitive(t, r) {
-        if ("object" != _typeof(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != _typeof(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == _typeof(i) ? i : String(i);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-    function _setPrototypeOf(o, p) {
-        _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
-            o.__proto__ = p;
-            return o;
-        };
-        return _setPrototypeOf(o, p);
-    }
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function");
-        }
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            "constructor": {
-                "value": subClass,
-                "writable": true,
-                "configurable": true
-            }
-        });
-        Object.defineProperty(subClass, "prototype", {
-            "writable": false
-        });
-        if (superClass) _setPrototypeOf(subClass, superClass);
-    }
-    function _getPrototypeOf(o) {
-        _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
-            return o.__proto__ || Object.getPrototypeOf(o);
-        };
-        return _getPrototypeOf(o);
-    }
-    function _isNativeReflectConstruct() {
-        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-        if (Reflect.construct.sham) return false;
-        if (typeof Proxy === "function") return true;
-        try {
-            Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {})));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    function _assertThisInitialized(self) {
-        if (self === void 0) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-        return self;
-    }
-    function _possibleConstructorReturn(self, call) {
-        if (call && (_typeof(call) === "object" || typeof call === "function")) {
-            return call;
-        } else if (call !== void 0) {
-            throw new TypeError("Derived constructors may only return object or undefined");
-        }
-        return _assertThisInitialized(self);
-    }
-    function _createSuper(Derived) {
-        var hasNativeReflectConstruct = _isNativeReflectConstruct();
-        return function _createSuperInternal() {
-            var Super = _getPrototypeOf(Derived), result;
-            if (hasNativeReflectConstruct) {
-                var NewTarget = _getPrototypeOf(this).constructor;
-                result = Reflect.construct(Super, arguments, NewTarget);
-            } else {
-                result = Super.apply(this, arguments);
-            }
-            return _possibleConstructorReturn(this, result);
-        };
-    }
-    var Component = {};
-    var react = "react-mock";
-    var App = function(_Component) {
-        _inherits(App, _Component);
-        var _super = _createSuper(App);
-        function App() {
-            _classCallCheck(this, App);
-            return _super.apply(this, arguments);
-        }
-        _createClass(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(Component);
-    var app = null && App;
-})();
 "
 `;
