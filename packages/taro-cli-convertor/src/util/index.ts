@@ -19,7 +19,6 @@ import { globals } from './global'
 import type * as t from '@babel/types'
 
 const NODE_MODULES = 'node_modules'
-const POSITION = { col: 0, row: 0 }
 
 /* 代码格式化参数 */
 const prettierJSConfig: prettier.Options = {
@@ -194,8 +193,7 @@ export function analyzeImportUrl (
       'ReferenceFileNotFound',
       `文件 ${sourceFilePath} 中引用 ${value} 不存在！`,
       `${value}`,
-      sourceFilePath,
-      POSITION
+      sourceFilePath
     )
     printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
     updateLogFileContent(
@@ -218,8 +216,7 @@ export function analyzeImportUrl (
           'ReferenceFileNotFound',
           `文件 ${sourceFilePath} 中引用 ${value} 不存在！`,
           `${value}`,
-          sourceFilePath,
-          POSITION
+          sourceFilePath
         )
         printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
         updateLogFileContent(
@@ -235,8 +232,7 @@ export function analyzeImportUrl (
             'ReferenceFileNotFound',
             `文件 ${sourceFilePath} 中引用 ${value} 不存在！`,
             `${value}`,
-            sourceFilePath,
-            POSITION
+            sourceFilePath
           )
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
           updateLogFileContent(
@@ -251,8 +247,7 @@ export function analyzeImportUrl (
                 'ReferenceDirNotFound',
                 `文件 ${sourceFilePath} 中引用了目录 ${value}！`,
                 `${value}`,
-                sourceFilePath,
-                POSITION
+                sourceFilePath
               )
               printLog(processTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
               updateLogFileContent(
@@ -332,8 +327,7 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
         'dependencyNotFound',
         `在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`,
         filePath,
-        globals.currentParseFile,
-        POSITION
+        globals.currentParseFile
       )
       console.log(chalk.red(`在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`))
       updateLogFileContent(
@@ -345,8 +339,7 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
       'ConvertThirdPartyLibError',
       `转换三方库${filePath}异常，请手动处理, error message:${error}`,
       filePath,
-      globals.currentParseFile,
-      POSITION
+      globals.currentParseFile
     )
     console.log(chalk.red(`转换三方库${filePath}异常，请手动处理, error message:${error}`))
     updateLogFileContent(
@@ -493,8 +486,7 @@ export function generateDir (dirPath) {
       'CreateFolderError',
       `创建文件夹${dirPath}失败`,
       '',
-      dirPath,
-      POSITION
+      dirPath
     )
     console.log(`创建文件夹${dirPath}失败`)
   }
@@ -547,8 +539,7 @@ export function printToLogFile () {
       '写日志文件异常',
       'WriteLogException',
       globals.logFilePath,
-      '',
-      POSITION
+      ''
     )
   }
 }
@@ -569,8 +560,7 @@ export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
       'ImportSrcPathFormatError',
       `引用插件路径格式异常，插件路径：${pluginComponentPath}`,
       pluginComponentPath,
-      globals.currentParseFile,
-      POSITION
+      globals.currentParseFile
     )
     console.log(`引用插件路径格式异常，插件路径：${pluginComponentPath}`)
   }
@@ -591,8 +581,7 @@ export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
       'UnregisteredPluginComponentError',
       `引用了未注册的插件组件，插件路径： ${pluginComponentPath}`,
       pluginComponentPath,
-      globals.currentParseFile,
-      POSITION
+      globals.currentParseFile
     )
     console.log(`引用了未注册的插件组件，插件路径： ${pluginComponentPath}`)
   }
@@ -764,7 +753,7 @@ export function createErrorCodeMsg (
     codeBeforeConvert: {
       filePath,
       code,
-      location: { start: position }
+      location: { start: position || { col: 0, row: 0 } }
     }
   }
   globals.errCodeMsgs.push(errorCodeMst)
@@ -798,7 +787,7 @@ export class IReportError extends Error {
     this.msgType = msgType || ''
     this.filePath = filePath || ''
     this.code = code || ''
-    this.location = location
+    this.location = location || { col: 0, row: 0 }
 
   }
 }

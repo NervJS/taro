@@ -35,8 +35,6 @@ const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
-const POSITION = { col: 0, row: 0 }
-
 function buildSlotName (slotName: string) {
   return `render${slotName[0].toUpperCase() + slotName.replace('-', '').slice(1)}`
 }
@@ -217,8 +215,7 @@ export function convertStyleUnit (value: string) {
         'WxmlUnitConversionError',
         `wxml内px/rpx单位转换失败: ${error}`,
         tempValue,
-        globals.currentParseFile,
-        POSITION
+        globals.currentParseFile
       )
       printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
       updateLogFileContent(
@@ -1509,8 +1506,7 @@ function parseAttribute (attr: Attribute) {
         'unsupportedClassArray',
         'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class',
         `class=${JSON.stringify(cacheValue).replace(/"/g, "'")}`,
-        globals.currentParseFile,
-        POSITION
+        globals.currentParseFile
       )
       updateLogFileContent(
         `WARN [taroize] parseAttribute - Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class ${getLineBreak()}`
@@ -1538,8 +1534,7 @@ function parseAttribute (attr: Attribute) {
           `属性解析失败 style="${value}"解析失败，${error}`,
           'StyleAttributeParsingError',
           'WXML_FILE',
-          `style="${value}"`,
-          POSITION
+          `style="${value}"`
         )
       }
     } else {
@@ -1568,8 +1563,7 @@ function parseAttribute (attr: Attribute) {
               err,
               'TemplateParameterConversionError',
               'WXML_FILE',
-              `${key}: ${value}`,
-              POSITION
+              `${key}: ${value}`
             )    
           }
         } else if (content.includes(':') || content.includes('...')) {
@@ -1586,8 +1580,7 @@ function parseAttribute (attr: Attribute) {
             err,
             'TemplateParameterConversionError',
             'WXML_FILE',
-            `${key}: ${value}`,
-            POSITION
+            `${key}: ${value}`
           )
         }
       }
@@ -1596,8 +1589,7 @@ function parseAttribute (attr: Attribute) {
           'ThisKeywordUsageWarning',
           '在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。',
           value,
-          globals.currentParseFile,
-          POSITION
+          globals.currentParseFile
         )
         updateLogFileContent(
           `WARN [taroize] parseAttribute - 在参数中使用 this 可能会造成意想不到的结果 ${getLineBreak()}`
@@ -1652,7 +1644,6 @@ function handleAttrKey (key: string) {
           'InvalidVariableNameError',
           'WXML_FILE',
           `${key}`,
-          POSITION
         )
       }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)

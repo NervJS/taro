@@ -15,7 +15,6 @@ const prettierJSConfig: prettier.Options = {
   singleQuote: true,
   parser: 'babel',
 }
-const POSITION = { col: 0, row: 0 }
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
@@ -99,8 +98,7 @@ export function parseCode (code: string, scriptPath?: string) {
         'WXML代码解析失败, 代码中存在不完整的注释',
         'UnterminatedComment',
         'WXML_FILE',
-        code || '',
-        POSITION
+        code || ''
       )
     }
   }
@@ -133,8 +131,7 @@ export const buildTemplate = (str: string) => {
       `Invalid AST. Expected an ExpressionStatement`,
       'InvalidASTError',
       'WXML_FILE',
-      str,
-      POSITION
+      str
     )
   }
 }
@@ -376,8 +373,7 @@ export function printToLogFile () {
       '写日志文件异常',
       'WriteLogException',
       globals.logFilePath,
-      '',
-      POSITION
+      ''
     )
   }
 }
@@ -413,7 +409,7 @@ export function createErrorCodeMsg (
   describe: string, 
   code: string, 
   filePath: string, 
-  position?: { col: number, row: number }
+  position?: { col: number, row: number } | undefined
 ) {
   const errorCodeMsg = {
     msgType,
@@ -421,7 +417,7 @@ export function createErrorCodeMsg (
     codeBeforeConvert: {
       filePath,
       code,
-      location: { start: position }
+      location: { start: position || { col: 0, row: 0 } }
     }
   }
   globals.errCodeMsgs.push(errorCodeMsg)
@@ -455,7 +451,7 @@ export class IReportError extends Error {
     this.msgType = msgType || ''
     this.filePath = filePath || ''
     this.code = code || ''
-    this.location = location
+    this.location = location || { col: 0, row: 0 }
   }
 }
 

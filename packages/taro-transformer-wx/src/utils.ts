@@ -835,6 +835,6 @@ export class IReportError extends Error {
     this.msgType = msgType || ''
     this.filePath = filePath || ''
     this.code = code || ''
-    this.location = location
+    this.location = location || { col: 0, row: 0 }
   }
 }

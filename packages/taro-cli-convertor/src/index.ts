@@ -79,7 +79,6 @@ const babylonConfig: ParserOptions = {
 }
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
-const POSITION = { col: 0, row: 0 }
 
 const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'Behavior'])
 
@@ -989,8 +988,7 @@ export default class Convertor {
                     'invalidComponentPath',
                     `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`,
                     `${componentObj.name}: ${componentObj.path}`,
-                    globals.currentParseFile,
-                    POSITION
+                    globals.currentParseFile
                   )
                   console.error(
                     `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`
@@ -1143,8 +1141,7 @@ export default class Convertor {
             'TsConfigCopyError',
             `tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`,
             '',
-            path.join(this.root, `tsconfig${this.fileTypes.CONFIG}`),
-            POSITION
+            path.join(this.root, `tsconfig${this.fileTypes.CONFIG}`)
           )
           // 失败不退出，仅提示
           console.log(chalk.red(`tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`))
@@ -1171,8 +1168,7 @@ export default class Convertor {
           'ConvertConfigReadError',
           `convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`,
           '',
-          convertJsonPath,
-          POSITION
+          convertJsonPath
         )
         console.log(chalk.red(`convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`))
         updateLogFileContent(
@@ -1202,8 +1198,7 @@ export default class Convertor {
               'emptyPluginRoot',
               'project.config,json中pluginRoot为空或未配置，请确认配置是否正确',
               '',
-              projectConfigFilePath,
-              POSITION
+              projectConfigFilePath
             )
             console.log('project.config.json中pluginRoot为空或未配置，请确认配置是否正确')
             updateLogFileContent(
@@ -1228,8 +1223,7 @@ export default class Convertor {
           `project.config${this.fileTypes.CONFIG} 解析失败，请检查！`, 
           'ProjectConfigParsingError', 
           projectConfigFilePath,
-          '',
-          POSITION
+          ''
         )
       }
     }
@@ -1279,8 +1273,7 @@ export default class Convertor {
         'AppConfigReadError',
         `app${this.fileTypes.CONFIG} 读取失败，请检查！`,
         '',
-        this.entryJSONPath,
-        POSITION
+        this.entryJSONPath
       )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
       updateLogFileContent(
@@ -1306,8 +1299,7 @@ export default class Convertor {
         'unregisteredPlugin',
         '当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确',
         '',
-        this.entryJSONPath,
-        POSITION
+        this.entryJSONPath
       )
       console.log('当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确')
       updateLogFileContent(
@@ -1324,8 +1316,7 @@ export default class Convertor {
         'missingPageConfig',
         `app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`,
         '',
-        this.entryJSONPath,
-        POSITION
+        this.entryJSONPath
       )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`))
       updateLogFileContent(
@@ -1674,8 +1665,7 @@ ${code}
             `页面 ${page} 没有 JS 文件！`,
             'MissingJSFileError',
             pagePath,
-            '',
-            POSITION
+            ''
           )
         }
         const param: ITaroizeOptions = {}
@@ -1829,8 +1819,7 @@ ${code}
             `自定义组件 ${component} 没有 JS 文件！`,
             'MissingJSFileError',
             componentJSPath,
-            '',
-            POSITION
+            ''
           )
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
@@ -2061,8 +2050,7 @@ ${code}
             'emptyPluginConfig',
             '插件配置信息为空，请检查！',
             '',
-            pluginConfigPath,
-            POSITION
+            pluginConfigPath
           )
           console.log('插件配置信息为空，请检查！')
           updateLogFileContent(`WARN [taro-cli-convertor] parsePluginConfig - 插件配置信息为空 ${getLineBreak()}`)
@@ -2100,8 +2088,7 @@ ${code}
           'PluginJsonParsingError',
           '解析plugin.json失败，请检查！',
           '',
-          pluginConfigPath,
-          POSITION
+          pluginConfigPath
         )
         updateLogFileContent(
           `ERROR [taro-cli-convertor] parsePluginConfig - plugin.json 解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
