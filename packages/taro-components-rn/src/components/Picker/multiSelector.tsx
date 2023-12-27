@@ -2,7 +2,6 @@ import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
 import { noop } from '../../utils'
 import { MultiSelectorProps, MultiSelectorState } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
 
 /**
  * 比较数组内每个数值
@@ -154,7 +153,7 @@ export default class MultiSelector extends React.Component<MultiSelectorProps, M
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
+        {children}
       </AntPicker>
     )
   }
