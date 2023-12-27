@@ -38,6 +38,7 @@ export interface IProjectConf {
   sourceRoot?: string
   env?: string
   autoInstall?: boolean
+  hideDefaultTemplate?: boolean
   framework: FrameworkType
   compiler?: CompilerType
 }
@@ -345,16 +346,17 @@ export default class Project extends Creator {
   }
 
   askTemplate: AskMethods = function (conf, prompts, list = []) {
-    const choices = [
-      {
+    const choices = list.map(item => ({
+      name: item.desc ? `${item.name}（${item.desc}）` : item.name,
+      value: item.name
+    }))
+
+    if (!conf.hideDefaultTemplate) {
+      choices.unshift({
         name: '默认模板',
         value: 'default'
-      },
-      ...list.map(item => ({
-        name: item.desc ? `${item.name}（${item.desc}）` : item.name,
-        value: item.name
-      }))
-    ]
+      })
+    }
 
     if ((typeof conf.template as 'string' | undefined) !== 'string') {
       prompts.push({
