@@ -68,7 +68,7 @@ pub static PACKAGES_MANAGEMENT: Lazy<HashMap<&NpmType, PackageCommand>> = Lazy::
 });
 
 pub static MEDIA_REGEX: Lazy<regex::Regex> =
-  Lazy::new(|| regex::Regex::new(r"\.(png|jpe?g|gif|svg|webp|jar|yml)$").unwrap());
+  Lazy::new(|| regex::Regex::new(r"\.(png|jpe?g|gif|svg|webp|jar|yml|keystore)$").unwrap());
 
 pub static TEMPLATE_CREATOR: &str = "template_creator.js";
 
