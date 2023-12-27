@@ -42,7 +42,7 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
     const { type } = this.props
     if (type === 'checkbox') {
       const node = this.$touchable.current as Checkbox
-      node && node._simulateNativePress(evt)
+      node && node._simulateNativePress?.(evt)
     } else {
       // this.$touchable._onChange()
       this.setState({ checked: !this.state.checked })
