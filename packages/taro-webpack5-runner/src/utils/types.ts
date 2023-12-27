@@ -44,7 +44,6 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   isBuildNativeComp?: boolean
   newBlended?: boolean
   /** hooks */
-  onCompilerMake: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
 }
 
