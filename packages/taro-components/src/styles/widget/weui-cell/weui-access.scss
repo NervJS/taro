@@ -1,0 +1,49 @@
+.weui-cell_access {
+  @include setTapColor();
+
+  color: inherit;
+  &:active {
+    background-color: #ECECEC;
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   left: 0;
+    //   right: 0;
+    //   top: 0;
+    //   bottom: 0;
+    //   background: var(--weui-FG-3);
+    //   pointer-events: none;
+    // }
+  }
+  .weui-cell__ft {
+    padding-right: 13px; // 24px;
+    position: relative;
+    &::after {
+      content: ' ';
+      @include setArrow(right, 6px, #C8C8CD, 2px);
+      // width: 12px;
+      // height: 24px;
+      // mask-position: 0 0;
+      // mask-repeat: no-repeat;
+      // mask-size: 100%;
+      // background-color: currentColor;
+      // color: $weuiTextColorTips;
+      // mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2212%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M2.454%206.58l1.06-1.06%205.78%205.779a.996.996%200%20010%201.413l-5.78%205.779-1.06-1.061%205.425-5.425-5.425-5.424z%22%20fill%3D%22%23B2B2B2%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+      position: absolute;
+      top: 50%;
+      right: 2px; // 0;
+      margin-top: -4px; // 12px;
+    }
+  }
+}
+.weui-cell_link {
+  color: $weuiLinkColorDefault;
+  font-size: 14px;
+
+  // 由于weui-cell:first-child的:before为隐藏，所以这里要重新显示出来
+  &:first-child {
+    &::before {
+      display: block;
+    }
+  }
+}

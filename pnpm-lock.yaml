@@ -953,9 +953,6 @@ importers:
       swiper:
         specifier: 6.8.0
         version: registry.npmjs.org/swiper@6.8.0
-      weui:
-        specifier: ^1.1.2
-        version: registry.npmjs.org/weui@1.1.3
     devDependencies:
       '@babel/generator':
         specifier: ^7.20.0
@@ -972,9 +969,6 @@ importers:
       '@stencil/react-output-target':
         specifier: 0.4.0
         version: registry.npmjs.org/@stencil/react-output-target@0.4.0(@stencil/core@2.22.3)
-      '@stencil/sass':
-        specifier: ^2.0.0
-        version: registry.npmjs.org/@stencil/sass@2.0.4(@stencil/core@2.22.3)
       '@stencil/vue-output-target':
         specifier: 0.7.0
         version: registry.npmjs.org/@stencil/vue-output-target@0.7.0(@stencil/core@2.22.3)
@@ -996,6 +990,9 @@ importers:
       jquery:
         specifier: ^3.4.1
         version: registry.npmjs.org/jquery@3.6.4
+      lightningcss:
+        specifier: ^1.22.1
+        version: registry.npmjs.org/lightningcss@1.22.1
       lodash:
         specifier: ^4.17.21
         version: registry.npmjs.org/lodash@4.17.21
@@ -1005,6 +1002,9 @@ importers:
       puppeteer:
         specifier: ^19.2.0
         version: registry.npmjs.org/puppeteer@19.11.1(typescript@4.9.5)
+      sass:
+        specifier: ^1.58.3
+        version: registry.npmjs.org/sass@1.69.5
       stencil-vue2-output-target:
         specifier: 0.0.4
         version: registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3)
@@ -8327,7 +8327,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       chalk: registry.npmjs.org/chalk@4.1.2
       jest-message-util: registry.npmjs.org/jest-message-util@27.5.1
       jest-util: registry.npmjs.org/jest-util@27.5.1
@@ -8887,7 +8887,7 @@ packages:
       '@jest/test-result': registry.npmjs.org/@jest/test-result@27.5.1
       '@jest/transform': registry.npmjs.org/@jest/transform@27.5.1
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       chalk: registry.npmjs.org/chalk@4.1.2
       collect-v8-coverage: registry.npmjs.org/collect-v8-coverage@1.0.1
       exit: registry.npmjs.org/exit@0.1.2
@@ -9289,7 +9289,7 @@ packages:
       '@jest/schemas': registry.npmjs.org/@jest/schemas@29.4.3
       '@types/istanbul-lib-coverage': registry.npmjs.org/@types/istanbul-lib-coverage@2.0.4
       '@types/istanbul-reports': registry.npmjs.org/@types/istanbul-reports@3.0.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       '@types/yargs': registry.npmjs.org/@types/yargs@17.0.24
       chalk: registry.npmjs.org/chalk@4.1.2
     dev: true
@@ -11579,17 +11579,6 @@ packages:
       '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
     dev: true
 
-  registry.npmjs.org/@stencil/sass@2.0.4(@stencil/core@2.22.3):
-    resolution: {integrity: sha512-tq+ZgJ9ynmag+e21cYmA6+YYJxBJapxjf94eL+uysxY78dM1801ydAhnT+64S5UnX8Jh+22uAuTY2bEYDBPUww==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/sass/-/sass-2.0.4.tgz}
-    id: registry.npmjs.org/@stencil/sass/2.0.4
-    name: '@stencil/sass'
-    version: 2.0.4
-    peerDependencies:
-      '@stencil/core': '>=2.0.0 || >=3.0.0-beta.0'
-    dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
-    dev: true
-
   registry.npmjs.org/@stencil/vue-output-target@0.7.0(@stencil/core@2.22.3):
     resolution: {integrity: sha512-iPEgnT2z6HsfWVRWVZk5C1AaMZnbJjB+c/hvtWoO7B3aErTJB8Up6oFk/t3IRsr12aNuZ4fUra0FEDx9WweH0Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/vue-output-target/-/vue-output-target-0.7.0.tgz}
     id: registry.npmjs.org/@stencil/vue-output-target/0.7.0
@@ -12323,7 +12312,7 @@ packages:
     name: '@types/connect'
     version: 3.4.35
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
 
   registry.npmjs.org/@types/debug@4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/debug/-/debug-4.1.7.tgz}
@@ -12415,7 +12404,7 @@ packages:
     name: '@types/graceful-fs'
     version: 4.1.6
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
     dev: true
 
   registry.npmjs.org/@types/hammerjs@2.0.41:
@@ -12778,7 +12767,7 @@ packages:
     version: 0.17.1
     dependencies:
       '@types/mime': registry.npmjs.org/@types/mime@1.3.2
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
 
   registry.npmjs.org/@types/serve-index@1.9.1:
     resolution: {integrity: sha512-d/Hs3nWDxNL2xAczmOVZNj92YZCS6RGxfBPjKzuu/XirCgXdpKEb88dYNbrYGint6IVWLNP+yonwVAuRC0T2Dg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/serve-index/-/serve-index-1.9.1.tgz}
@@ -12949,7 +12938,7 @@ packages:
     version: 2.10.0
     requiresBuild: true
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
     dev: true
     optional: true
 
@@ -20130,7 +20119,7 @@ packages:
       readdirp: registry.npmjs.org/readdirp@3.6.0
       require-package-name: registry.npmjs.org/require-package-name@2.0.1
       resolve: registry.npmjs.org/resolve@1.22.2
-      sass: registry.npmjs.org/sass@1.50.0
+      sass: registry.npmjs.org/sass@1.69.5
       scss-parser: registry.npmjs.org/scss-parser@1.0.6
       semver: registry.npmjs.org/semver@7.5.0
       yargs: registry.npmjs.org/yargs@16.2.0
@@ -20208,7 +20197,6 @@ packages:
     version: 1.0.3
     engines: {node: '>=0.10'}
     hasBin: true
-    dev: false
 
   registry.npmjs.org/detect-newline@3.1.0:
     resolution: {integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/detect-newline/-/detect-newline-3.1.0.tgz}
@@ -25068,7 +25056,6 @@ packages:
     resolution: {integrity: sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/immutable/-/immutable-4.3.0.tgz}
     name: immutable
     version: 4.3.0
-    dev: false
 
   registry.npmjs.org/import-cwd@2.1.0:
     resolution: {integrity: sha512-Ew5AZzJQFqrOV5BTW3EIoHAnoie1LojZLXKcCQ/yTRyVZosBhK1x1ViYjHGf5pAFOq8ZyChZp6m/fSN7pJyZtg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/import-cwd/-/import-cwd-2.1.0.tgz}
@@ -26353,7 +26340,7 @@ packages:
       '@jest/environment': registry.npmjs.org/@jest/environment@27.5.1
       '@jest/test-result': registry.npmjs.org/@jest/test-result@27.5.1
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       chalk: registry.npmjs.org/chalk@4.1.2
       co: registry.npmjs.org/co@4.6.0
       dedent: registry.npmjs.org/dedent@0.7.0
@@ -27186,7 +27173,7 @@ packages:
       '@jest/environment': registry.npmjs.org/@jest/environment@27.5.1
       '@jest/fake-timers': registry.npmjs.org/@jest/fake-timers@27.5.1
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       jest-mock: registry.npmjs.org/jest-mock@27.5.1
       jest-util: registry.npmjs.org/jest-util@27.5.1
       jsdom: registry.npmjs.org/jsdom@16.7.0
@@ -27372,7 +27359,7 @@ packages:
     dependencies:
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
       '@types/graceful-fs': registry.npmjs.org/@types/graceful-fs@4.1.6
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       anymatch: registry.npmjs.org/anymatch@3.1.3
       fb-watchman: registry.npmjs.org/fb-watchman@2.0.2
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
@@ -27470,7 +27457,7 @@ packages:
       '@jest/source-map': registry.npmjs.org/@jest/source-map@27.5.1
       '@jest/test-result': registry.npmjs.org/@jest/test-result@27.5.1
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       chalk: registry.npmjs.org/chalk@4.1.2
       co: registry.npmjs.org/co@4.6.0
       expect: registry.npmjs.org/expect@27.5.1
@@ -27946,7 +27933,7 @@ packages:
       '@jest/test-result': registry.npmjs.org/@jest/test-result@27.5.1
       '@jest/transform': registry.npmjs.org/@jest/transform@27.5.1
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       chalk: registry.npmjs.org/chalk@4.1.2
       emittery: registry.npmjs.org/emittery@0.8.1
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
@@ -28185,7 +28172,7 @@ packages:
     version: 27.5.1
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       graceful-fs: registry.npmjs.org/graceful-fs@4.2.11
 
   registry.npmjs.org/jest-snapshot@26.6.2:
@@ -28507,7 +28494,7 @@ packages:
     dependencies:
       '@jest/test-result': registry.npmjs.org/@jest/test-result@27.5.1
       '@jest/types': registry.npmjs.org/@jest/types@27.5.1
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       ansi-escapes: registry.npmjs.org/ansi-escapes@4.3.2
       chalk: registry.npmjs.org/chalk@4.1.2
       jest-util: registry.npmjs.org/jest-util@27.5.1
@@ -28562,7 +28549,7 @@ packages:
     version: 27.5.1
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': registry.npmjs.org/@types/node@9.6.61
+      '@types/node': registry.npmjs.org/@types/node@14.18.45
       merge-stream: registry.npmjs.org/merge-stream@2.0.0
       supports-color: registry.npmjs.org/supports-color@8.1.1
 
@@ -29509,6 +29496,17 @@ packages:
     dev: false
     optional: true
 
+  registry.npmjs.org/lightningcss-darwin-arm64@1.22.1:
+    resolution: {integrity: sha512-ldvElu+R0QimNTjsKpaZkUv3zf+uefzLy/R1R19jtgOfSRM+zjUCUgDhfEDRmVqJtMwYsdhMI2aJtJChPC6Osg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.22.1.tgz}
+    name: lightningcss-darwin-arm64
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   registry.npmjs.org/lightningcss-darwin-x64@1.20.0:
     resolution: {integrity: sha512-cmMgY8FFWVaGgtift7eKKkHMqlz9O09/yTdlCXEDOeDP9yeo6vHOBTRP7ojb368kjw8Ew3l0L2uT1Gtx56eNkg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.20.0.tgz}
     name: lightningcss-darwin-x64
@@ -29518,6 +29516,28 @@ packages:
     os: [darwin]
     requiresBuild: true
     dev: false
+    optional: true
+
+  registry.npmjs.org/lightningcss-darwin-x64@1.22.1:
+    resolution: {integrity: sha512-5p2rnlVTv6Gpw4PlTLq925nTVh+HFh4MpegX8dPDYJae+NFVjQ67gY7O6iHIzQjLipDiYejFF0yHrhjU3XgLBQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.22.1.tgz}
+    name: lightningcss-darwin-x64
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  registry.npmjs.org/lightningcss-freebsd-x64@1.22.1:
+    resolution: {integrity: sha512-1FaBtcFrZqB2hkFbAxY//Pnp8koThvyB6AhjbdVqKD4/pu13Rl91fKt2N9qyeQPUt3xy7ORUvSO+dPk3J6EjXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-freebsd-x64/-/lightningcss-freebsd-x64-1.22.1.tgz}
+    name: lightningcss-freebsd-x64
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
     optional: true
 
   registry.npmjs.org/lightningcss-linux-arm-gnueabihf@1.20.0:
@@ -29531,6 +29551,17 @@ packages:
     dev: false
     optional: true
 
+  registry.npmjs.org/lightningcss-linux-arm-gnueabihf@1.22.1:
+    resolution: {integrity: sha512-6rub98tYGfE5I5j0BP8t/2d4BZyu1S7Iz9vUkm0H26snAFHYxLfj3RbQn0xHHIePSetjLnhcg3QlfwUAkD/FYg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-arm-gnueabihf/-/lightningcss-linux-arm-gnueabihf-1.22.1.tgz}
+    name: lightningcss-linux-arm-gnueabihf
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   registry.npmjs.org/lightningcss-linux-arm64-gnu@1.20.0:
     resolution: {integrity: sha512-gtXoa6v0HvMRLbev6Hsef0+Q5He7NslB+Rs7G49Y5LUSdJeGIATEN+j8JzHC0DnxCsOGbEgGRmvtJzzYDkkluw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-arm64-gnu/-/lightningcss-linux-arm64-gnu-1.20.0.tgz}
     name: lightningcss-linux-arm64-gnu
@@ -29540,6 +29571,17 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+    optional: true
+
+  registry.npmjs.org/lightningcss-linux-arm64-gnu@1.22.1:
+    resolution: {integrity: sha512-nYO5qGtb/1kkTZu3FeTiM+2B2TAb7m2DkLCTgQIs2bk2o9aEs7I96fwySKcoHWQAiQDGR9sMux9vkV4KQXqPaQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-arm64-gnu/-/lightningcss-linux-arm64-gnu-1.22.1.tgz}
+    name: lightningcss-linux-arm64-gnu
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
     optional: true
 
   registry.npmjs.org/lightningcss-linux-arm64-musl@1.20.0:
@@ -29553,6 +29595,17 @@ packages:
     dev: false
     optional: true
 
+  registry.npmjs.org/lightningcss-linux-arm64-musl@1.22.1:
+    resolution: {integrity: sha512-MCV6RuRpzXbunvzwY644iz8cw4oQxvW7oer9xPkdadYqlEyiJJ6wl7FyJOH7Q6ZYH4yjGAUCvxDBxPbnDu9ZVg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-arm64-musl/-/lightningcss-linux-arm64-musl-1.22.1.tgz}
+    name: lightningcss-linux-arm64-musl
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   registry.npmjs.org/lightningcss-linux-x64-gnu@1.20.0:
     resolution: {integrity: sha512-8yR/fGNn/P0I+Lc3PK+VWPET/zdSpBfHFIG0DJ38TywMbItVKvnFvoTBwnIm4LqBz7g2G2dDexnNP95za2Ll8g==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.20.0.tgz}
     name: lightningcss-linux-x64-gnu
@@ -29562,6 +29615,17 @@ packages:
     os: [linux]
     requiresBuild: true
     dev: false
+    optional: true
+
+  registry.npmjs.org/lightningcss-linux-x64-gnu@1.22.1:
+    resolution: {integrity: sha512-RjNgpdM20VUXgV7us/VmlO3Vn2ZRiDnc3/bUxCVvySZWPiVPprpqW/QDWuzkGa+NCUf6saAM5CLsZLSxncXJwg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.22.1.tgz}
+    name: lightningcss-linux-x64-gnu
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
     optional: true
 
   registry.npmjs.org/lightningcss-linux-x64-musl@1.20.0:
@@ -29575,6 +29639,17 @@ packages:
     dev: false
     optional: true
 
+  registry.npmjs.org/lightningcss-linux-x64-musl@1.22.1:
+    resolution: {integrity: sha512-ZgO4C7Rd6Hv/5MnyY2KxOYmIlzk4rplVolDt3NbkNR8DndnyX0Q5IR4acJWNTBICQ21j3zySzKbcJaiJpk/4YA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-linux-x64-musl/-/lightningcss-linux-x64-musl-1.22.1.tgz}
+    name: lightningcss-linux-x64-musl
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   registry.npmjs.org/lightningcss-win32-x64-msvc@1.20.0:
     resolution: {integrity: sha512-BRdPvbq7Cc1qxAzp2emqWJHrqsEkf4ggxS29VOnxT7jhkdHKU+a26OVMjvm/OL0NH0ToNOZNAPvHMSexiEgBeA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.20.0.tgz}
     name: lightningcss-win32-x64-msvc
@@ -29584,6 +29659,17 @@ packages:
     os: [win32]
     requiresBuild: true
     dev: false
+    optional: true
+
+  registry.npmjs.org/lightningcss-win32-x64-msvc@1.22.1:
+    resolution: {integrity: sha512-4pozV4eyD0MDET41ZLHAeBo+H04Nm2UEYIk5w/ts40231dRFV7E0cjwbnZvSoc1DXFgecAhiC0L16ruv/ZDCpg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.22.1.tgz}
+    name: lightningcss-win32-x64-msvc
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
     optional: true
 
   registry.npmjs.org/lightningcss@1.20.0:
@@ -29603,6 +29689,25 @@ packages:
       lightningcss-linux-x64-musl: registry.npmjs.org/lightningcss-linux-x64-musl@1.20.0
       lightningcss-win32-x64-msvc: registry.npmjs.org/lightningcss-win32-x64-msvc@1.20.0
     dev: false
+
+  registry.npmjs.org/lightningcss@1.22.1:
+    resolution: {integrity: sha512-Fy45PhibiNXkm0cK5FJCbfO8Y6jUpD/YcHf/BtuI+jvYYqSXKF4muk61jjE8YxCR9y+hDYIWSzHTc+bwhDE6rQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lightningcss/-/lightningcss-1.22.1.tgz}
+    name: lightningcss
+    version: 1.22.1
+    engines: {node: '>= 12.0.0'}
+    dependencies:
+      detect-libc: registry.npmjs.org/detect-libc@1.0.3
+    optionalDependencies:
+      lightningcss-darwin-arm64: registry.npmjs.org/lightningcss-darwin-arm64@1.22.1
+      lightningcss-darwin-x64: registry.npmjs.org/lightningcss-darwin-x64@1.22.1
+      lightningcss-freebsd-x64: registry.npmjs.org/lightningcss-freebsd-x64@1.22.1
+      lightningcss-linux-arm-gnueabihf: registry.npmjs.org/lightningcss-linux-arm-gnueabihf@1.22.1
+      lightningcss-linux-arm64-gnu: registry.npmjs.org/lightningcss-linux-arm64-gnu@1.22.1
+      lightningcss-linux-arm64-musl: registry.npmjs.org/lightningcss-linux-arm64-musl@1.22.1
+      lightningcss-linux-x64-gnu: registry.npmjs.org/lightningcss-linux-x64-gnu@1.22.1
+      lightningcss-linux-x64-musl: registry.npmjs.org/lightningcss-linux-x64-musl@1.22.1
+      lightningcss-win32-x64-msvc: registry.npmjs.org/lightningcss-win32-x64-msvc@1.22.1
+    dev: true
 
   registry.npmjs.org/lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/lilconfig/-/lilconfig-2.1.0.tgz}
@@ -31084,7 +31189,7 @@ packages:
       read-package-tree: registry.npmjs.org/read-package-tree@5.2.1
       request: registry.npmjs.org/request@2.88.2
       rimraf: registry.npmjs.org/rimraf@3.0.2
-      sass: registry.npmjs.org/sass@1.50.0
+      sass: registry.npmjs.org/sass@1.69.5
       source-map: registry.npmjs.org/source-map@0.6.1
       string-hash-64: registry.npmjs.org/string-hash-64@1.0.3
       terser: registry.npmjs.org/terser@4.8.0
@@ -36810,6 +36915,17 @@ packages:
       source-map-js: registry.npmjs.org/source-map-js@1.0.2
     dev: false
 
+  registry.npmjs.org/sass@1.69.5:
+    resolution: {integrity: sha512-qg2+UCJibLr2LCVOt3OlPhr/dqVHWOa9XtZf2OjbLs/T4VPSJ00udtgJxH3neXZm+QqX8B+3cU7RaLqp1iVfcQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sass/-/sass-1.69.5.tgz}
+    name: sass
+    version: 1.69.5
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: registry.npmjs.org/chokidar@3.5.3
+      immutable: registry.npmjs.org/immutable@4.3.0
+      source-map-js: registry.npmjs.org/source-map-js@1.0.2
+
   registry.npmjs.org/sax@1.2.4:
     resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/sax/-/sax-1.2.4.tgz}
     name: sax
@@ -36919,7 +37035,7 @@ packages:
       loglevel: registry.npmjs.org/loglevel@1.8.1
       loglevel-plugin-prefix: registry.npmjs.org/loglevel-plugin-prefix@0.8.4
       pretty-bytes: registry.npmjs.org/pretty-bytes@5.6.0
-      sass: registry.npmjs.org/sass@1.50.0
+      sass: registry.npmjs.org/sass@1.69.5
       tslib: registry.npmjs.org/tslib@1.10.0
     dev: false
 
