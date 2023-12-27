@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/api",
-  "version": "4.0.0-alpha.0",
+  "version": "4.0.0-canary.5",
   "description": "Taro common API",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/api#readme",
