@@ -19,6 +19,7 @@ import { globals } from './global'
 import type * as t from '@babel/types'
 
 const NODE_MODULES = 'node_modules'
+const POSITION = { col: 0, row: 0 }
 
 /* 代码格式化参数 */
 const prettierJSConfig: prettier.Options = {
@@ -189,13 +190,12 @@ export function analyzeImportUrl (
   const valueExtname = path.extname(value)
   const rpath = getRelativePath(rootPath, sourceFilePath, value)
   if (!rpath) {
-    const position = { col: 0, row: 0 }
     createErrorCodeMsg(
       'ReferenceFileNotFound',
       `文件 ${sourceFilePath} 中引用 ${value} 不存在！`,
       `${value}`,
       sourceFilePath,
-      position
+      POSITION
     )
     printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
     updateLogFileContent(
@@ -214,13 +214,12 @@ export function analyzeImportUrl (
       if (fs.existsSync(vpath)) {
         fPath = vpath
       } else {
-        const position = { col: 0, row: 0 }
         createErrorCodeMsg(
           'ReferenceFileNotFound',
           `文件 ${sourceFilePath} 中引用 ${value} 不存在！`,
           `${value}`,
           sourceFilePath,
-          position
+          POSITION
         )
         printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
         updateLogFileContent(
@@ -232,13 +231,12 @@ export function analyzeImportUrl (
       let vpath = resolveScriptPath(path.join(sourceFilePath, '..', value))
       if (vpath) {
         if (!fs.existsSync(vpath)) {
-          const position = { col: 0, row: 0 }
           createErrorCodeMsg(
             'ReferenceFileNotFound',
             `文件 ${sourceFilePath} 中引用 ${value} 不存在！`,
             `${value}`,
             sourceFilePath,
-            position
+            POSITION
           )
           printLog(processTypeEnum.ERROR, '引用文件', `文件 ${sourceFilePath} 中引用 ${value} 不存在！`)
           updateLogFileContent(
@@ -249,13 +247,12 @@ export function analyzeImportUrl (
             if (fs.existsSync(path.join(vpath, 'index.js'))) {
               vpath = path.join(vpath, 'index.js')
             } else {
-              const position = { col: 0, row: 0 }
               createErrorCodeMsg(
                 'ReferenceDirNotFound',
                 `文件 ${sourceFilePath} 中引用了目录 ${value}！`,
                 `${value}`,
                 sourceFilePath,
-                position
+                POSITION
               )
               printLog(processTypeEnum.ERROR, '引用目录', `文件 ${sourceFilePath} 中引用了目录 ${value}！`)
               updateLogFileContent(
@@ -331,13 +328,12 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
     }
 
     if (!isThirdPartyLibExist) {
-      const position = { col: 0, row: 0 }
       createErrorCodeMsg(
         'dependencyNotFound',
         `在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`,
         filePath,
         globals.currentParseFile,
-        position
+        POSITION
       )
       console.log(chalk.red(`在[${nodePath.toString()}]中没有找到依赖的三方库${filePath}，请安装依赖后运行`))
       updateLogFileContent(
@@ -345,13 +341,12 @@ export function handleThirdPartyLib (filePath: string, nodePath: string[], root:
       )
     }
   } catch (error) {
-    const position = { col: 0, row: 0 }
     createErrorCodeMsg(
       'ConvertThirdPartyLibError',
       `转换三方库${filePath}异常，请手动处理, error message:${error}`,
       filePath,
       globals.currentParseFile,
-      position
+      POSITION
     )
     console.log(chalk.red(`转换三方库${filePath}异常，请手动处理, error message:${error}`))
     updateLogFileContent(
@@ -494,13 +489,12 @@ export function generateDir (dirPath) {
       fs.mkdirSync(dirPath)
     }
   } catch (error) {
-    const position = { col: 0, row: 0 }
     createErrorCodeMsg(
       'CreateFolderError',
       `创建文件夹${dirPath}失败`,
       '',
       dirPath,
-      position
+      POSITION
     )
     console.log(`创建文件夹${dirPath}失败`)
   }
@@ -549,13 +543,12 @@ export function printToLogFile () {
     globals.logFileContent = ''
   } catch (error) {
     console.error(`写入日志文件异常 ${error.message}}`)
-    const position = { col: 0, row: 0 }
     throw new IReportError(
       '写日志文件异常',
       'WriteLogException',
       globals.logFilePath,
       '',
-      position
+      POSITION
     )
   }
 }
@@ -572,13 +565,12 @@ export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
   const regexPluginUrl = /plugin:\/\/([^/]+)\/([^/?]+)/
   const matchPluginUrl = pluginComponentPath.match(regexPluginUrl)
   if (!matchPluginUrl) {      
-    const position = { col: 0, row: 0 }
     createErrorCodeMsg(
       'ImportSrcPathFormatError',
       `引用插件路径格式异常，插件路径：${pluginComponentPath}`,
       pluginComponentPath,
       globals.currentParseFile,
-      position
+      POSITION
     )
     console.log(`引用插件路径格式异常，插件路径：${pluginComponentPath}`)
   }
@@ -595,13 +587,12 @@ export function replacePluginComponentUrl (pluginComponentPath, pluginInfo) {
   })
 
   if (!componentPath) {
-    const position = { col: 0, row: 0 }
     createErrorCodeMsg(
       'UnregisteredPluginComponentError',
       `引用了未注册的插件组件，插件路径： ${pluginComponentPath}`,
       pluginComponentPath,
       globals.currentParseFile,
-      position
+      POSITION
     )
     console.log(`引用了未注册的插件组件，插件路径： ${pluginComponentPath}`)
   }

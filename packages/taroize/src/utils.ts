@@ -15,6 +15,7 @@ const prettierJSConfig: prettier.Options = {
   singleQuote: true,
   parser: 'babel',
 }
+const POSITION = { col: 0, row: 0 }
 
 export function isAliasThis (p: NodePath<t.Node>, name: string) {
   const binding = p.scope.getBinding(name)
@@ -94,13 +95,12 @@ export function parseCode (code: string, scriptPath?: string) {
     updateLogFileContent(`ERROR [taroize] parseCode - 转换代码异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     // 结尾注释会引起 parseCode 报错，因此收录到报告中
     if (error.message.includes('Unterminated comment')) {
-      const position = { col: 0, row: 0 }
       throw new  IReportError(
         'WXML代码解析失败, 代码中存在不完整的注释',
         'UnterminatedComment',
         'WXML_FILE',
         code || '',
-        position
+        POSITION
       )
     }
   }
@@ -129,13 +129,12 @@ export const buildTemplate = (str: string) => {
   if (t.isExpressionStatement(ast)) {
     return ast.expression
   } else {
-    const position = { col: 0, row: 0 }
     throw new IReportError(
       `Invalid AST. Expected an ExpressionStatement`,
       'InvalidASTError',
       'WXML_FILE',
       str,
-      position
+      POSITION
     )
   }
 }
@@ -373,13 +372,12 @@ export function printToLogFile () {
     globals.logFileContent = ''
   } catch (error) {
     console.error(`写入日志文件异常 ${error.message}`)
-    const position = { col: 0, row: 0 }
     throw new IReportError(
       '写日志文件异常',
       'WriteLogException',
       globals.logFilePath,
       '',
-      position
+      POSITION
     )
   }
 }

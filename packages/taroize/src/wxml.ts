@@ -35,6 +35,8 @@ const pathTool = require('path')
 
 const allCamelCase = (str: string) => str.charAt(0).toUpperCase() + camelCase(str.substr(1))
 
+const POSITION = { col: 0, row: 0 }
+
 function buildSlotName (slotName: string) {
   return `render${slotName[0].toUpperCase() + slotName.replace('-', '').slice(1)}`
 }
@@ -211,13 +213,12 @@ export function convertStyleUnit (value: string) {
           return match.replace(size, size + '/40').replace(unit, 'rem')
         })
     } catch (error) {
-      const position = { col: 0, row: 0 }
       createErrorCodeMsg(
         'WxmlUnitConversionError',
         `wxml内px/rpx单位转换失败: ${error}`,
         tempValue,
         globals.currentParseFile,
-        position
+        POSITION
       )
       printLog(processTypeEnum.ERROR, `wxml内px/rpx单位转换失败: ${error}`)
       updateLogFileContent(
@@ -1504,13 +1505,12 @@ function parseAttribute (attr: Attribute) {
     const cacheValue = value
     if (key === 'class' && value.startsWith('[') && value.endsWith(']')) {
       value = value.slice(1, value.length - 1).replace(',', '')
-      const position = { col: 0, row: 0 }
       createErrorCodeMsg(
         'unsupportedClassArray',
         'Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class',
         `class=${JSON.stringify(cacheValue).replace(/"/g, "'")}`,
         globals.currentParseFile,
-        position
+        POSITION
       )
       updateLogFileContent(
         `WARN [taroize] parseAttribute - Taro/React 不支持 class 传入数组，此写法可能无法得到正确的 class ${getLineBreak()}`
@@ -1534,13 +1534,12 @@ function parseAttribute (attr: Attribute) {
         updateLogFileContent(
           `ERROR [taroize] parseAttribute - 属性 style="${value}" 解析异常 ${getLineBreak()}${error} ${getLineBreak()}`
         )
-        const position = { col: 0, row: 0 }
         throw new IReportError(
           `属性解析失败 style="${value}"解析失败，${error}`,
           'StyleAttributeParsingError',
           'WXML_FILE',
           `style="${value}"`,
-          position
+          POSITION
         )
       }
     } else {
@@ -1562,7 +1561,6 @@ function parseAttribute (attr: Attribute) {
           if (key === WX_KEY) {
             expr = t.stringLiteral('')
           } else {
-            const position = { col: 0, row: 0 }
             updateLogFileContent(
               `ERROR [taroize] parseAttribute - 模板参数转换异常 ${getLineBreak()}${err} ${getLineBreak()}`
             )
@@ -1571,7 +1569,7 @@ function parseAttribute (attr: Attribute) {
               'TemplateParameterConversionError',
               'WXML_FILE',
               `${key}: ${value}`,
-              position
+              POSITION
             )    
           }
         } else if (content.includes(':') || content.includes('...')) {
@@ -1581,7 +1579,6 @@ function parseAttribute (attr: Attribute) {
           expr = (file.program.body[0] as any).declarations[0].init
         } else {
           const err = `转换模板参数： \`${key}: ${value}\` 报错`
-          const position = { col: 0, row: 0 }
           updateLogFileContent(
             `ERROR [taroize] parseAttribute - 模板参数转换异常 ${getLineBreak()}${err} ${getLineBreak()}`
           )
@@ -1590,18 +1587,17 @@ function parseAttribute (attr: Attribute) {
             'TemplateParameterConversionError',
             'WXML_FILE',
             `${key}: ${value}`,
-            position
+            POSITION
           )
         }
       }
       if (t.isThisExpression(expr)) {
-        const position = { col: 0, row: 0 }
         createErrorCodeMsg(
           'ThisKeywordUsageWarning',
           '在参数中使用 `this` 可能会造成意想不到的结果，已将此参数修改为 `__placeholder__`，你可以在转换后的代码查找这个关键字修改。',
           value,
           globals.currentParseFile,
-          position
+          POSITION
         )
         updateLogFileContent(
           `WARN [taroize] parseAttribute - 在参数中使用 this 可能会造成意想不到的结果 ${getLineBreak()}`
@@ -1650,14 +1646,13 @@ function handleAttrKey (key: string) {
       key = key.replace(/^(bind:|catch:|bind|catch)/, 'on')
       key = camelCase(key)
       if (!isValidVarName(key)) {
-        const position = { col: 0, row: 0 }
         updateLogFileContent(`ERROR [taroize] handleAttrKey - ${key} 不是一个有效 JavaScript 变量名 ${getLineBreak()}`)
         throw new IReportError(
           `属性名"${key}" 不是一个有效 JavaScript 变量名`,
           'InvalidVariableNameError',
           'WXML_FILE',
           `${key}`,
-          position
+          POSITION
         )
       }
       return key.substr(0, 2) + key[2].toUpperCase() + key.substr(3)

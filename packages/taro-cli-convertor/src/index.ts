@@ -79,6 +79,7 @@ const babylonConfig: ParserOptions = {
 }
 
 const OUTPUT_STYLE_EXTNAME = '.scss'
+const POSITION = { col: 0, row: 0 }
 
 const WX_GLOBAL_FN = new Set<string>(['getApp', 'getCurrentPages', 'Behavior'])
 
@@ -984,13 +985,12 @@ export default class Convertor {
                 }
                 let componentPath = componentObj.path
                 if (!componentPath.startsWith(self.root) && !componentPath.startsWith(self.pluginInfo.pluginRoot)) {
-                  const position = { col: 0, row: 0 }
                   createErrorCodeMsg(
                     'invalidComponentPath',
                     `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`,
                     `${componentObj.name}: ${componentObj.path}`,
                     globals.currentParseFile,
-                    position
+                    POSITION
                   )
                   console.error(
                     `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`
@@ -1139,13 +1139,12 @@ export default class Convertor {
           const outputFilePath = path.join(this.convertRoot, tempConfig)
           copyFileToTaro(tempConfigPath, outputFilePath)
         } catch (err) {
-          const position = { col: 0, row: 0 }
           createErrorCodeMsg(
             'TsConfigCopyError',
             `tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`,
             '',
             path.join(this.root, `tsconfig${this.fileTypes.CONFIG}`),
-            position
+            POSITION
           )
           // 失败不退出，仅提示
           console.log(chalk.red(`tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`))
@@ -1168,13 +1167,12 @@ export default class Convertor {
         this.convertConfig = { ...convertJson }
         this.convertConfig.external = transRelToAbsPath(convertJsonPath, this.convertConfig.external)
       } catch (err) {
-        const position = { col: 0, row: 0 }
         createErrorCodeMsg(
           'ConvertConfigReadError',
           `convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`,
           '',
           convertJsonPath,
-          position
+          POSITION
         )
         console.log(chalk.red(`convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`))
         updateLogFileContent(
@@ -1200,13 +1198,12 @@ export default class Convertor {
         if (projectConfigJson && projectConfigJson.compileType === Constants.PLUGIN) {
           const pluginRoot = projectConfigJson.pluginRoot
           if (pluginRoot === '' || isNull(pluginRoot) || isUndefined(pluginRoot)) {
-            const position = { col: 0, row: 0 }
             createErrorCodeMsg(
               'emptyPluginRoot',
               'project.config,json中pluginRoot为空或未配置，请确认配置是否正确',
               '',
               projectConfigFilePath,
-              position
+              POSITION
             )
             console.log('project.config.json中pluginRoot为空或未配置，请确认配置是否正确')
             updateLogFileContent(
@@ -1227,13 +1224,12 @@ export default class Convertor {
             this.fileTypes.CONFIG
           } 文件解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
         )
-        const position = { col: 0, row: 0 }
         throw new IReportError(
           `project.config${this.fileTypes.CONFIG} 解析失败，请检查！`, 
           'ProjectConfigParsingError', 
           projectConfigFilePath,
           '',
-          position
+          POSITION
         )
       }
     }
@@ -1279,13 +1275,12 @@ export default class Convertor {
       }
     } catch (err) {
       this.entryJSON = {}
-      const position = { col: 0, row: 0 }
       createErrorCodeMsg(
         'AppConfigReadError',
         `app${this.fileTypes.CONFIG} 读取失败，请检查！`,
         '',
         this.entryJSONPath,
-        position
+        POSITION
       )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
       updateLogFileContent(
@@ -1307,13 +1302,12 @@ export default class Convertor {
     if (plugins && Object.keys(plugins).length) {
       this.pluginInfo.pluginName = Object.keys(plugins)[0]
     } else {
-      const position = { col: 0, row: 0 }
       createErrorCodeMsg(
         'unregisteredPlugin',
         '当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确',
         '',
         this.entryJSONPath,
-        position
+        POSITION
       )
       console.log('当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确')
       updateLogFileContent(
@@ -1326,13 +1320,12 @@ export default class Convertor {
   getPages () {
     const pages = this.entryJSON.pages
     if (!pages || !pages.length) {
-      const position = { col: 0, row: 0 }
       createErrorCodeMsg(
         'missingPageConfig',
         `app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`,
         '',
         this.entryJSONPath,
-        position
+        POSITION
       )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`))
       updateLogFileContent(
@@ -1676,14 +1669,13 @@ ${code}
 
       try {
         if (!fs.existsSync(pageJSPath)) {
-          const position = { col: 0, row: 0 }
           updateLogFileContent(`ERROR [taro-cli-convertor] traversePages - 页面 ${page} 没有 JS 文件 ${getLineBreak()}`)
           throw new IReportError(
             `页面 ${page} 没有 JS 文件！`,
             'MissingJSFileError',
             pagePath,
             '',
-            position
+            POSITION
           )
         }
         const param: ITaroizeOptions = {}
@@ -1830,7 +1822,6 @@ ${code}
         const depComponents = new Set<IComponent>()
         const pluginComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
-          const position = { col: 0, row: 0 }
           updateLogFileContent(
             `ERROR [taro-cli-convertor] traverseComponents - 自定义组件 ${component} 没有 JS 文件 ${getLineBreak()}`
           )
@@ -1839,7 +1830,7 @@ ${code}
             'MissingJSFileError',
             componentJSPath,
             '',
-            position
+            POSITION
           )
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
@@ -2066,13 +2057,12 @@ ${code}
       try {
         const pluginConfigJson = JSON.parse(String(fs.readFileSync(pluginConfigPath)))
         if (!pluginConfigJson) {
-          const position = { col: 0, row: 0 }
           createErrorCodeMsg(
             'emptyPluginConfig',
             '插件配置信息为空，请检查！',
             '',
             pluginConfigPath,
-            position
+            POSITION
           )
           console.log('插件配置信息为空，请检查！')
           updateLogFileContent(`WARN [taro-cli-convertor] parsePluginConfig - 插件配置信息为空 ${getLineBreak()}`)
@@ -2106,13 +2096,12 @@ ${code}
           pluginInfo.entryFilePath = path.join(pluginInfo.pluginRoot, entryFilePath)
         }
       } catch (err) {
-        const position = { col: 0, row: 0 }
         createErrorCodeMsg(
           'PluginJsonParsingError',
           '解析plugin.json失败，请检查！',
           '',
           pluginConfigPath,
-          position
+          POSITION
         )
         updateLogFileContent(
           `ERROR [taro-cli-convertor] parsePluginConfig - plugin.json 解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
