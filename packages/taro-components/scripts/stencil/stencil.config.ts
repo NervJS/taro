@@ -1,8 +1,8 @@
 import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
-import { sass } from '@stencil/sass'
 
 import { reactOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
+import scssPlugin from './plugin/sass-plugin'
 
 const isProd = process.env.NODE_ENV === 'production'
 const outputTargets: OutputTarget[] = [
@@ -65,9 +65,15 @@ if (!isProd) {
 
 export const config: Config = {
   namespace: 'taro-components',
-  globalStyle: './src/global.css',
+  globalStyle: './src/styles/index.scss',
   plugins: [
-    sass()
+    scssPlugin({
+      injectGlobalPaths: [
+        'src/styles/base/fn',
+        'src/styles/base/variable/color',
+      ],
+      outputStyle: 'compressed',
+    }),
   ],
   sourceMap: !isProd,
   nodeResolve: {

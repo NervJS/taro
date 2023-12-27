@@ -1,0 +1,172 @@
+.weui-dialog {
+  position: fixed;
+  z-index: 5000;
+  width: 80%;
+  max-width: 300px;
+  top: 50%;
+  left: 50%; // 16px;
+  // right: 16px;
+  transform: translate(-50%, -50%); // translate(0, -50%);
+  background-color: $weuiDialogBackgroundColor;
+  text-align: center;
+  border-radius: 3px; // 12px;
+  overflow: hidden;
+  // display: -webkit-box;
+  // display: -webkit-flex;
+  // display: flex;
+  // -webkit-flex-direction: column;
+  // flex-direction: column;
+  // max-height: 90%;
+  // outline: 0;
+}
+
+.weui-dialog__hd {
+  padding: 1.3em $weuiDialogGapWidth .5em;
+}
+.weui-dialog__title {
+  font-weight: 400; // 700;
+  font-size: 18px; // 17px;
+  // line-height: 1.4;
+  // color: var(--weui-FG-0);
+}
+.weui-dialog__bd {
+  // overflow-y: auto;
+  // -webkit-overflow-scrolling: touch;
+  padding: 0 $weuiDialogGapWidth .8em;
+  // margin-bottom: 32px;
+  font-size: 15px; // 17px;
+  line-height: 1.3; // 1.4;
+  // @include hyphens;
+  min-height: 40px;
+  word-wrap: break-word;
+  word-break: break-all;
+  color: $weuiTextColorGray; // $weuiTextColorDesc;
+  &:first-child {
+    // min-height: 40px;
+    padding: 2.7em 20px 1.7em; // 32px $weuiDialogGapWidth 0;
+    // font-weight: 700;
+    color:#353535; // $weuiTextColorTitle;
+    // display: -webkit-box;
+    // display: -webkit-flex;
+    // display: flex;
+    // -webkit-flex-direction: column;
+    // flex-direction: column;
+    // -webkit-box-pack: center;
+    // -webkit-justify-content: center;
+    // justify-content: center;
+  }
+}
+.weui-dialog__ft {
+  position: relative;
+  line-height: 48px;
+  font-size: 18px;
+  display: flex;
+  &::after {
+    content: ' ';
+    @include setTopLine($weuiDialogLineColor);
+  }
+}
+.weui-dialog__btn {
+  flex: 1;
+  display: block;
+  // line-height: math.div(56 - 32, 17);
+  // padding: 16px 0;
+  // font-size: 17px;
+  color: $weuiDialogLinkColor;
+  // font-weight: 700;
+  text-decoration: none;
+  @include setTapColor();
+
+  // user-select: none;
+  &:active {
+    background-color: $weuiDialogLinkActiveBc;
+  }
+
+  position: relative;
+  &::after {
+    content: ' ';
+    @include setLeftLine($weuiDialogLineColor);
+  }
+  &:first-child {
+    &::after {
+      display: none;
+    }
+  }
+}
+.weui-dialog__btn_default {
+  color: #353535; // var(--weui-FG-HALF);
+}
+.weui-dialog__btn_primary {
+  color: #0BB20C;
+}
+
+.weui-skin_android {
+  .weui-dialog {
+    text-align: left;
+    box-shadow: 0 6px 30px 0 rgba(0, 0, 0, 0.1);
+  }
+  .weui-dialog__title {
+    font-size: 21px; // 22px;
+    // line-height: 1.4;
+  }
+  .weui-dialog__hd {
+    text-align: left;
+  }
+  .weui-dialog__bd {
+    color: $weuiTextColorGray; // $weuiTextColorDesc;
+    padding:.25em $weuiDialogGapWidth 2em;
+    font-size: 17px;
+    text-align: left;
+    &:first-child {
+      color: #353535; // $weuiTextColorTitle;
+      padding:1.6em $weuiDialogGapWidth 2em;
+    }
+  }
+  .weui-dialog__ft {
+    display: block;
+    text-align: right;
+    line-height: 42px; // 40px;
+    // min-height: 40px;
+    font-size: 16px;
+    padding: 0 $weuiDialogGapWidth .7em; // 0 $weuiDialogGapWidth 16px;
+    &::after {
+      display: none;
+    }
+  }
+  .weui-dialog__btn {
+    display: inline-block;
+    vertical-align: top;
+    padding: 0 0.8em;
+    &::after {
+      display: none;
+    }
+
+    &:active {
+      background-color: rgba(0, 0, 0, .06);
+    }
+
+    &:visited {
+      background-color: rgba(0, 0, 0, .06);
+    }
+
+    &:last-child {
+      margin-right: -0.8em;
+    }
+  }
+  .weui-dialog__btn_default {
+    color: #808080; // var(--weui-FG-HALF);
+  }
+}
+
+// @media screen and (min-width: 352px) {
+//   .weui-dialog {
+//     width: 320px;
+//     margin: 0 auto;
+//   }
+// }
+
+@media screen and (min-width: 1024px) {
+  .weui-dialog {
+    width: 35%;
+  }
+}
