@@ -20,9 +20,13 @@ function showActionSheet (obj: Taro.showActionSheet.Option): Promise<Taro.showAc
       sibling && sibling.destroy()
       sibling = undefined
       const res = { tapIndex, errMsg: 'showActionSheet:ok' }
-      success?.(res)
-      complete?.(res)
-      resolve(res)
+      // fix: iOS 无法打开相册
+      // https://github.com/expo/expo/issues/25705
+      setTimeout(() => {
+        success?.(res)
+        complete?.(res)
+        resolve(res)
+      }, 1)
     }
 
     function onFail () {
