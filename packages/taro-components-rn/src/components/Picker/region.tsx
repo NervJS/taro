@@ -4,7 +4,6 @@ import { PickerData } from '@ant-design/react-native/lib/picker/PropsType'
 import { regionData } from './regionData'
 import { noop } from '../../utils'
 import { RegionProps, RegionState, RegionObj } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
 
 function formateRegionData(clObj: RegionObj[] = [], customItem?: string, depth = 2): PickerData[] {
   const l = depth
@@ -119,9 +118,7 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
         onOk={this.onOk}
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
-      >
-        <TouchableWithoutFeedback>{children}</TouchableWithoutFeedback>
-      </AntPicker>
+      >{children}</AntPicker>
     )
   }
 }

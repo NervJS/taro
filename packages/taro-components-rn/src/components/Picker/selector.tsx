@@ -7,7 +7,6 @@ import * as React from 'react'
 import AntPicker from '@ant-design/react-native/lib/picker'
 import { noop } from '../../utils'
 import { SelectorProps, SelectorState } from './PropsType'
-import { TouchableWithoutFeedback } from 'react-native'
 
 function convertToObj (item?: any, rangeKey = ''): any {
   if (typeof item === 'object') {
@@ -95,7 +94,6 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
     const selected: any = range[value]
 
     return (
-      // @ts-ignore
       <AntPicker
         data={range}
         value={[selected && selected.value]}
@@ -108,9 +106,7 @@ export default class Selector extends React.Component<SelectorProps, SelectorSta
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}
       >
-        <TouchableWithoutFeedback>
-          {children}
-        </TouchableWithoutFeedback>
+        {children}
       </AntPicker>
     )
   }
