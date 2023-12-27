@@ -4,8 +4,8 @@ import { isRenderNode } from './TaroComponentsExportsPlugin'
 import TaroNormalModule, { TaroBaseNormalModule } from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
-import type AcornWalk from 'acorn-walk'
 import type acorn from 'acorn'
+import type AcornWalk from 'acorn-walk'
 import type { Compiler } from 'webpack'
 
 const walk = require('acorn-walk') as typeof AcornWalk

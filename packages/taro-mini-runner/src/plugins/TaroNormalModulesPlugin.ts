@@ -5,8 +5,8 @@ import { componentConfig } from '../template/component'
 import TaroNormalModule from './TaroNormalModule'
 
 import type { Func } from '@tarojs/taro/types/compile'
-import type AcornWalk from 'acorn-walk'
 import type acorn from 'acorn'
+import type AcornWalk from 'acorn-walk'
 
 const walk = require('acorn-walk') as typeof AcornWalk
 
