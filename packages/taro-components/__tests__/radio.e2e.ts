@@ -40,7 +40,7 @@ describe('Radio', () => {
         />`).join('')}
       </taro-radio-group-core>`,
     })
-    
+
     await page.waitForChanges()
     const el = await page.find('taro-radio-group-core')
     const inputList = await page.findAll('taro-radio-core')
