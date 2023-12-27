@@ -1,0 +1,96 @@
+.weui-toast {
+  position: fixed;
+  z-index: 5000; // 5500;
+  // font-size: 10px;
+  width: 7.6em; // 13.6em;
+  min-height: 7.6em; // 13.6em;
+  top: 180px; // 40%;
+  left: 50%;
+  // transform: translate(-50%, -50%);
+  text-align: center;
+  border-radius: 5px; // 12px;
+  color: #FFFFFF; // rgba(255, 255, 255, 0.9);
+  margin-left: -3.8em;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  background: rgba(17, 17, 17, 0.7);
+  // background-color: var(--weui-BG-4);
+  // box-sizing: border-box;
+  // line-height: 1.4;
+}
+// .weui-toast_text {
+//   width: auto;
+//   height: auto;
+//   min-width: 152px;
+//   max-width: 216px;
+//   padding: 12px 0;
+//   border-radius: 8px;
+//   .weui-toast__content {
+//     font-size: 14px;
+//     padding: 0 20px;
+//   }
+// }
+.weui-icon_toast {
+  // 重置 weui-icon 权重
+  // width: 4em;
+  // height: 4em;
+
+  display: block;
+  margin: 22px 0 0;
+  // margin-bottom: 16px;
+  &.weui-icon-success-no-circle {
+    // color: rgba(255, 255, 255, 0.9);
+    &::before {
+      color: #FFFFFF;
+      font-size: 55px;
+    }
+  }
+  // &.weui-icon-warn {
+  //   color: rgba(255, 255, 255, 0.9);
+  // }
+  &.weui-loading {
+    margin:30px 0 0;
+    width:38px;
+    height:38px;
+    vertical-align: baseline;
+  }
+  // &.weui-primary-loading {
+  //   display: flex;
+  //   width: 1em;
+  //   height: 1em;
+  //   font-size: 40px;
+  //   color: #ededed;
+  //   &::before {
+  //     border-width: 4px 0 4px 4px;
+  //   }
+  //   &::after {
+  //     border-width: 4px 4px 4px 0;
+  //   }
+  //   .weui-primary-loading__dot {
+  //     width: 4px;
+  //     height: 4px;
+  //     border-top-right-radius: 4px;
+  //     border-bottom-right-radius: 4px;
+  //   }
+  // }
+}
+
+.weui-toast__content {
+  margin: 0 0 15px;
+  // font-size: 17px;
+  // padding: 0 12px;
+  // @include hyphens;
+}
+
+// 多行文本场景
+// .weui-toast_text-more {
+//   .weui-icon_toast {
+//     margin-bottom: 12px;
+//   }
+//   .weui-toast__content {
+//     font-size: 14px;
+//     line-height: 1.6;
+//   }
+// }
