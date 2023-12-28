@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/helper",
-  "version": "3.6.20",
+  "version": "3.6.22-alpha.5",
   "description": "Taro Helper",
   "main": "index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,8 @@
     "prepack": "pnpm run build",
     "prod": "tsc",
     "test": "jest --collectCoverage",
-    "test:ci": "jest --ci --i --coverage false"
+    "test:ci": "jest --ci --i --coverage false",
+    "artifacts": "node scripts/artifacts.js"
   },
   "repository": {
     "type": "git",

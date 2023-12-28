@@ -5,7 +5,7 @@ use swc_core::{
         visit::{as_folder, FoldWith, VisitMut, VisitMutWith},
         utils::{quote_ident, FunctionFactory, prepend_stmt},
     },
-    common::{DUMMY_SP as span, SyntaxContext },
+    common::{DUMMY_SP as span },
     plugin::{plugin_transform, proxies::TransformPluginProgramMetadata},
 };
 

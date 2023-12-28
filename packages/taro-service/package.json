@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.20",
+  "version": "3.6.22-alpha.5",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -21,8 +21,7 @@
   "files": [
     "index.js",
     "dist",
-    "types",
-    "src"
+    "types"
   ],
   "keywords": [
     "taro"

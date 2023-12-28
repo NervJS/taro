@@ -22,7 +22,7 @@ const appConfig: any = {
     list: [{
       pagePath: '/pages/index/index', text: '首页'
     }, {
-      pagePath: '/pages/about/about', text: '关于我们'
+      pagePath: '/pages/about/index', text: '关于我们'
     }],
     mode: 'hash',
     basename: '/test/app',

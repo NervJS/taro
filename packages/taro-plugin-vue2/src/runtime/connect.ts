@@ -53,7 +53,7 @@ function setReconciler () {
         name: 'PullToRefresh',
         render (h) {
           return h(
-            'taro-pull-to-refresh',
+            'taro-pull-to-refresh-core',
             {
               class: ['hydrated']
             },

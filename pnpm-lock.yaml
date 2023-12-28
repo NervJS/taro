@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: false
-  excludeLinksFromLockfile: false
-
 packageExtensionsChecksum: 4febf6665ca78aef4b39b91c5bd86984
 
 importers:
@@ -1021,6 +1017,9 @@ importers:
       typescript:
         specifier: ^4.7.4
         version: registry.npmjs.org/typescript@4.9.5
+      mkdirp:
+        specifier: ^1.0.4
+        version: registry.npmjs.org/mkdirp@1.0.4
 
   packages/taro-components-advanced:
     dependencies:
@@ -1378,6 +1377,8 @@ importers:
       react-test-renderer:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
+
+  packages/taro-components/loader: {}
 
   packages/taro-extend:
     devDependencies:
@@ -42081,3 +42082,7 @@ packages:
       property-expr: registry.npmjs.org/property-expr@2.0.5
       toposort: registry.npmjs.org/toposort@2.0.2
     dev: false
+
+settings:
+  autoInstallPeers: false
+  excludeLinksFromLockfile: false

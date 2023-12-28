@@ -70,6 +70,8 @@ interface IOptions extends ITaroMiniPluginOptions {
   }
 }
 
+type IndependentPackage = { pages: string[], components: string[] }
+
 export interface IComponentObj {
   name?: string
   path: string | null
@@ -110,7 +112,7 @@ export default class TaroMiniPlugin {
   loadChunksPlugin: TaroLoadChunksPlugin
   themeLocation: string
   pageLoaderName = '@tarojs/taro-loader/lib/page'
-  independentPackages = new Map<string, string[]>()
+  independentPackages = new Map<string, IndependentPackage>()
 
   constructor (options: ITaroMiniPluginOptions) {
     const { combination } = options
@@ -264,7 +266,7 @@ export default class TaroMiniPlugin {
           }
         } else if (module.miniType === META_TYPE.PAGE) {
           let isIndependent = false
-          this.independentPackages.forEach(pages => {
+          this.independentPackages.forEach(({ pages }) => {
             if (pages.includes(module.resource)) {
               isIndependent = true
             }
@@ -439,6 +441,15 @@ export default class TaroMiniPlugin {
     compiler.options.entry = {}
     return appEntryPath
   }
+
+  getIndependentPackage (pagePath: string): IndependentPackage | undefined {
+    return Array.from(this.independentPackages.values()).find(independentPackage => {
+      const { pages } = independentPackage
+      if (pages.includes(pagePath)) {
+        return independentPackage
+      }
+    })
+  } 
 
   getChangedFiles (compiler: Compiler) {
     return compiler.modifiedFiles
@@ -670,7 +681,10 @@ export default class TaroMiniPlugin {
       if (!this.isWatch && this.options.logger?.quiet === false) {
         printLog(processTypeEnum.COMPILE, '发现页面', this.getShowPath(page.path))
       }
-      this.compileFile(page)
+      const pagePath = page.path
+      const independentPackage = this.getIndependentPackage(pagePath)
+
+      this.compileFile(page, independentPackage)
     })
   }
 
@@ -762,7 +776,7 @@ export default class TaroMiniPlugin {
   /**
    * 读取页面、组件的配置，并递归读取依赖的组件的配置
    */
-  compileFile (file: IComponent) {
+  compileFile (file: IComponent, independentPackage?: IndependentPackage) {
     const filePath = file.path
     const fileConfigPath = file.isNative ? this.replaceExt(filePath, '.json') : this.getConfigFilePath(filePath)
     const fileConfig = readConfig(fileConfigPath, this.options.combination.config)
@@ -783,7 +797,9 @@ export default class TaroMiniPlugin {
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
       const depComponents: Array<{ name: string, path: string }> = []
-      const alias = this.options.combination.config.alias
+      // alias 的值需要从最终的 chain 中拿，避免用户在 webpackChain 中设置的 alias 无法被读取到
+      const alias = this.options.combination.chain.toConfig().resolve?.alias
+
       for (const compName of componentNames) {
         let compPath: string = usingComponents[compName]
 
@@ -831,8 +847,12 @@ export default class TaroMiniPlugin {
             stylePath: isNative ? this.getStylePath(componentPath) : undefined,
             templatePath: isNative ? this.getTemplatePath(componentPath) : undefined
           }
+
+          // 收集独立分包的组件，用于后续单独编译
+          independentPackage?.components?.push(componentPath)
+          
           this.components.add(componentObj)
-          this.compileFile(componentObj)
+          this.compileFile(componentObj, independentPackage)
         }
       })
     }
@@ -855,7 +875,7 @@ export default class TaroMiniPlugin {
           const root = item.root
           const isIndependent = !!item.independent
           if (isIndependent) {
-            this.independentPackages.set(root, [])
+            this.independentPackages.set(root, { pages: [], components: [] })
           }
           item.pages.forEach(page => {
             let pageItem = `${root}/${page}`
@@ -871,7 +891,7 @@ export default class TaroMiniPlugin {
               const templatePath = this.getTemplatePath(pagePath)
               const isNative = this.isNativePageORComponent(templatePath)
               if (isIndependent) {
-                const independentPages = this.independentPackages.get(root)
+                const independentPages = this.independentPackages.get(root)?.pages
                 independentPages?.push(pagePath)
               }
               this.pages.add({
@@ -908,7 +928,7 @@ export default class TaroMiniPlugin {
       const RuntimeChunkPlugin = require('webpack/lib/optimize/RuntimeChunkPlugin')
       const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-      independentPackages.forEach((pages, name) => {
+      independentPackages.forEach(({ pages, components }, name) => {
         const childCompiler = compilation.createChildCompiler(PLUGIN_NAME, {
           path: `${compiler.options.output.path}/${name}`,
           chunkLoadingGlobal: `subpackage_${name}`
@@ -961,6 +981,14 @@ export default class TaroMiniPlugin {
             }
           })
           dependencies.delete(pagePath)
+        })
+        components.forEach(componentPath => {
+          if (dependencies.has(componentPath)) {
+            const dep = dependencies.get(componentPath)
+            new TaroSingleEntryPlugin(compiler.context, dep?.request, dep?.name, dep?.miniType, dep?.options).apply(childCompiler)
+          }
+
+          dependencies.delete(componentPath)
         })
         new TaroLoadChunksPlugin({
           commonChunks: [`${name}/runtime`, `${name}/vendors`, `${name}/common`],
@@ -1099,7 +1127,7 @@ export default class TaroMiniPlugin {
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
       let isIndependent = false
       let independentName = ''
-      this.independentPackages.forEach((pages, name) => {
+      this.independentPackages.forEach(({ pages }, name) => {
         // independentPackages 是包含了所有 ChildCompiler 的资源，如果不是当前 ChildCompiler 的资源不做处理
         if (pages.includes(page.path) && name === childName) {
           isIndependent = true
@@ -1208,13 +1236,8 @@ export default class TaroMiniPlugin {
     this.pages.forEach(page => {
       const importBaseTemplatePath = promoteRelativePath(path.relative(page.path, path.join(sourceDir, this.getTemplatePath(baseTemplateName))))
       const config = this.filesConfig[this.getConfigFilePath(page.name)]
-      let isIndependent = false
       // pages 里面会混合独立分包的，在这里需要过滤一下，避免重复生成 assets
-      this.independentPackages.forEach(pages => {
-        if (pages.includes(page.path)) {
-          isIndependent = true
-        }
-      })
+      const isIndependent = !!this.getIndependentPackage(page.path)
 
       if (isIndependent) return
 
