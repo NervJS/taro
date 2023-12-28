@@ -61,6 +61,10 @@ interface PickerSelectorProps extends PickerStandardProps {
    * @default 0
    */
   value?: number
+  /** 设置 React 非受控状态下的初始取值
+   * @supported weapp, h5, rn
+   */
+  defaultValue?: number
   /**
    * mode为 selector 或 multiSelector 时 itemStyle 有效
    * @supported rn
@@ -77,7 +81,7 @@ interface PickerSelectorProps extends PickerStandardProps {
    * value 改变时触发 change 事件
    * @supported weapp, h5, rn
    */
-  onChange: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
+  onChange?: CommonEventFunction<PickerSelectorProps.ChangeEventDetail>
   /**
    * 用于替换组件内部文本
    * @supported h5
