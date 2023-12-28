@@ -7,10 +7,12 @@ import {
   DEMO_JS_FILE_INFO,
   DEMO_JS_FILE_INFO_MINIPROGRANROOT,
   DEMO_JS_FILES,
+  DEMO_PAGE_NO_JS,
   DEMO_SUBPACKAFES,
   DEMO_TABBER,
   PLUGIN_FILE_DATA,
   root,
+  SUBPAKCAEGS_AND_PLUGIN_CONFIG,
   USINGCOMPONENTS_FILE_DATA,
 } from './data/fileData'
 import { removeBackslashesSerializer } from './util'
@@ -30,7 +32,7 @@ describe('微信小程序转换', () => {
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
   })
 
-  afterAll(()=>{
+  afterAll(() => {
     jest.restoreAllMocks()
   })
 
@@ -70,23 +72,33 @@ describe('微信小程序转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('小程序tabber转换',() => {
-    setMockFiles(root,DEMO_TABBER)
+  test('小程序tabber转换', () => {
+    setMockFiles(root, DEMO_TABBER)
     const convertor = new Convertor(root, false)
     convertor.run()
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('小程序分包',() => {
-    setMockFiles(root,DEMO_SUBPACKAFES)
+  test('小程序分包', () => {
+    setMockFiles(root, DEMO_SUBPACKAFES)
     const convertor = new Convertor(root, false)
     convertor.run()
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('三方库转换',() => {
+  test('同时使用插件和分包', () => {
+    setMockFiles(root, DEMO_JS_FILE_INFO_MINIPROGRANROOT)
+    updateMockFiles(root, PLUGIN_FILE_DATA)
+    updateMockFiles(root, SUBPAKCAEGS_AND_PLUGIN_CONFIG)
+    const convertor = new Convertor(root, false)
+    convertor.run()
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
+
+  test('三方库转换', () => {
     const EDMO_ThIREdPARTYLIB = {
       '/pages/index/index.js': `
         import moment from 'moment'
@@ -98,13 +110,13 @@ describe('微信小程序转换', () => {
       `,
       '/pages/index/index.wxml': `<view>{{time}}</view>`,
       '/node_modules/moment': {
-        '/dist':{
-          '/locale':{
-            '/af.js':'123'
+        '/dist': {
+          '/locale': {
+            '/af.js': '123',
           },
-          '/moment.js':'format(){}'
-        }
-      } 
+          '/moment.js': 'format(){}',
+        },
+      },
     }
     setMockFiles(root, DEMO_JS_FILE_INFO)
     updateMockFiles(root, EDMO_ThIREdPARTYLIB)
@@ -150,7 +162,7 @@ describe('配置文件解析转换', () => {
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
   })
 
-  afterAll(()=>{
+  afterAll(() => {
     jest.restoreAllMocks()
   })
 
@@ -171,7 +183,7 @@ describe('配置文件解析转换', () => {
     )
   })
 
-  test('小程序sitemap.json文件的转换',() => {
+  test('小程序sitemap.json文件的转换', () => {
     setMockFiles(root, DEMO_JS_FILE_INFO)
     const DEMO_SITEMAP = {
       '/app.json': `
@@ -182,14 +194,14 @@ describe('配置文件解析转换', () => {
           "sitemapLocation":"./sitemap.json"
         }
       `,
-      '/sitemap.json':`
+      '/sitemap.json': `
         {
           "rules":[{
             "action": "allow",
             "page": "*"
           }]
         }
-      `
+      `,
     }
     updateMockFiles(root, DEMO_SITEMAP)
     const convert = new Convertor(root, false)
@@ -208,7 +220,7 @@ describe('文件转换', () => {
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
   })
 
-  afterAll(()=>{
+  afterAll(() => {
     jest.restoreAllMocks()
   })
 
@@ -285,6 +297,19 @@ describe('文件转换', () => {
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
+
+  test('转换page时没有对应的js文件', () => {
+    setMockFiles(root, DEMO_PAGE_NO_JS)
+    const convert = new Convertor(root, false)
+    const spy = jest.spyOn(console, 'log')
+    convert.traversePages(root, new Set(['/pages/index/index']))
+    expect(spy).toHaveBeenCalledTimes(2)
+    expect(spy.mock.calls[1]).toMatchInlineSnapshot(`
+      [
+        [Error: 页面 /pages/index/index 没有 JS 文件！],
+      ]
+    `)
+  })
 })
 
 describe('模版转换', () => {
@@ -296,7 +321,7 @@ describe('模版转换', () => {
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
   })
 
-  afterAll(()=>{
+  afterAll(() => {
     jest.restoreAllMocks()
   })
 
@@ -472,7 +497,7 @@ describe('公共组件引用', () => {
     jest.spyOn(Convertor.prototype, 'generateConfigFiles').mockImplementation(() => {})
   })
 
-  afterAll(()=>{
+  afterAll(() => {
     jest.restoreAllMocks()
   })
 
@@ -481,8 +506,7 @@ describe('公共组件引用', () => {
     clearMockFiles()
   })
 
-  test('子组件内部标签引用公共组件时，解析app.json文件里公共组件,使子组件生效',()=>{
-
+  test('子组件内部标签引用公共组件时，解析app.json文件里公共组件,使子组件生效', () => {
     // 设置初始文件信息
     setMockFiles(root, PLUGIN_FILE_DATA)
     updateMockFiles(root, USINGCOMPONENTS_FILE_DATA)

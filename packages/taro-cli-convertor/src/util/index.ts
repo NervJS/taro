@@ -299,16 +299,16 @@ export function handleUnconvertDir (matchUnconvertDir: string, rootPath: string,
   }
 }
 
-export function getMatchDirPath (filePath: string, matchStr: string) {
-  const reg = new RegExp(matchStr)
-  const match = reg.exec(filePath)
-  if (match) {
-    if (matchStr.length >= 2 && matchStr.endsWith('*')) {
-      return matchStr.slice(0, matchStr.length - 2)
-    }
-    return match[0]
-  }
-}
+// export function getMatchDirPath (filePath: string, matchStr: string) {
+//   const reg = new RegExp(matchStr)
+//   const match = reg.exec(filePath)
+//   if (match) {
+//     if (matchStr.length >= 2 && matchStr.endsWith('*')) {
+//       return matchStr.slice(0, matchStr.length - 2)
+//     }
+//     return match[0]
+//   }
+// }
 
 // 路径标准化
 function normalizePath (path) {
@@ -326,7 +326,7 @@ export function transRelToAbsPath (baseFilePath: string, fileRelativePaths: stri
   const absolutePath: string[] = []
   for (const fileRelativePath of fileRelativePaths) {
     // 相对路径转为绝对路径
-    absolutePath.push(path.resolve(baseFilePath, '..', fileRelativePath))
+    absolutePath.push(path.join(baseFilePath, '..', fileRelativePath))
   }
   return absolutePath
 }

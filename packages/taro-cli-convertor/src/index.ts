@@ -458,63 +458,63 @@ export default class Convertor {
               }
             },
 
-            ClassExpression (astPath) {
-              updateLogFileContent(
-                `INFO [taro-cli-convertor] parseAst - 解析ClassExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
-              )
-              const node = astPath.node
-              if (node.superClass) {
-                let isTaroComponent = false
-                astPath.traverse({
-                  ClassMethod (astPath) {
-                    if (astPath.get('key').isIdentifier({ name: 'render' })) {
-                      astPath.traverse({
-                        JSXElement () {
-                          isTaroComponent = true
-                        },
-                      })
-                    }
-                  },
-                })
-                if (isTaroComponent) {
-                  if (node.id === null) {
-                    const parentNode = astPath.parentPath.node as t.VariableDeclarator
-                    if (t.isVariableDeclarator(astPath.parentPath)) {
-                      componentClassName = (parentNode.id as t.Identifier).name
-                    }
-                  } else {
-                    componentClassName = node.id!.name
-                  }
-                }
-              }
-            },
-            ExportDefaultDeclaration (astPath) {
-              updateLogFileContent(
-                `INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
-              )
-              const node = astPath.node
-              const declaration = node.declaration
-              if (declaration && (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')) {
-                const superClass = declaration.superClass
-                if (superClass) {
-                  let isTaroComponent = false
-                  astPath.traverse({
-                    ClassMethod (astPath) {
-                      if (astPath.get('key').isIdentifier({ name: 'render' })) {
-                        astPath.traverse({
-                          JSXElement () {
-                            isTaroComponent = true
-                          },
-                        })
-                      }
-                    },
-                  })
-                  if (isTaroComponent) {
-                    componentClassName = declaration.id!.name
-                  }
-                }
-              }
-            },
+            // ClassExpression (astPath) {
+            //   updateLogFileContent(
+            //   `INFO [taro-cli-convertor] parseAst - 解析ClassExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+            // )
+            //   const node = astPath.node
+            //   if (node.superClass) {
+            //     let isTaroComponent = false
+            //     astPath.traverse({
+            //       ClassMethod (astPath) {
+            //         if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            //           astPath.traverse({
+            //             JSXElement () {
+            //               isTaroComponent = true
+            //             },
+            //           })
+            //         }
+            //       },
+            //     })
+            //     if (isTaroComponent) {
+            //       if (node.id === null) {
+            //         const parentNode = astPath.parentPath.node as t.VariableDeclarator
+            //         if (t.isVariableDeclarator(astPath.parentPath)) {
+            //           componentClassName = (parentNode.id as t.Identifier).name
+            //         }
+            //       } else {
+            //         componentClassName = node.id!.name
+            //       }
+            //     }
+            //   }
+            // },
+            // ExportDefaultDeclaration (astPath) {
+            //   updateLogFileContent(
+            //   `INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+            // )
+            //   const node = astPath.node
+            //   const declaration = node.declaration
+            //   if (declaration && (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')) {
+            //     const superClass = declaration.superClass
+            //     if (superClass) {
+            //       let isTaroComponent = false
+            //       astPath.traverse({
+            //         ClassMethod (astPath) {
+            //           if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            //             astPath.traverse({
+            //               JSXElement () {
+            //                 isTaroComponent = true
+            //               },
+            //             })
+            //           }
+            //         },
+            //       })
+            //       if (isTaroComponent) {
+            //         componentClassName = declaration.id!.name
+            //       }
+            //     }
+            //   }
+            // },
             ImportDeclaration (astPath) {
               updateLogFileContent(
                 `INFO [taro-cli-convertor] parseAst - 解析ImportDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
@@ -1554,18 +1554,18 @@ ${code}
   }
 
   // 判断三方库是否安装
-  isInNodeModule (modulePath: string) {
-    const nodeModules = path.resolve(this.root, 'node_modules')
-    if (!fs.existsSync(nodeModules)) {
-      return false
-    }
-    const modules = fs.readdirSync(nodeModules)
-    const parts = modulePath.split('/')
-    if (modules.indexOf(parts[0]) === -1) {
-      return false
-    }
-    return true
-  }
+  // isInNodeModule (modulePath: string) {
+  //   const nodeModules = path.resolve(this.root, 'node_modules')
+  //   if (!fs.existsSync(nodeModules)) {
+  //     return false
+  //   }
+  //   const modules = fs.readdirSync(nodeModules)
+  //   const parts = modulePath.split('/')
+  //   if (modules.indexOf(parts[0]) === -1) {
+  //     return false
+  //   }
+  //   return true
+  // }
 
   traversePages (root: string, pages: Set<string>) {
     pages.forEach((page) => {
@@ -1871,8 +1871,8 @@ ${code}
         url = url.split('?')[0]
         url = url.split('#')[0]
 
-        const originPath = path.resolve(stylePath, url)
-        const destPath = path.resolve(styleDist, url)
+        const originPath = path.join(stylePath, url)
+        const destPath = path.join(styleDist, url)
         const destDir = path.dirname(destPath)
 
         if (!fs.existsSync(originPath)) {
@@ -1911,7 +1911,7 @@ ${code}
       imports.forEach((importItem) => {
         const importPath = path.isAbsolute(importItem)
           ? path.join(this.root, importItem)
-          : path.resolve(path.dirname(filePath), importItem)
+          : path.join(path.dirname(filePath), importItem)
         if (fs.existsSync(importPath)) {
           const styleText = fs.readFileSync(importPath).toString()
           this.traverseStyle(importPath, styleText)
@@ -2047,6 +2047,7 @@ ${code}
     creator.template(templateName, path.join('src', 'index.html'), path.join(this.convertDir, 'index.html'), {
       projectName,
     })
+    
     creator.fs.commit(() => {
       const pkgObj = JSON.parse(fs.readFileSync(pkgPath).toString())
       pkgObj.dependencies['@tarojs/with-weapp'] = `^${version}`
@@ -2084,7 +2085,6 @@ ${code}
   }
 
   showLog () {
-    console.log()
     console.log(
       `${chalk.green('✔ ')} 转换成功，请进入 ${chalk.bold(
         'taroConvert'
