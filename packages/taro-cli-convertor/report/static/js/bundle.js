@@ -8095,7 +8095,6 @@ if (true) {
 /***/ (function(module) {
 
 module.exports = __errorMsgReport__
-
 /***/ }),
 
 /***/ 186:
@@ -27252,6 +27251,278 @@ if (false) {}
 var jsx_runtime = __webpack_require__(556);
 ;// CONCATENATED MODULE: ./src/components/ProjectDetail/ProjectDetail.js
 var ProjectDetail_Content=es_layout.Content;function ProjectDetail_ProjectDetail(_ref){var projectDetail=_ref.projectDetail;return/*#__PURE__*/(0,jsx_runtime.jsx)(ProjectDetail_Content,{className:"report-message-content",children:/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"report-message-card project-detail-card",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-title",children:"\u9879\u76EE\u57FA\u672C\u4FE1\u606F"}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"project-detail-wrapper",children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"project-detail",children:[/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"project-detail-basic",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-label",children:"\u9879\u76EE\u540D\u79F0"}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{children:projectDetail.projectName})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"project-detail-basic",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-label",children:"\u9879\u76EE\u8DEF\u5F84"}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{children:projectDetail.projectPath})]})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"project-detail",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-label",children:"\u9875\u9762\u6570"}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-data",children:projectDetail.pagesNum})]}),/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"project-detail",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-label",children:"\u6587\u4EF6\u6570"}),/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"project-detail-data",children:projectDetail.filesNum})]})]})]})});}/* harmony default export */ var components_ProjectDetail_ProjectDetail = (ProjectDetail_ProjectDetail);
+;// CONCATENATED MODULE: ./node_modules/antd/es/locale/useLocale.js
+
+
+
+var useLocale = function useLocale(componentName, defaultLocale) {
+  var fullLocale = react.useContext(locale_context);
+  var getLocale = react.useMemo(function () {
+    var _a;
+    var locale = defaultLocale || es_locale_en_US[componentName];
+    var localeFromContext = (_a = fullLocale === null || fullLocale === void 0 ? void 0 : fullLocale[componentName]) !== null && _a !== void 0 ? _a : {};
+    return Object.assign(Object.assign({}, typeof locale === 'function' ? locale() : locale), localeFromContext || {});
+  }, [componentName, defaultLocale, fullLocale]);
+  var getLocaleCode = react.useMemo(function () {
+    var localeCode = fullLocale === null || fullLocale === void 0 ? void 0 : fullLocale.locale;
+    // Had use LocaleProvide but didn't set locale
+    if ((fullLocale === null || fullLocale === void 0 ? void 0 : fullLocale.exist) && !localeCode) {
+      return es_locale_en_US.locale;
+    }
+    return localeCode;
+  }, [fullLocale]);
+  return [getLocale, getLocaleCode];
+};
+/* harmony default export */ var locale_useLocale = (useLocale);
+;// CONCATENATED MODULE: ./node_modules/antd/es/empty/empty.js
+"use client";
+
+
+
+
+
+var empty_Empty = function Empty() {
+  var _useToken = useToken(),
+    _useToken2 = slicedToArray_slicedToArray(_useToken, 2),
+    token = _useToken2[1];
+  var bgColor = new TinyColor(token.colorBgBase);
+  // Dark Theme need more dark of this
+  var themeStyle = bgColor.toHsl().l < 0.5 ? {
+    opacity: 0.65
+  } : {};
+  return /*#__PURE__*/react.createElement("svg", {
+    style: themeStyle,
+    width: "184",
+    height: "152",
+    viewBox: "0 0 184 152",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/react.createElement("g", {
+    fill: "none",
+    fillRule: "evenodd"
+  }, /*#__PURE__*/react.createElement("g", {
+    transform: "translate(24 31.67)"
+  }, /*#__PURE__*/react.createElement("ellipse", {
+    fillOpacity: ".8",
+    fill: "#F5F5F7",
+    cx: "67.797",
+    cy: "106.89",
+    rx: "67.797",
+    ry: "12.668"
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M122.034 69.674L98.109 40.229c-1.148-1.386-2.826-2.225-4.593-2.225h-51.44c-1.766 0-3.444.839-4.592 2.225L13.56 69.674v15.383h108.475V69.674z",
+    fill: "#AEB8C2"
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M101.537 86.214L80.63 61.102c-1.001-1.207-2.507-1.867-4.048-1.867H31.724c-1.54 0-3.047.66-4.048 1.867L6.769 86.214v13.792h94.768V86.214z",
+    fill: "url(#linearGradient-1)",
+    transform: "translate(13.56)"
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M33.83 0h67.933a4 4 0 0 1 4 4v93.344a4 4 0 0 1-4 4H33.83a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z",
+    fill: "#F5F5F7"
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M42.678 9.953h50.237a2 2 0 0 1 2 2V36.91a2 2 0 0 1-2 2H42.678a2 2 0 0 1-2-2V11.953a2 2 0 0 1 2-2zM42.94 49.767h49.713a2.262 2.262 0 1 1 0 4.524H42.94a2.262 2.262 0 0 1 0-4.524zM42.94 61.53h49.713a2.262 2.262 0 1 1 0 4.525H42.94a2.262 2.262 0 0 1 0-4.525zM121.813 105.032c-.775 3.071-3.497 5.36-6.735 5.36H20.515c-3.238 0-5.96-2.29-6.734-5.36a7.309 7.309 0 0 1-.222-1.79V69.675h26.318c2.907 0 5.25 2.448 5.25 5.42v.04c0 2.971 2.37 5.37 5.277 5.37h34.785c2.907 0 5.277-2.421 5.277-5.393V75.1c0-2.972 2.343-5.426 5.25-5.426h26.318v33.569c0 .617-.077 1.216-.221 1.789z",
+    fill: "#DCE0E6"
+  })), /*#__PURE__*/react.createElement("path", {
+    d: "M149.121 33.292l-6.83 2.65a1 1 0 0 1-1.317-1.23l1.937-6.207c-2.589-2.944-4.109-6.534-4.109-10.408C138.802 8.102 148.92 0 161.402 0 173.881 0 184 8.102 184 18.097c0 9.995-10.118 18.097-22.599 18.097-4.528 0-8.744-1.066-12.28-2.902z",
+    fill: "#DCE0E6"
+  }), /*#__PURE__*/react.createElement("g", {
+    transform: "translate(149.65 15.383)",
+    fill: "#FFF"
+  }, /*#__PURE__*/react.createElement("ellipse", {
+    cx: "20.654",
+    cy: "3.167",
+    rx: "2.849",
+    ry: "2.815"
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M5.698 5.63H0L2.898.704zM9.259.704h4.985V5.63H9.259z"
+  }))));
+};
+if (false) {}
+/* harmony default export */ var empty = (empty_Empty);
+;// CONCATENATED MODULE: ./node_modules/antd/es/empty/simple.js
+"use client";
+
+
+
+
+
+
+var Simple = function Simple() {
+  var _useToken = useToken(),
+    _useToken2 = slicedToArray_slicedToArray(_useToken, 2),
+    token = _useToken2[1];
+  var colorFill = token.colorFill,
+    colorFillTertiary = token.colorFillTertiary,
+    colorFillQuaternary = token.colorFillQuaternary,
+    colorBgContainer = token.colorBgContainer;
+  var _useMemo = (0,react.useMemo)(function () {
+      return {
+        borderColor: new TinyColor(colorFill).onBackground(colorBgContainer).toHexShortString(),
+        shadowColor: new TinyColor(colorFillTertiary).onBackground(colorBgContainer).toHexShortString(),
+        contentColor: new TinyColor(colorFillQuaternary).onBackground(colorBgContainer).toHexShortString()
+      };
+    }, [colorFill, colorFillTertiary, colorFillQuaternary, colorBgContainer]),
+    borderColor = _useMemo.borderColor,
+    shadowColor = _useMemo.shadowColor,
+    contentColor = _useMemo.contentColor;
+  return /*#__PURE__*/react.createElement("svg", {
+    width: "64",
+    height: "41",
+    viewBox: "0 0 64 41",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /*#__PURE__*/react.createElement("g", {
+    transform: "translate(0 1)",
+    fill: "none",
+    fillRule: "evenodd"
+  }, /*#__PURE__*/react.createElement("ellipse", {
+    fill: shadowColor,
+    cx: "32",
+    cy: "33",
+    rx: "32",
+    ry: "7"
+  }), /*#__PURE__*/react.createElement("g", {
+    fillRule: "nonzero",
+    stroke: borderColor
+  }, /*#__PURE__*/react.createElement("path", {
+    d: "M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
+  }), /*#__PURE__*/react.createElement("path", {
+    d: "M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z",
+    fill: contentColor
+  }))));
+};
+if (false) {}
+/* harmony default export */ var simple = (Simple);
+;// CONCATENATED MODULE: ./node_modules/antd/es/empty/style/index.js
+
+
+// ============================== Shared ==============================
+var genSharedEmptyStyle = function genSharedEmptyStyle(token) {
+  var _normal, _componentCls;
+  var componentCls = token.componentCls,
+    margin = token.margin,
+    marginXS = token.marginXS,
+    marginXL = token.marginXL,
+    fontSize = token.fontSize,
+    lineHeight = token.lineHeight;
+  return defineProperty_defineProperty({}, componentCls, (_componentCls = {
+    marginInline: marginXS,
+    fontSize: fontSize,
+    lineHeight: lineHeight,
+    textAlign: 'center'
+  }, defineProperty_defineProperty(_componentCls, "".concat(componentCls, "-image"), {
+    height: token.emptyImgHeight,
+    marginBottom: marginXS,
+    opacity: token.opacityImage,
+    img: {
+      height: '100%'
+    },
+    svg: {
+      maxWidth: '100%',
+      height: '100%',
+      margin: 'auto'
+    }
+  }), defineProperty_defineProperty(_componentCls, "".concat(componentCls, "-description"), {
+    color: token.colorText
+  }), defineProperty_defineProperty(_componentCls, "".concat(componentCls, "-footer"), {
+    marginTop: margin
+  }), defineProperty_defineProperty(_componentCls, '&-normal', (_normal = {
+    marginBlock: marginXL,
+    color: token.colorTextDisabled
+  }, defineProperty_defineProperty(_normal, "".concat(componentCls, "-description"), {
+    color: token.colorTextDisabled
+  }), defineProperty_defineProperty(_normal, "".concat(componentCls, "-image"), {
+    height: token.emptyImgHeightMD
+  }), _normal)), defineProperty_defineProperty(_componentCls, '&-small', defineProperty_defineProperty({
+    marginBlock: marginXS,
+    color: token.colorTextDisabled
+  }, "".concat(componentCls, "-image"), {
+    height: token.emptyImgHeightSM
+  })), _componentCls));
+};
+// ============================== Export ==============================
+/* harmony default export */ var empty_style = (genComponentStyleHook('Empty', function (token) {
+  var componentCls = token.componentCls,
+    controlHeightLG = token.controlHeightLG;
+  var emptyToken = statistic_merge(token, {
+    emptyImgCls: "".concat(componentCls, "-img"),
+    emptyImgHeight: controlHeightLG * 2.5,
+    emptyImgHeightMD: controlHeightLG,
+    emptyImgHeightSM: controlHeightLG * 0.875
+  });
+  return [genSharedEmptyStyle(emptyToken)];
+}));
+;// CONCATENATED MODULE: ./node_modules/antd/es/empty/index.js
+"use client";
+
+
+
+var empty_rest = undefined && undefined.__rest || function (s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  }
+  return t;
+};
+
+
+
+
+
+
+
+var defaultEmptyImg = /*#__PURE__*/react.createElement(empty, null);
+var simpleEmptyImg = /*#__PURE__*/react.createElement(simple, null);
+var es_empty_Empty = function Empty(_a) {
+  var _classNames;
+  var className = _a.className,
+    rootClassName = _a.rootClassName,
+    customizePrefixCls = _a.prefixCls,
+    _a$image = _a.image,
+    image = _a$image === void 0 ? defaultEmptyImg : _a$image,
+    description = _a.description,
+    children = _a.children,
+    imageStyle = _a.imageStyle,
+    style = _a.style,
+    restProps = empty_rest(_a, ["className", "rootClassName", "prefixCls", "image", "description", "children", "imageStyle", "style"]);
+  var _React$useContext = react.useContext(ConfigContext),
+    getPrefixCls = _React$useContext.getPrefixCls,
+    direction = _React$useContext.direction,
+    empty = _React$useContext.empty;
+  var prefixCls = getPrefixCls('empty', customizePrefixCls);
+  var _useStyle = empty_style(prefixCls),
+    _useStyle2 = slicedToArray_slicedToArray(_useStyle, 2),
+    wrapSSR = _useStyle2[0],
+    hashId = _useStyle2[1];
+  var _useLocale = locale_useLocale('Empty'),
+    _useLocale2 = slicedToArray_slicedToArray(_useLocale, 1),
+    locale = _useLocale2[0];
+  var des = typeof description !== 'undefined' ? description : locale === null || locale === void 0 ? void 0 : locale.description;
+  var alt = typeof des === 'string' ? des : 'empty';
+  var imageNode = null;
+  if (typeof image === 'string') {
+    imageNode = /*#__PURE__*/react.createElement("img", {
+      alt: alt,
+      src: image
+    });
+  } else {
+    imageNode = image;
+  }
+  return wrapSSR( /*#__PURE__*/react.createElement("div", Object.assign({
+    className: classnames_default()(hashId, prefixCls, empty === null || empty === void 0 ? void 0 : empty.className, (_classNames = {}, defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-normal"), image === simpleEmptyImg), defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), _classNames), className, rootClassName),
+    style: Object.assign(Object.assign({}, empty === null || empty === void 0 ? void 0 : empty.style), style)
+  }, restProps), /*#__PURE__*/react.createElement("div", {
+    className: "".concat(prefixCls, "-image"),
+    style: imageStyle
+  }, imageNode), des && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(prefixCls, "-description")
+  }, des), children && /*#__PURE__*/react.createElement("div", {
+    className: "".concat(prefixCls, "-footer")
+  }, children)));
+};
+es_empty_Empty.PRESENTED_IMAGE_DEFAULT = defaultEmptyImg;
+es_empty_Empty.PRESENTED_IMAGE_SIMPLE = simpleEmptyImg;
+if (false) {}
+/* harmony default export */ var es_empty = (es_empty_Empty);
 ;// CONCATENATED MODULE: ./node_modules/rc-table/es/constant.js
 var EXPAND_COLUMN = {};
 var INTERNAL_HOOKS = 'rc-table-internal-hook';
@@ -32207,278 +32478,6 @@ function scrollTo(y) {
   };
   es_raf(frameFunc);
 }
-;// CONCATENATED MODULE: ./node_modules/antd/es/locale/useLocale.js
-
-
-
-var useLocale = function useLocale(componentName, defaultLocale) {
-  var fullLocale = react.useContext(locale_context);
-  var getLocale = react.useMemo(function () {
-    var _a;
-    var locale = defaultLocale || es_locale_en_US[componentName];
-    var localeFromContext = (_a = fullLocale === null || fullLocale === void 0 ? void 0 : fullLocale[componentName]) !== null && _a !== void 0 ? _a : {};
-    return Object.assign(Object.assign({}, typeof locale === 'function' ? locale() : locale), localeFromContext || {});
-  }, [componentName, defaultLocale, fullLocale]);
-  var getLocaleCode = react.useMemo(function () {
-    var localeCode = fullLocale === null || fullLocale === void 0 ? void 0 : fullLocale.locale;
-    // Had use LocaleProvide but didn't set locale
-    if ((fullLocale === null || fullLocale === void 0 ? void 0 : fullLocale.exist) && !localeCode) {
-      return es_locale_en_US.locale;
-    }
-    return localeCode;
-  }, [fullLocale]);
-  return [getLocale, getLocaleCode];
-};
-/* harmony default export */ var locale_useLocale = (useLocale);
-;// CONCATENATED MODULE: ./node_modules/antd/es/empty/empty.js
-"use client";
-
-
-
-
-
-var empty_Empty = function Empty() {
-  var _useToken = useToken(),
-    _useToken2 = slicedToArray_slicedToArray(_useToken, 2),
-    token = _useToken2[1];
-  var bgColor = new TinyColor(token.colorBgBase);
-  // Dark Theme need more dark of this
-  var themeStyle = bgColor.toHsl().l < 0.5 ? {
-    opacity: 0.65
-  } : {};
-  return /*#__PURE__*/react.createElement("svg", {
-    style: themeStyle,
-    width: "184",
-    height: "152",
-    viewBox: "0 0 184 152",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, /*#__PURE__*/react.createElement("g", {
-    fill: "none",
-    fillRule: "evenodd"
-  }, /*#__PURE__*/react.createElement("g", {
-    transform: "translate(24 31.67)"
-  }, /*#__PURE__*/react.createElement("ellipse", {
-    fillOpacity: ".8",
-    fill: "#F5F5F7",
-    cx: "67.797",
-    cy: "106.89",
-    rx: "67.797",
-    ry: "12.668"
-  }), /*#__PURE__*/react.createElement("path", {
-    d: "M122.034 69.674L98.109 40.229c-1.148-1.386-2.826-2.225-4.593-2.225h-51.44c-1.766 0-3.444.839-4.592 2.225L13.56 69.674v15.383h108.475V69.674z",
-    fill: "#AEB8C2"
-  }), /*#__PURE__*/react.createElement("path", {
-    d: "M101.537 86.214L80.63 61.102c-1.001-1.207-2.507-1.867-4.048-1.867H31.724c-1.54 0-3.047.66-4.048 1.867L6.769 86.214v13.792h94.768V86.214z",
-    fill: "url(#linearGradient-1)",
-    transform: "translate(13.56)"
-  }), /*#__PURE__*/react.createElement("path", {
-    d: "M33.83 0h67.933a4 4 0 0 1 4 4v93.344a4 4 0 0 1-4 4H33.83a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z",
-    fill: "#F5F5F7"
-  }), /*#__PURE__*/react.createElement("path", {
-    d: "M42.678 9.953h50.237a2 2 0 0 1 2 2V36.91a2 2 0 0 1-2 2H42.678a2 2 0 0 1-2-2V11.953a2 2 0 0 1 2-2zM42.94 49.767h49.713a2.262 2.262 0 1 1 0 4.524H42.94a2.262 2.262 0 0 1 0-4.524zM42.94 61.53h49.713a2.262 2.262 0 1 1 0 4.525H42.94a2.262 2.262 0 0 1 0-4.525zM121.813 105.032c-.775 3.071-3.497 5.36-6.735 5.36H20.515c-3.238 0-5.96-2.29-6.734-5.36a7.309 7.309 0 0 1-.222-1.79V69.675h26.318c2.907 0 5.25 2.448 5.25 5.42v.04c0 2.971 2.37 5.37 5.277 5.37h34.785c2.907 0 5.277-2.421 5.277-5.393V75.1c0-2.972 2.343-5.426 5.25-5.426h26.318v33.569c0 .617-.077 1.216-.221 1.789z",
-    fill: "#DCE0E6"
-  })), /*#__PURE__*/react.createElement("path", {
-    d: "M149.121 33.292l-6.83 2.65a1 1 0 0 1-1.317-1.23l1.937-6.207c-2.589-2.944-4.109-6.534-4.109-10.408C138.802 8.102 148.92 0 161.402 0 173.881 0 184 8.102 184 18.097c0 9.995-10.118 18.097-22.599 18.097-4.528 0-8.744-1.066-12.28-2.902z",
-    fill: "#DCE0E6"
-  }), /*#__PURE__*/react.createElement("g", {
-    transform: "translate(149.65 15.383)",
-    fill: "#FFF"
-  }, /*#__PURE__*/react.createElement("ellipse", {
-    cx: "20.654",
-    cy: "3.167",
-    rx: "2.849",
-    ry: "2.815"
-  }), /*#__PURE__*/react.createElement("path", {
-    d: "M5.698 5.63H0L2.898.704zM9.259.704h4.985V5.63H9.259z"
-  }))));
-};
-if (false) {}
-/* harmony default export */ var empty = (empty_Empty);
-;// CONCATENATED MODULE: ./node_modules/antd/es/empty/simple.js
-"use client";
-
-
-
-
-
-
-var Simple = function Simple() {
-  var _useToken = useToken(),
-    _useToken2 = slicedToArray_slicedToArray(_useToken, 2),
-    token = _useToken2[1];
-  var colorFill = token.colorFill,
-    colorFillTertiary = token.colorFillTertiary,
-    colorFillQuaternary = token.colorFillQuaternary,
-    colorBgContainer = token.colorBgContainer;
-  var _useMemo = (0,react.useMemo)(function () {
-      return {
-        borderColor: new TinyColor(colorFill).onBackground(colorBgContainer).toHexShortString(),
-        shadowColor: new TinyColor(colorFillTertiary).onBackground(colorBgContainer).toHexShortString(),
-        contentColor: new TinyColor(colorFillQuaternary).onBackground(colorBgContainer).toHexShortString()
-      };
-    }, [colorFill, colorFillTertiary, colorFillQuaternary, colorBgContainer]),
-    borderColor = _useMemo.borderColor,
-    shadowColor = _useMemo.shadowColor,
-    contentColor = _useMemo.contentColor;
-  return /*#__PURE__*/react.createElement("svg", {
-    width: "64",
-    height: "41",
-    viewBox: "0 0 64 41",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, /*#__PURE__*/react.createElement("g", {
-    transform: "translate(0 1)",
-    fill: "none",
-    fillRule: "evenodd"
-  }, /*#__PURE__*/react.createElement("ellipse", {
-    fill: shadowColor,
-    cx: "32",
-    cy: "33",
-    rx: "32",
-    ry: "7"
-  }), /*#__PURE__*/react.createElement("g", {
-    fillRule: "nonzero",
-    stroke: borderColor
-  }, /*#__PURE__*/react.createElement("path", {
-    d: "M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
-  }), /*#__PURE__*/react.createElement("path", {
-    d: "M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z",
-    fill: contentColor
-  }))));
-};
-if (false) {}
-/* harmony default export */ var simple = (Simple);
-;// CONCATENATED MODULE: ./node_modules/antd/es/empty/style/index.js
-
-
-// ============================== Shared ==============================
-var genSharedEmptyStyle = function genSharedEmptyStyle(token) {
-  var _normal, _componentCls;
-  var componentCls = token.componentCls,
-    margin = token.margin,
-    marginXS = token.marginXS,
-    marginXL = token.marginXL,
-    fontSize = token.fontSize,
-    lineHeight = token.lineHeight;
-  return defineProperty_defineProperty({}, componentCls, (_componentCls = {
-    marginInline: marginXS,
-    fontSize: fontSize,
-    lineHeight: lineHeight,
-    textAlign: 'center'
-  }, defineProperty_defineProperty(_componentCls, "".concat(componentCls, "-image"), {
-    height: token.emptyImgHeight,
-    marginBottom: marginXS,
-    opacity: token.opacityImage,
-    img: {
-      height: '100%'
-    },
-    svg: {
-      maxWidth: '100%',
-      height: '100%',
-      margin: 'auto'
-    }
-  }), defineProperty_defineProperty(_componentCls, "".concat(componentCls, "-description"), {
-    color: token.colorText
-  }), defineProperty_defineProperty(_componentCls, "".concat(componentCls, "-footer"), {
-    marginTop: margin
-  }), defineProperty_defineProperty(_componentCls, '&-normal', (_normal = {
-    marginBlock: marginXL,
-    color: token.colorTextDisabled
-  }, defineProperty_defineProperty(_normal, "".concat(componentCls, "-description"), {
-    color: token.colorTextDisabled
-  }), defineProperty_defineProperty(_normal, "".concat(componentCls, "-image"), {
-    height: token.emptyImgHeightMD
-  }), _normal)), defineProperty_defineProperty(_componentCls, '&-small', defineProperty_defineProperty({
-    marginBlock: marginXS,
-    color: token.colorTextDisabled
-  }, "".concat(componentCls, "-image"), {
-    height: token.emptyImgHeightSM
-  })), _componentCls));
-};
-// ============================== Export ==============================
-/* harmony default export */ var empty_style = (genComponentStyleHook('Empty', function (token) {
-  var componentCls = token.componentCls,
-    controlHeightLG = token.controlHeightLG;
-  var emptyToken = statistic_merge(token, {
-    emptyImgCls: "".concat(componentCls, "-img"),
-    emptyImgHeight: controlHeightLG * 2.5,
-    emptyImgHeightMD: controlHeightLG,
-    emptyImgHeightSM: controlHeightLG * 0.875
-  });
-  return [genSharedEmptyStyle(emptyToken)];
-}));
-;// CONCATENATED MODULE: ./node_modules/antd/es/empty/index.js
-"use client";
-
-
-
-var empty_rest = undefined && undefined.__rest || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-
-
-
-
-
-
-var defaultEmptyImg = /*#__PURE__*/react.createElement(empty, null);
-var simpleEmptyImg = /*#__PURE__*/react.createElement(simple, null);
-var es_empty_Empty = function Empty(_a) {
-  var _classNames;
-  var className = _a.className,
-    rootClassName = _a.rootClassName,
-    customizePrefixCls = _a.prefixCls,
-    _a$image = _a.image,
-    image = _a$image === void 0 ? defaultEmptyImg : _a$image,
-    description = _a.description,
-    children = _a.children,
-    imageStyle = _a.imageStyle,
-    style = _a.style,
-    restProps = empty_rest(_a, ["className", "rootClassName", "prefixCls", "image", "description", "children", "imageStyle", "style"]);
-  var _React$useContext = react.useContext(ConfigContext),
-    getPrefixCls = _React$useContext.getPrefixCls,
-    direction = _React$useContext.direction,
-    empty = _React$useContext.empty;
-  var prefixCls = getPrefixCls('empty', customizePrefixCls);
-  var _useStyle = empty_style(prefixCls),
-    _useStyle2 = slicedToArray_slicedToArray(_useStyle, 2),
-    wrapSSR = _useStyle2[0],
-    hashId = _useStyle2[1];
-  var _useLocale = locale_useLocale('Empty'),
-    _useLocale2 = slicedToArray_slicedToArray(_useLocale, 1),
-    locale = _useLocale2[0];
-  var des = typeof description !== 'undefined' ? description : locale === null || locale === void 0 ? void 0 : locale.description;
-  var alt = typeof des === 'string' ? des : 'empty';
-  var imageNode = null;
-  if (typeof image === 'string') {
-    imageNode = /*#__PURE__*/react.createElement("img", {
-      alt: alt,
-      src: image
-    });
-  } else {
-    imageNode = image;
-  }
-  return wrapSSR( /*#__PURE__*/react.createElement("div", Object.assign({
-    className: classnames_default()(hashId, prefixCls, empty === null || empty === void 0 ? void 0 : empty.className, (_classNames = {}, defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-normal"), image === simpleEmptyImg), defineProperty_defineProperty(_classNames, "".concat(prefixCls, "-rtl"), direction === 'rtl'), _classNames), className, rootClassName),
-    style: Object.assign(Object.assign({}, empty === null || empty === void 0 ? void 0 : empty.style), style)
-  }, restProps), /*#__PURE__*/react.createElement("div", {
-    className: "".concat(prefixCls, "-image"),
-    style: imageStyle
-  }, imageNode), des && /*#__PURE__*/react.createElement("div", {
-    className: "".concat(prefixCls, "-description")
-  }, des), children && /*#__PURE__*/react.createElement("div", {
-    className: "".concat(prefixCls, "-footer")
-  }, children)));
-};
-es_empty_Empty.PRESENTED_IMAGE_DEFAULT = defaultEmptyImg;
-es_empty_Empty.PRESENTED_IMAGE_SIMPLE = simpleEmptyImg;
-if (false) {}
-/* harmony default export */ var es_empty = (es_empty_Empty);
 ;// CONCATENATED MODULE: ./node_modules/antd/es/config-provider/defaultRenderEmpty.js
 "use client";
 
@@ -55179,7 +55178,7 @@ if (false) {}
 // extracted by mini-css-extract-plugin
 /* harmony default export */ var MessageContent = ({});
 ;// CONCATENATED MODULE: ./src/components/MessageContent/MessageContent.js
-var MessageContent_Content=es_layout.Content;function getColumns(messageList){var filePathFilters=[];var titleFilters=[];messageList.forEach(function(message){var filePath=message.filePath,title=message.title;if(!filePathFilters.includes(filePath)){filePathFilters.push(filePath);}if(!titleFilters.includes(title)){titleFilters.push(title);}});var columns=[{title:'路径',dataIndex:'filePath',filters:filePathFilters.map(function(path){return{text:path,value:path};}),onFilter:function onFilter(value,record){return record.filePath.indexOf(value)===0;},width:450},{title:'概述',dataIndex:'title',filters:titleFilters.map(function(title){return{text:title,value:title};}),onFilter:function onFilter(value,record){return record.title.indexOf(value)===0;},width:650},{title:'数量',dataIndex:'messageNum',width:340}];return columns;}function MessageContent_MessageContent(_ref){var messageList=_ref.messageList,onChooseTableItem=_ref.onChooseTableItem;var _useState=(0,react.useState)([]),_useState2=slicedToArray_slicedToArray(_useState,2),columns=_useState2[0],setColumns=_useState2[1];(0,react.useEffect)(function(){setColumns(getColumns(messageList));},[messageList]);return/*#__PURE__*/(0,jsx_runtime.jsx)(MessageContent_Content,{className:"report-message-content",children:/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"report-message-card",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"report-message-title",children:"\u8F6C\u6362\u5F02\u5E38\u5217\u8868"}),/*#__PURE__*/(0,jsx_runtime.jsx)(table,{size:"small",columns:columns,dataSource:messageList,rowKey:function rowKey(record,index){return index;},rowClassName:function rowClassName(record,index){return'report-message-detail';},onRow:function onRow(record){return{onClick:function onClick(e){onChooseTableItem(record);}};}})]})});}/* harmony default export */ var components_MessageContent_MessageContent = (MessageContent_MessageContent);
+var MessageContent_Content=es_layout.Content;function getColumns(messageList){var filePathFilters=[];var titleFilters=[];messageList.forEach(function(message){var filePath=message.filePath,title=message.title;if(!filePathFilters.includes(filePath)){filePathFilters.push(filePath);}if(!titleFilters.includes(title)){titleFilters.push(title);}});var columns=[{title:'路径',dataIndex:'filePath',filters:filePathFilters.map(function(path){return{text:path,value:path};}),onFilter:function onFilter(value,record){return record.filePath.indexOf(value)===0;},width:450},{title:'概述',dataIndex:'title',filters:titleFilters.map(function(title){return{text:title,value:title};}),onFilter:function onFilter(value,record){return record.title.indexOf(value)===0;},width:650},{title:'数量',dataIndex:'messageNum',width:340}];return columns;}function MessageContent_MessageContent(_ref){var messageList=_ref.messageList,onChooseTableItem=_ref.onChooseTableItem;var _useState=(0,react.useState)([]),_useState2=slicedToArray_slicedToArray(_useState,2),columns=_useState2[0],setColumns=_useState2[1];(0,react.useEffect)(function(){setColumns(getColumns(messageList));},[messageList]);var renderEmpty=function renderEmpty(){return/*#__PURE__*/(0,jsx_runtime.jsx)(es_empty,{image:es_empty.PRESENTED_IMAGE_SIMPLE,description:/*#__PURE__*/(0,jsx_runtime.jsx)("span",{children:"\u5DE5\u7A0B\u8F6C\u6362\u65E0\u9519\u8BEF"})});};return/*#__PURE__*/(0,jsx_runtime.jsx)(MessageContent_Content,{className:"report-message-content",children:/*#__PURE__*/(0,jsx_runtime.jsxs)("div",{className:"report-message-card",children:[/*#__PURE__*/(0,jsx_runtime.jsx)("div",{className:"report-message-title",children:"\u8F6C\u6362\u5F02\u5E38\u5217\u8868"}),/*#__PURE__*/(0,jsx_runtime.jsx)(config_provider,{renderEmpty:renderEmpty,children:/*#__PURE__*/(0,jsx_runtime.jsx)(table,{size:"small",columns:columns,dataSource:messageList,rowKey:function rowKey(record,index){return index;},rowClassName:function rowClassName(record,index){return'report-message-detail';},onRow:function onRow(record){return{onClick:function onClick(e){onChooseTableItem(record);}};}})})]})});}/* harmony default export */ var components_MessageContent_MessageContent = (MessageContent_MessageContent);
 ;// CONCATENATED MODULE: ./src/static/arrow.png
 var arrow_namespaceObject = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAHxJREFUOE9jZKAQMFKon2GQGLBn36Facrzi4mTXDPbC3r1HlRkY/21lYGRQJ8qg/ww3Gf4zeTs7W9+FhwHRhiBpBlmGEogEDUHTjGEAXu9g0YzVAKyG4NCM0wAUQ0AcaIBhC2C8CQkcJgwMDKDQxhU7gyQlEpV4cCii2AsAB+U8ERSKx7cAAAAASUVORK5CYII=";
 ;// CONCATENATED MODULE: ./src/static/file.png
@@ -55273,7 +55272,7 @@ while(pathNames.length===1&&Object.keys(pathTree[pathNames[0]]).length!==0){labe
  * @param {Array} oriMsgList
  * @param {string} projectPath
  * @return {Object}
- */function parseMsgList(oriMsgList,projectPath){var rootPathArray=projectPath.split('/');rootPathArray.pop();rootPathArray.push('');var rootPath=rootPathArray.join('/');var filesTree={};var msgListWithFormatPath=oriMsgList.map(function(errMsg){var newErrMsg=getMsgWithFormatPath(errMsg,rootPath);var pathArr=newErrMsg.filePath.split('/');var tree=filesTree;pathArr.forEach(function(path){if(!tree[path]){tree[path]={};}tree=tree[path];});return newErrMsg;});var filesMenu=getFilesMenu(filesTree);defaultOpen(filesMenu);var projectFilesMenu={overView:{key:'overView',label:'转换概览',isOpen:false,isSelect:true,type:'menuItem'},projectDirectory:{key:'projectDirectory',label:'工程目录',isOpen:true,isSelect:false,type:'menuGroup',children:filesMenu}};var newMsgList=msgListWithFormatPath.map(function(errMsg){var _getErrMessagePathKey=getErrMessagePathKeys(errMsg.filePath,filesMenu),pathKeys=_getErrMessagePathKey.pathKeys,pathLabels=_getErrMessagePathKey.pathLabels;var messageNum=errMsg.errCodeList?errMsg.errCodeList.length:1;return objectSpread2_objectSpread2(objectSpread2_objectSpread2({},errMsg),{},{messageNum:messageNum,pathKeys:['projectDirectory'].concat(_toConsumableArray(pathKeys)),pathLabels:['工程目录'].concat(_toConsumableArray(pathLabels))});});return{filesMenu:projectFilesMenu,errMessage:newMsgList};}/**
+ */function parseMsgList(oriMsgList,projectPath){var rootPathArray=projectPath.split('/');rootPathArray.pop();rootPathArray.push('');var rootPath=rootPathArray.join('/');if(oriMsgList.length===0){return{filesMenu:{overView:{key:'overView',label:'转换概览',isOpen:false,isSelect:true,type:'menuItem'},projectDirectory:{key:'projectDirectory',label:'异常目录',isOpen:true,isSelect:false,type:'menuGroup'}},errMessage:[]};}var filesTree={};var msgListWithFormatPath=oriMsgList.map(function(errMsg){var newErrMsg=getMsgWithFormatPath(errMsg,rootPath);var pathArr=newErrMsg.filePath.split('/');var tree=filesTree;pathArr.forEach(function(path){if(!tree[path]){tree[path]={};}tree=tree[path];});return newErrMsg;});var filesMenu=getFilesMenu(filesTree);defaultOpen(filesMenu);var projectFilesMenu={overView:{key:'overView',label:'转换概览',isOpen:false,isSelect:true,type:'menuItem'},projectDirectory:{key:'projectDirectory',label:'异常目录',isOpen:true,isSelect:false,type:'menuGroup',children:filesMenu}};var newMsgList=msgListWithFormatPath.map(function(errMsg){var _getErrMessagePathKey=getErrMessagePathKeys(errMsg.filePath,filesMenu),pathKeys=_getErrMessagePathKey.pathKeys,pathLabels=_getErrMessagePathKey.pathLabels;var messageNum=errMsg.errCodeList?errMsg.errCodeList.length:1;return objectSpread2_objectSpread2(objectSpread2_objectSpread2({},errMsg),{},{messageNum:messageNum,pathKeys:['projectDirectory'].concat(_toConsumableArray(pathKeys)),pathLabels:['工程目录'].concat(_toConsumableArray(pathLabels))});});return{filesMenu:projectFilesMenu,errMessage:newMsgList};}/**
  * @description: 重置报告数据信息
  * @return {Object}
  */function getReportData(){// 定义重置报告数据结构
