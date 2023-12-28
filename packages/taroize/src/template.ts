@@ -4,7 +4,7 @@ import * as fs from 'fs-extra'
 import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
-import { buildBlockElement, buildRender, getLineBreak, pascalName, setting, updateLogFileContent } from './utils'
+import { astToCode, buildBlockElement, buildRender, getLineBreak, IReportError, pascalName, setting, updateLogFileContent } from './utils'
 import { createWxmlVistor, parseWXML, WXS } from './wxml'
 
 function isNumeric (n) {
@@ -81,7 +81,16 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
   // 获取template name
   const value = name.node.value
   if (value === null || !t.isStringLiteral(value)) {
-    throw new Error('template 的 `name` 属性只能是字符串')
+    // @ts-ignore
+    const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+    const position = { col: column, row: line }
+    throw new IReportError(
+      'template 的 `name` 属性只能是字符串',
+      'TemplateNameTypeMismatchError',
+      'WXML_FILE',
+      astToCode(path.node) || '',
+      position
+    )
   }
   const templateName = buildTemplateName(value.value)
   const templateFuncs = new Set<string>()
@@ -122,7 +131,16 @@ export function preParseTemplate (path: NodePath<t.JSXElement>) {
       }
       const value = is.node.value
       if (!value) {
-        throw new Error('template 的 `is` 属性不能为空')
+        // @ts-ignore
+        const { line, column } = p.node?.position?.start || { line: 0, column: 0 }
+        const position = { col: column, row: line }
+        throw new IReportError(
+          'template 的 `is` 属性不能为空',
+          'TemplateIsAttributeEmptyError',
+          'WXML_FILE',
+          astToCode(path.node) || '',
+          position
+        )
       }
       // is的模板调用形式为 is="xxx", xxx为模板名或表达式
       if (t.isStringLiteral(value)) {
@@ -233,7 +251,16 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
   } else if (is && t.isJSXAttribute(is.node)) {
     const value = is.node.value
     if (!value) {
-      throw new Error('template 的 `is` 属性不能为空')
+      // @ts-ignore
+      const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+      const position = { col: column, row: line }
+      throw new IReportError(
+        'template 的 `is` 属性不能为空',
+        'TemplateIsAttributeEmptyError',
+        'WXML_FILE',
+        astToCode(path.node) || '',
+        position
+      )
     }
     if (t.isStringLiteral(value)) {
       const className = buildTemplateName(value.value)
@@ -267,7 +294,16 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
       } else if (t.isConditional(value.expression)) {
         const { test, consequent, alternate } = value.expression
         if (!t.isStringLiteral(consequent) || !t.isStringLiteral(alternate)) {
-          throw new Error('当 template is 标签是三元表达式时，他的两个值都必须为字符串')
+          // @ts-ignore
+          const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+          const position = { col: column, row: line }
+          throw new IReportError(
+            '当 template is 标签是三元表达式时，他的两个值都必须为字符串',
+            'TemplateIsAttributeTypeMismatchError',
+            'WXML_FILE',
+            astToCode(path.node) || '',
+            position
+          )
         }
         const attributes: t.JSXAttribute[] = []
         if (data && t.isJSXAttribute(data.node)) {
@@ -304,8 +340,16 @@ export function parseTemplate (path: NodePath<t.JSXElement>, dirPath: string, wx
     }
     return
   }
-
-  throw new Error('template 标签必须指名 `is` 或 `name` 任意一个标签')
+  // @ts-ignore
+  const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
+  const position = { col: column, row: line }
+  throw new IReportError(
+    'template 标签必须指名 `is` 或 `name` 任意一个标签',
+    'TemplateMissingIsNameError',
+    'WXML_FILE',
+    astToCode(path.node) || '',
+    position
+  )
 }
 
 export function getWXMLsource (dirPath: string, src: string, type: string) {
@@ -338,24 +382,64 @@ export function parseModule (jsx: NodePath<t.JSXElement>, dirPath: string, type:
       attr.node.name.name === 'src'
   )
   if (!src) {
+    // @ts-ignore
+    const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+    const position = { col: column, row: line }
     updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签未包含 src 属性 ${getLineBreak()}`)
-    throw new Error(`${type} 标签必须包含 \`src\` 属性`)
+    throw new IReportError(
+      `${type} 标签必须包含 \`src\` 属性`,
+      'WxmlTagSrcAttributeError',
+      'WXML_FILE',
+      astToCode(jsx.node) || '',
+      position
+    )
   }
   if (extname(dirPath)) {
     dirPath = dirname(dirPath)
   }
   if (!t.isJSXAttribute(src.node)) {
+    // @ts-ignore
+    const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+    const position = { col: column, row: line }
     updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签src AST节点未包含node ${getLineBreak()}`)
-    throw new Error(`${type} 标签src AST节点 必须包含node`)
+    throw new IReportError(
+      `${type} 标签src AST节点 必须包含node`,
+      'WxmlTagSrcAttributeError',
+      'WXML_FILE',
+      astToCode(jsx.node) || '',
+      position
+    )
   }
   const value = src.node.value
   if (!t.isStringLiteral(value)) {
+    // @ts-ignore
+    const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+    const position = { col: column, row: line }
     updateLogFileContent(`ERROR [taroize] parseModule - ${type} 标签的 src 属性值不是一个字符串 ${getLineBreak()}`)
-    throw new Error(`${type} 标签的 src 属性值必须是一个字符串`)
+    throw new IReportError(
+      `${type} 标签的 src 属性值必须是一个字符串`,
+      'WxmlTagSrcAttributeError',
+      'WXML_FILE',
+      astToCode(jsx.node) || '',
+      position
+    )
   }
   let srcValue = value.value
   // 判断是否为绝对路径
-  srcValue = getSrcRelPath(dirPath, srcValue)
+  try {
+    srcValue = getSrcRelPath(dirPath, srcValue)
+  } catch (error) {
+    // @ts-ignore
+    const { line, column } = jsx.node?.position?.start || { line: 0, column: 0 }
+    const position = { col: column, row: line }
+    throw new IReportError(
+      '相对路径解析失败',
+      'ImportSrcPathFormatError',
+      'WXML_FILE',
+      astToCode(jsx.node) || '',
+      position
+    )
+  }
   if (type === 'import') {
     const wxml = getWXMLsource(dirPath, srcValue, type)
     const { imports } = parseWXML(resolve(dirPath, srcValue), wxml, true)
