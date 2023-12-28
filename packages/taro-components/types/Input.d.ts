@@ -5,6 +5,10 @@ interface InputProps extends StandardProps, FormItemProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   value?: string
+  /** 设置 React 非受控输入框的初始内容
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  defaultValue?: string
   /** input 的类型
    * @default "text"
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony

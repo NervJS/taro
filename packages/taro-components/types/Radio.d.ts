@@ -10,6 +10,10 @@ interface RadioProps extends StandardProps {
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
    */
   checked?: boolean
+  /** 设置在 React 非受控状态下，当前是否选中
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   */
+  defaultChecked?: boolean
   /** 是否禁用
    * @default false
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
