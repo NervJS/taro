@@ -126,7 +126,7 @@ describe('微信小程序转换', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 
-  test('使用工具函数初始化page页面',() => {
+  test('使用工具函数初始化page页面', () => {
     const EDMO_CREATEPAGE = {
       '/app.json': `
         {
@@ -143,7 +143,7 @@ describe('微信小程序转换', () => {
         module.exports.createPage = function(options) {
           Page(options)
         }
-      `
+      `,
     }
     updateMockFiles(root, EDMO_CREATEPAGE)
     const convertor = new Convertor(root, false)
@@ -306,7 +306,7 @@ describe('文件转换', () => {
     expect(spy).toHaveBeenCalledTimes(2)
     expect(spy.mock.calls[1]).toMatchInlineSnapshot(`
       [
-        [Error: 页面 /pages/index/index 没有 JS 文件！],
+        页面: /pages/index/index转换失败 页面 /pages/index/index 没有 JS 文件！,
       ]
     `)
   })
@@ -516,4 +516,3 @@ describe('公共组件引用', () => {
     expect(resFileMap).toMatchSnapshot()
   })
 })
-

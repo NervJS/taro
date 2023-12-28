@@ -1,5 +1,6 @@
 export const globals = {
   logFilePath: '',
+  currentParseFile: '',
   logFileContent: ''
 }
 

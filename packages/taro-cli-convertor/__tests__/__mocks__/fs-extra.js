@@ -93,15 +93,16 @@ function readFileSyncMock (path) {
   }
 
   path = normalizePath(path)
-
+  
   if (!existsSyncMock(path)) {
     throw new Error(`文件不存在，path：${path}`)
   }
-  if(oriFileMap.get(path) !== undefined){
-
+  if(oriFileMap.has(path)){
     return oriFileMap.get(path)
-  } else if (resFileMap.get(path) !== undefined){
+  } else if (resFileMap.has(path)){
     return resFileMap.get(path)
+  } else {
+    throw new Error(`文件不存在，path：${path}`)
   }
 }
 
@@ -125,14 +126,14 @@ function existsSyncMock (pathParam) {
   const parts = pathParam.split('/')
   // 根据是否有后缀名判断为文件
   if (parts[parts.length - 1].includes('.')) {
-    let boolean = true
+    let isFile = true
     if (oriFileMap.get(pathParam) === undefined) {
-      boolean = false
+      isFile = false
     } 
     if(resFileMap.get(pathParam)){
-      boolean = true
+      isFile = true
     }
-    return boolean
+    return isFile
   }
   // 判断文件夹
   if(oriFileMap.get(pathParam) && !parts[parts.length - 1].includes('.')){
@@ -158,6 +159,7 @@ function ensureDirSyncMock () {
  */
 function ensureDirMock (path) {
   resFileMap.set(path,'')
+  return true
 }
 
 /**
@@ -167,6 +169,7 @@ function ensureDirMock (path) {
  */
 function mkdirSyncMock (path) {
   resFileMap.set(path,'')
+  return true
 }
 
 /**
@@ -358,7 +361,8 @@ module.exports = {
   lstatSync: jest.fn((path) => lstatSyncMock(path)),
   readdirSync:jest.fn((source) => readdirSyncMock(source)),
   copyFileSync:jest.fn((sourcePath,destinationPath) => copyFileSyncMock(sourcePath,destinationPath)),
-  copyFile:jest.fn((sourcePath,destinationPath) => copyFileMock(sourcePath,destinationPath))
+  copyFile:jest.fn((sourcePath,destinationPath) => copyFileMock(sourcePath,destinationPath)),
+  writeJSONSync:jest.fn(() => true)
 }
 
 module.exports.setMockFiles = setMockFiles

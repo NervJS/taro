@@ -3,7 +3,7 @@ import traverse, { Visitor } from '@babel/traverse'
 import * as t from '@babel/types'
 
 import { TransformResult } from './index'
-import { getLineBreak, updateLogFileContent } from './utils'
+import { astToCode,getLineBreak, IReportError, updateLogFileContent } from './utils'
 
 export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
   updateLogFileContent(`INFO [taro-transformer-wx] traverseWxsFile - 进入函数 ${getLineBreak()}`)
@@ -36,11 +36,27 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
             ])
             path.replaceWith(newExpr)
           } else if (t.isIdentifier(regex) || t.isIdentifier(modifier)) {
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
             updateLogFileContent(`ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入变量类型的参数 ${getLineBreak()}`)
-            throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入变量类型的参数',
+              'GetRegExpVariableTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           } else {
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
             updateLogFileContent(`ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入非字符串类型的参数 ${getLineBreak()}`)
-            throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入非字符串类型的参数',
+              'GetRegExpParameterTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           }
         } else if (path.node.arguments.length === 1) {
           const regex = path.node.arguments[0]
@@ -52,11 +68,27 @@ export function traverseWxsFile(ast: t.File, defaultResult: TransformResult) {
             ])
             path.replaceWith(newExpr)
           } else if (t.isIdentifier(regex)) {
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
             updateLogFileContent(`ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入变量类型的参数 ${getLineBreak()}`)
-            throw new Error('getRegExp 函数暂不支持传入变量类型的参数')
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入变量类型的参数',
+              'GetRegExpVariableTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           } else {
+            const { line, column } = path.node.loc?.start || { line: 0, column: 0 }
+            const position = { col: column, row: line }
             updateLogFileContent(`ERROR [taro-transformer-wx] traverseWxsFile - getRegExp 函数暂不支持传入非字符串类型的参数 ${getLineBreak()}`)
-            throw new Error('getRegExp 函数暂不支持传入非字符串类型的参数')
+            throw new IReportError(
+              'getRegExp 函数暂不支持传入非字符串类型的参数',
+              'GetRegExpParameterTypeError',
+              'JS_FILE',
+              astToCode(path.node) || '',
+              position
+            )
           }
         } else {
           const newExpr = t.newExpression(t.identifier('RegExp'), [])

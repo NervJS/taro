@@ -1,6 +1,6 @@
 import * as t from '@babel/types'
 
-import { errors, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
+import { errors, globals, resetGlobals, THIRD_PARTY_COMPONENTS } from './global'
 import { parseScript } from './script'
 import { getLineBreak, printToLogFile, setting, updateLogFileContent } from './utils'
 import { parseVue } from './vue'
@@ -31,6 +31,7 @@ interface Option {
   isApp?: boolean
   logFilePath: string
   pluginInfo: IPluginInfo
+  templatePath?: string
 }
 
 export function parse (option: Option) {
@@ -61,8 +62,10 @@ export function parse (option: Option) {
       }
     }
 
+    globals.currentParseFile = option.templatePath || ''
     const { wxml, wxses, imports, refIds } = parseWXML(option.path, option.wxml)
     setting.sourceCode = option.script!
+    globals.currentParseFile = option.scriptPath || ''
     const ast = parseScript(
       option.script,
       option.scriptPath,
@@ -72,11 +75,12 @@ export function parse (option: Option) {
       option.isApp,
       option.pluginInfo
     )
-
+    const errCodeMsgs = globals.errCodeMsgs
     return {
       ast,
       imports,
       errors,
+      errCodeMsgs
     }
   } finally {
     printToLogFile()
