@@ -2,12 +2,12 @@ import { ObjectAssign } from '@tarojs/runtime'
 
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
-import type { StandardProps } from '@tarojs/components/types'
+import type { StandardProps, TextProps } from '@tarojs/components/types'
 import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyType, HarmonyStyle } from '@tarojs/runtime'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const hmStyle = node.hmStyle
-  const attrs = node._attrs || {}
+  const attrs: TextProps = node._attrs || {}
 
   const attributes: TaroAny = {
     WebkitLineClamp: attrs.maxLines || hmStyle.WebkitLineClamp || Infinity,

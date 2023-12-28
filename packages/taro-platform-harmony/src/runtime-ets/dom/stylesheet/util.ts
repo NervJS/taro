@@ -211,7 +211,7 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
         break
     }
     Object.keys(res).forEach(key => {
-      res[key] = getUnit(exec[1]) || 0
+      res[key] = getUnit(res[key]) || 0
     })
   }
   return res
