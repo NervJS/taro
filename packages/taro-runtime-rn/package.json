@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/runtime-rn",
-  "version": "4.0.0-beta.0",
+  "version": "4.0.0-alpha.0",
   "description": "taro-runtime-rn",
   "main": "dist/index.js",
   "types": "./src/index.ts",
@@ -27,13 +27,13 @@
   "dependencies": {
     "@tarojs/components-rn": "workspace:*",
     "@tarojs/router-rn": "workspace:*",
-    "react-native-device-info": "~10.3.0",
-    "react-native-root-siblings": "^4.1.1"
+    "react-native-device-info": "~10.12.0",
+    "react-native-root-siblings": "^5.0.1"
   },
   "devDependencies": {
-    "@types/react-native": "^0.69.8"
+    "react-native": "^0.73.1"
   },
   "peerDependencies": {
-    "react-native-device-info": "~10.3.0"
+    "react-native-device-info": "~10.12.0"
   }
 }

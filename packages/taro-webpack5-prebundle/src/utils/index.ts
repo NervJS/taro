@@ -32,7 +32,7 @@ export function createResolve (appPath: string, resolveOptions) {
     return new Promise((resolve, reject) => {
       resolver({}, importer, request, {}, (err, resolvedPath) => {
         if (err) return reject(err)
-        resolve(resolvedPath)
+        resolve(resolvedPath! as string)
       })
     })
   }

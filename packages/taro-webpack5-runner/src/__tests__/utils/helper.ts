@@ -8,7 +8,7 @@ import * as path from 'path'
 import { componentConfig } from '../../utils/component'
 
 import type { IFs } from 'memfs'
-import type { CommonBuildConfig, H5BuildConfig, MiniBuildConfig } from '../../utils/types'
+import type { CommonBuildConfig, IH5BuildConfig, IMiniBuildConfig } from '../../utils/types'
 
 interface EnsuredFs extends IFs {
   join: () => string
@@ -36,7 +36,7 @@ export function readDir(fs: IFs, dir: string) {
   return files
 }
 
-export function getOutput<T extends MiniBuildConfig | H5BuildConfig = CommonBuildConfig>(stats, config: Partial<T>) {
+export function getOutput<T extends IMiniBuildConfig | IH5BuildConfig = CommonBuildConfig>(stats, config: Partial<T>) {
   // @ts-ignore
   const fs: IFs = config.fs ?? stats.compilation.compiler.outputFileSystem
 

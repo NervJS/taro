@@ -4,6 +4,7 @@ import { toDashed } from '@tarojs/shared'
 import { componentConfig } from '../utils/component'
 
 import type { Func } from '@tarojs/taro/types/compile'
+import type acorn from 'acorn'
 import type AcornWalk from 'acorn-walk'
 import type { Compiler, NormalModule } from 'webpack'
 
@@ -52,11 +53,14 @@ export default class TaroComponentsExportsPlugin {
               const callee = node.callee
 
               if (callee.type === 'MemberExpression') {
+                if (callee.property.type !== 'Identifier') {
+                  return
+                }
                 if (callee.property.name !== 'createElement') {
                   return
                 }
               } else {
-                const nameOfCallee = callee.name
+                const nameOfCallee = (callee as acorn.Identifier).name
                 if (
                   // 兼容 react17 new jsx transtrom 以及esbuild-loader的ast兼容问题
                   !/^_?jsxs?$/.test(nameOfCallee) &&
@@ -75,12 +79,14 @@ export default class TaroComponentsExportsPlugin {
 
               // @ts-ignore
               const type = node.arguments[0]
-              if (type?.value) {
-                this.onParseCreateElement?.(type.value, componentConfig)
+              if ((type as acorn.Literal)?.value) {
+                this.onParseCreateElement?.((type as acorn.Literal).value, componentConfig)
+                // @ts-ignore
                 this.#componentsExports.add(type.value)
               }
             }
           }, {
+            // @ts-ignore
             ...walk.base, Import: walk.base.Import || (() => {})
           })
         })

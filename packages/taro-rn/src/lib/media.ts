@@ -28,15 +28,17 @@ export async function saveMedia(opts: Taro.saveImageToPhotosAlbum.Option | Taro.
   }
 }
 
-export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVideo.Option, mediaTypes: string): Promise<TaroGeneral.CallbackResult> {
+export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVideo.Option, mediaTypes: any): Promise<TaroGeneral.CallbackResult> {
   if (!opts || typeof opts !== 'object') {
     opts = {}
   }
-  const { sizeType = [], sourceType = [], success, fail, complete, maxDuration } = opts as any
+  const { sizeType = [], sourceType = [], success, fail, complete, maxDuration, count } = opts as any
   const options = {
     mediaTypes,
     quality: sizeType[0] === 'compressed' ? 0.7 : 1,
-    videoMaxDuration: maxDuration
+    videoMaxDuration: maxDuration,
+    allowsMultipleSelection: (mediaTypes === MEDIA_TYPE.IMAGES && count > 1) ? true : false,
+    selectionLimit: mediaTypes === MEDIA_TYPE.VIDEOS ? 1 : (count || 9),
   }
   const isCamera = sourceType[0] === 'camera'
   const { granted } = isCamera ? await requestCameraPermissionsAsync() : await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -47,22 +49,24 @@ export async function chooseMedia(opts: Taro.chooseImage.Option | Taro.chooseVid
 
   let launchMediaAsync = isCamera ? ImagePicker.launchCameraAsync : ImagePicker.launchImageLibraryAsync
   try {
-    const resp: any = await launchMediaAsync(options as any)
-    const { uri, duration, width, height } = resp
-    resp.path = uri
-
+    const resp = await launchMediaAsync(options)
     let res: any = {}
     if (mediaTypes === MEDIA_TYPE.VIDEOS) {
+      const asset = resp.assets?.[0]
       res = {
-        tempFilePath: uri,
-        duration,
-        width,
-        height
+        ...asset,
+        tempFilePath: asset?.uri,
+        size: asset?.fileSize,
       }
     } else {
       res = {
-        tempFilePaths: [uri],
-        tempFiles: [resp]
+        tempFilePaths: resp.assets?.map((item) => item.uri),
+        tempFiles: resp.assets?.map((item) => ({
+          ...item,
+          path: item.uri,
+          size: item.fileSize,
+          type: item.mimeType,
+        }))
       }
     }
     if (res.tempFilePath || (!!res.tempFilePaths && res.tempFilePaths.length > 0)) {

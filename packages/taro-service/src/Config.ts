@@ -70,8 +70,8 @@ export default class Config {
     const homedir = getUserHomeDir()
     if (!homedir) return console.error('获取不到用户 home 路径')
     const globalPluginConfigPath = path.join(getUserHomeDir(), TARO_GLOBAL_CONFIG_DIR, TARO_GLOBAL_CONFIG_FILE)
+    if (!fs.existsSync(globalPluginConfigPath)) return
     const spinner = ora(`开始获取 taro 全局配置文件： ${globalPluginConfigPath}`).start()
-    if (!fs.existsSync(globalPluginConfigPath)) return spinner.warn(`获取 taro 全局配置文件失败，不存在全局配置文件：${globalPluginConfigPath}`)
     try {
       this.initialGlobalConfig = fs.readJSONSync(globalPluginConfigPath) || {}
       spinner.succeed('获取 taro 全局配置成功')

@@ -3,7 +3,6 @@
  */
 
 import * as React from 'react'
-import { TouchableWithoutFeedback } from 'react-native'
 import View from '../View'
 import { LabelProps } from './PropsType'
 
@@ -42,7 +41,7 @@ class _Label extends React.Component<LabelProps> {
   }
 
   onPress = (): void => {
-    this.$validWidget && this.$validWidget._simulateNativePress()
+    this.$validWidget && this.$validWidget._simulateNativePress?.()
   }
 
   render (): JSX.Element {
@@ -53,17 +52,12 @@ class _Label extends React.Component<LabelProps> {
     this.hadFoundValidWidget = false
 
     return (
-      <TouchableWithoutFeedback onPress={this.onPress}>
-        <View
-          onStartShouldSetResponder={() => true}
-          onMoveShouldSetResponder={() => true}
-          onStartShouldSetResponderCapture={() => true}
-          onMoveShouldSetResponderCapture={() => true}
-          style={style}
-        >
-          {mapChildren}
-        </View>
-      </TouchableWithoutFeedback>
+      <View
+        onClick={this.onPress}
+        style={style}
+      >
+        {mapChildren}
+      </View>
     )
   }
 }
