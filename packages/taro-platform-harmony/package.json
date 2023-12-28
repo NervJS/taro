@@ -12,7 +12,8 @@
   "files": [
     "index.js",
     "dist",
-    "types"
+    "types",
+    "static"
   ],
   "types": "types/index.d.ts",
   "repository": {
