@@ -625,7 +625,7 @@ export default class StyleSheet {
     switch (value.overflow) {
       case TextOverflow.Clip: 
       case TextOverflow.Ellipsis:
-      case TextOverflow.None: this.hmStyle.maxLines = this.hmStyle.maxLines || 1; break
+      case TextOverflow.None: this.hmStyle.WebkitLineClamp = this.hmStyle.WebkitLineClamp || 1; break
       default: break
     }
     this.hmStyle.textOverflow = value

@@ -7,9 +7,10 @@ import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyTyp
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const hmStyle = node.hmStyle
+  const attrs = node._attrs || {}
 
   const attributes: TaroAny = {
-    WebkitLineClamp: hmStyle.WebkitLineClamp || Infinity,
+    WebkitLineClamp: attrs.maxLines || hmStyle.WebkitLineClamp || Infinity,
     // 已做处理的属性
     letterSpacing: hmStyle.letterSpacing,
     textAlign: hmStyle.textAlign,

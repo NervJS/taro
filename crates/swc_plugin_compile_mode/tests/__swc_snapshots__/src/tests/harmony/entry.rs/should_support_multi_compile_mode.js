@@ -257,7 +257,7 @@ function textStyle (style: TaroStyleType) {
 function textAttr(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .textOverflow(attr.textOverflow)
-  .maxLines(attr.maxLines)
+  .maxLines(attr.WebkitLineClamp)
   .letterSpacing(attr.letterSpacing)
 }
 @Component
