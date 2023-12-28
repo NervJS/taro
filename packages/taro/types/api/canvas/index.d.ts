@@ -1576,31 +1576,31 @@ declare module '../../index' {
       /** 参数 textBaseline 可选值 */
     interface TextBaseline {
       /** 顶部对齐
-       * @supported weapp, alipay, swan, jd, qq, tt
+       * @supported weapp, alipay, swan, jd, qq, tt, h5
        */
       top
       /** 底部对齐
-       * @supported weapp, alipay, swan, jd, qq, tt
+       * @supported weapp, alipay, swan, jd, qq, tt, h5
        */
       bottom
       /** 居中对齐
-       * @supported weapp, alipay, swan, jd, qq, tt
+       * @supported weapp, alipay, swan, jd, qq, tt, h5
        */
       middle
       /**
-       * @supported weapp, alipay, swan, jd, qq, tt
+       * @supported weapp, alipay, swan, jd, qq, tt, h5
        */
       normal
       /** 文本基线为悬挂基线。
-       * @supported alipay, tt
+       * @supported alipay, tt, h5
        */
       hanging
       /** 文本基线是标准的字母基线
-       * @supported alipay, tt
+       * @supported alipay, tt, h5
        */
       alphabetic
       /** 文字基线是表意字基线。如果字符本身超出了alphabetic 基线，那么ideograhpic基线位置在字符本身的底部。
-       *  @supported alipay, tt
+       *  @supported alipay, tt, h5
        */
       ideographic
     }
