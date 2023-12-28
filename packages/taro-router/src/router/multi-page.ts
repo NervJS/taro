@@ -69,6 +69,14 @@ export default class MultiPageHandler {
     return { ...query, ...options }
   }
 
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
+    }
+    return style !== 'custom'
+  }
+
   mount () {
     setHistoryMode(this.routerMode, this.router.basename)
 
@@ -132,9 +140,12 @@ export default class MultiPageHandler {
     if (!page) return
 
     page.onLoad?.(this.getQuery('', page.options), () => {
+      const pageEl = this.getPageContainer(page)
       if (this.isTabBar) {
-        const pageEl = this.getPageContainer(page)
         pageEl?.classList.add('taro_tabbar_page')
+      }
+      if (this.isDefaultNavigationStyle()) {
+        pageEl?.classList.add('taro_navigation_page')
       }
       this.onReady(page, true)
       page.onShow?.()

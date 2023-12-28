@@ -15,3 +15,10 @@ rustflags = ["-C", "link-args=/FORCE"]
 rustflags = ["-C", "target-feature=+crt-static"]
 [target.i686-pc-windows-msvc]
 rustflags = ["-C", "target-feature=+crt-static"]
+
+[alias]
+# Alias to build actual SWC plugin binary for the specified target.
+build-wasi = "build --target wasm32-wasi"
+build-wasm32 = "build --target wasm32-unknown-unknown"
+build-swc-plugins = "build-wasi --release -p swc_plugin_compile_mode -p swc_plugin_define_config"
+test-swc-plugins = "test -p swc_plugin_compile_mode -p swc_plugin_define_config"
