@@ -5,7 +5,6 @@ interface IAction {
   args: any[]
 }
 
-
 const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextBaseline> = {
   top: 'top',
   bottom: 'bottom',
