@@ -163,8 +163,8 @@ export const components = {
   },
   AwemeUserCard: {
     'aweme-id': _empty,
-    width: 504,
-    height: 144,
+    width: '504',
+    height: '144',
     fixed: _false,
     'left-right-padding': _empty,
     bindError: _empty
