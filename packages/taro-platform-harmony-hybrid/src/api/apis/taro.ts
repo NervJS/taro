@@ -137,6 +137,83 @@ const getAppInfo = function () {
   }
 }
 
+if (typeof window !== 'undefined') {
+  // @ts-ignore
+  window.currentNavigation = {}
+}
+
+// 更新导航栏状态
+Taro.eventCenter.on('__taroSetNavigationStyle', (style, textStyle, backgroundColor) => {
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+    // @ts-ignore
+    Object.assign(window.currentNavigation, {
+      style,
+      textStyle,
+      backgroundColor,
+    })
+    // @ts-ignore
+    if (typeof window.originCapsuleState !== 'undefined') {
+      // @ts-ignore
+      window.native?.setCapsuleState?.(window.originCapsuleState)
+    }
+  }
+})
+
+// 进入全屏时隐藏导航栏和胶囊按钮
+eventCenter.on('__taroEnterFullScreen', () => {
+  // @ts-ignore
+  window.native?.setNavigationStyle?.('custom', 'black', '#000000')
+  // @ts-ignore
+  if (typeof window.originCapsuleState === 'undefined') {
+    // @ts-ignore
+    window.originCapsuleState = window.native?.getCapsuleState().visible
+  }
+  // @ts-ignore
+  window.native?.setCapsuleState?.(false)
+})
+
+// 退出全屏时恢复导航栏和胶囊按钮
+eventCenter.on('__taroExitFullScreen', () => {
+  // @ts-ignore
+  const { style, textStyle, backgroundColor } = window.currentNavigation
+  // @ts-ignore
+  window.native?.setNavigationStyle?.(style, textStyle, backgroundColor)
+  // @ts-ignore
+  if (typeof window.originCapsuleState !== 'undefined') {
+    // @ts-ignore
+    window.native?.setCapsuleState?.(window.originCapsuleState)
+  }
+})
+
+// 根据是否有导航栏设置页面样式
+function loadNavigationSytle () {
+  if (typeof window === 'undefined') {
+    return
+  }
+  // @ts-ignore
+  const naviHeight = window.navigationHeight ? window.navigationHeight : 0
+  const css = `
+.taro_router .taro_page.taro_navigation_page {
+  padding-top: ${naviHeight}px;
+}
+
+.taro-tabbar__container .taro_page.taro_navigation_page {
+  max-height: calc(100vh - ${naviHeight}px);
+}
+
+.taro-tabbar__container .taro_page.taro_tabbar_page.taro_navigation_page {
+  max-height: calc(100vh - 50px - ${naviHeight}px);
+}`
+
+  const style = document.createElement('style')
+  style.innerHTML = css
+  document.getElementsByTagName('head')[0].appendChild(style)
+}
+
+loadNavigationSytle()
+
 taro.getApp = getApp
 taro.pxTransform = pxTransform
 taro.initPxTransform = initPxTransform
