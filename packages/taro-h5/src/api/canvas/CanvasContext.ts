@@ -9,7 +9,10 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
   top: 'top',
   bottom: 'bottom',
   middle: 'middle',
-  normal: 'alphabetic'
+  normal: 'alphabetic',
+  hanging: 'hanging',
+  alphabetic: 'alphabetic',
+  ideographic: 'ideographic'
 }
 
 export class CanvasContext implements Taro.CanvasContext {

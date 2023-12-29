@@ -1,0 +1,37 @@
+name: Build Rust Wasm
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+    name: stable - wasm32-wasi
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          targets: wasm32-wasi
+      - name: Cache cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            .cargo-cache
+            target/
+          key: wasm32-wasi-cargo-ubantu-latest
+      - name: Build
+        run: cargo build-swc-plugins
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wasm-wasi-swc_plugins
+          path: target/wasm32-wasi/release/*.wasm
+          if-no-files-found: error

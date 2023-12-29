@@ -333,7 +333,8 @@ export class TaroElement extends TaroNode {
       }
 
       if (!isUndefined(result) && event.mpEvent) {
-        event.mpEvent[EVENT_CALLBACK_RESULT] = result
+        const res = hooks.call('modifyTaroEventReturn', this, event, result)
+        if (res) { event.mpEvent[EVENT_CALLBACK_RESULT] = result }
       }
 
       if (event._end && event._stop) {

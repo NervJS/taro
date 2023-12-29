@@ -1,17 +1,14 @@
 [package]
-name = "swc-plugin-define-config"
+name = "swc_plugin_define_config"
 version = "0.2.0"
 edition = "2021"
 
 [lib]
 crate-type = ["cdylib"]
 
-[profile.release]
-lto = true
-
 [dependencies]
-serde = "1"
-swc_core = { version = "0.86.*", features = ["ecma_plugin_transform", "__utils"] }
+serde = { workspace = true }
+swc_core = { workspace = true }
 
 # .cargo/config defines few alias to build plugin.
 # cargo build-wasi generates wasm-wasi32 binary

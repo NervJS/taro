@@ -1,0 +1,8 @@
+comment:
+  layout: "header, diff, flags, files"  # show component info in the PR comment
+
+flag_management:
+  individual_flags: # exceptions to the default rules above, stated flag by flag
+    - name: taro-runtime  #fill in your own flag name
+      paths:
+      - packages/taro-runtime/**  #fill in your own path. Note, accepts globs, not regexes

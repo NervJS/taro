@@ -14,8 +14,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        node-version: [16.x]
         settings:
-          - host: macos-latest
+          - host: macos-11
             target: x86_64-apple-darwin
             build: |
               pnpm build:binding:release
@@ -30,7 +31,7 @@ jobs:
               set -e &&
               pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
               strip crates/native_binding/*.node
-          - host: macos-latest
+          - host: macos-11
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin
@@ -40,35 +41,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.4.0
         with:
-          ref: ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+          version: 7
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         if: ${{ !matrix.settings.docker }}
         with:
-          node-version: 16
-          check-latest: true
-      - name: Rust Install
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
         with:
           toolchain: stable
           targets: ${{ matrix.settings.target }}
-      # Bootstrap project
-      - name: Cache pnpm modules
+      - name: Cache cargo
         uses: actions/cache@v3
         with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - name: Pnpm Install
-        uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 7
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            .cargo-cache
+            target/
+          key: ${{ matrix.settings.target }}-cargo-${{ matrix.settings.host }}
+      - name: Install dependencies
+        run: pnpm install --filter @tarojs/binding... --frozen-lockfile
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -81,99 +81,8 @@ jobs:
         if: ${{ !matrix.settings.docker }}
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
           path: crates/native_binding/${{ inputs.name }}.*.node
           if-no-files-found: error
-  test-macOS-windows-binding:
-    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        settings:
-          - host: macos-latest
-            target: x86_64-apple-darwin
-          - host: windows-latest
-            target: x86_64-pc-windows-msvc
-        node:
-          - '16'
-    runs-on: ${{ matrix.settings.host }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
-          check-latest: true
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - name: Pnpm install
-        uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 7
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-${{ matrix.settings.target }}
-          path: crates/native_binding
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Test bindings
-        run: pnpm test:binding
-  test-linux-x64-gnu-binding:
-    name: Test bindings on Linux-x64-gnu - node@16
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref || github.head_ref || github.ref_name }}
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          check-latest: true
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - name: Pnpm install
-        uses: pnpm/action-setup@v2.4.0
-        with:
-          version: 7
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-x86_64-unknown-linux-gnu
-          path: crates/native_binding
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Test bindings
-        # 暂时使用了一个第三方的 docker 镜像
-        run: docker run --rm -v $(pwd):/build -w /build chf007/pnpm pnpm test:binding
