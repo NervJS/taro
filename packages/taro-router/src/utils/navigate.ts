@@ -1,15 +1,8 @@
-import MobileDetect from 'mobile-detect'
-
-let md: MobileDetect
 let preTitle = document.title
 let isLoadDdEntry = false
 
-export function getMobileDetect (): MobileDetect {
-  if (!md) {
-    md = new MobileDetect(navigator.userAgent)
-  }
-  return md
-}
+export const isWeixin = () => !!navigator.userAgent.match(/\bMicroMessenger\b/ig)
+export const isDingTalk = () => !!navigator.userAgent.match(/\bDingTalk\b/ig)
 
 export async function setTitle (title: string): Promise<string> {
   if (preTitle === title) return title
@@ -24,14 +17,4 @@ export async function setTitle (title: string): Promise<string> {
     setDingTitle({ title })
   }
   return title
-}
-
-export function isWeixin (): boolean {
-  const md = getMobileDetect()
-  return md.match(/MicroMessenger/ig)
-}
-
-export function isDingTalk (): boolean {
-  const md = getMobileDetect()
-  return md.match(/DingTalk/ig)
 }
