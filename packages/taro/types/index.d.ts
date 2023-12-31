@@ -19,7 +19,9 @@
  * │   ├── canvas
  * │   │   └── index.d.ts                   画布 API
  * │   ├── cloud
- * │   │   └── index.d.ts                   微信小程序云开发 API
+ * │   │   └── index.d.ts                   画布 API
+ * │   ├── data-analysis
+ * │   │   └── index.d.ts                   数据分析 API
  * │   ├── device
  * │   │   ├── accelerometer.d.ts           设备 -> 加速计 API
  * │   │   ├── battery.d.ts                 设备 -> 电量 API
@@ -69,19 +71,26 @@
  * │   │   ├── account.d.ts                 开放接口 -> 账号信息 API
  * │   │   ├── address.d.ts                 开放接口 -> 收货地址 API
  * │   │   ├── authorize.d.ts               开放接口 -> 授权 API
+ * │   │   ├── bookshelf.d.ts               开放接口 -> 书架 API
  * │   │   ├── card.d.ts                    开放接口 -> 卡券 API
- * │   │   ├── data-analysis.d.ts           开放接口 -> 数据分析 API
+ * |   |   ├── channels.d.ts                开放接口 -> 视频号 API
+ * |   |   ├── customer-service.d.ts        开放接口 -> 微信客服 API
+ * |   |   ├── device-voip.d.ts             开放接口 -> 音视频通话 API
  * │   │   ├── facial.d.ts                  开放接口 -> 人脸识别 API // 在微信小程序文档已找不到
+ * │   │   ├── favorites.d.ts               开放接口 -> 收藏 API
+ * │   │   ├── group.d.ts                   开放接口 -> 微信群 API
  * │   │   ├── invoice.d.ts                 开放接口 -> 发票 API
+ * │   │   ├── licence-plate.d.ts           开放接口 -> 车牌 API
  * │   │   ├── login.d.ts                   开放接口 -> 登录 API
- * │   │   ├── navigate.d.ts                开放接口 -> 小程序跳转 API
+ * │   │   ├── my-miniprogram.d.ts          开放接口 -> 我的小程序 API
+ * │   │   ├── privacy.d.ts                 开放接口 -> 隐私信息授权 API
  * │   │   ├── payment.d.ts                 开放接口 -> 支付 API
- * │   │   ├── report.d.ts                  开放接口 -> 数据上报 API
+ * │   │   ├── redpackage.d.ts              开放接口 -> 微信红包 API
  * │   │   ├── settings.d.ts                开放接口 -> 设置 API
  * │   │   ├── soter.d.ts                   开放接口 -> 生物认证 API
+ * │   │   ├── sticker.d.ts                 开放接口 -> 微信表情 API
  * |   |   ├── subscribe-message.d.ts       开放接口 -> 订阅消息 API
  * │   │   ├── user-info.d.ts               开放接口 -> 用户信息 API
- * │   │   ├── customer-service.d.ts        开放接口 -> 微信客服 API
  * │   │   └── werun.d.ts                   开放接口 -> 微信运动 API
  * │   ├── route
  * │   │   └── index.d.ts                   路由 API
