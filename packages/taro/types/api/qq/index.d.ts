@@ -161,6 +161,8 @@ declare module '../../index' {
   interface TaroStatic {
     /**
      * 此接口可打开手Q说说发表界面，并将文字内容和图片/视频内容传递到手Q说说发表界面。
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.openQzonePublish({
      *   footnote: '使用同款滤镜',
@@ -178,12 +180,13 @@ declare module '../../index' {
      *   ]
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/port_openQzonePublish.html
      */
     openQzonePublish(option: openQzonePublish.Option): void
     /**
      * 获取用户过去三十天QQ运动步数。需要先调用 qq.login 接口。步数信息会在用户主动进入小程序时更新。
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.getQQRunData({
      *   success(res) {
@@ -217,12 +220,13 @@ declare module '../../index' {
      * | timestamp | number | 时间戳，表示数据对应的时间 |
      * | step | number | QQ运动步数 |
      * 
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/port_sport.html
      */
     getQQRunData(option: getQQRunData.Option): void
     /**
      * QQ美化平台内测阶段，仅被邀请的商户可使用此接口。
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.setOfficialDress({
      *   action: "setAvatar",
@@ -236,12 +240,13 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/personalize.html#qq-setofficialdress
      */
     setOfficialDress(option: setOfficialDress.Option): void
     /**
      * QQ美化平台内测阶段，仅被邀请的商户可使用此接口。
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.setCustomDress({
      *   action: "uploadAvatar",
@@ -254,12 +259,13 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/personalize.html#qq-setcustomdress
      */
     setCustomDress(option: setCustomDress.Option): void
     /**
      * 更新 QQ 版本
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.updateQQApp({
      *   success: function(res) {
@@ -273,7 +279,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/port_updateQQ.html#qq-updateqqapp
      */
     updateQQApp(option: updateQQApp.Option): void
@@ -282,6 +287,8 @@ declare module '../../index' {
      * 提示：在手 Q 8.9.0 前的版本，当系统未授予手 Q 悬浮穿权限时，每次调用该接口都会弹出系统授权窗口。自手 Q 8.9.0 起交互调整如下:
      *   1. 系统没有授予手 Q 悬浮窗权限时，接口执行 fail 回调函数并附带 ”No floating window permission“的错误信息，开发者可针对此信息在业务代码里弹窗提示用户手动授予手 Q 悬浮窗权限。
      *   2. 安卓系统部分机型存在获取悬浮窗权限不准确情况。
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.addRecentColorSign({
      *   query: 'a=1&b=2',
@@ -296,7 +303,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/port_addColorSign.html#qq-addrecentcolorsign
      */
     addRecentColorSign(option: addRecentColorSign.Option): void
@@ -308,6 +314,8 @@ declare module '../../index' {
     getGuildInfo(option: getGuildInfo.Option): void
     /**
      * 申请用户将本小程序添加到下拉页面中“我的小程序”当中，手Q8.9.13及以上版本支持
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.applyAddToMyApps({
      *   success(res) {
@@ -321,12 +329,13 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/port_addToMyApps.html#qq-applyaddtomyapps
      */
     applyAddToMyApps(option: applyAddToMyApps.Option): void
     /**
      * 查询用户是否已经将本小程序添加到下拉页面中“我的小程序”当中，手Q8.9.13及以上版本支持，建议使用qq.applyAddToMyApps之前先调用qq.isAddedToMyApps来作前置判断
+     * @supported qq
+     * @example
      * ```tsx
      * Taro.isAddedToMyApps({
      *   success(res) {
@@ -338,7 +347,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported qq
      * @see https://q.qq.com/wiki/develop/miniprogram/API/open_port/port_addToMyApps.html#qq-isaddedtomyapps
      */
     isAddedToMyApps(option: isAddedToMyApps.Option): void

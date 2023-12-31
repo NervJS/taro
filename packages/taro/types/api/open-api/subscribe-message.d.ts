@@ -250,7 +250,8 @@ declare module '../../index' {
     ): Promise<requestSubscribeDeviceMessage.SuccessCallbackResult | requestSubscribeDeviceMessage.FailCallbackResult>
 
     /** 取消当前用户已订阅的消息
-     *
+     * @supported alipay
+     * @example
      * ```tsx
      * Taro.unsubscribeMessage({
      *   entityIds: [
@@ -265,13 +266,13 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     * @supported alipay
      * @see https://opendocs.alipay.com/mini/07vg26?pathHash=8c9630ac
      */
     unsubscribeMessage(option: unsubscribeMessage.Option): void
 
     /** 小程序消息订阅服务，包括取消订阅和查询订阅；订阅操作详见 [form 表单](https://smartprogram.baidu.com/docs/develop/component/formlist_form/)。
-     *
+     * @supported swan
+     * @example
      * ```tsx
      * Taro.subscribeService({
      *   templateId: 'BD0003',
@@ -291,8 +292,6 @@ declare module '../../index' {
      *   }
      * })
      * ```
-     *
-     * @supported swan
      * @see https://smartprogram.baidu.com/docs/develop/api/open/swan-subscribeService/
      */
     subscribeService(option: subscribeService.Option): void

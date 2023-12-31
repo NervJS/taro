@@ -1399,7 +1399,7 @@ declare module '../../index' {
     /** 新开页面打开文档，支持格式
      * @supported weapp, alipay, swan, jd, qq, tt
      * @example
-     ```tsx
+     * ```tsx
      * Taro.downloadFile({
      *   url: 'https://example.com/somefile.pdf',
      *   success: function (res) {
