@@ -119,7 +119,7 @@ export interface IMiniAppConfig<T extends CompilerTypes = CompilerWebpackTypes> 
   /** 体验式功能 */
   experimental?: {
     /** 是否开启编译模式 */
-    compileMode?: boolean
+    compileMode?: boolean | string
   }
 }
 

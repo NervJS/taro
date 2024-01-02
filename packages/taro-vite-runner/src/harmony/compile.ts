@@ -82,10 +82,20 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
           parser: {
             syntax: 'typescript',
             tsx: true,
-            decorators: true
+            decorators: true,
+            dynamicImport: true
           },
           transform: {
-            legacyDecorator: true
+            legacyDecorator: true,
+            react: {
+              pragma: 'React.createElement',
+              pragmaFrag: 'React.Fragment',
+              throwIfNamespace: true,
+              development: false,
+              useBuiltins: false,
+              runtime: 'automatic',
+              importSource: 'react'
+            }
           },
           experimental: {
             plugins: [

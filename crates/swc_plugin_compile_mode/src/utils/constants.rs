@@ -16,6 +16,9 @@ pub const VIEW_TAG: &str = "view";
 pub const TEXT_TAG: &str = "text";
 pub const IMAGE_TAG: &str = "image";
 
+pub const STYLE_ATTR: &str = "style";
+pub const DIRECTION_ATTR: &str = "harmonyDirection";
+
 pub const HARMONY_IMPORTER: &str = "import { createLazyChildren, createChildItem } from '../render'
 import { FlexManager } from '../utils/FlexManager'
 import { TOUCH_EVENT_MAP } from '../utils/constant/event'
@@ -27,8 +30,73 @@ import type { TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from 
 
 ";
 
-pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Flex)
-function attrs (style: TaroStyleType) {
+pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .flexGrow(style.flexGrow)
+  .flexShrink(style.flexShrink)
+  .flexBasis(style.flexBasis)
+  .alignSelf(style.alignSelf)
+  .padding({
+    top: style.paddingTop,
+    right: style.paddingRight,
+    bottom: style.paddingBottom,
+    left: style.paddingLeft
+  })
+  .margin({
+    top: style.marginTop,
+    right: style.marginRight,
+    bottom: style.marginBottom,
+    left: style.marginLeft
+  })
+  .width(style.width)
+  .height(style.height)
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+  .backgroundColor(style.backgroundColor)
+  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
+  .backgroundImageSize(style.backgroundSize)
+  .backgroundImagePosition(style.backgroundPosition)
+  .borderStyle({
+    top: style.borderTopStyle,
+    right: style.borderRightStyle,
+    bottom: style.borderBottomStyle,
+    left: style.borderLeftStyle
+  })
+  .borderWidth({
+    top: style.borderTopWidth,
+    right: style.borderRightWidth,
+    bottom: style.borderBottomWidth,
+    left: style.borderLeftWidth
+  })
+  .borderColor({
+    top: style.borderTopColor,
+    right: style.borderRightColor,
+    bottom: style.borderBottomColor,
+    left: style.borderLeftColor
+  })
+  .borderRadius({
+    topLeft: style.borderTopLeftRadius,
+    topRight: style.borderTopRightRadius,
+    bottomLeft: style.borderBottomLeftRadius,
+    bottomRight: style.borderBottomRightRadius
+  })
+  .zIndex(style.zIndex)
+  .opacity(style.opacity)
+  .linearGradient(style.linearGradient)
+  .clip(style.overflow)
+  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
+  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
+  .transform(style.transform)
+}
+
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
   .id(style.id)
   .key(style.id)
   .flexGrow(style.flexGrow)

@@ -427,11 +427,23 @@ export default struct TaroPicker {
 
   build() {
     if (this.node) {
-      Flex(FlexManager.flexOptions(this.node)) {
-        createLazyChildren(this.node)
+      if (FlexManager.isFlexNode(this.node) && FlexManager.flexOptions(this.node).direction !== FlexDirection.Column) {
+        Row() {
+          createLazyChildren(this.node)
+        }
+        .defaultEvent()
+        .visibleChangeEvent()
+        .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
+        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
+      } else {
+        Column() {
+          createLazyChildren(this.node)
+        }
+        .defaultEvent()
+        .visibleChangeEvent()
+        .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)
+        .justifyContent(FlexManager.flexOptions(this.node).justifyContent)
       }
-      .defaultEvent()
-      .visibleChangeEvent()
     }
   }
 }

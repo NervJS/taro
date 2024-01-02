@@ -19,6 +19,12 @@ use crate::utils::{self, constants::*, harmony::components::*};
 pub struct PreVisitor {
   is_in_and_expr: bool,
 }
+
+pub enum EtsDirection {
+    Row,
+    Column,
+}
+
 impl PreVisitor {
     fn new () -> Self {
         Self {
@@ -175,6 +181,7 @@ impl TransformVisitor {
                     Some(_) => {
                         // 事件的处理，根据事件添加对应的 ets 事件处理函数
                         let event_string: String = self.build_ets_event(opening_element);
+                        let element_direction: EtsDirection = self.build_ets_direction(opening_element);
 
                         // 判断 el 的子元素是否只有一个循环，如果是的话，直接使用 createLazyChildren 来生成后续子节点
                         let is_loop_exist = utils::check_jsx_element_children_exist_loop(el);
@@ -193,7 +200,7 @@ impl TransformVisitor {
                         let mut code = match name.as_str() {
                             VIEW_TAG => {
                                 self.component_set.insert(name.clone());
-                                get_view_component_str(&dynmaic_node_name, &children)
+                                get_view_component_str(&dynmaic_node_name, &children, element_direction)
                             },
                             TEXT_TAG => {
                                 self.component_set.insert(name.clone());
@@ -375,6 +382,54 @@ impl TransformVisitor {
         }
 
         return true;
+    }
+
+    fn build_ets_direction (&self, opening_element: &mut JSXOpeningElement) -> EtsDirection {
+        // 判断 opening_element 中的 attrs.style._flexDirection 属性，如果值是 FlexDirection.Row,则返回 EtsDirection.Row，否则返回 EtsDirection.Column
+        let mut direction = EtsDirection::Column;
+        for attr in opening_element.attrs.iter_mut() {
+            if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
+                if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
+                    let jsx_attr_name = name.to_string();
+                    if jsx_attr_name == DIRECTION_ATTR {
+                        if let Some(JSXAttrValue::Lit(Lit::Str(Str { value, .. }))) = &jsx_attr.value {
+                            if value == "row" {
+                                direction = EtsDirection::Row;
+                            }
+                        }
+                    } else if jsx_attr_name == STYLE_ATTR {
+                        if let Some(JSXAttrValue::JSXExprContainer(JSXExprContainer { expr, .. })) = &mut jsx_attr.value {
+                            if let JSXExpr::Expr(expr) = expr {
+                                if let Expr::Object(ObjectLit { props, .. }) = &mut **expr {
+                                    for prop in props.iter_mut() {
+                                        if let PropOrSpread::Prop(prop) = prop {
+                                            if let Prop::KeyValue(KeyValueProp { key, value, .. }) = &mut **prop {
+                                                if let PropName::Ident(Ident { sym: name, .. }) = key {
+                                                    if name == "_flexDirection" {
+                                                        // 判断 value 是否为 attrs.style._flexDirection: FlexDirection.Row 变量
+                                                        if let Expr::Member(MemberExpr { obj, prop, .. } ) = &mut **value {
+                                                            if let Expr::Ident(Ident{ sym: obj_name, .. }) = &mut **obj {
+                                                                if let MemberProp::Ident(Ident{ sym: prop_name, .. }) = &mut *prop {
+                                                                    if obj_name == "FlexDirection" && prop_name == "Row" {
+                                                                        direction = EtsDirection::Row;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        direction
     }
 
     fn build_ets_event (&self, opening_element: &mut JSXOpeningElement) -> String {

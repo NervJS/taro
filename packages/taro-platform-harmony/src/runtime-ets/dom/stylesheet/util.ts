@@ -5,7 +5,6 @@ import { isNumber } from '@tarojs/shared'
 import { convertNumber2VP } from '../../'
 
 export class FlexManager {
-
   static flexAlign (value: string | number | undefined): FlexAlign {
     switch (value) {
       case 'flex-end':

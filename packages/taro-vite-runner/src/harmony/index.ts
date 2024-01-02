@@ -17,8 +17,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): UserC
   return [
     pipelinePlugin(viteCompilerContext),
     configPlugin(viteCompilerContext),
-    compileModePrePlugin(viteCompilerContext),
     stylePlugin(viteCompilerContext),
+    compileModePrePlugin(viteCompilerContext),
     assetPlugin(viteCompilerContext),
     entryPlugin(viteCompilerContext),
     pagePlugin(viteCompilerContext),
