@@ -188,8 +188,8 @@ importers:
         specifier: ^2.48.1
         version: registry.npmjs.org/@types/request@2.48.8
       '@types/resolve':
-        specifier: 1.19.0
-        version: registry.npmjs.org/@types/resolve@1.19.0
+        specifier: ^1.20.6
+        version: registry.npmjs.org/@types/resolve@1.20.6
       '@types/sass':
         specifier: 1.43.1
         version: registry.npmjs.org/@types/sass@1.43.1
@@ -639,18 +639,24 @@ importers:
 
   packages/shared:
     devDependencies:
+      '@rollup/plugin-typescript':
+        specifier: ^11.1.0
+        version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(typescript@4.9.5)
       jest:
         specifier: ^29.3.1
         version: registry.npmjs.org/jest@29.5.0
       jest-cli:
         specifier: ^29.3.1
         version: registry.npmjs.org/jest-cli@29.5.0
+      lodash:
+        specifier: ^4.17.21
+        version: registry.npmjs.org/lodash@4.17.21
       rollup:
-        specifier: ^2.79.0
-        version: registry.npmjs.org/rollup@2.79.1
+        specifier: ^3.8.1
+        version: registry.npmjs.org/rollup@3.21.5
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: registry.npmjs.org/rollup-plugin-ts@3.2.0(rollup@2.79.1)(typescript@4.9.5)
+        version: registry.npmjs.org/rollup-plugin-ts@3.2.0(rollup@3.21.5)(typescript@4.9.5)
       ts-jest:
         specifier: ^29.0.5
         version: registry.npmjs.org/ts-jest@29.1.0(jest@29.5.0)(typescript@4.9.5)
@@ -4017,7 +4023,7 @@ packages:
       debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       resolve: registry.npmjs.org/resolve@1.22.2
       semver: 5.7.1
       source-map: registry.npmjs.org/source-map@0.5.7
@@ -4052,7 +4058,7 @@ packages:
     dependencies:
       '@babel/types': registry.npmjs.org/@babel/types@7.0.0-beta.44
       jsesc: 2.5.2
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       source-map: registry.npmjs.org/source-map@0.5.7
       trim-right: registry.npmjs.org/trim-right@1.0.1
     dev: false
@@ -4196,7 +4202,7 @@ packages:
       '@babel/code-frame': 7.0.0-beta.44
       '@babel/types': registry.npmjs.org/@babel/types@7.0.0-beta.44
       babylon: registry.npmjs.org/babylon@7.0.0-beta.44
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: false
 
   /@babel/template@7.21.9:
@@ -6014,6 +6020,7 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, tarball: https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz}
+    dev: true
 
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==, tarball: https://registry.npmjs.org/loose-envify/-/loose-envify-1.4.0.tgz}
@@ -10521,7 +10528,7 @@ packages:
       debug: 3.2.7
       globals: registry.npmjs.org/globals@11.12.0
       invariant: registry.npmjs.org/invariant@2.2.4
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -10571,7 +10578,7 @@ packages:
     version: 7.0.0-beta.44
     dependencies:
       esutils: registry.npmjs.org/esutils@2.0.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       to-fast-properties: registry.npmjs.org/to-fast-properties@2.0.0
     dev: false
 
@@ -11328,7 +11335,7 @@ packages:
       eol: registry.npmjs.org/eol@0.9.1
       get-port: registry.npmjs.org/get-port@3.2.0
       glob: registry.npmjs.org/glob@7.2.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       mkdirp: registry.npmjs.org/mkdirp@0.5.6
       password-prompt: registry.npmjs.org/password-prompt@1.1.2
       rimraf: registry.npmjs.org/rimraf@2.7.1
@@ -14858,7 +14865,7 @@ packages:
     dependencies:
       '@sinonjs/commons': registry.npmjs.org/@sinonjs/commons@1.8.6
       array-from: registry.npmjs.org/array-from@2.1.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: true
 
   registry.npmjs.org/@sinonjs/text-encoding@0.7.2:
@@ -15996,18 +16003,16 @@ packages:
     dependencies:
       '@types/node': 14.18.45
 
-  registry.npmjs.org/@types/resolve@1.19.0:
-    resolution: {integrity: sha512-NikKq+D2KJzmaWbcz4JLVT34ybtCC4c3jV6XRGWOQvOkXka9QblEmC+sPf3vRa3lmcURkVbCk2V2BDyCO7jbXg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/resolve/-/resolve-1.19.0.tgz}
-    name: '@types/resolve'
-    version: 1.19.0
-    dependencies:
-      '@types/node': 14.18.45
-    dev: true
-
   registry.npmjs.org/@types/resolve@1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/resolve/-/resolve-1.20.2.tgz}
     name: '@types/resolve'
     version: 1.20.2
+    dev: true
+
+  registry.npmjs.org/@types/resolve@1.20.6:
+    resolution: {integrity: sha512-A4STmOXPhMUtHH+S6ymgE2GiBSMqf4oTvcQZMcHzokuTLVYzXTB8ttjcgxOVaAp2lGwEdzZ0J+cRbbeevQj1UQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@types/resolve/-/resolve-1.20.6.tgz}
+    name: '@types/resolve'
+    version: 1.20.6
     dev: true
 
   registry.npmjs.org/@types/responselike@1.0.0:
@@ -17943,7 +17948,7 @@ packages:
     name: async
     version: 2.6.4
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: false
 
   registry.npmjs.org/async@3.2.4:
@@ -18115,7 +18120,7 @@ packages:
       convert-source-map: 1.9.0
       debug: 2.6.9
       json5: 0.4.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       minimatch: registry.npmjs.org/minimatch@3.1.2
       path-exists: registry.npmjs.org/path-exists@1.0.0
       path-is-absolute: registry.npmjs.org/path-is-absolute@1.0.1
@@ -18145,7 +18150,7 @@ packages:
       convert-source-map: 1.9.0
       debug: 2.6.9
       json5: 0.5.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       minimatch: registry.npmjs.org/minimatch@3.1.2
       path-is-absolute: registry.npmjs.org/path-is-absolute@1.0.1
       private: registry.npmjs.org/private@0.1.8
@@ -18173,7 +18178,7 @@ packages:
       convert-source-map: registry.npmjs.org/convert-source-map@1.9.0
       debug: registry.npmjs.org/debug@2.6.9
       json5: registry.npmjs.org/json5@0.5.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       minimatch: registry.npmjs.org/minimatch@3.1.2
       path-is-absolute: registry.npmjs.org/path-is-absolute@1.0.1
       private: registry.npmjs.org/private@0.1.8
@@ -18220,7 +18225,7 @@ packages:
       babel-types: registry.npmjs.org/babel-types@6.26.0
       detect-indent: registry.npmjs.org/detect-indent@4.0.0
       jsesc: registry.npmjs.org/jsesc@1.3.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       source-map: registry.npmjs.org/source-map@0.5.7
       trim-right: registry.npmjs.org/trim-right@1.0.1
     dev: false
@@ -18270,7 +18275,7 @@ packages:
       babel-helper-function-name: registry.npmjs.org/babel-helper-function-name@6.24.1
       babel-runtime: registry.npmjs.org/babel-runtime@6.26.0
       babel-types: registry.npmjs.org/babel-types@6.26.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -18360,7 +18365,7 @@ packages:
     dependencies:
       babel-runtime: registry.npmjs.org/babel-runtime@6.26.0
       babel-types: registry.npmjs.org/babel-types@6.26.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: false
 
   registry.npmjs.org/babel-helper-remap-async-to-generator@6.24.1:
@@ -18940,7 +18945,7 @@ packages:
     version: 1.3.2
     engines: {node: '>= 4.x.x'}
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       traverse: registry.npmjs.org/traverse@0.6.6
     dev: false
 
@@ -18978,7 +18983,7 @@ packages:
       babel-template: registry.npmjs.org/babel-template@6.26.0
       babel-traverse: registry.npmjs.org/babel-traverse@6.26.0
       babel-types: registry.npmjs.org/babel-types@6.26.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -19500,7 +19505,7 @@ packages:
       babel-runtime: registry.npmjs.org/babel-runtime@6.26.0
       core-js: registry.npmjs.org/core-js@2.6.12
       home-or-tmp: registry.npmjs.org/home-or-tmp@2.0.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       mkdirp: registry.npmjs.org/mkdirp@0.5.6
       source-map-support: registry.npmjs.org/source-map-support@0.4.18
     transitivePeerDependencies:
@@ -19525,7 +19530,7 @@ packages:
       babel-traverse: registry.npmjs.org/babel-traverse@6.26.0
       babel-types: registry.npmjs.org/babel-types@6.26.0
       babylon: registry.npmjs.org/babylon@6.18.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -19543,7 +19548,7 @@ packages:
       debug: registry.npmjs.org/debug@2.6.9
       globals: registry.npmjs.org/globals@9.18.0
       invariant: registry.npmjs.org/invariant@2.2.4
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -19555,7 +19560,7 @@ packages:
     dependencies:
       babel-runtime: registry.npmjs.org/babel-runtime@6.26.0
       esutils: registry.npmjs.org/esutils@2.0.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       to-fast-properties: registry.npmjs.org/to-fast-properties@1.0.3
     dev: false
 
@@ -19652,7 +19657,7 @@ packages:
       babel-types: registry.npmjs.org/babel-types@6.26.0
       detect-indent: registry.npmjs.org/detect-indent@4.0.0
       jsesc: registry.npmjs.org/jsesc@2.5.2
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       source-map: registry.npmjs.org/source-map@0.5.7
       trim-right: registry.npmjs.org/trim-right@1.0.1
     dev: false
@@ -20347,7 +20352,7 @@ packages:
       callsite: registry.npmjs.org/callsite@1.0.0
       chalk: registry.npmjs.org/chalk@2.4.2
       highlight-es: registry.npmjs.org/highlight-es@1.0.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       pinkie-promise: registry.npmjs.org/pinkie-promise@2.0.1
     dev: false
 
@@ -21322,7 +21327,7 @@ packages:
       esutils: registry.npmjs.org/esutils@2.0.3
       fast-diff: registry.npmjs.org/fast-diff@1.2.0
       js-string-escape: registry.npmjs.org/js-string-escape@1.0.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       md5-hex: registry.npmjs.org/md5-hex@3.0.1
       semver: registry.npmjs.org/semver@7.5.2
       well-known-symbols: registry.npmjs.org/well-known-symbols@2.0.0
@@ -21648,7 +21653,7 @@ packages:
     dependencies:
       add-stream: registry.npmjs.org/add-stream@1.0.0
       conventional-changelog: registry.npmjs.org/conventional-changelog@3.1.25
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       meow: registry.npmjs.org/meow@8.1.2
       tempfile: registry.npmjs.org/tempfile@3.0.0
     dev: true
@@ -21669,7 +21674,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       compare-func: registry.npmjs.org/compare-func@2.0.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       q: registry.npmjs.org/q@1.5.1
     dev: true
 
@@ -21696,7 +21701,7 @@ packages:
       git-raw-commits: registry.npmjs.org/git-raw-commits@2.0.11
       git-remote-origin-url: registry.npmjs.org/git-remote-origin-url@2.0.0
       git-semver-tags: registry.npmjs.org/git-semver-tags@4.1.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       normalize-package-data: registry.npmjs.org/normalize-package-data@3.0.3
       q: registry.npmjs.org/q@1.5.1
       read-pkg: registry.npmjs.org/read-pkg@3.0.0
@@ -21768,7 +21773,7 @@ packages:
       dateformat: registry.npmjs.org/dateformat@3.0.3
       handlebars: registry.npmjs.org/handlebars@4.7.7
       json-stringify-safe: registry.npmjs.org/json-stringify-safe@5.0.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       meow: 8.1.2
       semver: 6.3.0
       split: registry.npmjs.org/split@1.0.1
@@ -21813,7 +21818,7 @@ packages:
     dependencies:
       JSONStream: registry.npmjs.org/JSONStream@1.3.5
       is-text-path: registry.npmjs.org/is-text-path@1.0.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       meow: 8.1.2
       split2: registry.npmjs.org/split2@3.2.2
       through2: registry.npmjs.org/through2@4.0.2
@@ -23288,7 +23293,7 @@ packages:
       is-core-module: registry.npmjs.org/is-core-module@2.12.0
       js-yaml: registry.npmjs.org/js-yaml@3.14.1
       json5: registry.npmjs.org/json5@2.2.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       minimatch: registry.npmjs.org/minimatch@3.1.2
       multimatch: registry.npmjs.org/multimatch@5.0.0
       please-upgrade-node: registry.npmjs.org/please-upgrade-node@3.2.0
@@ -24991,7 +24996,7 @@ packages:
       js-yaml: registry.npmjs.org/js-yaml@3.14.1
       json-stable-stringify-without-jsonify: registry.npmjs.org/json-stable-stringify-without-jsonify@1.0.1
       levn: registry.npmjs.org/levn@0.3.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       minimatch: registry.npmjs.org/minimatch@3.1.2
       mkdirp: registry.npmjs.org/mkdirp@0.5.6
       natural-compare: registry.npmjs.org/natural-compare@1.4.0
@@ -26820,7 +26825,7 @@ packages:
     hasBin: true
     dependencies:
       dargs: registry.npmjs.org/dargs@7.0.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       meow: 8.1.2
       split2: registry.npmjs.org/split2@3.2.2
       through2: registry.npmjs.org/through2@4.0.2
@@ -27055,7 +27060,7 @@ packages:
     requiresBuild: true
     dependencies:
       encodeurl: registry.npmjs.org/encodeurl@1.0.2
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       npm-conf: registry.npmjs.org/npm-conf@1.1.3
       tunnel: registry.npmjs.org/tunnel@0.0.6
     dev: false
@@ -27770,7 +27775,7 @@ packages:
       '@types/webpack': registry.npmjs.org/@types/webpack@4.41.33
       html-minifier-terser: registry.npmjs.org/html-minifier-terser@5.1.1
       loader-utils: registry.npmjs.org/loader-utils@1.4.2
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       pretty-error: registry.npmjs.org/pretty-error@2.1.2
       tapable: registry.npmjs.org/tapable@1.1.3
       util.promisify: registry.npmjs.org/util.promisify@1.0.0
@@ -27788,7 +27793,7 @@ packages:
     dependencies:
       '@types/html-minifier-terser': registry.npmjs.org/@types/html-minifier-terser@6.1.0
       html-minifier-terser: registry.npmjs.org/html-minifier-terser@6.1.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       pretty-error: registry.npmjs.org/pretty-error@4.0.0
       tapable: registry.npmjs.org/tapable@2.2.1
       webpack: registry.npmjs.org/webpack@5.78.0(esbuild@0.19.7)
@@ -27893,7 +27898,7 @@ packages:
     dependencies:
       http-proxy: registry.npmjs.org/http-proxy@1.18.1(debug@4.3.4)
       is-glob: 4.0.3
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       micromatch: 3.1.10(supports-color@6.1.0)
     transitivePeerDependencies:
       - debug
@@ -28301,7 +28306,7 @@ packages:
       cli-width: registry.npmjs.org/cli-width@2.2.1
       external-editor: registry.npmjs.org/external-editor@3.1.0
       figures: registry.npmjs.org/figures@2.0.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       mute-stream: registry.npmjs.org/mute-stream@0.0.7
       run-async: registry.npmjs.org/run-async@2.4.1
       rxjs: registry.npmjs.org/rxjs@6.6.7
@@ -28321,7 +28326,7 @@ packages:
       cli-width: registry.npmjs.org/cli-width@3.0.0
       external-editor: registry.npmjs.org/external-editor@3.1.0
       figures: registry.npmjs.org/figures@3.2.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       mute-stream: registry.npmjs.org/mute-stream@0.0.8
       run-async: registry.npmjs.org/run-async@2.4.1
       rxjs: registry.npmjs.org/rxjs@6.6.7
@@ -28366,7 +28371,7 @@ packages:
       cli-width: registry.npmjs.org/cli-width@4.1.0
       external-editor: registry.npmjs.org/external-editor@3.1.0
       figures: registry.npmjs.org/figures@5.0.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       mute-stream: registry.npmjs.org/mute-stream@1.0.0
       ora: registry.npmjs.org/ora@5.4.1
       run-async: registry.npmjs.org/run-async@3.0.0
@@ -32153,7 +32158,7 @@ packages:
       clone: registry.npmjs.org/clone@2.1.2
       dag-map: registry.npmjs.org/dag-map@1.0.2
       is-valid-path: registry.npmjs.org/is-valid-path@0.1.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       md5: registry.npmjs.org/md5@2.2.1
       memory-cache: registry.npmjs.org/memory-cache@0.2.0
       traverse: registry.npmjs.org/traverse@0.6.7
@@ -34075,7 +34080,7 @@ packages:
       jszip: registry.npmjs.org/jszip@3.10.1
       less: registry.npmjs.org/less@4.1.3
       licia: registry.npmjs.org/licia@1.38.1
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       memory-fs: registry.npmjs.org/memory-fs@0.5.0
       minimatch: registry.npmjs.org/minimatch@3.0.4
       moment-timezone: registry.npmjs.org/moment-timezone@0.5.43
@@ -34572,7 +34577,7 @@ packages:
     name: node-emoji
     version: 1.11.0
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: false
 
   registry.npmjs.org/node-fetch@2.6.7:
@@ -37287,7 +37292,7 @@ packages:
     name: pretty-error
     version: 2.1.2
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       renderkid: registry.npmjs.org/renderkid@2.0.7
     dev: false
 
@@ -37296,7 +37301,7 @@ packages:
     name: pretty-error
     version: 4.0.0
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       renderkid: registry.npmjs.org/renderkid@3.0.0
     dev: false
 
@@ -37680,7 +37685,7 @@ packages:
     version: 1.0.5
     dependencies:
       invariant: registry.npmjs.org/invariant@2.2.4
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: false
 
   registry.npmjs.org/query-string@7.1.3:
@@ -38039,7 +38044,7 @@ packages:
       react: '>16.0.0'
       react-native: '>0.50.0'
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       prop-types: registry.npmjs.org/prop-types@15.8.1
       react: registry.npmjs.org/react@18.1.0
       react-native: registry.npmjs.org/react-native@0.70.9(@babel/core@7.21.8)(@babel/preset-env@7.21.5)(react@18.1.0)
@@ -38771,7 +38776,7 @@ packages:
       css-select: registry.npmjs.org/css-select@4.3.0
       dom-converter: registry.npmjs.org/dom-converter@0.2.0
       htmlparser2: registry.npmjs.org/htmlparser2@6.1.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       strip-ansi: 3.0.1
     dev: false
 
@@ -38783,7 +38788,7 @@ packages:
       css-select: registry.npmjs.org/css-select@4.3.0
       dom-converter: registry.npmjs.org/dom-converter@0.2.0
       htmlparser2: registry.npmjs.org/htmlparser2@6.1.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       strip-ansi: 6.0.1
     dev: false
 
@@ -39550,7 +39555,7 @@ packages:
       compatfactory: registry.npmjs.org/compatfactory@2.0.9(typescript@4.9.5)
       crosspath: registry.npmjs.org/crosspath@2.0.0
       magic-string: registry.npmjs.org/magic-string@0.27.0
-      rollup: 3.21.5
+      rollup: registry.npmjs.org/rollup@3.21.5
       ts-clone-node: registry.npmjs.org/ts-clone-node@2.0.4(typescript@4.9.5)
       tslib: registry.npmjs.org/tslib@2.5.0
       typescript: registry.npmjs.org/typescript@4.9.5
@@ -39927,7 +39932,7 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       invariant: registry.npmjs.org/invariant@2.2.4
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
     dev: false
 
   registry.npmjs.org/seek-bzip@1.0.6:
@@ -41694,7 +41699,7 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       ajv: registry.npmjs.org/ajv@6.12.6
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       slice-ansi: registry.npmjs.org/slice-ansi@2.1.0
       string-width: registry.npmjs.org/string-width@3.1.0
 
@@ -43626,7 +43631,7 @@ packages:
       eslint-visitor-keys: registry.npmjs.org/eslint-visitor-keys@3.4.1
       espree: registry.npmjs.org/espree@9.5.2
       esquery: registry.npmjs.org/esquery@1.5.0
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       semver: registry.npmjs.org/semver@7.5.0
     transitivePeerDependencies:
       - supports-color
@@ -44426,7 +44431,7 @@ packages:
     version: 8.7.0
     engines: {node: '>=10'}
     dependencies:
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       tr46: registry.npmjs.org/tr46@2.1.0
       webidl-conversions: registry.npmjs.org/webidl-conversions@6.1.0
     dev: true
@@ -45027,7 +45032,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.5
       '@types/lodash': registry.npmjs.org/@types/lodash@4.14.194
-      lodash: 4.17.21
+      lodash: registry.npmjs.org/lodash@4.17.21
       lodash-es: 4.17.21
       nanoclone: registry.npmjs.org/nanoclone@0.2.1
       property-expr: registry.npmjs.org/property-expr@2.0.5
