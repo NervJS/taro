@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { Current, eventCenter, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import { Current, eventCenter, requestAnimationFrame } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
@@ -10,6 +10,7 @@ import { initTabbar } from '../tabbar'
 import { addLeadingSlash, getCurrentPage, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
 import stacks from './stack'
 
+import type { PageInstance } from '@tarojs/runtime'
 import type { PageConfig, RouterAnimate } from '@tarojs/taro'
 import type { Route, SpaRouterConfig } from '../../types/router'
 

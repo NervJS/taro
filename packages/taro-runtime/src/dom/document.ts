@@ -22,6 +22,7 @@ export class TaroDocument extends TaroElement {
   public head: TaroElement
   public body: TaroElement
   public createEvent = createEvent
+  cookie?: string
 
   public constructor () {
     super()

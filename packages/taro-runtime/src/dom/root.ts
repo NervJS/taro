@@ -11,7 +11,8 @@ import { perf } from '../perf'
 import { customWrapperCache, isComment } from '../utils'
 import { TaroElement } from './element'
 
-import type { Func, HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { HydratedData, MpInstance, UpdatePayload, UpdatePayloadValue } from '../interface'
 
 function findCustomWrapper (root: TaroRootElement, dataPathArr: string[]) {
   // ['root', 'cn', '[0]'] remove 'root' => ['cn', '[0]']

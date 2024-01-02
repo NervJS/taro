@@ -1,10 +1,11 @@
 import VueCtor, { ComponentOptions, VNode } from 'vue'
 
+import type { Func } from '@tarojs/taro/types/compile'
 import type { Component as Vue3Component } from '@vue/runtime-core'
 import type { Component, ComponentClass } from 'react'
 import type { CombinedVueInstance } from 'vue/types/vue'
 import type { TaroElement } from '../dom/element'
-import type { Func, MpEvent } from '../interface'
+import type { MpEvent } from '../interface'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
