@@ -22,7 +22,8 @@ import { NodeType } from './node_types'
 import { Style } from './style'
 import { treeToArray } from './tree'
 
-import type { Attributes, Func } from '../interface'
+import type { Func } from '@tarojs/taro/types/compile'
+import type { Attributes } from '../interface'
 import type { TaroEvent } from './event'
 
 export class TaroElement extends TaroNode {

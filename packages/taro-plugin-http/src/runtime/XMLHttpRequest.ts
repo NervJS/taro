@@ -83,7 +83,7 @@ function createXMLHttpRequestEvent (event: string, target:XMLHttpRequest, loaded
     })
   } catch (err) {
     // no handler
-  } 
+  }
   return e
 }
 
@@ -226,6 +226,7 @@ export class XMLHttpRequest extends Events {
     // 头信息
     const header = Object.assign({}, this.#header)
     // https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Cookies
+    // @ts-ignore
     header.cookie = window.document.$$cookie
     if (!this.withCredentials) {
       // 不同源，要求 withCredentials 为 true 才携带 cookie
@@ -314,7 +315,7 @@ export class XMLHttpRequest extends Events {
    */
   #requestFail (err) {
     // 微信小程序，无论接口返回200还是其他，响应无论是否有错误，都会进入 success 回调；只有类似超时这种请求错误才会进入 fail 回调
-    // 
+    //
     /**
      * 阿里系小程序，接口返回非200状态码，会进入 fail 回调, 此时 err 对象结构如下（当错误码为 14 或 19 时，会多返回 status、data、headers。可通过这些字段获取服务端相关错误信息）：
      {

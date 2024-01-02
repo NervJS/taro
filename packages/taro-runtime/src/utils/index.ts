@@ -14,8 +14,8 @@ import {
   UID
 } from '../constants'
 import { NodeType } from '../dom/node_types'
-import { Func } from '../interface'
 
+import type { Func } from '@tarojs/taro/types/compile'
 import type { TaroElement } from '../dom/element'
 import type { TaroNode } from '../dom/node'
 import type { TaroText } from '../dom/text'

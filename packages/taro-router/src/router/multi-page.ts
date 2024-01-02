@@ -1,5 +1,5 @@
 /* eslint-disable dot-notation */
-import { Current, PageInstance } from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
@@ -9,6 +9,7 @@ import { loadRouterStyle } from '../style'
 import { initTabbar } from '../tabbar'
 import { addLeadingSlash, stripBasename } from '../utils'
 
+import type { PageInstance } from '@tarojs/runtime'
 import type { PageConfig } from '@tarojs/taro'
 import type { MpaRouterConfig, Route } from '../../types/router'
 

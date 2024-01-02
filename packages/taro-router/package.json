@@ -12,6 +12,7 @@
     "types",
     "index.js"
   ],
+  "sideEffects": [],
   "scripts": {
     "build": "rimraf ./dist && tsc && rollup -c",
     "dev": "tsc -w",

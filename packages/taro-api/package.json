@@ -14,9 +14,7 @@
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
+  "sideEffects": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NervJS/taro.git"
