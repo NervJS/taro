@@ -136,10 +136,21 @@ exports[`Video render Video 1`] = `
       }
     >
       <Image
-        onClick={[Function]}
         onError={[Function]}
         onLayout={[Function]}
         onLoad={[Function]}
+        onMoveShouldSetResponder={[Function]}
+        onMoveShouldSetResponderCapture={[Function]}
+        onResponderEnd={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderReject={[Function]}
+        onResponderRelease={[Function]}
+        onResponderStart={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        onStartShouldSetResponderCapture={[Function]}
         resizeMode="stretch"
         source={1}
         style={

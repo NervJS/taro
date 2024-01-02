@@ -55,7 +55,8 @@ const _Image: React.ComponentType<ImageProps & ClickableProps> = (props: ImagePr
 
   const [ratio, setRatio] = useState(0)
   const [layoutWidth, setLayoutWidth] = useState(0)
-  const { style, src, mode, svg = false, onLoad, onError } = useClickable(props)
+  const newProps = useClickable(props)
+  const { style, src, mode, svg = false, onLoad, onError } = newProps
 
   const _onError = useCallback(() => {
     if (!onError) return
@@ -171,7 +172,7 @@ const _Image: React.ComponentType<ImageProps & ClickableProps> = (props: ImagePr
       return defaultHeight
     }
   })()
-  const restImageProps = omitProp(props)
+  const restImageProps = omitProp(newProps)
 
   return (
     <Image
