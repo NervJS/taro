@@ -4,7 +4,15 @@
  */
 import React, { createElement } from 'react'
 
-import { attachProps, camelToDashCase, createForwardRef, dashToPascalCase, isCoveredByReact, mergeRefs } from './utils'
+import {
+  applyUnControlledDefaultValue,
+  attachProps,
+  camelToDashCase,
+  createForwardRef,
+  dashToPascalCase,
+  isCoveredByReact,
+  mergeRefs,
+} from './utils'
 
 export interface HTMLStencilElement extends HTMLElement {
   componentOnReady(): Promise<this>
@@ -47,6 +55,7 @@ export const createReactComponent = <
     }
 
     componentDidMount () {
+      applyUnControlledDefaultValue(this.componentEl, this.props)
       this.componentDidUpdate(this.props)
     }
 

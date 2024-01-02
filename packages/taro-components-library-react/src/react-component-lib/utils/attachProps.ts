@@ -193,3 +193,17 @@ export const attachProps = (node: HTMLElementWithEvents, newProps: any, oldProps
     }
   }
 }
+
+export function applyUnControlledDefaultValue (node: HTMLElementWithEvents, props: any) {
+  const controlledValue = getControlledValue(node)
+
+  // 不是可以受控的表单组件，直接返回
+  if (!controlledValue) return
+
+  const defaultValueName = 'default' + controlledValue.charAt(0).toUpperCase() + controlledValue.slice(1)
+  if (!props.hasOwnProperty(controlledValue) && props.hasOwnProperty(defaultValueName)) {
+    // 如果是可以受控的表单组件，当没有传入 value/checked 而是传入 defaultValue/defaultChecked 时，把表单值初始化为 defaultValue/defaultChecked
+    node[controlledValue] = props[defaultValueName]
+    node.setAttribute(controlledValue, props[defaultValueName])
+  }
+}
