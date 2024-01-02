@@ -2,8 +2,6 @@
 
 exports[`Video render Video 1`] = `
 <View
-  hoverStartTime={20}
-  hoverStayTime={70}
   style={
     [
       {
@@ -18,8 +16,6 @@ exports[`Video render Video 1`] = `
   }
 >
   <View
-    hoverStartTime={20}
-    hoverStayTime={70}
     style={
       [
         {
@@ -122,8 +118,6 @@ exports[`Video render Video 1`] = `
       />
     </View>
     <View
-      hoverStartTime={20}
-      hoverStayTime={70}
       style={
         {
           "alignItems": "center",
@@ -142,22 +136,10 @@ exports[`Video render Video 1`] = `
       }
     >
       <Image
-        mode="scaleToFill"
+        onClick={[Function]}
         onError={[Function]}
         onLayout={[Function]}
         onLoad={[Function]}
-        onMoveShouldSetResponder={[Function]}
-        onMoveShouldSetResponderCapture={[Function]}
-        onResponderEnd={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderReject={[Function]}
-        onResponderRelease={[Function]}
-        onResponderStart={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        onStartShouldSetResponderCapture={[Function]}
         resizeMode="stretch"
         source={1}
         style={
