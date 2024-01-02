@@ -3082,6 +3082,9 @@ importers:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       lodash-es:
         specifier: 4.17.21
         version: registry.npmjs.org/lodash-es@4.17.21
