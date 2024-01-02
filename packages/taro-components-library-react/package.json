@@ -15,7 +15,8 @@
   "author": "ZakaryCode",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/components": "workspace:*"
+    "@tarojs/components": "workspace:*",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",
