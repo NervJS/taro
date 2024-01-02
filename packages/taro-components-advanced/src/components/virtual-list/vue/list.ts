@@ -1,4 +1,4 @@
-import { isNumber, isWebPlatform } from '@tarojs/shared'
+import { isNumber } from '@tarojs/shared'
 import memoizeOne from 'memoize-one'
 import { defineComponent } from 'vue'
 
@@ -7,8 +7,6 @@ import render from '../../../utils/vue-render'
 import { IS_SCROLLING_DEBOUNCE_INTERVAL } from '../constants'
 import { getRTLOffsetType } from '../dom-helpers'
 import Preset, { type IProps } from '../preset'
-
-const isWeb = isWebPlatform()
 
 export default defineComponent({
   props: {
@@ -78,15 +76,15 @@ export default defineComponent({
     },
     outerElementType: {
       type: String,
-      default: isWeb ? 'taro-scroll-view-core' : 'scroll-view'
+      default: process.env.TARO_PLATFORM === 'web' ? 'taro-scroll-view-core' : 'scroll-view'
     },
     innerElementType: {
       type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
+      default: process.env.TARO_PLATFORM === 'web' ? 'taro-view-core' : 'view'
     },
     itemElementType: {
       type: String,
-      default: isWeb ? 'taro-view-core' : 'view'
+      default: process.env.TARO_PLATFORM === 'web' ? 'taro-view-core' : 'view'
     },
     outerTagName: String,
     innerTagName: String,
