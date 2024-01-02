@@ -262,7 +262,7 @@ declare module '../../index' {
   }
 
   /** 网络请求任务对象
-   * @supported weapp, h5, rn, alipay, swan, tt, qq
+   * @supported weapp, h5, rn, alipay, dd, swan, tt, qq
    * @example
    * 回调函数(Callback)用法：
    *
