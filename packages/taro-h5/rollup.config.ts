@@ -6,7 +6,7 @@ import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption,RollupOptions } from 'rollup'
+import type { InputPluginOption, RollupOptions } from 'rollup'
 
 const baseConfig: RollupOptions = {
   output: {

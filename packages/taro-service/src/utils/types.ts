@@ -1,5 +1,5 @@
 import type helper from '@tarojs/helper'
-import type { IProjectConfig } from '@tarojs/taro/types/compile'
+import type { Func, IProjectConfig } from '@tarojs/taro/types/compile'
 import type { IModifyChainData } from '@tarojs/taro/types/compile/hooks'
 import type joi from 'joi'
 import type Webpack from 'webpack'
@@ -28,8 +28,6 @@ export interface IPaths {
    */
   nodeModulesPath: string
 }
-
-export type Func = (...args: any[]) => any
 
 export type IPluginsObject = Record<string, Record<any, any> | null>
 

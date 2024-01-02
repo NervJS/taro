@@ -1,4 +1,6 @@
-import { Current, PageInstance } from '@tarojs/runtime'
+import { Current } from '@tarojs/runtime'
+
+import type { PageInstance } from '@tarojs/runtime'
 
 const pageScrollFn = {}
 let pageDOM: Element | Window = window
