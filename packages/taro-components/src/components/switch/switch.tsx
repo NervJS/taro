@@ -5,22 +5,25 @@ import { Component, h, ComponentInterface, Prop, State, Event, EventEmitter, Wat
   styleUrl: './style/index.scss'
 })
 export class Switch implements ComponentInterface {
+  private inputRef: HTMLInputElement
+
   @Prop() type = 'switch'
-  @Prop() checked = false
+  @Prop({ mutable: true }) checked = false
   @Prop() color = '#04BE02'
   @Prop() name: string
   @Prop() disabled = false
   @Prop() nativeProps = {}
 
-  @State() isChecked: boolean
   @State() isWillLoadCalled = false
 
-  @Element() el: HTMLElement
+  @Element() el: HTMLInputElement
 
   @Watch('checked')
-  function (newVal: boolean, oldVal: boolean) {
+  function (newValue: boolean) {
     if (!this.isWillLoadCalled) return
-    if (newVal !== oldVal) this.isChecked = newVal
+    if (this.inputRef.checked !== newValue) {
+      this.inputRef.checked = newValue
+    }
   }
 
   @Event({
@@ -30,12 +33,11 @@ export class Switch implements ComponentInterface {
 
   componentWillLoad () {
     this.isWillLoadCalled = true
-    this.isChecked = this.checked
   }
 
   componentDidLoad () {
     Object.defineProperty(this.el, 'value', {
-      get: () => this.isChecked,
+      get: () => this.checked,
       configurable: true
     })
   }
@@ -43,7 +45,7 @@ export class Switch implements ComponentInterface {
   switchChange = e => {
     e.stopPropagation()
     const value = e.target.checked
-    this.isChecked = value
+    this.checked = value
     this.onChange.emit({
       value
     })
@@ -53,13 +55,13 @@ export class Switch implements ComponentInterface {
     const {
       type,
       color,
-      isChecked,
+      checked,
       name,
       disabled,
       nativeProps
     } = this
 
-    const style = isChecked
+    const style = checked
       ? {
         borderColor: color || '04BE02',
         backgroundColor: color || '04BE02'
@@ -68,10 +70,13 @@ export class Switch implements ComponentInterface {
 
     return (
       <input
+        ref={input => {
+          this.inputRef = input!
+        }}
         type='checkbox'
         class={`weui-${type}`}
         style={style}
-        checked={isChecked}
+        checked={checked}
         name={name}
         disabled={disabled}
         onChange={this.switchChange}
