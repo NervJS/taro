@@ -1,9 +1,8 @@
 import { Events } from './event-emitter'
 import { isFunction } from './is'
 
+import type { Func } from '@tarojs/taro/types/compile'
 import type { Shortcuts } from './template'
-
-type Func = (...args: any[]) => any
 
 export enum HOOK_TYPE {
   SINGLE,
