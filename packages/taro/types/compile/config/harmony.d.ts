@@ -1,9 +1,11 @@
 import type Chain from 'webpack-chain'
+
 import type { IOption, IPostcssOption, IUrlLoaderOption } from './util'
+import type { Compiler, CompilerTypes, CompilerWebpackTypes } from '../compiler'
 
 export interface IHarmonyConfig<T extends CompilerTypes = CompilerWebpackTypes>  {
   /** Harmony 编译方式 */
-  compiler?: string
+  compiler?: Compiler
 
   /** Harmony 项目地址 */
   projectPath: string
