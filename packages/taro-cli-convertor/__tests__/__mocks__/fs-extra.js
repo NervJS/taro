@@ -1,7 +1,6 @@
 'use strict'
 
 const path = require('path')
-const fs = require('fs')
 // 存储文件信息，包括文件路径和对应的内容
 const oriFileMap = new Map()
 
@@ -94,12 +93,17 @@ function readFileSyncMock (path) {
   }
 
   path = normalizePath(path)
-
+  
   if (!existsSyncMock(path)) {
     throw new Error(`文件不存在，path：${path}`)
   }
-
-  return oriFileMap.get(path)
+  if(oriFileMap.has(path)){
+    return oriFileMap.get(path)
+  } else if (resFileMap.has(path)){
+    return resFileMap.get(path)
+  } else {
+    throw new Error(`文件不存在，path：${path}`)
+  }
 }
 
 /**
@@ -109,9 +113,9 @@ function readFileSyncMock (path) {
 function existsSyncMock (pathParam) {
   /**
    * 针对于测试 generateConfigFiles 函数需要，因为 generateConfigFiles 中会查找 taro 子包中的文件
-   * fs 操作使用的是node核心模块，非模拟，所以会查找真实路径
+   * jest.requireActual('fs-extra') 操作使用的是真实fs-extra模块，非模拟，所以会查找真实路径
    */
-  if(fs.existsSync(pathParam) && path.isAbsolute(pathParam)) return true
+  if(jest.requireActual('fs-extra').existsSync(pathParam) && path.isAbsolute(pathParam)) return true
     
   if (typeof pathParam !== 'string' || pathParam === '') {
     return false
@@ -122,10 +126,14 @@ function existsSyncMock (pathParam) {
   const parts = pathParam.split('/')
   // 根据是否有后缀名判断为文件
   if (parts[parts.length - 1].includes('.')) {
+    let isFile = true
     if (oriFileMap.get(pathParam) === undefined) {
-      return false
+      isFile = false
+    } 
+    if(resFileMap.get(pathParam)){
+      isFile = true
     }
-    return true
+    return isFile
   }
   // 判断文件夹
   if(oriFileMap.get(pathParam) && !parts[parts.length - 1].includes('.')){
@@ -149,7 +157,8 @@ function ensureDirSyncMock () {
  * 
  * @returns 默认存在
  */
-function ensureDirMock () {
+function ensureDirMock (path) {
+  resFileMap.set(path,'')
   return true
 }
 
@@ -160,6 +169,7 @@ function ensureDirMock () {
  */
 function mkdirSyncMock (path) {
   resFileMap.set(path,'')
+  return true
 }
 
 /**
@@ -299,7 +309,7 @@ function readdirSyncMock (source){
     })
     return fileName  
   } else {
-    return fs.readdirSync(source)
+    return jest.requireActual('fs-extra').readdirSync(source)
   }
 }
 
@@ -307,6 +317,10 @@ function readdirSyncMock (source){
  * 文件复制
  */
 function copyFileSyncMock (sourcePath, destinationPath){
+  resFileMap.set(destinationPath, oriFileMap.get(sourcePath))
+}
+
+function copyFileMock (sourcePath, destinationPath){
   resFileMap.set(destinationPath, oriFileMap.get(sourcePath))
 }
 
@@ -346,7 +360,9 @@ module.exports = {
   statSync: jest.fn((path) => statSyncMock(path)),
   lstatSync: jest.fn((path) => lstatSyncMock(path)),
   readdirSync:jest.fn((source) => readdirSyncMock(source)),
-  copyFileSync:jest.fn((sourcePath,destinationPath) => copyFileSyncMock(sourcePath,destinationPath))
+  copyFileSync:jest.fn((sourcePath,destinationPath) => copyFileSyncMock(sourcePath,destinationPath)),
+  copyFile:jest.fn((sourcePath,destinationPath) => copyFileMock(sourcePath,destinationPath)),
+  writeJSONSync:jest.fn(() => true)
 }
 
 module.exports.setMockFiles = setMockFiles
@@ -355,3 +371,5 @@ module.exports.clearMockFiles = clearMockFiles
 module.exports.getResMapFile = getResMapFile
 module.exports.updateMockFiles = updateMockFiles
 module.exports.deleteMockFiles = deleteMockFiles
+module.exports.resFileMap = resFileMap
+module.exports.normalizePath = normalizePath

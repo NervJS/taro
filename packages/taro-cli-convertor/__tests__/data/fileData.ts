@@ -94,6 +94,7 @@ export const PLUGIN_FILE_DATA = {
       "compileType": "plugin"
     }
   `,
+  '/miniprogram/app.js': `App({})`,
   '/miniprogram/app.json': `
     {
       "pages": [
@@ -265,7 +266,42 @@ export const PLUGIN_FILE_DATA = {
   `,
 }
 
+export const SUBPAKCAEGS_AND_PLUGIN_CONFIG = {
+  '/miniprogram/app.json': `
+    {
+      "pages": [
+        "pages/index/index"
+      ],
+      "subPackages": [
+        {
+          "root": "packageA",
+          "pages": [
+            "pages/index"
+          ]
+        }, {
+          "root": "packageB",
+          "name": "pack2",
+          "pages": [
+            "pages/index"
+          ]
+        }
+      ],
+      "plugins": {
+        "hello-plugin": {
+          "version": "dev",
+          "provider": "wx9e5d25b6307be4bc"
+        }
+      }
+    }
+  `,
+  '/miniprogram/packageA/pages/index.wxml':`<text>packageA/index.wxml</text>`,
+  '/miniprogram/packageA/pages/index.js':`Page({})`,
+  '/miniprogram/packageB/pages/index.wxml':`<text>packageB/index.wxml</text>`,
+  '/miniprogram/packageB/pages/index.js':`Page({})`,
+}
+
 export const DEMO_JS_FILES = {
+  '/app.js':'App({})',
   '/app.json': `
     {
       "pages":[
@@ -390,7 +426,6 @@ export const USINGCOMPONENTS_FILE_DATA = {
       cpt2
     </view>
   `,
-
   '/miniprogram/components/cpt3/cpt3.js':`
     Component({
       properties: {
@@ -486,8 +521,33 @@ export const DEMO_SUBPACKAFES = {
   `,
   '/app.js':'App({})',
   '/project.config.json': `{}`,
+  '/pages/index/index.wxml':'<text>pages/index/index.wxml</text>',
+  '/pages/index/index.js':'Page({})',
   '/packageA/pages/component/index.js':'Page({})',
   '/packageA/pages/component/index.wxml':'<text>packageA/pages/component/index.wxml</text>',
   '/packageB/pages/api/index.js':'Page({})',
   '/packageB/pages/api/index.wxml':'<text>packageB/pages/api/index.wxml</text>',
+}
+
+export const DEMO_PAGE_NO_JS = {
+  '/project.config.json': `{}`,
+  '/app.js': `App({})`,
+  '/app.json': `
+    {
+      "pages":[
+        "pages/index/index"
+      ]
+    }
+  `,
+  '/pages/index/index.json': `
+    {
+      "usingComponents": {}
+    }
+  `,
+  '/pages/index/index.wxml': `
+    <view>
+      <text>{{motto}}</text>
+    </view>
+  `,
+  '/pages/index/index.wxss': ``,
 }
