@@ -31,6 +31,11 @@ export interface StandardProps<T = any, TouchEvent extends BaseTouchEvent<any> =
    * @supported weapp, harmony
    */
   compileMode?: boolean | string
+  /**
+   * 自定义容器组件的方向
+   * @supported harmony
+   */
+  harmonyDirection?: 'row' | 'column'
 }
 
 export interface FormItemProps {

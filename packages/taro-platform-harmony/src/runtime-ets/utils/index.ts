@@ -54,7 +54,10 @@ export function calcDynamicStyle (styleSheet: Record<string, CSSProperties>, cla
       obj.push(styleSheet[className])
     }
   }
-  obj.push(convertWebStyle2HmStyle(style))
+
+  if (style) {
+    obj.push(convertWebStyle2HmStyle(style))
+  }
   
   return Object.assign.apply(null, [{}].concat(obj))
 }

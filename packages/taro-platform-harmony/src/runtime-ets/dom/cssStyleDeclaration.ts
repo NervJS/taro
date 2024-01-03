@@ -1,6 +1,7 @@
 import { isObject, toCamelCase, toDashed } from '@tarojs/shared'
 
 import { TaroElement } from './element/element'
+import convertWebStyle2HmStyle, { WEB_STYLE_MAP } from './stylesheet/covertWeb2Hm'
 
 class CSSStyleDeclaration {
   // eslint-disable-next-line no-useless-constructor
@@ -23,7 +24,7 @@ class CSSStyleDeclaration {
 
   public set cssText (value: string) {
     if (value === '' || value === undefined || value === null) {
-      // TODO:
+      // TODO: 清空 stylesheet 里面的 hmstyle
       // this.el._st = {}
     }
 
@@ -48,12 +49,31 @@ class CSSStyleDeclaration {
 
   public setProperty (prop: string, value: any): void {
     const node = this.el
+    
     prop = prop.includes('-') ? toCamelCase(prop) : prop
+
+    const webStyleList = WEB_STYLE_MAP[prop]
+    const needUpdateProperty = !prop.startsWith('_') && webStyleList && webStyleList.length > 0
+
     if ((typeof value === 'string' && value.length) || typeof value === 'number' || isObject(value)) {
-      node._st[prop] = value
+      if (needUpdateProperty) {
+        const newProperty = convertWebStyle2HmStyle({ [prop]: value })
+
+        Object.keys(newProperty).forEach(key => {
+          node._st[key] = newProperty[key]
+        })
+      } else {
+        node._st[prop] = value
+      }
     } else if (!value) {
       // '' | undefined | null
-      this.removeProperty(prop)
+      if (needUpdateProperty) {
+        webStyleList.forEach(key => {
+          this.removeProperty(key)
+        })
+      } else {
+        this.removeProperty(prop)
+      }
     }
   }
 

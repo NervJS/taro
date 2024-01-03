@@ -34,7 +34,6 @@ function attrs (style: TaroStyleType) {
     minHeight: style.minHeight,
     maxHeight: style.maxHeight
   })
-  .backgroundColor(style.backgroundColor)
   .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
   .backgroundImageSize(style.backgroundSize)
   .backgroundImagePosition(style.backgroundPosition)
@@ -44,26 +43,7 @@ function attrs (style: TaroStyleType) {
     bottom: style.borderBottomStyle,
     left: style.borderLeftStyle
   })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
   .zIndex(style.zIndex)
-  .opacity(style.opacity)
   .linearGradient(style.linearGradient)
   .clip(style.overflow)
   .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
@@ -106,9 +86,24 @@ function getThemeAttributes (node: TaroButtonElement): TaroStyleType {
   const type: string = _attrs.type || 'default'
 
   return {
-    borderColor: hmStyle.borderColor || getButtonColor(node, BUTTON_THEME_COLOR.get(type).background),
-    borderWidth: hmStyle.borderWidth || 1,
-    borderRadius: hmStyle.borderRadius || convertNumber2VP(10),
+    borderColor: {
+      top: hmStyle.borderTopColor || getButtonColor(node, BUTTON_THEME_COLOR.get(type).background),
+      right: hmStyle.borderRightColor || getButtonColor(node, BUTTON_THEME_COLOR.get(type).background),
+      bottom: hmStyle.borderBottomColor || getButtonColor(node, BUTTON_THEME_COLOR.get(type).background),
+      left: hmStyle.borderLeftColor || getButtonColor(node, BUTTON_THEME_COLOR.get(type).background)
+    },
+    borderWidth: {
+      top: hmStyle.borderTopWidth || 1,
+      right: hmStyle.borderRightWidth || 1,
+      bottom: hmStyle.borderBottomWidth || 1,
+      left: hmStyle.borderLeftWidth || 1
+    },
+    borderRadius: {
+      topLeft: hmStyle.borderTopLeftRadius || convertNumber2VP(10),
+      topRight: hmStyle.borderTopRightRadius || convertNumber2VP(10),
+      bottomLeft: hmStyle.borderBottomLeftRadius || convertNumber2VP(10),
+      bottomRight: hmStyle.borderBottomRightRadius || convertNumber2VP(10)
+    },
     opacity: isDisabled ? 0.4 : hmStyle.opacity,
     backgroundColor: isPlain ? Color.Transparent : (hmStyle.backgroundColor || BUTTON_THEME_COLOR.get(type).background),
     color: hmStyle.color || getButtonColor(node, BUTTON_THEME_COLOR.get(type).text),

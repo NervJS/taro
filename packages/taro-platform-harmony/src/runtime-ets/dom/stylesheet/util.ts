@@ -218,6 +218,9 @@ export function getNodeMarginOrPaddingData (dataValue: string) {
 
 
 export function getUnit (val) {
+  // 空的字符串代表 Reconciler remove 了这个 prop，不进行后面的逻辑了
+  if (val === '') return val
+
   if (/\d+(vp)$/.test(val)) {
     return val
   } else if (isNumber(val)) {
