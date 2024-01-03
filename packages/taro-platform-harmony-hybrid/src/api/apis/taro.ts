@@ -6,6 +6,7 @@ import {
   getApp,
   getCurrentInstance,
   getCurrentPages,
+  initLaunchOptions,
   navigateBack,
   navigateTo,
   nextTick,
@@ -136,6 +137,9 @@ const getAppInfo = function () {
     designWidth: config.designWidth,
   }
 }
+
+// 同步小程序启动时的参数
+Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)
 
 if (typeof window !== 'undefined') {
   // @ts-ignore
