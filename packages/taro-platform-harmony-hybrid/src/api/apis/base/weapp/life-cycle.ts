@@ -39,12 +39,10 @@ function getCustomLaunchInfo () {
 }
 
 let launchOptions
-function initLaunchOptions (options = {}) {
+export function initLaunchOptions (options = {}) {
   Object.assign(options, getCustomLaunchInfo())
   launchOptions = options
 }
-
-Taro.eventCenter.once('__taroRouterLaunch', initLaunchOptions)
 
 /**
  * 获取程序启动时的参数
