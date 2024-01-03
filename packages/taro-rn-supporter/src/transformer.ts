@@ -1,5 +1,5 @@
+import { getCacheKey, transform as babelTransform } from '@react-native/metro-babel-transformer'
 import { merge } from 'lodash'
-import { getCacheKey, transform as babelTransform } from 'metro-react-native-babel-transformer'
 
 import { getProjectConfig } from './utils'
 
