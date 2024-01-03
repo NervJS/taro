@@ -4,6 +4,7 @@ import { TEXT_DEFAULT_STYLE } from './constant/style'
 
 import type { StandardProps, TextProps } from '@tarojs/components/types'
 import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyType, HarmonyStyle } from '@tarojs/runtime'
+import { FlexManager } from './FlexManager'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const hmStyle = node.hmStyle
@@ -18,6 +19,14 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   }
 
   return attributes
+}
+
+// 模拟 div 自动撑满父元素的情况
+function isMaxWidthView (node: TaroElement) {
+  const parentNode: TaroElement = node.parentNode as TaroElement
+  
+  return node.tagName === 'VIEW' && parentNode.tagName === 'VIEW' &&
+    !(FlexManager.isFlexNode(parentNode) && FlexManager.flexOptions(parentNode).direction !== FlexDirection.Column)
 }
 
 export function getNormalAttributes (node: TaroElement): TaroStyleType {
@@ -39,7 +48,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     flexShrink: hmStyle.flexShrink,
     alignSelf: hmStyle.alignSelf,
     // 尺寸相关
-    width: hmStyle.width,
+    width: isMaxWidthView(node) ? '100%' : hmStyle.width,
     height: hmStyle.height,
     minHeight: hmStyle.minHeight,
     maxHeight: hmStyle.maxHeight,
