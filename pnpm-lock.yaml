@@ -1106,6 +1106,9 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      react-dom:
+        specifier: ^18.2.0
+        version: registry.npmjs.org/react-dom@18.2.0(react@18.2.0)
     devDependencies:
       '@babel/cli':
         specifier: ^7.14.5
@@ -1128,9 +1131,6 @@ importers:
       react:
         specifier: ^18.2.0
         version: registry.npmjs.org/react@18.2.0
-      react-dom:
-        specifier: ^18.2.0
-        version: registry.npmjs.org/react-dom@18.2.0(react@18.2.0)
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
