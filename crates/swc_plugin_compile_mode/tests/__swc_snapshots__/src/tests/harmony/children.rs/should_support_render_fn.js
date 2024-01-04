@@ -268,7 +268,7 @@ export default struct TARO_TEMPLATES_f0t0 {
             Text(this.node2.childNodes[1].textContent)
             .textNormalFontStyle(getNormalAttributes(this.node2.childNodes[1] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node2.childNodes[1] as TaroElement))
-        .fontSize((this.node2.childNodes[1].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node2.childNodes[1].parentNode as TaroButtonElement)))
+            .fontSize((this.node2.childNodes[1].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node2.childNodes[1].parentNode as TaroButtonElement)))
             .fontColor((this.node2.childNodes[1].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node2.childNodes[1].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node2.childNodes[1].parentNode as TaroButtonElement)._attrs.type).text))
         } else {
             Text(this.node2.childNodes[1].textContent)
@@ -310,7 +310,7 @@ export default struct TARO_TEMPLATES_f0t0 {
             Text(this.node4.childNodes[0].textContent)
             .textNormalFontStyle(getNormalAttributes(this.node4.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node4.childNodes[0] as TaroElement))
-        .fontSize((this.node4.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node4.childNodes[0].parentNode as TaroButtonElement)))
+            .fontSize((this.node4.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node4.childNodes[0].parentNode as TaroButtonElement)))
             .fontColor((this.node4.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node4.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node4.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
         } else {
             Text(this.node4.childNodes[0].textContent)

@@ -56,7 +56,7 @@ pub fn get_text_component_str (node_name: &str) -> String {
   format!(
 "if (this.{node_id}.nodeType === NodeType.TEXT_NODE && this.{node_id}.parentNode) {{
   if ((this.{node_id}.parentNode as TaroButtonElement).tagName === 'BUTTON') {{
-    Text(this.{node_id}.textContent)\n{style}.fontSize((this.{node_id}.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.{node_id}.parentNode as TaroButtonElement)))
+    Text(this.{node_id}.textContent)\n{style}    .fontSize((this.{node_id}.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.{node_id}.parentNode as TaroButtonElement)))
     .fontColor((this.{node_id}.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.{node_id}.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.{node_id}.parentNode as TaroButtonElement)._attrs.type).text))
 }} else {{
     Text(this.{node_id}.textContent)\n{style}  }}

@@ -362,7 +362,7 @@ export default struct TARO_TEMPLATES_f0t1 {
           Text(this.node1.textContent)
           .textNormalFontStyle(getNormalAttributes(this.node1 as TaroElement))
           .textSpecialFontStyle(getFontAttributes(this.node1 as TaroElement))
-      .fontSize((this.node1.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node1.parentNode as TaroButtonElement)))
+          .fontSize((this.node1.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node1.parentNode as TaroButtonElement)))
           .fontColor((this.node1.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node1.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node1.parentNode as TaroButtonElement)._attrs.type).text))
       } else {
           Text(this.node1.textContent)
