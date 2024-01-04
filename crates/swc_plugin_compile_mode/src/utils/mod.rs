@@ -189,8 +189,7 @@ pub fn create_jsx_dynamic_id (el: &mut JSXElement, visitor: &mut TransformVisito
     node_name
 }
 
-pub fn add_spaces_to_lines(input: &str) -> String {
-    let count = 2;
+pub fn add_spaces_to_lines_with_count(input: &str, count: usize) -> String {
     let mut result = String::new();
 
     for line in input.lines() {
@@ -199,6 +198,12 @@ pub fn add_spaces_to_lines(input: &str) -> String {
     }
 
     result
+}
+
+pub fn add_spaces_to_lines(input: &str) -> String {
+    let count = 2;
+    
+    add_spaces_to_lines_with_count(input, count)
 }
 
 pub fn get_harmony_component_style (visitor: &mut TransformVisitor) -> String {

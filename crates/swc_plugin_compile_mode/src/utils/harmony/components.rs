@@ -1,8 +1,8 @@
-use crate::transform_harmony::EtsDirection;
+use crate::{transform_harmony::EtsDirection, utils};
 
 pub fn get_component_attr_str (node_name: &str, tag_name: &str) -> String {
   if tag_name == "text" {
-    format!(".textStyle(getNormalAttributes(this.{} as TaroElement))\n.textAttr(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
+    format!(".textNormalFontStyle(getNormalAttributes(this.{} as TaroElement))\n.textSpecialFontStyle(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
   } else if tag_name == "image" {
     format!(".attrsImage(getNormalAttributes(this.{} as TaroElement))", node_name)
   } else if tag_name == "row" {
@@ -53,9 +53,21 @@ pub fn get_image_component_str (node_name: &str) -> String {
 }
 
 pub fn get_text_component_str (node_name: &str) -> String {
-  format!("Text(this.{node_id}.textContent)\n{style}",
-    node_id = node_name,
-    style = get_component_style_str(node_name, "text")
+  format!(
+"if (this.{node_id}.nodeType === NodeType.TEXT_NODE && this.{node_id}.parentNode) {{
+  if ((this.{node_id}.parentNode as TaroButtonElement).tagName === 'BUTTON') {{
+    Text(this.{node_id}.textContent)\n{style}.fontSize((this.{node_id}.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.{node_id}.parentNode as TaroButtonElement)))
+    .fontColor((this.{node_id}.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.{node_id}.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.{node_id}.parentNode as TaroButtonElement)._attrs.type).text))
+}} else {{
+    Text(this.{node_id}.textContent)\n{style}  }}
+}} else {{
+  Text(this.{node_id}.textContent)
+  .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
+  .textNormalStyle(getNormalAttributes(this.{node_id}))\n{style_with_event}}}
+",
+  node_id = node_name,
+  style = utils::add_spaces_to_lines_with_count(&get_component_attr_str(node_name, "text"), 4),
+  style_with_event = utils::add_spaces_to_lines_with_count(&get_component_style_str(node_name, "text"), 2)
   )
 }
 

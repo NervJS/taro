@@ -1,10 +1,11 @@
+import { isUndefined } from '@tarojs/shared'
 import { ObjectAssign } from '@tarojs/runtime'
 
+import { FlexManager } from './FlexManager'
 import { TEXT_DEFAULT_STYLE } from './constant/style'
 
 import type { StandardProps, TextProps } from '@tarojs/components/types'
 import type { TaroAny, TaroElement, TaroStyleType, TaroTextStyleType, HarmonyType, HarmonyStyle } from '@tarojs/runtime'
-import { FlexManager } from './FlexManager'
 
 export function getFontAttributes (node: TaroElement): TaroTextStyleType {
   const hmStyle = node.hmStyle
@@ -48,7 +49,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     flexShrink: hmStyle.flexShrink,
     alignSelf: hmStyle.alignSelf,
     // 尺寸相关
-    width: isMaxWidthView(node) ? '100%' : hmStyle.width,
+    width: isMaxWidthView(node) && isUndefined(hmStyle.width) ? '100%' : hmStyle.width,
     height: hmStyle.height,
     minHeight: hmStyle.minHeight,
     maxHeight: hmStyle.maxHeight,

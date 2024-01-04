@@ -20,13 +20,15 @@ pub const STYLE_ATTR: &str = "style";
 pub const DIRECTION_ATTR: &str = "harmonyDirection";
 
 pub const HARMONY_IMPORTER: &str = "import { createLazyChildren, createChildItem } from '../render'
+import { getButtonColor } from '../button'
 import { FlexManager } from '../utils/FlexManager'
 import { TOUCH_EVENT_MAP } from '../utils/constant/event'
+import { BUTTON_THEME_COLOR } from '../utils/constant/style'
 import { getNodeThresholds, getNormalAttributes, getFontAttributes } from '../utils/helper'
-import { TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
+import { NodeType, convertNumber2VP, TaroElement, eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '../../runtime'
 import { DynamicCenter } from '../utils/DynamicCenter'
 
-import type { TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
+import type { TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
 
 ";
 
@@ -161,7 +163,7 @@ function columnAttrs (style: TaroStyleType) {
 }
 "#;
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
-function textStyle (style: TaroStyleType) {
+function textNormalStyle (style: TaroStyleType) {
   .id(style.id)
   .key(style.id)
   .flexGrow(style.flexGrow)
@@ -223,6 +225,13 @@ function textStyle (style: TaroStyleType) {
   .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
   .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
   .transform(style.transform)
+}
+
+@Extend(Text)
+function textNormalFontStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .opacity(style.opacity)
   .fontColor(style.color)
   .fontSize(style.fontSize)
   .fontWeight(style.fontWeight)
@@ -236,11 +245,17 @@ function textStyle (style: TaroStyleType) {
 }
 
 @Extend(Text)
-function textAttr(attr: TaroTextStyleType) {
+function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .textOverflow(attr.textOverflow)
   .maxLines(attr.WebkitLineClamp)
   .letterSpacing(attr.letterSpacing)
+}
+
+function getButtonFontSize (node: TaroButtonElement) {
+  const isMini = node._attrs.size === 'mini'
+
+  return isMini ? convertNumber2VP(26) : convertNumber2VP(36)
 }
 "#;
 pub const HARMONY_IMAGE_STYLE_BIND: &str = r#"@Extend(Image)
