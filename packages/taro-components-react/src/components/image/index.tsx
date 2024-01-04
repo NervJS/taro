@@ -1,10 +1,11 @@
-import 'weui'
 import './style/index.css'
 
 import classNames from 'classnames'
 import React from 'react'
 
-require('intersection-observer')
+if (process.env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL !== 'disabled') {
+  import('intersection-observer')
+}
 
 interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   src: string
