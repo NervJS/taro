@@ -147,6 +147,8 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
       }, htmlPluginOption)])
     }
   }
+
+  env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL = env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL || '"disabled"'
   env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!useDeprecatedAdapterComponent)
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])
