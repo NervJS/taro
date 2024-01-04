@@ -33,7 +33,6 @@
     "@tarojs/taro": "workspace:*",
     "@tarojs/components": "workspace:*",
     "classnames": "^2.2.5",
-    "intersection-observer": "^0.7.0",
     "swiper": "6.8.0",
     "tslib": "^2.6.2"
   },

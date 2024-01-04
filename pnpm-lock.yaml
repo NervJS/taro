@@ -961,8 +961,8 @@ importers:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
       intersection-observer:
-        specifier: ^0.7.0
-        version: registry.npmjs.org/intersection-observer@0.7.0
+        specifier: ^0.12.2
+        version: registry.npmjs.org/intersection-observer@0.12.2
       resolve-pathname:
         specifier: ^3.0.0
         version: registry.npmjs.org/resolve-pathname@3.0.0
@@ -1271,9 +1271,6 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
-      intersection-observer:
-        specifier: ^0.7.0
-        version: registry.npmjs.org/intersection-observer@0.7.0
       swiper:
         specifier: 6.8.0
         version: registry.npmjs.org/swiper@6.8.0
@@ -25331,6 +25328,12 @@ packages:
     name: interpret
     version: 1.4.0
     engines: {node: '>= 0.10'}
+    dev: false
+
+  registry.npmjs.org/intersection-observer@0.12.2:
+    resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.12.2.tgz}
+    name: intersection-observer
+    version: 0.12.2
     dev: false
 
   registry.npmjs.org/intersection-observer@0.7.0:
