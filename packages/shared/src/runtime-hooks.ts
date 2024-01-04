@@ -252,6 +252,8 @@ type ITaroHooks = {
   modifyAddEventListener: (element, sideEffect: boolean, getComponentsAlias: () => Record<string, any>) => void
   /** 元素删除事件监听钩子 */
   modifyRemoveEventListener: (element, sideEffect: boolean, getComponentsAlias: () => Record<string, any>) => void
+  /** 鸿蒙用于监听 memory 等级的钩子 */
+  getMemoryLevel: (level: { level: number }) => void
 }
 
 export const hooks = new TaroHooks<ITaroHooks>({
@@ -352,4 +354,6 @@ export const hooks = new TaroHooks<ITaroHooks>({
   modifyAddEventListener: TaroHook(HOOK_TYPE.SINGLE),
 
   modifyRemoveEventListener: TaroHook(HOOK_TYPE.SINGLE),
+  
+  getMemoryLevel: TaroHook(HOOK_TYPE.SINGLE),
 })

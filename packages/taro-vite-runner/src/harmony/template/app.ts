@@ -97,6 +97,26 @@ export default class Parser extends BaseParser {
   onBackground() {
     callFn(this.app?.onHide, this)
   }
+
+  onMemoryLevel(level: AbilityConstant.MemoryLevel) {
+    let levelRes: number
+
+    switch (level) {
+      case AbilityConstant.MemoryLevel.MEMORY_LEVEL_MODERATE:
+        levelRes = 5
+        break
+      case AbilityConstant.MemoryLevel.MEMORY_LEVEL_LOW:
+        levelRes = 10
+        break
+      case AbilityConstant.MemoryLevel.MEMORY_LEVEL_CRITICAL:
+        levelRes = 15
+        break
+    }
+
+    if (levelRes) {
+      hooks.call('getMemoryLevel', { level: levelRes })
+    }
+  }
 }
 `
 
@@ -111,14 +131,14 @@ export default class Parser extends BaseParser {
     const { modifyResolveId } = this.loaderMeta
 
     const code = this.transArr2Str([
-      'import type AbilityConstant from "@ohos.app.ability.AbilityConstant"',
       'import type Want from "@ohos.app.ability.Want"',
       'import type ohWindow from "@ohos.window"',
       '',
       'import UIAbility from "@ohos.app.ability.UIAbility"',
+      'import AbilityConstant from "@ohos.app.ability.AbilityConstant"',
       'import { callFn, context, ObjectAssign, TaroAny, window } from "@tarojs/runtime"',
       'import { AppInstance } from "@tarojs/runtime/dist/runtime.esm"',
-      'import { initHarmonyElement } from "@tarojs/runtime"',
+      'import { initHarmonyElement, hooks } from "@tarojs/runtime"',
       'import Taro, { initNativeApi, initPxTransform } from "@tarojs/taro"',
       `import createComponent, { config } from "./${path.basename(rawId, path.extname(rawId))}${TARO_COMP_SUFFIX}"`,
       '',

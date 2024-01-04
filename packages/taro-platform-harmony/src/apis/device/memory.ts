@@ -1,4 +1,11 @@
-import { temporarilyNotSupport } from '../utils'
+import { hooks } from '@tarojs/runtime'
 
-export const onMemoryWarning = temporarilyNotSupport('onMemoryWarning')
-export const offMemoryWarning = temporarilyNotSupport('offMemoryWarning')
+export const onMemoryWarning = (listener) => {
+  hooks.tap('getMemoryLevel', (res) => {
+    listener(res)
+  })
+}
+
+export const offMemoryWarning = (listener) => {
+  hooks.off('getMemoryLevel', listener)
+}
