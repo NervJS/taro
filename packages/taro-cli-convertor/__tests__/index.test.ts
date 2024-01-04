@@ -58,6 +58,7 @@ describe('parseAst', () => {
     })
     convert = new Convertor('', false)
     convert.pages = Convertor.prototype.pages
+    convert.entryJSON = Convertor.prototype.pages
   })
 
   afterAll(() => {
@@ -579,6 +580,81 @@ describe('parseAst', () => {
     param.path = path.join(root, '/pages/index/index')
     param.scriptPath = path.join(root, '/pages/index/index.js')
     param.wxml = ''
+    const taroizeResult = taroize({
+      ...param,
+      framework: 'react',
+    })
+    const { ast } = convert.parseAst({
+      ast: taroizeResult.ast,
+      sourceFilePath: path.join(root,'/pages/index/index.js'),
+      outputFilePath: '',
+      importStylePath: '',
+      depComponents: new Set(),
+      imports: [],
+    })
+
+    // 将ast转换为代码
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+  })
+
+  test('使用 resolveAlias 配置项用来自定义模块路径的映射规则',() => {
+    const DEMO_RESOLVEALIAS = {
+      '/pages/index/index.js': `
+        const { formatTime } = require('@utils/tools/util.js')
+        import { mesg } from '~/pages/index/utils'
+        const { test } = require('com/navigation-bar/test')
+        Page({})
+      `,
+      '/pages/index/utils.js':`
+        const name = 'wsjzy'
+        const mesg = 'who are you ?'
+        module.exports = {
+          name,
+          mesg
+        }
+      `,
+      '/pages/tools/util.js':`
+        function formatTime() {
+          return '1111' + '2222'
+        }
+        const a = 'this is a'
+        
+        module.exports = {
+          formatTime,
+          a
+        }
+      `,
+      '/components/navigation-bar/test.js':`
+        const test = 'test from components'
+        module.exports = {
+          test
+        }
+      `,
+    }
+    // 为app.json配置resolveAlias配置项
+    convert.entryJSON = { 
+      pages: ['pages/index/index'],
+      resolveAlias: {
+        '~/*': '/*',
+        '@utils/*': 'pages/*',
+        'com/*': 'components/*'
+      }
+    }
+    convert.root = '/wxProject'
+    setMockFiles(root, DEMO_JS_FILE_INFO)
+    updateMockFiles(root, DEMO_RESOLVEALIAS)
+
+    param.script = `
+      const { formatTime } = require('@utils/tools/util.js')
+      import { mesg } from '~/pages/index/utils'
+      const { test } = require('com/navigation-bar/test')
+      Page({})
+    `
+    param.path = path.join(root, '/pages/index/index')
+    param.scriptPath = path.join(root, '/pages/index/index.js')
+    param.wxml = ''
+    param.rootPath = root
     const taroizeResult = taroize({
       ...param,
       framework: 'react',

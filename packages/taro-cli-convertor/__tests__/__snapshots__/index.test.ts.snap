@@ -84,6 +84,28 @@ class _C extends React.Component {
 export default _C;
 `;
 
+exports[`parseAst 使用 resolveAlias 配置项用来自定义模块路径的映射规则 1`] = `
+import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
+import { Block } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  formatTime
+} = require("../tools/util.js");
+import { mesg } from "./utils.js";
+const {
+  test
+} = require("../../components/navigation-bar/test.js");
+cacheOptions.setOptionsToCache({});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return null;
+  }
+}
+export default _C;
+`;
+
 exports[`parseAst 处理js文件中以/开头的绝对路径 1`] = `
 import withWeapp, { cacheOptions } from "@tarojs/with-weapp";
 import { Block } from "@tarojs/components";

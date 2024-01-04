@@ -92,7 +92,7 @@ function revertScriptPath (absolutePath: string, SCRIPT_EXT: string[]) {
   return null
 }
 
-function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: string) {
+function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: string, alias?: object) {
   // 处理以/开头的绝对路径，比如 /a/b
   if (path.isAbsolute(oriPath)) {
     if (oriPath.indexOf('/') !== 0) {
@@ -112,7 +112,23 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
   }
   // 处理非正常路径，比如 a/b
   if (oriPath.indexOf('.') !== 0) {
-    const absolutePath = revertScriptPath(path.join(sourceFilePath, '..', oriPath), SCRIPT_EXT)
+    let absolutePath
+    // 根据app.json中是否有resolveAlias 配置项自定义模块路径的映射规则来获取引用文件的绝对路径
+    if (alias) {
+      // 预防用户定义了模块路径的映射规则但没有使用的情况
+      absolutePath = revertScriptPath(path.join(sourceFilePath, '..', oriPath), SCRIPT_EXT)
+      
+      Object.keys(alias).forEach((key) => {
+        const newKey = key.replace(/\/\*$/, '')
+
+        if (oriPath.startsWith(newKey)) {
+          const realPath = path.join(_rootPath, alias[key].replace(/\/\*$/, ''))
+          absolutePath = revertScriptPath(oriPath.replace(newKey, realPath), SCRIPT_EXT)
+        }
+      })
+    } else {
+      absolutePath = revertScriptPath(path.join(sourceFilePath, '..', oriPath), SCRIPT_EXT)
+    }
 
     // 可能为三方库
     if (absolutePath == null) {
@@ -120,7 +136,7 @@ function getRelativePath (_rootPath: string, sourceFilePath: string, oriPath: st
     }
 
     let relativePath = path.relative(path.dirname(sourceFilePath), absolutePath)
-    relativePath = promoteRelativePath(relativePath)
+    relativePath = normalizePath(relativePath)
     if (relativePath.indexOf('.') !== 0) {
       return `./${relativePath}`
     }
@@ -174,7 +190,8 @@ export function analyzeImportUrl (
   source: t.StringLiteral,
   value: string,
   isTsProject?: boolean,
-  pluginName?: string
+  pluginName?: string,
+  alias?: object
 ) {
   // 将参数记录到log文件
   updateLogFileContent(
@@ -187,7 +204,7 @@ export function analyzeImportUrl (
   }
 
   const valueExtname = path.extname(value)
-  const rpath = getRelativePath(rootPath, sourceFilePath, value)
+  const rpath = getRelativePath(rootPath, sourceFilePath, value, alias)
   if (!rpath) {
     createErrorCodeMsg(
       'ReferenceFileNotFound',

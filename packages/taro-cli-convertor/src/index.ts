@@ -529,7 +529,8 @@ export default class Convertor {
                 source,
                 value,
                 self.isTsProject,
-                self.pluginInfo.pluginName
+                self.pluginInfo.pluginName,
+                self.entryJSON?.resolveAlias
               )
               // 获取导入语句中的所有导入名称（importName）并将其添加到scriptImports里面
               const specifiers = node.specifiers
@@ -617,7 +618,8 @@ export default class Convertor {
                     args[0],
                     value,
                     self.isTsProject,
-                    self.pluginInfo.pluginName
+                    self.pluginInfo.pluginName,
+                    self.entryJSON?.resolveAlias
                   )
                 } else if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
