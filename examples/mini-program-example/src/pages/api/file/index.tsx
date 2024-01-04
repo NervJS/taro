@@ -469,23 +469,27 @@ export default class Index extends React.Component {
       {
         id: 'fileSystem_readFile',
         inputData: {
-          filePath: '',
-          position: 0,
-          length: 1,
           encoding: '',
+          position: 0,
+          length: 1000,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('fileSystem_readFile')
-          fileSystemManager.readFile({
-            ...data,
+          Taro.chooseImage({
             success: (res) => {
-              TestConsole.consoleSuccess.call(this, res, apiIndex)
-            },
-            fail: (res) => {
-              TestConsole.consoleFail.call(this, res, apiIndex)
-            },
-            complete: (res) => {
-              TestConsole.consoleComplete.call(this, res, apiIndex)
+              fileSystemManager.readFile({
+                filePath: res.tempFilePaths[0],
+                ...data,
+                success: (res) => {
+                  TestConsole.consoleSuccess.call(this, res, apiIndex)
+                },
+                fail: (res) => {
+                  TestConsole.consoleFail.call(this, res, apiIndex)
+                },
+                complete: (res) => {
+                  TestConsole.consoleComplete.call(this, res, apiIndex)
+                },
+              })
             },
           })
         },
@@ -494,33 +498,20 @@ export default class Index extends React.Component {
         id: 'fileSystem_readFileSync',
         inputData: {
           encoding: '',
-          position: 1,
+          position: 0,
           length: 1000,
         },
         func: (apiIndex, data) => {
           TestConsole.consoleTest('fileSystem_readFileSync')
           Taro.chooseImage({
             success: (res) => {
-              var tempFilePaths = res.tempFilePaths
-              Taro.saveFile({
-                tempFilePath: tempFilePaths[0],
-                success: (sucRes) => {
-                  TestConsole.consoleNormal('saveFile success ', sucRes)
-                  const fileContent = fileSystemManager.readFileSync(
-                    sucRes.savedFilePath,
-                    data.encoding,
-                    data.position,
-                    data.length
-                  )
-                  TestConsole.consoleResult.call(this, fileContent, apiIndex)
-                },
-                fail: (failRes) => {
-                  TestConsole.consoleNormal('saveFile fail ', failRes.errMsg)
-                },
-                complete: (comRes) => {
-                  TestConsole.consoleNormal('saveFile complete ', comRes)
-                },
-              })
+              const fileContent = fileSystemManager.readFileSync(
+                res.tempFilePaths[0],
+                data.encoding,
+                data.position,
+                data.length
+              )
+              TestConsole.consoleResult.call(this, fileContent, apiIndex)
             },
           })
         },
