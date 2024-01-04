@@ -27,6 +27,7 @@ import {
 import { TaroScrollViewElement } from './scrollView'
 import { TaroTextElement } from './text'
 import { TaroVideoElement } from './video'
+import { TaroWebViewElement } from './webView'
 
 export function initHarmonyElement () {
   Current.createHarmonyElement = (tagName: string) => {
@@ -52,6 +53,7 @@ export function initHarmonyElement () {
       case 'swiper-item': return new TaroSwiperItemElement()
       case 'textarea': return new TaroTextAreaElement()
       case 'form': return new TaroFormElement()
+      case 'web-view': return new TaroWebViewElement()
       default: return new TaroElement(tagName)
     }
   }
@@ -85,5 +87,6 @@ export {
   TaroTextAreaElement,
   TaroTextElement,
   TaroVideoElement,
-  TaroViewElement
+  TaroViewElement,
+  TaroWebViewElement
 }

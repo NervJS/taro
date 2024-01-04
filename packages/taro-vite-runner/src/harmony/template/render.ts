@@ -21,6 +21,7 @@ import TaroPicker from './picker'
 import TaroSlider from './slider'
 import TaroSwitch from './switch'
 import TaroSwiper from './swiper'
+import TaroWebView from './webview'
 import TaroTextArea from './textArea'
 import TaroRichText from './richText'
 import TaroInnerHtml from './innerHtml'
@@ -53,6 +54,7 @@ import type {
   TaroSwitchElement,
   TaroSliderElement,
   TaroScrollViewElement,
+  TaroWebViewElement
 } from '../runtime'
 
 @Builder
@@ -101,6 +103,8 @@ function createChildItem (item: TaroElement) {
     TaroForm(item as TaroFormElement)
   } else if (item.tagName === 'VIDEO') {
     TaroVideo(item as TaroVideoElement)
+  } else if (item.tagName === 'WEB-VIEW') {
+    TaroWebView(item as TaroWebViewElement)
   } else {
     TaroView(item as TaroViewElement)
   }
