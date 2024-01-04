@@ -71,7 +71,6 @@ function attrs (style: TaroStyleType) {
   })
   .zIndex(style.zIndex)
   .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
   .clip(style.overflow)
   .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
   .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
@@ -82,7 +81,25 @@ function attrs (style: TaroStyleType) {
 export default function TaroWebView (node: TaroWebViewElement) {
   Web({ src: node._attrs.src, controller: node.controller })
     .attrs(getNormalAttributes(node))
-    .onPageEnd(shouldBindEvent((e: IPageLoad) => eventHandler(e, 'load', node), node, ['load']))
+    .onPageEnd((e: IPageLoad) => {
+      // 1. 创建消息端口
+      node.ports = node.controller.createWebMessagePorts(true)
+      // 2. 发送端口1到HTML5
+      node.controller.postMessage('init_web_messageport', [node.ports[1]], '*');
+      // 3. 保存端口0到本地
+      node.nativePort = node.ports[0]
+      // 4. 设置回调函数
+      node.nativePort.onMessageEventExt((result) => {
+        const message = node.handleMessageFromWeb(result)
+        const messageEvent: TaroEvent = createTaroEvent('message', { detail: { data: message } }, node)
+
+        eventHandler(messageEvent, 'message', node)
+      })
+
+      const onLoadEvent: TaroEvent = createTaroEvent('load', { detail: { src: node._attrs.src } }, node)
+
+      eventHandler(onLoadEvent, 'load', node)
+    })
     .onErrorReceive(shouldBindEvent((e: IError) => {
       const event: TaroEvent = createTaroEvent('error', { detail: { url: node._attrs.src, fullUrl: e.request.getRequestUrl() } }, node)
       
