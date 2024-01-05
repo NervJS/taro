@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.22",
+  "version": "3.6.22-nightly.1",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -34,8 +34,6 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/helper": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
     "resolve": "^1.22.0",
@@ -44,6 +42,12 @@
     "ora": "^5.0.0"
   },
   "devDependencies": {
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "webpack": "5.78.0"
+  },
+  "peerDependencies": {
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/webpack5-runner",
-  "version": "3.6.22",
+  "version": "3.6.22-nightly.1",
   "description": "Taro app runner",
   "main": "index.js",
   "scripts": {
@@ -35,16 +35,7 @@
   "dependencies": {
     "@parcel/css": "^1.4.0",
     "@tarojs/helper": "workspace:*",
-    "@tarojs/plugin-platform-alipay": "workspace:*",
-    "@tarojs/plugin-platform-jd": "workspace:*",
-    "@tarojs/plugin-platform-qq": "workspace:*",
-    "@tarojs/plugin-platform-swan": "workspace:*",
-    "@tarojs/plugin-platform-tt": "workspace:*",
-    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
     "@tarojs/webpack5-prebundle": "workspace:*",
     "acorn-walk": "^8.0.0",
@@ -97,6 +88,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@types/node": "^14.14.31",
     "@types/sax": "^1.2.4",
     "globby": "^12.0.2",
@@ -114,6 +108,15 @@
     "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
+    "@tarojs/plugin-platform-alipay": "workspace:~",
+    "@tarojs/plugin-platform-jd": "workspace:~",
+    "@tarojs/plugin-platform-qq": "workspace:~",
+    "@tarojs/plugin-platform-swan": "workspace:~",
+    "@tarojs/plugin-platform-tt": "workspace:~",
+    "@tarojs/plugin-platform-weapp": "workspace:~",
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
     "postcss": "^8.4.18",
     "webpack": "^5.78.0"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.22",
+  "version": "3.6.22-nightly.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,10 +22,6 @@
   "author": "ZakaryCode",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/components": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "classnames": "^2.2.5",
     "csstype": "^3.1.1",
     "memoize-one": "^6.0.0",
@@ -37,6 +33,9 @@
     "@babel/plugin-transform-typescript": "^7.20.2",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@types/node": "^14.14.31",
     "babel-preset-taro": "workspace:*",
     "react": "^18.2.0",
@@ -49,6 +48,10 @@
     "vue": "^3.0.0"
   },
   "peerDependencies": {
+    "@tarojs/components": "workspace:~",
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
     "react": ">=17"
   },
   "peerDependenciesMeta": {

@@ -474,9 +474,6 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
       babel-plugin-dynamic-import-node:
         specifier: 2.3.3
         version: registry.npmjs.org/babel-plugin-dynamic-import-node@2.3.3
@@ -505,6 +502,9 @@ importers:
       '@prefresh/babel-plugin':
         specifier: ^0.4.1
         version: registry.npmjs.org/@prefresh/babel-plugin@0.4.4
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@vue/babel-plugin-jsx':
         specifier: ^1.0.6
         version: registry.npmjs.org/@vue/babel-plugin-jsx@1.1.1(@babel/core@7.21.8)
@@ -706,19 +706,16 @@ importers:
       '@tarojs/api':
         specifier: workspace:*
         version: link:../taro-api
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
     devDependencies:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
 
   packages/taro-alipay:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
@@ -726,6 +723,9 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -938,7 +938,10 @@ importers:
         version: registry.npmjs.org/jest-environment-node@29.7.0
       ts-jest:
         specifier: ^29.0.5
-        version: registry.npmjs.org/ts-jest@29.1.0(jest@29.7.0)
+        version: registry.npmjs.org/ts-jest@29.1.0(jest@29.7.0)(typescript@4.9.5)
+      typescript:
+        specifier: ^4.7.4
+        version: registry.npmjs.org/typescript@4.9.5
 
   packages/taro-components:
     dependencies:
@@ -960,9 +963,6 @@ importers:
       hls.js:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
-      intersection-observer:
-        specifier: ^0.12.2
-        version: registry.npmjs.org/intersection-observer@0.12.2
       resolve-pathname:
         specifier: ^3.0.0
         version: registry.npmjs.org/resolve-pathname@3.0.0
@@ -1045,18 +1045,6 @@ importers:
 
   packages/taro-components-advanced:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
@@ -1085,6 +1073,15 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^8.0.0
         version: registry.npmjs.org/@rollup/plugin-node-resolve@8.4.0(rollup@2.79.1)
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       '@types/node':
         specifier: ^14.14.31
         version: registry.npmjs.org/@types/node@14.18.45
@@ -1265,9 +1262,6 @@ importers:
       classnames:
         specifier: ^2.2.5
         version: registry.npmjs.org/classnames@2.3.2
-      intersection-observer:
-        specifier: ^0.12.2
-        version: registry.npmjs.org/intersection-observer@0.12.2
       swiper:
         specifier: 6.8.0
         version: registry.npmjs.org/swiper@6.8.0
@@ -1422,9 +1416,6 @@ importers:
       '@tarojs/api':
         specifier: workspace:*
         version: link:../taro-api
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/router':
         specifier: workspace:*
         version: link:../taro-router
@@ -1443,9 +1434,6 @@ importers:
       ics:
         specifier: ^3.1.0
         version: registry.npmjs.org/ics@3.1.0
-      intersection-observer:
-        specifier: ^0.7.0
-        version: registry.npmjs.org/intersection-observer@0.7.0
       is-mobile:
         specifier: ^4.0.0
         version: registry.npmjs.org/is-mobile@4.0.0
@@ -1477,6 +1465,9 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
         version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(typescript@4.9.5)
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@testing-library/jest-dom':
         specifier: ^5.16.4
         version: registry.npmjs.org/@testing-library/jest-dom@5.16.5
@@ -1699,42 +1690,12 @@ importers:
       '@babel/core':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/core@7.21.8
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/plugin-platform-alipay':
-        specifier: workspace:*
-        version: link:../taro-alipay
-      '@tarojs/plugin-platform-jd':
-        specifier: workspace:*
-        version: link:../taro-jd
-      '@tarojs/plugin-platform-qq':
-        specifier: workspace:*
-        version: link:../taro-qq
-      '@tarojs/plugin-platform-swan':
-        specifier: workspace:*
-        version: link:../taro-swan
-      '@tarojs/plugin-platform-tt':
-        specifier: workspace:*
-        version: link:../taro-tt
-      '@tarojs/plugin-platform-weapp':
-        specifier: workspace:*
-        version: link:../taro-weapp
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       '@tarojs/taro-loader':
         specifier: workspace:*
         version: link:../taro-loader
@@ -1859,6 +1820,18 @@ importers:
         specifier: ^1.4.3
         version: registry.npmjs.org/webpack-sources@1.4.3
     devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       '@types/sax':
         specifier: ^1.2.4
         version: registry.npmjs.org/@types/sax@1.2.4
@@ -2116,15 +2089,9 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
       acorn:
         specifier: ^8.0.4
         version: registry.npmjs.org/acorn@8.8.2
@@ -2147,6 +2114,15 @@ importers:
       '@prefresh/webpack':
         specifier: ^3.2.3
         version: registry.npmjs.org/@prefresh/webpack@3.3.4(@prefresh/babel-plugin@0.4.4)(preact@10.13.2)(webpack@5.78.0)
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       esbuild:
         specifier: ~0.19.5
         version: registry.npmjs.org/esbuild@0.19.7
@@ -2266,19 +2242,22 @@ importers:
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
       lodash:
         specifier: ^4.17.21
         version: registry.npmjs.org/lodash@4.17.21
     devDependencies:
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       rollup:
         specifier: ^3.8.1
         version: registry.npmjs.org/rollup@3.21.5
@@ -2303,19 +2282,19 @@ importers:
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
       lodash:
         specifier: ^4.17.21
         version: registry.npmjs.org/lodash@4.17.21
     devDependencies:
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
@@ -2349,10 +2328,10 @@ importers:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -2368,12 +2347,6 @@ importers:
 
   packages/taro-react:
     dependencies:
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
       react-reconciler:
         specifier: 0.27.0
         version: registry.npmjs.org/react-reconciler@0.27.0(react@18.2.0)
@@ -2381,6 +2354,12 @@ importers:
       '@rollup/plugin-buble':
         specifier: ^0.21.3
         version: registry.npmjs.org/@rollup/plugin-buble@0.21.3(rollup@2.79.1)
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       jest:
         specifier: ^29.3.1
         version: registry.npmjs.org/jest@29.5.0
@@ -2854,15 +2833,6 @@ importers:
 
   packages/taro-router:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       dingtalk-jsapi:
         specifier: ~2.15.2
         version: registry.npmjs.org/dingtalk-jsapi@2.15.4
@@ -2888,6 +2858,12 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
         version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(typescript@4.9.5)
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       '@types/jest':
         specifier: ^29.4.0
         version: registry.npmjs.org/@types/jest@29.5.1
@@ -2982,12 +2958,6 @@ importers:
 
   packages/taro-runtime:
     dependencies:
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       lodash-es:
         specifier: 4.17.21
         version: registry.npmjs.org/lodash-es@4.17.21
@@ -2995,6 +2965,9 @@ importers:
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
         version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.5.0)(typescript@4.9.5)
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@vue/runtime-core':
         specifier: 3.2.41
         version: registry.npmjs.org/@vue/runtime-core@3.2.41
@@ -3050,12 +3023,6 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       joi:
         specifier: ^17.6.0
         version: registry.npmjs.org/joi@17.9.2
@@ -3075,22 +3042,28 @@ importers:
         specifier: ^4.2.2
         version: registry.npmjs.org/webpack-merge@4.2.2
     devDependencies:
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       webpack:
         specifier: 5.78.0
         version: registry.npmjs.org/webpack@5.78.0
 
   packages/taro-swan:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -3266,16 +3239,16 @@ importers:
 
   packages/taro-tt:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -3288,16 +3261,16 @@ importers:
 
   packages/taro-weapp:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -3531,36 +3504,9 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/plugin-platform-alipay':
-        specifier: workspace:*
-        version: link:../taro-alipay
-      '@tarojs/plugin-platform-jd':
-        specifier: workspace:*
-        version: link:../taro-jd
-      '@tarojs/plugin-platform-qq':
-        specifier: workspace:*
-        version: link:../taro-qq
-      '@tarojs/plugin-platform-swan':
-        specifier: workspace:*
-        version: link:../taro-swan
-      '@tarojs/plugin-platform-tt':
-        specifier: workspace:*
-        version: link:../taro-tt
-      '@tarojs/plugin-platform-weapp':
-        specifier: workspace:*
-        version: link:../taro-weapp
       '@tarojs/runner-utils':
         specifier: workspace:*
         version: link:../taro-runner-utils
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       '@tarojs/taro-loader':
         specifier: workspace:*
         version: link:../taro-loader
@@ -3712,6 +3658,15 @@ importers:
       '@babel/core':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/core@7.21.8
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       '@types/node':
         specifier: ^14.14.31
         version: registry.npmjs.org/@types/node@14.18.45
@@ -25406,18 +25361,6 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
-  registry.npmjs.org/intersection-observer@0.12.2:
-    resolution: {integrity: sha512-7m1vEcPCxXYI8HqnL8CKI6siDyD+eIWSwgB3DZA+ZTogxk9I4CDnj4wilt9x/+/QbHI4YG5YZNmC6458/e9Ktg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.12.2.tgz}
-    name: intersection-observer
-    version: 0.12.2
-    dev: false
-
-  registry.npmjs.org/intersection-observer@0.7.0:
-    resolution: {integrity: sha512-Id0Fij0HsB/vKWGeBe9PxeY45ttRiBmhFyyt/geBdDHBYNctMRTE3dC1U3ujzz3lap+hVXlEcVaB56kZP/eEUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.7.0.tgz}
-    name: intersection-observer
-    version: 0.7.0
-    dev: false
-
   registry.npmjs.org/into-stream@3.1.0:
     resolution: {integrity: sha512-TcdjPibTksa1NQximqep2r17ISRiNE9fwlfbg3F8ANdvP5/yrFTew86VcO//jk4QTaMlbjypPBq76HN2zaKfZQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/into-stream/-/into-stream-3.1.0.tgz}
     name: into-stream
@@ -39880,6 +39823,42 @@ packages:
       lodash.memoize: registry.npmjs.org/lodash.memoize@4.1.2
       make-error: registry.npmjs.org/make-error@1.3.6
       semver: registry.npmjs.org/semver@7.5.0
+      yargs-parser: registry.npmjs.org/yargs-parser@21.1.1
+    dev: true
+
+  registry.npmjs.org/ts-jest@29.1.0(jest@29.7.0)(typescript@4.9.5):
+    resolution: {integrity: sha512-ZhNr7Z4PcYa+JjMl62ir+zPiNJfXJN6E8hSLnaUKhOgqcn8vb3e537cpkd0FuAfRK3sR1LSqM1MOhliXNgOFPA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/ts-jest/-/ts-jest-29.1.0.tgz}
+    id: registry.npmjs.org/ts-jest/29.1.0
+    name: ts-jest
+    version: 29.1.0
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    hasBin: true
+    peerDependencies:
+      '@babel/core': '>=7.0.0-beta.0 <8'
+      '@jest/types': ^29.0.0
+      babel-jest: ^29.0.0
+      esbuild: '*'
+      jest: ^29.0.0
+      typescript: '>=4.3 <6'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@jest/types':
+        optional: true
+      babel-jest:
+        optional: true
+      esbuild:
+        optional: true
+    dependencies:
+      bs-logger: registry.npmjs.org/bs-logger@0.2.6
+      fast-json-stable-stringify: registry.npmjs.org/fast-json-stable-stringify@2.1.0
+      jest: registry.npmjs.org/jest@29.7.0
+      jest-util: registry.npmjs.org/jest-util@29.5.0
+      json5: registry.npmjs.org/json5@2.2.3
+      lodash.memoize: registry.npmjs.org/lodash.memoize@4.1.2
+      make-error: registry.npmjs.org/make-error@1.3.6
+      semver: registry.npmjs.org/semver@7.5.0
+      typescript: registry.npmjs.org/typescript@4.9.5
       yargs-parser: registry.npmjs.org/yargs-parser@21.1.1
     dev: true
 

@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/react",
-  "version": "3.6.22",
+  "version": "3.6.22-nightly.1",
   "description": "like react-dom, but for mini apps.",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/taro-react#readme",
@@ -24,12 +24,12 @@
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
     "react-reconciler": "0.27.0"
   },
   "devDependencies": {
     "@rollup/plugin-buble": "^0.21.3",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
     "jest": "^29.3.1",
     "jest-cli": "^29.3.1",
     "jest-environment-node": "^29.5.0",
@@ -38,5 +38,9 @@
     "rollup-plugin-ts": "^3.0.2",
     "ts-jest": "^29.0.5",
     "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~"
   }
 }
