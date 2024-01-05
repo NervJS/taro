@@ -1,7 +1,7 @@
 {
   "name": "@tarojs/binding-linux-x64-gnu",
   "description": "Native binding for taro",
-  "version": "3.6.22-nightly.1",
+  "version": "3.6.22-nightly.2",
   "os": [
     "linux"
   ],
