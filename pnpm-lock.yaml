@@ -1841,6 +1841,24 @@ importers:
       '@tarojs/components':
         specifier: workspace:*
         version: link:../taro-components
+      '@tarojs/plugin-platform-alipay':
+        specifier: workspace:*
+        version: link:../taro-alipay
+      '@tarojs/plugin-platform-jd':
+        specifier: workspace:*
+        version: link:../taro-jd
+      '@tarojs/plugin-platform-qq':
+        specifier: workspace:*
+        version: link:../taro-qq
+      '@tarojs/plugin-platform-swan':
+        specifier: workspace:*
+        version: link:../taro-swan
+      '@tarojs/plugin-platform-tt':
+        specifier: workspace:*
+        version: link:../taro-tt
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../taro-weapp
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime
@@ -3764,6 +3782,24 @@ importers:
       '@babel/core':
         specifier: ^7.14.5
         version: registry.npmjs.org/@babel/core@7.21.8
+      '@tarojs/plugin-platform-alipay':
+        specifier: workspace:*
+        version: link:../taro-alipay
+      '@tarojs/plugin-platform-jd':
+        specifier: workspace:*
+        version: link:../taro-jd
+      '@tarojs/plugin-platform-qq':
+        specifier: workspace:*
+        version: link:../taro-qq
+      '@tarojs/plugin-platform-swan':
+        specifier: workspace:*
+        version: link:../taro-swan
+      '@tarojs/plugin-platform-tt':
+        specifier: workspace:*
+        version: link:../taro-tt
+      '@tarojs/plugin-platform-weapp':
+        specifier: workspace:*
+        version: link:../taro-weapp
       '@tarojs/runtime':
         specifier: workspace:*
         version: link:../taro-runtime

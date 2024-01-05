@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.6.22-nightly.3",
+  "version": "3.6.22-nightly.4",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -80,6 +80,12 @@
   },
   "devDependencies": {
     "@tarojs/components": "workspace:*",
+    "@tarojs/plugin-platform-alipay": "workspace:*",
+    "@tarojs/plugin-platform-jd": "workspace:*",
+    "@tarojs/plugin-platform-qq": "workspace:*",
+    "@tarojs/plugin-platform-swan": "workspace:*",
+    "@tarojs/plugin-platform-tt": "workspace:*",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
