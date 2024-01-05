@@ -52,7 +52,7 @@ export class H5WebpackPlugin {
       useDeprecatedAdapterComponent = false
     } = this.combination.config
 
-    env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL = env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL || '"disabled"'
+    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"enabled"'
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]

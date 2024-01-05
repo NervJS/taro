@@ -9,8 +9,7 @@ import { eventSource } from './event-source'
 import { TaroEventTarget } from './event-target'
 import { NodeType } from './node_types'
 
-import type { Func } from '@tarojs/taro/types/compile'
-import type { UpdatePayload } from '../interface'
+import type { TFunc, UpdatePayload } from '../interface'
 import type { TaroDocument } from './document'
 import type { TaroElement } from './element'
 import type { TaroRootElement } from './root'
@@ -335,7 +334,7 @@ export class TaroNode extends TaroEventTarget {
     return env.document
   }
 
-  static extend (methodName: string, options: Func | Record<string, any>) {
+  static extend (methodName: string, options: TFunc | Record<string, any>) {
     extend(TaroNode, methodName, options)
   }
 }
