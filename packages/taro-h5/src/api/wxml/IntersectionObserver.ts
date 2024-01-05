@@ -2,10 +2,6 @@ import Taro from '@tarojs/api'
 
 import { findDOM } from '../../utils'
 
-if (process.env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL !== 'disabled') {
-  import('intersection-observer')
-}
-
 type TElement = Document | HTMLElement | Element
 
 type TListener = {

@@ -153,7 +153,7 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     }
   }
 
-  env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL = env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL || '"disabled"'
+  env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"enabled"'
   env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!useDeprecatedAdapterComponent)
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])

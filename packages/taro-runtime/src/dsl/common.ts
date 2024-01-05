@@ -14,10 +14,8 @@ import env from '../env'
 import { perf } from '../perf'
 import { customWrapperCache, incrementId } from '../utils'
 
-import type { PageConfig } from '@tarojs/taro'
-import type { Func } from '@tarojs/taro/types/compile'
 import type { TaroRootElement } from '../dom/root'
-import type { MpInstance } from '../interface'
+import type { MpInstance, PageConfig, TFunc } from '../interface'
 import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()
@@ -128,7 +126,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
   const config: PageInstance = {
-    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       perf.start(PAGE_INIT)

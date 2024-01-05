@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/mini-runner",
-  "version": "3.6.22",
+  "version": "3.6.22-nightly.3",
   "description": "Mini app runner for taro",
   "main": "index.js",
   "scripts": {
@@ -34,18 +34,8 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "^7.14.5",
-    "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
-    "@tarojs/plugin-platform-alipay": "workspace:*",
-    "@tarojs/plugin-platform-jd": "workspace:*",
-    "@tarojs/plugin-platform-qq": "workspace:*",
-    "@tarojs/plugin-platform-swan": "workspace:*",
-    "@tarojs/plugin-platform-tt": "workspace:*",
-    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
     "acorn-walk": "^8.0.0",
     "autoprefixer": "^9.7.4",
@@ -89,6 +79,10 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
+    "@tarojs/components": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@types/sax": "^1.2.4",
     "@types/webpack": "4",
     "babel-jest": "^29.5.0",
@@ -105,6 +99,16 @@
     "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
+    "@tarojs/components": "workspace:~",
+    "@tarojs/plugin-platform-alipay": "workspace:~",
+    "@tarojs/plugin-platform-jd": "workspace:~",
+    "@tarojs/plugin-platform-qq": "workspace:~",
+    "@tarojs/plugin-platform-swan": "workspace:~",
+    "@tarojs/plugin-platform-tt": "workspace:~",
+    "@tarojs/plugin-platform-weapp": "workspace:~",
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
     "postcss": "^8.4.18"
   }
 }
