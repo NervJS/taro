@@ -477,9 +477,6 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
       babel-plugin-dynamic-import-node:
         specifier: 2.3.3
         version: registry.npmjs.org/babel-plugin-dynamic-import-node@2.3.3
@@ -508,6 +505,9 @@ importers:
       '@prefresh/babel-plugin':
         specifier: ^0.4.1
         version: registry.npmjs.org/@prefresh/babel-plugin@0.4.4
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@vue/babel-plugin-jsx':
         specifier: ^1.0.6
         version: registry.npmjs.org/@vue/babel-plugin-jsx@1.1.1(@babel/core@7.21.8)
@@ -709,19 +709,16 @@ importers:
       '@tarojs/api':
         specifier: workspace:*
         version: link:../taro-api
-      '@tarojs/runtime':
-        specifier: workspace:*
-        version: link:../taro-runtime
     devDependencies:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
 
   packages/taro-alipay:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
@@ -729,6 +726,9 @@ importers:
         specifier: workspace:*
         version: link:../shared
     devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -2452,10 +2452,10 @@ importers:
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -3150,12 +3150,6 @@ importers:
       '@tarojs/helper':
         specifier: workspace:*
         version: link:../taro-helper
-      '@tarojs/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       joi:
         specifier: ^17.6.0
         version: registry.npmjs.org/joi@17.9.2
@@ -3175,22 +3169,28 @@ importers:
         specifier: ^4.2.2
         version: registry.npmjs.org/webpack-merge@4.2.2
     devDependencies:
+      '@tarojs/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@tarojs/taro':
+        specifier: workspace:*
+        version: link:../taro
       webpack:
         specifier: 5.78.0
         version: registry.npmjs.org/webpack@5.78.0
 
   packages/taro-swan:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -3366,16 +3366,16 @@ importers:
 
   packages/taro-tt:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
@@ -3388,16 +3388,16 @@ importers:
 
   packages/taro-weapp:
     dependencies:
-      '@tarojs/components':
-        specifier: workspace:*
-        version: link:../taro-components
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
+    devDependencies:
+      '@tarojs/components':
+        specifier: workspace:*
+        version: link:../taro-components
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-    devDependencies:
       rollup:
         specifier: ^2.79.0
         version: registry.npmjs.org/rollup@2.79.1
