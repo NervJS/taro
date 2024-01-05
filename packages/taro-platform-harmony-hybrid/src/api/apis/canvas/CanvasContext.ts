@@ -1,4 +1,5 @@
 import { CanvasGradient } from '@tarojs/api'
+import Taro from '@tarojs/api'
 
 interface IAction {
   func: (...arr: any[]) => void
