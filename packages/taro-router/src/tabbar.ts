@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { defineCustomElementTaroTabbar } from '@tarojs/components/dist/components'
 import { AppConfig, initTabBarApis } from '@tarojs/taro'
 

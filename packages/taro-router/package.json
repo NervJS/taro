@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/router",
-  "version": "3.6.22-nightly.1",
+  "version": "3.6.22-nightly.2",
   "description": "Taro-router",
   "browser": "dist/index.js",
   "main:h5": "dist/index.esm.js",
@@ -57,7 +57,6 @@
     "typescript": "^4.7.4"
   },
   "peerDependencies": {
-    "@tarojs/components": "workspace:~",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/taro": "workspace:*"
   }

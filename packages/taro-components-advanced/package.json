@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-advanced",
-  "version": "3.6.22-nightly.1",
+  "version": "3.6.22-nightly.2",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,7 +48,6 @@
     "vue": "^3.0.0"
   },
   "peerDependencies": {
-    "@tarojs/components": "workspace:~",
     "@tarojs/runtime": "workspace:~",
     "@tarojs/shared": "workspace:~",
     "@tarojs/taro": "workspace:~",
