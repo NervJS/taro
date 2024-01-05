@@ -88,6 +88,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
+    "@tarojs/plugin-platform-alipay": "workspace:*",
+    "@tarojs/plugin-platform-jd": "workspace:*",
+    "@tarojs/plugin-platform-qq": "workspace:*",
+    "@tarojs/plugin-platform-swan": "workspace:*",
+    "@tarojs/plugin-platform-tt": "workspace:*",
+    "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runtime": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
