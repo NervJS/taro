@@ -1,4 +1,4 @@
-import { CanvasGradient } from '@tarojs/api'
+import Taro, { CanvasGradient } from '@tarojs/api'
 
 interface IAction {
   func: (...arr: any[]) => void
@@ -10,6 +10,9 @@ const TextBaseLineMap: Record<keyof Taro.CanvasContext.TextBaseline, CanvasTextB
   bottom: 'bottom',
   middle: 'middle',
   normal: 'alphabetic',
+  hanging: 'hanging',
+  alphabetic: 'alphabetic',
+  ideographic: 'ideographic'
 }
 
 /**
