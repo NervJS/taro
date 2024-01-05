@@ -22,8 +22,7 @@ import { NodeType } from './node_types'
 import { Style } from './style'
 import { treeToArray } from './tree'
 
-import type { Func } from '@tarojs/taro/types/compile'
-import type { Attributes } from '../interface'
+import type { Attributes, TFunc } from '../interface'
 import type { TaroEvent } from './event'
 
 export class TaroElement extends TaroNode {
@@ -395,7 +394,7 @@ export class TaroElement extends TaroNode {
     }
   }
 
-  static extend (methodName: string, options: Func | Record<string, any>) {
+  static extend (methodName: string, options: TFunc | Record<string, any>) {
     extend(TaroElement, methodName, options)
   }
 }

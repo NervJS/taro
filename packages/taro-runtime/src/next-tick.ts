@@ -2,11 +2,11 @@ import { Current } from './current'
 import { TaroRootElement } from './dom/root'
 import env from './env'
 
-import type { Func } from '@tarojs/taro/types/compile'
+import type { TFunc } from './interface'
 
 const TIMEOUT = 100
 
-export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
+export const nextTick = (cb: TFunc, ctx?: Record<string, any>) => {
   const beginTime = Date.now()
   const router = Current.router
 
