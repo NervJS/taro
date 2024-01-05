@@ -1,10 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
-if (process.env.SUPPORT_INTERSECTION_OBSERVER_POLYFILL !== 'disabled') {
-  import('intersection-observer')
-}
-
 export type Mode =
   'scaleToFill'
   | 'aspectFit'

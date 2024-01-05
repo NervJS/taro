@@ -116,8 +116,8 @@ if (config.tabBar) {
 }
 ${routesConfig}
 ${options.loaderMeta.execBeforeCreateWebApp || ''}
-const inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
-const history = ${historyCreator}({ window })
+var inst = ${options.loaderMeta.creator}(component, ${options.loaderMeta.frameworkArgs})
+var history = ${historyCreator}({ window })
 ${appMountHandler}(config, history)
 ${routerCreator}(history, inst, config, ${options.loaderMeta.importFrameworkName})
 initPxTransform({
