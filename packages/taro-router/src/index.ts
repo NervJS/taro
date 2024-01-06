@@ -7,6 +7,7 @@ export * from './api'
 export * from './history'
 export { createMultiRouter } from './router/mpa'
 export { createRouter } from './router/spa'
+export * from './utils'
 
 export function handleAppMount (config: SpaRouterConfig | MpaRouterConfig, _: History, appId = config.appId || 'app') {
   let app = document.getElementById(appId)
