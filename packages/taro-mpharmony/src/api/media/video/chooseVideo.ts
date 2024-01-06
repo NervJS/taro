@@ -1,6 +1,9 @@
-import Taro from '@tarojs/taro'
-import { shouldBeObject } from 'src/utils'
-import { MethodHandler } from 'src/utils/handler'
+import Taro from '@tarojs/api'
+import { showActionSheet } from '@tarojs/taro-h5'
+
+import { shouldBeObject } from '../../../utils'
+import { MethodHandler } from '../../../utils/handler'
+
 
 /**
  * 拍摄视频或从手机相册中选视频
@@ -9,7 +12,7 @@ import { MethodHandler } from 'src/utils/handler'
  * @__object [camera[back, front], compressed, maxDuration, sourceType[album, camera]] 
  * @__success [tempFilePath, duration, size, height, width]
  */
-export const chooseVideo: typeof Taro.chooseVideo = (options) => {
+export const chooseVideo: typeof Taro.chooseVideo = async (options) => {
   const name = 'chooseVideo'
 
   // options must be an Object
@@ -21,13 +24,14 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
   }
 
   const {
-    compressed,
+    compressed = true,
     sourceType = ['album', 'camera'],
-    maxDuration,
-    camera = ['back', 'front'],
+    maxDuration = 60,
+    camera = 'back',
     success,
     fail,
   } = options as Exclude<typeof options, undefined>
+  const mediaType = ['video']
 
   const handle = new MethodHandler<{
     tempFilePath?: string
@@ -38,20 +42,41 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
     errMsg?: string
   }>({ name, success, fail })
 
+  const sizeType = compressed ? ['compressed'] : ['original']
+
+  // @ts-ignore
+  let sourceSelected: string
+  if (sourceType.length === 1) {
+    sourceSelected = sourceType[0]
+  } else if (typeof sourceType !== 'object' || (sourceType.includes('album') && sourceType.includes('camera'))) {
+    const selected = await showActionSheet({ itemList: ['拍摄', '从相册选择'] }).then((res) => {
+      sourceSelected = (res.tapIndex === 0 ? 'camera' : 'album')
+      return true
+    }, () => {
+      return false
+    })
+    if (!selected) {
+      return handle.fail({ errMsg: 'fail cancel' })
+    }
+  }
+
   return new Promise<Taro.chooseVideo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.chooseVideo({
-      sourceType: sourceType,
+    native.chooseMediaAssets({
+      count: 1,
+      sizeType: sizeType,
+      mediaType: mediaType,
+      sourceType: sourceSelected,
       maxDuration: maxDuration,
       camera: camera,
-      compressed: compressed,
+      apiName: name,
       success: (res: any) => {
         const result: Taro.chooseVideo.SuccessCallbackResult = {
-          duration: res.duration,
-          height: res.height,
-          size: res.size,
-          tempFilePath: res.tempFilePath,
-          width: res.width,
+          duration: res.tempFiles[0].duration,
+          height: res.tempFiles[0].height,
+          size: res.tempFiles[0].size,
+          tempFilePath: res.tempFiles[0].tempFilePath,
+          width: res.tempFiles[0].width,
           errMsg: res.errMsg,
         }
         handle.success(result, { resolve, reject })
@@ -62,3 +87,4 @@ export const chooseVideo: typeof Taro.chooseVideo = (options) => {
     })
   })
 }
+
