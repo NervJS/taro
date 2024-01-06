@@ -93,7 +93,7 @@ export default class Index extends React.Component {
         func: (apiIndex) => {
           TestConsole.consoleTest('getVideoInfo')
           Taro.chooseVideo({
-            sourceType: ['album', 'camera'],
+            sourceType: ['album'],
             maxDuration: 60,
             camera: 'back',
             compressed: false,
