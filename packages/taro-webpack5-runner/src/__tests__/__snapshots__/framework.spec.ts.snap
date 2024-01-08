@@ -3883,22 +3883,22 @@ require("./runtime");
             }
             function maybeInvokeDelegate(e, r) {
                 var n = r.method, o = e.iterator[n];
-                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return", 
-                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw", 
+                if (o === t) return r.delegate = null, "throw" === n && e.iterator["return"] && (r.method = "return",
+                r.arg = t, maybeInvokeDelegate(e, r), "throw" === r.method) || "return" !== n && (r.method = "throw",
                 r.arg = new TypeError("The iterator does not provide a '" + n + "' method")), y;
                 var i = tryCatch(o, e.iterator, r.arg);
-                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null, 
+                if ("throw" === i.type) return r.method = "throw", r.arg = i.arg, r.delegate = null,
                 y;
                 var a = i.arg;
-                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next", 
-                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"), 
+                return a ? a.done ? (r[e.resultName] = a.value, r.next = e.nextLoc, "return" !== r.method && (r.method = "next",
+                r.arg = t), r.delegate = null, y) : a : (r.method = "throw", r.arg = new TypeError("iterator result is not an object"),
                 r.delegate = null, y);
             }
             function pushTryEntry(t) {
                 var e = {
                     tryLoc: t[0]
                 };
-                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]), 
+                1 in t && (e.catchLoc = t[1]), 2 in t && (e.finallyLoc = t[2], e.afterLoc = t[3]),
                 this.tryEntries.push(e);
             }
             function resetTryEntry(t) {
@@ -3917,7 +3917,7 @@ require("./runtime");
                     if ("function" == typeof e.next) return e;
                     if (!isNaN(e.length)) {
                         var o = -1, i = function next() {
-                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1, 
+                            for (;++o < e.length; ) if (n.call(e, o)) return next.value = e[o], next.done = !1,
                             next;
                             return next.value = t, next.done = !0, next;
                         };
@@ -3932,12 +3932,12 @@ require("./runtime");
             }), o(GeneratorFunctionPrototype, "constructor", {
                 value: GeneratorFunction,
                 configurable: !0
-            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"), 
+            }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, u, "GeneratorFunction"),
             e.isGeneratorFunction = function(t) {
                 var e = "function" == typeof t && t.constructor;
                 return !!e && (e === GeneratorFunction || "GeneratorFunction" === (e.displayName || e.name));
             }, e.mark = function(t) {
-                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype, 
+                return Object.setPrototypeOf ? Object.setPrototypeOf(t, GeneratorFunctionPrototype) : (t.__proto__ = GeneratorFunctionPrototype,
                 define(t, u, "GeneratorFunction")), t.prototype = Object.create(g), t;
             }, e.awrap = function(t) {
                 return {
@@ -3968,7 +3968,7 @@ require("./runtime");
             }, e.values = values, Context.prototype = {
                 constructor: Context,
                 reset: function reset(e) {
-                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null, 
+                    if (this.prev = 0, this.next = 0, this.sent = this._sent = t, this.done = !1, this.delegate = null,
                     this.method = "next", this.arg = t, this.tryEntries.forEach(resetTryEntry), !e) for (var r in this) "t" === r.charAt(0) && n.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = t);
                 },
                 stop: function stop() {
@@ -3981,7 +3981,7 @@ require("./runtime");
                     if (this.done) throw e;
                     var r = this;
                     function handle(n, o) {
-                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t), 
+                        return a.type = "throw", a.arg = e, r.next = n, o && (r.method = "next", r.arg = t),
                         !!o;
                     }
                     for (var o = this.tryEntries.length - 1; o >= 0; --o) {
@@ -4011,19 +4011,19 @@ require("./runtime");
                     }
                     i && ("break" === t || "continue" === t) && i.tryLoc <= e && e <= i.finallyLoc && (i = null);
                     var a = i ? i.completion : {};
-                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc, 
+                    return a.type = t, a.arg = e, i ? (this.method = "next", this.next = i.finallyLoc,
                     y) : this.complete(a);
                 },
                 complete: function complete(t, e) {
                     if ("throw" === t.type) throw t.arg;
-                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg, 
-                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e), 
+                    return "break" === t.type || "continue" === t.type ? this.next = t.arg : "return" === t.type ? (this.rval = this.arg = t.arg,
+                    this.method = "return", this.next = "end") : "normal" === t.type && e && (this.next = e),
                     y;
                 },
                 finish: function finish(t) {
                     for (var e = this.tryEntries.length - 1; e >= 0; --e) {
                         var r = this.tryEntries[e];
-                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r), 
+                        if (r.finallyLoc === t) return this.complete(r.completion, r.afterLoc), resetTryEntry(r),
                         y;
                     }
                 },
