@@ -39,7 +39,7 @@ export const makePhoneCall: typeof Taro.makePhoneCall = (options) => {
 
   return new Promise((resolve, reject) => {
     // @ts-ignore
-    native.makePhoneCallBridgeAsync({
+    native.makePhoneCall({
       phoneNumber: phoneNumber,
       success: (res: any) => {
         handle.success(res, { resolve, reject })

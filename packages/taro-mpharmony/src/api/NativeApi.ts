@@ -1,23 +1,38 @@
 
+function jsBridgeMode(mode: {isAsync: boolean, autoRelease?: boolean}){
+  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+    const className = target.constructor.name;
+    descriptor.value = function (...args: any[]) {
+      // @ts-ignore
+      return window.MethodChannel.methodCallByNative(className, key, args, mode?.isAsync ?? true, mode?.autoRelease ?? true);
+    }
+  };
+}
+
+
 // @proxyClassSign('')
 class NativeApi {
-  getWindowInfoBridgeSync () {
+
+  @jsBridgeMode({ isAsync: true, autoRelease: true})
+  makePhoneCall(options: any) {return options}
+
+  getWindowInfoBridgeSync (): any {
     return ''
   }
 
-  getSystemInfoSyncBridgeSync () {
+  getSystemInfoSyncBridgeSync (): any {
     return ''
   }
 
-  getSystemSettingBridgeSync () {
+  getSystemSettingBridgeSync (): any {
     return ''
   }
 
-  getAppBaseInfoBridgeSync () {
+  getAppBaseInfoBridgeSync (): any {
     return ''
   }
 
-  getAppAuthorizeSettingBridgeSync () {
+  getAppAuthorizeSettingBridgeSync (): any {
     return ''
   }
 
@@ -29,100 +44,100 @@ class NativeApi {
     return options
   }
 
-  getMenuButtonBoundingClientRectBridgeSync () {
+  getMenuButtonBoundingClientRectBridgeSync (): any {
     return ''
 
   }
 
-  requestBridgeAsync (options: any) {
+  requestBridgeAsync (options: any): any {
     return options
   }
 
-  downloadFileBridgeAsync (options: any) {
+  downloadFileBridgeAsync (options: any): any{
     return options
   }
 
-  uploadFileBridgeAsync (options: any) {
+  uploadFileBridgeAsync (options: any): any {
     return options
   }
 
-  saveDataUrlToFileBridgeAsync (options: any) {
+  saveDataUrlToFileBridgeAsync (options: any): any {
     return options
   }
 
-  copyFileToSandboxCacheBridgeSync (options: any) {
+  copyFileToSandboxCacheBridgeSync (options: any): any {
     return options
   }
 
-  saveImageToPhotosAlbumBridgeAsync (options: any) {
+  saveImageToPhotosAlbumBridgeAsync (options: any): any {
     return options
   }
 
-  chooseMediaAssetsBridgeAsync (options: any, mode: object) {
+  chooseMediaAssetsBridgeAsync (options: any, mode: object): any {
     return [options, mode]
   }
 
-  getVideoInfoBridgeAsync (options: any) {
+  getVideoInfoBridgeAsync (options: any): any {
     return options
   }
 
-  getImageInfoBridgeAsync (options: any) {
+  getImageInfoBridgeAsync (options: any): any {
     return options
   }
 
-  compressVideoBridgeAsync (options: any) {
+  compressVideoBridgeAsync (options: any): any {
     return options
   }
 
-  getLocationBridgeAsync (options: any) {
+  getLocationBridgeAsync (options: any): any {
     return options
   }
 
-  openDocumentBridgeAsync (options: any) {
+  openDocumentBridgeAsync (options: any): any {
     return options
   }
 
-  loginBridgeAsync (options: any) {
+  loginBridgeAsync (options: any): any {
     return options
   }
 
-  getUserInfoBridgeAsync (options: any) {
+  getUserInfoBridgeAsync (options: any): any {
     return options
   }
 
 
-  openSettingBridgeAsync (options: any) {
+  openSettingBridgeAsync (options: any): any {
     return options
   }
 
-  getSettingBridgeAsync (options: any) {
+  getSettingBridgeAsync (options: any): any {
     return options
   }
 
-  setKeepScreenOnBridgeAsync (options: any) {
+  setKeepScreenOnBridgeAsync (options: any): any {
     return options
   }
 
-  onUserCaptureScreenBridgeSync (options: any) {
+  onUserCaptureScreenBridgeSync (options: any): any {
     return options
   }
 
-  hideKeyboardBridgeSync (options: any) {
+  hideKeyboardBridgeSync (options?: any): any {
     return options
   }
 
-  makePhoneCallBridgeAsync (options: any) {
+  makePhoneCallBridgeAsync (options: any): any {
     return options
   }
 
   // NativeAContextApi
-  createInnerAudioContextBridgeSync () {
+  createInnerAudioContextBridgeSync (): any {
   }
 
-  stopBridgeSync () {
+  stopBridgeSync (): any {
   }
 
-  playBridgeSync () {
+  playBridgeSync (): any {
   }
 
   onPlayBridgeSync (option: any): void {
@@ -186,6 +201,7 @@ class NativeApi {
 
 // @ts-ignore
 const native = window.MethodChannel.createNativeApiProxy(new NativeApi())
+// const native = new NativeApi()
 
 export default native
 
