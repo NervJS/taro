@@ -110,8 +110,10 @@ export interface ViteCompilerContext<T> {
   getPages: () => VitePageMeta[]
   isApp: (id: string) => boolean
   isPage: (id: string) => boolean
+  isComponent: (id: string) => boolean
   isNativePageORComponent: (templatePath: string) => boolean
   getPageById: (id: string) => VitePageMeta| undefined
+  getComponentById: (id: string) => VitePageMeta| undefined
   getConfigFilePath: (filePath: string) => string
   getTargetFilePath: (filePath: string, targetExtName: string) => string
 }

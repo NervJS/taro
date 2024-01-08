@@ -137,12 +137,26 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
     return this.pages.findIndex(page => page.scriptPath === id) > -1
   }
 
+  isComponent (id: string): boolean {
+    if (this.components && this.components.length) {
+      return this.components.findIndex(component => component.scriptPath === id) > -1
+    }
+
+    return false
+  }
+
   isNativePageORComponent (templatePath: string): boolean {
     return fs.existsSync(templatePath)
   }
 
   getPageById (id: string) {
     return this.pages.find(page => page.scriptPath === id)
+  }
+
+  getComponentById (id: string) {
+    if (this.components && this.components.length) {
+      return this.components.find(component => component.scriptPath === id)
+    }
   }
 
   getConfigFilePath (filePath: string) {
