@@ -1,6 +1,6 @@
 /* eslint-disable prefer-promise-reject-errors */
 import Taro from '@tarojs/api'
-import { getCurrentPage, getHomePage } from '@tarojs/router/dist/utils'
+import { getCurrentPage, getHomePage } from '@tarojs/router'
 import { Current, hooks } from '@tarojs/runtime'
 import { isFunction } from '@tarojs/shared'
 
