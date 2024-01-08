@@ -1,6 +1,6 @@
 import { NodePath } from '@babel/traverse'
 import * as t from '@babel/types'
-import * as fs from 'fs-extra'
+import { fs } from '@tarojs/helper'
 import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
@@ -33,7 +33,7 @@ export function buildTemplateName (name: string, pascal = true): string {
 
 /**
  * 支持import的src绝对路径转为相对路径
- * 
+ *
  * @param dirPath 文件目录的绝对路径
  * @param srcPath import的src路径
  * @returns 处理后的相对路径
