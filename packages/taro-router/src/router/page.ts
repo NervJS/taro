@@ -1,12 +1,12 @@
 /* eslint-disable dot-notation */
-import { Current, eventCenter, requestAnimationFrame } from '@tarojs/runtime'
+import { addLeadingSlash, Current, eventCenter, getCurrentPage, getHomePage, requestAnimationFrame, stripBasename, stripTrailing } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { history, setHistory } from '../history'
 import { loadAnimateStyle, loadRouterStyle } from '../style'
-import { addLeadingSlash, getCurrentPage, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
+import { routesAlias } from '../utils'
 import stacks from './stack'
 
 import type { PageInstance } from '@tarojs/runtime'

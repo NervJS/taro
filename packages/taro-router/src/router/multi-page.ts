@@ -1,12 +1,11 @@
 /* eslint-disable dot-notation */
-import { Current } from '@tarojs/runtime'
+import { addLeadingSlash, Current, stripBasename } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
 import { setHistory } from '../history'
 import { loadRouterStyle } from '../style'
-import { addLeadingSlash, stripBasename } from '../utils'
 
 import type { PageInstance } from '@tarojs/runtime'
 import type { PageConfig } from '@tarojs/taro'

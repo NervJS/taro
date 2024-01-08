@@ -1,15 +1,16 @@
 /* eslint-disable dot-notation */
 import {
+  addLeadingSlash,
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
-  stringify,
+  stringify, stripBasename,
 } from '@tarojs/runtime'
 import { Action as LocationAction } from 'history'
 import UniversalRouter from 'universal-router'
 
 import { prependBasename } from '../history'
-import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { routesAlias } from '../utils'
 import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
