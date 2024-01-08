@@ -31,8 +31,9 @@ const baseConfig: RollupOptions = {
     }),
     commonjs() as InputPluginOption,
     postcss({
-      inject: { insertAt: 'top' }
-    }) as InputPluginOption
+      inject: { insertAt: 'top' },
+      minimize: true,
+    }) as InputPluginOption,
   ]
 }
 
@@ -53,14 +54,16 @@ if (process.env.NODE_ENV === 'production') {
       file: 'dist/index.cjs.js',
       inlineDynamicImports: true
     }
-  }, {
-    input: 'src/index.ts',
-    output: {
-      file: 'dist/index.esm.js',
-      inlineDynamicImports: true
-    }
   })
 }
+
+variesConfig.push({
+  input: 'src/index.ts',
+  output: {
+    file: 'dist/index.esm.js',
+    inlineDynamicImports: true
+  }
+})
 
 export default defineConfig(variesConfig.map(v => {
   const customizer = function (objValue, srcValue) {
