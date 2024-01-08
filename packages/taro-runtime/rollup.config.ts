@@ -12,12 +12,12 @@ const baseConfig = {
     exports: 'named'
   },
   plugins: [
-    ts(),
     externals({
       deps: true,
       devDeps: false,
       include: [/^(react|react-dom|nervjs|vue)$/, /^inversify$/]
     }),
+    ts(),
   ]
 }
 
