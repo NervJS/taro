@@ -3,40 +3,40 @@ import { BaseEventOrigFunction, CommonEventFunction, StandardProps } from './com
 interface ScrollViewProps extends StandardProps {
   /** 允许横向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @rn 二选一
    */
   scrollX?: boolean
   /** 允许纵向滚动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @rn 二选一
    */
   scrollY?: boolean
   /** 距顶部/左边多远时（单位px），触发 scrolltoupper 事件
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   upperThreshold?: number
   /** 距底部/右边多远时（单位px），触发 scrolltolower 事件
    * @default 50
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   lowerThreshold?: number
   /** 设置竖向滚动条位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   scrollTop?: number
   /** 设置横向滚动条位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   scrollLeft?: number
   /** 值应为某子元素id（id不能以数字开头）。设置哪个方向可滚动，则在哪个方向滚动到该元素
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   scrollIntoView?: string
   /** 在设置滚动条位置时使用动画过渡
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    * @default false
    */
   scrollWithAnimation?: boolean
@@ -172,7 +172,7 @@ interface ScrollViewProps extends StandardProps {
    * center - 目标节点显示在视口中间
    * end - 目标节点显示在视口结束处
    * nearest - 目标节点在就近的视口边缘显示，若节点已在视口内则不触发滚动
-   * @supported weapp, h5
+   * @supported weapp, h5, harmony_hybrid
    * @default 'start'
    */
   scrollIntoViewAlignment?: 'start' | 'center' | 'end' | 'nearest'
@@ -212,15 +212,15 @@ interface ScrollViewProps extends StandardProps {
    */
   refresherTwoLevelPinned?: boolean
   /** 滚动到顶部/左边，会触发 scrolltoupper 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onScrollToUpper?: CommonEventFunction
   /** 滚动到底部/右边，会触发 scrolltolower 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onScrollToLower?: CommonEventFunction
   /** 滚动时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onScroll?: BaseEventOrigFunction<ScrollViewProps.onScrollDetail>
   /** 滚动开始事件
@@ -337,7 +337,7 @@ declare namespace ScrollViewProps {
  * H5 中 ScrollView 组件是通过一个高度（或宽度）固定的容器内部滚动来实现的，因此务必正确的设置容器的高度。例如: 如果 ScrollView 的高度将 body 撑开，就会同时存在两个滚动条（body 下的滚动条，以及 ScrollView 的滚动条）。
  * 微信小程序 中 ScrollView 组件如果设置 scrollX 横向滚动时，并且子元素为多个时（单个子元素时设置固定宽度则可以正常横向滚动），需要通过 WXSS 设置 `white-space: nowrap` 来保证元素不换行，并对 ScrollView 内部元素设置 `display: inline-block` 来使其能够横向滚动。
  * @classification viewContainer
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
