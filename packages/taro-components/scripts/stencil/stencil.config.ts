@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core'
 import { OutputTarget } from '@stencil/core/internal'
+import externals from 'rollup-plugin-node-externals'
 
 import { reactOutputTarget, vue2OutputTarget, vue3OutputTarget } from './output-target'
 import scssPlugin from './plugin/sass-plugin'
@@ -55,7 +56,11 @@ const outputTargets: OutputTarget[] = [
     esmLoaderPath: '../loader',
   },
   {
-    type: 'dist-custom-elements'
+    type: 'dist-custom-elements',
+    minify: isProd,
+    // inlineDynamicImports: true,
+    autoDefineCustomElements: false,
+    generateTypeDeclarations: false,
   },
 ]
 
@@ -133,13 +138,12 @@ export const config: Config = {
     }
   },
   rollupPlugins: {
-    after: [{
-      name: 'add-external',
-      options: opts => {
-        opts.external = [/^@tarojs[\\/][a-z]+/]
-
-        return opts
-      }
-    }]
+    before: [
+      externals({
+        deps: true,
+        devDeps: false,
+        include: [/^@tarojs[\\/][a-z]+/],
+      }),
+    ]
   }
 }

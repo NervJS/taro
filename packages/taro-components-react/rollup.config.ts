@@ -1,32 +1,39 @@
 import babel from '@rollup/plugin-babel'
 import commonjs from '@rollup/plugin-commonjs'
-import resolve from '@rollup/plugin-node-resolve'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import { defineConfig } from 'rollup'
 import externals from 'rollup-plugin-node-externals'
 import postcss from 'rollup-plugin-postcss'
 import ts from 'rollup-plugin-ts'
 
+import type { InputPluginOption } from 'rollup'
+
 // 供 Loader 使用的运行时入口
-export default {
+export default defineConfig({
   input: 'src/index.ts',
   plugins: [
     externals({
       deps: true,
       devDeps: false,
       include: [/^react$/]
-    }),
-    resolve({
+    }) as InputPluginOption,
+    nodeResolve({
       preferBuiltins: false,
       mainFields: ['main:h5', 'browser', 'module', 'jsnext:main', 'main']
-    }),
+    }) as InputPluginOption,
     postcss({
-      inject: { insertAt: 'top' }
-    }),
+      inject: { insertAt: 'top' },
+      minimize: true,
+    }) as InputPluginOption,
     ts({
-      sourceMap: true
-    }),
+      tsconfig: e => ({
+        ...e,
+        sourceMap: true,
+      })
+    }) as InputPluginOption,
     commonjs({
       include: '../../node_modules/**'
-    }),
+    }) as InputPluginOption,
     babel({
       extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', 'ts', 'tsx'],
       babelHelpers: 'runtime'
@@ -42,4 +49,4 @@ export default {
     preserveModulesRoot: 'src',
     sourcemap: true
   }
-}
+})
