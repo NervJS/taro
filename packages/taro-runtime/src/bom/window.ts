@@ -107,7 +107,7 @@ class TaroWindow extends Events {
 }
 
 export type { TaroWindow }
-export const window: TaroWindow = process.env.TARO_PLATFORM === 'web' ? env.window : (env.window || new TaroWindow())
+export const window: TaroWindow = process.env.TARO_PLATFORM === 'web' ? env.window : (env.window = new TaroWindow())
 
 export const location = window.location
 export const history = window.history
