@@ -16,6 +16,7 @@ const baseConfig: RollupOptions = {
     externals({
       deps: true,
       devDeps: false,
+      include: [/^@tarojs\//]
     }),
     nodeResolve({
       preferBuiltins: false,

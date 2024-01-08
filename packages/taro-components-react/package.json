@@ -33,7 +33,8 @@
     "@tarojs/taro": "workspace:*",
     "@tarojs/components": "workspace:*",
     "classnames": "^2.2.5",
-    "swiper": "6.8.0"
+    "swiper": "6.8.0",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
@@ -41,9 +42,10 @@
     "@rollup/plugin-commonjs": "^24.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-typescript": "^11.1.0",
+    "postcss": "^8.4.18",
     "rollup": "^3.8.1",
     "rollup-plugin-node-externals": "^5.0.0",
-    "rollup-plugin-postcss": "^3.1.8",
+    "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-ts": "^3.0.2",
     "typescript": "^4.7.4"
   }
