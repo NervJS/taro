@@ -76,7 +76,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
       function startPress () {
         pressTimer = setTimeout(async function () {
           if (!showmenu) {
-
+            return
           }
           try {
             const { tapIndex } = await showActionSheet({

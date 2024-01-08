@@ -1385,8 +1385,6 @@ importers:
         specifier: 18.1.0
         version: registry.npmjs.org/react-test-renderer@18.1.0(react@18.1.0)
 
-  packages/taro-components/loader: {}
-
   packages/taro-extend:
     devDependencies:
       jest:
@@ -1943,7 +1941,7 @@ importers:
         version: registry.npmjs.org/@types/node@14.18.45
       rollup:
         specifier: ^3.8.1
-        version: registry.npmjs.org/rollup@3.21.5
+        version: 3.21.5
       rollup-plugin-node-externals:
         specifier: ^5.0.0
         version: registry.npmjs.org/rollup-plugin-node-externals@5.1.3(rollup@3.21.5)
@@ -2010,16 +2008,16 @@ importers:
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^20.0.0
-        version: 20.0.0(rollup@3.21.5)
+        version: 20.0.0(rollup@2.79.1)
       '@rollup/plugin-json':
         specifier: ^4.1.0
-        version: 4.1.0(rollup@3.21.5)
+        version: 4.1.0(rollup@2.79.1)
       '@rollup/plugin-node-resolve':
         specifier: ^8.0.0
-        version: 8.4.0(rollup@3.21.5)
+        version: 8.4.0(rollup@2.79.1)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: 11.1.1(rollup@3.21.5)(tslib@2.5.0)(typescript@4.9.5)
+        version: 11.1.1(rollup@2.79.1)(tslib@2.5.0)(typescript@4.9.5)
       fast-glob:
         specifier: ^3.3.1
         version: 3.3.1
@@ -2027,14 +2025,14 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       rollup:
-        specifier: ^3.8.1
-        version: 3.21.5
+        specifier: ^2.79.0
+        version: 2.79.1
       rollup-plugin-node-externals:
         specifier: ^5.0.0
-        version: 5.1.3(rollup@3.21.5)
+        version: 5.1.3(rollup@2.79.1)
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: 3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.21.5)(typescript@4.9.5)
+        version: 3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@4.9.5)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@14.18.45)(typescript@4.9.5)
@@ -4555,48 +4553,48 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@rollup/plugin-commonjs@20.0.0(rollup@3.21.5):
+  /@rollup/plugin-commonjs@20.0.0(rollup@2.79.1):
     resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^2.38.3
     dependencies:
-      '@rollup/pluginutils': 3.1.0(rollup@3.21.5)
+      '@rollup/pluginutils': 3.1.0(rollup@2.79.1)
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 7.2.3
       is-reference: 1.2.1
       magic-string: 0.25.9
       resolve: 1.22.2
-      rollup: 3.21.5
+      rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-json@4.1.0(rollup@3.21.5):
+  /@rollup/plugin-json@4.1.0(rollup@2.79.1):
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-4.1.0.tgz}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
-      '@rollup/pluginutils': 3.1.0(rollup@3.21.5)
-      rollup: 3.21.5
+      '@rollup/pluginutils': 3.1.0(rollup@2.79.1)
+      rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-node-resolve@8.4.0(rollup@3.21.5):
+  /@rollup/plugin-node-resolve@8.4.0(rollup@2.79.1):
     resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==, tarball: https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.4.0.tgz}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
     dependencies:
-      '@rollup/pluginutils': 3.1.0(rollup@3.21.5)
+      '@rollup/pluginutils': 3.1.0(rollup@2.79.1)
       '@types/resolve': 1.17.1
       builtin-modules: 3.3.0
       deep-freeze: 0.0.1
       deepmerge: 4.3.1
       is-module: 1.0.0
       resolve: 1.22.2
-      rollup: 3.21.5
+      rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(tslib@2.5.0)(typescript@4.9.5):
+  /@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(tslib@2.5.0)(typescript@4.9.5):
     resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -4609,14 +4607,14 @@ packages:
       tslib:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.2(rollup@3.21.5)
+      '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       resolve: 1.22.2
-      rollup: 3.21.5
+      rollup: 2.79.1
       tslib: registry.npmjs.org/tslib@2.5.0
       typescript: 4.9.5
     dev: true
 
-  /@rollup/pluginutils@3.1.0(rollup@3.21.5):
+  /@rollup/pluginutils@3.1.0(rollup@2.79.1):
     resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
@@ -4625,10 +4623,10 @@ packages:
       '@types/estree': 0.0.39
       estree-walker: 1.0.1
       picomatch: 2.3.1
-      rollup: 3.21.5
+      rollup: 2.79.1
     dev: true
 
-  /@rollup/pluginutils@5.0.2(rollup@3.21.5):
+  /@rollup/pluginutils@5.0.2(rollup@2.79.1):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-5.0.2.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -4640,7 +4638,7 @@ packages:
       '@types/estree': 1.0.1
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.21.5
+      rollup: 2.79.1
     dev: true
 
   /@swc/core-darwin-arm64@1.3.96:
@@ -7522,16 +7520,16 @@ packages:
       glob: 7.2.3
     dev: false
 
-  /rollup-plugin-node-externals@5.1.3(rollup@3.21.5):
+  /rollup-plugin-node-externals@5.1.3(rollup@2.79.1):
     resolution: {integrity: sha512-Q3VMjsn39r0/mjKrX++rFlC7kwL7YZdScdyU7BEo+PrEremal3mnol/1X+wQUU++7NeqC1ZNAeRYnHGtsTu9GQ==, tarball: https://registry.npmjs.org/rollup-plugin-node-externals/-/rollup-plugin-node-externals-5.1.3.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.60.0 || ^3.0.0
     dependencies:
-      rollup: 3.21.5
+      rollup: 2.79.1
     dev: true
 
-  /rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@3.21.5)(typescript@4.9.5):
+  /rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@4.9.5):
     resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
     engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
     peerDependencies:
@@ -7565,7 +7563,7 @@ packages:
       '@babel/preset-env': registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
       '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript@7.21.5(@babel/core@7.21.8)
       '@babel/runtime': registry.npmjs.org/@babel/runtime@7.21.5
-      '@rollup/pluginutils': 5.0.2(rollup@3.21.5)
+      '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       '@wessberg/stringutil': 1.0.19
       ansi-colors: 4.1.3
       browserslist: 4.21.5
@@ -7573,7 +7571,7 @@ packages:
       compatfactory: 2.0.9(typescript@4.9.5)
       crosspath: 2.0.0
       magic-string: 0.27.0
-      rollup: 3.21.5
+      rollup: 2.79.1
       ts-clone-node: 2.0.4(typescript@4.9.5)
       tslib: 2.5.0
       typescript: 4.9.5
@@ -7586,6 +7584,14 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
+
+  /rollup@2.79.1:
+    resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==, tarball: https://registry.npmjs.org/rollup/-/rollup-2.79.1.tgz}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
 
   /rollup@3.21.5:
     resolution: {integrity: sha512-a4NTKS4u9PusbUJcfF4IMxuqjFzjm6ifj76P54a7cKnvVzJaG12BLVR+hgU2YDGHzyMMQNxLAZWuALsn8q2oQg==, tarball: https://registry.npmjs.org/rollup/-/rollup-3.21.5.tgz}
@@ -15034,7 +15040,7 @@ packages:
       rollup: ^1.20.0 || ^2.0.0
     dependencies:
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@3.1.0(rollup@3.21.5)
-      rollup: registry.npmjs.org/rollup@3.21.5
+      rollup: 3.21.5
     dev: true
 
   registry.npmjs.org/@rollup/plugin-node-resolve@13.3.0(rollup@2.79.1):
