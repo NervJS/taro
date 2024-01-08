@@ -333,7 +333,7 @@ exports[`sass should build app with sass 2`] = `
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
+    var toPrimitive = __webpack_require__(16);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -466,7 +466,7 @@ exports[`sass should build app with sass 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(17).default;
+    var taro = __webpack_require__(15).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -497,7 +497,334 @@ exports[`sass should build app with sass 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(16);
+    module.exports = __webpack_require__(17);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
+    function isFunction(x) {
+        return typeof x === "function";
+    }
+    function isUndefined(x) {
+        return typeof x === "undefined";
+    }
+    function isObject(x) {
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
+    }
+    var isBadObj = function isBadObj(x) {
+        return !isObject(x);
+    };
+    function throwTypeError(s) {
+        throw new TypeError(s);
+    }
+    if (!isFunction(Object.assign)) {
+        Object.assign = function(target) {
+            if (target == null) {
+                throwTypeError("Cannot convert undefined or null to object");
+            }
+            var to = Object(target);
+            for (var index = 1; index < arguments.length; index++) {
+                var nextSource = arguments[index];
+                if (nextSource != null) {
+                    for (var nextKey in nextSource) {
+                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                            to[nextKey] = nextSource[nextKey];
+                        }
+                    }
+                }
+            }
+            return to;
+        };
+    }
+    if (!isFunction(Object.defineProperties)) {
+        Object.defineProperties = function(obj, properties) {
+            function convertToDescriptor(desc) {
+                function hasProperty(obj, prop) {
+                    return Object.prototype.hasOwnProperty.call(obj, prop);
+                }
+                if (isBadObj(desc)) {
+                    throwTypeError("bad desc");
+                }
+                var d = {};
+                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
+                if (hasProperty(desc, "configurable")) {
+                    d.configurable = !!desc.configurable;
+                }
+                if (hasProperty(desc, "value")) d.value = desc.value;
+                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
+                if (hasProperty(desc, "get")) {
+                    var g = desc.get;
+                    if (!isFunction(g) && !isUndefined(g)) {
+                        throwTypeError("bad get");
+                    }
+                    d.get = g;
+                }
+                if (hasProperty(desc, "set")) {
+                    var s = desc.set;
+                    if (!isFunction(s) && !isUndefined(s)) {
+                        throwTypeError("bad set");
+                    }
+                    d.set = s;
+                }
+                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
+                    throwTypeError("identity-confused descriptor");
+                }
+                return d;
+            }
+            if (isBadObj(obj)) throwTypeError("bad obj");
+            properties = Object(properties);
+            var keys = Object.keys(properties);
+            var descs = [];
+            for (var i = 0; i < keys.length; i++) {
+                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
+            }
+            for (var _i = 0; _i < descs.length; _i++) {
+                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
+            }
+            return obj;
+        };
+    }
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
+    };
+    function getEnv() {
+        if (h5 === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (h5 === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (h5 === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (h5 === "tt") {
+            return ENV_TYPE.TT;
+        } else if (h5 === "jd") {
+            return ENV_TYPE.JD;
+        } else if (h5 === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (h5 === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (h5 === "h5" || web === "web") {
+            return ENV_TYPE.WEB;
+        } else if (h5 === "rn") {
+            return ENV_TYPE.RN;
+        } else if (h5 === "harmony" || web === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (h5 === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return h5 || "Unknown";
+        }
+    }
+    var Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams;
+            this.interceptors = interceptors || [];
+        }
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
+            "key": "proceed",
+            "value": function proceed(requestParams) {
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return isFunction(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var Link = function() {
+        function Link(interceptor) {
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new Chain;
+        }
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                timeout = null;
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (isFunction(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var interceptors = Object.freeze({
+        "__proto__": null,
+        "timeoutInterceptor": timeoutInterceptor,
+        "logInterceptor": logInterceptor
+    });
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            var formatSize = ~~size;
+            var rootValue = 1 / deviceRatio[designWidth];
+            switch (targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
+            }
+            return val + targetUnit;
+        };
+    }
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(3)["default"];
     function _toPrimitive(input, hint) {
@@ -596,315 +923,6 @@ exports[`sass should build app with sass 2`] = `
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
-    function isFunction(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && typeof_default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
-    };
-    var isWeb = undefined();
-    function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
-            return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
-        }
-    }
-    var index_esm_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams;
-            this.interceptors = interceptors || [];
-        }
-        createClass_default()(Chain, [ {
-            "key": "proceed",
-            "value": function proceed(requestParams) {
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var index_esm_Link = function() {
-        function Link(interceptor) {
-            classCallCheck_default()(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
-        }
-        createClass_default()(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
-            return promiseifyApi(chain.requestParams);
-        }));
-    }
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                timeout = null;
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
-            return res;
-        }));
-        if (isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
-            }
-            return val + targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
-        "getInitPxTransform": getInitPxTransform,
-        "interceptorify": interceptorify
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 "
 `;
@@ -1257,7 +1275,7 @@ exports[`sass should build app with scss 2`] = `
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
+    var toPrimitive = __webpack_require__(16);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -1390,7 +1408,7 @@ exports[`sass should build app with scss 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(18).default;
+    var taro = __webpack_require__(15).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -1421,133 +1439,24 @@ exports[`sass should build app with scss 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(17);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
-    var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
-    var app_App = function(_Component) {
-        Object(inherits["a"])(App, _Component);
-        var _super = Object(createSuper["a"])(App);
-        function App() {
-            Object(classCallCheck["a"])(this, App);
-            return _super.apply(this, arguments);
-        }
-        Object(createClass["a"])(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(react["Component"]);
-    var src_app = app_App;
-    var taro_runtime = __webpack_require__(1);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    Object.assign(react["default"], {
-        "findDOMNode": react["findDOMNode"],
-        "render": react["render"],
-        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
-    });
-    var inst = createReactApp(src_app, react, react["default"], config);
-    createRouter(inst, config, react);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
+    module.exports = __webpack_require__(18);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
         return typeof x === "function";
     }
@@ -1555,7 +1464,7 @@ exports[`sass should build app with scss 2`] = `
         return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && typeof_default()(x) === "object";
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -1643,22 +1552,41 @@ exports[`sass should build app with scss 2`] = `
         "QUICKAPP": "QUICKAPP",
         "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (h5 === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (h5 === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (h5 === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (h5 === "tt") {
+            return ENV_TYPE.TT;
+        } else if (h5 === "jd") {
+            return ENV_TYPE.JD;
+        } else if (h5 === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (h5 === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (h5 === "h5" || web === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (h5 === "rn") {
+            return ENV_TYPE.RN;
+        } else if (h5 === "harmony" || web === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (h5 === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return h5 || "Unknown";
         }
     }
-    var index_esm_Chain = function() {
+    var Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
             this.index = index || 0;
             this.requestParams = requestParams;
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
             "key": "proceed",
             "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
@@ -1689,13 +1617,13 @@ exports[`sass should build app with scss 2`] = `
         } ]);
         return Chain;
     }();
-    var index_esm_Link = function() {
+    var Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
+            this.chain = new Chain;
         }
-        createClass_default()(Link, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -1703,7 +1631,7 @@ exports[`sass should build app with scss 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -1713,13 +1641,13 @@ exports[`sass should build app with scss 2`] = `
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
+                this.chain = new Chain;
             }
         } ]);
         return Link;
     }();
     function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
+        return new Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
@@ -1756,7 +1684,7 @@ exports[`sass should build app with scss 2`] = `
         if (isFunction(p.abort)) res.abort = p.abort;
         return res;
     }
-    var index_esm_interceptors = Object.freeze({
+    var interceptors = Object.freeze({
         "__proto__": null,
         "timeoutInterceptor": timeoutInterceptor,
         "logInterceptor": logInterceptor
@@ -1766,7 +1694,7 @@ exports[`sass should build app with scss 2`] = `
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -1825,20 +1753,128 @@ exports[`sass should build app with scss 2`] = `
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
         "getInitPxTransform": getInitPxTransform,
         "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(12);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var classCallCheck = __webpack_require__(8);
+    var createClass = __webpack_require__(10);
+    var inherits = __webpack_require__(11);
+    var createSuper = __webpack_require__(9);
+    var react = __webpack_require__(0);
+    var app = __webpack_require__(17);
+    var app_App = function(_Component) {
+        Object(inherits["a"])(App, _Component);
+        var _super = Object(createSuper["a"])(App);
+        function App() {
+            Object(classCallCheck["a"])(this, App);
+            return _super.apply(this, arguments);
+        }
+        Object(createClass["a"])(App, [ {
+            "key": "componentDidMount",
+            "value": function componentDidMount() {}
+        }, {
+            "key": "componentDidShow",
+            "value": function componentDidShow() {}
+        }, {
+            "key": "componentDidHide",
+            "value": function componentDidHide() {}
+        }, {
+            "key": "render",
+            "value": function render() {
+                return this.props.children;
+            }
+        } ]);
+        return App;
+    }(react["Component"]);
+    var src_app = app_App;
+    var taro_runtime = __webpack_require__(1);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    Object.assign(react["default"], {
+        "findDOMNode": react["findDOMNode"],
+        "render": react["render"],
+        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
+    });
+    var inst = createReactApp(src_app, react, react["default"], config);
+    createRouter(inst, config, react);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;
@@ -2191,7 +2227,7 @@ exports[`sass should set global sass content with data 2`] = `
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
+    var toPrimitive = __webpack_require__(16);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -2324,7 +2360,7 @@ exports[`sass should set global sass content with data 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(18).default;
+    var taro = __webpack_require__(15).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -2355,133 +2391,24 @@ exports[`sass should set global sass content with data 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(17);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
-    var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
-    var app_App = function(_Component) {
-        Object(inherits["a"])(App, _Component);
-        var _super = Object(createSuper["a"])(App);
-        function App() {
-            Object(classCallCheck["a"])(this, App);
-            return _super.apply(this, arguments);
-        }
-        Object(createClass["a"])(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(react["Component"]);
-    var src_app = app_App;
-    var taro_runtime = __webpack_require__(1);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    Object.assign(react["default"], {
-        "findDOMNode": react["findDOMNode"],
-        "render": react["render"],
-        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
-    });
-    var inst = createReactApp(src_app, react, react["default"], config);
-    createRouter(inst, config, react);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
+    module.exports = __webpack_require__(18);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
         return typeof x === "function";
     }
@@ -2489,7 +2416,7 @@ exports[`sass should set global sass content with data 2`] = `
         return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && typeof_default()(x) === "object";
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -2577,22 +2504,41 @@ exports[`sass should set global sass content with data 2`] = `
         "QUICKAPP": "QUICKAPP",
         "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (h5 === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (h5 === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (h5 === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (h5 === "tt") {
+            return ENV_TYPE.TT;
+        } else if (h5 === "jd") {
+            return ENV_TYPE.JD;
+        } else if (h5 === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (h5 === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (h5 === "h5" || web === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (h5 === "rn") {
+            return ENV_TYPE.RN;
+        } else if (h5 === "harmony" || web === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (h5 === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return h5 || "Unknown";
         }
     }
-    var index_esm_Chain = function() {
+    var Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
             this.index = index || 0;
             this.requestParams = requestParams;
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
             "key": "proceed",
             "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
@@ -2623,13 +2569,13 @@ exports[`sass should set global sass content with data 2`] = `
         } ]);
         return Chain;
     }();
-    var index_esm_Link = function() {
+    var Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
+            this.chain = new Chain;
         }
-        createClass_default()(Link, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -2637,7 +2583,7 @@ exports[`sass should set global sass content with data 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -2647,13 +2593,13 @@ exports[`sass should set global sass content with data 2`] = `
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
+                this.chain = new Chain;
             }
         } ]);
         return Link;
     }();
     function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
+        return new Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
@@ -2690,7 +2636,7 @@ exports[`sass should set global sass content with data 2`] = `
         if (isFunction(p.abort)) res.abort = p.abort;
         return res;
     }
-    var index_esm_interceptors = Object.freeze({
+    var interceptors = Object.freeze({
         "__proto__": null,
         "timeoutInterceptor": timeoutInterceptor,
         "logInterceptor": logInterceptor
@@ -2700,7 +2646,7 @@ exports[`sass should set global sass content with data 2`] = `
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -2759,20 +2705,128 @@ exports[`sass should set global sass content with data 2`] = `
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
         "getInitPxTransform": getInitPxTransform,
         "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(12);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var classCallCheck = __webpack_require__(8);
+    var createClass = __webpack_require__(10);
+    var inherits = __webpack_require__(11);
+    var createSuper = __webpack_require__(9);
+    var react = __webpack_require__(0);
+    var app = __webpack_require__(17);
+    var app_App = function(_Component) {
+        Object(inherits["a"])(App, _Component);
+        var _super = Object(createSuper["a"])(App);
+        function App() {
+            Object(classCallCheck["a"])(this, App);
+            return _super.apply(this, arguments);
+        }
+        Object(createClass["a"])(App, [ {
+            "key": "componentDidMount",
+            "value": function componentDidMount() {}
+        }, {
+            "key": "componentDidShow",
+            "value": function componentDidShow() {}
+        }, {
+            "key": "componentDidHide",
+            "value": function componentDidHide() {}
+        }, {
+            "key": "render",
+            "value": function render() {
+                return this.props.children;
+            }
+        } ]);
+        return App;
+    }(react["Component"]);
+    var src_app = app_App;
+    var taro_runtime = __webpack_require__(1);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    Object.assign(react["default"], {
+        "findDOMNode": react["findDOMNode"],
+        "render": react["render"],
+        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
+    });
+    var inst = createReactApp(src_app, react, react["default"], config);
+    createRouter(inst, config, react);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;
@@ -3125,7 +3179,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
+    var toPrimitive = __webpack_require__(16);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -3258,7 +3312,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(18).default;
+    var taro = __webpack_require__(15).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -3289,133 +3343,24 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(17);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
-    var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
-    var app_App = function(_Component) {
-        Object(inherits["a"])(App, _Component);
-        var _super = Object(createSuper["a"])(App);
-        function App() {
-            Object(classCallCheck["a"])(this, App);
-            return _super.apply(this, arguments);
-        }
-        Object(createClass["a"])(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(react["Component"]);
-    var src_app = app_App;
-    var taro_runtime = __webpack_require__(1);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    Object.assign(react["default"], {
-        "findDOMNode": react["findDOMNode"],
-        "render": react["render"],
-        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
-    });
-    var inst = createReactApp(src_app, react, react["default"], config);
-    createRouter(inst, config, react);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
+    module.exports = __webpack_require__(18);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
         return typeof x === "function";
     }
@@ -3423,7 +3368,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && typeof_default()(x) === "object";
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -3511,22 +3456,41 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "QUICKAPP": "QUICKAPP",
         "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (h5 === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (h5 === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (h5 === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (h5 === "tt") {
+            return ENV_TYPE.TT;
+        } else if (h5 === "jd") {
+            return ENV_TYPE.JD;
+        } else if (h5 === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (h5 === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (h5 === "h5" || web === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (h5 === "rn") {
+            return ENV_TYPE.RN;
+        } else if (h5 === "harmony" || web === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (h5 === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return h5 || "Unknown";
         }
     }
-    var index_esm_Chain = function() {
+    var Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
             this.index = index || 0;
             this.requestParams = requestParams;
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
             "key": "proceed",
             "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
@@ -3557,13 +3521,13 @@ exports[`sass should set global sass content with source & dir 2`] = `
         } ]);
         return Chain;
     }();
-    var index_esm_Link = function() {
+    var Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
+            this.chain = new Chain;
         }
-        createClass_default()(Link, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -3571,7 +3535,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -3581,13 +3545,13 @@ exports[`sass should set global sass content with source & dir 2`] = `
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
+                this.chain = new Chain;
             }
         } ]);
         return Link;
     }();
     function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
+        return new Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
@@ -3624,7 +3588,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
         if (isFunction(p.abort)) res.abort = p.abort;
         return res;
     }
-    var index_esm_interceptors = Object.freeze({
+    var interceptors = Object.freeze({
         "__proto__": null,
         "timeoutInterceptor": timeoutInterceptor,
         "logInterceptor": logInterceptor
@@ -3634,7 +3598,7 @@ exports[`sass should set global sass content with source & dir 2`] = `
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -3693,20 +3657,128 @@ exports[`sass should set global sass content with source & dir 2`] = `
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
         "getInitPxTransform": getInitPxTransform,
         "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(12);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var classCallCheck = __webpack_require__(8);
+    var createClass = __webpack_require__(10);
+    var inherits = __webpack_require__(11);
+    var createSuper = __webpack_require__(9);
+    var react = __webpack_require__(0);
+    var app = __webpack_require__(17);
+    var app_App = function(_Component) {
+        Object(inherits["a"])(App, _Component);
+        var _super = Object(createSuper["a"])(App);
+        function App() {
+            Object(classCallCheck["a"])(this, App);
+            return _super.apply(this, arguments);
+        }
+        Object(createClass["a"])(App, [ {
+            "key": "componentDidMount",
+            "value": function componentDidMount() {}
+        }, {
+            "key": "componentDidShow",
+            "value": function componentDidShow() {}
+        }, {
+            "key": "componentDidHide",
+            "value": function componentDidHide() {}
+        }, {
+            "key": "render",
+            "value": function render() {
+                return this.props.children;
+            }
+        } ]);
+        return App;
+    }(react["Component"]);
+    var src_app = app_App;
+    var taro_runtime = __webpack_require__(1);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    Object.assign(react["default"], {
+        "findDOMNode": react["findDOMNode"],
+        "render": react["render"],
+        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
+    });
+    var inst = createReactApp(src_app, react, react["default"], config);
+    createRouter(inst, config, react);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;
@@ -4059,7 +4131,7 @@ exports[`sass should set global sass content with source 2`] = `
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
+    var toPrimitive = __webpack_require__(16);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -4192,7 +4264,7 @@ exports[`sass should set global sass content with source 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(18).default;
+    var taro = __webpack_require__(15).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -4223,133 +4295,24 @@ exports[`sass should set global sass content with source 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(17);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
-    var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
-    var app_App = function(_Component) {
-        Object(inherits["a"])(App, _Component);
-        var _super = Object(createSuper["a"])(App);
-        function App() {
-            Object(classCallCheck["a"])(this, App);
-            return _super.apply(this, arguments);
-        }
-        Object(createClass["a"])(App, [ {
-            "key": "componentDidMount",
-            "value": function componentDidMount() {}
-        }, {
-            "key": "componentDidShow",
-            "value": function componentDidShow() {}
-        }, {
-            "key": "componentDidHide",
-            "value": function componentDidHide() {}
-        }, {
-            "key": "render",
-            "value": function render() {
-                return this.props.children;
-            }
-        } ]);
-        return App;
-    }(react["Component"]);
-    var src_app = app_App;
-    var taro_runtime = __webpack_require__(1);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    Object.assign(react["default"], {
-        "findDOMNode": react["findDOMNode"],
-        "render": react["render"],
-        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
-    });
-    var inst = createReactApp(src_app, react, react["default"], config);
-    createRouter(inst, config, react);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
+    module.exports = __webpack_require__(18);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(13);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(4);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
         return typeof x === "function";
     }
@@ -4357,7 +4320,7 @@ exports[`sass should set global sass content with source 2`] = `
         return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && typeof_default()(x) === "object";
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -4445,22 +4408,41 @@ exports[`sass should set global sass content with source 2`] = `
         "QUICKAPP": "QUICKAPP",
         "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (h5 === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (h5 === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (h5 === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (h5 === "tt") {
+            return ENV_TYPE.TT;
+        } else if (h5 === "jd") {
+            return ENV_TYPE.JD;
+        } else if (h5 === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (h5 === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (h5 === "h5" || web === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (h5 === "rn") {
+            return ENV_TYPE.RN;
+        } else if (h5 === "harmony" || web === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (h5 === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return h5 || "Unknown";
         }
     }
-    var index_esm_Chain = function() {
+    var Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
             this.index = index || 0;
             this.requestParams = requestParams;
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
             "key": "proceed",
             "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
@@ -4491,13 +4473,13 @@ exports[`sass should set global sass content with source 2`] = `
         } ]);
         return Chain;
     }();
-    var index_esm_Link = function() {
+    var Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
+            this.chain = new Chain;
         }
-        createClass_default()(Link, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -4505,7 +4487,7 @@ exports[`sass should set global sass content with source 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -4515,13 +4497,13 @@ exports[`sass should set global sass content with source 2`] = `
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
+                this.chain = new Chain;
             }
         } ]);
         return Link;
     }();
     function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
+        return new Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
@@ -4558,7 +4540,7 @@ exports[`sass should set global sass content with source 2`] = `
         if (isFunction(p.abort)) res.abort = p.abort;
         return res;
     }
-    var index_esm_interceptors = Object.freeze({
+    var interceptors = Object.freeze({
         "__proto__": null,
         "timeoutInterceptor": timeoutInterceptor,
         "logInterceptor": logInterceptor
@@ -4568,7 +4550,7 @@ exports[`sass should set global sass content with source 2`] = `
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -4627,20 +4609,128 @@ exports[`sass should set global sass content with source 2`] = `
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
         "getInitPxTransform": getInitPxTransform,
         "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(3)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(12);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var classCallCheck = __webpack_require__(8);
+    var createClass = __webpack_require__(10);
+    var inherits = __webpack_require__(11);
+    var createSuper = __webpack_require__(9);
+    var react = __webpack_require__(0);
+    var app = __webpack_require__(17);
+    var app_App = function(_Component) {
+        Object(inherits["a"])(App, _Component);
+        var _super = Object(createSuper["a"])(App);
+        function App() {
+            Object(classCallCheck["a"])(this, App);
+            return _super.apply(this, arguments);
+        }
+        Object(createClass["a"])(App, [ {
+            "key": "componentDidMount",
+            "value": function componentDidMount() {}
+        }, {
+            "key": "componentDidShow",
+            "value": function componentDidShow() {}
+        }, {
+            "key": "componentDidHide",
+            "value": function componentDidHide() {}
+        }, {
+            "key": "render",
+            "value": function render() {
+                return this.props.children;
+            }
+        } ]);
+        return App;
+    }(react["Component"]);
+    var src_app = app_App;
+    var taro_runtime = __webpack_require__(1);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    Object.assign(react["default"], {
+        "findDOMNode": react["findDOMNode"],
+        "render": react["render"],
+        "unstable_batchedUpdates": react["unstable_batchedUpdates"]
+    });
+    var inst = createReactApp(src_app, react, react["default"], config);
+    createRouter(inst, config, react);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;

@@ -7,12 +7,12 @@ exports[`vue should build vue app 2`] = `
 /** filePath: dist/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], [ , , , , , , , , , , , , , function(module, exports, __webpack_require__) {}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
-    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_5_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_26c853a8_prod_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
-    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
-    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_grndw43a6tdjvk5ihsizkqewvq_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+    var _node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_node_modules_pnpm_registry_npmjs_org_mini_css_extract_plugin_0_9_0_webpack_4_46_0_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_pnpm_registry_npmjs_org_css_loader_5_2_7_webpack_4_46_0_node_modules_css_loader_dist_cjs_js_ref_2_oneOf_0_0_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_pnpm_registry_npmjs_org_postcss_loader_4_3_0_postcss_8_4_23_webpack_4_46_0_node_modules_postcss_loader_dist_cjs_js_ref_3_0_node_modules_pnpm_registry_npmjs_org_resolve_url_loader_3_1_3_node_modules_resolve_url_loader_index_js_node_modules_pnpm_registry_npmjs_org_sass_loader_10_2_0_sass_1_50_0_webpack_4_46_0_node_modules_sass_loader_dist_cjs_js_ref_4_1_node_modules_pnpm_registry_npmjs_org_vue_loader_15_10_1_css_loader_5_2_7_lodash_4_17_21_webpack_4_46_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_1_id_26c853a8_prod_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -368,7 +368,7 @@ exports[`vue should build vue app 2`] = `
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _typeof = __webpack_require__(1)["default"];
-    var toPrimitive = __webpack_require__(9);
+    var toPrimitive = __webpack_require__(10);
     function _toPropertyKey(arg) {
         var key = toPrimitive(arg, "string");
         return _typeof(key) === "symbol" ? key : String(key);
@@ -376,7 +376,7 @@ exports[`vue should build vue app 2`] = `
     module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(12).default;
+    var taro = __webpack_require__(9).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
@@ -407,106 +407,24 @@ exports[`vue should build vue app 2`] = `
     }
     module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(11);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(1)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(6);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var vue = "vue-mock";
-    var app = __webpack_require__(10);
-    var App = new vue({
-        "onShow": function onShow() {},
-        "render": function render(h) {
-            return h("block", this.$slots.default);
-        }
-    });
-    var src_app = App;
-    var taro_runtime = __webpack_require__(0);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    var inst = createVueApp(src_app, vue, config);
-    createRouter(inst, config, vue);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
+    module.exports = __webpack_require__(12);
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var helpers_typeof = __webpack_require__(1);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(0);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(7);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(3);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(4);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(2);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+    var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+    var _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7);
+    var _babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2__);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(3);
+    var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(4);
+    var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(2);
+    var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5__);
     function isFunction(x) {
         return typeof x === "function";
     }
@@ -514,7 +432,7 @@ exports[`vue should build vue app 2`] = `
         return typeof x === "undefined";
     }
     function isObject(x) {
-        return x && typeof_default()(x) === "object";
+        return x && _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(x) === "object";
     }
     var isBadObj = function isBadObj(x) {
         return !isObject(x);
@@ -602,22 +520,41 @@ exports[`vue should build vue app 2`] = `
         "QUICKAPP": "QUICKAPP",
         "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (h5 === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (h5 === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (h5 === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (h5 === "tt") {
+            return ENV_TYPE.TT;
+        } else if (h5 === "jd") {
+            return ENV_TYPE.JD;
+        } else if (h5 === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (h5 === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (h5 === "h5" || web === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (h5 === "rn") {
+            return ENV_TYPE.RN;
+        } else if (h5 === "harmony" || web === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (h5 === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return h5 || "Unknown";
         }
     }
-    var index_esm_Chain = function() {
+    var Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Chain);
             this.index = index || 0;
             this.requestParams = requestParams;
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Chain, [ {
             "key": "proceed",
             "value": function proceed(requestParams) {
                 this.requestParams = requestParams;
@@ -648,13 +585,13 @@ exports[`vue should build vue app 2`] = `
         } ]);
         return Chain;
     }();
-    var index_esm_Link = function() {
+    var Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default()(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
+            this.chain = new Chain;
         }
-        createClass_default()(Link, [ {
+        _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default()(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -662,7 +599,7 @@ exports[`vue should build vue app 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(_babel_runtime_helpers_objectSpread2__WEBPACK_IMPORTED_MODULE_2___default()({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -672,13 +609,13 @@ exports[`vue should build vue app 2`] = `
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
+                this.chain = new Chain;
             }
         } ]);
         return Link;
     }();
     function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
+        return new Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
@@ -715,7 +652,7 @@ exports[`vue should build vue app 2`] = `
         if (isFunction(p.abort)) res.abort = p.abort;
         return res;
     }
-    var index_esm_interceptors = Object.freeze({
+    var interceptors = Object.freeze({
         "__proto__": null,
         "timeoutInterceptor": timeoutInterceptor,
         "logInterceptor": logInterceptor
@@ -725,7 +662,7 @@ exports[`vue should build vue app 2`] = `
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = isObject(key) ? key : _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_5___default()({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -784,20 +721,101 @@ exports[`vue should build vue app 2`] = `
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
+        "Link": Link,
+        "interceptors": interceptors,
+        "Current": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"],
+        "getCurrentInstance": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["getCurrentInstance"],
+        "options": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["options"],
+        "nextTick": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["nextTick"],
+        "eventCenter": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["eventCenter"],
+        "Events": _tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Events"],
         "getInitPxTransform": getInitPxTransform,
         "interceptorify": interceptorify
     };
     Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.preload = getPreload(_tarojs_runtime__WEBPACK_IMPORTED_MODULE_1__["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, exports, __webpack_require__) {
+    var _typeof = __webpack_require__(1)["default"];
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(6);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var vue = "vue-mock";
+    var app = __webpack_require__(11);
+    var App = new vue({
+        "onShow": function onShow() {},
+        "render": function render(h) {
+            return h("block", this.$slots.default);
+        }
+    });
+    var src_app = App;
+    var taro_runtime = __webpack_require__(0);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 17));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    var inst = createVueApp(src_app, vue, config);
+    createRouter(inst, config, vue);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;
