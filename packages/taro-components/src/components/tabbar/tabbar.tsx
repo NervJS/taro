@@ -1,6 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter, Element } from '@stencil/core'
+import { addLeadingSlash, getCurrentPage, stripBasename, stripSuffix } from '@tarojs/runtime'
 import Taro from '@tarojs/taro'
-import { addLeadingSlash, getCurrentPage, stripBasename, stripSuffix } from '@tarojs/router'
 import classNames from 'classnames'
 import resolvePathname from 'resolve-pathname'
 

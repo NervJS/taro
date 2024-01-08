@@ -13,6 +13,7 @@ import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
 import { customWrapperCache, incrementId } from '../utils'
+import { addLeadingSlash } from '../utils/router'
 
 import type { TaroRootElement } from '../dom/root'
 import type { MpInstance, PageConfig, TFunc } from '../interface'
@@ -32,13 +33,6 @@ export function getPageInstance (id: string): Instance | undefined {
 
 export function removePageInstance (id: string) {
   instances.delete(id)
-}
-
-export function addLeadingSlash (path?: string): string {
-  if (path == null) {
-    return ''
-  }
-  return path.charAt(0) === '/' ? path : '/' + path
 }
 
 export function safeExecute (path: string, lifecycle: string, ...args: unknown[]) {
