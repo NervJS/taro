@@ -43,4 +43,4 @@ function createDocument (): TaroDocument {
   return doc
 }
 
-export const document: TaroDocument = process.env.TARO_PLATFORM === 'web' ? env.document : createDocument()
+export const document: TaroDocument = process.env.TARO_PLATFORM === 'web' ? env.document : (env.document = createDocument())
