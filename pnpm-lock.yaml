@@ -3082,9 +3082,6 @@ importers:
       '@tarojs/shared':
         specifier: workspace:*
         version: link:../shared
-      '@tarojs/taro':
-        specifier: workspace:*
-        version: link:../taro
       lodash-es:
         specifier: 4.17.21
         version: registry.npmjs.org/lodash-es@4.17.21
@@ -11178,7 +11175,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@3.21.5)
+      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.21.5)
       commondir: registry.npmjs.org/commondir@1.0.1
       estree-walker: registry.npmjs.org/estree-walker@2.0.2
       glob: registry.npmjs.org/glob@8.1.0
