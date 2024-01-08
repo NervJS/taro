@@ -34,7 +34,7 @@
 
       expect(page.root).toEqualHtml(`
       <taro-live-player-core class="taro-live-player-container">
-        <video class="taro-live-player" playsinline="" webkit-playsinline="" style="object-fit: contain;"></video>
+        <video class="taro-live-player" playsinline="" webkit-playsinline="" style="object-fit: contain;position: relative;"></video>
         <div class="taro-video-cover">
           <div class="taro-video-loader"></div>
         </div>
