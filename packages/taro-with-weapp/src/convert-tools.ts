@@ -12,7 +12,7 @@ export const cacheOptions = {
   getOptionsFromCache: function () {
     return this.cacheOptions
   }
-}  
+}
 
 function toCamelCase (s) {
   let camel = ''
@@ -49,7 +49,7 @@ export const getTarget = (target, Taro) => {
   if (!target) {
     return { dataset: {} }
   }
-  if (Taro.getEnv() === Taro.ENV_TYPE.MPHARMONY || Taro.getEnv() === Taro.ENV_TYPE.WEB) {
+  if (Taro.getEnv() === Taro.ENV_TYPE.HARMONYHYBRID || Taro.getEnv() === Taro.ENV_TYPE.WEB) {
     if (target.fullDataset) {
       return { dataset: target.fullDataset }
     }

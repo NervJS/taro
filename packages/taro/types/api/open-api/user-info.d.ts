@@ -102,7 +102,7 @@ declare module '../../index' {
      *
      * **接口调整说明**
      * 在用户未授权过的情况下调用此接口，将不再出现授权弹窗，会直接进入 fail 回调（详见[《公告》](https://developers.weixin.qq.com/community/develop/doc/0000a26e1aca6012e896a517556c01))。在用户已授权的情况下调用此接口，可成功获取用户信息。
-     * @supported weapp, tt
+     * @supported weapp, tt, harmony_hybrid
      * @example
      * ```tsx
      * // 必须是在用户已经授权的情况下调用

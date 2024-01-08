@@ -77,6 +77,7 @@
     "@tarojs/plugin-platform-swan": "workspace:*",
     "@tarojs/plugin-platform-tt": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
+    "@tarojs/plugin-platform-harmony-hybrid": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "@tarojs/runtime": "workspace:*",
