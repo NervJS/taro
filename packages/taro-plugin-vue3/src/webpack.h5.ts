@@ -50,7 +50,7 @@ function setTaroApiLoader(chain) {
   chain.merge({
     module: {
       rule: {
-        'process-import-taro': {
+        'process-import-taro-h5': {
           test: REG_TARO_H5,
           loader: require.resolve('./api-loader'),
         },
