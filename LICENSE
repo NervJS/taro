@@ -165,3 +165,10 @@ MIT (weui):
 The following files embed [stencil-vue2-output-target](https://github.com/Tencent/weui) MIT:
 `/packages/taro-components/src/components/*.scss`
 See `/LICENSE.txt` for details of the license.
+
+==================
+
+Apache-2.0 (intersection-observer):
+The following files embed [intersection-observer](https://github.com/GoogleChromeLabs/intersection-observer) Apache-2.0:
+`/packages/taro-api/src/polyfill/intersection-observer.ts`
+See `/LICENSE.txt` for details of the license.
