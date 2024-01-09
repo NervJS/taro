@@ -116,7 +116,7 @@ export const config: Config = {
     moduleNameMapper: {
       '@tarojs/taro': '@tarojs/taro-h5',
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
-      '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
+      '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
     },
     setupFiles: ['<rootDir>/__mocks__/setup.ts'],
     testRegex: '(\\.|/)(e2e|spec|test|tt)\\.[jt]sx?$',
@@ -137,6 +137,7 @@ export const config: Config = {
         deps: true,
         devDeps: false,
         include: [/^@tarojs[\\/][a-z]+/],
+        exclude: [/^@stencil[\\/][a-z]+/, 'classnames'],
       }),
     ]
   }
