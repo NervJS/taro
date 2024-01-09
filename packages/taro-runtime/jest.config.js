@@ -1,7 +1,6 @@
 const path = require('path')
 
 module.exports = {
-  collectCoverage: false,
   coveragePathIgnorePatterns: ['nerv.js', 'vue.js', 'utils.js'],
   globals: {
     ENABLE_INNER_HTML: true,

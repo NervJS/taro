@@ -38,7 +38,10 @@ pub async fn generate_with_template(from_path: &str, dest_path: &str, data: &imp
   };
   let dir_name = Path::new(dest_path).parent().unwrap().to_string_lossy().to_string();
   async_fs::create_dir_all(&dir_name).await.with_context(|| format!("文件夹创建失败: {}", dir_name))?;
+  let metadata = async_fs::metadata(from_path).await.with_context(|| format!("文件读取失败: {}", from_path))?;
   async_fs::write(dest_path, template).await.with_context(|| format!("文件写入失败: {}", dest_path))?;
+  #[cfg(unix)]
+  async_fs::set_permissions(dest_path, metadata.permissions()).await.with_context(|| format!("文件权限设置失败: {}", dest_path))?;
   Ok(())
 }
 

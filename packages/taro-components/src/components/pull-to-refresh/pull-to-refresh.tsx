@@ -31,7 +31,7 @@ try {
 const willPreventDefault = supportsPassive ? { passive: false } : false
 
 @Component({
-  tag: 'taro-pull-to-refresh',
+  tag: 'taro-pull-to-refresh-core',
   styleUrl: './style/index.scss'
 })
 export class PullToRefresh implements ComponentInterface {
@@ -99,16 +99,18 @@ export class PullToRefresh implements ComponentInterface {
     })
 
     Taro.eventCenter.on('__taroStopPullDownRefresh', ({ successHandler, errorHandler }) => {
-      try {
-        this.triggerPullDownRefresh(false)
-        successHandler({
-          errMsg: 'stopPullDownRefresh: ok'
-        })
-      } catch (e) {
-        errorHandler({
-          errMsg: 'stopPullDownRefresh: fail'
-        })
-      }
+      setTimeout(() => {
+        try {
+          this.triggerPullDownRefresh(false)
+          successHandler({
+            errMsg: 'stopPullDownRefresh: ok'
+          })
+        } catch (e) {
+          errorHandler({
+            errMsg: 'stopPullDownRefresh: fail'
+          })
+        }
+      }, 0)
     })
   }
 

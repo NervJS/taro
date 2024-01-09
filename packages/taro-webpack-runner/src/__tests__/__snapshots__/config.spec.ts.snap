@@ -731,11 +731,12 @@ exports[`config should build from origin and pipe to output 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -1668,11 +1669,12 @@ I m irrelevant.
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
@@ -2605,11 +2607,12 @@ exports[`config should resolved alias 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
     };
     var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
             return ENV_TYPE.WEB;
         } else if (false) {} else if (false) {} else if (false) {} else {
             return "h5" || false;
