@@ -122,7 +122,7 @@ export const config: Config = {
     },
     moduleNameMapper: {
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
-      '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
+      '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js',
     },
     setupFiles: ['<rootDir>/__tests__/setup.ts'],
     testRegex: '(\\.|/)(e2e|spec|test|tt)\\.[jt]sx?$',
@@ -143,6 +143,7 @@ export const config: Config = {
         deps: true,
         devDeps: false,
         include: [/^@tarojs[\\/][a-z]+/],
+        exclude: [/^@stencil[\\/][a-z]+/, 'classnames'],
       }),
     ]
   }
