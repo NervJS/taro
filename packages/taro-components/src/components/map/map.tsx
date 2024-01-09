@@ -516,7 +516,7 @@ export class Map implements ComponentInterface {
             `<div style=" 
               padding: ${marker.callout?.padding}px;
               color:${marker.callout?.color};
-              text-align:${marker.callout?.textAlign};
+              text-align:${marker.callout?.textAlign};"
               >
              <p style="font-size:${marker.callout?.fontSize}px">${marker.callout?.content || ''}</p>
              </div>`,
@@ -711,13 +711,19 @@ export class Map implements ComponentInterface {
 
   /* 平移marker，带动画 */
   _translateMarker = (option) => {
-    const latitude = option.destination.latitude
+    let latitude = option.destination.latitude
     const longitude = option.destination.longitude
+    if (latitude < -80 && latitude >= -90) {
+      latitude = option.destination.latitude + 10
+    }
     const destinationPoint = new BMapGL.Point(longitude, latitude)
+    const obj: any = {
+      flagId: true,// 标记是否有有效id
+      flagCoordinate: true // 标记是否有有效经纬度
+    }
     const animationEndResult: any = {
       errMsg: 'animationEnd:ok',
     }
-    let flag = true
     // 获取所有覆盖物
     const overlays = this.map.getOverlays()
     // 查找指定 id 的 Marker 对象
@@ -726,8 +732,13 @@ export class Map implements ComponentInterface {
     )
     if (!targetMarker) {
       console.error(`Marker "${option.markerId}" not found.`)
-      flag = false
-      return
+      obj.flagId = false
+      return obj
+    }
+    
+    if(latitude > 90 || latitude < -90 || longitude > 180 || longitude < -180 || isNaN(latitude) || isNaN(longitude)) {
+      obj.flagCoordinate = false
+      return obj
     }
     // 计算平移步长
     const startLngLat = targetMarker.getPosition()
@@ -797,7 +808,7 @@ export class Map implements ComponentInterface {
         }
       }, 16)
     }
-    return flag
+    return obj
   }
 
   /* 缩放视野展示所有经纬度 */
@@ -960,7 +971,7 @@ export class Map implements ComponentInterface {
             `<div style=" 
               padding: ${marker.callout?.padding}px;
               color:${marker.callout?.color};
-              text-align:${marker.callout?.textAlign};
+              text-align:${marker.callout?.textAlign};"
               >
              <p style="font-size:${marker.callout?.fontSize}px">${marker.callout?.content || ''}</p>
              </div>`,
@@ -1115,37 +1126,58 @@ export class Map implements ComponentInterface {
     const duration = object.duration
     const autoRotate = object.autoRotate
     const targetMarker = this.map.getOverlays().find((overlay) => overlay instanceof BMapGL.Marker && overlay.id === targetMarkerId)
+    const points = path.map((p) => new BMapGL.Point(p.longitude, p.latitude))
+    const obj: any = {
+      flagId: true,// 标记是否有有效id
+      flagCoordinate: true // 标记是否有有效经纬度
+    }
 
     if (!targetMarker) {
       console.error(`Marker "${targetMarkerId}" not found.`)
-      return
+      obj.flagId = false
+      return obj
     }
 
-    const points = path.map((p) => new BMapGL.Point(p.longitude, p.latitude))
-    const startTime = performance.now()
-
-    const animate = (timestamp) => {
-      const elapsedTime = timestamp - startTime
-      const progress = Math.min(elapsedTime / duration, 1)
-      const currentPoint = this.getPointOnPath(points, progress)
-      targetMarker.setPosition(currentPoint)
-
-      if (autoRotate && progress < 1) {
-        const nextPoint = this.getPointOnPath(points, Math.min(progress + 0.01, 1)) // 获取前进一点的点
-        const rotation = this.calculateRotation(currentPoint, nextPoint)
-        targetMarker.setRotation(rotation)
+    for (let i = 0; i < points.length; i++) {
+      const point = points[i]
+      if (point.lat < -80 && point.lat >= -90) {
+        point.lat+= 10
+      }
+      if(point.lng < -180  || point.lng > 180 || point.lat < -90 || point.lat > 90 || isNaN(point.lng) || isNaN(point.lat)){
+        obj.flagCoordinate  = false
+        return obj
       }
 
-      if (progress < 1) {
-        requestAnimationFrame(animate)
-      } else {
-        // 动画结束
-        targetMarker.setPosition(points[points.length - 1]) // 设置 marker 位置为路径的最后一个点
-        targetMarker.setRotation(0) // 恢复旋转角度为0
-      }
     }
+  
+    if(obj.flagId && obj.flagCoordinate){
+      const startTime = performance.now()
 
-    requestAnimationFrame(animate)
+      const animate = (timestamp) => {
+        const elapsedTime = timestamp - startTime
+        const progress = Math.min(elapsedTime / duration, 1)
+        const currentPoint = this.getPointOnPath(points, progress)
+        targetMarker.setPosition(currentPoint)
+  
+        if (autoRotate && progress < 1) {
+          const nextPoint = this.getPointOnPath(points, Math.min(progress + 0.01, 1)) // 获取前进一点的点
+          const rotation = this.calculateRotation(currentPoint, nextPoint)
+          targetMarker.setRotation(rotation)
+        }
+  
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          // 动画结束
+          targetMarker.setPosition(points[points.length - 1]) // 设置 marker 位置为路径的最后一个点
+          targetMarker.setRotation(0) // 恢复旋转角度为0
+        }
+      }
+  
+      requestAnimationFrame(animate)
+    }
+    
+    return obj
   }
 
   getPointOnPath = (points, progress) => {
@@ -1310,64 +1342,85 @@ export class Map implements ComponentInterface {
   /* 更新自定义图片图层 */
   _updateGroundOverlay = (option) => {
     const { src, opacity, bounds, visible, id, zIndex } = option
-    let flag = true
-    const targetBounds = new BMapGL.Bounds(
-      new BMapGL.Point(bounds.southwest.longitude, bounds.southwest.latitude),
-      new BMapGL.Point(bounds.northeast.longitude, bounds.northeast.latitude)
-    )
+    let obj: any
+    const flagId = true // 标记是否有id
+    let flagCoordinate = true // 标记是否有有效经纬度
+    let flagObj = {}
 
-    const zoom = this.map.getZoom()
+    if (bounds.southwest.longitude > bounds.northeast.longitude || bounds.southwest.latitude > bounds.northeast.latitude) {
+      flagCoordinate = false
+      flagObj = {
+        flagId: flagId,
+        flagCoordinate: flagCoordinate
+      }
+      obj = { ...flagObj }
+    }
     // 获取所有图层
     const overlays = this.map.getOverlays()
-
     // 找到要更新的图层
     const targetOverlay = overlays.find((overlay) => overlay._id === id)
-
-    if (targetOverlay) {
-      // 更新DOM元素
-      const element = document.getElementById(id)
-      if (element) {
-        const imgElement = element.querySelector('img')
-        if (imgElement) {
-          // 找到了对应的元素
-          const validOpacity = (opacity < 0) ? '1' : opacity
-          element.style.opacity = validOpacity
-          imgElement.style.display = visible ? 'block' : 'none'
-          element.style.zIndex = zIndex
-
-          // 加载图片
-          const image = new Image()
-          image.onload = () => {
-            // 图片加载完成后执行
-            imgElement.src = src // 设置图片的src
-
-            // 根据当前缩放级别设置图片宽高
-            const lngSpan = targetBounds.getNorthEast().lng - targetBounds.getSouthWest().lng
-            const mapWidth = this.map.getSize().width // 获取地图容器的宽度
-            const updatedImageWidth = (mapWidth / Math.pow(2, 18 - zoom)) * lngSpan
-            const imageAspectRatio = image.naturalHeight / image.naturalWidth
-            const updatedImageHeight = updatedImageWidth * imageAspectRatio
-
-            imgElement.style.width = `${updatedImageWidth}px`
-            imgElement.style.height = `${updatedImageHeight}px`
-
-            // 重新绘制图层
-            targetOverlay._bounds = targetBounds
-            targetOverlay.draw()
-
-            // 更新完图片后，立即重绘地图
-            this.map.panTo(this.map.getCenter())
-            targetOverlay.draw()
-          }
-          image.src = src
-        }
-      }
-    } else {
-      // 没有找到对应的元素
-      console.error(`未找到id为${id}的元素`)
-      flag = false
+    flagObj = {
+      flagId: flagId,
+      flagCoordinate: flagCoordinate
     }
-    return flag
+    obj = { ...flagObj }
+    if (!targetOverlay) {
+      obj.flagId = false
+    }
+    if (flagId && flagCoordinate) {
+      const targetBounds = new BMapGL.Bounds(
+        new BMapGL.Point(bounds.southwest.longitude, bounds.southwest.latitude),
+        new BMapGL.Point(bounds.northeast.longitude, bounds.northeast.latitude)
+      )
+      const zoom = this.map.getZoom()
+      
+      if (targetOverlay) {
+        // 更新DOM元素
+        const element = document.getElementById(id)
+        if (element) {
+          const imgElement = element.querySelector('img')
+          if (imgElement) {
+            // 找到了对应的元素
+            const validOpacity = (opacity < 0) ? '1' : opacity
+            element.style.opacity = validOpacity
+            imgElement.style.display = visible ? 'block' : 'none'
+            element.style.zIndex = zIndex
+
+            // 加载图片
+            const image = new Image()
+            image.onload = () => {
+              // 图片加载完成后执行
+              imgElement.src = src // 设置图片的src
+
+              // 根据当前缩放级别设置图片宽高
+              const lngSpan = targetBounds.getNorthEast().lng - targetBounds.getSouthWest().lng
+              const mapWidth = this.map.getSize().width // 获取地图容器的宽度
+              const updatedImageWidth = (mapWidth / Math.pow(2, 18 - zoom)) * lngSpan
+              const imageAspectRatio = image.naturalHeight / image.naturalWidth
+              const updatedImageHeight = updatedImageWidth * imageAspectRatio
+
+              imgElement.style.width = `${updatedImageWidth}px`
+              imgElement.style.height = `${updatedImageHeight}px`
+
+              // 重新绘制图层
+              targetOverlay._bounds = targetBounds
+              targetOverlay.draw()
+
+              // 更新完图片后，立即重绘地图
+              this.map.panTo(this.map.getCenter())
+              targetOverlay.draw()
+            }
+            image.src = src
+          }
+        }
+      } else {
+        // 没有找到对应的元素
+        console.error(`未找到id为${id}的元素`)
+      }
+      return obj
+    } else {
+      return obj
+    }
   }
 
   /* 移除自定义图片图层 */

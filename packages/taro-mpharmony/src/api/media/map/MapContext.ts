@@ -66,13 +66,24 @@ export class MapContext implements Taro.MapContext {
 
   translateMarker (_option: Taro.MapContext.TranslateMarkerOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      const flag = this.Map._translateMarker(_option)
+      const flagObj = this.Map._translateMarker(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'translateMarker:ok',
       }
-      if (flag) {
-        _option?.success?.({ errMsg: 'translateMarker:ok' })
-        _option?.complete?.({ errMsg: 'translateMarker:ok' })
+      if (flagObj) {
+        if (flagObj.flagId && flagObj.flagCoordinate) {
+          _option?.success?.({ errMsg: 'translateMarker:ok' })
+          _option?.complete?.({ errMsg: 'translateMarker:ok' })
+        } else if (!flagObj.flagId) {
+          const errorResult: TaroGeneral.CallbackResult = { errMsg: `translateMarker:fail,makerId${_option.markerId}未找到` }
+          _option?.fail?.(errorResult)
+          _option?.complete?.(errorResult)
+        } else if (flagObj.flagId && !flagObj.flagCoordinate) {
+          const errorResult: TaroGeneral.CallbackResult = { errMsg: `translateMarker:fail,请设置坐标点经纬度有效值` }
+          _option?.fail?.(errorResult)
+          _option?.complete?.(errorResult)
+        }
+       
       } else {
         const errorResult: TaroGeneral.CallbackResult = { errMsg: `translateMarker:fail,makerId${_option.markerId}未找到` }
         _option?.fail?.(errorResult)
@@ -92,20 +103,31 @@ export class MapContext implements Taro.MapContext {
 
   moveAlong (_object: any) {
     try {
-      const flag = this.Map._moveAlong(_object)
+      const flagObj = this.Map._moveAlong(_object)
       const successResult: any = {
         errMsg: 'moveAlong:ok',
       }
 
-      if (flag) {
-        _object?.success?.({ errMsg: 'moveAlong:ok' })
-        _object?.complete?.({ errMsg: 'moveAlong:ok' })
+      if (flagObj) {
+        if (flagObj.flagId && flagObj.flagCoordinate) {
+          _object?.success?.({ errMsg: 'moveAlong:ok' })
+          _object?.complete?.({ errMsg: 'moveAlong:ok' })
+        } else if (!flagObj.flagId) {
+          const errorResult: any = { errMsg: `moveAlong:fail,makerId${_object.markerId}未找到` }
+          _object?.fail?.(errorResult)
+          _object?.complete?.(errorResult)
+        } else if (flagObj.flagId && !flagObj.flagCoordinate) {
+          const errorResult: TaroGeneral.CallbackResult = { errMsg: `moveAlong:fail,请设置坐标点经纬度有效值` }
+          _object?.fail?.(errorResult)
+          _object?.complete?.(errorResult)
+        }
+
       } else {
         const errorResult: any = { errMsg: `moveAlong:fail,makerId${_object.markerId}未找到` }
         _object?.fail?.(errorResult)
         _object?.complete?.(errorResult)
       }
-      
+
       return successResult
     } catch (e) {
       const errorResult: any = { errMsg: `moveAlong:${e}` }
@@ -324,20 +346,30 @@ export class MapContext implements Taro.MapContext {
 
   updateGroundOverlay (_option: Taro.MapContext.UpdateGroundOverlayOption): Promise<TaroGeneral.CallbackResult> {
     try {
-      const flag = this.Map._updateGroundOverlay(_option)
+      const flagObj = this.Map._updateGroundOverlay(_option)
       const successResult: TaroGeneral.CallbackResult = {
         errMsg: 'updateGroundOverlay:ok',
       }
-      if (flag) {
-        _option?.success?.(successResult)
-        _option?.complete?.({ errMsg: 'updateGroundOverlay:ok' })
+      if (flagObj) {
+        if (flagObj.flagId && flagObj.flagCoordinate) {
+          _option?.success?.(successResult)
+          _option?.complete?.({ errMsg: 'updateGroundOverlay:ok' })
+        } else if (!flagObj.flagId) {
+          const errorResult: TaroGeneral.CallbackResult = { errMsg: `updateGroundOverlay:fail,未找到id为${_option.id}的自定义图片图层` }
+          _option?.fail?.(errorResult)
+          _option?.complete?.(errorResult)
+        } else if (flagObj.flagId && !flagObj.flagCoordinate) {
+          const errorResult: TaroGeneral.CallbackResult = { errMsg: `updateGroundOverlay:fail,请设置经纬度有效值` }
+          _option?.fail?.(errorResult)
+          _option?.complete?.(errorResult)
+        }
       } else {
         const errorResult: TaroGeneral.CallbackResult = { errMsg: `updateGroundOverlay:fail,未找到id为${_option.id}的自定义图片图层` }
         _option?.fail?.(errorResult)
         _option?.complete?.(errorResult)
-  
       }
       return Promise.resolve(successResult)
+
     } catch (e) {
       const errorResult: TaroGeneral.CallbackResult = { errMsg: `updateGroundOverlay:${e}` }
       _option?.fail?.(errorResult)
