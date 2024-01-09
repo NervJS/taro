@@ -128,6 +128,7 @@ export interface ViteH5CompilerContext extends ViteCompilerContext<ViteH5BuildCo
 }
 
 export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarmonyBuildConfig> {
+  nativeExt: string[]
   fileType: ViteFileType
   commonChunks: string[]
   getCommonChunks: () => string[]

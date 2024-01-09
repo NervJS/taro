@@ -1,8 +1,8 @@
-import { fs, isEmptyObject, removePathPrefix } from '@tarojs/helper'
+import { fs, isEmptyObject, removePathPrefix, resolveMainFilePath } from '@tarojs/helper'
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
+import { addETSTag, appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
 import { AppParser } from './template'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -43,14 +43,24 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         const parse = new AppParser(appPath, appConfig, taroConfig, viteCompilerContext.loaderMeta)
         // emit pages
         viteCompilerContext.pages.forEach(page => {
-          // const list = tabbar?.list || []
-          // if (list.every(item => item.pagePath !== page.name)) {}
-          this.emitFile({
-            type: 'chunk',
-            id: page.scriptPath,
-            fileName: viteCompilerContext.getScriptPath(page.name + TARO_COMP_SUFFIX),
-            implicitlyLoadedAfterOneOf: [rawId]
-          })
+          if (page.isNative) {
+            const { sourceDir, nativeExt } = viteCompilerContext as ViteHarmonyCompilerContext
+            const nativePath = resolveMainFilePath(path.join(sourceDir, page.name), nativeExt)
+
+            this.emitFile({
+              type: 'chunk',
+              id: addETSTag(nativePath),
+              fileName: addETSTag(path.relative(viteCompilerContext.sourceDir, nativePath)),
+              implicitlyLoadedAfterOneOf: [rawId]
+            })
+          } else {
+            this.emitFile({
+              type: 'chunk',
+              id: page.scriptPath,
+              fileName: viteCompilerContext.getScriptPath(page.name + TARO_COMP_SUFFIX),
+              implicitlyLoadedAfterOneOf: [rawId]
+            })
+          }
         })
 
         // emit tabbar
