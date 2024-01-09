@@ -41,7 +41,7 @@ import {
 } from './constant'
 import { Adapters, setAdapter, Adapter } from './adapter'
 import { Options, setTransformOptions, buildBabelTransformOptions } from './options'
-import { get as safeGet, cloneDeep, snakeCase } from 'lodash'
+import { cloneDeep, snakeCase } from 'lodash'
 import { isTestEnv } from './env'
 
 const template = require('babel-template')
@@ -634,13 +634,7 @@ export default function transform (options: TransformOptions): TransformResult {
 
       const expr = value.expression as any
       const exprPath = path.get('value.expression')
-      const classDecl = path.findParent(p => p.isClassDeclaration())
-      const classDeclName = classDecl && classDecl.isClassDeclaration() && safeGet(classDecl, 'node.id.name', '')
-      let isConverted = false
-      if (classDeclName) {
-        isConverted = classDeclName === '_C' || classDeclName.endsWith('Tmpl')
-      }
-      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style' && !isConverted) {
+      if (!t.isBinaryExpression(expr, { operator: '+' }) && !t.isLiteral(expr) && name.name === 'style') {
         const jsxID = path.findParent(p => p.isJSXOpeningElement()).get('name')
         if (jsxID && jsxID.isJSXIdentifier() && DEFAULT_Component_SET.has(jsxID.node.name)) {
           exprPath.replaceWith(
