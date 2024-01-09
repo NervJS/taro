@@ -148,6 +148,7 @@ export default defineAppConfig({
     'pages/api/thirdParty/index',
     'pages/api/worker/index',
     'pages/api/wxml/index',
+    'pages/performance/index/index'
   ],
   tabBar: {
     color: '#7A7E83',

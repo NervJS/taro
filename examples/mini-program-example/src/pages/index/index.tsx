@@ -37,6 +37,15 @@ export default function Index() {
       >
         Api示例
       </Button>
+      <Button
+        className='buttonStyle'
+        onClick={()=>{
+            Taro.navigateTo({
+              url: 'pages/performance/index/index'
+            })
+        }}>
+        性能测试
+      </Button>
     </View>
   )
 }
