@@ -120,6 +120,29 @@ describe('event', () => {
     // expect(template).toMatch(`data-e-handleClick-a-b="{{777}}`)
   })
 
+  test('非 this bind 绑定转换为匿名函数', () => {
+    const { template, ast, code } = transform({
+      ...baseOptions,
+      code: buildComponent(
+        `
+      const callback = function(params) {}
+      return (
+        <View onClick={callback.bind(null, 1)} />
+      )
+      `,
+        '',
+        `import { Custom } from './utils'`
+      )
+    })
+
+    const instance = evalClass(ast)
+    removeShadowData(instance.state)
+    expect(instance.$$events).toEqual(['anonymousFunc0'])
+    expect(template).toMatch(
+      `bindtap="anonymousFunc0"`
+    )
+  })
+
   describe('this.props.func', () => {
     test('简单情况', () => {
       const { template, ast, code } = transform({
