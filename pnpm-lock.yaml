@@ -954,9 +954,6 @@ importers:
       '@tarojs/components-advanced':
         specifier: workspace:*
         version: link:../taro-components-advanced
-      '@tarojs/router':
-        specifier: workspace:*
-        version: link:../taro-router
       '@tarojs/taro':
         specifier: workspace:*
         version: link:../taro
