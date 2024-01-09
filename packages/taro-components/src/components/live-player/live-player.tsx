@@ -746,7 +746,8 @@ export class LivePlayer implements ComponentInterface {
           id={this.id}
           class="taro-live-player"
           style={{
-            'object-fit': objectFit
+            'object-fit': objectFit,
+            'position': 'relative'
           }}
           ref={(dom) => {
             if (dom) {
