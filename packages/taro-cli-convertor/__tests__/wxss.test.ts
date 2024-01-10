@@ -70,7 +70,33 @@ describe('引入外部wxss文件', () => {
     const resFileMap = getResMapFile()
     expect(resFileMap).toMatchSnapshot()
   })
-  
+
+  test('引入外部wxss，无后缀', async () => {
+    const wxssStr = `
+      @import "/pages/common";
+      .scrollarea {
+        flex: 1;
+        overflow-y: hidden;
+      }
+    `
+    const WITHOUT_WXSS_DEMO = {
+      '/pages/common.wxss':`
+        page {
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          margin-top: 80px;
+        }
+      `,
+      '/pages/index/index.wxss': wxssStr
+    }
+    setMockFiles(root, WITHOUT_WXSS_DEMO)
+    const convertor = new Convertor(root, false)
+    await convertor.traverseStyle(path.join(root,'/pages/index/index.wxss'), wxssStr)
+    const resFileMap = getResMapFile()
+    expect(resFileMap).toMatchSnapshot()
+  })
+
   test('拷贝三方字体包到转换后的工程', async () => {
     const wxssStr = `
       @font-face {
