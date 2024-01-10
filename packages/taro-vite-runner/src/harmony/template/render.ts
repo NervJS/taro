@@ -1,8 +1,13 @@
+import path from 'path'
+
 import BaseParser from './base'
+
+import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 export default class RenderParser extends BaseParser {
   constructor (
-    protected template: Map<string, string>
+    protected template: Map<string, string>,
+    protected context: ViteHarmonyCompilerContext
   ) {
     super()
   }
@@ -28,10 +33,11 @@ import TaroInnerHtml from './innerHtml'
 import TaroScrollView from './scrollView'
 import { TaroRadio, TaroRadioGroup } from './radio'
 import { TaroCheckboxGroup, TaroCheckbox } from './checkbox'
-${this.generateRenderImport()}
+${this.generateRenderNativeImport()}${this.generateRenderCompileModeImport()}
 import { NodeType } from '../runtime'
 
 import type {
+  TaroAny,
   TaroViewElement,
   TaroElement,
   TaroImageElement,
@@ -59,7 +65,7 @@ import type {
 
 @Builder
 function createChildItem (item: TaroElement) {
-  ${this.generateRenderCondition()}if (item.tagName === 'VIEW') {
+  ${this.generateRenderNativeCondition()}${this.generateRenderCompileModeCondition()}if (item.tagName === 'VIEW') {
     TaroView(item as TaroViewElement)
   } else if (item.tagName === 'TEXT' || item.nodeType === NodeType.TEXT_NODE) {
     TaroText(item as TaroTextElement)
@@ -160,7 +166,7 @@ export { createChildItem, createChildItemWithPosition, createLazyChildren }
     return renderContent
   }
 
-  generateRenderImport () {
+  generateRenderCompileModeImport () {
     let result = ''
 
     this.template.forEach((_, key) => {
@@ -170,7 +176,18 @@ export { createChildItem, createChildItemWithPosition, createLazyChildren }
     return result
   }
 
-  generateRenderCondition () {
+  generateRenderNativeImport () {
+    let result = ''
+
+    this.context.nativeComponents.forEach((nativeMeta, _) => {
+      const nativePath = path.relative(this.context.sourceDir, nativeMeta.scriptPath)
+      result = `${result}import ${nativeMeta.name} from '../../../${nativePath}'\n`
+    })
+
+    return result
+  }
+
+  generateRenderCompileModeCondition () {
     let result = ''
     
     this.template.forEach((_, key) => {
@@ -178,6 +195,19 @@ export { createChildItem, createChildItemWithPosition, createLazyChildren }
       const name = keyData[keyData.length - 1]
       result = `${result}if (item._attrs?.compileMode === '${name}') {
     ${key}({ node: item as TaroViewElement })
+  } else `
+    })
+
+    return result
+  }
+
+  generateRenderNativeCondition () {
+    let result = ''
+
+    this.context.nativeComponents.forEach((nativeMeta, _) => {
+      const { name } = nativeMeta
+      result = `${result}if (item.tagName === '${name.replace(new RegExp('(?<=.)([A-Z])', 'g'), '-$1').toUpperCase()}') {
+    ${name}({ props: (item._attrs as TaroAny).props })
   } else `
     })
 

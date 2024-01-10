@@ -151,7 +151,7 @@ export function compileModePrePlugin (viteCompilerContext: ViteHarmonyCompilerCo
       return { map: null, code: extractedString }
     },
     buildEnd () {
-      const renderGenerator = new RenderParser(etsTemplateCache)
+      const renderGenerator = new RenderParser(etsTemplateCache, viteCompilerContext)
       const fileName = path.join('npm', '@tarojs/components/render.ets')
 
       this.emitFile({
