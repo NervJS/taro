@@ -131,9 +131,11 @@ export interface ViteHarmonyCompilerContext extends ViteCompilerContext<ViteHarm
   nativeExt: string[]
   fileType: ViteFileType
   commonChunks: string[]
+  nativeComponents : Map<string, ViteNativeCompMeta>
   getCommonChunks: () => string[]
   modifyHarmonyConfig: (config: Partial<AppConfig>) => void
   modifyHostPackageDep: (outDir: string, deps?: Record<string, string>, devDeps?: Record<string, string>) => void
+  collectNativeComponents: (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) => void
   getScriptPath: (filePath: string) => string
   getStylePath: (filePath: string) => string
   getConfigPath: (filePath: string) => string

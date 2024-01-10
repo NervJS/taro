@@ -2,7 +2,8 @@ import { fs, isEmptyObject, removePathPrefix, resolveMainFilePath } from '@taroj
 import { isString } from '@tarojs/shared'
 import path from 'path'
 
-import { addETSTag, appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
+import { appendVirtualModulePrefix, stripVirtualModulePrefix } from '../utils'
+import { QUERY_IS_NATIVE_SCRIPT } from './ets'
 import { AppParser } from './template'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -49,8 +50,8 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
 
             this.emitFile({
               type: 'chunk',
-              id: addETSTag(nativePath),
-              fileName: addETSTag(path.relative(viteCompilerContext.sourceDir, nativePath)),
+              id: nativePath + QUERY_IS_NATIVE_SCRIPT,
+              fileName: path.relative(viteCompilerContext.sourceDir, nativePath) + QUERY_IS_NATIVE_SCRIPT,
               implicitlyLoadedAfterOneOf: [rawId]
             })
           } else {
@@ -63,16 +64,18 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           }
         })
 
+        // native components
+        for (const comp of viteCompilerContext.nativeComponents.values()) {
+          this.emitFile({
+            type: 'chunk',
+            id: comp.templatePath + QUERY_IS_NATIVE_SCRIPT,
+            fileName:  path.relative(viteCompilerContext.sourceDir, comp.templatePath) + QUERY_IS_NATIVE_SCRIPT,
+            implicitlyLoadedAfterOneOf: [rawId]
+          })
+        }
+
         // emit tabbar
         if (tabbar && !isEmptyObject(tabbar)) {
-          // const tabbarPage = TARO_TABBAR_PAGE_PATH
-          // const tabbarPath = path.join(appPath, taroConfig.sourceRoot || 'src', `${tabbarPage}${PAGE_SUFFIX}`)
-          // this.emitFile({
-          //   type: 'chunk',
-          //   id: tabbarPath,
-          //   fileName: `${tabbarPage}${viteCompilerContext.fileType.script}`,
-          //   implicitlyLoadedAfterOneOf: [rawId]
-          // })
           const list = tabbar.list || []
           list.forEach(async item => {
             const { iconPath, selectedIconPath } = item

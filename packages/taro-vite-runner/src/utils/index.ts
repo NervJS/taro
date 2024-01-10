@@ -293,9 +293,3 @@ export function resolveAbsoluteRequire ({
     return src.replace(source, absolutePath)
   })
 }
-
-
-export const ETS_SUFFIX = '.eets'
-export function addETSTag (name: string): string {
-  return `${name}${ETS_SUFFIX}`
-}

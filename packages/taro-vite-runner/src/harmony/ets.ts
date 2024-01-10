@@ -2,11 +2,12 @@
 import { fs, resolveSync } from '@tarojs/helper'
 import path from 'path'
 
-import { addETSTag, appendVirtualModulePrefix, ETS_SUFFIX, resolveAbsoluteRequire, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
+import { appendVirtualModulePrefix, resolveAbsoluteRequire, stripVirtualModulePrefix, virtualModulePrefixREG } from '../utils'
 
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { Plugin, ResolvedConfig } from 'vite'
 
+export const QUERY_IS_NATIVE_SCRIPT = '?isNative'
 const etsSetCache = new WeakMap<ResolvedConfig, Set<string>>()
 const chunkSetCache = new WeakMap<ResolvedConfig, Set<string>>()
 const importAndRequireRegex = /(?:import\s|from\s|require\()['"]([^'"\s]+)['"]\)?/g
@@ -41,7 +42,9 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
     },
     resolveId (source) {
       // 判断是否为 ets id，是的话转换成虚拟模块
-      if (source.endsWith(ETS_SUFFIX) && virtualModulePrefixREG.test(source) === false) {
+      if (virtualModulePrefixREG.test(source)) return null
+
+      if (source.endsWith(QUERY_IS_NATIVE_SCRIPT)) {
         const id = appendVirtualModulePrefix(source)
 
         etsSet.add(id)
@@ -54,7 +57,7 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
     load (id) {
       if (etsSet.has(id)) {
         // 获取虚拟模块的真实路径的内容
-        const idWithoutVirtualPrefix = stripVirtualModulePrefix(id.replace(ETS_SUFFIX, ''))
+        const idWithoutVirtualPrefix = stripVirtualModulePrefix(id.split('?')[0])
         const code = fs.readFileSync(idWithoutVirtualPrefix, 'utf-8')
 
         return code
@@ -66,7 +69,9 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
       // 判断是否为虚拟 ets 模块，不是则退出
       if (etsSet.has(id)) {
         let match
-        const realId = stripVirtualModulePrefix(id.replace(ETS_SUFFIX, ''))
+        const realId = stripVirtualModulePrefix(id.split('?')[0])
+
+
         while ((match = importAndRequireRegex.exec(code)) !== null) {
           const moduleRelativePath = match[1]
           const modulePath = resolveSync(moduleRelativePath, { basedir: path.dirname(realId), extensions: ['.js', '.ts', '.ets'] })
@@ -78,8 +83,8 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
             if (!chunkSet.has(fileName)) {
               this.emitFile({
                 type: 'chunk',
-                id: isETS ? addETSTag(modulePath) : modulePath,
-                fileName: isETS ? addETSTag(fileName) : fileName,
+                id: isETS ? modulePath + QUERY_IS_NATIVE_SCRIPT : modulePath,
+                fileName: isETS ? fileName + QUERY_IS_NATIVE_SCRIPT : fileName,
               })
 
               if (!isETS) {
@@ -108,7 +113,7 @@ export default async function (viteCompilerContext: ViteHarmonyCompilerContext):
     },
     generateBundle (_, bundle) {
       Object.keys(bundle).forEach(key => {
-        if (key.endsWith(ETS_SUFFIX)) {
+        if (key.includes(QUERY_IS_NATIVE_SCRIPT)) {
           delete bundle[key]
         }
       })

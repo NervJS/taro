@@ -1,11 +1,54 @@
-import { transformAsync } from '@babel/core'
+import { transformAsync, transformSync } from '@babel/core'
 import { SCRIPT_EXT } from '@tarojs/helper'
 
+import type * as BabelCore from '@babel/core'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
 import type { PluginOption } from 'vite'
 
 export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption => {
-  return {
+  return [{
+    name: '',
+    enforce: 'pre',
+    transform (code, id) {
+      if (/(\.(et|j|t)sx?|\.vue)$/.test(id.split('?')[0])) {
+        const result = transformSync(code, {
+          filename: id,
+          plugins: [
+            [
+              function renameImportPlugin (babel: typeof BabelCore): BabelCore.PluginObj<BabelCore.PluginPass> {
+                const t = babel.types
+                return {
+                  name: 'taro-rename-import-plugin',
+                  visitor: {
+                    ImportDeclaration (ast) {
+                      if (ast.node.source.value !== '@tarojs/components') return
+
+                      const newSpecifiers = ast.node.specifiers.map(node => {
+                        if (t.isImportSpecifier(node)) {
+                          const { imported, local } = node
+                          const property = t.isIdentifier(imported) ? imported.name : imported.value
+                          return t.importSpecifier(local, t.identifier(`Taro${property}TagName`))
+                        }
+                        return node
+                      })
+                      ast.node.specifiers = newSpecifiers
+                    },
+                  },
+                }
+              }
+            ],
+          ],
+        })
+
+        return {
+          code: result?.code || code,
+          map: result?.map || null,
+        }
+      }
+      
+      return null
+    }
+  }, {
     name: 'taro:vite-import-api',
     enforce: 'post',
     async transform(code, id) {
@@ -30,5 +73,5 @@ export default (viteCompilerContext: ViteHarmonyCompilerContext): PluginOption =
         }
       }
     },
-  }
+  }]
 }

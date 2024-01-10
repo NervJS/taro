@@ -1,15 +1,20 @@
 import {
   chalk,
   fs,
+  isAliasPath,
   readConfig,
   recursiveMerge,
+  replaceAliasPath,
   resolveMainFilePath,
+  resolveSync,
 } from '@tarojs/helper'
 import { isArray, isFunction } from '@tarojs/shared'
 import {
+  ViteAppMeta,
   ViteFileType,
   ViteHarmonyBuildConfig,
   ViteHarmonyCompilerContext,
+  ViteNativeCompMeta,
   VitePageMeta
 } from '@tarojs/taro/types/compile/viteCompilerContext'
 import JSON5 from 'json5'
@@ -17,6 +22,7 @@ import path from 'path'
 
 import defaultConfig from '../../defaultConfig/defaultConfig.harmony'
 import { TARO_TABBAR_PAGE_PATH } from '../../harmony/page'
+import { componentConfig } from '../../utils/component'
 import { parseRelativePath } from '..'
 import { CompilerContext } from './base'
 
@@ -37,6 +43,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
   useETS: boolean
   useJSON5: boolean
   nativeExt = ['.ets']
+  nativeComponents = new Map<string, ViteNativeCompMeta>()
 
   constructor (appPath: string, taroConfig: ViteHarmonyBuildConfig) {
     super(appPath, taroConfig)
@@ -47,6 +54,7 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     this.commonChunks = this.getCommonChunks()
     this.app = this.getApp()
     this.pages = this.getPages()
+    this.collectNativeComponents(this.app)
     if (this.taroConfig.isBuildNativeComp) {
       this.components = this.getComponents()
     }
@@ -88,9 +96,52 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       path: configPath,
       content: config
     }
+    this.collectNativeComponents(pageMeta)
     this.configFileList.push(pageMeta.configPath)
 
     return pageMeta
+  }
+
+  collectNativeComponents (meta: ViteAppMeta | VitePageMeta | ViteNativeCompMeta) {
+    const { name, scriptPath, config } = meta
+    const { usingComponents } = config
+
+    if (!usingComponents) return
+
+    Object.entries(usingComponents).forEach(([compName, compPath]) => {
+      const alias = this.taroConfig.alias
+
+      if (isAliasPath(compPath, alias)) {
+        compPath = replaceAliasPath(scriptPath, compPath, alias)
+        usingComponents[compName] = compPath
+      }
+
+      const compScriptPath = resolveMainFilePath(path.resolve(path.dirname(scriptPath), compPath))
+
+      if (this.nativeComponents.has(compScriptPath)) return
+
+      const ETSPath = this.getETSPath(compScriptPath)
+
+      if (!fs.existsSync(compScriptPath) || !ETSPath) {
+        return this.logger.warn(`找不到页面 ${name} 依赖的自定义组件：${compScriptPath}`)
+      }
+
+      const nativeCompMeta: ViteNativeCompMeta = {
+        name: compName,
+        scriptPath: compScriptPath,
+        config: {},
+        configPath: '',
+        templatePath: ETSPath,
+        isNative: true
+      }
+
+      this.nativeComponents.set(compScriptPath, nativeCompMeta)
+      if (!componentConfig.thirdPartyComponents.has(compName) && !meta.isNative) {
+        componentConfig.thirdPartyComponents.set(compName, new Set())
+      }
+
+      this.collectNativeComponents(nativeCompMeta)
+    })
   }
 
   modifyHarmonyResources(id = '', data: any = {}) {
@@ -271,5 +322,9 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
 
   getConfigPath (filePath: string) {
     return this.getTargetFilePath(filePath, this.fileType.config)
+  }
+
+  getETSPath (filePath: string) {
+    return resolveSync(filePath, { extensions: this.nativeExt })
   }
 }
