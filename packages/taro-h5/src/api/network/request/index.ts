@@ -6,6 +6,9 @@ import { isFunction } from '@tarojs/shared'
 import jsonpRetry from 'jsonp-retry'
 
 import { serializeParams } from '../../../utils'
+interface RequestTask<T> extends Promise<T> {
+  abort?: (cb?: any) => void;
+}
 
 // @ts-ignore
 const { Link } = Taro
@@ -92,9 +95,7 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     params.mode = mode
   }
   let timeoutTimer: ReturnType<typeof setTimeout> | null = null
-  
-  let controller = null
-  let hasAborted = false
+  let controller: AbortController | null = null
   if (signal) {
     params.signal = signal
   } else {
@@ -102,12 +103,12 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     params.signal = controller.signal;
     if (typeof timeout === 'number') {
       timeoutTimer = setTimeout(function () {
-          if (!hasAborted) controller.abort();
+          if (controller) controller.abort();
       }, timeout);
     }
   }
   params.credentials = credentials
-  const p = fetch(url, params)
+  const p: RequestTask<any> = fetch(url, params)
     .then(response => {
       if (timeoutTimer) {
         clearTimeout(timeoutTimer)
@@ -151,22 +152,28 @@ function _request (options: Partial<Taro.request.Option> = {}) {
         clearTimeout(timeoutTimer)
         timeoutTimer = null
       }
+      if (controller) {
+        controller = null
+      }
       isFunction(fail) && fail(err)
       isFunction(complete) && complete(res)
       err.statusCode = res.statusCode
       err.errMsg = err.message
       return Promise.reject(err)
     })
-  if (!p.abort && controller) {
-    p.abort = cb => {
-      if (controller) {
-        cb && cb()
-        controller.abort()
-        hasAborted = true
+    if (!p.abort && controller) {
+      p.abort = cb => {
+        if (controller) {
+          cb && cb()
+          controller.abort()
+          if (timeoutTimer) {
+            clearTimeout(timeoutTimer)
+            timeoutTimer = null
+          }
+        }
       }
     }
-  }
-  return p
+    return p
 }
 
 function taroInterceptor (chain) {
