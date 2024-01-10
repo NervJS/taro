@@ -50,6 +50,7 @@ export const DEMO_JS_FILE_INFO_MINIPROGRANROOT = {
       ]
     }
   `,
+  '/miniprogram/app.wxss':'',
   '/miniprogram/pages/index/index.js': `
     const app = getApp()
       Page({
@@ -497,6 +498,54 @@ export const DEMO_TABBER = {
   '/image/icon_API_HL.png':''
 }
 
+export const DEMO_CUSTOM_TABBER = {
+  '/app.json':`
+    {
+      "pages": [
+        "pages/component/index",
+        "pages/api/index"
+      ],
+      "tabBar": {
+        "custom": true,
+        "color": "#7A7E83",
+        "selectedColor": "#3cc51f",
+        "borderStyle": "black",
+        "backgroundColor": "#ffffff",
+        "list": [
+          {
+            "pagePath": "pages/component/index",
+            "iconPath": "image/icon_component.png",
+            "selectedIconPath": "image/icon_component_HL.png",
+            "text": "组件"
+          },
+          {
+            "pagePath": "pages/api/index",
+            "iconPath": "image/icon_API.png",
+            "selectedIconPath": "image/icon_API_HL.png",
+            "text": "接口"
+          }
+        ]
+      }
+    }
+  `,
+  '/app.js':'App({})',
+  '/project.config.json': `{}`,
+  '/pages/component/index.js':'Page({})',
+  '/pages/component/index.wxml':`<view>组件</view>`,
+  '/pages/api/index.js':'Page({})',
+  '/pages/api/index.wxml':'<view>接口</view>',
+  '/image/icon_component.png':'',
+  '/image/icon_component_HL.png':'',
+  '/image/icon_API.png':'',
+  '/image/icon_API_HL.png':'',
+  '/custom-tab-bar':{
+    '/index.js':'Component({})',
+    '/index.wxml':'',
+    '/index.json':'{}',
+    '/index.wxss':'',
+  }
+}
+
 export const DEMO_SUBPACKAFES = {
   '/app.json':`
     {
@@ -550,4 +599,67 @@ export const DEMO_PAGE_NO_JS = {
     </view>
   `,
   '/pages/index/index.wxss': ``,
+}
+
+
+export const DEMO_PLUGIN_COMPLETE_DIRECTORY = {
+  '/miniprogram': {
+    '/app.json': `{
+      "pages": [
+        "pages/index/index"
+      ],
+      "plugins": {
+        "hello-component": {
+          "version": "dev",
+          "provider": "wx4cdb21d9ed86dd14"
+        }
+      },
+      "usingComponents": {
+        "hello-list": "plugin://hello-plugin/hello-component"
+      }
+    }`,
+    '/pages':{
+      '/index':{
+        '/index.js':`Page({})`,
+        '/index.wxml':``,
+        '/index.json':`{}`,
+        '/index.wxss':``,
+      }
+    }
+  },
+  '/plugin': {
+    '/components':{
+      '/hello-component.js':`Component({})`,
+      '/hello-component.wxml':`<text>plugin/components/hello-component.wxml</text>`,
+      '/hello-component.json':`{
+        "component": true,
+        "usingComponents": {}
+        }`,
+      '/hello-component.wxss':``,
+    },
+    '/pages':{
+      '/hello-page.js':`Page({})`,
+      '/hello-page.wxml':'<text>This is a plugin page!</text>',
+      '/hello-page.json':'{}',
+      '/hello-page.wxss':'',
+    },
+    '/plugin.json':`
+      {
+        "publicComponents": {
+          "hello-component": "components/hello-component"
+        },
+        "pages": {
+          "hello-page": "pages/hello-page"
+        },
+        "main": "index.js"
+      }
+    `,
+  },
+  '/project.config.json': `
+    {
+      "miniprogramRoot": "miniprogram/",
+      "pluginRoot": "/plugin",
+      "compileType": "plugin"
+    }
+  `
 }

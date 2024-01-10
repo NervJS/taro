@@ -14,7 +14,7 @@
     "test:clear": "jest --clearCache",
     "test:cov": "jest --coverage",
     "test:updateSnapshot": "jest --updateSnapshot",
-    "test:ci": "cross-env NODE_ENV=test jest /__tests__/config.test.ts --ci -i"
+    "test:ci": "cross-env NODE_ENV=test jest  --ci -i"
   },
   "files": [
     "bin",

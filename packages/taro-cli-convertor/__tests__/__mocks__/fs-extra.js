@@ -1,6 +1,8 @@
 'use strict'
 
 const path = require('path')
+
+const fsSystem = jest.requireActual('fs-extra')
 // 存储文件信息，包括文件路径和对应的内容
 const oriFileMap = new Map()
 
@@ -33,6 +35,7 @@ function setMockFiles (root, newMockFiles) {
   for (const file in flatteningFileRes) {
     oriFileMap.set(normalizePath(path.join(root, file)), flatteningFileRes[file])
   }
+  oriFileMap.set(root,newMockFiles)
 }
 
 
@@ -87,7 +90,7 @@ function deleteMockFiles (key) {
  * @param { 文件路径 } path 
  * @returns 
  */
-function readFileSyncMock (path) {
+function readFileSyncMock (path, type) {
   if (path === undefined || path === null || path === '') {
     throw new Error(`文件路径异常，path：${path}`)
   }
@@ -97,13 +100,10 @@ function readFileSyncMock (path) {
   if (!existsSyncMock(path)) {
     throw new Error(`文件不存在，path：${path}`)
   }
-  if(oriFileMap.has(path)){
-    return oriFileMap.get(path)
-  } else if (resFileMap.has(path)){
-    return resFileMap.get(path)
-  } else {
-    throw new Error(`文件不存在，path：${path}`)
-  }
+  const fileMap = oriFileMap.has(path) ? oriFileMap : resFileMap
+  const content = fileMap.get(path)
+
+  return content !== undefined ? content : fsSystem.readFileSync(path,type)
 }
 
 /**
@@ -115,7 +115,7 @@ function existsSyncMock (pathParam) {
    * 针对于测试 generateConfigFiles 函数需要，因为 generateConfigFiles 中会查找 taro 子包中的文件
    * jest.requireActual('fs-extra') 操作使用的是真实fs-extra模块，非模拟，所以会查找真实路径
    */
-  if(jest.requireActual('fs-extra').existsSync(pathParam) && path.isAbsolute(pathParam)) return true
+  if(fsSystem.existsSync(pathParam) && path.isAbsolute(pathParam)) return true
     
   if (typeof pathParam !== 'string' || pathParam === '') {
     return false
@@ -168,6 +168,7 @@ function ensureDirMock (path) {
  * @returns 
  */
 function mkdirSyncMock (path) {
+  path = normalizePath(path)
   resFileMap.set(path,'')
   return true
 }
@@ -185,11 +186,11 @@ function appendFileMock (path, appendContent) {
   }
 
   path = normalizePath(path)
-  if (oriFileMap.get(path)) {
-    const newContent = oriFileMap.get(path) + appendContent
-    oriFileMap.set(path, newContent)
+  if (resFileMap.get(path)) {
+    const newContent = resFileMap.get(path) + appendContent
+    resFileMap.set(path, newContent)
   }
-  oriFileMap.set(path, appendContent)
+  resFileMap.set(path, appendContent)
 }
 
 /**
@@ -205,6 +206,8 @@ function writeFileSyncMock (path, data) {
   }
 
   path = normalizePath(path)
+
+  data = Buffer.isBuffer(data) ? Buffer.from(data).toString('utf8') : data
 
   resFileMap.set(path, data)
 }
@@ -301,6 +304,7 @@ function lstatSyncMock (path) {
  * 读取文件夹下的内容
 */
 function readdirSyncMock (source){
+  source = normalizePath(source)
   const parts = source.split('/')
   if(oriFileMap.get(source) && !parts[parts.length - 1].includes('.')){
     const fileName  = []
@@ -309,7 +313,7 @@ function readdirSyncMock (source){
     })
     return fileName  
   } else {
-    return jest.requireActual('fs-extra').readdirSync(source)
+    return fsSystem.readdirSync(source)
   }
 }
 
@@ -326,7 +330,12 @@ function copyFileMock (sourcePath, destinationPath){
 
 // 自定义的 isFile 函数
 function customIsFile (path) {
-  return oriFileMap.get(path)
+  let isFileRes = false
+  const fileMap = oriFileMap.has(path) ? oriFileMap : resFileMap
+  if(fileMap.has(path)){
+    isFileRes = typeof fileMap.get(path) === 'string'
+  }
+  return isFileRes
 }
 
 // 自定义的 isDirectory 函数
@@ -348,8 +357,8 @@ function normalizePath (path) {
 }
 
 module.exports = {
-  ...jest.requireActual('fs-extra'),
-  readFileSync: jest.fn((content) => readFileSyncMock(content)),
+  ...fsSystem,
+  readFileSync: jest.fn((content,type) => readFileSyncMock(content,type)),
   existsSync: jest.fn((path) => existsSyncMock(path)),
   ensureDirSync: jest.fn(() => ensureDirSyncMock()),
   ensureDir: jest.fn(() => ensureDirMock()),

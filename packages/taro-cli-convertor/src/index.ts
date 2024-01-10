@@ -2185,12 +2185,12 @@ ${code}
    */
   generateReport () {
     const reportDir = path.join(this.convertRoot, 'report')
-    const iconFilePath = path.resolve(__dirname, '../', 'report/favicon.ico')
-    const reportIndexFilePath = path.resolve(__dirname, '../', 'report/index.html')
-    const reportBundleFilePath = path.resolve(__dirname, '../', 'report/static/js/bundle.js')
-    const reportStyleFilePath = path.resolve(__dirname, '../', 'report/static/css/main.css')
-    const fontBlodFilePath = path.resolve(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Bold.ttf')
-    const fontMediumFilePath = path.resolve(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Medium.ttf')
+    const iconFilePath = path.join(__dirname, '../', 'report/favicon.ico')
+    const reportIndexFilePath = path.join(__dirname, '../', 'report/index.html')
+    const reportBundleFilePath = path.join(__dirname, '../', 'report/static/js/bundle.js')
+    const reportStyleFilePath = path.join(__dirname, '../', 'report/static/css/main.css')
+    const fontBlodFilePath = path.join(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Bold.ttf')
+    const fontMediumFilePath = path.join(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Medium.ttf')
     const errMsgList = paseGlobalErrMsgs(globals.errCodeMsgs)
     const reportData: IReportData = {
       projectName: parseProjectName(this.root),
@@ -2231,6 +2231,7 @@ ${code}
     } catch (error) {
       updateLogFileContent(`ERROR [taro-cli-convertor] run - 转换异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     } finally {
+      printToLogFile()
       this.generateReport()
     }
   }

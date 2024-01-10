@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`引入外部wxss文件 引入外部wxss，无后缀 1`] = `
+Map {
+  /wxProject/taroConvert/src/pages/index/index.scss => 
+      @import "../common";
+      .scrollarea {
+        flex: 1;
+        overflow-y: hidden;
+      }
+    ,
+}
+`;
+
 exports[`引入外部wxss文件 拷贝三方字体包到转换后的工程 1`] = `
 Map {
   /wxProject/taroConvert/src/fonts/Algerian.ttf => 字体二进制,
