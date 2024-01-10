@@ -92,21 +92,29 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     params.mode = mode
   }
   let timeoutTimer: ReturnType<typeof setTimeout> | null = null
+  
+  let controller = null
+  let hasAborted = false
   if (signal) {
     params.signal = signal
-  } else if (typeof timeout === 'number') {
-    const controller = new window.AbortController()
-    params.signal = controller.signal
-    timeoutTimer = setTimeout(function () {
-      controller.abort()
-    }, timeout)
+  } else {
+    controller = new window.AbortController();
+    params.signal = controller.signal;
+    if (typeof timeout === 'number') {
+      timeoutTimer = setTimeout(function () {
+          if (!hasAborted) controller.abort();
+      }, timeout);
+    }
   }
   params.credentials = credentials
-  return fetch(url, params)
+  const p = fetch(url, params)
     .then(response => {
       if (timeoutTimer) {
         clearTimeout(timeoutTimer)
         timeoutTimer = null
+      }
+      if (controller) {
+        controller = null
       }
       if (!response) {
         const errorResponse = { ok: false }
@@ -149,6 +157,16 @@ function _request (options: Partial<Taro.request.Option> = {}) {
       err.errMsg = err.message
       return Promise.reject(err)
     })
+  if (!p.abort && controller) {
+    p.abort = cb => {
+      if (controller) {
+        cb && cb()
+        controller.abort()
+        hasAborted = true
+      }
+    }
+  }
+  return p
 }
 
 function taroInterceptor (chain) {
