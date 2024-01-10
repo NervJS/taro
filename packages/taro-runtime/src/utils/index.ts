@@ -129,3 +129,5 @@ export function getComponentsAlias () {
   }
   return componentsAlias
 }
+
+export * from './lodash'

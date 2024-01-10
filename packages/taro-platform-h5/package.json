@@ -40,6 +40,7 @@
     "@tarojs/service": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",

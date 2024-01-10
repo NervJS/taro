@@ -1,6 +1,4 @@
 /* eslint-disable camelcase */
-import './polyfill'
-
 import {
   Current,
   eventCenter,

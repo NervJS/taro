@@ -53,3 +53,6 @@ export * from './utils/router'
 // typings
 export * from './dsl/instance'
 export * from './interface'
+
+// Polyfills
+export * from './polyfill'
