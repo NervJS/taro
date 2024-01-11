@@ -38,7 +38,7 @@ export interface IFileType {
 
 export interface IBuildConfig extends IProjectBaseConfig, IMiniAppConfig {
   blended?: boolean
-  buildAdapter: string
+  buildAdapter: string // weapp | swan | alipay | tt | qq | jd | h5
   entry?: webpack.Entry
   hot?: boolean
   fileType: IFileType

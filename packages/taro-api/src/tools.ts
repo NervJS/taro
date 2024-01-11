@@ -1,11 +1,11 @@
-import { isFunction, isObject } from './utils'
+import { isFunction, isObject } from '@tarojs/shared'
 
 export function Behavior (options) {
   return options
 }
 
 export function getPreload (current) {
-  return function (key, val) {
+  return function (key: string | Record<string, unknown>, val: unknown) {
     current.preloadData = isObject(key)
       ? key
       : {
