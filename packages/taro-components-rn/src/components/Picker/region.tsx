@@ -36,20 +36,28 @@ function formateRegionData(clObj: RegionObj[] = [], customItem?: string, depth =
 }
 
 export default class RegionSelector extends React.Component<RegionProps, RegionState> {
-  constructor(props: RegionProps) {
-    super(props)
-    this.regionData = formateRegionData(props.regionData || regionData, props.customItem)
-  }
-
-  static defaultProps = {
-    value: [],
-  }
-
-  static getDerivedStateFromProps(nextProps: Required<RegionProps>, lastState: RegionState): RegionState | null {
-    if (nextProps.value !== lastState.pValue) {
+  static getDerivedStateFromProps(nextProps: RegionProps, lastState: RegionState): Partial<RegionState> | null {
+    // eslint-disable-next-line eqeqeq
+    const isControlled = nextProps.value != undefined
+    if (isControlled) {
+      if (nextProps.value !== lastState.pValue) {
+        // 受控更新
+        return {
+          pValue: nextProps.value,
+          value: nextProps.value
+        }
+      } else if (lastState.isInOnChangeUpdate && nextProps.value !== lastState.value) {
+        // 受控还原
+        return {
+          value: nextProps.value,
+          isInOnChangeUpdate: false
+        }
+      }
+    } else if (nextProps.value !== lastState.pValue) {
+      // 初次更新才设置 defaultValue
       return {
-        value: nextProps.value,
-        pValue: nextProps.value
+        pValue: nextProps.value,
+        value: nextProps.defaultValue ?? []
       }
     }
     return null
@@ -57,12 +65,13 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
 
   state = {
     value: [],
-    pValue: []
+    pValue: [],
+    isInOnChangeUpdate: false,
   }
 
   dismissByOk = false
 
-  regionData: PickerData[]
+  regionData = formateRegionData(this.props.regionData || regionData, this.props.customItem)
 
   onChange = (value: string[]): void => {
     const { onChange = noop } = this.props
@@ -81,11 +90,8 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
     }).filter(code => !!code)
     const detail: Record<string, any> = { value, code }
     if (postcode[2]) detail.postcode = postcode[2]
+    this.setState({ value, isInOnChangeUpdate: true })
     onChange({ detail })
-  }
-
-  onPickerChange = (value: any[]): void => {
-    this.setState({ value })
   }
 
   onOk = (): void => {
@@ -115,7 +121,6 @@ export default class RegionSelector extends React.Component<RegionProps, RegionS
         data={this.regionData}
         value={value}
         onChange={this.onChange}
-        onPickerChange={this.onPickerChange}
         onOk={this.onOk}
         onVisibleChange={this.onVisibleChange}
         disabled={disabled}

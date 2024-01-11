@@ -22,6 +22,7 @@ export interface InputState {
 export interface InputProps extends FormItemProps{
   style?: StyleProp<ViewStyle>;
   value?: string;
+  defaultValue?: string;
   type?: 'text' | 'number' | 'idcard' | 'digit';
   password?: boolean;
   placeholder?: string;
