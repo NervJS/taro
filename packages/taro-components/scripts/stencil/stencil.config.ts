@@ -93,13 +93,6 @@ export const config: Config = {
    */
   testing: {
     globals: {
-      ENABLE_INNER_HTML: true,
-      ENABLE_ADJACENT_HTML: true,
-      ENABLE_SIZE_APIS: true,
-      ENABLE_TEMPLATE_CONTENT: true,
-      ENABLE_MUTATION_OBSERVER: true,
-      ENABLE_CLONE_NODE: true,
-      ENABLE_CONTAINS: true,
       'ts-jest': {
         diagnostics: false,
         tsconfig: {
@@ -110,10 +103,11 @@ export const config: Config = {
       }
     },
     moduleNameMapper: {
+      '@tarojs/taro': '@tarojs/taro-h5',
       '(\\.(css|less|sass|scss))|weui': '<rootDir>/__mocks__/styleMock.js',
       '\\.(gif|ttf|eot|svg)$': '<rootDir>/__mocks__/fileMock.js'
     },
-    setupFiles: ['<rootDir>/__tests__/setup.ts'],
+    setupFiles: ['<rootDir>/__mocks__/setup.ts'],
     testRegex: '(\\.|/)(e2e|spec|test|tt)\\.[jt]sx?$',
     // timers: 'fake',
     transform: {

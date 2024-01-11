@@ -1036,9 +1036,6 @@ importers:
       hls.js:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
-      intersection-observer:
-        specifier: ^0.7.0
-        version: registry.npmjs.org/intersection-observer@0.7.0
       resolve-pathname:
         specifier: ^3.0.0
         version: registry.npmjs.org/resolve-pathname@3.0.0
@@ -2001,6 +1998,9 @@ importers:
       '@tarojs/router':
         specifier: workspace:*
         version: link:../taro-router
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
@@ -2024,7 +2024,7 @@ importers:
         specifier: ^25.0.7
         version: registry.npmjs.org/@rollup/plugin-commonjs@25.0.7(rollup@3.21.5)
       '@rollup/plugin-json':
-        specifier: ^6.0.0
+        specifier: ^6.1.0
         version: registry.npmjs.org/@rollup/plugin-json@6.1.0(rollup@3.21.5)
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
@@ -30960,12 +30960,6 @@ packages:
     name: interpret
     version: 1.4.0
     engines: {node: '>= 0.10'}
-    dev: false
-
-  registry.npmjs.org/intersection-observer@0.7.0:
-    resolution: {integrity: sha512-Id0Fij0HsB/vKWGeBe9PxeY45ttRiBmhFyyt/geBdDHBYNctMRTE3dC1U3ujzz3lap+hVXlEcVaB56kZP/eEUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.7.0.tgz}
-    name: intersection-observer
-    version: 0.7.0
     dev: false
 
   registry.npmjs.org/into-stream@3.1.0:
