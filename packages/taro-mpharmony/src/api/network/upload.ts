@@ -1,9 +1,10 @@
 import { isFunction } from '@tarojs/shared'
 import { getParameterError, shouldBeObject } from 'src/utils'
 
+import native from '../NativeApi'
 /**
  * 将本地资源上传到服务器
- * 
+ *
  * @canUse uploadFile
  * @__object [url, filePath, name, header, formData, timeout, fileName, withCredentials]
  * @__success [data, statusCode, header, cookies]
@@ -38,7 +39,7 @@ export const uploadFile = (options) => {
   }
 
   // @ts-ignore
-  const task = native.uploadFile({
+  const task = native.uploadFileBridgeAsync({
     url,
     filePath,
     name,
@@ -56,7 +57,7 @@ export const uploadFile = (options) => {
 
   /**
    * 一个可以监听上传进度变化事件，以及取消上传任务的对象
-   * 
+   *
    * @canUse UploadTask
    * @__class [abort, onProgressUpdate, offProgressUpdate, onHeadersReceived, offHeadersReceived]
    */

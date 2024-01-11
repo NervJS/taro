@@ -2,6 +2,7 @@ import Taro from '@tarojs/api'
 
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
+import native from '../NativeApi'
 
 /**
  * 跳转系统蓝牙设置页
@@ -50,7 +51,7 @@ export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (opt
  */
 export const getWindowInfo: typeof Taro.getWindowInfo = () => {
   // @ts-ignore
-  const info = native.getWindowInfo()
+  const info = native.getWindowInfoBridgeSync()
   const windowInfo: Taro.getWindowInfo.Result = {
     pixelRatio: info.pixelRatio,
     screenWidth: info.screenWidth,
@@ -92,7 +93,7 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
     return lastSystemSettingResult
   }
   // @ts-ignore
-  const info = native.getSystemSetting()
+  const info = native.getSystemSettingBridgeSync()
   lastSystemSettingResult.bluetoothEnabled = info.bluetoothEnabled
   lastSystemSettingResult.locationEnabled = info.locationEnabled
   lastSystemSettingResult.wifiEnabled = info.wifiEnabled
@@ -134,9 +135,9 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
  */
 export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
   // @ts-ignore
-  const info = native.getAppBaseInfo()
+  const info = native.getAppBaseInfoBridgeSync()
   // @ts-ignore
-  const sdkApiVersion = native.getSystemInfoSync().ohosAPILevel.toString()
+  const sdkApiVersion = native.getSystemInfoSyncBridgeSync().ohosAPILevel.toString()
   const appBaseInfo: Taro.getAppBaseInfo.Result = {
     SDKVersion: sdkApiVersion,
     enableDebug: info.enableDebug,
@@ -157,8 +158,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
  * microphoneAuthorized, notificationAuthorized, phoneCalendarAuthorized]
  */
 export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
-  // @ts-ignore
-  const info = native.getAppAuthorizeSetting()
+  const info = native.getAppAuthorizeSettingBridgeSync()
   // @ts-ignore
   const appAuthorizeSetting: Taro.getAppAuthorizeSetting.Result = {
     /** 允许微信使用相册的开关（仅 iOS 有效） */
@@ -194,7 +194,7 @@ export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => 
  */
 export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
   // @ts-ignore
-  const info = native.getSystemInfoSync()
+  const info = native.getSystemInfoSyncBridgeSync()
   const windowInfo = getWindowInfo()
   const systemSetting = getSystemSetting()
   const appBaseInfo = getAppBaseInfo()

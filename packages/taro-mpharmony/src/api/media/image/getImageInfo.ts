@@ -2,14 +2,15 @@ import Taro from '@tarojs/api'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 /**
  * 从本地相册选择图片或使用相机拍照。
- * 
+ *
  * @canUse getImageInfo
  * @__object [src]
- * @__success 
- * [height, orientation[up, up-mirrored, down, down-mirrored, left-mirrored, right, right-mirrored, left],\ 
+ * @__success
+ * [height, orientation[up, up-mirrored, down, down-mirrored, left-mirrored, right, right-mirrored, left],\
  * path, type, width]
  */
 export const getImageInfo: typeof Taro.getImageInfo = function (options) {
@@ -35,7 +36,7 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
 
   return new Promise<Taro.getImageInfo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.getImageInfo({
+    native.getImageInfoBridgeAsync({
       src: src,
       success: (res: any) => {
         const result: Taro.getImageInfo.SuccessCallbackResult = {

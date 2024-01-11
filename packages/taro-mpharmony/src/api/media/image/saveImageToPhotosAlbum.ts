@@ -2,11 +2,12 @@ import Taro from '@tarojs/api'
 
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 /**
  * 保存图片到系统相册
- * 
- * @canUse saveImageToPhotosAlbum 
+ *
+ * @canUse saveImageToPhotosAlbum
  * @__object [filePath]
  */
 export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (options) => {
@@ -33,7 +34,7 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.saveImageToPhotosAlbum({
+    native.saveImageToPhotosAlbumBridgeAsync({
       filePath: filePath,
       success: (res: any) => {
         handle.success(res, { resolve, reject })

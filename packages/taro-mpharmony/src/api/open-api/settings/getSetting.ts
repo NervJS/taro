@@ -1,10 +1,11 @@
 import Taro from '@tarojs/api'
 import { shouldBeObject } from 'src/utils'
-import { MethodHandler } from 'src/utils/handler'
+
+import native from '../../NativeApi'
 
 /**
  * 获取用户的当前设置
- * 
+ *
  * @canUse getSetting
  * @__object [withSubscriptions]
  * @__success [authSetting, subscriptionsSetting, miniprogramAuthSetting]
@@ -20,29 +21,7 @@ export const getSetting: typeof Taro.getSetting = function (options) {
     return Promise.reject(res)
   }
 
-  const { success, fail, complete, ...otherOptions } = options as Exclude<typeof options, undefined>
-
-  const handle = new MethodHandler<{
-    authSetting: Taro.AuthSetting
-    subscriptionsSetting?: Taro.SubscriptionsSetting
-    miniprogramAuthSetting: Taro.AuthSetting
-    errMsg?: string
-  }>({ name, success, fail, complete })
-
   // @ts-ignore
-  return native.getSetting(otherOptions).then(
-    (res: any) => {
-      const result: Taro.getSetting.SuccessCallbackResult = {
-        authSetting: res.authSetting,
-        subscriptionsSetting: res.subscriptionsSetting || {},
-        miniprogramAuthSetting: {},
-        errMsg: res.errMsg,
-      }
-      handle.success(result)
-      // handle.success(res)
-    },
-    (res: any) => {
-      handle.fail(res)
-    }
-  )
+  return native.getSettingBridgeAsync(options)
+
 }

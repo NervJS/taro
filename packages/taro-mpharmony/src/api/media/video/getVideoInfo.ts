@@ -2,13 +2,14 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
 /**
  * 获取视频详细信息
- * 
- * @canUse getVideoInfo 
- * @__object [src] 
- * @__success 
- * [orientation[up, down, left, right, up-mirrored, down-mirrored, left-mirrored, right-mirrored],\ 
+ *
+ * @canUse getVideoInfo
+ * @__object [src]
+ * @__success
+ * [orientation[up, down, left, right, up-mirrored, down-mirrored, left-mirrored, right-mirrored],\
  * type, duration, size, height, width, fps, bitrate]
  */
 export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
@@ -48,7 +49,7 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
 
   return new Promise<Taro.getVideoInfo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.getVideoInfo({
+    native.getVideoInfoBridgeAsync({
       src: src,
       success: (res: any) => {
         const result: Taro.getVideoInfo.SuccessCallbackResult = {

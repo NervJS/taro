@@ -2,9 +2,10 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../NativeApi'
 /**
  * 新开页面打开文档，支持格式
- * 
+ *
  * @canUse openDocument
  * @null_implementation
  */
@@ -35,7 +36,7 @@ export const openDocument: typeof Taro.openDocument = (options) => {
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.openDocument({
+    native.openDocumentBridgeAsync({
       filePath: filePath,
       showMenu: showMenu,
       fileType: fileType,

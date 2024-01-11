@@ -2,11 +2,12 @@ import Taro from '@tarojs/taro'
 import { shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
 /**
  * 调用接口获取登录凭证（code）
- *  
+ *
  * @canUse login
- * @__object [timeout] 
+ * @__object [timeout]
  * @__success [code]
  */
 export const login: typeof Taro.login = (options) => {
@@ -25,7 +26,7 @@ export const login: typeof Taro.login = (options) => {
 
   let loginPromise = new Promise((resolve, reject) => {
     // @ts-ignore
-    native.login({
+    native.loginBridgeAsync({
       success: (res: any) => {
         resolve(res)
       },

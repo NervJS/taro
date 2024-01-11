@@ -2,9 +2,10 @@ import Taro from '@tarojs/taro'
 import { getParameterError, shouldBeObject } from 'src/utils'
 import { MethodHandler } from 'src/utils/handler'
 
+import native from '../../NativeApi'
 /**
  * 压缩视频接口
- * 
+ *
  * @canUse compressVideo
  * @null_implementation
  */
@@ -84,7 +85,7 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
 
   return new Promise<Taro.compressVideo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.compressVideo({
+    native.compressVideoBridgeAsync({
       src: src,
       quality: quality,
       bitrate: bitrate,

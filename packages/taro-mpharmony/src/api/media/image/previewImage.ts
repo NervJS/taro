@@ -9,12 +9,13 @@ import Taro from '@tarojs/taro'
 
 import { shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 import { showActionSheet, showToast } from '../../ui/interaction/index'
 import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
 
 /**
  * 在新页面中全屏预览图片。预览的过程中用户可以进行保存图片、发送给朋友等操作。
- * 
+ *
  * @canUse previewImage
  * @__object [urls, current, showmenu]
  */
@@ -86,7 +87,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
               return
             }
             // @ts-ignore
-            native.downloadFile ({
+            native.downloadFileBridgeAsync ({
               url: url, // 仅为示例，并非真实的资源
               success: function (res: any) {
                 // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容

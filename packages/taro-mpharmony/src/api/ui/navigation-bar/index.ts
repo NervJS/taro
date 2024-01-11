@@ -4,6 +4,7 @@ import { setTitle } from '@tarojs/router/dist/utils/navigate'
 
 import { getParameterError, shouldBeObject } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
+import native from '../../NativeApi'
 
 /**
  * 导航条与Web层叠布局，导航条可见情况下Web页面顶部空出一定高度的留白
@@ -33,7 +34,7 @@ loadNavigationSytle()
 
 /**
  * 显示页面导航条加载图标
- * 
+ *
  * @canUse showNavigationBarLoading
  */
 export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (options?) => {
@@ -47,7 +48,7 @@ export const showNavigationBarLoading: typeof Taro.showNavigationBarLoading = (o
 
 /**
  * 隐藏页面导航条加载图标
- * 
+ *
  * @canUse hideNavigationBarLoading
  */
 export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (options?) => {
@@ -61,7 +62,7 @@ export const hideNavigationBarLoading: typeof Taro.hideNavigationBarLoading = (o
 
 /**
  * 设置页面导航条标题
- * 
+ *
  * @canUse setNavigationBarTitle
  * @__object [title]
  */
@@ -95,7 +96,7 @@ export const setNavigationBarTitle: typeof Taro.hideNavigationBarLoading = (
 }
 /**
  * 设置页面导航条颜色
- * 
+ *
  * @canUse setNavigationBarColor
  * @__object [backgroundColor, frontColor, animation]
  */
@@ -140,13 +141,13 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
     })
   }
   // @ts-ignore
-  native.setNavigationBarColor({ frontColor, backgroundColor, ...otherOptions })
+  native.setNavigationBarColorBridgeSync({ frontColor, backgroundColor, ...otherOptions })
   return handle.success()
 }
 
 /**
  * 隐藏返回首页按钮
- * 
+ *
  * @canUse hideHomeButton
  * @null_implementation
  */
