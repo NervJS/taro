@@ -7,7 +7,7 @@
     "preserveConstEnums": true,
     "sourceMap": true
   },
-  "include": ["./src", "./types", "rollup.config.ts"],
+  "include": ["./src", "./types", "./rollup.config.ts"],
   "ts-node": {
     "compilerOptions": {
       "module": "UMD",

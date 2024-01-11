@@ -957,9 +957,6 @@ importers:
       hls.js:
         specifier: ^1.1.5
         version: registry.npmjs.org/hls.js@1.4.1
-      intersection-observer:
-        specifier: ^0.7.0
-        version: registry.npmjs.org/intersection-observer@0.7.0
       resolve-pathname:
         specifier: ^3.0.0
         version: registry.npmjs.org/resolve-pathname@3.0.0
@@ -1904,6 +1901,9 @@ importers:
       '@tarojs/router':
         specifier: workspace:*
         version: link:../taro-router
+      '@tarojs/runtime':
+        specifier: workspace:*
+        version: link:../taro-runtime
       '@tarojs/service':
         specifier: workspace:*
         version: link:../taro-service
@@ -1927,14 +1927,14 @@ importers:
         version: registry.npmjs.org/resolve@1.22.2
     devDependencies:
       '@rollup/plugin-commonjs':
-        specifier: ^20.0.0
-        version: registry.npmjs.org/@rollup/plugin-commonjs@20.0.0(rollup@3.21.5)
+        specifier: ^24.0.0
+        version: registry.npmjs.org/@rollup/plugin-commonjs@24.1.0(rollup@3.21.5)
       '@rollup/plugin-json':
-        specifier: ^4.1.0
-        version: registry.npmjs.org/@rollup/plugin-json@4.1.0(rollup@3.21.5)
+        specifier: ^6.1.0
+        version: registry.npmjs.org/@rollup/plugin-json@6.1.0(rollup@3.21.5)
       '@rollup/plugin-node-resolve':
-        specifier: ^8.0.0
-        version: registry.npmjs.org/@rollup/plugin-node-resolve@8.4.0(rollup@3.21.5)
+        specifier: ^15.0.0
+        version: registry.npmjs.org/@rollup/plugin-node-resolve@15.0.2(rollup@3.21.5)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
         version: registry.npmjs.org/@rollup/plugin-typescript@11.1.1(rollup@3.21.5)(typescript@4.9.5)
@@ -14523,25 +14523,6 @@ packages:
       resolve: registry.npmjs.org/resolve@1.22.2
       rollup: registry.npmjs.org/rollup@2.79.1
 
-  registry.npmjs.org/@rollup/plugin-commonjs@20.0.0(rollup@3.21.5):
-    resolution: {integrity: sha512-5K0g5W2Ol8hAcTHqcTBHiA7M58tfmYi1o9KxeJuuRNpGaTa5iLjcyemBitCBcKXaHamOBBEH2dGom6v6Unmqjg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-20.0.0.tgz}
-    id: registry.npmjs.org/@rollup/plugin-commonjs/20.0.0
-    name: '@rollup/plugin-commonjs'
-    version: 20.0.0
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^2.38.3
-    dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@3.1.0(rollup@3.21.5)
-      commondir: registry.npmjs.org/commondir@1.0.1
-      estree-walker: registry.npmjs.org/estree-walker@2.0.2
-      glob: registry.npmjs.org/glob@7.2.3
-      is-reference: registry.npmjs.org/is-reference@1.2.1
-      magic-string: registry.npmjs.org/magic-string@0.25.9
-      resolve: registry.npmjs.org/resolve@1.22.2
-      rollup: 3.21.5
-    dev: true
-
   registry.npmjs.org/@rollup/plugin-commonjs@24.1.0(rollup@3.21.5):
     resolution: {integrity: sha512-eSL45hjhCWI0jCCXcNtLVqM5N1JlBGvlFfY0m6oOYnLCJ6N0qEXoZql4sY2MOUArzhH4SA/qBpTxvvZp2Sc+DQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-commonjs/-/plugin-commonjs-24.1.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-commonjs/24.1.0
@@ -14575,18 +14556,6 @@ packages:
       rollup: registry.npmjs.org/rollup@2.79.1
     dev: false
 
-  registry.npmjs.org/@rollup/plugin-json@4.1.0(rollup@3.21.5):
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-4.1.0.tgz}
-    id: registry.npmjs.org/@rollup/plugin-json/4.1.0
-    name: '@rollup/plugin-json'
-    version: 4.1.0
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@3.1.0(rollup@3.21.5)
-      rollup: 3.21.5
-    dev: true
-
   registry.npmjs.org/@rollup/plugin-json@6.1.0(rollup@3.21.5):
     resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-json/-/plugin-json-6.1.0.tgz}
     id: registry.npmjs.org/@rollup/plugin-json/6.1.0
@@ -14600,7 +14569,7 @@ packages:
         optional: true
     dependencies:
       '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@5.1.0(rollup@3.21.5)
-      rollup: registry.npmjs.org/rollup@3.21.5
+      rollup: 3.21.5
     dev: true
 
   registry.npmjs.org/@rollup/plugin-node-resolve@13.3.0(rollup@2.79.1):
@@ -14659,25 +14628,6 @@ packages:
       is-module: registry.npmjs.org/is-module@1.0.0
       resolve: registry.npmjs.org/resolve@1.22.2
       rollup: registry.npmjs.org/rollup@2.79.1
-    dev: true
-
-  registry.npmjs.org/@rollup/plugin-node-resolve@8.4.0(rollup@3.21.5):
-    resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.4.0.tgz}
-    id: registry.npmjs.org/@rollup/plugin-node-resolve/8.4.0
-    name: '@rollup/plugin-node-resolve'
-    version: 8.4.0
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      '@rollup/pluginutils': registry.npmjs.org/@rollup/pluginutils@3.1.0(rollup@3.21.5)
-      '@types/resolve': registry.npmjs.org/@types/resolve@1.17.1
-      builtin-modules: registry.npmjs.org/builtin-modules@3.3.0
-      deep-freeze: registry.npmjs.org/deep-freeze@0.0.1
-      deepmerge: registry.npmjs.org/deepmerge@4.3.1
-      is-module: registry.npmjs.org/is-module@1.0.0
-      resolve: registry.npmjs.org/resolve@1.22.2
-      rollup: 3.21.5
     dev: true
 
   registry.npmjs.org/@rollup/plugin-replace@4.0.0(rollup@2.79.1):
@@ -14752,21 +14702,6 @@ packages:
       picomatch: registry.npmjs.org/picomatch@2.3.1
       rollup: registry.npmjs.org/rollup@2.79.1
 
-  registry.npmjs.org/@rollup/pluginutils@3.1.0(rollup@3.21.5):
-    resolution: {integrity: sha512-GksZ6pr6TpIjHm8h9lSQ8pi8BE9VeubNT0OMJ3B5uZJ8pz73NPiqOtCog/x2/QzM1ENChPKxMDhiQuRHsqc+lg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz}
-    id: registry.npmjs.org/@rollup/pluginutils/3.1.0
-    name: '@rollup/pluginutils'
-    version: 3.1.0
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      '@types/estree': registry.npmjs.org/@types/estree@0.0.39
-      estree-walker: registry.npmjs.org/estree-walker@1.0.1
-      picomatch: registry.npmjs.org/picomatch@2.3.1
-      rollup: 3.21.5
-    dev: true
-
   registry.npmjs.org/@rollup/pluginutils@5.0.2(rollup@2.79.1):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-5.0.2.tgz}
     id: registry.npmjs.org/@rollup/pluginutils/5.0.2
@@ -14818,7 +14753,7 @@ packages:
       '@types/estree': registry.npmjs.org/@types/estree@1.0.1
       estree-walker: registry.npmjs.org/estree-walker@2.0.2
       picomatch: registry.npmjs.org/picomatch@2.3.1
-      rollup: registry.npmjs.org/rollup@3.21.5
+      rollup: 3.21.5
     dev: true
 
   registry.npmjs.org/@segment/loosely-validate-event@2.0.0:
@@ -28483,12 +28418,6 @@ packages:
     name: interpret
     version: 1.4.0
     engines: {node: '>= 0.10'}
-    dev: false
-
-  registry.npmjs.org/intersection-observer@0.7.0:
-    resolution: {integrity: sha512-Id0Fij0HsB/vKWGeBe9PxeY45ttRiBmhFyyt/geBdDHBYNctMRTE3dC1U3ujzz3lap+hVXlEcVaB56kZP/eEUg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/intersection-observer/-/intersection-observer-0.7.0.tgz}
-    name: intersection-observer
-    version: 0.7.0
     dev: false
 
   registry.npmjs.org/into-stream@3.1.0:
