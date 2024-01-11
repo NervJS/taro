@@ -743,10 +743,13 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
   parseEntry (rawId: string, page: VitePageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
-    const createPage = `createPageConfig(component, '${page.name}', config)`
+    const isBlended = this.buildConfig.blended
+    const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
+    const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
+    const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`
 
     return this.transArr2Str([
-      `import { createPageConfig } from '${creatorLocation}'`,
+      `import { ${createPageFn} } from '${creatorLocation}'`,
       `import component from "${escapePath(rawId)}"`,
       importFrameworkStatement,
       `export const config = ${this.prettyPrintJson(page.config)}`,

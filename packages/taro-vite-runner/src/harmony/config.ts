@@ -1,6 +1,6 @@
 import { babel } from '@rollup/plugin-babel'
 import inject from '@rollup/plugin-inject'
-import { defaultMainFields, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { defaultMainFields, fs, PLATFORMS, recursiveMerge, resolveMainFilePath } from '@tarojs/helper'
 import { getSassLoaderOption } from '@tarojs/runner-utils'
 import { isArray, PLATFORM_TYPE } from '@tarojs/shared'
 import path from 'path'
@@ -10,6 +10,7 @@ import { getBabelOption, getCSSModulesOptions, getMinify, getMode, getPostcssPlu
 import { DEFAULT_TERSER_OPTIONS, HARMONY_SCOPES } from '../utils/constants'
 import { logger } from '../utils/logger'
 import { TARO_COMP_SUFFIX } from './entry'
+import { QUERY_IS_NATIVE_SCRIPT } from './ets'
 
 import type { RollupInjectOptions } from '@rollup/plugin-inject'
 import type { ViteHarmonyCompilerContext } from '@tarojs/taro/types/compile/viteCompilerContext'
@@ -47,6 +48,27 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     return Object.entries(alias).map(([find, replacement]) => {
       return { find, replacement }
     })
+  }
+
+  function getEntryOption() {
+    const { isBuildNativeComp, blended } = taroConfig
+
+    if (isBuildNativeComp) {
+      return viteCompilerContext.components!.map(page => page.scriptPath)
+    } else if (blended) {
+      return viteCompilerContext.pages!.map(page => {
+        if (page.isNative) {
+          const { sourceDir, nativeExt } = viteCompilerContext as ViteHarmonyCompilerContext
+          const nativePath = resolveMainFilePath(path.join(sourceDir, page.name), nativeExt)
+
+          return nativePath + QUERY_IS_NATIVE_SCRIPT
+        } else {
+          return page.scriptPath
+        }
+      })
+    }
+
+    return taroConfig.entry.app
   }
 
   function getInjectOption(): RollupInjectOptions {
@@ -145,7 +167,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         cssCodeSplit: true,
         emptyOutDir: false,
         lib: {
-          entry: taroConfig.isBuildNativeComp ? viteCompilerContext.components!.map(e => e.scriptPath) : taroConfig.entry.app,
+          entry: getEntryOption(),
           formats: ['es'],
         },
         watch: taroConfig.isWatch ? {} : null,
@@ -156,12 +178,20 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
           makeAbsoluteExternalsRelative: 'ifRelativeSource',
           output: {
             entryFileNames(chunkInfo) {
-              if (taroConfig.isBuildNativeComp) {
+              let name
+              if (taroConfig.isBuildNativeComp || taroConfig.blended) {
                 const pagePath = path.relative(taroConfig.sourceRoot || 'src', path.dirname(stripVirtualModulePrefix(chunkInfo.facadeModuleId || '')))
                 const pageName = path.join(pagePath, chunkInfo.name)
-                return stripMultiPlatformExt(pageName + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+                name = stripMultiPlatformExt(pageName + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+              } else {
+                name = stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
               }
-              return stripMultiPlatformExt(chunkInfo.name + TARO_COMP_SUFFIX) + taroConfig.fileType.script
+
+              if (chunkInfo.facadeModuleId && chunkInfo.facadeModuleId.includes(QUERY_IS_NATIVE_SCRIPT)) {
+                name += QUERY_IS_NATIVE_SCRIPT
+              }
+
+              return name
             },
             chunkFileNames(chunkInfo) {
               if (chunkInfo.moduleIds?.some(id => id.includes(taroConfig.fileType.script))) {
@@ -171,7 +201,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
             },
             manualChunks(id, { getModuleInfo }) {
               const moduleInfo = getModuleInfo(id)
-              if (taroConfig.isBuildNativeComp) return
+              if (taroConfig.isBuildNativeComp || taroConfig.blended) return
 
               if (/[\\/]node_modules[\\/]/.test(id) || /commonjsHelpers\.js$/.test(id)) {
                 return 'vendors'

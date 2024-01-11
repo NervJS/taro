@@ -20,7 +20,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     enforce: 'pre',
     resolveId (source, _importer, options) {
       // Note: 组件编译模式下不需要生成入口文件
-      if (viteCompilerContext.taroConfig.isBuildNativeComp) return null
+      if (viteCompilerContext.taroConfig.isBuildNativeComp || viteCompilerContext.taroConfig.blended) return null
 
       if (viteCompilerContext?.isApp(source) && options.isEntry) {
         return appendVirtualModulePrefix(source + ENTRY_SUFFIX)
