@@ -6188,12 +6188,10 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    945: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(406);
-        var render = function() {
-            var _vm = this;
-            var _h = _vm.$createElement;
-            var _c = _vm._self._c || _h;
+    169: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(619);
+        var render = function render() {
+            var _vm = this, _c = _vm._self._c;
             return _c("view", {
                 staticClass: "index"
             }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
@@ -6276,7 +6274,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(945);
+        return __webpack_exec__(169);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);
@@ -8358,12 +8356,10 @@ require("./runtime");
 "use strict";
 
 (wx["webpackJsonp"] = wx["webpackJsonp"] || []).push([ [ 539 ], {
-    209: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
-        var taro_runtime = __webpack_require__(272);
-        var render = function() {
-            var _vm = this;
-            var _h = _vm.$createElement;
-            var _c = _vm._self._c || _h;
+    356: function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) {
+        var taro_runtime = __webpack_require__(83);
+        var render = function render() {
+            var _vm = this, _c = _vm._self._c;
             return _c("view", {
                 staticClass: "index"
             }, [ _c("text", [ _vm._v(_vm._s(_vm.msg)) ]) ]);
@@ -8448,7 +8444,7 @@ require("./runtime");
         return __webpack_require__(__webpack_require__.s = moduleId);
     };
     __webpack_require__.O(0, [ 592 ], (function() {
-        return __webpack_exec__(209);
+        return __webpack_exec__(356);
     }));
     var __webpack_exports__ = __webpack_require__.O();
 } ]);

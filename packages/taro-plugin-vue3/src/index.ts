@@ -1,5 +1,5 @@
 import { fs, REG_TARO_H5, VUE_EXT } from '@tarojs/helper'
-import { isString, isWebPlatform } from '@tarojs/shared'
+import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { h5VitePlugin } from './vite.h5'
@@ -50,7 +50,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
     setDefinePlugin(chain)
 
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
     } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
@@ -65,7 +65,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
   ctx.modifyViteConfig(({ viteConfig, data }) => {
     viteConfig.plugins.push(viteCommonPlugin())
     viteConfig.plugins.push(require('@vitejs/plugin-vue-jsx').default())
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       // H5
       viteConfig.plugins.push(h5VitePlugin(ctx, config))
     } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {

@@ -1,5 +1,5 @@
-import { esbuild, fs, REG_TARO_H5 } from '@tarojs/helper'
-import { isString, isWebPlatform } from '@tarojs/shared'
+import { fs, REG_TARO_H5 } from '@tarojs/helper'
+import { isString } from '@tarojs/shared'
 
 import { h5iVitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
@@ -8,6 +8,7 @@ import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyHarmonyWebpackChain } from './webpack.harmony'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
+import type { esbuild } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
 import type { IProjectConfig } from '@tarojs/taro/types/compile'
 import type { PluginOption } from 'vite'
@@ -32,7 +33,7 @@ export default (ctx: IPluginContext) => {
       return args
     })
 
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       // H5
       modifyH5WebpackChain(ctx, framework, chain)
     } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {
@@ -91,7 +92,7 @@ export default (ctx: IPluginContext) => {
       compiler.vitePlugins ||= []
       compiler.vitePlugins.push(viteCommonPlugin(framework))
       compiler.vitePlugins.push(VitePresetPlugin(framework))
-      if (isWebPlatform()) {
+      if (process.env.TARO_PLATFORM === 'web') {
         // H5
         compiler.vitePlugins.push(h5iVitePlugin(ctx, framework))
       } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {

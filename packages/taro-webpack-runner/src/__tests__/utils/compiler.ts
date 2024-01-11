@@ -83,6 +83,7 @@ export async function compile(
   }
 ) {
   process.env.TARO_ENV = 'h5'
+  process.env.TARO_PLATFORM = 'web'
 
   const appPath = path.resolve(__dirname, '../fixtures', app)
 
@@ -106,7 +107,9 @@ export async function compile(
         app: [path.join(appPath, customConfig.sourceRoot || 'src', 'app.config')],
       },
       env: {
-        FRAMEWORK: customConfig.framework,
+        FRAMEWORK: customConfig.framework || 'react',
+        TARO_ENV: process.env.TARO_ENV,
+        TARO_PLATFORM: process.env.TARO_PLATFORM,
       },
       terser: {
         enable: true,
@@ -115,7 +118,7 @@ export async function compile(
           mangle: false,
           output: {
             comments: false,
-            beautify: true,
+            beautify: true
           },
         },
       },

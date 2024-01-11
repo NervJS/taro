@@ -1,5 +1,7 @@
 import { defaultMainFields, resolveSync } from '@tarojs/helper'
 import { MultiPlatformPlugin } from '@tarojs/runner-utils'
+import path from 'path'
+import { sync as resolveSync } from 'resolve'
 import * as Chain from 'webpack-chain'
 
 import type { BuildConfig } from '../utils/types'
@@ -7,12 +9,23 @@ import type { BuildConfig } from '../utils/types'
 export default (appPath: string, config: Partial<BuildConfig>) => {
   const chain = new Chain()
   const mainFields = [...defaultMainFields]
-  const resolveOptions = {
-    basedir: appPath,
-    mainFields,
-  }
   if (config.isWatch) {
     mainFields.unshift('main:h5')
+  }
+  const resolveOptions: Parameters<typeof resolveSync>[1] = {
+    basedir: appPath,
+    packageFilter: (pkg, pkgFile) => {
+      for (let i = 0; i < mainFields.length; i++) {
+        try {
+          const mainFile = pkg[mainFields[i]] as string
+          if (mainFile && resolveSync(path.resolve(pkgFile, mainFile))) {
+            pkg.main = mainFile
+            break
+          }
+        } catch (e) {} // eslint-disable-line no-empty
+      }
+      return pkg
+    },
   }
   chain.merge({
     resolve: {

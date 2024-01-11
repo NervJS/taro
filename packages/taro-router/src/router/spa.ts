@@ -1,22 +1,23 @@
 /* eslint-disable dot-notation */
 import {
+  addLeadingSlash,
   createPageConfig, Current,
   eventCenter, hooks,
   incrementId,
-  stringify,
+  stringify, stripBasename,
 } from '@tarojs/runtime'
 import { Action as LocationAction } from 'history'
 import UniversalRouter from 'universal-router'
 
-import { history, prependBasename } from '../history'
-import { addLeadingSlash, routesAlias, stripBasename } from '../utils'
+import { prependBasename } from '../history'
+import { routesAlias } from '../utils'
 import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
 
 import type { AppInstance } from '@tarojs/runtime'
-import type { Listener as LocationListener } from 'history'
+import type { History, Listener as LocationListener } from 'history'
 import type { Routes } from 'universal-router'
 import type { SpaRouterConfig } from '../../types/router'
 
@@ -24,6 +25,7 @@ const createStampId = incrementId()
 let launchStampId = createStampId()
 
 export function createRouter (
+  history: History,
   app: AppInstance,
   config: SpaRouterConfig,
   framework?: string
@@ -32,7 +34,7 @@ export function createRouter (
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
   RouterConfig.config = config
-  const handler = new PageHandler(config)
+  const handler = new PageHandler(config, history)
 
   routesAlias.set(handler.router.customRoutes)
   const basename = handler.router.basename
