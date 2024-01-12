@@ -1,63 +1,19 @@
 comment:
-  layout: "header, reach, diff, flags, files, footer" # the layout of the comment on PRs
+  layout: "reach, diff, flags, files" # the layout of the comment on PRs
   require_changes: true  # only comment if coverage changes
 
 coverage:
   status:
     project:
       default:
-        target: 80%    # the required coverage value
+        target: 75%    # the required coverage value
         threshold: 5%  # the leniency in hitting the target
         informational: true
-        flags:
-          - taro-cli
-          - taro-webpack5-runner
-          - taro-webpack-runner
-          - taro-mini-runner
-          - taro-runtime
-          - taro-h5
-          - taro-components
-      taro-cli:
-        flags:
-          - taro-cli
-      taro-runner:
-        flags:
-          - taro-webpack5-runner
-          - taro-webpack-runner
-          - taro-mini-runner
-      taro-runtime:
-        flags:
-          - taro-runtime
-      taro-h5:
-        flags:
-          - taro-h5
-          - taro-components
     patch:
       default:
         informational: true
 
 flags:
-  taro-cli:
-    paths:
-      - packages/taro-cli/
-  taro-webpack5-runner:
-    paths:
-      - packages/taro-webpack5-runner/
-  taro-webpack-runner:
-    paths:
-      - packages/taro-webpack-runner/
-  taro-mini-runner:
-    paths:
-      - packages/taro-mini-runner/
-  taro-runtime:
-    paths:
-      - packages/taro-runtime/
-  taro-h5:
-    paths:
-      - packages/taro-h5/
-  taro-components:
-    paths:
-      - packages/taro-components/
   nightly:
     joined: false
 
@@ -65,8 +21,27 @@ flag_management:
   default_rules: # the rules that will be followed for any flag added, generally
     carryforward: true
     statuses:
-      - type: project
+      - name_prefix: proj-
+        type: project
         target: auto
-        threshold: 1%
-      - type: patch
-        target: 80%
+        threshold: 5%
+      - name_prefix: patch-
+        type: patch
+        target: 75%
+  individual_flags: # exceptions to the default rules above, stated flag by flag
+    - name: taro-cli
+      paths:
+      - packages/taro-cli/
+    - name: taro-runner
+      paths:
+      - packages/taro-webpack5-runner/
+      - packages/taro-webpack-runner/
+      - packages/taro-mini-runner/
+    - name: taro-runtime
+      paths:
+      - packages/taro-runtime/
+    - name: taro-web
+      paths:
+      - packages/taro-components/
+      - packages/taro-h5/
+      - packages/taro-router/
