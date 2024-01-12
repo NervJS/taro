@@ -5,6 +5,7 @@ declare module '../../index' {
     interface Option {
       /**
        * 是否同时获取用户订阅消息的订阅状态，默认不获取。注意：withSubscriptions 只返回用户勾选过订阅面板中的“总是保持以上选择，不再询问”的订阅消息。
+       * @default false
        */
       withSubscriptions?: boolean
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
@@ -135,7 +136,7 @@ declare module '../../index' {
     /** 调起客户端小程序设置界面，返回用户设置的操作结果。**设置界面只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
      *
      * 注意：[2.3.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 版本开始，用户发生点击行为后，才可以跳转打开设置页，管理授权信息。[详情](https://developers.weixin.qq.com/community/develop/doc/000cea2305cc5047af5733de751008)
-     * @supported weapp, rn, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.openSetting({
@@ -153,7 +154,7 @@ declare module '../../index' {
     openSetting(option?: openSetting.Option): Promise<openSetting.SuccessCallbackResult>
 
     /** 获取用户的当前设置。**返回值中只会出现小程序已经向用户请求过的[权限](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/authorize.html)**。
-     * @supported weapp, rn, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, rn, harmony_hybrid
      * @example
      * ```tsx
      * Taro.getSetting({

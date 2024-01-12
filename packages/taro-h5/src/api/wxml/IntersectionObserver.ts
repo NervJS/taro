@@ -2,8 +2,6 @@ import Taro from '@tarojs/api'
 
 import { findDOM } from '../../utils'
 
-import('intersection-observer')
-
 type TElement = Document | HTMLElement | Element
 
 type TListener = {

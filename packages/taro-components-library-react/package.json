@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/components-library-react",
-  "version": "3.6.22-alpha.5",
+  "version": "3.6.22",
   "description": "Taro 组件库 React 版本库",
   "private": true,
   "main": "index.js",
@@ -15,7 +15,8 @@
   "author": "ZakaryCode",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/components": "workspace:*"
+    "@tarojs/components": "workspace:*",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.14.5",

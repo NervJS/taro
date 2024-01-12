@@ -1,14 +1,12 @@
-import { isWebPlatform } from '@tarojs/shared'
-
 import { Current } from './current'
 import { TaroRootElement } from './dom/root'
 import env from './env'
 
-import type { Func } from './interface'
+import type { TFunc } from './interface'
 
 const TIMEOUT = 100
 
-export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
+export const nextTick = (cb: TFunc, ctx?: Record<string, any>) => {
   const beginTime = Date.now()
   const router = Current.router
 
@@ -31,7 +29,7 @@ export const nextTick = (cb: Func, ctx?: Record<string, any>) => {
   function next () {
     const pageElement: TaroRootElement | null = env.document.getElementById<TaroRootElement>(path)
     if (pageElement?.pendingUpdate) {
-      if (isWebPlatform()) {
+      if (process.env.TARO_PLATFORM === 'web') {
         // eslint-disable-next-line dot-notation
         pageElement.firstChild?.['componentOnReady']?.().then(() => {
           timerFunc()
