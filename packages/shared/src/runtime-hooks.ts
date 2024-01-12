@@ -1,8 +1,10 @@
 import { Events } from './event-emitter'
 import { isFunction } from './is'
 
-import type { Func } from '@tarojs/taro/types/compile'
 import type { Shortcuts } from './template'
+
+// Note: @tarojs/runtime 不依赖 @tarojs/taro, 所以不能改为从 @tarojs/taro 引入 (可能导致循环依赖)
+type TFunc = (...args: any[]) => any
 
 export enum HOOK_TYPE {
   SINGLE,
@@ -12,13 +14,13 @@ export enum HOOK_TYPE {
 
 interface Hook {
   type: HOOK_TYPE
-  initial?: Func | null
+  initial?: TFunc | null
 }
 
 interface Node {
   next: Node
   context?: any
-  callback?: Func
+  callback?: TFunc
 }
 
 interface MiniLifecycle {
@@ -108,14 +110,14 @@ const defaultMiniLifecycle: MiniLifecycle = {
   ]
 }
 
-export function TaroHook (type: HOOK_TYPE, initial?: Func): Hook {
+export function TaroHook (type: HOOK_TYPE, initial?: TFunc): Hook {
   return {
     type,
     initial: initial || null
   }
 }
 
-export class TaroHooks<T extends Record<string, Func> = any> extends Events {
+export class TaroHooks<T extends Record<string, TFunc> = any> extends Events {
   hooks: Record<keyof T, Hook>
 
   constructor (hooks: Record<keyof T, Hook>, opts?) {
@@ -185,7 +187,7 @@ type ITaroHooks = {
   getMiniLifecycle: (defaultConfig: MiniLifecycle) => MiniLifecycle
   getMiniLifecycleImpl: () => MiniLifecycle
   /** 解决 React 生命周期名称的兼容问题 */
-  getLifecycle: (instance, lifecyle) => Func | Array<Func> | undefined
+  getLifecycle: (instance, lifecyle) => TFunc | Array<TFunc> | undefined
   /** 提供Hook，为不同平台提供修改生命周期配置 */
   modifyRecursiveComponentConfig: (defaultConfig:MiniLifecycle, options:any) => any
   /** 解决百度小程序的模版语法问题 */
@@ -197,7 +199,7 @@ type ITaroHooks = {
   /** 解决 Vue2 布尔值属性值的设置问题 */
   onRemoveAttribute: (element, qualifiedName: string) => boolean
   /** 用于把 React 同一事件回调中的所有 setState 合并到同一个更新处理中 */
-  batchedEventUpdates: (cb: Func) => void
+  batchedEventUpdates: (cb: TFunc) => void
   /** 用于处理 React 中的小程序生命周期 hooks */
   mergePageInstance: (prev, next) => void
   /** 用于修改传递给小程序 Page 构造器的对象 */
