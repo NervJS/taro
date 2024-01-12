@@ -18,7 +18,7 @@
     "dev": "pnpm run rollup --environment NODE_ENV:development -w",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
     "test": "jest",
-    "test:ci": "jest --ci -i --coverage"
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "repository": {
     "type": "git",

@@ -19,7 +19,7 @@
     "dev": "tsc -w --pretty",
     "lint": "tslint",
     "build": "tsc",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent"
   },
   "author": "O2Team",
   "license": "MIT",
