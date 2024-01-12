@@ -220,21 +220,23 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
           target.name = name
           target.mainElement = appId
           const ability = target.abilities?.[0]
-          if (ability) {
-            ability.name = appId
-            ability.srcEntry = srcEntry
-          } else {
-            target.abilities ||= []
-            target.abilities.push({
-              name: appId,
-              srcEntry,
-              description: '$string:ability_desc',
-              icon: '$media:icon',
-              label: '$string:ability_label',
-              startWindowIcon: '$media:icon',
-              startWindowBackground: '$color:start_window_background',
-              exported: true,
-            })
+          if (!this.taroConfig.blended && !this.taroConfig.isBuildNativeComp) {
+            if (ability) {
+              ability.name = appId
+              ability.srcEntry = srcEntry
+            } else {
+              target.abilities ||= []
+              target.abilities.push({
+                name: appId,
+                srcEntry,
+                description: '$string:ability_desc',
+                icon: '$media:icon',
+                label: '$string:ability_label',
+                startWindowIcon: '$media:icon',
+                startWindowBackground: '$color:start_window_background',
+                exported: true,
+              })
+            }
           }
           if (typeof target.pages === 'string') {
             pageMetaId = target.pages
@@ -252,10 +254,13 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
         } else {
           etsPage.push(...pages)
         }
-        this.modifyHarmonyResources(pageMetaId, {
-          src: etsPage,
-          window,
-        })
+
+        if (!this.taroConfig.isBuildNativeComp) {
+          this.modifyHarmonyResources(pageMetaId, {
+            src: etsPage,
+            window,
+          })
+        }
         /**
          * TOD0: 将 app 其配置为 mainElement 入口
          */

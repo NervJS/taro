@@ -50,11 +50,20 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     })
   }
 
+  function getNativeComponentEntry () {
+    const nativeCompPathList: string[] = []
+
+    for (const comp of viteCompilerContext.nativeComponents.values()) {
+      nativeCompPathList.push(comp.templatePath + QUERY_IS_NATIVE_SCRIPT)
+    }
+
+    return nativeCompPathList
+  }
+
   function getEntryOption() {
     const { isBuildNativeComp, blended } = taroConfig
-
     if (isBuildNativeComp) {
-      return viteCompilerContext.components!.map(page => page.scriptPath)
+      return viteCompilerContext.components!.map(page => page.scriptPath).concat(getNativeComponentEntry())
     } else if (blended) {
       return viteCompilerContext.pages!.map(page => {
         if (page.isNative) {
@@ -65,7 +74,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
         } else {
           return page.scriptPath
         }
-      })
+      }).concat(getNativeComponentEntry())
     }
 
     return taroConfig.entry.app

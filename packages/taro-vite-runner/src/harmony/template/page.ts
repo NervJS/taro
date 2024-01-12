@@ -285,10 +285,15 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   getInstantiatePage (page: VitePageMeta | VitePageMeta[]) {
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
-      '@Entry',
       '@Component',
       'struct Index {',
     ]
+
+    // 如果是编译成原生组件，则不需要加 @Entry 头部，否则都加上 @Entry，当成 Page 入口
+    if (!this.buildConfig.isBuildNativeComp) {
+      structCodeArray.unshift('@Entry')
+    }
+
     const generateState = [
       this.renderState({
         name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()'
@@ -342,10 +347,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         'private tabBarController: TabsController = new TabsController()',
       )
     }
+
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     structCodeArray.push(
       this.transArr2Str(generateState, 2),
       '',
-      this.transArr2Str(`aboutToAppear() {
+      this.transArr2Str(`aboutToAppear() {${isBlended ?
+        '\n  initHarmonyElement()' : ''}
   const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1
@@ -706,7 +714,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
       '',
       'import router from "@ohos.router"',
       'import TaroView from "@tarojs/components/view"',
-      'import { bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
+      'import { initHarmonyElement, bindFn, callFn, convertNumber2VP, Current, ObjectAssign, TaroAny, TaroElement, TaroObject, TaroNode, TaroViewElement, window } from "@tarojs/runtime"',
       'import { eventCenter, PageInstance } from "@tarojs/runtime/dist/runtime.esm"',
       this.isTabbarPage
         ? [
@@ -744,7 +752,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
   parseEntry (rawId: string, page: VitePageMeta) {
     const { creatorLocation, importFrameworkStatement } = this.loaderMeta
-    const isBlended = this.buildConfig.blended
+    const isBlended = this.buildConfig.blended || this.buildConfig.isBuildNativeComp
     const createPageFn = isBlended ? 'createNativePageConfig' : 'createPageConfig'
     const nativeCreatePage = `createNativePageConfig(component, '${page.name}', React, ReactDOM, config)`
     const createPage = isBlended ? nativeCreatePage : `createPageConfig(component, '${page.name}', config)`

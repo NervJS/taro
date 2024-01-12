@@ -1,6 +1,6 @@
 import { Current, document, requestAnimationFrame, TaroElement, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
 import { CONTEXT_ACTIONS, env, eventCenter, Func } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
-import { EMPTY_OBJ, ensure, hooks, isUndefined } from '@tarojs/shared'
+import { ensure, hooks, isUndefined } from '@tarojs/shared'
 
 import { ReactMeta as reactMeta } from './app'
 import { setReconciler } from './connect'
@@ -15,7 +15,7 @@ import {
   removePageInstance,
   safeExecute
 } from './page'
-import { incrementId, isClassComponent } from './utils'
+import { EMPTY_OBJ, incrementId, isClassComponent } from './utils'
 
 import type { AppInstance } from '@tarojs/taro'
 import type * as React from 'react'
