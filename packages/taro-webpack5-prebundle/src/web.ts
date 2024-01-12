@@ -52,6 +52,9 @@ export interface IWebPrebundleConfig extends IPrebundleConfig {
 export class WebPrebundle extends BasePrebundle<IWebPrebundleConfig> {
   constructor (protected config: IWebPrebundleConfig, protected option: IPrebundle) {
     super(config, option)
+    if (this.mode !== 'production') {
+      this.mainFields.unshift('main:h5')
+    }
   }
 
   async buildLib () {
