@@ -196,12 +196,12 @@ declare module '../../index' {
   }
 
   /** 文件管理器，可通过 [Taro.getFileSystemManager](./getFileSystemManager) 获取。
-   * @supported weapp, tt
+   * @supported weapp, tt, harmony_hybrid
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.html
    */
   interface FileSystemManager {
     /** 判断文件/目录是否存在
-     * @supported weapp, alipay, swan, jd, qq, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.access.html
      */
     access(option: FileSystemManager.AccessOption): void
@@ -276,7 +276,7 @@ declare module '../../index' {
      */
     ftruncateSync(option: FileSystemManager.FtruncateSyncOption): void
     /** 获取该小程序下的 `本地临时文件` 或 `本地缓存文件` 信息
-     * @supported weapp, alipay, swan, jd, qq, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.getFileInfo.html
      */
     getFileInfo(option: FileSystemManager.getFileInfoOption): void
@@ -339,12 +339,12 @@ declare module '../../index' {
       dirPath: string,
     ): string[]
     /** 读取本地文件内容
-     * @supported weapp, alipay, swan, jd, qq, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFile.html
      */
     readFile(option: FileSystemManager.ReadFileOption): void
     /** [FileSystemManager.readFile](#readfile) 的同步版本
-     * @supported weapp, alipay, swan, jd, qq, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/FileSystemManager.readFileSync.html
      */
     readFileSync(
@@ -1399,7 +1399,7 @@ declare module '../../index' {
     /** 新开页面打开文档，支持格式
      * @supported weapp, alipay, swan, jd, qq, tt
      * @example
-     ```tsx
+     * ```tsx
      * Taro.downloadFile({
      *   url: 'https://example.com/somefile.pdf',
      *   success: function (res) {
@@ -1464,7 +1464,7 @@ declare module '../../index' {
     getFileInfo(option: getFileInfo.Option): Promise<getFileInfo.SuccessCallbackResult | getFileInfo.FailCallbackResult>
 
     /** 获取全局唯一的文件管理器
-     * @supported weapp, alipay, swan, jd, qq, tt
+     * @supported weapp, alipay, swan, jd, qq, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/file/wx.getFileSystemManager.html
      */
     getFileSystemManager(): FileSystemManager

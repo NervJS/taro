@@ -35,7 +35,35 @@ class _Switch extends React.Component<SwitchProps, SwitchState> {
   $touchable = React.createRef<Checkbox | Switch>()
 
   state: SwitchState = {
-    checked: !!this.props.checked
+    checked: !!this.props.checked,
+    pChecked: false,
+  }
+
+  static getDerivedStateFromProps (nextProps: SwitchProps, lastState: SwitchState): SwitchState | null {
+    // eslint-disable-next-line eqeqeq
+    const isControlled = nextProps.checked != undefined
+    if (isControlled) {
+      if (nextProps.checked !== lastState.pChecked) {
+        // 受控更新
+        return {
+          checked: nextProps.checked,
+          pChecked: nextProps.checked,
+        }
+      } else if (nextProps.checked !== lastState.checked) {
+        // 受控还原
+        return {
+          checked: nextProps.checked
+        }
+      }
+    } else if (lastState.pChecked !== nextProps.checked) {
+      // 初次更新才设置 defaultChecked
+      return {
+        pChecked: nextProps.checked,
+        checked: nextProps.defaultChecked ?? false,
+      }
+    }
+
+    return null
   }
 
   _simulateNativePress = (evt: GestureResponderEvent): void => {

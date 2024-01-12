@@ -1,16 +1,17 @@
 /* eslint-disable dot-notation */
-import { Current, eventCenter, PageInstance, requestAnimationFrame } from '@tarojs/runtime'
+import { addLeadingSlash, Current, eventCenter, getCurrentPage, getHomePage, requestAnimationFrame, stripBasename, stripTrailing } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
-import { history,setHistoryMode } from '../history'
+import { history, setHistory } from '../history'
 import { loadAnimateStyle, loadRouterStyle } from '../style'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, getCurrentPage, getHomePage, routesAlias, stripBasename, stripTrailing } from '../utils'
+import { routesAlias } from '../utils'
 import stacks from './stack'
 
+import type { PageInstance } from '@tarojs/runtime'
 import type { PageConfig, RouterAnimate } from '@tarojs/taro'
+import type { History } from 'history'
 import type { Route, SpaRouterConfig } from '../../types/router'
 
 export default class PageHandler {
@@ -23,7 +24,7 @@ export default class PageHandler {
 
   public homePage: string
 
-  constructor (config: SpaRouterConfig) {
+  constructor (config: SpaRouterConfig, public history: History) {
     this.config = config
     this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
     this.mount()
@@ -136,44 +137,11 @@ export default class PageHandler {
   }
 
   mount () {
-    setHistoryMode(this.routerMode, this.router.basename)
+    setHistory(this.history, this.basename)
     this.pathname = history.location.pathname
-
+    // Note: 注入页面样式
     this.animation && loadAnimateStyle(this.animationDuration)
-    loadRouterStyle(this.usingWindowScroll)
-
-    const appId = this.appId
-    let app = document.getElementById(appId)
-    let isPosition = true
-    if (!app) {
-      app = document.createElement('div')
-      app.id = appId
-      isPosition = false
-    }
-    const appWrapper = app?.parentNode || app?.parentElement || document.body
-    app.classList.add('taro_router')
-
-    if (this.tabBarList.length > 1) {
-      const container = document.createElement('div')
-      container.classList.add('taro-tabbar__container')
-      container.id = 'container'
-
-      const panel = document.createElement('div')
-      panel.classList.add('taro-tabbar__panel')
-
-      panel.appendChild(app.cloneNode(true))
-      container.appendChild(panel)
-
-      if (!isPosition) {
-        appWrapper.appendChild(container)
-      } else {
-        appWrapper.replaceChild(container, app)
-      }
-
-      initTabbar(this.config)
-    } else {
-      if (!isPosition) appWrapper.appendChild(app)
-    }
+    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll)
   }
 
   onReady (page: PageInstance, onLoad = true) {

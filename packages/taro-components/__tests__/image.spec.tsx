@@ -13,6 +13,19 @@ describe('Image', () => {
     return `taro-img__mode-${mode.toLowerCase().replace(/\s/g, '')}`
   }
 
+  beforeAll(() => {
+    global.IntersectionObserver = jest.fn().mockImplementation((cb = () => {}) => ({
+      observe: jest.fn(() => {
+        setTimeout(() => {
+          cb([{
+            isIntersecting: true,
+          }])
+        }, 1000)
+      }),
+      unobserve: jest.fn(),
+    }))
+  })
+
   it('should show an image', async () => {
     page = await newSpecPage({
       components: [Image],
