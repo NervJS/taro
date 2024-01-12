@@ -3,7 +3,7 @@ import { Action, createBrowserHistory, createHashHistory } from 'history'
 import { RouterConfig } from './router'
 
 import type { IH5RouterConfig } from '@tarojs/taro/types/compile'
-import type { Blocker, BrowserHistoryOptions, History, Listener, Location, Path, To } from 'history'
+import type { Blocker, BrowserHistoryOptions, HashHistoryOptions, History, Listener, Location, Path, To } from 'history'
 import type { StateEvent } from '../types/history'
 
 export let history: History
@@ -97,6 +97,16 @@ class MpaHistory implements History {
   }
 }
 
+export function setHistory (h: History, base = '/') {
+  history = h
+  basename = base
+}
+
+export function createMpaHistory (_?: HashHistoryOptions | BrowserHistoryOptions) {
+  return new MpaHistory()
+}
+export { createBrowserHistory, createHashHistory }
+
 export function setHistoryMode (mode?: IH5RouterConfig['mode'], base = '/') {
   const options: BrowserHistoryOptions = {
     window
@@ -106,7 +116,7 @@ export function setHistoryMode (mode?: IH5RouterConfig['mode'], base = '/') {
   if (mode === 'browser') {
     history = createBrowserHistory(options)
   } else if (mode === 'multi') {
-    history = new MpaHistory()
+    history = createMpaHistory(options)
   } else {
     // default is hash
     history = createHashHistory(options)

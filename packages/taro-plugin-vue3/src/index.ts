@@ -1,5 +1,5 @@
 import { fs, VUE_EXT } from '@tarojs/helper'
-import { isString, isWebPlatform } from '@tarojs/shared'
+import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 
 import { modifyH5WebpackChain } from './webpack.h5'
@@ -43,7 +43,7 @@ export default (ctx: IPluginContext, config: IConfig = {}) => {
     }
     setDefinePlugin(chain)
 
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       // H5
       modifyH5WebpackChain(ctx, chain, config)
     } else {

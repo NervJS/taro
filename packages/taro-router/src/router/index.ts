@@ -1,4 +1,4 @@
-import { addLeadingSlash } from '../utils'
+import { addLeadingSlash } from '@tarojs/runtime'
 
 import type { MpaRouterConfig, SpaRouterConfig } from '../../types/router'
 
