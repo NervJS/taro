@@ -1,6 +1,6 @@
 import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
-import { isString, isWebPlatform } from '@tarojs/shared'
+import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
 import { mergeWith } from 'lodash'
 
@@ -28,7 +28,7 @@ export default (ctx: IPluginContext) => {
     customVueChain(chain, data)
     setLoader(chain)
 
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       const { isBuildNativeComp = false } = ctx.runOpts?.options || {}
       const externals: Record<string, string> = {}
       if (isBuildNativeComp) {
@@ -97,7 +97,7 @@ function customVueChain (chain, data) {
   // loader
   let vueLoaderOption
 
-  if (isWebPlatform()) {
+  if (process.env.TARO_PLATFORM === 'web') {
     // H5
     vueLoaderOption = {
       transformAssetUrls: {
@@ -179,7 +179,7 @@ function setLoader (chain) {
   function customizer (object = '', sources = '') {
     if ([object, sources].every(e => typeof e === 'string')) return object + sources
   }
-  if (isWebPlatform()) {
+  if (process.env.TARO_PLATFORM === 'web') {
     chain.plugin('mainPlugin')
       .tap(args => {
         args[0].loaderMeta = mergeWith(

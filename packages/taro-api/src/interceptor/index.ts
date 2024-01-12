@@ -1,12 +1,17 @@
 import Chain from './chain'
 
+import type { IRequestParams, TInterceptor } from './chain'
+
 export default class Link {
-  constructor (interceptor) {
+  taroInterceptor: TInterceptor
+  chain: Chain
+
+  constructor (interceptor: TInterceptor) {
     this.taroInterceptor = interceptor
     this.chain = new Chain()
   }
 
-  request (requestParams) {
+  request (requestParams: IRequestParams) {
     const chain = this.chain
     const taroInterceptor = this.taroInterceptor
 
@@ -17,7 +22,7 @@ export default class Link {
     return chain.proceed({ ...requestParams })
   }
 
-  addInterceptor (interceptor) {
+  addInterceptor (interceptor: TInterceptor) {
     this.chain.interceptors.push(interceptor)
   }
 

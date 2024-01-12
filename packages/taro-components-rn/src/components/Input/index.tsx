@@ -205,7 +205,7 @@ const _Input = (props: InputProps) => {
     }
   })()
 
-  const defaultValue = type === 'number' && value ? value + '' : value
+  const defaultValue = props.defaultValue ?? (type === 'number' && value ? value + '' : value)
 
   // fix: https://reactnative.dev/docs/textinput#multiline
   const textAlignVertical = _multiline ? 'top' : 'auto'

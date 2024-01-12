@@ -1,6 +1,6 @@
 import {
   AppInstance, Current,
-  Func, getPageInstance,
+  getPageInstance,
   injectPageInstance,
   PageLifeCycle
 } from '@tarojs/runtime'
@@ -11,6 +11,8 @@ import {
   onUnmounted,
   ref
 } from 'vue'
+
+import type { Func } from '@tarojs/taro/types/compile'
 
 function createTaroHook (lifecycle: keyof PageLifeCycle | keyof AppInstance) {
   return (fn: Func) => {
