@@ -6,6 +6,7 @@ import { isFunction } from '@tarojs/shared'
 import jsonpRetry from 'jsonp-retry'
 
 import { serializeParams } from '../../../utils'
+
 interface RequestTask<T> extends Promise<T> {
   abort?: (cb?: any) => void;
 }
@@ -99,12 +100,12 @@ function _request (options: Partial<Taro.request.Option> = {}) {
   if (signal) {
     params.signal = signal
   } else {
-    controller = new window.AbortController();
-    params.signal = controller.signal;
+    controller = new window.AbortController()
+    params.signal = controller.signal
     if (typeof timeout === 'number') {
       timeoutTimer = setTimeout(function () {
-          if (controller) controller.abort();
-      }, timeout);
+        if (controller) controller.abort()
+      }, timeout)
     }
   }
   params.credentials = credentials
@@ -161,19 +162,19 @@ function _request (options: Partial<Taro.request.Option> = {}) {
       err.errMsg = err.message
       return Promise.reject(err)
     })
-    if (!p.abort && controller) {
-      p.abort = cb => {
-        if (controller) {
-          cb && cb()
-          controller.abort()
-          if (timeoutTimer) {
-            clearTimeout(timeoutTimer)
-            timeoutTimer = null
-          }
+  if (!p.abort && controller) {
+    p.abort = cb => {
+      if (controller) {
+        cb && cb()
+        controller.abort()
+        if (timeoutTimer) {
+          clearTimeout(timeoutTimer)
+          timeoutTimer = null
         }
       }
     }
-    return p
+  }
+  return p
 }
 
 function taroInterceptor (chain) {
