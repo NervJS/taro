@@ -1,10 +1,12 @@
-import { Func, getCurrentInstance } from '@tarojs/runtime'
+import { getCurrentInstance } from '@tarojs/runtime'
 import { ComponentLifecycle, createIntersectionObserver, createMediaQueryObserver,createSelectorQuery, eventCenter, nextTick } from '@tarojs/taro'
 
 import { clone } from './clone'
 import { diff } from './diff'
 import { appOptions, lifecycleMap, lifecycles, TaroLifeCycles, uniquePageLifecycle } from './lifecycle'
 import { bind, flattenBehaviors, isEqual, nonsupport, report, safeGet, safeSet } from './utils'
+
+import type { Func } from '@tarojs/taro/types/compile'
 
 type Observer = (newProps, oldProps, changePath: string) => void
 

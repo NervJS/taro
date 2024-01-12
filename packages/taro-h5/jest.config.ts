@@ -6,13 +6,6 @@ const config: Config = {
   collectCoverage: false,
   globals: {
     window: true,
-    ENABLE_INNER_HTML: true,
-    ENABLE_ADJACENT_HTML: true,
-    ENABLE_SIZE_APIS: true,
-    ENABLE_TEMPLATE_CONTENT: true,
-    ENABLE_MUTATION_OBSERVER: true,
-    ENABLE_CLONE_NODE: true,
-    ENABLE_CONTAINS: true,
   },
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   moduleNameMapper: {

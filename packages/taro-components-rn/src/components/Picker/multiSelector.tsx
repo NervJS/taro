@@ -58,6 +58,7 @@ function getIndexByValues(range: any[] = [], value: any[] = []): number[] {
   })
 }
 
+// Todo: 支持 defaultValue
 export default class MultiSelector extends React.Component<MultiSelectorProps, MultiSelectorState> {
   static defaultProps = {
     range: [],
