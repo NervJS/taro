@@ -8,7 +8,7 @@ import jsonpRetry from 'jsonp-retry'
 import { serializeParams } from '../../../utils'
 
 interface RequestTask<T> extends Promise<T> {
-  abort?: (cb?: any) => void;
+  abort?: (cb?: any) => void
 }
 
 // @ts-ignore
