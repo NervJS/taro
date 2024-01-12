@@ -11,6 +11,7 @@ import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
 import type { AppInstance } from '@tarojs/runtime'
+import type { History } from 'history'
 import type { MpaRouterConfig } from '../../types/router'
 
 const createStampId = incrementId()
@@ -25,6 +26,7 @@ const launchStampId = createStampId()
  * - 不支持路由动画
  */
 export async function createMultiRouter (
+  history: History,
   app: AppInstance,
   config: MpaRouterConfig,
   framework?: string
@@ -33,7 +35,7 @@ export async function createMultiRouter (
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
   RouterConfig.config = config
-  const handler = new MultiPageHandler(config)
+  const handler = new MultiPageHandler(config, history)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
     path: config.pageName, // 多页面模式没新开一个页面相当于重启，所以直接使用当前页面路径
     query: handler.getQuery(launchStampId),

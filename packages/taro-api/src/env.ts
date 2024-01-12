@@ -1,5 +1,3 @@
-import { isWebPlatform } from '@tarojs/shared'
-
 export const ENV_TYPE = {
   WEAPP: 'WEAPP',
   SWAN: 'SWAN',
@@ -13,8 +11,6 @@ export const ENV_TYPE = {
   QUICKAPP: 'QUICKAPP',
   HARMONYHYBRID: 'HARMONYHYBRID',
 }
-
-const isWeb = isWebPlatform()
 
 export function getEnv () {
   if (process.env.TARO_ENV === 'weapp') {
@@ -31,11 +27,11 @@ export function getEnv () {
     return ENV_TYPE.QQ
   } else if (process.env.TARO_ENV === 'harmony-hybrid') {
     return ENV_TYPE.HARMONYHYBRID
-  } else if (isWeb) {
+  } else if (process.env.TARO_ENV === 'h5' || process.env.TARO_PLATFORM === 'web') {
     return ENV_TYPE.WEB
   } else if (process.env.TARO_ENV === 'rn') {
     return ENV_TYPE.RN
-  } else if (process.env.TARO_ENV === 'harmony') {
+  } else if (process.env.TARO_ENV === 'harmony' || process.env.TARO_PLATFORM === 'harmony') {
     return ENV_TYPE.HARMONY
   } else if (process.env.TARO_ENV === 'quickapp') {
     return ENV_TYPE.QUICKAPP

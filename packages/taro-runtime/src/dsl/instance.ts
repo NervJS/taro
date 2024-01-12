@@ -4,7 +4,7 @@ import type { Component as Vue3Component } from '@vue/runtime-core'
 import type { Component, ComponentClass } from 'react'
 import type { CombinedVueInstance } from 'vue/types/vue'
 import type { TaroElement } from '../dom/element'
-import type { Func, MpEvent } from '../interface'
+import type { MpEvent, TFunc } from '../interface'
 
 export interface Instance<T = Record<string, any>> extends Component<T>, Show, PageInstance {
   tid?: string
@@ -45,7 +45,7 @@ export interface ReactAppInstance<T = AppInstance> extends Component<T>, AppInst
 export interface PageLifeCycle extends Show {
   eh?(event: MpEvent): void
   onAddToFavorites?(): void
-  onLoad?(options: Record<string, unknown>, cb?: Func): void
+  onLoad?(options: Record<string, unknown>, cb?: TFunc): void
   onOptionMenuClick?(): void
   onPageScroll?(obj: { scrollTop: number }): void
   onPullDownRefresh?(): void

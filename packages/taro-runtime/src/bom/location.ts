@@ -3,6 +3,7 @@ import { isNumber, isString, warn } from '@tarojs/shared'
 import { CONTEXT_ACTIONS } from '../constants'
 import { getCurrentInstance } from '../current'
 import { Events } from '../emitter/emitter'
+import env from '../env'
 import { RuntimeCache } from '../utils/cache'
 import { URL } from './URL'
 
@@ -18,7 +19,7 @@ type LocationContext = {
 const INIT_URL = 'https://taro.com'
 const cache = new RuntimeCache<LocationContext>('location')
 
-export class Location extends Events {
+class TaroLocation extends Events {
   /* private property */
   #url = new URL(INIT_URL)
   #noCheckUrl = false
@@ -309,6 +310,9 @@ export class Location extends Events {
     return cache
   }
 }
+
+export type { TaroLocation }
+export const Location: typeof TaroLocation = process.env.TARO_PLATFORM === 'web' ? env.window.Location : TaroLocation
 
 function generateFullUrl (val = '') {
   const origin = INIT_URL

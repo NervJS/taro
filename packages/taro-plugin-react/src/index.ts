@@ -1,9 +1,10 @@
-import { type esbuild, fs } from '@tarojs/helper'
-import { isString, isWebPlatform } from '@tarojs/shared'
+import { fs } from '@tarojs/helper'
+import { isString } from '@tarojs/shared'
 
 import { modifyH5WebpackChain } from './webpack.h5'
 import { modifyMiniWebpackChain } from './webpack.mini'
 
+import type { esbuild } from '@tarojs/helper'
 import type { IPluginContext } from '@tarojs/service'
 
 export type Frameworks = 'react' | 'preact' | 'nerv'
@@ -24,7 +25,7 @@ export default (ctx: IPluginContext) => {
         return args
       })
 
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       // H5
       modifyH5WebpackChain(ctx, framework, chain)
     } else {
