@@ -1220,10 +1220,21 @@ export class Map implements ComponentInterface {
   _addGroundOverlay = (option) => {
     const { src, opacity, bounds, visible, id, zIndex } = option
     let flag = true
-    if (bounds.southwest.longitude > bounds.northeast.longitude || bounds.southwest.latitude > bounds.northeast.latitude) {
+    if (bounds.southwest.longitude >= bounds.northeast.longitude || bounds.southwest.latitude >= bounds.northeast.latitude) {
       flag = false
       return
     }
+
+    if (bounds.southwest.latitude > 90 || bounds.southwest.latitude < -90 || bounds.southwest.longitude > 180 || bounds.southwest.longitude < -180 || isNaN(bounds.southwest.latitude) || isNaN(bounds.southwest.longitude)) {
+      flag = false
+      return
+    }
+
+    if (bounds.northeast.latitude > 90 || bounds.northeast.latitude < -90 || bounds.northeast.longitude > 180 || bounds.northeast.longitude < -180 || isNaN(bounds.northeast.latitude) || isNaN(bounds.northeast.longitude)) {
+      flag = false
+      return
+    }
+
     // 创建覆盖物边界对象
     const overlayBounds = new BMapGL.Bounds(
       new BMapGL.Point(bounds.southwest.longitude, bounds.southwest.latitude),
@@ -1343,11 +1354,26 @@ export class Map implements ComponentInterface {
   _updateGroundOverlay = (option) => {
     const { src, opacity, bounds, visible, id, zIndex } = option
     let obj: any
-    const flagId = true // 标记是否有id
+    let flagId = true // 标记是否有id
     let flagCoordinate = true // 标记是否有有效经纬度
     let flagObj = {}
 
-    if (bounds.southwest.longitude > bounds.northeast.longitude || bounds.southwest.latitude > bounds.northeast.latitude) {
+    // 获取所有图层
+    const overlays = this.map.getOverlays()
+    // 找到要更新的图层
+    const targetOverlay = overlays.find((overlay) => overlay._id === id)
+     
+    if (!targetOverlay) {
+      flagId = false
+      flagObj = {
+        flagId: flagId,
+        flagCoordinate: flagCoordinate
+      }
+      obj = { ...flagObj }
+      return obj
+    }
+
+    if (bounds.southwest.longitude >= bounds.northeast.longitude || bounds.southwest.latitude >= bounds.northeast.latitude) {
       flagCoordinate = false
       flagObj = {
         flagId: flagId,
@@ -1355,18 +1381,25 @@ export class Map implements ComponentInterface {
       }
       obj = { ...flagObj }
     }
-    // 获取所有图层
-    const overlays = this.map.getOverlays()
-    // 找到要更新的图层
-    const targetOverlay = overlays.find((overlay) => overlay._id === id)
-    flagObj = {
-      flagId: flagId,
-      flagCoordinate: flagCoordinate
+   
+    if (bounds.southwest.latitude > 90 || bounds.southwest.latitude < -90 || bounds.southwest.longitude > 180 || bounds.southwest.longitude < -180 || isNaN(bounds.southwest.latitude) || isNaN(bounds.southwest.longitude)) {
+      flagCoordinate = false
+      flagObj = {
+        flagId: flagId,
+        flagCoordinate: flagCoordinate
+      }
+      obj = { ...flagObj }
     }
-    obj = { ...flagObj }
-    if (!targetOverlay) {
-      obj.flagId = false
+
+    if (bounds.northeast.latitude > 90 || bounds.northeast.latitude < -90 || bounds.northeast.longitude > 180 || bounds.northeast.longitude < -180 || isNaN(bounds.northeast.latitude) || isNaN(bounds.northeast.longitude)) {
+      flagCoordinate = false
+      flagObj = {
+        flagId: flagId,
+        flagCoordinate: flagCoordinate
+      }
+      obj = { ...flagObj }
     }
+
     if (flagId && flagCoordinate) {
       const targetBounds = new BMapGL.Bounds(
         new BMapGL.Point(bounds.southwest.longitude, bounds.southwest.latitude),
@@ -1417,6 +1450,11 @@ export class Map implements ComponentInterface {
         // 没有找到对应的元素
         console.error(`未找到id为${id}的元素`)
       }
+      flagObj = {
+        flagId: flagId,
+        flagCoordinate: flagCoordinate
+      }
+      obj = { ...flagObj }
       return obj
     } else {
       return obj
