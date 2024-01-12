@@ -1,7 +1,7 @@
 /* eslint-disable dot-notation */
 import {
   EMPTY_OBJ, ensure, getComponentsAlias, hooks, internalComponents,
-  isArray, isFunction, isString, isUndefined, isWebPlatform, Shortcuts
+  isArray, isFunction, isString, isUndefined, Shortcuts
 } from '@tarojs/shared'
 
 import { raf } from '../bom/raf'
@@ -13,15 +13,14 @@ import { eventCenter } from '../emitter/emitter'
 import env from '../env'
 import { perf } from '../perf'
 import { customWrapperCache, incrementId } from '../utils'
+import { addLeadingSlash } from '../utils/router'
 
-import type { PageConfig } from '@tarojs/taro'
 import type { TaroRootElement } from '../dom/root'
-import type { Func, MpInstance } from '../interface'
+import type { MpInstance, PageConfig, TFunc } from '../interface'
 import type { Instance, PageInstance, PageProps } from './instance'
 
 const instances = new Map<string, Instance>()
 const pageId = incrementId()
-const isWeb = isWebPlatform()
 
 export function injectPageInstance (inst: Instance<PageProps>, id: string) {
   hooks.call('mergePageInstance', instances.get(id), inst)
@@ -34,13 +33,6 @@ export function getPageInstance (id: string): Instance | undefined {
 
 export function removePageInstance (id: string) {
   instances.delete(id)
-}
-
-export function addLeadingSlash (path?: string): string {
-  if (path == null) {
-    return ''
-  }
-  return path.charAt(0) === '/' ? path : '/' + path
 }
 
 export function safeExecute (path: string, lifecycle: string, ...args: unknown[]) {
@@ -76,7 +68,7 @@ export function stringify (obj?: Record<string, unknown>) {
 
 export function getPath (id: string, options?: Record<string, unknown>): string {
   const idx = id.indexOf('?')
-  if (isWeb) {
+  if (process.env.TARO_PLATFORM === 'web') {
     return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options?.stamp ? { stamp: options.stamp } : {})}`
   } else {
     return `${idx > -1 ? id.substring(0, idx) : id}${stringify(options)}`
@@ -112,7 +104,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let prepareMountList: (() => void)[] = []
 
   function setCurrentRouter (page: MpInstance) {
-    const router = isWeb ? page.$taroPath : page.route || page.__route__ || page.$taroPath
+    const router = process.env.TARO_PLATFORM === 'web' ? page.$taroPath : page.route || page.__route__ || page.$taroPath
     Current.router = {
       params: page.$taroParams!,
       path: addLeadingSlash(router),
@@ -128,7 +120,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
   let loadResolver: (...args: unknown[]) => void
   let hasLoaded: Promise<void>
   const config: PageInstance = {
-    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
 
       perf.start(PAGE_INIT)
@@ -139,7 +131,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       // this.$taroPath 是页面唯一标识
       const uniqueOptions = Object.assign({}, options, { $taroTimestamp: Date.now() })
       const $taroPath = this.$taroPath = getPath(id, uniqueOptions)
-      if (isWeb) {
+      if (process.env.TARO_PLATFORM === 'web') {
         config.path = $taroPath
       }
       // this.$taroParams 作为暴露给开发者的页面参数对象，可以被随意修改
@@ -150,7 +142,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
       setCurrentRouter(this)
 
       // 初始化当前页面的上下文信息
-      if (!isWeb) {
+      if (process.env.TARO_PLATFORM !== 'web') {
         window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
       }
 
@@ -161,7 +153,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
           ensure(pageElement !== null, '没有找到页面实例。')
           safeExecute($taroPath, ON_LOAD, this.$taroParams)
           loadResolver()
-          if (!isWeb) {
+          if (process.env.TARO_PLATFORM !== 'web') {
             pageElement.ctx = this
             pageElement.performUpdate(true, cb)
           } else {
@@ -178,7 +170,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     [ONUNLOAD] () {
       const $taroPath = this.$taroPath
       // 销毁当前页面的上下文信息
-      if (!isWeb) {
+      if (process.env.TARO_PLATFORM !== 'web') {
         window.trigger(CONTEXT_ACTIONS.DESTORY, $taroPath)
       }
       // 触发onUnload生命周期
@@ -212,7 +204,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
         Current.page = this as any
         setCurrentRouter(this)
         // 恢复上下文信息
-        if (!isWeb) {
+        if (process.env.TARO_PLATFORM !== 'web') {
           window.trigger(CONTEXT_ACTIONS.RECOVER, this.$taroPath)
         }
         // 触发生命周期
@@ -223,7 +215,7 @@ export function createPageConfig (component: any, pageName?: string, data?: Reco
     },
     [ONHIDE] () {
       // 缓存当前页面上下文信息
-      if (!isWeb) {
+      if (process.env.TARO_PLATFORM !== 'web') {
         window.trigger(CONTEXT_ACTIONS.RESTORE, this.$taroPath)
       }
       // 设置 Current 的 page 和 router
@@ -303,7 +295,7 @@ export function createComponentConfig (component: React.ComponentClass, componen
         ensure(componentElement !== null, '没有找到组件实例。')
         this.$taroInstances = instances.get(path)
         safeExecute(path, ON_LOAD)
-        if (!isWeb) {
+        if (process.env.TARO_PLATFORM !== 'web') {
           componentElement.ctx = this
           componentElement.performUpdate(true)
         }
@@ -364,8 +356,8 @@ export function createRecursiveComponentConfig (componentName?: string) {
     }
     : EMPTY_OBJ
 
-  return hooks.call('modifyRecursiveComponentConfig', 
-    { 
+  return hooks.call('modifyRecursiveComponentConfig',
+    {
       properties: {
         i: {
           type: Object,

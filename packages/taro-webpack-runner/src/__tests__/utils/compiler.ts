@@ -78,6 +78,7 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
   framework: 'react'
 }) {
   process.env.TARO_ENV = 'h5'
+  process.env.TARO_PLATFORM = 'web'
 
   const appPath = path.resolve(__dirname, '../fixtures', app)
 
@@ -99,7 +100,9 @@ export async function compile (app: string, customConfig: Partial<BuildConfig> =
       app: [path.join(appPath, customConfig.sourceRoot || 'src', 'app.config')]
     },
     env: {
-      FRAMEWORK: customConfig.framework
+      FRAMEWORK: customConfig.framework || 'react',
+      TARO_ENV: process.env.TARO_ENV,
+      TARO_PLATFORM: process.env.TARO_PLATFORM,
     },
     terser: {
       enable: true,

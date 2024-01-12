@@ -1,10 +1,11 @@
-import { isNumber,isString } from '@tarojs/shared'
+import { isNumber, isString } from '@tarojs/shared'
 
 import { CONTEXT_ACTIONS } from '../constants'
 import { Events } from '../emitter/emitter'
+import env from '../env'
 import { RuntimeCache } from '../utils/cache'
 
-import type * as LocationType from './location'
+import type { TaroLocation } from './location'
 
 export interface HistoryState {
   state: Record<string, any> | null
@@ -16,21 +17,21 @@ type Options = {
   window: any
 }
 type HistoryContext = {
-  location: LocationType.Location
+  location: TaroLocation
   stack: HistoryState[]
   cur: number
 }
 const cache = new RuntimeCache<HistoryContext>('history')
 
-export class History extends Events {
+class TaroHistory extends Events {
   /* private property */
-  #location: LocationType.Location
+  #location: TaroLocation
   #stack: HistoryState[] = []
   #cur = 0
 
   #window: any
 
-  constructor (location: LocationType.Location, options: Options) {
+  constructor (location: TaroLocation, options: Options) {
     super()
 
     this.#window = options.window
@@ -150,3 +151,6 @@ export class History extends Events {
     return cache
   }
 }
+
+export type { TaroHistory }
+export const History: typeof TaroHistory = process.env.TARO_PLATFORM === 'web' ? env.window.History : TaroHistory

@@ -1,4 +1,6 @@
-module.exports = {
+import type { Config } from 'jest'
+
+const config: Config = {
   globals: {
     window: true,
     ENABLE_INNER_HTML: true,
@@ -9,7 +11,9 @@ module.exports = {
     ENABLE_CLONE_NODE: true,
     ENABLE_CONTAINS: true,
   },
-  moduleNameMapper: {},
+  moduleNameMapper: {
+    '@tarojs/taro': '@tarojs/taro-h5',
+  },
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   testEnvironmentOptions: {
@@ -26,3 +30,5 @@ module.exports = {
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/']
 }
+
+export default config
