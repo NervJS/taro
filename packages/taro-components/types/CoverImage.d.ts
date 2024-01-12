@@ -2,7 +2,7 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface CoverImageProps extends StandardProps {
   /** 图标路径，支持临时路径、网络地址、云文件ID。暂不支持base64格式。
-   * @supported weapp, alipay, swan, qq, jd, h5
+   * @supported weapp, alipay, swan, qq, jd, h5, harmony_hybrid
    */
   src: string
   /** 格式固定为 https://servicewechat.com/{appid}/{version}/page-frame.html，其中 {appid} 为小程序的 appid，{version} 为小程序的版本号，版本号为 0 表示为开发版、体验版以及审核版本，版本号为 devtools 表示为开发者工具，其余为正式版本；
@@ -34,11 +34,11 @@ interface CoverImageProps extends StandardProps {
    */
   ariaLabel?: string
   /** 图片加载成功时触发
-   * @supported weapp, swan, qq, jd, h5
+   * @supported weapp, swan, qq, jd, h5, harmony_hybrid
    */
   onLoad?: CommonEventFunction
   /** 图片加载失败时触发
-   * @supported weapp, swan, qq, jd, h5
+   * @supported weapp, swan, qq, jd, h5, harmony_hybrid
    */
   onError?: CommonEventFunction
   /** 点击事件回调。
@@ -48,7 +48,7 @@ interface CoverImageProps extends StandardProps {
 }
 /** 覆盖在原生组件之上的图片视图。可覆盖的原生组件同cover-view，支持嵌套在cover-view里。
  * @classification viewContainer
- * @supported weapp, alipay, swan, qq, jd, h5, harmony
+ * @supported weapp, alipay, swan, qq, jd, h5, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * // js

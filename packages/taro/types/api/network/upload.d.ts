@@ -84,7 +84,7 @@ declare module '../../index' {
   }
 
   /** 一个可以监听上传进度变化事件，以及取消上传任务的对象
-   * @supported weapp, swan, alipay, h5, rn, tt
+   * @supported weapp, swan, alipay, h5, rn, tt, harmony_hybrid
    * @example
    * ```tsx
    * const uploadTask = Taro.uploadFile({
@@ -112,12 +112,12 @@ declare module '../../index' {
    */
   interface UploadTask {
     /** 中断上传任务
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.abort.html
      */
     abort(): void
     /** 监听上传进度变化事件
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onProgressUpdate.html
      */
     onProgressUpdate(
@@ -125,7 +125,7 @@ declare module '../../index' {
       callback: UploadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听上传进度变化事件
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offProgressUpdate.html
      */
     offProgressUpdate(
@@ -133,7 +133,7 @@ declare module '../../index' {
       callback: UploadTask.OnProgressUpdateCallback,
     ): void
     /** 监听 HTTP Response Header 事件。会比请求完成事件更早
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.onHeadersReceived.html
      */
     onHeadersReceived(
@@ -141,7 +141,7 @@ declare module '../../index' {
       callback: UploadTask.OnHeadersReceivedCallback,
     ): void
     /** 取消监听 HTTP Response Header 事件
-     * @supported weapp, h5
+     * @supported weapp, h5, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/upload/UploadTask.offHeadersReceived.html
      */
     offHeadersReceived(
@@ -152,7 +152,7 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
-     * @supported weapp, swan, alipay, h5, rn, tt
+     * @supported weapp, swan, alipay, h5, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.chooseImage({

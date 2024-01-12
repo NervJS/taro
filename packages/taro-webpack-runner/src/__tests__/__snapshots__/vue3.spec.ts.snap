@@ -6,7 +6,7 @@ exports[`vue3 should build vue3 app 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "14": function(module, __webpack_exports__, __webpack_require__) {
+    "7": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         var render = function render() {
@@ -239,7 +239,7 @@ exports[`vue3 should build vue3 app 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 9);
+    return __webpack_require__(__webpack_require__.s = 3);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -263,21 +263,46 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     var _unused_webpack_default_export = "vue-mock";
-}, function(module, exports) {
+}, function(module, exports, __webpack_require__) {
+    var _require = __webpack_require__(0), hooks = _require.hooks;
+    var taro = __webpack_require__(5).default;
+    if (hooks.isExist("initNativeApi")) {
+        hooks.call("initNativeApi", taro);
+    }
+    module.exports = taro;
+    module.exports.default = module.exports;
+}, function(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__(6);
+}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
     function _typeof(obj) {
         "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
             return typeof obj;
         } : function(obj) {
             return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(obj);
+        }, _typeof(obj);
     }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(6);
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
     function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
+        key = _toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 "value": value,
@@ -290,23 +315,18 @@ exports[`vue3 should build vue3 app 2`] = `
         }
         return obj;
     }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
     }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(6);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -317,227 +337,8 @@ exports[`vue3 should build vue3 app 2`] = `
         });
         return Constructor;
     }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2)["default"];
-    var toPrimitive = __webpack_require__(10);
-    function _toPropertyKey(arg) {
-        var key = toPrimitive(arg, "string");
-        return _typeof(key) === "symbol" ? key : String(key);
-    }
-    module.exports = _toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(13).default;
-    if (hooks.isExist("initNativeApi")) {
-        hooks.call("initNativeApi", taro);
-    }
-    module.exports = taro;
-    module.exports.default = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(3);
-    function ownKeys(object, enumerableOnly) {
-        var keys = Object.keys(object);
-        if (Object.getOwnPropertySymbols) {
-            var symbols = Object.getOwnPropertySymbols(object);
-            enumerableOnly && (symbols = symbols.filter((function(sym) {
-                return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-            }))), keys.push.apply(keys, symbols);
-        }
-        return keys;
-    }
-    function _objectSpread2(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = null != arguments[i] ? arguments[i] : {};
-            i % 2 ? ownKeys(Object(source), !0).forEach((function(key) {
-                defineProperty(target, key, source[key]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach((function(key) {
-                Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-            }));
-        }
-        return target;
-    }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(12);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2)["default"];
-    function _toPrimitive(input, hint) {
-        if (_typeof(input) !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-            var res = prim.call(input, hint || "default");
-            if (_typeof(res) !== "object") return res;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-    }
-    module.exports = _toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(7);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var vue = __webpack_require__(1);
-    var app = __webpack_require__(11);
-    var App = Object(vue["createApp"])({
-        "onShow": function onShow(options) {}
-    });
-    var src_app = App;
-    var taro_runtime = __webpack_require__(0);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    var inst = createVue3App(src_app, vue["h"], config);
-    createRouter(inst, config, vue["h"]);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var helpers_typeof = __webpack_require__(2);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
     var taro_runtime = __webpack_require__(0);
     var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(8);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(4);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(5);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(3);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
-    function isFunction(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && typeof_default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
     var ENV_TYPE = {
         "WEAPP": "WEAPP",
         "SWAN": "SWAN",
@@ -548,26 +349,47 @@ exports[`vue3 should build vue3 app 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
         }
     }
     var index_esm_Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _classCallCheck(this, Chain);
             this.index = index || 0;
-            this.requestParams = requestParams;
+            this.requestParams = requestParams || {};
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _createClass(Chain, [ {
             "key": "proceed",
-            "value": function proceed(requestParams) {
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 this.requestParams = requestParams;
                 if (this.index >= this.interceptors.length) {
                     throw new Error("chain 参数错误, 请勿直接修改 request.chain");
@@ -579,7 +401,7 @@ exports[`vue3 should build vue3 app 2`] = `
                     return Promise.reject(err);
                 }));
                 Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
+                    return undefined(p[k]) && (res[k] = p[k]);
                 }));
                 return res;
             }
@@ -598,11 +420,11 @@ exports[`vue3 should build vue3 app 2`] = `
     }();
     var index_esm_Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _classCallCheck(this, Link);
             this.taroInterceptor = interceptor;
             this.chain = new index_esm_Chain;
         }
-        createClass_default()(Link, [ {
+        _createClass(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -610,7 +432,7 @@ exports[`vue3 should build vue3 app 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(Object.assign({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -635,7 +457,7 @@ exports[`vue3 should build vue3 app 2`] = `
         var p;
         var res = new Promise((function(resolve, reject) {
             var timeout = setTimeout((function() {
-                timeout = null;
+                clearTimeout(timeout);
                 reject(new Error("网络链接超时,请稍后再试！"));
             }), requestParams && requestParams.timeout || 6e4);
             p = chain.proceed(requestParams);
@@ -648,7 +470,7 @@ exports[`vue3 should build vue3 app 2`] = `
                 reject(err);
             }));
         }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
         return res;
     }
     function logInterceptor(chain) {
@@ -660,20 +482,20 @@ exports[`vue3 should build vue3 app 2`] = `
             console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
-        if (isFunction(p.abort)) res.abort = p.abort;
+        if (undefined(p.abort)) res.abort = p.abort;
         return res;
     }
     var index_esm_interceptors = Object.freeze({
         "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
+        "logInterceptor": logInterceptor,
+        "timeoutInterceptor": timeoutInterceptor
     });
     function Behavior(options) {
         return options;
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -703,7 +525,7 @@ exports[`vue3 should build vue3 app 2`] = `
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
             }(size);
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
@@ -746,6 +568,75 @@ exports[`vue3 should build vue3 app 2`] = `
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(2);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var vue = __webpack_require__(1);
+    var app = __webpack_require__(4);
+    var App = Object(vue["createApp"])({
+        "onShow": function onShow(options) {}
+    });
+    var src_app = App;
+    var taro_runtime = __webpack_require__(0);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 7));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    var inst = createVue3App(src_app, vue["h"], config);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, vue["h"]);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;
