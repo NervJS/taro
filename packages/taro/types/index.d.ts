@@ -19,7 +19,7 @@
  * │   ├── canvas
  * │   │   └── index.d.ts                   画布 API
  * │   ├── cloud
- * │   │   └── index.d.ts                   画布 API
+ * │   │   └── index.d.ts                   微信小程序云开发 API
  * │   ├── data-analysis
  * │   │   └── index.d.ts                   数据分析 API
  * │   ├── device
