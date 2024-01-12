@@ -10,9 +10,11 @@ declare module './index' {
      */
     navigationBarBackgroundColor?: string
     /** 导航栏标题颜色，仅支持 black/white
+     * 当 app.json 中配置 darkmode 为 true 时可通过变量的形式配置
+     * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html
      * @default: "white"
      */
-    navigationBarTextStyle?: 'white' | 'black'
+    navigationBarTextStyle?: 'white' | 'black' | string
     /** 导航栏标题文字内容 */
     navigationBarTitleText?: string
     /** 导航栏样式，仅支持以下值：
@@ -31,9 +33,11 @@ declare module './index' {
      */
     backgroundColor?: string
     /** 下拉背景字体、loading 图的样式，仅支持 dark/light
+     * 当 app.json 中配置 darkmode 为 true 时可通过变量的形式配置
+     * @see: https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html 
      * @default: "dark"
      */
-    backgroundTextStyle?: 'dark' | 'light'
+    backgroundTextStyle?: 'dark' | 'light' | string
     /** 顶部窗口的背景色，仅 iOS 支持
      * @default: "#ffffff"
      */
