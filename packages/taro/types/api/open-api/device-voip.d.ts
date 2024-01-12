@@ -50,12 +50,52 @@ declare module '../../index' {
 
   interface TaroStatic {
     /** 请求用户授权与设备（组）间进行音视频通话
+     * @example
+     * ```tsx
+     * // 授权单台设备
+     * Taro.requestDeviceVoIP({
+     *   sn: 'xxxx',
+     *   snTicket: 'xxxxx',
+     *   modelId: 'xxx',
+     *   deviceName: 'xxx',
+     *   success(res) {
+     *     console.log(res)
+     *   },
+     *   fail(res) {
+     *     console.log(res)
+     *   }
+     * })
+     *
+     * // 批量授权（授权设备组）
+     * Taro.requestDeviceVoIP({
+     *   isGroup: true,
+     *   groupId: '设备组 ID',
+     *   success(res) {
+     *     console.log(res)
+     *   },
+     *   fail(res) {
+     *     console.log(res)
+     *   }
+     * })
+     * ```
+     *
      * @supported weapp
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/device-voip/wx.requestDeviceVoIP.html
      */
     requestDeviceVoIP(option: requestDeviceVoIP.Option): Promise<TaroGeneral.CallbackResult>
     /** 查询当前用户授权的音视频通话设备（组）信息
      * @supported weapp
+     * @example
+     * ```tsx
+     * Taro.getDeviceVoIPList({
+     *   success(res) {
+     *     console.log(res)
+     *   },
+     *   fail(res) {
+     *     console.log(res)
+     *   }
+     * })
+     * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/open-api/device-voip/wx.getDeviceVoIPList.html
      */
     getDeviceVoIPList(option: getDeviceVoIPList.Option): Promise<getDeviceVoIPList.SuccessCallbackResult>
