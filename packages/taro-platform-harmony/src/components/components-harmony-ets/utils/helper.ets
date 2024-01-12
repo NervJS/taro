@@ -20,7 +20,7 @@ export const parseStyles = (styles = ''): Record<string, string> => {
   return styleObj
 }
 
-export function shouldBindEvent (cb: Func, node: TaroElement, eventNames: string[], disabled = false) {
+export function shouldBindEvent (cb: Func, node: TaroElement | null, eventNames: string[], disabled = false) {
   if (!node || node._attrs?.disabled || disabled) return null
   if (!node.__listeners) {
     return null

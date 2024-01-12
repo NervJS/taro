@@ -160,7 +160,7 @@ export default function TaroButton (node: TaroButtonElement) {
   })
   .type(ButtonType.Normal)
   .onClick((e: ClickEvent) => {
-    if (['submit', 'reset'].includes(node._attrs.formType)) {
+    if (node._attrs.formType && ['submit', 'reset'].includes(node._attrs.formType)) {
       const eventName = node._attrs.formType + '-btn'
       const event: TaroEvent = createTaroEvent(eventName, {}, node)
       eventHandler(event, eventName, node)

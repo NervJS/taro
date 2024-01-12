@@ -168,7 +168,7 @@ function getScrollable (node: TaroScrollViewElement) {
 }
 
 function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', xOffset?: number, yOffset?: number) {
-  const currentOffset: ScrollViewCurrentOffset = node.scroller.currentOffset()
+  const currentOffset = node.scroller.currentOffset() as ScrollViewCurrentOffset
   const currentXOffset = currentOffset.xOffset
   const currentYOffset = currentOffset.yOffset
   const value: ScrollViewEvent = {

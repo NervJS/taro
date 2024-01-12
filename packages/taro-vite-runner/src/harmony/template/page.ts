@@ -443,8 +443,9 @@ ${this.isTabbarPage
 handleNavigationStyle = (option: TaroObject) => {
   if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title
   if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'
-  if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'
-  if (typeof option.home === 'boolean') this.navigationBarHomeBtn${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.home
+  if (option.frontColor) this.navigationBarTextStyle${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.frontColor || 'white'${this.isTabbarPage
+  ? ''
+  : "\n  if (typeof option.home === 'boolean') this.navigationBarHomeBtn = option.home"}
   if (typeof option.loading === 'boolean') this.navigationBarLoading${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.loading
 }
 
@@ -457,11 +458,11 @@ setTabBarCurrentIndex(index: number) {
   this.page = this.pageList[index]
 }
 
-updateTabBarKey = (index = 0, odd: Partial<ITabBarItem> = {}) => {
-  const obj: Partial<ITabBarItem> = this.tabBarList[index]
+updateTabBarKey = (index = 0, odd: TaroAny = {}) => {
+  const obj: TaroAny = this.tabBarList[index]
   if (Object.keys(obj).every(key => odd[key] === obj[key])) return
 
-  const idx = obj.key || index
+  const idx: TaroAny = obj.key || index
   const len = this.tabBarList.length
   obj.key = (Math.floor(idx / len) + 1) * len + index
 }
