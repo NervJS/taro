@@ -111,7 +111,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
                 Component,
                 {
                   // TODO: 传递 Props
-                  ...(ctx.data ||= {}).props,
+                  ...(ctx.props || {}),
                   ...refs,
                   $scope: ctx
                 }

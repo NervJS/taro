@@ -57,6 +57,10 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
     this.collectNativeComponents(this.app)
     if (this.taroConfig.isBuildNativeComp) {
       this.components = this.getComponents()
+
+      this.components?.length > 0 && this.components.forEach(compoent => {
+        this.collectNativeComponents(compoent)
+      })
     }
   }
 
@@ -96,7 +100,11 @@ export class TaroCompilerContext extends CompilerContext<ViteHarmonyBuildConfig>
       path: configPath,
       content: config
     }
-    this.collectNativeComponents(pageMeta)
+
+    // 编译原生组件的时候，不要把 pages 里引用的自定义组件带上
+    if (!this.taroConfig.isBuildNativeComp) {
+      this.collectNativeComponents(pageMeta)
+    }
     this.configFileList.push(pageMeta.configPath)
 
     return pageMeta

@@ -136,7 +136,8 @@ export function createPageConfig (component: any, pageName?: string, pageConfig?
       window.trigger(CONTEXT_ACTIONS.INIT, $taroPath)
 
       const mount = () => {
-        Current.app!.mount!(component, $taroPath, () => {
+        // @ts-ignore
+        Current.app!.mount!(component, $taroPath, null, () => {
           pageElement = document.getElementById($taroPath)
 
           if (!pageElement) {

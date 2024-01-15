@@ -1,5 +1,5 @@
 import { Current, document } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { AppInstance, eventCenter } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 
 import { setReconciler } from './connect'
 import { injectPageInstance } from './page'
@@ -26,8 +26,11 @@ const pageKeyId = incrementId()
 
 export function connectReactPage (
   R: typeof React,
-  id: string
+  id: string,
+  getCtx: () => any
 ) {
+  const ctx = getCtx?.()
+
   return (Page): React.ComponentClass<any> => {
     // eslint-disable-next-line dot-notation
     const isReactComponent = isClassComponent(R, Page)
@@ -63,7 +66,7 @@ export function connectReactPage (
         const children = this.state.hasError
           ? []
           : h(ReactMeta.PageContext.Provider, { value: id }, h(Page, {
-            ...this.props,
+            ...Object.assign({}, ctx?.props, this.props),
             ...refs
           }))
 
@@ -126,8 +129,8 @@ export function createReactApp (
       appWrapperResolver(this)
     }
 
-    public mount (pageComponent: any, id: string, cb: () => void) {
-      const pageWrapper = connectReactPage(react, id)(pageComponent)
+    public mount (pageComponent: any, id: string, getCtx: () => any, cb: () => void) {
+      const pageWrapper = connectReactPage(react, id, getCtx)(pageComponent)
       const key = id + pageKeyId()
       const page = () => h(pageWrapper, { key, tid: id })
       this.pages.push(page)
@@ -169,14 +172,13 @@ export function createReactApp (
     render (cb: () => void) {
       appWrapper.forceUpdate(cb)
     },
-    mount (component: any, id: string, cb: () => void) {
+    mount (component: any, id: string, getCtx: () => any, cb: () => void) {
       if (appWrapper) {
-        appWrapper.mount(component, id, cb)
+        appWrapper.mount(component, id, getCtx, cb)
       } else {
-        appWrapperPromise.then(appWrapper => appWrapper.mount(component, id, cb))
+        appWrapperPromise.then(appWrapper => appWrapper.mount(component, id, getCtx, cb))
       }
     },
-
     unmount (id: string, cb: () => void) {
       appWrapper?.unmount(id, cb)
     },
@@ -233,19 +235,7 @@ export function createReactApp (
         app?.componentDidHide?.()
       })
     }
-  }
-
-  // TODO: function componennt hook
-  // function triggerAppHook (lifecycle: string, ...option) {
-  //   const instance = getPageInstance('taro-app')
-  //   if (instance) {
-  //     const app = getAppInstance()
-  //     const func = hooks.call('getLifecycle', instance, lifecycle)
-  //     if (Array.isArray(func)) {
-  //       func.forEach(cb => cb.apply(app, option))
-  //     }
-  //   }
-  // }
+  } as unknown as AppInstance
 
   Current.app = app
 

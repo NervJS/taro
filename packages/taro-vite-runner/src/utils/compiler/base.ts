@@ -89,6 +89,8 @@ export class CompilerContext <T extends ViteH5BuildConfig | ViteHarmonyBuildConf
   getPages (): VitePageMeta[] {
     const appConfig = this.app.config
 
+    if (this.taroConfig.isBuildNativeComp) return []
+
     if (!appConfig.pages?.length) {
       this.logger.error('全局配置缺少 pages 字段，请检查！')
       process.exit(1)

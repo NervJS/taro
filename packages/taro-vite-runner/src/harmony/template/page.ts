@@ -102,6 +102,10 @@ export default class Parser extends BaseParser {
   }
 
   renderPage (isTabPage: boolean, appEnableRefresh = false, enableRefresh = 0) {
+    if (this.buildConfig.isBuildNativeComp) {
+      return `if (this.node) {\n  TaroView(this.node as TaroViewElement)\n}`
+    }
+    
     const isCustomNavigationBar = this.appConfig.window?.navigationStyle === 'custom'
     let pageStr = `Column() {
   if (${isCustomNavigationBar ? `config${isTabPage ? '[index]' : ''}.navigationStyle === 'default'` : `config${isTabPage ? '[index]' : ''}.navigationStyle !== 'custom'`}) {
@@ -286,7 +290,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
     const { modifyInstantiate } = this.loaderMeta
     const structCodeArray: unknown[] = [
       '@Component',
-      'struct Index {',
+      `${this.buildConfig.isBuildNativeComp ? 'export default ' : ''}struct Index {`,
     ]
 
     // 如果是编译成原生组件，则不需要加 @Entry 头部，否则都加上 @Entry，当成 Page 入口
@@ -296,42 +300,45 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const generateState = [
       this.renderState({
-        name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()'
+        name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()', disabled: !this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       'page?: PageInstance',
       this.renderState({
-        decorator: 'State', name: 'pageList', type: 'PageInstance', scope: ['tabbar']
+        decorator: 'State', name: 'pageList', type: 'PageInstance', scope: ['tabbar'], disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'node', type: '(TaroElement | null)', foreach: () => 'null'
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0
+        decorator: 'State', name: 'isRefreshing', type: 'boolean', foreach: () => 'false', disabled: this.enableRefresh === 0 || this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       // Note: 仅普通页面包含 Home 按钮
       this.renderState({
-        decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page']
+        decorator: 'State', name: 'navigationBarHomeBtn', type: 'boolean', foreach: () => 'true', scope: ['page'], disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarLoading', type: 'boolean', foreach: () => 'false'
+        decorator: 'State', name: 'navigationBarLoading', type: 'boolean', foreach: () => 'false', disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.navigationBarBackgroundColor`
+        decorator: 'State', name: 'navigationBarBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.navigationBarBackgroundColor`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarTextStyle', type: 'string', foreach: (_, i) => `config${i}.navigationBarTextStyle`
+        decorator: 'State', name: 'navigationBarTextStyle', type: 'string', foreach: (_, i) => `config${i}.navigationBarTextStyle`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`
+        decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`
+        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`, disabled: !this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
-      '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
-      '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
-      '@State appConfig: AppConfig = window.__taroAppConfig || {}',
-      `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
-    ].flat()
+      this.renderState({
+        decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
+      }, this.isTabbarPage),
+      this.buildConfig.isBuildNativeComp ? '' : '@StorageLink("__TARO_PAGE_STACK") pageStack: router.RouterState[] = []',
+      this.buildConfig.isBuildNativeComp ? '' : '@StorageProp("__TARO_ENTRY_PAGE_PATH") entryPagePath: string = ""',
+      this.buildConfig.isBuildNativeComp ? '' : '@State appConfig: AppConfig = window.__taroAppConfig || {}',
+      this.buildConfig.isBuildNativeComp ? '' : `@State tabBarList: ${this.isTabbarPage ? 'ITabBarItem' : 'TabBarItem'}[] = this.appConfig.tabBar?.list || []`,
+    ].filter(item => item !== '').flat()
     if (this.isTabbarPage) {
       generateState.push(
         '@State isTabBarShow: boolean = true',
@@ -354,11 +361,13 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
       '',
       this.transArr2Str(`aboutToAppear() {${isBlended ?
         '\n  initHarmonyElement()' : ''}
-  const state = this.getPageState()
+  ${this.buildConfig.isBuildNativeComp
+    ? '' 
+    : ` const state = this.getPageState()
   if (this.pageStack.length >= state.index) {
     this.pageStack.length = state.index - 1
   }
-  this.pageStack.push(state)
+  this.pageStack.push(state)`}
   ${this.isTabbarPage ? `const params = router.getParams() as Record<string, string> || {}
   let index = params.$page
     ? this.tabBarList.findIndex(e => e.pagePath === params.$page)
@@ -367,8 +376,8 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
   this.handlePageAppear(index)
   this.setTabBarCurrentIndex(index)
   this.bindEvent()` : 'this.handlePageAppear()'}
-}
-
+}`.split('\n'), 2),
+      this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 onPageShow () {
   this.bindPageEvent()
   const state = this.getPageState()
@@ -389,15 +398,6 @@ onPageHide () {
   })` : 'callFn(this.page?.onHide, this)'}
 }
 
-aboutToDisappear () {
-  ${this.isTabbarPage ? `this.pageList?.forEach(item => {
-    callFn(item?.onUnload, this)
-  })
-  this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
-}
-`.split('\n'), 2),
-      SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
-      this.transArr2Str(`
 getPageState() {
   const state = router.getState()
   state.path ||= '${this.isTabbarPage ? TARO_TABBAR_PAGE_PATH : (page as VitePageMeta).name}'
@@ -406,20 +406,29 @@ getPageState() {
   }
   return state
 }
+`.split('\n'), 2),
+      SHOW_TREE ? this.transArr2Str(showTreeFunc(this.isTabbarPage).split('\n'), 2) : null,
+      this.transArr2Str(`
+aboutToDisappear () {
+  ${this.isTabbarPage ? `this.pageList?.forEach(item => {
+    callFn(item?.onUnload, this)
+  })
+  this.removeEvent()` : 'callFn(this.page?.onUnload, this)'}
+}
 
 handlePageAppear(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex' : ''}) {
-  if (${this.appConfig.window?.navigationStyle === 'custom'
+  ${this.buildConfig.isBuildNativeComp ? '' : `if (${this.appConfig.window?.navigationStyle === 'custom'
     ? `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle !== 'default'`
     : `config${this.isTabbarPage ? '[index]' : ''}.navigationStyle === 'custom'`}) {
-    Current.contextPromise
-      .then((context: common.BaseContext) => {
-        const win = window.__ohos.getLastWindow(context)
-        win.then(mainWindow => {
-          mainWindow.setFullScreen(true)
-          mainWindow.setSystemBarEnable(["status", "navigation"])
-        })
+  Current.contextPromise
+    .then((context: common.BaseContext) => {
+      const win = window.__ohos.getLastWindow(context)
+      win.then(mainWindow => {
+        mainWindow.setFullScreen(true)
+        mainWindow.setSystemBarEnable(["status", "navigation"])
       })
-  }
+    })
+}`}
   const params = router.getParams() as Record<string, string> || {}
 
 ${this.isTabbarPage
@@ -447,7 +456,7 @@ ${this.isTabbarPage
     ], 4)}
 }
 `.split('\n'), 2),
-      this.transArr2Str(`
+      this.buildConfig.isBuildNativeComp ? '' : this.transArr2Str(`
 handleNavigationStyle = (option: TaroObject) => {
   if (option.title) this.navigationBarTitleText${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.title
   if (option.backgroundColor) this.navigationBarBackgroundColor${this.isTabbarPage ? '[this.tabBarCurrentIndex]' : ''} = option.backgroundColor || '#000000'

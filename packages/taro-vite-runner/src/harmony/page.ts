@@ -15,7 +15,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
     name,
     enforce: 'pre',
     resolveId (source, importer, options) {
-      if (viteCompilerContext?.isPage(source) && options.isEntry) {
+      if ((viteCompilerContext?.isPage(source) || viteCompilerContext?.isComponent(source)) && options.isEntry) {
         if (viteCompilerContext.getPageById(source)?.isNative) return null
         return appendVirtualModulePrefix(source + PAGE_SUFFIX)
       } else if (source.includes(TARO_TABBAR_PAGE_PATH) && options.isEntry) {
@@ -44,7 +44,7 @@ export default function (viteCompilerContext: ViteHarmonyCompilerContext): Plugi
       const rawId = stripVirtualModulePrefix(id).replace(PAGE_SUFFIX, '')
 
       if (id.endsWith(PAGE_SUFFIX)) {
-        const page = viteCompilerContext.getPageById(rawId)
+        const page = viteCompilerContext.getPageById(rawId) || viteCompilerContext.getComponentById(rawId)
         // Note: 组件编译模式下禁用 TabBar 页面生成
         const isTabbarPage = !taroConfig.isBuildNativeComp
           && tabbarList.some(item => item.pagePath === page?.name)
