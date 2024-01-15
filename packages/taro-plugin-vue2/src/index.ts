@@ -2,7 +2,10 @@ import { chalk, REG_VUE, VUE_EXT } from '@tarojs/helper'
 import { DEFAULT_Components } from '@tarojs/runner-utils'
 import { isString } from '@tarojs/shared'
 import { capitalize, internalComponents, toCamelCase } from '@tarojs/shared/dist/template'
+import { mergeWith } from 'lodash'
 
+import { getLoaderMeta } from './loader-meta'
+import { CUSTOM_WRAPPER } from './utils'
 import { h5VitePlugin } from './vite.h5'
 import { harmonyVitePlugin } from './vite.harmony'
 import { miniVitePlugin } from './vite.mini'
@@ -54,7 +57,7 @@ export default (ctx: IPluginContext) => {
 
   ctx.modifyViteConfig(({ viteConfig, data }) => {
     viteConfig.plugins.push(viteCommonPlugin())
-    if (isWebPlatform()) {
+    if (process.env.TARO_PLATFORM === 'web') {
       // H5
       viteConfig.plugins.push(h5VitePlugin(ctx))
     } else if (process.env.TARO_PLATFORM === 'harmony' || process.env.TARO_ENV === 'harmony') {

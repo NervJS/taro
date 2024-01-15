@@ -1,7 +1,6 @@
+import { resolveSync } from '@tarojs/helper'
 import { TaroPlatformWeb } from '@tarojs/service'
 import path from 'path'
-
-import { resolveSync } from './resolve'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
 

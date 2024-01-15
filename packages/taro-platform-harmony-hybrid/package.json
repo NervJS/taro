@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@tarojs/api": "workspace:*",
+    "@tarojs/helper": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
@@ -45,7 +46,6 @@
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
-    "resolve": "^1.22.0",
     "lodash-es": "4.17.21",
     "query-string": "^7.1.1",
     "jsonp-retry": "^1.0.3",

@@ -1883,9 +1883,6 @@ importers:
       regenerator-runtime:
         specifier: '0.11'
         version: registry.npmjs.org/regenerator-runtime@0.11.1
-      resolve:
-        specifier: ^1.22.0
-        version: registry.npmjs.org/resolve@1.22.2
       resolve-url-loader:
         specifier: 4.0.0
         version: registry.npmjs.org/resolve-url-loader@4.0.0
@@ -2129,6 +2126,9 @@ importers:
       '@tarojs/components-react':
         specifier: workspace:*
         version: link:../taro-components-react
+      '@tarojs/helper':
+        specifier: workspace:*
+        version: link:../taro-helper
       '@tarojs/router':
         specifier: workspace:*
         version: link:../taro-router
@@ -2159,9 +2159,6 @@ importers:
       query-string:
         specifier: ^7.1.1
         version: registry.npmjs.org/query-string@7.1.3
-      resolve:
-        specifier: ^1.22.0
-        version: registry.npmjs.org/resolve@1.22.8
       whatwg-fetch:
         specifier: ^3.4.0
         version: registry.npmjs.org/whatwg-fetch@3.6.2
@@ -3761,9 +3758,6 @@ importers:
       postcss-url:
         specifier: 8.0.0
         version: registry.npmjs.org/postcss-url@8.0.0
-      resolve:
-        specifier: ^1.22.0
-        version: registry.npmjs.org/resolve@1.22.2
       resolve-url-loader:
         specifier: 3.1.3
         version: registry.npmjs.org/resolve-url-loader@3.1.3
@@ -4024,9 +4018,6 @@ importers:
       regenerator-runtime:
         specifier: '0.11'
         version: registry.npmjs.org/regenerator-runtime@0.11.1
-      resolve:
-        specifier: ^1.22.0
-        version: registry.npmjs.org/resolve@1.22.2
       resolve-url-loader:
         specifier: ^5.0.0
         version: registry.npmjs.org/resolve-url-loader@5.0.0
