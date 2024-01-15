@@ -494,15 +494,272 @@ exports[`subpackages should process subpackages 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(12).default;
+    var taro = __webpack_require__(11).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(11);
+    module.exports = __webpack_require__(12);
 }, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var interceptors_namespaceObject = {};
+    __webpack_require__.r(interceptors_namespaceObject);
+    __webpack_require__.d(interceptors_namespaceObject, "logInterceptor", (function() {
+        return logInterceptor;
+    }));
+    __webpack_require__.d(interceptors_namespaceObject, "timeoutInterceptor", (function() {
+        return timeoutInterceptor;
+    }));
+    var taro_runtime = __webpack_require__(1);
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
+    };
+    function getEnv() {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
+            return ENV_TYPE.WEB;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
+        }
+    }
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var taro_shared = "taro-shared-mock";
+    var chain_Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            Object(classCallCheck["a"])(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams || {};
+            this.interceptors = interceptors || [];
+        }
+        Object(createClass["a"])(Chain, [ {
+            "key": "proceed",
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return undefined(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var interceptor_Link = function() {
+        function Link(interceptor) {
+            Object(classCallCheck["a"])(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new chain_Chain;
+        }
+        Object(createClass["a"])(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(Object.assign({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new chain_Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new interceptor_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                clearTimeout(timeout);
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var toPropertyKey = __webpack_require__(5);
+    function _defineProperty(obj, key, value) {
+        key = Object(toPropertyKey["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            var formatSize = ~~size;
+            var rootValue = 1 / deviceRatio[designWidth];
+            switch (targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
+            }
+            return val + targetUnit;
+        };
+    }
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": interceptor_Link,
+        "interceptors": interceptors_namespaceObject,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     var taro = __webpack_require__(8);
@@ -613,260 +870,6 @@ exports[`subpackages should process subpackages 2`] = `
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var toPropertyKey = __webpack_require__(5);
-    function _defineProperty(obj, key, value) {
-        key = Object(toPropertyKey["a"])(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-    var classCallCheck = __webpack_require__(3);
-    var createClass = __webpack_require__(4);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP",
-        "HARMONYHYBRID": "HARMONYHYBRID"
-    };
-    function getEnv() {
-        if (undefined === "weapp") {
-            return ENV_TYPE.WEAPP;
-        } else if (undefined === "alipay") {
-            return ENV_TYPE.ALIPAY;
-        } else if (undefined === "swan") {
-            return ENV_TYPE.SWAN;
-        } else if (undefined === "tt") {
-            return ENV_TYPE.TT;
-        } else if (undefined === "jd") {
-            return ENV_TYPE.JD;
-        } else if (undefined === "qq") {
-            return ENV_TYPE.QQ;
-        } else if (undefined === "harmony-hybrid") {
-            return ENV_TYPE.HARMONYHYBRID;
-        } else if (undefined === "h5" || "web" === "web") {
-            return ENV_TYPE.WEB;
-        } else if (undefined === "rn") {
-            return ENV_TYPE.RN;
-        } else if (undefined === "harmony" || "web" === "harmony") {
-            return ENV_TYPE.HARMONY;
-        } else if (undefined === "quickapp") {
-            return ENV_TYPE.QUICKAPP;
-        } else {
-            return undefined || "Unknown";
-        }
-    }
-    var index_esm_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            Object(classCallCheck["a"])(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams || {};
-            this.interceptors = interceptors || [];
-        }
-        Object(createClass["a"])(Chain, [ {
-            "key": "proceed",
-            "value": function proceed() {
-                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return undefined(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var index_esm_Link = function() {
-        function Link(interceptor) {
-            Object(classCallCheck["a"])(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
-        }
-        Object(createClass["a"])(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(Object.assign({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
-            return promiseifyApi(chain.requestParams);
-        }));
-    }
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                clearTimeout(timeout);
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
-            return res;
-        }));
-        if (undefined(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "logInterceptor": logInterceptor,
-        "timeoutInterceptor": timeoutInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
-            }
-            return val + targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
-        "getInitPxTransform": getInitPxTransform,
-        "interceptorify": interceptorify
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 "
 `;
