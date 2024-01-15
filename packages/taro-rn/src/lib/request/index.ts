@@ -83,7 +83,7 @@ function _request<T = any>(options: Taro.request.Option): Taro.RequestTask<T> {
       controller?.abort()
       reject(Error('request:fail timeout'))
       clearTimeout?.(timer)
-    }, options.timeout ?? 2000)
+    }, options.timeout ?? 60000)
   })
 
   const p: any = Promise.race([fetchPromise, timeoutPromise]).then(resData => {
