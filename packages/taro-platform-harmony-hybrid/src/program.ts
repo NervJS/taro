@@ -62,7 +62,7 @@ export default class H5 extends TaroPlatformWeb {
   }
 
   get libraryDefinition () {
-    return resolveSync('./definition.json')
+    return resolveSync('./definition.json') || ''
   }
 
   /**
@@ -80,7 +80,7 @@ export default class H5 extends TaroPlatformWeb {
             require('babel-plugin-transform-taroapi'),
             {
               packageName: '@tarojs/taro',
-              apis: require(resolveSync('./taroApis')),
+              apis: require(resolveSync('./taroApis') || ''),
               definition: require(this.libraryDefinition)
             }
           ]
