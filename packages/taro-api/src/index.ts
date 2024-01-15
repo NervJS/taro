@@ -1,6 +1,4 @@
 /* eslint-disable camelcase */
-import './polyfill'
-
 import {
   Current,
   eventCenter,
@@ -20,7 +18,7 @@ import {
   getPxTransform,
 } from './tools'
 
-const Taro = {
+const Taro: Record<string, unknown> = {
   Behavior,
   getEnv,
   ENV_TYPE,

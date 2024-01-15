@@ -1,5 +1,4 @@
 import 'swiper/swiper-bundle.min.css'
-import 'weui'
 import './style/index.css'
 
 import classNames from 'classnames'

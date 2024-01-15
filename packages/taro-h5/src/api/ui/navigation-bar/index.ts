@@ -1,5 +1,5 @@
 import Taro from '@tarojs/api'
-import { setTitle } from '@tarojs/router/dist/utils/navigate'
+import { setTitle } from '@tarojs/router'
 
 import { getParameterError, shouldBeObject, temporarilyNotSupport } from '../../../utils'
 import { MethodHandler } from '../../../utils/handler'
