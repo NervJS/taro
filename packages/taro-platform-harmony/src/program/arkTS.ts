@@ -401,7 +401,7 @@ function App(props) {
       isFile: (file: string) => {
         try {
           const stat = fs.lstatSync(file)
-          return stat.isFile() || (file.endsWith(mediaPath) && stat.isDirectory())
+          return stat.isFile() || (file.endsWith(mediaPath.replace('/', path.sep)) && stat.isDirectory())
         } catch (_) {} // eslint-disable-line no-empty
         return false
       }
