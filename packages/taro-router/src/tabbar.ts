@@ -1,10 +1,9 @@
-// @ts-nocheck
 import { defineCustomElementTaroTabbar } from '@tarojs/components/dist/components'
 import { AppConfig, initTabBarApis } from '@tarojs/taro'
 
-import { history } from './history'
+import type { History } from 'history'
 
-export function initTabbar (config: AppConfig) {
+export function initTabbar (config: AppConfig, history: History) {
   if (config.tabBar == null || config.tabBar.custom) {
     return
   }

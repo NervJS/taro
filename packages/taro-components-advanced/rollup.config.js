@@ -39,6 +39,7 @@ export default {
     commonjs(),
     postcss({
       inject: { insertAt: 'top' },
+      minimize: true,
     }),
   ],
 }

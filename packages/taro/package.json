@@ -24,12 +24,17 @@
   "author": "O2Team",
   "license": "MIT",
   "dependencies": {
-    "@tarojs/api": "workspace:*",
-    "@tarojs/runtime": "workspace:*"
+    "@tarojs/api": "workspace:*"
   },
   "devDependencies": {
     "@tarojs/helper": "workspace:*",
-    "@tarojs/shared": "workspace:*"
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/runtime": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tarojs/helper": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/runtime": "workspace:~"
   },
   "peerDependenciesMeta": {
     "@types/react": {

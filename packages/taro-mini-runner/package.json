@@ -10,7 +10,7 @@
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
@@ -34,7 +34,6 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@babel/core": "^7.14.5",
-    "@tarojs/components": "workspace:*",
     "@tarojs/helper": "workspace:*",
     "@tarojs/plugin-platform-alipay": "workspace:*",
     "@tarojs/plugin-platform-jd": "workspace:*",
@@ -43,9 +42,6 @@
     "@tarojs/plugin-platform-tt": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
     "acorn": "^8.11.2",
     "acorn-walk": "^8.3.1",
@@ -73,7 +69,6 @@
     "postcss-pxtransform": "workspace:*",
     "postcss-url": "^10.1.3",
     "regenerator-runtime": "0.11",
-    "resolve": "^1.22.0",
     "resolve-url-loader": "4.0.0",
     "sass": "1.50.0",
     "sass-loader": "10.2.0",
@@ -89,6 +84,9 @@
     "webpack-format-messages": "^2.0.5"
   },
   "devDependencies": {
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@types/sax": "^1.2.4",
     "@types/webpack": "4",
     "babel-jest": "^29.7.0",
@@ -106,6 +104,9 @@
     "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
     "postcss": "^8.4.18"
   }
 }

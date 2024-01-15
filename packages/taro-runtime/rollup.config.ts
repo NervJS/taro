@@ -1,74 +1,52 @@
-import buble from '@rollup/plugin-buble'
-import replace from '@rollup/plugin-replace'
-import * as path from 'path'
+import { mergeWith } from 'lodash'
+import { defineConfig } from 'rollup'
+import externals from 'rollup-plugin-node-externals'
 import ts from 'rollup-plugin-ts'
 
-import type { InputPluginOption, RollupOptions } from 'rollup'
+import type { RollupOptions } from 'rollup'
 
-const cwd = __dirname
-
-const baseConfig: RollupOptions & { plugins: InputPluginOption[] } = {
-  input: path.join(cwd, 'src/index.ts'),
-  external: ['react', 'nervjs', 'react-dom', 'vue', '@tarojs/shared', 'inversify'],
-  output: [
-    {
-      file: path.join(cwd, 'dist/runtime.cjs.js'),
-      format: 'cjs',
-      sourcemap: false,
-      exports: 'named',
-    },
-  ],
-  plugins: [ts(), buble()],
-}
-const esmConfig: RollupOptions = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output?.[0], {
+const baseConfig = {
+  input: 'src/index.ts',
+  output: {
     sourcemap: true,
-    format: 'es',
-    file: path.join(cwd, 'dist/runtime.esm.js'),
-  }),
-  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1),
-})
-
-const webConfig: RollupOptions = Object.assign({}, baseConfig, {
-  output: Object.assign({}, baseConfig.output?.[0], {
-    file: path.join(cwd, 'dist/runtime.h5.js'),
-  }),
-  plugins: baseConfig.plugins.slice(0, baseConfig.plugins.length - 1).concat([
-    replace({
-      objectGuards: true,
-      preventAssignment: true,
-      values: {
-        ENABLE_INNER_HTML: 'false',
-        ENABLE_ADJACENT_HTML: 'false',
-        ENABLE_SIZE_APIS: 'false',
-        ENABLE_TEMPLATE_CONTENT: 'false',
-        ENABLE_MUTATION_OBSERVER: 'false',
-        ENABLE_CLONE_NODE: 'false',
-        ENABLE_CONTAINS: 'false',
-        'process.env.TARO_PLATFORM': JSON.stringify('web'),
-      },
+    exports: 'named'
+  },
+  plugins: [
+    externals({
+      deps: true,
+      devDeps: false,
+      include: [/^(react|react-dom|nervjs|vue)$/, /^inversify$/]
     }),
-    replace({
-      delimiters: ['', ''],
-      objectGuards: true,
-      preventAssignment: true,
-      values: {
-        'isWebPlatform()': 'true',
-      },
-    }),
-  ]),
-})
-
-function rollup(): RollupOptions | RollupOptions[] {
-  const target = process.env.TARGET
-
-  if (target === 'umd') {
-    return baseConfig
-  } else if (target === 'esm') {
-    return esmConfig
-  } else {
-    return [baseConfig, esmConfig, webConfig]
-  }
+    ts(),
+  ]
 }
 
-export default rollup()
+const variesConfig: RollupOptions[] = [{
+  output: {
+    dir: 'dist',
+    preserveModules: true,
+    preserveModulesRoot: 'src',
+  },
+}, {
+  output: {
+    file: 'dist/index.cjs.js',
+    format: 'cjs',
+  },
+}, {
+  output: {
+    file: 'dist/runtime.esm.js',
+    format: 'es',
+  },
+}]
+
+export default defineConfig(variesConfig.map(v => {
+  const customizer = function (objValue, srcValue) {
+    if (Array.isArray(objValue)) {
+      return objValue.concat(srcValue)
+    }
+    if (typeof objValue === 'object') {
+      return mergeWith({}, objValue, srcValue, customizer)
+    }
+  }
+  return mergeWith({}, baseConfig, v, customizer)
+}))

@@ -11,7 +11,7 @@
     "clean": "rimraf --impl=move-remove dist types",
     "prepack": "pnpm run build",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent --passWithNoTests",
     "test:dev": "cross-env NODE_ENV=jest jest --watch"
   },
   "repository": {
@@ -21,8 +21,7 @@
   "files": [
     "index.js",
     "dist",
-    "types",
-    "src"
+    "types"
   ],
   "keywords": [
     "taro"
@@ -35,8 +34,6 @@
   "homepage": "https://github.com/NervJS/taro#readme",
   "dependencies": {
     "@tarojs/helper": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
     "joi": "^17.6.0",
     "lodash": "^4.17.21",
@@ -46,7 +43,13 @@
     "ora": "^5.0.0"
   },
   "devDependencies": {
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "vite": "^4.2.0",
     "webpack": "5.78.0"
+  },
+  "peerDependencies": {
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~"
   }
 }

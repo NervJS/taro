@@ -1,4 +1,5 @@
-import { chalk, fs, recursiveMerge } from '@tarojs/helper'
+import { chalk, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { PLATFORM_TYPE } from '@tarojs/shared'
 import { get, mapValues, merge } from 'lodash'
 import * as path from 'path'
 
@@ -14,8 +15,9 @@ import {
   parseModule,
   processEnvOption
 } from '../utils/chain'
-import { BuildConfig } from '../utils/types'
 import getBaseChain from './base.conf'
+
+import type { BuildConfig } from '../utils/types'
 
 export default function (appPath: string, config: Partial<BuildConfig>, appHelper: AppHelper): any {
   const chain = getBaseChain(appPath, config)
@@ -55,6 +57,9 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
     compile = {},
     postcss = {},
     htmlPluginOption = {},
+
+    buildAdapter = PLATFORMS.H5,
+    framework = 'react',
 
     useDeprecatedAdapterComponent = false
   } = config
@@ -147,6 +152,11 @@ export default function (appPath: string, config: Partial<BuildConfig>, appHelpe
       }, htmlPluginOption)])
     }
   }
+
+  env.FRAMEWORK = JSON.stringify(framework)
+  env.TARO_ENV = JSON.stringify(buildAdapter)
+  env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB)
+  env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"disabled"'
   env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
   defineConstants.DEPRECATED_ADAPTER_COMPONENT = JSON.stringify(!!useDeprecatedAdapterComponent)
   plugin.definePlugin = getDefinePlugin([processEnvOption(env), defineConstants])

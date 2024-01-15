@@ -31,7 +31,6 @@ export * from './constants'
 export { Current, getCurrentInstance } from './current'
 export { eventSource } from './dom/event-source'
 export {
-  addLeadingSlash,
   createComponentConfig,
   createPageConfig,
   createRecursiveComponentConfig,
@@ -53,3 +52,6 @@ export * from './utils'
 // typings
 export * from './dsl/instance'
 export * from './interface'
+
+// Polyfills
+export * from './polyfill'

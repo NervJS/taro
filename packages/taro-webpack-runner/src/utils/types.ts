@@ -12,9 +12,8 @@ export interface Chain {
   [key: string]: any
 }
 
-export type Func = (...args: any[]) => void
-
 export interface BuildConfig extends IProjectBaseConfig, IH5Config {
+  buildAdapter: string // weapp | swan | alipay | tt | qq | jd | h5
   entry?: webpack.Entry
   entryFileName?: string
   runtimePath?: string | string[]

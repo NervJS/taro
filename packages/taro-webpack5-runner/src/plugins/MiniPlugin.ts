@@ -791,7 +791,9 @@ export default class TaroMiniPlugin {
     if (usingComponents) {
       const componentNames = Object.keys(usingComponents)
       const depComponents: Array<{ name: string, path: string }> = []
-      const alias = this.options.combination.config.alias
+      // alias 的值需要从最终的 chain 中拿，避免用户在 webpackChain 中设置的 alias 无法被读取到
+      const alias = this.options.combination.chain.toConfig().resolve?.alias
+
       for (const compName of componentNames) {
         let compPath: string = usingComponents[compName]
 

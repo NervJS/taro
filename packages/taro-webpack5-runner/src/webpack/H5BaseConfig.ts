@@ -1,4 +1,5 @@
 import { defaultMainFields, resolveSync } from '@tarojs/helper'
+import path from 'path'
 
 import { BaseConfig } from './BaseConfig'
 
@@ -19,12 +20,23 @@ export class H5BaseConfig extends BaseConfig {
   constructor(appPath: string, config: Partial<IH5BuildConfig>) {
     super(appPath, config)
     const mainFields = [...defaultMainFields]
-    const resolveOptions = {
-      basedir: appPath,
-      mainFields,
-    }
     if (config.mode !== 'production') {
       mainFields.unshift('main:h5')
+    }
+    const resolveOptions: Parameters<typeof resolveSync>[1] = {
+      basedir: appPath,
+      packageFilter: (pkg, pkgFile) => {
+        for (let i = 0; i < mainFields.length; i++) {
+          try {
+            const mainFile = pkg[mainFields[i]] as string
+            if (mainFile && resolveSync(path.resolve(pkgFile, mainFile))) {
+              pkg.main = mainFile
+              break
+            }
+          } catch (e) {} // eslint-disable-line no-empty
+        }
+        return pkg
+      },
     }
     this.chain.merge({
       resolve: {

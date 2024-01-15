@@ -6,20 +6,20 @@ exports[`config should build from origin and pipe to output 2`] = `
 "
 /** filePath: output/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "19": function(module, exports, __webpack_require__) {},
-    "20": function(module, __webpack_exports__, __webpack_require__) {
+    "13": function(module, exports, __webpack_require__) {},
+    "14": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, "default", (function() {
             return index_Index;
         }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        var index = __webpack_require__(19);
+        var index = __webpack_require__(13);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -251,7 +251,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 14);
+    return __webpack_require__(__webpack_require__.s = 9);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -289,58 +289,37 @@ exports[`config should build from origin and pipe to output 2`] = `
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _typeof;
     }));
-    function _typeof(o) {
+    function _typeof(obj) {
         "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, _typeof(o);
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
     }
-}, function(module, exports) {
-    function _typeof(o) {
-        "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(o);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
-    function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
     }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -351,24 +330,25 @@ exports[`config should build from origin and pipe to output 2`] = `
         });
         return Constructor;
     }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == _typeof(i) ? i : String(i);
-    }
-    module.exports = toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
+        return _toPropertyKey;
     }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
         }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -423,43 +403,6 @@ exports[`config should build from origin and pipe to output 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function toPrimitive(t, r) {
-        if ("object" != Object(esm_typeof["a"])(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != Object(esm_typeof["a"])(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == Object(esm_typeof["a"])(i) ? i : String(i);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -487,63 +430,283 @@ exports[`config should build from origin and pipe to output 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(18).default;
+    var taro = __webpack_require__(11).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(4);
-    function ownKeys(e, r) {
-        var t = Object.keys(e);
-        if (Object.getOwnPropertySymbols) {
-            var o = Object.getOwnPropertySymbols(e);
-            r && (o = o.filter((function(r) {
-                return Object.getOwnPropertyDescriptor(e, r).enumerable;
-            }))), t.push.apply(t, o);
-        }
-        return t;
-    }
-    function _objectSpread2(e) {
-        for (var r = 1; r < arguments.length; r++) {
-            var t = null != arguments[r] ? arguments[r] : {};
-            r % 2 ? ownKeys(Object(t), !0).forEach((function(r) {
-                defineProperty(e, r, t[r]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach((function(r) {
-                Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-            }));
-        }
-        return e;
-    }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(17);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function toPrimitive(t, r) {
-        if ("object" != _typeof(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != _typeof(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    module.exports = toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    module.exports = __webpack_require__(12);
 }, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var interceptors_namespaceObject = {};
+    __webpack_require__.r(interceptors_namespaceObject);
+    __webpack_require__.d(interceptors_namespaceObject, "logInterceptor", (function() {
+        return logInterceptor;
+    }));
+    __webpack_require__.d(interceptors_namespaceObject, "timeoutInterceptor", (function() {
+        return timeoutInterceptor;
+    }));
+    var taro_runtime = __webpack_require__(1);
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
+    };
+    function getEnv() {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
+            return ENV_TYPE.WEB;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
+        }
+    }
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var taro_shared = "taro-shared-mock";
+    var chain_Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            Object(classCallCheck["a"])(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams || {};
+            this.interceptors = interceptors || [];
+        }
+        Object(createClass["a"])(Chain, [ {
+            "key": "proceed",
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return undefined(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var interceptor_Link = function() {
+        function Link(interceptor) {
+            Object(classCallCheck["a"])(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new chain_Chain;
+        }
+        Object(createClass["a"])(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(Object.assign({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new chain_Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new interceptor_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                clearTimeout(timeout);
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var toPropertyKey = __webpack_require__(5);
+    function _defineProperty(obj, key, value) {
+        key = Object(toPropertyKey["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            var formatSize = ~~size;
+            var rootValue = 1 / deviceRatio[designWidth];
+            switch (targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
+            }
+            return val + targetUnit;
+        };
+    }
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": interceptor_Link,
+        "interceptors": interceptors_namespaceObject,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(8);
     function createMultiRouter() {}
     function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var inherits = __webpack_require__(7);
+    var createSuper = __webpack_require__(6);
     var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
+    var app = __webpack_require__(10);
     var app_App = function(_Component) {
         Object(inherits["a"])(App, _Component);
         var _super = Object(createSuper["a"])(App);
@@ -603,7 +766,7 @@ exports[`config should build from origin and pipe to output 2`] = `
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
             return [ page, context, params ];
         }
     }, {
@@ -615,7 +778,11 @@ exports[`config should build from origin and pipe to output 2`] = `
         "unstable_batchedUpdates": react["unstable_batchedUpdates"]
     });
     var inst = createReactApp(origin_app, react, react["default"], config);
-    createRouter(inst, config, react);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, react);
     Object(taro["initPxTransform"])({
         "designWidth": 750,
         "deviceRatio": {
@@ -627,314 +794,6 @@ exports[`config should build from origin and pipe to output 2`] = `
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
-    function isFunction(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && typeof_default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
-    };
-    var isWeb = undefined();
-    function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
-            return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
-        }
-    }
-    var index_esm_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams;
-            this.interceptors = interceptors || [];
-        }
-        createClass_default()(Chain, [ {
-            "key": "proceed",
-            "value": function proceed(requestParams) {
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var index_esm_Link = function() {
-        function Link(interceptor) {
-            classCallCheck_default()(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
-        }
-        createClass_default()(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
-            return promiseifyApi(chain.requestParams);
-        }));
-    }
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                timeout = null;
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
-            return res;
-        }));
-        if (isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
-            }
-            return val + targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
-        "getInitPxTransform": getInitPxTransform,
-        "interceptorify": interceptorify
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 "
 `;
@@ -945,20 +804,20 @@ exports[`config should copy assets 2`] = `
 "
 /** filePath: dist/chunk/1.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 1 ], {
-    "19": function(module, exports, __webpack_require__) {},
-    "20": function(module, __webpack_exports__, __webpack_require__) {
+    "13": function(module, exports, __webpack_require__) {},
+    "14": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, "default", (function() {
             return index_Index;
         }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        var index = __webpack_require__(19);
+        var index = __webpack_require__(13);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -1194,7 +1053,7 @@ I m irrelevant.
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 14);
+    return __webpack_require__(__webpack_require__.s = 9);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -1232,58 +1091,37 @@ I m irrelevant.
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _typeof;
     }));
-    function _typeof(o) {
+    function _typeof(obj) {
         "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, _typeof(o);
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
     }
-}, function(module, exports) {
-    function _typeof(o) {
-        "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(o);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
-    function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
     }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -1294,24 +1132,25 @@ I m irrelevant.
         });
         return Constructor;
     }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == _typeof(i) ? i : String(i);
-    }
-    module.exports = toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
+        return _toPropertyKey;
     }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
         }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -1366,43 +1205,6 @@ I m irrelevant.
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function toPrimitive(t, r) {
-        if ("object" != Object(esm_typeof["a"])(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != Object(esm_typeof["a"])(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == Object(esm_typeof["a"])(i) ? i : String(i);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -1430,63 +1232,283 @@ I m irrelevant.
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(18).default;
+    var taro = __webpack_require__(11).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(4);
-    function ownKeys(e, r) {
-        var t = Object.keys(e);
-        if (Object.getOwnPropertySymbols) {
-            var o = Object.getOwnPropertySymbols(e);
-            r && (o = o.filter((function(r) {
-                return Object.getOwnPropertyDescriptor(e, r).enumerable;
-            }))), t.push.apply(t, o);
-        }
-        return t;
-    }
-    function _objectSpread2(e) {
-        for (var r = 1; r < arguments.length; r++) {
-            var t = null != arguments[r] ? arguments[r] : {};
-            r % 2 ? ownKeys(Object(t), !0).forEach((function(r) {
-                defineProperty(e, r, t[r]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach((function(r) {
-                Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-            }));
-        }
-        return e;
-    }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(17);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function toPrimitive(t, r) {
-        if ("object" != _typeof(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != _typeof(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    module.exports = toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    module.exports = __webpack_require__(12);
 }, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var interceptors_namespaceObject = {};
+    __webpack_require__.r(interceptors_namespaceObject);
+    __webpack_require__.d(interceptors_namespaceObject, "logInterceptor", (function() {
+        return logInterceptor;
+    }));
+    __webpack_require__.d(interceptors_namespaceObject, "timeoutInterceptor", (function() {
+        return timeoutInterceptor;
+    }));
+    var taro_runtime = __webpack_require__(1);
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
+    };
+    function getEnv() {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
+            return ENV_TYPE.WEB;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
+        }
+    }
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var taro_shared = "taro-shared-mock";
+    var chain_Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            Object(classCallCheck["a"])(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams || {};
+            this.interceptors = interceptors || [];
+        }
+        Object(createClass["a"])(Chain, [ {
+            "key": "proceed",
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return undefined(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var interceptor_Link = function() {
+        function Link(interceptor) {
+            Object(classCallCheck["a"])(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new chain_Chain;
+        }
+        Object(createClass["a"])(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(Object.assign({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new chain_Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new interceptor_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                clearTimeout(timeout);
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var toPropertyKey = __webpack_require__(5);
+    function _defineProperty(obj, key, value) {
+        key = Object(toPropertyKey["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            var formatSize = ~~size;
+            var rootValue = 1 / deviceRatio[designWidth];
+            switch (targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
+            }
+            return val + targetUnit;
+        };
+    }
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": interceptor_Link,
+        "interceptors": interceptors_namespaceObject,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(8);
     function createMultiRouter() {}
     function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var inherits = __webpack_require__(7);
+    var createSuper = __webpack_require__(6);
     var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
+    var app = __webpack_require__(10);
     var app_App = function(_Component) {
         Object(inherits["a"])(App, _Component);
         var _super = Object(createSuper["a"])(App);
@@ -1546,7 +1568,7 @@ I m irrelevant.
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 20));
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 14));
             return [ page, context, params ];
         }
     }, {
@@ -1558,7 +1580,11 @@ I m irrelevant.
         "unstable_batchedUpdates": react["unstable_batchedUpdates"]
     });
     var inst = createReactApp(origin_app, react, react["default"], config);
-    createRouter(inst, config, react);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, react);
     Object(taro["initPxTransform"])({
         "designWidth": 750,
         "deviceRatio": {
@@ -1570,314 +1596,6 @@ I m irrelevant.
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
-    function isFunction(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && typeof_default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
-    };
-    var isWeb = undefined();
-    function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
-            return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
-        }
-    }
-    var index_esm_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams;
-            this.interceptors = interceptors || [];
-        }
-        createClass_default()(Chain, [ {
-            "key": "proceed",
-            "value": function proceed(requestParams) {
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var index_esm_Link = function() {
-        function Link(interceptor) {
-            classCallCheck_default()(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
-        }
-        createClass_default()(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
-            return promiseifyApi(chain.requestParams);
-        }));
-    }
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                timeout = null;
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
-            return res;
-        }));
-        if (isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
-            }
-            return val + targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
-        "getInitPxTransform": getInitPxTransform,
-        "interceptorify": interceptorify
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 
 /** filePath: dist/weapp/index.wxml **/
@@ -1892,20 +1610,20 @@ exports[`config should resolved alias 2`] = `
 "
 /** filePath: dist/chunk/2.js **/
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([ [ 2 ], {
-    "21": function(module, exports, __webpack_require__) {},
-    "22": function(module, __webpack_exports__, __webpack_require__) {
+    "15": function(module, exports, __webpack_require__) {},
+    "16": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         __webpack_require__.d(__webpack_exports__, "default", (function() {
             return index_Index;
         }));
-        var classCallCheck = __webpack_require__(8);
-        var createClass = __webpack_require__(10);
-        var inherits = __webpack_require__(11);
-        var createSuper = __webpack_require__(9);
+        var classCallCheck = __webpack_require__(3);
+        var createClass = __webpack_require__(4);
+        var inherits = __webpack_require__(7);
+        var createSuper = __webpack_require__(6);
         var react = __webpack_require__(0);
         var taro_components = "taro-components-mock";
-        var index = __webpack_require__(21);
+        var index = __webpack_require__(15);
         var index_Index = function(_Component) {
             Object(inherits["a"])(Index, _Component);
             var _super = Object(createSuper["a"])(Index);
@@ -2137,7 +1855,7 @@ exports[`config should resolved alias 2`] = `
     jsonpArray = jsonpArray.slice();
     for (var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
     var parentJsonpFunction = oldJsonpFunction;
-    return __webpack_require__(__webpack_require__.s = 14);
+    return __webpack_require__(__webpack_require__.s = 9);
 })([ function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
@@ -2175,58 +1893,37 @@ exports[`config should resolved alias 2`] = `
     __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _typeof;
     }));
-    function _typeof(o) {
+    function _typeof(obj) {
         "@babel/helpers - typeof";
-        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, _typeof(o);
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
     }
-}, function(module, exports) {
-    function _typeof(o) {
-        "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
-        _typeof(o);
-    }
-    module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
-    function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _classCallCheck;
+    }));
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
         }
     }
-    module.exports = _classCallCheck, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var toPropertyKey = __webpack_require__(7);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.d(__webpack_exports__, "a", (function() {
+        return _createClass;
+    }));
+    var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
     function _defineProperties(target, props) {
         for (var i = 0; i < props.length; i++) {
             var descriptor = props[i];
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+            Object.defineProperty(target, Object(_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["a"])(descriptor.key), descriptor);
         }
     }
     function _createClass(Constructor, protoProps, staticProps) {
@@ -2237,24 +1934,25 @@ exports[`config should resolved alias 2`] = `
         });
         return Constructor;
     }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    var toPrimitive = __webpack_require__(15);
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == _typeof(i) ? i : String(i);
-    }
-    module.exports = toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _classCallCheck;
+        return _toPropertyKey;
     }));
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
+    var esm_typeof = __webpack_require__(2);
+    function _toPrimitive(input, hint) {
+        if (Object(esm_typeof["a"])(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (Object(esm_typeof["a"])(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
         }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return Object(esm_typeof["a"])(key) === "symbol" ? key : String(key);
     }
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
@@ -2309,43 +2007,6 @@ exports[`config should resolved alias 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.d(__webpack_exports__, "a", (function() {
-        return _createClass;
-    }));
-    var esm_typeof = __webpack_require__(2);
-    function toPrimitive(t, r) {
-        if ("object" != Object(esm_typeof["a"])(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != Object(esm_typeof["a"])(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == Object(esm_typeof["a"])(i) ? i : String(i);
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
-    }
-}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.d(__webpack_exports__, "a", (function() {
         return _inherits;
     }));
     function _setPrototypeOf(o, p) {
@@ -2373,63 +2034,283 @@ exports[`config should resolved alias 2`] = `
     }
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(1), hooks = _require.hooks;
-    var taro = __webpack_require__(20).default;
+    var taro = __webpack_require__(12).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(4);
-    function ownKeys(e, r) {
-        var t = Object.keys(e);
-        if (Object.getOwnPropertySymbols) {
-            var o = Object.getOwnPropertySymbols(e);
-            r && (o = o.filter((function(r) {
-                return Object.getOwnPropertyDescriptor(e, r).enumerable;
-            }))), t.push.apply(t, o);
-        }
-        return t;
-    }
-    function _objectSpread2(e) {
-        for (var r = 1; r < arguments.length; r++) {
-            var t = null != arguments[r] ? arguments[r] : {};
-            r % 2 ? ownKeys(Object(t), !0).forEach((function(r) {
-                defineProperty(e, r, t[r]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach((function(r) {
-                Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-            }));
-        }
-        return e;
-    }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(18);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(3)["default"];
-    function toPrimitive(t, r) {
-        if ("object" != _typeof(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != _typeof(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    module.exports = toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    module.exports = __webpack_require__(13);
 }, function(module, exports, __webpack_require__) {}, , function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(12);
+    __webpack_require__.d(__webpack_exports__, "default", (function() {
+        return Taro;
+    }));
+    var interceptors_namespaceObject = {};
+    __webpack_require__.r(interceptors_namespaceObject);
+    __webpack_require__.d(interceptors_namespaceObject, "logInterceptor", (function() {
+        return logInterceptor;
+    }));
+    __webpack_require__.d(interceptors_namespaceObject, "timeoutInterceptor", (function() {
+        return timeoutInterceptor;
+    }));
+    var taro_runtime = __webpack_require__(1);
+    var ENV_TYPE = {
+        "WEAPP": "WEAPP",
+        "SWAN": "SWAN",
+        "ALIPAY": "ALIPAY",
+        "TT": "TT",
+        "QQ": "QQ",
+        "JD": "JD",
+        "WEB": "WEB",
+        "RN": "RN",
+        "HARMONY": "HARMONY",
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
+    };
+    function getEnv() {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
+            return ENV_TYPE.WEB;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
+        }
+    }
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var taro_shared = "taro-shared-mock";
+    var chain_Chain = function() {
+        function Chain(requestParams, interceptors, index) {
+            Object(classCallCheck["a"])(this, Chain);
+            this.index = index || 0;
+            this.requestParams = requestParams || {};
+            this.interceptors = interceptors || [];
+        }
+        Object(createClass["a"])(Chain, [ {
+            "key": "proceed",
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+                this.requestParams = requestParams;
+                if (this.index >= this.interceptors.length) {
+                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
+                }
+                var nextInterceptor = this._getNextInterceptor();
+                var nextChain = this._getNextChain();
+                var p = nextInterceptor(nextChain);
+                var res = p.catch((function(err) {
+                    return Promise.reject(err);
+                }));
+                Object.keys(p).forEach((function(k) {
+                    return undefined(p[k]) && (res[k] = p[k]);
+                }));
+                return res;
+            }
+        }, {
+            "key": "_getNextInterceptor",
+            "value": function _getNextInterceptor() {
+                return this.interceptors[this.index];
+            }
+        }, {
+            "key": "_getNextChain",
+            "value": function _getNextChain() {
+                return new Chain(this.requestParams, this.interceptors, this.index + 1);
+            }
+        } ]);
+        return Chain;
+    }();
+    var interceptor_Link = function() {
+        function Link(interceptor) {
+            Object(classCallCheck["a"])(this, Link);
+            this.taroInterceptor = interceptor;
+            this.chain = new chain_Chain;
+        }
+        Object(createClass["a"])(Link, [ {
+            "key": "request",
+            "value": function request(requestParams) {
+                var chain = this.chain;
+                var taroInterceptor = this.taroInterceptor;
+                chain.interceptors = chain.interceptors.filter((function(interceptor) {
+                    return interceptor !== taroInterceptor;
+                })).concat(taroInterceptor);
+                return chain.proceed(Object.assign({}, requestParams));
+            }
+        }, {
+            "key": "addInterceptor",
+            "value": function addInterceptor(interceptor) {
+                this.chain.interceptors.push(interceptor);
+            }
+        }, {
+            "key": "cleanInterceptors",
+            "value": function cleanInterceptors() {
+                this.chain = new chain_Chain;
+            }
+        } ]);
+        return Link;
+    }();
+    function interceptorify(promiseifyApi) {
+        return new interceptor_Link((function(chain) {
+            return promiseifyApi(chain.requestParams);
+        }));
+    }
+    function timeoutInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var p;
+        var res = new Promise((function(resolve, reject) {
+            var timeout = setTimeout((function() {
+                clearTimeout(timeout);
+                reject(new Error("网络链接超时,请稍后再试！"));
+            }), requestParams && requestParams.timeout || 6e4);
+            p = chain.proceed(requestParams);
+            p.then((function(res) {
+                if (!timeout) return;
+                clearTimeout(timeout);
+                resolve(res);
+            })).catch((function(err) {
+                timeout && clearTimeout(timeout);
+                reject(err);
+            }));
+        }));
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    function logInterceptor(chain) {
+        var requestParams = chain.requestParams;
+        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
+        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
+        var p = chain.proceed(requestParams);
+        var res = p.then((function(res) {
+            console.log("http <-- ".concat(url, " result:"), res);
+            return res;
+        }));
+        if (undefined(p.abort)) res.abort = p.abort;
+        return res;
+    }
+    var toPropertyKey = __webpack_require__(5);
+    function _defineProperty(obj, key, value) {
+        key = Object(toPropertyKey["a"])(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    function Behavior(options) {
+        return options;
+    }
+    function getPreload(current) {
+        return function(key, val) {
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
+        };
+    }
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
+    }
+    function getPxTransform(taro) {
+        return function(size) {
+            var config = taro.config || {};
+            var baseFontSize = config.baseFontSize;
+            var deviceRatio = config.deviceRatio || defaultDesignRatio;
+            var designWidth = function() {
+                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+            }(size);
+            if (!(designWidth in deviceRatio)) {
+                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
+            }
+            var targetUnit = config.targetUnit || defaultTargetUnit;
+            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
+            var formatSize = ~~size;
+            var rootValue = 1 / deviceRatio[designWidth];
+            switch (targetUnit) {
+              case "rem":
+                rootValue *= baseFontSize * 2;
+                break;
+
+              case "px":
+                rootValue *= 2;
+                break;
+            }
+            var val = formatSize / rootValue;
+            if (unitPrecision >= 0 && unitPrecision <= 100) {
+                val = Number(val.toFixed(unitPrecision));
+            }
+            return val + targetUnit;
+        };
+    }
+    var Taro = {
+        "Behavior": Behavior,
+        "getEnv": getEnv,
+        "ENV_TYPE": ENV_TYPE,
+        "Link": interceptor_Link,
+        "interceptors": interceptors_namespaceObject,
+        "Current": taro_runtime["Current"],
+        "getCurrentInstance": taro_runtime["getCurrentInstance"],
+        "options": taro_runtime["options"],
+        "nextTick": taro_runtime["nextTick"],
+        "eventCenter": taro_runtime["eventCenter"],
+        "Events": taro_runtime["Events"],
+        "getInitPxTransform": getInitPxTransform,
+        "interceptorify": interceptorify
+    };
+    Taro.initPxTransform = getInitPxTransform(Taro);
+    Taro.preload = getPreload(taro_runtime["Current"]);
+    Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(8);
     function createMultiRouter() {}
     function createRouter() {}
-    var classCallCheck = __webpack_require__(8);
-    var createClass = __webpack_require__(10);
-    var inherits = __webpack_require__(11);
-    var createSuper = __webpack_require__(9);
+    var classCallCheck = __webpack_require__(3);
+    var createClass = __webpack_require__(4);
+    var inherits = __webpack_require__(7);
+    var createSuper = __webpack_require__(6);
     var react = __webpack_require__(0);
-    var app = __webpack_require__(16);
+    var app = __webpack_require__(10);
     var app_App = function(_Component) {
         Object(inherits["a"])(App, _Component);
         var _super = Object(createSuper["a"])(App);
@@ -2489,7 +2370,7 @@ exports[`config should resolved alias 2`] = `
     config.routes = [ Object.assign({
         "path": "pages/index/index",
         "load": function load(context, params) {
-            var page = __webpack_require__.e(2).then(__webpack_require__.bind(null, 22));
+            var page = __webpack_require__.e(2).then(__webpack_require__.bind(null, 16));
             return [ page, context, params ];
         }
     }, {
@@ -2501,7 +2382,11 @@ exports[`config should resolved alias 2`] = `
         "unstable_batchedUpdates": react["unstable_batchedUpdates"]
     });
     var inst = createReactApp(origin_app, react, react["default"], config);
-    createRouter(inst, config, react);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, react);
     Object(taro["initPxTransform"])({
         "designWidth": 750,
         "deviceRatio": {
@@ -2513,314 +2398,6 @@ exports[`config should resolved alias 2`] = `
         "unitPrecision": undefined,
         "targetUnit": undefined
     });
-}, , function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    __webpack_require__.d(__webpack_exports__, "default", (function() {
-        return Taro;
-    }));
-    var helpers_typeof = __webpack_require__(3);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
-    var taro_runtime = __webpack_require__(1);
-    var taro_shared = "taro-shared-mock";
-    var objectSpread2 = __webpack_require__(13);
-    var objectSpread2_default = __webpack_require__.n(objectSpread2);
-    var classCallCheck = __webpack_require__(5);
-    var classCallCheck_default = __webpack_require__.n(classCallCheck);
-    var createClass = __webpack_require__(6);
-    var createClass_default = __webpack_require__.n(createClass);
-    var defineProperty = __webpack_require__(4);
-    var defineProperty_default = __webpack_require__.n(defineProperty);
-    function isFunction(x) {
-        return typeof x === "function";
-    }
-    function isUndefined(x) {
-        return typeof x === "undefined";
-    }
-    function isObject(x) {
-        return x && typeof_default()(x) === "object";
-    }
-    var isBadObj = function isBadObj(x) {
-        return !isObject(x);
-    };
-    function throwTypeError(s) {
-        throw new TypeError(s);
-    }
-    if (!isFunction(Object.assign)) {
-        Object.assign = function(target) {
-            if (target == null) {
-                throwTypeError("Cannot convert undefined or null to object");
-            }
-            var to = Object(target);
-            for (var index = 1; index < arguments.length; index++) {
-                var nextSource = arguments[index];
-                if (nextSource != null) {
-                    for (var nextKey in nextSource) {
-                        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
-                            to[nextKey] = nextSource[nextKey];
-                        }
-                    }
-                }
-            }
-            return to;
-        };
-    }
-    if (!isFunction(Object.defineProperties)) {
-        Object.defineProperties = function(obj, properties) {
-            function convertToDescriptor(desc) {
-                function hasProperty(obj, prop) {
-                    return Object.prototype.hasOwnProperty.call(obj, prop);
-                }
-                if (isBadObj(desc)) {
-                    throwTypeError("bad desc");
-                }
-                var d = {};
-                if (hasProperty(desc, "enumerable")) d.enumerable = !!desc.enumerable;
-                if (hasProperty(desc, "configurable")) {
-                    d.configurable = !!desc.configurable;
-                }
-                if (hasProperty(desc, "value")) d.value = desc.value;
-                if (hasProperty(desc, "writable")) d.writable = !!desc.writable;
-                if (hasProperty(desc, "get")) {
-                    var g = desc.get;
-                    if (!isFunction(g) && !isUndefined(g)) {
-                        throwTypeError("bad get");
-                    }
-                    d.get = g;
-                }
-                if (hasProperty(desc, "set")) {
-                    var s = desc.set;
-                    if (!isFunction(s) && !isUndefined(s)) {
-                        throwTypeError("bad set");
-                    }
-                    d.set = s;
-                }
-                if (("get" in d || "set" in d) && ("value" in d || "writable" in d)) {
-                    throwTypeError("identity-confused descriptor");
-                }
-                return d;
-            }
-            if (isBadObj(obj)) throwTypeError("bad obj");
-            properties = Object(properties);
-            var keys = Object.keys(properties);
-            var descs = [];
-            for (var i = 0; i < keys.length; i++) {
-                descs.push([ keys[i], convertToDescriptor(properties[keys[i]]) ]);
-            }
-            for (var _i = 0; _i < descs.length; _i++) {
-                Object.defineProperty(obj, descs[_i][0], descs[_i][1]);
-            }
-            return obj;
-        };
-    }
-    var ENV_TYPE = {
-        "WEAPP": "WEAPP",
-        "SWAN": "SWAN",
-        "ALIPAY": "ALIPAY",
-        "TT": "TT",
-        "QQ": "QQ",
-        "JD": "JD",
-        "WEB": "WEB",
-        "RN": "RN",
-        "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
-    };
-    var isWeb = undefined();
-    function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
-            return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
-        }
-    }
-    var index_esm_Chain = function() {
-        function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
-            this.index = index || 0;
-            this.requestParams = requestParams;
-            this.interceptors = interceptors || [];
-        }
-        createClass_default()(Chain, [ {
-            "key": "proceed",
-            "value": function proceed(requestParams) {
-                this.requestParams = requestParams;
-                if (this.index >= this.interceptors.length) {
-                    throw new Error("chain 参数错误, 请勿直接修改 request.chain");
-                }
-                var nextInterceptor = this._getNextInterceptor();
-                var nextChain = this._getNextChain();
-                var p = nextInterceptor(nextChain);
-                var res = p.catch((function(err) {
-                    return Promise.reject(err);
-                }));
-                Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
-                }));
-                return res;
-            }
-        }, {
-            "key": "_getNextInterceptor",
-            "value": function _getNextInterceptor() {
-                return this.interceptors[this.index];
-            }
-        }, {
-            "key": "_getNextChain",
-            "value": function _getNextChain() {
-                return new Chain(this.requestParams, this.interceptors, this.index + 1);
-            }
-        } ]);
-        return Chain;
-    }();
-    var index_esm_Link = function() {
-        function Link(interceptor) {
-            classCallCheck_default()(this, Link);
-            this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
-        }
-        createClass_default()(Link, [ {
-            "key": "request",
-            "value": function request(requestParams) {
-                var chain = this.chain;
-                var taroInterceptor = this.taroInterceptor;
-                chain.interceptors = chain.interceptors.filter((function(interceptor) {
-                    return interceptor !== taroInterceptor;
-                })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
-            }
-        }, {
-            "key": "addInterceptor",
-            "value": function addInterceptor(interceptor) {
-                this.chain.interceptors.push(interceptor);
-            }
-        }, {
-            "key": "cleanInterceptors",
-            "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
-            }
-        } ]);
-        return Link;
-    }();
-    function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
-            return promiseifyApi(chain.requestParams);
-        }));
-    }
-    function timeoutInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var p;
-        var res = new Promise((function(resolve, reject) {
-            var timeout = setTimeout((function() {
-                timeout = null;
-                reject(new Error("网络链接超时,请稍后再试！"));
-            }), requestParams && requestParams.timeout || 6e4);
-            p = chain.proceed(requestParams);
-            p.then((function(res) {
-                if (!timeout) return;
-                clearTimeout(timeout);
-                resolve(res);
-            })).catch((function(err) {
-                timeout && clearTimeout(timeout);
-                reject(err);
-            }));
-        }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    function logInterceptor(chain) {
-        var requestParams = chain.requestParams;
-        var method = requestParams.method, data = requestParams.data, url = requestParams.url;
-        console.log("http ".concat(method || "GET", " --\\x3e ").concat(url, " data: "), data);
-        var p = chain.proceed(requestParams);
-        var res = p.then((function(res) {
-            console.log("http <-- ".concat(url, " result:"), res);
-            return res;
-        }));
-        if (isFunction(p.abort)) res.abort = p.abort;
-        return res;
-    }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
-    });
-    function Behavior(options) {
-        return options;
-    }
-    function getPreload(current) {
-        return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
-        };
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    function getPxTransform(taro) {
-        return function(size) {
-            var config = taro.config || {};
-            var baseFontSize = config.baseFontSize;
-            var deviceRatio = config.deviceRatio || defaultDesignRatio;
-            var designWidth = function() {
-                var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
-            }(size);
-            if (!(designWidth in deviceRatio)) {
-                throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
-            }
-            var targetUnit = config.targetUnit || defaultTargetUnit;
-            var unitPrecision = config.unitPrecision || defaultUnitPrecision;
-            var formatSize = ~~size;
-            var rootValue = 1 / deviceRatio[designWidth];
-            switch (targetUnit) {
-              case "rem":
-                rootValue *= baseFontSize * 2;
-                break;
-
-              case "px":
-                rootValue *= 2;
-                break;
-            }
-            var val = formatSize / rootValue;
-            if (unitPrecision >= 0 && unitPrecision <= 100) {
-                val = Number(val.toFixed(unitPrecision));
-            }
-            return val + targetUnit;
-        };
-    }
-    var Taro = {
-        "Behavior": Behavior,
-        "getEnv": getEnv,
-        "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
-        "Current": taro_runtime["Current"],
-        "getCurrentInstance": taro_runtime["getCurrentInstance"],
-        "options": taro_runtime["options"],
-        "nextTick": taro_runtime["nextTick"],
-        "eventCenter": taro_runtime["eventCenter"],
-        "Events": taro_runtime["Events"],
-        "getInitPxTransform": getInitPxTransform,
-        "interceptorify": interceptorify
-    };
-    Taro.initPxTransform = getInitPxTransform(Taro);
-    Taro.preload = getPreload(taro_runtime["Current"]);
-    Taro.pxTransform = getPxTransform(Taro);
 } ]);
 
 /** filePath: dist/js/extra.js **/
@@ -2887,12 +2464,12 @@ exports[`config should resolved alias 2`] = `
         return Object.prototype.hasOwnProperty.call(object, property);
     };
     __webpack_require__.p = "/";
-    return __webpack_require__(__webpack_require__.s = 17);
+    return __webpack_require__(__webpack_require__.s = 11);
 })({
-    "17": function(module, exports, __webpack_require__) {
-        module.exports = __webpack_require__(19);
+    "11": function(module, exports, __webpack_require__) {
+        module.exports = __webpack_require__(14);
     },
-    "19": function(module, __webpack_exports__, __webpack_require__) {
+    "14": function(module, __webpack_exports__, __webpack_require__) {
         "use strict";
         __webpack_require__.r(__webpack_exports__);
         function say() {

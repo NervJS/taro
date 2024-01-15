@@ -1,4 +1,3 @@
-import { isWebPlatform } from '@tarojs/shared'
 import * as acorn from 'acorn'
 import * as walk from 'acorn-walk'
 
@@ -100,7 +99,7 @@ class App extends React.Component {
     Object.assign(loaderMeta, nervMeta)
   }
 
-  if (isWebPlatform()) {
+  if (process.env.TARO_PLATFORM === 'web') {
     if (framework === 'react') {
       const react = require('react')
       const majorVersion = Number((react.version || '18').split('.')[0])

@@ -1,11 +1,12 @@
-import { chalk, fs, recursiveMerge } from '@tarojs/helper'
-import { IPostcssOption } from '@tarojs/taro/types/compile'
+import { chalk, fs, PLATFORMS, recursiveMerge } from '@tarojs/helper'
+import { PLATFORM_TYPE } from '@tarojs/shared'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import path from 'path'
 
 import H5Plugin from '../plugins/H5Plugin'
 import WebpackPlugin from './WebpackPlugin'
 
+import type { IPostcssOption } from '@tarojs/taro/types/compile'
 import type { H5Combination } from './H5Combination'
 import type { PluginArgs } from './WebpackPlugin'
 
@@ -49,9 +50,15 @@ export class H5WebpackPlugin {
     const {
       env = {},
       defineConstants = {},
+      buildAdapter = PLATFORMS.H5,
+      framework = 'react',
       useDeprecatedAdapterComponent = false
     } = this.combination.config
 
+    env.FRAMEWORK = JSON.stringify(framework)
+    env.TARO_ENV = JSON.stringify(buildAdapter)
+    env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB)
+    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"disabled"'
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]

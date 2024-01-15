@@ -25,36 +25,45 @@ interface ScanImportsConfig {
   include: string[]
   exclude: string[]
   customEsbuildConfig?: Record<string, any>
+  mainFields?: string[]
 }
 
-export async function scanImports(
-  { appPath, chain, entries, include = [], exclude = [], customEsbuildConfig = {} }: ScanImportsConfig,
-  deps: CollectedDeps = new Map()
+export async function scanImports({
+  appPath,
+  chain,
+  entries,
+  include = [],
+  exclude = [],
+  customEsbuildConfig = {},
+  mainFields = [...defaultMainFields]
+}: ScanImportsConfig,
+deps: CollectedDeps = new Map()
 ): Promise<CollectedDeps> {
   const scanImportsPlugin = getScanImportsPlugin(deps, include, exclude)
   const customPlugins = customEsbuildConfig.plugins || []
 
-  await Promise.all(
-    entries.map(async (entry) => {
-      try {
-        await esbuild.build({
-          ...customEsbuildConfig,
-          absWorkingDir: appPath,
-          bundle: true,
-          entryPoints: [entry],
-          mainFields: [...defaultMainFields],
-          format: 'esm',
-          loader: defaultEsbuildLoader,
-          write: false,
-          define: {
-            ...getDefines(chain),
-            define: 'false',
-          },
-          plugins: [scanImportsPlugin, ...customPlugins],
-        })
-      } catch (e) {} // eslint-disable-line no-empty
-    })
-  )
+  await Promise.all(entries.map(async entry => {
+    try {
+      await esbuild.build({
+        ...customEsbuildConfig,
+        absWorkingDir: appPath,
+        bundle: true,
+        entryPoints: [entry],
+        mainFields,
+        format: 'esm',
+        loader: defaultEsbuildLoader,
+        write: false,
+        define: {
+          ...getDefines(chain),
+          define: 'false'
+        },
+        plugins: [
+          scanImportsPlugin,
+          ...customPlugins
+        ]
+      })
+    } catch (e) {} // eslint-disable-line no-empty
+  }))
 
   // 有一些 Webpack loaders 添加的依赖没有办法提前分析出来
   // 可以把它们写进 includes，然后在这里 resolve 后加入到 deps

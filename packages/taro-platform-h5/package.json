@@ -40,6 +40,7 @@
     "@babel/core": "^7.14.5",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
     "@tarojs/router": "workspace:*",
     "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
@@ -51,7 +52,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.0",
     "@tarojs/taro": "workspace:*",

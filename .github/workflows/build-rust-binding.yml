@@ -16,7 +16,7 @@ jobs:
       matrix:
         node-version: [16.x]
         settings:
-          - host: macos-latest
+          - host: macos-11
             target: x86_64-apple-darwin
             build: |
               pnpm build:binding:release
@@ -24,14 +24,14 @@ jobs:
           - host: windows-latest
             build: pnpm build:binding:release
             target: x86_64-pc-windows-msvc
-          - host: ubuntu-latest
+          - host: ubuntu-20.04
             target: x86_64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: |-
               set -e &&
               pnpm build:binding:release --target x86_64-unknown-linux-gnu &&
               strip crates/native_binding/*.node
-          - host: macos-latest
+          - host: macos-11
             target: aarch64-apple-darwin
             build: |
               pnpm build:binding:release --target aarch64-apple-darwin
@@ -81,7 +81,7 @@ jobs:
         if: ${{ !matrix.settings.docker }}
         shell: bash
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bindings-${{ matrix.settings.target }}
           path: crates/native_binding/${{ inputs.name }}.*.node

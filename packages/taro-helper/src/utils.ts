@@ -226,9 +226,9 @@ export function resolveSync(id: string, opts: TResolve.SyncOpts & { mainFields?:
     const resolve = require('resolve').sync as (typeof TResolve)['sync']
     return resolve(id, {
       ...opts,
-      packageFilter(pkg, pkgfile) {
+      packageFilter(pkg, pkgfile, dir) {
         if (opts.packageFilter) {
-          pkg = opts.packageFilter(pkg, pkgfile)
+          pkg = opts.packageFilter(pkg, pkgfile, dir)
         } else if (opts.mainFields?.length) {
           pkg.main = pkg[opts.mainFields.find((field) => pkg[field] && typeof pkg[field] === 'string') || 'main']
         }
@@ -699,7 +699,6 @@ export function readConfig<T extends IReadConfigOptions> (configPath: string, op
             },
             experimental: {
               plugins: [
-                // Note: 更新 SWC 版本可能会使插件将箭头函数等代码错误抖动，导致配置读取错误
                 [path.resolve(__dirname, '../swc/swc_plugin_define_config.wasm'), {}]
               ]
             }

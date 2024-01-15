@@ -1,9 +1,8 @@
-import { isNpmPkg, printLog, processTypeEnum, recursiveMerge } from '@tarojs/helper'
+import { isNpmPkg, printLog, processTypeEnum, recursiveMerge, resolveSync } from '@tarojs/helper'
 import * as path from 'path'
 import postcss from 'postcss'
 import postcssImport from 'postcss-import'
 import pxtransform from 'postcss-pxtransform'
-import { sync as resolveSync } from 'resolve'
 
 import stylelintConfig from '../config/rn-stylelint.json'
 import { resolveStyle } from '../utils'
@@ -76,7 +75,7 @@ export function makePostcssPlugins ({
     }
 
     try {
-      const pluginPath = resolveSync(pluginName, { basedir: process.cwd() })
+      const pluginPath = resolveSync(pluginName, { basedir: process.cwd() }) || ''
       plugins.push(require(pluginPath)((pluginOption as any).config || {}))
     } catch (e) {
       const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少postcss插件${pluginName}, 已忽略` : e

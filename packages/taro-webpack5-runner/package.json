@@ -10,7 +10,7 @@
     "mv:comp": "node ./mv-comp.js",
     "clean": "rimraf --impl=move-remove dist",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=jest jest --watch",
     "test:coverage": "cross-env NODE_ENV=jest jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=jest jest --updateSnapshot"
@@ -42,9 +42,6 @@
     "@tarojs/plugin-platform-tt": "workspace:*",
     "@tarojs/plugin-platform-weapp": "workspace:*",
     "@tarojs/runner-utils": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
-    "@tarojs/shared": "workspace:*",
-    "@tarojs/taro": "workspace:*",
     "@tarojs/taro-loader": "workspace:*",
     "@tarojs/webpack5-prebundle": "workspace:*",
     "acorn": "^8.11.2",
@@ -78,7 +75,6 @@
     "postcss-pxtransform": "workspace:*",
     "postcss-url": "^10.1.3",
     "regenerator-runtime": "0.11",
-    "resolve": "^1.22.0",
     "resolve-url-loader": "^5.0.0",
     "sass": "1.50.0",
     "sass-loader": "12.4.0",
@@ -97,6 +93,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/shared": "workspace:*",
+    "@tarojs/taro": "workspace:*",
     "@types/node": "^14.14.31",
     "@types/sax": "^1.2.4",
     "globby": "^12.0.2",
@@ -115,6 +114,9 @@
     "webpack-merge": "^4.2.2"
   },
   "peerDependencies": {
+    "@tarojs/runtime": "workspace:~",
+    "@tarojs/shared": "workspace:~",
+    "@tarojs/taro": "workspace:~",
     "postcss": "^8.4.18",
     "webpack": "^5.78.0"
   }

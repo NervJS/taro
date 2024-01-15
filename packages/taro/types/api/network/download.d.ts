@@ -85,7 +85,7 @@ declare module '../../index' {
   }
 
   /** 一个可以监听下载进度变化事件，以及取消下载任务的对象
-   * @supported weapp, swan, alipay, h5, rn, tt
+   * @supported weapp, swan, alipay, h5, rn, tt, harmony_hybrid
    * @example
    * ```tsx
    * const downloadTask = Taro.downloadFile({
@@ -109,12 +109,12 @@ declare module '../../index' {
    */
   interface DownloadTask {
     /** 中断下载任务
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.abort.html
      */
     abort(): void
     /** 监听下载进度变化事件
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.onProgressUpdate.html
      */
     onProgressUpdate(
@@ -122,7 +122,7 @@ declare module '../../index' {
       callback: DownloadTask.OnProgressUpdateCallback,
     ): void
     /** 取消监听下载进度变化事件
-     * @supported weapp, h5, tt
+     * @supported weapp, h5, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/network/download/DownloadTask.offProgressUpdate.html
      */
     offProgressUpdate(
@@ -151,7 +151,7 @@ declare module '../../index' {
     /** 下载文件资源到本地。客户端直接发起一个 HTTPS GET 请求，返回文件的本地临时路径，单次下载允许的最大文件为 50MB。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html)。
      *
      * 注意：请在服务端响应的 header 中指定合理的 `Content-Type` 字段，以保证客户端正确处理文件类型。
-     * @supported weapp, h5, alipay, swan, rn, tt
+     * @supported weapp, h5, alipay, swan, rn, tt, harmony_hybrid
      * @example
      * ```tsx
      * Taro.downloadFile({

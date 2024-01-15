@@ -2,8 +2,6 @@
 
 exports[`Video render Video 1`] = `
 <View
-  hoverStartTime={20}
-  hoverStayTime={70}
   style={
     [
       {
@@ -18,8 +16,6 @@ exports[`Video render Video 1`] = `
   }
 >
   <View
-    hoverStartTime={20}
-    hoverStayTime={70}
     style={
       [
         {
@@ -122,8 +118,6 @@ exports[`Video render Video 1`] = `
       />
     </View>
     <View
-      hoverStartTime={20}
-      hoverStayTime={70}
       style={
         {
           "alignItems": "center",
@@ -142,7 +136,6 @@ exports[`Video render Video 1`] = `
       }
     >
       <Image
-        mode="scaleToFill"
         onError={[Function]}
         onLayout={[Function]}
         onLoad={[Function]}

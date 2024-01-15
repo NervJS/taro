@@ -324,14 +324,14 @@ exports[`vue should build vue app 2`] = `
             return typeof o;
         } : function(o) {
             return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports, 
+        }, module.exports.__esModule = true, module.exports["default"] = module.exports,
         _typeof(o);
     }
     module.exports = _typeof, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var toPropertyKey = __webpack_require__(6);
     function _defineProperty(obj, key, value) {
-        key = toPropertyKey(key);
+        key = _toPropertyKey(key);
         if (key in obj) {
             Object.defineProperty(obj, key, {
                 "value": value,
@@ -344,8 +344,6 @@ exports[`vue should build vue app 2`] = `
         }
         return obj;
     }
-    module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports) {
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
             throw new TypeError("Cannot call a class as a function");
@@ -360,16 +358,28 @@ exports[`vue should build vue app 2`] = `
             descriptor.enumerable = descriptor.enumerable || false;
             descriptor.configurable = true;
             if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, toPropertyKey(descriptor.key), descriptor);
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
         }
     }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
     }
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
@@ -749,7 +759,11 @@ exports[`vue should build vue app 2`] = `
         "navigationBarTitleText": "首页"
     }) ];
     var inst = createVueApp(src_app, vue, config);
-    createRouter(inst, config, vue);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, vue);
     Object(taro["initPxTransform"])({
         "designWidth": 750,
         "deviceRatio": {
@@ -871,26 +885,47 @@ exports[`vue should build vue app 2`] = `
         "WEB": "WEB",
         "RN": "RN",
         "HARMONY": "HARMONY",
-        "QUICKAPP": "QUICKAPP"
+        "QUICKAPP": "QUICKAPP",
+        "HARMONYHYBRID": "HARMONYHYBRID"
     };
-    var isWeb = undefined();
     function getEnv() {
-        if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (false) {} else if (isWeb) {
+        if (undefined === "weapp") {
+            return ENV_TYPE.WEAPP;
+        } else if (undefined === "alipay") {
+            return ENV_TYPE.ALIPAY;
+        } else if (undefined === "swan") {
+            return ENV_TYPE.SWAN;
+        } else if (undefined === "tt") {
+            return ENV_TYPE.TT;
+        } else if (undefined === "jd") {
+            return ENV_TYPE.JD;
+        } else if (undefined === "qq") {
+            return ENV_TYPE.QQ;
+        } else if (undefined === "harmony-hybrid") {
+            return ENV_TYPE.HARMONYHYBRID;
+        } else if (undefined === "h5" || "web" === "web") {
             return ENV_TYPE.WEB;
-        } else if (false) {} else if (false) {} else if (false) {} else {
-            return "h5" || false;
+        } else if (undefined === "rn") {
+            return ENV_TYPE.RN;
+        } else if (undefined === "harmony" || "web" === "harmony") {
+            return ENV_TYPE.HARMONY;
+        } else if (undefined === "quickapp") {
+            return ENV_TYPE.QUICKAPP;
+        } else {
+            return undefined || "Unknown";
         }
     }
     var index_esm_Chain = function() {
         function Chain(requestParams, interceptors, index) {
-            classCallCheck_default()(this, Chain);
+            _classCallCheck(this, Chain);
             this.index = index || 0;
-            this.requestParams = requestParams;
+            this.requestParams = requestParams || {};
             this.interceptors = interceptors || [];
         }
-        createClass_default()(Chain, [ {
+        _createClass(Chain, [ {
             "key": "proceed",
-            "value": function proceed(requestParams) {
+            "value": function proceed() {
+                var requestParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
                 this.requestParams = requestParams;
                 if (this.index >= this.interceptors.length) {
                     throw new Error("chain 参数错误, 请勿直接修改 request.chain");
@@ -902,7 +937,7 @@ exports[`vue should build vue app 2`] = `
                     return Promise.reject(err);
                 }));
                 Object.keys(p).forEach((function(k) {
-                    return isFunction(p[k]) && (res[k] = p[k]);
+                    return undefined(p[k]) && (res[k] = p[k]);
                 }));
                 return res;
             }
@@ -921,11 +956,11 @@ exports[`vue should build vue app 2`] = `
     }();
     var index_esm_Link = function() {
         function Link(interceptor) {
-            classCallCheck_default()(this, Link);
+            _classCallCheck(this, Link);
             this.taroInterceptor = interceptor;
             this.chain = new index_esm_Chain;
         }
-        createClass_default()(Link, [ {
+        _createClass(Link, [ {
             "key": "request",
             "value": function request(requestParams) {
                 var chain = this.chain;
@@ -933,7 +968,7 @@ exports[`vue should build vue app 2`] = `
                 chain.interceptors = chain.interceptors.filter((function(interceptor) {
                     return interceptor !== taroInterceptor;
                 })).concat(taroInterceptor);
-                return chain.proceed(objectSpread2_default()({}, requestParams));
+                return chain.proceed(Object.assign({}, requestParams));
             }
         }, {
             "key": "addInterceptor",
@@ -958,7 +993,7 @@ exports[`vue should build vue app 2`] = `
         var p;
         var res = new Promise((function(resolve, reject) {
             var timeout = setTimeout((function() {
-                timeout = null;
+                clearTimeout(timeout);
                 reject(new Error("网络链接超时,请稍后再试！"));
             }), requestParams && requestParams.timeout || 6e4);
             p = chain.proceed(requestParams);
@@ -971,7 +1006,7 @@ exports[`vue should build vue app 2`] = `
                 reject(err);
             }));
         }));
-        if (!isUndefined(p) && isFunction(p.abort)) res.abort = p.abort;
+        if (!undefined(p) && undefined(p.abort)) res.abort = p.abort;
         return res;
     }
     function logInterceptor(chain) {
@@ -983,20 +1018,20 @@ exports[`vue should build vue app 2`] = `
             console.log("http <-- ".concat(url, " result:"), res);
             return res;
         }));
-        if (isFunction(p.abort)) res.abort = p.abort;
+        if (undefined(p.abort)) res.abort = p.abort;
         return res;
     }
     var index_esm_interceptors = Object.freeze({
         "__proto__": null,
-        "timeoutInterceptor": timeoutInterceptor,
-        "logInterceptor": logInterceptor
+        "logInterceptor": logInterceptor,
+        "timeoutInterceptor": timeoutInterceptor
     });
     function Behavior(options) {
         return options;
     }
     function getPreload(current) {
         return function(key, val) {
-            current.preloadData = isObject(key) ? key : defineProperty_default()({}, key, val);
+            current.preloadData = undefined(key) ? key : _defineProperty({}, key, val);
         };
     }
     var defaultDesignWidth = 750;
@@ -1026,7 +1061,7 @@ exports[`vue should build vue app 2`] = `
             var deviceRatio = config.deviceRatio || defaultDesignRatio;
             var designWidth = function() {
                 var input = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-                return isFunction(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
+                return undefined(config.designWidth) ? config.designWidth(input) : config.designWidth || defaultDesignWidth;
             }(size);
             if (!(designWidth in deviceRatio)) {
                 throw new Error("deviceRatio 配置中不存在 ".concat(designWidth, " 的设置！"));
@@ -1069,6 +1104,78 @@ exports[`vue should build vue app 2`] = `
     Taro.initPxTransform = getInitPxTransform(Taro);
     Taro.preload = getPreload(taro_runtime["Current"]);
     Taro.pxTransform = getPxTransform(Taro);
+}, function(module, __webpack_exports__, __webpack_require__) {
+    "use strict";
+    __webpack_require__.r(__webpack_exports__);
+    var taro = __webpack_require__(1);
+    function createMultiRouter() {}
+    function createRouter() {}
+    var vue = "vue-mock";
+    var app = __webpack_require__(3);
+    var App = new vue({
+        "onShow": function onShow() {},
+        "render": function render(h) {
+            return h("block", this.$slots.default);
+        }
+    });
+    var src_app = App;
+    var taro_runtime = __webpack_require__(0);
+    function createReactApp() {}
+    function createVueApp() {}
+    function createVue3App() {}
+    var config = {
+        "router": {
+            "mode": "hash",
+            "customRoutes": {},
+            "basename": "/"
+        },
+        "pages": [ "pages/index/index" ],
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#fff",
+            "navigationBarTitleText": "WeChat",
+            "navigationBarTextStyle": "black"
+        }
+    };
+    taro_runtime["window"].__taroAppConfig = config;
+    if (config.tabBar) {
+        var tabbarList = config.tabBar.list;
+        for (var i = 0; i < tabbarList.length; i++) {
+            var t = tabbarList[i];
+            if (t.iconPath) {
+                t.iconPath = tabbarIconPath[i];
+            }
+            if (t.selectedIconPath) {
+                t.selectedIconPath = tabbarSelectedIconPath[i];
+            }
+        }
+    }
+    config.routes = [ Object.assign({
+        "path": "pages/index/index",
+        "load": function load(context, params) {
+            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 10));
+            return [ page, context, params ];
+        }
+    }, {
+        "navigationBarTitleText": "首页"
+    }) ];
+    var inst = createVueApp(src_app, vue, config);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, vue);
+    Object(taro["initPxTransform"])({
+        "designWidth": 750,
+        "deviceRatio": {
+            "640": 1.17,
+            "750": 1,
+            "828": .905
+        },
+        "baseFontSize": 20,
+        "unitPrecision": undefined,
+        "targetUnit": undefined
+    });
 } ]);
 "
 `;

@@ -1,6 +1,5 @@
-import { isNpmPkg, recursiveMerge } from '@tarojs/helper'
+import { isNpmPkg, recursiveMerge, resolveSync } from '@tarojs/helper'
 import * as path from 'path'
-import { sync as resolveSync } from 'resolve'
 
 import type { Func, IHtmlTransformOption, IPostcssOption, TogglableOptions } from '@tarojs/taro/types/compile'
 
@@ -91,7 +90,7 @@ export const getPostcssPlugins = function (appPath: string, option = {} as IPost
     }
 
     try {
-      const pluginPath = resolveSync(pluginName, { basedir: appPath })
+      const pluginPath = resolveSync(pluginName, { basedir: appPath }) || ''
       plugins.push(require(pluginPath)(pluginOption.config || {}))
     } catch (e) {
       const msg = e.code === 'MODULE_NOT_FOUND' ? `缺少 postcss 插件 "${pluginName}", 已忽略` : e

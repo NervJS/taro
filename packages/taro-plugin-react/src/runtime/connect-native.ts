@@ -1,7 +1,8 @@
 import {
   addLeadingSlash, CONTEXT_ACTIONS, Current, document, eventCenter,
-  eventHandler, Func, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath, incrementId, injectPageInstance, Instance, MpInstance, ON_HIDE, ON_READY, ON_SHOW,
-  removePageInstance, requestAnimationFrame, safeExecute, TaroRootElement, window
+  eventHandler, getOnHideEventKey, getOnReadyEventKey, getOnShowEventKey, getPageInstance, getPath,
+  incrementId, injectPageInstance, ON_HIDE, ON_READY, ON_SHOW,
+  removePageInstance, requestAnimationFrame, safeExecute, window
 } from '@tarojs/runtime'
 import { EMPTY_OBJ, ensure, hooks, isUndefined } from '@tarojs/shared'
 
@@ -9,7 +10,9 @@ import { setReconciler } from './connect'
 import { reactMeta } from './react-meta'
 import { isClassComponent } from './utils'
 
+import type { Instance, MpInstance, TaroRootElement } from '@tarojs/runtime'
 import type { AppInstance, PageInstance } from '@tarojs/taro'
+import type { Func } from '@tarojs/taro/types/compile'
 import type * as React from 'react'
 
 declare const getCurrentPages: () => PageInstance[]
@@ -145,7 +148,7 @@ function initNativeComponentEntry (params: InitNativeComponentEntryParams) {
     // create
     const nativeApp = document.createElement('nativeComponent')
     // insert
-    app.appendChild(nativeApp)
+    app?.appendChild(nativeApp)
     app = nativeApp
   }
   // eslint-disable-next-line react/no-deprecated
@@ -192,7 +195,7 @@ export function createNativePageConfig (Component, pageName: string, data: Recor
 
   const pageObj: Record<string, any> = {
     options: pageConfig,
-    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
+    [ONLOAD] (this: MpInstance, options: Readonly<Record<string, unknown>> = {}, cb?: TaroGeneral.TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
       Current.page = this as any
       this.config = pageConfig || {}

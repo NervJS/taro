@@ -1,14 +1,10 @@
-import {
-  AppInstance, Current, document, getPageInstance,
-  incrementId, injectPageInstance, Instance,
-  PageLifeCycle, PageProps,
-  ReactAppInstance, ReactPageComponent
-} from '@tarojs/runtime'
-import { EMPTY_OBJ, ensure, hooks, isWebPlatform } from '@tarojs/shared'
+import { Current, document, getPageInstance, incrementId, injectPageInstance } from '@tarojs/runtime'
+import { EMPTY_OBJ, ensure, hooks } from '@tarojs/shared'
 
 import { reactMeta } from './react-meta'
 import { ensureIsArray, HOOKS_APP_ID, isClassComponent, setDefaultDescriptor, setRouterParams } from './utils'
 
+import type { AppInstance, Instance, PageLifeCycle, PageProps, ReactAppInstance, ReactPageComponent } from '@tarojs/runtime'
 import type { AppConfig } from '@tarojs/taro'
 import type * as React from 'react'
 import type * as TReactDOM from 'react-dom'
@@ -21,7 +17,6 @@ let ReactDOM: typeof TReactDOM & typeof TReactDOMClient
 let Fragment: typeof React.Fragment
 
 const pageKeyId = incrementId()
-const isWeb = isWebPlatform()
 
 export function setReconciler (ReactDOM) {
   hooks.tap('getLifecycle', function (instance, lifecycle: string) {
@@ -55,7 +50,7 @@ export function setReconciler (ReactDOM) {
     })
   })
 
-  if (isWeb) {
+  if (process.env.TARO_PLATFORM === 'web') {
     hooks.tap('createPullDownComponent', (
       el: React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>,
       _,
@@ -134,7 +129,7 @@ export function connectReactPage (
             ...refs
           }))
 
-        if (isWeb) {
+        if (process.env.TARO_PLATFORM === 'web') {
           return h(
             'div',
             { id, className: 'taro_page' },
@@ -192,10 +187,10 @@ export function createReactApp (
 
   function renderReactRoot () {
     let appId = 'app'
-    if (isWeb) {
+    if (process.env.TARO_PLATFORM === 'web') {
       appId = config?.appId || appId
     }
-    const container = document.getElementById(appId)
+    const container = document.getElementById(appId) as unknown as Element
     if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
@@ -248,12 +243,12 @@ export function createReactApp (
       return h(
         App,
         props,
-        isWeb ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
+        process.env.TARO_PLATFORM === 'web' ? h(Fragment ?? 'div', null, elements.slice()) : elements.slice()
       )
     }
   }
 
-  if (!isWeb) {
+  if (process.env.TARO_PLATFORM !== 'web') {
     renderReactRoot()
   }
 
@@ -285,7 +280,7 @@ export function createReactApp (
       value (options) {
         setRouterParams(options)
 
-        if (isWeb) {
+        if (process.env.TARO_PLATFORM === 'web') {
           // 由于 H5 路由初始化的时候会清除 app 下的 dom 元素，所以需要在路由初始化后执行 render
           renderReactRoot()
         }

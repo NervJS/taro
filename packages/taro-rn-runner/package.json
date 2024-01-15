@@ -12,7 +12,7 @@
     "dev": "tsc --watch",
     "lint": "eslint .",
     "test": "jest --silent",
-    "test:ci": "jest --ci --silent --coverage false",
+    "test:ci": "jest --ci -i --coverage --silent",
     "test:coverage": "jest --coverage",
     "test:dev": "jest --watch",
     "updateSnapshot": "jest --updateSnapshot"

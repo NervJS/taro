@@ -19,6 +19,7 @@
     "build:qq": "taro build --type qq",
     "build:jd": "taro build --type jd",
     "build:quickapp": "taro build --type quickapp",
+    "build:harmony-hybrid": "taro build --type harmony-hybrid",
     "dev:weapp": "npm run build:weapp -- --watch",
     "dev:swan": "npm run build:swan -- --watch",
     "dev:alipay": "npm run build:alipay -- --watch",
@@ -28,6 +29,7 @@
     "dev:qq": "npm run build:qq -- --watch",
     "dev:jd": "npm run build:jd -- --watch",
     "dev:quickapp": "npm run build:quickapp -- --watch",
+    "dev:harmony-hybrid": "npm run build:harmony-hybrid -- --watch",
     "test": "jest"
   },
   "browserslist": [
@@ -47,6 +49,7 @@
     "@tarojs/plugin-platform-jd": "{{ version }}",
     "@tarojs/plugin-platform-qq": "{{ version }}",
     "@tarojs/plugin-platform-h5": "{{ version }}",
+    "@tarojs/plugin-platform-harmony-hybrid": "{{ version }}",
     "@tarojs/runtime": "{{ version }}",
     "@tarojs/shared": "{{ version }}",
     "@tarojs/taro": "{{ version }}",{{#if (includes "React" "Preact" s=framework)}}
@@ -99,7 +102,7 @@
     "@typescript-eslint/parser": "^6.2.0",
     "@typescript-eslint/eslint-plugin": "^6.2.0",
     "typescript": "^5.1.0",
-    "tsconfig-paths-webpack-plugin": "^4.0.1"{{/if}},
+    "tsconfig-paths-webpack-plugin": "^4.1.0"{{/if}},
     "postcss": "^8.4.18",
     "ts-node": "^10.9.1",
     "@types/node": "^18.15.11",
