@@ -6,6 +6,7 @@ import { isFunction } from '@tarojs/shared'
 import jsonpRetry from 'jsonp-retry'
 
 import { serializeParams } from '../../../utils'
+import { NETWORK_TIMEOUT } from '../utils'
 
 interface RequestTask<T> extends Promise<T> {
   abort?: (cb?: any) => void
@@ -42,7 +43,7 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     ...opts
   } = options
   if (typeof timeout !== 'number') {
-    timeout = 60000
+    timeout = NETWORK_TIMEOUT
   }
   Object.assign(params, opts)
   if (jsonp) {
