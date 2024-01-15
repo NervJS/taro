@@ -3,12 +3,18 @@ import { generateMinimalEscapeCode, removeBackslashesSerializer } from './util'
 
 expect.addSnapshotSerializer(removeBackslashesSerializer)
 
+const logFileMap = new Map()
 jest.mock('fs', () => ({
   ...jest.requireActual('fs'), // 保留原始的其他函数
-  appendFile: jest.fn(),
+  appendFile: jest.fn((path,content):any => {
+    logFileMap.set(path,content)
+  })
 }))
 
 describe('parseScript', () => {
+  afterEach(() => {
+    logFileMap.clear()
+  })
   let option: any
 
   beforeAll(() => {
@@ -146,7 +152,7 @@ describe('parseScript', () => {
       Page({
         pluginUrl() {
           wx.navigateTo({
-            url: 'plugin://hello-plugin/hello-page',
+            url: 'plugin://hello-plugin/hello-page?param1=value',
           })
         }
       })`
@@ -157,4 +163,59 @@ describe('parseScript', () => {
     const code = generateMinimalEscapeCode(ast)
     expect(code).toMatchSnapshot()
   })
+  test('page页面因通过动态插件url跳转到插件页面失败', () => {
+    option.pluginInfo = {
+      pluginRoot: '/wxProject/plugin',
+      pluginName: 'hello-plugin',
+      pages: new Set(['pages/hello-page']),
+      pagesMap: new Map([['hello-page', 'pages/hello-page']]),
+      publicComponents: {},
+      entryFilePath: '/wxProject/plugin/index.js',
+    }
+    option.path = '/wxProject/miniprogram/pages/index'
+    option.rootPath = '/wxProject/miniprogram'
+    option.script = `
+      Page({
+        pluginUrl() {
+          const variable = 'plugin://hello-plugin/hello-page'
+          wx.navigateTo({
+            url: variable,
+          })
+        }
+      })`
+    option.scriptPath = '/wxProject/miniprogram/pages/index/index.js'
+    option.wxml = `<button bindtap="pluginUrl">动态插件url跳转失败</button>`
+    option.isApp = false
+    const { ast } = parse(option)
+    const code = generateMinimalEscapeCode(ast)
+    expect(code).toMatchSnapshot()
+  })
+  test('page页面因通过非插件url跳转到插件页面失败', () => {
+    option.pluginInfo = {
+      pluginRoot: '/wxProject/plugin',
+      pluginName: 'hello-plugin',
+      pages: new Set(['pages/hello-page']),
+      pagesMap: new Map([['hello-page', 'pages/hello-page']]),
+      publicComponents: {},
+      entryFilePath: '/wxProject/plugin/index.js',
+    }
+    option.path = '/wxProject/miniprogram/pages/index'
+    option.rootPath = '/wxProject/miniprogram'
+    option.script = `
+    Page({
+      pluginUrl() {
+        wx.navigateTo({
+          url: 'plugin://hello-plugin/'
+        })
+      }
+    })`
+    option.scriptPath = '/wxProject/miniprogram/pages/index/index.js'
+    option.wxml = `<button bindtap="pluginUrl">非插件url路径跳转失败</button>`
+    option.isApp = false
+    const { ast } = parse(option)
+    const code = generateMinimalEscapeCode(ast)
+    expect(code).toMatchSnapshot()
+  })
 })
+
+

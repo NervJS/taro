@@ -72,6 +72,53 @@ class App extends React.Component {
 export default App;
 `;
 
+exports[`parseScript page页面因通过动态插件url跳转到插件页面失败 1`] = `
+import { Block, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  pluginUrl() {
+    const variable = 'plugin://hello-plugin/hello-page';
+    Taro.navigateTo({
+      url: variable
+    });
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Button onClick={this.pluginUrl}>动态插件url跳转失败</Button>;
+  }
+}
+export default _C;
+`;
+
+exports[`parseScript page页面因通过非插件url跳转到插件页面失败 1`] = `
+import { Block, Button } from "@tarojs/components";
+import React from "react";
+import Taro from "@tarojs/taro";
+const {
+  default: withWeapp
+} = require("@tarojs/with-weapp");
+Page({
+  pluginUrl() {
+    Taro.navigateTo({
+      url: 'plugin://hello-plugin/'
+    });
+  }
+});
+@withWeapp(cacheOptions.getOptionsFromCache())
+class _C extends React.Component {
+  render() {
+    return <Button onClick={this.pluginUrl}>非插件url路径跳转失败</Button>;
+  }
+}
+export default _C;
+`;
+
 exports[`parseScript page页面通过插件url跳转到插件页面 1`] = `
 import { Block, Button } from "@tarojs/components";
 import React from "react";
@@ -82,7 +129,7 @@ const {
 Page({
   pluginUrl() {
     Taro.navigateTo({
-      url: "/hello-plugin/pages/hello-page"
+      url: "/hello-plugin/pages/hello-page?param1=value"
     });
   }
 });

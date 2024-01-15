@@ -494,7 +494,7 @@ export const createWxmlVistor = (
             )
           )
         }
-        if (tagName === 'Template') {  
+        if (tagName === 'Template') {
           updateLogFileContent(`INFO [taroize] createWxmlVistor - tagName: Template ${getLineBreak()}`)
           const template = parseTemplate(path, dirPath, wxses)
           if (template) {
@@ -779,7 +779,7 @@ export function parseWXML (dirPath: string, wxml?: string, parseImport?: boolean
       refIds.delete(id)
     }
   })
-  
+
   parseResult = {
     wxses,
     imports,
@@ -804,7 +804,7 @@ function getWXS (attrs: t.JSXAttribute[], path: NodePath<t.JSXElement>, imports:
         const { line, column } = path.node?.position?.start || { line: 0, column: 0 }
         const position = { col: column, row: line }
         updateLogFileContent(`ERROR [taroize] getWXS - wxs 标签的属性值为空 ${getLineBreak()}`)
-        throw new IReportError(  
+        throw new IReportError(
           'wxs 标签的属性值不得为空',
           'WxsTagAttributeEmptyError',
           'WXML_FILE',
@@ -1163,7 +1163,7 @@ function transformIf (name: string, attr: NodePath<t.JSXAttribute>, jsx: NodePat
     const cacheNode = cloneDeep(attr.parentPath.parent) as any
     const position = {
       col: cacheNode.position?.start.column || 0,
-      row: cacheNode.position?.start.line || 0
+      row: cacheNode.position?.start.line || 0,
     }
     createErrorCodeMsg(
       'wxIfValueFormatError',
@@ -1564,7 +1564,7 @@ function parseAttribute (attr: Attribute) {
               'TemplateParameterConversionError',
               'WXML_FILE',
               `${key}: ${value}`
-            )    
+            )
           }
         } else if (content.includes(':') || content.includes('...')) {
           const file = parseFile(`var a = ${attr.value!.slice(1, attr.value!.length - 1)}`, {
