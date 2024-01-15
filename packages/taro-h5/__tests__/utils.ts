@@ -1,5 +1,5 @@
 import { createReactApp } from '@tarojs/plugin-framework-react/dist/runtime'
-import { createRouter } from '@tarojs/router'
+import { createHashHistory, createRouter, handleAppMountWithTabbar } from '@tarojs/router'
 import React, { Component, PropsWithChildren } from 'react'
 import ReactDOM from 'react-test-renderer'
 
@@ -22,7 +22,7 @@ const appConfig: any = {
     list: [{
       pagePath: '/pages/index/index', text: '首页'
     }, {
-      pagePath: '/pages/about/about', text: '关于我们'
+      pagePath: '/pages/about/index', text: '关于我们'
     }],
     mode: 'hash',
     basename: '/test/app',
@@ -72,5 +72,7 @@ export function buildApp () {
     config.pages?.map(path => ({ path, load: () => null }))
   ]
   const inst = createReactApp(App, React, ReactDOM, config)
-  createRouter(inst, config, 'React')
+  const history = createHashHistory({ window })
+  handleAppMountWithTabbar(config, history)
+  createRouter(history, inst, config, 'React')
 }

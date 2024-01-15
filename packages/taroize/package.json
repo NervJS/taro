@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/taroize",
-  "version": "3.6.20",
+  "version": "3.6.22",
   "description": "转换原生微信小程序代码为 Taro 代码",
   "main": "index.js",
   "files": [
@@ -16,7 +16,7 @@
     "test:clear": "jest --clearCache",
     "test:cov": "jest --coverage",
     "test:updateSnapshot": "jest --updateSnapshot",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i"
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent"
   },
   "repository": {
     "type": "git",

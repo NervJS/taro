@@ -261,6 +261,14 @@ require("./taro");
                 "default-avatar": _empty,
                 "use-empty-value": _false,
                 bindError: _empty
+            },
+            AwemeUserCard: {
+                "aweme-id": _empty,
+                width: "504",
+                height: "144",
+                fixed: _false,
+                "left-right-padding": _empty,
+                bindError: _empty
             }
         };
         var hostConfig = {
@@ -268,6 +276,13 @@ require("./taro");
             modifyMpEventImpl: function modifyMpEventImpl(event) {
                 if (event.type === "regionchange") {
                     event.type = event.detail.type;
+                }
+            },
+            modifyTaroEventReturn: function modifyTaroEventReturn(node, event, returnVal) {
+                if (node.nodeName === "pay-button") {
+                    if (event.type === "applyrefund" || event.type === "getgoodsinfo") {
+                        return returnVal;
+                    }
                 }
             }
         };

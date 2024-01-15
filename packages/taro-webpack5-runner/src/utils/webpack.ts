@@ -2,7 +2,7 @@ import { promoteRelativePath } from '@tarojs/helper'
 import path from 'path'
 import { sources } from 'webpack'
 
-import type { Chunk, ChunkGraph, Compilation } from 'webpack'
+import type { Chunk, ChunkGraph, Compilation, Stats } from 'webpack'
 
 const { ConcatSource } = sources
 
@@ -40,4 +40,10 @@ export function chunkHasJs (chunk: Chunk, chunkGraph: ChunkGraph) {
   if (chunkGraph.getNumberOfEntryModules(chunk) > 0) return true
 
   return Boolean(chunkGraph.getChunkModulesIterableBySourceType(chunk, 'javascript'))
+}
+
+export function errorHandling (errorLevel?: number, stats?: Stats) {
+  if (errorLevel === 1 && stats?.hasErrors()) {
+    process.exit(1)
+  }
 }

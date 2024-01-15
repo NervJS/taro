@@ -30,7 +30,7 @@ export function loadAnimateStyle (ms = 300) {
 /**
  * 插入路由相关样式
  */
-export function loadRouterStyle (usingWindowScroll: boolean) {
+export function loadRouterStyle (enableTabBar: boolean, enableWindowScroll: boolean) {
   const css = `
   .taro_router {
     position: relative;
@@ -41,14 +41,15 @@ export function loadRouterStyle (usingWindowScroll: boolean) {
   .taro_page {
     width: 100%;
     height: 100%;
-  ${
-  usingWindowScroll ? '' : `
+${
+  enableWindowScroll ? '' : `
     overflow-x: hidden;
     overflow-y: scroll;
     max-height: 100vh;
-  `}
+`}
   }
-
+${
+  enableTabBar ? `
   .taro-tabbar__container > .taro-tabbar__panel {
     overflow: hidden;
   }
@@ -58,6 +59,7 @@ export function loadRouterStyle (usingWindowScroll: boolean) {
     max-height: calc(100vh - var(--taro-tabbar-height) - env(safe-area-inset-bottom));
   }
 
+`: ''}
   .taro_page_shade,
   .taro_router > .taro_page.taro_page_show.taro_page_stationed:not(.taro_page_shade):not(.taro_tabbar_page):not(:last-child) {
     display: none;
@@ -66,7 +68,7 @@ export function loadRouterStyle (usingWindowScroll: boolean) {
   addStyle(css)
 }
 
-function addStyle (css) {
+export function addStyle (css) {
   if (!css) return
   const style = document.createElement('style')
   style.innerHTML = css

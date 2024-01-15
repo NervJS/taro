@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-taro",
-  "version": "3.6.20",
+  "version": "3.6.22",
   "description": "Taro babel preset",
   "author": "yuche <i@yuche.me>",
   "homepage": "https://github.com/nervjs/taro/tree/master/packages/babel-preset-taro#readme",
@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "jest --collectCoverage",
-    "test:ci": "jest --ci --i --coverage false"
+    "test:ci": "jest --ci -i --coverage --silent"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"

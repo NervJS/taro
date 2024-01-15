@@ -7,5 +7,5 @@
     "sourceMap": false,
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["./src", "./types"]
+  "include": ["./src", "./types", "./rollup.config.ts"]
 }

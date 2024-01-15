@@ -1,21 +1,21 @@
 /* eslint-disable dot-notation */
-import { Current, PageInstance } from '@tarojs/runtime'
+import { addLeadingSlash, Current, stripBasename } from '@tarojs/runtime'
 import queryString from 'query-string'
 
 import { bindPageResize } from '../events/resize'
 import { bindPageScroll } from '../events/scroll'
-import { setHistoryMode } from '../history'
+import { setHistory } from '../history'
 import { loadRouterStyle } from '../style'
-import { initTabbar } from '../tabbar'
-import { addLeadingSlash, stripBasename } from '../utils'
 
+import type { PageInstance } from '@tarojs/runtime'
 import type { PageConfig } from '@tarojs/taro'
+import type { History } from 'history'
 import type { MpaRouterConfig, Route } from '../../types/router'
 
 export default class MultiPageHandler {
   protected config: MpaRouterConfig
 
-  constructor (config: MpaRouterConfig) {
+  constructor (config: MpaRouterConfig, public history: History) {
     this.config = config
     this.mount()
   }
@@ -69,43 +69,18 @@ export default class MultiPageHandler {
     return { ...query, ...options }
   }
 
+  isDefaultNavigationStyle () {
+    let style = this.config.window?.navigationStyle
+    if (typeof this.pageConfig?.navigationStyle === 'string') {
+      style = this.pageConfig.navigationStyle
+    }
+    return style !== 'custom'
+  }
+
   mount () {
-    setHistoryMode(this.routerMode, this.router.basename)
-
-    loadRouterStyle(this.usingWindowScroll)
-
-    const appId = this.appId
-    let app = document.getElementById(appId)
-    let isPosition = true
-    if (!app) {
-      app = document.createElement('div')
-      app.id = appId
-      isPosition = false
-    }
-    const appWrapper = app?.parentNode || app?.parentElement || document.body
-    app.classList.add('taro_router')
-
-    if (this.tabBarList.length > 1) {
-      const container = document.createElement('div')
-      container.classList.add('taro-tabbar__container')
-      container.id = 'container'
-
-      const panel = document.createElement('div')
-      panel.classList.add('taro-tabbar__panel')
-
-      panel.appendChild(app.cloneNode(true))
-      container.appendChild(panel)
-
-      if (!isPosition) {
-        appWrapper.appendChild(container)
-      } else {
-        appWrapper.replaceChild(container, app)
-      }
-
-      initTabbar(this.config)
-    } else {
-      if (!isPosition) appWrapper.appendChild(app)
-    }
+    setHistory(this.history, this.basename)
+    // Note: 注入页面样式
+    loadRouterStyle(this.tabBarList.length > 1, this.usingWindowScroll)
   }
 
   onReady (page: PageInstance, onLoad = true) {
@@ -132,9 +107,12 @@ export default class MultiPageHandler {
     if (!page) return
 
     page.onLoad?.(this.getQuery('', page.options), () => {
+      const pageEl = this.getPageContainer(page)
       if (this.isTabBar) {
-        const pageEl = this.getPageContainer(page)
         pageEl?.classList.add('taro_tabbar_page')
+      }
+      if (this.isDefaultNavigationStyle()) {
+        pageEl?.classList.add('taro_navigation_page')
       }
       this.onReady(page, true)
       page.onShow?.()

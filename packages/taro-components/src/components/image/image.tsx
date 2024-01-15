@@ -1,8 +1,6 @@
 import { Component, Prop, h, ComponentInterface, Host, State, Event, EventEmitter } from '@stencil/core'
 import classNames from 'classnames'
 
-import('intersection-observer')
-
 export type Mode =
   'scaleToFill'
   | 'aspectFit'
@@ -81,7 +79,6 @@ export class Image implements ComponentInterface {
   render () {
     const {
       src,
-      mode = 'scaleToFill',
       lazyLoad = false,
       aspectFillMode = 'width',
       imageOnLoad,
@@ -89,6 +86,8 @@ export class Image implements ComponentInterface {
       nativeProps,
       didLoad
     } = this
+    // mode="" 按默认值处理
+    const mode = this.mode || 'scaleToFill'
 
     const cls = classNames({
       'taro-img__widthfix': mode === 'widthFix'
@@ -102,14 +101,17 @@ export class Image implements ComponentInterface {
 
     return (
       <Host class={cls}>
-       <img
-          ref={(img) => (this.imgRef = img!)}
-          class={imgCls}
-          src={lazyLoad && !didLoad ? undefined : src}
-          onLoad={imageOnLoad.bind(this)}
-          onError={imageOnError.bind(this)}
-          {...nativeProps}
-        />
+        {
+          src ? (
+            <img
+              ref={(img) => (this.imgRef = img!)}
+              class={imgCls}
+              src={lazyLoad && !didLoad ? undefined : src}
+              onLoad={imageOnLoad.bind(this)}
+              onError={imageOnError.bind(this)}
+              {...nativeProps} />
+          ) : ''
+        }
       </Host>
     )
   }

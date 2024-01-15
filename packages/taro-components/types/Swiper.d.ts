@@ -3,61 +3,63 @@ import { StandardProps, CommonEventFunction } from './common'
 interface SwiperProps extends StandardProps {
   /** 是否显示面板指示点
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   indicatorDots?: boolean
   /** 指示点颜色
    * @default "rgba(0, 0, 0, .3)"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   indicatorColor?: string
   /** 当前选中的指示点颜色
    * @default "#000000"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   indicatorActiveColor?: string
   /** 是否自动切换
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   autoplay?: boolean
   /** 当前所在滑块的 index
    * @default 0
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   current?: number
   /** 当前所在滑块的 item-id ，不能与 current 被同时指定
    * @default ""
+   * @supported tt
+   * @weapp deprecated
    */
   currentItemId?: string
   /** 自动切换时间间隔
    * @default 5000
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   interval?: number
   /** 滑动动画时长
    * @default 500
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   duration?: number
   /** 是否采用衔接滑动
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   circular?: boolean
   /** 滑动方向是否为纵向
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   vertical?: boolean
   /** 前边距，可用于露出前一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   previousMargin?: string
   /** 后边距，可用于露出后一项的一小部分，接受 px 和 rpx 值
    * @default "0px"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   nextMargin?: string
   /**
@@ -68,7 +70,7 @@ interface SwiperProps extends StandardProps {
   snapToEdge?: boolean
   /** 同时显示的滑块数量
    * @default 1
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   displayMultipleItems?: number
   /** 是否跳过未显示的滑块布局，设为 true 可优化复杂情况下的滑动性能，但会丢失隐藏状态滑块的布局信息
@@ -88,12 +90,12 @@ interface SwiperProps extends StandardProps {
   disableTouch?: boolean
   /** 是否启用缩放
    * @default false
-   * @supported h5
+   * @supported h5, harmony_hybrid
    */
   zoom?: boolean
   /** 是否开启全屏
    * @default false
-   * @supported h5
+   * @supported h5, harmony_hybrid
    */
   full?: boolean
   /** swiper-item 可见时的 class。
@@ -150,7 +152,7 @@ interface SwiperProps extends StandardProps {
    */
   cacheExtent?: number
   /** current 改变时会触发 change 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onChange?: CommonEventFunction<SwiperProps.onChangeEventDetail>
   /** swiper-item 的位置发生改变时会触发 transition 事件
@@ -158,7 +160,7 @@ interface SwiperProps extends StandardProps {
    */
   onTransition?: CommonEventFunction<SwiperProps.onTransitionEventDetail>
   /** 动画结束时会触发 animationfinish 事件
-   * @supported weapp, swan, tt, qq, jd, h5, rn
+   * @supported weapp, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onAnimationFinish?: SwiperProps['onChange']
   /** 动画结束时会触发 animationEnd 事件
@@ -213,7 +215,7 @@ declare namespace SwiperProps {
 /** 滑块视图容器。其中只可放置 swiper-item 组件，否则会导致未定义的行为。
  * > 不要为 `SwiperItem` 设置 **style** 属性，可以通过 class 设置样式。[7147](https://github.com/NervJS/taro/issues/7147)
  * @classification viewContainer
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * class App extends Component {

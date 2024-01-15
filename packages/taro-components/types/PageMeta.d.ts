@@ -115,7 +115,7 @@ declare namespace PageMetaProps {
  * <template>
  *   <page-meta
  *     :page-style="myPageStyle"
- *     @scroll="handleScroll"
+ *     `@scroll="handleScroll"
  *   >
  *     <navigation-bar :title="title" />
  *   </page-meta>

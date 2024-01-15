@@ -1,0 +1,52 @@
+{
+  "name": "@tarojs/binding",
+  "version": "3.6.22",
+  "description": "Node binding for taro",
+  "main": "binding.js",
+  "typings": "binding.d.ts",
+  "napi": {
+    "binaryName": "taro",
+    "triples": {
+      "default": true,
+      "additional": [
+        "aarch64-apple-darwin"
+      ]
+    }
+  },
+  "scripts": {
+    "artifacts": "napi artifacts --npm-dir ../../npm --cwd ./",
+    "build": "napi build --platform --release --no-js --dts binding.d.ts",
+    "build:debug": "napi build --platform --no-js --dts binding.d.ts",
+    "format": "run-p format:source format:rs",
+    "format:rs": "cargo fmt",
+    "format:source": "prettier . -w",
+    "test": "ava"
+  },
+  "files": [
+    "binding.js",
+    "binding.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NervJS/taro.git"
+  },
+  "keywords": [
+    "taro"
+  ],
+  "author": "luckyadam",
+  "license": "MIT",
+  "devDependencies": {
+    "@napi-rs/cli": "3.0.0-alpha.5",
+    "ava": "5.3.1"
+  },
+  "bugs": {
+    "url": "https://github.com/NervJS/taro/issues"
+  },
+  "homepage": "https://github.com/NervJS/taro#readme",
+  "optionalDependencies": {
+    "@tarojs/binding-darwin-arm64": "workspace:*",
+    "@tarojs/binding-darwin-x64": "workspace:*",
+    "@tarojs/binding-linux-x64-gnu": "workspace:*",
+    "@tarojs/binding-win32-x64-msvc": "workspace:*"
+  }
+}

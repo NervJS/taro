@@ -1,6 +1,6 @@
 {
   "name": "@tarojs/service",
-  "version": "3.6.20",
+  "version": "3.6.22",
   "description": "Taro Service",
   "main": "index.js",
   "types": "types/index.d.ts",
@@ -11,7 +11,7 @@
     "clean": "rimraf dist types",
     "prepack": "pnpm run build",
     "test": "cross-env NODE_ENV=jest jest",
-    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --passWithNoTests",
+    "test:ci": "cross-env NODE_ENV=jest jest --ci -i --coverage --silent --passWithNoTests",
     "test:dev": "cross-env NODE_ENV=jest jest --watch"
   },
   "repository": {
@@ -21,8 +21,7 @@
   "files": [
     "index.js",
     "dist",
-    "types",
-    "src"
+    "types"
   ],
   "keywords": [
     "taro"

@@ -39,12 +39,12 @@ declare module '../../index' {
    * **注意**
    *  - 由于 vConsole 功能有限，以及不同客户端对 console 方法的支持情况有差异，建议开发者在小程序中只使用本文档中提供的方法。
    *  - 部分内容展示的限制请参见调试
-   * @supported weapp
+   * @supported weapp, harmony_hybrid
    * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.html
    */
   interface console {
     /** 向调试面板中打印 debug 日志
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.debug.html
      */
     debug(
@@ -52,7 +52,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 向调试面板中打印 error 日志
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.error.html
      */
     error(
@@ -63,7 +63,7 @@ declare module '../../index' {
      *
      * **注意**
      * 仅在工具中有效，在 vConsole 中为空函数实现。
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.group.html
      */
     group(
@@ -74,12 +74,12 @@ declare module '../../index' {
      *
      * **注意**
      * 仅在工具中有效，在 vConsole 中为空函数实现。
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.groupEnd.html
      */
     groupEnd(): void
     /** 向调试面板中打印 info 日志
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.info.html
      */
     info(
@@ -87,7 +87,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 向调试面板中打印 log 日志
-     * @supported weapp, tt
+     * @supported weapp, tt, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.log.html
      */
     log(
@@ -95,7 +95,7 @@ declare module '../../index' {
       ...args: any[]
     ): void
     /** 向调试面板中打印 warn 日志
-     * @supported weapp
+     * @supported weapp, harmony_hybrid
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/base/debug/console.warn.html
      */
     warn(

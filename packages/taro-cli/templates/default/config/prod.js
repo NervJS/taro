@@ -1,5 +1,5 @@
-<% if (typescript) {%>import type { UserConfigExport } from "@tarojs/cli";
-<%}%>
+{{#if typescript }}import type { UserConfigExport } from "@tarojs/cli";
+{{/if}}
 export default {
   mini: {},
   h5: {
@@ -30,4 +30,4 @@ export default {
     //     }))
     // }
   }
-}<% if (typescript) {%> satisfies UserConfigExport<%}%>
+}{{#if typescript }} satisfies UserConfigExport{{/if}}

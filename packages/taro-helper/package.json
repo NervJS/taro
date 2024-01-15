@@ -1,17 +1,19 @@
 {
   "name": "@tarojs/helper",
-  "version": "3.6.20",
+  "version": "3.6.22",
   "description": "Taro Helper",
   "main": "index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "run-s clean prod",
+    "build": "run-s clean prod swc:backup",
     "clean": "rimraf dist",
     "dev": "tsc -w",
     "prepack": "pnpm run build",
     "prod": "tsc",
     "test": "jest --collectCoverage",
-    "test:ci": "jest --ci --i --coverage false"
+    "test:ci": "jest --ci -i --coverage --silent",
+    "artifacts": "node scripts/artifacts.js",
+    "swc:backup": "node scripts/backup.js"
   },
   "repository": {
     "type": "git",

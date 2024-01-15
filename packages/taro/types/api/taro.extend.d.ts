@@ -45,6 +45,7 @@ declare module '../index' {
     [TaroGeneral.ENV_TYPE.TT]: TaroGeneral.ENV_TYPE.TT
     [TaroGeneral.ENV_TYPE.QQ]: TaroGeneral.ENV_TYPE.QQ
     [TaroGeneral.ENV_TYPE.JD]: TaroGeneral.ENV_TYPE.JD
+    [TaroGeneral.ENV_TYPE.HARMONYHYBRID]: TaroGeneral.ENV_TYPE.HARMONYHYBRID
   }
 
   namespace interceptorify {
@@ -97,7 +98,7 @@ declare module '../index' {
     }): void
 
     /** 小程序获取和 Taro 相关的 App 信息
-     * @supported weapp, alipay, jd, qq, swan, tt, h5
+     * @supported weapp, alipay, jd, qq, swan, tt, h5, harmony_hybrid
      */
     getAppInfo(): getAppInfo.AppInfo
 
@@ -127,7 +128,13 @@ declare module '../index' {
     /** 小程序引用插件 JS 接口
      * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
      */
-    requirePlugin(pluginName: string): any
+    requirePlugin: {
+      (pluginName: string): any
+      /** @supported weapp */
+      (pluginName: string, success?: (mod: any) => any, error?: (e: { mod: any; errMsg: string }) => any): any;
+      /** @supported weapp */
+      async?: (pluginName: string) => Promise<any>
+    }
 
     /** 获取当前页面实例
      * @supported global

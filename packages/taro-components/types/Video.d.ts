@@ -2,49 +2,49 @@ import { ComponentType } from 'react'
 import { StandardProps, CommonEventFunction } from './common'
 interface VideoProps extends StandardProps {
   /** 要播放视频的资源地址
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   src: string
   /** 指定视频时长
-   * @supported weapp, alipay, qq, h5, rn
+   * @supported weapp, alipay, qq, h5, rn, harmony_hybrid
    */
   duration?: number
   /** 是否显示默认播放控件（播放/暂停按钮、播放进度、时间）
    * @default true
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   controls?: boolean
   /** 弹幕列表
-   * @supported weapp, swan, qq, h5
+   * @supported weapp, swan, qq, h5, harmony_hybrid
    */
   danmuList?: any[]
   /** 是否显示弹幕按钮，只在初始化时有效，不能动态变更
    * @default false
-   * @supported weapp, swan, qq, h5
+   * @supported weapp, swan, qq, h5, harmony_hybrid
    */
   danmuBtn?: boolean
   /** 是否展示弹幕，只在初始化时有效，不能动态变更
    * @default false
-   * @supported weapp, swan, qq, h5
+   * @supported weapp, swan, qq, h5, harmony_hybrid
    */
   enableDanmu?: boolean
   /** 是否自动播放
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   autoplay?: boolean
   /** 是否循环播放
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   loop?: boolean
   /** 是否静音播放
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   muted?: boolean
   /** 指定视频初始播放位置
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   initialTime?: number
   /** 在非全屏模式下，是否开启亮度与音量调节手势
@@ -58,41 +58,41 @@ interface VideoProps extends StandardProps {
   direction?: number
   /** 若不设置，宽度大于240时才会显示
    * @default true
-   * @supported weapp, swan, qq, h5
+   * @supported weapp, swan, qq, h5, harmony_hybrid
    */
   showProgress?: boolean
   /** 是否显示全屏按钮
    * @default true
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid
    */
   showFullscreenBtn?: boolean
   /** 是否显示视频底部控制栏的播放按钮
    * @default true
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid
    */
   showPlayBtn?: boolean
   /** 是否显示视频中间的播放按钮
    * @default true
-   * @supported weapp, alipay, swan, qq, h5, rn
+   * @supported weapp, alipay, swan, qq, h5, rn, harmony_hybrid
    */
   showCenterPlayBtn?: boolean
   /** 是否开启控制进度的手势
    * @default true
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid
    */
   enableProgressGesture?: boolean
   /** 当视频大小与 video 容器大小不一致时，视频的表现形式
    * @default "contain"
-   * @supported weapp, alipay, swan, tt, qq, jd, h5
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, harmony_hybrid
    */
   objectFit?: keyof VideoProps.ObjectFit
   /** 视频封面的图片网络资源地址，如果 controls 属性值为 false 则设置 poster 无效
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   poster?: string
   /** 是否显示静音按钮
    * @default false
-   * @supported weapp, alipay, swan, tt, qq, h5
+   * @supported weapp, alipay, swan, tt, qq, h5, harmony_hybrid
    */
   showMuteBtn?: boolean
   /** 视频的标题，全屏时在顶部展示
@@ -109,7 +109,7 @@ interface VideoProps extends StandardProps {
   playBtnPosition?: keyof VideoProps.PlayBtnPosition
   /** 是否开启播放手势，即双击切换播放/暂停
    * @default false
-   * @supported weapp, swan, tt, qq, h5
+   * @supported weapp, swan, tt, qq, h5, harmony_hybrid
    */
   enablePlayGesture?: boolean
   /** 当跳转到其它小程序页面时，是否自动暂停本页面的视频
@@ -124,12 +124,12 @@ interface VideoProps extends StandardProps {
   autoPauseIfOpenNative?: boolean
   /** 在非全屏模式下，是否开启亮度与音量调节手势（同 `page-gesture`）
    * @default false
-   * @supported weapp, swan, tt, h5
+   * @supported weapp, swan, tt, h5, harmony_hybrid
    */
   vslideGesture?: boolean
   /** 在全屏模式下，是否开启亮度与音量调节手势
    * @default true
-   * @supported weapp, swan, tt, h5
+   * @supported weapp, swan, tt, h5, harmony_hybrid
    */
   vslideGestureInFullscreen?: boolean
   /** 视频前贴广告单元ID，更多详情可参考开放能力[视频前贴广告](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/ad/video-patch-ad.html)
@@ -187,7 +187,7 @@ interface VideoProps extends StandardProps {
    */
   backgroundPoster?: string
   /** 用于透传 `WebComponents` 上的属性到内部 H5 标签上
-   * @supported h5
+   * @supported h5, harmony_hybrid
    */
   nativeProps?: Record<string, unknown>
   /** 是否展示底部进度条
@@ -298,24 +298,24 @@ interface VideoProps extends StandardProps {
    */
   definition?: string
   /** 当开始/继续播放时触发 play 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onPlay?: CommonEventFunction
   /** 当暂停播放时触发 pause 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onPause?: CommonEventFunction
   /** 当播放到末尾时触发 ended 事件
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onEnded?: CommonEventFunction
   /** 播放进度变化时触发, 触发频率 250ms 一次
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onTimeUpdate?: CommonEventFunction<VideoProps.onTimeUpdateEventDetail>
   /** 当视频进入和退出全屏时触发
    *
-   * @supported h5, rn, alipay
+   * @supported alipay, h5, rn, harmony_hybrid
    */
   onFullscreenChange?: CommonEventFunction<VideoProps.onFullscreenChangeEventDetail>
   /** 视频出现缓冲时触发
@@ -324,11 +324,11 @@ interface VideoProps extends StandardProps {
    */
   onWaiting?: CommonEventFunction<VideoProps.onWaitingEventDetail>
   /** 视频播放出错时触发
-   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony_hybrid
    */
   onError?: CommonEventFunction
   /** 加载进度变化时触发，只支持一段加载
-   * @supported weapp, tt, qq, h5
+   * @supported weapp, tt, qq, h5, harmony_hybrid
    */
   onProgress?: CommonEventFunction<VideoProps.onProgressEventDetail>
   /** 视频元数据加载完成时触发
@@ -557,7 +557,7 @@ declare namespace VideoProps {
 }
 /** 视频。相关api：Taro.createVideoContext
  * @classification media
- * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony
+ * @supported weapp, alipay, swan, tt, qq, jd, h5, rn, harmony, harmony_hybrid
  * @example_react
  * ```tsx
  * export default class PageView extends Component {
