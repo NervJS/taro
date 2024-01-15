@@ -44,6 +44,6 @@
     "ora": "^5.0.0"
   },
   "devDependencies": {
-    "webpack": "5.78.0"
+    "webpack": "5.89.0"
   }
 }
