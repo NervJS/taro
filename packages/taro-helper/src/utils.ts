@@ -226,9 +226,9 @@ export function resolveSync(id: string, opts: TResolve.SyncOpts & { mainFields?:
     const resolve = require('resolve').sync as (typeof TResolve)['sync']
     return resolve(id, {
       ...opts,
-      packageFilter(pkg, pkgfile) {
+      packageFilter(pkg, pkgfile, dir) {
         if (opts.packageFilter) {
-          pkg = opts.packageFilter(pkg, pkgfile)
+          pkg = opts.packageFilter(pkg, pkgfile, dir)
         } else if (opts.mainFields?.length) {
           pkg.main = pkg[opts.mainFields.find((field) => pkg[field] && typeof pkg[field] === 'string') || 'main']
         }
