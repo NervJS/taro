@@ -190,7 +190,7 @@ export function createReactApp (
     if (process.env.TARO_PLATFORM === 'web') {
       appId = config?.appId || appId
     }
-    const container = document.getElementById(appId)
+    const container = document.getElementById(appId) as unknown as Element
     if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))

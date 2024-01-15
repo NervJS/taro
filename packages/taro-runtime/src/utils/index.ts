@@ -135,3 +135,4 @@ export function convertNumber2PX (value: number) {
 }
 
 export * from './lodash'
+export * from './router'
