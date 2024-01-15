@@ -33,6 +33,7 @@ const config = {
     }),
     postcss({
       inject: { insertAt: 'top' },
+      minimize: true,
     }),
   ],
 }

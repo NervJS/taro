@@ -1,0 +1,223 @@
+@use 'sass:math';
+
+page,
+body {
+  --weui-cellMarginLR: 16px;
+  --weui-cellPaddingLR: 16px;
+}
+
+.weui-cells__group {
+  border: 0;
+  &:first-child { margin-top: 0; }
+}
+
+
+// 普通表单
+.weui-cells__group_form {
+  margin-top: 24px;
+
+  // 表单组
+  .weui-cells {
+    margin-left: var(--weui-cellMarginLR);
+    margin-right: var(--weui-cellMarginLR);
+    &::before,
+    &::after {
+      left: var(--weui-cellPaddingLR);
+      right: var(--weui-cellPaddingLR);
+    }
+  }
+  .weui-cell {
+    padding: 16px var(--weui-cellPaddingLR);
+    &::before {
+      left: var(--weui-cellPaddingLR);
+      right: var(--weui-cellPaddingLR);
+    }
+    &:not(.weui-cell_vertical) {
+      .weui-cell__hd {
+        padding-right: 16px;
+      }
+      .weui-cell__ft {
+        padding-left: 16px;
+      }
+    }
+  }
+
+
+  // 表单组标题
+  .weui-cells__title {
+    margin-top: 24px;
+    margin-bottom: 8px;
+    padding: 0 32px;
+  }
+  &:first-child {
+    .weui-cells__title {
+      margin-top: 0;
+    }
+  }
+
+
+  // 表单组提示
+  .weui-cells__tips {
+    margin-top: 8px;
+    padding: 0 calc(var(--weui-cellMarginLR) + var(--weui-cellPaddingLR));
+    color: var(--weui-FG-2);
+    a {
+      font-weight: 700;
+    }
+  }
+  .weui-cells__tips_warn {
+    color: var(--weui-RED);
+  }
+
+
+  // 表单标题
+  .weui-label {
+    max-width: 5em;
+    margin-right: 8px;
+  }
+
+
+  // 点击态
+  .weui-cell_access,
+  .weui-cell_active {
+    &:active {
+      &::after {
+        border-radius: 8px;
+      }
+    }
+  }
+
+
+  // 报错
+  .weui-cell_warn {
+    input {
+      color: $weuiColorWarn;
+    }
+  }
+  .weui-icon-warn {
+    display: none;
+  }
+
+
+  // 抹去点击态
+  .weui-cell_switch,
+  .weui-cell_vcode,
+  .weui-cell_readonly,
+  .weui-cell_disabled {
+    &:active {
+      &::after {
+        display: none;
+      }
+    }
+  }
+  input,
+  textarea,
+  label[for] {
+    @include setTapColor();
+  }
+
+
+  // 适老化下表单项折行，适用高度不大于默认cell内容高度的元素并排
+  // 默认cell内容高度：cell默认高度56px，除去上下padding各16px，默认内容高度为行高1.4（24px）
+  .weui-cell_wrap {
+    align-items: initial;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    .weui-cell__hd {
+      padding-right: 0;
+    }
+    .weui-label {
+      margin-top: 8px;
+    }
+    .weui-cell__bd {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  }
+  .weui-cell__control {
+    margin: 8px 0 8px 16px;
+  }
+  .weui-cell__control_flex {
+    flex: 1;
+    min-width: 30vw;
+  }
+
+
+  // 验证码
+  .weui-vcode-btn {
+    font-size: 16px;
+    padding: 0 12px;
+    height: auto;
+    width: auto;
+    line-height: 2;
+    border-radius: 6px;
+    color: $weuiBtnDefaultFontColor;
+    background-color: $weuiBtnDefaultBg;
+    &::before {
+      display: none;
+    }
+  }
+
+  // 验证码cell适老化：由于小按钮高度32px大于默认内容高度，所以需要把cell的padding改小以保持cell默认高度56px的规范
+  .weui-cell_vcode {
+    &.weui-cell_wrap {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      .weui-label {
+        margin-top: 12px;
+      }
+      .weui-input {
+        font-size: 17px;
+        min-height: em(math.div(32, 17));
+      }
+    }
+  }
+
+
+  // 复选框
+  .weui-cells_checkbox {
+    .weui-check__label {
+      &::before { left: calc(40px + var(--weui-cellPaddingLR)); }
+    }
+  }
+
+
+  // 选择框
+  .weui-cell_select {
+    padding: 0;
+  }
+  .weui-cell_select-before {
+    .weui-cell__hd {
+      padding-right: 0;
+    }
+  }
+
+  // 开关
+  .weui-cell_switch {
+    padding: 12px 16px;
+  }
+}
+
+
+// 反色表单
+.weui-cells__group_form-primary {
+  margin-top: 32px;
+  .weui-cells {
+    background: var(--weui-BG-1);
+    border-radius: 8px;
+    overflow: hidden;
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+  .weui-cell_access,
+  .weui-cell_active {
+    &:active {
+      &::after {
+        border-radius: 0;
+      }
+    }
+  }
+}

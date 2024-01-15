@@ -361,13 +361,25 @@ exports[`vue should build vue app 2`] = `
             Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
         }
     }
-    function _createClass(Constructor, protoProps, staticProps) {
-        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-        if (staticProps) _defineProperties(Constructor, staticProps);
-        Object.defineProperty(Constructor, "prototype", {
-            "writable": false
-        });
-        return Constructor;
+    var defaultDesignWidth = 750;
+    var defaultDesignRatio = {
+        "640": 2.34 / 2,
+        "750": 1,
+        "828": 1.81 / 2
+    };
+    var defaultBaseFontSize = 20;
+    var defaultUnitPrecision = 5;
+    var defaultTargetUnit = "rpx";
+    function getInitPxTransform(taro) {
+        return function(config) {
+            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
+            taro.config = taro.config || {};
+            taro.config.designWidth = designWidth;
+            taro.config.deviceRatio = deviceRatio;
+            taro.config.baseFontSize = baseFontSize;
+            taro.config.targetUnit = targetUnit;
+            taro.config.unitPrecision = unitPrecision;
+        };
     }
     module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
@@ -747,7 +759,11 @@ exports[`vue should build vue app 2`] = `
         "navigationBarTitleText": "首页"
     }) ];
     var inst = createVueApp(src_app, vue, config);
-    createRouter(inst, config, vue);
+    var app_config_history = undefined({
+        "window": taro_runtime["window"]
+    });
+    undefined(config, app_config_history);
+    createRouter(app_config_history, inst, config, vue);
     Object(taro["initPxTransform"])({
         "designWidth": 750,
         "deviceRatio": {

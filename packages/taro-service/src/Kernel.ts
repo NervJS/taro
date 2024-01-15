@@ -15,10 +15,9 @@ import {
   PluginType
 } from './utils/constants'
 
-import type { IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
+import type { Func, IProjectConfig, PluginItem } from '@tarojs/taro/types/compile'
 import type Config from './Config'
 import type {
-  Func,
   ICommand,
   IHook,
   IPaths,

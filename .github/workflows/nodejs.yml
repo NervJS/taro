@@ -24,7 +24,6 @@ jobs:
   build-rust-binding:
     name: Build Rust Binding
     uses: ./.github/workflows/build-rust-binding.yml
-
   build-rust-wasm:
     name: Build Rust WASM
     uses: ./.github/workflows/build-rust-wasm.yml
@@ -105,6 +104,45 @@ jobs:
         uses: codecov/codecov-action@v3
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      # 以下 coverage 流程通过 artifact 拆分文件作为单独 job 上传时间损耗过长，因此在在 node test 后直接继续执行
+      - name: Upload [taro-cli] coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        with:
+          move_coverage_to_trash: true
+          flags: taro-cli
+          files: ./packages/taro-cli/coverage/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload runner coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        with:
+          move_coverage_to_trash: true
+          flags: taro-runner
+          files: ./packages/taro-webpack5-runner/coverage/clover.xml,./packages/taro-webpack-runner/coverage/clover.xml,./packages/taro-mini-runner/coverage/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload [taro-runtime] coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        with:
+          move_coverage_to_trash: true
+          flags: taro-runtime
+          files: ./packages/taro-runtime/coverage/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload [taro-web] coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        with:
+          move_coverage_to_trash: true
+          flags: taro-web
+          files: ./packages/taro-components/coverage/clover.xml,./packages/taro-h5/coverage/clover.xml,./packages/taro-router/coverage/clover.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload rest coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: ${{ matrix.settings.host == 'ubuntu-latest' }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   rust-testing:
     strategy:

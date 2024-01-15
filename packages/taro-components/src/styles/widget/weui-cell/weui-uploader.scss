@@ -1,0 +1,114 @@
+.weui-uploader {}
+
+.weui-uploader__hd {
+  display: flex;
+  padding-bottom: $weuiCellGapV;
+  align-items: center;
+}
+
+.weui-uploader__title {
+  flex: 1;
+}
+
+.weui-uploader__info {
+  color: $weuiTextColorTips;
+}
+
+.weui-uploader__bd {
+  margin-bottom: $weuiCellGapH - ($weuiCellGapV + $weuiUploaderFileSpacing);
+  margin-right: -$weuiUploaderFileSpacing;
+  overflow: hidden;
+}
+
+.weui-uploader__files {
+  list-style: none;
+}
+
+.weui-uploader__file {
+  float: left;
+  margin-right: $weuiUploaderFileSpacing;
+  margin-bottom: $weuiUploaderFileSpacing;
+  width: $weuiUploaderSize;
+  height: $weuiUploaderSize;
+  background: no-repeat center center;
+  background-size: cover;
+}
+.weui-uploader__file_status {
+  position: relative;
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5); // 固定色值
+  }
+  .weui-uploader__file-content {
+    display: block;
+  }
+}
+.weui-uploader__file-content {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #FFFFFF; // var(--weui-WHITE);
+  .weui-icon-warn {
+    display: inline-block;
+  }
+}
+.weui-uploader__input-box {
+  float: left;
+  position: relative;
+  margin-right: $weuiUploaderFileSpacing;
+  margin-bottom: $weuiUploaderFileSpacing;
+  width: $weuiUploaderSize - $weuiUploaderBorderWidth * 2; // $weuiUploaderSize;
+  height: $weuiUploaderSize - $weuiUploaderBorderWidth * 2; // $weuiUploaderSize;
+  border: $weuiUploaderBorderWidth solid $weuiUploaderBorderColor;
+  // box-sizing: border-box;
+  // background-color: #ededed;
+  // @include dark {
+  //   background-color: #2e2e2e;
+  // };
+  &::before,
+  &::after {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $weuiUploaderBorderColor; // #a3a3a3;
+    // @include dark {
+    //   background-color: #6d6d6d;
+    // };
+  }
+  &::before {
+    width: $weuiUploaderBorderWidth + 1;
+    height: $weuiUploaderSize / 2; // 33.33%;
+  }
+  &::after {
+    width: $weuiUploaderSize / 2;// 33.33%;
+    height: $weuiUploaderBorderWidth + 1;
+  }
+  &:active {
+    border-color: $weuiUploaderActiveBorderColor;
+
+    &::before,
+    &::after {
+      // opacity: 0.7;
+      background-color: $weuiUploaderActiveBorderColor;
+    }
+  }
+}
+.weui-uploader__input {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  @include setTapColor();
+}
