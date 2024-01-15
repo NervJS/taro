@@ -6,7 +6,7 @@ import { parseComponents } from './definition-json/parseCommponents'
 import { getAnnotatedApis } from './utils/getAnnotatedApis'
 import { getDeclaredApis } from './utils/getDeclaredApis'
 import { getH5ExportApis } from './utils/getH5ExportApis'
-import { removeFalseProperties, setPropertiesValue,sortKeys } from './utils/helper'
+import { removeFalseProperties, setPropertiesValue, sortKeys } from './utils/helper'
 
 function exportAbsentTaroApi (declaredApiList: string[], existApiList: string[]) {
   const taroH5Path = '@tarojs/taro-h5'
