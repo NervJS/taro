@@ -20,7 +20,7 @@ exports[`vue3 should build vue3 app 2`] = `
         var staticRenderFns = [];
         render._withStripped = true;
         var vue = __webpack_require__(1);
-        var indexvue_type_script_lang_js = {
+        var indexvue_type_script_lang_js_ = {
             "setup": function setup() {
                 var msg = Object(vue["ref"])("Hello world");
                 return {
@@ -28,7 +28,7 @@ exports[`vue3 should build vue3 app 2`] = `
                 };
             }
         };
-        var pages_indexvue_type_script_lang_js = indexvue_type_script_lang_js;
+        var pages_indexvue_type_script_lang_js_ = indexvue_type_script_lang_js_;
         function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
             var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
             if (render) {
@@ -80,7 +80,7 @@ exports[`vue3 should build vue3 app 2`] = `
                 "options": options
             };
         }
-        var component = normalizeComponent(pages_indexvue_type_script_lang_js, render, staticRenderFns, false, null, null, null);
+        var component = normalizeComponent(pages_indexvue_type_script_lang_js_, render, staticRenderFns, false, null, null, null);
         var index = __webpack_exports__["default"] = component.exports;
     }
 } ]);
@@ -272,199 +272,31 @@ exports[`vue3 should build vue3 app 2`] = `
 }, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     var _unused_webpack_default_export = "vue-mock";
-}, function(module, exports) {
-    function _typeof(o) {
-        "@babel/helpers - typeof";
-        return module.exports = _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o) {
-            return typeof o;
-        } : function(o) {
-            return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-        }, module.exports.__esModule = true, module.exports["default"] = module.exports,
-        _typeof(o);
-    }
-    function _defineProperty(obj, key, value) {
-        key = _toPropertyKey(key);
-        if (key in obj) {
-            Object.defineProperty(obj, key, {
-                "value": value,
-                "enumerable": true,
-                "configurable": true,
-                "writable": true
-            });
-        } else {
-            obj[key] = value;
-        }
-        return obj;
-    }
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-    function _defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || false;
-            descriptor.configurable = true;
-            if ("value" in descriptor) descriptor.writable = true;
-            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
-        }
-    }
-    var defaultDesignWidth = 750;
-    var defaultDesignRatio = {
-        "640": 2.34 / 2,
-        "750": 1,
-        "828": 1.81 / 2
-    };
-    var defaultBaseFontSize = 20;
-    var defaultUnitPrecision = 5;
-    var defaultTargetUnit = "rpx";
-    function getInitPxTransform(taro) {
-        return function(config) {
-            var _config$designWidth = config.designWidth, designWidth = _config$designWidth === void 0 ? defaultDesignWidth : _config$designWidth, _config$deviceRatio = config.deviceRatio, deviceRatio = _config$deviceRatio === void 0 ? defaultDesignRatio : _config$deviceRatio, _config$baseFontSize = config.baseFontSize, baseFontSize = _config$baseFontSize === void 0 ? defaultBaseFontSize : _config$baseFontSize, _config$targetUnit = config.targetUnit, targetUnit = _config$targetUnit === void 0 ? defaultTargetUnit : _config$targetUnit, _config$unitPrecision = config.unitPrecision, unitPrecision = _config$unitPrecision === void 0 ? defaultUnitPrecision : _config$unitPrecision;
-            taro.config = taro.config || {};
-            taro.config.designWidth = designWidth;
-            taro.config.deviceRatio = deviceRatio;
-            taro.config.baseFontSize = baseFontSize;
-            taro.config.targetUnit = targetUnit;
-            taro.config.unitPrecision = unitPrecision;
-        };
-    }
-    module.exports = _createClass, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2)["default"];
-    var toPrimitive = __webpack_require__(10);
-    function toPropertyKey(t) {
-        var i = toPrimitive(t, "string");
-        return "symbol" == _typeof(i) ? i : String(i);
-    }
-    module.exports = toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 }, function(module, exports, __webpack_require__) {
     var _require = __webpack_require__(0), hooks = _require.hooks;
-    var taro = __webpack_require__(13).default;
+    var taro = __webpack_require__(5).default;
     if (hooks.isExist("initNativeApi")) {
         hooks.call("initNativeApi", taro);
     }
     module.exports = taro;
     module.exports.default = module.exports;
 }, function(module, exports, __webpack_require__) {
-    var defineProperty = __webpack_require__(3);
-    function ownKeys(e, r) {
-        var t = Object.keys(e);
-        if (Object.getOwnPropertySymbols) {
-            var o = Object.getOwnPropertySymbols(e);
-            r && (o = o.filter((function(r) {
-                return Object.getOwnPropertyDescriptor(e, r).enumerable;
-            }))), t.push.apply(t, o);
-        }
-        return t;
-    }
-    function _objectSpread2(e) {
-        for (var r = 1; r < arguments.length; r++) {
-            var t = null != arguments[r] ? arguments[r] : {};
-            r % 2 ? ownKeys(Object(t), !0).forEach((function(r) {
-                defineProperty(e, r, t[r]);
-            })) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach((function(r) {
-                Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
-            }));
-        }
-        return e;
-    }
-    module.exports = _objectSpread2, module.exports.__esModule = true, module.exports["default"] = module.exports;
-}, function(module, exports, __webpack_require__) {
-    module.exports = __webpack_require__(12);
-}, function(module, exports, __webpack_require__) {
-    var _typeof = __webpack_require__(2)["default"];
-    function toPrimitive(t, r) {
-        if ("object" != _typeof(t) || !t) return t;
-        var e = t[Symbol.toPrimitive];
-        if (void 0 !== e) {
-            var i = e.call(t, r || "default");
-            if ("object" != _typeof(i)) return i;
-            throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return ("string" === r ? String : Number)(t);
-    }
-    module.exports = toPrimitive, module.exports.__esModule = true, module.exports["default"] = module.exports;
+    module.exports = __webpack_require__(6);
 }, function(module, exports, __webpack_require__) {}, function(module, __webpack_exports__, __webpack_require__) {
-    "use strict";
-    __webpack_require__.r(__webpack_exports__);
-    var taro = __webpack_require__(2);
-    function createMultiRouter() {}
-    function createRouter() {}
-    var vue = __webpack_require__(1);
-    var app = __webpack_require__(4);
-    var App = Object(vue["createApp"])({
-        "onShow": function onShow(options) {}
-    });
-    var src_app = App;
-    var taro_runtime = __webpack_require__(0);
-    function createReactApp() {}
-    function createVueApp() {}
-    function createVue3App() {}
-    var config = {
-        "router": {
-            "mode": "hash",
-            "customRoutes": {},
-            "basename": "/"
-        },
-        "pages": [ "pages/index/index" ],
-        "window": {
-            "backgroundTextStyle": "light",
-            "navigationBarBackgroundColor": "#fff",
-            "navigationBarTitleText": "WeChat",
-            "navigationBarTextStyle": "black"
-        }
-    };
-    taro_runtime["window"].__taroAppConfig = config;
-    if (config.tabBar) {
-        var tabbarList = config.tabBar.list;
-        for (var i = 0; i < tabbarList.length; i++) {
-            var t = tabbarList[i];
-            if (t.iconPath) {
-                t.iconPath = tabbarIconPath[i];
-            }
-            if (t.selectedIconPath) {
-                t.selectedIconPath = tabbarSelectedIconPath[i];
-            }
-        }
-    }
-    config.routes = [ Object.assign({
-        "path": "pages/index/index",
-        "load": function load(context, params) {
-            var page = __webpack_require__.e(1).then(__webpack_require__.bind(null, 7));
-            return [ page, context, params ];
-        }
-    }, {
-        "navigationBarTitleText": "首页"
-    }) ];
-    var inst = createVue3App(src_app, vue["h"], config);
-    var app_config_history = undefined({
-        "window": taro_runtime["window"]
-    });
-    undefined(config, app_config_history);
-    createRouter(app_config_history, inst, config, vue["h"]);
-    Object(taro["initPxTransform"])({
-        "designWidth": 750,
-        "deviceRatio": {
-            "640": 1.17,
-            "750": 1,
-            "828": .905
-        },
-        "baseFontSize": 20,
-        "unitPrecision": undefined,
-        "targetUnit": undefined
-    });
-}, function(module, __webpack_exports__, __webpack_require__) {
     "use strict";
     __webpack_require__.r(__webpack_exports__);
     __webpack_require__.d(__webpack_exports__, "default", (function() {
         return Taro;
     }));
-    var helpers_typeof = __webpack_require__(2);
-    var typeof_default = __webpack_require__.n(helpers_typeof);
+    var interceptors_namespaceObject = {};
+    __webpack_require__.r(interceptors_namespaceObject);
+    __webpack_require__.d(interceptors_namespaceObject, "logInterceptor", (function() {
+        return logInterceptor;
+    }));
+    __webpack_require__.d(interceptors_namespaceObject, "timeoutInterceptor", (function() {
+        return timeoutInterceptor;
+    }));
     var taro_runtime = __webpack_require__(0);
-    var taro_shared = "taro-shared-mock";
     var ENV_TYPE = {
         "WEAPP": "WEAPP",
         "SWAN": "SWAN",
@@ -505,7 +337,52 @@ exports[`vue3 should build vue3 app 2`] = `
             return undefined || "Unknown";
         }
     }
-    var index_esm_Chain = function() {
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+    function _typeof(obj) {
+        "@babel/helpers - typeof";
+        return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+            return typeof obj;
+        } : function(obj) {
+            return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+        }, _typeof(obj);
+    }
+    function _toPrimitive(input, hint) {
+        if (_typeof(input) !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+            var res = prim.call(input, hint || "default");
+            if (_typeof(res) !== "object") return res;
+            throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+    }
+    function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return _typeof(key) === "symbol" ? key : String(key);
+    }
+    function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || false;
+            descriptor.configurable = true;
+            if ("value" in descriptor) descriptor.writable = true;
+            Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+    }
+    function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+            "writable": false
+        });
+        return Constructor;
+    }
+    var taro_shared = "taro-shared-mock";
+    var chain_Chain = function() {
         function Chain(requestParams, interceptors, index) {
             _classCallCheck(this, Chain);
             this.index = index || 0;
@@ -544,11 +421,11 @@ exports[`vue3 should build vue3 app 2`] = `
         } ]);
         return Chain;
     }();
-    var index_esm_Link = function() {
+    var interceptor_Link = function() {
         function Link(interceptor) {
             _classCallCheck(this, Link);
             this.taroInterceptor = interceptor;
-            this.chain = new index_esm_Chain;
+            this.chain = new chain_Chain;
         }
         _createClass(Link, [ {
             "key": "request",
@@ -568,13 +445,13 @@ exports[`vue3 should build vue3 app 2`] = `
         }, {
             "key": "cleanInterceptors",
             "value": function cleanInterceptors() {
-                this.chain = new index_esm_Chain;
+                this.chain = new chain_Chain;
             }
         } ]);
         return Link;
     }();
     function interceptorify(promiseifyApi) {
-        return new index_esm_Link((function(chain) {
+        return new interceptor_Link((function(chain) {
             return promiseifyApi(chain.requestParams);
         }));
     }
@@ -611,11 +488,20 @@ exports[`vue3 should build vue3 app 2`] = `
         if (undefined(p.abort)) res.abort = p.abort;
         return res;
     }
-    var index_esm_interceptors = Object.freeze({
-        "__proto__": null,
-        "logInterceptor": logInterceptor,
-        "timeoutInterceptor": timeoutInterceptor
-    });
+    function _defineProperty(obj, key, value) {
+        key = _toPropertyKey(key);
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                "value": value,
+                "enumerable": true,
+                "configurable": true,
+                "writable": true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
     function Behavior(options) {
         return options;
     }
@@ -680,8 +566,8 @@ exports[`vue3 should build vue3 app 2`] = `
         "Behavior": Behavior,
         "getEnv": getEnv,
         "ENV_TYPE": ENV_TYPE,
-        "Link": index_esm_Link,
-        "interceptors": index_esm_interceptors,
+        "Link": interceptor_Link,
+        "interceptors": interceptors_namespaceObject,
         "Current": taro_runtime["Current"],
         "getCurrentInstance": taro_runtime["getCurrentInstance"],
         "options": taro_runtime["options"],
