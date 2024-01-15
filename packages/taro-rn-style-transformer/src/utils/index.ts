@@ -19,6 +19,34 @@ export function insertBefore (source?: string, additional?: string) {
   return additional + ';\n' + source
 }
 
+/**
+ * sort scss source by \@use
+ * @param source scss source
+ * @returns  sorted scss source
+ */
+export function sortStyle (source) {
+  if (!source) {
+    return ''
+  }
+
+  if (source.indexOf('@use') === -1 && source.indexOf('@import') === -1) {
+    return source
+  }
+
+  // @use highest priority
+  const useReg = /@use\s+['"](.*)['"];/g
+  const useList: string[] = []
+  let match: RegExpExecArray | null = null
+  while ((match = useReg.exec(source))) {
+    useList.push(match[0])
+    source = source.replace(match[0], '')
+  }
+
+  // css last
+  const css = source.trim()
+  return [...useList, css].join('\n')
+}
+
 export function insertAfter (source?: string, additional?: string) {
   if (!source && !additional) {
     return ''
@@ -94,7 +122,7 @@ export function resolveStyle (id: string, opts: ResolveStyleOptions) {
       // like `@import 'taro-ui/dist/base.css';` or `@import '~taro-ui/dist/base.css';`
       file = resolve.sync(path.join(dir, name).replace(/^~/, ''), { basedir, extensions })
     }
-  } catch (error) {} // eslint-disable-line no-empty
+  } catch (error) { } // eslint-disable-line no-empty
 
   if (!file) {
     let includePaths = incPaths
