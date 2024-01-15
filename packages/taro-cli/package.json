@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
-    "test:ci": "cross-env NODE_ENV=test jest --ci -i",
+    "test:ci": "cross-env NODE_ENV=test jest --ci -i --coverage --silent",
     "test:dev": "cross-env NODE_ENV=test jest --watch",
     "test:coverage": "cross-env NODE_ENV=test jest --coverage",
     "updateSnapshot": "cross-env NODE_ENV=test jest --updateSnapshot",

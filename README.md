@@ -19,6 +19,9 @@
   <a href="https://travis-ci.org/NervJS/taro">
     <img src="https://img.shields.io/travis/NervJS/taro.svg?style=flat-square">
   </a>
+  <a href="https://codecov.io/gh/NervJS/taro" > 
+  <img src="https://codecov.io/gh/NervJS/taro/graph/badge.svg?token=y06kPnzJaQ"/> 
+  </a>
   <a href="https://github.com/NervJS/taro">
     <img src="https://img.shields.io/github/contributors/NervJS/taro" alt="GitHub contributors">
   </a>
