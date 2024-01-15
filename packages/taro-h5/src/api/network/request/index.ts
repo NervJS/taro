@@ -37,10 +37,13 @@ function _request (options: Partial<Taro.request.Option> = {}) {
     mode,
     responseType,
     signal,
-    timeout = 60000,
+    timeout,
     url = '',
     ...opts
   } = options
+  if (typeof timeout !== 'number') {
+    timeout = 60000
+  }
   Object.assign(params, opts)
   if (jsonp) {
     // @ts-ignore
@@ -102,11 +105,9 @@ function _request (options: Partial<Taro.request.Option> = {}) {
   } else {
     controller = new window.AbortController()
     params.signal = controller.signal
-    if (typeof timeout === 'number') {
-      timeoutTimer = setTimeout(function () {
-        if (controller) controller.abort()
-      }, timeout)
-    }
+    timeoutTimer = setTimeout(function () {
+      if (controller) controller.abort()
+    }, timeout)
   }
   params.credentials = credentials
   const p: RequestTask<any> = fetch(url, params)
