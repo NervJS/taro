@@ -93,7 +93,7 @@ export function setReconciler (ReactDOM) {
           reactReduxForwardedRef: ref
         }
         return h(
-          React.Fragment,
+          R.Fragment,
           null,
           navigationBar,
           h(el, {
