@@ -28,20 +28,20 @@
     "prebuild": "run-s clean generate:desc",
     "build": "pnpm run rollup --environment NODE_ENV:production",
     "clean": "rimraf dist",
-    "dev": "pnpm run rollup --environment NODE_ENV:development -w",
-    "generate:desc": "pnpm run tsx --files ./build/definition-json",
+    "dev": "pnpm generate:desc && pnpm run rollup --environment NODE_ENV:development -w",
+    "generate:desc": "pnpm run tsx ./build/definition-json/index.ts",
     "rollup": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs",
-    "tsx": "ts-node --skipIgnore"
+    "tsx": "tsx"
   },
   "bugs": {
     "url": "https://github.com/NervJS/taro/issues"
   },
   "dependencies": {
-    "@tarojs/service": "workspace:*",
     "@tarojs/components": "workspace:*",
     "@tarojs/components-react": "workspace:*",
-    "@tarojs/runtime": "workspace:*",
     "@tarojs/router": "workspace:*",
+    "@tarojs/runtime": "workspace:*",
+    "@tarojs/service": "workspace:*",
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro-h5": "workspace:*",
     "babel-plugin-transform-taroapi": "workspace:*",
@@ -61,6 +61,7 @@
     "rollup-plugin-ts": "^3.0.2",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^3.14.1",
-    "typescript": "^4.7.4"
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
   }
 }
