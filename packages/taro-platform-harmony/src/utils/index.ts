@@ -1,5 +1,6 @@
 import path from 'path'
 
+export * from './api-loader'
 export * from './constants'
 
 export function parseRelativePath (from: string, to: string) {

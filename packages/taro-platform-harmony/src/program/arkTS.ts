@@ -3,7 +3,7 @@ import { VITE_COMPILER_LABEL } from '@tarojs/runner-utils'
 import { isFunction } from '@tarojs/shared'
 import * as path from 'path'
 
-import { HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
+import { apiLoader, HARMONY_SCOPES, PACKAGE_NAME, parseRelativePath, PLATFORM_NAME } from '../utils'
 import { TaroPlatformHarmony } from './harmony'
 
 import type { IPluginContext, TConfig } from '@tarojs/service'
@@ -220,6 +220,10 @@ export default class Harmony extends TaroPlatformHarmony {
       })
     } else if (stat.isFile()) {
       let code = fs.readFileSync(lib, { encoding: 'utf8' })
+      // TODO: 后续这部分代码应该根据使用的框架抽离到对应的平台插件处
+      if ([/taro-platform-harmony[\\/]dist[\\/]apis[\\/]index\.ts/].some(e => e.test(lib))) {
+        code = apiLoader(code)
+      }
       if (this.extensions.includes(path.extname(lib))) {
         code = code.replace(/(?:import\s|from\s|require\()['"]([^.][^'"\s]+)['"]\)?/g, (src, p1) => {
           const { outputRoot } = this.ctx.runOpts.config
