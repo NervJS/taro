@@ -82,7 +82,8 @@ export abstract class TaroPlatformHarmony<T extends TConfig = TConfig> extends T
         FRAMEWORK: JSON.stringify(this.config.framework),
         TARO_ENV: JSON.stringify(this.platform),
         TARO_PLATFORM: JSON.stringify(this.platformType),
-        TARO_VERSION: JSON.stringify(getPkgVersion())
+        TARO_VERSION: JSON.stringify(getPkgVersion()),
+        SUPPORT_TARO_POLYFILL: 'disabled',
       },
     })
 

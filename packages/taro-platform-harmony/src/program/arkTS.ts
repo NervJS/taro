@@ -80,6 +80,7 @@ export default class Harmony extends TaroPlatformHarmony {
       ...this.config.defineConstants,
     }
     const env = [...Object.entries(this.config.env), ...Object.entries(process.env)]
+
     env.forEach(([key, value]) => {
       this.#defineConstants[`process.env.${key}`] = JSON.stringify(value)
     })

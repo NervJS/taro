@@ -26,7 +26,7 @@ export function getFontAttributes (node: TaroElement): TaroTextStyleType {
 function isMaxWidthView (node: TaroElement) {
   const parentNode: TaroElement = node.parentNode as TaroElement
   
-  return node.tagName === 'VIEW' && parentNode.tagName === 'VIEW' &&
+  return node.tagName === 'VIEW' && parentNode && parentNode.tagName === 'VIEW' &&
     !(FlexManager.isFlexNode(parentNode) && FlexManager.flexOptions(parentNode).direction !== FlexDirection.Column)
 }
 
