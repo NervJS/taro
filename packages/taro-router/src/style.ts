@@ -68,6 +68,30 @@ ${
   addStyle(css)
 }
 
+/**
+ * 插入导航栏相关的样式
+*/
+export function loadNavigationBarStyle () {
+  const css = `
+  .taro-navigation-bar-show {
+    display: block
+  }
+
+  .taro-navigation-bar-hide {
+    display: none
+  }
+  .taro-navigation-bar-home:before {
+    content: '回到首页   '
+  }
+
+  .taro-navigation-bar-back:before {
+    content: '返回上个页面  '
+  }
+  `
+
+  addStyle(css)
+}
+
 export function addStyle (css) {
   if (!css) return
   const style = document.createElement('style')

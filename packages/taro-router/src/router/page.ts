@@ -7,6 +7,7 @@ import { bindPageScroll } from '../events/scroll'
 import { history, setHistory } from '../history'
 import { loadAnimateStyle, loadRouterStyle } from '../style'
 import { routesAlias } from '../utils'
+import NavigationBarHandler from './navigation-bar'
 import stacks from './stack'
 
 import type { PageInstance } from '@tarojs/runtime'
@@ -15,12 +16,13 @@ import type { History } from 'history'
 import type { Route, SpaRouterConfig } from '../../types/router'
 
 export default class PageHandler {
-  protected config: SpaRouterConfig
+  public config: SpaRouterConfig
   protected readonly defaultAnimation: RouterAnimate = { duration: 300, delay: 50 }
   protected unloadTimer: ReturnType<typeof setTimeout> | null
   protected hideTimer: ReturnType<typeof setTimeout> | null
   protected lastHidePage: HTMLElement | null
   protected lastUnloadPage: PageInstance | null
+  protected navigationBarHandler: NavigationBarHandler
 
   public homePage: string
 
@@ -28,6 +30,7 @@ export default class PageHandler {
     this.config = config
     this.homePage = getHomePage(this.routes[0].path, this.basename, this.customRoutes, this.config.entryPagePath)
     this.mount()
+    this.navigationBarHandler = new NavigationBarHandler(this)
   }
 
   get currentPage () {
@@ -164,7 +167,7 @@ export default class PageHandler {
     }
   }
 
-  load (page: PageInstance, pageConfig: Route = {}, stampId: string, pageNo = 0) {
+  load (page: PageInstance, pageConfig: Route = {}, stampId: string, pageNo = 0, methodName: string) {
     if (!page) return
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
@@ -186,6 +189,7 @@ export default class PageHandler {
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
         this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
+        this.navigationBarHandler.load(pageEl, methodName)
         page.onShow?.()
         this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)

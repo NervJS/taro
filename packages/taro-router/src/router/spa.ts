@@ -201,7 +201,7 @@ export function createRouter (
         loadConfig
       )
       if (params) page.options = params
-      handler.load(page, pageConfig, pageStampId, stacksIndex)
+      handler.load(page, pageConfig, pageStampId, stacksIndex, methodName)
     }
   }
 

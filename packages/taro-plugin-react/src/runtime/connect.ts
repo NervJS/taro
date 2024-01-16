@@ -80,7 +80,7 @@ export function setReconciler (ReactDOM) {
       const isReactComponent = isClassComponent(R, el)
       const navigationBar = h(
         'taro-navigation-bar-wrap',
-        { style: { display: 'none' } },
+        null,
         h('taro-navigation-bar-fn'),
         h('taro-navigation-bar-title'),
       )
