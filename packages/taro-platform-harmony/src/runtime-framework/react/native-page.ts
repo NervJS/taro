@@ -1,5 +1,5 @@
 import { Current, document, requestAnimationFrame, TaroElement, window } from '@tarojs/runtime' // eslint-disable-line import/no-duplicates
-import { CONTEXT_ACTIONS, env, eventCenter, Func } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
+import { CONTEXT_ACTIONS, env, eventCenter, TFunc } from '@tarojs/runtime/dist/runtime.esm' // eslint-disable-line import/no-duplicates
 import { ensure, hooks, isUndefined } from '@tarojs/shared'
 
 import { ReactMeta as reactMeta } from './app'
@@ -27,7 +27,7 @@ let nativeComponentApp: AppInstance
 interface InitNativeComponentEntryParams {
   R: typeof React
   ReactDOM: typeof ReactDOM
-  cb?: Func
+  cb?: TFunc
   // 是否使用默认的 DOM 入口 - app；默认为true，false的时候，会创建一个新的dom并且把它挂载在 app 下面
   isDefaultEntryDom?: boolean
 }
@@ -200,7 +200,7 @@ export function createNativePageConfig (Component, pageName: string, react: type
 
   const pageObj: Record<string, any> = {
     options: pageConfig,
-    [ONLOAD] (options: Readonly<Record<string, unknown>> = {}, cb?: Func) {
+    [ONLOAD] (options: Readonly<Record<string, unknown>> = {}, cb?: TFunc) {
       hasLoaded = new Promise(resolve => { loadResolver = resolve })
       Current.page = this as any
       this.config = pageConfig || {}

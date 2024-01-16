@@ -11,8 +11,8 @@ class Window extends TaroEventTarget {
   public __taroAppConfig: any
   public __ohos = ohosWindow
 
-  public location: Location
-  public history: History
+  public location: any
+  public history: any
   public getComputedStyle = getComputedStyle
 
   constructor () {

@@ -7,14 +7,14 @@ import { HOOKS_APP_ID } from './utils'
 
 import type {
   AppInstance,
-  Func,
   Instance,
   PageLifeCycle,
-  PageProps
+  PageProps,
+  TFunc
 } from '@tarojs/runtime/dist/runtime.esm'
 
 const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
-  return (fn: Func) => {
+  return (fn: TFunc) => {
     const { R: React, PageContext } = ReactMeta
     const id = React.useContext(PageContext) || HOOKS_APP_ID
     const instRef = React.useRef<Instance<PageProps>>()

@@ -1,6 +1,6 @@
 import { getNormalAttributes, getFontAttributes } from './styles'
 
-import type { Func } from '@tarojs/runtime/dist/runtime.esm'
+import type { TFunc } from '@tarojs/runtime/dist/runtime.esm'
 import type { TaroElement } from '@tarojs/runtime'
 
 export const parseStyles = (styles = ''): Record<string, string> => {
@@ -20,7 +20,7 @@ export const parseStyles = (styles = ''): Record<string, string> => {
   return styleObj
 }
 
-export function shouldBindEvent (cb: Func, node: TaroElement | null, eventNames: string[], disabled = false) {
+export function shouldBindEvent (cb: TFunc, node: TaroElement | null, eventNames: string[], disabled = false) {
   if (!node || node._attrs?.disabled || disabled) return null
   if (!node.__listeners) {
     return null

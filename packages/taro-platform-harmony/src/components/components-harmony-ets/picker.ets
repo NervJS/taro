@@ -197,7 +197,7 @@ export struct PickerView {
         const left = generateNumberArray(timeRange.startHH, timeRange.endHH)
         const right =  generateNumberArray(timeRange.startMM, timeRange.endMM)
         const range = [left, right]
-        const _selected = _attrs.value.split(':')
+        const _selected = _attrs.value?.split(':') as string[]
         return {
           range: range,
           selected: [left.findIndex(i => parseInt(_selected[0]) === Number(i)), right.findIndex(i => parseInt(_selected[1]) === Number(i))],

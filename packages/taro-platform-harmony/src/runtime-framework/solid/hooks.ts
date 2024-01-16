@@ -1,8 +1,8 @@
 import {
   AppInstance,
   Current,
-  Func,
-  PageLifeCycle
+  PageLifeCycle,
+  TFunc
 } from '@tarojs/runtime'
 import { isArray, isFunction } from '@tarojs/shared'
 import {
@@ -16,7 +16,7 @@ import { getPageInstance, injectPageInstance } from './page'
 import { HOOKS_APP_ID } from './utils'
 
 const createTaroHook = (lifecycle: keyof PageLifeCycle | keyof AppInstance) => {
-  return (fn: Func) => {
+  return (fn: TFunc) => {
     const id = ReactMeta.PageContext || HOOKS_APP_ID
 
     createRenderEffect(() => {

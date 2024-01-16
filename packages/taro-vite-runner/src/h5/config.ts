@@ -36,6 +36,7 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
     env.TARO_ENV = JSON.stringify(buildAdapter)
     env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.WEB)
     env.SUPPORT_DINGTALK_NAVIGATE = env.SUPPORT_DINGTALK_NAVIGATE || '"disabled"'
+    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target

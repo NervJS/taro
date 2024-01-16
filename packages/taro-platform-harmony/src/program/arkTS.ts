@@ -221,7 +221,7 @@ export default class Harmony extends TaroPlatformHarmony {
     } else if (stat.isFile()) {
       let code = fs.readFileSync(lib, { encoding: 'utf8' })
       // TODO: 后续这部分代码应该根据使用的框架抽离到对应的平台插件处
-      if ([/taro-platform-harmony[\\/]dist[\\/]apis[\\/]index\.ts/].some(e => e.test(lib))) {
+      if ([/(@tarojs[\\/]plugin-platform-harmony-ets|taro-platform-harmony)[\\/]dist[\\/]apis[\\/]index\.ts/].some(e => e.test(lib))) {
         code = apiLoader(code)
       }
       if (this.extensions.includes(path.extname(lib))) {

@@ -11,7 +11,7 @@ import type { TRollupResolveMethod } from '@tarojs/taro/types/compile/config/plu
 import type { ViteHarmonyBuildConfig, VitePageMeta } from '@tarojs/taro/types/compile/viteCompilerContext'
 
 const SHOW_TREE = false
-const showTreeFunc = (isTabbarPage: boolean) => `  handleTree (tree: TaroNode | null, level = 1, taskQueen: Func[] = []) {
+const showTreeFunc = (isTabbarPage: boolean) => `  handleTree (tree: TaroNode | null, level = 1, taskQueen: TFunc[] = []) {
   if (!tree) return
 
   const res: Record<string, string> = {}
@@ -58,7 +58,7 @@ const showTreeFunc = (isTabbarPage: boolean) => `  handleTree (tree: TaroNode | 
 }
 
 async showTree() {
-  const taskQueen: Func[] = []
+  const taskQueen: TFunc[] = []
 
   this.handleTree(this.node${isTabbarPage ? '[this.tabBarCurrentIndex]' : ''}, 1, taskQueen)
   for (let i = 0; i < taskQueen.length; i++) {
@@ -300,7 +300,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
 
     const generateState = [
       this.renderState({
-        name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()', disabled: !this.buildConfig.isBuildNativeComp
+        name: 'scroller', type: 'Scroller', foreach: () => 'new Scroller()', disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       'page?: PageInstance',
       this.renderState({
@@ -329,7 +329,7 @@ ${this.transArr2Str(pageStr.split('\n'), 6)}
         decorator: 'State', name: 'navigationBarTitleText', type: 'string', foreach: (_, i) => `config${i}.navigationBarTitleText`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
-        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`, disabled: !this.buildConfig.isBuildNativeComp
+        decorator: 'State', name: 'pageBackgroundColor', type: 'string', foreach: (_, i) => `config${i}.backgroundColor`, disabled: this.buildConfig.isBuildNativeComp
       }, this.isTabbarPage),
       this.renderState({
         decorator: 'State', name: 'props', type: 'TaroObject', foreach: () => '{}', disabled: !this.buildConfig.isBuildNativeComp
@@ -718,7 +718,7 @@ handleRefreshStatus(${this.isTabbarPage ? 'index = this.tabBarCurrentIndex, ' : 
 
     const code = this.transArr2Str([
       'import type { AppConfig, TabBar, TabBarItem } from "@tarojs/taro/types"',
-      'import type { Func } from "@tarojs/runtime/dist/runtime.esm"',
+      'import type { TFunc } from "@tarojs/runtime/dist/runtime.esm"',
       'import type common from "@ohos.app.ability.common"',
       '',
       'import router from "@ohos.router"',

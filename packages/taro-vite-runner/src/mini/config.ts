@@ -37,6 +37,7 @@ export default function (viteCompilerContext: ViteMiniCompilerContext): PluginOp
     env.TARO_ENV = JSON.stringify(buildAdapter)
     env.TARO_PLATFORM = JSON.stringify(process.env.TARO_PLATFORM || PLATFORM_TYPE.MINI)
     env.NODE_ENV = JSON.stringify(process.env.NODE_ENV)
+    env.SUPPORT_TARO_POLYFILL = env.SUPPORT_TARO_POLYFILL || '"disabled"'
     const envConstants = Object.keys(env).reduce((target, key) => {
       target[`process.env.${key}`] = env[key]
       return target
