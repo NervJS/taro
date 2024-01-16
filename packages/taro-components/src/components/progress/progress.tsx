@@ -1,7 +1,8 @@
 import { Component, h, ComponentInterface, Prop, Host } from '@stencil/core'
 
 @Component({
-  tag: 'taro-progress-core'
+  tag: 'taro-progress-core',
+  styleUrl: './style/index.scss'
 })
 export class Progress implements ComponentInterface {
   @Prop() percent = 0
