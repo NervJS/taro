@@ -76,6 +76,35 @@ export function setReconciler (ReactDOM) {
       })
     })
 
+    hooks.tap('createNavigationBar', (el:React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>, R: typeof React,)=>{
+      const isReactComponent = isClassComponent(R, el)
+      const navigationBar = h(
+        'taro-navigation-bar-wrap',
+        { style: { display: 'none' } },
+        h('taro-navigation-bar-fn'),
+        h('taro-navigation-bar-title'),
+      )
+      return R.forwardRef((props, ref) => {
+        const newProps: React.ComponentProps<any> = { ...props }
+        
+        const refs = isReactComponent ? { ref: ref } : {
+          forwardedRef: ref,
+          // 兼容 react-redux 7.20.1+
+          reactReduxForwardedRef: ref
+        }
+        // 待验证 这里 ref 透传是否有问题
+        return h(
+          'taro-navigation-bar-code',
+          null,
+          navigationBar,
+          h(el, {
+            ...newProps,
+            ...refs,
+          }),
+        )
+      })
+    })
+
     hooks.tap('getDOMNode', inst => {
       return ReactDOM.findDOMNode(inst)
     })
@@ -193,6 +222,7 @@ export function createReactApp (
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
+      // eslint-disable-next-line react/no-deprecated
       ReactDOM.render?.(h(AppWrapper), container)
     }
   }

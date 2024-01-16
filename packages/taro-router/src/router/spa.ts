@@ -95,11 +95,16 @@ export function createRouter (
     let navigationStyle = config?.window?.navigationStyle || 'default'
     let navigationBarTextStyle = config?.window?.navigationBarTextStyle || 'white'
     let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
+    let showNavigationBar = config?.window?.showNavigationBar
 
     if (pageConfig) {
       setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
+      }
+      if (typeof pageConfig.showNavigationBar === 'boolean') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        showNavigationBar = pageConfig.showNavigationBar
       }
       if (typeof pageConfig.navigationStyle === 'string') {
         navigationStyle = pageConfig.navigationStyle
@@ -190,8 +195,12 @@ export function createRouter (
         pageStampId = createStampId()
       }
 
-      const page = createPageConfig(
-        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el,
+      // 下拉刷新植入
+      let processedElement = enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el
+      
+      // 导航栏植入
+      processedElement = showNavigationBar ? hooks.call('createNavigationBar',processedElement, framework) : processedElement
+      const page = createPageConfig(processedElement,
         pathname + stringify(handler.getQuery(pageStampId)),
         {},
         loadConfig

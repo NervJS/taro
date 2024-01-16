@@ -22,6 +22,10 @@ declare module './index' {
      * - custom 自定义导航栏
      */
     navigationStyle?: 'default' | 'custom'
+    /** 是否展示导航栏，只在 H5 端有效的参数
+     * @default false
+    */
+    showNavigationBar?: boolean
     /**
      * 在非首页、非页面栈最底层页面或非 tabbar 内页面中的导航栏展示 home 键
      * @default false
