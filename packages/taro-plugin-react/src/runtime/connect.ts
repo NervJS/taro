@@ -92,14 +92,13 @@ export function setReconciler (ReactDOM) {
           // 兼容 react-redux 7.20.1+
           reactReduxForwardedRef: ref
         }
-        // 待验证 这里 ref 透传是否有问题
         return h(
-          'taro-navigation-bar-code',
+          React.Fragment,
           null,
           navigationBar,
           h(el, {
             ...newProps,
-            ...refs,
+            ...refs
           }),
         )
       })
