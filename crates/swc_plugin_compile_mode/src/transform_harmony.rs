@@ -387,6 +387,7 @@ impl TransformVisitor {
     fn build_ets_direction (&self, opening_element: &mut JSXOpeningElement) -> EtsDirection {
         // 判断 opening_element 中的 attrs.style._flexDirection 属性，如果值是 FlexDirection.Row,则返回 EtsDirection.Row，否则返回 EtsDirection.Column
         let mut direction = EtsDirection::Column;
+        let mut is_flex = false;
         for attr in opening_element.attrs.iter_mut() {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
                 if let JSXAttrName::Ident(Ident { sym: name, .. }) = &jsx_attr.name {
@@ -405,13 +406,23 @@ impl TransformVisitor {
                                         if let PropOrSpread::Prop(prop) = prop {
                                             if let Prop::KeyValue(KeyValueProp { key, value, .. }) = &mut **prop {
                                                 if let PropName::Ident(Ident { sym: name, .. }) = key {
+                                                    // 判断 display 是否为 flex 且 _flexDirection 为 FlexDirection.Column，如果是则返回 EtsDirection.Column，否则返回 EtsDirection.Row
+                                                    if name == "display" {
+                                                        if let Expr::Lit(Lit::Str(Str { value, .. })) = &mut **value {
+                                                            if value == "flex" && is_flex == false {
+                                                                direction = EtsDirection::Row;
+                                                            }
+                                                        }
+                                                    }
+
                                                     if name == "_flexDirection" {
+                                                        is_flex = true;
                                                         // 判断 value 是否为 attrs.style._flexDirection: FlexDirection.Row 变量
                                                         if let Expr::Member(MemberExpr { obj, prop, .. } ) = &mut **value {
                                                             if let Expr::Ident(Ident{ sym: obj_name, .. }) = &mut **obj {
                                                                 if let MemberProp::Ident(Ident{ sym: prop_name, .. }) = &mut *prop {
-                                                                    if obj_name == "FlexDirection" && prop_name == "Row" {
-                                                                        direction = EtsDirection::Row;
+                                                                    if obj_name == "FlexDirection" && prop_name == "Column" {
+                                                                        direction = EtsDirection::Column;
                                                                     }
                                                                 }
                                                             }
