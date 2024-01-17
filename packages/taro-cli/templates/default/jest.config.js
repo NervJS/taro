@@ -2,5 +2,5 @@
 
 module.exports = defineJestConfig({
   testEnvironment: 'jsdom',
-  testMatch: ['<rootDir>/__tests__/**/*.(spec|test).{js,ts}?(x)']
+  testMatch: ['<rootDir>/__tests__/**/*.(spec|test).[jt]s?(x)']
 })
