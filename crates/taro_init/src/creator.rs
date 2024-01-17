@@ -11,7 +11,11 @@ use napi::{
 };
 use napi_derive::napi;
 use serde::Serialize;
-use taro_shared::{async_fs, constants::{CompilerType, CSSType, FrameworkType}, utils::generate_with_template};
+use taro_shared::{
+  async_fs,
+  constants::{CSSType, CompilerType, FrameworkType},
+  utils::generate_with_template,
+};
 
 use crate::{
   constants::{MEDIA_REGEX, STYLE_EXT_MAP},
@@ -64,7 +68,8 @@ impl FromNapiValue for JSReturnObject {
       js_return_object.set_page_name = Some(obj.get_named_property::<String>("setPageName")?);
     }
     if has_set_sub_pkg_page_name {
-      js_return_object.set_sub_pkg_page_name = Some(obj.get_named_property::<String>("setSubPkgName")?);
+      js_return_object.set_sub_pkg_page_name =
+        Some(obj.get_named_property::<String>("setSubPkgName")?);
     }
     if has_change_ext {
       js_return_object.change_ext = Some(obj.get_named_property::<bool>("changeExt")?);

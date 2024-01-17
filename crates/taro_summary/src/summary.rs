@@ -1,14 +1,23 @@
-use std::{path::{Path, PathBuf}, env::current_dir, thread, sync::{Arc, Mutex, Condvar}, fs};
+use std::{
+  env::current_dir,
+  fs,
+  path::{Path, PathBuf},
+  sync::{Arc, Condvar, Mutex},
+  thread,
+};
 
-use actix_web::{HttpServer, App, rt::System};
-use serde::Serialize;
+use actix_web::{rt::System, App, HttpServer};
 use anyhow::Context;
-use webbrowser;
 use napi_derive::napi;
+use serde::Serialize;
 use spinners::{Spinner, Spinners};
 use taro_shared::{constants::FileType, utils::generate_with_template_content_sync};
+use webbrowser;
 
-use crate::{common::{Compiler, AssetType}, env::Env as EnvInfo};
+use crate::{
+  common::{AssetType, Compiler},
+  env::Env as EnvInfo,
+};
 
 #[derive(Debug, Clone, Serialize)]
 #[napi(object)]
@@ -111,10 +120,7 @@ pub fn generate_summary(opts: SummaryOptions) -> anyhow::Result<()> {
   let file_type_style = file_type.style;
   let file_type_templ = file_type.templ;
   let file_type_config = file_type.config;
-  let mut sp = Spinner::new(
-    Spinners::Dots9,
-    "正在生成项目构建分析报告".to_string(),
-  );
+  let mut sp = Spinner::new(Spinners::Dots9, "正在生成项目构建分析报告".to_string());
   for asset in assets.iter_mut() {
     let file = Path::new(&asset.name);
     asset.kind = match file.extension() {
@@ -130,14 +136,19 @@ pub fn generate_summary(opts: SummaryOptions) -> anyhow::Result<()> {
           Some(AssetType::JSON)
         } else {
           match ext {
-            "png" | "jpg" | "jpeg" | "gif" | "svg" | "webp" | "ico" | "bmp" => Some(AssetType::Image),
-            "mp4" | "m3u8" | "rmvb" | "avi" | "swf" | "3gp" | "mkv" | "flv" | "mpg" | "mpeg" | "mov" | "wmv" | "asf" | "asx" | "dat" | "rm" | "navi" | "wav" | "mp3" | "mid" | "m4a" | "ogg" | "flac" | "aac" | "amr" | "wma" | "ape" | "aiff" | "au" | "vqf" | "mka" | "opus" => Some(AssetType::Media),
+            "png" | "jpg" | "jpeg" | "gif" | "svg" | "webp" | "ico" | "bmp" => {
+              Some(AssetType::Image)
+            }
+            "mp4" | "m3u8" | "rmvb" | "avi" | "swf" | "3gp" | "mkv" | "flv" | "mpg" | "mpeg"
+            | "mov" | "wmv" | "asf" | "asx" | "dat" | "rm" | "navi" | "wav" | "mp3" | "mid"
+            | "m4a" | "ogg" | "flac" | "aac" | "amr" | "wma" | "ape" | "aiff" | "au" | "vqf"
+            | "mka" | "opus" => Some(AssetType::Media),
             "eot" | "ttf" | "woff" | "woff2" => Some(AssetType::Font),
             _ => Some(AssetType::Other),
           }
         }
       }
-      None => Some(AssetType::Other)
+      None => Some(AssetType::Other),
     }
   }
   // 生成静态文件
@@ -201,10 +212,14 @@ pub fn generate_summary(opts: SummaryOptions) -> anyhow::Result<()> {
   let mut summary_info = SummaryInfo {
     compiler: opts.compiler,
     env_info: EnvInfo::new(),
-    assets: assets_info
+    assets: assets_info,
   };
   summary_info.env_info.init();
-  generate_with_template_content_sync(template_content, index_path.to_str().unwrap(), &summary_info)?;
+  generate_with_template_content_sync(
+    template_content,
+    index_path.to_str().unwrap(),
+    &summary_info,
+  )?;
   let server = StaticServer::new(
     "0.0.0.0".to_string(),
     9000,
@@ -249,19 +264,18 @@ impl StaticServer {
       let mut running = lock.lock().unwrap();
       *running = false;
       cvar.notify_all();
-    }).with_context(|| "错误设置 Ctrl-C 监听".to_string())?;
+    })
+    .with_context(|| "错误设置 Ctrl-C 监听".to_string())?;
     thread::spawn(move || {
       let sys = System::new();
       // 构建服务器
       let server = HttpServer::new(move || {
-        App::new().service(
-          actix_files::Files::new("/", &static_files_path).index_file(&index),
-        )
+        App::new().service(actix_files::Files::new("/", &static_files_path).index_file(&index))
       })
-        .bind(format!("{}:{}", host, port))
-        .unwrap_or_else(|_| panic!("无法绑定到 {}:{}", host, port))
-        .shutdown_timeout(0)
-        .run();
+      .bind(format!("{}:{}", host, port))
+      .unwrap_or_else(|_| panic!("无法绑定到 {}:{}", host, port))
+      .shutdown_timeout(0)
+      .run();
       let server_handle = server.handle();
       if webbrowser::open(format!("http://{}:{}", "localhost", port).as_str()).is_err() {
         println!("无法打开浏览器，请手动打开 http://{}:{}", "localhost", port);
@@ -269,13 +283,13 @@ impl StaticServer {
       thread::spawn(move || {
         let running_clone_inner = Arc::clone(&running_clone);
         let (lock, cvar) = &*running_clone_inner;
-          let mut running = lock.lock().unwrap();
-          while *running {
-            running = cvar.wait(running).unwrap();
-          }
-          System::new().block_on(async {
-            server_handle.stop(true).await;
-          });
+        let mut running = lock.lock().unwrap();
+        while *running {
+          running = cvar.wait(running).unwrap();
+        }
+        System::new().block_on(async {
+          server_handle.stop(true).await;
+        });
       });
       sys.block_on(server).unwrap();
     });

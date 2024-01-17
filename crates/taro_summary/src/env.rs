@@ -82,13 +82,12 @@ impl Env {
     let sys_name = System::name();
     let sys_cpu_arch = System::cpu_arch();
     let sys_long_os_version = System::long_os_version();
-    
-    let sys_infos = vec![
-      sys_name,
-      sys_cpu_arch,
-      sys_long_os_version,
-    ];
-    let sys_infos = sys_infos.into_iter().filter_map(|info| info).collect::<Vec<String>>();
+
+    let sys_infos = vec![sys_name, sys_cpu_arch, sys_long_os_version];
+    let sys_infos = sys_infos
+      .into_iter()
+      .filter_map(|info| info)
+      .collect::<Vec<String>>();
     let sys_infos = sys_infos.join(" ");
     sys_infos
   }
@@ -136,7 +135,6 @@ impl Env {
     };
     self.os = Some(self.get_os());
   }
-  
 }
 
 #[cfg(test)]

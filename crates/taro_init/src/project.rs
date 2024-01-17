@@ -3,7 +3,7 @@ use std::{collections::HashMap, path::PathBuf};
 use console::style;
 use napi::threadsafe_function::ThreadsafeFunction;
 use napi_derive::napi;
-use taro_shared::constants::{FrameworkType, CSSType, CompilerType, PeriodType, NpmType};
+use taro_shared::constants::{CSSType, CompilerType, FrameworkType, NpmType, PeriodType};
 
 use crate::{
   constants::FILE_FILTER,

@@ -1,9 +1,9 @@
-use napi_derive::napi;
-use serde::Serialize;
-use serde_json::Value;
-use once_cell::sync::Lazy;
 use handlebars::{handlebars_helper, Handlebars, JsonRender};
 use handlebars_misc_helpers::{new_hbs, register};
+use napi_derive::napi;
+use once_cell::sync::Lazy;
+use serde::Serialize;
+use serde_json::Value;
 
 handlebars_helper!(includes: |{ s: str = "" }, *args| args.iter().map(|a| a.render()).any(|arg| arg == s));
 handlebars_helper!(default_if_none: |value: Option<String>, default: String| value.unwrap_or(default));

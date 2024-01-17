@@ -3,7 +3,10 @@ use std::{collections::HashMap, path::PathBuf};
 use console::style;
 use napi::threadsafe_function::ThreadsafeFunction;
 use napi_derive::napi;
-use taro_shared::{async_fs, constants::{FrameworkType, CSSType, CompilerType, PeriodType}};
+use taro_shared::{
+  async_fs,
+  constants::{CSSType, CompilerType, FrameworkType, PeriodType},
+};
 
 use crate::creator::{CreateOptions, Creator};
 

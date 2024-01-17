@@ -2,9 +2,9 @@ use anyhow::{Error, Ok};
 use console::style;
 use futures::FutureExt;
 use spinners::{Spinner, Spinners};
-use taro_shared::constants::NpmType;
 use std::{env, process, result};
 use std::{fs, path::Path, process::Stdio};
+use taro_shared::constants::NpmType;
 use tokio::io::{AsyncBufReadExt, BufReader};
 use tokio::process::Command;
 
