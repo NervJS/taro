@@ -350,9 +350,7 @@
     </div>
   </div>
   <script>
-    // 获取 content_section_left_ls_item
     var content_section_left_ls_item = document.querySelectorAll('.content_section_left_ls_item');
-    // 给 content_section_cnt_left 绑定 hover 事件，让 content_section_left_ls_item 会切换高亮，同时 content_section_cnt_right 也会切换内容展示，根据 data-type 来切换
     var content_section_cnt_left = document.querySelector('.content_section_cnt_left');
     var content_section_cnt_right = document.querySelector('.content_section_cnt_right');
     content_section_cnt_left.addEventListener('mouseover', function (e) {
@@ -377,6 +375,9 @@
         });
       }
     });
+    content_section_left_ls_item[0].classList.add('active');
+    var content_section_cnt_right_item = document.querySelectorAll('.content_section_cnt_right_item');
+    content_section_cnt_right_item[0].style.display = 'block';
   </script>
 </body>
 </html>
