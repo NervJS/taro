@@ -180,6 +180,7 @@ export default class PageHandler {
       this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
+      this.navigationBarHandler.load(methodName)
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
     } else {
@@ -189,8 +190,8 @@ export default class PageHandler {
         this.isTabBar(this.pathname) && pageEl?.classList.add('taro_tabbar_page')
         this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
-        this.navigationBarHandler.load(pageEl, methodName)
         page.onShow?.()
+        this.navigationBarHandler.load(methodName)
         this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
@@ -234,7 +235,7 @@ export default class PageHandler {
     if (delta >= 1) this.unload(stacks.last, delta)
   }
 
-  show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0) {
+  show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0, methodName = '') {
     if (!page) return
 
     const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
@@ -243,6 +244,7 @@ export default class PageHandler {
       pageEl.classList.remove('taro_page_shade')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
+      this.navigationBarHandler.load(methodName)
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
     } else {
@@ -250,6 +252,7 @@ export default class PageHandler {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
         page.onShow?.()
+        this.navigationBarHandler.load(methodName)
         this.onReady(page, false)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()

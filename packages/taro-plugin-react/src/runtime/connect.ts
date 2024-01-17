@@ -76,34 +76,6 @@ export function setReconciler (ReactDOM) {
       })
     })
 
-    hooks.tap('createNavigationBar', (el:React.FunctionComponent<PageProps> | React.ComponentClass<PageProps>, R: typeof React,)=>{
-      const isReactComponent = isClassComponent(R, el)
-      const navigationBar = h(
-        'taro-navigation-bar-wrap',
-        null,
-        h('taro-navigation-bar-fn'),
-        h('taro-navigation-bar-title'),
-      )
-      return R.forwardRef((props, ref) => {
-        const newProps: React.ComponentProps<any> = { ...props }
-        
-        const refs = isReactComponent ? { ref: ref } : {
-          forwardedRef: ref,
-          // 兼容 react-redux 7.20.1+
-          reactReduxForwardedRef: ref
-        }
-        return h(
-          R.Fragment,
-          null,
-          navigationBar,
-          h(el, {
-            ...newProps,
-            ...refs
-          }),
-        )
-      })
-    })
-
     hooks.tap('getDOMNode', inst => {
       return ReactDOM.findDOMNode(inst)
     })

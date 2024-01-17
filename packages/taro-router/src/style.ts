@@ -80,11 +80,11 @@ export function loadNavigationBarStyle () {
   .taro-navigation-bar-hide {
     display: none
   }
-  .taro-navigation-bar-home:before {
+  .taro-navigation-bar-home > taro-navigation-bar-home:before {
     content: '回到首页   '
   }
 
-  .taro-navigation-bar-back:before {
+  .taro-navigation-bar-back > taro-navigation-bar-back:before {
     content: '返回上个页面  '
   }
   `

@@ -147,7 +147,7 @@ export function createRouter (
 
       if (cacheTabs[handler.pathname]) {
         stacks.popTab(handler.pathname)
-        return handler.show(stacks.getItem(0), pageConfig, 0)
+        return handler.show(stacks.getItem(0), pageConfig, 0, methodName)
       }
       shouldLoad = true
     } else if (action === 'POP') {
@@ -159,7 +159,7 @@ export function createRouter (
         handler.unload(currentPage, delta, prevIndex > -1)
         if (prevIndex > -1) {
           eventCenter.once('__taroPageOnShowAfterDestroyed', () => {
-            handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
+            handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex, methodName)
           })
         } else {
           shouldLoad = true
@@ -191,14 +191,12 @@ export function createRouter (
       }
 
       // 下拉刷新植入
-      let processedElement = enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el
-      
-      // 导航栏植入
-      processedElement = hooks.call('createNavigationBar',processedElement, framework)
-      const page = createPageConfig(processedElement,
-        pathname + stringify(handler.getQuery(pageStampId)),
-        {},
-        loadConfig
+      const page = createPageConfig(enablePullDownRefresh 
+        ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId)
+        : el,
+      pathname + stringify(handler.getQuery(pageStampId)),
+      {},
+      loadConfig
       )
       if (params) page.options = params
       handler.load(page, pageConfig, pageStampId, stacksIndex, methodName)

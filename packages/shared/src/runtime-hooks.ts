@@ -206,8 +206,6 @@ type ITaroHooks = {
   modifyPageObject: (config: Record<any, any>) => void
   /** H5 下拉刷新 wrapper */
   createPullDownComponent: (el, path: string, framework, customWrapper?: any, stampId?: string) => void
-  /** H5 创建导航栏 */
-  createNavigationBar: (el, framework) => void
   /** H5 获取原生 DOM 对象 */
   getDOMNode: (instance) => any
   /**
@@ -306,8 +304,6 @@ export const hooks = new TaroHooks<ITaroHooks>({
   modifyPageObject: TaroHook(HOOK_TYPE.SINGLE),
 
   createPullDownComponent: TaroHook(HOOK_TYPE.SINGLE),
-
-  createNavigationBar: TaroHook(HOOK_TYPE.SINGLE),
 
   getDOMNode: TaroHook(HOOK_TYPE.SINGLE),
 

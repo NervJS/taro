@@ -150,6 +150,8 @@ export class PullToRefresh implements ComponentInterface {
 
   destroy = () => {
     const ele = this.scrollContainer
+    // fix 频繁切换页面，可能会导致 this._to 为空造成报错
+    if(!this._to) return
     Object.keys(this._to).forEach(key => {
       ele.removeEventListener(key, this._to[key])
     })
