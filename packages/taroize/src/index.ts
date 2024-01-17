@@ -37,7 +37,7 @@ interface Option {
 export function parse (option: Option) {
   resetGlobals(option.rootPath, option.logFilePath)
   updateLogFileContent(
-    `INFO [taroize] parseCode - 入参 ${getLineBreak()}option: ${JSON.stringify(option)} ${getLineBreak()}`
+    `INFO [taroize] parse - 入参 ${getLineBreak()}option: ${JSON.stringify(option)} ${getLineBreak()}`
   )
 
   try {
@@ -80,7 +80,7 @@ export function parse (option: Option) {
       ast,
       imports,
       errors,
-      errCodeMsgs
+      errCodeMsgs,
     }
   } finally {
     printToLogFile()

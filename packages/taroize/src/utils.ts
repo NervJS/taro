@@ -2,7 +2,7 @@ import { codeFrameColumns } from '@babel/code-frame'
 import generate from '@babel/generator'
 import { parse } from '@babel/parser'
 import { default as template } from '@babel/template'
-import traverse, { NodePath } from '@babel/traverse'
+import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
 import { camelCase, capitalize } from 'lodash'
@@ -16,17 +16,17 @@ const prettierJSConfig: prettier.Options = {
   parser: 'babel',
 }
 
-export function isAliasThis (p: NodePath<t.Node>, name: string) {
-  const binding = p.scope.getBinding(name)
-  if (binding) {
-    return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init'))
-  }
-  return false
-}
+// export function isAliasThis (p: NodePath<t.Node>, name: string) {
+//   const binding = p.scope.getBinding(name)
+//   if (binding) {
+//     return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init'))
+//   }
+//   return false
+// }
 
 /**
  * 标准化传入路径
- * 
+ *
  * @param path 如D:\\admin格式路径
  * @returns 替换\\返回标准路径
  */
@@ -94,7 +94,7 @@ export function parseCode (code: string, scriptPath?: string) {
     updateLogFileContent(`ERROR [taroize] parseCode - 转换代码异常 ${getLineBreak()}${error} ${getLineBreak()}`)
     // 结尾注释会引起 parseCode 报错，因此收录到报告中
     if (error.message.includes('Unterminated comment')) {
-      throw new  IReportError(
+      throw new IReportError(
         'WXML代码解析失败, 代码中存在不完整的注释',
         'UnterminatedComment',
         'WXML_FILE',
@@ -380,8 +380,8 @@ export function printToLogFile () {
 
 /**
  * 将部分 ast 节点转为代码片段
- * @param ast 
- * @returns 
+ * @param ast
+ * @returns
  */
 export function astToCode (ast) {
   if (!ast) return ''
@@ -402,13 +402,13 @@ export function astToCode (ast) {
  * @param describe 错误描述
  * @param code 错误代码
  * @param filePath 错误信息所在文件路径
- * @returns 
+ * @returns
  */
 export function createErrorCodeMsg (
-  msgType: string, 
-  describe: string, 
-  code: string, 
-  filePath: string, 
+  msgType: string,
+  describe: string,
+  code: string,
+  filePath: string,
   position?: { col: number, row: number } | undefined
 ) {
   const errorCodeMsg = {
@@ -417,8 +417,8 @@ export function createErrorCodeMsg (
     codeBeforeConvert: {
       filePath,
       code,
-      location: { start: position || { col: 0, row: 0 } }
-    }
+      location: { start: position || { col: 0, row: 0 } },
+    },
   }
   globals.errCodeMsgs.push(errorCodeMsg)
 }
@@ -427,7 +427,6 @@ export function createErrorCodeMsg (
  *  拓展原生 Error 属性
  */
 export class IReportError extends Error {
-
   // 错误信息类型
   msgType: string
 
@@ -442,7 +441,7 @@ export class IReportError extends Error {
 
   constructor (
     message: string,
-    msgType?: string, 
+    msgType?: string,
     filePath?: string | 'JS_FILE' | 'WXML_FILE',
     code?: string,
     location?: { col: number, row: number } | undefined
@@ -457,7 +456,7 @@ export class IReportError extends Error {
 
 /**
  * 将oldElement的position信息赋值给newElement的position属性
- * 
+ *
  * @param newElement 新节点
  * @param oldElement 旧节点
  * @returns newElement 添加位置信息的新节点

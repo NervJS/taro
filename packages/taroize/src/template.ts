@@ -4,7 +4,16 @@ import * as fs from 'fs-extra'
 import { dirname, extname, join, relative, resolve } from 'path'
 
 import { errors } from './global'
-import { astToCode, buildBlockElement, buildRender, getLineBreak, IReportError, pascalName, setting, updateLogFileContent } from './utils'
+import {
+  astToCode,
+  buildBlockElement,
+  buildRender,
+  getLineBreak,
+  IReportError,
+  pascalName,
+  setting,
+  updateLogFileContent,
+} from './utils'
 import { createWxmlVistor, parseWXML, WXS } from './wxml'
 
 function isNumeric (n) {
@@ -33,7 +42,7 @@ export function buildTemplateName (name: string, pascal = true): string {
 
 /**
  * 支持import的src绝对路径转为相对路径
- * 
+ *
  * @param dirPath 文件目录的绝对路径
  * @param srcPath import的src路径
  * @returns 处理后的相对路径
