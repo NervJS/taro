@@ -1,7 +1,9 @@
+import { AssetItem, CompilerType, summary } from '@tarojs/binding'
 import {
   MessageKind,
   validateConfig
 } from '@tarojs/plugin-doctor'
+import * as lodash from 'lodash'
 
 import * as hooks from '../constant'
 
@@ -29,6 +31,7 @@ export default (ctx: IPluginContext) => {
       '--new-blended': 'Blended Taro project in an original MiniApp project while supporting building components independently',
       '--plugin [typeName]': 'Build Taro plugin project, weapp',
       '--env-prefix [envPrefix]': "Provide the dotEnv varables's prefix",
+      '--summary': 'Show build summary',
     },
     synopsisList: [
       'taro build --type weapp',
@@ -40,6 +43,7 @@ export default (ctx: IPluginContext) => {
       'taro build --plugin weapp --watch',
       'taro build --plugin weapp',
       'taro build --type weapp --mode prepare --env-prefix TARO_APP_',
+      'taro build --plugin weapp --watch --summary',
     ],
     async fn(opts) {
       const { options, config, _ } = opts
@@ -100,6 +104,46 @@ export default (ctx: IPluginContext) => {
       // is build native components mode?
       const isBuildNativeComp = _[1] === 'native-components'
 
+      if (options.summary) {
+        ctx.onBuildFinish(({ error, stats, isWatch }) => {
+          if (isWatch) return
+          if (error) {
+            console.log(error)
+          }
+          if (stats) {
+            const assetInfo = stats.compilation.assetsInfo
+            const fileType = ctx.platforms.get(platform)?.fileType || {
+              templ: '.html',
+              style: '.css',
+              script: '.js',
+              config: '.json'
+            }
+            const compilerName = lodash.capitalize(config.compiler.type) as CompilerType || CompilerType.Webpack5
+            let compilerVersion = ''
+            if (compilerName === CompilerType.Webpack5 || compilerName === CompilerType.Webpack4) {
+              compilerVersion = require('webpack/package.json').version
+            } else if (compilerName === CompilerType.Vite) {
+              compilerVersion = require('vite/package.json').version
+            }
+            summary({
+              compiler: {
+                name: compilerName,
+                version: compilerVersion
+              },
+              fileType,
+              assets: Array.from(assetInfo.keys()).map(name => {
+                const asset = assetInfo.get(name)
+                if (asset.size)
+                  return {
+                    name,
+                    size: asset.size
+                  } as AssetItem
+              }).filter(Boolean) as AssetItem[],
+            })
+          }
+        })
+      }
+      
       await ctx.applyPlugins(hooks.ON_BUILD_START)
       await ctx.applyPlugins({
         name: platform,

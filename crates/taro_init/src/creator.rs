@@ -11,11 +11,11 @@ use napi::{
 };
 use napi_derive::napi;
 use serde::Serialize;
+use taro_shared::{async_fs, constants::{CompilerType, CSSType, FrameworkType}, utils::generate_with_template};
 
 use crate::{
-  async_fs,
-  constants::{CSSType, CompilerType, FrameworkType, MEDIA_REGEX, STYLE_EXT_MAP},
-  utils::{normalize_path_str, generate_with_template},
+  constants::{MEDIA_REGEX, STYLE_EXT_MAP},
+  utils::normalize_path_str,
 };
 
 #[derive(Debug, Clone, Serialize)]

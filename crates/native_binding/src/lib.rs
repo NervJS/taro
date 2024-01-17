@@ -6,6 +6,7 @@ use std::collections::HashMap;
 
 use napi::{threadsafe_function::ThreadsafeFunction, Result};
 use taro_init::{creator::CreateOptions, page::Page, plugin::Plugin, project::Project};
+use taro_summary::summary::{generate_summary, SummaryOptions};
 
 #[napi]
 pub async fn create_project(
@@ -90,6 +91,17 @@ pub async fn create_plugin(conf: Plugin) -> Result<()> {
   );
   if let Err(e) = plugin.create().await {
     println!("创建插件错误，原因如下：");
+    println!("{:?}", e);
+    return Err(napi::Error::from_reason(format!("{:?}", e)));
+  }
+  Ok(())
+}
+
+#[napi]
+pub fn summary(opts: SummaryOptions) -> Result<()> {
+  let result = generate_summary(opts);
+  if let Err(e) = result {
+    println!("生成项目构建分析报告错误，原因如下：");
     println!("{:?}", e);
     return Err(napi::Error::from_reason(format!("{:?}", e)));
   }

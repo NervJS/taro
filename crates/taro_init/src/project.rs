@@ -3,9 +3,10 @@ use std::{collections::HashMap, path::PathBuf};
 use console::style;
 use napi::threadsafe_function::ThreadsafeFunction;
 use napi_derive::napi;
+use taro_shared::constants::{FrameworkType, CSSType, CompilerType, PeriodType, NpmType};
 
 use crate::{
-  constants::{CSSType, CompilerType, FrameworkType, NpmType, PeriodType, FILE_FILTER},
+  constants::FILE_FILTER,
   creator::{CreateOptions, Creator},
   rn::edit::change_default_name_in_template,
   utils::{get_all_files_in_folder, init_git, install_deps},

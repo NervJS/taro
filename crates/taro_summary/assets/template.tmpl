@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="width=device-width,initial-scale=1,user-scalable=no" name="viewport">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="format-detection" content="telephone=no,address=no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="white">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+  <title>项目统计</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .header{
+      width: 100%;
+      height: 60px;
+      background-image: linear-gradient(180deg,#0000c2,#0000c2);
+      top: 0;
+      left: 0;
+      z-index: 999;
+      padding: 10px 20px;
+    }
+    .header_left {
+      display: flex;
+      height: 100%;
+    }
+    .header_brand {
+      align-items: center;
+      display: flex;
+      margin-right: 1rem;
+      min-width: 0;
+      text-decoration: none;
+    }
+    .header_brand_logo {
+      flex: 0 0 auto;
+      height: 2rem;
+      margin-right: 0.5rem;
+    }
+    .header_brand_logo_img {
+      height: 100%;
+      width: auto;
+    }
+    .header_brand_tit {
+      color: #f5f5f5;
+      font-size: 1.25em;
+    }
+    .content {
+      padding: 20px;
+    }
+    .content_section {
+      padding: 60px 20px 20px 20px;
+      box-shadow: 0 0 10px rgba(53, 120, 229, .6);
+      margin-bottom: 30px;
+      position: relative;
+    }
+    .content_section_tit {
+      padding: 15px 30px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #b20707;
+      line-height: 1;
+      color: #f5f5f5;
+    }
+    .content_section_cnt {
+      width: 100%;
+      display: flex;
+    }
+    .content_section_grid {
+      flex: 1;
+    }
+    .content_section_grid_item {
+      margin-bottom: 20px;
+    }
+    .content_section_grid_item:last {
+      margin-bottom: 0;
+    }
+    .content_section_grid_tit {
+      font-weight: 700;
+    }
+    .content_section_cnt_left {
+      border: 1px solid #ccc;
+      width: 380px;
+    }
+    .content_section_cnt_left_tit {
+      padding: 10px;
+      background: #bfbfee;
+    }
+    .content_section_left_ls_item {
+      padding: 10px;
+    }
+    .content_section_left_ls_item.active {
+      background-color: #dedede;
+    }
+    .content_section_cnt_right {
+      flex: 1;
+      margin-left: 30px;
+      border: 1px solid #ccc;
+    }
+    .content_section_cnt_right_item {
+      padding: 15px;
+      display: none;
+    }
+    .content_section_cnt_right_show_item {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="header">
+      <div class="header_left">
+        <a class="header_brand" href="/"><div class="header_brand_logo"><img class="header_brand_logo_img" src="https://docs.taro.zone/img/logo-taro.png" alt="Taro logo"></div><b class="header_brand_tit">Taro Summary</b></a>
+      </div>
+    </div>
+    <div class="content">
+      <div class="content_section">
+        <div class="content_section_tit">
+          环境信息
+        </div>
+        <div class="content_section_cnt">
+          <div class="content_section_grid">
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">系统型号：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.os "未知操作系统" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Node 版本：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.node_version "未安装 Node" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Node 安装路径：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.node_path "未安装 Node" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Npm 版本：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.npm_version "未安装 Npm" }}</span>
+            </div>
+          </div>
+          <div class="content_section_grid">
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Npm 安装位置：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.npm_path "未安装 Npm" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Pnpm 版本：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.pnpm_version "未安装 Pnpm" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Pnpm 安装路径：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.pnpm_path "未安装 Pnpm" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Yarn 版本：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.yarn_version "未安装 Yarn" }}</span>
+            </div>
+          </div>
+          <div class="content_section_grid">
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">Yarn 安装路径：</span>
+              <span class="content_section_grid_cnt">{{ defaultIfNone env_info.yarn_path "未安装 Yarn" }}</span>
+            </div>
+            <div class="content_section_grid_item">
+              <span class="content_section_grid_tit">编译器信息：</span>
+              <span class="content_section_grid_cnt">{{ compiler.name }}@{{ compiler.version }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content_section">
+        <div class="content_section_tit">
+          编译产物
+        </div>
+        <div class="content_section_cnt">
+          <div class="content_section_cnt_left">
+            <div class="content_section_cnt_left_tit">
+              总大小：{{ assets.total_str }}MB
+            </div>
+            <div class="content_section_cnt_left_ls">
+              <div class="content_section_left_ls_item" data-type="Script">
+                <span>JS 文件个数为：{{ assets.script_assets.count }}个</span>
+                <span>({{ convertToKb assets.script_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="Style">
+                <span>样式文件个数为：{{ assets.style_assets.count }}个</span>
+                <span>({{ convertToKb assets.style_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="Template">
+                <span>模板文件个数为：{{ assets.template_assets.count }}个</span>
+                <span>({{ convertToKb assets.template_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="JSON">
+                <span>配置（JSON）文件个数为：{{ assets.json_assets.count }}个</span>
+                <span>({{ convertToKb assets.json_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="Image">
+                <span>图片文件个数为：{{ assets.image_assets.count }}个</span>
+                <span>({{ convertToKb assets.image_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="Media">
+                <span>多媒体文件个数为：{{ assets.media_assets.count }}个</span>
+                <span>({{ convertToKb assets.media_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="Font">
+                <span>字体文件个数为：{{ assets.font_assets.count }}个</span>
+                <span>({{ convertToKb assets.font_assets.total }}KB)</span>
+              </div>
+              <div class="content_section_left_ls_item" data-type="Other">
+                <span>其他文件个数为：{{ assets.other_assets.count }}个</span>
+                <span>({{ convertToKb assets.other_assets.total }}KB)</span>
+              </div>
+            </div>
+          </div>
+          <div class="content_section_cnt_right">
+            <div class="content_section_cnt_right_item" data-type="Script">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.script_assets.assets 0)}}
+                  {{#each assets.script_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="Style">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.style_assets.assets 0)}}
+                  {{#each assets.style_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="Template">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.template_assets.assets 0)}}
+                  {{#each assets.template_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="JSON">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.json_assets.assets 0)}}
+                  {{#each assets.json_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="Image">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.image_assets.assets 0)}}
+                  {{#each assets.image_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="Media">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.media_assets.assets 0)}}
+                  {{#each assets.media_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="Font">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.font_assets.assets 0)}}
+                  {{#each assets.font_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            <div class="content_section_cnt_right_item" data-type="Other">
+              <div class="content_section_cnt_right_show">
+                {{#if (lenGt assets.other_assets.assets 0)}}
+                  {{#each assets.other_assets.assets}}
+                    <div class="content_section_cnt_right_show_item">
+                      <span>{{ this.name }}：</span>
+                      <span>{{ convertToKb this.size }}KB</span>
+                    </div>
+                  {{/each}}
+                {{else}}
+                  <div class="content_section_cnt_right_nodata">
+                    暂无数据
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 获取 content_section_left_ls_item
+    var content_section_left_ls_item = document.querySelectorAll('.content_section_left_ls_item');
+    // 给 content_section_cnt_left 绑定 hover 事件，让 content_section_left_ls_item 会切换高亮，同时 content_section_cnt_right 也会切换内容展示，根据 data-type 来切换
+    var content_section_cnt_left = document.querySelector('.content_section_cnt_left');
+    var content_section_cnt_right = document.querySelector('.content_section_cnt_right');
+    content_section_cnt_left.addEventListener('mouseover', function (e) {
+      var target = e.target;
+      if (target.classList.contains('content_section_left_ls_item')) {
+        var type = target.dataset.type;
+        // 切换高亮
+        content_section_left_ls_item.forEach(function (item) {
+          if (item.classList.contains('active')) {
+            item.classList.remove('active');
+          }
+        });
+        target.classList.add('active');
+        // 切换内容展示 display
+        var content_section_cnt_right_item = document.querySelectorAll('.content_section_cnt_right_item');
+        content_section_cnt_right_item.forEach(function (item) {
+          if (item.dataset.type === type) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

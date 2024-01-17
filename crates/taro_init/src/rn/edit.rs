@@ -4,8 +4,9 @@ use anyhow::Ok;
 use console::style;
 use once_cell::sync::Lazy;
 use regex::Regex;
+use taro_shared::async_fs;
 
-use crate::{async_fs, constants::MEDIA_REGEX, utils::get_all_files_in_folder};
+use crate::{constants::MEDIA_REGEX, utils::get_all_files_in_folder};
 
 use super::validate::validate_project_name;
 

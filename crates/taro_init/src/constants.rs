@@ -1,20 +1,7 @@
 use std::collections::HashMap;
 
-use napi_derive::napi;
 use once_cell::sync::Lazy;
-use serde::Serialize;
-use handlebars::{handlebars_helper, Handlebars, JsonRender};
-use handlebars_misc_helpers::{new_hbs, register};
-
-handlebars_helper!(includes: |{ s: str = "" }, *args| args.iter().map(|a| a.render()).any(|arg| arg == s));
-// handlebars_helper!(eq: |x: str, y: str| x == y);
-
-pub static HANDLEBARS: Lazy<Handlebars<'static>> = Lazy::new(|| {
-  let mut hbs = new_hbs();
-  register(&mut hbs);
-  hbs.register_helper("includes", Box::new(includes));
-  hbs
-});
+use taro_shared::constants::{CSSType, FrameworkType, NpmType};
 
 pub static STYLE_EXT_MAP: Lazy<HashMap<&CSSType, &str>> = Lazy::new(|| {
   let mut map = HashMap::new();
@@ -79,46 +66,4 @@ pub static FILE_FILTER: Lazy<Vec<&str>> =
 pub struct PackageCommand<'a> {
   pub command: &'a str,
   pub global_command: &'a str,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Serialize)]
-#[napi(string_enum)]
-pub enum CSSType {
-  None,
-  Sass,
-  Stylus,
-  Less,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Serialize)]
-#[napi(string_enum)]
-pub enum FrameworkType {
-  React,
-  Preact,
-  Vue,
-  Vue3,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Serialize)]
-#[napi(string_enum)]
-pub enum NpmType {
-  Yarn,
-  Cnpm,
-  Pnpm,
-  Npm,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Serialize)]
-#[napi(string_enum)]
-pub enum CompilerType {
-  Webpack4,
-  Webpack5,
-  Vite,
-}
-
-#[derive(Debug, PartialEq, Eq, Hash, Serialize)]
-#[napi(string_enum)]
-pub enum PeriodType {
-  CreateAPP,
-  CreatePage,
 }

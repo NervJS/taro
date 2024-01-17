@@ -1,5 +1,5 @@
 [package]
-name = "taro_init"
+name = "taro_summary"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,14 +9,17 @@ edition = "2021"
 napi = { workspace = true }
 napi-derive = { workspace = true }
 once_cell = { workspace = true }
+actix-files = { workspace = true }
+actix-web = { workspace = true }
+anyhow = { workspace = true }
+ctrlc ={ workspace = true }
 tokio = { workspace = true, features = ["fs", "macros", "io-util", "process"] }
 tokio-util = { workspace = true, features = ["io"] }
-futures = { workspace = true }
-serde_json = { workspace = true }
+duct = { workspace = true }
 serde = { workspace = true }
-anyhow = { workspace = true }
-console = { workspace = true }
+serde_json = { workspace = true }
 spinners = { workspace = true }
-regex = { workspace = true }
+sysinfo = { workspace = true }
+webbrowser = { workspace = true }
 
 taro_shared = { path = "../taro_shared" }

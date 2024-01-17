@@ -8,6 +8,28 @@ export class Creator {
   createFileFromTemplate(templateName: string, templatePath: string, destPath: string, options: CreateOptions): Promise<void>
 }
 
+export interface AssetItem {
+  name: string
+  size: number
+  kind?: AssetType
+}
+
+export const enum AssetType {
+  Image = 'Image',
+  Script = 'Script',
+  Style = 'Style',
+  Font = 'Font',
+  Media = 'Media',
+  JSON = 'JSON',
+  Template = 'Template',
+  Other = 'Other'
+}
+
+export interface Compiler {
+  name: CompilerType
+  version: string
+}
+
 export const enum CompilerType {
   Webpack4 = 'Webpack4',
   Webpack5 = 'Webpack5',
@@ -46,6 +68,14 @@ export const enum CSSType {
   Sass = 'Sass',
   Stylus = 'Stylus',
   Less = 'Less'
+}
+
+export interface FileType {
+  templ: string
+  style: string
+  script: string
+  config: string
+  xs?: string
 }
 
 export const enum FrameworkType {
@@ -113,5 +143,13 @@ export interface Project {
   date?: string
   compiler?: CompilerType
   period: PeriodType
+}
+
+export function summary(opts: SummaryOptions): void
+
+export interface SummaryOptions {
+  compiler: Compiler
+  fileType: FileType
+  assets: Array<AssetItem>
 }
 

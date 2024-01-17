@@ -63,10 +63,12 @@ export interface IFileType {
   style: string
   script: string
   config: string
+  xs?: string
 }
 
 export interface IPlatform extends IHook {
   useConfigName?: string
+  fileType?: IFileType
 }
 
 export declare interface IPluginContext {

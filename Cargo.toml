@@ -3,24 +3,29 @@ members = ["crates/*"]
 resolver = "2"
 
 [workspace.dependencies]
-napi = { version = "=2.14.1", features = ["napi4", "tokio_rt"] }
+napi = { version = "=2.14.2", features = ["napi4", "tokio_rt"] }
 napi-build = { version = "=2.1.0" }
-napi-derive = { version = "=2.14.4" }
+napi-derive = { version = "=2.14.6" }
 napi-sys = { version = "=2.3.0" }
+actix-files = { version = "=0.6.5" }
+actix-web ={ version = "=4.4.1"}
+ctrlc = { version = "=3.4.2" }
 once_cell = { version = "=1.19.0" }
-tokio = { version = "=1.34.0" }
+tokio = { version = "=1.35.1" }
 tokio-util = { version = "=0.7.10" }
 futures = { version = "=0.3.30" }
 handlebars = { version = "=4.5.0" }
 handlebars_misc_helpers = { version = "=0.13.0" }
-serde_json = { version = "=1.0.108" }
-serde = { version = "=1.0.193", features = ["serde_derive"] }
-anyhow = { version = "=1.0.75" }
-console = { version = "=0.15.7" }
+serde_json = { version = "=1.0.111" }
+serde = { version = "=1.0.195", features = ["serde_derive"] }
+anyhow = { version = "=1.0.79" }
+console = { version = "=0.15.8" }
 spinners = { version = "=4.1.1" }
 regex = { version = "=1.10.2" }
 swc_core = { version = "0.87.*", features = ["ecma_plugin_transform", "ecma_utils"] }
-
+duct = { version = "=0.13.7" }
+sysinfo = { version = "=0.30.5" }
+webbrowser = { version = "=0.8.12" }
 
 [profile.dev]
 debug = 2
