@@ -106,7 +106,6 @@ export class Swiper implements ComponentInterface {
 
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
-    this.#source = ''
 
     if (this.circular) {
       this.swiper.slideToLoop(n) // 更新下标
@@ -177,7 +176,7 @@ export class Swiper implements ComponentInterface {
     if (this.swiper) {
       this.swiper.slides.forEach((slide, index) => {
         if (slide.getAttribute('data-swiper-slide-index') === null) {
-          slide.setAttribute('data-swiper-slide-index', index)
+          slide.setAttribute('data-swiper-slide-index', index.toString())
         }
       })
       this.swiper.update()
@@ -219,13 +218,6 @@ export class Swiper implements ComponentInterface {
     this.swiper.update()
   }
 
-  handleSlideChange = debounce((index) => {
-    this.onChange.emit({
-      current: index,
-      source: this.#source,
-    })
-  }, 50)
-
   async handleInit() {
     const { autoplay, circular, current, displayMultipleItems, duration, interval, vertical } = this
 
@@ -246,8 +238,15 @@ export class Swiper implements ComponentInterface {
       speed: duration,
       zoom: this.zoom,
       on: {
-        slideChange() {
-          that.handleSlideChange(this.realIndex)
+        realIndexChange() {
+          that.current = this.realIndex
+          // realIndexChange 触发在 autoplay 之前，所以需要 setTimeout 确保 #source 正确
+          setTimeout(() => {
+            that.onChange.emit({
+              current: this.realIndex,
+              source: that.#source,
+            })
+          }, 0)
         },
         touchEnd: () => {
           that.#source = 'touch'
@@ -260,6 +259,9 @@ export class Swiper implements ComponentInterface {
             current: this.realIndex,
             source: that.#source,
           })
+          if (!this.running) {
+            that.#source = ''
+          }
         },
       },
     }
