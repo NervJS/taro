@@ -189,10 +189,11 @@ export function createReactApp (
       appId = config?.appId || appId
     }
     const container = document.getElementById(appId)
-    if((react.version || '').startsWith('18')){
+    if ((react.version || '').startsWith('18')) {
       const root = ReactDOM.createRoot(container)
       root.render?.(h(AppWrapper))
     } else {
+      // eslint-disable-next-line 
       ReactDOM.render?.(h(AppWrapper), container)
     }
   }
