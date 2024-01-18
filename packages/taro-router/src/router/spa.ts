@@ -147,7 +147,7 @@ export function createRouter (
 
       if (cacheTabs[handler.pathname]) {
         stacks.popTab(handler.pathname)
-        return handler.show(stacks.getItem(0), pageConfig, 0, methodName)
+        return handler.show(stacks.getItem(0), pageConfig, 0)
       }
       shouldLoad = true
     } else if (action === 'POP') {
@@ -159,7 +159,7 @@ export function createRouter (
         handler.unload(currentPage, delta, prevIndex > -1)
         if (prevIndex > -1) {
           eventCenter.once('__taroPageOnShowAfterDestroyed', () => {
-            handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex, methodName)
+            handler.show(stacks.getItem(prevIndex), pageConfig, prevIndex)
           })
         } else {
           shouldLoad = true
@@ -199,7 +199,7 @@ export function createRouter (
       loadConfig
       )
       if (params) page.options = params
-      handler.load(page, pageConfig, pageStampId, stacksIndex, methodName)
+      handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
   }
 

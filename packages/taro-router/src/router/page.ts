@@ -167,7 +167,7 @@ export default class PageHandler {
     }
   }
 
-  load (page: PageInstance, pageConfig: Route = {}, stampId: string, pageNo = 0, methodName: string) {
+  load (page: PageInstance, pageConfig: Route = {}, stampId: string, pageNo = 0) {
     if (!page) return
 
     // NOTE: 页面栈推入太晚可能导致 getCurrentPages 无法获取到当前页面实例
@@ -180,7 +180,7 @@ export default class PageHandler {
       this.isDefaultNavigationStyle() && pageEl.classList.add('taro_navigation_page')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
-      this.navigationBarHandler.load(methodName)
+      this.navigationBarHandler.load()
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
     } else {
@@ -191,7 +191,7 @@ export default class PageHandler {
         this.isDefaultNavigationStyle() && pageEl?.classList.add('taro_navigation_page')
         this.addAnimation(pageEl, pageNo === 0)
         page.onShow?.()
-        this.navigationBarHandler.load(methodName)
+        this.navigationBarHandler.load()
         this.onReady(page, true)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()
@@ -235,7 +235,7 @@ export default class PageHandler {
     if (delta >= 1) this.unload(stacks.last, delta)
   }
 
-  show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0, methodName = '') {
+  show (page?: PageInstance | null, pageConfig: Route = {}, pageNo = 0) {
     if (!page) return
 
     const param = this.getQuery(page['$taroParams']['stamp'], '', page.options)
@@ -244,7 +244,7 @@ export default class PageHandler {
       pageEl.classList.remove('taro_page_shade')
       this.addAnimation(pageEl, pageNo === 0)
       page.onShow?.()
-      this.navigationBarHandler.load(methodName)
+      this.navigationBarHandler.load()
       this.bindPageEvents(page, pageConfig)
       this.triggerRouterChange()
     } else {
@@ -252,7 +252,7 @@ export default class PageHandler {
         pageEl = this.getPageContainer(page)
         this.addAnimation(pageEl, pageNo === 0)
         page.onShow?.()
-        this.navigationBarHandler.load(methodName)
+        this.navigationBarHandler.load()
         this.onReady(page, false)
         this.bindPageEvents(page, pageConfig)
         this.triggerRouterChange()

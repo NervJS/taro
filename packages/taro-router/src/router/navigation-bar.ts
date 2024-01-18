@@ -1,6 +1,7 @@
 
 import { navigateBack,reLaunch } from '../api'
 import { loadNavigationBarStyle } from '../style'
+import stacks from './stack'
 
 import type PageHandler from './page'
 
@@ -11,6 +12,12 @@ export default class NavigationBarHandler {
     this.pageContext = pageContext
     this.init()
     loadNavigationBarStyle()
+    // eventCenter.on('__taroH5SetNavigationStyle', (navigationBarTextStyle, _navigationBarBackgroundColor)=>{
+    //   if (!this.navigationBarElement) return
+    //   if(typeof navigationBarTextStyle === 'string') {
+    //     (this.navigationBarElement as HTMLElement).style.color = navigationBarTextStyle
+    //   }
+    // })
   }
 
   private toHomeFn () {
@@ -48,31 +55,41 @@ export default class NavigationBarHandler {
     this.navigationBarElement = document.getElementsByTagName('taro-navigation-bar-wrap')?.[0]
   }
 
-  load ( methodName: string) {
-    let shouldShow =  this.pageContext.config.window?.showNavigationBar
-    if (typeof this.pageContext.pageConfig?.showNavigationBar === 'boolean'){
-      shouldShow = this.pageContext.pageConfig.showNavigationBar
-    }
-    this.setNavigationBarVisible(!!shouldShow)
-    if(this.titleElement){
-      this.titleElement.innerHTML = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
-    }
+  load () {
+    this.setTitle()
+    this.setNavigationBarVisible()
+    this.setFnBtnState()
+    this.setNavigationStyle()
+  }
+
+  setFnBtnState () {
     const currentRouter = this.pageContext.currentPage
-    const isFirstLoad = ['reLaunch', ''].includes(methodName)
-    this.fnBtnToggleToNone()
-    if (isFirstLoad) {
-      if (currentRouter === this.pageContext.homePage) {
-        this.fnBtnToggleToNone()
-      } else {
-        this.fnBtnToggleToHome()
-      } 
+    if (this.pageContext.isTabBar(currentRouter) || this.pageContext.homePage === currentRouter) {
+      this.fnBtnToggleToNone()
+    } else if (stacks.length > 1) {
+      this.fnBtnToggleToBack()
     } else {
-      if (this.pageContext.isTabBar(currentRouter) || this.pageContext.homePage === currentRouter) {
-        this.fnBtnToggleToNone()
-      } else {
-        this.fnBtnToggleToBack()
-      }
+      this.fnBtnToggleToHome()
     }
+  }
+
+  setNavigationStyle () {
+    let navigationBarTextStyle = this.pageContext.config?.window?.navigationBarTextStyle || 'white'
+    let navigationBarBackgroundColor = this.pageContext.config?.window?.navigationBarBackgroundColor || '#000000'
+    if (typeof this.pageContext.pageConfig?.navigationBarTextStyle === 'string') {
+      navigationBarTextStyle = this.pageContext.pageConfig.navigationBarTextStyle
+    }
+    if (typeof this.pageContext.pageConfig?.navigationBarBackgroundColor === 'string') {
+      navigationBarBackgroundColor = this.pageContext.pageConfig.navigationBarBackgroundColor
+    }
+    if (!this.navigationBarElement) return
+    (this.navigationBarElement as HTMLElement).style.color = navigationBarTextStyle;
+    (this.navigationBarElement as HTMLElement).style.background = navigationBarBackgroundColor
+  }
+
+  setTitle () {
+    if(!this.titleElement) return
+    this.titleElement.innerHTML = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
   }
 
   fnBtnToggleToHome (){
@@ -93,8 +110,12 @@ export default class NavigationBarHandler {
     this.navigationBarElement.classList.remove('taro-navigation-bar-back')
   }
 
-  setNavigationBarVisible (show:boolean){
-    if(show) {
+  setNavigationBarVisible (){
+    let shouldShow =  this.pageContext.config.window?.navigationStyle
+    if (typeof this.pageContext.pageConfig?.navigationStyle === 'string'){
+      shouldShow = this.pageContext.pageConfig.navigationStyle
+    }
+    if(shouldShow === 'default') {
       this.navigationBarElement.classList.add('taro-navigation-bar-show')
       this.navigationBarElement.classList.remove('taro-navigation-bar-hide')
     } else {
