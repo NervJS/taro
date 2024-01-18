@@ -536,5 +536,63 @@ describe('生成转换报告及日志', () => {
     expect(resFileMap.has('/wxProject/taroConvert/report/static/css')).toBeTruthy()
     expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
   })
+
+  test('utils文件中不存在index.js文件', () => {
+    const UTILS_NO_INDEXJS_FILE = {
+      '/pages': {
+        '/index': {
+          '/index.js': `
+            const utils = require("../../utils")
+            Page ({
+              onLoad: function() {
+                utils.myFunction()
+              }
+            })
+          `,
+          '/index.json': `
+            {
+              "usingComponents": {
+                "utils": "/utils/utils"
+              }
+            }
+          `,
+          '/index.wxml': ``,
+          '/index.wxss': '',
+        }
+      },
+      '/utils': {
+        '/utils': {
+          '/utils.js': `
+            const myUtil = {
+              myFunction: function() {
+              }
+            }
+            module.exports = myUtil
+          `,
+          '/utils.json': `{}`,
+          '/utils.wxml': ``,
+          '/utils.wxss': '',
+        }
+      },
+      '/project.config.json': `{}`,
+      '/app.js': `App({})`,
+      '/app.json': `
+        {
+          "pages":[
+            "pages/index/index"
+          ]
+        }
+      `,
+    }
+
+    setMockFiles(root, UTILS_NO_INDEXJS_FILE)
+    const convertor = new Convertor(root,false)
+    convertor.run()
+
+    expect(resFileMap.has('/wxProject/taroConvert/report')).toBeTruthy()
+    expect(resFileMap.has('/wxProject/taroConvert/report/static/js')).toBeTruthy()
+    expect(resFileMap.has('/wxProject/taroConvert/report/static/css')).toBeTruthy()
+    expect(resFileMap.has('/wxProject/taroConvert/report/static/media')).toBeTruthy()
+  })
 })
  
