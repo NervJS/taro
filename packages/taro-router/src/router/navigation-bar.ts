@@ -60,7 +60,6 @@ export default class NavigationBarHandler {
     const currentRouter = this.pageContext.currentPage
     const isFirstLoad = ['reLaunch', ''].includes(methodName)
     this.fnBtnToggleToNone()
-    console.log(methodName)
     if (isFirstLoad) {
       if (currentRouter === this.pageContext.homePage) {
         this.fnBtnToggleToNone()
