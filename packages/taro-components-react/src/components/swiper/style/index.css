@@ -1,15 +1,7 @@
-.swiper-container-wrapper {
-    height: 150px;
-}
-
-.swiper-container {
-    height: 100%;
+.taro-swiper-h5 {
+  height: 150px;
 }
 
 .swiper-pagination {
-    font-size: 0;
-}
-
-.swiper-pagination-bullet {
-    opacity: 1
+  font-size: 0;
 }

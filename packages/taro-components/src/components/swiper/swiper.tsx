@@ -1,6 +1,6 @@
 import { Component, ComponentInterface, Element, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core'
 import SwiperJS from 'swiper'
-import { Autoplay, Navigation, Pagination, Zoom } from 'swiper/modules'
+import { Autoplay, Pagination, Zoom } from 'swiper/modules'
 
 import type ISwiper from 'swiper'
 import type { SwiperOptions } from 'swiper/types/swiper-options'
@@ -225,7 +225,7 @@ export class Swiper implements ComponentInterface {
     const that = this
 
     const options: SwiperOptions = {
-      modules: [Navigation, Pagination, Autoplay, Zoom],
+      modules: [Pagination, Autoplay, Zoom],
       pagination: {
         el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination`,
         clickable: true,
