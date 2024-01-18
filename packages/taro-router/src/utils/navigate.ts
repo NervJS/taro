@@ -1,3 +1,5 @@
+import { eventCenter } from "@tarojs/runtime"
+
 let preTitle = document.title
 let isLoadDdEntry = false
 
@@ -16,5 +18,6 @@ export async function setTitle (title: string): Promise<string> {
     const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default
     setDingTitle({ title })
   }
+  eventCenter.trigger('__taroH5SetNavigationTitle', title)
   return title
 }

@@ -1,4 +1,6 @@
 
+import { eventCenter } from '@tarojs/runtime'
+
 import { navigateBack,reLaunch } from '../api'
 import { loadNavigationBarStyle } from '../style'
 import stacks from './stack'
@@ -12,12 +14,9 @@ export default class NavigationBarHandler {
     this.pageContext = pageContext
     this.init()
     loadNavigationBarStyle()
-    // eventCenter.on('__taroH5SetNavigationStyle', (navigationBarTextStyle, _navigationBarBackgroundColor)=>{
-    //   if (!this.navigationBarElement) return
-    //   if(typeof navigationBarTextStyle === 'string') {
-    //     (this.navigationBarElement as HTMLElement).style.color = navigationBarTextStyle
-    //   }
-    // })
+    eventCenter.on('__taroH5SetNavigationTitle', (title)=>{
+      this.setTitle(title)
+    })
   }
 
   private toHomeFn () {
@@ -87,9 +86,15 @@ export default class NavigationBarHandler {
     (this.navigationBarElement as HTMLElement).style.background = navigationBarBackgroundColor
   }
 
-  setTitle () {
+  setTitle (title?) {
     if(!this.titleElement) return
-    this.titleElement.innerHTML = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
+    let proceedTitle
+    if(typeof title === 'string') {
+      proceedTitle = title
+    } else {
+      proceedTitle = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
+    }
+    this.titleElement.innerHTML = proceedTitle
   }
 
   fnBtnToggleToHome (){
@@ -110,10 +115,15 @@ export default class NavigationBarHandler {
     this.navigationBarElement.classList.remove('taro-navigation-bar-back')
   }
 
-  setNavigationBarVisible (){
-    let shouldShow =  this.pageContext.config.window?.navigationStyle
-    if (typeof this.pageContext.pageConfig?.navigationStyle === 'string'){
-      shouldShow = this.pageContext.pageConfig.navigationStyle
+  setNavigationBarVisible (show?){
+    let shouldShow
+    if (typeof show === 'boolean') {
+      shouldShow = show
+    } else {
+      shouldShow =  this.pageContext.config.window?.navigationStyle
+      if (typeof this.pageContext.pageConfig?.navigationStyle === 'string'){
+        shouldShow = this.pageContext.pageConfig.navigationStyle
+      }
     }
     if(shouldShow === 'default') {
       this.navigationBarElement.classList.add('taro-navigation-bar-show')
