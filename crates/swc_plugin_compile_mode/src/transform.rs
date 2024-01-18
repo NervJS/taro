@@ -4,6 +4,7 @@ use swc_core::{
         iter::IdentifyLast,
         util::take::Take,
         DUMMY_SP as span,
+        Spanned,
     },
     ecma::{
         self,
@@ -11,6 +12,7 @@ use swc_core::{
         visit::{VisitMut, VisitMutWith},
         utils::{quote_ident, quote_str},
     },
+    plugin::errors::HANDLER,
     atoms::Atom,
 };
 use std::collections::HashMap;
@@ -177,8 +179,13 @@ impl TransformVisitor {
                                 xs.to_string()
                             },
                             None => {
-                                // TODO error handler
-                                panic!("");
+                                HANDLER.with(|handler| {
+                                    handler
+                                        .struct_span_err(el.span, "Taro CompileMode 语法错误")
+                                        .span_label(el.span, "当前小程序平台不支持 xs 语法")
+                                        .emit();
+                                    panic!()
+                                })
                             }
                         };
                     }
@@ -264,12 +271,18 @@ impl TransformVisitor {
                                                                         Expr::Lit(lit) => {
                                                                             // 静态值：转换为字符串
                                                                             match lit {
-                                                                                Lit::Str(Str { value, .. }) => { return format!(r#"'{}'"#, value) },
-                                                                                Lit::Num(Number { value, .. }) => { return value.to_string() },
-                                                                                Lit::Bool(Bool { value, .. }) => { return value.to_string() },
+                                                                                Lit::Str(Str { value, .. }) => { format!(r#"'{}'"#, value) },
+                                                                                Lit::Num(Number { value, .. }) => { value.to_string() },
+                                                                                Lit::Bool(Bool { value, .. }) => { value.to_string() },
+                                                                                Lit::Null(_) => { String::from("null") },
                                                                                 _ => {
-                                                                                    // Todo error handler
-                                                                                    panic!("");
+                                                                                    HANDLER.with(|handler| {
+                                                                                        handler
+                                                                                            .struct_span_err(lit.span(), "Taro CompileMode 语法错误")
+                                                                                            .span_label(lit.span(), "暂不支持传递此种类型的参数")
+                                                                                            .emit();
+                                                                                        panic!()
+                                                                                    })
                                                                                 },
                                                                             }
                                                                         }
@@ -356,13 +369,25 @@ impl TransformVisitor {
             if module.is_some() {
                 self.xs_module_names.push(module.unwrap().to_string());
             } else {
-                // Todo panic
+                HANDLER.with(|handler| {
+                    handler
+                        .struct_span_err(opening_element.span, "Taro CompileMode 语法错误")
+                        .span_label(opening_element.span, "缺少 [module] 属性")
+                        .emit();
+                    panic!()
+                })
             }
             let source = props.get("src");
             if source.is_some() {
                 self.xs_sources.push(source.unwrap().to_string());
             } else {
-                // Todo panic
+                HANDLER.with(|handler| {
+                    handler
+                        .struct_span_err(opening_element.span, "Taro CompileMode 语法错误")
+                        .span_label(opening_element.span, "缺少 [src] 属性")
+                        .emit();
+                    panic!()
+                })
             }
         }
 
@@ -470,12 +495,18 @@ impl TransformVisitor {
                                                 match &mut*arg.expr {
                                                     Expr::Lit(lit) => {
                                                         match lit {
-                                                            Lit::Str(Str { value, .. }) => { return format!(r#""{}""#, value) },
-                                                            Lit::Num(Number { value, .. }) => { return value.to_string() },
-                                                            Lit::Bool(Bool { value, .. }) => { return value.to_string() },
+                                                            Lit::Str(Str { value, .. }) => { format!(r#""{}""#, value) },
+                                                            Lit::Num(Number { value, .. }) => { value.to_string() },
+                                                            Lit::Bool(Bool { value, .. }) => { value.to_string() },
+                                                            Lit::Null(_) => { String::from("null") },
                                                             _ => {
-                                                                // Todo error handler
-                                                                panic!("");
+                                                                HANDLER.with(|handler| {
+                                                                    handler
+                                                                        .struct_span_err(lit.span(), "Taro CompileMode 语法错误")
+                                                                        .span_label(lit.span(), "暂不支持传递此种类型的参数")
+                                                                        .emit();
+                                                                    panic!()
+                                                                })
                                                             },
                                                         }
                                                     }
