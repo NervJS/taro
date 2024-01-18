@@ -1,6 +1,8 @@
 const reactNativeBabelPreset = require('metro-react-native-babel-preset')
 
-module.exports = (_, options = {}) => {
+module.exports = (_, options = {
+  redirectPackagesImportPaths: true
+}) => {
   const {
     decoratorsBeforeExport,
     decoratorsLegacy
@@ -18,30 +20,37 @@ module.exports = (_, options = {}) => {
   const plugins = []
 
   presets.push(reactNativeBabelPreset(_, options))
-  plugins.push(
-    [require('babel-plugin-transform-imports-api').default, {
-      packagesApis: new Map([
-        ['@tarojs/taro', new Set(nativeInterfaces)],
-        ['@tarojs/taro-rn', new Set(nativeInterfaces)]
-      ]),
-      usePackgesImport: true, // Whether to use packagesImport
-      packagesImport: {
-        '^@tarojs/components(-rn)?$': {
-          transform: '@tarojs/components-rn/dist/components/${member}'
-        },
-        '^@tarojs/taro(-rn)?$': {
-          transform: (importName) => {
-            if (nativeLibs.includes(importName)) {
-              return `@tarojs/taro-rn/dist/lib/${importName}`
-            } else {
-              return '@tarojs/taro-rn/dist/api'
-            }
+
+  // 默认重新指向包路径
+  // @tarojs/taro => @tarojs/taro-rn
+  // @tarojs/component => @tarojs/component-rn
+  if (options.redirectPackagesImportPaths) {
+    plugins.push(
+      [require('babel-plugin-transform-imports-api').default, {
+        packagesApis: new Map([
+          ['@tarojs/taro', new Set(nativeInterfaces)],
+          ['@tarojs/taro-rn', new Set(nativeInterfaces)]
+        ]),
+        usePackgesImport: true, // Whether to use packagesImport
+        packagesImport: {
+          '^@tarojs/components(-rn)?$': {
+            transform: '@tarojs/components-rn/dist/components/${member}'
           },
-          skipDefaultConversion: true
+          '^@tarojs/taro(-rn)?$': {
+            transform: (importName) => {
+              if (nativeLibs.includes(importName)) {
+                return `@tarojs/taro-rn/dist/lib/${importName}`
+              } else {
+                return '@tarojs/taro-rn/dist/api'
+              }
+            },
+            skipDefaultConversion: true
+          }
         }
-      }
-    }],
-  )
+      }],
+    )
+  }
+
 
   plugins.push(
     [require('@babel/plugin-proposal-decorators'), {
