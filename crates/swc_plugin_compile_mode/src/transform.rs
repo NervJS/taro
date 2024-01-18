@@ -14,7 +14,7 @@ use swc_core::{
     atoms::Atom,
 };
 use std::collections::HashMap;
-use crate::PluginConfig;
+use crate::{PluginConfig, utils::as_xscript_expr_string};
 use crate::utils::{self, constants::*};
 
 struct PreVisitor {
@@ -137,7 +137,9 @@ pub struct TransformVisitor {
     pub is_compile_mode: bool,
     pub node_stack: Vec<i32>,
     pub templates: HashMap<String, String>,
-    pub get_tmpl_name: Box<dyn FnMut() -> String>
+    pub get_tmpl_name: Box<dyn FnMut() -> String>,
+    pub xs_module_names: Vec<String>,
+    pub xs_sources: Vec<String>,// TODO 返回给 JS 层
 }
 
 impl TransformVisitor {
@@ -150,38 +152,56 @@ impl TransformVisitor {
             is_compile_mode: false,
             node_stack: vec![],
             templates: HashMap::new(),
-            get_tmpl_name
+            get_tmpl_name,
+            xs_module_names: vec![], // TODO 每次CompileMode都初始化？
+            xs_sources: vec![],
         }
     }
 
     fn build_xml_element (&mut self, el: &mut JSXElement) -> String {
+        let is_inner_component = utils::is_inner_component(el, &self.config);
         let opening_element = &mut el.opening;
+
         match &opening_element.name {
             JSXElementName::Ident(ident) => {
-                let name = utils::to_kebab_case(ident.as_ref());
-                match self.config.components.get(&name) {
+                if is_inner_component {
                     // 内置组件
-                    Some(attrs_map) => {
-                        let attrs = self.build_xml_attrs(opening_element, attrs_map);
-                        if attrs.is_none() { return String::new() };
-                        let (children, ..) = self.build_xml_children(&mut el.children, None);
-                        format!("<{}{}>{}</{}>", name, attrs.unwrap(), children, name)
-                    },
-                    None => {
-                        // React 组件
-                        // 原生自定义组件
-                        let node_path = self.get_current_node_path();
-                        format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
+                    let mut name = utils::to_kebab_case(ident.as_ref());
+                    let attrs = self.build_xml_attrs(opening_element, &name);
+                    if attrs.is_none() { return String::new() };
+                    let (children, ..) = self.build_xml_children(&mut el.children, None);
+
+                    if utils::is_xscript(&name) {
+                        name = match self.config.adapter.get("xs") {
+                            Some(xs) => {
+                                xs.to_string()
+                            },
+                            None => {
+                                // TODO error handler
+                                panic!("");
+                            }
+                        };
                     }
+
+                    format!("<{}{}>{}</{}>", name, attrs.unwrap_or_default(), children, name)
+                } else {
+                    // React 组件
+                    // 原生自定义组件
+                    let node_path = self.get_current_node_path();
+                    format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path)
                 }
             }
             _ => String::new()
         }
     }
 
-    fn build_xml_attrs (&self, opening_element: &mut JSXOpeningElement, attrs_map: &HashMap<String, String>) -> Option<String> {
+    fn build_xml_attrs (&mut self, opening_element: &mut JSXOpeningElement, element_name: &str) -> Option<String> {
         let mut props = HashMap::new();
         let mut attrs_string = String::new();
+        let attrs_map = self.config.components.get(element_name).unwrap();
+        let is_xscript = utils::is_xscript(element_name);
+        let mut attrs_wait_for_inserting: Vec<JSXAttrOrSpread> = vec![];
+        let mut get_xs_attrs_name = utils::named_iter("xs".into());
 
         opening_element.attrs.retain_mut(|attr| {
             if let JSXAttrOrSpread::JSXAttr(jsx_attr) = attr {
@@ -195,7 +215,7 @@ impl TransformVisitor {
                     let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
                     let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
                     let is_event = event_name.is_some();
-                    match &jsx_attr.value {
+                    match &mut jsx_attr.value {
                         Some(jsx_attr_value) => {
                             match jsx_attr_value {
                                 JSXAttrValue::Lit(Lit::Str(Str { value, ..  })) => {
@@ -205,14 +225,80 @@ impl TransformVisitor {
                                         return false
                                     }
                                 },
-                                JSXAttrValue::JSXExprContainer(..) => {
+                                JSXAttrValue::JSXExprContainer(JSXExprContainer { expr: jsx_expr, .. }) => {
                                     let mut node_path = self.get_current_node_path();
+
+                                    // 处理事件属性
                                     if is_event {
                                         props.insert(event_name.unwrap(), String::from(EVENT_HANDLER));
                                         if props.get(DATA_SID).is_none() {
                                             props.insert(String::from(DATA_SID), format!("{{{{{}.sid}}}}", node_path));
                                         }
                                         return true
+                                    }
+
+                                    // 处理 wxs 表达式属性
+                                    if self.is_xscript_used() {
+                                        if let JSXExpr::Expr(expr) = jsx_expr {
+                                            match &mut **expr {
+                                                // wxs 表达式
+                                                Expr::Member(member) => {
+                                                    let expr_string = as_xscript_expr_string(member, &self.xs_module_names);
+                                                    if expr_string.is_some() {
+                                                        let miniapp_attr_value = utils::gen_template(&expr_string.unwrap());
+                                                        // 将结果输出到 <template>
+                                                        props.insert(miniapp_attr_name, miniapp_attr_value);
+                                                        // 该属性看作静态属性，可以从 JSX 中删除
+                                                        return false
+                                                    }
+                                                },
+                                                // wxs 调用表达式
+                                                Expr::Call(CallExpr { callee: Callee::Expr(callee_expr), args, .. }) => {
+                                                    if callee_expr.is_member() {
+                                                        let expr_string = as_xscript_expr_string(callee_expr.as_member().unwrap(), &self.xs_module_names);
+                                                        if expr_string.is_some() {
+                                                            // 处理参数
+                                                            let args_string: Vec<String> = args.iter_mut()
+                                                                .map(|arg| {
+                                                                    match &*arg.expr {
+                                                                        Expr::Lit(lit) => {
+                                                                            // 静态值：转换为字符串
+                                                                            match lit {
+                                                                                Lit::Str(Str { value, .. }) => { return format!(r#"'{}'"#, value) },
+                                                                                Lit::Num(Number { value, .. }) => { return value.to_string() },
+                                                                                Lit::Bool(Bool { value, .. }) => { return value.to_string() },
+                                                                                _ => {
+                                                                                    // Todo error handler
+                                                                                    panic!("");
+                                                                                },
+                                                                            }
+                                                                        }
+                                                                        _ => {
+                                                                            // 表达式
+                                                                            let name = get_xs_attrs_name();
+                                                                            let expr = arg.expr.take();
+                                                                            // 把表达式记录下来，后续插入到相同节点的 JSX Attribute 中
+                                                                            attrs_wait_for_inserting.push(JSXAttrOrSpread::JSXAttr(JSXAttr {
+                                                                                span,
+                                                                                name: JSXAttrName::Ident(quote_ident!(name.clone())),
+                                                                                value: Some(JSXAttrValue::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(expr) }))
+                                                                            }));
+                                                                            format!("{}.{}", node_path, name)
+                                                                        }
+                                                                    }
+                                                                })
+                                                                .collect();
+                                                            // 将结果输出到 <template>
+                                                            let miniapp_attr_value = utils::gen_template(&format!("{}({})", expr_string.unwrap(), args_string.join(",")));
+                                                            props.insert(miniapp_attr_name, miniapp_attr_value);
+                                                            // 把该属性从 JSX 中删除
+                                                            return false
+                                                        }
+                                                    }
+                                                },
+                                                _ => ()
+                                            }
+                                        }
                                     }
 
                                     // 小程序组件标准属性 -> 取 @tarojs/shared 传递过来的属性值；非标准属性 -> 取属性名
@@ -225,7 +311,7 @@ impl TransformVisitor {
                                         format!("{}{}", node_path, value)
                                     };
                                     // 得出最终的模板属性值
-                                    let miniapp_attr_value = format!("{{{{{}}}}}", value);
+                                    let miniapp_attr_value = utils::gen_template(&value);
 
                                     props.insert(miniapp_attr_name, miniapp_attr_value);
                                 },
@@ -254,9 +340,30 @@ impl TransformVisitor {
             return true
         });
 
+        // 插入需要额外放进到 JSX Attribute 的属性
+        for item in attrs_wait_for_inserting {
+            opening_element.attrs.push(item)
+        }
+
         // 组件包含事件，但没有设置自定义 id 的话，把 id 设为 sid
         if props.get(DATA_SID).is_some() && props.get(ID).is_none() {
             props.insert(String::from(ID), props.get(DATA_SID).unwrap().clone());
+        }
+
+        // 收集 wxs 标签上的 module 和 src 属性
+        if is_xscript {
+            let module = props.get("module");
+            if module.is_some() {
+                self.xs_module_names.push(module.unwrap().to_string());
+            } else {
+                // Todo panic
+            }
+            let source = props.get("src");
+            if source.is_some() {
+                self.xs_sources.push(source.unwrap().to_string());
+            } else {
+                // Todo panic
+            }
         }
 
         // 生成的 template 需要幂等
@@ -276,15 +383,16 @@ impl TransformVisitor {
         Some(attrs_string)
     }
 
-    fn build_xml_children (&mut self, children: &mut Vec<JSXElementChild>, retain_start_from: Option<i32>) -> (String, i32) {
+    fn build_xml_children (&mut self, children: &mut Vec<JSXElementChild>, retain_start_from: Option<u32>) -> (String, u32) {
         let mut children_string = String::new();
         let start = if retain_start_from.is_some() { retain_start_from.unwrap() } else { 0 };
         let mut retain_child_counter = start;
+        let mut jsx_exprs_wait_for_inserting: HashMap<u32, Box<Expr>> = HashMap::new();
 
         children
             .retain_mut(|child| {
                 let mut is_retain = true;
-                self.node_stack.push(retain_child_counter);
+                self.node_stack.push(retain_child_counter as i32);
                 match child {
                     JSXElementChild::JSXElement(child_el) => {
                         let child_string = self.build_xml_element(&mut **child_el);
@@ -345,16 +453,79 @@ impl TransformVisitor {
                                     let tmpl = format!(r#"<template is="{{{{xs.a(c, {}.nn, l)}}}}" data="{{{{i:{},c:c+1,l:xs.f(l,{}.nn)}}}}" />"#, node_path, node_path, node_path);
                                     children_string.push_str(&tmpl)
                                 } else {
-                                    let code = utils::gen_template_v(&node_path);
+                                    let mut xscript_expr_string: Option<String> = None;
+
+                                    if self.is_xscript_used() && callee_expr.is_member() {
+                                        // 判断 callee 是否 wxs 表达式
+                                        xscript_expr_string = utils::as_xscript_expr_string(callee_expr.as_member().unwrap(), &self.xs_module_names);
+                                    }
+
+                                    let code: String = if xscript_expr_string.is_some() {
+                                        // wxs 调用表达式
+                                        // 1. 处理参数
+                                        //   1.1 将每个参数生成对应的 <template> 中的字符串，静态参数和动态参数分开处理
+                                        //   1.2 把动态参数记录下来，稍后插入回去 JSX 中
+                                        let args_string: String = args.iter_mut()
+                                            .map(|arg| {
+                                                match &mut*arg.expr {
+                                                    Expr::Lit(lit) => {
+                                                        match lit {
+                                                            Lit::Str(Str { value, .. }) => { return format!(r#""{}""#, value) },
+                                                            Lit::Num(Number { value, .. }) => { return value.to_string() },
+                                                            Lit::Bool(Bool { value, .. }) => { return value.to_string() },
+                                                            _ => {
+                                                                // Todo error handler
+                                                                panic!("");
+                                                            },
+                                                        }
+                                                    }
+                                                    _ => {
+                                                        let expr = arg.expr.take();
+                                                        jsx_exprs_wait_for_inserting.insert(retain_child_counter, expr);
+                                                        self.node_stack.pop();
+                                                        self.node_stack.push(retain_child_counter as i32);
+                                                        let node_path = self.get_current_node_path();
+                                                        retain_child_counter = retain_child_counter + 1;
+                                                        format!("{}.v", node_path)
+                                                    }
+                                                }
+                                            })
+                                            .collect::<Vec<String>>()
+                                            .join(",");
+                                        // 2. 在 JSX 中删除此 JSX 表达式
+                                        is_retain = false;
+                                        // 3. 将结果直接输出到 <template>
+                                        utils::gen_template(&format!("{}({})", xscript_expr_string.unwrap(), args_string))
+                                    } else {
+                                        // 正常的调用表达式，当作文本节点渲染
+                                        utils::gen_template_v(&node_path)
+                                    };
                                     children_string.push_str(&code);
                                 }
                             },
                             _ => {
-                                let code = utils::gen_template_v(&node_path);
+                                let mut xscript_expr_string: Option<String> = None;
+
+                                if self.is_xscript_used() && jsx_expr.is_member() {
+                                    // 判断是否 wxs 表达式
+                                    xscript_expr_string = utils::as_xscript_expr_string(jsx_expr.as_member().unwrap(), &self.xs_module_names);
+                                }
+
+                                let code: String = if xscript_expr_string.is_some() {
+                                    // wxs 表达式，可以从 JSX 中删除，将结果直接输出到 <template>
+                                    is_retain = false;
+                                    utils::gen_template(&xscript_expr_string.unwrap())
+                                } else {
+                                    // 正常的表达式，当作文本节点渲染
+                                    utils::gen_template_v(&node_path)
+                                };
+
                                 children_string.push_str(&code);
                             }
                         }
-                        retain_child_counter = retain_child_counter + 1
+                        if is_retain {
+                            retain_child_counter = retain_child_counter + 1
+                        }
                     },
                     JSXElementChild::JSXText(JSXText { value, .. }) => {
                         let content = utils::jsx_text_to_string(value);
@@ -374,13 +545,23 @@ impl TransformVisitor {
                         } else {
                             retain_child_counter += inner_retain;
                         }
-                        self.node_stack.push(retain_child_counter);
+                        self.node_stack.push(retain_child_counter as i32);
                     },
                     _ => ()
                 }
                 self.node_stack.pop();
                 return is_retain
             });
+
+        // children 里使用了 wxs 函数，需要把该 wxs 函数用到的动态参数插回到 children 里。
+        if jsx_exprs_wait_for_inserting.len() > 0 {
+            let mut xs_args_ids: Vec<u32> = jsx_exprs_wait_for_inserting.keys().map(|k| k.clone()).collect();
+            xs_args_ids.sort();
+            for key in xs_args_ids {
+                let value = jsx_exprs_wait_for_inserting.remove(&key).unwrap();
+                children.insert(key as usize, JSXElementChild::JSXExprContainer(JSXExprContainer { span, expr: JSXExpr::Expr(value) }));
+            }
+        }
 
         (children_string, retain_child_counter - start)
     }
@@ -415,6 +596,10 @@ impl TransformVisitor {
                 acc.push_str(&str);
                 return acc;
             })
+    }
+
+    fn is_xscript_used (&self) -> bool {
+        return self.xs_module_names.len() > 0
     }
 }
 

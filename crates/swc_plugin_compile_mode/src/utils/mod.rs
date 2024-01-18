@@ -114,7 +114,7 @@ pub fn identify_jsx_event_key (val: &str) -> Option<String> {
     }
 }
 
-pub fn is_inner_component (el: &mut Box<JSXElement>, config: &PluginConfig) -> bool {
+pub fn is_inner_component (el: &JSXElement, config: &PluginConfig) -> bool {
     let opening = &el.opening;
     if let JSXElementName::Ident(Ident { sym, .. }) = &opening.name {
         let name = to_kebab_case(&sym);
@@ -320,8 +320,42 @@ pub fn create_original_node_renderer (visitor: &mut TransformVisitor) -> String 
     add_spaces_to_lines(format!("ForEach(this.{}.childNodes, item => {{\n  createNode(item)\n}}, item => item._nid)", visitor.node_name.last().unwrap().clone()).as_str())
 }
 
+pub fn gen_template (val: &str) -> String {
+    format!("{{{{{}}}}}", val)
+}
+
 pub fn gen_template_v (node_path: &str) -> String {
     format!("{{{{{}.v}}}}", node_path)
+}
+
+pub fn is_xscript (name: &str) -> bool {
+    return name == SCRIPT_TAG
+}
+
+pub fn as_xscript_expr_string (member: &MemberExpr, xs_module_names: &Vec<String>) -> Option<String> {
+    if !member.prop.is_ident() {
+        return None;
+    }
+    let prop = member.prop.as_ident().unwrap().sym.to_string();
+
+    match &*member.obj {
+        Expr::Member(lhs) => {
+            let res = as_xscript_expr_string(lhs, xs_module_names);
+            if res.is_some() {
+                let obj = res.unwrap();
+                return Some(format!("{}.{}", obj, prop));
+            }
+        },
+        Expr::Ident(ident) => {
+            let obj = ident.sym.to_string();
+            if xs_module_names.contains(&obj) {
+                return Some(format!("{}.{}", obj, prop));
+            }
+        },
+        _ => ()
+    }
+
+    return None
 }
 
 #[test]

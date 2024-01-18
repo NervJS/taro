@@ -15,6 +15,7 @@ pub const REACT_RESERVED: [&str; 2] = ["key", "ref"];
 pub const VIEW_TAG: &str = "view";
 pub const TEXT_TAG: &str = "text";
 pub const IMAGE_TAG: &str = "image";
+pub const SCRIPT_TAG: &str = "script";
 
 pub const HARMONY_IMPORTER: &str = "import { FlexManager } from './utils/FlexManager'
 import { getNodeThresholds, getNormalAttributes, getTextAttributes } from './utils/helper'
