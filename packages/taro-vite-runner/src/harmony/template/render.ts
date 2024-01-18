@@ -116,51 +116,14 @@ function createChildItem (item: TaroElement) {
   }
 }
 
-function getTop (node: TaroElement): Length | number {
-  return node?.hmStyle?.top || 0
-}
-
-function getLeft (node: TaroElement): Length | number {
-  return node?.hmStyle?.left || 0
-}
-
-@Builder
-function createChildItemWithPosition (item: TaroElement) {
-  if (item?.hmStyle?.position === 'absolute' || item?.hmStyle?.position === 'fixed') {
-    Stack({ alignContent: Alignment.TopStart }) {
-      createChildItem(item)
-    }
-    .position({
-      x: getLeft(item),
-      y: getTop(item)
-    })
-    .id(item?._attrs?.id || item?._nid)
-    .key(item?._attrs?.id || item?._nid)
-    .zIndex(Number(item?.hmStyle?.zIndex) || null)
-  } else if ((item?.hmStyle?.position === 'relative')) {
-    Stack({ alignContent: Alignment.TopStart }) {
-      createChildItem(item)
-    }
-    .offset({
-      x: getLeft(item),
-      y: getTop(item)
-    })
-    .id(item?._attrs?.id || item?._nid)
-    .key(item?._attrs?.id || item?._nid)
-    .zIndex(Number(item?.hmStyle?.zIndex) || null)
-  } else {
-    createChildItem(item)
-  }
-}
-
 @Builder
 function createLazyChildren (node: TaroElement) {
   LazyForEach(node, (item: TaroElement) => {
-    createChildItemWithPosition(item)
+    createChildItem(item)
   }, (item: TaroElement) => \`\${item._nid}\${item._updateTrigger}\`)
 }
 
-export { createChildItem, createChildItemWithPosition, createLazyChildren }
+export { createChildItem, createLazyChildren }
 `
 
     return renderContent

@@ -1,80 +1,16 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
+import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { shouldBindEvent, getNormalAttributes, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import { TaroEvent, TaroAny, TaroStyleType, HarmonyType, TaroRadioGroupElement, TaroRadioElement } from '@tarojs/runtime'
+import { TaroEvent, TaroAny, HarmonyType, TaroRadioGroupElement, TaroRadioElement } from '@tarojs/runtime'
 
 interface RadioAttrs {
   radioStyle?: HarmonyType.RadioStyle
   themeStyles?: boolean
-}
-
-@Extend(Radio)
-function style (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width)
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor)
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
 }
 
 @Extend(Radio)
@@ -117,7 +53,7 @@ export struct TaroRadio {
             value: this.node.value || '',
           })
             .checked(this.node.checked)
-            .style(getNormalAttributes(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node))
             .radioAttr(getAttributes(this.node))
             .onChange((value: boolean) => {
               if (this.node) {
@@ -156,136 +92,6 @@ export struct TaroRadio {
   }
 }
 
-@Extend(Column)
-function radioGroupColumnAttrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width)
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor)
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
-
-@Extend(Row)
-function radioGroupRowAttrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width)
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor)
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
-
 
 @Component
 export struct TaroRadioGroup {
@@ -322,7 +128,7 @@ export struct TaroRadioGroup {
         Row() {
           createLazyChildren(this.node)
         }
-        .radioGroupRowAttrs(getNormalAttributes(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node))
         .defaultEvent()
         .visibleChangeEvent()
         .alignItems(FlexManager.flexOptions(this.node).alignItems as VerticalAlign)
@@ -331,7 +137,7 @@ export struct TaroRadioGroup {
         Column() {
           createLazyChildren(this.node)
         }
-        .radioGroupColumnAttrs(getNormalAttributes(this.node))
+        .attributeModifier(commonStyleModify.setNode(this.node))
         .defaultEvent()
         .visibleChangeEvent()
         .alignItems(FlexManager.flexOptions(this.node).alignItems as HorizontalAlign)

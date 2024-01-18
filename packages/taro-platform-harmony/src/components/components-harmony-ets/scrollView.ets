@@ -1,10 +1,11 @@
 import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
+import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroStyleType, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState
@@ -21,135 +22,6 @@ interface ScrollViewEvent {
   scrollWidth: number
   scrollHeight: number
 }
-
-@Extend(Row)
-function rowAttrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth || style.width,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor)
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
-
-@Extend(Column)
-function columnAttrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight || style.height,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor)
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
-
 
 function getAttributes (node: TaroScrollViewElement): ScrollViewAttrs {
   const _attrs = node._attrs
@@ -192,7 +64,7 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
           createLazyChildren(node)
         }
         .width(null)
-        .rowAttrs(getNormalAttributes(node))
+        .attributeModifier(commonStyleModify.setNode(node))
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           node._scroll = areaResult
         }, node, ['scroll', 'scrollstart', 'scrollend']))
@@ -201,7 +73,7 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
           createLazyChildren(node)
         }
         .height(null)
-        .columnAttrs(getNormalAttributes(node))
+        .attributeModifier(commonStyleModify.setNode(node))
         .alignItems(HorizontalAlign.Start)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           node._scroll = areaResult

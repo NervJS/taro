@@ -1,143 +1,14 @@
 import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, TaroPickerElement, createTaroEvent } from '@tarojs/runtime'
 import { createLazyChildren } from './render'
+import commonStyleModify from './style'
 import { getSingleSelector, getMultiSelector } from './utils'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
 import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroAny, TaroStyleType, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroEvent } from '@tarojs/runtime'
 
 import { PickerDateProps, PickerMultiSelectorProps, PickerSelectorProps, PickerTimeProps } from './types'
-
-@Extend(TextPicker)
-function textPickerAttrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width || '100%')
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor || '#fff')
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
-
-@Extend(DatePicker)
-function datePickerAttrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width || '100%')
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor || '#fff')
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
 
 interface TimeRange {
   startHH: number
@@ -275,7 +146,9 @@ export struct PickerView {
               color: '#000'
             })
             .canLoop(false)
-            .textPickerAttrs(getNormalAttributes(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node))
+            .width(getNormalAttributes(this.node).width || '100%')
+            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
             .onChange((_, index) => {
               this.node?.updateFormWidgetValue(index)
             })
@@ -285,7 +158,9 @@ export struct PickerView {
               color: '#000'
             })
             .canLoop(false)
-            .textPickerAttrs(getNormalAttributes(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node))
+            .width(getNormalAttributes(this.node).width || '100%')
+            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
             .onChange((_, index) => {
               if (index instanceof Array) {
                 this.node?.updateFormWidgetValue(index)
@@ -312,7 +187,9 @@ export struct PickerView {
             .selectedTextStyle({
               color: '#000'
             })
-            .datePickerAttrs(getNormalAttributes(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node))
+            .width(getNormalAttributes(this.node).width || '100%')
+            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
             .onDateChange(value => {
               const data = value.toLocaleDateString().split('/')
               const day = data[1]
@@ -326,7 +203,9 @@ export struct PickerView {
               color: '#000'
             })
             .canLoop(false)
-            .textPickerAttrs(getNormalAttributes(this.node))
+            .attributeModifier(commonStyleModify.setNode(this.node))
+            .width(getNormalAttributes(this.node).width || '100%')
+            .backgroundColor(getNormalAttributes(this.node).backgroundColor || '#fff')
             .onChange((value) => {
               this.node?.updateFormWidgetValue(`${('00'+value[0]).slice(-2)}:${('00'+value[1]).slice(-2)}`)
             })

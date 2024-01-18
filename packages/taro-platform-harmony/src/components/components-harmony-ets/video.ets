@@ -1,9 +1,10 @@
 import { AREA_CHANGE_EVENT_NAME, eventHandler, getComponentEventCallback, VISIBLE_CHANGE_EVENT_NAME, createTaroEvent } from '@tarojs/runtime'
 
+import commonStyleModify from './style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
-import type { TaroStyleType, TaroAny, TaroVideoElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroVideoElement, TaroEvent } from '@tarojs/runtime'
 
 export interface VideoOptions {
   src?: string | Resource
@@ -19,71 +20,6 @@ export interface VideoAttrs {
 }
 export interface VideoUpdateEvent {
   time: number
-}
-
-@Extend(Video)
-function attrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width)
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundColor(style.backgroundColor)
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .borderWidth({
-    top: style.borderTopWidth,
-    right: style.borderRightWidth,
-    bottom: style.borderBottomWidth,
-    left: style.borderLeftWidth
-  })
-  .borderColor({
-    top: style.borderTopColor,
-    right: style.borderRightColor,
-    bottom: style.borderBottomColor,
-    left: style.borderLeftColor
-  })
-  .borderRadius({
-    topLeft: style.borderTopLeftRadius,
-    topRight: style.borderTopRightRadius,
-    bottomLeft: style.borderBottomLeftRadius,
-    bottomRight: style.borderBottomRightRadius
-  })
-  .zIndex(style.zIndex)
-  .opacity(style.opacity)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
 }
 
 @Extend(Video)
@@ -145,7 +81,7 @@ function handleUpdate (node: TaroVideoElement, e: VideoUpdateEvent) {
 @Builder
 export default function TaroVideo (node: TaroVideoElement) {
   Video(getVideoData(node))
-    .attrs(getNormalAttributes(node))
+    .attributeModifier(commonStyleModify.setNode(node))
     .props(getVideoProps(node))
     .aspectRatio(4 / 3)
     .onStart(shouldBindEvent(() => { emitEvent(node, 'play') }, node, ['play']))

@@ -1,55 +1,11 @@
 import { eventHandler, createTaroEvent, convertNumber2VP, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBLE_CHANGE_EVENT_NAME } from '@tarojs/runtime'
 import { createLazyChildren } from './render'
+import commonStyleModify from './style'
 import { BUTTON_THEME_COLOR } from './utils/constant/style'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
-import { getNormalAttributes, shouldBindEvent, getNodeThresholds } from './utils/helper'
+import { shouldBindEvent, getNodeThresholds } from './utils/helper'
 
 import type { TaroAny, TaroEvent, TaroButtonElement, TaroStyleType } from '@tarojs/runtime'
-
-@Extend(Button)
-function attrs (style: TaroStyleType) {
-  .id(style.id)
-  .key(style.id)
-  .flexGrow(style.flexGrow)
-  .flexShrink(style.flexShrink)
-  .flexBasis(style.flexBasis)
-  .alignSelf(style.alignSelf)
-  .padding({
-    top: style.paddingTop,
-    right: style.paddingRight || 10,
-    bottom: style.paddingBottom,
-    left: style.paddingLeft || 10
-  })
-  .margin({
-    top: style.marginTop,
-    right: style.marginRight,
-    bottom: style.marginBottom,
-    left: style.marginLeft
-  })
-  .width(style.width)
-  .height(style.height)
-  .constraintSize({
-    minWidth: style.minWidth,
-    maxWidth: style.maxWidth,
-    minHeight: style.minHeight,
-    maxHeight: style.maxHeight
-  })
-  .backgroundImage(style.backgroundImage?.src, style.backgroundRepeat)
-  .backgroundImageSize(style.backgroundSize)
-  .backgroundImagePosition(style.backgroundPosition)
-  .borderStyle({
-    top: style.borderTopStyle,
-    right: style.borderRightStyle,
-    bottom: style.borderBottomStyle,
-    left: style.borderLeftStyle
-  })
-  .zIndex(style.zIndex)
-  .linearGradient(style.linearGradient)
-  .clip(style.overflow)
-  .rotate({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y, angle: 0 })
-  .scale({ centerX: style.transformOrigin?.x, centerY: style.transformOrigin?.y })
-  .transform(style.transform)
-}
 
 @Extend(Button)
 function themeStyles(style: TaroStyleType) {
@@ -151,7 +107,7 @@ export default function TaroButton (node: TaroButtonElement) {
     }
   }
   .themeStyles(getThemeAttributes(node))
-  .attrs(getNormalAttributes(node))
+  .attributeModifier(commonStyleModify.setNode(node))
   .constraintSize({
     minWidth: node.hmStyle?.minWidth || getButtonMinWidth(node),
     minHeight: node.hmStyle?.minHeight || getButtonMinHeight(node),
