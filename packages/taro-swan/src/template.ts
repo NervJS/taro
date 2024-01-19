@@ -18,6 +18,7 @@ interface TemplateOptions {
 
 export class Template extends RecursiveTemplate {
   supportXS = true
+  isXMLSupportRecursiveReference = false
 
   Adapter = {
     if: 's-if',
@@ -62,8 +63,8 @@ export class Template extends RecursiveTemplate {
     return result
   }
 
-  buildXsTemplate () {
-    return '<import-sjs module="xs" src="./utils.sjs" />'
+  buildXsTemplate (filePath = './utils') {
+    return `<import-sjs module="xs" src="${filePath}.sjs" />`
   }
 
   dataKeymap (keymap: string) {
