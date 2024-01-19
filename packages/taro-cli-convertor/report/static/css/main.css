@@ -287,6 +287,8 @@
   line-height: 20px;
   color: #252b3a;
   white-space: pre-wrap;
+  letter-spacing: 0.5px;
+  word-spacing: 2px;
 }
 
 .suggestion-wrapper {
@@ -322,6 +324,8 @@
   margin-top: 12px;
   padding: 12px;
   font-size: 12px;
+  letter-spacing: 0.5px;
+  word-spacing: 2px;
   line-height: 20px;
   color: #ffffff;
   white-space: pre-wrap;
