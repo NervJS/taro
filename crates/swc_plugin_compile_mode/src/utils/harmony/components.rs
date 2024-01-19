@@ -2,13 +2,9 @@ use crate::{transform_harmony::EtsDirection, utils};
 
 pub fn get_component_attr_str (node_name: &str, tag_name: &str) -> String {
   if tag_name == "text" {
-    format!(".textNormalFontStyle(getNormalAttributes(this.{} as TaroElement))\n.textSpecialFontStyle(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
-  } else if tag_name == "image" {
-    format!(".attrsImage(getNormalAttributes(this.{} as TaroElement))", node_name)
-  } else if tag_name == "row" {
-    format!(".rowAttrs(getNormalAttributes(this.{} as TaroElement))", node_name)
+    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.textSpecialFontStyle(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
   } else {
-    format!(".columnAttrs(getNormalAttributes(this.{} as TaroElement))", node_name)
+    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))", node_name)
   }
 }
 

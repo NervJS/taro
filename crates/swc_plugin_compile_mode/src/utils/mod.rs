@@ -215,8 +215,7 @@ pub fn get_harmony_component_style (visitor: &mut TransformVisitor) -> String {
             harmony_component_style.push_str(component_style);
         }
     };
-
-    build_component(VIEW_TAG, HARMONY_FLEX_STYLE_BIND);
+    
     build_component(IMAGE_TAG, HARMONY_IMAGE_STYLE_BIND);
     build_component(TEXT_TAG, HARMONY_TEXT_STYLE_BIND);
 
