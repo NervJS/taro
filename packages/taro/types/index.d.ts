@@ -135,6 +135,7 @@
 /// <reference path="taro.component.d.ts" />
 /// <reference path="taro.config.d.ts" />
 /// <reference path="taro.lifecycle.d.ts" />
+/// <reference path="taro.runtime.d.ts" />
 
 /// <reference types="@tarojs/plugin-platform-alipay/types/shims-alipay" />
 /// <reference types="@tarojs/plugin-platform-jd/types/shims-jd" />
