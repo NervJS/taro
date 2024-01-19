@@ -1,3 +1,6 @@
+@import '../../../styles/base/variable/weui-button';
+@import '../../../styles/widget/weui-cell/weui-cells__group';
+
 .taro-checkbox {
   display: inline-block;
   position: relative;
@@ -33,7 +36,7 @@
       font-variant: normal;
       font-size: inherit;
       color: inherit;
-      content: "\EA08";
+      content: '\EA08';
       transform: translate(-50%, -48%) scale(0.73);
       speak: none;
     }

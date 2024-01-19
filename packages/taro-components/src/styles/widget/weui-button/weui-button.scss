@@ -1,0 +1,105 @@
+@import 'weui-btn_global';
+@import 'weui-btn_default';
+@import 'weui-btn_primary';
+@import 'weui-btn_warn';
+@import 'weui-btn_disabled';
+@import 'weui-btn_loading';
+@import 'weui-btn_plain';
+
+button,
+input {
+  &.weui-btn {
+    width: 100%;
+    border-width: 0;
+    outline: 0;
+    -webkit-appearance: none;
+    &:focus {
+      outline: 0;
+    }
+  }
+  &.weui-btn_inline,
+  &.weui-btn_mini {
+    width: auto;
+  }
+
+  &.weui-btn_plain-primary,
+  &.weui-btn_plain-default {
+    border-width: 1px;
+    background-color: transparent;
+  }
+}
+
+.weui-btn_mini {
+  display: inline-block;
+  // width: auto;
+  // line-height: calc((32 - 12) / 14);
+  padding: 0 1.32em; // 6px 12px;
+  font-size: $weuiBtnMiniFontSize; // 14px;
+  line-height: $weuiBtnMiniHeight;
+  // border-radius: 6px;
+}
+
+// .weui-btn_xmini {
+//   display: inline-block;
+//   width: auto;
+//   padding: 4px 12px;
+//   line-height: calc((28 - 8) / 14);
+//   font-size: 14px;
+//   font-weight: 500;
+//   border-radius: 4px;
+// }
+
+/* gap between btn */
+.weui-btn {
+  & + .weui-btn {
+    margin-top: $weuiBtnDefaultGap;
+  }
+  // &.weui-btn_mini + .weui-btn.weui-btn_mini {
+  //   margin-top: auto;
+  // }
+  // &.weui-btn_xmini + .weui-btn.weui-btn_xmini {
+  //   margin-top: auto;
+  // }
+}
+
+.weui-btn.weui-btn_inline + .weui-btn.weui-btn_inline {
+  margin-top: auto;
+  margin-left: $weuiBtnDefaultGap;
+}
+
+.weui-btn-area {
+  // margin: 48px $weuiBtnDefaultGap 8px;
+  margin: $weuiCellsMarginTop $weuiBtnDefaultGap .3em;
+}
+.weui-btn-area_inline {
+  display: flex;
+  .weui-btn {
+    margin-top: auto;
+    margin-right: $weuiBtnDefaultGap;
+    width: 100%;
+    flex: 1;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+// .weui-btn_reset {
+//   background: transparent;
+//   border: 0;
+//   padding: 0;
+//   outline: 0;
+//   font-size: inherit;
+// }
+// .weui-btn_icon {
+//   background: transparent;
+//   border: 0;
+//   padding: 0;
+//   outline: 0;
+//   font-size: 0;
+//   &:active {
+//     [class*="weui-icon-"] {
+//       color: var(--weui-FG-1);
+//     }
+//   }
+// }

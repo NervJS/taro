@@ -1,0 +1,45 @@
+.weui-cells_checkbox {
+  // .weui-check__label {
+  //   &::before { left: 55px; }
+  // }
+  .weui-cell__hd {
+    padding-right: $weuiCellInnerGapH;
+    // font-size: 0;
+  }
+  .weui-icon-checked {
+    &::before {
+      content: '\EA01';
+      color: #C9C9C9;
+      font-size: 23px;
+      display: block;
+    }
+  }
+  // .weui-icon-checked {
+  //   color: $weuiTextColorTips;
+  //   mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%221000%22%20height%3D%221000%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M500%20916.667C269.881%20916.667%2083.333%20730.119%2083.333%20500%2083.333%20269.881%20269.881%2083.333%20500%2083.333c230.119%200%20416.667%20186.548%20416.667%20416.667%200%20230.119-186.548%20416.667-416.667%20416.667zm0-50c202.504%200%20366.667-164.163%20366.667-366.667%200-202.504-164.163-366.667-366.667-366.667-202.504%200-366.667%20164.163-366.667%20366.667%200%20202.504%20164.163%20366.667%20366.667%20366.667z%22%20fill-rule%3D%22evenodd%22%20fill-opacity%3D%22.9%22%2F%3E%3C%2Fsvg%3E);
+  // }
+}
+
+// method2 accessbility
+.weui-check {
+  // checkbox
+  .weui-cells_checkbox & {
+    &:checked {
+      &+.weui-icon-checked {
+        &:before {
+          content: '\EA06';
+          color: #09BB07; // $weuiColorPrimary;
+        }
+      }
+    }
+  }
+  // .weui-cells_checkbox & {
+  //   &:checked,
+  //   &[aria-checked="true"] {
+  //     & + .weui-icon-checked {
+  //       color: $weuiColorPrimary;
+  //       mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%2022C6.477%2022%202%2017.523%202%2012S6.477%202%2012%202s10%204.477%2010%2010-4.477%2010-10%2010zm-1.177-7.86l-2.765-2.767L7%2012.431l3.119%203.121a1%201%200%20001.414%200l5.952-5.95-1.062-1.062-5.6%205.6z%22%2F%3E%3C%2Fsvg%3E);
+  //     }
+  //   }
+  // }
+}

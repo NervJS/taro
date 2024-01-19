@@ -1,0 +1,120 @@
+.weui-form-preview{
+  position: relative;
+  background-color: #FFFFFF; // var(--weui-BG-2);
+  &::before {
+    @include setTopLine($weuiCellBorderColor);
+  }
+  &::after {
+    @include setBottomLine($weuiCellBorderColor);
+  }
+}
+.weui-form-preview__hd {
+  position: relative;
+  padding: $weuiCellGapV $weuiCellGapH; // $weuiCellGapV;
+  text-align: right;
+  line-height: 2.5em;
+  &::after {
+    @include setBottomLine($weuiCellBorderColor);
+
+    left: $weuiCellGapH;
+  }
+  .weui-form-preview__value {
+    font-style: normal;
+    font-size: 1.6em;
+  }
+}
+.weui-form-preview__bd {
+  padding: $weuiCellGapV $weuiCellGapH; // $weuiCellGapV;
+  font-size: 0.9em;
+  text-align: right;
+  color: $weuiTextColorGray; // $weuiTextColorDesc;
+  line-height: 2;
+}
+.weui-form-preview__ft {
+  position: relative;
+  line-height: 50px;
+  display: flex;
+  &::before {
+    @include setTopLine($weuiDialogLineColor);
+  }
+}
+.weui-form-preview__item {
+  overflow: hidden;
+}
+.weui-form-preview__label {
+  float: left;
+  margin-right: 1em;
+  min-width: 4em; // 4.2em;
+  color: $weuiTextColorGray; // $weuiTextColorDesc;
+  text-align: justify; // left;
+  text-align-last: justify;
+}
+.weui-form-preview__value {
+  display: block;
+  overflow: hidden;
+  word-break: normal;
+  word-wrap: break-word;
+  // color: var(--weui-FG-0);
+}
+.weui-form-preview__btn {
+  position: relative;
+  display: block;
+  flex: 1;
+  color: $weuiDialogLinkColor;
+  text-align: center;
+  @include setTapColor();
+  &:active {
+    background-color: $weuiDialogLinkActiveBc;
+  }
+  &::after {
+    @include setLeftLine($weuiDialogLineColor);
+  }
+  &:first-child {
+    &::after {
+      display: none;
+    }
+  }
+}
+button.weui-form-preview__btn {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  line-height: inherit;
+  font-size: inherit;
+}
+.weui-form-preview__btn_default {
+  color: $weuiTextColorGray; // var(--weui-FG-HALF);
+}
+.weui-form-preview__btn_primary {
+  color: #0BB20C; // $weuiLinkColorDefault;
+}
+
+// 列表块，一般放msg组件的自定义区域
+// .weui-form-preview__list {
+//   padding-top: 24px;
+//   padding-bottom: 24px;
+//   line-height: 1.4;
+//   font-size: 14px;
+//   position: relative;
+//   &::before {
+//     content: '';
+//     @include setTopLine(var(--weui-FG-3));
+//   }
+//   &:last-child {
+//     padding-bottom: 0;
+//   }
+//   .weui-form-preview__label {
+//     text-align: left;
+//     width: 6em;
+//   }
+//   .weui-form-preview__value { hyphens: auto; }
+//   .weui-form-preview__item {
+//     margin-top: 12px;
+//     &:first-child { margin-top: 0; }
+//   }
+//   & > .weui-cells__title {
+//     &:first-child {
+//       margin-top: 0;
+//     }
+//   }
+// }

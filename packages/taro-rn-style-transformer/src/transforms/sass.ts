@@ -1,8 +1,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-import { RenderAdditionalResult, RenderResult, SassConfig, SassGlobalConfig,TransformOptions } from '../types'
-import { getAdditionalData, insertAfter, insertBefore, resolveStyle } from '../utils'
+import { RenderAdditionalResult, RenderResult, SassConfig, SassGlobalConfig, TransformOptions } from '../types'
+import { getAdditionalData, insertAfter, insertBefore, resolveStyle, sortStyle } from '../utils'
 
 /**
  * 用过用户手动安装了 node-sass，启用node-sass，默认使用 sass
@@ -125,6 +125,7 @@ export default function transform (
 ) {
   const additionalData = combineResource(src, filename, config)
   let data = insertBefore(src, additionalData)
+  data = sortStyle(data)
 
   if (!data) {
     data = `\n${data}` // fix empty file error. reference https://github.com/sass/node-sass/blob/91c40a0bf0a3923ab9f91b82dcd479c25486235a/lib/index.js#L430
