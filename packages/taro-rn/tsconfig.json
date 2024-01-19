@@ -7,6 +7,7 @@
     "jsx": "react",
     "lib": ["ESNEXT"],
     "paths": {
+      "@tarojs/runtime": ["./types/runtime.d.ts"],
       "react": ["./node_modules/@types/react", "./node_modules/react"],
       "vue": ["./src/types/vue/index.d.ts"]
     },
