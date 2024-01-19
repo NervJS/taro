@@ -8,7 +8,9 @@
   "types": "types/index.d.ts",
   "sideEffects": [
     "./dist/components/**/loader.js",
-    "**/style/*.js"
+    "**/style/*.js",
+    "*.scss",
+    "*.css"
   ],
   "files": [
     "dist",

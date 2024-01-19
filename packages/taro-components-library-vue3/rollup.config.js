@@ -32,8 +32,9 @@ const config = {
       dynamicRequireTargets: ['./src/**/*.js']
     }),
     postcss({
-      inject: { insertAt: 'top' }
-    })
+      inject: { insertAt: 'top' },
+      minimize: true,
+    }),
   ]
 }
 

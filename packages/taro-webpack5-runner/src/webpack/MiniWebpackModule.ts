@@ -196,7 +196,7 @@ export class MiniWebpackModule {
   }
 
   getScriptRule () {
-    const { sourceDir } = this.combination
+    const { sourceDir, config } = this.combination
     const { compile = {} } = this.combination.config
     const rule: IRule = WebpackModule.getScriptRule()
 
@@ -215,9 +215,10 @@ export class MiniWebpackModule {
       rule.exclude = [filename => /css-loader/.test(filename) || (/node_modules/.test(filename) && !(/taro/.test(filename)))]
     }
 
-    if (this.combination.config.experimental?.compileMode === true) {
+    if (config.experimental?.compileMode === true) {
       rule.use.compilerLoader = WebpackModule.getLoader(path.resolve(__dirname, '../loaders/miniCompilerLoader'), {
-        template: this.combination.config.template,
+        platform: config.platform.toUpperCase(),
+        template: config.template,
         FILE_COUNTER_MAP,
       })
     }
