@@ -100,7 +100,7 @@ pub fn check_is_event_attr (val: &str) -> bool {
     val.starts_with("on") && val.chars().nth(2).is_some_and(|x| x.is_uppercase())
 }
 
-pub fn identify_jsx_event_key (val: &str) -> Option<String> {
+pub fn identify_jsx_event_key (val: &str, platform: &str) -> Option<String> {
     if check_is_event_attr(val) {
         let event_name = val.get(2..).unwrap().to_lowercase();
         let event_name = if event_name == "click" {
@@ -108,7 +108,19 @@ pub fn identify_jsx_event_key (val: &str) -> Option<String> {
         } else {
             &event_name
         };
-        Some(format!("bind{}", event_name))
+        let event_binding_name = match platform {
+            "ALIPAY" => {
+                if event_name == "tap" {
+                    String::from("onTap")
+                } else {
+                    String::from(val)
+                }
+            },
+            _ => {
+                format!("bind{}", event_name)
+            }
+        };
+        Some(event_binding_name)
     } else {
         return None;
     }

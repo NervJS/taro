@@ -31,6 +31,7 @@ const baseConfig: RollupOptions = {
     }),
     commonjs() as InputPluginOption,
     postcss({
+      extract: true,
       inject: { insertAt: 'top' },
       minimize: true,
     }) as InputPluginOption,
