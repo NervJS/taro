@@ -51,7 +51,7 @@
     "jest-cli": "^29.3.1",
     "jest-environment-jsdom": "^29.5.0",
     "jsdom": "^21.1.0",
-    "rollup": "^3.8.1",
+    "rollup": "^4.9.5",
     "rollup-plugin-node-externals": "^5.0.0",
     "rollup-plugin-ts": "^3.0.2",
     "ts-jest": "^29.0.5",
