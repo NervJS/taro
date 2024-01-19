@@ -63,7 +63,6 @@
 /// <reference path="api/open-api/account.d.ts" />
 /// <reference path="api/open-api/address.d.ts" />
 /// <reference path="api/open-api/authorize.d.ts" />
-/// <reference path="api/open-api/bookshelf.d.ts" />
 /// <reference path="api/open-api/card.d.ts" />
 /// <reference path="api/open-api/channels.d.ts" />
 /// <reference path="api/open-api/customer-service.d.ts" />
@@ -121,6 +120,7 @@
 /// <reference path="api/alipay/index.d.ts" />
 /// <reference path="api/qq/index.d.ts" />
 
+/// <reference path="api/swan/bookshelf.d.ts" />
 /// <reference path="api/swan/download-package.d.ts" />
 /// <reference path="api/swan/index.d.ts" />
 /// <reference path="api/swan/pay.d.ts" />

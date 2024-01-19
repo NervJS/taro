@@ -637,7 +637,6 @@ declare namespace MapProps {
     longitude: number
     latitude: number
   }
-
   interface onPolylineTapEventDetail {
     polylineId: number
     longitude: number
@@ -648,7 +647,6 @@ declare namespace MapProps {
     errCode: number
     errMsg: string
   }
-
   interface onInterpolatePointEventDetail {
     markerId: number
     longitude: number
