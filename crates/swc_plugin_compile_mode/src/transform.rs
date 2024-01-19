@@ -155,7 +155,7 @@ impl TransformVisitor {
             node_stack: vec![],
             templates: HashMap::new(),
             get_tmpl_name,
-            xs_module_names: vec![], // TODO 每次CompileMode都初始化？
+            xs_module_names: vec![],
             xs_sources: vec![],
         }
     }
@@ -632,6 +632,10 @@ impl TransformVisitor {
     fn is_xscript_used (&self) -> bool {
         return self.xs_module_names.len() > 0
     }
+
+    fn reset_states (&mut self) -> () {
+        self.xs_module_names = vec![];
+    }
 }
 
 impl VisitMut for TransformVisitor {
@@ -653,6 +657,7 @@ impl VisitMut for TransformVisitor {
             }
         }
         if self.is_compile_mode {
+            self.reset_states();
             el.visit_mut_children_with(&mut PreVisitor::new());
             let tmpl_contents = format!(r#"<template name="tmpl_0_{}">{}</template>"#,
                 &tmpl_name,

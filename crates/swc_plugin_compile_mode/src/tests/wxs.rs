@@ -36,3 +36,27 @@ test!(
     }
     "#
 );
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_wxs_work_in_multi_compile_mode,
+    r#"
+    function Index () {
+        return (
+          <View>
+            <View compileMode>
+                <Script src="./penny.wxs" module="penny"></Script>
+                <View hoverClass={penny.hoverClass}>A1</View>
+                <View hoverClass={magic.hoverClass}>A2</View>
+            </View>
+            <View compileMode>
+                <Script src="../xmls/magic.wxs" module="magic"></Script>
+                <View hoverClass={magic.hoverClass}>B1</View>
+                <View hoverClass={penny.hoverClass}>B2</View>
+            </View>
+          </View>
+        )
+    }
+    "#
+);
