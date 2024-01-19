@@ -28,6 +28,7 @@ interface SliderProps extends StandardProps, FormItemProps {
   value?: number
   /** 设置 React 非受控状态下的初始取值
    * @supported weapp, alipay, swan, tt, qq, jd, h5, rn
+   * @unique
    */
   defaultValue?: string
   /** 背景条的颜色（请使用 backgroundColor）

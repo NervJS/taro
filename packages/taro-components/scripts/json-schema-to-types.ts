@@ -123,7 +123,7 @@ class GenerateTypes {
             const isIgnore = value.indexOf('@ignore') !== -1
 
             // 保留内置类型
-            const inherentTypes = ['global', 'h5', 'rn', 'quickapp', 'harmony']
+            const inherentTypes = ['global', 'h5', 'rn', 'quickapp', 'harmony', 'harmony_hybrid']
             inherentTypes.forEach((type) => {
               if (preSupportedPlatforms?.includes(type)) {
                 supportedPlatforms.push(type)
