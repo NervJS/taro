@@ -141,7 +141,7 @@ pub struct TransformVisitor {
     pub templates: HashMap<String, String>,
     pub get_tmpl_name: Box<dyn FnMut() -> String>,
     pub xs_module_names: Vec<String>,
-    pub xs_sources: Vec<String>,// TODO 返回给 JS 层
+    pub xs_sources: Vec<String>,
 }
 
 impl TransformVisitor {
@@ -670,7 +670,7 @@ impl VisitMut for TransformVisitor {
 
         let mut keys: Vec<&String> = self.templates.keys().collect();
         keys.sort();
-        let stmts_being_inserted = keys.into_iter()
+        let mut stmts_being_inserted: Vec<ModuleItem> = keys.into_iter()
             .map(|key| {
                 let value = self.templates.get(key).unwrap();
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -684,7 +684,30 @@ impl VisitMut for TransformVisitor {
                         definite: false,
                     }],
                 }))))
-            });
-        ecma::utils::prepend_stmts(body_stmts, stmts_being_inserted);
+            })
+            .collect();
+
+        if self.xs_sources.len() > 0 {
+            let elems: Vec<Option<ExprOrSpread>> = self.xs_sources.iter()
+                .map(|item| {
+                    Some(ExprOrSpread { spread: None, expr: Box::new(Expr::Lit(Lit::Str(quote_str!(item.clone()))))})
+                })
+                .collect();
+            let list = Expr::Array(ArrayLit { span, elems });
+            let module_stmt = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                span,
+                kind: VarDeclKind::Const,
+                declare: false,
+                decls: vec![VarDeclarator {
+                    span,
+                    name: Pat::Ident(Ident::new("TARO_XML_SOURCES".into(), span).into()),
+                    init: Some(Box::new(list)),
+                    definite: false,
+                }],
+            }))));
+            stmts_being_inserted.push(module_stmt)
+        }
+
+        ecma::utils::prepend_stmts(body_stmts, stmts_being_inserted.into_iter());
     }
 }
