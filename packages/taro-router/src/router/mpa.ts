@@ -6,7 +6,7 @@ import {
   stringify,
 } from '@tarojs/runtime'
 
-import { setTitle } from '../utils/navigate'
+import { isDingTalk } from '../utils'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
@@ -25,6 +25,24 @@ const launchStampId = createStampId()
  * - TabBar 会多次加载
  * - 不支持路由动画
  */
+
+let preTitle = document.title
+let isLoadDdEntry = false
+
+async function setTitle (title: string): Promise<void> {
+  if (preTitle === title) return
+  document.title = title
+  preTitle = title
+  if (process.env.SUPPORT_DINGTALK_NAVIGATE !== 'disabled' && isDingTalk()) {
+    if (!isLoadDdEntry) {
+      isLoadDdEntry = true
+      require('dingtalk-jsapi/platform')
+    }
+    const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default
+    setDingTitle({ title })
+  }
+}
+
 export async function createMultiRouter (
   history: History,
   app: AppInstance,
@@ -34,6 +52,7 @@ export async function createMultiRouter (
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
+  eventCenter.on('__taroH5SetNavigationTitle', setTitle)
   RouterConfig.config = config
   const handler = new MultiPageHandler(config, history)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {

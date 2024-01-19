@@ -3,19 +3,37 @@ import { eventCenter } from '@tarojs/runtime'
 
 import { navigateBack,reLaunch } from '../api'
 import { loadNavigationBarStyle } from '../style'
+import { isDingTalk } from '../utils'
 import stacks from './stack'
 
 import type PageHandler from './page'
 
+interface NavigationBarCache {
+  backgroundColor?: string
+  fontColor?: string
+  title?: string
+  show?: boolean
+}
+
+let isLoadDdEntry = false
+
 export default class NavigationBarHandler {
   pageContext: PageHandler
   navigationBarElement: Element
+  cache: Record<string, NavigationBarCache>
+
   constructor (pageContext: PageHandler){
+    this.cache ={}
     this.pageContext = pageContext
     this.init()
     loadNavigationBarStyle()
-    eventCenter.on('__taroH5SetNavigationTitle', (title)=>{
+    eventCenter.on('__taroH5SetNavigationTitle', (title)=> {
       this.setTitle(title)
+    })
+    eventCenter.on('__taroH5setNavigationBarColor', ({ backgroundColor, frontColor })=> {
+      if (typeof backgroundColor === 'string') this.setNavigationBarBackground(backgroundColor)
+
+      if (typeof frontColor === 'string') this.setNavigationBarTextStyle(frontColor)
     })
   }
 
@@ -55,10 +73,19 @@ export default class NavigationBarHandler {
   }
 
   load () {
+    this.setCacheValue()
     this.setTitle()
     this.setNavigationBarVisible()
     this.setFnBtnState()
-    this.setNavigationStyle()
+    this.setNavigationBarBackground()
+    this.setNavigationBarTextStyle()
+  }
+
+  setCacheValue (){
+    const currentPage = this.pageContext.currentPage
+    if(typeof this.cache[currentPage] !== 'object') {
+      this.cache[currentPage] = {}
+    }
   }
 
   setFnBtnState () {
@@ -72,28 +99,78 @@ export default class NavigationBarHandler {
     }
   }
 
-  setNavigationStyle () {
-    let navigationBarTextStyle = this.pageContext.config?.window?.navigationBarTextStyle || 'white'
-    let navigationBarBackgroundColor = this.pageContext.config?.window?.navigationBarBackgroundColor || '#000000'
-    if (typeof this.pageContext.pageConfig?.navigationBarTextStyle === 'string') {
-      navigationBarTextStyle = this.pageContext.pageConfig.navigationBarTextStyle
-    }
-    if (typeof this.pageContext.pageConfig?.navigationBarBackgroundColor === 'string') {
-      navigationBarBackgroundColor = this.pageContext.pageConfig.navigationBarBackgroundColor
-    }
+  setNavigationBarBackground (backgroundColor?: string) {
     if (!this.navigationBarElement) return
-    (this.navigationBarElement as HTMLElement).style.color = navigationBarTextStyle;
-    (this.navigationBarElement as HTMLElement).style.background = navigationBarBackgroundColor
+
+    const currentPage = this.pageContext.currentPage
+    let color
+    if (typeof backgroundColor === 'string') {
+      color = backgroundColor
+      this.cache[currentPage] &&
+      (this.cache[currentPage].backgroundColor = color)
+    } else {
+      const cacheValue = this.cache[currentPage]?.backgroundColor
+      if(typeof cacheValue === 'string') {
+        color = cacheValue
+      } else {
+        color = this.pageContext.config?.window?.navigationBarBackgroundColor || '#000000'
+        this.cache[currentPage] &&
+        (this.cache[currentPage].backgroundColor = color)
+      }
+    }
+    (this.navigationBarElement as HTMLElement).style.background = color
+  }
+
+  setNavigationBarTextStyle (fontColor?: string) {
+    if (!this.navigationBarElement) return
+
+    const currentPage = this.pageContext.currentPage
+    let color
+    if (typeof fontColor === 'string') {
+      color = fontColor
+      this.cache[currentPage] &&
+      (this.cache[currentPage].fontColor = color)
+    } else {
+      const cacheValue = this.cache[currentPage]?.fontColor
+      if(typeof cacheValue === 'string') {
+        color = cacheValue
+      } else {
+        color = this.pageContext.config?.window?.navigationBarTextStyle || 'white'
+        this.cache[currentPage] &&
+        (this.cache[currentPage].fontColor = color)
+      }
+    }
+    (this.navigationBarElement as HTMLElement).style.color = color
   }
 
   setTitle (title?) {
-    if(!this.titleElement) return
+    const currentPage = this.pageContext.currentPage
     let proceedTitle
     if(typeof title === 'string') {
       proceedTitle = title
+      this.cache[currentPage] &&
+      (this.cache[currentPage].title = proceedTitle)
     } else {
-      proceedTitle = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
+      const cacheValue = this.cache[currentPage]?.title
+      if(typeof cacheValue === 'string') {
+        proceedTitle = cacheValue
+      } else {
+        proceedTitle = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
+        this.cache[currentPage] &&
+        (this.cache[currentPage].title = proceedTitle)
+      }
     }
+
+    if (process.env.SUPPORT_DINGTALK_NAVIGATE !== 'disabled' && isDingTalk()) {
+      if (!isLoadDdEntry) {
+        isLoadDdEntry = true
+        require('dingtalk-jsapi/platform')
+      }
+      const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default
+      setDingTitle({ proceedTitle })
+    }
+    document.title = proceedTitle
+    if(!this.titleElement) return
     this.titleElement.innerHTML = proceedTitle
   }
 
@@ -131,9 +208,6 @@ export default class NavigationBarHandler {
     } else {
       this.navigationBarElement.classList.add('taro-navigation-bar-hide')
       this.navigationBarElement.classList.remove('taro-navigation-bar-show')
-    }
-    if(this.titleElement){
-      this.titleElement.innerHTML = this.pageContext.pageConfig?.navigationBarTitleText ?? document.title
     }
   }
 }

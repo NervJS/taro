@@ -11,7 +11,6 @@ import UniversalRouter from 'universal-router'
 
 import { prependBasename } from '../history'
 import { routesAlias } from '../utils'
-import { setTitle } from '../utils/navigate'
 import { RouterConfig } from '.'
 import PageHandler from './page'
 import stacks from './stack'
@@ -97,7 +96,6 @@ export function createRouter (
     let navigationBarBackgroundColor = config?.window?.navigationBarBackgroundColor || '#000000'
 
     if (pageConfig) {
-      setTitle(pageConfig.navigationBarTitleText ?? document.title)
       if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
         enablePullDownRefresh = pageConfig.enablePullDownRefresh
       }
