@@ -13,8 +13,8 @@ export class Template extends UnRecursiveTemplate {
     type: 'jd'
   }
 
-  buildXsTemplate () {
-    return '<jds src="./utils.jds" module="xs" />'
+  buildXsTemplate (filePath = './utils') {
+    return `<jds src="${filePath}.jds" module="xs" />`
   }
 
   replacePropName (name, value, componentName) {
