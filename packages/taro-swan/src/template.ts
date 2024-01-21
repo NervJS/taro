@@ -57,9 +57,6 @@ export class Template extends RecursiveTemplate {
 
     this.legacyMiniComponents = { ...result }
 
-    delete result['pure-view']
-    delete result['static-view']
-
     return result
   }
 
@@ -188,6 +185,8 @@ export class Template extends RecursiveTemplate {
     const adAlias = componentsAlias.ad._num
 
     switch (nodeName) {
+      case 'pure-view':
+      case 'static-view':
       case 'view':
         // fix issue #6015
         return this.buildFlattenView()
