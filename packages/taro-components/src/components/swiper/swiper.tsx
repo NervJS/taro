@@ -214,7 +214,9 @@ export class Swiper implements ComponentInterface {
     if (this.autoplay && !this.swiper.autoplay?.running) {
       this.swiper.autoplay?.start()
     }
-    this.swiper.update() // 更新子元素
+    if (this.swiper.$el) {
+      this.swiper.update() // 更新子元素
+    }
   }
 
   componentDidRender () {
@@ -264,7 +266,7 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoopDebounce = debounce(this.handleSwiperLoop, 50)
 
   handleSwiperSizeDebounce = debounce(() => {
-    if (this.swiper && !this.circular) {
+    if (this.swiper && this.swiper.$wrapperEl && !this.circular) {
       this.swiper.updateSlides()
     }
   }, 50)

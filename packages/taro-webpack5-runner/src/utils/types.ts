@@ -54,6 +54,7 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   nodeModulesPath: string
   fileType: IFileType
   globalObject: string
+  platform: string
   prerender?: PrerenderConfig
   template: RecursiveTemplate | UnRecursiveTemplate
   runtimePath?: string | string[]

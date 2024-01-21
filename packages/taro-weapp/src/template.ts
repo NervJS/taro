@@ -24,8 +24,8 @@ export class Template extends UnRecursiveTemplate {
     this.pluginOptions = pluginOptions || {}
   }
 
-  buildXsTemplate () {
-    return '<wxs module="xs" src="./utils.wxs" />'
+  buildXsTemplate (filePath = './utils') {
+    return `<wxs module="xs" src="${filePath}.wxs" />`
   }
 
   createMiniComponents (components): any {

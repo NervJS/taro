@@ -193,7 +193,7 @@ impl TransformVisitor {
                     }
 
                     let miniapp_attr_name = utils::convert_jsx_attr_key(&jsx_attr_name, &self.config.adapter);
-                    let event_name = utils::identify_jsx_event_key(&jsx_attr_name);
+                    let event_name = utils::identify_jsx_event_key(&jsx_attr_name, &self.config.platform);
                     let is_event = event_name.is_some();
                     match &jsx_attr.value {
                         Some(jsx_attr_value) => {

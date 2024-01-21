@@ -39,6 +39,7 @@ const CODE_GENERATION_RESULT = {
 }
 
 export const FILE_COUNTER_MAP = new Map<string, number>()
+export const templatesCache: string[] = []
 
 class XMLDependencyTemplate {
   apply () {}
@@ -225,7 +226,9 @@ export default class MiniCompileModePlugin {
   constructor (private options: IPluginOptions) {}
 
   apply (compiler: Compiler) {
-    const fileType = this.options.combination.fileType
+    const combination = this.options.combination
+    const fileType = combination.fileType
+    const template = combination.config.template
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       compilation.dependencyFactories.set(XMLDependency, new XMLFactory())
@@ -281,20 +284,31 @@ export default class MiniCompileModePlugin {
           const { ConcatSource } = compiler.webpack.sources
           const source = new ConcatSource(raw)
 
-          Object.keys(assets)
-            .filter(key => (new RegExp(`-templates${fileType.templ}$`)).test(key))
-            .map(key => {
-              const source = new ConcatSource()
-              source.add(`<import src="${path.relative(path.dirname(key), `./${baseTemplName}`)}"/>\n`)
-              fileType.xs && source.add(`<wxs module="xs" src="${path.relative(path.dirname(key), `./utils${fileType.xs}`)}"/>\n`)
-              source.add(assets[key])
-              assets[key] = source
-              return key
-            })
-            .reduce((pre, cur) => {
-              pre.add(`\n<import src="${cur}"/>`)
-              return pre
-            }, source)
+          if (templatesCache.length) {
+            let cur
+            while ((cur = templatesCache.shift()) !== undefined) {
+              source.add('\n')
+              source.add(cur)
+            }
+          } else {
+            Object.keys(assets)
+              .filter(key => (new RegExp(`-templates${fileType.templ}$`)).test(key))
+              .map(key => {
+                const source = new ConcatSource()
+                source.add(`<import src="${path.relative(path.dirname(key), `./${baseTemplName}`)}"/>\n`)
+                if (fileType.xs) {
+                  const content = template.buildXsTemplate(path.relative(path.dirname(key), `./utils`)) + '\n'
+                  source.add(content)
+                }
+                source.add(assets[key])
+                assets[key] = source
+                return key
+              })
+              .reduce((pre, cur) => {
+                pre.add(`\n<import src="${cur}"/>`)
+                return pre
+              }, source)
+          }
 
           compilation.assets[baseTemplName] = source
 
