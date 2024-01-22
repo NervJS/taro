@@ -25,9 +25,6 @@ const launchStampId = createStampId()
  * - TabBar 会多次加载
  * - 不支持路由动画
  */
-
-
-
 export async function createMultiRouter (
   history: History,
   app: AppInstance,

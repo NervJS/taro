@@ -192,7 +192,8 @@ export function createRouter (
         enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el,
         pathname + stringify(handler.getQuery(pageStampId)),
         {},
-        loadConfig)
+        loadConfig
+      )
       if (params) page.options = params
       handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
