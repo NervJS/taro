@@ -1,5 +1,6 @@
-import { IH5Config, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 import * as webpack from 'webpack'
+
+import type { Func, IH5Config, IProjectBaseConfig } from '@tarojs/taro/types/compile'
 
 type FunctionLikeCustomWebpackConfig = (webpackConfig: webpack.Configuration, webpack) => webpack.Configuration
 
@@ -23,4 +24,5 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   /** hooks */
   onCompilerMake: (compilation) => Promise<any>
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
+  modifyComponentConfig: Func
 }
