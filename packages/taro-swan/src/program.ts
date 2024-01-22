@@ -41,9 +41,9 @@ export default class Swan extends TaroPlatformBase {
         ctx.generateFrameworkInfo()
         this.generateProjectConfig(PROJECT_JSON, PROJECT_JSON, (conf: Record<string, any>) => {
           if (conf.smartProgramRoot) {
-            conf.smartProgramRoot = './';
+            conf.smartProgramRoot = './'
           }
-          return conf;
+          return conf
         })
       }
     })
