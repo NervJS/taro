@@ -44,7 +44,7 @@
   "devDependencies": {
     "@tarojs/shared": "workspace:*",
     "@tarojs/taro": "workspace:*",
-    "webpack": "5.78.0"
+    "webpack": "5.89.0"
   },
   "peerDependencies": {
     "@tarojs/shared": "workspace:~",
