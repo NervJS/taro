@@ -173,12 +173,14 @@ ${exampleCommand}`))
    * 生成 project.config.json
    * @param src 项目源码中配置文件的名称
    * @param dist 编译后配置文件的名称，默认为 'project.config.json'
+   * @param adapter 配置文件适配器，用于修改配置文件对象内容
    */
-  protected generateProjectConfig (src: string, dist = 'project.config.json') {
+  protected generateProjectConfig (src: string, dist = 'project.config.json', adapter = (conf: object) => conf ) {
     if (this.config.isBuildNativeComp) return
     this.ctx.generateProjectConfig({
       srcConfigName: src,
-      distConfigName: dist
+      distConfigName: dist,
+      adapter,
     })
     this.projectConfigJsonOutputPath = `${this.ctx.paths.outputPath}/${dist}`
   }

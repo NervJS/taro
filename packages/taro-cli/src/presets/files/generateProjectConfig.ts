@@ -3,7 +3,7 @@ import * as path from 'path'
 import type { IPluginContext } from '@tarojs/service'
 
 export default (ctx: IPluginContext) => {
-  ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName }) => {
+  ctx.registerMethod('generateProjectConfig', ({ srcConfigName, distConfigName, adapter = e => e }) => {
     // 混合模式不需要生成项目配置
     const { blended, newBlended } = ctx.runOpts
     if (blended || newBlended) return
@@ -26,11 +26,14 @@ export default (ctx: IPluginContext) => {
     // compileType 是 plugin 时不修改 miniprogramRoot 字段
     let distProjectConfig = origProjectConfig
     if (origProjectConfig.compileType !== 'plugin') {
-      distProjectConfig = Object.assign({}, origProjectConfig, { miniprogramRoot: './' })
+      distProjectConfig = Object.assign({}, origProjectConfig)
+      if (distProjectConfig.miniprogramRoot) {
+        distProjectConfig.miniprogramRoot = './'
+      }
     }
     ctx.writeFileToDist({
       filePath: distConfigName,
-      content: JSON.stringify(distProjectConfig, null, 2)
+      content: JSON.stringify(adapter(distProjectConfig), null, 2)
     })
 
     if (ctx.initialConfig.logger?.quiet === false) {
