@@ -188,14 +188,11 @@ export function createRouter (
         pageStampId = createStampId()
       }
 
-      // 下拉刷新植入
-      const page = createPageConfig(enablePullDownRefresh 
-        ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId)
-        : el,
-      pathname + stringify(handler.getQuery(pageStampId)),
-      {},
-      loadConfig
-      )
+      const page = createPageConfig(
+        enablePullDownRefresh ? hooks.call('createPullDownComponent', el, pathname, framework, handler.PullDownRefresh, pageStampId) : el,
+        pathname + stringify(handler.getQuery(pageStampId)),
+        {},
+        loadConfig)
       if (params) page.options = params
       handler.load(page, pageConfig, pageStampId, stacksIndex)
     }
