@@ -3,6 +3,9 @@
  */
 export function loadAnimateStyle (ms = 300) {
   const css = `
+body {
+  overflow: hidden; // 防止 iOS 页面滚动
+}
 .taro_router > .taro_page {
   position: absolute;
   left: 0;
