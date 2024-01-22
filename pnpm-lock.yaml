@@ -1464,7 +1464,7 @@ importers:
         specifier: ^12.4.1
         version: registry.npmjs.org/@testing-library/react-native@12.4.3(jest@29.7.0)(react-native@0.73.2)(react-test-renderer@18.2.0)(react@18.2.0)
       expo:
-        specifier: ~50.0.0-preview.7
+        specifier: ~50.0.2
         version: registry.npmjs.org/expo@50.0.0-preview.10(@babel/core@7.21.8)(@react-native/babel-preset@0.73.19)
       jest:
         specifier: ^29.3.1
@@ -2806,7 +2806,7 @@ importers:
         specifier: ^27.4.1
         version: registry.npmjs.org/@types/jest@27.5.2
       expo:
-        specifier: ~50.0.0-preview.7
+        specifier: ~50.0.2
         version: registry.npmjs.org/expo@50.0.0-preview.10(@babel/core@7.21.8)(@react-native/babel-preset@0.73.19)
       fbjs-scripts:
         specifier: ^3.0.1
@@ -2897,7 +2897,7 @@ importers:
         specifier: workspace:*
         version: link:../babel-plugin-transform-react-jsx-to-rn-stylesheet
       expo:
-        specifier: ~50.0.0-preview.7
+        specifier: ~50.0.2
         version: registry.npmjs.org/expo@50.0.0-preview.10(@babel/core@7.21.8)
       expo-file-system:
         specifier: ~16.0.0
