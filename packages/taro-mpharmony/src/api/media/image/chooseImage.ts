@@ -81,6 +81,6 @@ export const chooseImage: typeof Taro.chooseImage = async (options) => {
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
       },
-    })
+    }, { isAsync: true, autoRelease: true  })
   })
 }

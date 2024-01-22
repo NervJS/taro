@@ -85,7 +85,7 @@ export const chooseVideo: typeof Taro.chooseVideo = async (options) => {
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
       },
-    })
+    }, { isAsync: true, autoRelease: true  })
   })
 }
 

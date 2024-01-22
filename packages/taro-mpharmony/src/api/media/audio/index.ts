@@ -1,9 +1,8 @@
 import Taro from '@tarojs/api'
 
-import native from '../../NativeApi'
+import { NativeInnerAudioContext } from '../../interface/NativeAContextApi'
 import { AudioContext } from './AudioContext'
 import { InnerAudioContext } from './InnerAudioContext'
-
 /**
  * 结束播放语音
  *
@@ -62,8 +61,7 @@ export const createInnerAudioContext: typeof Taro.createInnerAudioContext = (opt
   if (options && typeof options === 'object' && options.useWebAudioImplement) {
     return new InnerAudioContext()
   } else {
-    // @ts-ignore
-    return native.createInnerAudioContextBridgeAsync()
+    return NativeInnerAudioContext.createInnerAudioContext()
   }
 }
 

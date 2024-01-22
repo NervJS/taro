@@ -1,63 +1,6 @@
-class UpdateManagerBridgeAsync {
-
-  // @ts-ignore
-  applyUpdateBridgeAsync () {
-  }
-
-  onCheckForUpdateBridgeAsync (callback: Taro.UpdateManager.OnCheckForUpdateCallback) {
-    return callback
-  }
-
-  // @ts-ignore
-  onUpdateFailedBridgeAsync (callback: (res: TaroGeneral.CallbackResult) => void) {
-    return callback
-
-  }
-
-  // @ts-ignore
-  onUpdateReadyBridgeAsync (callback: (res: TaroGeneral.CallbackResult) => void) {
-    return callback
-  }
-}
-
-class UpdateManager implements Taro.UpdateManager {
-
-  updateManagerBridgeAsync: UpdateManagerBridgeAsync
-
-  constructor (updateManagerBridgeAsync: UpdateManagerBridgeAsync) {
-    this.updateManagerBridgeAsync = updateManagerBridgeAsync
-  }
-
-  // 类型2：异步调用，res无方法
-  // @ts-ignore
-  applyUpdate () {
-    this.updateManagerBridgeAsync.applyUpdateBridgeAsync()
-  }
-
-  // 类型3：持续监听，res无方法
-  // @ts-ignore
-  onCheckForUpdate (callback: Taro.UpdateManager.OnCheckForUpdateCallback) {
-    this.updateManagerBridgeAsync.onCheckForUpdateBridgeAsync(callback)
-  }
-
-  // @ts-ignore
-  onUpdateFailed (callback: (res: TaroGeneral.CallbackResult) => void) {
-    this.updateManagerBridgeAsync.onUpdateFailedBridgeAsync(callback)
-
-  }
-
-  // @ts-ignore
-  onUpdateReady (callback: (res: TaroGeneral.CallbackResult) => void) {
-    this.updateManagerBridgeAsync.onUpdateReadyBridgeAsync(callback)
-  }
-}
-
 
 // @proxyClassSign('')
 class NativeApi {
-
-
-  // 类型1：同步调用
   getWindowInfoBridgeSync () {
     return ''
   }
@@ -78,7 +21,6 @@ class NativeApi {
     return ''
   }
 
-  // @ts-ignore
   navigateToMiniProgramBridgeAsync (options: any) {
     return options
   }
@@ -116,8 +58,8 @@ class NativeApi {
     return options
   }
 
-  chooseMediaAssetsBridgeAsync (options: any) {
-    return options
+  chooseMediaAssetsBridgeAsync (options: any, mode: object) {
+    return [options, mode]
   }
 
   getVideoInfoBridgeAsync (options: any) {
@@ -129,10 +71,6 @@ class NativeApi {
   }
 
   compressVideoBridgeAsync (options: any) {
-    return options
-  }
-
-  createInnerAudioContextBridgeAsync (options: any) {
     return options
   }
 
@@ -169,33 +107,80 @@ class NativeApi {
     return options
   }
 
-  hideKeyboardBridgeAsync (options: any) {
+  hideKeyboardBridgeSync (options: any) {
     return options
   }
-
 
   makePhoneCallBridgeAsync (options: any) {
     return options
   }
 
-  // 类型2：异步调用，res无方法
-  openSystemBluetoothSettingBridgeAsync (options: any) {
-    return options
+  // NativeAContextApi
+  createInnerAudioContextBridgeSync () {
   }
 
-  // 类型3：持续监听，res无方法
-  onWindowResizeBridgeAsync (options: any) {
-    return options
+  stopBridgeSync () {
   }
 
-  // @ts-ignore
-  updateManagerBridgeAsync = window.MethodChannel.createNativeApiProxy(new UpdateManagerBridgeAsync())
-  // @ts-ignore
-  updateManage = new UpdateManager(this.updateManagerBridgeAsync)
+  playBridgeSync () {
+  }
 
-  // 类型4
-  getUpdateManager () {
-    return this.updateManage
+  onPlayBridgeSync (option: any): void {
+    return option
+  }
+
+  onStopBridgeSync (option: any): void {
+    return option
+  }
+
+  onErrorBridgeSync (option: any): void {
+    return option
+  }
+
+  onEndedBridgeSync (option: any): void {
+    return option
+  }
+
+  // NativeUploadFile
+  abortBridgeAsync (option: any): any {
+    return option
+  }
+
+  offHeadersReceivedBridgeAsync (option: any): any {
+    return option
+  }
+
+  offProgressUpdateBridgeAsync (option: any): any {
+    return option
+  }
+
+  onHeadersReceivedBridgeAsync (option: any): any {
+    return option
+  }
+
+  onProgressUpdateBridgeAsync (option: any): any {
+    return option
+  }
+
+  // NativeFileSystemManager
+  accessBridgeAsync (option: any): any {
+    return option
+  }
+
+  saveFileBridgeAsync (option: any): any {
+    return option
+  }
+
+  getFileInfoBridgeAsync (option: any): any {
+    return option
+  }
+
+  readFileBridgeAsync (option: any): any {
+    return option
+  }
+
+  readFileSyncBridgeSync (option: any): any {
+    return option
   }
 }
 

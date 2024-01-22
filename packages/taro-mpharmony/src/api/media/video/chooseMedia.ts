@@ -75,6 +75,6 @@ export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
       fail: (err: any) => {
         handle.fail(err, { resolve, reject })
       },
-    })
+    }, { isAsync: true, autoRelease: true  })
   })
 }

@@ -2,7 +2,7 @@ import Taro from '@tarojs/api'
 
 /**
  * 获取全局唯一的版本更新管理器
- * 
+ *
  * @canUse getUpdateManager
  * @null_implementation
  */
@@ -12,8 +12,8 @@ export const getUpdateManager: typeof Taro.getUpdateManager = () => {
 
 /**
  * UpdateManager更新管理类
- * 
- * @canUse UpdateManager
+ *
+ * @canUse NativeUpdateManager
  * @null_implementation
  */
 class UpdateManager implements Taro.UpdateManager {
