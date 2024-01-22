@@ -45,6 +45,8 @@ const buildProd = async (appPath: string, config: BuildConfig, appHelper: AppHel
   }
   const errorLevel = typeof config.compiler !== 'string' && config.compiler?.errorLevel || 0
   const webpackConfig = webpackChain.toConfig()
+  if (config.withoutBuild) return
+
   const compiler = webpack(webpackConfig)
   const onBuildFinish = config.onBuildFinish
   compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -210,6 +212,8 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
 
   const webpackConfig = webpackChain.toConfig()
   WebpackDevServer.addDevServerEntrypoints(webpackConfig, devServerOptions)
+  if (config.withoutBuild) return
+
   const compiler = webpack(webpackConfig) as webpack.Compiler
   bindDevLogger(compiler, devUrl)
   const server = new WebpackDevServer(compiler, devServerOptions)

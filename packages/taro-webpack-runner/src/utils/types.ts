@@ -19,6 +19,7 @@ export interface BuildConfig extends IProjectBaseConfig, IH5Config {
   runtimePath?: string | string[]
   /** special mode */
   isBuildNativeComp?: boolean
+  withoutBuild?: boolean
   /** hooks */
   onCompilerMake: (compilation) => Promise<any>
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
