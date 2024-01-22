@@ -10,6 +10,24 @@ import { DynamicCenter } from '../utils/DynamicCenter'
 
 import type { TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
 
+@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth || style.width,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+}
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight || style.height,
+    maxHeight: style.maxHeight
+  })
+}
 @Component
 export default struct TARO_TEMPLATES_f0t0 {
   node: TaroViewElement = new TaroElement('Ignore')
@@ -29,6 +47,7 @@ export default struct TARO_TEMPLATES_f0t0 {
       createChildItem(this.node1 as TaroElement)
     }
     .attributeModifier(commonStyleModify.setNode(this.node0 as TaroElement))
+    .columnAttrs(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]

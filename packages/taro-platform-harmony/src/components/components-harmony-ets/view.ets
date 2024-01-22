@@ -4,9 +4,29 @@ import commonStyleModify from './style'
 import { createLazyChildren } from './render'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { FlexManager } from './utils/FlexManager'
-import { getNodeThresholds, shouldBindEvent } from './utils/helper'
+import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroViewElement, TaroAny } from '@tarojs/runtime'
+import type { TaroViewElement, TaroStyleType, TaroAny } from '@tarojs/runtime'
+
+@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth || style.width,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+}
+
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight || style.height,
+    maxHeight: style.maxHeight
+  })
+}
 
 @Builder
 export default function TaroView (node: TaroViewElement) {
@@ -15,6 +35,7 @@ export default function TaroView (node: TaroViewElement) {
       createLazyChildren(node)
     }
     .attributeModifier(commonStyleModify.setNode(node))
+    .rowAttrs(getNormalAttributes(node))
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
@@ -28,6 +49,7 @@ export default function TaroView (node: TaroViewElement) {
       createLazyChildren(node)
     }
     .attributeModifier(commonStyleModify.setNode(node))
+    .columnAttrs(getNormalAttributes(node))
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
     .onTouch(shouldBindEvent((e: TouchEvent) => eventHandler(e, TOUCH_EVENT_MAP.get(e.type), node), node, TOUCH_EVENT_MAP.values()))
     .onAreaChange(getComponentEventCallback(node, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {

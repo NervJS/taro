@@ -55,6 +55,41 @@ import { DynamicCenter } from '../utils/DynamicCenter'
 
 import type { TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
 
+@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth || style.width,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+}
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight || style.height,
+    maxHeight: style.maxHeight
+  })
+}
+@Extend(Text)
+function textNormalFontStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .opacity(style.opacity)
+  .fontColor(style.color)
+  .fontSize(style.fontSize)
+  .fontWeight(style.fontWeight)
+  .fontStyle(style.fontStyle)
+  .fontFamily(style.fontFamily)
+  .lineHeight(style.lineHeight)
+  .decoration({
+    type: style.textDecoration,
+    color: style.color
+  })
+}
+
 @Extend(Text)
 function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
@@ -90,15 +125,15 @@ export default struct TARO_TEMPLATES_f0t1 {
           .textSpecialFontStyle(getFontAttributes(this.node1 as TaroElement))
           .fontSize((this.node1.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node1.parentNode as TaroButtonElement)))
           .fontColor((this.node1.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node1.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node1.parentNode as TaroButtonElement)._attrs.type).text))
-      } else {
+        } else {
           Text(this.node1.textContent)
           .attributeModifier(commonStyleModify.setNode(this.node1 as TaroElement))
           .textSpecialFontStyle(getFontAttributes(this.node1 as TaroElement))
         }
       } else {
         Text(this.node1.textContent)
-        .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-        .textNormalStyle(getNormalAttributes(this.node1))
+        .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node1 as TaroElement))
+        .textNormalFontStyle(getNormalAttributes(this.node1))
         .attributeModifier(commonStyleModify.setNode(this.node1 as TaroElement))
         .textSpecialFontStyle(getFontAttributes(this.node1 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -108,6 +143,7 @@ export default struct TARO_TEMPLATES_f0t1 {
       }
     }
     .attributeModifier(commonStyleModify.setNode(this.node0 as TaroElement))
+    .columnAttrs(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]

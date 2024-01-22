@@ -33,7 +33,44 @@ import type { TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTe
 
 ";
 
+pub const HARMONY_FLEX_STYLE_BIND: &str = r#"@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth || style.width,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+}
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight || style.height,
+    maxHeight: style.maxHeight
+  })
+}
+"#;
+
 pub const HARMONY_TEXT_STYLE_BIND: &str = r#"@Extend(Text)
+function textNormalFontStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .opacity(style.opacity)
+  .fontColor(style.color)
+  .fontSize(style.fontSize)
+  .fontWeight(style.fontWeight)
+  .fontStyle(style.fontStyle)
+  .fontFamily(style.fontFamily)
+  .lineHeight(style.lineHeight)
+  .decoration({
+    type: style.textDecoration,
+    color: style.color
+  })
+}
+
+@Extend(Text)
 function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
   .textOverflow(attr.textOverflow)

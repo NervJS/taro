@@ -2,10 +2,11 @@ import { eventHandler, getComponentEventCallback, AREA_CHANGE_EVENT_NAME, VISIBL
 
 import commonStyleModify from './style'
 import { createLazyChildren } from './render'
+import { FlexManager } from './utils/FlexManager'
 import { TOUCH_EVENT_MAP } from './utils/constant/event'
 import { getNodeThresholds, getNormalAttributes, shouldBindEvent } from './utils/helper'
 
-import type { TaroAny, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
+import type { TaroAny, TaroStyleType, TaroScrollViewElement, TaroEvent } from '@tarojs/runtime'
 
 interface ScrollViewAttrs {
   scrollBar: BarState
@@ -56,6 +57,26 @@ function handleScrollEvent (node: TaroScrollViewElement, eventName = 'scroll', x
   eventHandler(event, eventName, node)
 }
 
+@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth || style.width,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+}
+
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight || style.height,
+    maxHeight: style.maxHeight
+  })
+}
+
 @Builder
 export default function TaroScrollView (node: TaroScrollViewElement) {
     Scroll(node.scroller) {
@@ -63,26 +84,35 @@ export default function TaroScrollView (node: TaroScrollViewElement) {
         Row() {
           createLazyChildren(node)
         }
-        .width(null)
         .attributeModifier(commonStyleModify.setNode(node))
+        .rowAttrs(getNormalAttributes(node))
+        .width(null)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           node._scroll = areaResult
         }, node, ['scroll', 'scrollstart', 'scrollend']))
+        .alignItems(FlexManager.flexOptions(node).alignItems as VerticalAlign)
+        .justifyContent(FlexManager.flexOptions(node).justifyContent)
+        .flexGrow(0).flexShrink(0)
       } else {
         Column() {
           createLazyChildren(node)
         }
-        .height(null)
         .attributeModifier(commonStyleModify.setNode(node))
+        .columnAttrs(getNormalAttributes(node))
+        .height(null)
         .alignItems(HorizontalAlign.Start)
         .onAreaChange(shouldBindEvent((_: Area, areaResult: Area) => {
           node._scroll = areaResult
         }, node, ['scroll', 'scrollstart', 'scrollend']))
+        .alignItems(FlexManager.flexOptions(node).alignItems as HorizontalAlign)
+        .justifyContent(FlexManager.flexOptions(node).justifyContent)
+        .flexGrow(0).flexShrink(0)
       }
     }
     .width(getNormalAttributes(node).width)
     .height(getNormalAttributes(node).height)
     .flexGrow(getNormalAttributes(node).flexGrow)
+    .flexShrink(getNormalAttributes(node).flexShrink)
     .scrollable(getScrollable(node))
     .scrollBar(getAttributes(node).scrollBar)
     .onClick(shouldBindEvent((e: ClickEvent) => eventHandler(e, 'click', node), node, ['click']))
