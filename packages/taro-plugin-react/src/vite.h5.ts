@@ -42,7 +42,6 @@ function setTaroApi (): PluginOption {
     enforce: 'pre',
     config: () => ({
       optimizeDeps: {
-        force: true,
         esbuildOptions: {
           plugins: [
             {
