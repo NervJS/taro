@@ -32,7 +32,7 @@ function makeSureReactNativeInstalled (workspaceRoot: string): Promise<void> {
       // 便于开发时切换版本
       const devTag = process.env.DEVTAG || ''
       console.log('Installing React-Native related packages:')
-      let packages = `react@^18.2.0 react-dom@^18.2.0 react-native@^0.73.1 expo@~50.0.0-preview.7 @tarojs/taro-rn${devTag} @tarojs/components-rn${devTag} @tarojs/rn-runner${devTag} @tarojs/rn-supporter${devTag} @tarojs/runtime-rn${devTag}`
+      let packages = `react@^18.2.0 react-dom@^18.2.0 react-native@^0.73.1 expo@~50.0.2 @tarojs/taro-rn${devTag} @tarojs/components-rn${devTag} @tarojs/rn-runner${devTag} @tarojs/rn-supporter${devTag} @tarojs/runtime-rn${devTag}`
       console.log(packages)
       // windows下不加引号的话，package.json中添加的依赖不会自动带上^
       packages = packages.split(' ').map(str => `"${str}"`).join(' ')
