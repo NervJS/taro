@@ -3,6 +3,10 @@ use crate::{transform_harmony::EtsDirection, utils};
 pub fn get_component_attr_str (node_name: &str, tag_name: &str) -> String {
   if tag_name == "text" {
     format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.textSpecialFontStyle(getFontAttributes(this.{} as TaroElement))", node_name, node_name)
+  } else if tag_name == "row" {
+    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.rowAttrs(getNormalAttributes(this.{} as TaroElement))", node_name, node_name)
+  } else if tag_name == "column" {
+    format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))\n.columnAttrs(getNormalAttributes(this.{} as TaroElement))", node_name, node_name)
   } else {
     format!(".attributeModifier(commonStyleModify.setNode(this.{} as TaroElement))", node_name)
   }
@@ -54,12 +58,12 @@ pub fn get_text_component_str (node_name: &str) -> String {
   if ((this.{node_id}.parentNode as TaroButtonElement).tagName === 'BUTTON') {{
     Text(this.{node_id}.textContent)\n{style}    .fontSize((this.{node_id}.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.{node_id}.parentNode as TaroButtonElement)))
     .fontColor((this.{node_id}.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.{node_id}.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.{node_id}.parentNode as TaroButtonElement)._attrs.type).text))
-}} else {{
+  }} else {{
     Text(this.{node_id}.textContent)\n{style}  }}
 }} else {{
   Text(this.{node_id}.textContent)
-  .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-  .textNormalStyle(getNormalAttributes(this.{node_id}))\n{style_with_event}}}
+  .onClick((e: ClickEvent) => eventHandler(e, 'click', this.{node_id} as TaroElement))
+  .textNormalFontStyle(getNormalAttributes(this.{node_id}))\n{style_with_event}}}
 ",
   node_id = node_name,
   style = utils::add_spaces_to_lines_with_count(&get_component_attr_str(node_name, "text"), 4),

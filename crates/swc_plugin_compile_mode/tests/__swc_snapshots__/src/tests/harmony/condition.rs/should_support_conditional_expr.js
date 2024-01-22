@@ -10,6 +10,41 @@ import { DynamicCenter } from '../utils/DynamicCenter'
 
 import type { TaroButtonElement, TaroViewElement, TaroAny, TaroStyleType, TaroTextStyleType } from '../../runtime'
 
+@Extend(Row)
+function rowAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth || style.width,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight,
+    maxHeight: style.maxHeight
+  })
+}
+@Extend(Column)
+function columnAttrs (style: TaroStyleType) {
+  .constraintSize({
+    minWidth: style.minWidth,
+    maxWidth: style.maxWidth,
+    minHeight: style.minHeight || style.height,
+    maxHeight: style.maxHeight
+  })
+}
+@Extend(Text)
+function textNormalFontStyle (style: TaroStyleType) {
+  .id(style.id)
+  .key(style.id)
+  .opacity(style.opacity)
+  .fontColor(style.color)
+  .fontSize(style.fontSize)
+  .fontWeight(style.fontWeight)
+  .fontStyle(style.fontStyle)
+  .fontFamily(style.fontFamily)
+  .lineHeight(style.lineHeight)
+  .decoration({
+    type: style.textDecoration,
+    color: style.color
+  })
+}
+
 @Extend(Text)
 function textSpecialFontStyle(attr: TaroTextStyleType) {
   .textAlign(attr.textAlign)
@@ -57,15 +92,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node1.childNodes[0] as TaroElement))
               .fontSize((this.node1.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node1.childNodes[0].parentNode as TaroButtonElement)))
               .fontColor((this.node1.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node1.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node1.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node1.childNodes[0].textContent)
               .attributeModifier(commonStyleModify.setNode(this.node1.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node1.childNodes[0] as TaroElement))
             }
           } else {
             Text(this.node1.childNodes[0].textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node1.childNodes[0]))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node1.childNodes[0] as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node1.childNodes[0]))
             .attributeModifier(commonStyleModify.setNode(this.node1.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node1.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node1.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -75,6 +110,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           }
         }
         .attributeModifier(commonStyleModify.setNode(this.node1 as TaroElement))
+        .columnAttrs(getNormalAttributes(this.node1 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node1 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node1 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node1 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node1 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -89,15 +125,15 @@ export default struct TARO_TEMPLATES_f0t0 {
             .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[0] as TaroElement))
             .fontSize((this.node0.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node0.childNodes[0].parentNode as TaroButtonElement)))
             .fontColor((this.node0.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node0.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node0.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-        } else {
+          } else {
             Text(this.node0.childNodes[0].textContent)
             .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[0] as TaroElement))
           }
         } else {
           Text(this.node0.childNodes[0].textContent)
-          .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-          .textNormalStyle(getNormalAttributes(this.node0.childNodes[0]))
+          .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node0.childNodes[0] as TaroElement))
+          .textNormalFontStyle(getNormalAttributes(this.node0.childNodes[0]))
           .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[0] as TaroElement))
           .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[0] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -116,15 +152,15 @@ export default struct TARO_TEMPLATES_f0t0 {
                 .textSpecialFontStyle(getFontAttributes(this.node4.childNodes[0] as TaroElement))
                 .fontSize((this.node4.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node4.childNodes[0].parentNode as TaroButtonElement)))
                 .fontColor((this.node4.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node4.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node4.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-            } else {
+              } else {
                 Text(this.node4.childNodes[0].textContent)
                 .attributeModifier(commonStyleModify.setNode(this.node4.childNodes[0] as TaroElement))
                 .textSpecialFontStyle(getFontAttributes(this.node4.childNodes[0] as TaroElement))
               }
             } else {
               Text(this.node4.childNodes[0].textContent)
-              .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-              .textNormalStyle(getNormalAttributes(this.node4.childNodes[0]))
+              .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node4.childNodes[0] as TaroElement))
+              .textNormalFontStyle(getNormalAttributes(this.node4.childNodes[0]))
               .attributeModifier(commonStyleModify.setNode(this.node4.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node4.childNodes[0] as TaroElement))
               .onVisibleAreaChange(getNodeThresholds(this.node4.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node4.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -134,6 +170,7 @@ export default struct TARO_TEMPLATES_f0t0 {
             }
           }
           .attributeModifier(commonStyleModify.setNode(this.node4 as TaroElement))
+          .columnAttrs(getNormalAttributes(this.node4 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node4 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node4 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node4 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
             (this.node4 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -148,15 +185,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node3 as TaroElement))
               .fontSize((this.node3.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node3.parentNode as TaroButtonElement)))
               .fontColor((this.node3.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node3.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node3.parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node3.textContent)
               .attributeModifier(commonStyleModify.setNode(this.node3 as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node3 as TaroElement))
             }
           } else {
             Text(this.node3.textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node3))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node3 as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node3))
             .attributeModifier(commonStyleModify.setNode(this.node3 as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node3 as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node3 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node3 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -174,15 +211,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node2.childNodes[0] as TaroElement))
               .fontSize((this.node2.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node2.childNodes[0].parentNode as TaroButtonElement)))
               .fontColor((this.node2.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node2.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node2.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node2.childNodes[0].textContent)
               .attributeModifier(commonStyleModify.setNode(this.node2.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node2.childNodes[0] as TaroElement))
             }
           } else {
             Text(this.node2.childNodes[0].textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node2.childNodes[0]))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node2.childNodes[0] as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node2.childNodes[0]))
             .attributeModifier(commonStyleModify.setNode(this.node2.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node2.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node2.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -192,6 +229,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           }
         }
         .attributeModifier(commonStyleModify.setNode(this.node2 as TaroElement))
+        .columnAttrs(getNormalAttributes(this.node2 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node2 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node2 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node2 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node2 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -208,15 +246,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node7.childNodes[0] as TaroElement))
               .fontSize((this.node7.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node7.childNodes[0].parentNode as TaroButtonElement)))
               .fontColor((this.node7.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node7.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node7.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node7.childNodes[0].textContent)
               .attributeModifier(commonStyleModify.setNode(this.node7.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node7.childNodes[0] as TaroElement))
             }
           } else {
             Text(this.node7.childNodes[0].textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node7.childNodes[0]))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node7.childNodes[0] as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node7.childNodes[0]))
             .attributeModifier(commonStyleModify.setNode(this.node7.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node7.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node7.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node7.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -226,6 +264,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           }
         }
         .attributeModifier(commonStyleModify.setNode(this.node7 as TaroElement))
+        .columnAttrs(getNormalAttributes(this.node7 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node7 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node7 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node7 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node7 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -242,15 +281,15 @@ export default struct TARO_TEMPLATES_f0t0 {
                 .textSpecialFontStyle(getFontAttributes(this.node6.childNodes[0] as TaroElement))
                 .fontSize((this.node6.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node6.childNodes[0].parentNode as TaroButtonElement)))
                 .fontColor((this.node6.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node6.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node6.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-            } else {
+              } else {
                 Text(this.node6.childNodes[0].textContent)
                 .attributeModifier(commonStyleModify.setNode(this.node6.childNodes[0] as TaroElement))
                 .textSpecialFontStyle(getFontAttributes(this.node6.childNodes[0] as TaroElement))
               }
             } else {
               Text(this.node6.childNodes[0].textContent)
-              .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-              .textNormalStyle(getNormalAttributes(this.node6.childNodes[0]))
+              .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node6.childNodes[0] as TaroElement))
+              .textNormalFontStyle(getNormalAttributes(this.node6.childNodes[0]))
               .attributeModifier(commonStyleModify.setNode(this.node6.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node6.childNodes[0] as TaroElement))
               .onVisibleAreaChange(getNodeThresholds(this.node6.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node6.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -260,6 +299,7 @@ export default struct TARO_TEMPLATES_f0t0 {
             }
           }
           .attributeModifier(commonStyleModify.setNode(this.node6 as TaroElement))
+          .columnAttrs(getNormalAttributes(this.node6 as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node6 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node6 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
           .onAreaChange(getComponentEventCallback(this.node6 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
             (this.node6 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -274,15 +314,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node5 as TaroElement))
               .fontSize((this.node5.parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node5.parentNode as TaroButtonElement)))
               .fontColor((this.node5.parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node5.parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node5.parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node5.textContent)
               .attributeModifier(commonStyleModify.setNode(this.node5 as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node5 as TaroElement))
             }
           } else {
             Text(this.node5.textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node5))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node5))
             .attributeModifier(commonStyleModify.setNode(this.node5 as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node5 as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node5 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node5 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -301,15 +341,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node8.childNodes[0] as TaroElement))
               .fontSize((this.node8.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node8.childNodes[0].parentNode as TaroButtonElement)))
               .fontColor((this.node8.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node8.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node8.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node8.childNodes[0].textContent)
               .attributeModifier(commonStyleModify.setNode(this.node8.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node8.childNodes[0] as TaroElement))
             }
           } else {
             Text(this.node8.childNodes[0].textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node8.childNodes[0]))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node8.childNodes[0] as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node8.childNodes[0]))
             .attributeModifier(commonStyleModify.setNode(this.node8.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node8.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node8.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node8.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -319,6 +359,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           }
         }
         .attributeModifier(commonStyleModify.setNode(this.node8 as TaroElement))
+        .columnAttrs(getNormalAttributes(this.node8 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node8 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node8 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node8 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node8 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -336,15 +377,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node9.childNodes[0] as TaroElement))
               .fontSize((this.node9.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node9.childNodes[0].parentNode as TaroButtonElement)))
               .fontColor((this.node9.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node9.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node9.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node9.childNodes[0].textContent)
               .attributeModifier(commonStyleModify.setNode(this.node9.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node9.childNodes[0] as TaroElement))
             }
           } else {
             Text(this.node9.childNodes[0].textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node9.childNodes[0]))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node9.childNodes[0] as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node9.childNodes[0]))
             .attributeModifier(commonStyleModify.setNode(this.node9.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node9.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node9.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node9.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -354,6 +395,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           }
         }
         .attributeModifier(commonStyleModify.setNode(this.node9 as TaroElement))
+        .columnAttrs(getNormalAttributes(this.node9 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node9 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node9 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node9 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node9 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -370,15 +412,15 @@ export default struct TARO_TEMPLATES_f0t0 {
               .textSpecialFontStyle(getFontAttributes(this.node10.childNodes[0] as TaroElement))
               .fontSize((this.node10.childNodes[0].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node10.childNodes[0].parentNode as TaroButtonElement)))
               .fontColor((this.node10.childNodes[0].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node10.childNodes[0].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node10.childNodes[0].parentNode as TaroButtonElement)._attrs.type).text))
-          } else {
+            } else {
               Text(this.node10.childNodes[0].textContent)
               .attributeModifier(commonStyleModify.setNode(this.node10.childNodes[0] as TaroElement))
               .textSpecialFontStyle(getFontAttributes(this.node10.childNodes[0] as TaroElement))
             }
           } else {
             Text(this.node10.childNodes[0].textContent)
-            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-            .textNormalStyle(getNormalAttributes(this.node10.childNodes[0]))
+            .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node10.childNodes[0] as TaroElement))
+            .textNormalFontStyle(getNormalAttributes(this.node10.childNodes[0]))
             .attributeModifier(commonStyleModify.setNode(this.node10.childNodes[0] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node10.childNodes[0] as TaroElement))
             .onVisibleAreaChange(getNodeThresholds(this.node10.childNodes[0] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node10.childNodes[0] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -388,6 +430,7 @@ export default struct TARO_TEMPLATES_f0t0 {
           }
         }
         .attributeModifier(commonStyleModify.setNode(this.node10 as TaroElement))
+        .columnAttrs(getNormalAttributes(this.node10 as TaroElement))
         .onVisibleAreaChange(getNodeThresholds(this.node10 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node10 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
         .onAreaChange(getComponentEventCallback(this.node10 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
           (this.node10 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -403,15 +446,15 @@ export default struct TARO_TEMPLATES_f0t0 {
             .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[6] as TaroElement))
             .fontSize((this.node0.childNodes[6].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node0.childNodes[6].parentNode as TaroButtonElement)))
             .fontColor((this.node0.childNodes[6].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node0.childNodes[6].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node0.childNodes[6].parentNode as TaroButtonElement)._attrs.type).text))
-        } else {
+          } else {
             Text(this.node0.childNodes[6].textContent)
             .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[6] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[6] as TaroElement))
           }
         } else {
           Text(this.node0.childNodes[6].textContent)
-          .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-          .textNormalStyle(getNormalAttributes(this.node0.childNodes[6]))
+          .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node0.childNodes[6] as TaroElement))
+          .textNormalFontStyle(getNormalAttributes(this.node0.childNodes[6]))
           .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[6] as TaroElement))
           .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[6] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[6] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[6] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -427,15 +470,15 @@ export default struct TARO_TEMPLATES_f0t0 {
             .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[6] as TaroElement))
             .fontSize((this.node0.childNodes[6].parentNode as TaroButtonElement).hmStyle.fontSize || getButtonFontSize((this.node0.childNodes[6].parentNode as TaroButtonElement)))
             .fontColor((this.node0.childNodes[6].parentNode as TaroButtonElement).hmStyle.color || getButtonColor(this.node0.childNodes[6].parentNode as TaroButtonElement, BUTTON_THEME_COLOR.get((this.node0.childNodes[6].parentNode as TaroButtonElement)._attrs.type).text))
-        } else {
+          } else {
             Text(this.node0.childNodes[6].textContent)
             .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[6] as TaroElement))
             .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[6] as TaroElement))
           }
         } else {
           Text(this.node0.childNodes[6].textContent)
-          .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node5 as TaroButtonElement))
-          .textNormalStyle(getNormalAttributes(this.node0.childNodes[6]))
+          .onClick((e: ClickEvent) => eventHandler(e, 'click', this.node0.childNodes[6] as TaroElement))
+          .textNormalFontStyle(getNormalAttributes(this.node0.childNodes[6]))
           .attributeModifier(commonStyleModify.setNode(this.node0.childNodes[6] as TaroElement))
           .textSpecialFontStyle(getFontAttributes(this.node0.childNodes[6] as TaroElement))
           .onVisibleAreaChange(getNodeThresholds(this.node0.childNodes[6] as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0.childNodes[6] as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
@@ -446,6 +489,7 @@ export default struct TARO_TEMPLATES_f0t0 {
       }
       Column() {}
       .attributeModifier(commonStyleModify.setNode(this.node11 as TaroElement))
+      .columnAttrs(getNormalAttributes(this.node11 as TaroElement))
       .onVisibleAreaChange(getNodeThresholds(this.node11 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node11 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
       .onAreaChange(getComponentEventCallback(this.node11 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
         (this.node11 as TaroElement)._nodeInfo.areaInfo = res[1]
@@ -454,6 +498,7 @@ export default struct TARO_TEMPLATES_f0t0 {
       .justifyContent(FlexManager.flexOptions(this.node11 as TaroElement).justifyContent)
     }
     .attributeModifier(commonStyleModify.setNode(this.node0 as TaroElement))
+    .columnAttrs(getNormalAttributes(this.node0 as TaroElement))
     .onVisibleAreaChange(getNodeThresholds(this.node0 as TaroElement) || [0.0, 1.0], getComponentEventCallback(this.node0 as TaroElement, VISIBLE_CHANGE_EVENT_NAME))
     .onAreaChange(getComponentEventCallback(this.node0 as TaroElement, AREA_CHANGE_EVENT_NAME, (res: TaroAny) => {
       (this.node0 as TaroElement)._nodeInfo.areaInfo = res[1]

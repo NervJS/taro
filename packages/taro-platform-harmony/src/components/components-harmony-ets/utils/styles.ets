@@ -109,6 +109,7 @@ export function getNormalAttributes (node: TaroElement): TaroStyleType {
     overflow: hmStyle.overflow,
     id: _attrs.id || _nid,
     opacity: hmStyle.opacity,
+    zIndex: hmStyle.zIndex
     // focus: _attrs.focus || false,
   }
 
