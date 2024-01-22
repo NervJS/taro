@@ -51,6 +51,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
 
   try {
     if (!config.isWatch) {
+      if (config.withoutBuild) return
+
       const compiler = webpack(webpackConfig)
       prebundle?.postCompilerStart(compiler)
       compiler.hooks.emit.tapAsync('taroBuildDone', async (compilation, callback) => {
@@ -97,6 +99,8 @@ export default async function build (appPath: string, rawConfig: H5BuildConfig):
       if (typeof webpackConfig.devServer.open === 'undefined') {
         webpackConfig.devServer.open = devUrl
       }
+
+      if (config.withoutBuild) return
 
       const compiler = webpack(webpackConfig)
       const server = new WebpackDevServer(webpackConfig.devServer, compiler)
