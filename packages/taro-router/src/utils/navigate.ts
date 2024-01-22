@@ -1,4 +1,4 @@
-import { eventCenter } from "@tarojs/runtime"
+import { eventCenter } from '@tarojs/runtime'
 
 export const isWeixin = () => !!navigator.userAgent.match(/\bMicroMessenger\b/ig)
 export const isDingTalk = () => !!navigator.userAgent.match(/\bDingTalk\b/ig)
