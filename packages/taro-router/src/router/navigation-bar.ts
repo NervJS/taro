@@ -15,21 +15,23 @@ interface NavigationBarCache {
   show?: boolean
 }
 
-let isLoadDdEntry = false
 
 export default class NavigationBarHandler {
   pageContext: PageHandler
   navigationBarElement: Element
   cache: Record<string, NavigationBarCache>
+  isLoadDdEntry = false
 
   constructor (pageContext: PageHandler){
     this.cache ={}
     this.pageContext = pageContext
     this.init()
     loadNavigationBarStyle()
+
     eventCenter.on('__taroH5SetNavigationTitle', (title)=> {
       this.setTitle(title)
     })
+    
     eventCenter.on('__taroH5setNavigationBarColor', ({ backgroundColor, frontColor })=> {
       if (typeof backgroundColor === 'string') this.setNavigationBarBackground(backgroundColor)
 
@@ -162,8 +164,8 @@ export default class NavigationBarHandler {
     }
 
     if (process.env.SUPPORT_DINGTALK_NAVIGATE !== 'disabled' && isDingTalk()) {
-      if (!isLoadDdEntry) {
-        isLoadDdEntry = true
+      if (!this.isLoadDdEntry) {
+        this.isLoadDdEntry = true
         require('dingtalk-jsapi/platform')
       }
       const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default

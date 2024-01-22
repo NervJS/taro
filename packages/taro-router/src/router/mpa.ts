@@ -6,7 +6,7 @@ import {
   stringify,
 } from '@tarojs/runtime'
 
-import { isDingTalk } from '../utils'
+import { setMpaTitle } from '../utils'
 import { RouterConfig } from '.'
 import MultiPageHandler from './multi-page'
 
@@ -26,22 +26,7 @@ const launchStampId = createStampId()
  * - 不支持路由动画
  */
 
-let preTitle = document.title
-let isLoadDdEntry = false
 
-async function setTitle (title: string): Promise<void> {
-  if (preTitle === title) return
-  document.title = title
-  preTitle = title
-  if (process.env.SUPPORT_DINGTALK_NAVIGATE !== 'disabled' && isDingTalk()) {
-    if (!isLoadDdEntry) {
-      isLoadDdEntry = true
-      require('dingtalk-jsapi/platform')
-    }
-    const setDingTitle = require('dingtalk-jsapi/api/biz/navigation/setTitle').default
-    setDingTitle({ title })
-  }
-}
 
 export async function createMultiRouter (
   history: History,
@@ -52,7 +37,7 @@ export async function createMultiRouter (
   if (typeof app.onUnhandledRejection === 'function') {
     window.addEventListener('unhandledrejection', app.onUnhandledRejection)
   }
-  eventCenter.on('__taroH5SetNavigationTitle', setTitle)
+  eventCenter.on('__taroH5SetNavigationTitle', setMpaTitle)
   RouterConfig.config = config
   const handler = new MultiPageHandler(config, history)
   const launchParam: Taro.getLaunchOptionsSync.LaunchOptions = {
@@ -88,7 +73,7 @@ export async function createMultiRouter (
   let enablePullDownRefresh = config?.window?.enablePullDownRefresh || false
 
   if (pageConfig) {
-    setTitle(pageConfig.navigationBarTitleText ?? document.title)
+    setMpaTitle(pageConfig.navigationBarTitleText ?? document.title)
     if (typeof pageConfig.enablePullDownRefresh === 'boolean') {
       enablePullDownRefresh = pageConfig.enablePullDownRefresh
     }
