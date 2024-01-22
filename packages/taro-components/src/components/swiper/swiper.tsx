@@ -14,8 +14,7 @@ let INSTANCE_ID = 0
   ]
 })
 export class Swiper implements ComponentInterface {
-  #id = INSTANCE_ID++
-  #source = ''
+  private _id = INSTANCE_ID++
 
   @Element() el: HTMLElement
   @State() swiperWrapper: HTMLElement | null
@@ -45,6 +44,11 @@ export class Swiper implements ComponentInterface {
    * 当前所在滑块的 index
    */
   @Prop() current = 0
+
+  /**
+   * 当前所在滑块的 item-id
+   */
+  @Prop() currentItemId = ''
 
   /**
    * 自动切换时间间隔
@@ -101,7 +105,7 @@ export class Swiper implements ComponentInterface {
 
   @Watch('current')
   watchCurrent (newVal) {
-    if (!this.isWillLoadCalled) return
+    if (this.currentItemId || !this.isWillLoadCalled) return
 
     const n = parseInt(newVal, 10)
     if (isNaN(n)) return
@@ -112,6 +116,25 @@ export class Swiper implements ComponentInterface {
       }
     } else {
       this.swiper.slideTo(n) // 更新下标
+    }
+  }
+
+  @Watch('currentItemId')
+  watchCurrentItemId (newVal) {
+    const wrapper = this.swiper.$wrapperEl?.[0]
+    let itemIdIndex = 0
+    wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)').forEach((swiperItem, index) => {
+      // @ts-ignore
+      if (swiperItem.itemId && swiperItem.itemId === newVal) {
+        itemIdIndex = index
+      }
+    })
+    if (this.circular) {
+      if (!this.swiper.isBeginning && !this.swiper.isEnd) {
+        this.swiper.slideToLoop(itemIdIndex) // 更新下标
+      }
+    } else {
+      this.swiper.slideTo(itemIdIndex) // 更新下标
     }
   }
 
@@ -168,9 +191,9 @@ export class Swiper implements ComponentInterface {
     this.el.removeChild = <T extends Node>(oldChild: T): T => {
       return newVal.removeChild(oldChild)
     }
-    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
-    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
-    this.el.addEventListener('MutationObserver', this.handleSwiperSizeDebounce)
+    this.el.addEventListener('DOMNodeInserted', this.handleSwiperSize)
+    this.el.addEventListener('DOMNodeRemoved', this.handleSwiperSize)
+    this.el.addEventListener('MutationObserver', this.handleSwiperSize)
   }
 
   @Watch("circular")
@@ -214,9 +237,7 @@ export class Swiper implements ComponentInterface {
     if (this.autoplay && !this.swiper.autoplay?.running) {
       this.swiper.autoplay?.start()
     }
-    if (this.swiper.$el) {
-      this.swiper.update() // 更新子元素
-    }
+    this.swiper.update() // 更新子元素
   }
 
   componentDidRender () {
@@ -224,9 +245,9 @@ export class Swiper implements ComponentInterface {
   }
 
   disconnectedCallback () {
-    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSizeDebounce)
-    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSizeDebounce)
-    this.el.removeEventListener('MutationObserver', this.handleSwiperSizeDebounce)
+    this.el.removeEventListener('DOMNodeInserted', this.handleSwiperSize)
+    this.el.removeEventListener('DOMNodeRemoved', this.handleSwiperSize)
+    this.el.removeEventListener('MutationObserver', this.handleSwiperSize)
     this.observer?.disconnect?.()
     this.observerFirst?.disconnect?.()
     this.observerLast?.disconnect?.()
@@ -235,8 +256,8 @@ export class Swiper implements ComponentInterface {
   handleSwiperLoopListen = () => {
     this.observerFirst?.disconnect && this.observerFirst.disconnect()
     this.observerLast?.disconnect && this.observerLast.disconnect()
-    this.observerFirst = new MutationObserver(this.handleSwiperLoopDebounce)
-    this.observerLast = new MutationObserver(this.handleSwiperLoopDebounce)
+    this.observerFirst = new MutationObserver(this.handleSwiperLoop)
+    this.observerLast = new MutationObserver(this.handleSwiperLoop)
     const wrapper = this.swiper.$wrapperEl?.[0]
     const list = wrapper.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)')
     if (list.length >= 1) {
@@ -250,23 +271,21 @@ export class Swiper implements ComponentInterface {
     }
   }
 
-  handleSwiperLoop = () => {
+  handleSwiperLoop = debounce(() => {
     if (!this.swiper || !this.circular) return
     const swiper = this.swiper as any // Note: loop 相关的方法 swiper 未声明
     const duplicates = this.swiperWrapper?.querySelectorAll('.swiper-slide-duplicate') || []
     if (duplicates.length < 2) {
       // Note: 循环模式下，但是前后垫片未注入
-      swiper.loopDestroy?.()
-      swiper.loopCreate?.()
+      swiper.loopDestroy()
+      swiper.loopCreate()
     } else {
-      swiper.loopFix?.()
+      swiper.loopFix()
     }
-  }
+  }, 50)
 
-  handleSwiperLoopDebounce = debounce(this.handleSwiperLoop, 50)
-
-  handleSwiperSizeDebounce = debounce(() => {
-    if (this.swiper && this.swiper.$wrapperEl && !this.circular) {
+  handleSwiperSize = debounce(() => {
+    if (this.swiper && !this.circular) {
       this.swiper.updateSlides()
     }
   }, 50)
@@ -276,21 +295,32 @@ export class Swiper implements ComponentInterface {
       autoplay,
       circular,
       current,
+      currentItemId,
       displayMultipleItems,
       duration,
       interval,
       vertical
     } = this
-
+    let initialSlide = circular ? current + 1 : current
+    if (currentItemId) {
+      let itemIdIndex = 0
+      this.el.querySelectorAll('taro-swiper-item-core:not(.swiper-slide-duplicate)').forEach((swiperItem, index) => {
+        // @ts-ignore
+        if (swiperItem.itemId && swiperItem.itemId === currentItemId) {
+          itemIdIndex = index
+        }
+      })
+      initialSlide = circular ? itemIdIndex + 1 : itemIdIndex
+    }
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this
 
     const options: any = {
-      pagination: { el: `.taro-swiper-${this.#id} > .swiper-container > .swiper-pagination` },
+      pagination: { el: `.taro-swiper-${this._id} > .swiper-container > .swiper-pagination` },
       direction: vertical ? 'vertical' : 'horizontal',
       loop: circular,
       slidesPerView: displayMultipleItems,
-      initialSlide: circular ? current + 1 : current,
+      initialSlide: initialSlide,
       speed: duration,
       observer: true,
       observeParents: true,
@@ -314,22 +344,13 @@ export class Swiper implements ComponentInterface {
           }
           that.onChange.emit({
             current: this.realIndex,
-            source: that.#source,
+            source: ''
           })
-        },
-        touchEnd: () => {
-          that.#source = 'touch'
-        },
-        autoplay() {
-          that.#source = 'autoplay'
         },
         transitionEnd () {
-          setTimeout(() => {
-            that.#source = ''
-          })
           that.onAnimationFinish.emit({
             current: this.realIndex,
-            source: that.#source,
+            source: ''
           })
         },
         observerUpdate (_swiper: ISwiper, e) {
@@ -356,8 +377,8 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    this.swiper = new SwiperJS(`.taro-swiper-${this.#id} > .swiper-container`, options)
-    this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this.#id} > .swiper-container > .swiper-wrapper`)
+    this.swiper = new SwiperJS(`.taro-swiper-${this._id} > .swiper-container`, options)
+    this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this._id} > .swiper-container > .swiper-wrapper`)
   }
 
   render () {
@@ -388,12 +409,12 @@ export class Swiper implements ComponentInterface {
     }
 
     return (
-      <Host class={`taro-swiper-${this.#id}`} style={hostStyle}>
+      <Host class={`taro-swiper-${this._id}`} style={hostStyle}>
         <div class='swiper-container' style={style}>
           <style type='text/css'>
             {`
-              .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${indicatorColor} }
-              .taro-swiper-${this.#id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet { background: ${indicatorColor} }
+              .taro-swiper-${this._id} > .swiper-container > .swiper-pagination > .swiper-pagination-bullet-active { background: ${indicatorActiveColor} }
             `}
           </style>
           <div class='swiper-wrapper'>
