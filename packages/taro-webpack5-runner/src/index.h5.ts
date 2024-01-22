@@ -226,6 +226,8 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
       }
       return item
     }))
+  } else {
+    proxy.push(...customProxy)
   }
 
   const chunkFilename = config.output?.chunkFilename as string ?? `${config.chunkDirectory || 'chunk'}/[name].js`

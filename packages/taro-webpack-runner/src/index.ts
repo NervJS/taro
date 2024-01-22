@@ -150,6 +150,8 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
       }
       return item
     }))
+  } else {
+    proxy.push(...customProxy)
   }
 
   if (typeof config.onWebpackChainReady === 'function') {
