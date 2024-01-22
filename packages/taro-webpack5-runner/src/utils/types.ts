@@ -46,6 +46,7 @@ export interface CommonBuildConfig extends IProjectBaseConfig {
   /** hooks */
   onCompilerMake: (compilation: Webpack.Compilation, compiler: Webpack.Compiler, plugin: any) => Promise<any>
   onParseCreateElement: (nodeName, componentConfig) => Promise<any>
+  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<CommonBuildConfig>) => Promise<any>
 }
 
 export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
@@ -62,8 +63,6 @@ export interface MiniBuildConfig extends CommonBuildConfig, IMiniAppConfig {
   taroComponentsPath?: string
   blended?: boolean
   hot?: boolean
-  /** hooks */
-  modifyComponentConfig: (componentConfig: IComponentConfig, config: Partial<MiniBuildConfig>) => Promise<any>
 }
 
 export interface H5BuildConfig extends CommonBuildConfig, IH5Config {
