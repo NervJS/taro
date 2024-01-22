@@ -1804,9 +1804,9 @@ ${code}
     ps.push(creator.createFileFromTemplate(templateName, 'config/dev.js', 'config/dev.js', createOpts))
     ps.push(creator.createFileFromTemplate(templateName, 'config/prod.js', 'config/prod.js', createOpts))
     ps.push(creator.createFileFromTemplate(templateName, 'project.config.json', 'project.config.json', createOpts))
-    ps.push(creator.createFileFromTemplate(templateName, '.gitignore', '.gitignore', createOpts))
-    ps.push(creator.createFileFromTemplate(templateName, '.editorconfig', '.editorconfig', createOpts))
-    ps.push(creator.createFileFromTemplate(templateName, '.eslintrc.js', '.eslintrc.js', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, '_gitignore', '.gitignore', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, '_editorconfig', '.editorconfig', createOpts))
+    ps.push(creator.createFileFromTemplate(templateName, '_eslintrc', '.eslintrc', createOpts))
     ps.push(creator.createFileFromTemplate(templateName, 'babel.config.js', 'babel.config.js', createOpts))
     ps.push(creator.createFileFromTemplate(templateName, 'src/index.html', 'src/index.html', createOpts))
     Promise.all(ps).then(() => {
