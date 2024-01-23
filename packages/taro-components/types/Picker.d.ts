@@ -62,7 +62,7 @@ interface PickerSelectorProps extends PickerStandardProps {
    */
   value?: number
   /** 设置 React 非受控状态下的初始取值
-   * @supported weapp, h5, rn
+   * @supported weapp, h5, rn, harmony_hybrid
    */
   defaultValue?: number
   /**
