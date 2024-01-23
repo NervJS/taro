@@ -17,11 +17,16 @@ function joinMock (...pathSegments) {
   // 初始化一个数组用于保存最终路径的各个部分
   const finalPathSegments = []
 
-  for (const segment of pathSegments) {
+  for (let segment of pathSegments) {
+    // 将路劲中的 `\\` 替换为 `/` (示例："E:\\code\\taro-16\\packages\\taro-cli")
+    if(segment.includes(`\\`)){
+      segment = segment.replace(/\\/g, '/')
+    }
+    
     // 去掉路径段两端的斜杠并分割路径
     const segments = segment.split('/').filter(processPathSegment)
 
-    // 处理路径段中的 `..`
+    // 处理路径段中的 `..` 
     for (const subSegment of segments) {
       if (subSegment === '..') {
         // 如果是 `..`，则回退一层
