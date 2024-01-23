@@ -64,7 +64,7 @@ export const navigateToMiniProgram: typeof Taro.navigateToMiniProgram = (options
       success: (res) => {
         if (res.confirm) {
           // @ts-ignore
-          native.navigateToMiniProgramBridgeAsync(options)
+          native.navigateToMiniProgram(options)
         } else {
           handle.fail({ errMsg: 'cancel' }, { resolve, reject })
         }

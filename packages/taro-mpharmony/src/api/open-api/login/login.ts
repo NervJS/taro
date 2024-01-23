@@ -26,7 +26,7 @@ export const login: typeof Taro.login = (options) => {
 
   let loginPromise = new Promise((resolve, reject) => {
     // @ts-ignore
-    native.loginBridgeAsync({
+    native.login({
       success: (res: any) => {
         resolve(res)
       },

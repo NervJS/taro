@@ -26,7 +26,7 @@ export const getUserInfo: typeof Taro.getUserInfo = (options) => {
   const handle = new MethodHandler({ name, success, fail, complete })
 
   // @ts-ignore
-  const ret = native.getUserInfoBridgeAsync({
+  const ret = native.getUserInfo({
     lang: lang,
     withCredentials: withCredentials,
     success: (res: any) => {

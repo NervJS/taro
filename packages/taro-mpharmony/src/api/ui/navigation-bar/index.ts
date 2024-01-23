@@ -141,7 +141,7 @@ export const setNavigationBarColor: typeof Taro.setNavigationBarColor = (options
     })
   }
   // @ts-ignore
-  native.setNavigationBarColorBridgeSync({ frontColor, backgroundColor, ...otherOptions })
+  native.setNavigationBarColor({ frontColor, backgroundColor, ...otherOptions })
   return handle.success()
 }
 

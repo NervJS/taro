@@ -321,7 +321,7 @@ export class CanvasContext implements Taro.CanvasContext {
     // 如果是本地file://开头的文件路径，需要先转换为internal://开头的沙箱路径
     if (imageResource.startsWith('file://')) {
       // @ts-ignore
-      imageResource = native.copyFileToSandboxCacheBridgeSync(imageResource).internalCachePath
+      imageResource = native.copyFileToSandboxCache(imageResource).internalCachePath
     }
     type TExtra = [number, number]
     this.enqueueActions(() => {

@@ -56,7 +56,7 @@ export const chooseMedia: typeof Taro.chooseMedia = async (options) => {
 
   return new Promise<Taro.chooseMedia.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.chooseMediaAssetsBridgeAsync({
+    native.chooseMediaAssets({
       count: count,
       mediaType: mediaType,
       sourceType: sourceSelected,

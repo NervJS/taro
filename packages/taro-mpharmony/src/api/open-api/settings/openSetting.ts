@@ -21,5 +21,5 @@ export const openSetting: typeof Taro.openSetting = function (options) {
   }
 
   // @ts-ignore
-  return native.openSettingBridgeAsync(options)
+  return native.openSetting(options)
 }

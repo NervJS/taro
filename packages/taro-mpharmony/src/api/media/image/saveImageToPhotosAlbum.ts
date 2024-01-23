@@ -34,7 +34,7 @@ export const saveImageToPhotosAlbum: typeof Taro.saveImageToPhotosAlbum = (optio
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.saveImageToPhotosAlbumBridgeAsync({
+    native.saveImageToPhotosAlbum({
       filePath: filePath,
       success: (res: any) => {
         handle.success(res, { resolve, reject })

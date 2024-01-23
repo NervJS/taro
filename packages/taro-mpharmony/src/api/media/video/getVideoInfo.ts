@@ -49,7 +49,7 @@ export const getVideoInfo: typeof Taro.getVideoInfo = (options) => {
 
   return new Promise<Taro.getVideoInfo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.getVideoInfoBridgeAsync({
+    native.getVideoInfo({
       src: src,
       success: (res: any) => {
         const result: Taro.getVideoInfo.SuccessCallbackResult = {

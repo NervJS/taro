@@ -15,20 +15,20 @@ export class NativeUpdateManager implements Taro.UpdateManager {
   }
 
   applyUpdate () {
-    native.applyUpdateBridgeAsync()
+    native.applyUpdate()
   }
 
   onCheckForUpdate (callback: Taro.UpdateManager.OnCheckForUpdateCallback) {
-    native.onCheckForUpdateBridgeAsync(callback)
+    native.onCheckForUpdate(callback)
   }
 
 
   onUpdateFailed (callback: (res: TaroGeneral.CallbackResult) => void) {
-    native.onUpdateFailedBridgeAsync(callback)
+    native.onUpdateFailed(callback)
 
   }
 
   onUpdateReady (callback: (res: TaroGeneral.CallbackResult) => void) {
-    native.onUpdateReadyBridgeAsync(callback)
+    native.onUpdateReady(callback)
   }
 }

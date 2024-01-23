@@ -30,7 +30,7 @@ export const onUserCaptureScreen: typeof Taro.onUserCaptureScreen = (callback) =
       }
       taroCallbackMap.set(callback, newCallback)
       // @ts-ignore
-      native.onUserCaptureScreenBridgeSync(newCallback)
+      native.onUserCaptureScreen(newCallback)
     }
   } catch (exception) {
     console.error(JSON.stringify(exception))

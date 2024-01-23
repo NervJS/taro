@@ -39,7 +39,7 @@ export const saveFile: typeof Taro.saveFile = (options) => {
   }
 
   return new Promise<Taro.saveFile.FailCallbackResult | Taro.saveFile.SuccessCallbackResult>((resolve, reject) => {
-    native.saveFileBridgeAsync({
+    native.saveFile({
       tempFilePath: tempFilePath,
       filePath: filePath,
       success: (res: any) => {

@@ -36,7 +36,7 @@ export const getImageInfo: typeof Taro.getImageInfo = function (options) {
 
   return new Promise<Taro.getImageInfo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.getImageInfoBridgeAsync({
+    native.getImageInfo({
       src: src,
       success: (res: any) => {
         const result: Taro.getImageInfo.SuccessCallbackResult = {

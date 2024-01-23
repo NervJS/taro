@@ -51,7 +51,7 @@ export const openAppAuthorizeSetting: typeof Taro.openAppAuthorizeSetting = (opt
  */
 export const getWindowInfo: typeof Taro.getWindowInfo = () => {
   // @ts-ignore
-  const info = native.getWindowInfoBridgeSync()
+  const info = native.getWindowInfo()
   const windowInfo: Taro.getWindowInfo.Result = {
     pixelRatio: info.pixelRatio,
     screenWidth: info.screenWidth,
@@ -93,7 +93,7 @@ export const getSystemSetting: typeof Taro.getSystemSetting = () => {
     return lastSystemSettingResult
   }
   // @ts-ignore
-  const info = native.getSystemSettingBridgeSync()
+  const info = native.getSystemSetting()
   lastSystemSettingResult.bluetoothEnabled = info.bluetoothEnabled
   lastSystemSettingResult.locationEnabled = info.locationEnabled
   lastSystemSettingResult.wifiEnabled = info.wifiEnabled
@@ -135,9 +135,9 @@ export const getDeviceInfo: typeof Taro.getDeviceInfo = () => {
  */
 export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
   // @ts-ignore
-  const info = native.getAppBaseInfoBridgeSync()
+  const info = native.getAppBaseInfo()
   // @ts-ignore
-  const sdkApiVersion = native.getSystemInfoSyncBridgeSync().ohosAPILevel.toString()
+  const sdkApiVersion = native.getSystemInfoSync().ohosAPILevel.toString()
   const appBaseInfo: Taro.getAppBaseInfo.Result = {
     SDKVersion: sdkApiVersion,
     enableDebug: info.enableDebug,
@@ -158,7 +158,7 @@ export const getAppBaseInfo: typeof Taro.getAppBaseInfo = () => {
  * microphoneAuthorized, notificationAuthorized, phoneCalendarAuthorized]
  */
 export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => {
-  const info = native.getAppAuthorizeSettingBridgeSync()
+  const info = native.getAppAuthorizeSetting()
   // @ts-ignore
   const appAuthorizeSetting: Taro.getAppAuthorizeSetting.Result = {
     /** 允许微信使用相册的开关（仅 iOS 有效） */
@@ -194,7 +194,7 @@ export const getAppAuthorizeSetting: typeof Taro.getAppAuthorizeSetting = () => 
  */
 export const getSystemInfoSync: typeof Taro.getSystemInfoSync = () => {
   // @ts-ignore
-  const info = native.getSystemInfoSyncBridgeSync()
+  const info = native.getSystemInfoSync()
   const windowInfo = getWindowInfo()
   const systemSetting = getSystemSetting()
   const appBaseInfo = getAppBaseInfo()

@@ -14,20 +14,20 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
 
 
   access (option: any): void {
-    native.accessBridgeAsync(option, { isAsync: true, autoRelease: false  })
+    native.access(option, { isAsync: true, autoRelease: false  })
   }
 
 
   getFileInfo (option: any): any {
-    native.getFileInfoBridgeAsync(option, { isAsync: true, autoRelease: false  })
+    native.getFileInfo(option, { isAsync: true, autoRelease: false  })
   }
 
   readFile (option: any): any {
-    native.readFileBridgeAsync(option, { isAsync: true, autoRelease: false  })
+    native.readFile(option, { isAsync: true, autoRelease: false  })
   }
 
   readFileSync (option: any): any {
-    native.readFileSyncBridgeSync(option, { isAsync: true, autoRelease: true  })
+    native.readFileSync(option, { isAsync: true, autoRelease: true  })
   }
 
   accessSync (option: any): any {

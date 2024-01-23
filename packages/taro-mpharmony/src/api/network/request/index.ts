@@ -31,7 +31,7 @@ export const _request = (options) => {
   let task!: Taro.RequestTask<any>
   const result: ReturnType<typeof Taro.request> = new Promise((resolve, reject) => {
     const upperMethod = method ? method.toUpperCase() : method
-    const taskID = native.requestBridgeAsync({
+    const taskID = native.request({
       url,
       method: upperMethod,
       ...otherOptions,

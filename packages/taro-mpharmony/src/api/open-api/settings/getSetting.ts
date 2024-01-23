@@ -22,6 +22,6 @@ export const getSetting: typeof Taro.getSetting = function (options) {
   }
 
   // @ts-ignore
-  return native.getSettingBridgeAsync(options)
+  return native.getSetting(options)
 
 }

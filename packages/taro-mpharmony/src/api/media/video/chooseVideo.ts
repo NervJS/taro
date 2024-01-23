@@ -63,7 +63,7 @@ export const chooseVideo: typeof Taro.chooseVideo = async (options) => {
 
   return new Promise<Taro.chooseVideo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.chooseMediaAssetsBridgeAsync({
+    native.chooseMediaAssets({
       count: 1,
       sizeType: sizeType,
       mediaType: mediaType,

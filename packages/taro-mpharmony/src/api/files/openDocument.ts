@@ -36,7 +36,7 @@ export const openDocument: typeof Taro.openDocument = (options) => {
 
   return new Promise<TaroGeneral.CallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.openDocumentBridgeAsync({
+    native.openDocument({
       filePath: filePath,
       showMenu: showMenu,
       fileType: fileType,

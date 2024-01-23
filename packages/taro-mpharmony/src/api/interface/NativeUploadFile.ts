@@ -14,22 +14,22 @@ export class NativeUploadFile implements Taro.UploadTask {
   }
 
   abort (): void {
-    native.abortBridgeAsync(this.taskID)
+    native.abort({ taskId: this.taskID })
   }
 
   offHeadersReceived (option: any): void {
-    native.offHeadersReceivedBridgeAsync(option, this.taskID)
+    native.offHeadersReceived({ listener: option, taskId: this.taskID })
   }
 
   offProgressUpdate (option: any): void {
-    native.offProgressUpdateBridgeAsync(option, this.taskID)
+    native.offProgressUpdate({ listener: option, taskId: this.taskID })
   }
 
   onHeadersReceived (option: any): void {
-    native.onHeadersReceivedBridgeAsync(option, this.taskID)
+    native.onHeadersReceived({ listener: option, taskId: this.taskID })
   }
 
   onProgressUpdate (option: any): void {
-    native.onProgressUpdateBridgeAsync(option, this.taskID)
+    native.onProgressUpdate({ listener: option, taskId: this.taskID })
   }
 }

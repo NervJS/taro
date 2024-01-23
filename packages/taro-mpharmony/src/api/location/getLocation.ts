@@ -52,7 +52,7 @@ export const getLocation: typeof Taro.getLocation = (options) => {
     }
 
     // @ts-ignore
-    native.getLocationBridgeAsync({
+    native.getLocation({
       success: (res: any) => {
         // 超时后即使后面回调触发了也不执行后面的逻辑
         if (!flag) {

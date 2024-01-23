@@ -15,15 +15,15 @@ export class NativeRequest implements Taro.RequestTask<any> {
   }
 
   abort (): void {
-    native.abortBridgeAsync(this.taskID)
+    native.abort({ taskId: this.taskID })
   }
 
   onHeadersReceived (option: any): void {
-    native.onHeadersReceivedBridgeAsync(option, this.taskID)
+    native.onHeadersReceived({ listener: option, taskId: this.taskID })
   }
 
   offHeadersReceived (option: any): void {
-    native.offHeadersReceivedBridgeAsync(option, this.taskID)
+    native.offHeadersReceived({ listener: option, taskId: this.taskID })
   }
 
   catch<TResult = never> (onrejected?: ((reason: any) => (PromiseLike<TResult> | TResult)) | undefined | null): Promise<any> {

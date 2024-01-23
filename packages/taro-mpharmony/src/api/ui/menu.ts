@@ -9,7 +9,7 @@ import native from '../NativeApi'
  */
 export const getMenuButtonBoundingClientRect: typeof Taro.getMenuButtonBoundingClientRect = () => {
   // @ts-ignore
-  const data = native.getMenuButtonBoundingClientRectBridgeSync()
+  const data = native.getMenuButtonBoundingClientRect()
   const rect = JSON.parse(JSON.stringify(data))
   return {
     left: rect.left,

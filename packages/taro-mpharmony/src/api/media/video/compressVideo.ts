@@ -85,7 +85,7 @@ export const compressVideo: typeof Taro.compressVideo = (options) => {
 
   return new Promise<Taro.compressVideo.SuccessCallbackResult>((resolve, reject) => {
     // @ts-ignore
-    native.compressVideoBridgeAsync({
+    native.compressVideo({
       src: src,
       quality: quality,
       bitrate: bitrate,

@@ -39,7 +39,7 @@ export const uploadFile = (options) => {
     }
   }
 
-  const taskID = native.uploadFileBridgeAsync({
+  const taskID = native.uploadFile({
     url,
     filePath,
     name,

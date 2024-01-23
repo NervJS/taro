@@ -57,7 +57,7 @@ const createDownloadTask = ({ url, header, filePath, withCredentials = true, tim
       clearTimeout(timeoutInter)
       const base64Data = reader.result as string
       // @ts-ignore
-      native.saveDataUrlToFileBridgeAsync({
+      native.saveDataUrlToFile({
         filePath,
         url,
         data: base64Data,

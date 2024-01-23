@@ -45,7 +45,7 @@ export const getFuzzyLocation: typeof Taro.getFuzzyLocation = (options) => {
     }, 10000)
 
     // @ts-ignore
-    native.getLocationBridgeAsync({
+    native.getLocation({
       success: (res: any) => {
         // 超时后即使后面回调触发了也不后面的逻辑
         if (!flag) {

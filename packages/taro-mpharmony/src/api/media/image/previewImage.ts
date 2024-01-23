@@ -87,7 +87,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
               return
             }
             // @ts-ignore
-            native.downloadFileBridgeAsync ({
+            native.downloadFile ({
               url: url, // 仅为示例，并非真实的资源
               success: function (res: any) {
                 // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容

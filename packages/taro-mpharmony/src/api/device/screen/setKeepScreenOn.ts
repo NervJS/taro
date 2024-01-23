@@ -35,7 +35,7 @@ export const setKeepScreenOn: typeof Taro.setKeepScreenOn = (options) => {
       )
     }
     // @ts-ignore
-    native.setKeepScreenOnBridgeAsync({
+    native.setKeepScreenOn({
       keepScreenOn: keepScreenOn,
       success: (res: any) => {
         handle.success(res, { resolve, reject })

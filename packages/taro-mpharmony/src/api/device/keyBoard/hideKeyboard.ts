@@ -21,7 +21,7 @@ export const hideKeyboard: typeof Taro.hideKeyboard = (options) => {
 
   return new Promise((resolve, reject) => {
     try {
-      native.hideKeyboardBridgeSync()
+      native.hideKeyboard()
       const result: TaroGeneral.CallbackResult = {
         errMsg: `${name}:ok`,
       }

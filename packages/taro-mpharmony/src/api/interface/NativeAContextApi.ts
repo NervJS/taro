@@ -14,10 +14,10 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
   src: string
   startTime: number
   volume: number
-
+  private contextId: string
 
   constructor ()  {
-    native.createInnerAudioContextBridgeSync()
+    this.contextId = native.createInnerAudioContext()
   }
 
   static createInnerAudioContext () {
@@ -25,27 +25,27 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
   }
 
   stop (): void {
-    native.stopBridgeSync()
+    native.stop({ contextId: this.contextId })
   }
 
   play (): void {
-    native.playBridgeSync()
+    native.play({ contextId: this.contextId })
   }
 
   onStop (option: any): void {
-    native.onStopBridgeSync(option)
+    native.onStop({ listener: option, contextId: this.contextId })
   }
 
   onPlay (option: any): void {
-    native.onPlayBridgeSync(option)
+    native.onPlay({ listener: option, contextId: this.contextId })
   }
 
   onEnded (option: any): void {
-    native.onEndedBridgeSync(option)
+    native.onEnded({ listener: option, contextId: this.contextId })
   }
 
   onError (option: any): void {
-    native.onErrorBridgeSync(option)
+    native.onError({ listener: option, contextId: this.contextId })
   }
 
   destroy (): void {
