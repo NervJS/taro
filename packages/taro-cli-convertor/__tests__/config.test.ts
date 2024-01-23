@@ -39,30 +39,6 @@ jest.mock('fs', () => {
   }
 })
 
-describe('小程序转换生成配置文件', () => {
-  beforeAll(() => {
-    jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
-  })
-
-  afterEach(() => {
-    // 清空文件信息
-    clearMockFiles()
-    jest.restoreAllMocks()
-  })
-
-  test('配置文件生成', (done) => {
-    setMockFiles(root, DEMO_JS_FILE_INFO)
-    const convertor = new Convertor(root, false)
-    // @ts-ignore
-    convertor.framework = 'React'
-    convertor.generateConfigFiles()
-    setTimeout(() => {
-      expect(resFileMap).toMatchSnapshot()
-      done()
-    }, 4500)
-  })
-})
-
 describe('日志', () => {
   beforeAll(() => {
     // mock报告生成

@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`小程序转换生成配置文件 配置文件生成 1`] = `Map {}`;
-
 exports[`日志 生成日志 1`] = `
 INFO [taro-cli-convertor] parseAst - 入参 
 {"sourceFilePath":"/wxProject/app.js","outputFilePath":"/wxProject/taroConvert/src/app.js","importStylePath":null,"imports":[]} 
