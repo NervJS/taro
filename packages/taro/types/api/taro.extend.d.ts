@@ -145,7 +145,7 @@ declare module '../index' {
     Current: getCurrentInstance.Current
 
     /** Vue3 插件，用于设置 `getApp()` 中的全局变量
-     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp
+     * @supported weapp, alipay, h5, rn, jd, qq, swan, tt, quickapp, harmony_hybrid
      * @example
      * ```js
      * // 使用插件
