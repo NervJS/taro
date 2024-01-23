@@ -50,7 +50,8 @@
     "query-string": "^7.1.1",
     "jsonp-retry": "^1.0.3",
     "whatwg-fetch": "^3.4.0",
-    "change-case": "^4.1.2"
+    "change-case": "^4.1.2",
+    "base64-js": "^1.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",
