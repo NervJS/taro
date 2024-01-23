@@ -1,17 +1,20 @@
-import './style/index.css'
+import './style/index.scss'
 
 import classNames from 'classnames'
 import React from 'react'
 
 import { omit } from '../../utils'
 
-interface IProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'type'>  {
   size?: string
   plain?: boolean
   hoverClass?: string
   hoverStartTime?: number
   hoverStayTime?: number
+  disabled?: boolean
   loading?: boolean
+  type?: string
+  className?: string
 }
  
 interface IState {
@@ -39,8 +42,9 @@ class Button extends  React.Component<IProps, IState> {
 
   render () {
     const {
+      plain = false,
       children,
-      disabled,
+      disabled = false,
       className,
       style,
       onClick,
@@ -49,20 +53,15 @@ class Button extends  React.Component<IProps, IState> {
       hoverClass = 'button-hover',
       hoverStartTime = 20,
       hoverStayTime = 70,
-      size,
-      plain,
       loading = false,
-      type = 'default'
+
+      type,
     } = this.props
-    const cls = className || classNames(
-      'weui-btn',
+    const cls = classNames(
+      className,
+      'taro-button-core',
       {
-        [`${hoverClass}`]: this.state.hover && !disabled && hoverClass !== 'none',
-        [`weui-btn_plain-${type}`]: plain,
-        [`weui-btn_${type}`]: !plain && type,
-        'weui-btn_mini': size === 'mini',
-        'weui-btn_loading': loading,
-        'weui-btn_disabled': disabled
+        [`${hoverClass}`]: this.state.hover && !disabled
       }
     )
 
@@ -99,13 +98,16 @@ class Button extends  React.Component<IProps, IState> {
 
     return (
       <button
-        {...omit(this.props, ['hoverClass', 'onTouchStart', 'onTouchEnd'])}
+        {...omit(this.props, ['hoverClass', 'onTouchStart', 'onTouchEnd', 'type', 'loading'])}
+        type={type}
         className={cls}
         style={style}
         onClick={onClick}
         disabled={disabled}
         onTouchStart={_onTouchStart}
         onTouchEnd={_onTouchEnd}
+        loading={loading.toString()}
+        plain={plain.toString()}
       >
         {loading && <i className='weui-loading' />}
         {children}
