@@ -1,6 +1,7 @@
 import Taro from '@tarojs/api'
 import { history } from '@tarojs/router'
 import { isFunction, PLATFORM_TYPE } from '@tarojs/shared'
+import { toByteArray } from 'base64-js'
 
 import {
   getApp,
@@ -15,6 +16,9 @@ import {
   switchTab
 } from './index'
 import { permanentlyNotSupport } from './utils'
+
+// @ts-ignore
+window.base64ToArrayBuffer = (base64: string) => toByteArray(base64).buffer
 
 const {
   Behavior,
