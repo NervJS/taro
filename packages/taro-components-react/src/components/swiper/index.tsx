@@ -89,6 +89,7 @@ const Swiper: React.FC<TaroSwiperProps> = ({
 
   return (
     <>
+      {/* @ts-ignore */}
       <SwiperReact
         style={Object.assign(
           {
