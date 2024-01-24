@@ -2,7 +2,7 @@ import { codeFrameColumns } from '@babel/code-frame'
 import generate from '@babel/generator'
 import { parse } from '@babel/parser'
 import { default as template } from '@babel/template'
-import traverse, { NodePath } from '@babel/traverse'
+import traverse from '@babel/traverse'
 import * as t from '@babel/types'
 import { fs } from '@tarojs/helper'
 import { camelCase, capitalize } from 'lodash'
@@ -16,13 +16,13 @@ const prettierJSConfig: prettier.Options = {
   parser: 'babel',
 }
 
-export function isAliasThis (p: NodePath<t.Node>, name: string) {
-  const binding = p.scope.getBinding(name)
-  if (binding) {
-    return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init'))
-  }
-  return false
-}
+// export function isAliasThis (p: NodePath<t.Node>, name: string) {
+//   const binding = p.scope.getBinding(name)
+//   if (binding) {
+//     return binding.path.isVariableDeclarator() && t.isThisExpression(binding.path.get('init'))
+//   }
+//   return false
+// }
 
 /**
  * 标准化传入路径
