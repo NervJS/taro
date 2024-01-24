@@ -11,16 +11,13 @@ const config = {
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
+  plugins: [],
   framework: 'react',
   compiler: {
     type: 'webpack5',
     prebundle: {
       enable: false
     }
-  },
-  terser: {
-    enable: false
   },
   mini: {
     enableSourceMap: false,
@@ -49,13 +46,6 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
-    webpackChain(chain) {
-      chain.merge({
-        output: {
-          chunkLoadingGlobal: 'nativeComponents',
-        },
-      })
-    },
     postcss: {
       autoprefixer: {
         enable: true,

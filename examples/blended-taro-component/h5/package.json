@@ -9,10 +9,8 @@
     "css": "sass"
   },
   "scripts": {
-    "build": "taro build native-components --type weapp",
-    "dev": "taro build --type weapp --watch",
-    "build:h5": "taro build native-components --type h5",
-    "dev:h5": "taro build --type h5 --watch"
+    "build:h5": "taro build --type h5",
+    "dev:h5": "npm run build:h5 -- --watch"
   },
   "browserslist": [
     "last 3 versions",

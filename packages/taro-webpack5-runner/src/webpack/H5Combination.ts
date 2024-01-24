@@ -76,7 +76,7 @@ export class H5Combination extends Combination<H5BuildConfig> {
       if (!webpackOutput.libraryTarget && !(webpackOutput.library as LibraryOptions)?.type) {
         webpackOutput.library = {
           name: webpackOutput.library as (Exclude<typeof webpackOutput.library, LibraryOptions>),
-          type: 'commonjs-module',
+          type: 'umd',
         }
       }
     }

@@ -9,10 +9,8 @@
     "css": "sass"
   },
   "scripts": {
-    "build": "taro build native-components --type weapp",
-    "dev": "taro build --type weapp --watch",
-    "build:h5": "taro build native-components --type h5",
-    "dev:h5": "taro build --type h5 --watch"
+    "build": "taro build native-components --type weapp --watch",
+    "dev": "taro build --type weapp --watch"
   },
   "browserslist": [
     "last 3 versions",
@@ -43,8 +41,8 @@
     "@babel/core": "^7.8.0",
     "@tarojs/cli": "3.5.6",
     "@tarojs/mini-runner": "3.5.6",
-    "@tarojs/plugin-html": "3.5.6",
-    "@tarojs/webpack-runner": "3.5.6",
+    "@tarojs/plugin-html": "^3.5.6",
+    "@tarojs/webpack5-runner": "^3.5.6",
     "@types/webpack-env": "^1.13.6",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",

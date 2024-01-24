@@ -1,29 +1,39 @@
 const path = require('path')
 
 const config = {
-  projectName: 'test',
-  date: '2021-1-18',
-  designWidth: 750,
+  projectName: 'blended-taro-component-vue3',
+  date: '2022-9-2',
+  designWidth: 375,
   deviceRatio: {
     640: 2.34 / 2,
     750: 1,
-    828: 1.81 / 2
+    828: 1.81 / 2,
+    375: 2 / 1
   },
   sourceRoot: 'src',
   outputRoot: 'dist',
-  plugins: [path.join(process.cwd(), '/plugin-mv/index.js')],
-  framework: 'react',
+  plugins: [
+    '@tarojs/plugin-html'
+  ],
+  sass: {
+    data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`,
+  },
+  defineConstants: {
+  },
+  copy: {
+    patterns: [
+    ],
+    options: {
+    }
+  },
+  framework: 'vue3',
   compiler: {
     type: 'webpack5',
     prebundle: {
       enable: false
     }
   },
-  terser: {
-    enable: false
-  },
   mini: {
-    enableSourceMap: false,
     postcss: {
       pxtransform: {
         enable: true,
@@ -49,13 +59,6 @@ const config = {
   h5: {
     publicPath: '/',
     staticDirectory: 'static',
-    webpackChain(chain) {
-      chain.merge({
-        output: {
-          chunkLoadingGlobal: 'nativeComponents',
-        },
-      })
-    },
     postcss: {
       autoprefixer: {
         enable: true,
@@ -68,6 +71,14 @@ const config = {
           namingPattern: 'module', // 转换模式，取值为 global/module
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
+      }
+    }
+  },
+  rn: {
+    appName: 'taroDemo',
+    postcss: {
+      cssModules: {
+        enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
       }
     }
   }

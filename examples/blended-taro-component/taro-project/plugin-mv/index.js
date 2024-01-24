@@ -10,9 +10,10 @@ export default (ctx, options) => {
     console.log('编译结束！')
 
     const rootPath = path.resolve(__dirname, '../..')
-    const miniappPath = path.join(rootPath, 'miniapp')
+    const isH5 = process.env.TARO_PLATFORM === 'web'
+    const appPath = path.join(rootPath, isH5 ? 'h5/src' : 'miniapp')
     const outputPath = path.resolve(__dirname, '../dist')
-    const destPath = path.join(miniappPath, 'taro')
+    const destPath = path.join(appPath, 'taro')
 
     if (fs.existsSync(destPath)) {
       fs.removeSync(destPath)

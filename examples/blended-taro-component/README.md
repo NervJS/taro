@@ -28,6 +28,21 @@ $ npm run build
 
 小程序开发者工具导入项目，项目路径请指向 `blended-taro-component/miniapp`。
 
+### 测试编译原生组件在 H5 中的应用
+#### 1. 编译原生组件
+
+```bash
+$ cd taro-project
+$ npm run build:h5
+```
+
+#### 2. 编译 H5 项目
+
+```bash
+$ cd h5
+$ yarn dev:h5
+```
+
 ### 介绍
 
 本示例包括了以下特性：
