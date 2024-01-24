@@ -274,7 +274,7 @@ export class Swiper implements ComponentInterface {
       }
     }
 
-    await waitUntil(() => document.querySelector('.swiper-slide'))
+    await waitUntil(() => document.querySelector(`.taro-swiper-${this.#id} > .swiper-container .swiper-slide`))
 
     this.swiper = new SwiperJS(`.taro-swiper-${this.#id} > .swiper-container`, options)
     this.swiperWrapper = this.el.querySelector(`.taro-swiper-${this.#id} > .swiper-container > .swiper-wrapper`)
