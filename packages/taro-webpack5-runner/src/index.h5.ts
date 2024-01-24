@@ -227,6 +227,7 @@ async function getDevServerOptions (appPath: string, config: H5BuildConfig): Pro
   const devServerOptions: WebpackDevServer.Configuration = recursiveMerge<any>(
     {
       open: !config.isBuildNativeComp,
+      allowedHosts: 'all',
       devMiddleware: {
         publicPath,
         writeToDisk: config.isBuildNativeComp
