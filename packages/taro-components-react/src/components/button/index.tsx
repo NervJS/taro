@@ -54,7 +54,6 @@ class Button extends  React.Component<IProps, IState> {
       hoverStartTime = 20,
       hoverStayTime = 70,
       loading = false,
-
       type,
     } = this.props
     const cls = classNames(
