@@ -1,4 +1,5 @@
 import Taro from '@tarojs/api'
+import { toByteArray } from 'base64-js'
 
 import native from '../NativeApi'
 
@@ -23,11 +24,33 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
   }
 
   readFile (option: any): any {
-    native.readFile(option, { isAsync: true, autoRelease: false  })
+    native.readFile({
+      ...(option || {}),
+      success: (res) => {
+        const result = {
+          data: res?.bufBase64 !== undefined ? toByteArray(res.bufBase64).buffer : res?.result
+        }
+        option?.success && option.success(result)
+        option?.complete && option.complete(result)
+      },
+      fail: (res) => {
+        option?.fail && option.fail(res)
+        option?.complete && option.complete(res)
+      },
+    })
   }
 
-  readFileSync (option: any): any {
-    native.readFileSync(option, { isAsync: true, autoRelease: true  })
+  readFileSync (filePath: string, encoding?: string, position?: number, length?: number): any {
+    const data = native.readFileSync({
+      filePath,
+      encoding,
+      position,
+      length,
+    })
+    if (data?.error) {
+      throw data.error
+    }
+    return (data?.bufBase64 !== undefined ? toByteArray(data.bufBase64).buffer : data?.result)
   }
 
   accessSync (option: any): any {
