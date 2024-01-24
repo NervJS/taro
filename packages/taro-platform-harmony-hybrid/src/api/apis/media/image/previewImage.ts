@@ -8,7 +8,6 @@ import { isFunction } from '@tarojs/shared'
 import Taro from '@tarojs/taro'
 import { showActionSheet, showToast } from '@tarojs/taro-h5'
 
-import { downloadFile } from '../../network/download'
 import { shouldBeObject } from '../../utils'
 import { MethodHandler } from '../../utils/handler'
 import { saveImageToPhotosAlbum } from './saveImageToPhotosAlbum'
@@ -41,6 +40,7 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
   const removeHandler = () => {
     eventCenter.off('__taroRouterChange', removeHandler)
     container.remove()
+    eventCenter.trigger('__taroExitFullScreen', {})
   }
   // 路由改变后应该关闭预览框
   eventCenter.on('__taroRouterChange', removeHandler)
@@ -85,7 +85,8 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
             if (tapIndex !== SAVE_IMAGE_BUTTON) {
               return
             }
-            downloadFile({
+            // @ts-ignore
+            native.downloadFile ({
               url: url, // 仅为示例，并非真实的资源
               success: function (res: any) {
                 // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
@@ -153,8 +154,37 @@ export const previewImage: typeof Taro.previewImage = async (options) => {
 
   swiper.current = currentIndex
 
+  // 创建一个固定定位的容器
+  const indexContainer = document.createElement('div')
+  indexContainer.style.position = 'fixed'
+  indexContainer.style.top = '35px'
+  indexContainer.style.left = '50%'
+  indexContainer.style.transform = 'translateX(-50%)'
+  indexContainer.style.zIndex = '999' // 确保显示在最上层
+  container.appendChild(indexContainer)
+
+  // 创建一个div用来显示索引
+  const indexDisplay = document.createElement('div')
+  indexContainer.style.position = 'fixed'
+  indexDisplay.id = 'index-display'
+  indexDisplay.style.backgroundColor = '#111' // 设置背景颜色为黑色
+  indexDisplay.style.color = 'white' // 设置文字颜色为白色
+  indexContainer.style.transform = 'translateX(-50%)'
+  indexContainer.style.zIndex = '999' // 确保显示在最上层
+  indexDisplay.style.border = '1px solid #111'
+  indexContainer.appendChild(indexDisplay)
+  indexDisplay.innerText = `${currentIndex + 2} / ${urls.length}`
+
+  // 监听滑块index并渲染
+  swiper.addEventListener('change', (e) => {
+    // @ts-ignore
+    const index = e.detail.current
+    indexDisplay.innerText = `${index + 1} / ${urls.length}`
+  })
+
   container.appendChild(swiper)
   document.body.appendChild(container)
+  eventCenter.trigger('__taroEnterFullScreen', {})
 
   return handle.success()
 }
