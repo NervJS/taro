@@ -1,5 +1,6 @@
 import { fs } from '@tarojs/helper'
 import * as taroize from '@tarojs/taroize'
+import wxTransformer from '@tarojs/transformer-wx'
 
 import Convertor from '../src/index'
 import { copyFileToTaro } from '../src/util'
@@ -46,6 +47,11 @@ describe('语法转换', () => {
 
     jest.spyOn(Convertor.prototype, 'init').mockImplementation(() => {})
     convert = new Convertor('', false)
+  })
+
+  // 还原模拟函数
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   test('使用新建的setData替换组件中this.data.xx，实现this.data.xx的转换', () => {
@@ -102,6 +108,88 @@ describe('语法转换', () => {
     )
     expect(css).toBe('background-image: url("data:image/png;base64,TB0pX/TB0PX/TB0rpX/TB0RPX");')
   })
+
+  test('支持export from语法，情况一：部分导入', () => {
+    const wxScriptFile = {
+      'tools1.js': `
+        {
+          export const var1 = 'Hello';
+          export function func1() {
+            return 'This is function 1';
+          }
+        }`,
+      'tools2.js': `
+        {
+          export { var1, func1 } from './tools1'
+        }`,
+    }
+    updateMockFiles(root, wxScriptFile)
+
+    const code = `
+      export { var1, func1 } from './tools1'
+    `
+    const file = path.join(root, 'tools2.js')
+    const outputFilePath = ''
+
+    const transformResult = wxTransformer({
+      code,
+      sourcePath: file,
+      isNormal: true,
+      isTyped: true,
+      logFilePath: '',
+    })
+
+    const { ast, scriptFiles } = convert.parseAst({
+      ast: transformResult.ast,
+      outputFilePath,
+      sourceFilePath: file,
+    })
+
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+    expect(scriptFiles.size).toBe(1)
+  })
+
+  test('支持export from语法，情况二：全部导入', () => {
+    const wxScriptFile = {
+      'tools1.js': `
+        {
+          export const var1 = 'Hello';
+          export function func1() {
+            return 'This is function 1';
+          }
+        }`,
+      'tools2.js': `
+        {
+          export * from './tools1'
+        }`,
+    }
+    updateMockFiles(root, wxScriptFile)
+
+    const code = `
+      export * from './tools1'
+    `
+    const file = path.join(root, 'tools2.js')
+    const outputFilePath = ''
+
+    const transformResult = wxTransformer({
+      code,
+      sourcePath: file,
+      isNormal: true,
+      isTyped: true,
+      logFilePath: '',
+    })
+
+    const { ast, scriptFiles } = convert.parseAst({
+      ast: transformResult.ast,
+      outputFilePath,
+      sourceFilePath: file,
+    })
+
+    const jsCode = generateMinimalEscapeCode(ast)
+    expect(jsCode).toMatchSnapshot()
+    expect(scriptFiles.size).toBe(1)
+  })
 })
 
 describe('文件转换', () => {
@@ -114,6 +202,11 @@ describe('文件转换', () => {
   beforeEach(() => {
     // 清空文件信息
     clearMockFiles()
+  })
+
+  // 还原模拟函数
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   test('拷贝tsconfig.json文件到转换后的工程', () => {
@@ -181,6 +274,11 @@ describe('page页面转换', () => {
     })
     convert = new Convertor('', false)
     convert.pages = Convertor.prototype.pages
+  })
+
+  // 还原模拟函数
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   test('template组件名转换', () => {
