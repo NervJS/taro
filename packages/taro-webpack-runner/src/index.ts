@@ -161,6 +161,7 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
   const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
     {
       open: !config.isBuildNativeComp,
+      disableHostCheck: true,
       publicPath,
       contentBase: outputPath,
       writeToDisk: config.isBuildNativeComp,
