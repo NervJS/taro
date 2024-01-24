@@ -459,36 +459,36 @@ export default class Convertor {
               }
             },
 
-            ClassExpression (astPath) {
-              updateLogFileContent(
-                `INFO [taro-cli-convertor] parseAst - 解析ClassExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
-              )
-              const node = astPath.node
-              if (node.superClass) {
-                let isTaroComponent = false
-                astPath.traverse({
-                  ClassMethod (astPath) {
-                    if (astPath.get('key').isIdentifier({ name: 'render' })) {
-                      astPath.traverse({
-                        JSXElement () {
-                          isTaroComponent = true
-                        },
-                      })
-                    }
-                  },
-                })
-                if (isTaroComponent) {
-                  if (node.id === null) {
-                    const parentNode = astPath.parentPath.node as t.VariableDeclarator
-                    if (t.isVariableDeclarator(astPath.parentPath)) {
-                      componentClassName = (parentNode.id as t.Identifier).name
-                    }
-                  } else {
-                    componentClassName = node.id!.name
-                  }
-                }
-              }
-            },
+            // ClassExpression (astPath) {
+            //   updateLogFileContent(
+            //     `INFO [taro-cli-convertor] parseAst - 解析ClassExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+            //   )
+            //   const node = astPath.node
+            //   if (node.superClass) {
+            //     let isTaroComponent = false
+            //     astPath.traverse({
+            //       ClassMethod (astPath) {
+            //         if (astPath.get('key').isIdentifier({ name: 'render' })) {
+            //           astPath.traverse({
+            //             JSXElement () {
+            //               isTaroComponent = true
+            //             },
+            //           })
+            //         }
+            //       },
+            //     })
+            //     if (isTaroComponent) {
+            //       if (node.id === null) {
+            //         const parentNode = astPath.parentPath.node as t.VariableDeclarator
+            //         if (t.isVariableDeclarator(astPath.parentPath)) {
+            //           componentClassName = (parentNode.id as t.Identifier).name
+            //         }
+            //       } else {
+            //         componentClassName = node.id!.name
+            //       }
+            //     }
+            //   }
+            // },
             ExportDefaultDeclaration (astPath) {
               updateLogFileContent(
                 `INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
@@ -1628,18 +1628,18 @@ ${code}
   }
 
   // 判断三方库是否安装
-  isInNodeModule (modulePath: string) {
-    const nodeModules = path.resolve(this.root, 'node_modules')
-    if (!fs.existsSync(nodeModules)) {
-      return false
-    }
-    const modules = fs.readdirSync(nodeModules)
-    const parts = modulePath.split('/')
-    if (modules.indexOf(parts[0]) === -1) {
-      return false
-    }
-    return true
-  }
+  // isInNodeModule (modulePath: string) {
+  //   const nodeModules = path.resolve(this.root, 'node_modules')
+  //   if (!fs.existsSync(nodeModules)) {
+  //     return false
+  //   }
+  //   const modules = fs.readdirSync(nodeModules)
+  //   const parts = modulePath.split('/')
+  //   if (modules.indexOf(parts[0]) === -1) {
+  //     return false
+  //   }
+  //   return true
+  // }
 
   traversePages (root: string, pages: Set<string>) {
     pages.forEach((page) => {
