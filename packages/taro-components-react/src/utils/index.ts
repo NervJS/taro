@@ -1,4 +1,4 @@
-export function throttle (fn, threshold = 250, scope?) {
+export function throttle(fn, threshold = 250, scope?) {
   let lastTime = 0
   let deferTimer: ReturnType<typeof setTimeout>
   return function (...args) {
@@ -17,7 +17,7 @@ export function throttle (fn, threshold = 250, scope?) {
   }
 }
 
-export function debounce (fn, ms = 250, scope?) {
+export function debounce(fn, ms = 250, scope?) {
   let timer: ReturnType<typeof setTimeout>
 
   return function (...args) {
@@ -29,6 +29,15 @@ export function debounce (fn, ms = 250, scope?) {
   }
 }
 
-export function nonNullable<T> (value: T): value is NonNullable<T> {
+export function omit(obj, fields) {
+  const shallowCopy = Object.assign({}, obj)
+  for (let i = 0; i < fields.length; i += 1) {
+    const key = fields[i]
+    delete shallowCopy[key]
+  }
+  return shallowCopy
+}
+
+export function nonNullable<T>(value: T): value is NonNullable<T> {
   return value !== null
 }
