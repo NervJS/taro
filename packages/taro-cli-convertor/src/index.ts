@@ -29,7 +29,10 @@ import * as prettier from 'prettier'
 
 import {
   analyzeImportUrl,
+  astToCode,
+  computeProjectFileNums,
   copyFileToTaro,
+  createErrorCodeMsg,
   DEFAULT_Component_SET,
   generateDir,
   generateReportFile,
@@ -40,9 +43,15 @@ import {
   handleThirdPartyLib,
   handleUnconvertDir,
   incrementId,
+  IReportData,
+  IReportError,
+  parseError,
+  parseProjectName,
+  paseGlobalErrMsgs,
   printToLogFile,
   replacePluginComponentUrl,
   transRelToAbsPath,
+  updateLogFileContent,
 } from './util'
 import { generateMinimalEscapeCode, hasTaroImport, isCommonjsImport, isCommonjsModule } from './util/astConvert'
 import { Constants } from './util/constants'
@@ -107,19 +116,13 @@ interface ITaroizeOptions {
   scriptPath?: string
   logFilePath?: string
   pluginInfo?: IPluginInfo
+  templatePath?: string
 }
 
 // convert.config,json配置参数
 interface IConvertConfig {
   external: string[] // 不做转换的目录
   nodePath: string[] // 搜索三方库的目录
-}
-
-interface IReportMsg {
-  filePath: string // 报告信息所在文件路径
-  message: string // 报告信息
-  type?: string // 报告信息类型
-  childReportMsg?: IReportMsg[]
 }
 
 interface IProjectConfig {
@@ -183,7 +186,6 @@ export default class Convertor {
   miniprogramRoot: string
   convertConfig: IConvertConfig
   external: string[]
-  reportErroMsg: IReportMsg[]
   projectConfig: IProjectConfig
   pluginInfo: IPluginInfo
   isTraversePlugin: boolean
@@ -208,7 +210,6 @@ export default class Convertor {
     this.hadBeenCopyedFiles = new Set<string>()
     this.hadBeenBuiltComponents = new Set<string>()
     this.hadBeenBuiltImports = new Set<string>()
-    this.reportErroMsg = []
     this.projectConfig = { pluginRoot: '', compileType: '' }
     this.pluginInfo = {
       pluginRoot: '',
@@ -230,6 +231,8 @@ export default class Convertor {
       this.getSitemapLocation()
       this.getSubPackages()
     } catch (error) {
+      updateLogFileContent(`ERROR [taro-cli-convertor] init - 初始化异常 ${getLineBreak()}${error} ${getLineBreak()}`)
+      printToLogFile()
       throw new Error(`初始化失败 ${getLineBreak()} ${error.message}`)
     }
   }
@@ -243,12 +246,12 @@ export default class Convertor {
         fs.ensureDirSync(this.convertRoot)
       }
 
-      // 转换自定义配置文件，如：tsconfig.json
-      this.convertSelfDefinedConfig()
-
       // 创建.convert目录，存放转换中间数据，如日志数据
       generateDir(path.join(this.convertRoot, '.convert'))
       globals.logFilePath = path.join(this.convertRoot, '.convert', 'convert.log')
+
+      // 转换自定义配置文件，如：tsconfig.json
+      this.convertSelfDefinedConfig()
 
       // 读取convert.config.json配置文件
       this.getConvertConfig()
@@ -261,6 +264,9 @@ export default class Convertor {
         this.parsePluginConfig(this.pluginInfo)
       }
     } catch (error) {
+      updateLogFileContent(
+        `ERROR [taro-cli-convertor] init - 初始化convert异常 ${getLineBreak()}${error} ${getLineBreak()}`
+      )
       throw new Error(`初始化convert失败 ${getLineBreak()} ${error.message}`)
     }
   }
@@ -277,6 +283,9 @@ export default class Convertor {
     const thisData = new Set<string>()
     traverse(ast, {
       ObjectProperty (astPath) {
+        updateLogFileContent(
+          `INFO [taro-cli-convertor] convertToOptional - 解析ObjectProperty ${getLineBreak()}${astPath} ${getLineBreak()}`
+        )
         // xxx({ data: {...} })，获取data属性中符合的数据
         const node = astPath.node
         const key = node.key
@@ -309,6 +318,9 @@ export default class Convertor {
         })
       },
       CallExpression (astPath) {
+        updateLogFileContent(
+          `INFO [taro-cli-convertor] convertToOptional - 解析CallExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+        )
         // 用setData进行初始化的数据
         const node = astPath.node
         const callee = node.callee
@@ -342,8 +354,14 @@ export default class Convertor {
         }
       },
       ClassBody (astPath) {
+        updateLogFileContent(
+          `INFO [taro-cli-convertor] convertToOptional - 解析ClassBody ${getLineBreak()}${astPath} ${getLineBreak()}`
+        )
         astPath.traverse({
           MemberExpression (path) {
+            updateLogFileContent(
+              `INFO [taro-cli-convertor] convertToOptional - 解析MemberExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+            )
             // 遇到成员表达式，抽取表达式的来源数据
             const code = path.toString()
             const optionMatch = code.match(/^(.*?)\./)?.[1]
@@ -390,6 +408,17 @@ export default class Convertor {
       ast: t.File
       scriptFiles: Set<string>
     } {
+    updateLogFileContent(
+      `INFO [taro-cli-convertor] parseAst - 入参 ${getLineBreak()}${JSON.stringify({
+        sourceFilePath,
+        outputFilePath,
+        importStylePath,
+        depComponents,
+        imports,
+        pluginComponents,
+      })} ${getLineBreak()}`
+    )
+
     const scriptFiles = new Set<string>()
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
@@ -407,6 +436,9 @@ export default class Convertor {
         enter (astPath) {
           astPath.traverse({
             ClassDeclaration (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析ClassDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               let isTaroComponent = false
               if (node.superClass) {
@@ -428,7 +460,9 @@ export default class Convertor {
             },
 
             ClassExpression (astPath) {
-              printToLogFile(`package: taro-cli-convertor, 解析ClassExpression: ${astPath} ${getLineBreak()}`)
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析ClassExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               if (node.superClass) {
                 let isTaroComponent = false
@@ -456,6 +490,9 @@ export default class Convertor {
               }
             },
             ExportDefaultDeclaration (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析ExportDefaultDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               const declaration = node.declaration
               if (declaration && (declaration.type === 'ClassDeclaration' || declaration.type === 'ClassExpression')) {
@@ -480,6 +517,34 @@ export default class Convertor {
               }
             },
             ImportDeclaration (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析ImportDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
+              const node = astPath.node
+              const source = node.source
+              const value = source.value
+              analyzeImportUrl(
+                self.root,
+                sourceFilePath,
+                scriptFiles,
+                source,
+                value,
+                self.isTsProject,
+                self.pluginInfo.pluginName,
+                self.entryJSON?.resolveAlias
+              )
+              // 获取导入语句中的所有导入名称（importName）并将其添加到scriptImports里面
+              const specifiers = node.specifiers
+              specifiers.forEach((specifier) => {
+                const importName = specifier.local.name
+                scriptImports.push(importName)
+              })
+            },
+            // export全部导入写法
+            ExportAllDeclaration (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析ExportAllDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               const source = node.source
               const value = source.value
@@ -492,15 +557,31 @@ export default class Convertor {
                 self.isTsProject,
                 self.pluginInfo.pluginName
               )
-              // 获取导入语句中的所有导入名称（importName）并将其添加到scriptImports里面
-              const specifiers = node.specifiers
-              specifiers.forEach((specifier) => {
-                const importName = specifier.local.name
-                scriptImports.push(importName)
-              })
+            },
+            // export部分导入写法
+            ExportNamedDeclaration (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析ExportNamedDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
+              const node = astPath.node
+              const source = node.source || ''
+              if (source) {
+                const value = source.value
+                analyzeImportUrl(
+                  self.root,
+                  sourceFilePath,
+                  scriptFiles,
+                  source,
+                  value,
+                  self.isTsProject,
+                  self.pluginInfo.pluginName
+                )
+              }
             },
             CallExpression (astPath) {
-              printToLogFile(`package: taro-cli-convertor, 解析CallExpression: ${astPath} ${getLineBreak()}`)
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析CallExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               const calleePath = astPath.get('callee')
               const callee = calleePath.node
@@ -514,8 +595,20 @@ export default class Convertor {
                   }
 
                   if (!t.isStringLiteral(args[0])) {
-                    // require 暂不支持动态导入，如require('aa' + aa)，后续收录到报告中
-                    throw new Error(`require暂不支持动态导入, filePath: ${sourceFilePath}, context: ${astPath}`)
+                    updateLogFileContent(
+                      `ERROR [taro-cli-convertor] parseAst - require 暂不支持动态导入 ${getLineBreak()}filePath: ${sourceFilePath} ${getLineBreak()}context: ${astPath} ${getLineBreak()}`
+                    )
+                    const position = {
+                      col: astPath.node.loc?.start?.column || 0,
+                      row: astPath.node.loc?.start?.line || 0,
+                    }
+                    throw new IReportError(
+                      `require暂不支持动态导入, filePath: ${sourceFilePath}, context: ${astPath}`,
+                      'DynamicImportNotSupportedError',
+                      sourceFilePath,
+                      astToCode(astPath.node) || '',
+                      position
+                    )
                   }
 
                   const value = args[0].value
@@ -526,7 +619,8 @@ export default class Convertor {
                     args[0],
                     value,
                     self.isTsProject,
-                    self.pluginInfo.pluginName
+                    self.pluginInfo.pluginName,
+                    self.entryJSON?.resolveAlias
                   )
                 } else if (WX_GLOBAL_FN.has(callee.name)) {
                   calleePath.replaceWith(t.memberExpression(t.identifier('Taro'), callee as t.Identifier))
@@ -574,6 +668,9 @@ export default class Convertor {
               }
             },
             MemberExpression (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析MemberExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               const object = node.object
               const prettier = node.property
@@ -599,7 +696,9 @@ export default class Convertor {
               }
             },
             OptionalMemberExpression (astPath) {
-              printToLogFile(`package: taro-cli-convertor, 解析OptionalMemberExpression: ${astPath} ${getLineBreak()}`)
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析OptionalMemberExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               const object = node.object
               const prettier = node.property
@@ -624,6 +723,9 @@ export default class Convertor {
 
             // 获取js界面所有用到的自定义标签，不重复
             JSXElement (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析JSXElement ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const openingElement = astPath.get('openingElement')
               const jsxName = openingElement.get('name')
               if (jsxName.isJSXIdentifier()) {
@@ -734,6 +836,9 @@ export default class Convertor {
 
             // 处理this.data.xx = XXX 的情况，因为此表达式在taro暂不支持, 转为setData
             AssignmentExpression (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析AssignmentExpression ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const node = astPath.node
               if (
                 t.isMemberExpression(node.left) &&
@@ -778,6 +883,9 @@ export default class Convertor {
           }
           astPath.traverse({
             StringLiteral (astPath) {
+              updateLogFileContent(
+                `INFO [taro-cli-convertor] parseAst - 解析StringLiteral ${getLineBreak()}${astPath} ${getLineBreak()}`
+              )
               const value = astPath.node.value
               const extname = path.extname(value)
               if (extname && REG_IMAGE.test(extname) && !REG_URL.test(value)) {
@@ -785,7 +893,7 @@ export default class Convertor {
                 if (path.isAbsolute(value)) {
                   sourceImagePath = path.join(self.root, value)
                 } else {
-                  sourceImagePath = path.resolve(sourceFilePath, '..', value)
+                  sourceImagePath = path.join(sourceFilePath, '..', value)
                 }
                 const imageRelativePath = promoteRelativePath(path.relative(sourceFilePath, sourceImagePath))
                 const outputImagePath = self.getDistFilePath(sourceImagePath)
@@ -793,7 +901,23 @@ export default class Convertor {
                   copyFileToTaro(sourceImagePath, outputImagePath)
                   printLog(processTypeEnum.COPY, '图片', self.generateShowPath(outputImagePath))
                 } else if (!t.isBinaryExpression(astPath.parent) || astPath.parent.operator !== '+') {
+                  const position = { 
+                    row: astPath.node.loc?.start?.line || 0,
+                    col: astPath.node.loc?.start?.column || 0
+                  }
+                  createErrorCodeMsg(
+                    'ImageNotFound',
+                    '图片不存在',
+                    astToCode(astPath.node) || '',
+                    sourceFilePath,
+                    position
+                  )
                   printLog(processTypeEnum.ERROR, '图片不存在', self.generateShowPath(sourceImagePath))
+                  updateLogFileContent(
+                    `WARN [taro-cli-convertor] parseAst - 图片不存在 ${getLineBreak()}${self.generateShowPath(
+                      sourceImagePath
+                    )} ${getLineBreak()}`
+                  )
                 }
                 if (astPath.parentPath.isVariableDeclarator()) {
                   astPath.replaceWith(t.callExpression(t.identifier('require'), [t.stringLiteral(imageRelativePath)]))
@@ -863,8 +987,17 @@ export default class Convertor {
                 }
                 let componentPath = componentObj.path
                 if (!componentPath.startsWith(self.root) && !componentPath.startsWith(self.pluginInfo.pluginRoot)) {
+                  createErrorCodeMsg(
+                    'invalidComponentPath',
+                    `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`,
+                    `${componentObj.name}: ${componentObj.path}`,
+                    globals.currentParseFile
+                  )
                   console.error(
                     `exception: 无效的组件路径，componentPath: ${componentPath}, 请在${outputFilePath}中手动引入`
+                  )
+                  updateLogFileContent(
+                    `WARN [taro-cli-convertor] parseAst - 无效的组件路径 ${getLineBreak()}${componentPath} ${getLineBreak()}`
                   )
                   return
                 }
@@ -886,6 +1019,9 @@ export default class Convertor {
                 if (!componentPath.startsWith(self.pluginInfo.pluginRoot)) {
                   console.error(
                     `exception: 在页面${sourceFilePath}引用了无效的插件组件路径${componentPath}, 请在${outputFilePath}中手动引入`
+                  )
+                  updateLogFileContent(
+                    `WARN [taro-cli-convertor] parseAst - ${sourceFilePath} 页面引用了无效的插件组件路径 ${getLineBreak()}${componentPath} ${getLineBreak()}`
                   )
                   return
                 }
@@ -915,6 +1051,9 @@ export default class Convertor {
     // 遍历 ast ,将多次 const { xxx } = require('@tarojs/with-weapp')  引入压缩为一次引入
     traverse(ast, {
       VariableDeclaration (astPath) {
+        updateLogFileContent(
+          `INFO [taro-cli-convertor] parseAst - 解析VariableDeclaration ${getLineBreak()}${astPath} ${getLineBreak()}`
+        )
         const { kind, declarations } = astPath.node
         let currentAstIsWithWeapp = false
         if (kind === 'const') {
@@ -1001,8 +1140,19 @@ export default class Convertor {
           const outputFilePath = path.join(this.convertRoot, tempConfig)
           copyFileToTaro(tempConfigPath, outputFilePath)
         } catch (err) {
+          createErrorCodeMsg(
+            'TsConfigCopyError',
+            `tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`,
+            '',
+            path.join(this.root, `tsconfig${this.fileTypes.CONFIG}`)
+          )
           // 失败不退出，仅提示
           console.log(chalk.red(`tsconfig${this.fileTypes.CONFIG} 拷贝失败，请检查！`))
+          updateLogFileContent(
+            `WARN [taro-cli-convertor] convertSelfDefinedConfig - tsconfig${
+              this.fileTypes.CONFIG
+            } 文件拷贝异常 ${err} ${getLineBreak()}`
+          )
         }
       }
     }
@@ -1017,7 +1167,18 @@ export default class Convertor {
         this.convertConfig = { ...convertJson }
         this.convertConfig.external = transRelToAbsPath(convertJsonPath, this.convertConfig.external)
       } catch (err) {
+        createErrorCodeMsg(
+          'ConvertConfigReadError',
+          `convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`,
+          '',
+          convertJsonPath
+        )
         console.log(chalk.red(`convert.config${this.fileTypes.CONFIG} 读取失败，请检查！`))
+        updateLogFileContent(
+          `ERROR [taro-cli-convertor] getConvertConfig - convert.config${
+            this.fileTypes.CONFIG
+          } 文件读取异常 ${getLineBreak()}${err} ${getLineBreak()}`
+        )
         process.exit(1)
       }
     }
@@ -1036,7 +1197,16 @@ export default class Convertor {
         if (projectConfigJson && projectConfigJson.compileType === Constants.PLUGIN) {
           const pluginRoot = projectConfigJson.pluginRoot
           if (pluginRoot === '' || isNull(pluginRoot) || isUndefined(pluginRoot)) {
-            console.log('project.config,json中pluginRoot为空或未配置，请确认配置是否正确')
+            createErrorCodeMsg(
+              'emptyPluginRoot',
+              'project.config,json中pluginRoot为空或未配置，请确认配置是否正确',
+              '',
+              projectConfigFilePath
+            )
+            console.log('project.config.json中pluginRoot为空或未配置，请确认配置是否正确')
+            updateLogFileContent(
+              `ERROR [taro-cli-convertor] parseProjectConfig - project.config.json 中 pluginRoot 为空或未配置 ${getLineBreak()}`
+            )
             process.exit(1)
           }
           this.projectConfig = { ...projectConfigJson }
@@ -1047,7 +1217,17 @@ export default class Convertor {
           this.root = path.join(this.root, projectConfigJson.miniprogramRoot.replace(/\/+$/, ''))
         }
       } catch (err) {
-        throw new Error(`project.config${this.fileTypes.CONFIG} 解析失败，请检查！`)
+        updateLogFileContent(
+          `ERROR [taro-cli-convertor] parseProjectConfig - project.config${
+            this.fileTypes.CONFIG
+          } 文件解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
+        )
+        throw new IReportError(
+          `project.config${this.fileTypes.CONFIG} 解析失败，请检查！`, 
+          'ProjectConfigParsingError', 
+          projectConfigFilePath,
+          ''
+        )
       }
     }
   }
@@ -1092,7 +1272,18 @@ export default class Convertor {
       }
     } catch (err) {
       this.entryJSON = {}
+      createErrorCodeMsg(
+        'AppConfigReadError',
+        `app${this.fileTypes.CONFIG} 读取失败，请检查！`,
+        '',
+        this.entryJSONPath
+      )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 读取失败，请检查！`))
+      updateLogFileContent(
+        `ERROR [taro-cli-convertor] getApp - app${
+          this.fileTypes.CONFIG
+        } 文件读取异常 ${getLineBreak()}${err} ${getLineBreak()}`
+      )
       process.exit(1)
     }
   }
@@ -1107,7 +1298,16 @@ export default class Convertor {
     if (plugins && Object.keys(plugins).length) {
       this.pluginInfo.pluginName = Object.keys(plugins)[0]
     } else {
+      createErrorCodeMsg(
+        'unregisteredPlugin',
+        '当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确',
+        '',
+        this.entryJSONPath
+      )
       console.log('当前应用没有注册插件，请检查app.json中的plugins字段是否配置正确')
+      updateLogFileContent(
+        `ERROR [taro-cli-convertor] parsePluginName - 当前应用没有注册插件，请检查 app.json 中的 plugins 字段 ${getLineBreak()}`
+      )
       process.exit(1)
     }
   }
@@ -1115,7 +1315,16 @@ export default class Convertor {
   getPages () {
     const pages = this.entryJSON.pages
     if (!pages || !pages.length) {
+      createErrorCodeMsg(
+        'missingPageConfig',
+        `app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`,
+        '',
+        this.entryJSONPath
+      )
       console.log(chalk.red(`app${this.fileTypes.CONFIG} 配置有误，缺少页面相关配置`))
+      updateLogFileContent(
+        `WARN [taro-cli-convertor] getPages - app${this.fileTypes.CONFIG} 文件配置异常 ${getLineBreak()}`
+      )
       return
     }
     this.pages = new Set(pages)
@@ -1152,6 +1361,7 @@ export default class Convertor {
 
   generateScriptFiles (files: Set<string>) {
     if (!files) {
+      updateLogFileContent(`WARN [taro-cli-convertor] generateScriptFiles - 文件不存在 ${getLineBreak()}`)
       return
     }
     if (files.size) {
@@ -1196,9 +1406,14 @@ export default class Convertor {
           this.writeFileToTaro(outputFilePath, prettier.format(jsCode, prettierJSConfig))
           printLog(processTypeEnum.COPY, 'JS 文件', this.generateShowPath(outputFilePath))
           this.hadBeenCopyedFiles.add(file)
+          globals.currentParseFile = file
           this.generateScriptFiles(scriptFiles)
         } catch (error) {
+          parseError(error, file, '')
           console.log(`转换文件${file}异常，errorMessage:${error}`)
+          updateLogFileContent(
+            `WARN [taro-cli-convertor] generateScriptFiles - ${file} 文件转换异常 ${getLineBreak()}${error} ${getLineBreak()}`
+          )
         }
       })
     }
@@ -1280,6 +1495,7 @@ ${code}
         isApp: true,
         logFilePath: globals.logFilePath,
       })
+      globals.errCodeMsgs.push(...taroizeResult.errCodeMsgs)
       const { ast, scriptFiles } = this.parseAst({
         ast: taroizeResult.ast,
         sourceFilePath: this.entryJSPath,
@@ -1302,13 +1518,19 @@ ${code}
       if (this.entryStyle) {
         this.traverseStyle(this.entryStylePath, this.entryStyle)
       }
+      globals.currentParseFile = this.entryJSPath
       this.generateScriptFiles(scriptFiles)
       if (this.entryJSON.tabBar) {
         this.generateTabBarIcon(this.entryJSON.tabBar)
         this.generateCustomTabbar(this.entryJSON.tabBar)
       }
     } catch (err) {
-      console.log(err)
+      parseError(err, this.entryJSPath, '')
+      updateLogFileContent(
+        `WARN [taro-cli-convertor] generateEntry - ${
+          this.entryJSPath
+        } 入口文件生成异常 ${getLineBreak()}${err} ${getLineBreak()}`
+      )
     }
   }
 
@@ -1421,7 +1643,9 @@ ${code}
 
   traversePages (root: string, pages: Set<string>) {
     pages.forEach((page) => {
-      printToLogFile(`开始转换页面 ${page} ${getLineBreak()}`)
+      updateLogFileContent(
+        `INFO [taro-cli-convertor] traversePages - 开始转换页面 ${getLineBreak()}${page} ${getLineBreak()}`
+      )
       const pagePath = this.isTsProject ? path.join(this.miniprogramRoot, page) : path.join(root, page)
 
       // 处理不转换的页面，可在convert.config.json中external字段配置
@@ -1431,15 +1655,21 @@ ${code}
         return
       }
 
-      const pageJSPath = pagePath + this.fileTypes.SCRIPT
+      const pageJSPath = pagePath + this.fileTypes.SCRIPT   // .js文件
       const pageDistJSPath = this.getDistFilePath(pageJSPath)
-      const pageConfigPath = pagePath + this.fileTypes.CONFIG
-      const pageStylePath = pagePath + this.fileTypes.STYLE
-      const pageTemplPath = pagePath + this.fileTypes.TEMPL
+      const pageConfigPath = pagePath + this.fileTypes.CONFIG   // .json文件
+      const pageStylePath = pagePath + this.fileTypes.STYLE     // .wxss文件
+      const pageTemplPath = pagePath + this.fileTypes.TEMPL     // .wxml文件
 
       try {
         if (!fs.existsSync(pageJSPath)) {
-          throw new Error(`页面 ${page} 没有 JS 文件！`)
+          updateLogFileContent(`ERROR [taro-cli-convertor] traversePages - 页面 ${page} 没有 JS 文件 ${getLineBreak()}`)
+          throw new IReportError(
+            `页面 ${page} 没有 JS 文件！`,
+            'MissingJSFileError',
+            pagePath,
+            ''
+          )
         }
         const param: ITaroizeOptions = {}
         printLog(processTypeEnum.CONVERT, '页面文件', this.generateShowPath(pageJSPath))
@@ -1471,12 +1701,14 @@ ${code}
               const unResolveComponentPath: string = pageUsingComponents[component]
               let componentPath
               if (unResolveComponentPath.startsWith('plugin://')) {
+                globals.currentParseFile = pageConfigPath
                 componentPath = replacePluginComponentUrl(unResolveComponentPath, this.pluginInfo)
                 pluginComponents.add({
                   name: component,
                   path: componentPath,
                 })
               } else if (this.isThirdPartyLib(unResolveComponentPath, path.resolve(pagePath, '..'))) {
+                globals.currentParseFile = pageConfigPath
                 handleThirdPartyLib(unResolveComponentPath, this.convertConfig?.nodePath, root, this.convertRoot)
               } else {
                 if (unResolveComponentPath.startsWith(root)) {
@@ -1518,10 +1750,13 @@ ${code}
         param.rootPath = root
         param.pluginInfo = this.pluginInfo
         param.logFilePath = globals.logFilePath
+        param.templatePath = pageTemplPath
         const taroizeResult = taroize({
           ...param,
           framework: this.framework,
         })
+        globals.errCodeMsgs.push(...taroizeResult.errCodeMsgs)
+        globals.currentParseFile = pageConfigPath
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
           sourceFilePath: pageJSPath,
@@ -1539,12 +1774,18 @@ ${code}
         if (pageStyle) {
           this.traverseStyle(pageStylePath, pageStyle)
         }
+        globals.currentParseFile = pageJSPath
         this.generateScriptFiles(scriptFiles)
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '页面转换', this.generateShowPath(pageJSPath))
-        console.log(err)
-        printToLogFile(`package: taro-cli-convertor, 转换页面异常 ${err.stack} ${getLineBreak()}`)
+        updateLogFileContent(
+          `WARN [taro-cli-convertor] processStyleAssets - 页面转换异常 ${getLineBreak()}Path: ${this.generateShowPath(
+            pageJSPath
+          )} ${getLineBreak()}${err.message} ${getLineBreak()}`
+        )
+        parseError(err, pageJSPath, pageTemplPath)
+        console.log(`页面: ${page}转换失败 ${err.message}`)
       }
     })
   }
@@ -1554,7 +1795,11 @@ ${code}
       return
     }
     components.forEach((componentObj) => {
-      printToLogFile(`package: taro-cli-convertor, 开始转换组件 ${componentObj.path} ${getLineBreak()}`)
+      updateLogFileContent(
+        `INFO [taro-cli-convertor] traverseComponents - 开始转换组件 ${getLineBreak()}${
+          componentObj.path
+        } ${getLineBreak()}`
+      )
       const component = componentObj.path
       if (this.hadBeenBuiltComponents.has(component)) return
       this.hadBeenBuiltComponents.add(component)
@@ -1568,31 +1813,78 @@ ${code}
       try {
         const param: ITaroizeOptions = {}
         const depComponents = new Set<IComponent>()
+        const pluginComponents = new Set<IComponent>()
         if (!fs.existsSync(componentJSPath)) {
-          throw new Error(`自定义组件 ${component} 没有 JS 文件！`)
+          updateLogFileContent(
+            `ERROR [taro-cli-convertor] traverseComponents - 自定义组件 ${component} 没有 JS 文件 ${getLineBreak()}`
+          )
+          throw new IReportError(
+            `自定义组件 ${component} 没有 JS 文件！`,
+            'MissingJSFileError',
+            componentJSPath,
+            ''
+          )
         }
         printLog(processTypeEnum.CONVERT, '组件文件', this.generateShowPath(componentJSPath))
+        let componentConfig
         if (fs.existsSync(componentConfigPath)) {
           printLog(processTypeEnum.CONVERT, '组件配置', this.generateShowPath(componentConfigPath))
           const componentConfigStr = String(fs.readFileSync(componentConfigPath))
-          const componentConfig = JSON.parse(componentConfigStr)
+          componentConfig = JSON.parse(componentConfigStr)
+        } else if (this.entryUsingComponents) {
+          componentConfig = {}
+        }
+        if (componentConfig) {
+          // app.json中注册的组件为公共组件
+          if (this.entryUsingComponents && !this.isTraversePlugin) {
+            componentConfig.usingComponents = {
+              ...componentConfig.usingComponents,
+              ...this.entryUsingComponents,
+            }
+          }
           const componentUsingComponnets = componentConfig.usingComponents
           if (componentUsingComponnets) {
             // 页面依赖组件
+            const usingComponents = {}
             Object.keys(componentUsingComponnets).forEach((component) => {
-              let componentPath = path.resolve(componentConfigPath, '..', componentUsingComponnets[component])
-              if (!fs.existsSync(resolveScriptPath(componentPath))) {
-                componentPath = path.join(this.root, componentUsingComponnets[component])
+              const unResolveUseComponentPath: string = componentUsingComponnets[component]
+              let componentPath
+              if (unResolveUseComponentPath.startsWith('plugin://')) {
+                componentPath = replacePluginComponentUrl(unResolveUseComponentPath, this.pluginInfo)
+                pluginComponents.add({
+                  name: component,
+                  path: componentPath,
+                })
+              } else if (this.isThirdPartyLib(unResolveUseComponentPath, path.resolve(component, '..'))) {
+                handleThirdPartyLib(
+                  unResolveUseComponentPath,
+                  this.convertConfig?.nodePath,
+                  this.root,
+                  this.convertRoot
+                )
+              } else {
+                if (unResolveUseComponentPath.startsWith(this.root)) {
+                  componentPath = unResolveUseComponentPath
+                } else {
+                  componentPath = path.join(componentConfigPath, '..', componentUsingComponnets[component])
+                  if (!fs.existsSync(resolveScriptPath(componentPath))) {
+                    componentPath = path.join(this.root, componentUsingComponnets[component])
+                  }
+                  if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
+                    componentPath = path.join(componentPath, `/index`)
+                  }
+                }
+                depComponents.add({
+                  name: component,
+                  path: componentPath,
+                })
               }
-              if (!fs.existsSync(componentPath + this.fileTypes.SCRIPT)) {
-                componentPath = path.join(componentPath, `/index`)
-              }
-              depComponents.add({
-                name: component,
-                path: componentPath,
-              })
             })
-            delete componentConfig.usingComponents
+            if (Object.keys(usingComponents).length === 0) {
+              delete componentConfig.usingComponents
+            } else {
+              componentConfig.usingComponents = usingComponents
+            }
           }
           param.json = JSON.stringify(componentConfig)
         }
@@ -1609,10 +1901,13 @@ ${code}
         param.path = path.dirname(componentJSPath)
         param.rootPath = this.root
         param.logFilePath = globals.logFilePath
+        param.templatePath = componentTemplPath
         const taroizeResult = taroize({
           ...param,
           framework: this.framework,
         })
+        globals.errCodeMsgs.push(...taroizeResult.errCodeMsgs)
+        globals.currentParseFile = componentConfigPath
         const { ast, scriptFiles } = this.parseAst({
           ast: taroizeResult.ast,
           sourceFilePath: componentJSPath,
@@ -1622,6 +1917,7 @@ ${code}
             : null,
           depComponents,
           imports: taroizeResult.imports,
+          pluginComponents: pluginComponents,
         })
 
         const jsCode = generateMinimalEscapeCode(ast)
@@ -1633,12 +1929,18 @@ ${code}
         if (componentStyle) {
           this.traverseStyle(componentStylePath, componentStyle)
         }
+        globals.currentParseFile = componentJSPath
         this.generateScriptFiles(scriptFiles)
         this.traverseComponents(depComponents)
       } catch (err) {
         printLog(processTypeEnum.ERROR, '组件转换', this.generateShowPath(componentJSPath))
-        console.log(err)
-        printToLogFile(`package: taro-cli-convertor, 转换组件异常 ${err.stack} ${getLineBreak()}`)
+        updateLogFileContent(
+          `WARN [taro-cli-convertor] traverseComponents - 组件转换异常 ${getLineBreak()}Path: ${this.generateShowPath(
+            componentJSPath
+          )} ${getLineBreak()}${err} ${getLineBreak()}`
+        )
+        console.log(`组件转换失败 ${err.message}`)
+        parseError(err, componentJSPath, componentTemplPath)
       }
     })
   }
@@ -1665,12 +1967,15 @@ ${code}
         url = url.split('?')[0]
         url = url.split('#')[0]
 
-        const originPath = path.resolve(stylePath, url)
-        const destPath = path.resolve(styleDist, url)
+        const originPath = path.join(stylePath, url)
+        const destPath = path.join(styleDist, url)
         const destDir = path.dirname(destPath)
 
         if (!fs.existsSync(originPath)) {
           printLog(processTypeEnum.WARNING, '静态资源', `找不到资源：${originPath}`)
+          updateLogFileContent(
+            `WARN [taro-cli-convertor] processStyleAssets - 找不到资源 ${getLineBreak()}${originPath} ${getLineBreak()}`
+          )
         } else if (!fs.existsSync(destPath)) {
           fs.ensureDirSync(destDir)
           fs.copyFile(originPath, destPath)
@@ -1683,7 +1988,9 @@ ${code}
   }
 
   async traverseStyle (filePath: string, style: string) {
-    printToLogFile(`package: taro-cli-convertor, 开始转换样式 ${filePath} ${getLineBreak()}`)
+    updateLogFileContent(
+      `INFO [taro-cli-convertor] traverseStyle - 开始转换样式 ${getLineBreak()}${filePath} ${getLineBreak()}`
+    )
     const { imports, content } = processStyleImports(style, (str, stylePath) => {
       let relativePath = stylePath
       if (path.isAbsolute(relativePath)) {
@@ -1700,7 +2007,7 @@ ${code}
       imports.forEach((importItem) => {
         const importPath = path.isAbsolute(importItem)
           ? path.join(this.root, importItem)
-          : path.resolve(path.dirname(filePath), importItem)
+          : path.join(path.dirname(filePath), importItem)
         if (fs.existsSync(importPath)) {
           const styleText = fs.readFileSync(importPath).toString()
           this.traverseStyle(importPath, styleText)
@@ -1726,6 +2033,7 @@ ${code}
     this.traverseComponents(this.pluginInfo.publicComponents)
 
     // 转换插件的工具文件
+    globals.currentParseFile = this.pluginInfo.entryFilePath
     this.generateScriptFiles(new Set([this.pluginInfo.entryFilePath]))
   }
 
@@ -1741,7 +2049,14 @@ ${code}
       try {
         const pluginConfigJson = JSON.parse(String(fs.readFileSync(pluginConfigPath)))
         if (!pluginConfigJson) {
+          createErrorCodeMsg(
+            'emptyPluginConfig',
+            '插件配置信息为空，请检查！',
+            '',
+            pluginConfigPath
+          )
           console.log('插件配置信息为空，请检查！')
+          updateLogFileContent(`WARN [taro-cli-convertor] parsePluginConfig - 插件配置信息为空 ${getLineBreak()}`)
           return
         }
 
@@ -1772,6 +2087,15 @@ ${code}
           pluginInfo.entryFilePath = path.join(pluginInfo.pluginRoot, entryFilePath)
         }
       } catch (err) {
+        createErrorCodeMsg(
+          'PluginJsonParsingError',
+          '解析plugin.json失败，请检查！',
+          '',
+          pluginConfigPath
+        )
+        updateLogFileContent(
+          `ERROR [taro-cli-convertor] parsePluginConfig - plugin.json 解析异常 ${getLineBreak()}${err} ${getLineBreak()}`
+        )
         console.log('解析plugin.json失败，请检查！')
         process.exit(1)
       }
@@ -1838,29 +2162,54 @@ ${code}
    */
   generateReport () {
     const reportDir = path.join(this.convertRoot, 'report')
-    const reportBundleFilePath = path.resolve(__dirname, '../', 'report/bundle.js')
-    const reportIndexFilePath = path.resolve(__dirname, '../', 'report/report.html')
+    const iconFilePath = path.join(__dirname, '../', 'report/favicon.ico')
+    const reportIndexFilePath = path.join(__dirname, '../', 'report/index.html')
+    const reportBundleFilePath = path.join(__dirname, '../', 'report/static/js/bundle.js')
+    const reportStyleFilePath = path.join(__dirname, '../', 'report/static/css/main.css')
+    const fontBlodFilePath = path.join(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Bold.ttf')
+    const fontMediumFilePath = path.join(__dirname, '../', 'report/static/media/HarmonyOS_Sans_SC_Medium.ttf')
+    const errMsgList = paseGlobalErrMsgs(globals.errCodeMsgs)
+    const reportData: IReportData = {
+      projectName: parseProjectName(this.root),
+      projectPath: this.root,
+      pagesNum: this.pages.size,
+      filesNum: computeProjectFileNums(this.root),  
+      errMsgList: errMsgList
+    }
 
-    generateReportFile(reportBundleFilePath, reportDir, 'bundle.js', this.reportErroMsg)
-    generateReportFile(reportIndexFilePath, reportDir, 'report.html')
+    try {
+      generateReportFile(iconFilePath, reportDir, 'favicon.ico')
+      generateReportFile(reportIndexFilePath, reportDir, 'index.html')
+      generateReportFile(reportBundleFilePath,path.join(reportDir, '/static/js'), 'bundle.js', reportData)
+      generateReportFile(reportStyleFilePath, path.join(reportDir, '/static/css'), 'main.css')
+      generateReportFile(fontBlodFilePath, path.join(reportDir,'/static/media'), 'HarmonyOS_Sans_SC_Bold.ttf')
+      generateReportFile(fontMediumFilePath,path.join( reportDir,'/static/media'), 'HarmonyOS_Sans_SC_Medium.ttf')
+      console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
+    } catch (error) {
+      console.log(`报告生成失败 ${error.message}`)
+    }
   }
 
   showLog () {
-    console.log()
     console.log(
       `${chalk.green('✔ ')} 转换成功，请进入 ${chalk.bold(
         'taroConvert'
       )} 目录下使用 npm 或者 yarn 安装项目依赖后再运行！`
     )
-    console.log(`转换报告已生成，请在浏览器中打开 ${path.join(this.convertRoot, 'report', 'report.html')} 查看转换报告`)
   }
 
   run () {
-    this.framework = FrameworkType.React
-    this.generateEntry()
-    this.traversePages(this.root, this.pages)
-    this.traversePlugin()
-    this.generateConfigFiles()
-    this.generateReport()
+    try {
+      this.framework = FrameworkType.React
+      this.generateEntry()
+      this.traversePages(this.root, this.pages)
+      this.traversePlugin()
+      this.generateConfigFiles()
+    } catch (error) {
+      updateLogFileContent(`ERROR [taro-cli-convertor] run - 转换异常 ${getLineBreak()}${error} ${getLineBreak()}`)
+    } finally {
+      printToLogFile()
+      this.generateReport()
+    }
   }
 }
