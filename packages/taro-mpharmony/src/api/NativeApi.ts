@@ -133,7 +133,7 @@ class NativeApi {
     return options
   }
 
-  @jsBridgeMode({ isAsync: true, autoRelease: true })
+  @jsBridgeMode({ isAsync: true, autoRelease: false })
   onUserCaptureScreen (options: any): any {
     return options
   }
@@ -154,32 +154,98 @@ class NativeApi {
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  stop (): any {
+  innerAudioStop (): any {
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  play (): any {
+  innerAudioPlay (): any {
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  onPlay (option: any): void {
+  innerAudioOnPlay (option: any): void {
     return option
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  onStop (option: any): void {
+  innerAudioOnStop (option: any): void {
     return option
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  onError (option: any): void {
+  innerAudioOnError (option: any): void {
     return option
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  onEnded (option: any): void {
+  innerAudioOnEnded (option: any): void {
     return option
   }
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextVolume () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextVolume () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextStartTime () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextStartTime () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextPlaybackRate () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextPlaybackRate () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextPaused () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextPaused () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextObeyMuteSwitch () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextObeyMuteSwitch () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextLoop () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextLoop () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextDuration () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextDuration () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextCurrentTime () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextCurrentTime () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextBuffered () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextBuffered () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextAutoplay () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextAutoplay () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  getAudioContextSrc () {}
+
+  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  setAudioContextSrc () {}
 
   // NativeUploadFile
   @jsBridgeMode({ isAsync: true, autoRelease: false })
@@ -202,12 +268,12 @@ class NativeApi {
     return option
   }
 
-  @jsBridgeMode({ isAsync: true, autoRelease: true })
+  @jsBridgeMode({ isAsync: true, autoRelease: false })
   onHeadersReceived (option: any): any {
     return option
   }
 
-  @jsBridgeMode({ isAsync: true, autoRelease: true })
+  @jsBridgeMode({ isAsync: true, autoRelease: false })
   onProgressUpdate (option: any): any {
     return option
   }
