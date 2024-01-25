@@ -150,29 +150,33 @@ const buildDev = async (appPath: string, config: BuildConfig, appHelper: AppHelp
       }
       return item
     }))
+  } else {
+    proxy.push(...customProxy)
   }
 
   if (typeof config.onWebpackChainReady === 'function') {
     config.onWebpackChainReady(webpackChain)
   }
 
-  const devServerOptions = config.isBuildNativeComp
-    ? { writeToDisk: true }
-    : recursiveMerge<WebpackDevServer.Configuration>(
-      {
-        publicPath,
-        contentBase: outputPath,
-        historyApiFallback: {
-          rewrites: [{
-            from: /./,
-            to: publicPath
-          }]
-        },
-        proxy,
+  const devServerOptions = recursiveMerge<WebpackDevServer.Configuration>(
+    {
+      open: !config.isBuildNativeComp,
+      disableHostCheck: true,
+      publicPath,
+      contentBase: outputPath,
+      writeToDisk: config.isBuildNativeComp,
+      historyApiFallback: {
+        rewrites: [{
+          from: /./,
+          to: publicPath
+        }]
       },
-      baseDevServerOption,
-      customDevServerOption
-    )
+      proxy,
+    },
+    baseDevServerOption,
+    customDevServerOption
+  )
+
   if (devServerOptions.proxy?.length < 1) {
     // Note: proxy 不可以为空数组
     delete devServerOptions.proxy

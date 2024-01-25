@@ -800,6 +800,15 @@ declare module '../../index' {
     setPosition(...args: any[]): void
   }
 
+  namespace createInnerAudioContext {
+    interface Option {
+      /** 是否使用 WebAudio 作为底层音频驱动，默认关闭。对于短音频、播放频繁的音频建议开启此选项，开启后将获得更优的性能表现。由于开启此选项后也会带来一定的内存增长，因此对于长音频建议关闭此选项。
+       * @supported weapp
+       */
+      useWebAudioImplement: boolean
+    }
+  }
+
   interface TaroStatic {
     /** 结束播放语音。
      * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
@@ -979,7 +988,7 @@ declare module '../../index' {
      * ```
      * @see https://developers.weixin.qq.com/miniprogram/dev/api/media/audio/wx.createInnerAudioContext.html
      */
-    createInnerAudioContext(): InnerAudioContext
+    createInnerAudioContext(option?: createInnerAudioContext.Option): InnerAudioContext
 
     /** 创建 audio 上下文 AudioContext 对象。
      * **注意：1.6.0 版本开始，本接口不再维护。建议使用能力更强的 [Taro.createInnerAudioContext](./createInnerAudioContext) 接口**
