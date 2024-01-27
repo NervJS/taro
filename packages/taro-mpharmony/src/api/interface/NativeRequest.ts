@@ -5,25 +5,25 @@ import native from '../NativeApi'
 
 export class NativeRequest implements Taro.RequestTask<any> {
   readonly [Symbol.toStringTag]: string = 'NativeRequest'
-  private taskID: number
-  constructor (taskID: number) {
-    this.taskID = taskID
+  private objectId: number
+  constructor (objectId: number) {
+    this.objectId = objectId
   }
 
-  static getRequestTask (taskID: number) {
-    return new NativeRequest(taskID)
+  static getRequestTask (objectId: number) {
+    return new NativeRequest(objectId)
   }
 
   abort (): void {
-    native.abort({ taskId: this.taskID })
+    native.abort( {}, this.objectId)
   }
 
   onHeadersReceived (option: any): void {
-    native.onHeadersReceived({ listener: option, taskId: this.taskID })
+    native.onHeadersReceived(option, this.objectId)
   }
 
   offHeadersReceived (option: any): void {
-    native.offHeadersReceived({ listener: option, taskId: this.taskID })
+    native.offHeadersReceived(option, this.objectId)
   }
 
   catch<TResult = never> (onrejected?: ((reason: any) => (PromiseLike<TResult> | TResult)) | undefined | null): Promise<any> {

@@ -3,33 +3,33 @@ import Taro from '@tarojs/api'
 import native from '../NativeApi'
 
 export class NativeUploadFile implements Taro.UploadTask {
-  private taskID: string
+  private objectId: string
 
-  constructor ( taskID: string) {
-    this.taskID = taskID
+  constructor ( objectId: string) {
+    this.objectId = objectId
   }
 
-  static getUploadTask (taskID: string) {
-    return new NativeUploadFile(taskID)
+  static getUploadTask (objectId: string) {
+    return new NativeUploadFile(objectId)
   }
 
   abort (): void {
-    native.abort({ taskId: this.taskID })
+    native.abort({}, this.objectId )
   }
 
   offHeadersReceived (option: any): void {
-    native.offHeadersReceived({ listener: option, taskId: this.taskID })
+    native.offHeadersReceived(option, this.objectId)
   }
 
   offProgressUpdate (option: any): void {
-    native.offProgressUpdate({ listener: option, taskId: this.taskID })
+    native.offProgressUpdate(option, this.objectId)
   }
 
   onHeadersReceived (option: any): void {
-    native.onHeadersReceived({ listener: option, taskId: this.taskID })
+    native.onHeadersReceived(option, this.objectId)
   }
 
   onProgressUpdate (option: any): void {
-    native.onProgressUpdate({ listener: option, taskId: this.taskID })
+    native.onProgressUpdate(option, this.objectId)
   }
 }

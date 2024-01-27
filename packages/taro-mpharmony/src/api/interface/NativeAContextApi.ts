@@ -3,98 +3,98 @@ import Taro from '@tarojs/api'
 import native from '../NativeApi'
 
 export class NativeInnerAudioContext implements Taro.InnerAudioContext {
-  private contextId: string
+  private objectId: string
 
   constructor ()  {
-    this.contextId = native.createInnerAudioContext()
+    this.objectId = native.createInnerAudioContext()
   }
 
   get volume () {
-    return native.getAudioContextVolume({ contextId: this.contextId })
+    return native.getAudioContextVolume({}, this.objectId)
   }
 
   set volume (option: any) {
-    native.setAudioContextVolume({ listener: option, contextId: this.contextId })
+    native.setAudioContextVolume(option, this.objectId)
   }
 
   get startTime () {
-    return native.getAudioContextStartTime({ contextId: this.contextId })
+    return native.getAudioContextStartTime({}, this.objectId)
   }
 
   set startTime (option: any) {
-    native.setAudioContextStartTime({ listener: option, contextId: this.contextId })
+    native.setAudioContextStartTime(option, this.objectId)
   }
 
   get playbackRate () {
-    return native.getAudioContextPlaybackRate({ contextId: this.contextId })
+    return native.getAudioContextPlaybackRate({}, this.objectId)
   }
 
   set playbackRate (option: any) {
-    native.setAudioContextPlaybackRate({ listener: option, contextId: this.contextId })
+    native.setAudioContextPlaybackRate(option, this.objectId)
   }
 
   get paused () {
-    return native.getAudioContextPaused({ contextId: this.contextId })
+    return native.getAudioContextPaused({}, this.objectId)
   }
 
   set paused (option: any) {
-    native.setAudioContextPaused({ listener: option, contextId: this.contextId })
+    native.setAudioContextPaused(option, this.objectId)
   }
 
   get obeyMuteSwitch () {
-    return native.getAudioContextObeyMuteSwitch({ contextId: this.contextId })
+    return native.getAudioContextObeyMuteSwitch({}, this.objectId)
   }
 
   set obeyMuteSwitch (option: any) {
-    native.setAudioContextObeyMuteSwitch({ listener: option, contextId: this.contextId })
+    native.setAudioContextObeyMuteSwitch(option, this.objectId)
   }
 
   get loop () {
-    return native.getAudioContextLoop({ contextId: this.contextId })
+    return native.getAudioContextLoop({}, this.objectId)
   }
 
   set loop (option: any) {
-    native.setAudioContextLoop({ listener: option, contextId: this.contextId })
+    native.setAudioContextLoop(option, this.objectId)
   }
 
   get duration () {
-    return native.getAudioContextDuration({ contextId: this.contextId })
+    return native.getAudioContextDuration({}, this.objectId)
   }
 
   set duration (option: any) {
-    native.setAudioContextDuration({ listener: option, contextId: this.contextId })
+    native.setAudioContextDuration(option, this.objectId)
   }
 
   get currentTime () {
-    return native.getAudioContextCurrentTime({ contextId: this.contextId })
+    return native.getAudioContextCurrentTime({}, this.objectId)
   }
 
   set currentTime (option: any) {
-    native.setAudioContextCurrentTime({ listener: option, contextId: this.contextId })
+    native.setAudioContextCurrentTime(option, this.objectId)
   }
 
   get buffered () {
-    return native.getAudioContextBuffered({ contextId: this.contextId })
+    return native.getAudioContextBuffered({}, this.objectId)
   }
 
   set buffered (option: any) {
-    native.setAudioContextBuffered({ listener: option, contextId: this.contextId })
+    native.setAudioContextBuffered(option, this.objectId)
   }
 
   get autoplay () {
-    return native.getAudioContextAutoplay({ contextId: this.contextId })
+    return native.getAudioContextAutoplay({}, this.objectId)
   }
 
   set autoplay (option: any) {
-    native.setAudioContextAutoplay({ listener: option, contextId: this.contextId })
+    native.setAudioContextAutoplay(option, this.objectId)
   }
 
   get src () {
-    return native.getAudioContextSrc({ contextId: this.contextId })
+    return native.getAudioContextSrc({}, this.objectId)
   }
 
   set src (option: any) {
-    native.setAudioContextSrc({ listener: option, contextId: this.contextId })
+    native.setAudioContextSrc(option, this.objectId)
   }
 
   static createInnerAudioContext () {
@@ -102,27 +102,27 @@ export class NativeInnerAudioContext implements Taro.InnerAudioContext {
   }
 
   stop (): void {
-    native.innerAudioStop({ contextId: this.contextId })
+    native.innerAudioStop({}, this.objectId)
   }
 
   play (): void {
-    native.innerAudioPlay({ contextId: this.contextId })
+    native.innerAudioPlay({}, this.objectId)
   }
 
   onStop (option: any): void {
-    native.innerAudioOnStop({ listener: option, contextId: this.contextId })
+    native.innerAudioOnStop(option, this.objectId)
   }
 
   onPlay (option: any): void {
-    native.innerAudioOnPlay({ listener: option, contextId: this.contextId })
+    native.innerAudioOnPlay(option, this.objectId)
   }
 
   onEnded (option: any): void {
-    native.innerAudioOnEnded({ listener: option, contextId: this.contextId })
+    native.innerAudioOnEnded(option, this.objectId)
   }
 
   onError (option: any): void {
-    native.innerAudioOnError({ listener: option, contextId: this.contextId })
+    native.innerAudioOnError(option, this.objectId)
   }
 
   destroy (): void {

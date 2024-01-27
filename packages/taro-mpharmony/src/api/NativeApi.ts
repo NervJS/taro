@@ -161,22 +161,22 @@ class NativeApi {
   innerAudioPlay (): any {
   }
 
-  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  @jsBridgeMode({ isAsync: false, autoRelease: false })
   innerAudioOnPlay (option: any): void {
     return option
   }
 
-  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  @jsBridgeMode({ isAsync: false, autoRelease: false })
   innerAudioOnStop (option: any): void {
     return option
   }
 
-  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  @jsBridgeMode({ isAsync: false, autoRelease: false })
   innerAudioOnError (option: any): void {
     return option
   }
 
-  @jsBridgeMode({ isAsync: false, autoRelease: true })
+  @jsBridgeMode({ isAsync: false, autoRelease: false })
   innerAudioOnEnded (option: any): void {
     return option
   }
@@ -254,27 +254,27 @@ class NativeApi {
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  abort (option: any): any {
-    return option
-  }
-
-  @jsBridgeMode({ isAsync: true, autoRelease: true })
-  offHeadersReceived (option: any): any {
-    return option
-  }
-
-  @jsBridgeMode({ isAsync: true, autoRelease: true })
-  offProgressUpdate (option: any): any {
+  abort (option: any, _: string): any {
     return option
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  onHeadersReceived (option: any): any {
+  offHeadersReceived (option: any, _: string): any {
     return option
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  onProgressUpdate (option: any): any {
+  offProgressUpdate (option: any, _: string): any {
+    return option
+  }
+
+  @jsBridgeMode({ isAsync: true, autoRelease: false })
+  onHeadersReceived (option: any, _: string): any {
+    return option
+  }
+
+  @jsBridgeMode({ isAsync: true, autoRelease: false })
+  onProgressUpdate (option: any, _: string): any {
     return option
   }
 

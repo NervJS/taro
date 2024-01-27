@@ -39,7 +39,7 @@ export const uploadFile = (options) => {
     }
   }
 
-  const taskID = native.uploadFile({
+  const objectID = native.uploadFile({
     url,
     filePath,
     name,
@@ -55,7 +55,7 @@ export const uploadFile = (options) => {
     },
   })
 
-  const task = NativeUploadFile.getUploadTask(taskID)
+  const task = NativeUploadFile.getUploadTask(objectID)
 
   /**
    * 一个可以监听上传进度变化事件，以及取消上传任务的对象

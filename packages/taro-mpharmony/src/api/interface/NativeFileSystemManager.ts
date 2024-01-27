@@ -15,12 +15,12 @@ export class NativeFileSystemManager implements Taro.FileSystemManager {
 
 
   access (option: any): void {
-    native.access(option, { isAsync: true, autoRelease: false  })
+    native.access(option)
   }
 
 
   getFileInfo (option: any): any {
-    native.getFileInfo(option, { isAsync: true, autoRelease: false  })
+    native.getFileInfo(option)
   }
 
   readFile (option: any): any {
