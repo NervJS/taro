@@ -956,8 +956,8 @@ importers:
   packages/taro-components:
     dependencies:
       '@stencil/core':
-        specifier: ^2.22.2
-        version: registry.npmjs.org/@stencil/core@2.22.3
+        specifier: 2.22.2-dev.1678795942.e009e9
+        version: 2.22.2-dev.1678795942.e009e9
       '@tarojs/components-advanced':
         specifier: workspace:*
         version: link:../taro-components-advanced
@@ -994,10 +994,10 @@ importers:
         version: registry.npmjs.org/@babel/types@7.21.5
       '@stencil/react-output-target':
         specifier: 0.4.0
-        version: registry.npmjs.org/@stencil/react-output-target@0.4.0(@stencil/core@2.22.3)
+        version: registry.npmjs.org/@stencil/react-output-target@0.4.0(@stencil/core@2.22.2-dev.1678795942.e009e9)
       '@stencil/vue-output-target':
         specifier: 0.7.0
-        version: registry.npmjs.org/@stencil/vue-output-target@0.7.0(@stencil/core@2.22.3)
+        version: registry.npmjs.org/@stencil/vue-output-target@0.7.0(@stencil/core@2.22.2-dev.1678795942.e009e9)
       '@types/jest':
         specifier: ^27.4.1
         version: registry.npmjs.org/@types/jest@27.5.2
@@ -1042,7 +1042,7 @@ importers:
         version: registry.npmjs.org/sass@1.69.7
       stencil-vue2-output-target:
         specifier: 0.0.4
-        version: registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3)
+        version: registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.2-dev.1678795942.e009e9)
       ts-node:
         specifier: ^10.9.1
         version: registry.npmjs.org/ts-node@10.9.1(@types/node@14.18.45)(typescript@5.3.3)
@@ -2083,7 +2083,7 @@ importers:
         version: 8.4.0(rollup@2.79.1)
       '@rollup/plugin-typescript':
         specifier: ^11.1.0
-        version: 11.1.1(rollup@2.79.1)(typescript@4.9.5)
+        version: 11.1.1(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5)
       fast-glob:
         specifier: ^3.3.1
         version: 3.3.1
@@ -2098,7 +2098,7 @@ importers:
         version: 5.1.3(rollup@2.79.1)
       rollup-plugin-ts:
         specifier: ^3.0.2
-        version: 3.2.0(rollup@2.79.1)(typescript@4.9.5)
+        version: 3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@4.9.5)
       tsconfig-paths:
         specifier: ^3.14.1
         version: 3.14.2
@@ -4836,7 +4836,7 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(typescript@4.9.5):
+  /@rollup/plugin-typescript@11.1.1(rollup@2.79.1)(tslib@2.6.2)(typescript@4.9.5):
     resolution: {integrity: sha512-Ioir+x5Bejv72Lx2Zbz3/qGg7tvGbxQZALCLoJaGrkNXak/19+vKgKYJYM3i/fJxvsb23I9FuFQ8CUBEfsmBRg==, tarball: https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-11.1.1.tgz}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -4852,6 +4852,7 @@ packages:
       '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       resolve: 1.22.2
       rollup: 2.79.1
+      tslib: registry.npmjs.org/tslib@2.6.2
       typescript: 4.9.5
     dev: true
 
@@ -4881,6 +4882,11 @@ packages:
       picomatch: registry.npmjs.org/picomatch@2.3.1
       rollup: 2.79.1
     dev: true
+
+  /@stencil/core@2.22.2-dev.1678795942.e009e9:
+    resolution: {integrity: sha512-yYm0gEDh4oMnq7K52jkDIDPnlS/AeCMGmJuhUuaKsRhTH4B6sQg6zNElbBIr8r/PldXdd7H8xOuPwp24p3wZwA==, tarball: https://registry.npmjs.org/@stencil/core/-/core-2.22.2-dev.1678795942.e009e9.tgz}
+    engines: {node: '>=14.10.0', npm: '>=6.0.0'}
+    hasBin: true
 
   /@swc/core-darwin-arm64@1.3.96:
     resolution: {integrity: sha512-8hzgXYVd85hfPh6mJ9yrG26rhgzCmcLO0h1TIl8U31hwmTbfZLzRitFQ/kqMJNbIBCwmNH1RU2QcJnL3d7f69A==, tarball: https://registry.npmjs.org/@swc/core-darwin-arm64/-/core-darwin-arm64-1.3.96.tgz}
@@ -7997,7 +8003,7 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /rollup-plugin-ts@3.2.0(rollup@2.79.1)(typescript@4.9.5):
+  /rollup-plugin-ts@3.2.0(@babel/core@7.21.8)(@babel/plugin-transform-runtime@7.21.4)(@babel/preset-env@7.21.5)(@babel/preset-typescript@7.21.5)(@babel/runtime@7.21.5)(rollup@2.79.1)(typescript@4.9.5):
     resolution: {integrity: sha512-KkTLVifkUexEiAXS9VtSjDrjKr0TyusmNJpb2ZTAzI9VuPumSu4AktIaVNnwv70iUEitHwZtET7OAM+5n1u1tg==, tarball: https://registry.npmjs.org/rollup-plugin-ts/-/rollup-plugin-ts-3.2.0.tgz}
     engines: {node: '>=14.9.0', npm: '>=7.0.0', pnpm: '>=3.2.0', yarn: '>=1.13'}
     peerDependencies:
@@ -8026,6 +8032,11 @@ packages:
       '@swc/helpers':
         optional: true
     dependencies:
+      '@babel/core': registry.npmjs.org/@babel/core@7.21.8
+      '@babel/plugin-transform-runtime': registry.npmjs.org/@babel/plugin-transform-runtime@7.21.4(@babel/core@7.21.8)
+      '@babel/preset-env': registry.npmjs.org/@babel/preset-env@7.21.5(@babel/core@7.21.8)
+      '@babel/preset-typescript': registry.npmjs.org/@babel/preset-typescript@7.21.5(@babel/core@7.21.8)
+      '@babel/runtime': registry.npmjs.org/@babel/runtime@7.21.5
       '@rollup/pluginutils': 5.0.2(rollup@2.79.1)
       '@wessberg/stringutil': 1.0.19
       ansi-colors: 4.1.3
@@ -15947,14 +15958,7 @@ packages:
     version: 0.7.2
     dev: true
 
-  registry.npmjs.org/@stencil/core@2.22.3:
-    resolution: {integrity: sha512-kmVA0M/HojwsfkeHsifvHVIYe4l5tin7J5+DLgtl8h6WWfiMClND5K3ifCXXI2ETDNKiEk21p6jql3Fx9o2rng==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/core/-/core-2.22.3.tgz}
-    name: '@stencil/core'
-    version: 2.22.3
-    engines: {node: '>=12.10.0', npm: '>=6.0.0'}
-    hasBin: true
-
-  registry.npmjs.org/@stencil/react-output-target@0.4.0(@stencil/core@2.22.3):
+  registry.npmjs.org/@stencil/react-output-target@0.4.0(@stencil/core@2.22.2-dev.1678795942.e009e9):
     resolution: {integrity: sha512-X7XW6aHSU7ZypkFj4wX/XL7ROj2GXcdTL+Emo1mKNg5laBcuTVtt8zPR4ERG/grq8ec8wav+FxBuSlQ3cH0qcg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/react-output-target/-/react-output-target-0.4.0.tgz}
     id: registry.npmjs.org/@stencil/react-output-target/0.4.0
     name: '@stencil/react-output-target'
@@ -15962,10 +15966,10 @@ packages:
     peerDependencies:
       '@stencil/core': ^2.9.0 || ^3.0.0-beta.0
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
+      '@stencil/core': 2.22.2-dev.1678795942.e009e9
     dev: true
 
-  registry.npmjs.org/@stencil/vue-output-target@0.7.0(@stencil/core@2.22.3):
+  registry.npmjs.org/@stencil/vue-output-target@0.7.0(@stencil/core@2.22.2-dev.1678795942.e009e9):
     resolution: {integrity: sha512-iPEgnT2z6HsfWVRWVZk5C1AaMZnbJjB+c/hvtWoO7B3aErTJB8Up6oFk/t3IRsr12aNuZ4fUra0FEDx9WweH0Q==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@stencil/vue-output-target/-/vue-output-target-0.7.0.tgz}
     id: registry.npmjs.org/@stencil/vue-output-target/0.7.0
     name: '@stencil/vue-output-target'
@@ -15973,7 +15977,7 @@ packages:
     peerDependencies:
       '@stencil/core': ^2.9.0 || ^3.0.0-beta.0
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
+      '@stencil/core': 2.22.2-dev.1678795942.e009e9
     dev: true
 
   registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute@4.2.0:
@@ -39880,7 +39884,7 @@ packages:
     version: 3.3.3
     dev: false
 
-  registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.3):
+  registry.npmjs.org/stencil-vue2-output-target@0.0.4(@stencil/core@2.22.2-dev.1678795942.e009e9):
     resolution: {integrity: sha512-57E0J3Wc8hs3Is2AnZWbxEHhUMrPoJtR8rSPpacYVudd4n+n6LJwT5Ubm3jQv8TF3QZ33ry5lRPkLk9yN+xUuQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/stencil-vue2-output-target/-/stencil-vue2-output-target-0.0.4.tgz}
     id: registry.npmjs.org/stencil-vue2-output-target/0.0.4
     name: stencil-vue2-output-target
@@ -39888,7 +39892,7 @@ packages:
     peerDependencies:
       '@stencil/core': '>=1.8.0'
     dependencies:
-      '@stencil/core': registry.npmjs.org/@stencil/core@2.22.3
+      '@stencil/core': 2.22.2-dev.1678795942.e009e9
       path: registry.npmjs.org/path@0.12.7
     dev: true
 
