@@ -6,6 +6,10 @@ import native from '../NativeApi'
 export class NativeFileSystemManager implements Taro.FileSystemManager {
   private static nativeFileSystemManager: NativeFileSystemManager
 
+  constructor () {
+    native.getFileManager()
+  }
+
   static getFileSystemManager () {
     if ( !NativeFileSystemManager.nativeFileSystemManager ) {
       NativeFileSystemManager.nativeFileSystemManager =  new NativeFileSystemManager()

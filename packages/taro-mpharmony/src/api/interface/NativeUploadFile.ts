@@ -3,13 +3,13 @@ import Taro from '@tarojs/api'
 import native from '../NativeApi'
 
 export class NativeUploadFile implements Taro.UploadTask {
-  private objectId: string
+  private objectId: number
 
-  constructor ( objectId: string) {
+  constructor ( objectId: number) {
     this.objectId = objectId
   }
 
-  static getUploadTask (objectId: string) {
+  static getUploadTask (objectId: number) {
     return new NativeUploadFile(objectId)
   }
 

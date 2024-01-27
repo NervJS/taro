@@ -3,7 +3,7 @@ import Taro from '@tarojs/api'
 import native from '../NativeApi'
 
 export class NativeInnerAudioContext implements Taro.InnerAudioContext {
-  private objectId: string
+  private objectId: number
 
   constructor ()  {
     this.objectId = native.createInnerAudioContext()

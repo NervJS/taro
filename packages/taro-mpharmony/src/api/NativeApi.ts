@@ -59,11 +59,6 @@ class NativeApi {
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: true })
-  downloadFile (options: any): any {
-    return options
-  }
-
-  @jsBridgeMode({ isAsync: true, autoRelease: true })
   saveDataUrlToFile (options: any): any {
     return options
   }
@@ -254,31 +249,36 @@ class NativeApi {
   }
 
   @jsBridgeMode({ isAsync: false, autoRelease: true })
-  abort (option: any, _: string): any {
+  abort (option: any, _: number): any {
     return option
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  offHeadersReceived (option: any, _: string): any {
+  offHeadersReceived (option: any, _: number): any {
     return option
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  offProgressUpdate (option: any, _: string): any {
+  offProgressUpdate (option: any, _: number): any {
     return option
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  onHeadersReceived (option: any, _: string): any {
+  onHeadersReceived (option: any, _: number): any {
     return option
   }
 
   @jsBridgeMode({ isAsync: true, autoRelease: false })
-  onProgressUpdate (option: any, _: string): any {
+  onProgressUpdate (option: any, _: number): any {
     return option
   }
 
   // NativeFileSystemManager
+  @jsBridgeMode({ isAsync: true, autoRelease: true })
+  getFileManager (option: any): any {
+    return option
+  }
+
   @jsBridgeMode({ isAsync: true, autoRelease: false })
   access (option: any): any {
     return option
