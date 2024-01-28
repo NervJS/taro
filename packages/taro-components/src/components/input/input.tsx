@@ -265,6 +265,7 @@ export class Input implements ComponentInterface {
         disabled={disabled}
         maxlength={maxlength}
         name={name}
+        // @ts-ignore
         onInput={this.handleInput}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
