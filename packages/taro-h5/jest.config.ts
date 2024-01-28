@@ -36,7 +36,7 @@ const config: Config = {
     'utils'
   ],
   transform: {
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.(js|jsx|mjs)$': 'babel-jest',
     '^.+\\.tsx?$': ['ts-jest', {
       diagnostics: false,
       tsconfig: {
