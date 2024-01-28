@@ -136,7 +136,10 @@ export class PullToRefresh implements ComponentInterface {
     this.el.appendChild = child?.appendChild.bind(child)
     this.el.insertBefore = child?.insertBefore.bind(child)
     this.el.replaceChild = child?.replaceChild.bind(child)
-    this.el.removeChild = child?.removeChild.bind(child)
+    if (process.env.NODE_ENV !== 'test') {
+      // https://github.com/ionic-team/stencil/pull/4269 测试环境下 removeChild 会报错
+      this.el.removeChild = child?.removeChild.bind(child)
+    }
     this._to = {
       touchstart: this.onTouchStart.bind(this, ele),
       touchmove: this.onTouchMove.bind(this, ele),
