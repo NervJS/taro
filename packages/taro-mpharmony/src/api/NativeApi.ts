@@ -133,6 +133,11 @@ class NativeApi {
     return options
   }
 
+  @jsBridgeMode({ isAsync: true, autoRelease: false })
+  offUserCaptureScreen (options: any): any {
+    return options
+  }
+
   @jsBridgeMode({ isAsync: false, autoRelease: true })
   hideKeyboard (options?: any): any {
     return options
