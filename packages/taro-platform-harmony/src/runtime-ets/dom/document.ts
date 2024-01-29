@@ -2,11 +2,11 @@ import { eventSource } from '@tarojs/runtime/dist/runtime.esm'
 import { isUndefined } from '@tarojs/shared'
 
 import { Current } from '../current'
+import { findChildNodeWithDFS, getPageScrollerOrNode } from '../utils'
 import { TaroComment } from './comment'
 import { createCSSStyleDeclaration } from './cssStyleDeclaration'
 import { TaroElement } from './element/element'
-import { NodeType, TaroNode } from './node'
-import { TaroTextNode } from './text'
+import { NodeType, TaroNode, TaroTextNode } from './node'
 
 import type { Window } from '../bom/window'
 
@@ -69,10 +69,27 @@ class TaroDocument extends TaroNode {
     return isUndefined(el) ? null : el as unknown as T
   }
 
+  public querySelector (selectors: string): TaroElement | null {
+    const taro = (Current as any).taro
+    const page = taro.getCurrentInstance().page
+    const element = getPageScrollerOrNode(page.node, page)
+  
+    if (element == null) return null
+    
+    return findChildNodeWithDFS(element, selectors)
+  }
+
+  public querySelectorAll (selectors: string): TaroElement[] {
+    const taro = (Current as any).taro
+    const page = taro.getCurrentInstance().page
+    const element = getPageScrollerOrNode(page.node, page)
+  
+    if (element == null) return []
+    
+    return findChildNodeWithDFS(element, selectors, true) || []
+  }
   // @Todo
   // public getElementsByClassName (names: string): TaroElement[]
-  // public querySelector (selectors: string): TaroElement | null
-  // public querySelectorAll (selectors: string): TaroElement[]
   // public createElementNS
 }
 

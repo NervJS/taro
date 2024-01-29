@@ -13,3 +13,5 @@ export const createIntersectionObserver: typeof Taro.createIntersectionObserver 
 }
 
 export const createMediaQueryObserver = /* @__PURE__ */ temporarilyNotSupport('createMediaQueryObserver')
+
+export { IntersectionObserver }

@@ -120,5 +120,7 @@ export function getAppInfo () {
   }
 }
 
+initNativeApi(taro)
+
 export * from './apis'
 export default taro
