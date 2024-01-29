@@ -143,7 +143,7 @@ function scanFromPhoto(callback, errorCallBack) {
         })
       }
     }
-  }, MEDIA_TYPE.IMAGES).catch(errorCallBack)
+  }, MEDIA_TYPE.Images).catch(errorCallBack)
 }
 
 export async function scanCode(option: Taro.scanCode.Option = {}): Promise<Taro.scanCode.SuccessCallbackResult> {

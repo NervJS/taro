@@ -142,11 +142,15 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
         })
         const [, pxtransformOption] = __postcssOption.find(([name]) => name === 'postcss-pxtransform') || []
         const pxTransformConfig = pxtransformOption?.config || {}
+        const routerMode = appConfig?.router?.mode || 'hash'
+        const historyCreator = routerMode === 'browser' ? 'createBrowserHistory' : routerMode === 'multi' ? 'createMpaHistory' : 'createHashHistory'
+        const appMountHandler = appConfig.tabBar ? 'handleAppMountWithTabbar' : 'handleAppMount'
+      
 
         return [
           setReconciler,
           'import { initPxTransform } from "@tarojs/taro"',
-          `import { ${routerCreator} } from "@tarojs/router"`,
+          `import { ${routerCreator}, ${historyCreator}, ${appMountHandler} } from "@tarojs/router"`,
           `import component from "${app.scriptPath}"`,
           'import { window } from "@tarojs/runtime"',
           `import { ${creator} } from "${creatorLocation}"`,
@@ -158,7 +162,9 @@ export default function (viteCompilerContext: ViteH5CompilerContext): PluginOpti
           routesConfig,
           execBeforeCreateWebApp || '',
           `var inst = ${creator}(component, ${frameworkArgs})`,
-          `${routerCreator}(inst, config, ${importFrameworkName})`,
+          `var history = ${historyCreator}({ window })`,
+          `${appMountHandler}(config, history)`,
+          `${routerCreator}(history, inst, config, ${importFrameworkName})`,
           'initPxTransform({',
           `  designWidth: ${pxTransformConfig.designWidth},`,
           `  deviceRatio: ${JSON.stringify(pxTransformConfig.deviceRatio)},`,
