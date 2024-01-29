@@ -43,7 +43,7 @@ declare module '../../index' {
       1
     }
   }
-  
+
   namespace deleteBookshelf {
     interface Option {
       /** 要删除的内容分类 */
@@ -115,13 +115,13 @@ declare module '../../index' {
       1
     }
   }
-  
+
   namespace updateBookshelfReadTime {
     interface Option {
       /** 添加的内容分类 */
       category: keyof Category | string
       /** 要更新内容的 id；注释：contentId 为内容 id，内容的唯一标识，自定义，最长 22 字符（不能含有空格、中文字符） */
-      contentIds: string[] 
+      contentIds: string[]
       /** 接口调用结束的回调函数（调用成功、失败都会执行） */
       complete?: (res: TaroGeneral.CallbackResult) => void
       /** 接口调用失败的回调函数 */
@@ -278,7 +278,7 @@ declare module '../../index' {
      * @see https://smartprogram.baidu.com/docs/develop/api/open/swan-queryBookshelf/
      */
     updateBookshelfReadTime(option: updateBookshelfReadTime.Option): void
-    
+
     /** 跳转到宿主书架
      * @supported swan
      * @swan （需宿主支持书架入口）

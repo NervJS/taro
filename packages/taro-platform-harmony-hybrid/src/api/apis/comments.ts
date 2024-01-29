@@ -56,14 +56,6 @@
  */
 
 /**
- * 打开地图选择位置。
- * 
- * @canUse chooseLocation
- * @__object [mapOpts]
- * @__success [address, latitude, longitude, name]
- */
-
-/**
  * 拍摄视频或从手机相册中选视频
  * 
  * @canNotUse chooseVideo 
