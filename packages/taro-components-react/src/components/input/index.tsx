@@ -5,7 +5,6 @@ import React from 'react'
 
 import { omit } from '../../utils'
 
-// todo autofocus
 function getTrueType (type: string | undefined, confirmType: string, password: boolean) {
   if (confirmType === 'search') type = 'search'
   if (password) type = 'password'
@@ -30,7 +29,7 @@ interface IProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'ty
   maxlength?: number
   placeholder?: string
   value?: string
-  autoFocus?: boolean
+  focus?: boolean
   confirmType?: string
   name?: string
   type?: string
@@ -49,13 +48,11 @@ class Input extends React.Component<IProps, null> {
     this.handleBeforeInput = this.handleBeforeInput.bind(this)
     this.isOnComposition = false
     this.onInputExcuted = false
-    this.isOnPaste = false
   }
 
   inputRef: HTMLInputElement
   isOnComposition: boolean
   onInputExcuted: boolean
-  isOnPaste: boolean
 
   componentDidMount () {
     // 修复无法选择文件
@@ -64,7 +61,11 @@ class Input extends React.Component<IProps, null> {
     } else {
       this.inputRef?.addEventListener('textInput', this.handleBeforeInput)
     }
+
+    // 处理初始化是否 focus
+    if (this.props.focus && this.inputRef) this.inputRef.focus()
   }
+
 
   componentWillUnmount () {
     // 修复无法选择文件
@@ -74,6 +75,11 @@ class Input extends React.Component<IProps, null> {
       this.inputRef?.removeEventListener('textInput', this.handleBeforeInput)
     }
   }
+
+  UNSAFE_componentWillReceiveProps (nextProps: Readonly<IProps>) {
+    if(!this.props.focus && nextProps.focus && this.inputRef) this.inputRef.focus()
+  }
+
 
   handleInput (e) {
     e.stopPropagation()
@@ -184,13 +190,6 @@ class Input extends React.Component<IProps, null> {
 
     if (e.type === 'compositionend') {
       this.isOnComposition = false
-      this.onInputExcuted = false
-      Object.defineProperty(e, 'detail', {
-        value: {
-          value: e.target.value,
-          cursor: e.target.value.length
-        }
-      })
       this.handleInput(e)
     } else {
       this.isOnComposition = true
@@ -219,7 +218,6 @@ class Input extends React.Component<IProps, null> {
       disabled = false,
       maxlength = 140,
       confirmType = 'done',
-      autoFocus = false,
       name,
       value
     } = this.props
@@ -233,7 +231,7 @@ class Input extends React.Component<IProps, null> {
       'type',
       'maxlength',
       'confirmType',
-      'autoFocus',
+      'focus',
       'name'
     ])
 
@@ -243,22 +241,20 @@ class Input extends React.Component<IProps, null> {
 
     return (
       <input
-        ref={input => {
-          this.inputRef = input!
-          if (autoFocus && input) input.focus()
+        ref={(input: HTMLInputElement) => {
+          this.inputRef = input
         }}
         {...otherProps}
         className={cls}
         type={getTrueType(type, confirmType, password)}
         placeholder={placeholder}
         disabled={disabled}
-        maxlength={maxlength}
+        maxLength={maxlength}
         name={name}
         onInput={this.handleInput}
         onPaste={this.handlePaste}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        autoFocus={autoFocus}
         onKeyDown={this.handleKeyDown}
         onCompositionStart={this.handleComposition}
         onCompositionEnd={this.handleComposition}
@@ -267,6 +263,5 @@ class Input extends React.Component<IProps, null> {
     )
   }
 }
-
 
 export default Input
