@@ -2,7 +2,7 @@ use swc_core::{
     ecma::{
         atoms::Atom,
         ast::*,
-        utils::quote_str,
+        utils::{quote_ident, quote_str},
     },
     common::{
         iter::IdentifyLast,
@@ -284,6 +284,26 @@ pub fn extract_jsx_loop <'a> (callee_expr: &mut Box<Expr>, args: &'a mut Vec<Exp
                     el.opening.attrs.push(create_jsx_bool_attr(COMPILE_FOR));
                     el.opening.attrs.push(create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid"))));
                     return Some(el)
+                } else if return_value.is_jsx_fragment() {
+                    let el = return_value.as_mut_jsx_fragment().unwrap();
+                    let children = el.children.take();
+                    let block_el = Box::new(JSXElement {
+                        span,
+                        opening: JSXOpeningElement {
+                            name: JSXElementName::Ident(quote_ident!("block")),
+                            span,
+                            attrs: vec![
+                                create_jsx_bool_attr(COMPILE_FOR),
+                                create_jsx_lit_attr(COMPILE_FOR_KEY, Lit::Str(quote_str!("sid")))
+                            ],
+                            self_closing: false,
+                            type_args: None
+                        },
+                        children,
+                        closing: Some(JSXClosingElement { span, name: JSXElementName::Ident(quote_ident!("block")) })
+                    });
+                    **return_value = Expr::JSXElement(block_el);
+                    return Some(return_value.as_mut_jsx_element().unwrap())
                 }
                 None
             }

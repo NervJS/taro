@@ -82,3 +82,24 @@ test!(
     }
     "#
 );
+
+
+test!(
+    get_syntax_config(),
+    |_| tr(),
+    should_loop_with_fragment,
+    r#"
+    function Index () {
+        return (
+          <View compileMode>
+            {list.map(item => (
+                <>
+                    <View>title: {item.title}</View>
+                    <View>content: {item.content}</View>
+                </>
+            ))}
+          </View>
+        )
+    }
+    "#
+);
