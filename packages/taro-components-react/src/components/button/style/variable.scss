@@ -1,0 +1,62 @@
+// @use "sass:math";
+
+// body,
+// .wx-root,
+// page {
+//   --weui-BTN-HEIGHT: 48;
+//   --weui-BTN-HEIGHT-MEDIUM: 40;
+//   --weui-BTN-HEIGHT-SMALL: 32;
+// }
+// @include setColor(--weui-BTN-ACTIVE-MASK, rgba(0,0,0,0.1), rgba(255,255,255,0.1));
+
+// @include setColor(--weui-BTN-DEFAULT-ACTIVE-BG, overlay(rgba(0, 0, 0, 0.05), #f2f2f2), overlay(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.08)));
+
+// $weuiBtnWidth: 184px;
+$weuiBtnHeight: 46px; // 48px;
+$weuiBtnFontSize: 18px; // 17px;
+$weuiBtnBorderRadius: 5px; // 8px;
+$weuiBtnDefaultGap: 15px; // 16px;
+
+$weuiBtnMiniFontSize: 13px; // 14px;
+$weuiBtnMiniHeight: 2.3; // 32px;
+
+// $weuiBtnCellHeight: 56px;
+// $weuiBtnCellGap: 16px;
+// $weuiBtnCellLineHeight: em(math.div($weuiBtnCellHeight - 2 * $weuiBtnCellGap, $weuiBtnFontSize));
+
+$weuiBtnFontColor: #fff;
+$weuiBtnDisabledFontColor: rgba(255, 255, 255, 0.6); // var(--weui-FG-4);
+// $weuiBtnDisabledBg: var(--weui-FG-5);
+$weuiBtnActiveFontColor: rgba(255, 255, 255, 0.6);
+
+// default
+$weuiBtnDefaultFontColor: #000000; // var(--weui-FG-0);
+$weuiBtnDefaultDisabledFontColor: rgba(0, 0, 0, 0.3); // $weuiBtnDisabledFontColor;
+$weuiBtnDefaultActiveFontColor: rgba(0, 0, 0, 0.6);
+$weuiBtnDefaultActiveBg: #DEDEDE; // var(--weui-BTN-DEFAULT-ACTIVE-BG);
+$weuiBtnDefaultDisabledBg: #F7F7F7; // $weuiBtnDisabledBg;
+$weuiBtnDefaultBg: #F8F8F8;
+
+// primary
+// $weuiBtnPrimaryFontColor: $weuiBtnFontColor;
+// $weuiBtnPrimaryDisabledFontColor: $weuiBtnDisabledFontColor;
+$weuiBtnPrimaryBg: #1AAD19; // var(--weui-BRAND);
+$weuiBtnPrimaryActiveBg: #179B16; // var(--weui-TAG-TEXT-GREEN);
+$weuiBtnPrimaryDisabledBg: #9ED99D; // $weuiBtnDisabledBg;
+
+// warn
+// $weuiBtnWarnFontColor: $weuiColorWarn;
+// $weuiBtnWarnDisabledFontColor: $weuiBtnDisabledFontColor;
+$weuiBtnWarnBg: #E64340; // $weuiBtnDefaultBg;
+$weuiBtnWarnActiveBg: #CE3C39;
+$weuiBtnwarnDisabledBg: #EC8B89; // $weuiBtnDefaultDisabledBg;
+
+$weuiBtnPlainPrimaryColor: rgba(26, 173, 25, 1);
+$weuiBtnPlainPrimaryBorderColor: rgba(26, 173, 25, 1);
+$weuiBtnPlainPrimaryActiveColor: rgba(26, 173, 25, .6);
+$weuiBtnPlainPrimaryActiveBorderColor: rgba(26, 173, 25, .6);
+
+$weuiBtnPlainDefaultColor: rgba(53, 53, 53, 1);
+$weuiBtnPlainDefaultBorderColor: rgba(53, 53, 53, 1);
+$weuiBtnPlainDefaultActiveColor: rgba(53, 53, 53, .6);
+$weuiBtnPlainDefaultActiveBorderColor: rgba(53, 53, 53, .6);

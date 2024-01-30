@@ -1,5 +1,6 @@
 import { parsePublicPath } from '../utils'
 import AppHelper from '../utils/app'
+import { componentConfig } from '../utils/component'
 import { Combination } from './Combination'
 import { H5BaseConfig } from './H5BaseConfig'
 import { H5WebpackModule } from './H5WebpackModule'
@@ -33,7 +34,9 @@ export class H5Combination extends Combination<H5BuildConfig> {
       alias = {},
       defineConstants = {},
       router,
-      frameworkExts
+      frameworkExts,
+      /** hooks */
+      modifyComponentConfig,
     } = config
     const externals: Configuration['externals'] = []
     const routerMode = router?.mode || 'hash'
@@ -45,6 +48,8 @@ export class H5Combination extends Combination<H5BuildConfig> {
       alias,
       defineConstants,
     })
+
+    modifyComponentConfig?.(componentConfig, config)
 
     if (this.isBuildNativeComp) {
       delete entry[entryFileName]

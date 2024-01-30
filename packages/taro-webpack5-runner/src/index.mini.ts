@@ -10,7 +10,7 @@ import { MiniCombination } from './webpack/MiniCombination'
 import type { Stats } from 'webpack'
 import type { MiniBuildConfig } from './utils/types'
 
-export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats> {
+export default async function build (appPath: string, rawConfig: MiniBuildConfig): Promise<Stats | void> {
   const combination = new MiniCombination(appPath, rawConfig)
   await combination.make()
 
@@ -37,7 +37,9 @@ export default async function build (appPath: string, rawConfig: MiniBuildConfig
   const webpackConfig = combination.chain.toConfig()
   const config = combination.config
 
-  return new Promise<Stats>((resolve, reject) => {
+  return new Promise<Stats | void>((resolve, reject) => {
+    if (config.withoutBuild) return
+
     const compiler = webpack(webpackConfig)
     const onBuildFinish = config.onBuildFinish
     let prerender: Prerender
