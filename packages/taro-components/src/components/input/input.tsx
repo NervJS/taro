@@ -215,7 +215,6 @@ export class Input implements ComponentInterface {
 
     if (e.type === 'compositionend') {
       this.isOnComposition = false
-      this.onInputExcuted = false
       this.value = e.target.value
       this.onInput.emit({
         value: e.target.value,
