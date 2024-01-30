@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createElement, render } from 'nervjs'
+
 import withWeapp from '../src'
-import { TaroComponent, delay } from './utils'
+import { delay, TaroComponent } from './utils'
 
 describe('lifecycle', () => {
   /**
@@ -23,7 +24,7 @@ describe('lifecycle', () => {
     })
     class A extends TaroComponent {
       render () {
-        return <div>{this.a}</div>
+        return <div>{this.data.a}</div>
       }
     }
 
@@ -40,7 +41,7 @@ describe('lifecycle', () => {
       data: {
         a: ''
       },
-      ready () {
+      attached () {
         this.setData({
           a: 'b'
         })
@@ -48,7 +49,7 @@ describe('lifecycle', () => {
     })
     class A extends TaroComponent {
       render () {
-        return <div>{this.a}</div>
+        return <div>{this.data.a}</div>
       }
     }
 
@@ -67,7 +68,7 @@ describe('lifecycle', () => {
           b: ''
         }
       },
-      ready () {
+      attached () {
         this.setData({
           'a.b': 'b'
         })
@@ -75,7 +76,7 @@ describe('lifecycle', () => {
     })
     class A extends TaroComponent {
       render () {
-        return <div>{this.a.b}</div>
+        return <div>{this.data.a.b}</div>
       }
     }
 
@@ -91,7 +92,7 @@ describe('lifecycle', () => {
     @withWeapp({
       data: {
       },
-      ready () {
+      attached () {
         this.setData({
           a: 'b'
         })
