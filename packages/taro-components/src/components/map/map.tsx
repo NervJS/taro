@@ -134,6 +134,16 @@ export class Map implements ComponentInterface {
    */
   @Prop() enable3D: boolean
 
+  /**
+   * 添加宽度属性
+   */
+  @Prop() width = '100%'
+
+  /**
+   * 添加高度属性
+   */
+  @Prop() height = '100%'
+
   @Event({
     eventName: 'tap',
   })
@@ -1516,7 +1526,7 @@ export class Map implements ComponentInterface {
     return flag
   }
 
-
+  
   render () {
     return (
       <Host>
@@ -1527,9 +1537,10 @@ export class Map implements ComponentInterface {
               this.mapRef = dom as HTMLDivElement
             }
           }}
-          style={{ height: '400px' }}
+          style={{ width: this.width, height: this.height }}
         ></div>
       </Host>
     )
   }
+    
 }
