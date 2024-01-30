@@ -150,6 +150,10 @@ export class H5Combination extends Combination<H5BuildConfig> {
       cacheGroups.name = false
       optimization.runtimeChunk = 'single'
     }
+    // 组件编译模式下不做代码分割
+    if (this.isBuildNativeComp) {
+      optimization.splitChunks = false
+    }
     return optimization
   }
 }

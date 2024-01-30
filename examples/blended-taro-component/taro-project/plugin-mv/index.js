@@ -11,14 +11,32 @@ export default (ctx, options) => {
 
     const rootPath = path.resolve(__dirname, '../..')
     const isH5 = process.env.TARO_PLATFORM === 'web'
-    const appPath = path.join(rootPath, isH5 ? 'h5/src' : 'miniapp')
-    const outputPath = path.resolve(__dirname, '../dist')
-    const destPath = path.join(appPath, 'taro')
 
-    if (fs.existsSync(destPath)) {
-      fs.removeSync(destPath)
+    if (isH5) {
+      const appPath = path.join(rootPath, 'h5/src')
+      const htmlAppPath = path.join(rootPath, 'h5-html/src')
+
+      const destPath = path.join(appPath, 'taro')
+      const htmlDestPath = path.join(htmlAppPath, 'taro')
+  
+      if (fs.existsSync(destPath)) {
+        fs.removeSync(destPath)
+      }
+      
+      const outputPath = path.resolve(__dirname, '../dist')
+      
+      fs.copySync(outputPath, destPath)
+      fs.copySync(outputPath, htmlDestPath)
+    } else {
+      const appPath = path.join(rootPath, 'miniapp')
+      const outputPath = path.resolve(__dirname, '../dist')
+      const destPath = path.join(appPath, 'taro')
+  
+      if (fs.existsSync(destPath)) {
+        fs.removeSync(destPath)
+      }
+      fs.copySync(outputPath, destPath)
     }
-    fs.copySync(outputPath, destPath)
 
     console.log('拷贝结束！')
   })

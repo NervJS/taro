@@ -52,7 +52,9 @@ const config = {
     webpackChain(chain) {
       chain.merge({
         output: {
-          chunkLoadingGlobal: 'nativeComponents',
+          libraryTarget: 'umd',
+          library: 'NativeComponent',
+          chunkLoadingGlobal: 'NativeComponent',
         },
       })
     },
