@@ -170,6 +170,7 @@ export default class CLI {
             isBuildNativeComp: _[1] === 'native-components',
             // 新的混合编译模式，支持把组件单独编译为原生组件
             newBlended: Boolean(args['new-blended']),
+            summary: Boolean(args.summary),
             port: args.port,
             env: args.env,
             deviceType: args.platform,

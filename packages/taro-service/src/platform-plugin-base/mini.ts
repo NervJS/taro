@@ -6,15 +6,7 @@ import { getPkgVersion } from '../utils/package'
 import TaroPlatform from './platform'
 
 import type { RecursiveTemplate, UnRecursiveTemplate } from '@tarojs/shared/dist/template'
-import type { TConfig } from '../utils/types'
-
-interface IFileType {
-  templ: string
-  style: string
-  config: string
-  script: string
-  xs?: string
-}
+import type { IFileType, TConfig } from '../utils/types'
 
 export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends TaroPlatform<T> {
   platformType = PLATFORM_TYPE.MINI
@@ -35,6 +27,8 @@ export abstract class TaroPlatformBase<T extends TConfig = TConfig> extends Taro
   private async setup () {
     await this.setupTransaction.perform(this.setupImpl, this)
     this.ctx.onSetupClose?.(this)
+    const platformObj = this.ctx.platforms.get(this.platform)
+    platformObj!.fileType = this.fileType
   }
 
   private setupImpl () {

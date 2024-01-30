@@ -17,6 +17,8 @@ serde = { workspace = true }
 anyhow = { workspace = true }
 
 taro_init = { path = "../taro_init" }
+taro_shared = { path = "../taro_shared" }
+taro_summary = { path = "../taro_summary" }
 
 [build-dependencies]
 napi-build = { workspace = true }
