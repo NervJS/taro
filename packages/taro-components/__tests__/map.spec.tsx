@@ -18,7 +18,7 @@ describe('Map', () => {
 
     expect(page.root).toEqualHtml(`
       <taro-map-core>
-        <div id="mapContainer" style="height: 400px;"></div>
+      <div id="mapContainer" style="width: 100%; height: 100%;"></div>
       </taro-map-core>
     `)
   })
